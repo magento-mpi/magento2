@@ -7,46 +7,44 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Multishipping Checkout Overview" id="checkout_multishipping_overview" type="page" parent="checkout_multishipping">
-        <update handle="checkout_multishipping"/>
-        <reference name="content">
-            <block class="Magento_Checkout_Block_Multishipping_Overview" name="checkout_overview" template="multishipping/overview.phtml">
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">default</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
-                    <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Overview" type="page" parent="checkout_multishipping">
+    <update handle="checkout_multishipping"/>
+    <reference name="content">
+        <block class="Magento_Checkout_Block_Multishipping_Overview" name="checkout_overview" template="multishipping/overview.phtml">
+            <action method="addItemRender">
+                <argument name="type" xsi:type="string">default</argument>
+                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
+            </action>
+            <action method="addItemRender">
+                <argument name="type" xsi:type="string">grouped</argument>
+                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
+            </action>
+            <action method="addItemRender">
+                <argument name="type" xsi:type="string">configurable</argument>
+                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
+            </action>
+            <action method="addRowItemRender">
+                <argument name="type" xsi:type="string">grouped</argument>
+                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                <argument name="template" xsi:type="string">multishipping/overview/item.phtml</argument>
+            </action>
+            <action method="addRowItemRender">
+                <argument name="type" xsi:type="string">configurable</argument>
+                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                <argument name="template" xsi:type="string">multishipping/overview/item.phtml</argument>
+            </action>
+            <block class="Magento_Checkout_Block_Multishipping_Payment_Info" name="payment_info">
+                <action method="setInfoTemplate">
+                    <argument name="method" xsi:type="string"/>
+                    <argument name="template" xsi:type="string"/>
                 </action>
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">grouped</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
-                    <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
-                </action>
-                <action method="addItemRender">
-                    <argument name="type" xsi:type="string">configurable</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
-                    <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
-                </action>
-                <action method="addRowItemRender">
-                    <argument name="type" xsi:type="string">grouped</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
-                    <argument name="template" xsi:type="string">multishipping/overview/item.phtml</argument>
-                </action>
-                <action method="addRowItemRender">
-                    <argument name="type" xsi:type="string">configurable</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
-                    <argument name="template" xsi:type="string">multishipping/overview/item.phtml</argument>
-                </action>
-                <block class="Magento_Checkout_Block_Multishipping_Payment_Info" name="payment_info">
-                    <action method="setInfoTemplate">
-                        <argument name="method" xsi:type="string"/>
-                        <argument name="template" xsi:type="string"/>
-                    </action>
-                </block>
-                <block class="Magento_Checkout_Block_Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Totals" name="totals"/>
-                <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
             </block>
-        </reference>
-    </handle>
+            <block class="Magento_Checkout_Block_Agreements" name="checkout.multishipping.agreements" as="agreements" template="multishipping/agreements.phtml"/>
+            <block class="Magento_Checkout_Block_Cart_Totals" name="totals"/>
+            <container name="checkout.multishipping.overview.items.after" as="items_after" label="Overview Items After"/>
+        </block>
+    </reference>
 </layout>

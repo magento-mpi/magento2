@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_sales_order_create_load_block_totals">
-        <block class="Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals" name="giftwrapping_total_renderer" template="order/create/totals.phtml"/>
-    </handle>
+    <block class="Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals" name="giftwrapping_total_renderer" template="order/create/totals.phtml"/>
 </layout>

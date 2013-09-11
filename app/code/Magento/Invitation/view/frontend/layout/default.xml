@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <block class="Magento_Invitation_Block_Link" name="invitation_link_top">
-            <action method="addAccountLink"/>
-        </block>
-    </handle>
+    <block class="Magento_Invitation_Block_Link" name="invitation_link_top">
+        <action method="addAccountLink"/>
+    </block>
 </layout>

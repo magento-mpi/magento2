@@ -7,11 +7,26 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Multishipping Checkout Shipping Information Step" id="checkout_multishipping_shipping" type="page" parent="checkout_multishipping">
-        <update handle="checkout_multishipping"/>
-        <reference name="content">
-            <block class="Magento_Checkout_Block_Multishipping_Shipping" name="checkout_shipping" template="multishipping/shipping.phtml">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout Shipping Information Step" type="page" parent="checkout_multishipping">
+    <update handle="checkout_multishipping"/>
+    <reference name="content">
+        <block class="Magento_Checkout_Block_Multishipping_Shipping" name="checkout_shipping" template="multishipping/shipping.phtml">
+            <action method="addItemRender">
+                <argument name="type" xsi:type="string">default</argument>
+                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
+            </action>
+            <action method="addItemRender">
+                <argument name="type" xsi:type="string">grouped</argument>
+                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
+            </action>
+            <action method="addItemRender">
+                <argument name="type" xsi:type="string">configurable</argument>
+                <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
+            </action>
+            <block class="Magento_Checkout_Block_Multishipping_Billing_Items" name="checkout_billing_items" template="multishipping/billing/items.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
                     <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
@@ -27,24 +42,7 @@
                     <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
                     <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
                 </action>
-                <block class="Magento_Checkout_Block_Multishipping_Billing_Items" name="checkout_billing_items" template="multishipping/billing/items.phtml">
-                    <action method="addItemRender">
-                        <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
-                        <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
-                    </action>
-                    <action method="addItemRender">
-                        <argument name="type" xsi:type="string">grouped</argument>
-                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
-                        <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
-                    </action>
-                    <action method="addItemRender">
-                        <argument name="type" xsi:type="string">configurable</argument>
-                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
-                        <argument name="template" xsi:type="string">multishipping/item/default.phtml</argument>
-                    </action>
-                </block>
             </block>
-        </reference>
-    </handle>
+        </block>
+    </reference>
 </layout>

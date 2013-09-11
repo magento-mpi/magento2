@@ -8,9 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_paymentmethod">
-        <reference name="checkout.onepage.payment.methods.scripts">
-            <block class="Magento_Reward_Block_Checkout_Payment_Additional" template="checkout/onepage/payment/scripts.phtml" name="reward.scripts" after="-"/>
-        </reference>
-    </handle>
+    <reference name="checkout.onepage.payment.methods.scripts">
+        <block class="Magento_Reward_Block_Checkout_Payment_Additional" template="checkout/onepage/payment/scripts.phtml" name="reward.scripts" after="-"/>
+    </reference>
 </layout>

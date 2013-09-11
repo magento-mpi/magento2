@@ -8,15 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="oauth_root_handle_simple">
-        <remove name="js_cookie"/>
-        <block class="Magento_Adminhtml_Block_Page" name="root" output="1" template="Magento_Oauth::empty.phtml">
-            <block class="Magento_Adminhtml_Block_Page_Head" name="head" as="head" template="Magento_Oauth::authorize/head-simple.phtml">
-                <action method="addCss">
-                    <argument name="name" xsi:type="string">Magento_Oauth::css/oauth-simple.css</argument>
-                </action>
-            </block>
-            <container name="content" label="Content"/>
+    <remove name="js_cookie"/>
+    <block class="Magento_Adminhtml_Block_Page" name="root" output="1" template="Magento_Oauth::empty.phtml">
+        <block class="Magento_Adminhtml_Block_Page_Head" name="head" as="head" template="Magento_Oauth::authorize/head-simple.phtml">
+            <action method="addCss">
+                <argument name="name" xsi:type="string">Magento_Oauth::css/oauth-simple.css</argument>
+            </action>
         </block>
-    </handle>
+        <container name="content" label="Content"/>
+    </block>
 </layout>

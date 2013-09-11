@@ -8,28 +8,26 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="print">
-        <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/styles.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/styles-ie.css</argument>
-                <argument name="params" xsi:type="string"/>
-                <argument name="if" xsi:type="string">lt IE 8</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/widgets.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">css/print.css</argument>
-                <argument name="params" xsi:type="string">media="print"</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">lib/ds-sleight.js</argument>
-                <argument name="params" xsi:type="string"/>
-                <argument name="if" xsi:type="string">lt IE 7</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="head">
+        <action method="addCss">
+            <argument name="file" xsi:type="string">css/styles.css</argument>
+        </action>
+        <action method="addCss">
+            <argument name="file" xsi:type="string">css/styles-ie.css</argument>
+            <argument name="params" xsi:type="string"/>
+            <argument name="if" xsi:type="string">lt IE 8</argument>
+        </action>
+        <action method="addCss">
+            <argument name="file" xsi:type="string">css/widgets.css</argument>
+        </action>
+        <action method="addCss">
+            <argument name="file" xsi:type="string">css/print.css</argument>
+            <argument name="params" xsi:type="string">media="print"</argument>
+        </action>
+        <action method="addJs">
+            <argument name="file" xsi:type="string">lib/ds-sleight.js</argument>
+            <argument name="params" xsi:type="string"/>
+            <argument name="if" xsi:type="string">lt IE 7</argument>
+        </action>
+    </reference>
 </layout>

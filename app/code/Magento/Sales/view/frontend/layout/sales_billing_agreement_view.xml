@@ -7,16 +7,14 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Billing Agreement View" id="sales_billing_agreement_view" type="page" parent="sales_billing_agreement_index">
-        <update handle="customer_account"/>
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">2columns-left.phtml</argument>
-            </action>
-        </reference>
-        <reference name="my.account.wrapper">
-            <block class="Magento_Sales_Block_Billing_Agreement_View" name="customer.account.billing.agreement" template="billing/agreement/view.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Billing Agreement View" type="page" parent="sales_billing_agreement_index">
+    <update handle="customer_account"/>
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">2columns-left.phtml</argument>
+        </action>
+    </reference>
+    <reference name="my.account.wrapper">
+        <block class="Magento_Sales_Block_Billing_Agreement_View" name="customer.account.billing.agreement" template="billing/agreement/view.phtml"/>
+    </reference>
 </layout>

@@ -10,65 +10,63 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
-    <handle id="layout_test_grid_handle">
-        <reference name="content">
-            <block type="Magento_Backend_Block_Widget_Grid" name="admin.test.grid" Output="1">
-                <arguments>
-                    <dataSource type="object">Magento_Data_Collection</dataSource>
-                </arguments>
-                <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="admin.test.grid.columnSet" Output="1">
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="product_name" Output="1">
-                        <arguments>
-                            <header>Product name 1</header>
-                            <index>product_name</index>
-                            <type>text</type>
-                        </arguments>
-                    </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="description" output="1">
-                        <arguments>
-                            <header>User description</header>
-                            <index>description</index>
-                            <type>text</type>
-                        </arguments>
-                    </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="qty" output="1">
-                        <arguments>
-                            <header>Qty</header>
-                            <index>qty</index>
-                            <type>number</type>
-                            <width>60px</width>
-                        </arguments>
-                    </block>
-                    <block type="Magento_Backend_Block_Widget_Grid_Column" as="added_at" output="1">
-                        <arguments>
-                            <header>Date Added</header>
-                            <index>added_at</index>
-                            <gmtoffset>1</gmtoffset>
-                            <type>date</type>
-                        </arguments>
-                    </block>
-                </block>
-                <block type="Magento_Backend_Block_Widget_Grid_Massaction" as="grid.massaction" name="admin.test.grid.massaction" Output="1">
+    <reference name="content">
+        <block type="Magento_Backend_Block_Widget_Grid" name="admin.test.grid" Output="1">
+            <arguments>
+                <dataSource type="object">Magento_Data_Collection</dataSource>
+            </arguments>
+            <block type="Magento_Backend_Block_Widget_Grid_ColumnSet" as="grid.columnSet" name="admin.test.grid.columnSet" Output="1">
+                <block type="Magento_Backend_Block_Widget_Grid_Column" as="product_name" Output="1">
                     <arguments>
-                        <massaction_id_field>test_id</massaction_id_field>
-                        <massaction_id_filter>test_id</massaction_id_filter>
-                        <form_field_name>test</form_field_name>
-                        <use_select_all>1</use_select_all>
-                        <options>
-                            <option_id1>
-                                <label>Option One</label>
-                                <url>*/*/option1</url>
-                                <complete>Test</complete>
-                            </option_id1>
-                            <option_id2>
-                                <label>Option Two</label>
-                                <url>*/*/option2</url>
-                                <confirm>Are you sure?</confirm>
-                            </option_id2>
-                        </options>
+                        <header>Product name 1</header>
+                        <index>product_name</index>
+                        <type>text</type>
+                    </arguments>
+                </block>
+                <block type="Magento_Backend_Block_Widget_Grid_Column" as="description" output="1">
+                    <arguments>
+                        <header>User description</header>
+                        <index>description</index>
+                        <type>text</type>
+                    </arguments>
+                </block>
+                <block type="Magento_Backend_Block_Widget_Grid_Column" as="qty" output="1">
+                    <arguments>
+                        <header>Qty</header>
+                        <index>qty</index>
+                        <type>number</type>
+                        <width>60px</width>
+                    </arguments>
+                </block>
+                <block type="Magento_Backend_Block_Widget_Grid_Column" as="added_at" output="1">
+                    <arguments>
+                        <header>Date Added</header>
+                        <index>added_at</index>
+                        <gmtoffset>1</gmtoffset>
+                        <type>date</type>
                     </arguments>
                 </block>
             </block>
-        </reference>
-    </handle>
+            <block type="Magento_Backend_Block_Widget_Grid_Massaction" as="grid.massaction" name="admin.test.grid.massaction" Output="1">
+                <arguments>
+                    <massaction_id_field>test_id</massaction_id_field>
+                    <massaction_id_filter>test_id</massaction_id_filter>
+                    <form_field_name>test</form_field_name>
+                    <use_select_all>1</use_select_all>
+                    <options>
+                        <option_id1>
+                            <label>Option One</label>
+                            <url>*/*/option1</url>
+                            <complete>Test</complete>
+                        </option_id1>
+                        <option_id2>
+                            <label>Option Two</label>
+                            <url>*/*/option2</url>
+                            <confirm>Are you sure?</confirm>
+                        </option_id2>
+                    </options>
+                </arguments>
+            </block>
+        </block>
+    </reference>
 </layout>

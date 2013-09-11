@@ -8,77 +8,75 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_webapi_role_edit_tab_users_grid_block">
-        <reference name="webapi.role.edit.tab.users.grid">
+    <reference name="webapi.role.edit.tab.users.grid">
+        <arguments>
+            <argument name="dataSource" xsi:type="object">
+                <updater>Magento_Webapi_Model_Acl_Role_UsersUpdater</updater>
+            </argument>
+        </arguments>
+    </reference>
+    <reference name="webapi.role.edit.tab.users.grid.container">
+        <block class="Magento_Backend_Block_Widget_Grid" name="webapi.role.edit.tab.users.grid" as="grid">
             <arguments>
-                <argument name="dataSource" xsi:type="object">
-                    <updater>Magento_Webapi_Model_Acl_Role_UsersUpdater</updater>
+                <argument name="id" xsi:type="string">roleUserGrid</argument>
+                <argument name="dataSource" xsi:type="object">Magento_Webapi_Model_Resource_Acl_User_Collection</argument>
+                <argument name="use_ajax" xsi:type="string">true</argument>
+                <argument name="default_sort" xsi:type="string">role_user_id</argument>
+                <argument name="default_dir" xsi:type="string">ASC</argument>
+                <argument name="grid_url" xsi:type="url" path="*/*/usersgrid">
+                    <param name="_current">1</param>
                 </argument>
             </arguments>
-        </reference>
-        <reference name="webapi.role.edit.tab.users.grid.container">
-            <block class="Magento_Backend_Block_Widget_Grid" name="webapi.role.edit.tab.users.grid" as="grid">
-                <arguments>
-                    <argument name="id" xsi:type="string">roleUserGrid</argument>
-                    <argument name="dataSource" xsi:type="object">Magento_Webapi_Model_Resource_Acl_User_Collection</argument>
-                    <argument name="use_ajax" xsi:type="string">true</argument>
-                    <argument name="default_sort" xsi:type="string">role_user_id</argument>
-                    <argument name="default_dir" xsi:type="string">ASC</argument>
-                    <argument name="grid_url" xsi:type="url" path="*/*/usersgrid">
-                        <param name="_current">1</param>
-                    </argument>
-                </arguments>
-                <action method="setTitle">
-                    <argument translate="true" name="value" xsi:type="string">Role Users Information</argument>
-                </action>
-                <action method="setDefaultFilter">
-                    <argument name="value" xsi:type="array">
-                        <item name="in_role_users" xsi:type="string">1</item>
-                    </argument>
-                </action>
-                <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="webapi.role.edit.tab.users.grid.columnSet" as="grid.columnSet">
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" name="webapi.role.edit.tab.users.grid.columnSet.in_role_users" as="in_role_users">
-                        <arguments>
-                            <argument name="id" xsi:type="string">in_role_users</argument>
-                            <argument name="html_name" xsi:type="string">in_role_users</argument>
-                            <argument name="header_css_class" xsi:type="string">a-center</argument>
-                            <argument name="type" xsi:type="string">checkbox</argument>
-                            <argument name="values" xsi:type="string">
-                                <updater>Magento_Webapi_Model_Acl_Role_InRoleUserUpdater</updater>
-                            </argument>
-                            <argument name="name" xsi:type="string">in_role_users</argument>
-                            <argument name="align" xsi:type="string">center</argument>
-                            <argument name="index" xsi:type="string">user_id</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_user_id">
-                        <arguments>
-                            <argument name="id" xsi:type="string">role_name</argument>
-                            <argument name="header" xsi:type="string" translate="true">User ID</argument>
-                            <argument name="width" xsi:type="string">20</argument>
-                            <argument name="align" xsi:type="string">left</argument>
-                            <argument name="sortable" xsi:type="string">1</argument>
-                            <argument name="index" xsi:type="string">user_id</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_user_contactemail">
-                        <arguments>
-                            <argument name="id" xsi:type="string">role_user_contactemail</argument>
-                            <argument name="header" xsi:type="string" translate="true">Contact Email</argument>
-                            <argument name="align" xsi:type="string">left</argument>
-                            <argument name="index" xsi:type="string">contact_email</argument>
-                        </arguments>
-                    </block>
-                    <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_user_apikey">
-                        <arguments>
-                            <argument name="id" xsi:type="string">role_user_apikey</argument>
-                            <argument name="header" xsi:type="string" translate="true">API Key</argument>
-                            <argument name="align" xsi:type="string">left</argument>
-                            <argument name="index" xsi:type="string">api_key</argument>
-                        </arguments>
-                    </block>
+            <action method="setTitle">
+                <argument translate="true" name="value" xsi:type="string">Role Users Information</argument>
+            </action>
+            <action method="setDefaultFilter">
+                <argument name="value" xsi:type="array">
+                    <item name="in_role_users" xsi:type="string">1</item>
+                </argument>
+            </action>
+            <block class="Magento_Backend_Block_Widget_Grid_ColumnSet" name="webapi.role.edit.tab.users.grid.columnSet" as="grid.columnSet">
+                <block class="Magento_Backend_Block_Widget_Grid_Column" name="webapi.role.edit.tab.users.grid.columnSet.in_role_users" as="in_role_users">
+                    <arguments>
+                        <argument name="id" xsi:type="string">in_role_users</argument>
+                        <argument name="html_name" xsi:type="string">in_role_users</argument>
+                        <argument name="header_css_class" xsi:type="string">a-center</argument>
+                        <argument name="type" xsi:type="string">checkbox</argument>
+                        <argument name="values" xsi:type="string">
+                            <updater>Magento_Webapi_Model_Acl_Role_InRoleUserUpdater</updater>
+                        </argument>
+                        <argument name="name" xsi:type="string">in_role_users</argument>
+                        <argument name="align" xsi:type="string">center</argument>
+                        <argument name="index" xsi:type="string">user_id</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_user_id">
+                    <arguments>
+                        <argument name="id" xsi:type="string">role_name</argument>
+                        <argument name="header" xsi:type="string" translate="true">User ID</argument>
+                        <argument name="width" xsi:type="string">20</argument>
+                        <argument name="align" xsi:type="string">left</argument>
+                        <argument name="sortable" xsi:type="string">1</argument>
+                        <argument name="index" xsi:type="string">user_id</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_user_contactemail">
+                    <arguments>
+                        <argument name="id" xsi:type="string">role_user_contactemail</argument>
+                        <argument name="header" xsi:type="string" translate="true">Contact Email</argument>
+                        <argument name="align" xsi:type="string">left</argument>
+                        <argument name="index" xsi:type="string">contact_email</argument>
+                    </arguments>
+                </block>
+                <block class="Magento_Backend_Block_Widget_Grid_Column" as="role_user_apikey">
+                    <arguments>
+                        <argument name="id" xsi:type="string">role_user_apikey</argument>
+                        <argument name="header" xsi:type="string" translate="true">API Key</argument>
+                        <argument name="align" xsi:type="string">left</argument>
+                        <argument name="index" xsi:type="string">api_key</argument>
+                    </arguments>
                 </block>
             </block>
-        </reference>
-    </handle>
+        </block>
+    </reference>
 </layout>

@@ -8,20 +8,18 @@
  */
 -->
 <layout>
-    <handle id="arguments_object_type">
-        <block class="Magento_Core_Block_Text" name="block_with_object_args">
-            <arguments>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">Magento_Core_Block_Text</argument>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="object">Magento_Core_Block_Text</argument>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="three" xsi:type="object">Magento_Core_Block_Text</argument>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="four" xsi:type="object">Magento_Core_Block_Text</argument>
-            </arguments>
-        </block>
-        <reference name="block_with_object_args">
-            <arguments>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="object">Magento_Core_Block_Messages</argument>
-                <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="three" xsi:type="string">3</argument>
-            </arguments>
-        </reference>
-    </handle>
+    <block class="Magento_Core_Block_Text" name="block_with_object_args">
+        <arguments>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="object">Magento_Core_Block_Text</argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="object">Magento_Core_Block_Text</argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="three" xsi:type="object">Magento_Core_Block_Text</argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="four" xsi:type="object">Magento_Core_Block_Text</argument>
+        </arguments>
+    </block>
+    <reference name="block_with_object_args">
+        <arguments>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="two" xsi:type="object">Magento_Core_Block_Messages</argument>
+            <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="three" xsi:type="string">3</argument>
+        </arguments>
+    </reference>
 </layout>

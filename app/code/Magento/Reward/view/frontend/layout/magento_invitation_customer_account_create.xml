@@ -8,24 +8,22 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="magento_invitation_customer_account_create">
-        <reference name="customer.form.register.invitation.fields.before">
-            <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
-                <action method="initRewardType">
-                    <argument name="type" xsi:type="string">Magento_Reward_Model_Action_Register</argument>
-                </action>
-                <action method="setRewardMessage">
-                    <argument translate="true" name="message" xsi:type="string">Register on our site now and earn %s.</argument>
-                </action>
-            </block>
-            <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register">
-                <action method="initRewardType">
-                    <argument name="type" xsi:type="string">Magento_Reward_Model_Action_Newsletter</argument>
-                </action>
-                <action method="setRewardMessage">
-                    <argument translate="true" name="message" xsi:type="string">Subscribe to our newsletter now and earn %s.</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+    <reference name="customer.form.register.invitation.fields.before">
+        <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
+            <action method="initRewardType">
+                <argument name="type" xsi:type="string">Magento_Reward_Model_Action_Register</argument>
+            </action>
+            <action method="setRewardMessage">
+                <argument translate="true" name="message" xsi:type="string">Register on our site now and earn %s.</argument>
+            </action>
+        </block>
+        <block class="Magento_Reward_Block_Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register">
+            <action method="initRewardType">
+                <argument name="type" xsi:type="string">Magento_Reward_Model_Action_Newsletter</argument>
+            </action>
+            <action method="setRewardMessage">
+                <argument translate="true" name="message" xsi:type="string">Subscribe to our newsletter now and earn %s.</argument>
+            </action>
+        </block>
+    </reference>
 </layout>

@@ -8,28 +8,26 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_email_order_invoice_items">
-        <block class="Magento_Sales_Block_Order_Email_Invoice_Items" name="items" template="email/invoice/items.phtml">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">default</argument>
-                <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Email_Items_Default</argument>
-                <argument name="template" xsi:type="string">email/items/invoice/default.phtml</argument>
+    <block class="Magento_Sales_Block_Order_Email_Invoice_Items" name="items" template="email/invoice/items.phtml">
+        <action method="addItemRender">
+            <argument name="type" xsi:type="string">default</argument>
+            <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Email_Items_Default</argument>
+            <argument name="template" xsi:type="string">email/items/invoice/default.phtml</argument>
+        </action>
+        <action method="addItemRender">
+            <argument name="type" xsi:type="string">grouped</argument>
+            <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Email_Items_Order_Grouped</argument>
+            <argument name="template" xsi:type="string">email/items/invoice/default.phtml</argument>
+        </action>
+        <block class="Magento_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
+            <action method="setLabelProperties">
+                <argument name="value" xsi:type="string">colspan="3" align="right" style="padding:3px 9px"</argument>
             </action>
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">grouped</argument>
-                <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Email_Items_Order_Grouped</argument>
-                <argument name="template" xsi:type="string">email/items/invoice/default.phtml</argument>
+            <action method="setValueProperties">
+                <argument name="value" xsi:type="string">align="right" style="padding:3px 9px"</argument>
             </action>
-            <block class="Magento_Sales_Block_Order_Invoice_Totals" name="invoice_totals" template="order/totals.phtml">
-                <action method="setLabelProperties">
-                    <argument name="value" xsi:type="string">colspan="3" align="right" style="padding:3px 9px"</argument>
-                </action>
-                <action method="setValueProperties">
-                    <argument name="value" xsi:type="string">align="right" style="padding:3px 9px"</argument>
-                </action>
-                <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
-            </block>
+            <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
         </block>
-        <container name="additional.product.info" label="Additional Product Info"/>
-    </handle>
+    </block>
+    <container name="additional.product.info" label="Additional Product Info"/>
 </layout>

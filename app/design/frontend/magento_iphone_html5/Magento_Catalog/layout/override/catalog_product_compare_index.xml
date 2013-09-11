@@ -7,24 +7,22 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Catalog Product Compare List" id="catalog_product_compare_index" type="page" parent="default">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">popup.phtml</argument>
-            </action>
-        </reference>
-        <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">scriptaculous/scriptaculous.js</argument>
-            </action>
-            <action method="addJs">
-                <argument name="file" xsi:type="string">varien/product.js</argument>
-            </action>
-        </reference>
-        <reference name="content">
-            <block class="Magento_Catalog_Block_Product_Compare_List" name="catalog.compare.list" template="product/compare/list.phtml"/>
-        </reference>
-        <update handle="MAP_popup"/>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Catalog Product Compare List" type="page" parent="default">
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">popup.phtml</argument>
+        </action>
+    </reference>
+    <reference name="head">
+        <action method="addJs">
+            <argument name="file" xsi:type="string">scriptaculous/scriptaculous.js</argument>
+        </action>
+        <action method="addJs">
+            <argument name="file" xsi:type="string">varien/product.js</argument>
+        </action>
+    </reference>
+    <reference name="content">
+        <block class="Magento_Catalog_Block_Product_Compare_List" name="catalog.compare.list" template="product/compare/list.phtml"/>
+    </reference>
+    <update handle="MAP_popup"/>
 </layout>

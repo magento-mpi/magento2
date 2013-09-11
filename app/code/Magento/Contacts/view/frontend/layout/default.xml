@@ -8,13 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="footer_links">
-            <action method="addLink" ifconfig="contacts/contacts/enabled">
-                <argument translate="true" name="label" xsi:type="string">Contact Us</argument>
-                <argument name="url" xsi:type="string">contacts</argument>
-                <argument translate="true" name="title" xsi:type="string">Contact Us</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="footer_links">
+        <action method="addLink" ifconfig="contacts/contacts/enabled">
+            <argument translate="true" name="label" xsi:type="string">Contact Us</argument>
+            <argument name="url" xsi:type="string">contacts</argument>
+            <argument translate="true" name="title" xsi:type="string">Contact Us</argument>
+        </action>
+    </reference>
 </layout>

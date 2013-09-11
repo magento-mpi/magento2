@@ -8,40 +8,38 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="head">
-            <action method="addCss">
-                <argument name="file" xsi:type="string">reset.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">boxes.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">custom.css</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">iestyles.css</argument>
-                <argument name="params" xsi:type="string"/>
-                <argument name="if" xsi:type="string">lt IE 8</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">below_ie7.css</argument>
-                <argument name="params" xsi:type="string"/>
-                <argument name="if" xsi:type="string">lt IE 7</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">ie7.css</argument>
-                <argument name="params" xsi:type="string"/>
-                <argument name="if" xsi:type="string">IE 7</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">menu.css</argument>
-                <argument name="params" xsi:type="string">media="screen, projection"</argument>
-            </action>
-            <action method="addCss">
-                <argument name="file" xsi:type="string">print.css</argument>
-                <argument name="params" xsi:type="string">media="print"</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="head">
+        <action method="addCss">
+            <argument name="file" xsi:type="string">reset.css</argument>
+        </action>
+        <action method="addCss">
+            <argument name="file" xsi:type="string">boxes.css</argument>
+        </action>
+        <action method="addCss">
+            <argument name="file" xsi:type="string">custom.css</argument>
+        </action>
+        <action method="addCss">
+            <argument name="file" xsi:type="string">iestyles.css</argument>
+            <argument name="params" xsi:type="string"/>
+            <argument name="if" xsi:type="string">lt IE 8</argument>
+        </action>
+        <action method="addCss">
+            <argument name="file" xsi:type="string">below_ie7.css</argument>
+            <argument name="params" xsi:type="string"/>
+            <argument name="if" xsi:type="string">lt IE 7</argument>
+        </action>
+        <action method="addCss">
+            <argument name="file" xsi:type="string">ie7.css</argument>
+            <argument name="params" xsi:type="string"/>
+            <argument name="if" xsi:type="string">IE 7</argument>
+        </action>
+        <action method="addCss">
+            <argument name="file" xsi:type="string">menu.css</argument>
+            <argument name="params" xsi:type="string">media="screen, projection"</argument>
+        </action>
+        <action method="addCss">
+            <argument name="file" xsi:type="string">print.css</argument>
+            <argument name="params" xsi:type="string">media="print"</argument>
+        </action>
+    </reference>
 </layout>

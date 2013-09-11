@@ -8,13 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_onepage_index">
-        <reference name="head">
-            <action method="removeItem">
-                <argument name="type" xsi:type="string">js</argument>
-                <argument name="file" xsi:type="string">Magento_Checkout::js/opcheckout.js</argument>
-            </action>
-        </reference>
-        <remove name="checkout.progress"/>
-    </handle>
+    <reference name="head">
+        <action method="removeItem">
+            <argument name="type" xsi:type="string">js</argument>
+            <argument name="file" xsi:type="string">Magento_Checkout::js/opcheckout.js</argument>
+        </action>
+    </reference>
+    <remove name="checkout.progress"/>
 </layout>

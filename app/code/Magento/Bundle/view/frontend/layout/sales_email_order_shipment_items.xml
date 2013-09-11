@@ -8,13 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="sales_email_order_shipment_items">
-        <reference name="items">
-            <action method="addItemRender">
-                <argument name="type" xsi:type="string">bundle</argument>
-                <argument name="block" xsi:type="string">Magento_Bundle_Block_Sales_Order_Items_Renderer</argument>
-                <argument name="template" xsi:type="string">email/order/items/shipment/default.phtml</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="items">
+        <action method="addItemRender">
+            <argument name="type" xsi:type="string">bundle</argument>
+            <argument name="block" xsi:type="string">Magento_Bundle_Block_Sales_Order_Items_Renderer</argument>
+            <argument name="template" xsi:type="string">email/order/items/shipment/default.phtml</argument>
+        </action>
+    </reference>
 </layout>

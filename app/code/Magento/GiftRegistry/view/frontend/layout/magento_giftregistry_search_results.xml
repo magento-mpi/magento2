@@ -7,12 +7,10 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer GiftRegistry Search Results List" id="magento_giftregistry_search_results" type="page" parent="magento_giftregistry_search_index">
-        <update handle="page_calendar"/>
-        <reference name="content">
-            <block class="Magento_GiftRegistry_Block_Search_Form" name="giftregistry.search.form" template="search/form.phtml"/>
-            <block class="Magento_GiftRegistry_Block_Search_Results" name="giftregistry.search.results" template="search/results.phtml"/>
-        </reference>
-    </handle>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer GiftRegistry Search Results List" type="page" parent="magento_giftregistry_search_index">
+    <update handle="page_calendar"/>
+    <reference name="content">
+        <block class="Magento_GiftRegistry_Block_Search_Form" name="giftregistry.search.form" template="search/form.phtml"/>
+        <block class="Magento_GiftRegistry_Block_Search_Results" name="giftregistry.search.results" template="search/results.phtml"/>
+    </reference>
 </layout>

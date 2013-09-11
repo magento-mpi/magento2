@@ -8,14 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="customer_account">
-        <reference name="customer_account_navigation">
-            <action method="addLink">
-                <argument name="name" xsi:type="string">newsletter</argument>
-                <argument name="path" xsi:type="string">newsletter/manage/</argument>
-                <argument translate="true" name="label" xsi:type="string">Newsletter Subscriptions</argument>
-            </action>
-        </reference>
-        <remove name="newsletter_subscription"/>
-    </handle>
+    <reference name="customer_account_navigation">
+        <action method="addLink">
+            <argument name="name" xsi:type="string">newsletter</argument>
+            <argument name="path" xsi:type="string">newsletter/manage/</argument>
+            <argument translate="true" name="label" xsi:type="string">Newsletter Subscriptions</argument>
+        </action>
+    </reference>
+    <remove name="newsletter_subscription"/>
 </layout>

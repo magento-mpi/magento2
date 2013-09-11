@@ -8,21 +8,19 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="default">
-        <reference name="header">
-            <block class="Magento_Core_Block_Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
-        </reference>
-        <reference name="footer_links">
-            <action method="addLink" ifconfig="catalog/seo/search_terms">
-                <argument translate="true" name="label" xsi:type="string">Search Terms</argument>
-                <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
-                <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
-            </action>
-            <action method="addLink">
-                <argument translate="true" name="label" xsi:type="string">Advanced Search</argument>
-                <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
-                <argument translate="true" name="title" xsi:type="string">Advanced Search</argument>
-            </action>
-        </reference>
-    </handle>
+    <reference name="header">
+        <block class="Magento_Core_Block_Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
+    </reference>
+    <reference name="footer_links">
+        <action method="addLink" ifconfig="catalog/seo/search_terms">
+            <argument translate="true" name="label" xsi:type="string">Search Terms</argument>
+            <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
+            <argument translate="true" name="title" xsi:type="string">Search Terms</argument>
+        </action>
+        <action method="addLink">
+            <argument translate="true" name="label" xsi:type="string">Advanced Search</argument>
+            <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
+            <argument translate="true" name="title" xsi:type="string">Advanced Search</argument>
+        </action>
+    </reference>
 </layout>

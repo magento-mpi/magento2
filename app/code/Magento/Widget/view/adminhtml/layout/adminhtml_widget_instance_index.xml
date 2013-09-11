@@ -8,10 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="adminhtml_widget_instance_index">
-        <update handle="adminhtml_widget_instance_block"/>
-        <reference name="content">
-            <block class="Magento_Widget_Block_Adminhtml_Widget_Instance" name="adminhtml.widget.instance.grid.container"/>
-        </reference>
-    </handle>
+    <update handle="adminhtml_widget_instance_block"/>
+    <reference name="content">
+        <block class="Magento_Widget_Block_Adminhtml_Widget_Instance" name="adminhtml.widget.instance.grid.container"/>
+    </reference>
 </layout>

@@ -7,44 +7,42 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Customer My Account (All Pages)" id="customer_account" type="page" parent="default">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">1column.phtml</argument>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account (All Pages)" type="page" parent="default">
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </reference>
+    <reference name="top.links">
+        <block class="Magento_Customer_Block_Account_Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
+            <action method="setPosition">
+                <argument name="value" xsi:type="string">20</argument>
             </action>
-        </reference>
-        <reference name="top.links">
-            <block class="Magento_Customer_Block_Account_Navigation" name="customer_account_navigation" before="-" template="account/navigation.phtml">
-                <action method="setPosition">
-                    <argument name="value" xsi:type="string">20</argument>
-                </action>
-                <action method="addLink">
-                    <argument name="name" xsi:type="string">account</argument>
-                    <argument name="path" xsi:type="string">customer/account/</argument>
-                    <argument translate="true" name="label" xsi:type="string">Account Dashboard</argument>
-                </action>
-                <action method="addLink">
-                    <argument name="name" xsi:type="string">account_edit</argument>
-                    <argument name="path" xsi:type="string">customer/account/edit/</argument>
-                    <argument translate="true" name="label" xsi:type="string">Account Information</argument>
-                </action>
-                <action method="addLink">
-                    <argument name="name" xsi:type="string">address_book</argument>
-                    <argument name="path" xsi:type="string">customer/address/</argument>
-                    <argument translate="true" name="label" xsi:type="string">Address Book</argument>
-                </action>
-            </block>
-            <action method="addLinkBlock">
-                <argument name="blockName" xsi:type="string">customer_account_navigation</argument>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">account</argument>
+                <argument name="path" xsi:type="string">customer/account/</argument>
+                <argument translate="true" name="label" xsi:type="string">Account Dashboard</argument>
             </action>
-        </reference>
-        <reference name="content">
-            <container name="my.account.wrapper" label="My Account Wrapper" htmlTag="div" htmlClass="my-account"/>
-        </reference>
-        <reference name="left">
-            <block class="Magento_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
-            <remove name="tags_popular"/>
-        </reference>
-    </handle>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">account_edit</argument>
+                <argument name="path" xsi:type="string">customer/account/edit/</argument>
+                <argument translate="true" name="label" xsi:type="string">Account Information</argument>
+            </action>
+            <action method="addLink">
+                <argument name="name" xsi:type="string">address_book</argument>
+                <argument name="path" xsi:type="string">customer/address/</argument>
+                <argument translate="true" name="label" xsi:type="string">Address Book</argument>
+            </action>
+        </block>
+        <action method="addLinkBlock">
+            <argument name="blockName" xsi:type="string">customer_account_navigation</argument>
+        </action>
+    </reference>
+    <reference name="content">
+        <container name="my.account.wrapper" label="My Account Wrapper" htmlTag="div" htmlClass="my-account"/>
+    </reference>
+    <reference name="left">
+        <block class="Magento_Catalog_Block_Product_Compare_Sidebar" name="catalog.compare.sidebar" template="product/compare/sidebar.phtml"/>
+        <remove name="tags_popular"/>
+    </reference>
 </layout>

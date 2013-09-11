@@ -8,18 +8,16 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle id="checkout_multishipping_overview">
-        <reference name="head">
-            <action method="addJs">
-                <argument name="file" xsi:type="string">Magento_Centinel::centinel-authenticate.js</argument>
+    <reference name="head">
+        <action method="addJs">
+            <argument name="file" xsi:type="string">Magento_Centinel::centinel-authenticate.js</argument>
+        </action>
+    </reference>
+    <reference name="checkout.multishipping.overview.items.after">
+        <block class="Magento_Centinel_Block_Authentication" name="centinel.frame" template="authentication.phtml">
+            <action method="setAuthenticationStartMode">
+                <argument name="mode" xsi:type="string">window</argument>
             </action>
-        </reference>
-        <reference name="checkout.multishipping.overview.items.after">
-            <block class="Magento_Centinel_Block_Authentication" name="centinel.frame" template="authentication.phtml">
-                <action method="setAuthenticationStartMode">
-                    <argument name="mode" xsi:type="string">window</argument>
-                </action>
-            </block>
-        </reference>
-    </handle>
+        </block>
+    </reference>
 </layout>

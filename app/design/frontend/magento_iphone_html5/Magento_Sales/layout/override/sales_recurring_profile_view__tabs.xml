@@ -7,68 +7,66 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <handle label="Recurring Profile View Tabs" id="sales_recurring_profile_view__tabs" type="page" parent="sales_recurring_profile_index">
-        <reference name="root">
-            <action method="setTemplate">
-                <argument name="template" xsi:type="string">1column.phtml</argument>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Recurring Profile View Tabs" type="page" parent="sales_recurring_profile_index">
+    <reference name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </reference>
+    <reference name="my.account.wrapper">
+        <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
+            <action method="prepareViewData"/>
+            <action method="setShouldPrepareInfoTabs">
+                <argument name="value" xsi:type="string">1</argument>
             </action>
-        </reference>
-        <reference name="my.account.wrapper">
-            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
-                <action method="prepareViewData"/>
-                <action method="setShouldPrepareInfoTabs">
-                    <argument name="value" xsi:type="string">1</argument>
+            <block class="Magento_Core_Block_Text" as="profile_info" name="sales.recurring.profile.view.tab.profile">
+                <action method="addToParentGroup">
+                    <argument name="value" xsi:type="string">info_tabs</argument>
                 </action>
-                <block class="Magento_Core_Block_Text" as="profile_info" name="sales.recurring.profile.view.tab.profile">
-                    <action method="addToParentGroup">
-                        <argument name="value" xsi:type="string">info_tabs</argument>
-                    </action>
-                    <action method="setViewLabel">
-                        <argument name="value" xsi:type="string" translate="true">Profile Information</argument>
-                    </action>
-                    <action method="setViewAction">
-                        <argument name="value" xsi:type="string">view</argument>
-                    </action>
-                </block>
-                <!-- not implemented
-                <block class="Magento_Core_Block_Text" as="history" name="sales.recurring.profile.view.tab.history">
-                    <action method="addToParentGroup">
-                        <argument name="value" xsi:type="string">info_tabs</argument>
-                    </action>
-                    <action method="setViewLabel" translate="value">
-                        <argument name="value" xsi:type="string">History</argument>
-                    </action>
-                    <action method="setViewAction">
-                        <argument name="value" xsi:type="string">history</argument>
-                    </action>
-                </block>
-                -->
-                <block class="Magento_Core_Block_Text" as="related_orders" name="sales.recurring.profile.view.tab.orders">
-                    <action method="addToParentGroup">
-                        <argument name="value" xsi:type="string">info_tabs</argument>
-                    </action>
-                    <action method="setViewLabel">
-                        <argument translate="true" name="value" xsi:type="string">Related Orders</argument>
-                    </action>
-                    <action method="setViewAction">
-                        <argument name="value" xsi:type="string">orders</argument>
-                    </action>
-                </block>
-                <!-- not implemented
-                <block class="Magento_Core_Block_Text" as="vendor_info" name="sales.recurring.profile.view.tab.vendor">
-                    <action method="addToParentGroup">
-                        <argument name="value" xsi:type="string">info_tabs</argument>
-                    </action>
-                    <action method="setViewLabel" translate="value">
-                        <argument name="value" xsi:type="string">Gateway Information</argument>
-                    </action>
-                    <action method="setViewAction">
-                        <argument name="value" xsi:type="string">vendor</argument>
-                    </action>
-                </block>
-                -->
+                <action method="setViewLabel">
+                    <argument name="value" xsi:type="string" translate="true">Profile Information</argument>
+                </action>
+                <action method="setViewAction">
+                    <argument name="value" xsi:type="string">view</argument>
+                </action>
             </block>
-        </reference>
-    </handle>
+            <!-- not implemented
+            <block class="Magento_Core_Block_Text" as="history" name="sales.recurring.profile.view.tab.history">
+                <action method="addToParentGroup">
+                    <argument name="value" xsi:type="string">info_tabs</argument>
+                </action>
+                <action method="setViewLabel" translate="value">
+                    <argument name="value" xsi:type="string">History</argument>
+                </action>
+                <action method="setViewAction">
+                    <argument name="value" xsi:type="string">history</argument>
+                </action>
+            </block>
+            -->
+            <block class="Magento_Core_Block_Text" as="related_orders" name="sales.recurring.profile.view.tab.orders">
+                <action method="addToParentGroup">
+                    <argument name="value" xsi:type="string">info_tabs</argument>
+                </action>
+                <action method="setViewLabel">
+                    <argument translate="true" name="value" xsi:type="string">Related Orders</argument>
+                </action>
+                <action method="setViewAction">
+                    <argument name="value" xsi:type="string">orders</argument>
+                </action>
+            </block>
+            <!-- not implemented
+            <block class="Magento_Core_Block_Text" as="vendor_info" name="sales.recurring.profile.view.tab.vendor">
+                <action method="addToParentGroup">
+                    <argument name="value" xsi:type="string">info_tabs</argument>
+                </action>
+                <action method="setViewLabel" translate="value">
+                    <argument name="value" xsi:type="string">Gateway Information</argument>
+                </action>
+                <action method="setViewAction">
+                    <argument name="value" xsi:type="string">vendor</argument>
+                </action>
+            </block>
+            -->
+        </block>
+    </reference>
 </layout>
