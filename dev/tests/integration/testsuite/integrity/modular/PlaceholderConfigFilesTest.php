@@ -33,7 +33,6 @@ class Integrity_Modular_PlaceholderConfigFilesTest extends PHPUnit_Framework_Tes
             'fileResolver' => $fileResolverMock,
             'validationState' => $validationStateMock,
         ));
-
     }
 
     public function testPlaceholderXmlFiles()
