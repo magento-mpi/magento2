@@ -21,9 +21,10 @@ class Magento_Backend_Model_Config_Backend_EncryptedTest extends PHPUnit_Framewo
             array('_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName'),
             array(), '', false);
         $collectionMock = $this->getMock('Magento_Data_Collection_Db', array(), array(), '', false);
-        $this->_model = new Magento_Backend_Model_Config_Backend_Encrypted($contextMock,
+        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $this->_model = new Magento_Backend_Model_Config_Backend_Encrypted($contextMock, $storeManager, $coreConfig,
             $this->_helperMock, $resourceMock, $collectionMock);
-
     }
 
     public function testProcessValue()

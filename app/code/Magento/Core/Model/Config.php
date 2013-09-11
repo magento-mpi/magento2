@@ -136,8 +136,8 @@ class Magento_Core_Model_Config implements Magento_Core_Model_ConfigInterface
         Magento_Core_Model_Config_SectionPool $sectionPool,
         Magento_Core_Model_Store_Config $coreStoreConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
         Magento_Profiler::start('config_load');
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_objectManager = $objectManager;
         $this->_storage = $storage;
         $this->_config = $this->_storage->getConfiguration();

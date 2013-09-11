@@ -13,7 +13,7 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
 
     public function setUp()
     {
-        $this->_model = new Magento_Core_Controller_Request_Http($this->getMock('Magento_ObjectManager'));
+        $this->_model = new Magento_Core_Controller_Request_Http();
     }
 
     /**
