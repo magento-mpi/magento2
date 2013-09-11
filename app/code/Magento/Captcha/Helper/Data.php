@@ -88,7 +88,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\Dir $dirs,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Config $config,
-        Magento\Filesystem $filesystem,
+        \Magento\Filesystem $filesystem,
         \Magento\Captcha\Model\CaptchaFactory $factory
     ) {
         $this->_dirs = $dirs;
