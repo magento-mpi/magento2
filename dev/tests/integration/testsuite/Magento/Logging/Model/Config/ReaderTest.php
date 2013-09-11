@@ -61,14 +61,10 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $schema = __DIR__ . '/../../../../../../../../app/code/Magento/Logging/etc/logging.xsd';
-
         /** @var Magento_Logging_Model_Config_Reader $model */
         $model = Mage::getObjectManager()->create(
             'Magento_Logging_Model_Config_Reader', array(
-                'moduleReader' => $moduleReader,
                 'fileResolver' => $fileResolver,
-                'schema' => $schema
             )
         );
 
@@ -77,10 +73,6 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @expectedException Magento_Exception
-     * @expectedExceptionMessage Element 'expected_model': This element is not expected. Expected is ( skip_on_back ).
-     */
     public function testMergeCompleteAndPartial()
     {
         $fileList = array(
@@ -96,19 +88,12 @@ class Magento_Logging_Model_Config_ReaderTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('logging.xml'), $this->equalTo('global'))
             ->will($this->returnValue($fileList));
 
-        $schema = __DIR__ . '/../../../../../../../../app/code/Magento/Logging/etc/logging.xsd';
-        $perFileSchema = __DIR__ . '/../../../../../../../../app/code/Magento/Logging/etc/logging_file.xsd';
-
         /** @var Magento_Logging_Model_Config_Reader $model */
         $model = Mage::getObjectManager()->create(
             'Magento_Logging_Model_Config_Reader', array(
                 'fileResolver' => $fileResolverMock,
-                'schema' => $schema,
-                'perFileSchema' => $perFileSchema
             )
         );
-        $result = $model->read('global');
-        $expected = include '_files/expectedArray.php';
-        $this->assertEquals($expected, $result);
+        $this->assertArrayHasKey('logging', $model->read('global'));
     }
 }

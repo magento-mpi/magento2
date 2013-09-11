@@ -115,7 +115,7 @@
             <xs:element name="skip_on_back" type="skipOnBackType" minOccurs="0" />
         </xs:all>
         <xs:attribute name="controller_action" type="xs:token" use="required" />
-        <xs:attribute name="action_alias" type="xs:token" use="optional" />
+        <xs:attribute name="action_alias" type="xs:token" use="required" />
         <xs:attribute name="post_dispatch" type="xs:token" use="optional" />
     </xs:complexType>
 
