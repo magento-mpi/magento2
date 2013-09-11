@@ -12,7 +12,7 @@
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->configure(array(
     'preferences' => array(
-        'Magento_Core_Controller_Request_Http' => 'Magento_Test_Request',
+        'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
     )
 ));
 
