@@ -24,7 +24,7 @@
             <adminhtml_checkout_index>
                 <action>view</action>
                 <expected_models>
-                    <Magento\Sales\Model\Quote/>
+                    <Magento_Sales_Model_Quote/>
                 </expected_models>
             </adminhtml_checkout_index>
             <adminhtml_checkout_applyCoupon>
@@ -37,18 +37,18 @@
             <adminhtml_checkout_updateItems>
                 <action>save</action>
                 <expected_models>
-                    <Magento\Sales\Model\Quote\Item/>
+                    <Magento_Sales_Model_Quote_Item/>
                 </expected_models>
             </adminhtml_checkout_updateItems>
             <adminhtml_checkout_addToCart>
                 <action>add_to_cart</action>
                 <expected_models>
-                    <Magento\Sales\Model\Quote\Item>
+                    <Magento_Sales_Model_Quote_Item>
                         <additional_data>
                             <item_id/>
                             <quote_id/>
                         </additional_data>
-                    </Magento\Sales\Model\Quote\Item>
+                    </Magento_Sales_Model_Quote_Item>
                 </expected_models>
             </adminhtml_checkout_addToCart>
         </actions>

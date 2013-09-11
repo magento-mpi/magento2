@@ -13,7 +13,7 @@
     <magento_targetrule translate="label">
         <label>Rule-Based Product Relations</label>
         <expected_models>
-            <Magento\TargetRule\Model\Rule/>
+            <Magento_TargetRule_Model_Rule/>
         </expected_models>
         <actions>
             <adminhtml_targetrule_edit>

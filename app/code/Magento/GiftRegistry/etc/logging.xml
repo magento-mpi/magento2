@@ -19,7 +19,7 @@
     <magento_giftregistry_type translate="label">
         <label>Gift Registry Type</label>
         <expected_models>
-            <Magento\GiftRegistry\Model\Type/>
+            <Magento_GiftRegistry_Model_Type/>
         </expected_models>
         <actions>
 
@@ -41,8 +41,8 @@
     <magento_giftregistry_entity>
         <label>Gift Registry Entity</label>
         <expected_models>
-            <Magento\GiftRegistry\Model\Entity/>
-            <Magento\GiftRegistry\Model\Item/>
+            <Magento_GiftRegistry_Model_Entity/>
+            <Magento_GiftRegistry_Model_Item/>
         </expected_models>
         <actions>
 
