@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Sales_Items_Order_View_GiftmessageTest extends PHPUnit_Framework_TestCase
+class Magento_Adminhtml_Block_Sales_Order_View_GiftmessageTest extends PHPUnit_Framework_TestCase
 {
     public function testGetSaveButtonHtml()
     {

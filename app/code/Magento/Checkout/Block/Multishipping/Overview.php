@@ -37,7 +37,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
         }
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(
-                __('Review Order - %s', $headBlock->getDefaultTitle())
+                __('Review Order - %1', $headBlock->getDefaultTitle())
             );
         }
         return parent::_prepareLayout();
