@@ -12,14 +12,14 @@ class EventRepository
     /**
      * Event collection factory
      *
-     * @var Magento_Index_Model_Resource_Event_CollectionFactory
+     * @var \Magento\Index\Model\Resource\Event\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Index_Model_Resource_Event_CollectionFactory $collectionFactory
+     * @param \Magento\Index\Model\Resource\Event\CollectionFactory $collectionFactory
      */
-    public function __construct(Magento_Index_Model_Resource_Event_CollectionFactory $collectionFactory)
+    public function __construct(\Magento\Index\Model\Resource\Event\CollectionFactory $collectionFactory)
     {
         $this->_collectionFactory = $collectionFactory;
     }

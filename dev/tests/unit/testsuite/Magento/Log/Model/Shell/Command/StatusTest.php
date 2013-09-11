@@ -24,7 +24,7 @@ class Magento_Log_Model_Shell_Command_StatusTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento_Log_Model_Resource_ShellFactory',
+        $this->_factoryMock = $this->getMock('Magento\Log\Model\Resource\ShellFactory',
             array('create'), array(), '', false
         );
         $this->_shellMock = $this->getMock('Magento\Log\Model\Resource\Shell', array(), array(), '', false);

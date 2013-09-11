@@ -25,7 +25,7 @@ class Magento_Log_Model_Shell_Command_CleanTest extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
-        $this->_logFactoryMock = $this->getMock('Magento_Log_Model_LogFactory', array('create'), array(), '', false);
+        $this->_logFactoryMock = $this->getMock('Magento\Log\Model\LogFactory', array('create'), array(), '', false);
         $this->_logMock = $this->getMock('Magento\Log\Model\Log', array(), array(), '', false);
         $this->_logFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->_logMock));
     }

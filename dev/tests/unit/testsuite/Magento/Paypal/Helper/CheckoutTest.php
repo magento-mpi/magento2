@@ -17,7 +17,7 @@ class Magento_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
     protected $_session;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\QuoteFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_quoteFactory;
 
@@ -36,7 +36,7 @@ class Magento_Paypal_Helper_CheckoutTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('getLastRealOrder', 'replaceQuote', 'unsLastRealOrderId'))
             ->getMock();
-        $this->_quoteFactory = $this->getMockBuilder('Magento_Sales_Model_QuoteFactory')
+        $this->_quoteFactory = $this->getMockBuilder('\Magento\Sales\Model\QuoteFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();

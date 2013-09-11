@@ -15,7 +15,7 @@ class Clean implements \Magento\Log\Model\Shell\CommandInterface
     protected $_storeManager;
 
     /**
-     * @var Magento_Log_Model_LogFactory
+     * @var \Magento\Log\Model\LogFactory
      */
     protected $_logFactory;
 
@@ -28,7 +28,7 @@ class Clean implements \Magento\Log\Model\Shell\CommandInterface
 
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        Magento_Log_Model_LogFactory $logFactory,
+        \Magento\Log\Model\LogFactory $logFactory,
         $days
     ) {
         $this->_storeManager = $storeManager;

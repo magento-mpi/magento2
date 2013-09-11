@@ -19,17 +19,17 @@ class Checkout extends \Magento\Core\Helper\AbstractHelper
     protected $_session;
 
     /**
-     * @var Magento_Sales_Model_QuoteFactory
+     * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
      * @param \Magento\Checkout\Model\Session $session
-     * @param Magento_Sales_Model_QuoteFactory $quoteFactory
+     * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      */
     public function __construct(
         \Magento\Checkout\Model\Session $session,
-        Magento_Sales_Model_QuoteFactory $quoteFactory
+        \Magento\Sales\Model\QuoteFactory $quoteFactory
     ) {
         $this->_session = $session;
         $this->_quoteFactory = $quoteFactory;

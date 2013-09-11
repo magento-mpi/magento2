@@ -82,7 +82,7 @@ class Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactoryTest extends PHPU
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_extensionFactory = $this->getMockBuilder('Magento_Core_Model_TemplateEngine_Twig_ExtensionFactory')
+        $this->_extensionFactory = $this->getMockBuilder('Magento\Core\Model\TemplateEngine\Twig\ExtensionFactory')
             ->disableOriginalConstructor()
             ->getMock();
 

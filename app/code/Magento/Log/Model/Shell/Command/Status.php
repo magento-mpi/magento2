@@ -10,7 +10,7 @@ namespace Magento\Log\Model\Shell\Command;
 class Status implements \Magento\Log\Model\Shell\CommandInterface
 {
     /**
-     * @var Magento_Log_Model_Resource_ShellFactory
+     * @var \Magento\Log\Model\Resource\ShellFactory
      */
     protected $_resourceFactory;
 
@@ -22,9 +22,9 @@ class Status implements \Magento\Log\Model\Shell\CommandInterface
     protected $_output = array();
 
     /**
-     * @param Magento_Log_Model_Resource_ShellFactory $resourceFactory
+     * @param \Magento\Log\Model\Resource\ShellFactory $resourceFactory
      */
-    public function __construct(Magento_Log_Model_Resource_ShellFactory $resourceFactory)
+    public function __construct(\Magento\Log\Model\Resource\ShellFactory $resourceFactory)
     {
         $this->_resourceFactory = $resourceFactory;
     }

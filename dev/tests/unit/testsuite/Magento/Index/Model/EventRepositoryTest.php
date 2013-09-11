@@ -23,7 +23,7 @@ class Magento_Index_Model_EventRepositoryTest extends PHPUnit_Framework_TestCase
             '\Magento\Index\Model\Resource\Event\Collection', array(), array(), '', false
         );
         $collectionFactory = $this->getMock(
-            'Magento_Index_Model_Resource_Event_CollectionFactory', array('create'), array(), '', false
+            'Magento\Index\Model\Resource\Event\CollectionFactory', array('create'), array(), '', false
         );
         $collectionFactory->expects($this->any())->method('create')->will($this->returnValue($this->_eventCollection));
         $this->_model = new \Magento\Index\Model\EventRepository($collectionFactory);
