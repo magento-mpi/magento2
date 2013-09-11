@@ -295,6 +295,38 @@ class Magento_Core_Model_Store extends Magento_Core_Model_Abstract
     }
 
     /**
+     * Remove not serializable fields
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        $properties = array_keys(get_object_vars($this));
+        if (Mage::getIsSerializable()) {
+            $properties = array_diff($properties, array(
+                '_eventDispatcher',
+                '_cacheManager',
+                '_coreStoreConfig',
+                '_coreConfig'
+            ));
+        }
+        return $properties;
+    }
+
+    /**
+     * Init not serializable fields
+     */
+    public function __wakeup()
+    {
+        if (Mage::getIsSerializable()) {
+            $this->_eventDispatcher = Mage::getSingleton('Magento_Core_Model_Event_Manager');
+            $this->_cacheManager    = Mage::getSingleton('Magento_Core_Model_CacheInterface');
+            $this->_coreStoreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Store_Config');
+            $this->_coreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Config');
+        }
+    }
+
+    /**
      * Retrieve store session object
      *
      * @return Magento_Core_Model_Session_Abstract

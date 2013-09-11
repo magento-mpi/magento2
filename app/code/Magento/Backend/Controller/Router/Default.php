@@ -79,6 +79,7 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
             $configScope,
             $coreStoreConfig,
             $routeConfig,
+            $coreConfig,
             $areaCode,
             $baseController,
             $routerId,

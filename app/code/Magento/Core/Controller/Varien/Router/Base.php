@@ -80,12 +80,20 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
     protected $_coreStoreConfig = null;
 
     /**
+     * Core config
+     *
+     * @var Magento_Core_Model_Config
+     */
+    protected $_config = null;
+
+    /**
      * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Model_App $app
      * @param Magento_Core_Model_Config_Scope $configScope
      * @param Magento_Core_Model_Route_Config $routeConfig
      * @param Magento_Core_Model_Store_Config $coreStoreConfig
+     * @param Magento_Core_Model_Config $config
      * @param string $areaCode
      * @param string $baseController
      * @param string $routerId
@@ -98,21 +106,23 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         Magento_Core_Model_Config_Scope $configScope,
         Magento_Core_Model_Store_Config $coreStoreConfig,
         Magento_Core_Model_Route_Config $routeConfig,
+        Magento_Core_Model_Config $config,
         $areaCode,
         $baseController,
         $routerId
     ) {
         parent::__construct($controllerFactory);
 
-        $this->_app            = $app;
-        $this->_filesystem     = $filesystem;
-        $this->_areaCode       = $areaCode;
-        $this->_baseController = $baseController;
-        $this->_configScope  = $configScope;
+        $this->_app             = $app;
+        $this->_filesystem      = $filesystem;
+        $this->_areaCode        = $areaCode;
+        $this->_baseController  = $baseController;
+        $this->_configScope     = $configScope;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_configScope    = $configScope;
-        $this->_routeConfig    = $routeConfig;
-        $this->_routerId       = $routerId;
+        $this->_config          = $config;
+        $this->_configScope     = $configScope;
+        $this->_routeConfig     = $routeConfig;
+        $this->_routerId        = $routerId;
 
         if (is_null($this->_areaCode) || is_null($this->_baseController)) {
             throw new InvalidArgumentException("Not enough options to initialize router.");
@@ -561,7 +571,7 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
 
     public function rewrite(array $p)
     {
-        $rewrite = $this->_objectManager->get('Magento_Core_Model_Config')->getNode('global/rewrite');
+        $rewrite = $this->_config->getNode('global/rewrite');
         if ($module = $rewrite->{$p[0]}) {
             if (!$module->children()) {
                 $p[0] = trim((string)$module);
@@ -639,6 +649,6 @@ class Magento_Core_Controller_Varien_Router_Base extends Magento_Core_Controller
         return substr($this->_coreStoreConfig->getConfig('web/unsecure/base_url'), 0, 5) === 'https'
             || $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_frontend')
                 && substr($this->_coreStoreConfig->getConfig('web/secure/base_url'), 0, 5) == 'https'
-                && $this->_objectManager->get('Magento_Core_Model_Config')->shouldUrlBeSecure($path);
+                && $this->_config->shouldUrlBeSecure($path);
     }
 }

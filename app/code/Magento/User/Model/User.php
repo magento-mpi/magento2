@@ -131,6 +131,38 @@ class Magento_User_Model_User
     }
 
     /**
+     * Remove not serializable fields
+     *
+     * @return array
+     */
+    public function __sleep()
+    {
+        $properties = array_keys(get_object_vars($this));
+        if (Mage::getIsSerializable()) {
+            $properties = array_diff($properties, array(
+                '_eventDispatcher',
+                '_cacheManager',
+                '_coreStoreConfig',
+                '_sender'
+            ));
+        }
+        return $properties;
+    }
+
+    /**
+     * Init not serializable fields
+     */
+    public function __wakeup()
+    {
+        if (Mage::getIsSerializable()) {
+            $this->_eventDispatcher = Mage::getSingleton('Magento_Core_Model_Event_Manager');
+            $this->_cacheManager    = Mage::getSingleton('Magento_Core_Model_CacheInterface');
+            $this->_coreStoreConfig = Mage::getObjectManager()->get('Magento_Core_Model_Store_Config');
+            $this->_sender = Mage::getObjectManager()->get('Magento_Core_Model_Sender');
+        }
+    }
+
+    /**
      * Processing data before model save
      *
      * @return Magento_User_Model_User
