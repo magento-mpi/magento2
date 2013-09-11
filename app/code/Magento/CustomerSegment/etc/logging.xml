@@ -19,7 +19,7 @@
     <magento_customersegment translate="label">
         <label>Manage Segments</label>
         <expected_models>
-            <Magento\CustomerSegment\Model\Segment/>
+            <Magento_CustomerSegment_Model_Segment/>
         </expected_models>
         <actions>
             <adminhtml_customersegment_edit>

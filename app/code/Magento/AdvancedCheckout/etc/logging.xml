@@ -30,7 +30,7 @@
             <adminhtml_checkout_applyCoupon>
                 <action>apply_coupon</action>
                 <expected_models>
-                    <Magento\Sales\Model\Quote/>
+                    <Magento_Sales_Model_Quote/>
                 </expected_models>
                 <post_dispatch>postDispatchAdminCheckoutApplyCoupon</post_dispatch>
             </adminhtml_checkout_applyCoupon>
