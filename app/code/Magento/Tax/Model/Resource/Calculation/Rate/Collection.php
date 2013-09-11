@@ -25,7 +25,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Tax\Model\Calculation\Rate', '\Magento\Tax\Model\Resource\Calculation\Rate');
+        $this->_init('Magento\Tax\Model\Calculation\Rate', 'Magento\Tax\Model\Resource\Calculation\Rate');
     }
 
     /**

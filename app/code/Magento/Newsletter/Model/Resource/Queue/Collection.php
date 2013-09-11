@@ -41,7 +41,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         $this->_map['fields']['queue_id'] = 'main_table.queue_id';
-        $this->_init('\Magento\Newsletter\Model\Queue', '\Magento\Newsletter\Model\Resource\Queue');
+        $this->_init('Magento\Newsletter\Model\Queue', 'Magento\Newsletter\Model\Resource\Queue');
     }
 
     /**

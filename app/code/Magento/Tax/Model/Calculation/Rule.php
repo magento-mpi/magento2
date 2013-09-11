@@ -82,7 +82,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
             $data
         );
 
-        $this->_init('\Magento\Tax\Model\Resource\Calculation\Rule');
+        $this->_init('Magento\Tax\Model\Resource\Calculation\Rule');
 
         $this->_helper = $taxHelper;
         $this->_taxClass = $taxClass;

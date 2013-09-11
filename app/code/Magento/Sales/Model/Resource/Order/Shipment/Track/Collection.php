@@ -48,7 +48,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Order\Shipment\Track', '\Magento\Sales\Model\Resource\Order\Shipment\Track');
+        $this->_init('Magento\Sales\Model\Order\Shipment\Track', 'Magento\Sales\Model\Resource\Order\Shipment\Track');
     }
 
     /**

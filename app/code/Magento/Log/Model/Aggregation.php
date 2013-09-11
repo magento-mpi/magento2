@@ -35,7 +35,7 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Log\Model\Resource\Aggregation');
+        $this->_init('Magento\Log\Model\Resource\Aggregation');
     }
 
     /**

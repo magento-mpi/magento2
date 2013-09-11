@@ -41,12 +41,12 @@ class Customization implements \Magento\Core\Model\Theme\CustomizationInterface
     protected $_themeFilesByType = array();
 
     /**
-     * @param Magento_Core_Model_Resource_Theme_File_CollectionFactory $fileFactory
+     * @param \Magento\Core\Model\Resource\Theme\File\CollectionFactory $fileFactory
      * @param \Magento\Core\Model\Theme\Customization\Path $customizationPath
      * @param \Magento\Core\Model\Theme $theme
      */
     public function __construct(
-        Magento_Core_Model_Resource_Theme_File_CollectionFactory $fileFactory,
+        \Magento\Core\Model\Resource\Theme\File\CollectionFactory $fileFactory,
         \Magento\Core\Model\Theme\Customization\Path $customizationPath,
         \Magento\Core\Model\Theme $theme = null
     ) {

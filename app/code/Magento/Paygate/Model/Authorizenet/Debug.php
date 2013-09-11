@@ -35,6 +35,6 @@ class Debug extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\Paygate\Model\Resource\Authorizenet\Debug');
+        $this->_init('Magento\Paygate\Model\Resource\Authorizenet\Debug');
     }
 }

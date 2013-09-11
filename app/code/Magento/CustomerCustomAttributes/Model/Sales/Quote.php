@@ -29,6 +29,6 @@ class Quote extends \Magento\CustomerCustomAttributes\Model\Sales\AbstractSales
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote');
+        $this->_init('Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote');
     }
 }

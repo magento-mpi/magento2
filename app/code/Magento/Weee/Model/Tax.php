@@ -37,7 +37,7 @@ class Tax extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Weee\Model\Resource\Tax');
+        $this->_init('Magento\Weee\Model\Resource\Tax');
     }
 
 

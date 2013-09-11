@@ -22,6 +22,6 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Tax\Model\Resource\Sales\Order\Tax\Item');
+        $this->_init('Magento\Tax\Model\Resource\Sales\Order\Tax\Item');
     }
 }

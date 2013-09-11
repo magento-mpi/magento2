@@ -47,7 +47,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Category', '\Magento\Catalog\Model\Resource\Category\Flat');
+        $this->_init('Magento\Catalog\Model\Category', 'Magento\Catalog\Model\Resource\Category\Flat');
     }
 
     /**

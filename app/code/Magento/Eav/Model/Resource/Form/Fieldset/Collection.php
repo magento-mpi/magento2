@@ -33,7 +33,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Eav\Model\Form\Fieldset', '\Magento\Eav\Model\Resource\Form\Fieldset');
+        $this->_init('Magento\Eav\Model\Form\Fieldset', 'Magento\Eav\Model\Resource\Form\Fieldset');
     }
 
     /**

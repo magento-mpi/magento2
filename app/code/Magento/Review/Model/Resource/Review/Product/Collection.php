@@ -55,7 +55,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Product', '\Magento\Catalog\Model\Resource\Product');
+        $this->_init('Magento\Catalog\Model\Product', 'Magento\Catalog\Model\Resource\Product');
         $this->setRowIdFieldName('review_id');
         $this->_reviewStoreTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('review_store');
         $this->_initTables();

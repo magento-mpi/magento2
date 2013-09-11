@@ -55,7 +55,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\GoogleShopping\Model\Resource\Attribute');
+        $this->_init('Magento\GoogleShopping\Model\Resource\Attribute');
     }
 
     /**

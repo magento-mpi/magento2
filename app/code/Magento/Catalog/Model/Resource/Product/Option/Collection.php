@@ -25,7 +25,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Product\Option', '\Magento\Catalog\Model\Resource\Product\Option');
+        $this->_init('Magento\Catalog\Model\Product\Option', 'Magento\Catalog\Model\Resource\Product\Option');
     }
 
     /**

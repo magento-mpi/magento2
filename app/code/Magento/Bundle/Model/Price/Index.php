@@ -38,7 +38,7 @@ class Index extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Bundle\Model\Resource\Price\Index');
+        $this->_init('Magento\Bundle\Model\Resource\Price\Index');
     }
 
     /**

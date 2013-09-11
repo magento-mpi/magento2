@@ -26,6 +26,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Oauth\Model\Nonce', '\Magento\Oauth\Model\Resource\Nonce');
+        $this->_init('Magento\Oauth\Model\Nonce', 'Magento\Oauth\Model\Resource\Nonce');
     }
 }

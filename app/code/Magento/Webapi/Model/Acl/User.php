@@ -33,7 +33,7 @@ class User extends \Magento\Core\Model\AbstractModel implements \Magento\Oauth\M
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Webapi\Model\Resource\Acl\User');
+        $this->_init('Magento\Webapi\Model\Resource\Acl\User');
     }
 
     /**

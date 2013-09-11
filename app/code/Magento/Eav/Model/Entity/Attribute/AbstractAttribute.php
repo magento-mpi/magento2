@@ -78,7 +78,7 @@ abstract class AbstractAttribute
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Eav\Model\Resource\Entity\Attribute');
+        $this->_init('Magento\Eav\Model\Resource\Entity\Attribute');
     }
 
     /**

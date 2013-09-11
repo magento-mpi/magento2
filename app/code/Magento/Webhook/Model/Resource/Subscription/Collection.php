@@ -42,7 +42,7 @@ class Collection
     public function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Webhook\Model\Subscription', '\Magento\Webhook\Model\Resource\Subscription');
+        $this->_init('Magento\Webhook\Model\Subscription', 'Magento\Webhook\Model\Resource\Subscription');
     }
 
 

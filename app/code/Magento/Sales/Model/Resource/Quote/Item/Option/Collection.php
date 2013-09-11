@@ -40,7 +40,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Quote\Item\Option', '\Magento\Sales\Model\Resource\Quote\Item\Option');
+        $this->_init('Magento\Sales\Model\Quote\Item\Option', 'Magento\Sales\Model\Resource\Quote\Item\Option');
     }
 
     /**

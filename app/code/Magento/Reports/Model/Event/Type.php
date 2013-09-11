@@ -29,6 +29,6 @@ class Type extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\Reports\Model\Resource\Event\Type');
+        $this->_init('Magento\Reports\Model\Resource\Event\Type');
     }
 }

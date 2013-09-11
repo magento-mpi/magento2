@@ -38,7 +38,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Invitation\Model\Invitation', '\Magento\Invitation\Model\Resource\Invitation');
+        $this->_init('Magento\Invitation\Model\Invitation', 'Magento\Invitation\Model\Resource\Invitation');
     }
 
     /**

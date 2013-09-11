@@ -54,7 +54,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\Core\Model\Resource\Url\Rewrite');
+        $this->_init('Magento\Core\Model\Resource\Url\Rewrite');
     }
 
     /**

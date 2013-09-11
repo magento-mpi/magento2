@@ -82,7 +82,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Order\Payment\Transaction', '\Magento\Sales\Model\Resource\Order\Payment\Transaction');
+        $this->_init('Magento\Sales\Model\Order\Payment\Transaction', 'Magento\Sales\Model\Resource\Order\Payment\Transaction');
         parent::_construct();
     }
 

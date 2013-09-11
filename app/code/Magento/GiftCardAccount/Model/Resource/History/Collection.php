@@ -27,6 +27,6 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\GiftCardAccount\Model\History', '\Magento\GiftCardAccount\Model\Resource\History');
+        $this->_init('Magento\GiftCardAccount\Model\History', 'Magento\GiftCardAccount\Model\Resource\History');
     }
 }

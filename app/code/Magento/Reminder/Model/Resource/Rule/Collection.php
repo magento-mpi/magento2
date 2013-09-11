@@ -38,7 +38,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Reminder\Model\Rule', '\Magento\Reminder\Model\Resource\Rule');
+        $this->_init('Magento\Reminder\Model\Rule', 'Magento\Reminder\Model\Resource\Rule');
         $this->addFilterToMap('rule_id', 'main_table.rule_id');
     }
 

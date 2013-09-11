@@ -40,7 +40,7 @@ class Code extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\GoogleOptimizer\Model\Resource\Code');
+        $this->_init('Magento\GoogleOptimizer\Model\Resource\Code');
     }
 
     /**

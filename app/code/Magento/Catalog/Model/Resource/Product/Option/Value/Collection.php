@@ -26,7 +26,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Product\Option\Value', '\Magento\Catalog\Model\Resource\Product\Option\Value');
+        $this->_init('Magento\Catalog\Model\Product\Option\Value', 'Magento\Catalog\Model\Resource\Product\Option\Value');
     }
 
     /**

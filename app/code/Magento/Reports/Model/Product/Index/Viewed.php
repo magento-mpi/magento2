@@ -43,7 +43,7 @@ class Viewed extends \Magento\Reports\Model\Product\Index\AbstractIndex
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Reports\Model\Resource\Product\Index\Viewed');
+        $this->_init('Magento\Reports\Model\Resource\Product\Index\Viewed');
     }
 
     /**

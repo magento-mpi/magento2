@@ -41,7 +41,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Order\Shipment\Comment', '\Magento\Sales\Model\Resource\Order\Shipment\Comment');
+        $this->_init('Magento\Sales\Model\Order\Shipment\Comment', 'Magento\Sales\Model\Resource\Order\Shipment\Comment');
     }
 
     /**

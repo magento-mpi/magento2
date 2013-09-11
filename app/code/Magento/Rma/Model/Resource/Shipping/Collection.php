@@ -24,6 +24,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Rma\Model\Shipping', '\Magento\Rma\Model\Resource\Shipping');
+        $this->_init('Magento\Rma\Model\Shipping', 'Magento\Rma\Model\Resource\Shipping');
     }
 }

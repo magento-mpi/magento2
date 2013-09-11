@@ -55,7 +55,7 @@ class Endpoint extends \Magento\Core\Model\AbstractModel implements \Magento\Out
     public function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Webhook\Model\Resource\Endpoint');
+        $this->_init('Magento\Webhook\Model\Resource\Endpoint');
     }
 
     /**

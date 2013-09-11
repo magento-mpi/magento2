@@ -23,6 +23,6 @@ class Status extends \Magento\Core\Model\AbstractModel
 
     public function __construct()
     {
-        $this->_init('\Magento\Review\Model\Resource\Review\Status');
+        $this->_init('Magento\Review\Model\Resource\Review\Status');
     }
 }

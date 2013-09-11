@@ -119,7 +119,7 @@ class User
      */
     protected function _construct()
     {
-        $this->_init('\Magento\User\Model\Resource\User');
+        $this->_init('Magento\User\Model\Resource\User');
     }
 
     /**

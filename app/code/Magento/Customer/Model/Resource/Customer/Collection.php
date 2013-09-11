@@ -25,7 +25,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Customer\Model\Customer', '\Magento\Customer\Model\Resource\Customer');
+        $this->_init('Magento\Customer\Model\Customer', 'Magento\Customer\Model\Resource\Customer');
     }
 
     /**

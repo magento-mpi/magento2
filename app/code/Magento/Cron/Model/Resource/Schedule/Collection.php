@@ -26,6 +26,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function _construct()
     {
-        $this->_init('\Magento\Cron\Model\Schedule', '\Magento\Cron\Model\Resource\Schedule');
+        $this->_init('Magento\Cron\Model\Schedule', 'Magento\Cron\Model\Resource\Schedule');
     }
 }

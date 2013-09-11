@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Directory\Model\Country\Format', '\Magento\Directory\Model\Resource\Country\Format');
+        $this->_init('Magento\Directory\Model\Country\Format', 'Magento\Directory\Model\Resource\Country\Format');
     }
 
     /**

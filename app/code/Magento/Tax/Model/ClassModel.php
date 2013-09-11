@@ -62,7 +62,7 @@ class ClassModel extends \Magento\Core\Model\AbstractModel
 
     public function _construct()
     {
-        $this->_init('\Magento\Tax\Model\Resource\TaxClass');
+        $this->_init('Magento\Tax\Model\Resource\TaxClass');
     }
 
     /**

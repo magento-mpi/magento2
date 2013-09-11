@@ -25,7 +25,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Downloadable\Model\Link', '\Magento\Downloadable\Model\Resource\Link');
+        $this->_init('Magento\Downloadable\Model\Link', 'Magento\Downloadable\Model\Resource\Link');
     }
 
     /**

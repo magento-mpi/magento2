@@ -60,7 +60,7 @@ class Observer
         \Magento\Core\Model\View\DesignInterface $design,
         \Magento\Core\Model\Page $page,
         \Magento\Core\Model\ConfigInterface $config,
-        Magento_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory,
+        \Magento\Core\Model\Page\Asset\PublicFileFactory $assetFileFactory,
         \Magento\Core\Model\Logger $logger
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;

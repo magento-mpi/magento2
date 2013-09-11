@@ -41,7 +41,7 @@ class Price extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\ProductAlert\Model\Resource\Price');
+        $this->_init('Magento\ProductAlert\Model\Resource\Price');
     }
 
     public function getCustomerCollection()

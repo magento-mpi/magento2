@@ -26,7 +26,7 @@ class Action extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Product\Action');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Action');
     }
 
     /**

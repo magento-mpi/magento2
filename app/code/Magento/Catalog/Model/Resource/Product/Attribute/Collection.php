@@ -27,7 +27,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Eav\Attribute', '\Magento\Eav\Model\Resource\Entity\Attribute');
+        $this->_init('Magento\Catalog\Model\Resource\Eav\Attribute', 'Magento\Eav\Model\Resource\Entity\Attribute');
     }
 
     /**

@@ -51,7 +51,7 @@ class Image extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\Media\Model\File\Image');
+        $this->_init('Magento\Media\Model\File\Image');
     }
 
     /**

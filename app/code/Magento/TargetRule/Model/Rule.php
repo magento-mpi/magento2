@@ -104,7 +104,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\TargetRule\Model\Resource\Rule');
+        $this->_init('Magento\TargetRule\Model\Resource\Rule');
     }
 
     /**

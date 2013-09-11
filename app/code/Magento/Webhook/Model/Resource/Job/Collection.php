@@ -49,7 +49,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Webhook\Model\Job', '\Magento\Webhook\Model\Resource\Job');
+        $this->_init('Magento\Webhook\Model\Job', 'Magento\Webhook\Model\Resource\Job');
     }
 
     /**

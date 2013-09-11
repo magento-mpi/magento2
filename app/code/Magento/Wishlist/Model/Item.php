@@ -92,7 +92,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Wishlist\Model\Resource\Item');
+        $this->_init('Magento\Wishlist\Model\Resource\Item');
     }
 
     /**

@@ -46,7 +46,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Webhook\Model\Event', '\Magento\Webhook\Model\Resource\Event');
+        $this->_init('Magento\Webhook\Model\Event', 'Magento\Webhook\Model\Resource\Event');
     }
 
     /**

@@ -33,7 +33,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Rating\Model\Rating\Option', '\Magento\Rating\Model\Resource\Rating\Option');
+        $this->_init('Magento\Rating\Model\Rating\Option', 'Magento\Rating\Model\Resource\Rating\Option');
         $this->_ratingVoteTable     = $this->getTable('rating_option_vote');
     }
 

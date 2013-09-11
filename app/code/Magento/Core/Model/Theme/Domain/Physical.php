@@ -23,7 +23,7 @@ class Physical
     protected $_theme;
 
     /**
-     * @var Magento_Core_Model_ThemeFactory
+     * @var \Magento\Core\Model\ThemeFactory
      */
     protected $_themeFactory;
 
@@ -39,13 +39,13 @@ class Physical
 
     /**
      * @param \Magento\Core\Model\Theme $theme
-     * @param Magento_Core_Model_ThemeFactory $themeFactory
+     * @param \Magento\Core\Model\ThemeFactory $themeFactory
      * @param \Magento\Core\Model\Theme\CopyService $themeCopyService
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
      */
     public function __construct(
         \Magento\Core\Model\Theme $theme,
-        Magento_Core_Model_ThemeFactory $themeFactory,
+        \Magento\Core\Model\ThemeFactory $themeFactory,
         \Magento\Core\Model\Theme\CopyService $themeCopyService,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection
     ) {

@@ -63,7 +63,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Invitation\Model\Resource\Invitation');
+        $this->_init('Magento\Invitation\Model\Resource\Invitation');
     }
 
     /**

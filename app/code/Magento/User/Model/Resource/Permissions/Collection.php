@@ -26,6 +26,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\User\Model\Rules', '\Magento\User\Model\Resource\Rules');
+        $this->_init('Magento\User\Model\Rules', 'Magento\User\Model\Resource\Rules');
     }
 }

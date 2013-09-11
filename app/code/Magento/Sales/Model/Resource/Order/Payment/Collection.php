@@ -40,7 +40,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Order\Payment', '\Magento\Sales\Model\Resource\Order\Payment');
+        $this->_init('Magento\Sales\Model\Order\Payment', 'Magento\Sales\Model\Resource\Order\Payment');
     }
 
     /**

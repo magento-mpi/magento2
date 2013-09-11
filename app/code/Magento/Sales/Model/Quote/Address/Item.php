@@ -104,7 +104,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
 
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Quote\Address\Item');
+        $this->_init('Magento\Sales\Model\Resource\Quote\Address\Item');
     }
 
     protected function _beforeSave()

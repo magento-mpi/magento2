@@ -35,7 +35,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Widget\Model\Widget\Instance', '\Magento\Widget\Model\Resource\Widget\Instance');
+        $this->_init('Magento\Widget\Model\Widget\Instance', 'Magento\Widget\Model\Resource\Widget\Instance');
     }
 
     /**

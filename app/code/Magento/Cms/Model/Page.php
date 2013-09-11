@@ -81,7 +81,7 @@ class Page extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Cms\Model\Resource\Page');
+        $this->_init('Magento\Cms\Model\Resource\Page');
     }
 
     /**

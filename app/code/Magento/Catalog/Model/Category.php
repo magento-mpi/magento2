@@ -107,10 +107,10 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     {
         // If Flat Data enabled then use it but only on frontend
         if (\Mage::helper('Magento\Catalog\Helper\Category\Flat')->isAvailable() && !\Mage::app()->getStore()->isAdmin()) {
-            $this->_init('\Magento\Catalog\Model\Resource\Category\Flat');
+            $this->_init('Magento\Catalog\Model\Resource\Category\Flat');
             $this->_useFlatResource = true;
         } else {
-            $this->_init('\Magento\Catalog\Model\Resource\Category');
+            $this->_init('Magento\Catalog\Model\Resource\Category');
         }
     }
 

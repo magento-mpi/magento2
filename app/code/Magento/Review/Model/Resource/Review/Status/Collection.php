@@ -32,7 +32,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Review\Model\Review\Status', '\Magento\Review\Model\Resource\Review\Status');
+        $this->_init('Magento\Review\Model\Review\Status', 'Magento\Review\Model\Resource\Review\Status');
     }
 
     /**

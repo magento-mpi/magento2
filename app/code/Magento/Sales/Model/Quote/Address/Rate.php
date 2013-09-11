@@ -50,7 +50,7 @@ class Rate extends \Magento\Shipping\Model\Rate\AbstractRate
 
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Quote\Address\Rate');
+        $this->_init('Magento\Sales\Model\Resource\Quote\Address\Rate');
     }
 
     /**

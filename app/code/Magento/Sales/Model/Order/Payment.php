@@ -177,7 +177,7 @@ class Payment extends \Magento\Payment\Model\Info
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order\Payment');
+        $this->_init('Magento\Sales\Model\Resource\Order\Payment');
     }
 
     /**

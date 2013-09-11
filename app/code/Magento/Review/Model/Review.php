@@ -51,7 +51,7 @@ class Review extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\Review\Model\Resource\Review');
+        $this->_init('Magento\Review\Model\Resource\Review');
     }
 
     public function getProductCollection()

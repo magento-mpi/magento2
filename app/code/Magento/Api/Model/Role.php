@@ -39,6 +39,6 @@ class Role extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Api\Model\Resource\Role');
+        $this->_init('Magento\Api\Model\Resource\Role');
     }
 }

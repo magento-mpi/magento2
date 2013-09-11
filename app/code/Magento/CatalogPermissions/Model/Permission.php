@@ -43,6 +43,6 @@ class Permission extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CatalogPermissions\Model\Resource\Permission');
+        $this->_init('Magento\CatalogPermissions\Model\Resource\Permission');
     }
 }

@@ -52,7 +52,7 @@ abstract class Consumer extends \Magento\Core\Model\AbstractModel implements \Ma
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Oauth\Model\Resource\Consumer');
+        $this->_init('Magento\Oauth\Model\Resource\Consumer');
     }
 
     /**

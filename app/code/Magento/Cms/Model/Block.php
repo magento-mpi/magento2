@@ -47,7 +47,7 @@ class Block extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\Cms\Model\Resource\Block');
+        $this->_init('Magento\Cms\Model\Resource\Block');
     }
 
     /**

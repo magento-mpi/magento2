@@ -201,7 +201,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Quote\Address');
+        $this->_init('Magento\Sales\Model\Resource\Quote\Address');
     }
 
     /**

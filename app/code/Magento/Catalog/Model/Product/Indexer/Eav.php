@@ -70,7 +70,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Product\Indexer\Eav');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Indexer\Eav');
     }
 
     /**

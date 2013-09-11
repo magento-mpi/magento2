@@ -24,6 +24,6 @@ class Item extends \Magento\Wishlist\Model\Item
      */
     protected function _construct()
     {
-        $this->_init('\Magento\MultipleWishlist\Model\Resource\Item');
+        $this->_init('Magento\MultipleWishlist\Model\Resource\Item');
     }
 }

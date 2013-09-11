@@ -33,7 +33,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Reward\Model\Reward\History', '\Magento\Reward\Model\Resource\Reward\History');
+        $this->_init('Magento\Reward\Model\Reward\History', 'Magento\Reward\Model\Resource\Reward\History');
     }
 
     /**

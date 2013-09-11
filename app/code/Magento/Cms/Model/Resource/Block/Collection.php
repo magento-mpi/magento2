@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Cms\Model\Block', '\Magento\Cms\Model\Resource\Block');
+        $this->_init('Magento\Cms\Model\Block', 'Magento\Cms\Model\Resource\Block');
         $this->_map['fields']['store'] = 'store_table.store_id';
     }
 

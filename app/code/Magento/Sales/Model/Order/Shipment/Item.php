@@ -52,7 +52,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order\Shipment\Item');
+        $this->_init('Magento\Sales\Model\Resource\Order\Shipment\Item');
     }
 
     /**

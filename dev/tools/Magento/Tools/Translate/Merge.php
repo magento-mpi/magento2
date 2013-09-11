@@ -15,7 +15,7 @@
 //- write to file non translate
 namespace Magento\Tools\Translate;
 
-define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
+define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 define('DS', DIRECTORY_SEPARATOR);
 
 class Merge
@@ -25,7 +25,7 @@ class Merge
     /**
      * Magento File CSV
      *
-     * @var Varien_File_Csv
+     * @var \Magento\File\Csv
      */
     protected $_csv;
 
@@ -103,7 +103,7 @@ OPTIONAL PARAMETRS:
             $message = vsprintf($message, $inputArgs);
         }
 
-        throw new Exception($this->_usage . $message . "\n\n");
+        throw new \Exception($this->_usage . $message . "\n\n");
     }
 
     protected function _findTranslate($string, $module)
@@ -185,6 +185,6 @@ try {
     $merge = new \Magento\Tools\Translate\Merge();
     $merge->run();
 }
-catch (Exception $e) {
+catch (\Exception $e) {
     die($e->getMessage());
 }

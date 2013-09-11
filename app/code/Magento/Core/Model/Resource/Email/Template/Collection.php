@@ -33,7 +33,7 @@ class Collection extends  \Magento\Core\Model\Resource\Db\Collection\AbstractCol
      */
     public function _construct()
     {
-        $this->_init('\Magento\Core\Model\Email\Template', '\Magento\Core\Model\Resource\Email\Template');
+        $this->_init('Magento\Core\Model\Email\Template', 'Magento\Core\Model\Resource\Email\Template');
         $this->_templateTable = $this->getMainTable();
     }
 

@@ -54,7 +54,7 @@ class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Billing\Agreement');
+        $this->_init('Magento\Sales\Model\Resource\Billing\Agreement');
     }
 
     /**

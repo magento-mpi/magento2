@@ -16,6 +16,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Webapi\Model\Acl\User', '\Magento\Webapi\Model\Resource\Acl\User');
+        $this->_init('Magento\Webapi\Model\Acl\User', 'Magento\Webapi\Model\Resource\Acl\User');
     }
 }

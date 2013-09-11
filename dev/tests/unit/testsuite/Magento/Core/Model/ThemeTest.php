@@ -30,7 +30,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
         $customizationFactory = $this->getMock('Magento\Core\Model\Theme\CustomizationFactory',
             array('create'), array(), '', false);
         $resourceCollection = $this->getMock(
-            '\Magento\Core\Model\Resource\Theme\Collection',
+            'Magento\Core\Model\Resource\Theme\Collection',
             array(),
             array(),
             '',

@@ -29,6 +29,6 @@ class Order extends \Magento\CustomerCustomAttributes\Model\Sales\AbstractSales
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CustomerCustomAttributes\Model\Resource\Sales\Order');
+        $this->_init('Magento\CustomerCustomAttributes\Model\Resource\Sales\Order');
     }
 }

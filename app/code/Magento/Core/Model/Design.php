@@ -80,7 +80,7 @@ class Design extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Core\Model\Resource\Design');
+        $this->_init('Magento\Core\Model\Resource\Design');
     }
 
     /**

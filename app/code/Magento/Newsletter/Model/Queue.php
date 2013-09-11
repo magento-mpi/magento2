@@ -94,7 +94,7 @@ class Queue extends \Magento\Core\Model\Template
             }
             $this->_emailTemplate = $emailTemplate;
         }
-        $this->_init('\Magento\Newsletter\Model\Resource\Queue');
+        $this->_init('Magento\Newsletter\Model\Resource\Queue');
     }
 
     /**

@@ -76,7 +76,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Newsletter\Model\Resource\Subscriber');
+        $this->_init('Magento\Newsletter\Model\Resource\Subscriber');
     }
 
     /**

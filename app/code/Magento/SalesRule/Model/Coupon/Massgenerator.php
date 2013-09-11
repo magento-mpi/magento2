@@ -40,7 +40,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\SalesRule\Model\Resource\Coupon');
+        $this->_init('Magento\SalesRule\Model\Resource\Coupon');
     }
 
     /**

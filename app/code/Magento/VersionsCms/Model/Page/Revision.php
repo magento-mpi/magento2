@@ -85,7 +85,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\VersionsCms\Model\Resource\Page\Revision');
+        $this->_init('Magento\VersionsCms\Model\Resource\Page\Revision');
         $this->_config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
     }
 

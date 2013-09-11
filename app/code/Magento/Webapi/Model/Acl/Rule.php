@@ -30,7 +30,7 @@ class Rule extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Webapi\Model\Resource\Acl\Rule');
+        $this->_init('Magento\Webapi\Model\Resource\Acl\Rule');
     }
 
     /**

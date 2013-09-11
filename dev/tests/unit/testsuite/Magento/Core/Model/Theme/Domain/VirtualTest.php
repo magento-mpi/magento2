@@ -26,7 +26,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
         $theme = $this->getMock('Magento\Core\Model\Theme', array('getStagingVersion'), array(), '', false, false);
         $theme->expects($this->once())->method('getStagingVersion')->will($this->returnValue($themeStaging));
 
-        $themeFactory = $this->getMock('Magento_Core_Model_ThemeFactory', array('create'), array(), '', false);
+        $themeFactory = $this->getMock('Magento\Core\Model\ThemeFactory', array('create'), array(), '', false);
         $themeFactory->expects($this->never())->method('create');
 
         $themeCopyService = $this->getMock('Magento\Core\Model\Theme\CopyService', array('copy'), array(), '', false);
@@ -75,7 +75,7 @@ class Magento_Core_Model_Theme_Domain_VirtualTest extends PHPUnit_Framework_Test
         ));
         $themeStaging->expects($this->at(1))->method('save');
 
-        $themeFactory = $this->getMock('Magento_Core_Model_ThemeFactory', array('create'), array(), '', false);
+        $themeFactory = $this->getMock('Magento\Core\Model\ThemeFactory', array('create'), array(), '', false);
         $themeFactory->expects($this->once())->method('create')->will($this->returnValue($themeStaging));
 
         $themeCopyService = $this->getMock('Magento\Core\Model\Theme\CopyService', array('copy'), array(), '', false);

@@ -71,7 +71,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _construct()
     {
-        $this->_init('\Magento\TargetRule\Model\Resource\Index');
+        $this->_init('Magento\TargetRule\Model\Resource\Index');
     }
 
     /**

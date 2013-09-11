@@ -26,6 +26,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Paygate\Model\Authorizenet\Debug', '\Magento\Paygate\Model\Resource\Authorizenet\Debug');
+        $this->_init('Magento\Paygate\Model\Authorizenet\Debug', 'Magento\Paygate\Model\Resource\Authorizenet\Debug');
     }
 }

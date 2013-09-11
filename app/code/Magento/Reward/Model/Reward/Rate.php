@@ -58,7 +58,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Reward\Model\Resource\Reward\Rate');
+        $this->_init('Magento\Reward\Model\Resource\Reward\Rate');
     }
 
     /**

@@ -20,9 +20,9 @@ class TranslateTool {
     static private $opts;
 
     /**
-     * Object of Varien_File_Csv_multy
+     * Object of \Magento\File\Csv\multy
      *
-     * @var Varien_File_Csv_Multy
+     * @var \Magento\File\CsvMulty
      */
     static private $csv;
 
@@ -73,7 +73,7 @@ class TranslateTool {
             self::$opts->setOption('dashDash',false);
             self::$opts->parse();
 
-        } catch (Zend_Console_Getopt_Exception $e) {
+        } catch (\Zend_Console_Getopt_Exception $e) {
             self::_error($e->getUsageMessage());
         }
 
@@ -163,8 +163,8 @@ class TranslateTool {
                 }
             }
         } else {
-            $files = new DirectoryFilter(new DirectoryIterator($dir), self::$CONFIG['allow_extensions']);
-            /** @var $currentFile SPLFileInfo */
+            $files = new DirectoryFilter(new \DirectoryIterator($dir), self::$CONFIG['allow_extensions']);
+            /** @var $currentFile \SPLFileInfo */
             foreach ($files as $currentFile){
                 self::checkFiles($dir_en . $currentFile->getBasename(), $dir . $currentFile->getBasename());
             }
@@ -195,10 +195,10 @@ class TranslateTool {
                         $path_to_item = $path.$item_name;
                         if(is_dir($path_to_item)) {
                             $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
-                                new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path_to_item)),
+                                new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path_to_item)),
                                 self::$CONFIG['allow_extensions']
                             );
-                            /** @var $currentFile SPLFileInfo */
+                            /** @var $currentFile \SPLFileInfo */
                             foreach ($collectedFiles as $currentFile) {
                                 self::_parseFile($currentFile->getPathname(), self::$parseData, $file);
                             }
@@ -299,7 +299,7 @@ class TranslateTool {
             }
             try{
                 $data_en = self::$csv -> getDataPairs($dir_en.$__module.'.'.EXTENSION);
-            } catch (Exception $e){
+            } catch (\Exception $e){
                 self::_error($e->getMessage());
             }
             $parse_data_arr = array();
@@ -360,10 +360,10 @@ class TranslateTool {
             }
         } else {
             $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
-                new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
+                new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)),
                 self::$CONFIG['allow_extensions']
             );
-            /** @var $currentFile SPLFileInfo */
+            /** @var $currentFile \SPLFileInfo */
             foreach ($collectedFiles as $currentFile) {
                 $files_name_changed[] = $currentFile->getBasename();
                 self::_checkFilesUpdate($dir_en . $currentFile->getBasename(), $dir.$currentFile->getBasename());
@@ -405,10 +405,10 @@ class TranslateTool {
             }
         } else {
             $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
-                new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
+                new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)),
                 array(EXTENSION)
             );
-            /** @var $currentFile SPLFileInfo */
+            /** @var $currentFile \SPLFileInfo */
             foreach ($collectedFiles as $currentFile) {
                 $files_name_changed[] = $currentFile->getBasename();
                 self::sortFile($dir . $currentFile->getBasename());
@@ -442,10 +442,10 @@ class TranslateTool {
                     $dirs = array();
                     $files = array();
                     $collectedFiles = new \Magento\Tools\Translate\DirectoryFilter(
-                        new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir)),
+                        new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)),
                         self::$CONFIG['allow_extensions']
                     );
-                    /** @var $currentFile SPLFileInfo */
+                    /** @var $currentFile \SPLFileInfo */
                     foreach ($collectedFiles as $currentFile) {
                         self::_parseFile($currentFile->getPathname(), self::$parseData, $mod_name);
                     }
@@ -486,7 +486,7 @@ class TranslateTool {
     static public function sortFile($file){
         try {
             $data = self::$csv -> getDataPairs($file);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             self::_error($e->getMessage());
         }
         $csv_data = array();
@@ -544,7 +544,7 @@ class TranslateTool {
         unset($xml);
         if(is_array($arr)){
             foreach ($arr as $val){
-                if(is_a($val,"Varien_Simplexml_Element")){
+                if(is_a($val,"Magento\\Simplexml\\Element")){
                     $attr = $val->attributes();
                     $transl = $attr['translate'];
                     $transl = explode(' ', (string)$transl);
@@ -751,7 +751,7 @@ class TranslateTool {
         try {
             $data_en = self::$csv -> getDataPairs($file_en);
             $data = self::$csv -> getDataPairs($file);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             self::_error($e->getMessage());
         }
         self::_output(basename($file),self::checkArray($data_en,$data));
@@ -768,7 +768,7 @@ class TranslateTool {
         try {
             $data_en = self::$csv -> getDataPairs($file_en);
             $data = self::$csv -> getDataPairs($file);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             self::_error($e->getMessage());
         }
         $diff_arr = self::checkArray($data_en,$data);

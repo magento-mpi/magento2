@@ -17,6 +17,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\GoogleCheckout\Model\Api\Debug', '\Magento\GoogleCheckout\Model\Resource\Api\Debug');
+        $this->_init('Magento\GoogleCheckout\Model\Api\Debug', 'Magento\GoogleCheckout\Model\Resource\Api\Debug');
     }
 }

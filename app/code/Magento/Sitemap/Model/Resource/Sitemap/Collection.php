@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function _construct()
     {
-        $this->_init('\Magento\Sitemap\Model\Sitemap', '\Magento\Sitemap\Model\Resource\Sitemap');
+        $this->_init('Magento\Sitemap\Model\Sitemap', 'Magento\Sitemap\Model\Resource\Sitemap');
     }
 
     /**

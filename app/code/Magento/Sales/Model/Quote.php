@@ -186,7 +186,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Quote');
+        $this->_init('Magento\Sales\Model\Resource\Quote');
     }
 
     /**

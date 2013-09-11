@@ -52,7 +52,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Product\Compare\Item');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Compare\Item');
     }
 
     /**

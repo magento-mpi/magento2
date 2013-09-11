@@ -49,7 +49,7 @@ class Coupon extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\SalesRule\Model\Resource\Coupon');
+        $this->_init('Magento\SalesRule\Model\Resource\Coupon');
     }
 
     /**

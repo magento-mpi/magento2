@@ -32,7 +32,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Paypal\Model\Payment\Transaction', '\Magento\Paypal\Model\Resource\Payment\Transaction');
+        $this->_init('Magento\Paypal\Model\Payment\Transaction', 'Magento\Paypal\Model\Resource\Payment\Transaction');
         parent::_construct();
     }
 

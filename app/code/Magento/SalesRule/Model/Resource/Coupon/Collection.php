@@ -27,7 +27,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\SalesRule\Model\Coupon', '\Magento\SalesRule\Model\Resource\Coupon');
+        $this->_init('Magento\SalesRule\Model\Coupon', 'Magento\SalesRule\Model\Resource\Coupon');
     }
 
     /**

@@ -33,7 +33,7 @@ class Answer extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\Poll\Model\Resource\Poll\Answer');
+        $this->_init('Magento\Poll\Model\Resource\Poll\Answer');
     }
 
     public function countPercent($poll)

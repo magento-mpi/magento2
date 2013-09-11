@@ -40,7 +40,7 @@ class Sample extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Downloadable\Model\Resource\Sample');
+        $this->_init('Magento\Downloadable\Model\Resource\Sample');
         parent::_construct();
     }
 

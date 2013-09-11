@@ -30,7 +30,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CatalogRule\Model\Rule', '\Magento\CatalogRule\Model\Resource\Rule');
+        $this->_init('Magento\CatalogRule\Model\Rule', 'Magento\CatalogRule\Model\Resource\Rule');
     }
 
     /**

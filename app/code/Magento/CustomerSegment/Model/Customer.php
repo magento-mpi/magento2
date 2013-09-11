@@ -92,7 +92,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\CustomerSegment\Model\Resource\Customer');
+        $this->_init('Magento\CustomerSegment\Model\Resource\Customer');
     }
 
     /**

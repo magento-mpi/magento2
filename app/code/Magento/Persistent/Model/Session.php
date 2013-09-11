@@ -42,7 +42,7 @@ class Session extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Persistent\Model\Resource\Session');
+        $this->_init('Magento\Persistent\Model\Resource\Session');
     }
 
     /**

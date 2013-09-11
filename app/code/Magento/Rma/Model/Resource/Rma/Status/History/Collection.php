@@ -25,6 +25,6 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Rma\Model\Rma\Status\History', '\Magento\Rma\Model\Resource\Rma\Status\History');
+        $this->_init('Magento\Rma\Model\Rma\Status\History', 'Magento\Rma\Model\Resource\Rma\Status\History');
     }
 }

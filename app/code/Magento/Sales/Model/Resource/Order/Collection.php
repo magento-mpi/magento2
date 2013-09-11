@@ -40,7 +40,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Order', '\Magento\Sales\Model\Resource\Order');
+        $this->_init('Magento\Sales\Model\Order', 'Magento\Sales\Model\Resource\Order');
         $this
             ->addFilterToMap('entity_id', 'main_table.entity_id')
             ->addFilterToMap('customer_id', 'main_table.customer_id')

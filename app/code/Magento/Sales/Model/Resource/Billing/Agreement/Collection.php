@@ -39,7 +39,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Billing\Agreement', '\Magento\Sales\Model\Resource\Billing\Agreement');
+        $this->_init('Magento\Sales\Model\Billing\Agreement', 'Magento\Sales\Model\Resource\Billing\Agreement');
     }
 
     /**

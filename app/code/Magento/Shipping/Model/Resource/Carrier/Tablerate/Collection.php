@@ -39,7 +39,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Shipping\Model\Carrier\Tablerate', '\Magento\Shipping\Model\Resource\Carrier\Tablerate');
+        $this->_init('Magento\Shipping\Model\Carrier\Tablerate', 'Magento\Shipping\Model\Resource\Carrier\Tablerate');
         $this->_countryTable    = $this->getTable('directory_country');
         $this->_regionTable     = $this->getTable('directory_country_region');
     }

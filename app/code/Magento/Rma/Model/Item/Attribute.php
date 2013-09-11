@@ -43,6 +43,6 @@ class Attribute extends \Magento\Eav\Model\Attribute
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Rma\Model\Resource\Item\Attribute');
+        $this->_init('Magento\Rma\Model\Resource\Item\Attribute');
     }
 }

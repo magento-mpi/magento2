@@ -37,7 +37,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Eav\Model\Resource\Entity\Attribute\Group');
+        $this->_init('Magento\Eav\Model\Resource\Entity\Attribute\Group');
     }
 
     /**

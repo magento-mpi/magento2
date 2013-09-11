@@ -34,7 +34,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Cms\Model\Page', '\Magento\Cms\Model\Resource\Page');
+        $this->_init('Magento\Cms\Model\Page', 'Magento\Cms\Model\Resource\Page');
         $this->_map['fields']['page_id'] = 'main_table.page_id';
         $this->_map['fields']['store']   = 'store_table.store_id';
     }

@@ -31,7 +31,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Product\Website');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Website');
     }
 
     /**

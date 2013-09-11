@@ -29,6 +29,6 @@ class Address extends \Magento\CustomerCustomAttributes\Model\Sales\Address\Abst
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote\Address');
+        $this->_init('Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote\Address');
     }
 }

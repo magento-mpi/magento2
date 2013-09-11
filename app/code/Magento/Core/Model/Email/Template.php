@@ -119,7 +119,7 @@ class Template extends \Magento\Core\Model\Template
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Core\Model\Resource\Email\Template');
+        $this->_init('Magento\Core\Model\Resource\Email\Template');
     }
 
     /**

@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Eav\Model\Entity\Attribute\Group', '\Magento\Eav\Model\Resource\Entity\Attribute\Group');
+        $this->_init('Magento\Eav\Model\Entity\Attribute\Group', 'Magento\Eav\Model\Resource\Entity\Attribute\Group');
     }
 
     /**

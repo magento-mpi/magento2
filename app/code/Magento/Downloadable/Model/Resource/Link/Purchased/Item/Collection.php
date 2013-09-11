@@ -27,6 +27,6 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Downloadable\Model\Link\Purchased\Item', '\Magento\Downloadable\Model\Resource\Link\Purchased\Item');
+        $this->_init('Magento\Downloadable\Model\Link\Purchased\Item', 'Magento\Downloadable\Model\Resource\Link\Purchased\Item');
     }
 }

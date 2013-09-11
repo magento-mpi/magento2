@@ -33,6 +33,6 @@ class Salesrule extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Banner\Model\Resource\Salesrule');
+        $this->_init('Magento\Banner\Model\Resource\Salesrule');
     }
 }

@@ -28,7 +28,7 @@ class Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\VersionsCms\Model\Page\Revision', '\Magento\VersionsCms\Model\Resource\Page\Revision');
+        $this->_init('Magento\VersionsCms\Model\Page\Revision', 'Magento\VersionsCms\Model\Resource\Page\Revision');
     }
 
     /**

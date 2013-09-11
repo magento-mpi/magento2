@@ -25,7 +25,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Customer\Model\Group', '\Magento\Customer\Model\Resource\Group');
+        $this->_init('Magento\Customer\Model\Group', 'Magento\Customer\Model\Resource\Group');
     }
 
     /**

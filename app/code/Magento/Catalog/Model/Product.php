@@ -118,7 +118,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Product');
+        $this->_init('Magento\Catalog\Model\Resource\Product');
     }
 
     /**

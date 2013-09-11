@@ -32,7 +32,7 @@ class Update extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Core\Model\Resource\Layout\Update');
+        $this->_init('Magento\Core\Model\Resource\Layout\Update');
     }
 
     /**

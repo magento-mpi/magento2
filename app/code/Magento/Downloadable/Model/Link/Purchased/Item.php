@@ -66,7 +66,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Downloadable\Model\Resource\Link\Purchased\Item');
+        $this->_init('Magento\Downloadable\Model\Resource\Link\Purchased\Item');
         parent::_construct();
     }
 

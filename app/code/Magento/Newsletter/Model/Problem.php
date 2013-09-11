@@ -42,7 +42,7 @@ class Problem extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Newsletter\Model\Resource\Problem');
+        $this->_init('Magento\Newsletter\Model\Resource\Problem');
     }
 
     /**

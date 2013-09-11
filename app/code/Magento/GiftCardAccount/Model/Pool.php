@@ -43,7 +43,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
 
     protected function _construct()
     {
-        $this->_init('\Magento\GiftCardAccount\Model\Resource\Pool');
+        $this->_init('Magento\GiftCardAccount\Model\Resource\Pool');
     }
 
     public function generatePool()

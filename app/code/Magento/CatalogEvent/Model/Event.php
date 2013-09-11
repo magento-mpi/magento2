@@ -71,7 +71,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CatalogEvent\Model\Resource\Event');
+        $this->_init('Magento\CatalogEvent\Model\Resource\Event');
     }
 
     /**

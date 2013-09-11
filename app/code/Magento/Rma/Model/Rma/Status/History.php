@@ -24,7 +24,7 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Rma\Model\Resource\Rma\Status\History');
+        $this->_init('Magento\Rma\Model\Resource\Rma\Status\History');
     }
 
     /**

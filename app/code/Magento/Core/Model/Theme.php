@@ -152,7 +152,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\Core\M
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Core\Model\Resource\Theme');
+        $this->_init('Magento\Core\Model\Resource\Theme');
     }
 
     /**

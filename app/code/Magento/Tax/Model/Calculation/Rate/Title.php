@@ -31,7 +31,7 @@ class Title extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\Tax\Model\Resource\Calculation\Rate\Title');
+        $this->_init('Magento\Tax\Model\Resource\Calculation\Rate\Title');
     }
 
     public function deleteByRateId($rateId)

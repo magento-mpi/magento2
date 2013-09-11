@@ -70,7 +70,7 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
     public function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Webhook\Model\Resource\Job');
+        $this->_init('Magento\Webhook\Model\Resource\Job');
 
         if ($this->hasEvent()) {
             $this->setEventId($this->getEvent()->getId());

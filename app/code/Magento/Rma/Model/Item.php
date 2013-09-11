@@ -62,7 +62,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Init resource model
      */
     protected function _construct() {
-        $this->_init('\Magento\Rma\Model\Resource\Item');
+        $this->_init('Magento\Rma\Model\Resource\Item');
     }
 
     /**

@@ -114,7 +114,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Core\Model\Resource\Store\Group');
+        $this->_init('Magento\Core\Model\Resource\Store\Group');
     }
 
     /**

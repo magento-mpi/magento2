@@ -77,7 +77,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CatalogInventory\Model\Resource\Indexer\Stock');
+        $this->_init('Magento\CatalogInventory\Model\Resource\Indexer\Stock');
     }
 
     /**

@@ -107,7 +107,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Index\Model\Resource\Process');
+        $this->_init('Magento\Index\Model\Resource\Process');
     }
 
     /**

@@ -20,7 +20,7 @@ class Change extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\DesignEditor\Model\Theme\Resource\Change');
+        $this->_init('Magento\DesignEditor\Model\Theme\Resource\Change');
     }
 
     /**

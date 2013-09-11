@@ -32,7 +32,7 @@ class Format extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\Directory\Model\Resource\Country\Format');
+        $this->_init('Magento\Directory\Model\Resource\Country\Format');
     }
 
 }
