@@ -334,7 +334,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
                 'new_password', 'default_billing', 'default_shipping', 'confirmation', 'sendemail');
 
             /** @var \Magento\Customer\Model\Customer $customerEntity */
-            $customerEntity = $this->_objectManager->get('Magento_Customer_Model_CustomerFactory')->create();
+            $customerEntity = $this->_objectManager->get('Magento\Customer\Model\CustomerFactory')->create();
             /** @var \Magento\Customer\Helper\Data $customerHelper */
             $customerHelper = $this->_objectManager->get('Magento\Customer\Helper\Data');
             $customerData = $customerHelper->extractCustomerData(
@@ -375,7 +375,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
             /** @var \Magento\Customer\Model\Address\Form $eavForm */
             $eavForm = $this->_objectManager->create('Magento\Customer\Model\Address\Form');
             /** @var \Magento\Customer\Model\Address $addressEntity */
-            $addressEntity = $this->_objectManager->get('Magento_Customer_Model_AddressFactory')->create();
+            $addressEntity = $this->_objectManager->get('Magento\Customer\Model\AddressFactory')->create();
 
             $addressIdList = array_keys($addresses);
             /** @var \Magento\Customer\Helper\Data $customerHelper */

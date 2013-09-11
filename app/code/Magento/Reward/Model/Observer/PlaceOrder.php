@@ -15,12 +15,12 @@ class PlaceOrder
     protected $_restriction;
 
     /**
-     * @var Magento_Reward_Model_RewardFactory
+     * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_modelFactory;
 
     /**
-     * @var Magento_Reward_Model_Resource_RewardFactory
+     * @var \Magento\Reward\Model\Resource\RewardFactory
      */
     protected $_resourceFactory;
 
@@ -37,15 +37,15 @@ class PlaceOrder
     /**
      * @param \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface $restriction
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param Magento_Reward_Model_RewardFactory $modelFactory
-     * @param Magento_Reward_Model_Resource_RewardFactory $resourceFactory
+     * @param \Magento\Reward\Model\RewardFactory $modelFactory
+     * @param \Magento\Reward\Model\Resource\RewardFactory $resourceFactory
      * @param \Magento\Reward\Model\Reward\Balance\Validator $validator
      */
     public function __construct(
         \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface $restriction,
         \Magento\Core\Model\StoreManager $storeManager,
-        Magento_Reward_Model_RewardFactory $modelFactory,
-        Magento_Reward_Model_Resource_RewardFactory $resourceFactory,
+        \Magento\Reward\Model\RewardFactory $modelFactory,
+        \Magento\Reward\Model\Resource\RewardFactory $resourceFactory,
         \Magento\Reward\Model\Reward\Balance\Validator $validator
     ) {
         $this->_restriction = $restriction;

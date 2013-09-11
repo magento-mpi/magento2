@@ -48,9 +48,9 @@ class Magento_Reward_Model_Observer_PlaceOrderTest extends PHPUnit_Framework_Tes
         $this->_restrictionMock = $this->getMock('Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface');
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $this->_modelFactoryMock
-            = $this->getMock('Magento_Reward_Model_RewardFactory', array('create'), array(), '', false);
+            = $this->getMock('Magento\Reward\Model\RewardFactory', array('create'), array(), '', false);
         $this->_resourceFactoryMock
-            = $this->getMock('Magento_Reward_Model_Resource_RewardFactory', array('create'), array(), '', false);
+            = $this->getMock('Magento\Reward\Model\Resource\RewardFactory', array('create'), array(), '', false);
         $this->_validatorMock
             = $this->getMock('Magento\Reward\Model\Reward\Balance\Validator', array(), array(), '', false);
 

@@ -25,14 +25,14 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_createdCustomer;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory = null;
 
     protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_customerFactory = $this->_objectManager->get('Magento_Customer_Model_CustomerFactory');
+        $this->_customerFactory = $this->_objectManager->get('Magento\Customer\Model\CustomerFactory');
         $this->_model = $this->_objectManager->create('Magento\Customer\Service\Customer');
     }
 

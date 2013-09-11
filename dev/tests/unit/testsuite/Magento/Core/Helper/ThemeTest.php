@@ -28,8 +28,8 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         /** @var $dirs \Magento\Core\Model\Dir */
         $dirs = $this->getMock('Magento\Core\Model\Dir', null, array(), '', false);
 
-        /** @var $layoutMergeFactory Magento_Core_Model_Layout_MergeFactory */
-        $layoutMergeFactory = $this->getMock('Magento_Core_Model_Layout_MergeFactory', array('create'),
+        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory */
+        $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory', array('create'),
             array(), '', false
         );
 
@@ -527,8 +527,8 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
             ->method('getFileLayoutUpdatesXml')
             ->will($this->returnValue($layoutElement));
 
-        /** @var $layoutMergeFactory Magento_Core_Model_Layout_MergeFactory */
-        $layoutMergeFactory = $this->getMock('Magento_Core_Model_Layout_MergeFactory',
+        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory */
+        $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory',
             array('create'), array(), '', false
         );
         $layoutMergeFactory->expects($this->any())
@@ -597,8 +597,8 @@ class Magento_Core_Helper_ThemeTest extends PHPUnit_Framework_TestCase
         $dirs = $this->_getDirs();
 
         // 5. Get layout merge model and factory
-        /** @var $layoutMergeFactory Magento_Core_Model_Layout_MergeFactory|PHPUnit_Framework_MockObject_MockObject */
-        $layoutMergeFactory = $this->getMock('Magento_Core_Model_Layout_MergeFactory',
+        /** @var $layoutMergeFactory \Magento\Core\Model\Layout\MergeFactory|PHPUnit_Framework_MockObject_MockObject */
+        $layoutMergeFactory = $this->getMock('Magento\Core\Model\Layout\MergeFactory',
             array('create'), array(), '', false
         );
 
