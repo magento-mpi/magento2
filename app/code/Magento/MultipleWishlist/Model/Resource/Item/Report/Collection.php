@@ -35,11 +35,11 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
         Magento_Core_Model_Config $coreConfig,
         Magento_Core_Model_Resource_Db_Abstract $resource = null
     ) {
+        $this->_coreConfig = $coreConfig;
         parent::__construct(
             $fetchStrategy,
             $resource
         );
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
