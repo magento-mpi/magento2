@@ -16,7 +16,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
      */
     public function testXml($configFile)
     {
-        $schema = Utility_Files::init()->getPathToSource() . $this->_getXsd();
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
         $this->_validateFileExpectSuccess($configFile, $schema);
     }
 
@@ -30,7 +30,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
     public function testSchemaUsingValidXml()
     {
         $xmlFile = $this->_getKnownValidXml();
-        $schema = Utility_Files::init()->getPathToSource() . $this->_getXsd();
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
         $this->_validateFileExpectSuccess($xmlFile, $schema);
     }
 
@@ -44,7 +44,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
     public function testSchemaUsingInvalidXml()
     {
         $xmlFile = $this->_getKnownInvalidXml();
-        $schema = Utility_Files::init()->getPathToSource() . $this->_getXsd();
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
 
@@ -58,7 +58,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
     public function testFileSchemaUsingPartialXml()
     {
         $xmlFile = $this->_getKnownValidPartialXml();
-        $schema = Utility_Files::init()->getPathToSource() . $this->_getFileXsd();
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getFileXsd();
         $this->_validateFileExpectSuccess($xmlFile, $schema);
     }
 
@@ -79,7 +79,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
     public function testFileSchemaUsingInvalidXml()
     {
         $xmlFile = $this->_getKnownInvalidPartialXml();
-        $schema = Utility_Files::init()->getPathToSource() . $this->_getFileXsd();
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getFileXsd();
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
 
@@ -94,7 +94,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
     public function testSchemaUsingPartialXml()
     {
         $xmlFile = $this->_getKnownValidPartialXml();;
-        $schema = Utility_Files::init()->getPathToSource() . $this->_getXsd();
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . $this->_getXsd();
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
 
@@ -103,7 +103,7 @@ abstract class Integrity_ConfigAbstract extends PHPUnit_Framework_TestCase
      */
     public function schemaDataProvider()
     {
-        return Utility_Files::init()->getConfigFiles($this->_getXmlName());
+        return Magento_TestFramework_Utility_Files::init()->getConfigFiles($this->_getXmlName());
     }
 
     /**
