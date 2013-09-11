@@ -12,6 +12,6 @@
 namespace Magento\DB\Tree;
 
 
-require_once 'Magento/Db/Exception.php';
+
 class TreeException extends \Magento\DB\DBException
 {}

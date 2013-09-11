@@ -176,7 +176,11 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_user
         ->addColumn('extra', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
             ), 'User Extra Data')
         ->addIndex(
-            $installer->getIdxName('admin_user', array('username'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+            $installer->getIdxName(
+                'admin_user',
+                array('username'),
+                \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
+            ),
             array('username'),
             array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
         )

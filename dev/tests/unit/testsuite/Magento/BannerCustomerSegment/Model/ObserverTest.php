@@ -203,7 +203,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
             ->expects($this->once())->method('addBannerSegmentFilter')->with($this->_select, $segmentIds);
 
         $this->_model->addCustomerSegmentFilterToCollection(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('collection' => new \Magento\Object(array('select' => $this->_select)))),
+            'event' => new \Magento\Object(
+                array('collection' => new \Magento\Object(array('select' => $this->_select)))),
         )));
     }
 
@@ -223,7 +224,8 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
         $this->_bannerSegmentLink->expects($this->never())->method('addBannerSegmentFilter');
 
         $this->_model->addCustomerSegmentFilterToCollection(new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array('collection' => new \Magento\Object(array('select' => $this->_select)))),
+            'event' => new \Magento\Object(
+                array('collection' => new \Magento\Object(array('select' => $this->_select)))),
         )));
     }
 

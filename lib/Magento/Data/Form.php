@@ -225,7 +225,7 @@ class Form extends \Magento\Data\Form\AbstractForm
             $html .= '<form '.$this->serialize($this->getHtmlAttributes()).'>';
             $html .= '<div>';
             if (strtolower($this->getData('method')) == 'post') {
-                $html .= '<input name="form_key" type="hidden" value="' . \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey().'" />';
+                $html .= '<input name="form_key" type="hidden" value="'.\Mage::getSingleton('Magento\Core\Model\Session')->getFormKey().'" />';
             }
             $html .= '</div>';
         }

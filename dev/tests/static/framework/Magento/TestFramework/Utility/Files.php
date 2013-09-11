@@ -446,8 +446,9 @@ class Magento_TestFramework_Utility_Files
     public function classFormalNamespaceFileExists($class, &$path = '')
     {
         $classParts = explode('\\', $class);
-        if ($classParts[0] == "")
+        if ($classParts[0] == "") {
             array_shift($classParts);
+        }
         $path = implode(DIRECTORY_SEPARATOR, $classParts) . '.php';
         $class = array_pop($classParts);
         $namespace = implode('\\', $classParts);

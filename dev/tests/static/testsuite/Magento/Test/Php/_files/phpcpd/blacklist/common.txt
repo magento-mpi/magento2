@@ -2,7 +2,7 @@ Find/Feed/Block/Adminhtml
 Magento/Adminhtml
 Magento/Backend
 Magento/Bundle
-Magento/Catalog/Block/Product/List
+Magento/Catalog/Block/Product/ProductList
 Magento/Catalog/Model/Category/Attribute/Source
 Magento/Catalog/Model/Product
 Magento/Catalog/Model/Category/Attribute/Source

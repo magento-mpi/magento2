@@ -7,6 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Translate;
 
 define('USAGE', <<<USAGE
  Create translation file(s) from e-mail templates of locale
@@ -38,9 +39,9 @@ define('ACTION_SPLIT', 3);
 
 define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS . 'template' . DS);
 
-include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
+global $argv;
 
-class Magento_Tools_Translate_GenerateEmailTemplates
+class GenerateEmailTemplates
 {
     /**
      * File name patterns needed to be processed
@@ -284,6 +285,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
         $localePath = sprintf($this->_localePath, $this->_localeName);
 
         $files = $this->_getFilesToProcess($localePath);
+        \Magento\Autoload\Includepath::load(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv');
         $csv = null;
         if (!$outputSeparate) {
             $csv = new \Magento\File\Csv();
@@ -379,6 +381,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
         }
 
         $files = $this->_getFilesToProcess($translatedDirName);
+        \Magento\Autoload\Includepath::load(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv');
         $csv = new \Magento\File\Csv();
         if (!$inputSeparate) {
             $strings = $csv->getData($this->_translateName);
@@ -546,7 +549,7 @@ class Magento_Tools_Translate_GenerateEmailTemplates
     }
 }
 
-$generate = new Magento_Tools_Translate_GenerateEmailTemplates($argv);
+$generate = new \Magento\Tools\Translate\GenerateEmailTemplates($argv);
 $generate->run();
 echo $generate->renderMessages();
 echo "\n\n";

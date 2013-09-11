@@ -114,7 +114,7 @@ class Builder
     }
 
     /**
-     * Get validator instance
+     * Get validator instance.
      *
      * @return \Magento\Validator
      */
@@ -171,8 +171,8 @@ class Builder
      * @return array
      */
     protected function _addConstraintCallback(array $constraint,
-                                              \Magento\Validator\Constraint\Option\Callback $callback)
-    {
+        \Magento\Validator\Constraint\Option\Callback $callback
+    ) {
         if (!array_key_exists('callback', $constraint['options'])) {
             $constraint['options']['callback'] = array();
         }

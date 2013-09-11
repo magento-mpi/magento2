@@ -17,7 +17,7 @@
 namespace Magento\File;
 
 
-require_once 'Magento/File/Csv.php';
+
 class CsvMulty extends \Magento\File\Csv {
 	/**
      * Retrieve CSV file data as pairs with duplicates

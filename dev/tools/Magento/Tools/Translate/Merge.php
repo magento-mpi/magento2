@@ -13,11 +13,12 @@
 //- original file
 //- translate file
 //- write to file non translate
+namespace Magento\Tools\Translate;
 
 define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 define('DS', DIRECTORY_SEPARATOR);
 
-class Magento_Tools_Translate_Merge
+class Merge
 {
     protected $_usage;
     protected $_args;
@@ -181,7 +182,7 @@ unknown string:             '.$result['diff_string'].'
 }
 
 try {
-    $merge = new Magento_Tools_Translate_Merge();
+    $merge = new \Magento\Tools\Translate\Merge();
     $merge->run();
 }
 catch (Exception $e) {

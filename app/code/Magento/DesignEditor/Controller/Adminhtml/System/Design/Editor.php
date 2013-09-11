@@ -467,11 +467,13 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             $this->loadLayout();
             $this->_setActiveMenu('Magento_DesignEditor::system_design_editor');
             if (!$this->_isFirstEntrance()) {
-                /** @var $assignedThemeBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Assigned */
+                /** @var $assignedThemeBlock
+                 * \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Assigned */
                 $assignedThemeBlock = $this->getLayout()->getBlock('assigned.theme.list');
                 $assignedThemeBlock->setCollection($this->_customizationConfig->getAssignedThemeCustomizations());
 
-                /** @var $unassignedThemeBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Unassigned */
+                /** @var $unassignedThemeBlock
+                 * \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Unassigned */
                 $unassignedThemeBlock = $this->getLayout()->getBlock('unassigned.theme.list');
                 $unassignedThemeBlock->setCollection($this->_customizationConfig->getUnassignedThemeCustomizations());
                 $unassignedThemeBlock->setHasThemeAssigned($this->_customizationConfig->hasThemeAssigned());
