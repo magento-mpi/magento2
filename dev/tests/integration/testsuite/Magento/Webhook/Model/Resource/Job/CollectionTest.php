@@ -59,8 +59,8 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
     {
         /** @var \Magento\Webhook\Model\Resource\Job\Collection $collection */
         $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Job\Collection');
-        $this->assertEquals('\Magento\Webhook\Model\Resource\Job', $collection->getResourceModelName());
-        $this->assertEquals('\Magento\Webhook\Model\Job', $collection->getModelName());
+        $this->assertEquals('Magento\Webhook\Model\Resource\Job', $collection->getResourceModelName());
+        $this->assertEquals('Magento\Webhook\Model\Job', $collection->getModelName());
     }
 
     public function testNewEventInNewCollection()

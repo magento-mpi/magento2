@@ -483,9 +483,7 @@ class Base extends \Magento\Core\Controller\Varien\Router\AbstractRouter
             include $controllerFileName;
 
             if (!class_exists($controllerClassName, false)) {
-                throw \Mage::exception('Magento_Core',
-                    \Mage::helper('Magento\Core\Helper\Data')->__('Controller file was loaded but class does not exist')
-                );
+                throw \Mage::exception('Magento_Core', __('Controller file was loaded but class does not exist'));
             }
         }
         return true;

@@ -11,7 +11,7 @@ use \Zend\Soap\Wsdl;
  */
 namespace Magento\Webapi\Model\Soap;
 
-class Wsdl extends Wsdl
+class Wsdl extends \Zend\Soap\Wsdl
 {
     /**
      * @var string|Zend\Uri\Uri
@@ -23,7 +23,7 @@ class Wsdl extends Wsdl
      * Save URI for targetNamespace generation.
      *
      * @param string $name
-     * @param string|Zend\Uri\Uri $uri
+     * @param string|\Zend\Uri\Uri $uri
      * @param \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased $strategy
      */
     public function __construct($name, $uri, \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased $strategy)

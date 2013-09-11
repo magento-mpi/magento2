@@ -32,7 +32,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
     public function testResourceTypeDb()
     {
         $resource = $this->_model->getConnectionTypeInstance('pdo_mysql');
-        $this->assertEquals('\Magento\Core\Model\Resource\Entity\Table', $resource->getEntityClass(), 'Entity class');
+        $this->assertEquals('Magento\Core\Model\Resource\Entity\Table', $resource->getEntityClass(), 'Entity class');
 
         $resource->setName('test');
         $this->assertEquals('test', $resource->getName(), 'Set/Get name');

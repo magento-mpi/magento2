@@ -621,7 +621,7 @@ final class Mage
      */
     public static function exception($module = 'Magento_Core', $message = '', $code = 0)
     {
-        $className = $module . '_Exception';
+        $className = $module . '\Exception';
         return new $className($message, $code);
     }
 

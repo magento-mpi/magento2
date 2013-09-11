@@ -84,8 +84,8 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     public function testInitialization()
     {
         $collection = $this->_makeCollectionMock(array('load')); // At least one method has to be specified
-        $this->assertEquals('\Magento\Webhook\Model\Subscription', $collection->getModelName());
-        $this->assertEquals('\Magento\Webhook\Model\Resource\Subscription', $collection->getResourceModelName());
+        $this->assertEquals('Magento\Webhook\Model\Subscription', $collection->getModelName());
+        $this->assertEquals('Magento\Webhook\Model\Resource\Subscription', $collection->getResourceModelName());
     }
 
     public function testGetSubscriptionsByTopic()

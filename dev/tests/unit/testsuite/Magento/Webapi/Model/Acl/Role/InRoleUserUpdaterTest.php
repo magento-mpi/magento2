@@ -30,7 +30,7 @@ class Magento_Webapi_Model_Acl_Role_InRoleUserUpdaterTest extends PHPUnit_Framew
             ->with($roleId)->will($this->returnValue($expectedValues));
 
         /** @var \Magento\Webapi\Model\Acl\Role\InRoleUserUpdater $model */
-        $model = $helper->getObject('\Magento\Webapi\Model\Acl\Role\InRoleUserUpdater', array(
+        $model = $helper->getObject('Magento\Webapi\Model\Acl\Role\InRoleUserUpdater', array(
             'request' => $request,
             'userResource' => $userResource
         ));

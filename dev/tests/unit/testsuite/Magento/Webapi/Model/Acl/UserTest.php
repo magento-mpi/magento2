@@ -73,7 +73,7 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel($this->_userResource);
 
-        $this->assertAttributeEquals('\Magento\Webapi\Model\Resource\Acl\User', '_resourceName', $model);
+        $this->assertAttributeEquals('Magento\Webapi\Model\Resource\Acl\User', '_resourceName', $model);
         $this->assertAttributeEquals('id', '_idFieldName', $model);
     }
 
@@ -142,6 +142,6 @@ class Magento_Webapi_Model_Acl_UserTest extends PHPUnit_Framework_TestCase
         $model = $this->_createModel($this->_userResource, $collection);
         $result = $model->getCollection();
 
-        $this->assertAttributeEquals('\Magento\Webapi\Model\Resource\Acl\User', '_resourceModel', $result);
+        $this->assertAttributeEquals('Magento\Webapi\Model\Resource\Acl\User', '_resourceModel', $result);
     }
 }
