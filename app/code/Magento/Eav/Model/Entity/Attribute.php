@@ -137,7 +137,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
          * Check for maximum attribute_code length
          */
         if(isset($this->_data['attribute_code']) &&
-           !Zend_Validate::is($this->_data['attribute_code'],
+           !\Zend_Validate::is($this->_data['attribute_code'],
                               'StringLength',
                               array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH))
         ) {
@@ -148,7 +148,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         $hasDefaultValue = ((string)$defaultValue != '');
 
         if ($this->getBackendType() == 'decimal' && $hasDefaultValue) {
-            if (!Zend_Locale_Format::isNumber($defaultValue,
+            if (!\Zend_Locale_Format::isNumber($defaultValue,
                                               array('locale' => \Mage::app()->getLocale()->getLocaleCode()))
             ) {
                  throw \Mage::exception('Magento_Eav', __('Invalid default decimal value'));

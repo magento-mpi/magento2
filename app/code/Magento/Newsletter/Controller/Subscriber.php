@@ -30,7 +30,7 @@ class Subscriber extends \Magento\Core\Controller\Front\Action
             $email              = (string) $this->getRequest()->getPost('email');
 
             try {
-                if (!Zend_Validate::is($email, 'EmailAddress')) {
+                if (!\Zend_Validate::is($email, 'EmailAddress')) {
                     \Mage::throwException(__('Please enter a valid email address.'));
                 }
 

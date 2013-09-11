@@ -79,7 +79,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         elseif (isset($conditionValue['from']) && isset($conditionValue['to'])) {
                             $invalidDateMessage = __('Please specify correct data.');
                             if ($conditionValue['from']) {
-                                if (!Zend_Date::isDate($conditionValue['from'])) {
+                                if (!\Zend_Date::isDate($conditionValue['from'])) {
                                     \Mage::throwException($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['from'])){
@@ -92,7 +92,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                                 $conditionData[] = array('gteq' => $conditionValue['from']);
                             }
                             if ($conditionValue['to']) {
-                                if (!Zend_Date::isDate($conditionValue['to'])) {
+                                if (!\Zend_Date::isDate($conditionValue['to'])) {
                                     \Mage::throwException($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['to'])){

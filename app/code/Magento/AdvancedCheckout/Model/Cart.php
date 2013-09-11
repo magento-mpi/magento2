@@ -1084,7 +1084,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         if ($sku == '') {
             $code = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_EMPTY;
         } else {
-            if (!Zend_Validate::is($qty, 'Float')) {
+            if (!\Zend_Validate::is($qty, 'Float')) {
                 $code = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER;
             } else {
                 $qty = \Mage::app()->getLocale()->getNumber($qty);

@@ -72,15 +72,15 @@ class Index extends \Magento\Core\Controller\Front\Action
 
                 $error = false;
 
-                if (!Zend_Validate::is(trim($post['name']) , 'NotEmpty')) {
+                if (!\Zend_Validate::is(trim($post['name']) , 'NotEmpty')) {
                     $error = true;
                 }
 
-                if (!Zend_Validate::is(trim($post['comment']) , 'NotEmpty')) {
+                if (!\Zend_Validate::is(trim($post['comment']) , 'NotEmpty')) {
                     $error = true;
                 }
 
-                if (!Zend_Validate::is(trim($post['email']), 'EmailAddress')) {
+                if (!\Zend_Validate::is(trim($post['email']), 'EmailAddress')) {
                     $error = true;
                 }
 

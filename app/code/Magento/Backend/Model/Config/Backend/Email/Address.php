@@ -23,7 +23,7 @@ class Address extends \Magento\Core\Model\Config\Value
     protected function _beforeSave()
     {
         $value = $this->getValue();
-        if (!Zend_Validate::is($value, 'EmailAddress')) {
+        if (!\Zend_Validate::is($value, 'EmailAddress')) {
             \Mage::throwException(
                 __('Please correct the email address: "%1".', $value)
             );

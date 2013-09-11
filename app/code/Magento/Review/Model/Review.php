@@ -99,15 +99,15 @@ class Review extends \Magento\Core\Model\AbstractModel
     {
         $errors = array();
 
-        if (!Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
             $errors[] = __('The review summary field can\'t be empty.');
         }
 
-        if (!Zend_Validate::is($this->getNickname(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getNickname(), 'NotEmpty')) {
             $errors[] = __('The nickname field can\'t be empty.');
         }
 
-        if (!Zend_Validate::is($this->getDetail(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getDetail(), 'NotEmpty')) {
             $errors[] = __('The review field can\'t be empty.');
         }
 

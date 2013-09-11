@@ -47,15 +47,15 @@ class Person extends \Magento\Core\Model\AbstractModel
         // not Checking entityId !!!
         $errors = array();
 
-        if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
             $errors[] = __('Please enter the first name.');
         }
 
-        if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
             $errors[] = __('Please enter the last name.');
         }
 
-        if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+        if (!\Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
             $errors[] = __('Please enter a valid email address(for example, daniel@x.com).');
         }
 

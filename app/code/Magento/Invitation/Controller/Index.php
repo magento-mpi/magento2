@@ -53,7 +53,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             $customerExists = 0;
             foreach ($data['email'] as $email) {
                 $attempts++;
-                if (!Zend_Validate::is($email, 'EmailAddress')) {
+                if (!\Zend_Validate::is($email, 'EmailAddress')) {
                     continue;
                 }
                 if ($attempts > $invPerSend) {

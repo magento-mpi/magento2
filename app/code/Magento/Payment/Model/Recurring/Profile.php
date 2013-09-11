@@ -83,7 +83,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
         // start date, order ref ID, schedule description
         if (!$this->getStartDatetime()) {
             $this->_errors['start_datetime'][] = __('The start date is undefined.');
-        } elseif (!Zend_Date::isDate($this->getStartDatetime(), \Magento\Date::DATETIME_INTERNAL_FORMAT)) {
+        } elseif (!\Zend_Date::isDate($this->getStartDatetime(), \Magento\Date::DATETIME_INTERNAL_FORMAT)) {
             $this->_errors['start_datetime'][] = __('The start date has an invalid format.');
         }
         if (!$this->getScheduleDescription()) {
@@ -199,7 +199,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
             $this->_ensureLocaleAndStore();
             $dateFormat = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             $localeCode = $this->_locale->getLocaleCode();
-            if (!Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
+            if (!\Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
                 \Mage::throwException(__('The recurring profile start date has invalid format.'));
             }
             $utcTime = $this->_locale->utcDate($this->_store, $startDate, true, $dateFormat)

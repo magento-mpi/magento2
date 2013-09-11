@@ -832,15 +832,15 @@ class Customer extends \Magento\Core\Model\AbstractModel
     public function validate()
     {
         $errors = array();
-        if (!Zend_Validate::is(trim($this->getFirstname()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($this->getFirstname()), 'NotEmpty')) {
             $errors[] = __('The first name cannot be empty.');
         }
 
-        if (!Zend_Validate::is(trim($this->getLastname()), 'NotEmpty')) {
+        if (!\Zend_Validate::is(trim($this->getLastname()), 'NotEmpty')) {
             $errors[] = __('The last name cannot be empty.');
         }
 
-        if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+        if (!\Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
             $errors[] = __('Please correct this email address: "%1".', $this->getEmail());
         }
 
