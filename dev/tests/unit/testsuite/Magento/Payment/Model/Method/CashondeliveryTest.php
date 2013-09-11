@@ -23,6 +23,6 @@ class Magento_Payment_Model_Method_CashondeliveryTest extends PHPUnit_Framework_
 
     public function testGetInfoBlockType()
     {
-        $this->assertEquals('\Magento\Payment\Block\Info\Instructions', $this->_object->getInfoBlockType());
+        $this->assertEquals('Magento\Payment\Block\Info\Instructions', $this->_object->getInfoBlockType());
     }
 }

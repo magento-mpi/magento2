@@ -17,8 +17,8 @@ class Factory
      * @var array
      */
     protected $_apiResponseMap = array(
-        \Magento\Webapi\Controller\Front::API_TYPE_REST => '\Magento\Webapi\Controller\Response\Rest',
-        \Magento\Webapi\Controller\Front::API_TYPE_SOAP => '\Magento\Webapi\Controller\Response',
+        \Magento\Webapi\Controller\Front::API_TYPE_REST => 'Magento\Webapi\Controller\Response\Rest',
+        \Magento\Webapi\Controller\Front::API_TYPE_SOAP => 'Magento\Webapi\Controller\Response',
     );
 
     /** @var \Magento\ObjectManager */

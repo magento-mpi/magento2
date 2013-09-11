@@ -26,8 +26,8 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
     {
         /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
         $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');
-        $this->assertEquals('\Magento\Webhook\Model\Resource\Event', $collection->getResourceModelName());
-        $this->assertEquals('\Magento\Webhook\Model\Event', $collection->getModelName());
+        $this->assertEquals('Magento\Webhook\Model\Resource\Event', $collection->getResourceModelName());
+        $this->assertEquals('Magento\Webhook\Model\Event', $collection->getModelName());
 
         /* check FOR UPDATE lock */
         $forUpdate = $collection->getSelect()->getPart(Zend_Db_Select::FOR_UPDATE);

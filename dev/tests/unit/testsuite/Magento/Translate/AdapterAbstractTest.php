@@ -42,6 +42,6 @@ class Magento_Translate_AdapterAbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testToString()
     {
-        $this->assertEquals('\Magento\Translate\Adapter', $this->_model->toString());
+        $this->assertEquals('Magento\Translate\Adapter', $this->_model->toString());
     }
 }

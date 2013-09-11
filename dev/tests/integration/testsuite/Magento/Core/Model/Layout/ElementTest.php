@@ -34,7 +34,7 @@ class Magento_Core_Model_Layout_ElementTest extends PHPUnit_Framework_TestCase
         $this->_model->prepare(array());
 
         $this->assertEquals('root', (string)$blockNode->attributes()->parent);
-        $this->assertEquals('\Magento\Adminhtml\Block\Page\Head', (string)$blockNode->attributes()->class);
+        $this->assertEquals('Magento\Adminhtml\Block\Page\Head', (string)$blockNode->attributes()->class);
         $this->assertEquals('head', (string)$actionNode->attributes()->block);
     }
 }

@@ -73,7 +73,7 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel($this->_roleResource);
 
-        $this->assertAttributeEquals('\Magento\Webapi\Model\Resource\Acl\Role', '_resourceName', $model);
+        $this->assertAttributeEquals('Magento\Webapi\Model\Resource\Acl\Role', '_resourceName', $model);
         $this->assertAttributeEquals('id', '_idFieldName', $model);
     }
 
@@ -86,7 +86,7 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
-            '\Magento\Webapi\Model\Resource\Acl\Role\Collection',
+            'Magento\Webapi\Model\Resource\Acl\Role\Collection',
             array('_initSelect', 'setModel'),
             array($fetchStrategy, $this->_roleResource)
         );
@@ -96,6 +96,6 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
         $model = $this->_createModel($this->_roleResource, $collection);
         $result = $model->getCollection();
 
-        $this->assertAttributeEquals('\Magento\Webapi\Model\Resource\Acl\Role', '_resourceModel', $result);
+        $this->assertAttributeEquals('Magento\Webapi\Model\Resource\Acl\Role', '_resourceModel', $result);
     }
 }

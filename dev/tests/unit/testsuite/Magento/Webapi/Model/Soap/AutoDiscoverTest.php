@@ -54,7 +54,7 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
         )
             ->getMock();
         $wsdlFactory = $this->getMock(
-            '\Magento\Webapi\Model\Soap\Wsdl\Factory',
+            'Magento\Webapi\Model\Soap\Wsdl\Factory',
             array('create'),
             array(new \Magento\ObjectManager\ObjectManager())
         );

@@ -73,7 +73,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel($this->_ruleResource);
 
-        $this->assertAttributeEquals('\Magento\Webapi\Model\Resource\Acl\Rule', '_resourceName', $model);
+        $this->assertAttributeEquals('Magento\Webapi\Model\Resource\Acl\Rule', '_resourceName', $model);
         $this->assertAttributeEquals('id', '_idFieldName', $model);
     }
 
@@ -116,7 +116,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
         // Test _construct
         $result = $model->getCollection();
 
-        $this->assertAttributeEquals('\Magento\Webapi\Model\Resource\Acl\Rule', '_resourceModel', $result);
+        $this->assertAttributeEquals('Magento\Webapi\Model\Resource\Acl\Rule', '_resourceModel', $result);
 
         // Test getByRole
         $resultColl = $result->getByRole(1);

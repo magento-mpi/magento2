@@ -13,7 +13,9 @@ use \Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
  */
 namespace Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
 
-class ConfigBased extends AbstractComplexTypeStrategy
+use Zend\Soap\Wsdl;
+
+class ConfigBased extends \Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy
 {
     /**
      *  Array item key value for element.

@@ -61,8 +61,8 @@ XML;
 
     public function testGetClassName()
     {
-        $this->assertEquals('\Magento\Catalog\Model\Observer', $this->_model->class_test->getClassName());
-        $this->assertEquals('\Magento\Catalog\Model\Observer', $this->_model->model_test->getClassName());
+        $this->assertEquals('Magento\Catalog\Model\Observer', $this->_model->class_test->getClassName());
+        $this->assertEquals('Magento\Catalog\Model\Observer', $this->_model->model_test->getClassName());
         $this->assertFalse($this->_model->no_classname_test->getClassName());
     }
 }

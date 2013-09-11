@@ -23,6 +23,6 @@ class Magento_Payment_Model_Method_BanktransferTest extends PHPUnit_Framework_Te
 
     public function testGetInfoBlockType()
     {
-        $this->assertEquals('\Magento\Payment\Block\Info\Instructions', $this->_object->getInfoBlockType());
+        $this->assertEquals('Magento\Payment\Block\Info\Instructions', $this->_object->getInfoBlockType());
     }
 }
