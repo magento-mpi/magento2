@@ -200,7 +200,7 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
     if (Mage::getIsDeveloperMode()) {
         throw new Exception($errorMessage);
     } else {
-        $dirs = new Magento_Core_Model_Dir(__DIR__);
+        $dirs = new Magento_Core_Model_Dir('.');
         $fileSystem = new Magento_Io_File();
         $logger = new Magento_Core_Model_Logger($dirs, $fileSystem);
         $logger->log($errorMessage, Zend_Log::ERR);
