@@ -12,7 +12,7 @@
 /**
  * @magentoAppArea adminhtml
  */
-class Magento_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_AdminGws_Model_BlocksTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     protected function setUp()
     {

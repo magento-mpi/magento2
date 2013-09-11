@@ -24,13 +24,36 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
     protected $_inputTemplates = array();
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $configCacheType, $data);
+    }
+
+    /**
      * Return edit form header
      *
      * @return string
      */
     public function getFormHeader()
     {
-        if (Mage::registry('magento_giftregistry_entity')->getId()) {
+        if ($this->_coreRegistry->registry('magento_giftregistry_entity')->getId()) {
             return __('Edit Gift Registry');
         } else {
             return __('Create Gift Registry');

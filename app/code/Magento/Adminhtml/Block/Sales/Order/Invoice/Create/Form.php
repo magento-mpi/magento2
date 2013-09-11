@@ -44,27 +44,13 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Magento_Ad
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 
     protected function _prepareLayout()
     {
-      /*  $infoBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Order_View_Info')
-           ->setOrder($this->getInvoice()->getOrder());
-       $this->setChild('order_info', $infoBlock);
-*/
-     /*  $this->addChild('items', 'Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items');
-        */
         $trackingBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking');
-       //$this->setChild('order_tracking', $trackingBlock);
-          $this->setChild('tracking', $trackingBlock);
-
-
-              /*
-        $paymentInfoBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Order_Payment')
-           ->setPayment($this->getInvoice()->getOrder()->getPayment());
-        $this->setChild('payment_info', $paymentInfoBlock);
-        */
+        $this->setChild('tracking', $trackingBlock);
         return parent::_prepareLayout();
     }
 
@@ -83,7 +69,8 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Magento_Ad
         return false;
     }
 
-    public function hasInvoiceShipmentTypeMismatch() {
+    public function hasInvoiceShipmentTypeMismatch()
+    {
         foreach ($this->getInvoice()->getAllItems() as $item) {
             if ($item->getOrderItem()->isChildrenCalculated() && !$item->getOrderItem()->isShipSeparately()) {
                 return true;
@@ -108,6 +95,6 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Form extends Magento_Ad
      */
     public function getForcedShipmentCreate()
     {
-        return (int) $this->getOrder()->getForcedShipmentWithInvoice();
+        return (int)$this->getOrder()->getForcedShipmentWithInvoice();
     }
 }

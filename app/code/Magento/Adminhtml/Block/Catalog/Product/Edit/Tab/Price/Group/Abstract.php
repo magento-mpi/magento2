@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml group price item abstract renderer
  *
@@ -42,13 +41,34 @@ abstract class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group_Abst
     protected $_websites;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve current product instance
      *
      * @return Magento_Catalog_Model_Product
      */
     public function getProduct()
     {
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**

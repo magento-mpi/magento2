@@ -44,9 +44,4 @@ class Magento_Rating_Model_Rating_Option extends Magento_Core_Model_Abstract
         $this->setOptionId($id);
         return $this;
     }
-
-//    public function getId()
-//    {
-//        return $this->getOptionId();
-//    }
 }

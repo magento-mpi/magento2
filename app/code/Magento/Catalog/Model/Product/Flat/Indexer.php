@@ -167,8 +167,7 @@ class Magento_Catalog_Model_Product_Flat_Indexer extends Magento_Core_Model_Abst
         if ($status == Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
             $this->_getResource()->updateProduct($productId, $store);
             $this->_getResource()->updateChildrenDataFromParent($store, $productId);
-        }
-        else {
+        } else {
             $this->_getResource()->removeProduct($productId, $store);
         }
 

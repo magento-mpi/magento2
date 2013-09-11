@@ -27,4 +27,6 @@ $product->setTypeId('virtual')
     )
 );
 $product->save();
-Mage::register('product_virtual', $product);
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->register('product_virtual', $product);

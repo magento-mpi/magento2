@@ -12,7 +12,7 @@
 /**
  * Test class for Magento_AdvancedCheckout_Controller_Cart
  */
-class Magento_AdvancedCheckout_Controller_CartTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
      * Test for Magento_AdvancedCheckout_Controller_Cart::configureAction() with gift card product

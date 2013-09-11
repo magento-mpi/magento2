@@ -20,14 +20,25 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
     protected $_storeManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
-    public function __construct(Magento_Backend_Block_Template_Context $context,
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
         parent::__construct($context, $data);
     }
@@ -74,7 +85,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
 
     protected function _prepareForm()
     {
-        $rule = Mage::registry('current_promo_quote_rule');
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
         $form = new Magento_Data_Form();
         $form->setHtmlIdPrefix('rule_');
 

@@ -13,7 +13,7 @@
             <action method="addDashboardLink">
                 <argument name="block" xsi:type="string">customer_account_navigation</argument>
                 <argument name="name" xsi:type="string">checkout</argument>
-                <argument name="path" xsi:type="string">enterprise_checkout/sku</argument>
+                <argument name="path" xsi:type="string">magento_advancedcheckout/sku</argument>
                 <argument translate="true" name="label" xsi:type="string">Order by SKU</argument>
             </action>
         </block>

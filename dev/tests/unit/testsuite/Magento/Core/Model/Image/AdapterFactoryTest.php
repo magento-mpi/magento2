@@ -14,13 +14,13 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
     /**
      * Object Manager Helper
      *
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     protected $_objectManagerHelper;
 
     protected function setUp()
     {
-        $this->_objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
     }
 
     /**

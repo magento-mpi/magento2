@@ -98,17 +98,19 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Catalog_Model_Resource_Product $resource
      * @param Magento_Catalog_Model_Resource_Product_Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Catalog_Model_Resource_Product $resource,
         Magento_Catalog_Model_Resource_Product_Collection $resourceCollection,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -288,7 +290,8 @@ class Magento_Catalog_Model_Product extends Magento_Catalog_Model_Abstract
      */
     public function getCategoryId()
     {
-        if ($category = Mage::registry('current_category')) {
+        $category = $this->_coreRegistry->registry('current_category');
+        if ($category) {
             return $category->getId();
         }
         return false;

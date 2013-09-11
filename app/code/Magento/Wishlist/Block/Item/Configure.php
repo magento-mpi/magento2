@@ -19,13 +19,34 @@
 class Magento_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Returns product being edited
      *
      * @return Magento_Catalog_Model_Product
      */
     protected function getProduct()
     {
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -35,7 +56,7 @@ class Magento_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
      */
     protected function getWishlistItem()
     {
-        return Mage::registry('wishlist_item');
+        return $this->_coreRegistry->registry('wishlist_item');
     }
 
     /**

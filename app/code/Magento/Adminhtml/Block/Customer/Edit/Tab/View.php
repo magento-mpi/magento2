@@ -24,17 +24,39 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     protected $_customerLog;
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     public function getCustomer()
     {
         if (!$this->_customer) {
-            $this->_customer = Mage::registry('current_customer');
+            $this->_customer = $this->_coreRegistry->registry('current_customer');
         }
         return $this->_customer;
     }
 
     public function getGroupName()
     {
-        if ($groupId = $this->getCustomer()->getGroupId()) {
+        $groupId = $this->getCustomer()->getGroupId();
+        if ($groupId) {
             return Mage::getModel('Magento_Customer_Model_Group')
                 ->load($groupId)
                 ->getCustomerGroupCode();
@@ -105,7 +127,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getStoreLastLoginDate()
     {
-        if ($date = $this->getCustomerLog()->getLoginAtTimestamp()) {
+        $date = $this->getCustomerLog()->getLoginAtTimestamp();
+        if ($date) {
             $date = Mage::app()->getLocale()->storeDate(
                 $this->getCustomer()->getStoreId(),
                 $date,
@@ -125,8 +148,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
-        if ($log->getLogoutAt() ||
-            strtotime(now())-strtotime($log->getLastVisitAt())>Magento_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
+        if ($log->getLogoutAt()
+            || strtotime(now()) - strtotime($log->getLastVisitAt())
+                > Magento_Log_Model_Visitor::getOnlineMinutesInterval() * 60
+        ) {
             return __('Offline');
         }
         return __('Online');
@@ -156,11 +181,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getBillingAddressHtml()
     {
-        $html = '';
-        if ($address = $this->getCustomer()->getPrimaryBillingAddress()) {
+        $address = $this->getCustomer()->getPrimaryBillingAddress();
+        if ($address) {
             $html = $address->format('html');
-        }
-        else {
+        } else {
             $html = __('The customer does not have default billing address.');
         }
         return $html;
@@ -188,7 +212,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function canShowTab()
     {
-        if (Mage::registry('current_customer')->getId()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId()) {
             return true;
         }
         return false;
@@ -196,10 +220,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function isHidden()
     {
-        if (Mage::registry('current_customer')->getId()) {
+        if ($this->_coreRegistry->registry('current_customer')->getId()) {
             return false;
         }
         return true;
     }
-
 }

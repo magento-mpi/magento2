@@ -18,6 +18,31 @@
 class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Grid_Extended
 {
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -51,7 +76,7 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
     protected function _prepareCollection()
     {
         $roleId = $this->getRequest()->getParam('rid');
-        Mage::register('RID', $roleId);
+        $this->_coreRegistry->register('RID', $roleId);
         $collection = Mage::getModel('Magento_User_Model_Role')->getUsersCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -146,7 +171,7 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
         }
         $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ?
             $this->getRequest()->getParam('rid') :
-            Mage::registry('RID');
+            $this->_coreRegistry->registry('RID');
         $users  = Mage::getModel('Magento_User_Model_Role')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
             if ($json) {

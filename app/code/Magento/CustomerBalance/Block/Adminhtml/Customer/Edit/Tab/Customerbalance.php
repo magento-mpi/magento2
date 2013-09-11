@@ -10,12 +10,32 @@
 
 /**
  * Customer account Store Credit tab
- *
  */
 class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance
     extends Magento_Adminhtml_Block_Widget
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Set identifier and title
      */
@@ -53,7 +73,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance
      */
     public function canShowTab()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return (bool)$customer->getId();
     }
 
@@ -64,7 +84,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance
      */
     public function isHidden()
     {
-        if( !$this->getRequest()->getParam('id') ) {
+        if (!$this->getRequest()->getParam('id')) {
             return true;
         }
         return false;

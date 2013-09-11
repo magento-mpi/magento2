@@ -18,7 +18,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends 
 
     protected function setUp()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $objectManagerModel = $this->getMock('Magento_ObjectManager');
 
         $constructArguments = $objectManagerHelper->getConstructArguments(

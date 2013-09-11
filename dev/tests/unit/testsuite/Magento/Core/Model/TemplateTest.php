@@ -23,12 +23,13 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $helper = new Magento_Test_Helper_ObjectManager($this);
+        $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $this->getMockForAbstractClass(
             'Magento_Core_Model_Template',
             $helper->getConstructArguments(
                 'Magento_Core_Model_Template',
                 array(
+                    'design' => $this->getMock('Magento_Core_Model_View_DesignInterface'),
                     'data' => array(
                         'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
                         'store' => 1

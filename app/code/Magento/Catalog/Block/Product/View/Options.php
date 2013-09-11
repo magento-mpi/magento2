@@ -22,6 +22,27 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
 
     protected $_optionRenders = array();
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -40,8 +61,8 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     public function getProduct()
     {
         if (!$this->_product) {
-            if (Mage::registry('current_product')) {
-                $this->_product = Mage::registry('current_product');
+            if ($this->_coreRegistry->registry('current_product')) {
+                $this->_product = $this->_coreRegistry->registry('current_product');
             } else {
                 $this->_product = Mage::getSingleton('Magento_Catalog_Model_Product');
             }

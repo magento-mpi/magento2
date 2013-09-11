@@ -40,7 +40,7 @@ class Magento_Test_Helper_ProxyTestingTest extends PHPUnit_Framework_TestCase
         $builder->will($this->returnCallback($callProxy));
 
         // Test it
-        $helper = new Magento_Test_Helper_ProxyTesting();
+        $helper = new Magento_TestFramework_Helper_ProxyTesting();
         $result = $helper->invokeWithExpectations($object, $proxiedObject, $method, $params, $proxiedResult,
             $proxiedMethod, $proxiedParams);
         $this->assertSame($expectedResult, $result);
