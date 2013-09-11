@@ -87,6 +87,7 @@ class Magento_Paypal_Model_PayflowlinkTest extends PHPUnit_Framework_TestCase
                 '_getCallbackUrl'
             ),
             array(
+                $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false),
                 $this->_moduleListMock
             )
         );

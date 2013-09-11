@@ -71,9 +71,11 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
             ->method('jsonEncode')
             ->will($this->returnCallback(array($this, 'jsonEncodeCallback')));
 
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $importModel = $this->getMock(
             'Magento_ImportExport_Model_Import',
-            array('getEntityBehaviors', 'getUniqueEntityBehaviors')
+            array('getEntityBehaviors', 'getUniqueEntityBehaviors'),
+            array($logger)
         );
         $importModel->staticExpects($this->any())
             ->method('getEntityBehaviors')

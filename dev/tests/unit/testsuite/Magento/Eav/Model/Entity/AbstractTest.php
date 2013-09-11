@@ -228,6 +228,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
         $attribute = $this->_getAttributeMock($attributeCode, $attributeSetId);
 
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         /** @var $backendModel Magento_Eav_Model_Entity_Attribute_Backend_Abstract */
         $backendModel = $this->getMock(
             'Magento_Eav_Model_Entity_Attribute_Backend_Abstract',
@@ -238,7 +239,8 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
                 'isStatic',
                 'getEntityValueId',
                 'getEntityIdField'
-            )
+            ),
+            array($logger)
         );
 
         $backendModel->expects($this->once())

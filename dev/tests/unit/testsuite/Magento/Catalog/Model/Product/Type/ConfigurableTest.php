@@ -20,7 +20,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
     {
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
         $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento_Core_Model_Logger');
+        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
         $this->_model = new Magento_Catalog_Model_Product_Type_Configurable($filesystem, $coreRegistry, $logger);
     }
 
