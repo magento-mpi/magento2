@@ -110,7 +110,7 @@ class Magento_Core_Model_Fieldset_Config_ReaderTest extends PHPUnit_Framework_Te
                         'to_order_item' => "*"
                     ),
                     'event_description' => array(
-                        'to_order_item' => "simpleDesciption"
+                        'to_order_item' => "complexDesciption"
                     )
                 )
             )

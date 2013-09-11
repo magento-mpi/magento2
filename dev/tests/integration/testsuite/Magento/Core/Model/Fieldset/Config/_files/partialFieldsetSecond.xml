@@ -20,7 +20,6 @@
                 <aspect name="to_order_item" />
             </field>
             <field name="event_description">
-                <aspect name="to_order_item" targetField="simpleDesciption" />
             </field>
         </fieldset>
     </scope>
