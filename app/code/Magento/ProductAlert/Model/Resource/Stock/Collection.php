@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\ProductAlert\Model\Stock', '\Magento\ProductAlert\Model\Resource\Stock');
+        $this->_init('Magento\ProductAlert\Model\Stock', 'Magento\ProductAlert\Model\Resource\Stock');
     }
 
     /**

@@ -41,7 +41,7 @@ class Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Eav\Model\Attribute', '\Magento\Rma\Model\Resource\Item\Form\Attribute');
+        $this->_init('Magento\Eav\Model\Attribute', 'Magento\Rma\Model\Resource\Item\Form\Attribute');
     }
 
     /**

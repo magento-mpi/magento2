@@ -33,7 +33,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CatalogSearch\Model\Query', '\Magento\CatalogSearch\Model\Resource\Query');
+        $this->_init('Magento\CatalogSearch\Model\Query', 'Magento\CatalogSearch\Model\Resource\Query');
     }
 
     /**

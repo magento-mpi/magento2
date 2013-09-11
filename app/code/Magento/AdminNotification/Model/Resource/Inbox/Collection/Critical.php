@@ -17,7 +17,7 @@ class Critical
      */
     protected function _construct()
     {
-        $this->_init('\Magento\AdminNotification\Model\Inbox', '\Magento\AdminNotification\Model\Resource\Inbox');
+        $this->_init('Magento\AdminNotification\Model\Inbox', 'Magento\AdminNotification\Model\Resource\Inbox');
     }
 
     /**

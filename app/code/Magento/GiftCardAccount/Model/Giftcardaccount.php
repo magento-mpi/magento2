@@ -68,7 +68,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\GiftCardAccount\Model\Resource\Giftcardaccount');
+        $this->_init('Magento\GiftCardAccount\Model\Resource\Giftcardaccount');
     }
 
     protected function _beforeSave()

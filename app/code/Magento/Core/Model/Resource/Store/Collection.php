@@ -41,7 +41,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         $this->setFlag('load_default_store', false);
-        $this->_init('\Magento\Core\Model\Store', '\Magento\Core\Model\Resource\Store');
+        $this->_init('Magento\Core\Model\Store', 'Magento\Core\Model\Resource\Store');
     }
 
     /**

@@ -57,7 +57,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Reminder\Model\Resource\Rule');
+        $this->_init('Magento\Reminder\Model\Resource\Rule');
     }
 
     /**

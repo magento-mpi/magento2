@@ -34,6 +34,6 @@ class Agreement extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\Checkout\Model\Resource\Agreement');
+        $this->_init('Magento\Checkout\Model\Resource\Agreement');
     }
 }

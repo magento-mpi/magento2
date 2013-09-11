@@ -40,7 +40,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\GiftRegistry\Model\Resource\Item\Option');
+        $this->_init('Magento\GiftRegistry\Model\Resource\Item\Option');
     }
 
     /**

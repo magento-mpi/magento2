@@ -31,6 +31,6 @@ class Option extends \Magento\Core\Model\AbstractModel
      */
     public function _construct()
     {
-        $this->_init('\Magento\Eav\Model\Resource\Entity\Attribute\Option');
+        $this->_init('Magento\Eav\Model\Resource\Entity\Attribute\Option');
     }
 }

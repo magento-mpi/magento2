@@ -146,7 +146,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function _construct()
     {
-        $this->_init('\Magento\Customer\Model\Resource\Customer');
+        $this->_init('Magento\Customer\Model\Resource\Customer');
     }
 
     /**

@@ -68,7 +68,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Reward\Model\Resource\Reward');
+        $this->_init('Magento\Reward\Model\Resource\Reward');
         self::$_actionModelClasses = self::$_actionModelClasses + array(
             self::REWARD_ACTION_ADMIN               => '\Magento\Reward\Model\Action\Admin',
             self::REWARD_ACTION_ORDER               => '\Magento\Reward\Model\Action\Order',

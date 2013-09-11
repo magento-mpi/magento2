@@ -74,7 +74,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
 
     protected function _construct()
     {
-        $this->_init('\Magento\CatalogPermissions\Model\Resource\Permission\Index');
+        $this->_init('Magento\CatalogPermissions\Model\Resource\Permission\Index');
     }
 
     /**

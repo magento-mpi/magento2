@@ -27,7 +27,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Paypal\Model\Report\Settlement\Row', '\Magento\Paypal\Model\Resource\Report\Settlement\Row');
+        $this->_init('Magento\Paypal\Model\Report\Settlement\Row', 'Magento\Paypal\Model\Resource\Report\Settlement\Row');
     }
 
     /**

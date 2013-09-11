@@ -31,6 +31,6 @@ class Debug extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\GoogleCheckout\Model\Resource\Api\Debug');
+        $this->_init('Magento\GoogleCheckout\Model\Resource\Api\Debug');
     }
 }

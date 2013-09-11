@@ -55,7 +55,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Product\Flat\Indexer');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Flat\Indexer');
     }
 
     /**

@@ -32,7 +32,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\SalesRule\Model\Resource\Rule\Customer');
+        $this->_init('Magento\SalesRule\Model\Resource\Rule\Customer');
     }
     
     public function loadByCustomerRule($customerId, $ruleId)

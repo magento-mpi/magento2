@@ -68,7 +68,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Category', '\Magento\Catalog\Model\Resource\Category');
+        $this->_init('Magento\Catalog\Model\Category', 'Magento\Catalog\Model\Resource\Category');
 
         $this->_productWebsiteTable = $this->getTable('catalog_product_website');
         $this->_productTable        = $this->getTable('catalog_category_product');

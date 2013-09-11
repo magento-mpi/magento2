@@ -67,7 +67,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Review\Model\Review', '\Magento\Review\Model\Resource\Review');
+        $this->_init('Magento\Review\Model\Review', 'Magento\Review\Model\Resource\Review');
         $this->_reviewTable         = $this->getTable('review');
         $this->_reviewDetailTable   = $this->getTable('review_detail');
         $this->_reviewStatusTable   = $this->getTable('review_status');

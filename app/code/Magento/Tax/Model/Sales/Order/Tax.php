@@ -44,6 +44,6 @@ class Tax extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\Tax\Model\Resource\Sales\Order\Tax');
+        $this->_init('Magento\Tax\Model\Resource\Sales\Order\Tax');
     }
 }

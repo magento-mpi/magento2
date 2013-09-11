@@ -46,7 +46,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CustomerBalance\Model\Resource\Balance');
+        $this->_init('Magento\CustomerBalance\Model\Resource\Balance');
     }
 
     /**

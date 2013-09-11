@@ -38,7 +38,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute');
     }
 
     /**

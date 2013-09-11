@@ -26,6 +26,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Logging\Model\Event\Changes', '\Magento\Logging\Model\Resource\Event\Changes');
+        $this->_init('Magento\Logging\Model\Event\Changes', 'Magento\Logging\Model\Resource\Event\Changes');
     }
 }

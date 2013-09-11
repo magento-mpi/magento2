@@ -30,7 +30,7 @@ class String extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\Core\Model\Resource\Translate\String');
+        $this->_init('Magento\Core\Model\Resource\Translate\String');
     }
     
     public function setString($string)

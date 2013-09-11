@@ -64,7 +64,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Newsletter\Model\Subscriber', '\Magento\Newsletter\Model\Resource\Subscriber');
+        $this->_init('Magento\Newsletter\Model\Subscriber', 'Magento\Newsletter\Model\Resource\Subscriber');
         $this->_queueLinkTable = $this->getTable('newsletter_queue_link');
         $this->_storeTable = $this->getTable('core_store');
 

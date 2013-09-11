@@ -165,7 +165,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order\Invoice');
+        $this->_init('Magento\Sales\Model\Resource\Order\Invoice');
     }
 
     /**

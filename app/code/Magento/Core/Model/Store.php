@@ -273,7 +273,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Core\Model\Resource\Store');
+        $this->_init('Magento\Core\Model\Resource\Store');
     }
 
     /**

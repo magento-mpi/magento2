@@ -73,7 +73,7 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CustomerBalance\Model\Resource\Balance\History');
+        $this->_init('Magento\CustomerBalance\Model\Resource\Balance\History');
     }
 
     /**

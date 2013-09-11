@@ -33,7 +33,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Log\Model\Visitor\Online', '\Magento\Log\Model\Resource\Visitor\Online');
+        $this->_init('Magento\Log\Model\Visitor\Online', 'Magento\Log\Model\Resource\Visitor\Online');
     }
 
     /**

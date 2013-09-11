@@ -55,7 +55,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CatalogInventory\Model\Resource\Stock\Status');
+        $this->_init('Magento\CatalogInventory\Model\Resource\Stock\Status');
     }
 
     /**

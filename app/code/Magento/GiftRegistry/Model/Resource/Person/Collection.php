@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\GiftRegistry\Model\Person', '\Magento\GiftRegistry\Model\Resource\Person');
+        $this->_init('Magento\GiftRegistry\Model\Person', 'Magento\GiftRegistry\Model\Resource\Person');
     }
 
     /**

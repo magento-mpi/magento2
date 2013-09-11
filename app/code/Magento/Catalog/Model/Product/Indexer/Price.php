@@ -77,7 +77,7 @@ class Price extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Product\Indexer\Price');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Indexer\Price');
     }
 
     /**

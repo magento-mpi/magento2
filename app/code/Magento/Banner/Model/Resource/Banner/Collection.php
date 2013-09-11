@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Banner\Model\Banner', '\Magento\Banner\Model\Resource\Banner');
+        $this->_init('Magento\Banner\Model\Banner', 'Magento\Banner\Model\Resource\Banner');
         $this->_map['fields']['banner_id'] = 'main_table.banner_id';
     }
 

@@ -34,7 +34,7 @@ namespace Magento\GiftRegistry\Model;
 class Person extends \Magento\Core\Model\AbstractModel
 {
     function _construct() {
-        $this->_init('\Magento\GiftRegistry\Model\Resource\Person');
+        $this->_init('Magento\GiftRegistry\Model\Resource\Person');
     }
 
     /**

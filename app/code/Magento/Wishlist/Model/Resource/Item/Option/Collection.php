@@ -41,7 +41,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Wishlist\Model\Item\Option', '\Magento\Wishlist\Model\Resource\Item\Option');
+        $this->_init('Magento\Wishlist\Model\Item\Option', 'Magento\Wishlist\Model\Resource\Item\Option');
     }
 
     /**

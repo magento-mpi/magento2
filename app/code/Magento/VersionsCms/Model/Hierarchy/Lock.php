@@ -54,7 +54,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\VersionsCms\Model\Resource\Hierarchy\Lock');
+        $this->_init('Magento\VersionsCms\Model\Resource\Hierarchy\Lock');
     }
 
     /**

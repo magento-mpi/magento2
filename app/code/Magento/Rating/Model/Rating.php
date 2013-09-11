@@ -43,7 +43,7 @@ class Rating extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Rating\Model\Resource\Rating');
+        $this->_init('Magento\Rating\Model\Resource\Rating');
     }
 
     public function addOptionVote($optionId, $entityPkValue)

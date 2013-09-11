@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CatalogInventory\Model\Stock\Item', '\Magento\CatalogInventory\Model\Resource\Stock\Item');
+        $this->_init('Magento\CatalogInventory\Model\Stock\Item', 'Magento\CatalogInventory\Model\Resource\Stock\Item');
     }
 
     /**

@@ -59,7 +59,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_flagOptionsSaved = null;
 
     function _construct() {
-        $this->_init('\Magento\GiftRegistry\Model\Resource\Item');
+        $this->_init('Magento\GiftRegistry\Model\Resource\Item');
     }
 
     /**

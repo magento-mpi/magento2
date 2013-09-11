@@ -83,7 +83,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function _construct()
     {
-        $this->_init('\Magento\Wishlist\Model\Item', '\Magento\Wishlist\Model\Resource\Item');
+        $this->_init('Magento\Wishlist\Model\Item', 'Magento\Wishlist\Model\Resource\Item');
         $this->addFilterToMap('store_id', 'main_table.store_id');
     }
 

@@ -32,7 +32,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Eav\Model\Entity\Attribute\Option', '\Magento\Eav\Model\Resource\Entity\Attribute\Option');
+        $this->_init('Magento\Eav\Model\Entity\Attribute\Option', 'Magento\Eav\Model\Resource\Entity\Attribute\Option');
         $this->_optionValueTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('eav_attribute_option_value');
     }
 

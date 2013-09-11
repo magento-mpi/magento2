@@ -95,7 +95,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order\Invoice\Item');
+        $this->_init('Magento\Sales\Model\Resource\Order\Invoice\Item');
     }
 
     /**

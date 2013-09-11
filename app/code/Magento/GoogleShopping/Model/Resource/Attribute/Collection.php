@@ -28,7 +28,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     protected function _construct()
     {
-        $this->_init('\Magento\GoogleShopping\Model\Attribute', '\Magento\GoogleShopping\Model\Resource\Attribute');
+        $this->_init('Magento\GoogleShopping\Model\Attribute', 'Magento\GoogleShopping\Model\Resource\Attribute');
     }
 
     /**

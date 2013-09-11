@@ -60,7 +60,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CustomerSegment\Model\Segment', '\Magento\CustomerSegment\Model\Resource\Segment');
+        $this->_init('Magento\CustomerSegment\Model\Segment', 'Magento\CustomerSegment\Model\Resource\Segment');
     }
 
     /**

@@ -47,7 +47,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Order\Shipment', '\Magento\Sales\Model\Resource\Order\Shipment');
+        $this->_init('Magento\Sales\Model\Order\Shipment', 'Magento\Sales\Model\Resource\Order\Shipment');
     }
 
     /**

@@ -32,7 +32,7 @@ class Country extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\Directory\Model\Resource\Country');
+        $this->_init('Magento\Directory\Model\Resource\Country');
     }
 
     public function loadByCode($code)

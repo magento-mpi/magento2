@@ -27,6 +27,6 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Core\Model\Resource\Layout\Link');
+        $this->_init('Magento\Core\Model\Resource\Layout\Link');
     }
 }

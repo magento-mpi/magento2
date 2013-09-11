@@ -17,7 +17,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function _construct()
     {
-        $this->_init('\Magento\Poll\Model\Poll\Answer', '\Magento\Poll\Model\Resource\Poll\Answer');
+        $this->_init('Magento\Poll\Model\Poll\Answer', 'Magento\Poll\Model\Resource\Poll\Answer');
     }
 
     /**

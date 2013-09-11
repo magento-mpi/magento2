@@ -40,7 +40,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Order\Invoice\Item', '\Magento\Sales\Model\Resource\Order\Invoice\Item');
+        $this->_init('Magento\Sales\Model\Order\Invoice\Item', 'Magento\Sales\Model\Resource\Order\Invoice\Item');
     }
 
     /**

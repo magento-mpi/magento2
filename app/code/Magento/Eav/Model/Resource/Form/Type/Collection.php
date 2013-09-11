@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Eav\Model\Form\Type', '\Magento\Eav\Model\Resource\Form\Type');
+        $this->_init('Magento\Eav\Model\Form\Type', 'Magento\Eav\Model\Resource\Form\Type');
     }
 
     /**

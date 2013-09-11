@@ -41,7 +41,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Product\Link');
+        $this->_init('Magento\Catalog\Model\Resource\Product\Link');
     }
 
     public function useRelatedLinks()

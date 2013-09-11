@@ -534,7 +534,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Recurring\Profile');
+        $this->_init('Magento\Sales\Model\Resource\Recurring\Profile');
     }
 
     /**

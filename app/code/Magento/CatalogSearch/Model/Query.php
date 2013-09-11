@@ -65,7 +65,7 @@ class Query extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CatalogSearch\Model\Resource\Query');
+        $this->_init('Magento\CatalogSearch\Model\Resource\Query');
     }
 
     /**

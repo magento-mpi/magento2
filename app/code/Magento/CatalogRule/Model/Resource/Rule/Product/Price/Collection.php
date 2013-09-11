@@ -16,7 +16,7 @@ class Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\CatalogRule\Model\Rule\Product\Price', '\Magento\CatalogRule\Model\Resource\Rule\Product\Price');
+        $this->_init('Magento\CatalogRule\Model\Rule\Product\Price', 'Magento\CatalogRule\Model\Resource\Rule\Product\Price');
     }
 
     /**

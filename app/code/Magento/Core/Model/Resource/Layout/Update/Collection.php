@@ -35,7 +35,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Core\Model\Layout\Update', '\Magento\Core\Model\Resource\Layout\Update');
+        $this->_init('Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Resource\Layout\Update');
     }
 
     /**

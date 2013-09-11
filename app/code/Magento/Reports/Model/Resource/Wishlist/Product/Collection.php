@@ -26,7 +26,7 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function _construct()
     {
-        $this->_init('\Magento\Wishlist\Model\Wishlist', '\Magento\Wishlist\Model\Resource\Wishlist');
+        $this->_init('Magento\Wishlist\Model\Wishlist', 'Magento\Wishlist\Model\Resource\Wishlist');
     }
 
     /**

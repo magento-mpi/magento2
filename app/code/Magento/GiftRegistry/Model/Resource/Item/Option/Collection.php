@@ -40,7 +40,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\GiftRegistry\Model\Item\Option', '\Magento\GiftRegistry\Model\Resource\Item\Option');
+        $this->_init('Magento\GiftRegistry\Model\Item\Option', 'Magento\GiftRegistry\Model\Resource\Item\Option');
     }
 
     /**

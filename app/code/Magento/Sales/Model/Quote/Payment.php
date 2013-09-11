@@ -66,7 +66,7 @@ class Payment extends \Magento\Payment\Model\Info
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Quote\Payment');
+        $this->_init('Magento\Sales\Model\Resource\Quote\Payment');
     }
 
     /**

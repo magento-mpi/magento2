@@ -26,6 +26,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Api\Model\Role', '\Magento\Api\Model\Resource\Role');
+        $this->_init('Magento\Api\Model\Role', 'Magento\Api\Model\Resource\Role');
     }
 }

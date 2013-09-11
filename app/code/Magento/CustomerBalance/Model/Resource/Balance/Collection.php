@@ -27,7 +27,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\CustomerBalance\Model\Balance', '\Magento\CustomerBalance\Model\Resource\Balance');
+        $this->_init('Magento\CustomerBalance\Model\Balance', 'Magento\CustomerBalance\Model\Resource\Balance');
     }
 
     /**

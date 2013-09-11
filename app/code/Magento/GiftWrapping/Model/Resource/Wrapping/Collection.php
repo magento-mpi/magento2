@@ -26,7 +26,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\GiftWrapping\Model\Wrapping', '\Magento\GiftWrapping\Model\Resource\Wrapping');
+        $this->_init('Magento\GiftWrapping\Model\Wrapping', 'Magento\GiftWrapping\Model\Resource\Wrapping');
         $this->_map['fields']['wrapping_id'] = 'main_table.wrapping_id';
     }
 

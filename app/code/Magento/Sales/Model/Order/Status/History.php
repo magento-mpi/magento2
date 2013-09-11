@@ -50,7 +50,7 @@ class History extends \Magento\Sales\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order\Status\History');
+        $this->_init('Magento\Sales\Model\Resource\Order\Status\History');
     }
 
     /**

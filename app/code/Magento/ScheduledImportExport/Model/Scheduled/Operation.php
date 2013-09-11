@@ -91,7 +91,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
-        $this->_init('\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation');
+        $this->_init('Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation');
         $this->_dateModel = $dateModel;
     }
 

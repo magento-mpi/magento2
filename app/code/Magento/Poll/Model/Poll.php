@@ -46,7 +46,7 @@ class Poll extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\Poll\Model\Resource\Poll');
+        $this->_init('Magento\Poll\Model\Resource\Poll');
     }
 
     /**

@@ -84,7 +84,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order\Shipment');
+        $this->_init('Magento\Sales\Model\Resource\Order\Shipment');
     }
 
     /**

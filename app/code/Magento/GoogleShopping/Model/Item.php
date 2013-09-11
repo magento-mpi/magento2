@@ -36,7 +36,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\GoogleShopping\Model\Resource\Item');
+        $this->_init('Magento\GoogleShopping\Model\Resource\Item');
     }
 
     /**

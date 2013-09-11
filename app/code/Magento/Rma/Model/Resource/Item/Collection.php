@@ -25,7 +25,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Rma\Model\Item', '\Magento\Rma\Model\Resource\Item');
+        $this->_init('Magento\Rma\Model\Item', 'Magento\Rma\Model\Resource\Item');
     }
 
     /**

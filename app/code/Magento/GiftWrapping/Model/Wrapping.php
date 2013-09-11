@@ -40,7 +40,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct ()
     {
-        $this->_init('\Magento\GiftWrapping\Model\Resource\Wrapping');
+        $this->_init('Magento\GiftWrapping\Model\Resource\Wrapping');
     }
 
     /**

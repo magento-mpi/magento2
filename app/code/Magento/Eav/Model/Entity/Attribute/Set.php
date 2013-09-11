@@ -48,7 +48,7 @@ class Set extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Eav\Model\Resource\Entity\Attribute\Set');
+        $this->_init('Magento\Eav\Model\Resource\Entity\Attribute\Set');
     }
 
     /**

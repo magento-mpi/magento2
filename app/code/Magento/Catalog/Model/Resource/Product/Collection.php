@@ -304,9 +304,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected function _construct()
     {
         if ($this->isEnabledFlat()) {
-            $this->_init('\Magento\Catalog\Model\Product', '\Magento\Catalog\Model\Resource\Product\Flat');
+            $this->_init('Magento\Catalog\Model\Product', 'Magento\Catalog\Model\Resource\Product\Flat');
         } else {
-            $this->_init('\Magento\Catalog\Model\Product', '\Magento\Catalog\Model\Resource\Product');
+            $this->_init('Magento\Catalog\Model\Product', 'Magento\Catalog\Model\Resource\Product');
         }
         $this->_initTables();
     }

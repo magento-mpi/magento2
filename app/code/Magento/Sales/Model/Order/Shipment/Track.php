@@ -53,7 +53,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order\Shipment\Track');
+        $this->_init('Magento\Sales\Model\Resource\Order\Shipment\Track');
     }
 
     /**

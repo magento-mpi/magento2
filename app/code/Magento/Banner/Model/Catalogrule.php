@@ -33,6 +33,6 @@ class Catalogrule extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Banner\Model\Resource\Catalogrule');
+        $this->_init('Magento\Banner\Model\Resource\Catalogrule');
     }
 }

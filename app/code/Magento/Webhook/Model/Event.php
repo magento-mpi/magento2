@@ -23,7 +23,7 @@ class Event extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub
     public function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Webhook\Model\Resource\Event');
+        $this->_init('Magento\Webhook\Model\Resource\Event');
         $this->setStatus(\Magento\PubSub\EventInterface::STATUS_READY_TO_SEND);
     }
 

@@ -14,7 +14,7 @@ class Status extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order\Status');
+        $this->_init('Magento\Sales\Model\Resource\Order\Status');
     }
 
     /**

@@ -66,7 +66,7 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Reward\Model\Resource\Reward\History');
+        $this->_init('Magento\Reward\Model\Resource\Reward\History');
     }
 
     /**

@@ -151,7 +151,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\GiftRegistry\Model\Resource\Entity');
+        $this->_init('Magento\GiftRegistry\Model\Resource\Entity');
         parent::_construct();
     }
 

@@ -25,7 +25,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\MultipleWishlist\Model\Item', '\Magento\MultipleWishlist\Model\Resource\Item');
+        $this->_init('Magento\MultipleWishlist\Model\Item', 'Magento\MultipleWishlist\Model\Resource\Item');
     }
 
     /**

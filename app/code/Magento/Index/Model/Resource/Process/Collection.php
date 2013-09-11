@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Index\Model\Process', '\Magento\Index\Model\Resource\Process');
+        $this->_init('Magento\Index\Model\Process', 'Magento\Index\Model\Resource\Process');
     }
 
     /**

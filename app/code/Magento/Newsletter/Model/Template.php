@@ -62,7 +62,7 @@ class Template extends \Magento\Core\Model\Template
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Newsletter\Model\Resource\Template');
+        $this->_init('Magento\Newsletter\Model\Resource\Template');
     }
 
     /**

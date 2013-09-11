@@ -43,7 +43,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Log\Model\Resource\Visitor');
+        $this->_init('Magento\Log\Model\Resource\Visitor');
         $userAgent = \Mage::helper('Magento\Core\Helper\Http')->getHttpUserAgent();
         $ignoreAgents = \Mage::getConfig()->getNode('global/ignore_user_agents');
         if ($ignoreAgents) {

@@ -40,7 +40,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Bundle\Model\Option', '\Magento\Bundle\Model\Resource\Option');
+        $this->_init('Magento\Bundle\Model\Option', 'Magento\Bundle\Model\Resource\Option');
     }
 
     /**

@@ -42,7 +42,7 @@ class Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Sales\Model\Order\Invoice\Comment', '\Magento\Sales\Model\Resource\Order\Invoice\Comment');
+        $this->_init('Magento\Sales\Model\Order\Invoice\Comment', 'Magento\Sales\Model\Resource\Order\Invoice\Comment');
     }
 
     /**

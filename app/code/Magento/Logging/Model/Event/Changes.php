@@ -69,7 +69,7 @@ class Changes extends \Magento\Core\Model\AbstractModel
         $this->_globalSkipFields = array_map('trim', array_filter(explode(',',
             (string)\Mage::getConfig()->getNode(self::XML_PATH_SKIP_GLOBAL_FIELDS))));
 
-        $this->_init('\Magento\Logging\Model\Resource\Event\Changes');
+        $this->_init('Magento\Logging\Model\Resource\Event\Changes');
     }
 
     /**

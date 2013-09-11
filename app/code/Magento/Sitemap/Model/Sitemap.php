@@ -122,7 +122,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sitemap\Model\Resource\Sitemap');
+        $this->_init('Magento\Sitemap\Model\Resource\Sitemap');
     }
 
     /**

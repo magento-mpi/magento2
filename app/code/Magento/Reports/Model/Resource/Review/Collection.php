@@ -26,7 +26,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Review\Model\Review', '\Magento\Review\Model\Resource\Review');
+        $this->_init('Magento\Review\Model\Review', 'Magento\Review\Model\Resource\Review');
     }
 
     /**

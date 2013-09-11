@@ -72,7 +72,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Eav\Model\Resource\Entity\Type');
+        $this->_init('Magento\Eav\Model\Resource\Entity\Type');
     }
 
     /**

@@ -43,7 +43,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order\Shipment\Comment');
+        $this->_init('Magento\Sales\Model\Resource\Order\Shipment\Comment');
     }
 
     /**

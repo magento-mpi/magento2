@@ -88,7 +88,7 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Widget\Model\Resource\Widget\Instance');
+        $this->_init('Magento\Widget\Model\Resource\Widget\Instance');
         $this->_layoutHandles = array(
             'anchor_categories' => self::ANCHOR_CATEGORY_LAYOUT_HANDLE,
             'notanchor_categories' => self::NOTANCHOR_CATEGORY_LAYOUT_HANDLE,

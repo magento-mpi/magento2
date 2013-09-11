@@ -26,6 +26,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\GiftMessage\Model\Message', '\Magento\GiftMessage\Model\Resource\Message');
+        $this->_init('Magento\GiftMessage\Model\Message', 'Magento\GiftMessage\Model\Resource\Message');
     }
 }

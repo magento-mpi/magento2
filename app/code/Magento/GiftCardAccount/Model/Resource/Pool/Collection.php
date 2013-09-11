@@ -26,6 +26,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\GiftCardAccount\Model\Pool', '\Magento\GiftCardAccount\Model\Resource\Pool');
+        $this->_init('Magento\GiftCardAccount\Model\Pool', 'Magento\GiftCardAccount\Model\Resource\Pool');
     }
 }

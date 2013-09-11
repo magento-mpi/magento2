@@ -55,7 +55,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Rma\Model\Resource\Shipping');
+        $this->_init('Magento\Rma\Model\Resource\Shipping');
     }
 
     /**

@@ -134,7 +134,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order\Payment\Transaction');
+        $this->_init('Magento\Sales\Model\Resource\Order\Payment\Transaction');
         return parent::_construct();
     }
 

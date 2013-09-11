@@ -35,7 +35,7 @@ class Fulltext extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\CatalogSearch\Model\Resource\Fulltext');
+        $this->_init('Magento\CatalogSearch\Model\Resource\Fulltext');
     }
 
     /**

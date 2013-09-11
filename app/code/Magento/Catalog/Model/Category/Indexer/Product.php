@@ -68,7 +68,7 @@ class Product extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Resource\Category\Indexer\Product');
+        $this->_init('Magento\Catalog\Model\Resource\Category\Indexer\Product');
     }
 
     /**

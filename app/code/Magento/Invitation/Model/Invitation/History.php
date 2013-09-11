@@ -35,7 +35,7 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Invitation\Model\Resource\Invitation\History');
+        $this->_init('Magento\Invitation\Model\Resource\Invitation\History');
     }
 
     /**

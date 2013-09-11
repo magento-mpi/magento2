@@ -61,7 +61,7 @@ class Increment extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\VersionsCms\Model\Resource\Increment');
+        $this->_init('Magento\VersionsCms\Model\Resource\Increment');
     }
 
     /**

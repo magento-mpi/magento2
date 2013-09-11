@@ -32,7 +32,7 @@ class Option extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\Rating\Model\Resource\Rating\Option');
+        $this->_init('Magento\Rating\Model\Resource\Rating\Option');
     }
 
     public function addVote()

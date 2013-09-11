@@ -25,7 +25,7 @@ class Urlrewrite extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Cms\Model\Resource\Page\Urlrewrite');
+        $this->_init('Magento\Cms\Model\Resource\Page\Urlrewrite');
     }
 
     /**

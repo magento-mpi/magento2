@@ -102,7 +102,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Log\Model\Visitor', '\Magento\Log\Model\Resource\Visitor');
+        $this->_init('Magento\Log\Model\Visitor', 'Magento\Log\Model\Resource\Visitor');
 
         $this->_visitorTable     = $this->getTable('log_visitor');
         $this->_visitorInfoTable = $this->getTable('log_visitor_info');

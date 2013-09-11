@@ -66,7 +66,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\VersionsCms\Model\Resource\Page\Version');
+        $this->_init('Magento\VersionsCms\Model\Resource\Page\Version');
     }
 
     /**

@@ -396,7 +396,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Resource\Order');
+        $this->_init('Magento\Sales\Model\Resource\Order');
     }
 
     /**

@@ -34,7 +34,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\Core\Model\Variable', '\Magento\Core\Model\Resource\Variable');
+        $this->_init('Magento\Core\Model\Variable', 'Magento\Core\Model\Resource\Variable');
     }
 
     /**

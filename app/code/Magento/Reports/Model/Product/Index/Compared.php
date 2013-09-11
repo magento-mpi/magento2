@@ -43,7 +43,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Reports\Model\Resource\Product\Index\Compared');
+        $this->_init('Magento\Reports\Model\Resource\Product\Index\Compared');
     }
 
     /**

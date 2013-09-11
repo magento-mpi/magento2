@@ -43,7 +43,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Bundle\Model\Resource\Option');
+        $this->_init('Magento\Bundle\Model\Resource\Option');
         parent::_construct();
     }
 

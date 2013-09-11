@@ -47,7 +47,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Catalog\Model\Product\Compare\Item', '\Magento\Catalog\Model\Resource\Product');
+        $this->_init('Magento\Catalog\Model\Product\Compare\Item', 'Magento\Catalog\Model\Resource\Product');
         $this->_initTables();
     }
 

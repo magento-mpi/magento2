@@ -225,7 +225,7 @@ class Node extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\VersionsCms\Model\Resource\Hierarchy\Node');
+        $this->_init('Magento\VersionsCms\Model\Resource\Hierarchy\Node');
     }
 
     /**

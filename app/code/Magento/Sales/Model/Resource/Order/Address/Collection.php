@@ -40,7 +40,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Order\Address', '\Magento\Sales\Model\Resource\Order\Address');
+        $this->_init('Magento\Sales\Model\Order\Address', 'Magento\Sales\Model\Resource\Order\Address');
     }
 
     /**

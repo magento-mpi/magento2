@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Index\Model\Event', '\Magento\Index\Model\Resource\Event');
+        $this->_init('Magento\Index\Model\Event', 'Magento\Index\Model\Resource\Event');
     }
 
     /**

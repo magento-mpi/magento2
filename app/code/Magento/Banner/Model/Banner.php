@@ -68,7 +68,7 @@ class Banner extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Banner\Model\Resource\Banner');
+        $this->_init('Magento\Banner\Model\Resource\Banner');
     }
 
     /**

@@ -57,7 +57,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Downloadable\Model\Resource\Link');
+        $this->_init('Magento\Downloadable\Model\Resource\Link');
         parent::_construct();
     }
 

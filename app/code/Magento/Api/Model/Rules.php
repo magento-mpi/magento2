@@ -34,7 +34,7 @@ class Rules extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('\Magento\Api\Model\Resource\Rules');
+        $this->_init('Magento\Api\Model\Resource\Rules');
     }
 
     public function update() {

@@ -41,7 +41,7 @@ class Collection
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Sales\Model\Order\Status\History', '\Magento\Sales\Model\Resource\Order\Status\History');
+        $this->_init('Magento\Sales\Model\Order\Status\History', 'Magento\Sales\Model\Resource\Order\Status\History');
     }
 
     /**

@@ -41,7 +41,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      */
     public function __construct($connectionName = null)
     {
-        $this->_init('\Magento\Core\Model\Resource\File\Storage\Directory\Database');
+        $this->_init('Magento\Core\Model\Resource\File\Storage\Directory\Database');
 
         parent::__construct($connectionName);
     }

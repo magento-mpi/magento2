@@ -37,7 +37,7 @@ class Notification extends \Magento\Core\Model\AbstractModel
      */
     function _construct()
     {
-        $this->_init('\Magento\GoogleCheckout\Model\Resource\Notification');
+        $this->_init('Magento\GoogleCheckout\Model\Resource\Notification');
     }
 
     /**

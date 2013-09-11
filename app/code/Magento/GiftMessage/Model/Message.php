@@ -48,7 +48,7 @@ class Message extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\GiftMessage\Model\Resource\Message');
+        $this->_init('Magento\GiftMessage\Model\Resource\Message');
     }
 
     /**

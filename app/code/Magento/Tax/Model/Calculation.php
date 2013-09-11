@@ -38,7 +38,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('\Magento\Tax\Model\Resource\Calculation');
+        $this->_init('Magento\Tax\Model\Resource\Calculation');
     }
 
     /**

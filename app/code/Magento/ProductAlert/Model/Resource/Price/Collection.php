@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\ProductAlert\Model\Price', '\Magento\ProductAlert\Model\Resource\Price');
+        $this->_init('Magento\ProductAlert\Model\Price', 'Magento\ProductAlert\Model\Resource\Price');
     }
 
     /**

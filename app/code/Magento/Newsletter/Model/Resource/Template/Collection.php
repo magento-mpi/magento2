@@ -26,7 +26,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Newsletter\Model\Template', '\Magento\Newsletter\Model\Resource\Template');
+        $this->_init('Magento\Newsletter\Model\Template', 'Magento\Newsletter\Model\Resource\Template');
     }
 
     /**

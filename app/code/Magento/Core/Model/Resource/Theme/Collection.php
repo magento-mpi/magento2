@@ -25,7 +25,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Core\Model\Theme', '\Magento\Core\Model\Resource\Theme');
+        $this->_init('Magento\Core\Model\Theme', 'Magento\Core\Model\Resource\Theme');
     }
 
     /**

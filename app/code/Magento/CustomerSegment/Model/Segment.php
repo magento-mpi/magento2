@@ -54,7 +54,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('\Magento\CustomerSegment\Model\Resource\Segment');
+        $this->_init('Magento\CustomerSegment\Model\Resource\Segment');
     }
 
     /**

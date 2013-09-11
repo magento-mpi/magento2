@@ -43,7 +43,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      */
     protected function _construct()
     {
-        $this->_init('\Magento\SalesRule\Model\Rule', '\Magento\SalesRule\Model\Resource\Rule');
+        $this->_init('Magento\SalesRule\Model\Rule', 'Magento\SalesRule\Model\Resource\Rule');
         $this->_map['fields']['rule_id'] = 'main_table.rule_id';
     }
 

@@ -37,7 +37,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Checkout\Model\Agreement', '\Magento\Checkout\Model\Resource\Agreement');
+        $this->_init('Magento\Checkout\Model\Agreement', 'Magento\Checkout\Model\Resource\Agreement');
     }
 
     /**
