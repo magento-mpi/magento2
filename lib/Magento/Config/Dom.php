@@ -105,7 +105,12 @@ class Magento_Config_Dom
             if ($node->hasChildNodes()) {
                 /* override node value */
                 if ($node->childNodes->length == 1 && $node->childNodes->item(0) instanceof DOMText) {
-                    $matchedNode->nodeValue = $node->childNodes->item(0)->nodeValue;
+                    /* skip the case when the matched node has children, otherwise they get overriden */
+                    if (!$matchedNode->hasChildNodes() || ($matchedNode->childNodes->length == 1
+                            && $matchedNode->childNodes->item(0) instanceof DOMText)
+                    ) {
+                        $matchedNode->nodeValue = $node->childNodes->item(0)->nodeValue;
+                    }
                 } else { /* recursive merge for all child nodes */
                     foreach ($node->childNodes as $childNode) {
                         if ($childNode instanceof DOMElement) {
