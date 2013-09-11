@@ -42,7 +42,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtm
         $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
 
         //load layout, set active menu and breadcrumbs
-        $this->_setActiveMenu('Magento_VersionsCms::cms_enterprise_page_page')
+        $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_page')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
 
@@ -69,7 +69,7 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page extends Magento_Adminhtm
             $page->load($pageId);
         }
 
-        Mage::register('cms_page', $page);
+        $this->_coreRegistry->register('cms_page', $page);
         return $page;
     }
 

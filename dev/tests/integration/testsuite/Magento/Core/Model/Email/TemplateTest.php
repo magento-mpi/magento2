@@ -26,14 +26,16 @@ class Magento_Core_Model_Email_TemplateTest extends PHPUnit_Framework_TestCase
         $this->_mail = $this->getMock(
             'Zend_Mail', array('send', 'addTo', 'addBcc', 'setReturnPath', 'setReplyTo'), array('utf-8')
         );
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_model = $this->getMockBuilder('Magento_Core_Model_Email_Template')
             ->setMethods(array('_getMail'))
             ->setConstructorArgs(array(
                 Mage::getSingleton('Magento_Core_Model_Context'),
+                $objectManager->get('Magento_Core_Model_Registry'),
                 $objectManager->create('Magento_Filesystem'),
                 $objectManager->create('Magento_Core_Model_View_Url'),
-                $objectManager->create('Magento_Core_Model_View_FileSystem')
+                $objectManager->create('Magento_Core_Model_View_FileSystem'),
+                $objectManager->get('Magento_Core_Model_View_DesignInterface')
             ))
             ->getMock();
         $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));

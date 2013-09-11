@@ -21,7 +21,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links
      *
      * @param array $attributes
      */
-    public function __construct($attributes=array())
+    public function __construct($attributes = array())
     {
         parent::__construct($attributes);
         $this->setType('links');

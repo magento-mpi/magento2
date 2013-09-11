@@ -5,4 +5,6 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-Mage::unregister('product_virtual');
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->unregister('product_virtual');

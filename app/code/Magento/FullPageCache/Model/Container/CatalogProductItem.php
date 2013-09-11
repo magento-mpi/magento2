@@ -62,6 +62,27 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     );
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_FullPageCache_Model_Cache $fpcCache
+     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_FullPageCache_Model_Cache $fpcCache,
+        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($fpcCache, $placeholder);
+    }
+
+    /**
      * Get parent block type
      *
      * @return null|string
@@ -197,15 +218,15 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
                 $parentBlock = $this->_getParentBlock();
                 if ($parentBlock) {
                     $productId = $this->_getProductId();
-                    if ($productId && !Mage::registry('product')) {
+                    if ($productId && !$this->_coreRegistry->registry('product')) {
                         $product = Mage::getModel('Magento_Catalog_Model_Product')
                             ->setStoreId(Mage::app()->getStore()->getId())
                             ->load($productId);
                         if ($product) {
-                            Mage::register('product', $product);
+                            $this->_coreRegistry->register('product', $product);
                         }
                     }
-                    $ids = Mage::registry('product') ? $parentBlock->getAllIds() : array();
+                    $ids = $this->_coreRegistry->registry('product') ? $parentBlock->getAllIds() : array();
                     $this->_setSharedParam('shuffled', $parentBlock->isShuffled());
                 }
                 if (!$ids) {

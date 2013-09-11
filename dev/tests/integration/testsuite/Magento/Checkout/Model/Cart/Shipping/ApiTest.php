@@ -25,7 +25,7 @@ class Magento_Checkout_Model_Cart_Shipping_ApiTest extends PHPUnit_Framework_Tes
     public function testGetShippingMethodsList()
     {
         /** Retrieve the list of available shipping methods via API. */
-        $shippingMethodsList = Magento_Test_Helper_Api::call(
+        $shippingMethodsList = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartShippingList',
             array(
@@ -44,7 +44,7 @@ class Magento_Checkout_Model_Cart_Shipping_ApiTest extends PHPUnit_Framework_Tes
             'method_description' => null,
             'price' => 10
         );
-        Magento_Test_Helper_Api::checkEntityFields($this, $expectedItemData, reset($shippingMethodsList));
+        Magento_TestFramework_Helper_Api::checkEntityFields($this, $expectedItemData, reset($shippingMethodsList));
     }
 
     /**
@@ -66,7 +66,7 @@ class Magento_Checkout_Model_Cart_Shipping_ApiTest extends PHPUnit_Framework_Tes
 
         /** Retrieve the list of available shipping methods via API. */
         $shippingMethod = 'flatrate_flatrate';
-        $isAdded = Magento_Test_Helper_Api::call(
+        $isAdded = Magento_TestFramework_Helper_Api::call(
             $this,
             'shoppingCartShippingMethod',
             array(

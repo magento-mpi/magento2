@@ -18,7 +18,7 @@
 abstract class Magento_Catalog_Model_Abstract extends Magento_Core_Model_Abstract
 {
     /**
-     * Identifuer of default store
+     * Identifier of default store
      * used for loading default data for entity
      */
     const DEFAULT_STORE_ID = 0;
@@ -149,11 +149,11 @@ abstract class Magento_Catalog_Model_Abstract extends Magento_Core_Model_Abstrac
     {
         if ($this->hasLockedAttributes()) {
             if (is_array($key)) {
-                 foreach ($this->getLockedAttributes() as $attribute) {
-                     if (isset($key[$attribute])) {
-                         unset($key[$attribute]);
-                     }
-                 }
+                foreach ($this->getLockedAttributes() as $attribute) {
+                    if (isset($key[$attribute])) {
+                        unset($key[$attribute]);
+                    }
+                }
             } elseif ($this->isLockedAttribute($key)) {
                 return $this;
             }
@@ -210,7 +210,7 @@ abstract class Magento_Catalog_Model_Abstract extends Magento_Core_Model_Abstrac
         $collection = $this->getResourceCollection()
             ->addAttributeToSelect($additionalAttributes)
             ->addAttributeToFilter($attribute, $value)
-            ->setPage(1,1);
+            ->setPage(1, 1);
 
         foreach ($collection as $object) {
             return $object;
@@ -342,5 +342,4 @@ abstract class Magento_Catalog_Model_Abstract extends Magento_Core_Model_Abstrac
         $this->_isReadonly = (bool)$value;
         return $this;
     }
-
 }

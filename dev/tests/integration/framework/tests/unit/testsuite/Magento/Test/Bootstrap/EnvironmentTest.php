@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Test_Bootstrap_Environment.
+ * Test class for Magento_TestFramework_Bootstrap_Environment.
  */
 class Magento_Test_Bootstrap_EnvironmentTest extends PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ class Magento_Test_Bootstrap_EnvironmentTest extends PHPUnit_Framework_TestCase
     protected static $_sessionId = '';
 
     /**
-     * @var Magento_Test_Bootstrap_Environment
+     * @var Magento_TestFramework_Bootstrap_Environment
      */
     protected $_object;
 
@@ -36,7 +36,7 @@ class Magento_Test_Bootstrap_EnvironmentTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_object = new Magento_Test_Bootstrap_Environment();
+        $this->_object = new Magento_TestFramework_Bootstrap_Environment();
     }
 
     protected function tearDown()

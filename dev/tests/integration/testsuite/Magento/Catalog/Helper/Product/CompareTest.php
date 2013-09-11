@@ -27,7 +27,8 @@ class Magento_Catalog_Helper_Product_CompareTest extends PHPUnit_Framework_TestC
     public function testGetListUrl()
     {
         /** @var $empty Magento_Catalog_Helper_Product_Compare */
-        $empty = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Catalog_Helper_Product_Compare');
+        $empty = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->create('Magento_Catalog_Helper_Product_Compare');
         $this->assertContains('/catalog/product_compare/index/', $empty->getListUrl());
 
         $this->_populateCompareList();

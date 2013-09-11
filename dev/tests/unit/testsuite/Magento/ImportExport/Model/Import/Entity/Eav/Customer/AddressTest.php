@@ -202,7 +202,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     protected function _createAttrCollectionMock()
     {
         $attributeCollection = $this->getMock('Magento_Data_Collection', array('getEntityTypeCode'));
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
             $arguments['data'] = $attributeData;
@@ -229,7 +229,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     {
         $customerStorage = $this->getMock('Magento_ImportExport_Model_Resource_Customer_Storage', array('load'),
             array(), '', false);
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($this->_customers as $customerData) {
             $arguments = $objectManagerHelper->getConstructArguments('Magento_Customer_Model_Customer');
             $arguments['data'] = $customerData;

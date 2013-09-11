@@ -33,15 +33,25 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     protected $_objectManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_AdminGws_Model_Role $role
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Controller_Request_Http $request
      * @param Magento_ObjectManager $objectManager
      */
     public function __construct(
         Magento_AdminGws_Model_Role $role,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Controller_Request_Http $request,
         Magento_ObjectManager $objectManager
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($role);
         $this->_objectManager = $objectManager;
         $this->_request = $request;
@@ -55,8 +65,10 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     public function validateSystemConfig($controller)
     {
         // allow specific store view scope
-        if ($storeCode = $this->_request->getParam('store')) {
-            if ($store = Mage::app()->getStore($storeCode)) {
+        $storeCode = $this->_request->getParam('store');
+        if ($storeCode) {
+            $store = Mage::app()->getStore($storeCode);
+            if ($store) {
                 if ($this->_role->hasStoreAccess($store->getId())) {
                     return;
                 }
@@ -65,7 +77,8 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
         // allow specific website scope
         elseif ($websiteCode = $this->_request->getParam('website')) {
             try {
-                if ($website = Mage::app()->getWebsite($websiteCode)) {
+                $website = Mage::app()->getWebsite($websiteCode);
+                if ($website) {
                     if ($this->_role->hasWebsiteAccess($website->getId(), true)) {
                         return;
                     }
@@ -349,13 +362,13 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
     public function validateSystemStore($controller)
     {
         // due to design of the original controller, need to run this check only once, on the first dispatch
-        if (Mage::registry('magento_admingws_system_store_matched')) {
+        if ($this->_coreRegistry->registry('magento_admingws_system_store_matched')) {
             return;
         } elseif (in_array($this->_request->getActionName(), array('save', 'newWebsite', 'newGroup', 'newStore',
             'editWebsite', 'editGroup', 'editStore', 'deleteWebsite', 'deleteWebsitePost', 'deleteGroup',
             'deleteGroupPost', 'deleteStore', 'deleteStorePost'
             ))) {
-            Mage::register('magento_admingws_system_store_matched', true, true);
+            $this->_coreRegistry->register('magento_admingws_system_store_matched', true, true);
         }
 
         switch ($this->_request->getActionName()) {
@@ -401,7 +414,8 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
                 break;
             case 'deleteGroup': // break intentionally omitted
             case 'deleteGroupPost':
-                if ($group = $this->_role->getGroup($this->_request->getParam('item_id'))) {
+                $group = $this->_role->getGroup($this->_request->getParam('item_id'));
+                if ($group) {
                     if ($this->_role->hasWebsiteAccess($group->getWebsiteId(), true)) {
                         return;
                     }
@@ -410,7 +424,8 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
                 break;
             case 'deleteStore': // break intentionally omitted
             case 'deleteStorePost':
-                if ($store = Mage::app()->getStore($this->_request->getParam('item_id'))) {
+                $store = Mage::app()->getStore($this->_request->getParam('item_id'));
+                if ($store) {
                     if ($this->_role->hasWebsiteAccess($store->getWebsiteId(), true)) {
                         return;
                     }
@@ -452,7 +467,8 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
         // avoid cycling
         if ($this->_request->getActionName() === $action
             && (null === $module || $this->_request->getModuleName() === $module)
-            && (null === $controller || $this->_request->getControllerName() === $controller)) {
+            && (null === $controller || $this->_request->getControllerName() === $controller)
+        ) {
             return;
         }
 
@@ -507,7 +523,8 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
      */
     public function validateSalesOrderViewAction($controller)
     {
-        if ($id = $this->_request->getParam('order_id')) {
+        $id = $this->_request->getParam('order_id');
+        if ($id) {
             $object = Mage::getModel('Magento_Sales_Model_Order')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
@@ -685,7 +702,8 @@ class Magento_AdminGws_Model_Controllers extends Magento_AdminGws_Model_Observer
      */
     public function validateSalesOrderMassAction($controller)
     {
-        if ($ids = $this->_request->getParam('order_ids', array())) {
+        $ids = $this->_request->getParam('order_ids', array());
+        if ($ids) {
             if ($ids && is_array($ids)) {
                 foreach ($ids as $id) {
                     $object = Mage::getModel('Magento_Sales_Model_Order')->load($id);

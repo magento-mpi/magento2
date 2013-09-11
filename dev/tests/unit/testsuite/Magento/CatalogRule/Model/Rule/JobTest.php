@@ -14,7 +14,7 @@ class Magento_CatalogRule_Model_Rule_JobTest extends PHPUnit_Framework_TestCase
      */
     public function testApplyAll()
     {
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
         $eventManager->expects($this->once())

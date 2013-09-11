@@ -23,6 +23,35 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Store_Switcher extends Mag
     protected $_hasDefaultOption = false;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_App $application
+     * @param Magento_Core_Model_Website_Factory $websiteFactory
+     * @param Magento_Core_Model_Store_Group_Factory $storeGroupFactory
+     * @param Magento_Core_Model_StoreFactory $storeFactory
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_App $application,
+        Magento_Core_Model_Website_Factory $websiteFactory,
+        Magento_Core_Model_Store_Group_Factory $storeGroupFactory,
+        Magento_Core_Model_StoreFactory $storeFactory,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $application, $websiteFactory, $storeGroupFactory, $storeFactory, $data);
+    }
+
+    /**
      * Add website filter
      */
     protected function _construct()
@@ -35,22 +64,22 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Store_Switcher extends Mag
     }
 
     /**
-     * Return current customer from regisrty
+     * Return current customer from registry
      *
      * @return Magento_Customer_Model_Customer
      */
     protected function _getCustomer()
     {
-        return Mage::registry('checkout_current_customer');
+        return $this->_coreRegistry->registry('checkout_current_customer');
     }
 
     /**
-     * Return current store from regisrty
+     * Return current store from registry
      *
      * @return Magento_Core_Model_Store
      */
     protected function _getStore()
     {
-        return Mage::registry('checkout_current_store');
+        return $this->_coreRegistry->registry('checkout_current_store');
     }
 }

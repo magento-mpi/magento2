@@ -8,26 +8,41 @@
  * @license     {license_link}
  */
 
-/**
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
 class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Magento_Adminhtml_Block_Template
 {
     protected $_template = 'poll/answers/list.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _toHtml()
     {
-        if( !Mage::registry('poll_data') ) {
+        if (!$this->_coreRegistry->registry('poll_data')) {
             $this->assign('answers', false);
             return parent::_toHtml();
         }
 
         $collection = Mage::getModel('Magento_Poll_Model_Poll_Answer')
             ->getResourceCollection()
-            ->addPollFilter(Mage::registry('poll_data')->getId())
+            ->addPollFilter($this->_coreRegistry->registry('poll_data')->getId())
             ->load();
         $this->assign('answers', $collection);
 

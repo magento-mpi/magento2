@@ -30,11 +30,11 @@ class Magento_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCase
     public function testCustomerBalanceBalance()
     {
         $customerBalanceData = simplexml_load_file(dirname(__FILE__) . '/../_files/fixture/CustomerBalance.xml');
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($customerBalanceData);
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($customerBalanceData);
 
         $data['input']['customerId'] = self::$customer->getId();
 
-        $result = Magento_Test_Helper_Api::call($this, 'enterpriseCustomerbalanceBalance', $data['input']);
+        $result = Magento_TestFramework_Helper_Api::call($this, 'enterpriseCustomerbalanceBalance', $data['input']);
         $this->assertEquals($data['expected']['balance'], $result, 'This balance value is not expected');
     }
 
@@ -46,7 +46,7 @@ class Magento_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCase
     public function testCustomerBalanceBalanceExceptionBalanceNotFound()
     {
         $params = array('customerId' => self::$customerNoBalance->getId(), 'websiteId' => 1);
-        Magento_Test_Helper_Api::callWithException($this, 'enterpriseCustomerbalanceBalance',
+        Magento_TestFramework_Helper_Api::callWithException($this, 'enterpriseCustomerbalanceBalance',
             $params, 'Balance with requested parameters is not found.'
         );
 
@@ -62,11 +62,11 @@ class Magento_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCase
         $balanceHistory = simplexml_load_file(
             dirname(__FILE__) . '/../_files/fixture/CustomerBalanceHistory.xml'
         );
-        $data = Magento_Test_Helper_Api::simpleXmlToArray($balanceHistory);
+        $data = Magento_TestFramework_Helper_Api::simpleXmlToArray($balanceHistory);
 
         $data['input']['customerId'] = self::$customer->getId();
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'enterpriseCustomerbalanceHistory',
             array($data['input']['customerId'], $data['input']['websiteId'])
@@ -89,7 +89,7 @@ class Magento_CustomerBalance_Model_ApiTest extends PHPUnit_Framework_TestCase
     public function testCustomerBalanceHistoryExceptionHistoryNotFound()
     {
         $params = array('customerId' => self::$customerNoBalance->getId(), 'websiteId' => 1);
-        Magento_Test_Helper_Api::callWithException($this, 'enterpriseCustomerbalanceHistory',
+        Magento_TestFramework_Helper_Api::callWithException($this, 'enterpriseCustomerbalanceHistory',
             $params, 'History with requested parameters is not found.'
         );
 

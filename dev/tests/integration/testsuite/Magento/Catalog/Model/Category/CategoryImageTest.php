@@ -55,8 +55,8 @@ class Magento_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework
          * Class declaration in data fixture file is dumb too.
          * Added a quick fix to be able run separate tests with "phpunit --filter testMethod"
          */
-        if (class_exists('Stub_Magento_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream', false)) {
-            Stub_Magento_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream::$exceptions = array();
+        if (class_exists('Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest', false)) {
+            Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest::$exceptions = array();
         }
     }
 
@@ -64,16 +64,20 @@ class Magento_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework
      * Test that there is no exception '$_FILES array is empty' in Magento_File_Uploader::_setUploadFileId()
      * if category image was not set
      *
-     * @magentoDataFixture Magento/Catalog/Model/Category/_files/stub_zend_log_writer_stream.php
      * @magentoDataFixture Magento/Catalog/Model/Category/_files/category_without_image.php
      */
     public function testSaveCategoryWithoutImage()
     {
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
         /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::registry('_fixture/Magento_Catalog_Model_Category');
+        $category = $objectManager->get('Magento_Core_Model_Registry')
+            ->registry('_fixture/Magento_Catalog_Model_Category');
         $this->assertNotEmpty($category->getId());
 
-        foreach (Stub_Magento_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream::$exceptions as $exception) {
+        foreach (Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest::$exceptions
+                 as $exception) {
             $this->assertNotContains('$_FILES array is empty', $exception['message']);
         }
     }

@@ -17,7 +17,7 @@ class Magento_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framewor
     {
         $productsId = array(10, 11, 12);
         /** Retrieve products stock data. */
-        $productsStockData = Magento_Test_Helper_Api::call(
+        $productsStockData = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogInventoryStockItemList',
             array($productsId)
@@ -42,7 +42,7 @@ class Magento_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framewor
     {
         $newQty = 333;
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogInventoryStockItemUpdate',
             array(10, array('qty' => $newQty))
@@ -72,7 +72,7 @@ class Magento_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framewor
             array('qty' => 1212),
         );
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogInventoryStockItemMultiUpdate',
             array($productIds, $productData)

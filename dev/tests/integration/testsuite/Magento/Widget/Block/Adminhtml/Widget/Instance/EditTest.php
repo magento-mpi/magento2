@@ -21,7 +21,10 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Fr
     public function testConstruct()
     {
         $type = 'Magento_Catalog_Block_Product_Widget_New';
-        $theme = Mage::getDesign()->setDefaultDesignTheme()->getDesignTheme();
+        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface')
+            ->setDefaultDesignTheme()
+            ->getDesignTheme();
 
         /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
         $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
@@ -29,7 +32,9 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Fr
             ->setType($type)
             ->setThemeId($theme->getId())
             ->save();
-        Mage::register('current_widget_instance', $widgetInstance);
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->register('current_widget_instance', $widgetInstance);
 
         Mage::app()->getRequest()->setParam('instance_id', $widgetInstance->getId());
         $block = Mage::app()->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit', 'widget');

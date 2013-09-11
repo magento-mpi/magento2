@@ -14,6 +14,13 @@
 class Magento_Core_Model_Registry
 {
     /**
+     * Registry collection
+     *
+     * @var array
+     */
+    private $_registry = array();
+
+    /**
      * Retrieve a value from registry by a key
      *
      * @param string $key
@@ -21,7 +28,10 @@ class Magento_Core_Model_Registry
      */
     public function registry($key)
     {
-        return Mage::registry($key);
+        if (isset($this->_registry[$key])) {
+            return $this->_registry[$key];
+        }
+        return null;
     }
 
     /**
@@ -30,11 +40,17 @@ class Magento_Core_Model_Registry
      * @param string $key
      * @param mixed $value
      * @param bool $graceful
-     * @throws Magento_Core_Exception
+     * @throws RuntimeException
      */
     public function register($key, $value, $graceful = false)
     {
-        Mage::register($key, $value, $graceful);
+        if (isset($this->_registry[$key])) {
+            if ($graceful) {
+                return;
+            }
+            throw new RuntimeException('Registry key "' . $key . '" already exists');
+        }
+        $this->_registry[$key] = $value;
     }
 
     /**
@@ -44,6 +60,20 @@ class Magento_Core_Model_Registry
      */
     public function unregister($key)
     {
-        Mage::unregister($key);
+        if (isset($this->_registry[$key])) {
+            if (is_object($this->_registry[$key]) && (method_exists($this->_registry[$key], '__destruct'))) {
+                $this->_registry[$key]->__destruct();
+            }
+            unset($this->_registry[$key]);
+        }
+    }
+
+    /**
+     * Destruct registry items
+     */
+    public function __destruct()
+    {
+        $keys = array_keys($this->_registry);
+        array_walk($keys, array($this, 'unregister'));
     }
 }

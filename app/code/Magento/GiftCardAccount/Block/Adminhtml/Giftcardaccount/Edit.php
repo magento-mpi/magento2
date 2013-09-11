@@ -10,6 +10,26 @@
 
 class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     protected function _construct()
     {
@@ -50,15 +70,15 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Magen
 
     public function getGiftcardaccountId()
     {
-        return Mage::registry('current_giftcardaccount')->getId();
+        return $this->_coreRegistry->registry('current_giftcardaccount')->getId();
     }
 
     public function getHeaderText()
     {
-        if (Mage::registry('current_giftcardaccount')->getId()) {
-            return __('Edit Gift Card Account: %1', $this->escapeHtml(Mage::registry('current_giftcardaccount')->getCode()));
-        }
-        else {
+        if ($this->_coreRegistry->registry('current_giftcardaccount')->getId()) {
+            $code = $this->escapeHtml($this->_coreRegistry->registry('current_giftcardaccount')->getCode());
+            return __('Edit Gift Card Account: %1', $code);
+        } else {
             return __('New Gift Card Account');
         }
     }

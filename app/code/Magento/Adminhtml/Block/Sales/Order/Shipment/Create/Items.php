@@ -10,12 +10,7 @@
 
 /**
  * Adminhtml shipment items grid
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
     /**
@@ -45,7 +40,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**

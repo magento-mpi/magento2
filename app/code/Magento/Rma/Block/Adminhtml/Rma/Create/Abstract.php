@@ -19,13 +19,34 @@
 abstract class Magento_Rma_Block_Adminhtml_Rma_Create_Abstract extends Magento_Adminhtml_Block_Widget
 {
      /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve create order model object
      *
      * @return Magento_Rma_Model_Rma_Create
      */
     public function getCreateRmaModel()
     {
-        return Mage::registry('rma_create_model');
+        return $this->_coreRegistry->registry('rma_create_model');
     }
 
     /**

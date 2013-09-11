@@ -19,6 +19,25 @@
 class Magento_Wishlist_Controller_Shared extends Magento_Wishlist_Controller_Abstract
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Controller_Varien_Action_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Retrieve wishlist instance by requested code
      *
      * @return Magento_Wishlist_Model_Wishlist|false
@@ -54,7 +73,7 @@ class Magento_Wishlist_Controller_Shared extends Magento_Wishlist_Controller_Abs
             return;
         }
 
-        Mage::register('shared_wishlist', $wishlist);
+        $this->_coreRegistry->register('shared_wishlist', $wishlist);
 
         $this->loadLayout();
         $this->_initLayoutMessages('Magento_Checkout_Model_Session');

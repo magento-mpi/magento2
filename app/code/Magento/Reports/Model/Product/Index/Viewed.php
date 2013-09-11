@@ -53,8 +53,8 @@ class Magento_Reports_Model_Product_Index_Viewed extends Magento_Reports_Model_P
     {
         $productIds = array();
 
-        if (Mage::registry('current_product')) {
-            $productIds[] = Mage::registry('current_product')->getId();
+        if ($this->_coreRegistry->registry('current_product')) {
+            $productIds[] = $this->_coreRegistry->registry('current_product')->getId();
         }
 
         return $productIds;

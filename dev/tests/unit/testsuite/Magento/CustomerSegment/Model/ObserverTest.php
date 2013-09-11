@@ -23,7 +23,8 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $this->_segmentHelper = $this->getMock(
             'Magento_CustomerSegment_Helper_Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
         );
-        $this->_model = new Magento_CustomerSegment_Model_Observer($this->_segmentHelper);
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $this->_model = new Magento_CustomerSegment_Model_Observer($this->_segmentHelper, $coreRegistry);
     }
 
     protected function tearDown()

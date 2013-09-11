@@ -54,7 +54,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Clean out the cache
-        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var Magento_Acl_CacheInterface $aclCache */
         $aclCache = $this->_objectManager->get('Magento_Acl_CacheInterface');
         $aclCache->clean();

@@ -50,6 +50,9 @@ class Magento_Paypal_Model_Direct extends Magento_Payment_Model_Method_Cc
      */
     protected $_proType = 'Magento_Paypal_Model_Pro';
 
+    /**
+     * @param array $params
+     */
     public function __construct($params = array())
     {
         $proInstance = array_shift($params);

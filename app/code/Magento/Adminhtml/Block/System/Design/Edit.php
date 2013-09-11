@@ -13,6 +13,27 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
 
     protected $_template = 'system/design/edit.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -24,7 +45,7 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
     {
         $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label'     => __('Back'),
-            'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
+            'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/') . '\')',
             'class' => 'back'
         ));
 
@@ -40,7 +61,7 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
 
         $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
             'label'     => __('Delete'),
-            'onclick'   => 'confirmSetLocation(\''.__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+            'onclick'   => 'confirmSetLocation(\'' . __('Are you sure?') . '\', \'' . $this->getDeleteUrl() . '\')',
             'class'  => 'delete'
         ));
         return parent::_prepareLayout();
@@ -48,7 +69,7 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
 
     public function getDesignChangeId()
     {
-        return Mage::registry('design')->getId();
+        return $this->_coreRegistry->registry('design')->getId();
     }
 
     public function getDeleteUrl()
@@ -68,8 +89,7 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
 
     public function getHeader()
     {
-        $header = '';
-        if (Mage::registry('design')->getId()) {
+        if ($this->_coreRegistry->registry('design')->getId()) {
             $header = __('Edit Design Change');
         } else {
             $header = __('New Store Design Change');

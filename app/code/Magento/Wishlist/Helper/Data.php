@@ -57,6 +57,25 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_wishlistItemCollection = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Retreive customer session
      *
      * @return Magento_Customer_Model_Session
@@ -117,13 +136,11 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     public function getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            if (Mage::registry('shared_wishlist')) {
-                $this->_wishlist = Mage::registry('shared_wishlist');
-            }
-            elseif (Mage::registry('wishlist')) {
-                $this->_wishlist = Mage::registry('wishlist');
-            }
-            else {
+            if ($this->_coreRegistry->registry('shared_wishlist')) {
+                $this->_wishlist = $this->_coreRegistry->registry('shared_wishlist');
+            } elseif ($this->_coreRegistry->registry('wishlist')) {
+                $this->_wishlist = $this->_coreRegistry->registry('wishlist');
+            } else {
                 $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
                 if ($this->getCustomer()) {
                     $this->_wishlist->loadByCustomer($this->getCustomer());
@@ -197,8 +214,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
         if ($product) {
             if ($product->isVisibleInSiteVisibility()) {
                 $storeId = $product->getStoreId();
-            }
-            else if ($product->hasUrlDataObject()) {
+            } else if ($product->hasUrlDataObject()) {
                 $storeId = $product->getUrlDataObject()->getStoreId();
             }
         }

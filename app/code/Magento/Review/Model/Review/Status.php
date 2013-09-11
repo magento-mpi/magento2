@@ -18,7 +18,6 @@
 
 class Magento_Review_Model_Review_Status extends Magento_Core_Model_Abstract
 {
-
     public function __construct()
     {
         $this->_init('Magento_Review_Model_Resource_Review_Status');

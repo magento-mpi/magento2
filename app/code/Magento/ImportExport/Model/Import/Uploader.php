@@ -32,7 +32,11 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
      */
     protected $_imageFactory;
 
-    function __construct(Magento_Core_Model_Image_AdapterFactory $imageFactory, $filePath = null)
+    /**
+     * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
+     * @param null|string $filePath
+     */
+    public function __construct(Magento_Core_Model_Image_AdapterFactory $imageFactory, $filePath = null)
     {
         if (!is_null($filePath)) {
             $this->_setUploadFile($filePath);
