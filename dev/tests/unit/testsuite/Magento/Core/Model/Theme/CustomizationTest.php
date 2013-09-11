@@ -38,7 +38,7 @@ class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestC
     {
         $this->_fileCollection = $this->getMock('Magento\Core\Model\Resource\Theme\File\Collection',
             array(), array(), '', false);
-        $collectionFactory = $this->getMock('Magento_Core_Model_Resource_Theme_File_CollectionFactory',
+        $collectionFactory = $this->getMock('Magento\Core\Model\Resource\Theme\File\CollectionFactory',
             array('create'), array(), '', false);
         $collectionFactory->expects($this->any())->method('create')->will($this->returnValue($this->_fileCollection));
         $this->_customizationPath = $this->getMock('Magento\Core\Model\Theme\Customization\Path',

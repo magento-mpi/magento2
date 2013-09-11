@@ -49,7 +49,7 @@ class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_Tes
         );
 
         $collectionFactory = $this->getMock(
-            'Magento_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
+            'Magento\Core\Model\Resource\Theme\CollectionFactory', array('create'), array(), '', false
         );
 
         $collectionFactory->expects($this->any())
