@@ -144,12 +144,11 @@ class Magento_TestFramework_Utility_Files
             return self::$_cache[$key];
         }
         if (!isset(self::$_cache[$key])) {
-            $namespace = '*';
-
             $files = array_merge(
-                self::_getFiles(array("{$this->_path}/app/code/{$namespace}"), '*.php'),
-                self::_getFiles(array("{$this->_path}/dev"), '*.php'),
-                self::_getFiles(array("{$this->_path}/downloader/Maged"), '*.php'),
+                self::_getFiles(array("{$this->_path}/app/code/Magento"), '*.php'),
+                //self::_getFiles(array("{$this->_path}/dev"), '*.php'),
+                self::_getFiles(array("{$this->_path}/dev/tools/Magento"), '*.php'),
+                self::_getFiles(array("{$this->_path}/downloader/app/Magento"), '*.php'),
                 self::_getFiles(array("{$this->_path}/downloader/lib/Magento"), '*.php'),
                 self::_getFiles(array("{$this->_path}/lib/Magento"), '*.php')
             );
@@ -415,43 +414,13 @@ class Magento_TestFramework_Utility_Files
      */
     public function classFileExists($class, &$path = '')
     {
-        $path = implode(DIRECTORY_SEPARATOR, explode('_', $class)) . '.php';
-        $directories = array('/app/code/', '/lib/');
-        foreach ($directories as $dir) {
-            $fullPath = str_replace('/', DIRECTORY_SEPARATOR, $this->_path . $dir . $path);
-            /**
-             * Use realpath() instead of file_exists() to avoid incorrect work on Windows because of case insensitivity
-             * of file names
-             */
-            if (realpath($fullPath) == $fullPath) {
-                $fileContent = file_get_contents($fullPath);
-                if (strpos($fileContent, 'class ' . $class) !== false ||
-                    strpos($fileContent, 'interface ' . $class) !== false
-                ) {
-                    return true;
-                }
-            }
+        if ($class[0] == '\\') {
+            $class = substr($class, 1);
         }
-        return false;
-    }
-
-    /**
-     * Check if specified class exists
-     *
-     * @param string $class
-     * @param string &$path
-     * @return bool
-     */
-
-    public function classFormalNamespaceFileExists($class, &$path = '')
-    {
         $classParts = explode('\\', $class);
-        if ($classParts[0] == "") {
-            array_shift($classParts);
-        }
-        $path = implode(DIRECTORY_SEPARATOR, $classParts) . '.php';
-        $class = array_pop($classParts);
-        $namespace = implode('\\', $classParts);
+        $className = array_pop($classParts);
+        $nameSpace = implode('\\', $classParts);
+        $path = implode(DIRECTORY_SEPARATOR, explode('\\', $class)) . '.php';
         $directories = array('/app/code/', '/lib/');
         foreach ($directories as $dir) {
             $fullPath = str_replace('/', DIRECTORY_SEPARATOR, $this->_path . $dir . $path);
@@ -461,11 +430,9 @@ class Magento_TestFramework_Utility_Files
              */
             if (realpath($fullPath) == $fullPath) {
                 $fileContent = file_get_contents($fullPath);
-                if (
-                    strpos($fileContent, 'namespace ' . $namespace) !== false &&
-                    (strpos($fileContent, 'class ' . $class) !== false ||
-                    strpos($fileContent, 'interface ' . $class) !== false)
-                ) {
+                if (strpos($fileContent, 'namespace ' . $nameSpace) !== false &&
+                    (strpos($fileContent, 'class ' . $className) !== false ||
+                        strpos($fileContent, 'interface ' . $className) !== false)) {
                     return true;
                 }
             }
