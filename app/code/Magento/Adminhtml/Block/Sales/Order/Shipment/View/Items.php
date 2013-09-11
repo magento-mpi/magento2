@@ -18,7 +18,7 @@
  */
 namespace Magento\Adminhtml\Block\Sales\Order\Shipment\View;
 
-class Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
+class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     /**
      * Retrieve shipment model instance

@@ -443,25 +443,25 @@ class namespacer
                 } else {
                     if ($this->compareInString($trimLine, 0, 5, 'class')
                     ) {
-                        if ($this->compareInString($line, 0, 5, 'class')) {
+                        if ($this->compareInString($trimLine, 0, 5, 'class')) {
                             $parsedFile=true;
                             $this->splitLine = $count;
                         }
-                        $parsedLine = $this->scanClass($line, $parsedLine, $file);
+                        $parsedLine = $this->scanClass($trimLine, $parsedLine, $file);
                     } else {
-                        if ($this->compareInString($line, 0, 14, 'abstract class')) {
+                        if ($this->compareInString($trimLine, 0, 14, 'abstract class')) {
                             $parsedFile=true;
                             $this->splitLine = $count;
 
                             $parsedLine = $this->scanClass($line, $parsedLine, $file);
                         } else {
-                            if ($this->compareInString($line, 0, 9, "interface")) {
+                            if ($this->compareInString($trimLine, 0, 9, "interface")) {
                                 $parsedFile=true;
 
                                 $this->splitLine = $count;
                                 $parsedLine = $this->scanClass($line, $parsedLine, $file);
                             } else {
-                                if ($this->compareInString($line, 0, 11, "final class")) {
+                                if ($this->compareInString($trimLine, 0, 11, "final class")) {
                                     $parsedFile=true;
 
                                     $this->splitLine = $count;
@@ -676,6 +676,9 @@ class namespacer
         $this->reservecheck = false;
         $count = 0;
         foreach ($exp as $value) {
+            if(empty($value)){
+                continue;
+            }
             clearstatcache();
             $val = trim(strtolower($value));
             if ($this->isComment($val)) {

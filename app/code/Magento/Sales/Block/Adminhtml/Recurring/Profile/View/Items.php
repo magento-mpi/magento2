@@ -17,7 +17,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View;
 
-class Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
+class Items extends \Magento\Adminhtml\Block\Sales\Items\AbstractItems
 {
     /**
      * Retrieve required options from parent
