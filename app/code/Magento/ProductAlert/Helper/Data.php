@@ -19,21 +19,6 @@
 class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
 {
     /**
-     * @var Magento_Core_Model_Layout
-     */
-    protected $_layout;
-
-    /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Layout $layout
-     */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Layout $layout)
-    {
-        $this->_layout = $layout;
-        parent::__construct($context);
-    }
-
-    /**
      * Current product instance (override registry one)
      *
      * @var null|Magento_Catalog_Model_Product
@@ -48,14 +33,22 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
     protected $_coreRegistry = null;
 
     /**
+     * @var Magento_Core_Model_Layout
+     */
+    protected $_layout;
+
+    /**
      * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_Registry $coreRegistry
+     * @param Magento_Core_Model_Layout $layout
      */
     public function __construct(
         Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Registry $coreRegistry
+        Magento_Core_Model_Registry $coreRegistry,
+        Magento_Core_Model_Layout $layout
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_layout = $layout;
         parent::__construct($context);
     }
 
