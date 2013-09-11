@@ -19,8 +19,8 @@ class Magento_TestFramework_Helper_ObjectManager
      * @var array
      */
     protected $_specialCases = array(
-        '\Magento\Core\Model\Resource\AbstractResource' => '_getResourceModelMock',
-        '\Magento\Core\Model\Translate' => '_getTranslatorMock',
+        'Magento\Core\Model\Resource\AbstractResource' => '_getResourceModelMock',
+        'Magento\Core\Model\Translate' => '_getTranslatorMock',
     );
 
     /**

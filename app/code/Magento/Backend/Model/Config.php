@@ -59,7 +59,7 @@ class Config extends \Magento\Object
     /**
      * TransactionFactory
      *
-     * @var Magento_Core_Model_Resource_TransactionFactory
+     * @var \Magento\Core\Model\Resource\TransactionFactory
      */
     protected $_transactionFactory;
 
@@ -94,7 +94,7 @@ class Config extends \Magento\Object
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
-     * @param Magento_Core_Model_Resource_TransactionFactory $transactionFactory
+     * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
      * @param \Magento\Backend\Model\Config\Loader $configLoader
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager

@@ -20,7 +20,7 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $optionsModel = new \Magento\Core\Model\Source\Urlrewrite\Options();
-        Mage::register('_singleton/\Magento\Core\Model\Source\Urlrewrite\Options', $optionsModel);
+        Mage::register('_singleton/Magento\Core\Model\Source\Urlrewrite\Options', $optionsModel);
     }
 
     /**
@@ -28,7 +28,7 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Mage::unregister('_singleton/\Magento\Core\Model\Source\Urlrewrite\Options');
+        Mage::unregister('_singleton/Magento\Core\Model\Source\Urlrewrite\Options');
     }
 
     /**

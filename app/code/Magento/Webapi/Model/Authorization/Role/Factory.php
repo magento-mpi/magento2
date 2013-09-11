@@ -11,7 +11,7 @@ namespace Magento\Webapi\Model\Authorization\Role;
 
 class Factory
 {
-    const ROLE_CLASS_NAME = '\Magento\Webapi\Model\Authorization\Role';
+    const ROLE_CLASS_NAME = 'Magento\Webapi\Model\Authorization\Role';
 
     /**
      * @var \Magento\ObjectManager
