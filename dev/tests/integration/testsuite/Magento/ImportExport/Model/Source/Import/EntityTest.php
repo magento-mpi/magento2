@@ -33,16 +33,14 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
 
     /**
      * Init source model
-     *
-     * @static
      */
     public function setUp()
     {
-        /** @var Magento_Test_ObjectManager $objectMaganger */
+        /** @var Magento_Test_ObjectManager $objectManager */
         $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 
         /** @var Magento_Core_Model_Config $coreConfig */
-        $coreConfig = $objectManager->create('Magento_Core_Model_Config');
+        $coreConfig = $objectManager->create('Magento_Core_Model_Config', array('storage' => $this->_mockConfig()));
         $coreConfig->setNode(
             'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
             'Some_Class'
@@ -58,6 +56,27 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
             'Magento_ImportExport_Model_Source_Import_Entity',
             array('config' => $config)
         );
+    }
+
+    /**
+     * Mock config
+     */
+    protected function _mockConfig()
+    {
+        $storage = $this->getMock('Magento_Core_Model_Config_Storage', array('getConfiguration'), array(), '', false);
+        $configObject = new Magento_Core_Model_Config_Base(new Magento_Simplexml_Element('<config></config>'));
+        $configObject->setNode(
+            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
+            'Some_Class'
+        );
+        $configObject->setNode(
+            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/label',
+            $this->_testEntity['label']
+        );
+        $storage->expects($this->atLeastOnce())
+            ->method('getConfiguration')
+            ->will($this->returnValue($configObject));
+        return $storage;
     }
 
     /**

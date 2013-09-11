@@ -96,7 +96,7 @@ class Magento_Simplexml_Config
             return;
         }
         if ($sourceData instanceof Magento_Simplexml_Element) {
-           $this->setXml($sourceData);
+            $this->setXml($sourceData);
         } elseif (is_string($sourceData) && !empty($sourceData)) {
             if (strlen($sourceData)<1000 && is_readable($sourceData)) {
                 $this->loadFile($sourceData);
