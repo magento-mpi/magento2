@@ -54,8 +54,6 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
     /**
      * Initialize inline translation model
      *
-     *
-     *
      * @param Magento_Core_Model_Translate_InlineParser $parser
      * @param Magento_Core_Model_Translate $translate
      * @param Magento_Core_Model_Store_Config $coreStoreConfig

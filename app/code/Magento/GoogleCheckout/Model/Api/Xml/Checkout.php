@@ -224,13 +224,19 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = $this->_coreStoreConfig->getConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $storeId);
+        $active = $this->_coreStoreConfig->getConfigFlag(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_ACTIVE, $storeId
+        );
         if (!$active) {
             return '';
         }
 
-        $schedule = $this->_coreStoreConfig->getConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE, $storeId);
-        $method   = $this->_coreStoreConfig->getConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_METHOD, $storeId);
+        $schedule = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_SCHEDULE, $storeId
+        );
+        $method   = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_VIRTUAL_METHOD, $storeId
+        );
 
         $xml = "<display-disposition>{$schedule}</display-disposition>";
 
@@ -402,17 +408,29 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        $active = $this->_coreStoreConfig->getConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId);
-        $methods = $this->_coreStoreConfig->getConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_METHODS, $storeId);
+        $active  = $this->_coreStoreConfig->getConfigFlag(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId
+        );
+        $methods = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_METHODS, $storeId
+        );
 
         if (!$active || !$methods) {
             return '';
         }
 
-        $country  = $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $storeId);
-        $region   = $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $storeId);
-        $postcode = $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $storeId);
-        $city     = $this->_coreStoreConfig->getConfig(Magento_Shipping_Model_Config::XML_PATH_ORIGIN_CITY, $storeId);
+        $country  = $this->_coreStoreConfig->getConfig(
+            Magento_Shipping_Model_Config::XML_PATH_ORIGIN_COUNTRY_ID, $storeId
+        );
+        $region   = $this->_coreStoreConfig->getConfig(
+            Magento_Shipping_Model_Config::XML_PATH_ORIGIN_REGION_ID, $storeId
+        );
+        $postcode = $this->_coreStoreConfig->getConfig(
+            Magento_Shipping_Model_Config::XML_PATH_ORIGIN_POSTCODE, $storeId
+        );
+        $city     = $this->_coreStoreConfig->getConfig(
+            Magento_Shipping_Model_Config::XML_PATH_ORIGIN_CITY, $storeId
+        );
 
         $defPrice = (float)$this->_coreStoreConfig->getConfig(
             Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_CARRIER_DEFAULT_PRICE,
@@ -546,7 +564,10 @@ EOT;
         }
 
         $storeId = $this->getQuote()->getStoreId();
-        if (!$this->_coreStoreConfig->getConfigFlag(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE, $storeId)) {
+        $isShippingActive = $this->_coreStoreConfig->getConfigFlag(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_FLATRATE_ACTIVE, $storeId
+        );
+        if (!$isShippingActive) {
             return '';
         }
 
@@ -558,10 +579,14 @@ EOT;
 
         $xml = '';
         for ($i = 1; $i <= 3; $i++) {
-            $title         = $this->_coreStoreConfig->getConfig('google/checkout_shipping_flatrate/title_' . $i, $storeId);
-            $price         = (float)$this->_coreStoreConfig->getConfig('google/checkout_shipping_flatrate/price_' . $i, $storeId);
-            $price         = number_format($price, 2, '.', '');
-            $price         = (float)Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, false, false);
+            $title = $this->_coreStoreConfig->getConfig(
+                'google/checkout_shipping_flatrate/title_' . $i, $storeId
+            );
+            $price = (float)$this->_coreStoreConfig->getConfig(
+                'google/checkout_shipping_flatrate/price_' . $i, $storeId
+            );
+            $price = number_format($price, 2, '.', '');
+            $price = (float)Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, false, false);
             $allowSpecific = $this->_coreStoreConfig->getConfigFlag(
                 'google/checkout_shipping_flatrate/sallowspecific_' . $i,
                 $storeId
@@ -699,12 +724,19 @@ EOT;
     protected function _getPickupXml()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (!$this->_coreStoreConfig->getConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_ACTIVE, $storeId)) {
+        $isShippingActive = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_ACTIVE, $storeId
+        );
+        if (!$isShippingActive) {
             return '';
         }
 
-        $title = $this->_coreStoreConfig->getConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId);
-        $price = $this->_coreStoreConfig->getConfig(Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId);
+        $title = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_TITLE, $storeId
+        );
+        $price = $this->_coreStoreConfig->getConfig(
+            Magento_GoogleCheckout_Helper_Data::XML_PATH_SHIPPING_PICKUP_PRICE, $storeId
+        );
         $price = (float) Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, false, false);
 
         $xml = <<<EOT
@@ -901,7 +933,9 @@ EOT;
     {
         $customerGroup = $this->getQuote()->getCustomerGroupId();
         if (!$customerGroup) {
-            $customerGroup = Mage::helper('Magento_Customer_Helper_Data')->getDefaultCustomerGroupId($this->getQuote()->getStoreId());
+            $customerGroup = Mage::helper('Magento_Customer_Helper_Data')->getDefaultCustomerGroupId(
+                $this->getQuote()->getStoreId()
+            );
         }
         return Mage::getModel('Magento_Customer_Model_Group')->load($customerGroup)->getTaxClassId();
     }
