@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Helper\Dashboard;
 
-class Order extends Magento_Adminhtml_Helper_Dashboard_Abstract
+class Order extends \Magento\Adminhtml\Helper\Dashboard\AbstractDashboard
 {
 
     protected function _initCollection()

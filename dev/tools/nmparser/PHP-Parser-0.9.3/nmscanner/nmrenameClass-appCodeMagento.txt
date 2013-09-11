@@ -722,6 +722,7 @@ Magento_Adminhtml_Helper_Addresses  =>  \Magento\Adminhtml\Helper\Addresses
 Magento_Adminhtml_Helper_Catalog_Product_Composite  =>  \Magento\Adminhtml\Helper\Catalog\Product\Composite
 Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute  =>  \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
 Magento_Adminhtml_Helper_Catalog  =>  \Magento\Adminhtml\Helper\Catalog
+Magento_Adminhtml_Helper_Dashboard_Abstract  =>  \Magento\Adminhtml\Helper\Dashboard\AbstractDashboard
 Magento_Adminhtml_Helper_Dashboard_Data  =>  \Magento\Adminhtml\Helper\Dashboard\Data
 Magento_Adminhtml_Helper_Dashboard_Order  =>  \Magento\Adminhtml\Helper\Dashboard\Order
 Magento_Adminhtml_Helper_Data  =>  \Magento\Adminhtml\Helper\Data
