@@ -29,12 +29,12 @@ class Magento_Backend_Model_Config_LoaderTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_configValueFactory = $this->getMock(
-            'Magento_Core_Model_Config_ValueFactory', array('create', 'getCollection'), array(), '', false
+            'Magento\Core\Model\Config\ValueFactory', array('create', 'getCollection'), array(), '', false
         );
         $this->_model = new \Magento\Backend\Model\Config\Loader($this->_configValueFactory);
 
         $this->_configCollection = $this->getMock(
-            '\Magento\Core\Model\Resource\Config\Data\Collection', array(), array(), '', false
+            'Magento\Core\Model\Resource\Config\Data\Collection', array(), array(), '', false
         );
         $this->_configCollection->expects($this->once())->method('addScopeFilter')->with('scope', 'scopeId', 'section')
             ->will($this->returnSelf());

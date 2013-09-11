@@ -1,8 +1,8 @@
+Magento_Core_Model_Config_ValueFactory  =>  \Magento\Core\Model\Config\ValueFactory
 Magento_Core_Model_ThemeFactory => \Magento\Core\Model\ThemeFactory
 Magento_Core_Model_Page_Asset_PublicFileFactory => \Magento\Core\Model\Page\Asset\PublicFileFactory
 Magento_Core_Model_Resource_Theme_CollectionFactory => \Magento\Core\Model\Resource\Theme\CollectionFactory
 Magento_Core_Model_Resource_Theme_File_CollectionFactory => \Magento\Core\Model\Resource\Theme\File\CollectionFactory
-Magento_Core_Model_Config_ValueFactory  =>  \Magento\Core\Model\Config\ValueFactory
 Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws  =>  \Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws
 Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Role  =>  \Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role
 Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws  =>  \Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws
