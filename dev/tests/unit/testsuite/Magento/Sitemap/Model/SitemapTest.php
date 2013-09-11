@@ -22,7 +22,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helperMockCore = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false);
-        Mage::register('_helper/\Magento\Core\Helper\Data', $helperMockCore, true);
+        Mage::register('_helper/Magento\Core\Helper\Data', $helperMockCore, true);
 
         $helperMockSitemap = $this->getMock('Magento\Sitemap\Helper\Data', array(
             'getCategoryChangefreq',
@@ -54,7 +54,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $helperMockSitemap->expects($this->any())
             ->method('getPagePriority')
             ->will($this->returnValue('0.25'));
-        Mage::register('_helper/\Magento\Sitemap\Helper\Data', $helperMockSitemap, true);
+        Mage::register('_helper/Magento\Sitemap\Helper\Data', $helperMockSitemap, true);
 
         $this->_resourceMock = $this->getMockBuilder('Magento\Sitemap\Model\Resource\Sitemap')
             ->setMethods(array('_construct', 'beginTransaction', 'rollBack', 'save', 'addCommitCallback', 'commit'))
@@ -70,8 +70,8 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Mage::unregister('_helper/\Magento\Core\Helper\Data');
-        Mage::unregister('_helper/\Magento\Sitemap\Helper\Data');
+        Mage::unregister('_helper/Magento\Core\Helper\Data');
+        Mage::unregister('_helper/Magento\Sitemap\Helper\Data');
         unset($this->_resourceMock);
     }
 
@@ -392,7 +392,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         if (isset($robotsInfo['pushToRobots'])) {
             $pushToRobots = (int) $robotsInfo['pushToRobots'];
         }
-        $helperMock = Mage::registry('_helper/\Magento\Sitemap\Helper\Data');
+        $helperMock = Mage::registry('_helper/Magento\Sitemap\Helper\Data');
         $helperMock->expects($this->any())
             ->method('getMaximumLinesNumber')
             ->will($this->returnValue($maxLines));

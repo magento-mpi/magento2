@@ -37,12 +37,12 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_ResetTest extends PHPUni
         $this->_mockRobotsHelper = $this->getMock('Magento\Page\Helper\Robots',
             array('getRobotsDefaultCustomInstructions'), array(), '', false, false
         );
-        Mage::register('_helper/\Magento\Page\Helper\Robots', $this->_mockRobotsHelper);
+        Mage::register('_helper/Magento\Page\Helper\Robots', $this->_mockRobotsHelper);
     }
 
     protected function tearDown()
     {
-        Mage::unregister('_helper/\Magento\Page\Helper\Robots');
+        Mage::unregister('_helper/Magento\Page\Helper\Robots');
     }
 
     /**

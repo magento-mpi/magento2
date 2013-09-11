@@ -46,7 +46,7 @@ class Magento_ImportExport_Model_Import_Entity_AbstractTest extends PHPUnit_Fram
     {
         /** @var $helper \Magento\ImportExport\Helper\Data */
         $helper = $this->getMock('Magento\ImportExport\Helper\Data', array(), array(), '', false);
-        $registryKey = '_helper/\Magento\ImportExport\Helper\Data';
+        $registryKey = '_helper/Magento\ImportExport\Helper\Data';
         if (Mage::registry($registryKey)) {
             Mage::unregister($registryKey);
         }
