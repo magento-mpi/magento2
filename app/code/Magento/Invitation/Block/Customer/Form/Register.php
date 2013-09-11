@@ -18,6 +18,29 @@
 class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_Block_Form_Register
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $configCacheType, $data);
+    }
+
+    /**
      * Retrieve form data
      *
      * @return Magento_Object
@@ -49,7 +72,7 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
      */
     public function getPostActionUrl()
     {
-        return $this->getUrl('*/*/createpost', array('_current'=>true));
+        return $this->getUrl('*/*/createpost', array('_current' => true));
     }
 
     /**
@@ -59,6 +82,6 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
      */
     public function getCustomerInvitation()
     {
-        return Mage::registry('current_invitation');
+        return $this->_coreRegistry->registry('current_invitation');
     }
 }

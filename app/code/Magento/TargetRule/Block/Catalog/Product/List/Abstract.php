@@ -46,7 +46,7 @@ abstract class Magento_TargetRule_Block_Catalog_Product_List_Abstract
      */
     public function getProduct()
     {
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**

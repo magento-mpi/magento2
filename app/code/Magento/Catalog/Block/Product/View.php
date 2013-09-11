@@ -42,7 +42,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
                 $headBlock->setTitle($title);
             }
             $keyword = $product->getMetaKeyword();
-            $currentCategory = Mage::registry('current_category');
+            $currentCategory = $this->_coreRegistry->registry('current_category');
             if ($keyword) {
                 $headBlock->setKeywords($keyword);
             } elseif($currentCategory) {
@@ -84,11 +84,11 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
      */
     public function getProduct()
     {
-        if (!Mage::registry('product') && $this->getProductId()) {
+        if (!$this->_coreRegistry->registry('product') && $this->getProductId()) {
             $product = Mage::getModel('Magento_Catalog_Model_Product')->load($this->getProductId());
-            Mage::register('product', $product);
+            $this->_coreRegistry->register('product', $product);
         }
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -98,7 +98,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
      */
     public function canEmailToFriend()
     {
-        $sendToFriendModel = Mage::registry('send_to_friend_model');
+        $sendToFriendModel = $this->_coreRegistry->registry('send_to_friend_model');
         return $sendToFriendModel && $sendToFriendModel->canEmailToFriend();
     }
 

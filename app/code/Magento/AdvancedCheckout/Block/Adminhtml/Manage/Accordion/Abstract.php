@@ -34,6 +34,31 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
     protected $_configureRoute = '*/checkout/configureProductToAdd';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Initialize Grid
      */
     protected function _construct()
@@ -171,7 +196,7 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
      */
     protected function _getCustomer()
     {
-        return Mage::registry('checkout_current_customer');
+        return $this->_coreRegistry->registry('checkout_current_customer');
     }
 
     /**
@@ -181,7 +206,7 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
      */
     protected function _getStore()
     {
-        return Mage::registry('checkout_current_store');
+        return $this->_coreRegistry->registry('checkout_current_store');
     }
 
     /**
@@ -202,8 +227,8 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
     public function getConfigureUrl()
     {
         $params = array(
-            'customer'   => $this->_getCustomer()->getId(),
-            'store'    => $this->_getStore()->getId()
+            'customer' => $this->_getCustomer()->getId(),
+            'store' => $this->_getStore()->getId()
         );
         return $this->getUrl($this->_configureRoute, $params);
     }
@@ -216,8 +241,10 @@ abstract class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstrac
     public function getAdditionalJavaScript ()
     {
         return "Event.observe(window, 'load',  function() {\n"
-            . "setTimeout(function(){productConfigure.addListType('" . $this->getListType() . "', {urlFetch: '" . $this->getConfigureUrl() . "'})\n"
+            . "setTimeout(function(){productConfigure.addListType('" . $this->getListType() . "', {urlFetch: '"
+            . $this->getConfigureUrl() . "'})\n"
             . "});\n"
-            . "checkoutObj.addSourceGrid({htmlId: '" . $this->getId() . "', listType: '" . $this->getListType() . "'});\n}, 10)";
+            . "checkoutObj.addSourceGrid({htmlId: '" . $this->getId() . "', listType: '" . $this->getListType()
+            . "'});\n}, 10)";
     }
 }

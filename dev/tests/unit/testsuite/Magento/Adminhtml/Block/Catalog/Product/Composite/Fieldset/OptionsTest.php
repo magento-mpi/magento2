@@ -58,9 +58,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_OptionsTest ext
         $layout->expects($this->any())
             ->method('renderElement')->with('date', false)->will($this->returnValue('html'));
 
-        $this->_optionsBlock = new Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options(
-            $context,
-            $option
+        $this->_optionsBlock = $this->_objectHelper->getObject(
+            'Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options',
+            array(
+                'context' => $context,
+                'option' => $option,
+            )
         );
         $this->_optionsBlock->setProduct($this->_objectHelper->getObject('Magento_Catalog_Model_Product'));
 

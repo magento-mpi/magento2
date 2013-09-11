@@ -19,12 +19,7 @@
  * @method Magento_Core_Model_Store_Group setName(string $value)
  * @method Magento_Core_Model_Store_Group setRootCategoryId(int $value)
  * @method Magento_Core_Model_Store_Group setDefaultStoreId(int $value)
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
 {
     const ENTITY         = 'store_group';
@@ -89,6 +84,7 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Config_Data $configDataResource
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -96,13 +92,14 @@ class Magento_Core_Model_Store_Group extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Config_Data $configDataResource,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configDataResource = $configDataResource;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
 

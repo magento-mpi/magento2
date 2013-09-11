@@ -64,6 +64,27 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     protected $_mapRenderer = 'msrp';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve url for add product to cart
      * Will return product view page URL if product has required options
      *
@@ -275,7 +296,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         return $this->getData('product');
     }
@@ -395,13 +416,13 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      *
      * @return string
      */
-    public function getImageLabel($product=null, $mediaAttributeCode='image')
+    public function getImageLabel($product = null, $mediaAttributeCode = 'image')
     {
         if (is_null($product)) {
             $product = $this->getProduct();
         }
 
-        $label = $product->getData($mediaAttributeCode.'_label');
+        $label = $product->getData($mediaAttributeCode . '_label');
         if (empty($label)) {
             $label = $product->getName();
         }

@@ -25,6 +25,30 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
     protected $_clientRegistryId = 'GCONTENT_HTTP_CLIENT';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Constructor
+     *
+     * By default is looking for first argument as array and assigns it as object
+     * attributes This behavior may change in child classes
+     *
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($data);
+    }
+
+    /**
      * Retutn Google Content Client Instance
      *
      * @param int $storeId
@@ -41,14 +65,14 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
         // Create an authenticated HTTP client
         $errorMsg = __('Sorry, but we can\'t connect to Google Content. Please check the account settings in your store configuration.');
         try {
-            if (!Mage::registry($this->_clientRegistryId)) {
+            if (!$this->_coreRegistry->registry($this->_clientRegistryId)) {
                 $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass,
                     Magento_Gdata_Gshopping_Content::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha,
                     Zend_Gdata_ClientLogin::CLIENTLOGIN_URI, $type
                 );
                 $configTimeout = array('timeout' => 60);
                 $client->setConfig($configTimeout);
-                Mage::register($this->_clientRegistryId, $client);
+                $this->_coreRegistry->register($this->_clientRegistryId, $client);
             }
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             throw $e;
@@ -58,7 +82,7 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
             Mage::throwException($errorMsg . __('Error: %1', $e->getMessage()));
         }
 
-        return Mage::registry($this->_clientRegistryId);
+        return $this->_coreRegistry->registry($this->_clientRegistryId);
     }
 
     /**
@@ -69,8 +93,8 @@ class Magento_GoogleShopping_Model_Service extends Magento_Object
      */
     public function setClient($client)
     {
-        Mage::unregister($this->_clientRegistryId);
-        Mage::register($this->_clientRegistryId, $client);
+        $this->_coreRegistry->unregister($this->_clientRegistryId);
+        $this->_coreRegistry->register($this->_clientRegistryId, $client);
         return $this;
     }
 

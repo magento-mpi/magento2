@@ -57,7 +57,14 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
         $layout->expects($this->any())
             ->method('renderElement')->with('date', false)->will($this->returnValue('html'));
 
-        $this->_optionsBlock = new Magento_Catalog_Block_Product_View_Options($context, $option);
+        $this->_optionsBlock = $this->_objectHelper->getObject(
+            'Magento_Catalog_Block_Product_View_Options',
+            array(
+                'context' => $context,
+                'option' => $option,
+            )
+        );
+        
         $this->_optionsBlock->setProduct($this->_objectHelper->getObject('Magento_Catalog_Model_Product'));
 
         $option = $this->_objectHelper->getObject('Magento_Catalog_Model_Product_Option',

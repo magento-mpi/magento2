@@ -18,13 +18,34 @@
 class Magento_Sales_Block_Order_Shipment_Items extends Magento_Sales_Block_Items_Abstract
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve current order model instance
      *
      * @return Magento_Sales_Model_Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     public function getPrintShipmentUrl($shipment){

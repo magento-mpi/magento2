@@ -10,12 +10,30 @@
 
 /**
  * Catalog Event on category page
- *
- * @category   Magento
- * @package    Magento_CatalogEvent
  */
 class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogEvent_Block_Event_Abstract
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Return current category event
      *
@@ -33,7 +51,7 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return $this->_coreRegistry->registry('current_category');
     }
 
     /**
@@ -58,8 +76,8 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
      */
     public function canDisplay()
     {
-        return Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled() &&
-               $this->getEvent() &&
-               $this->getEvent()->canDisplayCategoryPage();
+        return Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()
+            && $this->getEvent()
+            && $this->getEvent()->canDisplayCategoryPage();
     }
 }

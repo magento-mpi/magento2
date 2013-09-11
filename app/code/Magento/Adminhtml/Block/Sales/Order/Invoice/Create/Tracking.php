@@ -17,6 +17,27 @@
  */
 class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magento_Adminhtml_Block_Template
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     public function _construct()
     {
         $this->setTemplate('sales/order/invoice/create/tracking.phtml');
@@ -43,7 +64,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return $this->_coreRegistry->registry('current_shipment');
     }
 
     /**
@@ -53,7 +74,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 
     /**

@@ -13,6 +13,26 @@
  */
 class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Return list of gift registry items
@@ -75,7 +95,7 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     public function getEntity()
     {
          if (!$this->hasEntity()) {
-            $this->setData('entity', Mage::registry('current_entity'));
+            $this->setData('entity', $this->_coreRegistry->registry('current_entity'));
         }
         return $this->_getData('entity');
     }
@@ -83,7 +103,6 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     /**
      * Return "add to cart" url
      *
-     * @param Magento_GiftRegistry_Model_Item $item
      * @return string
      */
     public function getActionUrl()
@@ -110,5 +129,4 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     {
         return $this->getUrl('giftregistry');
     }
-
 }

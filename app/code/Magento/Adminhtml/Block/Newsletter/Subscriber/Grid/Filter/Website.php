@@ -20,6 +20,27 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends 
 
     protected $_websiteCollection = null;
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _getOptions()
     {
         $result = $this->getCollection()->toOptionArray();
@@ -34,22 +55,19 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends 
                 ->load();
         }
 
-        Mage::register('website_collection', $this->_websiteCollection);
+        $this->_coreRegistry->register('website_collection', $this->_websiteCollection);
 
         return $this->_websiteCollection;
     }
 
     public function getCondition()
     {
-
         $id = $this->getValue();
-        if(!$id) {
+        if (!$id) {
             return null;
         }
 
         $website = Mage::app()->getWebsite($id);
-
-        return array('in'=>$website->getStoresIds(true));
+        return array('in' => $website->getStoresIds(true));
     }
-
 }

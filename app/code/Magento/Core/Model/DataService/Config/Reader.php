@@ -15,17 +15,17 @@ class Magento_Core_Model_DataService_Config_Reader extends Magento_Config_XmlAbs
     private $_modulesReader;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
      * @param array $configFiles
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        Magento_Core_Model_Config_Modules_Reader $moduleReader,
         array $configFiles
     ) {
         if (count($configFiles)) {
             parent::__construct($configFiles);
         }
-        $this->_modulesReader = $modulesReader;
+        $this->_modulesReader = $moduleReader;
     }
 
     /**
