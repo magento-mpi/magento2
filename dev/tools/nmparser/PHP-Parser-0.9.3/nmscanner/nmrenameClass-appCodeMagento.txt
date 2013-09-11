@@ -1,3 +1,4 @@
+Magento_Core_Model_Config_ValueFactory  =>  \Magento\Core\Model\Config\ValueFactory
 Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws  =>  \Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws
 Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Role  =>  \Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role
 Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws  =>  \Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit\Gws

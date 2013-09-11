@@ -80,7 +80,7 @@ class Config extends \Magento\Object
     /**
      * Config data factory
      *
-     * @var Magento_Core_Model_Config_ValueFactory
+     * @var \Magento\Core\Model\Config\ValueFactory
      */
     protected $_configValueFactory;
 
@@ -96,7 +96,7 @@ class Config extends \Magento\Object
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param Magento_Core_Model_Resource_TransactionFactory $transactionFactory
      * @param \Magento\Backend\Model\Config\Loader $configLoader
-     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
+     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
@@ -107,7 +107,7 @@ class Config extends \Magento\Object
         \Magento\Backend\Model\Config\Structure $configStructure,
         Magento_Core_Model_Resource_TransactionFactory $transactionFactory,
         \Magento\Backend\Model\Config\Loader $configLoader,
-        Magento_Core_Model_Config_ValueFactory $configValueFactory,
+        \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {

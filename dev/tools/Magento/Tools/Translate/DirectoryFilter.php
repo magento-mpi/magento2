@@ -9,7 +9,7 @@
  */
 namespace Magento\Tools\Translate;
 
-class DirectoryFilter extends FilterIterator
+class DirectoryFilter extends \FilterIterator
 {
     /**
      * List of allowed extensions
