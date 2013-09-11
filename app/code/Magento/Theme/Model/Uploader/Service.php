@@ -66,7 +66,7 @@ class Service
     public function __construct(
         \Magento\Io\File $fileIo,
         \Magento\File\Size $fileSize,
-        Magento_Core_Model_File_UploaderFactory $uploaderFactory
+        \Magento\Core\Model\File\UploaderFactory $uploaderFactory
     ) {
         $this->_fileIo = $fileIo;
         $this->_fileSize = $fileSize;

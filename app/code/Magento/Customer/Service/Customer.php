@@ -27,12 +27,12 @@ class Customer
     protected $_dataHelper = null;
 
     /**
-     * @var Magento_Customer_Model_CustomerFactory
+     * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory = null;
 
     /**
-     * @var Magento_Customer_Model_AddressFactory
+     * @var Magento\Customer\Model\AddressFactory
      */
     protected $_addressFactory = null;
 
@@ -51,14 +51,14 @@ class Customer
      * Constructor
      *
      * @param \Magento\Customer\Helper\Data $helper
-     * @param Magento_Customer_Model_CustomerFactory $customerFactory
-     * @param Magento_Customer_Model_AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param bool $isAdminStore
      */
     public function __construct(
         \Magento\Customer\Helper\Data $helper,
-        Magento_Customer_Model_CustomerFactory $customerFactory,
-        Magento_Customer_Model_AddressFactory $addressFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
         $isAdminStore = true
     ) {
         $this->_dataHelper = $helper;

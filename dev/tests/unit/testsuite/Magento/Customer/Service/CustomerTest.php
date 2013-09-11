@@ -44,11 +44,11 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('generateResetPasswordLinkToken'))
             ->getMock();
 
-        $this->_customerFactory = $this->getMockBuilder('Magento_Customer_Model_CustomerFactory')
+        $this->_customerFactory = $this->getMockBuilder('Magento\Customer\Model\CustomerFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
-        $this->_addressFactory = $this->getMockBuilder('Magento_Customer_Model_AddressFactory')
+        $this->_addressFactory = $this->getMockBuilder('Magento\Customer\Model\AddressFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();

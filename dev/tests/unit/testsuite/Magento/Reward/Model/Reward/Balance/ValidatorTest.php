@@ -37,7 +37,7 @@ class Magento_Reward_Model_Reward_Balance_ValidatorTest extends PHPUnit_Framewor
     {
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $this->_modelFactoryMock =
-            $this->getMock('Magento_Reward_Model_RewardFactory', array('create'), array(), '', false);
+            $this->getMock('Magento\Reward\Model\RewardFactory', array('create'), array(), '', false);
         $this->_sessionMock = $this->getMock('Magento\Checkout\Model\Session',
             array('setUpdateSection', 'setGotoSection'), array(), '', false);
         $this->_orderMock =
