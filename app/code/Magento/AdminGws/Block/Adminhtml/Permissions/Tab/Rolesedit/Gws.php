@@ -19,15 +19,25 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
     protected $_storeManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $data);
         $this->_storeManager = $storeManager;
     }
@@ -43,11 +53,11 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
             return false;
         }
 
-        if (!Mage::registry('current_role')->getId()) {
+        if (!$this->_coreRegistry->registry('current_role')->getId()) {
             return true;
         }
 
-        return Mage::registry('current_role')->getGwsIsAll();
+        return $this->_coreRegistry->registry('current_role')->getGwsIsAll();
     }
 
     /**
@@ -57,7 +67,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
      */
     public function getRole()
     {
-        return Mage::registry('current_role');
+        return $this->_coreRegistry->registry('current_role');
     }
 
     /**

@@ -43,7 +43,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Fr
         $session->expects($this->once())
             ->method('getMessages')
             ->will($this->returnValue($messages));
-        $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Failed($session, $context);
+        $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Failed($context, $session);
     }
 
     public function testGetSessionError()

@@ -10,10 +10,6 @@
 
 /**
  * Adminhtml block for fieldset of configurable product
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable extends Magento_Catalog_Block_Product_View_Type_Configurable
 {
@@ -25,7 +21,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable ex
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         $product = $this->getData('product');
         if (is_null($product->getTypeInstance()->getStoreFilter($product))) {

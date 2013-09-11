@@ -18,6 +18,25 @@
 class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Queue list action
      */
     public function indexAction()
@@ -42,12 +61,12 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
     /**
      * Drop Newsletter queue template
      */
-    public function dropAction ()
+    public function dropAction()
     {
         $this->loadLayout('newsletter_queue_preview');
         $this->renderLayout();
     }
-    
+
     /**
      * Preview Newsletter queue template
      */
@@ -166,16 +185,16 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
     {
         $this->_title(__('Newsletter Queue'));
 
-        Mage::register('current_queue', Mage::getSingleton('Magento_Newsletter_Model_Queue'));
+        $this->_coreRegistry->register('current_queue', Mage::getSingleton('Magento_Newsletter_Model_Queue'));
 
         $id = $this->getRequest()->getParam('id');
         $templateId = $this->getRequest()->getParam('template_id');
 
         if ($id) {
-            $queue = Mage::registry('current_queue')->load($id);
+            $queue = $this->_coreRegistry->registry('current_queue')->load($id);
         } elseif ($templateId) {
             $template = Mage::getModel('Magento_Newsletter_Model_Template')->load($templateId);
-            $queue = Mage::registry('current_queue')->setTemplateId($template->getId());
+            $queue = $this->_coreRegistry->registry('current_queue')->setTemplateId($template->getId());
         }
 
         $this->_title(__('Edit Queue'));
@@ -185,8 +204,8 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
         $this->_setActiveMenu('Magento_Newsletter::newsletter_queue');
 
         $this->_addBreadcrumb(
-            __('Newsletter Queue'), 
-            __('Newsletter Queue'), 
+            __('Newsletter Queue'),
+            __('Newsletter Queue'),
             $this->getUrl('*/newsletter_queue')
         );
         $this->_addBreadcrumb(__('Edit Queue'), __('Edit Queue'));
@@ -245,8 +264,7 @@ class Magento_Adminhtml_Controller_Newsletter_Queue extends Magento_Adminhtml_Co
             $this->_getSession()->setFormData(false);
 
             $this->_redirect('*/*');
-        }
-        catch (Magento_Core_Exception $e) {
+        } catch (Magento_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $id = $this->getRequest()->getParam('id');
             if ($id) {

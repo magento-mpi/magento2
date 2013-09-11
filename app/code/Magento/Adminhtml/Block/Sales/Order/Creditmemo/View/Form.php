@@ -56,7 +56,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Form extends Magento_A
      */
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return $this->_coreRegistry->registry('current_creditmemo');
     }
 
     public function getOrderUrl()

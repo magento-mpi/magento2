@@ -24,15 +24,17 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
 
     /**
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $registry, $data);
         $this->_storeManager = $storeManager;
     }
 

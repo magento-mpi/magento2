@@ -17,6 +17,22 @@
 class Magento_Paypal_Model_Observer
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+    }
+
+    /**
      * Goes to reports.paypal.com and fetches Settlement reports.
      * @return Magento_Paypal_Model_Observer
      */
@@ -59,7 +75,7 @@ class Magento_Paypal_Model_Observer
     {
         /* @var $order Magento_Sales_Model_Order */
         $order = $observer->getEvent()->getData('order');
-        Mage::register('hss_order', $order, true);
+        $this->_coreRegistry->register('hss_order', $order, true);
 
         return $this;
     }
@@ -73,7 +89,7 @@ class Magento_Paypal_Model_Observer
     public function setResponseAfterSaveOrder(Magento_Event_Observer $observer)
     {
         /* @var $order Magento_Sales_Model_Order */
-        $order = Mage::registry('hss_order');
+        $order = $this->_coreRegistry->registry('hss_order');
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();

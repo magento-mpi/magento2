@@ -16,7 +16,9 @@ $customer->setStoreId(1)
     ->setMiddlename('Test')
     ->setGroupId(1)
     ->save();
-Mage::register('customer', $customer);
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+$objectManager->get('Magento_Core_Model_Registry')->register('customer', $customer);
 
 $customerAddress = Mage::getModel('Magento_Customer_Model_Address');
 $customerAddress->setData(
@@ -38,7 +40,7 @@ $customerAddress->setData(
 );
 $customerAddress->setCustomer($customer);
 $customerAddress->save();
-Mage::register('customer_address', $customerAddress);
+$objectManager->get('Magento_Core_Model_Registry')->register('customer_address', $customerAddress);
 
 //Set customer default shipping and billing address
 $customer->addAddress($customerAddress);

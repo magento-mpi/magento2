@@ -24,6 +24,31 @@
 class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_Grid_Extended
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Initialize grid
      */
     protected function _construct()
@@ -78,7 +103,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             $collection->addCustomerFilter($this->getCustomerId());
         }
 
-        if (Mage::registry('usePendingFilter') === true) {
+        if ($this->_coreRegistry->registry('usePendingFilter') === true) {
             $collection->addStatusFilter($model->getPendingStatus());
         }
 
@@ -114,7 +139,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'index'         => 'review_created_at',
         ));
 
-        if( !Mage::registry('usePendingFilter') ) {
+        if (!$this->_coreRegistry->registry('usePendingFilter')) {
             $this->addColumn('status', array(
                 'header'        => __('Status'),
                 'align'         => 'left',
@@ -210,7 +235,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
                             'params'=> array(
                                 'productId' => $this->getProductId(),
                                 'customerId' => $this->getCustomerId(),
-                                'ret'       => ( Mage::registry('usePendingFilter') ) ? 'pending' : null
+                                'ret' => $this->_coreRegistry->registry('usePendingFilter') ? 'pending' : null
                             )
                          ),
                          'field'   => 'id'
@@ -244,7 +269,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'label'=> __('Delete'),
             'url'  => $this->getUrl(
                 '*/*/massDelete',
-                array('ret' => Mage::registry('usePendingFilter') ? 'pending' : 'index')
+                array('ret' => $this->_coreRegistry->registry('usePendingFilter') ? 'pending' : 'index')
             ),
             'confirm' => __('Are you sure?')
         ));
@@ -255,7 +280,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'label'         => __('Update Status'),
             'url'           => $this->getUrl(
                 '*/*/massUpdateStatus',
-                array('ret' => Mage::registry('usePendingFilter') ? 'pending' : 'index')
+                array('ret' => $this->_coreRegistry->registry('usePendingFilter') ? 'pending' : 'index')
             ),
             'additional'    => array(
                 'status'    => array(
@@ -281,7 +306,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'id' => $row->getReviewId(),
             'productId' => $this->getProductId(),
             'customerId' => $this->getCustomerId(),
-            'ret'       => ( Mage::registry('usePendingFilter') ) ? 'pending' : null,
+            'ret'       => $this->_coreRegistry->registry('usePendingFilter') ? 'pending' : null,
         ));
     }
 
@@ -294,7 +319,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     {
         if( $this->getProductId() || $this->getCustomerId() ) {
             return $this->getUrl(
-                '*/catalog_product_review/' . (Mage::registry('usePendingFilter') ? 'pending' : ''),
+                '*/catalog_product_review/' . ($this->_coreRegistry->registry('usePendingFilter') ? 'pending' : ''),
                 array(
                     'productId' => $this->getProductId(),
                     'customerId' => $this->getCustomerId(),

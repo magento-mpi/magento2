@@ -49,7 +49,10 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     protected function _testCreate($store, $customOptions)
     {
-        $fixtureProductId = Mage::registry('productData')->getId();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        
+        $fixtureProductId = $objectManager->get('Magento_Core_Model_Registry')->registry('productData')->getId();
         $createdOptionBefore = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductCustomOptionList',
@@ -88,7 +91,10 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     protected function _testRead($store, $customOptions)
     {
-        $fixtureProductId = Mage::registry('productData')->getId();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        
+        $fixtureProductId = $objectManager->get('Magento_Core_Model_Registry')->registry('productData')->getId();
         self::$_createdOptionAfter = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductCustomOptionList',
@@ -256,7 +262,10 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCustomOptionAddExceptionAdditionalFieldsNotSet()
     {
-        $fixtureProductId = Mage::registry('productData')->getId();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $fixtureProductId = $objectManager->get('Magento_Core_Model_Registry')->registry('productData')->getId();
         $customOptions =
             Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
 
@@ -275,7 +284,10 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCustomOptionDateTimeAddExceptionStoreNotExist()
     {
-        $fixtureProductId = Mage::registry('productData')->getId();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $fixtureProductId = $objectManager->get('Magento_Core_Model_Registry')->registry('productData')->getId();
         $customOptions =
             Magento_TestFramework_Helper_Api::simpleXmlToArray(self::$_customOptionFixture->customOptionsToAdd);
 
@@ -318,7 +330,10 @@ class Magento_Catalog_Model_Product_Option_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testCustomOptionListExceptionStoreNotExists()
     {
-        $fixtureProductId = Mage::registry('productData')->getId();
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+        $fixtureProductId = $objectManager->get('Magento_Core_Model_Registry')->registry('productData')->getId();
         Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductCustomOptionList',
