@@ -197,7 +197,7 @@ class AbstractForm extends \Magento\Object
      * @param array $arrAttributes
      * @return array
      */
-    public function __toArray(array $arrAttributes = array())
+    public function convertToArray(array $arrAttributes = array())
     {
         $res = array();
         $res['config']  = $this->getData();

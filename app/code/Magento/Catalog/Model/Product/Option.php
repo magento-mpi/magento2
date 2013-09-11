@@ -421,7 +421,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     {
         $this->setProductId(null);
         $this->setOptionId(null);
-        $newOption = $this->__toArray();
+        $newOption = $this->convertToArray();
         if ($_values = $this->getValues()) {
             $newValuesArray = array();
             foreach ($_values as $_value) {

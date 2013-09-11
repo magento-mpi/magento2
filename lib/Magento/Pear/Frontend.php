@@ -18,7 +18,7 @@
 
 namespace Magento\Pear;
 
-class Frontend// extends PEAR_Frontend
+class Frontend
 {
     protected $_logStream = null;
     protected $_outStream = null;

@@ -35,6 +35,9 @@ $GLOBALS['_PEAR_PACKAGEFILEMANAGER2_ERRORS']['en']['PEAR_PACKAGEFILEMANAGER_NOSV
     'Directory "%s" is not a SVN directory (it must have the .svn/entries file)';
 
 require_once "PEAR/PackageFile/Generator/v2.php";*/
+
+namespace Magento\Pear;
+
 class Package
 {
     protected $_data = array(

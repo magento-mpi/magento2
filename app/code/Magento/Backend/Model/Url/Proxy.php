@@ -661,9 +661,9 @@ class Proxy extends \Magento\Backend\Model\Url
     /**
      * {@inheritdoc}
      */
-    public function __toArray(array $keys = array())
+    public function convertToArray(array $keys = array())
     {
-        return $this->_getObject()->__toArray($keys);
+        return $this->_getObject()->convertToArray($keys);
     }
 
     /**
@@ -677,9 +677,9 @@ class Proxy extends \Magento\Backend\Model\Url
     /**
      * {@inheritdoc}
      */
-    public function __toXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true)
+    public function convertToXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true)
     {
-        return $this->_getObject()->__toXml($arrAttributes, $rootName, $addOpenTag, $addCdata);
+        return $this->_getObject()->convertToXml($arrAttributes, $rootName, $addOpenTag, $addCdata);
     }
 
     /**
@@ -693,9 +693,9 @@ class Proxy extends \Magento\Backend\Model\Url
     /**
      * {@inheritdoc}
      */
-    public function __toJson(array $keys = array())
+    public function convertToJson(array $keys = array())
     {
-        return $this->_getObject()->__toJson($keys);
+        return $this->_getObject()->convertToJson($keys);
     }
 
     /**

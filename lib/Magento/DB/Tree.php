@@ -456,7 +456,7 @@ class Tree
      * @param string|int $pId
      * @param string|int $aId
      */
-    public function __moveNode($eId, $pId, $aId = 0)
+    public function moveNodes($eId, $pId, $aId = 0)
     {
 
         $eInfo = $this->getNodeInfo($eId);

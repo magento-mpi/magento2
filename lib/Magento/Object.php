@@ -390,7 +390,7 @@ class Object implements \ArrayAccess
      * @param  array $keys
      * @return array
      */
-    public function __toArray(array $keys = array())
+    public function convertToArray(array $keys = array())
     {
         return $this->toArray($keys);
     }
@@ -438,7 +438,7 @@ class Object implements \ArrayAccess
      * @param boolean $addCdata flag that require wrap all values in CDATA
      * @return string
      */
-    public function __toXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true)
+    public function convertToXml(array $arrAttributes = array(), $rootName = 'item', $addOpenTag = false, $addCdata = true)
     {
         return $this->toXml($arrAttributes, $rootName, $addOpenTag, $addCdata);
     }
@@ -461,7 +461,7 @@ class Object implements \ArrayAccess
      * @param  array $keys
      * @return string
      */
-    public function __toJson(array $keys = array())
+    public function convertToJson(array $keys = array())
     {
         return $this->toJson($keys);
     }

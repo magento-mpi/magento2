@@ -264,7 +264,7 @@ string',
             'key2' => 'value2'
         ));
         $this->assertEquals(array('key1' => 'value1'), $this->_object->toArray(array('key1')));
-        $this->assertEquals(array('key2' => 'value2'), $this->_object->__toArray(array('key2')));
+        $this->assertEquals(array('key2' => 'value2'), $this->_object->convertToArray(array('key2')));
     }
 
     /**
@@ -315,7 +315,7 @@ string',
 <key2>value2</key2>
 </item>
 ';
-        $this->assertEquals($xml, $this->_object->__toXml(array(), 'item', true, false));
+        $this->assertEquals($xml, $this->_object->convertToXml(array(), 'item', true, false));
     }
 
     /**
@@ -329,7 +329,7 @@ string',
         ));
         $this->assertEquals('{"key1":"value1","key2":"value2"}', $this->_object->toJson());
         $this->assertEquals('{"key1":"value1"}', $this->_object->toJson(array('key1')));
-        $this->assertEquals('{"key1":"value1","key":null}', $this->_object->__toJson(array('key1', 'key')));
+        $this->assertEquals('{"key1":"value1","key":null}', $this->_object->convertToJson(array('key1', 'key')));
     }
     /**
      * Tests \Magento\Object->toString()

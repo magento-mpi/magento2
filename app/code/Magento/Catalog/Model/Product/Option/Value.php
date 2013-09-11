@@ -186,7 +186,7 @@ class Value extends \Magento\Core\Model\AbstractModel
         $this->setOptionId(null);
         $this->setOptionTypeId(null);
 
-        return $this->__toArray();
+        return $this->convertToArray();
     }
 
     /**
