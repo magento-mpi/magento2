@@ -26,57 +26,5 @@
                 </setup>
             </webapi_setup>
         </resources>
-        <webapi>
-            <rest>
-                <request>
-                    <interpreters>
-                        <!-- JSON -->
-                        <application_json>
-                            <type>application/json</type>
-                            <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Json</model>
-                        </application_json>
-                        <!-- XML -->
-                        <application_xml>
-                            <type>application/xml</type>
-                            <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Xml</model>
-                        </application_xml>
-                        <application_xhtml_xml>
-                            <type>application/xhtml+xml</type>
-                            <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Xml</model>
-                        </application_xhtml_xml>
-                        <text_xml>
-                            <type>text/xml</type>
-                            <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Xml</model>
-                        </text_xml>
-                    </interpreters>
-                </request>
-                <response>
-                    <renders>
-                        <!-- JSON -->
-                        <default>
-                            <type>*/*</type>
-                            <model>Magento_Webapi_Controller_Response_Rest_Renderer_Json</model>
-                        </default>
-                        <application_json>
-                            <type>application/json</type>
-                            <model>Magento_Webapi_Controller_Response_Rest_Renderer_Json</model>
-                        </application_json>
-                        <!-- XML -->
-                        <text_xml>
-                            <type>text/xml</type>
-                            <model>Magento_Webapi_Controller_Response_Rest_Renderer_Xml</model>
-                        </text_xml>
-                        <application_xml>
-                            <type>application/xml</type>
-                            <model>Magento_Webapi_Controller_Response_Rest_Renderer_Xml</model>
-                        </application_xml>
-                        <application_xhtml_xml>
-                            <type>application/xhtml+xml</type>
-                            <model>Magento_Webapi_Controller_Response_Rest_Renderer_Xml</model>
-                        </application_xhtml_xml>
-                    </renders>
-                </response>
-            </rest>
-        </webapi>
     </global>
-</config>
+</config>

@@ -71,4 +71,52 @@
             <instance type="Magento_Webapi_Model_Acl_Resource_Config_Converter_Dom" />
         </param>
     </type>
+    <type name="Magento_Webapi_Controller_Request_Rest_Interpreter_Factory">
+        <param name="interpreters">
+            <value>
+                <application_json>
+                    <type>application/json</type>
+                    <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Json</model>
+                </application_json>
+                <application_xml>
+                    <type>application/xml</type>
+                    <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Xml</model>
+                </application_xml>
+                <application_xhtml_xml>
+                    <type>application/xhtml+xml</type>
+                    <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Xml</model>
+                </application_xhtml_xml>
+                <text_xml>
+                    <type>text/xml</type>
+                    <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Xml</model>
+                </text_xml>
+            </value>
+        </param>
+    </type>
+    <type name="Magento_Webapi_Controller_Response_Rest_Renderer_Factory">
+        <param name="renders">
+            <value>
+                <default>
+                    <type>*/*</type>
+                    <model>Magento_Webapi_Controller_Response_Rest_Renderer_Json</model>
+                </default>
+                <application_json>
+                    <type>application/json</type>
+                    <model>Magento_Webapi_Controller_Response_Rest_Renderer_Json</model>
+                </application_json>
+                <text_xml>
+                    <type>text/xml</type>
+                    <model>Magento_Webapi_Controller_Response_Rest_Renderer_Xml</model>
+                </text_xml>
+                <application_xml>
+                    <type>application/xml</type>
+                    <model>Magento_Webapi_Controller_Response_Rest_Renderer_Xml</model>
+                </application_xml>
+                <application_xhtml_xml>
+                    <type>application/xhtml+xml</type>
+                    <model>Magento_Webapi_Controller_Response_Rest_Renderer_Xml</model>
+                </application_xhtml_xml>
+            </value>
+        </param>
+    </type>
 </config>

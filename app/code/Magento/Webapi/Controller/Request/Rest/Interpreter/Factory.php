@@ -1,6 +1,6 @@
 <?php
 /**
- * Factory of REST request interpreters.
+ * Factory of REST request interpreters
  *
  * {license_notice}
  *
@@ -10,26 +10,25 @@
 class Magento_Webapi_Controller_Request_Rest_Interpreter_Factory
 {
     /**
-     * Request interpret adapters.
-     */
-    const XML_PATH_WEBAPI_REQUEST_INTERPRETERS = 'global/webapi/rest/request/interpreters';
-
-    /**
      * @var Magento_ObjectManager
      */
     protected $_objectManager;
 
-    /** @var Magento_Core_Model_Config */
-    protected $_applicationConfig;
+    /**
+     * @var array
+     */
+    protected $_interpreters;
 
     /**
      * @param Magento_ObjectManager $objectManager
-     * @param Magento_Core_Model_Config $applicationConfig
+     * @param array $interpreters
      */
-    public function __construct(Magento_ObjectManager $objectManager, Magento_Core_Model_Config $applicationConfig)
-    {
+    public function __construct(
+        Magento_ObjectManager $objectManager,
+        array $interpreters = array()
+    ) {
         $this->_objectManager = $objectManager;
-        $this->_applicationConfig = $applicationConfig;
+        $this->_interpreters = $interpreters;
     }
 
     /**
@@ -41,14 +40,13 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_Factory
      */
     public function get($contentType)
     {
-        $interpretersMetadata = (array)$this->_applicationConfig->getNode(self::XML_PATH_WEBAPI_REQUEST_INTERPRETERS);
-        if (empty($interpretersMetadata) || !is_array($interpretersMetadata)) {
+        if (empty($this->_interpreters)) {
             throw new LogicException('Request interpreter adapter is not set.');
         }
-        foreach ($interpretersMetadata as $interpreterMetadata) {
-            $interpreterType = (string)$interpreterMetadata->type;
+        foreach ($this->_interpreters as $interpreterMetadata) {
+            $interpreterType = $interpreterMetadata['type'];
             if ($interpreterType == $contentType) {
-                $interpreterClass = (string)$interpreterMetadata->model;
+                $interpreterClass = $interpreterMetadata['model'];
                 break;
             }
         }
