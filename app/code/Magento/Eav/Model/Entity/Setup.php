@@ -660,7 +660,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         $attributeCodeMaxLength = \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH;
 
         if (isset($data['attribute_code']) &&
-           !Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
+           !\Zend_Validate::is($data['attribute_code'], 'StringLength', array('max' => $attributeCodeMaxLength)))
         {
             throw \Mage::exception('Magento_Eav',
                 __('Maximum length of attribute code must be less than %1 symbols', $attributeCodeMaxLength)

@@ -23,14 +23,14 @@ class Label
     protected $_labelsCollection;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
-     * @param Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
      */
-    public function __construct(Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory)
+    public function __construct(\Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory)
     {
         $this->_collectionFactory = $collectionFactory;
     }
