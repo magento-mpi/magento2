@@ -836,7 +836,7 @@ abstract class AbstractBlock extends \Magento\Object
      */
     public static function extractModuleName($className)
     {
-        return substr($className, 0, strpos($className, '_Block'));
+        return substr($className, 0, strpos($className, \Magento\Autoload\IncludePath::NS_SEPARATOR . 'Block'));
     }
 
     /**
