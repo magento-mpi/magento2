@@ -11,7 +11,7 @@ namespace Magento\Webapi\Model\Acl\Role;
 
 class Factory
 {
-    const CLASS_NAME = '\Magento\Webapi\Model\Acl\Role';
+    const CLASS_NAME = 'Magento\Webapi\Model\Acl\Role';
 
     /**
      * @var \Magento\ObjectManager

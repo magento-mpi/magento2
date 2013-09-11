@@ -69,7 +69,7 @@ class Magento_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_T
         }
 
         /** @var \Magento\Webapi\Model\Acl\Role\UsersUpdater $model */
-        $model = $this->_helper->getObject('\Magento\Webapi\Model\Acl\Role\UsersUpdater', array(
+        $model = $this->_helper->getObject('Magento\Webapi\Model\Acl\Role\UsersUpdater', array(
             'request' => $this->_request,
             'backendHelper' => $this->_backendHelper
         ));
