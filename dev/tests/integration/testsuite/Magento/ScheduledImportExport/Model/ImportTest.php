@@ -13,7 +13,9 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
      */
     public function testRunSchedule()
     {
-        $productModel = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var Magento_Test_ObjectManager $objectManager */
+        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $productModel = $objectManager->create('Magento_Catalog_Model_Product');
         $product = $productModel->loadByAttribute('sku', 'product_100500'); // fixture
         $this->assertFalse($product);
 
@@ -21,13 +23,16 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
         $model = $this->getMock(
             'Magento_ScheduledImportExport_Model_Import',
             array('reindexAll'),
-            array(array('entity' => 'catalog_product', 'behavior' => 'append'))
-        );
+            array(
+                'coreConfig' => $objectManager->create('Magento_Core_Model_Config'),
+                'config' => $objectManager->create('Magento_ImportExport_Model_Config'),
+                'data' => array('entity' => 'catalog_product', 'behavior' => 'append')
+        ));
         $model->expects($this->once())
             ->method('reindexAll')
             ->will($this->returnValue($model));
 
-        $operation = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+        $operation = $objectManager->create('Magento_ScheduledImportExport_Model_Scheduled_Operation');
         $operation->setFileInfo(array(
             'file_name' => __DIR__ . '/../_files/product.csv',
             'server_type' => 'file',

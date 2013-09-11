@@ -333,7 +333,8 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
             'appState'           => $appStateMock,
             'request'            => $objectManager->get('Magento_Core_Controller_Request_Http'),
             'configDataResource' => $objectManager->get('Magento_Core_Model_Resource_Config_Data'),
-            'coreStoreConfig'    => $objectManager->get('Magento_Core_Model_Store_Config')
+            'coreStoreConfig'    => $objectManager->get('Magento_Core_Model_Store_Config'),
+            'coreConfig'         => $objectManager->get('Magento_Core_Model_Config')
         );
 
         $model = $this->getMock('Magento_Core_Model_Store', array('getConfig'), $params);

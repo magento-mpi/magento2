@@ -95,9 +95,7 @@ class Magento_ImportExport_Model_Import extends Magento_ImportExport_Model_Abstr
         Magento_ImportExport_Model_Config $config,
         array $data = array()
     ) {
-        parent::__construct(
-            $data
-        );
+        parent::__construct($data);
         $this->_coreConfig = $coreConfig;
         $this->_config = $config;
     }

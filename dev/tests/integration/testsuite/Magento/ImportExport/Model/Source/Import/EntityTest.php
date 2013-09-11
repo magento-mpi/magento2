@@ -41,11 +41,19 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
         /** @var Magento_Test_ObjectManager $objectMaganger */
         $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
 
-        /** @var $config Magento_ImportExport_Model_Config */
-        $config = $objectManager->create(
-            'Magento_ImportExport_Model_Config',
-            array('coreConfig' => $this->_mockConfig())
+        /** @var Magento_Core_Model_Config $coreConfig */
+        $coreConfig = $objectManager->create('Magento_Core_Model_Config');
+        $coreConfig->setNode(
+            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
+            'Some_Class'
         );
+        $coreConfig->setNode(
+            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/label',
+            $this->_testEntity['label']
+        );
+
+        /** @var $config Magento_ImportExport_Model_Config */
+        $config = $objectManager->create('Magento_ImportExport_Model_Config', array('coreConfig' => $coreConfig));
         $this->_sourceModel = $objectManager->create(
             'Magento_ImportExport_Model_Source_Import_Entity',
             array('config' => $config)
@@ -58,23 +66,6 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
     public function tearDown()
     {
         $this->_sourceModel = null;
-    }
-
-    /**
-     * Mock config
-     */
-    protected function _mockConfig()
-    {
-        $configObject = new Magento_Core_Model_Config_Base(new Magento_Simplexml_Element('<config></config>'));
-        $configObject->setNode(
-            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
-            'Some_Class'
-        );
-        $configObject->setNode(
-            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/label',
-            $this->_testEntity['label']
-        );
-        return $configObject;
     }
 
     /**
