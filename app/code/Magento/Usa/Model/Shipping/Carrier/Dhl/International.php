@@ -142,7 +142,7 @@ class International
     /**
      * Factory for \Magento\Usa\Model\Simplexml\Element
      *
-     * @var Magento_Usa_Model_Simplexml_ElementFactory
+     * @var \Magento\Usa\Model\Simplexml\ElementFactory
      */
     protected $_simpleXmlElementFactory;
 
@@ -150,9 +150,9 @@ class International
      * Dhl International Class constructor
      *
      * Sets necessary data
-     * @var Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     * @var \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory
      */
-    public function __construct(Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
+    public function __construct(\Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory)
     {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_DOC) {

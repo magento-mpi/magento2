@@ -17,23 +17,23 @@ class Role implements \Magento\Acl\LoaderInterface
     protected $_resource;
 
     /**
-     * @var Magento_User_Model_Acl_Role_GroupFactory
+     * @var \Magento\User\Model\Acl\Role\GroupFactory
      */
     protected $_groupFactory;
 
     /**
-     * @var Magento_User_Model_Acl_Role_UserFactory
+     * @var \Magento\User\Model\Acl\Role\UserFactory
      */
     protected $_roleFactory;
 
     /**
-     * @param Magento_User_Model_Acl_Role_GroupFactory $groupFactory
-     * @param Magento_User_Model_Acl_Role_UserFactory $roleFactory
+     * @param \Magento\User\Model\Acl\Role\GroupFactory $groupFactory
+     * @param \Magento\User\Model\Acl\Role\UserFactory $roleFactory
      * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
-        Magento_User_Model_Acl_Role_GroupFactory $groupFactory,
-        Magento_User_Model_Acl_Role_UserFactory $roleFactory,
+        \Magento\User\Model\Acl\Role\GroupFactory $groupFactory,
+        \Magento\User\Model\Acl\Role\UserFactory $roleFactory,
         \Magento\Core\Model\Resource $resource
     ) {
         $this->_resource = $resource;

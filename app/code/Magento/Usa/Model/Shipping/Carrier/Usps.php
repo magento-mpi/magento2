@@ -110,16 +110,16 @@ class Usps
     /**
      * Factory for \Magento\Usa\Model\Simplexml\Element
      *
-     * @var Magento_Usa_Model_Simplexml_ElementFactory
+     * @var \Magento\Usa\Model\Simplexml\ElementFactory
      */
     protected $_simpleXmlElementFactory;
 
     /**
      * Usps constructor
      *
-     * @param Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory
+     * @param \Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory
      */
-    public function __construct(Magento_Usa_Model_Simplexml_ElementFactory $simpleXmlElementFactory)
+    public function __construct(\Magento\Usa\Model\Simplexml\ElementFactory $simpleXmlElementFactory)
     {
         $this->_simpleXmlElementFactory = $simpleXmlElementFactory;
     }
