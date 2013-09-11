@@ -21,7 +21,7 @@ class Magento_Paypal_Model_VoidTest extends PHPUnit_Framework_TestCase
         $order = Mage::getModel('Magento_Sales_Model_Order');
         $order->loadByIncrementId('100000001');
         $payment = $order->getPayment();
-        $storeConfig = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
+        $storeConfig = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config');
         $instance = $this->getMock('Magento_Paypal_Model_Payflowpro',
             array('_postRequest'),
             array($storeConfig, $this->getMock('Magento_Core_Model_ModuleListInterface'))

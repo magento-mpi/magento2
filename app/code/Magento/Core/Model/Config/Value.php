@@ -60,6 +60,7 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Model_Config $config
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -68,6 +69,7 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Model_Config $config,
         Magento_Core_Model_Resource_Abstract $resource = null,
@@ -76,7 +78,7 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
     ) {
         $this->_storeManager = $storeManager;
         $this->_config = $config;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

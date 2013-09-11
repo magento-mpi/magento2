@@ -32,7 +32,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
      */
     protected function setUp()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $importModel = $objectManager->create('Magento_ImportExport_Model_Import');
 
         $uniqueBehaviors = $importModel->getUniqueEntityBehaviors();

@@ -36,8 +36,8 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
      */
     public function setUp()
     {
-        /** @var Magento_Test_ObjectManager $objectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var Magento_TestFramework_ObjectManager $objectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         /** @var Magento_Core_Model_Config $coreConfig */
         $coreConfig = $objectManager->create('Magento_Core_Model_Config', array('storage' => $this->_mockConfig()));

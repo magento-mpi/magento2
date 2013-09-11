@@ -44,7 +44,7 @@ class Magento_User_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             1,
-            (int) Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config')->getValue(
+            (int) Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config')->getValue(
                 Magento_User_Helper_Data::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
                 'default'
             )

@@ -81,6 +81,7 @@ class Magento_Adminhtml_Block_Sales_Order_Totals_TaxTest extends PHPUnit_Framewo
             ->setConstructorArgs(array(
                 'context' => $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false),
                 'coreRegistry' => $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false),
+                'coreStoreConfig' => $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false),
                 'taxConfig' => $this->getMock('Magento_Tax_Model_Config', array(), array(), '', false)
             ))
             ->setMethods(null)

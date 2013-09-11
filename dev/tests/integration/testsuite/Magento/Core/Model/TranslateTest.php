@@ -71,10 +71,10 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->_designModel = $this->getMock('Magento_Core_Model_View_Design',
             array('getDesignTheme'),
             array(
-                Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface'),
-                Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Theme_FlyweightFactory'),
-                Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config'),
-                Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config')
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_StoreManagerInterface'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Theme_FlyweightFactory'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Store_Config'),
+                Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config')
             )
         );
 

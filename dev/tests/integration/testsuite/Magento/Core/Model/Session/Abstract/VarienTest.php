@@ -37,7 +37,7 @@ class Magento_Core_Model_Session_Abstract_VarienTest extends PHPUnit_Framework_T
 
         ini_set('session.save_handler', $origSessionHandler);
 
-        Magento_Test_Helper_Bootstrap::getObjectManager()
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Config')
             ->setNode(Magento_Core_Model_Session_Abstract::XML_NODE_SESSION_SAVE, $saveMethod);
         /**

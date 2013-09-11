@@ -23,7 +23,7 @@ class Magento_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
             'from' => '™',
             'to' => 'TM',
         );
-        Magento_Test_Helper_Bootstrap::getObjectManager()
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Config')
             ->setValue('url/convert/char8482', $data);
     }

@@ -146,8 +146,8 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public function testSendPasswordResetConfirmationEmail()
     {
-        /** @var Magento_Test_ObjectManager $objectManager */
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        /** @var Magento_TestFramework_ObjectManager $objectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** @var Magento_Core_Model_Store_Config $storeConfig */
         $storeConfig = $objectManager->create('Magento_Core_Model_Store_Config');
 

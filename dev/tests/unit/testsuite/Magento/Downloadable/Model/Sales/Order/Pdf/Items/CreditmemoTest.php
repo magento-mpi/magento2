@@ -41,12 +41,15 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PH
         $this->_pdf = $this->getMock(
             'Magento_Sales_Model_Order_Pdf_Abstract', array('drawLineBlocks', 'getPdf'), array(), '', false, false
         );
-
+        $coreStoreConfig = $this->getMock('Magento_Core_Model_Store_Config', array(), array(), '', false, false);
         $this->_model = $this->getMock(
             'Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo',
             array('getLinks', 'getLinksTitle'),
-            $modelConstructorArgs
-        );
+            array(
+                'context' => $modelConstructorArgs['context'],
+                'registry' => $modelConstructorArgs['registry'],
+                'coreStoreConfig' => $coreStoreConfig
+        ));
         $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false);
         $this->_model->setStringHelper(new Magento_Core_Helper_String($context));
         $this->_model->setOrder($this->_order);
