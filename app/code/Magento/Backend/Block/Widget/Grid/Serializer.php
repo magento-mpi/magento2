@@ -9,7 +9,7 @@
  */
 
 /**
- *
+ * @method string|array getInputNames()
  *
  * @category   Magento
  * @package    Magento_Backend
@@ -17,13 +17,6 @@
  */
 class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Template
 {
-
-    /**
-     * Store grid input names to serialize
-     *
-     * @var array
-     */
-    private $_inputsToSerialize = array();
 
     /**
      * Set serializer template
@@ -38,34 +31,18 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
     }
 
     /**
-     * Register grid column input name to serialize
-     *
-     * @param string $name
-     */
-    public function addColumnInputName($names)
-    {
-        if (is_array($names)) {
-            foreach ($names as $name) {
-                $this->addColumnInputName($name);
-            }
-        } else {
-            if (!in_array($names, $this->_inputsToSerialize)) {
-                $this->_inputsToSerialize[] = $names;
-            }
-        }
-    }
-
-    /**
      * Get grid column input names to serialize
      *
-     * @return unknown
+     * @param bool $asJSON
+     *
+     * @return string|array
      */
     public function getColumnInputNames($asJSON = false)
     {
         if ($asJSON) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_inputsToSerialize);
+            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((array)$this->getInputNames());
         }
-        return $this->_inputsToSerialize;
+        return (array)$this->getInputNames();
     }
 
     /**
@@ -76,9 +53,10 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
     public function getDataAsJSON()
     {
         $result = array();
+        $inputNames = $this->getInputNames();
         if ($serializeData = $this->getSerializeData()) {
             $result = $serializeData;
-        } elseif (!empty($this->_inputsToSerialize)) {
+        } elseif (!empty($inputNames)) {
             return '{}';
         }
         return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);

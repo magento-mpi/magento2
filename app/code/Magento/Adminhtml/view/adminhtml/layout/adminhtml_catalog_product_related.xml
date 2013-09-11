@@ -19,9 +19,9 @@
                         <argument name="hidden_input_name" xsi:type="string">links[related]</argument>
                         <argument name="reload_param_name" xsi:type="string">products_related</argument>
                     </action>
-                    <action method="addColumnInputName">
-                        <argument name="input_name" xsi:type="string">position</argument>
-                    </action>
+                    <arguments>
+                        <argument name="input_names" xsi:type="string">position</argument>
+                    </arguments>
                 </reference>
             </block>
         </container>

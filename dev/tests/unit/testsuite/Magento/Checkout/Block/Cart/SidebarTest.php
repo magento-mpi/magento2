@@ -30,7 +30,7 @@ class Magento_Checkout_Block_Cart_SidebarTest extends PHPUnit_Framework_TestCase
                 array('data' => array('template' => 'some-type'))
             )
             ->will($this->returnValue($childBlock));
-        $layout->expects($this->once())
+        $layout->expects($this->any())
             ->method('getChildName')
             ->with(null, 'some-template')
             ->will($this->returnValue(false));

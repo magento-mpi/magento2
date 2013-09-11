@@ -95,7 +95,7 @@
             <cache_lifetime>86400</cache_lifetime>
         </orders>
         <wishlist_links>
-            <block>Magento_Wishlist_Block_Links</block>
+            <block>Magento_Wishlist_Block_Link</block>
             <placeholder>WISHLISTLINKS</placeholder>
             <container>Magento_FullPageCache_Model_Container_Wishlistlinks</container>
             <cache_lifetime>86400</cache_lifetime>

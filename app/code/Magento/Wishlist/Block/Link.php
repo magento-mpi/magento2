@@ -16,7 +16,7 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Links extends Magento_Page_Block_Link
+class Magento_Wishlist_Block_Link extends Magento_Page_Block_Link
 {
     /**
      * @return string

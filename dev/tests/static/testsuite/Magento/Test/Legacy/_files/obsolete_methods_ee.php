@@ -47,8 +47,8 @@ return array(
     array('applyEventStatus', 'Magento_CatalogEvent_Model_Observer'),
     array('checkQuoteItem', 'Magento_CatalogPermissions_Model_Observer'),
     array('increaseOrderInvoicedAmount', 'Magento_GiftCardAccount_Model_Observer'),
-    array('initRewardType', 'Enterprise_Reward_Block_Tooltip'),
-    array('initRewardType', 'Enterprise_Reward_Block_Tooltip_Checkout'),
+    array('initRewardType', 'Magento_Reward_Block_Tooltip'),
+    array('initRewardType', 'Magento_Reward_Block_Tooltip_Checkout'),
     array('blockCreateAfter', 'Magento_FullPageCache_Model_Observer'),
     array('_checkViewedProducts', 'Magento_FullPageCache_Model_Observer'),
     array('invoiceSaveAfter', 'Magento_Reward_Model_Observer'),
@@ -63,11 +63,11 @@ return array(
     array('refreshRequestIds', 'Magento_FullPageCache_Model_Processor',
         'Magento_FullPageCache_Model_Request_Identifier::refreshRequestIds'
     ),
-    array('removeCartLink', 'Enterprise_Persistent_Model_Observer'),
-    array('resetColumns', 'Enterprise_Banner_Model_Resource_Salesrule_Collection'),
-    array('resetSelect', 'Enterprise_Banner_Model_Resource_Catalogrule_Collection'),
-    array('prepareCacheId', 'Enterprise_PageCache_Model_Processor',
-        'Enterprise_PageCache_Model_Request_Identifier::prepareCacheId'
+    array('removeCartLink', 'Magento_PersistentHistory_Model_Observer'),
+    array('resetColumns', 'Magento_Banner_Model_Resource_Salesrule_Collection'),
+    array('resetSelect', 'Magento_Banner_Model_Resource_Catalogrule_Collection'),
+    array('prepareCacheId', 'Magento_FullPageCache_Model_Processor',
+        'Magento_FullPageCache_Model_Request_Identifier::prepareCacheId'
     ),
     array('_getQuote', 'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon',
         'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon::getQuote()'
