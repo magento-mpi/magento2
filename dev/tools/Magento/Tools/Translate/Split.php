@@ -25,6 +25,10 @@ define('MESSAGE_TYPE_ERROR', '2');
 
 define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS);
 
+include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
+include(__DIR__ . DS . 'ModuleTranslations.php');
+
+
 global $argv;
 
 class Split
@@ -156,7 +160,6 @@ class Split
             return false;
         }
 
-        \Magento\Autoload\IncludePath::load(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv');
         $csv = new \Magento\File\Csv();
         $inputData = $csv->getData($this->_inputFileName);
         $output = array();
@@ -173,7 +176,6 @@ class Split
         $this->_addMessage(MESSAGE_TYPE_NOTICE, 'Translation splitted successfully');
 
         if ($this->_distribute) {
-            \Magento\Autoload\IncludePath::load(__DIR__ . DS . 'ModuleTranslations');
             \Magento\Tools\Translate\ModuleTranslations::distributeTranslations($this->_localeName);
             if ($this->_clean) {
                 \Magento\Tools\Translate\ModuleTranslations::cleanTranslations($this->_localeName);

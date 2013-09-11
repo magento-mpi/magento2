@@ -25,6 +25,9 @@ define('MESSAGE_TYPE_ERROR', '2');
 
 define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS);
 
+include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
+include(__DIR__ . DS . 'ModuleTranslations.php');
+
 global $argv;
 
 class Combine
@@ -107,7 +110,6 @@ class Combine
         }
 
         if ($collectModules) {
-            \Magento\Autoload\Includepath::load(__DIR__ . DS . 'ModuleTranslations');
             \Magento\Tools\Translate\ModuleTranslations::collectTranslations($localeName);
         }
 
@@ -172,7 +174,6 @@ class Combine
         $resultData = array();
 
         $files = $this->_getFilesToProcess(sprintf($this->_localePath, $this->_localeName));
-        \Magento\Autoload\IncludePath::load(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv');
         $csv = new \Magento\File\Csv();
 
         foreach ($files as $alias=>$file){

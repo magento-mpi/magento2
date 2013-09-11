@@ -39,6 +39,8 @@ define('ACTION_SPLIT', 3);
 
 define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS . 'template' . DS);
 
+include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
+
 global $argv;
 
 class GenerateEmailTemplates
@@ -285,7 +287,6 @@ class GenerateEmailTemplates
         $localePath = sprintf($this->_localePath, $this->_localeName);
 
         $files = $this->_getFilesToProcess($localePath);
-        \Magento\Autoload\Includepath::load(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv');
         $csv = null;
         if (!$outputSeparate) {
             $csv = new \Magento\File\Csv();
@@ -381,7 +382,6 @@ class GenerateEmailTemplates
         }
 
         $files = $this->_getFilesToProcess($translatedDirName);
-        \Magento\Autoload\Includepath::load(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv');
         $csv = new \Magento\File\Csv();
         if (!$inputSeparate) {
             $strings = $csv->getData($this->_translateName);
