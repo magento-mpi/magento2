@@ -16,7 +16,7 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
      */
     public function testXml($configFile)
     {
-        $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget.xsd';
         $this->_validateFileExpectSuccess($configFile, $schema);
     }
 
@@ -27,34 +27,34 @@ class Magento_Test_Integrity_Magento_Widget_WidgetConfigTest extends PHPUnit_Fra
      */
     public function xmlDataProvider()
     {
-        return Utility_Files::init()->getConfigFiles('widget.xml');
+        return Magento_TestFramework_Utility_Files::init()->getConfigFiles('widget.xml');
     }
 
     public function testSchemaUsingValidXml()
     {
         $xmlFile = __DIR__ . '/_files/widget.xml';
-        $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget.xsd';
         $this->_validateFileExpectSuccess($xmlFile, $schema);
     }
 
     public function testSchemaUsingInvalidXml()
     {
         $xmlFile = __DIR__ . '/_files/invalid_widget.xml';
-        $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget.xsd';
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
 
     public function testFileSchemaUsingXml()
     {
         $xmlFile = __DIR__ . '/_files/widget_file.xml';
-        $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget_file.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget_file.xsd';
         $this->_validateFileExpectSuccess($xmlFile, $schema);
     }
 
     public function testFileSchemaUsingInvalidXml()
     {
         $xmlFile = __DIR__ . '/_files/invalid_widget.xml';
-        $schema = Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget_file.xsd';
+        $schema = Magento_TestFramework_Utility_Files::init()->getPathToSource() . '/app/code/Magento/Widget/etc/widget_file.xsd';
         $this->_validateFileExpectFailure($xmlFile, $schema);
     }
 
