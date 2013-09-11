@@ -151,7 +151,7 @@ class Magento_Logging_Model_Config
         if (!array_key_exists($groupName, $this->_xmlConfig)) {
             return false;
         }
-        return $this->_xmlConfig['$groupName'];
+        return $this->_xmlConfig[$groupName];
     }
 
 
