@@ -20,15 +20,15 @@ namespace Magento\AdminNotification\Model;
 class NotificationService
 {
     /**
-     * @var Magento_AdminNotification_Model_InboxFactory $notificationFactory
+     * @var \Magento\AdminNotification\Model\InboxFactory $notificationFactory
      */
     protected $_notificationFactory;
 
     /**
-     * @param Magento_AdminNotification_Model_InboxFactory $notificationFactory
+     * @param \Magento\AdminNotification\Model\InboxFactory $notificationFactory
      */
     public function __construct(
-        Magento_AdminNotification_Model_InboxFactory $notificationFactory
+        \Magento\AdminNotification\Model\InboxFactory $notificationFactory
     ) {
         $this->_notificationFactory = $notificationFactory;
     }

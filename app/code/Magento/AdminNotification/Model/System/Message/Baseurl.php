@@ -26,7 +26,7 @@ class Baseurl
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Config_ValueFactory
+     * @var \Magento\Core\Model\Config\ValueFactory
      */
     protected $_configValueFactory;
 
@@ -34,13 +34,13 @@ class Baseurl
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\UrlInterface $urlBuilder
-     * @param Magento_Core_Model_Config_ValueFactory $configValueFactory
+     * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      */
     public function __construct(
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\UrlInterface $urlBuilder,
-        Magento_Core_Model_Config_ValueFactory $configValueFactory
+        \Magento\Core\Model\Config\ValueFactory $configValueFactory
     ) {
         $this->_urlBuilder = $urlBuilder;
         $this->_config = $config;
