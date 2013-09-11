@@ -286,7 +286,10 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
             if (!$template || !$block || !$type) {
                 continue;
             }
-            $this->addChild($type, $block, array('template' => $template));
+            if (!$this->getChildBlock($type)) {
+                $this->addChild($type, $block, array('template' => $template));
+            }
+
         }
 
         return $this;
