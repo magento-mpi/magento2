@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <action path="magento_invitation_customer_account_create" type="generic"/>
+    <action path="magento_invitation_customer_account_createpost" type="generic" />
+</config>

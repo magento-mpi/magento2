@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento_WebsiteRestriction_Model_ConfigInterface" type="Magento_WebsiteRestriction_Model_Config" />
+</config>

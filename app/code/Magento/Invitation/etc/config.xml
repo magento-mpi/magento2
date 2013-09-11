@@ -40,16 +40,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <magento>
-            <websiterestriction>
-                <full_action_names>
-                    <generic>
-                        <magento_invitation_customer_account_create />
-                        <magento_invitation_customer_account_createpost />
-                    </generic>
-                </full_action_names>
-            </websiterestriction>
-        </magento>
         <translate>
             <modules>
                 <Magento_Invitation>
@@ -79,4 +69,4 @@
             </general>
         </magento_invitation>
     </default>
-</config>
+</config>
