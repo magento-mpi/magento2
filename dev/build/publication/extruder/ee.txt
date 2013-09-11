@@ -121,4 +121,3 @@ dev/tests/integration/testsuite/Magento/FullPageCache
 app/code/Magento/PersistentHistory
 app/code/Magento/MultipleWishlist
 dev/tests/integration/testsuite/Magento/MultipleWishlist
-dev/tests/integration/testsuite/integrity/modular/PlaceholderConfigFilesTest.php
