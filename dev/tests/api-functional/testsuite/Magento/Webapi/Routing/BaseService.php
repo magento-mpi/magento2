@@ -40,7 +40,7 @@ abstract class Magento_Webapi_Routing_BaseService extends Magento_Test_TestCase_
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (Exception $e) {
             $this->assertContains(
-                '{"errors":[{"code":0,"message":"Request does not match any route.","http_code":404',
+                '{"errors":[{"message":"Request does not match any route.","http_code":404',
                 $e->getMessage(),
                 sprintf(
                     'REST routing did not fail as expected for the method "%s" of service "%s"',

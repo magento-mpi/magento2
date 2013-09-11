@@ -40,7 +40,7 @@ class Magento_Webapi_Model_Soap_Server
     protected $_soapServerFactory;
 
     /**
-     * Initialize dependencies.
+     * Initialize dependencies, initialize WSDL cache.
      *
      * @param Magento_Core_Model_App $application
      * @param Magento_Webapi_Controller_Soap_Request $request
@@ -66,6 +66,8 @@ class Magento_Webapi_Model_Soap_Server
         $this->_request = $request;
         $this->_domDocumentFactory = $domDocumentFactory;
         $this->_soapHandler = $soapHandler;
+        $this->_storeManager = $storeManager;
+        $this->_soapServerFactory = $soapServerFactory;
         /** Enable or disable SOAP extension WSDL cache depending on Magento configuration. */
         $wsdlCacheEnabled = (bool)$storeManager->getStore()->getConfig(self::CONFIG_PATH_WSDL_CACHE_ENABLED);
         if ($wsdlCacheEnabled) {
@@ -73,52 +75,23 @@ class Magento_Webapi_Model_Soap_Server
         } else {
             ini_set('soap.wsdl_cache_enabled', '0');
         }
-        $this->_storeManager = $storeManager;
-        $this->_soapServerFactory = $soapServerFactory;
     }
 
     /**
-     * Generate exception if request is invalid.
+     * Handle SOAP request.
      *
-     * @param string $soapRequest
-     * @throws Magento_Webapi_Exception with invalid SOAP extension
-     * @return Magento_Webapi_Model_Soap_Server
+     * @return string
      */
-    protected function _checkRequest($soapRequest)
+    public function handle()
     {
-        libxml_disable_entity_loader(true);
-        $dom = $this->_domDocumentFactory->createDomDocument();
-        if (strlen($soapRequest) == 0 || !$dom->loadXML($soapRequest)) {
-            throw new Magento_Webapi_Exception(__('Invalid XML'), Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
-        }
-        foreach ($dom->childNodes as $child) {
-            if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
-                throw new Magento_Webapi_Exception(__('Invalid XML: Detected use of illegal DOCTYPE'),
-                    Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
-            }
-        }
-        libxml_disable_entity_loader(false);
-        return $this;
-    }
-
-    /**
-     * Get SOAP Header names from request.
-     *
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    public function getRequestHeaders()
-    {
-        $dom = $this->_domDocumentFactory->createDomDocument();
-        $dom->loadXML($this->_request);
-        $headers = array();
-        /** @var DOMElement $header */
-        foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
-            list($headerNs, $headerName) = explode(":", $header->nodeName);
-            $headers[] = $headerName;
-        }
-
-        return $headers;
+        $rawRequestBody = file_get_contents('php://input');
+        $this->_checkRequest($rawRequestBody);
+        $options = array(
+            'encoding' => $this->getApiCharset(),
+            'soap_version' => SOAP_1_2
+        );
+        $soap = $this->_soapServerFactory->create($this->generateUri(true), $options, $this->_soapHandler);
+        return $soap->handle($rawRequestBody);
     }
 
     /**
@@ -163,24 +136,45 @@ class Magento_Webapi_Model_Soap_Server
     }
 
     /**
-     * Handle a request
+     * Get SOAP Header names from request.
      *
-     * Instantiates SoapServer object with options set in object, and
-     * dispatches its handle() method.
-     * Pulls request using php:://input (for cross-platform compatibility purposes).
-     *
-     * @return string
+     * @return array
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @TODO Remove this method if it is not used after SOAP authentication implementation
      */
-    public function handle()
+    public function getRequestHeaders()
     {
-        $soapRequest = file_get_contents('php://input');
-        $this->_checkRequest($soapRequest);
-        $options = array(
-            'encoding' => $this->getApiCharset(),
-            'soap_version' => SOAP_1_2
-        );
-        $soap = $this->_soapServerFactory->create($this->generateUri(true), $options, $this->_soapHandler);
-        return $soap->handle($soapRequest);
+        $dom = $this->_domDocumentFactory->createDomDocument();
+        $dom->loadXML($this->_request);
+        $headers = array();
+        /** @var DOMElement $header */
+        foreach ($dom->getElementsByTagName('Header')->item(0)->childNodes as $header) {
+            list($headerNs, $headerName) = explode(":", $header->nodeName);
+            $headers[] = $headerName;
+        }
+
+        return $headers;
     }
 
+    /**
+     * Generate exception if request is invalid.
+     *
+     * @param string $soapRequest
+     * @throws Magento_Webapi_Exception with invalid SOAP extension
+     * @return Magento_Webapi_Model_Soap_Server
+     */
+    protected function _checkRequest($soapRequest)
+    {
+        $dom = new DOMDocument();
+        if (strlen($soapRequest) == 0 || !$dom->loadXML($soapRequest)) {
+            throw new Magento_Webapi_Exception(__('Invalid XML'), Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
+        }
+        foreach ($dom->childNodes as $child) {
+            if ($child->nodeType === XML_DOCUMENT_TYPE_NODE) {
+                throw new Magento_Webapi_Exception(__('Invalid XML: Detected use of illegal DOCTYPE'),
+                    Magento_Webapi_Exception::HTTP_INTERNAL_ERROR);
+            }
+        }
+        return $this;
+    }
 }

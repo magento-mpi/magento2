@@ -42,10 +42,6 @@ class Magento_Webapi_Controller_Rest_Router
             $params = $route->match($request);
             if ($params !== false) {
                 $request->setParams($params);
-                /** Initialize additional request parameters using data from route */
-                // TODO: $request->setServiceId($route->getServiceId());
-                // $request->setHttpMethod($route->getHttpMethod());
-                // $request->setServiceVersion($route->getServiceVersion());
                 return $route;
             }
         }

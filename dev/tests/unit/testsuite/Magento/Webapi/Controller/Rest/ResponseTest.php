@@ -74,8 +74,8 @@ class Magento_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_Test
     {
         /** Init logic exception. */
         $logicException = new LogicException();
-        /** Mock renderer to throw LogicException in getMimeType method. */
-        $this->_rendererMock->expects($this->any())->method('getMimeType')->will(
+        /** Mock error processor to throw LogicException in maskException method. */
+        $this->_errorProcessorMock->expects($this->any())->method('maskException')->will(
             $this->throwException($logicException)
         );
         /** Assert that renderException method will be executed once with specified parameters. */
@@ -219,7 +219,7 @@ class Magento_Webapi_Controller_Rest_ResponseTest extends PHPUnit_Framework_Test
     {
         $this->_responseRest->sendResponse();
         $this->assertTrue(
-            $this->_responseRest->getHttpResponseCode() == Magento_Webapi_Controller_Rest_Response::HTTP_OK
+            $this->_responseRest->getHttpResponseCode() == Magento_Webapi_Controller_Response::HTTP_OK
         );
     }
 

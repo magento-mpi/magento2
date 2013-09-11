@@ -22,13 +22,11 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
     protected $_wsdlFactory;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var Magento_Webapi_Model_Cache_Type
      */
     protected $_cache;
 
     /**
-     * TODO: Temporary variable for step-by-step refactoring according to new requirements
-     *
      * @var Magento_Webapi_Model_Soap_Config
      */
     protected $_apiConfig;
@@ -45,12 +43,12 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      *
      * @param Magento_Webapi_Model_Soap_Config $apiConfig
      * @param Magento_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param Magento_Webapi_Model_Cache_Type $cache
      */
     public function __construct(
         Magento_Webapi_Model_Soap_Config $apiConfig,
         Magento_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
-        Magento_Core_Model_CacheInterface $cache
+        Magento_Webapi_Model_Cache_Type $cache
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
@@ -74,7 +72,7 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
         }
 
         $wsdlContent = $this->_generate($requestedServices, $endPointUrl);
-        $this->_cache->save($wsdlContent, $cacheId, array(Magento_Webapi_Model_Config::CACHE_TAG));
+        $this->_cache->save($wsdlContent, $cacheId, array(Magento_Webapi_Model_Cache_Type::CACHE_TAG));
 
         return $wsdlContent;
     }
@@ -222,12 +220,6 @@ class Magento_Webapi_Model_Soap_Wsdl_Generator
      */
     protected function _createOperationInput(Magento_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
     {
-        /**
-         * TODO: Make sure that complex type name is taken from a single place
-         *
-         * (currently we have two sources: XSD schema
-         * and auto-generation mechanism: $this->getElementComplexTypeName($inputMessageName))
-         */
         $inputMessageName = $this->getInputMessageName($operationName);
         $elementData = array(
             'name' => $inputMessageName,

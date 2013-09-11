@@ -89,8 +89,6 @@ class Magento_Webapi_Controller_Soap_Handler
                     sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceId)
                 );
             }
-            // TODO: Check why 'result' node is not generated in WSDL
-            // return (object)array(self::RESULT_NODE_NAME => $outputData);
             return $outputData;
         }
     }

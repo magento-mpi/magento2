@@ -59,9 +59,16 @@ class Magento_Webapi_Controller_ErrorProcessor
     public function maskException(Exception $exception)
     {
         if ($exception instanceof Magento_Service_Exception) {
+            if ($exception instanceof Magento_Service_ResourceNotFoundException) {
+                $httpCode = Magento_Webapi_Exception::HTTP_NOT_FOUND;
+            } elseif ($exception instanceof Magento_Service_AuthorizationException) {
+                $httpCode = Magento_Webapi_Exception::HTTP_UNAUTHORIZED;
+            } else {
+                $httpCode = Magento_Webapi_Exception::HTTP_BAD_REQUEST;
+            }
             $maskedException = new Magento_Webapi_Exception(
                 $exception->getMessage(),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST,
+                $httpCode,
                 $exception->getCode(),
                 $exception->getParameters()
             );
@@ -94,7 +101,6 @@ class Magento_Webapi_Controller_ErrorProcessor
      *
      * @param Exception $exception
      * @param int $httpCode
-     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function renderException(Exception $exception, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
     {
@@ -108,8 +114,6 @@ class Magento_Webapi_Controller_ErrorProcessor
                 $httpCode
             );
         }
-        // TODO: Move die() call to render() method when it will be covered with functional tests.
-        die();
     }
 
     /**

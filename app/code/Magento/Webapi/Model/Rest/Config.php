@@ -126,7 +126,7 @@ class Magento_Webapi_Model_Rest_Config
                         array(
                             self::KEY_ROUTE_PATH =>
                                 $serviceData[Magento_Webapi_Model_Config::ATTR_SERVICE_PATH] . $methodRoute,
-                            self::KEY_VERSION => $request->getServiceVersion(), // TODO: Take version from config
+                            self::KEY_VERSION => $request->getServiceVersion(),
                             self::KEY_CLASS => $serviceName,
                             self::KEY_METHOD => $methodName,
                             self::KEY_HTTP_METHOD => $httpMethod,

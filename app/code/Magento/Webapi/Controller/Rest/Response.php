@@ -9,14 +9,6 @@
  */
 class Magento_Webapi_Controller_Rest_Response extends Magento_Webapi_Controller_Response
 {
-    /**#@+
-     * Success HTTP response codes.
-     */
-    const HTTP_OK = 200;
-    const HTTP_CREATED = 201;
-    const HTTP_MULTI_STATUS = 207;
-    /**#@-*/
-
     /** @var Magento_Webapi_Controller_ErrorProcessor */
     protected $_errorProcessor;
 
@@ -45,6 +37,8 @@ class Magento_Webapi_Controller_Rest_Response extends Magento_Webapi_Controller_
 
     /**
      * Send response to the client, render exceptions if they are present.
+     *
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function sendResponse()
     {
@@ -65,6 +59,7 @@ class Magento_Webapi_Controller_Rest_Response extends Magento_Webapi_Controller_
 
             /** If error was encountered during "error rendering" process then use error renderer. */
             $this->_errorProcessor->renderException($e, $httpCode);
+            die();
         }
     }
 
@@ -77,32 +72,22 @@ class Magento_Webapi_Controller_Rest_Response extends Magento_Webapi_Controller_
         $responseHttpCode = null;
         /** @var Exception $exception */
         foreach ($this->getException() as $exception) {
-            // TODO: Move the following checks to error processor
-            if ($exception instanceof Magento_Service_ResourceNotFoundException) {
-                $httpCode = Magento_Webapi_Exception::HTTP_NOT_FOUND;
-            } elseif ($exception instanceof Magento_Service_AuthorizationException) {
-                $httpCode = Magento_Webapi_Exception::HTTP_UNAUTHORIZED;
-            } elseif ($exception instanceof Magento_Service_Exception) {
-                $httpCode = Magento_Webapi_Exception::HTTP_BAD_REQUEST;
-            } elseif ($exception instanceof Magento_Webapi_Exception) {
-                $httpCode = $exception->getHttpCode();
-            } else {
-                $httpCode = Magento_Webapi_Exception::HTTP_INTERNAL_ERROR;
+            $maskedException = $this->_errorProcessor->maskException($exception);
+            $messageData = array(
+                'message' => $maskedException->getMessage(),
+                'http_code' => $maskedException->getHttpCode()
+            );
+            if ($maskedException->getCode()) {
+                $messageData['code'] = $maskedException->getCode();
             }
-
-            $messageData = array('code' => $exception->getCode(), 'message' => $exception->getMessage());
-            if ($exception instanceof Magento_Service_Exception) {
-                /** @var Magento_Service_Exception $exception */
-                $messageData['parameters'] = $exception->getParameters();
-            } elseif ($exception instanceof Magento_Webapi_Exception) {
-                $messageData['http_code'] = $exception->getHttpCode();
+            if ($maskedException->getDetails()) {
+                $messageData['parameters'] = $maskedException->getDetails();
             }
             if ($this->_app->isDeveloperMode()) {
                 $messageData['trace'] = $exception->getTraceAsString();
             }
             $formattedMessages['errors'][] = $messageData;
-            // keep HTTP code for response
-            $responseHttpCode = $httpCode;
+            $responseHttpCode = $maskedException->getHttpCode();
         }
         // set HTTP code of the last error, Content-Type, and all rendered error messages to body
         $this->setHttpResponseCode($responseHttpCode);

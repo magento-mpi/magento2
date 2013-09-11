@@ -90,7 +90,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
                 );
                 $this->_setResponseContentType('text/xml');
             } else {
-                $responseBody = $this->_initSoapServer()->handle();
+                $responseBody = $this->_soapServer->handle();
                 $this->_setResponseContentType('application/soap+xml');
             }
             $this->_setResponseBody($responseBody);
@@ -123,7 +123,7 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
         $soapFault = new Magento_Webapi_Model_Soap_Fault($this->_application, $maskedException);
         $httpCode = $this->_isWsdlRequest()
             ? $maskedException->getHttpCode()
-            : Magento_Webapi_Controller_Rest_Response::HTTP_OK;
+            : Magento_Webapi_Controller_Response::HTTP_OK;
         $this->_response->setHttpResponseCode($httpCode);
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());
@@ -158,19 +158,5 @@ class Magento_Webapi_Controller_Soap implements Magento_Core_Controller_FrontInt
             )
         );
         return $this;
-    }
-
-    /**
-     * Initialize SOAP Server.
-     *
-     * @return Magento_Webapi_Model_Soap_Server
-     */
-    protected function _initSoapServer()
-    {
-        use_soap_error_handler(false);
-        // TODO: Headers are not available at this point.
-        // $this->_soapHandler->setRequestHeaders($this->_getRequestHeaders());
-
-        return $this->_soapServer;
     }
 }

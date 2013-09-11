@@ -118,13 +118,15 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
         );
 
         // Something other than Magento_Service_Exception
+        $expectedErrorCode = Mage::app()->isDeveloperMode() ? 5678 : null;
+        $expectedErrorMessage = Mage::app()->isDeveloperMode() ? 'Non service exception'
+            : 'Internal Error. Details are available in Magento log file. Report ID: %1';
         $this->_errorTest(
             $serviceInfo,
             array(),
             Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
-            5678,
-            'Non service exception',
-            null
+            $expectedErrorCode,
+            $expectedErrorMessage
         );
     }
 
@@ -136,16 +138,20 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
                 'httpMethod' => Magento_Webapi_Model_Rest_Config::HTTP_METHOD_GET
             ),
         );
-
+        if (!Mage::app()->isDeveloperMode()) {
+            /** Developer mode changes tested behavior and it cannot properly be tested for now */
+            $expectedMessage = 'Internal Error. Details are available in Magento log file. Report ID: %1';
+        } else {
+            $expectedMessage = 'The method "returnIncompatibleDataType" of service '
+                . '"Magento_TestModule3_Service_ErrorV1Interface" must return an array.';
+        }
         // Magento_Service_Exception
         $this->_errorTest(
             $serviceInfo,
             array(),
             Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
             0,
-            // @codingStandardsIgnoreStart
-            'The method "returnIncompatibleDataType" of service "Magento_TestModule3_Service_ErrorV1Interface" must return an array.',
-            // @codingStandardsIgnoreEnd
+            $expectedMessage,
             null
         );
     }
@@ -175,10 +181,12 @@ class Magento_Webapi_Routing_RestErrorHandlingTest extends Magento_Test_TestCase
             $this->assertEquals($httpStatus, $e->getCode(), 'Checking HTTP status code');
 
             $body = json_decode($e->getMessage(), true);
-            $this->assertEquals($errorCode, $body['errors'][0]['code'], 'Checking body code');
+            if ($errorCode) {
+                $this->assertEquals($errorCode, $body['errors'][0]['code'], 'Checking body code');
+            }
             $this->assertEquals($errorMessage, $body['errors'][0]['message'], 'Checking body message');
 
-            if (isset($parameters)) {
+            if ($parameters) {
                 $this->assertEquals($parameters, $body['errors'][0]['parameters'], 'Checking body parameters');
             }
         }
