@@ -102,4 +102,4 @@ require_once __DIR__ . '/DirectoryFilter.php';
 require_once 'Varien/Simplexml/Config.php';
 require_once 'Varien/Simplexml/Element.php';
 
-\Magento\Tools\Translate\Translate::run($CONFIG);
+\Magento\Tools\Translate\TranslateTool::run($CONFIG);
