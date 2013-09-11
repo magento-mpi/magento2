@@ -30,11 +30,6 @@
                 </Magento_Logging>
             </modules>
         </translate>
-        <enterprise>
-            <logging>
-                <skip_fields>updated_at,form_key</skip_fields>
-            </logging>
-        </enterprise>
     </adminhtml>
     <default>
         <system>
@@ -56,4 +51,4 @@
             </magento_logging_rotate_logs>
         </jobs>
     </crontab>
-</config>
+</config>
