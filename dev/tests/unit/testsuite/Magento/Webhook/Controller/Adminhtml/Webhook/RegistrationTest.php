@@ -16,7 +16,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
     /** @var Magento_Webhook_Controller_Adminhtml_Webhook_Registration */
     protected $_registrationContr;
 
-    /** @var Magento_Test_Helper_ObjectManager $objectManagerHelper */
+    /** @var Magento_TestFramework_Helper_ObjectManager $objectManagerHelper */
     protected $_objectManagerHelper;
 
     /** @var PHPUnit_Framework_MockObject_MockObject  */
@@ -57,8 +57,8 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_RegistrationTest extends PHPU
 
     public function setUp()
     {
-        /** @var Magento_Test_Helper_ObjectManager $objectManagerHelper */
-        $this->_objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        /** @var Magento_TestFramework_Helper_ObjectManager $objectManagerHelper */
+        $this->_objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_setMageObjectManager();
 
         $this->_mockBackendHlpData = $this->getMockBuilder('Magento_Backend_Helper_Data')

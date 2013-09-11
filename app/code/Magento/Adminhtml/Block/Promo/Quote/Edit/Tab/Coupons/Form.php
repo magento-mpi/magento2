@@ -20,6 +20,29 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
     extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Prepare coupon codes generation parameters form
      *
      * @return Magento_Adminhtml_Block_Widget_Form
@@ -33,7 +56,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
          */
         $couponHelper = Mage::helper('Magento_SalesRule_Helper_Coupon');
 
-        $model = Mage::registry('current_promo_quote_rule');
+        $model = $this->_coreRegistry->registry('current_promo_quote_rule');
         $ruleId = $model->getId();
 
         $form->setHtmlIdPrefix('coupons_');

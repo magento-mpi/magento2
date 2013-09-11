@@ -14,16 +14,27 @@
 class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
 {
     /**
+     * Design package instance
+     *
+     * @var Magento_Core_Model_View_DesignInterface
+     */
+    protected $_design;
+    
+    /**
      * @var Magento_Core_Model_Event_Manager
      */
     protected $_eventManager;
 
     /**
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_View_DesignInterface $design
      * @param Magento_Core_Model_Event_Manager $eventManager
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Event_Manager $eventManager)
-    {
+    public function __construct(
+        Magento_Core_Helper_Context $context,
+        Magento_Core_Model_View_DesignInterface $design,
+        Magento_Core_Model_Event_Manager $eventManager
+    ) {
         $this->_eventManager = $eventManager;
         parent::__construct($context);
     }
@@ -40,7 +51,7 @@ class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
     {
         try {
             if ($area) {
-                Mage::getDesign()->setArea($area);
+                $this->_design->setArea($area);
             }
 
             $this->_translator->processAjaxPost($translate);

@@ -26,7 +26,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_formFactory = $this->_objectManager->create('Magento_Data_Form_Factory');
     }
 
@@ -34,7 +34,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     {
         /** @var $layout Magento_Core_Model_Layout */
         $layout = Mage::getModel('Magento_Core_Model_Layout', array('area' => 'adminhtml'));
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         /** @var $block Magento_Backend_Block_System_Config_Form */
         $block = $layout->createBlock('Magento_Backend_Block_System_Config_Form', 'block');
@@ -61,7 +61,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     public function testInitFieldsUseDefaultCheckbox($section, $group, $field, array $configData, $expectedUseDefault)
     {
         $this->markTestIncomplete('MAGETWO-9058');
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
@@ -114,7 +114,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     public function testInitFieldsUseConfigPath($section, $group, $field, array $configData, $expectedUseDefault)
     {
         $this->markTestIncomplete('MAGETWO-9058');
-        Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         $form = $this->_formFactory->create();
         $fieldset = $form->addFieldset($section->getId() . '_' . $group->getId(), array());
@@ -140,10 +140,10 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
      */
     public function initFieldsInheritCheckboxDataProvider()
     {
-        Magento_Test_Helper_Bootstrap::getInstance()->reinitialize(array(
+        Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_BAN_CACHE => true,
         ));
-        Magento_Test_Helper_Bootstrap::getObjectManager()
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Core_Model_Config_Scope')
             ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
         Mage::app()
@@ -155,7 +155,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $configMock->expects($this->any())->method('getModuleDir')
             ->will($this->returnValue(BP . '/app/code/Magento/Backend/etc'));
 
-        Magento_Test_Helper_Bootstrap::getObjectManager()->configure(array(
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
             'Magento_Backend_Model_Config_Structure_Reader' => array(
                 'parameters' => array('moduleReader' => $configMock)
             )

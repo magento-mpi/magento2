@@ -12,6 +12,29 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Prepare form tab configuration
      */
     protected function _construct()
@@ -40,7 +63,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
 
         $form->setHtmlIdPrefix('page_');
 
-        $model = Mage::registry('cms_page');
+        $model = $this->_coreRegistry->registry('cms_page');
 
         $layoutFieldset = $form->addFieldset('layout_fieldset', array(
             'legend' => __('Page Layout'),

@@ -19,6 +19,29 @@
 class Magento_Adminhtml_Block_Catalog_Search_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Init Form properties
      *
      */
@@ -36,7 +59,7 @@ class Magento_Adminhtml_Block_Catalog_Search_Edit_Form extends Magento_Adminhtml
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_catalog_search');
+        $model = $this->_coreRegistry->registry('current_catalog_search');
         /* @var $model Magento_CatalogSearch_Model_Query */
 
         $form = $this->_createForm(array(

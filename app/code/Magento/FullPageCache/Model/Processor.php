@@ -114,6 +114,13 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
     protected $_storeManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @var Magento_Core_Model_Cache_TypeListInterface
      */
     protected $_typeList;
@@ -130,6 +137,7 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
      * @param Magento_FullPageCache_Model_Metadata $metadata
      * @param Magento_FullPageCache_Model_Store_Identifier $storeIdentifier
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Cache_TypeListInterface $typeList
      */
     public function __construct(
@@ -144,8 +152,10 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         Magento_FullPageCache_Model_Metadata $metadata,
         Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
         Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Cache_TypeListInterface $typeList
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
         $this->_subProcessorFactory = $subProcessorFactory;
@@ -349,8 +359,8 @@ class Magento_FullPageCache_Model_Processor implements Magento_FullPageCache_Mod
         if ($isProcessed) {
             return $content;
         } else {
-            Mage::register('cached_page_content', $content);
-            Mage::register('cached_page_containers', $containers);
+            $this->_coreRegistry->register('cached_page_content', $content);
+            $this->_coreRegistry->register('cached_page_containers', $containers);
             $request->setModuleName('pagecache')
                 ->setControllerName('request')
                 ->setActionName('process')

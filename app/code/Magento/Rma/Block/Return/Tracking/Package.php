@@ -16,7 +16,7 @@ class Magento_Rma_Block_Return_Tracking_Package extends Magento_Shipping_Block_T
     protected function _construct()
     {
         parent::_construct();
-        $this->setPackageInfo(Mage::registry('rma_package_shipping'));
+        $this->setPackageInfo($this->_coreRegistry->registry('rma_package_shipping'));
     }
 
     /**

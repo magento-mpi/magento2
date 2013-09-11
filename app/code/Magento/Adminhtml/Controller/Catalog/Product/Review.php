@@ -10,12 +10,7 @@
 
 /**
  * Reviews admin controller
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminhtml_Controller_Action
 {
     /**
@@ -24,6 +19,25 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
      * @var array
      */
     protected $_publicActions = array('edit');
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
 
     public function indexAction()
     {
@@ -50,13 +64,13 @@ class Magento_Adminhtml_Controller_Catalog_Product_Review extends Magento_Adminh
         $this->_title(__('Pending Reviews'));
 
         if ($this->getRequest()->getParam('ajax')) {
-            Mage::register('usePendingFilter', true);
+            $this->_coreRegistry->register('usePendingFilter', true);
             return $this->_forward('reviewGrid');
         }
 
         $this->loadLayout();
 
-        Mage::register('usePendingFilter', true);
+        $this->_coreRegistry->register('usePendingFilter', true);
         $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Main'));
 
         $this->renderLayout();

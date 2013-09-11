@@ -19,6 +19,29 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     protected $_template = 'edit/attributes.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Preparing block layout
      *
      * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry
@@ -90,7 +113,8 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     public function getType()
     {
         if (!$this->_typeInstance) {
-            if ($type = Mage::registry('current_giftregistry_type')) {
+            $type = $this->_coreRegistry->registry('current_giftregistry_type');
+            if ($type) {
                 $this->_typeInstance = $type;
             } else {
                 $this->_typeInstance = Mage::getSingleton('Magento_GiftRegistry_Model_Type');
@@ -298,11 +322,15 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
 
         if (!is_null($selectId)) {
             $selectNameHtml = '[options]['.$selectId.']';
-            $selectIdHtml = 'select_'.$selectId.'_';
+            $selectIdHtml = 'select_' . $selectId . '_';
         }
 
-        $checkbox = '<div><input type="checkbox" id="'.$this->getFieldPrefix().'_attribute_'.$id.'_'.$selectIdHtml.$name.'_use_default" class="attribute-option-scope-checkbox" name="attributes['.$this->getFieldPrefix().']['.$id.']'.$selectNameHtml.'[use_default]['.$name.']" value="1" '.$checkedHtml.'/>';
-        $checkbox .= '<label class="normal" for="'.$this->getFieldPrefix().'_attribute_'.$id.'_'.$selectIdHtml.$name.'_use_default"> '.$elementLabel.'</label></div>';
+        $checkbox = '<div><input type="checkbox" id="' . $this->getFieldPrefix() . '_attribute_' . $id
+            . '_' . $selectIdHtml . $name . '_use_default" class="attribute-option-scope-checkbox" name="attributes['
+            . $this->getFieldPrefix() . '][' . $id . ']' . $selectNameHtml . '[use_default][' . $name . ']" value="1" '
+            . $checkedHtml . '/>'
+            . '<label class="normal" for="' . $this->getFieldPrefix() . '_attribute_' . $id
+            . '_' . $selectIdHtml . $name . '_use_default"> ' . $elementLabel . '</label></div>';
         return $checkbox;
     }
 

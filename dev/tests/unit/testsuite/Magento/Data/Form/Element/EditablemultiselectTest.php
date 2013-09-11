@@ -18,7 +18,7 @@ class Magento_Data_Form_Element_EditablemultiselectTest extends PHPUnit_Framewor
 
     protected function setUp()
     {
-        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $testHelper->getObject('Magento_Data_Form_Element_Editablemultiselect');
         $values = array(
             array('value' => 1, 'label' => 'Value1'),

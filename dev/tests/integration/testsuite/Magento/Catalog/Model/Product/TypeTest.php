@@ -18,7 +18,7 @@ class Magento_Catalog_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_productType = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $this->_productType = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->get('Magento_Catalog_Model_Product_Type');
     }
 

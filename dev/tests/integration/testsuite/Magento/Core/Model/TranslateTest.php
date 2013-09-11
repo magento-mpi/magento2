@@ -60,7 +60,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             ->method('getDesignTheme')
             ->will($this->returnValue($theme));
 
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento_Core_Model_View_FileSystem');
 
         Mage::getConfig()->setModuleDir('Magento_Core', 'locale', dirname(__FILE__) . '/_files/Magento/Core/locale');
@@ -141,7 +141,9 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('frontend', $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_AREA));
         $this->assertEquals('en_US', $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_LOCALE));
         $this->assertEquals(1, $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_STORE));
-        $this->assertEquals(Mage::getDesign()->getDesignTheme()->getId(),
+        $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
+            ->get('Magento_Core_Model_View_DesignInterface');
+        $this->assertEquals($design->getDesignTheme()->getId(),
             $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_DESIGN_THEME));
         $this->assertNull($this->_model->getConfig('non_existing_key'));
     }

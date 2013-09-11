@@ -20,6 +20,29 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
 {
     protected $_attribute = null;
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
     public function setAttributeObject($attribute)
     {
         $this->_attribute = $attribute;
@@ -32,7 +55,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
     public function getAttributeObject()
     {
         if (null === $this->_attribute) {
-            return Mage::registry('entity_attribute');
+            return $this->_coreRegistry->registry('entity_attribute');
         }
         return $this->_attribute;
     }
@@ -206,7 +229,8 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
                 ->getAttributeLockedFields($attributeObject->getEntityType()->getEntityTypeCode());
             if (isset($disableAttributeFields[$attributeObject->getAttributeCode()])) {
                 foreach ($disableAttributeFields[$attributeObject->getAttributeCode()] as $field) {
-                    if ($elm = $form->getElement($field)) {
+                    $elm = $form->getElement($field);
+                    if ($elm) {
                         $elm->setDisabled(1);
                         $elm->setReadonly(1);
                     }
@@ -227,7 +251,6 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends 
     {
         $jsScripts = $this->getLayout()
             ->createBlock('Magento_Eav_Block_Adminhtml_Attribute_Edit_Js')->toHtml();
-        return $html.$jsScripts;
+        return $html . $jsScripts;
     }
-
 }

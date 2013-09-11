@@ -9,7 +9,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends P
 {
     public function testGetAfterElementHtml()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $layout = Mage::getModel(
             'Magento_Core_Model_Layout',
             array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)

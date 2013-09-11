@@ -26,6 +26,29 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected $_bindIncrement  = 0;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * Class constructor
+     *
+     *
+     *
+     * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Core_Model_Resource $resource,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($resource);
+    }
+
+    /**
      * Initialize connection and define main table
      *
      */
@@ -592,7 +615,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     {
         $segmentIds = array();
         if (Mage::helper('Magento_CustomerSegment_Helper_Data')->isEnabled()) {
-            $customer = Mage::registry('segment_customer');
+            $customer = $this->_coreRegistry->registry('segment_customer');
             if (!$customer) {
                 $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
             }

@@ -17,6 +17,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Catalog_Model_Product_Type $productType
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -24,12 +25,13 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Catalog_Model_Product_Type $productType,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_productType = $productType;
     }
 
@@ -44,7 +46,6 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
         //adminhtml_catalog_product_edit_prepare_form
 
         $form = $observer->getEvent()->getForm();
-//        $product = $observer->getEvent()->getProduct();
 
         $attributes = Mage::getSingleton('Magento_Weee_Model_Tax')->getWeeeAttributeCodes(true);
         foreach ($attributes as $code) {
@@ -205,7 +206,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
         $response = $observer->getEvent()->getResponseObject();
         $options  = $response->getAdditionalOptions();
 
-        $_product = Mage::registry('current_product');
+        $_product = $this->_coreRegistry->registry('current_product');
         if (!$_product) {
             return $this;
         }
@@ -243,7 +244,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
         $selection = $observer->getEvent()->getSelection();
         $options = $response->getAdditionalOptions();
 
-        $_product = Mage::registry('current_product');
+        $_product = $this->_coreRegistry->registry('current_product');
 
         $typeDynamic = Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend::DYNAMIC;
         if (!$_product || $_product->getPriceType() != $typeDynamic) {

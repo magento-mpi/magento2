@@ -17,6 +17,28 @@
  */
 abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
 
     /**
      * Class constructor
@@ -46,13 +68,13 @@ abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Ma
         $form->addField('store_type', 'hidden', array(
             'name'      => 'store_type',
             'no_span'   => true,
-            'value'     => Mage::registry('store_type')
+            'value'     => $this->_coreRegistry->registry('store_type')
         ));
 
         $form->addField('store_action', 'hidden', array(
             'name'      => 'store_action',
             'no_span'   => true,
-            'value'     => Mage::registry('store_action')
+            'value'     => $this->_coreRegistry->registry('store_action')
         ));
 
         $form->setAction($this->getUrl('*/*/save'));

@@ -20,6 +20,29 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Prepare content for tab
      *
      * @return string
@@ -61,7 +84,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_catalog_rule');
+        $model = $this->_coreRegistry->registry('current_promo_catalog_rule');
 
         $form = $this->_createForm();
 
@@ -154,8 +177,6 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
 
         $form->setValues($model->getData());
 
-        //$form->setUseContainer(true);
-
         if ($model->isReadonly()) {
             foreach ($fieldset->getElements() as $element) {
                 $element->setReadonly(true, true);
@@ -163,7 +184,6 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
         }
 
         $this->setForm($form);
-
         Mage::dispatchEvent('adminhtml_promo_catalog_edit_tab_main_prepare_form', array('form' => $form));
 
         return parent::_prepareForm();

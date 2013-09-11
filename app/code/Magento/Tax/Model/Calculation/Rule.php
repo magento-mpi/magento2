@@ -59,6 +59,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Tax_Helper_Data $taxHelper
      * @param Magento_Tax_Model_Class $taxClass
      * @param Magento_Core_Model_Resource_Abstract $resource
@@ -67,6 +68,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Tax_Helper_Data $taxHelper,
         Magento_Tax_Model_Class $taxClass,
         Magento_Core_Model_Resource_Abstract $resource = null,
@@ -75,6 +77,7 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
     ) {
         parent::__construct(
             $context,
+            $registry,
             $resource,
             $resourceCollection,
             $data
@@ -205,7 +208,8 @@ class Magento_Tax_Model_Calculation_Rule extends Magento_Core_Model_Abstract
      * @param string $classFilter
      * @return array
      */
-    public function getAllOptionsForClass($classFilter) {
+    public function getAllOptionsForClass($classFilter)
+    {
         $classes = $this->_taxClass
             ->getCollection()
             ->setClassTypeFilter($classFilter)

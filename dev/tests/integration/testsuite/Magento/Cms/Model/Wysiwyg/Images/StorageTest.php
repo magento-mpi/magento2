@@ -34,7 +34,8 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
      */
     public function testGetFilesCollection()
     {
-        Mage::getDesign()->setDesignTheme('magento_basic', 'adminhtml');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+            ->setDesignTheme('magento_basic', 'adminhtml');
         /** @var $model Magento_Cms_Model_Wysiwyg_Images_Storage */
         $model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
@@ -53,12 +54,12 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
     public function testGetThumbsPath()
     {
         $filesystem = new Magento_Filesystem(new Magento_Filesystem_Adapter_Local);
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $imageFactory = $objectManager->get('Magento_Core_Model_Image_AdapterFactory');
         $viewUrl = $objectManager->get('Magento_Core_Model_View_Url');
         $model = new Magento_Cms_Model_Wysiwyg_Images_Storage($filesystem, $imageFactory, $viewUrl);
         $this->assertStringStartsWith(
-            realpath(Magento_Test_Helper_Bootstrap::getInstance()->getAppInstallDir()),
+            realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()
         );
     }

@@ -15,6 +15,29 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
     protected $_template = 'customer/form.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Prepare layout
      *
      * @return Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
@@ -115,7 +138,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Form
      */
     public function getEntity()
     {
-        return Mage::registry('current_giftregistry_entity');
+        return $this->_coreRegistry->registry('current_giftregistry_entity');
     }
 
    /**

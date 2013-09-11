@@ -31,7 +31,7 @@ class Magento_DesignEditor_Model_Config_QuickStylesTest extends PHPUnit_Framewor
      */
     protected function setUp()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_design = $objectManager->get('Magento_Core_Model_View_DesignInterface');
         $this->_design->setDesignTheme('vendor_test', Magento_Core_Model_View_DesignInterface::DEFAULT_AREA);
         $this->_viewFileSystem = $objectManager->get('Magento_Core_Model_View_FileSystem');

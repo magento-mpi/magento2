@@ -37,6 +37,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Theme_Model_Uploader_Service $uploaderService
      * @param array $data
@@ -44,11 +45,12 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     public function __construct(
         Magento_Backend_Block_Template_Context $context,
         Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
         Magento_ObjectManager $objectManager,
         Magento_Theme_Model_Uploader_Service $uploaderService,
         array $data = array()
     ) {
-        parent::__construct($context, $formFactory, $objectManager, $data);
+        parent::__construct($context, $formFactory, $registry, $objectManager, $data);
         $this->_uploaderService = $uploaderService;
     }
 

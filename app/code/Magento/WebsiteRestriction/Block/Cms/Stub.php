@@ -15,6 +15,27 @@
 class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve page from registry if it is not there try to laod it by indetifier
      *
      * @return Magento_Cms_Model_Page
@@ -23,7 +44,7 @@ class Magento_WebsiteRestriction_Block_Cms_Stub extends Magento_Cms_Block_Page
     public function getPage()
     {
         if (!$this->hasData('page')) {
-            $page = Mage::registry('restriction_landing_page');
+            $page = $this->_coreRegistry->registry('restriction_landing_page');
             if (!$page) {
                 $page = Mage::getModel('Magento_Cms_Model_Page')
                     ->load($this->getPageIdentifier(), 'identifier');

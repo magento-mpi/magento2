@@ -75,7 +75,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             'subtotals' => $this->_subtotalsMock
         );
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_block = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_ColumnSet', $arguments);
         $this->_block->setNameInLayout('grid.columnSet');
 
@@ -154,7 +154,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             'subtotals' => $this->_subtotalsMock
         );
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         /** @var $model Magento_Backend_Block_Widget_Grid_ColumnSet */
         $model = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_ColumnSet', $arguments);
 

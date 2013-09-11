@@ -10,14 +10,32 @@
 
 /**
  * Adminhtml poll answer edit form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Poll_Answer_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
     protected function _prepareForm()
     {
         $form = $this->_createForm();
@@ -47,11 +65,11 @@ class Magento_Adminhtml_Block_Poll_Answer_Edit_Form extends Magento_Adminhtml_Bl
                 )
         );
 
-        $form->setValues(Mage::registry('answer_data')->getData());
+        $form->setValues($this->_coreRegistry->registry('answer_data')->getData());
         $form->setUseContainer(true);
         $form->setId('edit_form');
         $form->setMethod('post');
-        $form->setAction($this->getUrl('*/*/save', array('id' => Mage::registry('answer_data')->getAnswerId())));
+        $form->setAction($this->getUrl('*/*/save', array('id' => $this->_coreRegistry->registry('answer_data')->getAnswerId())));
         $this->setForm($form);
     }
 }

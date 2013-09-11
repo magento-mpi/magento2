@@ -60,7 +60,7 @@ class Magento_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_Test
         // valid JPG image file
         $requestData['file']['content'] = base64_encode(file_get_contents($validImgPath));
 
-        $imagePath = Magento_Test_Helper_Api::call(
+        $imagePath = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductAttributeMediaCreate',
             array('productId' => $product->getSku(), 'data' => $requestData)
@@ -93,7 +93,7 @@ class Magento_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_Test
             file_get_contents(dirname(__FILE__) . '/_files/_data/files/test.txt')
         );
 
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductAttributeMediaCreate',
             array('productId' => $product->getSku(), 'data' => $requestData),
@@ -121,7 +121,7 @@ class Magento_Catalog_Model_Product_Api_ImageTest extends PHPUnit_Framework_Test
 
         // Not an image file with JPG extension
         $requestData['file']['content'] = base64_encode(file_get_contents($invalidImgPath));
-        Magento_Test_Helper_Api::callWithException(
+        Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogProductAttributeMediaCreate',
             array('productId' => $product->getSku(), 'data' => $requestData),

@@ -45,7 +45,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View_Items extends Magento_Adm
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return $this->_coreRegistry->registry('current_invoice');
     }
 
     /**
@@ -57,7 +57,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View_Items extends Magento_Adm
     }
 
     /**
-     * Retrieve formated price
+     * Retrieve formatted price
      *
      * @param float $price
      * @return string

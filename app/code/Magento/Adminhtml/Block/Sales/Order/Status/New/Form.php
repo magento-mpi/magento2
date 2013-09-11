@@ -13,6 +13,29 @@
  */
 class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -26,7 +49,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_status');
+        $model = $this->_coreRegistry->registry('current_status');
 
         $form = $this->_createForm(array(
             'id' => 'edit_form',
@@ -49,14 +72,12 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
             )
         );
 
-        $fieldset->addField('label', 'text',
-            array(
-                'name' => 'label',
-                'label' => __('Status Label'),
-                'class' => 'required-entry',
-                'required' => true,
-            )
-        );
+        $fieldset->addField('label', 'text', array(
+            'name' => 'label',
+            'label' => __('Status Label'),
+            'class' => 'required-entry',
+            'required' => true,
+        ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->_addStoresFieldset($model, $form);

@@ -62,6 +62,7 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
     /**
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -69,12 +70,13 @@ class Magento_FullPageCache_Model_Crawler extends Magento_Core_Model_Abstract
     public function __construct(
         Magento_Core_Model_Cache_StateInterface $cacheState,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cacheState = $cacheState;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
 

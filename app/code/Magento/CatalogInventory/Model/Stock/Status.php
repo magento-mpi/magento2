@@ -54,6 +54,7 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Catalog_Model_Product_Type $productType
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -61,13 +62,14 @@ class Magento_CatalogInventory_Model_Stock_Status extends Magento_Core_Model_Abs
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Catalog_Model_Product_Type $productType,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_productType = $productType;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

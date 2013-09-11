@@ -38,13 +38,13 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
     public static function setUpBeforeClass()
     {
         /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Webapi_Model_Acl_User');
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webapi_Model_Acl_User');
         $user->loadByKey(self::API_KEY);
         if ($user->getId()) {
             self::$_apiUserId = $user->getId();
         } else {
             /** @var Magento_Webhook_Model_Webapi_User_Factory $webapiUserFactory */
-            $webapiUserFactory = Magento_Test_Helper_Bootstrap::getObjectManager()
+            $webapiUserFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
                 ->create('Magento_Webhook_Model_Webapi_User_Factory');
             self::$_apiUserId = $webapiUserFactory->createUser(
                 array(
@@ -73,7 +73,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
 
     public function testGetSubscriptions()
     {
-        $gridCollection = Magento_Test_Helper_Bootstrap::getObjectManager()
+        $gridCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento_Webhook_Model_Resource_Subscription_Grid_Collection',
                 array('subscriptionConfig' => $this->_config));
 
@@ -88,7 +88,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
      */
     protected function _createSubscriptionConfig()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $dirs = $objectManager->create(
             'Magento_Core_Model_Dir',
             array(
@@ -166,7 +166,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
 
     protected function _createSubscriptions()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_subscriptions = array();
 
         Mage::getConfig()->setNode('global/webhook/webhooks/listeners/one/label', 'One Listener');

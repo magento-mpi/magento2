@@ -19,7 +19,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
     }
 
     public function testInit()

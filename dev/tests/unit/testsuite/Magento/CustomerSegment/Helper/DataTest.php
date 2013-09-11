@@ -24,7 +24,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
     private $_segmentCollection;
 
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     private $_testHelper;
 
@@ -35,7 +35,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_elementFactory = $this->getMock(
             'Magento_Data_Form_ElementFactory', array(), array(), '', false
         );

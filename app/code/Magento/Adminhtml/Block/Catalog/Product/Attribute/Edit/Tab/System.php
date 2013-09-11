@@ -10,18 +10,35 @@
 
 /**
  * Product attribute add/edit form system tab
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('entity_attribute');
+        $model = $this->_coreRegistry->registry('entity_attribute');
 
         $form = $this->_createForm();
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('System Properties')));
@@ -42,18 +59,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends 
                 'label' => __('Yes')
             ));
 
-        /*$fieldset->addField('attribute_model', 'text', array(
-            'name' => 'attribute_model',
-            'label' => __('Attribute Model'),
-            'title' => __('Attribute Model'),
-        ));
-
-        $fieldset->addField('backend_model', 'text', array(
-            'name' => 'backend_model',
-            'label' => __('Backend Model'),
-            'title' => __('Backend Model'),
-        ));*/
-
         $fieldset->addField('backend_type', 'select', array(
             'name' => 'backend_type',
             'label' => __('Data Type for Saving in Database'),
@@ -68,31 +73,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends 
             ),
         ));
 
-        /*$fieldset->addField('backend_table', 'text', array(
-            'name' => 'backend_table',
-            'label' => __('Backend Table'),
-            'title' => __('Backend Table Title'),
-        ));
-
-        $fieldset->addField('frontend_model', 'text', array(
-            'name' => 'frontend_model',
-            'label' => __('Frontend Model'),
-            'title' => __('Frontend Model'),
-        ));*/
-
-        /*$fieldset->addField('is_visible', 'select', array(
-            'name' => 'is_visible',
-            'label' => __('Visible'),
-            'title' => __('Visible'),
-            'values' => $yesno,
-        ));*/
-
-        /*$fieldset->addField('source_model', 'text', array(
-            'name' => 'source_model',
-            'label' => __('Source Model'),
-            'title' => __('Source Model'),
-        ));*/
-
         $fieldset->addField('is_global', 'select', array(
             'name'  => 'is_global',
             'label' => __('Globally Editable'),
@@ -104,15 +84,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends 
 
         if ($model->getAttributeId()) {
             $form->getElement('backend_type')->setDisabled(1);
-            if ($model->getIsGlobal()) {
-                #$form->getElement('is_global')->setDisabled(1);
-            }
-        } else {
         }
 
         $this->setForm($form);
-
         return parent::_prepareForm();
     }
-
 }

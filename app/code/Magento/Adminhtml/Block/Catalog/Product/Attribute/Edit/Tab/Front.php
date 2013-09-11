@@ -19,12 +19,35 @@
 class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Magento_Backend_Block_Widget_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * @inheritdoc
      * @return $this
      */
     protected function _prepareForm()
     {
-        $attributeObject = Mage::registry('entity_attribute');
+        $attributeObject = $this->_coreRegistry->registry('entity_attribute');
 
         $form = $this->_createForm(
             array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')

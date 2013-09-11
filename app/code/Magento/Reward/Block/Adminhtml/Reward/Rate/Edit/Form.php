@@ -19,13 +19,36 @@
 class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Getter
      *
      * @return Magento_Reward_Model_Reward_Rate
      */
     public function getRate()
     {
-        return Mage::registry('current_reward_rate');
+        return $this->_coreRegistry->registry('current_reward_rate');
     }
 
     /**

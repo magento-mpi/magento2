@@ -37,7 +37,7 @@ class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
             'xml' => '<layout/>',
             'sort_order' => 123,
         ));
-        $entityHelper = new Magento_Test_Entity($this->_model, array(
+        $entityHelper = new Magento_TestFramework_Entity($this->_model, array(
             'handle' => 'custom',
             'xml' => '<layout version="0.1.0"/>',
             'sort_order' => 456,

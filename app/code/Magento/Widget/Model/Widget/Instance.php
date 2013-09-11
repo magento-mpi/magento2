@@ -74,6 +74,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
      * @param Magento_Core_Model_Cache_TypeListInterface $typeList
      * @param Magento_Catalog_Model_Product_Type $productType
@@ -83,6 +84,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Core_Model_Cache_TypeListInterface $typeList,
         Magento_Catalog_Model_Product_Type $productType,
@@ -93,7 +95,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         $this->_viewFileSystem = $viewFileSystem;
         $this->_typeList = $typeList;
         $this->_productType = $productType;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

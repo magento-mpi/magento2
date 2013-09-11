@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 $objectManager->configure(array(
     'preferences' => array(
         'Magento_Core_Controller_Request_Http' => 'Magento_Test_Request',

@@ -19,6 +19,29 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General extends Magento_Adminhtml
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Create form. Fieldset are being added in child blocks
      *
      * @return Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General
@@ -29,7 +52,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General extends Magento_Adminhtml
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
-        $model = Mage::registry('current_rma');
+        $model = $this->_coreRegistry->registry('current_rma');
 
         if ($model) {
             $form->setValues($model->getData());

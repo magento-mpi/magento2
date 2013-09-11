@@ -103,6 +103,7 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * @param Magento_Core_Model_Context $context
      * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -111,13 +112,14 @@ class Magento_CatalogRule_Model_Rule extends Magento_Rule_Model_Abstract
     public function __construct(
         Magento_Core_Model_Context $context,
         Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cacheTypeList = $cacheTypeList;
-        parent::__construct($context, $formFactory, $resource, $resourceCollection, $data);
+        parent::__construct($context, $formFactory, $registry, $resource, $resourceCollection, $data);
     }
 
 

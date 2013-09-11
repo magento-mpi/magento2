@@ -15,6 +15,27 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
     extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
+     * Core registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Prepare conditions form
      *
      * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
@@ -22,7 +43,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Conditions
     protected function _prepareForm()
     {
         $form = $this->_createForm();
-        $model = Mage::registry('current_reminder_rule');
+        $model = $this->_coreRegistry->registry('current_reminder_rule');
 
         $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
             ->setTemplate('promo/fieldset.phtml')

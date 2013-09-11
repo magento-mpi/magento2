@@ -10,14 +10,32 @@
 
 /**
  * Poll edit form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
     protected function _prepareForm()
     {
         $form = $this->_createForm();
@@ -52,30 +70,29 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Form extends Magento_Adminhtml_Block
                 'required'  => true,
                 'name'      => 'store_ids[]',
                 'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
-                'value'     => Mage::registry('poll_data')->getStoreIds()
+                'value'     => $this->_coreRegistry->registry('poll_data')->getStoreIds()
             ));
             $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
-        }
-        else {
+        } else {
             $fieldset->addField('store_ids', 'hidden', array(
                 'name'      => 'store_ids[]',
                 'value'     => Mage::app()->getStore(true)->getId()
             ));
-            Mage::registry('poll_data')->setStoreIds(Mage::app()->getStore(true)->getId());
+            $this->_coreRegistry->registry('poll_data')->setStoreIds(Mage::app()->getStore(true)->getId());
         }
 
 
-        if( Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPollData() ) {
+        if (Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPollData()) {
             $form->setValues(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPollData());
             Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPollData(null);
-        } elseif( Mage::registry('poll_data') ) {
-            $form->setValues(Mage::registry('poll_data')->getData());
+        } elseif ( $this->_coreRegistry->registry('poll_data')) {
+            $form->setValues($this->_coreRegistry->registry('poll_data')->getData());
 
             $fieldset->addField('was_closed', 'hidden', array(
                 'name'      => 'was_closed',
                 'no_span'   => true,
-                'value'     => Mage::registry('poll_data')->getClosed()
+                'value'     => $this->_coreRegistry->registry('poll_data')->getClosed()
             ));
         }
 

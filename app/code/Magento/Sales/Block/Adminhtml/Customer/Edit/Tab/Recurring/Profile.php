@@ -18,6 +18,31 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Disable filters and paging
      *
      */
@@ -54,7 +79,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
      */
     public function canShowTab()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return (bool)$customer->getId();
     }
 
@@ -76,7 +101,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Recurring_Profile_Collection')
-            ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId());
+            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId());
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
         }

@@ -18,6 +18,27 @@
 class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Initialize form
      * Add standard buttons
      * Add "Refresh Segment Data" button
@@ -32,7 +53,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Magen
         parent::_construct();
 
         /** @var $segment Magento_CustomerSegment_Model_Segment */
-        $segment = Mage::registry('current_customer_segment');
+        $segment = $this->_coreRegistry->registry('current_customer_segment');
         if ($segment && $segment->getId()) {
             $this->_addButton('match_customers', array(
                 'label'     => __('Refresh Segment Data'),
@@ -58,7 +79,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Magen
      */
     public function getMatchUrl()
     {
-        $segment = Mage::registry('current_customer_segment');
+        $segment = $this->_coreRegistry->registry('current_customer_segment');
         return $this->getUrl('*/*/match', array('id'=>$segment->getId()));
     }
 
@@ -69,11 +90,10 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Magen
      */
     public function getHeaderText()
     {
-        $segment = Mage::registry('current_customer_segment');
+        $segment = $this->_coreRegistry->registry('current_customer_segment');
         if ($segment->getSegmentId()) {
             return __("Edit Segment '%1'", $this->escapeHtml($segment->getName()));
-        }
-        else {
+        } else {
             return __('New Segment');
         }
     }

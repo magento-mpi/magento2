@@ -26,7 +26,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Array_AbstractTest extends 
         $block->expects($this->any())
             ->method('escapeHtml')
             ->will($this->returnArgument(0));
-        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $element = $testHelper->getObject('Magento_Data_Form_Element_Multiselect');
         $element->setValue(array(
             array(

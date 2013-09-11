@@ -16,7 +16,7 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_ActionTest exte
 {
     public function testRender()
     {
-        $objectManager = Magento_Test_Helper_Bootstrap::getObjectManager();
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $grid = $objectManager->create('Magento_Webhook_Block_Adminhtml_Subscription_Grid_Renderer_Action');
 
         /** @var Magento_Webhook_Model_Subscription $subscriptionRow */

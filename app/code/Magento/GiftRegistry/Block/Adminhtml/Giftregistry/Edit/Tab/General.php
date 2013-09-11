@@ -12,13 +12,36 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
     extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
+    /**
      * Return current gift registry type instance
      *
      * @return Magento_GiftRegistry_Model_Type
      */
     public function getType()
     {
-        return Mage::registry('current_giftregistry_type');
+        return $this->_coreRegistry->registry('current_giftregistry_type');
     }
 
     /**

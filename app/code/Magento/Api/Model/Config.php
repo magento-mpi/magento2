@@ -26,8 +26,10 @@ class Magento_Api_Model_Config extends Magento_Simplexml_Config
      * @param Magento_Core_Model_Cache_StateInterface $cacheState
      * @param string|Magento_Simplexml_Element $sourceData
      */
-    public function __construct(Magento_Core_Model_Cache_StateInterface $cacheState, $sourceData = null)
-    {
+    public function __construct(
+        Magento_Core_Model_Cache_StateInterface $cacheState, 
+        $sourceData = null
+    ) {
         $this->_cacheState = $cacheState;
         $this->setCacheId('config_api');
         $this->setCacheTags(array(Magento_Api_Model_Cache_Type::CACHE_TAG));

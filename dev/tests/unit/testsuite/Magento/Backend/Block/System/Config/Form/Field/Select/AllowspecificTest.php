@@ -23,7 +23,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Select_AllowspecificTest ex
 
     protected function setUp()
     {
-        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_object = $testHelper->getObject('Magento_Backend_Block_System_Config_Form_Field_Select_Allowspecific');
         $this->_object->setData('html_id', 'spec_element');
         $this->_formMock = $this->getMock('Magento_Data_Form',

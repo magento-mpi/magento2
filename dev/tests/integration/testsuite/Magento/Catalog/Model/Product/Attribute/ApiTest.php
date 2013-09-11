@@ -63,7 +63,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
     public function testTypes()
     {
         $expectedTypes = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Source_Inputtype')->toOptionArray();
-        $types = Magento_Test_Helper_Api::call($this, 'catalogProductAttributeTypes');
+        $types = Magento_TestFramework_Helper_Api::call($this, 'catalogProductAttributeTypes');
         $this->assertEquals($expectedTypes, $types);
     }
 
@@ -97,7 +97,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
                 )
             )
         );
-        $attributeId = Magento_Test_Helper_Api::call(
+        $attributeId = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductAttributeCreate',
             array(
@@ -137,7 +137,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
             )
         );
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductAttributeUpdate',
             array(
@@ -158,7 +158,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
     public function testInfo()
     {
         $attributeCode = 'select_attribute';
-        $attributeInfo = Magento_Test_Helper_Api::call(
+        $attributeInfo = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductAttributeInfo',
             array(
@@ -218,7 +218,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
             $fieldsToCompare = array_keys($actualData);
         }
 
-        Magento_Test_Helper_Api::checkEntityFields(
+        Magento_TestFramework_Helper_Api::checkEntityFields(
             $this,
             $expectedAttribute->getData(),
             $actualData,
@@ -234,7 +234,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
     public function testRemove()
     {
         $attributeCode = 'select_attribute';
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductAttributeRemove',
             array(
@@ -271,7 +271,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
             "is_default" => "1"
         );
 
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductAttributeAddOption',
             array(
@@ -303,7 +303,7 @@ class Magento_Catalog_Model_Product_Attribute_ApiTest extends PHPUnit_Framework_
         $options = $attribute->getSource()->getAllOptions();
         $this->assertCount(2, $options, 'Incorrect options count in fixture.');
         $optionToDelete = end($options);
-        $result = Magento_Test_Helper_Api::call(
+        $result = Magento_TestFramework_Helper_Api::call(
             $this,
             'catalogProductAttributeRemoveOption',
             array(

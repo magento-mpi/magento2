@@ -159,20 +159,19 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
     protected function _emulateDesign($storeId, $area = Magento_Core_Model_App_Area::AREA_FRONTEND)
     {
         $store = $this->_storeManager->getStore();
-        $design = Mage::getDesign();
         $initialDesign = array(
-            'area' => $design->getArea(),
-            'theme' => $design->getDesignTheme(),
+            'area' => $this->_viesDesign->getArea(),
+            'theme' => $this->_viesDesign->getDesignTheme(),
             'store' => $store
         );
 
-        $storeTheme = $design->getConfigurationDesignTheme($area, array('store' => $storeId));
-        $design->setDesignTheme($storeTheme, $area);
+        $storeTheme = $this->_viesDesign->getConfigurationDesignTheme($area, array('store' => $storeId));
+        $this->_viesDesign->setDesignTheme($storeTheme, $area);
 
         if ($area == Magento_Core_Model_App_Area::AREA_FRONTEND) {
             $designChange = $this->_design->loadChange($storeId);
             if ($designChange->getData()) {
-                $design->setDesignTheme($designChange->getDesign(), $area);
+                $this->_viesDesign->setDesignTheme($designChange->getDesign(), $area);
             }
         }
 
@@ -189,9 +188,9 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      */
     protected function _emulateLocale($storeId, $area = Magento_Core_Model_App_Area::AREA_FRONTEND)
     {
-        $initialLocaleCode = Mage::app()->getLocale()->getLocaleCode();
+        $initialLocaleCode = $this->_app->getLocale()->getLocaleCode();
         $newLocaleCode = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
-        Mage::app()->getLocale()->setLocaleCode($newLocaleCode);
+        $this->_app->getLocale()->setLocaleCode($newLocaleCode);
         $this->_helperTranslate->initTranslate($newLocaleCode, $area, true);
         return $initialLocaleCode;
     }
@@ -218,7 +217,7 @@ class Magento_Core_Model_App_Emulation extends Magento_Object
      */
     protected function _restoreInitialDesign(array $initialDesign)
     {
-        Mage::getDesign()->setDesignTheme($initialDesign['theme'], $initialDesign['area']);
+        $this->_viesDesign->setDesignTheme($initialDesign['theme'], $initialDesign['area']);
         return $this;
     }
 

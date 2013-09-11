@@ -19,13 +19,14 @@ class Magento_AdminGws_Model_BlocksTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Magento_AdminGws_Model_Blocks(
-            $this->getMock('Magento_AdminGws_Model_Role', array(), array(), '', false)
+            $this->getMock('Magento_AdminGws_Model_Role', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false)
         );
     }
 
     public function testDisableTaxRelatedMultiselects()
     {
-        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $form = $testHelper->getObject('Magento_Data_Form');
         $element1 = $testHelper->getObject('Magento_Data_Form_Element_Editablemultiselect');
         $element1->setId('tax_customer_class');

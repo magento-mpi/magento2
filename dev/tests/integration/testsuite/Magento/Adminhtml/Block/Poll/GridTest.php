@@ -17,7 +17,7 @@ class Magento_Adminhtml_Block_Poll_GridTest extends PHPUnit_Framework_TestCase
 {
     public function testPrepareColumns()
     {
-        $layout = Magento_Test_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout');
         $block = $layout->addBlock('Magento_Adminhtml_Block_Poll_Grid');
 
         $prepareColumnsMethod = new ReflectionMethod(

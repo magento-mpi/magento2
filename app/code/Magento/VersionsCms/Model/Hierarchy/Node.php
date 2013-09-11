@@ -92,17 +92,19 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
         if (array_key_exists('scope', $data)) {
@@ -149,7 +151,7 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
         }
 
         $isSet = false;
-        foreach($collection as $scope) {
+        foreach ($collection as $scope) {
             if ($scope->getCode() == $scopeId || $scope->getId() == $scopeId) {
                 $isSet = true;
                 $this->_scopeId = $scope->getId();
@@ -205,7 +207,6 @@ class Magento_VersionsCms_Model_Hierarchy_Node extends Magento_Core_Model_Abstra
      */
     public function getNodesCollection()
     {
-        $nodes = array();
         $collection = $this->getCollection()
                 ->joinCmsPage()
                 ->addCmsPageInStoresColumn()

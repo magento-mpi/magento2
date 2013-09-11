@@ -128,7 +128,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxyTes
      */
     public function testProxyMethods($method, $params, $expectedResult)
     {
-        $helper = new Magento_Test_Helper_ProxyTesting();
+        $helper = new Magento_TestFramework_Helper_ProxyTesting();
         $actualResult = $helper->invokeWithExpectations($this->_model, $this->_fallback, $method, $params,
             $expectedResult);
         $this->assertEquals($expectedResult, $actualResult);

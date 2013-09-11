@@ -10,14 +10,32 @@
 
 /**
  * Adminhtml Tax Rule Edit Form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_Widget_Form
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
     /**
      * Init class
      *
@@ -32,12 +50,11 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
     }
 
     /**
-     *
      * return Magento_Adminhtml_Block_Widget_Form
      */
     protected function _prepareForm()
     {
-        $model  = Mage::registry('tax_rule');
+        $model  = $this->_coreRegistry->registry('tax_rule');
         $form   = $this->_createForm(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),

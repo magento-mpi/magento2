@@ -24,6 +24,7 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
 
     /**
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
@@ -31,13 +32,14 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
      */
     public function __construct(
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_cacheTypeList = $cacheTypeList;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

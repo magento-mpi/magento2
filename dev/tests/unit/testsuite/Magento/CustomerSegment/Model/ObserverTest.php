@@ -23,7 +23,8 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $this->_segmentHelper = $this->getMock(
             'Magento_CustomerSegment_Helper_Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
         );
-        $this->_model = new Magento_CustomerSegment_Model_Observer($this->_segmentHelper);
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
+        $this->_model = new Magento_CustomerSegment_Model_Observer($this->_segmentHelper, $coreRegistry);
     }
 
     protected function tearDown()
@@ -48,7 +49,7 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
             ->will($this->returnValue($formDependency))
         ;
 
-        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $form = $testHelper->getObject('Magento_Data_Form');
         $model = new Magento_Object();
         $block = new Magento_Object(array('layout' => $layout));
@@ -68,7 +69,7 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $layout = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
-        $testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $form = $testHelper->getObject('Magento_Data_Form');
         $model = new Magento_Object();
         $block = new Magento_Object(array('layout' => $layout));

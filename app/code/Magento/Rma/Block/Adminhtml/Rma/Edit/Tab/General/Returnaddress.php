@@ -18,16 +18,32 @@
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress
     extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract
 {
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        parent::__construct($context, $formFactory, $registry, $data);
+    }
 
     /**
      * Constructor
      */
     public function _construct()
     {
-        if (Mage::registry('current_order') && Mage::registry('current_order')->getId()) {
-            $this->setStoreId(Mage::registry('current_order')->getStoreId());
-        } elseif (Mage::registry('current_rma') && Mage::registry('current_rma')->getId()) {
-            $this->setStoreId(Mage::registry('current_rma')->getStoreId());
+        $order = $this->_coreRegistry->registry('current_order');
+        $rma = $this->_coreRegistry->registry('current_rma');
+        if ($order && $order->getId()) {
+            $this->setStoreId($order->getStoreId());
+        } elseif ($rma && $rma->getId()) {
+            $this->setStoreId($rma->getStoreId());
         }
     }
 

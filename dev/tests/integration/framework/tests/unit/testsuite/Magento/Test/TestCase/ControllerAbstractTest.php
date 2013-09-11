@@ -12,7 +12,7 @@
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase_ControllerAbstract
+class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     protected $_bootstrap;
 
@@ -23,13 +23,13 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
 
     protected function setUp()
     {
-        if (!Magento_Test_ObjectManager::getInstance()) {
-            $instanceConfig = new Magento_Test_ObjectManager_Config();
+        if (!Magento_TestFramework_ObjectManager::getInstance()) {
+            $instanceConfig = new Magento_TestFramework_ObjectManager_Config();
             $primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
             $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
             $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
 
-            $this->_objectManager =  new Magento_Test_ObjectManager(
+            $this->_objectManager = new Magento_TestFramework_ObjectManager(
                 $primaryConfig,
                 $instanceConfig
             );
@@ -50,35 +50,36 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_Test_TestCase
 
     protected function _prepareRequestResponse()
     {
-        $this->_request = new Magento_Test_Request();
-        $this->_response = new Magento_Test_Response();
+        $this->_request = new Magento_TestFramework_Request();
+        $this->_response = new Magento_TestFramework_Response();
     }
 
     /**
      * Bootstrap instance getter.
      * Mocking real bootstrap
      *
-     * @return Magento_Test_Bootstrap
+     * @return Magento_TestFramework_Bootstrap
      */
     protected function _getBootstrap()
     {
         if (!$this->_bootstrap) {
-            $this->_bootstrap = $this->getMock('Magento_Test_Bootstrap', array('getAllOptions'), array(), '', false);
+            $this->_bootstrap = $this->getMock(
+                'Magento_TestFramework_Bootstrap', array('getAllOptions'), array(), '', false);
         }
         return $this->_bootstrap;
     }
 
     public function testGetRequest()
     {
-        $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
-        $this->_objectManager->expects($this->once())->method('get')->with('Magento_Test_Request');
+        $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
+        $this->_objectManager->expects($this->once())->method('get')->with('Magento_TestFramework_Request');
         $this->getRequest();
     }
 
     public function testGetResponse()
     {
-        $this->_objectManager = $this->getMock('Magento_Test_ObjectManager', array(), array(), '', false);
-        $this->_objectManager->expects($this->once())->method('get')->with('Magento_Test_Response');
+        $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
+        $this->_objectManager->expects($this->once())->method('get')->with('Magento_TestFramework_Response');
         $this->getResponse();
     }
 

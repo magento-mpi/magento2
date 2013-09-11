@@ -39,13 +39,13 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     private $_select;
 
     /**
-     * @var Magento_Test_Helper_ObjectManager
+     * @var Magento_TestFramework_Helper_ObjectManager
      */
     private $_testHelper;
 
     protected function setUp()
     {
-        $this->_testHelper = new Magento_Test_Helper_ObjectManager($this);
+        $this->_testHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_bannerSegmentLink = $this->getMock(
             'Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink',
             array('loadBannerSegments', 'saveBannerSegments', 'addBannerSegmentFilter'),

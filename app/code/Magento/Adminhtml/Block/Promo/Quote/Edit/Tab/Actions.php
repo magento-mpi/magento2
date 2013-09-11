@@ -8,18 +8,33 @@
  * @license     {license_link}
  */
 
-/**
- * description
- *
- * @category    Magento
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
     extends Magento_Adminhtml_Block_Widget_Form
     implements Magento_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $formFactory, $data);
+    }
+
     /**
      * Prepare content for tab
      *
@@ -62,14 +77,16 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_quote_rule');
+        $model = $this->_coreRegistry->registry('current_promo_quote_rule');
 
         //$form = $this->_createForm(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
         $form = $this->_createForm();
 
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset = $form->addFieldset('action_fieldset', array('legend'=>__('Update prices using the following information')));
+        $fieldset = $form->addFieldset('action_fieldset', array(
+            'legend' => __('Update prices using the following information')
+        ));
 
         $fieldset->addField('simple_action', 'select', array(
             'label'     => __('Apply'),
@@ -152,11 +169,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Actions
                 $element->setReadonly(true, true);
             }
         }
-        //$form->setUseContainer(true);
 
         $this->setForm($form);
-
         return parent::_prepareForm();
     }
-
 }

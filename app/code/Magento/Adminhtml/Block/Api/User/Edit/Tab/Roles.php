@@ -10,6 +10,30 @@
 
 class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
 
     protected function _construct()
     {
@@ -17,7 +41,6 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
         $this->setId('permissionsUserRolesGrid');
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');
-        //$this->setDefaultFilter(array('assigned_user_role'=>1));
         $this->setTitle(__('User Roles Information'));
         $this->setUseAjax(true);
     }
@@ -30,15 +53,13 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
                 $userRoles = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('role_id', array('in'=>$userRoles));
-            }
-            else {
-                if($userRoles) {
-                    $this->getCollection()->addFieldToFilter('role_id', array('nin'=>$userRoles));
+                $this->getCollection()->addFieldToFilter('role_id', array('in' => $userRoles));
+            } else {
+                if ($userRoles) {
+                    $this->getCollection()->addFieldToFilter('role_id', array('nin' => $userRoles));
                 }
             }
-        }
-        else {
+        } else {
             parent::_addColumnFilterToCollection($column);
         }
         return $this;
@@ -65,13 +86,6 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
             'index'     => 'role_id'
         ));
 
-        /*$this->addColumn('role_id', array(
-            'header'    =>__('Role ID'),
-            'index'     =>'role_id',
-            'align'     => 'right',
-            'width'    => '50px'
-        ));*/
-
         $this->addColumn('role_name', array(
             'header'    =>__('Role'),
             'index'     =>'role_name'
@@ -82,18 +96,21 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/rolesGrid', array('user_id' => Mage::registry('api_user')->getUserId()));
+        $apiUser = $this->_coreRegistry->registry('api_user');
+        return $this->getUrl('*/*/rolesGrid', array('user_id' => $apiUser->getUserId()));
     }
 
-    public function getSelectedRoles($json=false)
+    public function getSelectedRoles($json = false)
     {
-        if ( $this->getRequest()->getParam('user_roles') != "" ) {
+        if ($this->getRequest()->getParam('user_roles') != "") {
             return $this->getRequest()->getParam('user_roles');
         }
-        $uRoles = Mage::registry('api_user')->getRoles();
+        $uRoles = $this->_coreRegistry->registry('api_user')->getRoles();
         if ($json) {
             $jsonRoles = Array();
-            foreach($uRoles as $urid) $jsonRoles[$urid] = 0;
+            foreach ($uRoles as $usrId) {
+                $jsonRoles[$usrId] = 0;
+            }
             return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
         } else {
             return $uRoles;

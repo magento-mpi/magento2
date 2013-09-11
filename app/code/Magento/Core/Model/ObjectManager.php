@@ -28,7 +28,7 @@ class Magento_Core_Model_ObjectManager extends Magento_ObjectManager_ObjectManag
      */
     public static function getInstance()
     {
-        if (!self::$_instance instanceof self) {
+        if (!self::$_instance instanceof Magento_ObjectManager) {
             throw new RuntimeException('ObjectManager isn\'t initialized');
         }
         return self::$_instance;

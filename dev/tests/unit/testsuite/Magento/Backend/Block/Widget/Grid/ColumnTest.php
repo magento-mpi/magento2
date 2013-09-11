@@ -40,7 +40,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
             'layout' => $this->_layoutMock,
             'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
         );
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_block = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_Column', $arguments);
         $this->_block->setId('id');
     }
@@ -339,7 +339,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_Tes
             'data' => $groupedData
         );
 
-        $objectManagerHelper = new Magento_Test_Helper_ObjectManager($this);
+        $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $block = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_Column', $arguments);
         $this->assertEquals($expected, $block->isGrouped());
     }

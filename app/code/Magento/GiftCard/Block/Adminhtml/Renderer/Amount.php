@@ -17,9 +17,30 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
 
     protected $_template = 'renderer/amount.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     public function getProduct()
     {
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -75,7 +96,8 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
         );
 
         if (!Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
-            if ($storeId = $this->getProduct()->getStoreId()) {
+            $storeId = $this->getProduct()->getStoreId();
+            if ($storeId) {
                 $website = Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'      => $website->getName(),

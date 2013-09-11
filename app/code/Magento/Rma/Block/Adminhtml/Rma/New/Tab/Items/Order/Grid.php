@@ -36,6 +36,31 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     protected $_defaultLimit = 0;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_StoreManagerInterface $storeManager,
+        Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $storeManager, $urlModel, $data);
+    }
+
+    /**
      * Block constructor
      */
     public function _construct()
@@ -54,7 +79,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
      */
     protected function _prepareCollection()
     {
-        $orderId = Mage::registry('current_order')->getId();
+        $orderId = $this->_coreRegistry->registry('current_order')->getId();
 
         /** @var $collection Magento_Rma_Model_Resource_Item */
 
@@ -76,7 +101,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
      */
     protected function _afterLoadCollection()
     {
-        $orderId = Mage::registry('current_order')->getId();
+        $orderId = $this->_coreRegistry->registry('current_order')->getId();
         $itemsInActiveRmaArray = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
             ->getItemsIdsByOrder($orderId);
 

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Install config
  *
@@ -30,10 +29,11 @@ class Magento_Install_Model_Config extends Magento_Simplexml_Config
 
     /**
      * @param Magento_Core_Model_Config_Modules_Reader $configReader
+     * @param string|Magento_Simplexml_Element|null $sourceData
      */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $configReader)
+    public function __construct(Magento_Core_Model_Config_Modules_Reader $configReader, $sourceData = null)
     {
-        parent::__construct();
+        parent::__construct($sourceData);
         $this->loadString('<?xml version="1.0"?><config></config>');
         $configReader->loadModulesConfiguration('install.xml', $this);
     }
