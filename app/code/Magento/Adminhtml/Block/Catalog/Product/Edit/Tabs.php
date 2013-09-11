@@ -27,6 +27,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
     protected $_template = 'Magento_Catalog::product/edit/tabs.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Catalog data
      *
      * @var Magento_Catalog_Helper_Data
@@ -45,6 +52,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -52,10 +60,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         $this->_catalogData = $catalogData;
+        $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -242,7 +252,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Magento_Adminhtm
     public function getProduct()
     {
         if (!($this->getData('product') instanceof Magento_Catalog_Model_Product)) {
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         return $this->getData('product');
     }

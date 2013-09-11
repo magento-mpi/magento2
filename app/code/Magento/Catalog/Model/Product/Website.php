@@ -53,8 +53,7 @@ class Magento_Catalog_Model_Product_Website extends Magento_Core_Model_Abstract
     {
         try {
             $this->_getResource()->removeProducts($websiteIds, $productIds);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::throwException(
                 __('Something went wrong removing products from the websites.')
             );
@@ -73,8 +72,7 @@ class Magento_Catalog_Model_Product_Website extends Magento_Core_Model_Abstract
     {
         try {
             $this->_getResource()->addProducts($websiteIds, $productIds);
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Mage::throwException(
                 __('Something went wrong adding products to websites.')
             );

@@ -21,6 +21,27 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Set form id prefix, declare fields for banner properties
      *
      * @return Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
@@ -32,10 +53,10 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
         $htmlIdPrefix = 'banner_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
-        $model = Mage::registry('current_banner');
+        $model = $this->_coreRegistry->registry('current_banner');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>__('Banner Properties'))
+            array('legend' => __('Banner Properties'))
         );
 
         if ($model->getBannerId()) {
@@ -57,10 +78,8 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
             'required'  => true,
             'disabled'  => (bool)$model->getIsReadonly(),
             'options'   => array(
-                Magento_Banner_Model_Banner::STATUS_ENABLED  =>
-                    __('Yes'),
-                Magento_Banner_Model_Banner::STATUS_DISABLED =>
-                    __('No'),
+                Magento_Banner_Model_Banner::STATUS_ENABLED  => __('Yes'),
+                Magento_Banner_Model_Banner::STATUS_DISABLED => __('No'),
             ),
         ));
         if (!$model->getId()) {

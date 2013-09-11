@@ -31,9 +31,18 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
 
     /**
      * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_TargetRule_Helper_Data $targetRuleData
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -41,8 +50,10 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_targetRuleData = $targetRuleData;
         $this->_storeManager = $storeManager;
         parent::__construct($coreData, $context, $data);
@@ -74,7 +85,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Backend_Block_W
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return $this->_coreRegistry->registry('current_product');
     }
 
     /**

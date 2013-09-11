@@ -10,11 +10,30 @@
 
 class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     protected function _initRule()
     {
         $this->_title(__('Cart Price Rules'));
 
-        Mage::register('current_promo_quote_rule', Mage::getModel('Magento_SalesRule_Model_Rule'));
+        $this->_coreRegistry->register('current_promo_quote_rule', Mage::getModel('Magento_SalesRule_Model_Rule'));
         $id = (int)$this->getRequest()->getParam('id');
 
         if (!$id && $this->getRequest()->getParam('rule_id')) {
@@ -22,7 +41,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
         }
 
         if ($id) {
-            Mage::registry('current_promo_quote_rule')->load($id);
+            $this->_coreRegistry->registry('current_promo_quote_rule')->load($id);
         }
     }
 
@@ -75,7 +94,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
         $model->getConditions()->setJsFormObject('rule_conditions_fieldset');
         $model->getActions()->setJsFormObject('rule_actions_fieldset');
 
-        Mage::register('current_promo_quote_rule', $model);
+        $this->_coreRegistry->register('current_promo_quote_rule', $model);
 
         $this->_initAction()->getLayout()->getBlock('promo_quote_edit')
              ->setData('action', $this->getUrl('*/*/save'));
@@ -117,7 +136,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
 
                 $validateResult = $model->validateData(new Magento_Object($data));
                 if ($validateResult !== true) {
-                    foreach($validateResult as $errorMessage) {
+                    foreach ($validateResult as $errorMessage) {
                         $session->addError($errorMessage);
                     }
                     $session->setPageData($data);
@@ -126,7 +145,8 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
                 }
 
                 if (isset($data['simple_action']) && $data['simple_action'] == 'by_percent'
-                && isset($data['discount_amount'])) {
+                    && isset($data['discount_amount'])
+                ) {
                     $data['discount_amount'] = min(100,$data['discount_amount']);
                 }
                 if (isset($data['rule']['conditions'])) {
@@ -176,7 +196,8 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
 
     public function deleteAction()
     {
-        if ($id = $this->getRequest()->getParam('id')) {
+        $id = $this->getRequest()->getParam('id');
+        if ($id) {
             try {
                 $model = Mage::getModel('Magento_SalesRule_Model_Rule');
                 $model->load($id);
@@ -271,7 +292,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
     public function exportCouponsXmlAction()
     {
         $this->_initRule();
-        $rule = Mage::registry('current_promo_quote_rule');
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
         if ($rule->getId()) {
             $fileName = 'coupon_codes.xml';
             $content = $this->getLayout()
@@ -292,7 +313,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
     public function exportCouponsCsvAction()
     {
         $this->_initRule();
-        $rule = Mage::registry('current_promo_quote_rule');
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
         if ($rule->getId()) {
             $fileName = 'coupon_codes.csv';
             $content = $this->getLayout()
@@ -311,7 +332,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
     public function couponsMassDeleteAction()
     {
         $this->_initRule();
-        $rule = Mage::registry('current_promo_quote_rule');
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
 
         if (!$rule->getId()) {
             $this->_forward('noRoute');
@@ -343,7 +364,7 @@ class Magento_Adminhtml_Controller_Promo_Quote extends Magento_Adminhtml_Control
         $this->_initRule();
 
         /** @var $rule Magento_SalesRule_Model_Rule */
-        $rule = Mage::registry('current_promo_quote_rule');
+        $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
 
         if (!$rule->getId()) {
             $result['error'] = __('Rule is not defined');

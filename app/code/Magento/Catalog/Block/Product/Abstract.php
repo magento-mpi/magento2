@@ -64,6 +64,13 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     protected $_mapRenderer = 'msrp';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Catalog data
      *
      * @var Magento_Catalog_Helper_Data
@@ -324,7 +331,7 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', $this->_coreRegistry->registry('product'));
         }
         return $this->getData('product');
     }
@@ -444,13 +451,13 @@ abstract class Magento_Catalog_Block_Product_Abstract extends Magento_Core_Block
      *
      * @return string
      */
-    public function getImageLabel($product=null, $mediaAttributeCode='image')
+    public function getImageLabel($product = null, $mediaAttributeCode = 'image')
     {
         if (is_null($product)) {
             $product = $this->getProduct();
         }
 
-        $label = $product->getData($mediaAttributeCode.'_label');
+        $label = $product->getData($mediaAttributeCode . '_label');
         if (empty($label)) {
             $label = $product->getName();
         }

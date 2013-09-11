@@ -138,6 +138,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
      * @param Magento_Filesystem $filesystem
      * @param Magento_Core_Helper_Data $helper
      * @param $resourceName
+     * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(

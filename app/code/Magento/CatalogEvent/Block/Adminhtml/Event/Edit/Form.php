@@ -16,6 +16,26 @@
  */
 class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Adminhtml data
@@ -211,7 +231,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backe
      */
     public function getEvent()
     {
-        return Mage::registry('magento_catalogevent_event');
+        return $this->_coreRegistry->registry('magento_catalogevent_event');
     }
 
     /**
@@ -223,5 +243,4 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Backe
     {
         return array('image' => 'Magento_CatalogEvent_Block_Adminhtml_Event_Helper_Image');
     }
-
 }

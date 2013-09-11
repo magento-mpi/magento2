@@ -40,11 +40,19 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     protected $_cmsHierarchy = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -53,8 +61,10 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_cmsHierarchy = $cmsHierarchy;
         parent::__construct($formFactory, $coreData, $context, $data);
 
@@ -418,7 +428,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Magent
     public function getNodesJson()
     {
         /** @var $nodeModel Magento_VersionsCms_Model_Hierarchy_Node */
-        $nodeModel = Mage::registry('current_hierarchy_node');
+        $nodeModel = $this->_coreRegistry->registry('current_hierarchy_node');
         $this->setData('current_scope', $nodeModel->getScope());
         $this->setData('current_scope_id', $nodeModel->getScopeId());
 

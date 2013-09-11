@@ -21,6 +21,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftca
      * @param Magento_Catalog_Helper_Data $catalogData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
@@ -29,10 +30,11 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftca
         Magento_Catalog_Helper_Data $catalogData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct($taxData, $catalogData, $coreData, $context, $registry, $data);
         $this->_storeManager = $storeManager;
     }
 

@@ -132,7 +132,7 @@ class Magento_Catalog_Block_Navigation extends Magento_Core_Block_Template
     public function getCurrenCategoryKey()
     {
         if (!$this->_currentCategoryKey) {
-            $category = Mage::registry('current_category');
+            $category = $this->_registry->registry('current_category');
             if ($category) {
                 $this->_currentCategoryKey = $category->getPath();
             } else {

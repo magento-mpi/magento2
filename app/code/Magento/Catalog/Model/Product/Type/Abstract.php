@@ -111,6 +111,13 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     abstract public function deleteTypeSpecificData(Magento_Catalog_Model_Product $product);
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Core event manager proxy
      *
      * @var Magento_Core_Model_Event_Manager
@@ -122,6 +129,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_File_Storage_Database $fileStorageDb
      * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -129,8 +137,10 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_File_Storage_Database $fileStorageDb,
         Magento_Filesystem $filesystem,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_fileStorageDb = $fileStorageDb;
@@ -281,7 +291,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
             $salable = $product->getData('is_salable');
         }
 
-        return (boolean) (int) $salable;
+        return (boolean)(int)$salable;
     }
 
     /**
@@ -311,11 +321,12 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
         if (!empty($superProductConfig['product_id'])
             && !empty($superProductConfig['product_type'])
         ) {
-            $superProductId = (int) $superProductConfig['product_id'];
+            $superProductId = (int)$superProductConfig['product_id'];
             if ($superProductId) {
-                if (!$superProduct = Mage::registry('used_super_product_'.$superProductId)) {
+                $superProduct = $this->_coreRegistry->registry('used_super_product_' . $superProductId);
+                if (!$superProduct) {
                     $superProduct = Mage::getModel('Magento_Catalog_Model_Product')->load($superProductId);
-                    Mage::register('used_super_product_'.$superProductId, $superProduct);
+                    $this->_coreRegistry->register('used_super_product_'.$superProductId, $superProduct);
                 }
                 if ($superProduct->getId()) {
                     $assocProductIds = $superProduct->getTypeInstance()->getAssociatedProductIds($superProduct);
@@ -362,8 +373,8 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
      * @return array|string
      */
     public function processConfiguration(Magento_Object $buyRequest, $product,
-        $processMode = self::PROCESS_MODE_LITE)
-    {
+        $processMode = self::PROCESS_MODE_LITE
+    ) {
         $_products = $this->_prepareProduct($buyRequest, $product, $processMode);
 
         $this->processFileQueue();
@@ -565,14 +576,16 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     public function getOrderOptions($product)
     {
         $optionArr = array();
-        if ($info = $product->getCustomOption('info_buyRequest')) {
+        $info = $product->getCustomOption('info_buyRequest');
+        if ($info) {
             $optionArr['info_buyRequest'] = unserialize($info->getValue());
         }
 
-        if ($optionIds = $product->getCustomOption('option_ids')) {
+        $optionIds = $product->getCustomOption('option_ids');
+        if ($optionIds) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
-                if ($option = $product->getOptionById($optionId)) {
-
+                $option = $product->getOptionById($optionId);
+                if ($option) {
                     $confItemOption = $product->getCustomOption(self::OPTION_PREFIX . $option->getId());
 
                     $group = $option->groupFactory($option->getType())
@@ -593,7 +606,8 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
             }
         }
 
-        if ($productTypeConfig = $product->getCustomOption('product_type')) {
+        $productTypeConfig = $product->getCustomOption('product_type');
+        if ($productTypeConfig) {
             $optionArr['super_product_config'] = array(
                 'product_code'  => $productTypeConfig->getCode(),
                 'product_type'  => $productTypeConfig->getValue(),
@@ -695,7 +709,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     {
         $sku = $product->getData('sku');
         if ($product->getCustomOption('option_ids')) {
-            $sku = $this->getOptionSku($product,$sku);
+            $sku = $this->getOptionSku($product, $sku);
         }
         return $sku;
     }
@@ -710,29 +724,28 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     public function getOptionSku($product, $sku='')
     {
         $skuDelimiter = '-';
-        if(empty($sku)){
+        if (empty($sku)) {
             $sku = $product->getData('sku');
         }
-        if ($optionIds = $product->getCustomOption('option_ids')) {
+        $optionIds = $product->getCustomOption('option_ids');
+        if ($optionIds) {
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
-                if ($option = $product->getOptionById($optionId)) {
+                $option = $product->getOptionById($optionId);
+                if ($option) {
 
                     $confItemOption = $product->getCustomOption(self::OPTION_PREFIX . $optionId);
 
                     $group = $option->groupFactory($option->getType())
                         ->setOption($option)->setListener(new Magento_Object());
 
-                    if ($optionSku = $group->getOptionSku($confItemOption->getValue(), $skuDelimiter)) {
+                    $optionSku = $group->getOptionSku($confItemOption->getValue(), $skuDelimiter);
+                    if ($optionSku) {
                         $sku .= $skuDelimiter . $optionSku;
                     }
 
                     if ($group->getListener()->getHasError()) {
-                        $product->setHasError(true)
-                                ->setMessage(
-                                    $group->getListener()->getMessage()
-                                );
+                        $product->setHasError(true)->setMessage($group->getListener()->getMessage());
                     }
-
                 }
             }
         }
@@ -801,6 +814,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     /**
      * Retrieve store filter for associated products
      *
+     * @param object $product
      * @return int|Magento_Core_Model_Store
      */
     public function getStoreFilter($product)
@@ -896,7 +910,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
     public function getSearchableData($product)
     {
         $searchData = array();
-        if ($product->getHasOptions()){
+        if ($product->getHasOptions()) {
             $searchData = Mage::getSingleton('Magento_Catalog_Model_Product_Option')
                 ->getSearchableData($product->getId(), $product->getStoreId());
         }
@@ -951,7 +965,7 @@ abstract class Magento_Catalog_Model_Product_Type_Abstract
             $result = $this->prepareForCart($buyRequestForCheck, $productForCheck);
 
             if (is_string($result)) {
-               $errors[] = $result;
+                $errors[] = $result;
             }
         } catch (Magento_Core_Exception $e) {
             $errors[] = $e->getMessages();

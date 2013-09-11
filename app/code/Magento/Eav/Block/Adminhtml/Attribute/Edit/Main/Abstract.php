@@ -22,6 +22,13 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     protected $_attribute = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Eav data
      *
      * @var Magento_Eav_Helper_Data
@@ -33,6 +40,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
      * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -40,8 +48,10 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
         Magento_Eav_Helper_Data $eavData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_eavData = $eavData;
         parent::__construct($formFactory, $coreData, $context, $data);
     }
@@ -58,7 +68,7 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     public function getAttributeObject()
     {
         if (null === $this->_attribute) {
-            return Mage::registry('entity_attribute');
+            return $this->_coreRegistry->registry('entity_attribute');
         }
         return $this->_attribute;
     }
@@ -237,7 +247,8 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
                 ->getAttributeLockedFields($attributeObject->getEntityType()->getEntityTypeCode());
             if (isset($disableAttributeFields[$attributeObject->getAttributeCode()])) {
                 foreach ($disableAttributeFields[$attributeObject->getAttributeCode()] as $field) {
-                    if ($elm = $form->getElement($field)) {
+                    $elm = $form->getElement($field);
+                    if ($elm) {
                         $elm->setDisabled(1);
                         $elm->setReadonly(1);
                     }
@@ -258,7 +269,6 @@ abstract class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
     {
         $jsScripts = $this->getLayout()
             ->createBlock('Magento_Eav_Block_Adminhtml_Attribute_Edit_Js')->toHtml();
-        return $html.$jsScripts;
+        return $html . $jsScripts;
     }
-
 }

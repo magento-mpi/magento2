@@ -9,7 +9,7 @@
  */
 
 /**
- * Directoty tree renderer for Cms Wysiwyg Images
+ * Directory tree renderer for Cms Wysiwyg Images
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -17,6 +17,12 @@
  */
 class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_Block_Template
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
 
     /**
      * Cms wysiwyg images
@@ -29,14 +35,17 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
      * @param Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Cms_Helper_Wysiwyg_Images $cmsWysiwygImages,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_cmsWysiwygImages = $cmsWysiwygImages;
         parent::__construct($coreData, $context, $data);
     }
@@ -49,7 +58,8 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
     public function getTreeJson()
     {
         $storageRoot = $this->_cmsWysiwygImages->getStorageRoot();
-        $collection = Mage::registry('storage')->getDirsCollection($this->_cmsWysiwygImages->getCurrentPath());
+        $collection = $this->_coreRegistry->registry('storage')
+            ->getDirsCollection($this->_cmsWysiwygImages->getCurrentPath());
         $jsonArray = array();
         foreach ($collection as $item) {
             $jsonArray[] = array(
@@ -90,7 +100,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
     public function getTreeCurrentPath()
     {
         $treePath = array('root');
-        if ($path = Mage::registry('storage')->getSession()->getCurrentPath()) {
+        if ($path = $this->_coreRegistry->registry('storage')->getSession()->getCurrentPath()) {
             $path = str_replace($this->_cmsWysiwygImages->getStorageRoot(), '', $path);
             $relative = array();
             foreach (explode(DIRECTORY_SEPARATOR, $path) as $dirName) {

@@ -18,6 +18,13 @@
 class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Rma data
      *
      * @var Magento_Rma_Helper_Data
@@ -29,6 +36,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Wi
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -36,9 +44,11 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Wi
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
+        $this->_coreRegistry = $registry;
         parent::__construct($formFactory, $coreData, $context, $data);
     }
 
@@ -54,7 +64,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item extends Magento_Backend_Block_Wi
         $form->setHtmlIdPrefix('_rma');
         $form->setFieldNameSuffix();
 
-        $item = Mage::registry('current_rma_item');
+        $item = $this->_coreRegistry->registry('current_rma_item');
 
         if (!$item->getId()) {
             // for creating RMA process when we have no item loaded, $item is just empty model

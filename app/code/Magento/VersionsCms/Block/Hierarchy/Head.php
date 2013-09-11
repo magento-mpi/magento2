@@ -18,6 +18,13 @@
 class Magento_VersionsCms_Block_Hierarchy_Head extends Magento_Core_Block_Abstract
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * @var Magento_VersionsCms_Helper_Hierarchy|null
      */
     protected $_cmsHierarchy = null;
@@ -25,13 +32,16 @@ class Magento_VersionsCms_Block_Hierarchy_Head extends Magento_Core_Block_Abstra
     /**
      * @param Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy
      * @param Magento_Core_Block_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_VersionsCms_Helper_Hierarchy $cmsHierarchy,
         Magento_Core_Block_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_cmsHierarchy = $cmsHierarchy;
         parent::__construct($context, $data);
     }
@@ -43,7 +53,7 @@ class Magento_VersionsCms_Block_Hierarchy_Head extends Magento_Core_Block_Abstra
     protected function _prepareLayout()
     {
         /* @var $node Magento_VersionsCms_Model_Hierarchy_Node */
-        $node = Mage::registry('current_cms_hierarchy_node');
+        $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
         /* @var $head Magento_Page_Block_Html_Head */
         $head = $this->getLayout()->getBlock('head');
 

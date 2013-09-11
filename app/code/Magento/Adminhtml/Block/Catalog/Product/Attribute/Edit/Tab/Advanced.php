@@ -19,6 +19,13 @@
 class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends Magento_Backend_Block_Widget_Form
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Eav data
      *
      * @var Magento_Eav_Helper_Data
@@ -35,6 +42,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
      * @param Magento_Eav_Helper_Data $eavData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -42,8 +50,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
         Magento_Eav_Helper_Data $eavData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_formFactory = $formFactory;
         $this->_eavData = $eavData;
         parent::__construct($coreData, $context, $data);
@@ -58,14 +68,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
     {
         $attributeObject = $this->getAttributeObject();
 
-        /** @var Magento_Data_Form $form */
-        $form = $this->_formFactory->create(array(
-            'attributes' => array(
-                'id' => 'edit_form',
-                'action' => $this->getData('action'),
-                'method' => 'post',
-            ))
-        );
+        $form = new Magento_Data_Form(array(
+            'id' => 'edit_form',
+            'action' => $this->getData('action'),
+            'method' => 'post'
+        ));
 
         $fieldset = $form->addFieldset(
             'advanced_fieldset',
@@ -163,7 +170,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
                 'name' => 'frontend_class',
                 'label' => __('Input Validation for Store Owner'),
                 'title' => __('Input Validation for Store Owner'),
-                'values' => $this->_eavData->getFrontendClasses(
+                'values' => Mage::helper('Magento_Eav_Helper_Data')->getFrontendClasses(
                     $attributeObject->getEntityType()->getEntityTypeCode()
                 )
             )

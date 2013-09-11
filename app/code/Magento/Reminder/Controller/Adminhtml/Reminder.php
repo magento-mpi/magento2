@@ -14,6 +14,23 @@
 class Magento_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init active menu and set breadcrumb
      *
      * @return Magento_Reminder_Controller_Adminhtml_Reminder
@@ -45,7 +62,7 @@ class Magento_Reminder_Controller_Adminhtml_Reminder extends Magento_Adminhtml_C
                 Mage::throwException(__('Please correct the reminder rule you requested.'));
             }
         }
-        Mage::register('current_reminder_rule', $rule);
+        $this->_coreRegistry->register('current_reminder_rule', $rule);
         return $rule;
     }
 

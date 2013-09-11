@@ -72,11 +72,10 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Index extends Magento
     protected $_storeManager;
 
     /**
-     * Class constructor
-     *
      * @param Magento_CatalogPermissions_Helper_Data $catalogPermData
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Resource $resource
+     * @param Magento_Core_Model_StoreManagerInterface $storeManager
      */
     public function __construct(
         Magento_CatalogPermissions_Helper_Data $catalogPermData,

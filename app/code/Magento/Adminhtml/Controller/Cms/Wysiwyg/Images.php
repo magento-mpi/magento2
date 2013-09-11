@@ -18,6 +18,25 @@
 class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init storage
      *
      * @return Magento_Adminhtml_Cms_Page_Wysiwyg_ImagesController
@@ -30,7 +49,7 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
 
     public function indexAction()
     {
-        $storeId = (int) $this->getRequest()->getParam('store');
+        $storeId = (int)$this->getRequest()->getParam('store');
 
         try {
             $this->_objectManager->get('Magento_Cms_Helper_Wysiwyg_Images')->getCurrentPath();
@@ -133,7 +152,6 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
     public function uploadAction()
     {
         try {
-            $result = array();
             $this->_initAction();
             $targetPath = $this->getStorage()->getSession()->getCurrentPath();
             $result = $this->getStorage()->uploadFile($targetPath, $this->getRequest()->getParam('type'));
@@ -187,11 +205,11 @@ class Magento_Adminhtml_Controller_Cms_Wysiwyg_Images extends Magento_Adminhtml_
      */
     public function getStorage()
     {
-        if (!Mage::registry('storage')) {
+        if (!$this->_coreRegistry->registry('storage')) {
             $storage = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
-            Mage::register('storage', $storage);
+            $this->_coreRegistry->register('storage', $storage);
         }
-        return Mage::registry('storage');
+        return $this->_coreRegistry->registry('storage');
     }
 
     /**

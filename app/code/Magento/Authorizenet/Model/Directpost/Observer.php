@@ -18,6 +18,13 @@
 class Magento_Authorizenet_Model_Directpost_Observer
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
@@ -34,11 +41,15 @@ class Magento_Authorizenet_Model_Directpost_Observer
     /**
      * @param Magento_Authorizenet_Helper_Data $authorizenetData
      * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Authorizenet_Helper_Data $authorizenetData,
-        Magento_Core_Helper_Data $coreData
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_coreRegistry = $coreRegistry;
+
         $this->_authorizenetData = $authorizenetData;
         $this->_coreData = $coreData;
     }
@@ -53,7 +64,7 @@ class Magento_Authorizenet_Model_Directpost_Observer
     {
         /* @var $order Magento_Sales_Model_Order */
         $order = $observer->getEvent()->getData('order');
-        Mage::register('directpost_order', $order, true);
+        $this->_coreRegistry->register('directpost_order', $order, true);
 
         return $this;
     }
@@ -67,7 +78,7 @@ class Magento_Authorizenet_Model_Directpost_Observer
     public function addAdditionalFieldsToResponseFrontend(Magento_Event_Observer $observer)
     {
         /* @var $order Magento_Sales_Model_Order */
-        $order = Mage::registry('directpost_order');
+        $order = $this->_coreRegistry->registry('directpost_order');
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();

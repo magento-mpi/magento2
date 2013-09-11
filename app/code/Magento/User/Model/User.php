@@ -121,6 +121,8 @@ class Magento_User_Model_User
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -131,6 +133,8 @@ class Magento_User_Model_User
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
+        Magento_Core_Model_Sender $sender,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -139,7 +143,7 @@ class Magento_User_Model_User
         $this->_userData = $userData;
         $this->_coreData = $coreData;
         $this->_sender = $sender;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

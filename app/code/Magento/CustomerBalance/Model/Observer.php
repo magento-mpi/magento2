@@ -10,7 +10,6 @@
 
 /**
  * Customer balance observer
- *
  */
 class Magento_CustomerBalance_Model_Observer
 {
@@ -22,12 +21,22 @@ class Magento_CustomerBalance_Model_Observer
     protected $_customerBalanceData = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_CustomerBalance_Helper_Data $customerBalanceData
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
-        Magento_CustomerBalance_Helper_Data $customerBalanceData
+        Magento_CustomerBalance_Helper_Data $customerBalanceData,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_customerBalanceData = $customerBalanceData;
+        $this->_coreRegistry = $coreRegistry;
     }
 
     /**
@@ -556,13 +565,13 @@ class Magento_CustomerBalance_Model_Observer
         $request = Mage::app()->getRequest();
         $data = $request->getParam('customerbalance');
         if (isset($data['amount_delta']) && $data['amount_delta'] != '') {
-            $actions = Mage::registry('magento_logged_actions');
+            $actions = $this->_coreRegistry->registry('magento_logged_actions');
             if (!is_array($actions)) {
                 $actions = array($actions);
             }
             $actions[] = 'adminhtml_customerbalance_save';
-            Mage::unregister('magento_logged_actions');
-            Mage::register('magento_logged_actions', $actions);
+            $this->_coreRegistry->unregister('magento_logged_actions');
+            $this->_coreRegistry->register('magento_logged_actions', $actions);
         }
     }
 

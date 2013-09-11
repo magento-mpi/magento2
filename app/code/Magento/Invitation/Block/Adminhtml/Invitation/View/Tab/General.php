@@ -25,19 +25,29 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
      * @var Magento_Invitation_Helper_Data
      */
     protected $_invitationData = null;
+    
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
 
     /**
      * @param Magento_Invitation_Helper_Data $invitationData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Invitation_Helper_Data $invitationData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_invitationData = $invitationData;
         parent::__construct($coreData, $context, $data);
     }
@@ -89,7 +99,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
      */
     public function getInvitation()
     {
-        return Mage::registry('current_invitation');
+        return $this->_coreRegistry->registry('current_invitation');
     }
 
     /**
@@ -113,14 +123,14 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     }
 
     /**
-     * Retrieve formating date
+     * Retrieve formatting date
      *
      * @param   string $date
      * @param   string $format
      * @param   bool $showTime
      * @return  string
      */
-    public function formatDate($date=null, $format='short', $showTime=false)
+    public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
             $date = Mage::app()->getLocale()->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
@@ -130,7 +140,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mag
     }
 
     /**
-     * Return invintation customer model
+     * Return invitation customer model
      *
      * @return Magento_Customer_Model_Customer
      */

@@ -59,7 +59,8 @@ class Magento_Data_Form_Element_Multiselect extends Magento_Data_Form_Element_Ab
             $value = explode(',', $value);
         }
 
-        if ($values = $this->getValues()) {
+        $values = $this->getValues();
+        if ($values) {
             foreach ($values as $option) {
                 if (is_array($option['value'])) {
                     $html .= '<optgroup label="' . $option['label'] . '">' . "\n";
@@ -67,8 +68,7 @@ class Magento_Data_Form_Element_Multiselect extends Magento_Data_Form_Element_Ab
                         $html .= $this->_optionToHtml($groupItem, $value);
                     }
                     $html .= '</optgroup>' . "\n";
-                }
-                else {
+                } else {
                     $html .= $this->_optionToHtml($option, $value);
                 }
             }
@@ -87,12 +87,12 @@ class Magento_Data_Form_Element_Multiselect extends Magento_Data_Form_Element_Ab
 
     public function getDefaultHtml()
     {
-        $result = ( $this->getNoSpan() === true ) ? '' : '<span class="field-row">'."\n";
+        $result = $this->getNoSpan() === true ? '' : '<span class="field-row">' . "\n";
         $result.= $this->getLabelHtml();
         $result.= $this->getElementHtml();
 
 
-        if($this->getSelectAll() && $this->getDeselectAll()) {
+        if ($this->getSelectAll() && $this->getDeselectAll()) {
             $result .= '<a href="#" onclick="return ' . $this->getJsObjectName() . '.selectAll()">' .
                 $this->getSelectAll() . '</a> <span class="separator">&nbsp;|&nbsp;</span>';
             $result .= '<a href="#" onclick="return ' . $this->getJsObjectName() . '.deselectAll()">' .
@@ -124,19 +124,20 @@ class Magento_Data_Form_Element_Multiselect extends Magento_Data_Form_Element_Ab
         return $result;
     }
 
-    public function getJsObjectName() {
+    public function getJsObjectName()
+    {
          return $this->getHtmlId() . 'ElementControl';
     }
 
     protected function _optionToHtml($option, $selected)
     {
         $html = '<option value="'.$this->_escape($option['value']).'"';
-        $html.= isset($option['title']) ? 'title="'.$this->_escape($option['title']).'"' : '';
-        $html.= isset($option['style']) ? 'style="'.$option['style'].'"' : '';
+        $html.= isset($option['title']) ? 'title="' . $this->_escape($option['title']) . '"' : '';
+        $html.= isset($option['style']) ? 'style="' . $option['style'] . '"' : '';
         if (in_array((string)$option['value'], $selected)) {
-            $html.= ' selected="selected"';
+            $html .= ' selected="selected"';
         }
-        $html.= '>'.$this->_escape($option['label']). '</option>'."\n";
+        $html .= '>' . $this->_escape($option['label']) . '</option>' . "\n";
         return $html;
     }
 }

@@ -22,11 +22,13 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $coreDataMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $fileStorageDbMock = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $this->_model = new Magento_Catalog_Model_Product_Type_Configurable(
             $eventManager,
             $coreDataMock,
             $fileStorageDbMock,
-            $filesystem
+            $filesystem,
+            $coreRegistry
         );
     }
 

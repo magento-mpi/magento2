@@ -8,16 +8,33 @@
  * @license     {license_link}
  */
 
-
 /**
  * Form Type Edit Form Block
- *
- * @category   Magento
- * @package    Magento_CustomerCustomAttributes
  */
 class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Form
     extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     /**
      * Retrieve current form type instance
      *
@@ -25,7 +42,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Fo
      */
     protected function _getFormType()
     {
-        return Mage::registry('current_form_type');
+        return $this->_coreRegistry->registry('current_form_type');
     }
 
     /**
@@ -35,7 +52,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Fo
      */
     protected function _prepareForm()
     {
-        $editMode = Mage::registry('edit_mode');
+        $editMode = $this->_coreRegistry->registry('edit_mode');
         if ($editMode == 'edit') {
             $saveUrl = $this->getUrl('*/*/save');
             $showNew = false;

@@ -40,6 +40,27 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
     protected $_relatedOrders = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare main view data
      */
     public function prepareViewData()
@@ -105,13 +126,6 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
                 'value' => $this->_profile->renderData($key),
             ));
         }
-//        $shippingDesctiption = $this->_profile->getInfoValue('order_info', 'shipping_description');
-//        if ($shippingDesctiption) {
-//            $this->_addInfo(array(
-//                'label' => __('Shipping Method'),
-//                'value' => $shippingDesctiption,
-//            ));
-//        }
     }
 
     /**
@@ -347,7 +361,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
         if (null === $this->_relatedOrders) {
             $this->_relatedOrders = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
                 ->addFieldToSelect($fieldsToSelect)
-                ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
+                ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
                 ->addRecurringProfilesFilter($this->_profile->getId())
                 ->setOrder('entity_id', 'desc');
         }
@@ -374,7 +388,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
      */
     protected function _prepareLayout()
     {
-        $this->_profile = Mage::registry('current_recurring_profile')
+        $this->_profile = $this->_coreRegistry->registry('current_recurring_profile')
             ->setStore(Mage::app()->getStore())
             ->setLocale(Mage::app()->getLocale())
         ;

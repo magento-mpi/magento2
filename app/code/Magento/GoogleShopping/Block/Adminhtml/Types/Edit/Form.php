@@ -10,10 +10,6 @@
 
 /**
  * Adminhtml Google Content types mapping form block
- *
- * @category   Magento
- * @package    Magento_GoogleShopping
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 
 class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Backend_Block_Widget_Form
@@ -34,11 +30,19 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
     protected $_formFactory;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Data_FormFactory $formFactory
      * @param Magento_Data_Form_Element_Factory $elementFactory
      * @param Magento_GoogleShopping_Helper_Category $googleShoppingCategory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -47,8 +51,10 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
         Magento_GoogleShopping_Helper_Category $googleShoppingCategory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_googleShoppingCategory = $googleShoppingCategory;
         $this->_elementFactory = $elementFactory;
         $this->_formFactory = $formFactory;
@@ -117,7 +123,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
                 ->setAttributeSetSelected(true);
         }
 
-        $attributes = Mage::registry('attributes');
+        $attributes = $this->_coreRegistry->registry('attributes');
         if (is_array($attributes) && count($attributes) > 0) {
             $attributesBlock->setAttributesData($attributes);
         }
@@ -183,7 +189,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
 
         $ids = array();
         $itemType = $this->getItemType();
-        if ( !($itemType instanceof Magento_Object && $itemType->getId()) ) {
+        if (!($itemType instanceof Magento_Object && $itemType->getId())) {
             $typesCollection = Mage::getResourceModel('Magento_GoogleShopping_Model_Resource_Type_Collection')
                 ->addCountryFilter($targetCountry)
                 ->load();
@@ -208,7 +214,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Bac
      */
     public function getItemType()
     {
-        return Mage::registry('current_item_type');
+        return $this->_coreRegistry->registry('current_item_type');
     }
 
     /**

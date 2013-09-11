@@ -19,6 +19,25 @@
 class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Check if module functionality enabled
      *
      * @return Magento_Reward_Controller_Adminhtml_Reward_Rate
@@ -64,7 +83,7 @@ class Magento_Reward_Controller_Adminhtml_Reward_Rate extends Magento_Adminhtml_
         if ($rateId) {
             $rate->load($rateId);
         }
-        Mage::register('current_reward_rate', $rate);
+        $this->_coreRegistry->register('current_reward_rate', $rate);
         return $rate;
     }
 

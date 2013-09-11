@@ -80,8 +80,9 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * @param Magento_Widget_Helper_Data $widgetData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Widget_Model_Resource_Widget_Instance $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
@@ -89,6 +90,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         Magento_Widget_Helper_Data $widgetData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_View_FileSystem $viewFileSystem,
         Magento_Widget_Model_Resource_Widget_Instance $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
@@ -96,7 +98,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     ) {
         $this->_widgetData = $widgetData;
         $this->_coreData = $coreData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_viewFileSystem = $viewFileSystem;
     }
 

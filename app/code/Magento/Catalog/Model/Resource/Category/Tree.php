@@ -126,8 +126,8 @@ class Magento_Catalog_Model_Resource_Category_Tree extends Magento_Data_Tree_Dbp
      * @return Magento_Catalog_Model_Resource_Category_Tree
      */
     public function addCollectionData($collection = null, $sorted = false, $exclude = array(), $toLoad = true,
-        $onlyActive = false)
-    {
+        $onlyActive = false
+    ) {
         if (is_null($collection)) {
             $collection = $this->getCollection($sorted);
         } else {

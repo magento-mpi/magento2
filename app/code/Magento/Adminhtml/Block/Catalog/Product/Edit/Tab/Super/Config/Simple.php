@@ -9,7 +9,7 @@
  */
 
 /**
- * Quiq simple product creation
+ * Quick simple product creation
  *
  * @category   Magento
  * @package    Magento_Adminhtml
@@ -49,7 +49,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
             ->setAttributeSetId($this->getProduct()->getAttributeSetId())
             ->getAttributes();
 
-        /* Standart attributes */
+        /* Standard attributes */
         foreach ($attributes as $attribute) {
             if (($attribute->getIsRequired()
                 && $attribute->getApplyTo()
@@ -167,8 +167,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
     public function getProduct()
     {
         if (!$this->_product) {
-            $this->_product = Mage::registry('current_product');
+            $this->_product = $this->_coreRegistry->registry('current_product');
         }
         return $this->_product;
     }
-} // Class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple End
+}

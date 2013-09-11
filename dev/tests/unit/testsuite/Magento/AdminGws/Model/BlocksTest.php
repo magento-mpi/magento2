@@ -19,7 +19,8 @@ class Magento_AdminGws_Model_BlocksTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Magento_AdminGws_Model_Blocks(
-            $this->getMock('Magento_AdminGws_Model_Role', array(), array(), '', false)
+            $this->getMock('Magento_AdminGws_Model_Role', array(), array(), '', false),
+            $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false)
         );
     }
 

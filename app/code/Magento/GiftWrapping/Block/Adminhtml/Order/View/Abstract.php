@@ -20,6 +20,13 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
     protected $_designCollection;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Gift wrapping data
      *
      * @var Magento_GiftWrapping_Helper_Data
@@ -30,14 +37,17 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
      * @param Magento_GiftWrapping_Helper_Data $giftWrappingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_GiftWrapping_Helper_Data $giftWrappingData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_giftWrappingData = $giftWrappingData;
         parent::__construct($coreData, $context, $data);
     }
@@ -49,7 +59,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract extends Magento_C
      */
     public function getOrder()
     {
-        return Mage::registry('sales_order');
+        return $this->_coreRegistry->registry('sales_order');
     }
 
     /*

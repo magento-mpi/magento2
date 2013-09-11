@@ -10,16 +10,44 @@
 
 /**
  * Cms page edit form main tab
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
     extends Magento_Backend_Block_Widget_Form_Generic
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
+    /**
+     * @var Magento_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $coreData
+     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Registry $coreRegistry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $coreData,
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Registry $coreRegistry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        $this->_eventManager = $eventManager;
+        parent::__construct($formFactory, $coreData, $context, $data);
+    }
+
     /**
      * Load Wysiwyg on demand and Prepare layout
      */
@@ -34,7 +62,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
     protected function _prepareForm()
     {
         /** @var $model Magento_Cms_Model_Page */
-        $model = Mage::registry('cms_page');
+        $model = $this->_coreRegistry->registry('cms_page');
 
         /*
          * Checking if user have permissions to save information

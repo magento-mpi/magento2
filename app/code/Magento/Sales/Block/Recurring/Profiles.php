@@ -21,6 +21,27 @@ class Magento_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
     protected $_profiles = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare profiles collection and render it as grid information
      */
     public function prepareProfilesGrid()
@@ -94,7 +115,7 @@ class Magento_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
     protected function _prepareProfiles($fields = '*')
     {
         $this->_profiles = Mage::getModel('Magento_Sales_Model_Recurring_Profile')->getCollection()
-            ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
+            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
             ->addFieldToSelect($fields)
             ->setOrder('profile_id', 'desc')
         ;

@@ -14,6 +14,27 @@
 class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPageCache_Model_Container_Abstract
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_FullPageCache_Model_Cache $fpcCache
+     * @param Magento_FullPageCache_Model_Container_Placeholder $placeholder
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_FullPageCache_Model_Cache $fpcCache,
+        Magento_FullPageCache_Model_Container_Placeholder $placeholder,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($fpcCache, $placeholder);
+    }
+
+    /**
      * Get cache identifier
      *
      * @return string
@@ -46,20 +67,20 @@ class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPage
                 ->setStoreId(Mage::app()->getStore()->getId())
                 ->load($productId);
             if ($product) {
-                Mage::register('current_product', $product);
+                $this->_coreRegistry->register('current_product', $product);
             }
         }
         $categoryId = $this->_getCategoryId();
 
         if ($product !== null && !$product->canBeShowInCategory($categoryId)) {
             $categoryId = null;
-            Mage::unregister('current_category');
+            $this->_coreRegistry->unregister('current_category');
         }
 
-        if ($categoryId && !Mage::registry('current_category')) {
+        if ($categoryId && !$this->_coreRegistry->registry('current_category')) {
             $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
             if ($category) {
-                Mage::register('current_category', $category);
+                $this->_coreRegistry->register('current_category', $category);
             }
         }
 

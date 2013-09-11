@@ -5,11 +5,15 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-if (!Mage::registry('order')) {
+
+/** @var $objectManager Magento_TestFramework_ObjectManager */
+$objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+
+if (!$objectManager->get('Magento_Core_Model_Registry')->registry('order')) {
     require 'order.php';
 }
 /** @var $order Magento_Sales_Model_Order */
-$order = Mage::registry('order');
+$order = $objectManager->get('Magento_Core_Model_Registry')->registry('order');
 
 $orderService = Magento_TestFramework_ObjectManager::getInstance()->create('Magento_Sales_Model_Service_Order',
     array('order' => $order));
@@ -21,8 +25,8 @@ $transactionSave->addObject($invoice)
     ->addObject($invoice->getOrder())
     ->save();
 
-Mage::register('invoice', $invoice);
-$order2 = Mage::registry('order2');
+$objectManager->get('Magento_Core_Model_Registry')->register('invoice', $invoice);
+$order2 = $objectManager->get('Magento_Core_Model_Registry')->registry('order2');
 $orderService2 = Magento_TestFramework_ObjectManager::getInstance()->create('Magento_Sales_Model_Service_Order',
     array('order' => $order2));
 $invoice2 = $orderService2->prepareInvoice();
@@ -33,4 +37,4 @@ $transactionSave2->addObject($invoice2)
     ->addObject($invoice2->getOrder())
     ->save();
 
-Mage::register('invoice2', $invoice2);
+$objectManager->get('Magento_Core_Model_Registry')->register('invoice2', $invoice2);

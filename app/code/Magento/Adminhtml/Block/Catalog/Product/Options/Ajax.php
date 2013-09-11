@@ -18,6 +18,13 @@
 class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backend_Block_Abstract
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Core data
      *
      * @var Magento_Core_Helper_Data
@@ -27,13 +34,16 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backe
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_coreData = $coreData;
         parent::__construct($context, $data);
     }
@@ -51,7 +61,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Options_Ajax extends Magento_Backe
             ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option')
             ->setIgnoreCaching(true);
 
-        $products = Mage::registry('import_option_products');
+        $products = $this->_coreRegistry->registry('import_option_products');
         if (is_array($products)) {
             foreach ($products as $productId) {
                 $product = Mage::getModel('Magento_Catalog_Model_Product')->load((int)$productId);

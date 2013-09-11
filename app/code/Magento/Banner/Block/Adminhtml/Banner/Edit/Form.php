@@ -15,6 +15,26 @@
  */
 class Magento_Banner_Block_Adminhtml_Banner_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Prepare form before rendering HTML
@@ -32,7 +52,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Form extends Magento_Backend_Bl
             ))
         );
 
-        $banner = Mage::registry('current_banner');
+        $banner = $this->_coreRegistry->registry('current_banner');
 
         if ($banner->getId()) {
             $form->addField('banner_id', 'hidden', array(

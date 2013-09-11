@@ -26,6 +26,27 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Bac
     protected $_model;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get consumer model
      *
      * @return Magento_Oauth_Model_Consumer
@@ -33,7 +54,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit_Form extends Magento_Bac
     public function getModel()
     {
         if (null === $this->_model) {
-            $this->_model = Mage::registry('current_consumer');
+            $this->_model = $this->_coreRegistry->registry('current_consumer');
         }
         return $this->_model;
     }

@@ -82,8 +82,8 @@ class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model
             }
         }
 
-        if (Mage::registry('current_product')) {
-            $productIds[] = Mage::registry('current_product')->getId();
+        if ($this->_coreRegistry->registry('current_product')) {
+            $productIds[] = $this->_coreRegistry->registry('current_product')->getId();
         }
 
         return array_unique($productIds);

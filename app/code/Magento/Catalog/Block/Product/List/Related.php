@@ -29,21 +29,20 @@ class Magento_Catalog_Block_Product_List_Related extends Magento_Catalog_Block_P
 
     protected function _prepareData()
     {
-        $product = Mage::registry('product');
+        $product = $this->_coreRegistry->registry('product');
         /* @var $product Magento_Catalog_Model_Product */
 
         $this->_itemCollection = $product->getRelatedProductCollection()
             ->addAttributeToSelect('required_options')
             ->setPositionOrder()
-            ->addStoreFilter()
-        ;
+            ->addStoreFilter();
 
         if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
             Mage::getResourceSingleton('Magento_Checkout_Model_Resource_Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,
                     Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId()
-                );
+            );
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         $this->_itemCollection->setVisibility(

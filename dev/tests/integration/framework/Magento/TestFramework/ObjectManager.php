@@ -16,6 +16,7 @@ class Magento_TestFramework_ObjectManager extends Magento_Core_Model_ObjectManag
      */
     protected $_classesToDestruct = array(
         'Magento_Core_Model_Layout',
+        'Magento_Core_Model_Registry'
     );
 
     /**

@@ -25,13 +25,15 @@ class Magento_Bundle_Model_Product_TypeTest extends PHPUnit_Framework_TestCase
         $catalogData = $this->getMock('Magento_Catalog_Helper_Data', array(), array(), '', false);
         $coreData = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
         $fileStorageDb = $this->getMock('Magento_Core_Helper_File_Storage_Database', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $this->_model = new Magento_Bundle_Model_Product_Type(
             $eventManager,
             $catalogProduct,
             $catalogData,
             $coreData,
             $fileStorageDb,
-            $filesystem
+            $filesystem,
+            $coreRegistry
         );
     }
 

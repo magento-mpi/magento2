@@ -21,6 +21,27 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
     protected $_template = 'catalog/product/attribute/new/created.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Retrieve list of product attributes
      *
      * @return array
@@ -29,7 +50,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Created exte
     {
         $attributes = array();
         /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::registry('product');
+        $product = $this->_coreRegistry->registry('product');
         foreach($product->getAttributes($this->getRequest()->getParam('group')) as $attribute) {
             /** @var $attribute Magento_Eav_Model_Entity_Attribute */
             if ($attribute->getId() == $this->getRequest()->getParam('attribute')) {

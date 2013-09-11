@@ -27,6 +27,13 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
     protected $_checkoutData = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * Product alert data
      *
      * @var Magento_ProductAlert_Helper_Data
@@ -38,6 +45,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
      * @param Magento_AdvancedCheckout_Helper_Data $checkoutData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -45,10 +53,12 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
         Magento_AdvancedCheckout_Helper_Data $checkoutData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_productAlertData = $productAlertData;
         $this->_checkoutData = $checkoutData;
+        $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -171,8 +181,8 @@ class Magento_AdvancedCheckout_Block_Sku_Products_Info extends Magento_Core_Bloc
             $productAttributes['tier_price']->getBackend()->afterLoad($product);
         }
 
-        Mage::unregister('product');
-        Mage::register('product', $product);
+        $this->_coreRegistry->unregister('product');
+        $this->_coreRegistry->register('product', $product);
         if (!$this->hasProductViewBlock()) {
             $this->setProductViewBlock($this->getLayout()->createBlock('Magento_Catalog_Block_Product_View'));
         }

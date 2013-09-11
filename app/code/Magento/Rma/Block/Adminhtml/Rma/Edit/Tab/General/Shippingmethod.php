@@ -86,7 +86,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     public function getRma()
     {
         if (is_null($this->_rma)) {
-            $this->_rma = Mage::registry('current_rma');
+            $this->_rma = $this->_coreRegistry->registry('current_rma');
         }
         return $this->_rma;
     }

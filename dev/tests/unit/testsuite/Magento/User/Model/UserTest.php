@@ -63,6 +63,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
 
         $this->_model = new Magento_User_Model_User(
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
@@ -70,6 +71,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
             $this->_coreData,
             $this->_senderMock,
             $this->_contextMock,
+            $coreRegistry,
             $this->_resourceMock,
             $this->_collectionMock
         );

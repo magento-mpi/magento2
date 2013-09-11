@@ -33,6 +33,13 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected $_targetRuleData = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Customer segment data
      *
      * @var Magento_CustomerSegment_Helper_Data
@@ -40,17 +47,18 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected $_customerSegmentData = null;
 
     /**
-     * Class constructor
-     * 
      * @param Magento_CustomerSegment_Helper_Data $customerSegmentData
      * @param Magento_TargetRule_Helper_Data $targetRuleData
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Core_Model_Resource $resource
      */
     public function __construct(
         Magento_CustomerSegment_Helper_Data $customerSegmentData,
         Magento_TargetRule_Helper_Data $targetRuleData,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Core_Model_Resource $resource
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_customerSegmentData = $customerSegmentData;
         $this->_targetRuleData = $targetRuleData;
         parent::__construct($resource);
@@ -623,7 +631,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     {
         $segmentIds = array();
         if ($this->_customerSegmentData->isEnabled()) {
-            $customer = Mage::registry('segment_customer');
+            $customer = $this->_coreRegistry->registry('segment_customer');
             if (!$customer) {
                 $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
             }

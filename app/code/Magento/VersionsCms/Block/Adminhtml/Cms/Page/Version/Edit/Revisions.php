@@ -25,6 +25,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      * @var Magento_VersionsCms_Helper_Data
      */
     protected $_cmsData = null;
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
 
     /**
      * @param Magento_VersionsCms_Helper_Data $cmsData
@@ -32,6 +38,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -40,8 +47,10 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_cmsData = $cmsData;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -152,7 +161,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      */
     public function getPage()
     {
-        return Mage::registry('cms_page');
+        return $this->_coreRegistry->registry('cms_page');
     }
 
     /**
@@ -162,7 +171,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      */
     public function getVersion()
     {
-        return Mage::registry('cms_page_version');
+        return $this->_coreRegistry->registry('cms_page_version');
     }
 
     /**

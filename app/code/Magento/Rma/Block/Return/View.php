@@ -31,10 +31,18 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     protected $_customerData = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Rma_Helper_Data $rmaData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -42,23 +50,25 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         Magento_Rma_Helper_Data $rmaData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_customerData = $customerData;
         $this->_rmaData = $rmaData;
+        $this->_coreRegistry = $registry;
         parent::__construct($coreData, $context, $data);
     }
 
     public function _construct()
     {
         parent::_construct();
-        if (!Mage::registry('current_rma')) {
+        if (!$this->_coreRegistry->registry('current_rma')) {
             return;
         }
         $this->setTemplate('return/view.phtml');
 
-        $this->setRma(Mage::registry('current_rma'));
-        $this->setOrder(Mage::registry('current_order'));
+        $this->setRma($this->_coreRegistry->registry('current_rma'));
+        $this->setOrder($this->_coreRegistry->registry('current_order'));
 
         /** @var $collection Magento_Rma_Model_Resource_Item */
         $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
@@ -257,7 +267,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
             return $this->_customerData->getCustomerName();
         } else {
-            $billingAddress = Mage::registry('current_order')->getBillingAddress();
+            $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
 
             $name = '';
             $config = Mage::getSingleton('Magento_Eav_Model_Config');

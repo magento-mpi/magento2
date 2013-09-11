@@ -15,6 +15,13 @@
 class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Catalog search data
      *
      * @var Magento_CatalogSearch_Helper_Data
@@ -25,14 +32,17 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_catalogSearchData = $catalogSearchData;
         parent::__construct($coreData, $context, $data);
     }
@@ -43,7 +53,7 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
     protected function _construct()
     {
         parent::_construct();
-        Mage::register('current_layer', $this->getLayer(), true);
+        $this->_coreRegistry->register('current_layer', $this->getLayer(), true);
     }
 
     /**
@@ -77,11 +87,10 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
         if (!$_isLNAllowedByEngine) {
             return false;
         }
-        $availableResCount = (int) Mage::app()->getStore()
+        $availableResCount = (int)Mage::app()->getStore()
             ->getConfig(Magento_CatalogSearch_Model_Layer::XML_PATH_DISPLAY_LAYER_COUNT);
 
-        if (!$availableResCount
-            || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())) {
+        if (!$availableResCount || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())) {
             return parent::canShowBlock();
         }
         return false;

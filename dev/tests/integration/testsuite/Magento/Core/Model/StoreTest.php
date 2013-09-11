@@ -27,6 +27,7 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $this->_modelParams = array(
             'coreFileStorageDatabase' => $objectManager->get('Magento_Core_Helper_File_Storage_Database'),
             'context' => $objectManager->get('Magento_Core_Model_Context'),
+            'registry' => $objectManager->get('Magento_Core_Model_Registry'),
             'configCacheType' => $objectManager->get('Magento_Core_Model_Cache_Type_Config'),
             'urlModel' => $objectManager->get('Magento_Core_Model_Url'),
             'appState' => $objectManager->get('Magento_Core_Model_App_State'),
@@ -51,6 +52,9 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedId, $this->_model->getId());
     }
 
+    /**
+     * @return array
+     */
     public function loadDataProvider()
     {
         return array(
@@ -195,7 +199,9 @@ class Magento_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         // emulate custom entry point
         $_SERVER['SCRIPT_FILENAME'] = 'custom_entry.php';
         if ($useCustomEntryPoint) {
-            Mage::register('custom_entry_point', true);
+            $property = new ReflectionProperty($this->_model, '_isCustomEntryPoint');
+            $property->setAccessible(true);
+            $property->setValue($this->_model, $useCustomEntryPoint);
         }
         $actual = $this->_model->getBaseUrl($type);
         $this->assertEquals($expected, $actual);

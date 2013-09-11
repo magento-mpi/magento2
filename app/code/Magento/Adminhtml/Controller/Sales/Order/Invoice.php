@@ -18,6 +18,25 @@
 class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Get requested items qty's from request
      */
     protected function _getItemQtys()
@@ -74,7 +93,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
             }
         }
 
-        Mage::register('current_invoice', $invoice);
+        $this->_coreRegistry->register('current_invoice', $invoice);
         return $invoice;
     }
 
@@ -151,7 +170,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
          * Clear old values for invoice qty's
          */
         $this->_getSession()->getInvoiceItemQtys(true);
-        $this->_redirect('*/*/new', array('order_id'=>$this->getRequest()->getParam('order_id')));
+        $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
     }
 
     /**
@@ -163,7 +182,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
         if ($invoice) {
             $this->_title(__('New Invoice'));
 
-            if ($comment = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCommentText(true)) {
+            $comment = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCommentText(true);
+            if ($comment) {
                 $invoice->setCommentText($comment);
             }
 
@@ -305,7 +325,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
      */
     public function captureAction()
     {
-        if ($invoice = $this->_initInvoice()) {
+        $invoice = $this->_initInvoice();
+        if ($invoice) {
             try {
                 $invoice->capture();
                 $this->_saveInvoice($invoice);
@@ -326,7 +347,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
      */
     public function cancelAction()
     {
-        if ($invoice = $this->_initInvoice()) {
+        $invoice = $this->_initInvoice();
+        if ($invoice) {
             try {
                 $invoice->cancel();
                 $this->_saveInvoice($invoice);
@@ -336,7 +358,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
             } catch (Exception $e) {
                 $this->_getSession()->addError(__('Invoice canceling error'));
             }
-            $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
+            $this->_redirect('*/*/view', array('invoice_id' => $invoice->getId()));
         } else {
             $this->_forward('noRoute');
         }
@@ -347,7 +369,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
      */
     public function voidAction()
     {
-        if ($invoice = $this->_initInvoice()) {
+        $invoice = $this->_initInvoice();
+        if ($invoice) {
             try {
                 $invoice->void();
                 $this->_saveInvoice($invoice);
@@ -357,7 +380,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Invoice extends Magento_Adminhtml
             } catch (Exception $e) {
                 $this->_getSession()->addError(__('Invoice voiding error'));
             }
-            $this->_redirect('*/*/view', array('invoice_id'=>$invoice->getId()));
+            $this->_redirect('*/*/view', array('invoice_id' => $invoice->getId()));
         } else {
             $this->_forward('noRoute');
         }

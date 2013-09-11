@@ -25,12 +25,20 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
      * @var Magento_SalesRule_Helper_Coupon
      */
     protected $_salesRuleCoupon = null;
+    
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
 
     /**
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_SalesRule_Helper_Coupon $salesRuleCoupon
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -38,8 +46,10 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
         Magento_SalesRule_Helper_Coupon $salesRuleCoupon,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_salesRuleCoupon = $salesRuleCoupon;
         parent::__construct($formFactory, $coreData, $context, $data);
     }
@@ -59,7 +69,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
          */
         $couponHelper = $this->_salesRuleCoupon;
 
-        $model = Mage::registry('current_promo_quote_rule');
+        $model = $this->_coreRegistry->registry('current_promo_quote_rule');
         $ruleId = $model->getId();
 
         $form->setHtmlIdPrefix('coupons_');

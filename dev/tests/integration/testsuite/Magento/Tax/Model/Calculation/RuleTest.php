@@ -168,11 +168,13 @@ class Magento_Tax_Model_Calculation_RuleTest extends PHPUnit_Framework_TestCase
             ->method('toOptionArray')
             ->will($this->returnCallback(array($this, $callback)));
 
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $mock = $this->getMock(
             'Magento_Tax_Model_Class',
             array('getCollection'),
             array(
                 Mage::getModel('Magento_Core_Model_Context'),
+                $objectManager->get('Magento_Core_Model_Registry'),
                 Mage::getModel('Magento_Tax_Model_Class_Factory'),
             ),
             '',

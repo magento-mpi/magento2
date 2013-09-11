@@ -9,6 +9,7 @@
  *
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
+
 class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_Varien_Router_Base
 {
     /**
@@ -55,6 +56,8 @@ class Magento_Backend_Controller_Router_Default extends Magento_Core_Controller_
      * @param string $routerId
      * @param string $defaultRouteId
      * @throws InvalidArgumentException
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Magento_Backend_Helper_Data $backendData,

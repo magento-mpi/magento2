@@ -114,12 +114,12 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
         if (!$customerId && $this->getCustomer()) {
             $customerId = $this->getCustomer()->getId();
         }
-        $wishlistsByCustomer = Mage::registry('wishlists_by_customer');
+        $wishlistsByCustomer = $this->_coreRegistry->registry('wishlists_by_customer');
         if (!isset($wishlistsByCustomer[$customerId])) {
             $collection = Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection();
             $collection->filterByCustomerId($customerId);
             $wishlistsByCustomer[$customerId] = $collection;
-            Mage::register('wishlists_by_customer', $wishlistsByCustomer);
+            $this->_coreRegistry->register('wishlists_by_customer', $wishlistsByCustomer);
         }
         return $wishlistsByCustomer[$customerId];
     }

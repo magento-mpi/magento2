@@ -19,10 +19,31 @@
  */
 class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_Block_Widget_Form_Generic
 {
-    /*
+    /**
      * Disable Auto Group Change Attribute Name
      */
     const DISABLE_ATTRIBUTE_NAME = 'disable_auto_group_change';
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Initialize form
@@ -40,7 +61,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Account extends Magento_Backend_
             'legend' => __('Account Information')
         ));
 
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         /** @var $customerForm Magento_Customer_Model_Form */
         $customerForm = $this->_initCustomerForm($customer);
         $attributes = $this->_initCustomerAttributes($customerForm);

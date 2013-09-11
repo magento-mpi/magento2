@@ -23,6 +23,13 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
     protected $_template = 'page/version/form.phtml';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Cms data
      *
      * @var Magento_VersionsCms_Helper_Data
@@ -34,6 +41,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
      * @param Magento_VersionsCms_Helper_Data $cmsData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -41,9 +49,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
         Magento_VersionsCms_Helper_Data $cmsData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
+        $this->_coreRegistry = $registry;
         parent::__construct($formFactory, $coreData, $context, $data);
     }
 
@@ -66,7 +76,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form
         $form->setUseContainer(true);
 
         /* @var $model Magento_Cms_Model_Page */
-        $version = Mage::registry('cms_page_version');
+        $version = $this->_coreRegistry->registry('cms_page_version');
 
         $config = Mage::getSingleton('Magento_VersionsCms_Model_Config');
         /* @var $config Magento_VersionsCms_Model_Config */

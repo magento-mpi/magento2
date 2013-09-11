@@ -18,12 +18,33 @@
 class Magento_Paypal_Block_Adminhtml_Settlement_Details_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Prepare read-only data and group it by fieldsets
      * @return Magento_Paypal_Block_Adminhtml_Settlement_Details_Form
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_transaction');
+        $model = $this->_coreRegistry->registry('current_transaction');
         /* @var $model Magento_Paypal_Model_Report_Settlement_Row */
         $settlement = Mage::getSingleton('Magento_Paypal_Model_Report_Settlement');
         /* @var $settlement Magento_Paypal_Model_Report_Settlement */

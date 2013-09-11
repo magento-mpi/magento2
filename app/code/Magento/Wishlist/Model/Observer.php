@@ -174,5 +174,4 @@ class Magento_Wishlist_Model_Observer extends Magento_Core_Model_Abstract
 
         return $this;
     }
-
 }

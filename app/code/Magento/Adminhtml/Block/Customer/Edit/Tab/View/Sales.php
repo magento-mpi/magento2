@@ -42,17 +42,28 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
 
     /**
      * @param Magento_Core_Helper_Data $coreData
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
+        $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
     }
 
@@ -65,14 +76,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
     public function _beforeToHtml()
     {
         $this->_currency = Mage::getModel('Magento_Directory_Model_Currency')
-            ->load(Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE))
-        ;
+            ->load(Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE));
 
         $this->_collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Sale_Collection')
-            ->setCustomerFilter(Mage::registry('current_customer'))
+            ->setCustomerFilter($this->_coreRegistry->registry('current_customer'))
             ->setOrderStateFilter(Magento_Sales_Model_Order::STATE_CANCELED, true)
-            ->load()
-        ;
+            ->load();
 
         $this->_groupedCollection = array();
 
@@ -87,8 +96,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
                 $sale->setWebsiteName($store->getWebsite()->getName());
                 $sale->setGroupId($store->getGroupId());
                 $sale->setGroupName($store->getGroup()->getName());
-            }
-            else {
+            } else {
                 $websiteId  = 0;
                 $groupId    = 0;
                 $storeId    = 0;
@@ -97,7 +105,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Backe
             }
 
             $this->_groupedCollection[$websiteId][$groupId][$storeId] = $sale;
-            $this->_websiteCounts[$websiteId] = isset($this->_websiteCounts[$websiteId]) ? $this->_websiteCounts[$websiteId] + 1 : 1;
+            $this->_websiteCounts[$websiteId] = isset($this->_websiteCounts[$websiteId])
+                ? $this->_websiteCounts[$websiteId] + 1
+                : 1;
         }
 
         return parent::_beforeToHtml();

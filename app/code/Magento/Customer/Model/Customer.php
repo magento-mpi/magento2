@@ -141,6 +141,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
      * @param Magento_Customer_Helper_Data $customerData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Sender $sender
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Eav_Model_Config $config
@@ -153,6 +154,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         Magento_Customer_Helper_Data $customerData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Sender $sender,
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Eav_Model_Config $config,
@@ -166,7 +168,7 @@ class Magento_Customer_Model_Customer extends Magento_Core_Model_Abstract
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

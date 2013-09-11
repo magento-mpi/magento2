@@ -29,7 +29,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_MatrixTest e
         $this->_context = $this->getMock('Magento_Backend_Block_Template_Context', array(), array(), '', false);
         $this->_application = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
         $this->_locale = $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false);
-
         $data = array(
             'application' => $this->_application,
             'locale' => $this->_locale,

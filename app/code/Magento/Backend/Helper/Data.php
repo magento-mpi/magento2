@@ -55,18 +55,18 @@ class Magento_Backend_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_coreData = null;
 
     /**
+     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Model_ConfigInterface $applicationConfig
      * @param Magento_Core_Model_Config_Primary $primaryConfig
-     * @param Magento_Core_Helper_Context $context
      * @param Magento_Core_Model_RouterList $routerList
-     * @param string $defaultAreaFrontName
+     * @param $defaultAreaFrontName
      */
     public function __construct(
+        Magento_Core_Helper_Context $context,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Model_ConfigInterface $applicationConfig,
         Magento_Core_Model_Config_Primary $primaryConfig,
-        Magento_Core_Helper_Context $context,
         Magento_Core_Model_RouterList $routerList,
         $defaultAreaFrontName
     ) {

@@ -10,9 +10,30 @@
 
 class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js extends Magento_Adminhtml_Block_Template
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     public function getCustomerWebsite()
     {
-        return Mage::registry('current_customer')->getWebsiteId();
+        return $this->_coreRegistry->registry('current_customer')->getWebsiteId();
     }
 
     public function getWebsitesJson()

@@ -88,7 +88,7 @@ class Magento_CustomerSegment_Model_Customer extends Magento_Core_Model_Abstract
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_registry = $registry;
         $this->_customerSession = $customerSession;
         $this->_currentWebsiteId = $storeManager->getWebsite()->getId();

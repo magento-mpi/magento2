@@ -20,7 +20,6 @@
  */
 class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
 {
-
     /**
      * Last record data
      *
@@ -86,7 +85,7 @@ class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
             }
 
             $lastDateRecord = $date;
-            $date = $to; 
+            $date = $to;
         }
         return $lastDateRecord;
     }
@@ -100,7 +99,8 @@ class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
      */
     private function _save($data, $from, $to)
     {
-        if ($logId = $this->_getResource()->getLogId($from, $to)) {
+        $logId = $this->_getResource()->getLogId($from, $to);
+        if ($logId) {
             $this->_update($logId, $data);
         } else {
             $this->_insert($data);
@@ -125,25 +125,27 @@ class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
     public function getLastRecordDate()
     {
         $result = $this->_getResource()->getLastRecordDate();
-        if (!$result)
+        if (!$result) {
             $result = $this->_date(strtotime('now - 2 months'));
-
+        }
         return $result;
     }
 
     private function _date($in, $offset = null)
     {
         $out = $in;
-        if (is_numeric($in))
+        if (is_numeric($in)) {
             $out = date("Y-m-d H:i:s", $in);
+        }
         return $out;
     }
 
     private function _timestamp($in, $offset = null)
     {
         $out = $in;
-        if (!is_numeric($in))
+        if (!is_numeric($in)) {
             $out = strtotime($in);
+        }
         return $out;
     }
 

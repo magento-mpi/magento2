@@ -27,10 +27,18 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
     protected $_adminhtmlAddresses = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -38,8 +46,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
         Magento_Adminhtml_Helper_Addresses $adminhtmlAddresses,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
         parent::__construct($formFactory, $coreData, $context, $data);
     }
@@ -84,7 +94,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
      */
     public function isReadonly()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return $customer->isReadonly();
     }
 
@@ -101,7 +111,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Magento_Backen
     public function initForm()
     {
         /* @var $customer Magento_Customer_Model_Customer */
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create();

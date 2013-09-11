@@ -33,15 +33,25 @@ class Magento_Logging_Model_Handler_Controllers
     protected $_adminhtmlActionAttribute = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Logging_Helper_Data $loggingData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Logging_Helper_Data $loggingData,
         Magento_Core_Helper_Data $coreData,
-        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute
+        Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute $adminhtmlActionAttribute,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_loggingData = $loggingData;
         $this->_coreData = $coreData;
         $this->_adminhtmlActionAttribute = $adminhtmlActionAttribute;
@@ -184,7 +194,7 @@ class Magento_Logging_Model_Handler_Controllers
     public function postDispatchForgotPassword($config, $eventModel)
     {
         if (Mage::app()->getRequest()->isPost()) {
-            if ($model = Mage::registry('magento_logging_saved_model_adminhtml_index_forgotpassword')) {
+            if ($model = $this->_coreRegistry->registry('magento_logging_saved_model_adminhtml_index_forgotpassword')) {
                 $info = $model->getId();
             } else {
                 $info = Mage::app()->getRequest()->getParam('email');
@@ -213,7 +223,7 @@ class Magento_Logging_Model_Handler_Controllers
             $pollId = Mage::app()->getRequest()->getParam('id');
             return $eventModel->setIsSuccess(false)->setInfo($pollId == 0 ? '' : $pollId);
         } else {
-            $poll = Mage::registry('current_poll_model');
+            $poll = $this->_coreRegistry->registry('current_poll_model');
             if ($poll && $poll->getId()) {
                 return $eventModel->setIsSuccess(true)->setInfo($poll->getId());
             }
@@ -434,7 +444,7 @@ class Magento_Logging_Model_Handler_Controllers
             return false;
         }
         $classId = (int)Mage::app()->getRequest()->getParam('class_id');
-        $classModel = Mage::registry('tax_class_model');
+        $classModel = $this->_coreRegistry->registry('tax_class_model');
         $classType = $classModel != null ? $classModel->getClassType() : '';
 
         return $this->_logTaxClassEvent($classType, $eventModel, $classId);
@@ -449,7 +459,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchSystemBackupsCreate($config, $eventModel)
     {
-        $backup = Mage::registry('backup_manager');
+        $backup = $this->_coreRegistry->registry('backup_manager');
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
@@ -474,7 +484,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchSystemBackupsDelete($config, $eventModel)
     {
-        $backup = Mage::registry('backup_manager');
+        $backup = $this->_coreRegistry->registry('backup_manager');
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
@@ -494,7 +504,7 @@ class Magento_Logging_Model_Handler_Controllers
      */
     public function postDispatchSystemRollback($config, $eventModel)
     {
-        $backup = Mage::registry('backup_manager');
+        $backup = $this->_coreRegistry->registry('backup_manager');
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())

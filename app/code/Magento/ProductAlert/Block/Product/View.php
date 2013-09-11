@@ -44,6 +44,27 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
     }
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Check whether the stock alert data can be shown and prepare related data
      *
      * @return void
@@ -81,7 +102,7 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
      */
     protected function _prepareLayout()
     {
-        $product = Mage::registry('current_product');
+        $product = $this->_coreRegistry->registry('current_product');
         if ($product && $product->getId()) {
             $this->_product = $product;
         }

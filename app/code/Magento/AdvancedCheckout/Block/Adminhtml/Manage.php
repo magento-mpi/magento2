@@ -17,6 +17,27 @@
  */
 class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Block_Widget_Form_Container
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
@@ -107,7 +128,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Bl
      */
     protected function _getCustomer()
     {
-        return Mage::registry('checkout_current_customer');
+        return $this->_coreRegistry->registry('checkout_current_customer');
     }
 
     /**
@@ -117,7 +138,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Backend_Bl
      */
     protected function _getStore()
     {
-        return Mage::registry('checkout_current_store');
+        return $this->_coreRegistry->registry('checkout_current_store');
     }
 
     /**

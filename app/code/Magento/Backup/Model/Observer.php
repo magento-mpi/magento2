@@ -37,12 +37,22 @@ class Magento_Backup_Model_Observer
     protected $_backupData = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Backup_Helper_Data $backupData
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backup_Helper_Data $backupData
+        Magento_Backup_Helper_Data $backupData,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_backupData = $backupData;
+        $this->_coreRegistry = $coreRegistry;
     }
 
     /**
@@ -69,7 +79,7 @@ class Magento_Backup_Model_Observer
                 ->setTime(time())
                 ->setBackupsDir($this->_backupData->getBackupsDir());
 
-            Mage::register('backup_manager', $backupManager);
+            $this->_coreRegistry->register('backup_manager', $backupManager);
 
             if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
                 $backupManager->setRootDir(Mage::getBaseDir())
@@ -77,7 +87,7 @@ class Magento_Backup_Model_Observer
             }
 
             $backupManager->create();
-            Mage::log($this->_backupData->getCreateSuccessMessageByType($type));
+            Mage::log(Mage::helper('Magento_Backup_Helper_Data')->getCreateSuccessMessageByType($type));
         }
         catch (Exception $e) {
             $this->_errors[] = $e->getMessage();

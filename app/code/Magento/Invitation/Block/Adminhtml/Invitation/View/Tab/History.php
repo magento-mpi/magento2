@@ -20,10 +20,32 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
 {
     protected $_template = 'view/tab/history.phtml';
 
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
     public function getTabLabel()
     {
         return __('Status History');
     }
+
     public function getTabTitle()
     {
         return __('Status History');
@@ -33,6 +55,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     {
         return true;
     }
+
     public function isHidden()
     {
         return false;
@@ -45,13 +68,13 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
      */
     public function getInvitation()
     {
-        return Mage::registry('current_invitation');
+        return $this->_coreRegistry->registry('current_invitation');
     }
 
     /**
-     * Return invintation status history collection
+     * Return invitation status history collection
      *
-     * @return Magento_Invintation_Model_Resource_Invintation_History_Collection
+     * @return Magento_Invitation_Model_Resource_Invitation_History_Collection
      */
     public function getHistoryCollection()
     {
@@ -69,7 +92,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
      * @param   bool $showTime
      * @return  string
      */
-    public function formatDate($date=null, $format='short', $showTime=false)
+    public function formatDate($date = null, $format = 'short', $showTime = false)
     {
         if (is_string($date)) {
             $date = Mage::app()->getLocale()->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);
@@ -79,14 +102,14 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     }
 
     /**
-     * Retrieve formating time
+     * Retrieve formatting time
      *
      * @param   string $date
      * @param   string $format
      * @param   bool $showDate
      * @return  string
      */
-    public function formatTime($date=null, $format='short', $showDate=false)
+    public function formatTime($date = null, $format = 'short', $showDate = false)
     {
         if (is_string($date)) {
             $date = Mage::app()->getLocale()->date($date, Magento_Date::DATETIME_INTERNAL_FORMAT);

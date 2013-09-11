@@ -17,23 +17,33 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
      */
     protected $_storeManager;
 
+    protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
     /**
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManager $storeManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManager $storeManager,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($coreData, $context, $data);
         $this->_storeManager = $storeManager;
     }
-
-    protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
 
     /**
      * Get tab label
@@ -82,7 +92,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
      */
     public function isNew()
     {
-        if (Mage::registry('product')->getId()) {
+        if ($this->_coreRegistry->registry('product')->getId()) {
             return false;
         }
         return true;
@@ -107,7 +117,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     public function getFieldValue($field)
     {
         if (!$this->isNew()) {
-            return Mage::registry('product')->getDataUsingMethod($field);
+            return $this->_coreRegistry->registry('product')->getDataUsingMethod($field);
         }
 
         return Mage::getStoreConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
@@ -155,7 +165,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
      */
     public function isReadonly()
     {
-        return Mage::registry('product')->getGiftCardReadonly();
+        return $this->_coreRegistry->registry('product')->getGiftCardReadonly();
     }
 
     /**

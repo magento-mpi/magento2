@@ -10,13 +10,8 @@
 
 /**
  * Adminhtml Review Edit Form
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
+class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
 {
     /**
      * Review data
@@ -26,10 +21,18 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
     protected $_reviewData = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Review_Helper_Data $reviewData
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -37,15 +40,17 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Backend_Block_Wid
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_reviewData = $reviewData;
         parent::__construct($formFactory, $coreData, $context, $data);
     }
 
     protected function _prepareForm()
     {
-        $review = Mage::registry('review_data');
+        $review = $this->_coreRegistry->registry('review_data');
         $product = Mage::getModel('Magento_Catalog_Model_Product')->load($review->getEntityPkValue());
         $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($review->getCustomerId());
 

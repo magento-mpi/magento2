@@ -8,12 +8,8 @@
  * @license     {license_link}
  */
 
- /**
+/**
  * Enterprise search model observer
- *
- * @category   Magento
- * @package    Magento_Search
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Search_Model_Observer
 {
@@ -25,6 +21,13 @@ class Magento_Search_Model_Observer
     protected $_searchData = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Catalog search data
      *
      * @var Magento_CatalogSearch_Helper_Data
@@ -34,11 +37,14 @@ class Magento_Search_Model_Observer
     /**
      * @param Magento_CatalogSearch_Helper_Data $catalogSearchData
      * @param Magento_Search_Helper_Data $searchData
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_CatalogSearch_Helper_Data $catalogSearchData,
-        Magento_Search_Helper_Data $searchData
+        Magento_Search_Helper_Data $searchData,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_catalogSearchData = $catalogSearchData;
         $this->_searchData = $searchData;
     }
@@ -254,7 +260,7 @@ class Magento_Search_Model_Observer
     public function resetCurrentCatalogLayer(Magento_Event_Observer $observer)
     {
         if ($this->_searchData->getIsEngineAvailableForNavigation()) {
-            Mage::register('current_layer', Mage::getSingleton('Magento_Search_Model_Catalog_Layer'));
+            $this->_coreRegistry->register('current_layer', Mage::getSingleton('Magento_Search_Model_Catalog_Layer'));
         }
     }
 
@@ -266,7 +272,7 @@ class Magento_Search_Model_Observer
     public function resetCurrentSearchLayer(Magento_Event_Observer $observer)
     {
         if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
-            Mage::register('current_layer', Mage::getSingleton('Magento_Search_Model_Search_Layer'));
+            $this->_coreRegistry->register('current_layer', Mage::getSingleton('Magento_Search_Model_Search_Layer'));
         }
     }
 

@@ -10,14 +10,17 @@
 
 /**
  * Product attribute source input types
- *
- * @category   Magento
- * @package    Magento_Eav
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Magento_Catalog_Model_Product_Attribute_Source_Inputtype
     extends Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
     /**
      * Core event manager proxy
      *
@@ -27,11 +30,14 @@ class Magento_Catalog_Model_Product_Attribute_Source_Inputtype
 
     /**
      * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager
+        Magento_Core_Model_Event_Manager $eventManager,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_eventManager = $eventManager;
+        $this->_coreRegistry = $coreRegistry;
     }
 
     /**
@@ -67,11 +73,11 @@ class Magento_Catalog_Model_Product_Attribute_Source_Inputtype
             }
         }
 
-        if (Mage::registry('attribute_type_hidden_fields') === null) {
-            Mage::register('attribute_type_hidden_fields', $_hiddenFields);
+        if ($this->_coreRegistry->registry('attribute_type_hidden_fields') === null) {
+            $this->_coreRegistry->register('attribute_type_hidden_fields', $_hiddenFields);
         }
-        if (Mage::registry('attribute_type_disabled_types') === null) {
-            Mage::register('attribute_type_disabled_types', $_disabledTypes);
+        if ($this->_coreRegistry->registry('attribute_type_disabled_types') === null) {
+            $this->_coreRegistry->register('attribute_type_disabled_types', $_disabledTypes);
         }
 
         return array_merge(parent::toOptionArray(), $inputTypes);

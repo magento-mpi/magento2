@@ -70,7 +70,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight extends Magento
             . parent::getElementHtml()
             . '<label class="addafter" for="'
             . $this->getHtmlId()
-            . '"><strong>'. __('lbs') .'</strong></label>'
+            . '"><strong>' . __('lbs') . '</strong></label>'
             . '</div></div></div><div class="field choice">'
             . $this->_virtual->getElementHtml() . $this->_virtual->getLabelHtml()
             . '</div></div>';

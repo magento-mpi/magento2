@@ -37,6 +37,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_ObjectManager $objectManager
      * @param Magento_Core_Model_Theme_Image_Path $themeImagePath
      * @param Magento_File_Size $fileSize
@@ -46,6 +47,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_ObjectManager $objectManager,
         Magento_Core_Model_Theme_Image_Path $themeImagePath,
         Magento_File_Size $fileSize,
@@ -53,7 +55,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
     ) {
         $this->_themeImagePath = $themeImagePath;
         $this->_fileSize = $fileSize;
-        parent::__construct($formFactory, $coreData, $context, $objectManager, $data);
+        parent::__construct($formFactory, $coreData, $context, $registry, $objectManager, $data);
     }
 
     /**
@@ -227,7 +229,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General
      */
     protected function _getAdditionalElementTypes()
     {
-        $element = 
+        $element =
             'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image';
         return array('image' => $element);
     }

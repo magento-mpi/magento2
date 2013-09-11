@@ -18,12 +18,22 @@ class Magento_Backend_Model_Config_Backend_Admin_Observer
     protected $_backendData = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Backend_Helper_Data $backendData
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
-        Magento_Backend_Helper_Data $backendData
+        Magento_Backend_Helper_Data $backendData,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_backendData = $backendData;
+        $this->_coreRegistry = $coreRegistry;
     }
 
     /**
@@ -33,7 +43,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Observer
      */
     public function afterCustomUrlChanged()
     {
-        if (is_null(Mage::registry('custom_admin_path_redirect'))) {
+        if (is_null($this->_coreRegistry->registry('custom_admin_path_redirect'))) {
             return;
         }
 

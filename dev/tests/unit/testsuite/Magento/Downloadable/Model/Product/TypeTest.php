@@ -26,8 +26,9 @@ class Magento_Downloadable_Model_Product_TypeTest extends PHPUnit_Framework_Test
             ->disableOriginalConstructor()->getMock();
         $filesystem = $this->getMockBuilder('Magento_Filesystem')->disableOriginalConstructor()->getMock();
 
+        $coreRegistry = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false);
         $this->_model = new Magento_Downloadable_Model_Product_Type($eventManager, $downloadableFile, $coreData,
-            $fileStorageDb, $filesystem);
+            $fileStorageDb, $filesystem, $coreRegistry);
     }
 
     public function testHasWeightFalse()

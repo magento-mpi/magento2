@@ -18,6 +18,25 @@
 class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtml_Controller_Sales_Shipment_ShipmentAbstract
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Initialize shipment items QTY
      */
     protected function _getItemQtys()
@@ -86,7 +105,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
             }
         }
 
-        Mage::register('current_shipment', $shipment);
+        $this->_coreRegistry->register('current_shipment', $shipment);
         return $shipment;
     }
 
@@ -141,7 +160,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
      */
     public function newAction()
     {
-        if ($shipment = $this->_initShipment()) {
+        $shipment = $this->_initShipment();
+        if ($shipment) {
             $this->_title(__('New Shipment'));
 
             $comment = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCommentText(true);
@@ -153,7 +173,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 ->_setActiveMenu('Magento_Sales::sales_order')
                 ->renderLayout();
         } else {
-            $this->_redirect('*/sales_order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
+            $this->_redirect('*/sales_order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
         }
     }
 
@@ -323,7 +343,6 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     public function removeTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $shipmentId = $this->getRequest()->getParam('shipment_id');
         $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')->load($trackId);
         if ($track->getId()) {
             try {
@@ -362,7 +381,6 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
     public function viewTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $shipmentId = $this->getRequest()->getParam('shipment_id');
         $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')->load($trackId);
         if ($track->getId()) {
             try {
@@ -563,11 +581,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
         $shipment = $this->_initShipment();
 
         if ($shipment) {
-            $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')
-                ->getPdf($shipment);
+            $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')->getPdf($shipment);
             $this->_prepareDownloadResponse(
-                'packingslip' . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
-                $pdf->render(), 'application/pdf'
+                'packingslip' . Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s') . '.pdf',
+                $pdf->render(),
+                'application/pdf'
             );
         } else {
             $this->_forward('noRoute');
@@ -701,6 +719,6 @@ class Magento_Adminhtml_Controller_Sales_Order_Shipment extends Magento_Adminhtm
                 ->createBlock('Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
-           );
+       );
     }
 }

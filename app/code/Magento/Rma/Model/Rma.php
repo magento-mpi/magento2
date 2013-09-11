@@ -251,7 +251,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
                 $session = Mage::getSingleton('Magento_Core_Model_Session');
-                foreach($validateEmail as $error) {
+                foreach ($validateEmail as $error) {
                     $session->addError($error);
                 }
                 $session->setRmaFormData($data);

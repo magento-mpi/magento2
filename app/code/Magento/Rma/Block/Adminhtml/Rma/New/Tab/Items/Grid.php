@@ -35,11 +35,19 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected $_rmaEav = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Rma_Helper_Eav $rmaEav
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -48,8 +56,10 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -75,8 +85,8 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _gatherOrderItemsData()
     {
         $itemsData = array();
-        if (Mage::registry('current_order')) {
-            foreach (Mage::registry('current_order')->getItemsCollection() as $item) {
+        if ($this->_coreRegistry->registry('current_order')) {
+            foreach ($this->_coreRegistry->registry('current_order')->getItemsCollection() as $item) {
                 $itemsData[$item->getId()] = array(
                     'qty_shipped' => $item->getQtyShipped(),
                     'qty_returned' => $item->getQtyReturned()

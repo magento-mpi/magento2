@@ -54,7 +54,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
     protected function _prepareForm()
     {
         /* @var $model Magento_Cms_Model_Page */
-        $model = Mage::registry('cms_page');
+        $model = $this->_coreRegistry->registry('cms_page');
 
         parent::_prepareForm();
 

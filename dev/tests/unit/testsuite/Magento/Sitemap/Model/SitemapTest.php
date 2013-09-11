@@ -71,6 +71,28 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $this->_resourceMock->expects($this->any())
             ->method('addCommitCallback')
             ->will($this->returnSelf());
+
+        $dateMock = $this->getMockBuilder('Magento_Core_Model_Date')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $coreRegisterMock = $this->getMock('Magento_Core_Model_Registry');
+        $coreRegisterMock->expects($this->any())
+            ->method('registry')
+            ->will($this->returnValueMap(array(
+                array('_helper/Magento_Core_Helper_Data', $helperMockCore),
+                array('_helper/Magento_Sitemap_Helper_Data', $helperMockSitemap),
+                array('_singleton/Magento_Core_Model_Date', $dateMock)
+        )));
+
+        $objectManagerMock = $this->getMockBuilder('Magento_ObjectManager')->getMock();
+        $objectManagerMock->expects($this->any())
+            ->method('get')
+            ->with('Magento_Core_Model_Registry')
+            ->will($this->returnValue($coreRegisterMock));
+
+        Mage::reset();
+        Mage::setObjectManager($objectManagerMock);
     }
 
     /**
@@ -319,11 +341,6 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     protected function _prepareSitemapModelMock(&$actualData, $maxLines, $maxFileSize,
         $expectedFile, $expectedWrites, $robotsInfo
     ) {
-        $dateMock = $this->getMockBuilder('Magento_Core_Model_Date')
-            ->disableOriginalConstructor()
-            ->getMock();
-        Mage::register('_singleton/Magento_Core_Model_Date', $dateMock, true);
-
         $fileMock = $this->getMockBuilder('Magento_Io_File')
             ->setMethods(array('streamWrite', 'open', 'streamOpen', 'streamClose',
                 'allowedPath', 'getCleanPath', 'fileExists', 'isWriteable', 'mv', 'read', 'write'))
@@ -389,7 +406,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         // Mock helper methods
         $pushToRobots = 0;
         if (isset($robotsInfo['pushToRobots'])) {
-            $pushToRobots = (int) $robotsInfo['pushToRobots'];
+            $pushToRobots = (int)$robotsInfo['pushToRobots'];
         }
         $this->_helperMockSitemap->expects($this->any())
             ->method('getMaximumLinesNumber')

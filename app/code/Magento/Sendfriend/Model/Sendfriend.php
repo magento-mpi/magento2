@@ -122,7 +122,7 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
 
     public function send()
     {
-        if ($this->isExceedLimit()){
+        if ($this->isExceedLimit()) {
             Mage::throwException(__('You\'ve met your limit of %1 sends in an hour.', $this->getMaxSendsToFriend()));
         }
 
@@ -551,8 +551,8 @@ class Magento_Sendfriend_Model_Sendfriend extends Magento_Core_Model_Abstract
      */
     public function register()
     {
-        if (!Mage::registry('send_to_friend_model')) {
-            Mage::register('send_to_friend_model', $this);
+        if (!$this->_coreRegistry->registry('send_to_friend_model')) {
+            $this->_coreRegistry->register('send_to_friend_model', $this);
         }
         return $this;
     }

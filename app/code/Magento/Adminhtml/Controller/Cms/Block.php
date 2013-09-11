@@ -19,6 +19,25 @@
 class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Init actions
      *
      * @return Magento_Adminhtml_Controller_Cms_Block
@@ -29,8 +48,7 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
         $this->loadLayout()
             ->_setActiveMenu('Magento_Cms::cms_block')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Static Blocks'), __('Static Blocks'))
-        ;
+            ->_addBreadcrumb(__('Static Blocks'), __('Static Blocks'));
         return $this;
     }
 
@@ -84,7 +102,7 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
         }
 
         // 4. Register model to use later in blocks
-        Mage::register('cms_block', $model);
+        $this->_coreRegistry->register('cms_block', $model);
 
         // 5. Build edit form
         $this->_initAction()
@@ -98,8 +116,8 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
     public function saveAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
-
+        $data = $this->getRequest()->getPost();
+        if ($data) {
             $id = $this->getRequest()->getParam('block_id');
             $model = Mage::getModel('Magento_Cms_Model_Block')->load($id);
             if (!$model->getId() && $id) {
@@ -149,20 +167,18 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
     public function deleteAction()
     {
         // check if we know what should be deleted
-        if ($id = $this->getRequest()->getParam('block_id')) {
-            $title = "";
+        $id = $this->getRequest()->getParam('block_id');
+        if ($id) {
             try {
                 // init model and delete
                 $model = Mage::getModel('Magento_Cms_Model_Block');
                 $model->load($id);
-                $title = $model->getTitle();
                 $model->delete();
                 // display success message
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The block has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
-
             } catch (Exception $e) {
                 // display error message
                 Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());

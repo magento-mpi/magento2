@@ -66,14 +66,14 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
      * @param   mixed $index
      * @return  mixed
      */
-    public function getData($key='', $index=null)
+    public function getData($key = '', $index = null)
     {
-        if ('cc_number'===$key) {
+        if ('cc_number' === $key) {
             if (empty($this->_data['cc_number']) && !empty($this->_data['cc_number_enc'])) {
                 $this->_data['cc_number'] = $this->decrypt($this->getCcNumberEnc());
             }
         }
-        if ('cc_cid'===$key) {
+        if ('cc_cid' === $key) {
             if (empty($this->_data['cc_cid']) && !empty($this->_data['cc_cid_enc'])) {
                 $this->_data['cc_cid'] = $this->decrypt($this->getCcCidEnc());
             }

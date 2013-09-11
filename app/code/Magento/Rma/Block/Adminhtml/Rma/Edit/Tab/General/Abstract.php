@@ -25,6 +25,27 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract extends Magento_
     protected $_parentForm = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get Form Object Which is Parent to this block
      *
      * @return null|Magento_Data_Form
@@ -44,7 +65,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract extends Magento_
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_rma');
+        $model = $this->_coreRegistry->registry('current_rma');
         $form = $this->getParentForm();
 
         $this->_addFieldset();
@@ -74,7 +95,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract extends Magento_
      */
     public function getRmaData($field)
     {
-        $model = Mage::registry('current_rma');
+        $model = $this->_coreRegistry->registry('current_rma');
         if ($model) {
             return $model->getData($field);
         } else {
@@ -89,7 +110,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract extends Magento_
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return $this->_coreRegistry->registry('current_order');
     }
 
     /**

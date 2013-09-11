@@ -18,10 +18,7 @@
  */
 abstract class Magento_Core_Model_File_Storage_Database_Abstract extends Magento_Core_Model_File_Storage_Abstract
 {
-    /**
-     * Class construct
-     *
-     * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
+    /**@param Magento_Core_Helper_File_Storage_Database $coreFileStorageDb
      * @param Magento_Core_Model_Context $context
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection

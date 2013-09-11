@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product attribute add/edit form main tab
  *
@@ -80,8 +79,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
                 $_disabledTypes[$type['value']] = $type['disabled_types'];
             }
         }
-        Mage::register('attribute_type_hidden_fields', $_hiddenFields);
-        Mage::register('attribute_type_disabled_types', $_disabledTypes);
+        $this->_coreRegistry->register('attribute_type_hidden_fields', $_hiddenFields);
+        $this->_coreRegistry->register('attribute_type_disabled_types', $_disabledTypes);
 
         $frontendInputValues = array_merge($frontendInputElm->getValues(), $additionalTypes);
         $frontendInputElm->setValues($frontendInputValues);

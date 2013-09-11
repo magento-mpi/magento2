@@ -18,6 +18,13 @@
 class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_Block_Widget_Grid
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Payment data
      *
      * @var Magento_Payment_Helper_Data
@@ -30,6 +37,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
      * @param Magento_Backend_Block_Template_Context $context
      * @param Magento_Core_Model_StoreManagerInterface $storeManager
      * @param Magento_Core_Model_Url $urlModel
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -38,8 +46,10 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
         Magento_Backend_Block_Template_Context $context,
         Magento_Core_Model_StoreManagerInterface $storeManager,
         Magento_Core_Model_Url $urlModel,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_paymentData = $paymentData;
         parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
     }
@@ -69,7 +79,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
         if (!$collection) {
             $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection');
         }
-        $order = Mage::registry('current_order');
+        $order = $this->_coreRegistry->registry('current_order');
         if ($order) {
             $collection->addOrderIdFilter($order->getId());
         }

@@ -114,5 +114,4 @@ class Magento_Downloadable_Model_Link_Api_Uploader extends Magento_Core_Model_Fi
     {
         return rename($sourceFile, $destinationFile);
     }
-
 }

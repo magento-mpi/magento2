@@ -115,9 +115,10 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Sitemap_Helper_Data $sitemapData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Filesystem $filesystem
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
-     * @param Magento_Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
@@ -125,6 +126,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         Magento_Sitemap_Helper_Data $sitemapData,
         Magento_Core_Model_Context $context,
         Magento_Filesystem $filesystem,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -132,7 +134,7 @@ class Magento_Sitemap_Model_Sitemap extends Magento_Core_Model_Abstract
         $this->_coreData = $coreData;
         $this->_sitemapData = $sitemapData;
         $this->_filesystem = $filesystem;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

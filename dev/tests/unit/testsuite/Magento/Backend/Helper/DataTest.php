@@ -37,6 +37,8 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
             $this->_configMock,
             $this->_primaryConfigMock,
             $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
+            $this->_configMock,
+            $this->_primaryConfigMock,
             $this->getMock('Magento_Core_Model_RouterList', array(), array(), '', false),
             'backend'
         );

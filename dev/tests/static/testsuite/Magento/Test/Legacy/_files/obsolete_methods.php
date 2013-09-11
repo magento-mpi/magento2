@@ -610,7 +610,6 @@ return array(
     array('getLabelValues', 'Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
     array('getStoreOptionValues', 'Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
     array('getAttributeObject', 'Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract'),
-
     array('substractQtyFromQuotes', 'Magento_Sales_Model_Observer',
         'Magento_Sales_Model_Observer_Backend_CatalogProductQuote::subtractQtyFromQuotes'
     ),
@@ -684,4 +683,8 @@ return array(
     array('getHelper', 'Magento_Core_Model_App'),
     array('helper', 'Mage'),
     array('dispatchEvent', 'Mage'),
+    array('resetRegistry', 'Mage', 'use Magento_Core_Model_Registry'),
+    array('register', 'Mage', 'use Magento_Core_Model_Registry'),
+    array('unregister', 'Mage', 'use Magento_Core_Model_Registry'),
+    array('registry', 'Mage', 'use Magento_Core_Model_Registry'),
 );

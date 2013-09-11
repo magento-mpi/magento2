@@ -50,17 +50,28 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
 
     /**
      * @param Magento_Core_Helper_Data $coreData
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Helper_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param Magento_Tax_Model_Config $taxConfig
      */
     public function __construct(
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Helper_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         Magento_Tax_Model_Config $taxConfig
     ) {
         parent::__construct($context);
         $this->_config = $taxConfig;
         $this->_coreData = $coreData;
+        $this->_coreRegistry = $coreRegistry;
     }
 
     /**
@@ -789,10 +800,10 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCalculatedTaxes($source)
     {
-        if (Mage::registry('current_invoice')) {
-            $current = Mage::registry('current_invoice');
-        } elseif (Mage::registry('current_creditmemo')) {
-            $current = Mage::registry('current_creditmemo');
+        if ($this->_coreRegistry->registry('current_invoice')) {
+            $current = $this->_coreRegistry->registry('current_invoice');
+        } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
+            $current = $this->_coreRegistry->registry('current_creditmemo');
         } else {
             $current = $source;
         }
@@ -859,10 +870,10 @@ class Magento_Tax_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getShippingTax($source)
     {
-        if (Mage::registry('current_invoice')) {
-            $current = Mage::registry('current_invoice');
-        } elseif (Mage::registry('current_creditmemo')) {
-            $current = Mage::registry('current_creditmemo');
+        if ($this->_coreRegistry->registry('current_invoice')) {
+            $current = $this->_coreRegistry->registry('current_invoice');
+        } elseif ($this->_coreRegistry->registry('current_creditmemo')) {
+            $current = $this->_coreRegistry->registry('current_creditmemo');
         } else {
             $current = $source;
         }

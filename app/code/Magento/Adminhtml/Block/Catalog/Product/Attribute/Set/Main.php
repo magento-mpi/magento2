@@ -15,7 +15,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento_Backend_Block_Template
+class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento_Adminhtml_Block_Template
 {
     protected $_template = 'catalog/product/attribute/set/main.phtml';
 
@@ -27,17 +27,27 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
     protected $_catalogProduct = null;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Catalog_Helper_Product $catalogProduct
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Catalog_Helper_Product $catalogProduct,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_catalogProduct = $catalogProduct;
         parent::__construct($coreData, $context, $data);
     }
@@ -348,7 +358,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
      */
     protected function _getAttributeSet()
     {
-        return Mage::registry('current_attribute_set');
+        return $this->_coreRegistry->registry('current_attribute_set');
     }
 
     /**
@@ -371,7 +381,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Magento
         $isDefault = $this->getData('is_current_set_default');
         if (is_null($isDefault)) {
             $defaultSetId = Mage::getModel('Magento_Eav_Model_Entity_Type')
-                ->load(Mage::registry('entityType'))
+                ->load($this->_coreRegistry->registry('entityType'))
                 ->getDefaultAttributeSetId();
             $isDefault = $this->_getSetId() == $defaultSetId;
             $this->setData('is_current_set_default', $isDefault);

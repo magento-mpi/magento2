@@ -54,11 +54,19 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     protected $_storeManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Core_Helper_File_Storage_Database $coreFileStorageDatabase
      * @param Magento_Downloadable_Helper_File $downloadableFile
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -67,8 +75,10 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         Magento_Core_Model_StoreManager $storeManager,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $coreRegistry;
         $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
         $this->_storeManager = $storeManager;
@@ -94,7 +104,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getProduct()
     {
-        return Mage::registry('product');
+        return $this->_coreRegistry->registry('product');
     }
 
     /**
@@ -142,7 +152,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
                 'label' => __('Add New Row'),
                 'id'    => 'add_link_item',
                 'class' => 'add'
-            ));
+        ));
         return $addButton->toHtml();
     }
 

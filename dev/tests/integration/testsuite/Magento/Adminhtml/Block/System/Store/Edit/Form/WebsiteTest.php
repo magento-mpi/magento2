@@ -29,8 +29,10 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit
             'store_data' => Mage::getModel('Magento_Core_Model_Website'),
             'store_action' => 'add'
         );
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         foreach ($registryData as $key => $value) {
-            Mage::register($key, $value);
+            $objectManager->get('Magento_Core_Model_Registry')->register($key, $value);
         }
 
         /** @var $layout Magento_Core_Model_Layout */
@@ -43,9 +45,11 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_WebsiteTest extends PHPUnit
 
     protected function tearDown()
     {
-        Mage::unregister('store_type');
-        Mage::unregister('store_data');
-        Mage::unregister('store_action');
+        /** @var $objectManager Magento_TestFramework_ObjectManager */
+        $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('store_type');
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('store_data');
+        $objectManager->get('Magento_Core_Model_Registry')->unregister('store_action');
     }
 
     public function testPrepareForm()

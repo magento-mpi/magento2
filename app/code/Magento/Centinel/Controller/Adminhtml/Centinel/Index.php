@@ -18,6 +18,25 @@
 class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Adminhtml_Controller_Action
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
+    /**
      * Process validate payment data action
      *
      */
@@ -48,8 +67,9 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
      */
     public function authenticationStartAction()
     {
-        if ($validator = $this->_getValidator()) {
-            Mage::register('current_centinel_validator', $validator);
+        $validator = $this->_getValidator();
+        if ($validator) {
+            $this->_coreRegistry->register('current_centinel_validator', $validator);
         }
         $this->loadLayout()->renderLayout();
     }
@@ -70,10 +90,10 @@ class Magento_Centinel_Controller_Adminhtml_Centinel_Index extends Magento_Admin
                 $data->setPaResPayload($request->getParam('PaRes'));
 
                 $validator->authenticate($data);
-                Mage::register('current_centinel_validator', $validator);
+                $this->_coreRegistry->register('current_centinel_validator', $validator);
             }
         } catch (Exception $e) {
-            Mage::register('current_centinel_validator', false);
+            $this->_coreRegistry->register('current_centinel_validator', false);
         }
         $this->loadLayout()->renderLayout();
     }

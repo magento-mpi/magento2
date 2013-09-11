@@ -21,6 +21,13 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
     implements Magento_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Reward data
      *
      * @var Magento_Reward_Helper_Data
@@ -31,14 +38,17 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      * @param Magento_Reward_Helper_Data $rewardData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Reward_Helper_Data $rewardData,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_rewardData = $rewardData;
         parent::__construct($coreData, $context, $data);
     }
@@ -70,7 +80,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     public function canShowTab()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = $this->_coreRegistry->registry('current_customer');
         return $customer->getId()
             && $this->_rewardData->isEnabled()
             && $this->_authorization->isAllowed(Magento_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);

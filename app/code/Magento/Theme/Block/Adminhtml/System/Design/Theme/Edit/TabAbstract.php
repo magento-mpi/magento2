@@ -24,9 +24,17 @@ abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstrac
     protected $_objectManager;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
      * @param Magento_Data_Form_Factory $formFactory
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_ObjectManager $objectManager
      * @param array $data
      */
@@ -34,9 +42,11 @@ abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstrac
         Magento_Data_Form_Factory $formFactory,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_ObjectManager $objectManager,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         parent::__construct($formFactory, $coreData, $context, $data);
         $this->_objectManager = $objectManager;
     }
@@ -48,7 +58,7 @@ abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstrac
      */
     protected function _getCurrentTheme()
     {
-        return Mage::registry('current_theme');
+        return $this->_coreRegistry->registry('current_theme');
     }
 
     /**

@@ -20,6 +20,7 @@ class Magento_GiftCard_Block_Catalog_Product_Price extends Magento_Catalog_Block
      * @param Magento_Tax_Helper_Data $taxData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_StoreManager $storeManager
      * @param array $data
      */
@@ -28,10 +29,11 @@ class Magento_GiftCard_Block_Catalog_Product_Price extends Magento_Catalog_Block
         Magento_Tax_Helper_Data $taxData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_StoreManager $storeManager,
         array $data = array()
     ) {
-        parent::__construct($catalogData, $taxData, $coreData, $context, $data);
+        parent::__construct($catalogData, $taxData, $coreData, $context, $registry, $data);
         $this->_storeManager = $storeManager;
     }
 

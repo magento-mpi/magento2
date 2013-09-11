@@ -18,6 +18,26 @@
  */
 class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Backend_Block_Widget_Form_Generic
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Init form
@@ -42,7 +62,7 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Backend_Block_
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('cms_block');
+        $model = $this->_coreRegistry->registry('cms_block');
 
         /** @var Magento_Data_Form $form */
         $form   = $this->_formFactory->create(array(
@@ -91,8 +111,7 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Backend_Block_
             ));
             $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
             $field->setRenderer($renderer);
-        }
-        else {
+        } else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'stores[]',
                 'value'     => Mage::app()->getStore(true)->getId()
@@ -129,5 +148,4 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Backend_Block_
 
         return parent::_prepareForm();
     }
-
 }

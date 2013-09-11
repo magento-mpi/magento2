@@ -48,6 +48,13 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
     protected $_checkoutType = 'Magento_Paypal_Model_Express_Checkout';
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Payment data
      *
      * @var Magento_Payment_Helper_Data
@@ -66,6 +73,7 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
      * @param Magento_Payment_Helper_Data $paymentData
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Core_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -73,8 +81,10 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
         Magento_Payment_Helper_Data $paymentData,
         Magento_Core_Helper_Data $coreData,
         Magento_Core_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_paypalData = $paypalData;
         $this->_paymentData = $paymentData;
         parent::__construct($coreData, $context, $data);
@@ -99,7 +109,7 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
         if ($isInCatalog) {
             // Show PayPal shortcut on a product view page only if product has nonzero price
             /** @var $currentProduct Magento_Catalog_Model_Product */
-            $currentProduct = Mage::registry('current_product');
+            $currentProduct = $this->_coreRegistry->registry('current_product');
             if (!is_null($currentProduct)) {
                 $productPrice = (float)$currentProduct->getFinalPrice();
                 if (empty($productPrice) && !$currentProduct->isGrouped()) {

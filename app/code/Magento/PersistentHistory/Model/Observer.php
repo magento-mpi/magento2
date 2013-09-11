@@ -18,6 +18,13 @@ class Magento_PersistentHistory_Model_Observer
     protected $_setQuotePersistent = true;
 
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+    
+    /**
      * Persistent data
      *
      * @var Magento_Persistent_Helper_Data
@@ -50,17 +57,21 @@ class Magento_PersistentHistory_Model_Observer
      * @param Magento_Wishlist_Helper_Data $wishlistData
      * @param Magento_PersistentHistory_Helper_Data $ePersistentData
      * @param Magento_Persistent_Helper_Data $mPersistentData
+     * @param Magento_Core_Model_Registry $coreRegistry
      */
     public function __construct(
         Magento_Persistent_Helper_Session $persistentSession,
         Magento_Wishlist_Helper_Data $wishlistData,
         Magento_PersistentHistory_Helper_Data $ePersistentData,
-        Magento_Persistent_Helper_Data $mPersistentData
+        Magento_Persistent_Helper_Data $mPersistentData,
+        Magento_Core_Model_Registry $coreRegistry
     ) {
         $this->_persistentSession = $persistentSession;
         $this->_wishlistData = $wishlistData;
         $this->_mPersistentData = $mPersistentData;
         $this->_ePersistentData = $ePersistentData;
+        $this->_coreRegistry = $coreRegistry;
+
     }
 
     /**
@@ -87,7 +98,7 @@ class Magento_PersistentHistory_Model_Observer
                 ->setCustomerGroupId($customer->getGroupId());
 
             // apply persistent data to segments
-            Mage::register('segment_customer', $customer, true);
+            $this->_coreRegistry->register('segment_customer', $customer, true);
             if ($this->_isWishlistPersist()) {
                 $this->_wishlistData->setCustomer($customer);
             }

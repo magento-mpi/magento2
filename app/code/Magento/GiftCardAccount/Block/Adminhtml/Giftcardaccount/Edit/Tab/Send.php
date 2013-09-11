@@ -12,6 +12,27 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
     extends Magento_Backend_Block_Widget_Form_Generic
 {
     /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Init form fields
      *
      * @return Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
@@ -22,10 +43,10 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_send');
 
-        $model = Mage::registry('current_giftcardaccount');
+        $model = $this->_coreRegistry->registry('current_giftcardaccount');
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>__('Send Gift Card'))
+            array('legend' => __('Send Gift Card'))
         );
 
         $fieldset->addField('recipient_email', 'text', array(

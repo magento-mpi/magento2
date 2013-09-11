@@ -69,6 +69,7 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
      * @param Magento_Core_Model_Event_Manager $eventManager
      * @param Magento_Directory_Helper_Data $directoryData
      * @param Magento_Core_Model_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param Magento_Core_Model_Resource_Abstract $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
@@ -77,6 +78,7 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
         Magento_Core_Model_Event_Manager $eventManager,
         Magento_Directory_Helper_Data $directoryData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_Core_Model_Resource_Abstract $resource = null,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
@@ -84,7 +86,7 @@ class Magento_Customer_Model_Address_Abstract extends Magento_Core_Model_Abstrac
         $this->_eventManager = $eventManager;
         $this->_directoryData = $directoryData;
         $data = $this->_implodeStreetField($data);
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**

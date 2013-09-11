@@ -10,12 +10,7 @@
 
 /**
  * Adminhtml creditmemo items grid
- *
- * @category   Magento
- * @package    Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
     protected $_canReturnToStock;
@@ -137,7 +132,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
      */
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return $this->_coreRegistry->registry('current_creditmemo');
     }
 
     public function canEditQty()
@@ -156,8 +151,8 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Magent
     public function getUpdateUrl()
     {
         return $this->getUrl('*/*/updateQty', array(
-                'order_id'=>$this->getCreditmemo()->getOrderId(),
-                'invoice_id'=>$this->getRequest()->getParam('invoice_id', null),
+            'order_id' => $this->getCreditmemo()->getOrderId(),
+            'invoice_id' => $this->getRequest()->getParam('invoice_id', null),
         ));
     }
 

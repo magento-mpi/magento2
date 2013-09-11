@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Block_Widget_Tabs
+class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
 {
     /**
      * Default Attribute Tab Block
@@ -25,6 +25,13 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
     protected $_attributeTabBlock = 'Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes';
 
     protected $_template = 'widget/tabshoriz.phtml';
+
+   /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
 
     /**
      * Adminhtml catalog
@@ -37,14 +44,17 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
      * @param Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog
      * @param Magento_Core_Helper_Data $coreData
      * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
      * @param array $data
      */
     public function __construct(
         Magento_Adminhtml_Helper_Catalog $adminhtmlCatalog,
         Magento_Core_Helper_Data $coreData,
         Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
         array $data = array()
     ) {
+        $this->_coreRegistry = $registry;
         $this->_adminhtmlCatalog = $adminhtmlCatalog;
         parent::__construct($coreData, $context, $data);
     }
@@ -79,7 +89,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
      */
     public function getCatalogHelper()
     {
-        return $this->_adminhtmlCatalog;
+        return Mage::helper('Magento_Adminhtml_Helper_Catalog');
     }
 
     /**
@@ -164,7 +174,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Backend_Bloc
         ));
 
         // dispatch event add custom tabs
-        $this->_eventManager->dispatch('adminhtml_catalog_category_tabs', array(
+        Mage::dispatchEvent('adminhtml_catalog_category_tabs', array(
             'tabs'  => $this
         ));
 

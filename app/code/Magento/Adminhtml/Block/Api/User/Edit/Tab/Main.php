@@ -18,9 +18,35 @@
 
 class Magento_Adminhtml_Block_Api_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form_Generic
 {
+
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Data_Form_Factory $formFactory
+     * @param Magento_Core_Helper_Data $helper
+     * @param Magento_Backend_Block_Template_Context $context
+     * @param Magento_Core_Model_Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Data_Form_Factory $formFactory,
+        Magento_Core_Helper_Data $helper,
+        Magento_Backend_Block_Template_Context $context,
+        Magento_Core_Model_Registry $registry,
+        array $data = array()
+    ) {
+        $this->_coreRegistry = $registry;
+        parent::__construct($formFactory, $helper, $context, $data);
+    }
+
     protected function _prepareForm()
     {
-        $model = Mage::registry('api_user');
+        $model = $this->_coreRegistry->registry('api_user');
 
         /** @var Magento_Data_Form $form */
         $form = $this->_formFactory->create();

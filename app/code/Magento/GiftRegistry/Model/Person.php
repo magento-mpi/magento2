@@ -41,19 +41,21 @@ class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
     /**
      * @param Magento_GiftRegistry_Helper_Data $giftRegistryData
      * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param Magento_Core_Model_Registry $registry
+     * @param Magento_GiftRegistry_Model_Resource_Person $resource
      * @param Magento_Data_Collection_Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         Magento_GiftRegistry_Helper_Data $giftRegistryData,
         Magento_Core_Model_Context $context,
+        Magento_Core_Model_Registry $registry,
         Magento_GiftRegistry_Model_Resource_Person $resource,
         Magento_Data_Collection_Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-        parent::__construct($context, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     protected function _construct()
@@ -101,7 +103,8 @@ class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
      *
      * @return $this
      */
-    public function unserialiseCustom() {
+    public function unserialiseCustom()
+    {
         if (is_string($this->getCustomValues())) {
             $this->setCustom(unserialize($this->getCustomValues()));
         }

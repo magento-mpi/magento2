@@ -18,6 +18,25 @@
 
 class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml_Controller_Action
 {
+    /**
+     * Core registry
+     *
+     * @var Magento_Core_Model_Registry
+     */
+    protected $_coreRegistry = null;
+
+    /**
+     * @param Magento_Backend_Controller_Context $context
+     * @param Magento_Core_Model_Registry $coreRegistry
+     */
+    public function __construct(
+        Magento_Backend_Controller_Context $context,
+        Magento_Core_Model_Registry $coreRegistry
+    ) {
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context);
+    }
+
     public function indexAction()
     {
         $this->_title(__('Product Templates'));
@@ -50,7 +69,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
 
         $this->_title($attributeSet->getId() ? $attributeSet->getAttributeSetName() : __('New Set'));
 
-        Mage::register('current_attribute_set', $attributeSet);
+        $this->_coreRegistry->register('current_attribute_set', $attributeSet);
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
@@ -205,7 +224,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
      */
     protected function _setTypeId()
     {
-        Mage::register('entityType',
+        $this->_coreRegistry->register('entityType',
             Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId());
     }
 
@@ -221,9 +240,9 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
      */
     protected function _getEntityTypeId()
     {
-        if (is_null(Mage::registry('entityType'))) {
+        if (is_null($this->_coreRegistry->registry('entityType'))) {
             $this->_setTypeId();
         }
-        return Mage::registry('entityType');
+        return $this->_coreRegistry->registry('entityType');
     }
 }
