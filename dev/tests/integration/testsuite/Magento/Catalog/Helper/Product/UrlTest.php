@@ -19,7 +19,7 @@ class Magento_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         /** @var $configModel Magento_Core_Model_Config */
-        $configModel = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         // @todo re-implement this test
         $data = array(
             'from' => '™',

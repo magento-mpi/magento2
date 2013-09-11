@@ -28,7 +28,7 @@ class Magento_Test_Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Fra
     {
         $data = array();
         /** @var $configModel Magento_Core_Model_Config */
-        $configModel = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         foreach (Magento_Core_Model_Email_Template::getDefaultTemplates() as $row) {
             $data[] = array($configModel->determineOmittedNamespace($row['@']['module'], true), $row['file']);
         }

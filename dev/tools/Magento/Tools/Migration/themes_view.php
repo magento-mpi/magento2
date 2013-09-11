@@ -14,7 +14,7 @@ try {
     $entryPoint = new Magento_Core_Model_EntryPoint_Cron($config);
 
     /** @var $configModel Magento_Core_Model_Config */
-    $configModel = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+    $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
     $configModel->removeCache();
     $configModel->reinit();
     $config = array();

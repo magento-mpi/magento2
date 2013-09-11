@@ -36,7 +36,7 @@ class Magento_Test_Integrity_Modular_ViewFilesTest extends Magento_TestFramework
     {
         $files = array();
         /** @var $configModel Magento_Core_Model_Config */
-        $configModel = Magento_Test_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
+        $configModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config');
         foreach ($this->_getEnabledModules() as $moduleName) {
             $moduleViewDir = $configModel->getModuleDir('view', $moduleName);
             if (!is_dir($moduleViewDir)) {
