@@ -11,7 +11,7 @@
     <api>
         <resources>
             <cataloginventory_stock_item translate="title" module="Magento_CatalogInventory">
-                <model>Magento_CatalogInventory_Model_Stock_Item_Api</model>
+                <model>\Magento\CatalogInventory\Model\Stock\Item\Api</model>
                 <title>Inventory API</title>
                 <acl>cataloginventory</acl>
                 <methods>

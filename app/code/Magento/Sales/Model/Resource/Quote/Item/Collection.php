@@ -16,12 +16,14 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Item;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Collection quote instance
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
@@ -38,7 +40,7 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Quote_Item', 'Magento_Sales_Model_Resource_Quote_Item');
+        $this->_init('\Magento\Sales\Model\Quote\Item', '\Magento\Sales\Model\Resource\Quote\Item');
     }
 
     /**
@@ -54,8 +56,8 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
     /**
      * Set Quote object to Collection
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Sales_Model_Resource_Quote_Item_Collection
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Sales\Model\Resource\Quote\Item\Collection
      */
     public function setQuote($quote)
     {
@@ -76,7 +78,7 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
      *
      * @param string $quotesTableName
      * @param int $productId
-     * @return Magento_Sales_Model_Resource_Quote_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Item\Collection
      */
     public function resetJoinQuotes($quotesTableName, $productId = null)
     {
@@ -98,7 +100,7 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
     /**
      * After load processing
      *
-     * @return Magento_Sales_Model_Resource_Quote_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Item\Collection
      */
     protected function _afterLoad()
     {
@@ -129,12 +131,12 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
     /**
      * Add options to items
      *
-     * @return Magento_Sales_Model_Resource_Quote_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Item\Collection
      */
     protected function _assignOptions()
     {
         $itemIds          = array_keys($this->_items);
-        $optionCollection = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->getCollection()
+        $optionCollection = \Mage::getModel('\Magento\Sales\Model\Quote\Item\Option')->getCollection()
             ->addItemFilter($itemIds);
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
@@ -148,7 +150,7 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
     /**
      * Add products to items and item options
      *
-     * @return Magento_Sales_Model_Resource_Quote_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Item\Collection
      */
     protected function _assignProducts()
     {
@@ -159,20 +161,20 @@ class Magento_Sales_Model_Resource_Quote_Item_Collection extends Magento_Core_Mo
         }
         $this->_productIds = array_merge($this->_productIds, $productIds);
 
-        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
             ->setStoreId($this->getStoreId())
             ->addIdFilter($this->_productIds)
-            ->addAttributeToSelect(Mage::getSingleton('Magento_Sales_Model_Quote_Config')->getProductAttributes())
+            ->addAttributeToSelect(\Mage::getSingleton('Magento\Sales\Model\Quote\Config')->getProductAttributes())
             ->addOptionsToResult()
             ->addStoreFilter()
             ->addUrlRewrite()
             ->addTierPriceData();
 
-        Mage::dispatchEvent('prepare_catalog_product_collection_prices', array(
+        \Mage::dispatchEvent('prepare_catalog_product_collection_prices', array(
             'collection'            => $productCollection,
             'store_id'              => $this->getStoreId(),
         ));
-        Mage::dispatchEvent('sales_quote_item_collection_products_after_load', array(
+        \Mage::dispatchEvent('sales_quote_item_collection_products_after_load', array(
             'product_collection'    => $productCollection
         ));
 

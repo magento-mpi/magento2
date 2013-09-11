@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Searches_Last extends Magento_Adminhtml_Block_Dashboard_Grid
+namespace Magento\Adminhtml\Block\Dashboard\Searches;
+
+class Last extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
     protected $_collection;
 
@@ -28,20 +30,20 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Last extends Magento_Adminhtml_
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_CatalogSearch')) {
+        if (!\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_CatalogSearch')) {
             return parent::_prepareCollection();
         }
-        $this->_collection = Mage::getModel('Magento_CatalogSearch_Model_Query')
+        $this->_collection = \Mage::getModel('\Magento\CatalogSearch\Model\Query')
             ->getResourceCollection();
         $this->_collection->setRecentQueryFilter();
 
         if ($this->getRequest()->getParam('store')) {
             $this->_collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
         } else if ($this->getRequest()->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } else if ($this->getRequest()->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => $storeIds));
         }
 
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Last extends Magento_Adminhtml_
             'header'    => __('Search Term'),
             'sortable'  => false,
             'index'     => 'query_text',
-            'renderer'  => 'Magento_Adminhtml_Block_Dashboard_Searches_Renderer_Searchquery',
+            'renderer'  => '\Magento\Adminhtml\Block\Dashboard\Searches\Renderer\Searchquery',
         ));
 
         $this->addColumn('num_results', array(

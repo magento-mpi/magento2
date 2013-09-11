@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Poll_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Poll\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 
     protected function _construct()
@@ -31,15 +33,15 @@ class Magento_Adminhtml_Block_Poll_Edit_Tabs extends Magento_Adminhtml_Block_Wid
         $this->addTab('form_section', array(
             'label'     => __('Poll Information'),
             'title'     => __('Poll Information'),
-            'content'   => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Edit_Tab_Form')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit\Tab\Form')->toHtml(),
         ))
         ;
 
         $this->addTab('answers_section', array(
                 'label'     => __('Poll Answers'),
                 'title'     => __('Poll Answers'),
-                'content'   => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Edit_Tab_Answers')
-                    ->append($this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_List'))
+                'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit\Tab\Answers')
+                    ->append($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit\Tab\Answers\ListAnswers'))
                     ->toHtml(),
                 'active'    => ( $this->getRequest()->getParam('tab') == 'answers_section' ) ? true : false,
             ));

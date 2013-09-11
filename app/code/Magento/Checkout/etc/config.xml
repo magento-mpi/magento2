@@ -15,7 +15,7 @@
             <checkout_setup>
                 <setup>
                     <module>Magento_Checkout</module>
-                    <class>Magento_Checkout_Model_Resource_Setup</class>
+                    <class>Magento\Checkout\Model\Resource\Setup</class>
                 </setup>
             </checkout_setup>
         </resources>
@@ -32,7 +32,7 @@
             <quote>
                 <totals>
                     <nominal>
-                        <renderer>Magento_Checkout_Block_Total_Nominal</renderer>
+                        <renderer>\Magento\Checkout\Block\Total\Nominal</renderer>
                     </nominal>
                 </totals>
             </quote>

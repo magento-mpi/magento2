@@ -15,7 +15,9 @@
  * @package     Magento_FullPageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_FullPageCache_Model_Container_Wishlists extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Wishlists extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
      * Get identifier from cookies
@@ -24,7 +26,7 @@ class Magento_FullPageCache_Model_Container_Wishlists extends Magento_FullPageCa
      */
     protected function _getIdentifier()
     {
-        return $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER, '');
+        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER, '');
     }
 
     /**

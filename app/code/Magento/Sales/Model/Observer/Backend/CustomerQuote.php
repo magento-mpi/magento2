@@ -5,32 +5,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Observer_Backend_CustomerQuote
+namespace Magento\Sales\Model\Observer\Backend;
+
+class CustomerQuote
 {
     /**
-     * @var Magento_Customer_Model_Config_Share
+     * @var \Magento\Customer\Model\Config\Share
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Customer_Model_Config_Share $config
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Config\Share $config
+     * @param \Magento\Sales\Model\Quote $quote
      */
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Customer_Model_Config_Share $config,
-        Magento_Sales_Model_Quote $quote
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Config\Share $config,
+        \Magento\Sales\Model\Quote $quote
     ) {
         $this->_storeManager = $storeManager;
         $this->_config = $config;
@@ -44,7 +46,7 @@ class Magento_Sales_Model_Observer_Backend_CustomerQuote
      */
     public function dispatch(\Magento\Event\Observer $observer)
     {
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $observer->getEvent()->getCustomer();
 
         if ($customer->getGroupId() !== $customer->getOrigData('group_id')) {
@@ -52,7 +54,7 @@ class Magento_Sales_Model_Observer_Backend_CustomerQuote
              * It is needed to process customer's quotes for all websites
              * if customer accounts are shared between all of them
              */
-            /** @var $websites Magento_Core_Model_Website[] */
+            /** @var $websites \Magento\Core\Model\Website[] */
             $websites = $this->_config->isWebsiteScope() ?
                 array($this->_storeManager->getWebsite($customer->getWebsiteId())) :
                 $this->_storeManager->getWebsites();

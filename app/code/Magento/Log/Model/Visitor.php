@@ -10,22 +10,24 @@
 
 
 /**
- * @method Magento_Log_Model_Resource_Visitor _getResource()
- * @method Magento_Log_Model_Resource_Visitor getResource()
+ * @method \Magento\Log\Model\Resource\Visitor _getResource()
+ * @method \Magento\Log\Model\Resource\Visitor getResource()
  * @method string getSessionId()
- * @method Magento_Log_Model_Visitor setSessionId(string $value)
- * @method Magento_Log_Model_Visitor setFirstVisitAt(string $value)
- * @method Magento_Log_Model_Visitor setLastVisitAt(string $value)
+ * @method \Magento\Log\Model\Visitor setSessionId(string $value)
+ * @method \Magento\Log\Model\Visitor setFirstVisitAt(string $value)
+ * @method \Magento\Log\Model\Visitor setLastVisitAt(string $value)
  * @method int getLastUrlId()
- * @method Magento_Log_Model_Visitor setLastUrlId(int $value)
+ * @method \Magento\Log\Model\Visitor setLastUrlId(int $value)
  * @method int getStoreId()
- * @method Magento_Log_Model_Visitor setStoreId(int $value)
+ * @method \Magento\Log\Model\Visitor setStoreId(int $value)
  *
  * @category    Magento
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
+namespace Magento\Log\Model;
+
+class Visitor extends \Magento\Core\Model\AbstractModel
 {
     const DEFAULT_ONLINE_MINUTES_INTERVAL = 15;
     const VISITOR_TYPE_CUSTOMER = 'c';
@@ -41,9 +43,9 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Log_Model_Resource_Visitor');
-        $userAgent = Mage::helper('Magento_Core_Helper_Http')->getHttpUserAgent();
-        $ignoreAgents = Mage::getConfig()->getNode('global/ignore_user_agents');
+        $this->_init('\Magento\Log\Model\Resource\Visitor');
+        $userAgent = \Mage::helper('Magento\Core\Helper\Http')->getHttpUserAgent();
+        $ignoreAgents = \Mage::getConfig()->getNode('global/ignore_user_agents');
         if ($ignoreAgents) {
             $ignoreAgents = $ignoreAgents->asArray();
             if (in_array($userAgent, $ignoreAgents)) {
@@ -55,27 +57,27 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
     /**
      * Retrieve session object
      *
-     * @return Magento_Core_Model_Session_Abstract
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Core_Model_Session');
+        return \Mage::getSingleton('Magento\Core\Model\Session');
     }
 
     /**
      * Initialize visitor information from server data
      *
-     * @return Magento_Log_Model_Visitor
+     * @return \Magento\Log\Model\Visitor
      */
     public function initServerData()
     {
-        /* @var $helper Magento_Core_Helper_Http */
-        $helper = Mage::helper('Magento_Core_Helper_Http');
+        /* @var $helper \Magento\Core\Helper\Http */
+        $helper = \Mage::helper('Magento\Core\Helper\Http');
 
         $this->addData(array(
             'server_addr'           => $helper->getServerAddr(true),
             'remote_addr'           => $helper->getRemoteAddr(true),
-            'http_secure'           => Mage::app()->getStore()->isCurrentlySecure(),
+            'http_secure'           => \Mage::app()->getStore()->isCurrentlySecure(),
             'http_host'             => $helper->getHttpHost(true),
             'http_user_agent'       => $helper->getHttpUserAgent(true),
             'http_accept_language'  => $helper->getHttpAcceptLanguage(true),
@@ -95,7 +97,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     public static function getOnlineMinutesInterval()
     {
-        $configValue = Mage::getStoreConfig('customer/online_customers/online_minutes_interval');
+        $configValue = \Mage::getStoreConfig('customer/online_customers/online_minutes_interval');
         return intval($configValue) > 0
             ? intval($configValue)
             : self::DEFAULT_ONLINE_MINUTES_INTERVAL;
@@ -135,7 +137,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      * Used in event "controller_action_predispatch"
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Log_Model_Visitor
+     * @return  \Magento\Log\Model\Visitor
      */
     public function initByRequest($observer)
     {
@@ -150,7 +152,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
             $this->setFirstVisitAt(now());
             $this->setIsNewVisitor(true);
             $this->save();
-            Mage::dispatchEvent('visitor_init', array('visitor' => $this));
+            \Mage::dispatchEvent('visitor_init', array('visitor' => $this));
         }
         return $this;
     }
@@ -161,7 +163,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      * Used in event "controller_action_postdispatch"
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Log_Model_Visitor
+     * @return  \Magento\Log\Model\Visitor
      */
     public function saveByRequest($observer)
     {
@@ -173,8 +175,8 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
             $this->setLastVisitAt(now());
             $this->save();
             $this->_getSession()->setVisitorData($this->getData());
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
         }
         return $this;
     }
@@ -185,7 +187,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      * Used in event "customer_login"
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Log_Model_Visitor
+     * @return  \Magento\Log\Model\Visitor
      */
     public function bindCustomerLogin($observer)
     {
@@ -202,7 +204,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      * Used in event "customer_logout"
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Log_Model_Visitor
+     * @return  \Magento\Log\Model\Visitor
      */
     public function bindCustomerLogout($observer)
     {
@@ -262,7 +264,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
         if (intval($customerId) <= 0) {
             return $this;
         }
-        $customerData = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+        $customerData = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
         $newCustomerData = array();
         foreach ($customerData->getData() as $propName => $propValue) {
             $newCustomerData['customer_' . $propName] = $propValue;
@@ -282,7 +284,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
         if (intval($quoteId) <= 0) {
             return $this;
         }
-        $data->setQuoteData(Mage::getModel('Magento_Sales_Model_Quote')->load($quoteId));
+        $data->setQuoteData(\Mage::getModel('\Magento\Sales\Model\Quote')->load($quoteId));
         return $this;
     }
 
@@ -292,7 +294,7 @@ class Magento_Log_Model_Visitor extends Magento_Core_Model_Abstract
      */
     public function isModuleIgnored($observer)
     {
-        $ignores = Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();
+        $ignores = \Mage::getConfig()->getNode('global/ignoredModules/entities')->asArray();
 
         if (is_array($ignores) && $observer) {
             $curModule = $observer->getEvent()->getControllerAction()->getRequest()->getRouteName();

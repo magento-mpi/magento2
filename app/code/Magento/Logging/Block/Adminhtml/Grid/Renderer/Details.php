@@ -12,8 +12,10 @@
  * Difference columns renderer
  *
  */
-class Magento_Logging_Block_Adminhtml_Grid_Renderer_Details
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Logging\Block\Adminhtml\Grid\Renderer;
+
+class Details
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render the grid cell value
@@ -40,7 +42,7 @@ class Magento_Logging_Block_Adminhtml_Grid_Renderer_Details
                 /**
                  *  [additional] => Array
                  *          (
-                 *               [Magento_Sales_Model_Order] => Array
+                 *               [\Magento\Sales\Model\Order] => Array
                  *                  (
                  *                      [68] => Array
                  *                          (
@@ -68,7 +70,7 @@ class Magento_Logging_Block_Adminhtml_Grid_Renderer_Details
             } else {
                 $html = $columnData;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $html = $columnData;
         }
         return $html;

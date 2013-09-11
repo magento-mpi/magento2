@@ -15,7 +15,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Adminhtml_Catalog_Attribute_Edit extends Magento_Adminhtml_Block_Template
+namespace Magento\Search\Block\Adminhtml\Catalog\Attribute;
+
+class Edit extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Return true if third part search engine used
@@ -24,6 +26,6 @@ class Magento_Search_Block_Adminhtml_Catalog_Attribute_Edit extends Magento_Admi
      */
     public function isThirdPartSearchEngine()
     {
-        return Mage::helper('Magento_Search_Helper_Data')->isThirdPartSearchEngine();
+        return \Mage::helper('Magento\Search\Helper\Data')->isThirdPartSearchEngine();
     }
 }

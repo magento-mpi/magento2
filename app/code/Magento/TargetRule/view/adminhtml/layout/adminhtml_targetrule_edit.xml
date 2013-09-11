@@ -18,13 +18,13 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit" name="magento_targetrule_edit"/>
+            <block class="\Magento\TargetRule\Block\Adminhtml\Targetrule\Edit" name="magento_targetrule_edit"/>
         </reference>
         <reference name="left">
-            <block class="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs" name="magento_targetrule_edit_tabs">
-                <block class="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main" name="magento_targetrule_edit_tab_main"/>
-                <block class="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions" name="magento_targetrule_edit_tab_conditions"/>
-                <block class="Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions" name="magento_targetrule_edit_tab_actions"/>
+            <block class="\Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tabs" name="magento_targetrule_edit_tabs">
+                <block class="\Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main" name="magento_targetrule_edit_tab_main"/>
+                <block class="\Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Conditions" name="magento_targetrule_edit_tab_conditions"/>
+                <block class="\Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Actions" name="magento_targetrule_edit_tab_actions"/>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">magento_targetrule_edit_tab_main</argument>
                     <argument name="block" xsi:type="string">magento_targetrule_edit_tab_main</argument>

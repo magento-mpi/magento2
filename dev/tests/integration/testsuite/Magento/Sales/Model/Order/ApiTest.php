@@ -18,9 +18,9 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var Magento_Sales_Model_Resource_Order_Collection $orderCollection */
+        /** @var \Magento\Sales\Model\Resource\Order\Collection $orderCollection */
         $orderCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Sales_Model_Resource_Order_Collection');
+            ->create('Magento\Sales\Model\Resource\Order\Collection');
         $orders = $orderCollection->getItems();
         $this->assertCount(2, $orders);
         $this->_order = array_shift($orders);
@@ -32,7 +32,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfo()
     {
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_order;
         $orderInfo = Magento_TestFramework_Helper_Api::call(
             $this,
@@ -70,7 +70,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testAddComment()
     {
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_order;
 
         $historySizeBefore = count($order->getAllStatusHistory());
@@ -88,11 +88,11 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
         );
         $this->assertTrue($isAdded, "Comment was not added");
 
-        /** @var Magento_Sales_Model_Order $orderAfter */
-        $orderAfter = Mage::getModel('Magento_Sales_Model_Order')->load($order->getId());
+        /** @var \Magento\Sales\Model\Order $orderAfter */
+        $orderAfter = Mage::getModel('\Magento\Sales\Model\Order')->load($order->getId());
         $historyAfter = $orderAfter->getAllStatusHistory();
         $this->assertCount($historySizeBefore + 1, $historyAfter, "History item was not created.");
-        /** @var Magento_Sales_Model_Order_Status_History $createdHistoryItem */
+        /** @var \Magento\Sales\Model\Order\Status\History $createdHistoryItem */
         $createdHistoryItem = reset($historyAfter);
         $this->assertEquals($statusChangeComment, $createdHistoryItem->getComment(), 'Comment is invalid.');
     }
@@ -102,7 +102,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testList()
     {
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_order;
 
         $filters = array(
@@ -140,7 +140,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCancelPendingOrder()
     {
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_order;
 
         $order->setStatus(self::STATUS_PENDING)
@@ -159,7 +159,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
         // reload order to obtain new status
         $order->load($order->getId());
 
-        $this->assertEquals(Magento_Sales_Model_Order::STATE_CANCELED, $order->getStatus(), 'Status is not CANCELED');
+        $this->assertEquals(\Magento\Sales\Model\Order::STATE_CANCELED, $order->getStatus(), 'Status is not CANCELED');
     }
 
     /**
@@ -167,10 +167,10 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testHoldProcessingOrder()
     {
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_order;
 
-        $order->setState(Magento_Sales_Model_Order::STATE_NEW, self::STATUS_PENDING)
+        $order->setState(\Magento\Sales\Model\Order::STATE_NEW, self::STATUS_PENDING)
             ->save();
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -186,7 +186,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
         // reload order to obtain new status
         $order->load($order->getId());
 
-        $this->assertEquals(Magento_Sales_Model_Order::STATE_HOLDED, $order->getStatus(), 'Status is not HOLDED');
+        $this->assertEquals(\Magento\Sales\Model\Order::STATE_HOLDED, $order->getStatus(), 'Status is not HOLDED');
     }
 
     /**
@@ -196,7 +196,7 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testUnhold()
     {
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_order;
         $isUnholded = Magento_TestFramework_Helper_Api::call(
             $this,
@@ -206,8 +206,8 @@ class Magento_Sales_Model_Order_ApiTest extends PHPUnit_Framework_TestCase
             )
         );
         $this->assertTrue($isUnholded, "The order was not unholded.");
-        /** @var Magento_Sales_Model_Order $updatedOrder */
-        $updatedOrder = Mage::getModel('Magento_Sales_Model_Order');
+        /** @var \Magento\Sales\Model\Order $updatedOrder */
+        $updatedOrder = Mage::getModel('\Magento\Sales\Model\Order');
         $updatedOrder->load($order->getId());
         $this->assertEquals(self::STATUS_PENDING, $updatedOrder->getStatus(), 'Order was not unholded.');
     }

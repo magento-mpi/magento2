@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+namespace Magento\Adminhtml\Block\Newsletter\Subscriber\Grid\Filter;
+
+class Website extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
 {
 
     protected $_websiteCollection = null;
@@ -30,11 +32,11 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends 
     public function getCollection()
     {
         if(is_null($this->_websiteCollection)) {
-            $this->_websiteCollection = Mage::getResourceModel('Magento_Core_Model_Resource_Website_Collection')
+            $this->_websiteCollection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Website\Collection')
                 ->load();
         }
 
-        Mage::register('website_collection', $this->_websiteCollection);
+        \Mage::register('website_collection', $this->_websiteCollection);
 
         return $this->_websiteCollection;
     }
@@ -47,7 +49,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Filter_Website extends 
             return null;
         }
 
-        $website = Mage::app()->getWebsite($id);
+        $website = \Mage::app()->getWebsite($id);
 
         return array('in'=>$website->getStoresIds(true));
     }

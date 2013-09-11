@@ -10,10 +10,10 @@
  * Creates banner with enabled status and text content
  */
 
-/** @var $banner Magento_Banner_Model_Banner */
-$banner = Mage::getModel('Magento_Banner_Model_Banner');
+/** @var $banner \Magento\Banner\Model\Banner */
+$banner = Mage::getModel('\Magento\Banner\Model\Banner');
 
-$banner->setIsEnabled(Magento_Banner_Model_Banner::STATUS_ENABLED)
+$banner->setIsEnabled(\Magento\Banner\Model\Banner::STATUS_ENABLED)
     ->setName('Test Banner')
     ->setTypes('')
     ->setStoreContents(array(0 => 'Banner Content'))

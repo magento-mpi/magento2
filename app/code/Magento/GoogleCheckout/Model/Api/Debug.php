@@ -10,25 +10,27 @@
 
 
 /**
- * @method Magento_GoogleCheckout_Model_Resource_Api_Debug _getResource()
- * @method Magento_GoogleCheckout_Model_Resource_Api_Debug getResource()
+ * @method \Magento\GoogleCheckout\Model\Resource\Api\Debug _getResource()
+ * @method \Magento\GoogleCheckout\Model\Resource\Api\Debug getResource()
  * @method string getDir()
- * @method Magento_GoogleCheckout_Model_Api_Debug setDir(string $value)
+ * @method \Magento\GoogleCheckout\Model\Api\Debug setDir(string $value)
  * @method string getUrl()
- * @method Magento_GoogleCheckout_Model_Api_Debug setUrl(string $value)
+ * @method \Magento\GoogleCheckout\Model\Api\Debug setUrl(string $value)
  * @method string getRequestBody()
- * @method Magento_GoogleCheckout_Model_Api_Debug setRequestBody(string $value)
+ * @method \Magento\GoogleCheckout\Model\Api\Debug setRequestBody(string $value)
  * @method string getResponseBody()
- * @method Magento_GoogleCheckout_Model_Api_Debug setResponseBody(string $value)
+ * @method \Magento\GoogleCheckout\Model\Api\Debug setResponseBody(string $value)
  *
  * @category    Magento
  * @package     Magento_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleCheckout_Model_Api_Debug extends Magento_Core_Model_Abstract
+namespace Magento\GoogleCheckout\Model\Api;
+
+class Debug extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_GoogleCheckout_Model_Resource_Api_Debug');
+        $this->_init('\Magento\GoogleCheckout\Model\Resource\Api\Debug');
     }
 }

@@ -16,18 +16,20 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setFileSettingsLabel() setFileSettingsLabel(string $value)
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setEmailSettingsLabel() setEmailSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export setFileSettingsLabel() setFileSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
 // @codingStandardsIgnoreEnd
-class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export
-    extends Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form;
+
+class Export
+    extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
 {
     /**
      * Prepare form for export operation
      *
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Export
      */
     protected function _prepareForm()
     {
@@ -37,11 +39,11 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
 
         parent::_prepareForm();
         $form = $this->getForm();
-        /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
-        $operation = Mage::registry('current_operation');
+        /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
+        $operation = \Mage::registry('current_operation');
 
-        /** @var $fileFormatModel Magento_ImportExport_Model_Source_Export_Format */
-        $fileFormatModel = Mage::getModel('Magento_ImportExport_Model_Source_Export_Format');
+        /** @var $fileFormatModel \Magento\ImportExport\Model\Source\Export\Format */
+        $fileFormatModel = \Mage::getModel('\Magento\ImportExport\Model\Source\Export\Format');
 
         $fieldset = $form->getElement('operation_settings');
         $fieldset->addField('file_format', 'select', array(
@@ -53,7 +55,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         ));
 
         $form->getElement('email_template')
-            ->setValues(Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template')
+            ->setValues(\Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Template')
                 ->setPath('magento_scheduledimportexport_export_failed')
                 ->toOptionArray()
             );
@@ -89,15 +91,15 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
     /**
      * Return block instance with specific attribute fields
      *
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation $operation
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Export_Filter
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter
      */
     protected function _getFilterBlock($operation)
     {
         $exportOperation = $operation->getInstance();
-        /** @var $block Magento_ScheduledImportExport_Block_Adminhtml_Export_Filter */
+        /** @var $block \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter */
         $block = $this->getLayout()
-            ->createBlock('Magento_ScheduledImportExport_Block_Adminhtml_Export_Filter')
+            ->createBlock('\Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter')
             ->setOperation($exportOperation);
 
         $exportOperation->filterAttributeCollection(

@@ -15,18 +15,18 @@ class Magento_Paypal_Controller_PayflowadvancedTest extends Magento_TestFramewor
     {
         parent::setUp();
 
-        $order = $this->_objectManager->create('Magento_Sales_Model_Order');
+        $order = $this->_objectManager->create('Magento\Sales\Model\Order');
         $order->load('100000001', 'increment_id');
-        $order->getPayment()->setMethod(Magento_Paypal_Model_Config::METHOD_PAYFLOWADVANCED);
+        $order->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED);
 
-        $quote = Mage::getModel('Magento_Sales_Model_Quote')
+        $quote = Mage::getModel('\Magento\Sales\Model\Quote')
             ->setStoreId($order->getStoreId())
             ->save();
 
         $order->setQuoteId($quote->getId());
         $order->save();
 
-        $session = $this->_objectManager->create('Magento_Checkout_Model_Session');
+        $session = $this->_objectManager->create('Magento\Checkout\Model\Session');
         $session->setLastRealOrderId($order->getRealOrderId())
             ->setLastQuoteId($order->getQuoteId());
     }
@@ -81,10 +81,10 @@ class Magento_Paypal_Controller_PayflowadvancedTest extends Magento_TestFramewor
      */
     public function testCancelAction()
     {
-        $order = $this->_objectManager->create('Magento_Sales_Model_Order');
-        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
+        $order = $this->_objectManager->create('Magento\Sales\Model\Order');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
 
-        $quote = $this->_objectManager->create('Magento_Sales_Model_Quote');
+        $quote = $this->_objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test02', 'reserved_order_id');
         $order->load('100000001', 'increment_id')
             ->setQuoteId($quote->getId())

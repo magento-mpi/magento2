@@ -15,18 +15,18 @@
 class Magento_CustomerCustomAttributes_Model_Sales_Order_AddressTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CustomerCustomAttributes_Model_Sales_Order_Address
+     * @var \Magento\CustomerCustomAttributes\Model\Sales\Order\Address
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_CustomerCustomAttributes_Model_Sales_Order_Address');
+        $this->_model = Mage::getModel('\Magento\CustomerCustomAttributes\Model\Sales\Order\Address');
     }
 
     public function testAttachDataToEntities()
     {
-        $address = Mage::getModel('Magento_Sales_Model_Order_Address');
+        $address = Mage::getModel('\Magento\Sales\Model\Order\Address');
         $address->load('admin@example.com', 'email');
 
         $entity = new \Magento\Object(array('id' => $address->getId()));

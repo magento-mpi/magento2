@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\Adminhtml\Block\Cms\Wysiwyg\Images;
+
+class Content extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Block construction
@@ -83,7 +85,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Magento_Adminht
             'showBreadcrumbs' => true
         ));
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($setupObject);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($setupObject);
     }
 
     /**

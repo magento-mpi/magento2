@@ -15,20 +15,22 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Resource_Item_Collection extends Magento_Wishlist_Model_Resource_Item_Collection
+namespace Magento\MultipleWishlist\Model\Resource\Item;
+
+class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
 {
     /**
      * Add filtration by customer id
      *
      * @param int $customerId
-     * @return Magento_MultipleWishlist_Model_Resource_Item_Collection
+     * @return \Magento\MultipleWishlist\Model\Resource\Item\Collection
      */
     public function addCustomerIdFilter($customerId)
     {
         parent::addCustomerIdFilter($customerId);
 
         $adapter = $this->getConnection();
-        $defaultWishlistName = Mage::helper('Magento_Wishlist_Helper_Data')->getDefaultWishlistName();
+        $defaultWishlistName = \Mage::helper('Magento\Wishlist\Helper\Data')->getDefaultWishlistName();
         $this->getSelect()->columns(
             array('wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName)))
         );

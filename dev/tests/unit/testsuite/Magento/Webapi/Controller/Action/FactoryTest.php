@@ -9,7 +9,7 @@
  */
 class Magento_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Action_Factory */
+    /** @var \Magento\Webapi\Controller\Action\Factory */
     protected $_factory;
 
     /** @var \Magento\ObjectManager */
@@ -21,7 +21,7 @@ class Magento_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_Tes
         $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()
             ->getMock();
         /** Init SUT. */
-        $this->_factory = new Magento_Webapi_Controller_Action_Factory($this->_objectManagerMock);
+        $this->_factory = new \Magento\Webapi\Controller\Action\Factory($this->_objectManagerMock);
         parent::setUp();
     }
 
@@ -38,15 +38,15 @@ class Magento_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_Tes
      */
     public function testCreateActionController()
     {
-        /** Create mock object of Magento_Webapi_Controller_ActionAbstract. */
-        $actionController = $this->getMockBuilder('Magento_Webapi_Controller_ActionAbstract')
+        /** Create mock object of \Magento\Webapi\Controller\ActionAbstract. */
+        $actionController = $this->getMockBuilder('Magento\Webapi\Controller\ActionAbstract')
             ->disableOriginalConstructor()->getMock();
         /** Create request object. */
-        $request = new Magento_Webapi_Controller_Request('SOAP');
+        $request = new \Magento\Webapi\Controller\Request('SOAP');
         $this->_objectManagerMock->expects($this->once())->method('create')->will(
             $this->returnValue($actionController)
         );
-        $this->_factory->createActionController('Magento_Webapi_Controller_ActionAbstract', $request);
+        $this->_factory->createActionController('\Magento\Webapi\Controller\ActionAbstract', $request);
     }
 
     /**
@@ -54,10 +54,10 @@ class Magento_Webapi_Controller_Action_FactoryTest extends PHPUnit_Framework_Tes
      */
     public function testCreateActionControllerWithException()
     {
-        /** Create object of class which is not instance of Magento_Webapi_Controller_ActionAbstract. */
+        /** Create object of class which is not instance of \Magento\Webapi\Controller\ActionAbstract. */
         $wrongController = new \Magento\Object();
         /** Create request object. */
-        $request = new Magento_Webapi_Controller_Request('SOAP');
+        $request = new \Magento\Webapi\Controller\Request('SOAP');
         /** Mock object manager create method to return wrong controller */
         $this->_objectManagerMock->expects($this->any())->method('create')->will($this->returnValue($wrongController));
         $this->setExpectedException(

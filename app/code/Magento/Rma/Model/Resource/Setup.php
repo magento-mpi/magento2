@@ -16,7 +16,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+namespace Magento\Rma\Model\Resource;
+
+class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
      * Prepare RMA item attribute values to save in additional table
@@ -48,10 +50,10 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
     {
         $entities = array(
             'rma_item'                           => array(
-                'entity_model'                   => 'Magento_Rma_Model_Resource_Item',
-                'attribute_model'                => 'Magento_Rma_Model_Item_Attribute',
+                'entity_model'                   => '\Magento\Rma\Model\Resource\Item',
+                'attribute_model'                => '\Magento\Rma\Model\Item\Attribute',
                 'table'                          => 'magento_rma_item_entity',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => '\Magento\Eav\Model\Entity\Increment\Numeric',
                 'additional_attribute_table'     => 'magento_rma_item_eav_attribute',
                 'increment_per_store'            => 1,
                 'entity_attribute_collection'    => null,
@@ -104,7 +106,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
                         'type'               => 'static',
                         'label'              => 'Status',
                         'input'              => 'select',
-                        'source'             => 'Magento_Rma_Model_Item_Attribute_Source_Status',
+                        'source'             => '\Magento\Rma\Model\Item\Attribute\Source\Status',
                         'visible'            => false,
                         'sort_order'         => 60,
                         'position'           => 60,
@@ -134,7 +136,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 90,
                         'position'           => 90,
-                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => '\Magento\Eav\Model\Entity\Attribute\Source\Table',
                         'system'             => false,
                         'option'             => array('values' => array('Exchange', 'Refund', 'Store Credit')),
                         'validate_rules'     => 'a:0:{}',
@@ -145,7 +147,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 100,
                         'position'           => 100,
-                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => '\Magento\Eav\Model\Entity\Attribute\Source\Table',
                         'system'             => false,
                         'option'             => array('values' => array('Unopened', 'Opened', 'Damaged')),
                         'validate_rules'     => 'a:0:{}',
@@ -156,7 +158,7 @@ class Magento_Rma_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setu
                         'input'              => 'select',
                         'sort_order'         => 110,
                         'position'           => 110,
-                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => '\Magento\Eav\Model\Entity\Attribute\Source\Table',
                         'system'             => false,
                         'option'             => array('values' => array('Wrong Color', 'Wrong Size', 'Out of Service')),
                         'validate_rules'     => 'a:0:{}',

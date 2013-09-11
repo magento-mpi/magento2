@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_Catalog_Block_Product_View_Abstract
+namespace Magento\GiftCard\Block\Catalog\Product\View\Type;
+
+class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
 {
     public function getAmountSettingsJson($product)
     {
@@ -52,7 +54,7 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
     {
         $result = array();
         foreach ($product->getGiftcardAmounts() as $amount) {
-            $result[] = Mage::app()->getStore()->roundPrice($amount['website_value']);
+            $result[] = \Mage::app()->getStore()->roundPrice($amount['website_value']);
         }
         sort($result);
         return $result;
@@ -60,13 +62,13 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
 
     public function getCurrentCurrency()
     {
-        return Mage::app()->getStore()->getCurrentCurrencyCode();
+        return \Mage::app()->getStore()->getCurrentCurrencyCode();
     }
 
     public function isMessageAvailable($product)
     {
         if ($product->getUseConfigAllowMessage()) {
-            return Mage::getStoreConfigFlag(Magento_GiftCard_Model_Giftcard::XML_PATH_ALLOW_MESSAGE);
+            return \Mage::getStoreConfigFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE);
         } else {
             return (int) $product->getAllowMessage();
         }
@@ -82,8 +84,8 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
 
     public function getCustomerName()
     {
-        $firstName = (string)Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getFirstname();
-        $lastName  = (string)Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getLastname();
+        $firstName = (string)\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getFirstname();
+        $lastName  = (string)\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getLastname();
 
         if ($firstName && $lastName) {
             return $firstName . ' ' . $lastName;
@@ -94,12 +96,12 @@ class Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Magento_
 
     public function getCustomerEmail()
     {
-        return (string) Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getEmail();
+        return (string) \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getEmail();
     }
 
     public function getMessageMaxLength()
     {
-        return (int) Mage::getStoreConfig(Magento_GiftCard_Model_Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
+        return (int) \Mage::getStoreConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
     }
 
     /**

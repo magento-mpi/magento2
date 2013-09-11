@@ -7,30 +7,32 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Helper_Context implements \Magento\ObjectManager\ContextInterface
+namespace Magento\Core\Helper;
+
+class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
     /**
-     * @var Magento_Core_Model_ModuleManager
+     * @var \Magento\Core\Model\ModuleManager
      */
     protected $_moduleManager;
 
     /**
-     * @param Magento_Core_Model_Translate $translator
-     * @param Magento_Core_Model_ModuleManager $moduleManager
+     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Core\Model\ModuleManager $moduleManager
      */
-    public function __construct(Magento_Core_Model_Translate $translator, Magento_Core_Model_ModuleManager $moduleManager)
+    public function __construct(\Magento\Core\Model\Translate $translator, \Magento\Core\Model\ModuleManager $moduleManager)
     {
         $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
     }
 
     /**
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function getTranslator()
     {
@@ -38,7 +40,7 @@ class Magento_Core_Helper_Context implements \Magento\ObjectManager\ContextInter
     }
 
     /**
-     * @return Magento_Core_Model_ModuleManager
+     * @return \Magento\Core\Model\ModuleManager
      */
     public function getModuleManager()
     {

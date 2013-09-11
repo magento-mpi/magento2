@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Tax_Model_Config_Price_Include extends Magento_Core_Model_Config_Value
+namespace Magento\Tax\Model\Config\Price;
+
+class Include extends \Magento\Core\Model\Config\Value
 {
     public function afterSave()
     {
         parent::afterSave();
-        Mage::app()->cleanCache('checkout_quote');
+        \Mage::app()->cleanCache('checkout_quote');
     }
 }

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Logging_Model_Processor
+namespace Magento\Logging\Model;
+
+class Processor
 {
     /**
      * Logging events config
@@ -26,14 +28,14 @@ class Magento_Logging_Model_Processor
     /**
      * Instance of controller handler
      *
-     * @var Magento_Logging_Model_Handler_Controllers
+     * @var \Magento\Logging\Model\Handler\Controllers
      */
     protected $_controllerActionsHandler;
 
     /**
      * Instance of model controller
      *
-     * @var Magento_Logging_Model_Handler_Models
+     * @var \Magento\Logging\Model\Handler\Models
      */
     protected $_modelsHandler;
 
@@ -91,9 +93,9 @@ class Magento_Logging_Model_Processor
      */
     public function __construct()
     {
-        $this->_config = Mage::getSingleton('Magento_Logging_Model_Config');
-        $this->_modelsHandler = Mage::getModel('Magento_Logging_Model_Handler_Models');
-        $this->_controllerActionsHandler = Mage::getModel('Magento_Logging_Model_Handler_Controllers');
+        $this->_config = \Mage::getSingleton('Magento\Logging\Model\Config');
+        $this->_modelsHandler = \Mage::getModel('\Magento\Logging\Model\Handler\Models');
+        $this->_controllerActionsHandler = \Mage::getModel('\Magento\Logging\Model\Handler\Controllers');
     }
 
     /**
@@ -125,13 +127,13 @@ class Magento_Logging_Model_Processor
          * like customer balance, when customer balance ajax tab loaded after
          * customer page.
          */
-        $doNotLog = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getSkipLoggingAction();
+        $doNotLog = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getSkipLoggingAction();
         if ($doNotLog) {
             if (is_array($doNotLog)) {
                 $key = array_search($fullActionName, $doNotLog);
                 if ($key !== false) {
                     unset($doNotLog[$key]);
-                    Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setSkipLoggingAction($doNotLog);
+                    \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setSkipLoggingAction($doNotLog);
                     $this->_skipNextAction = true;
                     return;
                 }
@@ -140,14 +142,14 @@ class Magento_Logging_Model_Processor
 
         if (isset($this->_eventConfig->skip_on_back)) {
             $addValue = array_keys($this->_eventConfig->skip_on_back->asArray());
-            $sessionValue = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getSkipLoggingAction();
+            $sessionValue = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getSkipLoggingAction();
             if (!is_array($sessionValue) && $sessionValue) {
                 $sessionValue = explode(',', $sessionValue);
             } elseif (!$sessionValue) {
                 $sessionValue = array();
             }
             $merge = array_merge($addValue, $sessionValue);
-            Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setSkipLoggingAction($merge);
+            \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setSkipLoggingAction($merge);
         }
     }
 
@@ -255,15 +257,15 @@ class Magento_Logging_Model_Processor
         }
         $username = null;
         $userId   = null;
-        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
-            $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
-            $username = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getUsername();
+        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->isLoggedIn()) {
+            $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
+            $username = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getUsername();
         }
-        $errors = Mage::getModel('Magento_Adminhtml_Model_Session')->getMessages()->getErrors();
-        /** @var Magento_Logging_Model_Event $loggingEvent */
-        $loggingEvent = Mage::getModel('Magento_Logging_Model_Event')->setData(array(
-            'ip'            => Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(),
-            'x_forwarded_ip'=> Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
+        $errors = \Mage::getModel('\Magento\Adminhtml\Model\Session')->getMessages()->getErrors();
+        /** @var \Magento\Logging\Model\Event $loggingEvent */
+        $loggingEvent = \Mage::getModel('\Magento\Logging\Model\Event')->setData(array(
+            'ip'            => \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(),
+            'x_forwarded_ip'=> \Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR'),
             'user'          => $username,
             'user_id'       => $userId,
             'is_success'    => empty($errors),
@@ -318,8 +320,8 @@ class Magento_Logging_Model_Processor
                     }
                 }
             }
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
         }
     }
 
@@ -355,7 +357,7 @@ class Magento_Logging_Model_Processor
      * @example
      * Array
      *     (
-     *          [Magento_Sales_Model_Order] => Array
+     *          [\Magento\Sales\Model\Order] => Array
      *             (
      *                 [68] => Array
      *                     (
@@ -414,18 +416,18 @@ class Magento_Logging_Model_Processor
         try {
             $classPath = explode('::', $srtCallback);
             if (count($classPath) == 2) {
-                $return['handler'] = Mage::getSingleton(str_replace('__', '/', $classPath[0]));
+                $return['handler'] = \Mage::getSingleton(str_replace('__', '/', $classPath[0]));
                 $return['callback'] = $classPath[1];
             } else {
                 $return['callback'] = $classPath[0];
             }
             if (!$return['handler'] || !$return['callback'] || !method_exists($return['handler'],
                 $return['callback'])) {
-                Mage::throwException("Unknown callback function: {$srtCallback}");
+                \Mage::throwException("Unknown callback function: {$srtCallback}");
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $return['handler'] = false;
-            Mage::logException($e);
+            \Mage::logException($e);
         }
 
         return $return;
@@ -434,8 +436,8 @@ class Magento_Logging_Model_Processor
     /**
      * Add new event changes
      *
-     * @param Magento_Logging_Model_Event_Changes $eventChange
-     * @return Magento_Logging_Model_Processor
+     * @param \Magento\Logging\Model\Event\Changes $eventChange
+     * @return \Magento\Logging\Model\Processor
      */
     public function addEventChanges($eventChange)
     {

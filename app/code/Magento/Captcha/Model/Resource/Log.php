@@ -15,7 +15,9 @@
  * @package     Magento_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Captcha\Model\Resource;
+
+class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Type Remote Address
@@ -40,7 +42,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
      * Save or Update count Attempts
      *
      * @param string|null $login
-     * @return Magento_Captcha_Model_Resource_Log
+     * @return \Magento\Captcha\Model\Resource\Log
      */
     public function logAttempt($login)
     {
@@ -49,20 +51,20 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
                 $this->getMainTable(),
                 array(
                      'type' => self::TYPE_LOGIN, 'value' => $login, 'count' => 1,
-                     'updated_at' => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()
+                     'updated_at' => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate()
                 ),
-                array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
+                array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
         }
-        $ip = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
+        $ip = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
         if ($ip != null) {
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
                 array(
                      'type' => self::TYPE_REMOTE_ADDRESS, 'value' => $ip, 'count' => 1,
-                     'updated_at' => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()
+                     'updated_at' => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate()
                 ),
-                array('count' => new Zend_Db_Expr('count+1'), 'updated_at')
+                array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
         }
         return $this;
@@ -72,7 +74,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
      * Delete User attempts by login
      *
      * @param string $login
-     * @return Magento_Captcha_Model_Resource_Log
+     * @return \Magento\Captcha\Model\Resource\Log
      */
     public function deleteUserAttempts($login)
     {
@@ -82,7 +84,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
                 array('type = ?' => self::TYPE_LOGIN, 'value = ?' => $login)
             );
         }
-        $ip = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
+        $ip = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
         if ($ip != null) {
             $this->_getWriteAdapter()->delete(
                 $this->getMainTable(), array('type = ?' => self::TYPE_REMOTE_ADDRESS, 'value = ?' => $ip)
@@ -99,7 +101,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
      */
     public function countAttemptsByRemoteAddress()
     {
-        $ip = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
+        $ip = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
         if (!$ip) {
             return 0;
         }
@@ -135,7 +137,7 @@ class Magento_Captcha_Model_Resource_Log extends Magento_Core_Model_Resource_Db_
     {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('updated_at < ?' => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate(null, time() - 60*30))
+            array('updated_at < ?' => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate(null, time() - 60*30))
         );
     }
 }

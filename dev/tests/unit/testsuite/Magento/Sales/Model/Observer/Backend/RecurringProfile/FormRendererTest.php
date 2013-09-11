@@ -9,7 +9,7 @@
 class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer
+     * @var \Magento\Sales\Model\Observer\Backend\RecurringProfile\FormRenderer
      */
     protected $_model;
 
@@ -26,10 +26,10 @@ class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest ext
     public function setUp()
     {
         $this->_blockFactoryMock = $this->getMock(
-            'Magento_Core_Model_BlockFactory', array('createBlock'), array(), '', false
+            '\Magento\Core\Model\BlockFactory', array('createBlock'), array(), '', false
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
-        $this->_model = new Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer(
+        $this->_model = new \Magento\Sales\Model\Observer\Backend\RecurringProfile\FormRenderer(
             $this->_blockFactoryMock
         );
     }
@@ -37,14 +37,14 @@ class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest ext
     public function testRender()
     {
         $blockMock = $this->getMock(
-            'Magento_Core_Block', array(
+            '\Magento\Core\Block', array(
                 'setNameInLayout', 'setParentElement', 'setProductEntity', 'toHtml', 'addFieldMap',
                 'addFieldDependence', 'addConfigOptions'
             )
         );
         $map = array(
-            array('Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form', array(), $blockMock),
-            array('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), $blockMock)
+            array('Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form', array(), $blockMock),
+            array('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), $blockMock)
 
         );
         $event = $this->getMock(
@@ -53,7 +53,7 @@ class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRendererTest ext
         $this->_observerMock->expects($this->any())->method('getEvent')->will($this->returnValue($event));
         $profileElement = $this->getMock('Magento\Data\Form\Element\AbstractElement', array(), array(), '', false);
         $event->expects($this->once())->method('getProductElement')->will($this->returnValue($profileElement));
-        $product = $this->getMock('Magento_Catalog_Model_Product', array(), array(), '', false);
+        $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $event->expects($this->once())->method('getProduct')->will($this->returnValue($product));
         $this->_blockFactoryMock->expects($this->any())->method('createBlock')->will($this->returnValueMap($map));
         $blockMock->expects($this->any())->method('setNameInLayout');

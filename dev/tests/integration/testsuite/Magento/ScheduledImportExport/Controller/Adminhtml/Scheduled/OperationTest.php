@@ -89,8 +89,8 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
      */
     public function testEditAction($expectedContains)
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection */
-        $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection */
+        $collection = Mage::getModel('\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
         $this->assertCount(1, $collection->getItems());
         $operation = $collection->getFirstItem();
 
@@ -109,8 +109,8 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
      */
     public function testCronAction()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection */
-        $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection */
+        $collection = Mage::getModel('\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection');
         $this->assertCount(1, $collection->getItems());
         $operation = $collection->getFirstItem();
 
@@ -130,8 +130,8 @@ class Magento_ScheduledImportExport_Controller_Adminhtml_Scheduled_OperationTest
         // Restore current working directory
         chdir($cwd);
 
-        $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::ERROR);
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), Magento_Core_Model_Message::SUCCESS);
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Core\Model\Message::ERROR);
+        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), \Magento\Core\Model\Message::SUCCESS);
     }
 
     /**

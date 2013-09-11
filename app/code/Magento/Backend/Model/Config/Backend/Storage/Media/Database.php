@@ -9,16 +9,18 @@
  */
 
 
-class Magento_Backend_Model_Config_Backend_Storage_Media_Database extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Storage\Media;
+
+class Database extends \Magento\Core\Model\Config\Value
 {
     /**
      * Create db structure
      *
-     * @return Magento_Backend_Model_Config_Backend_Storage_Media_Database
+     * @return \Magento\Backend\Model\Config\Backend\Storage\Media\Database
      */
     protected function _afterSave()
     {
-        $helper = Mage::helper('Magento_Core_Helper_File_Storage');
+        $helper = \Mage::helper('Magento\Core\Helper\File\Storage');
         $helper->getStorageModel(null, array('init' => true));
 
         return $this;

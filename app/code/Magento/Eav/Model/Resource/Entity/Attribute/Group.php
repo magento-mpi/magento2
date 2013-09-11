@@ -15,7 +15,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Attribute_Group extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Eav\Model\Resource\Entity\Attribute;
+
+class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Constants for attribute group codes
@@ -34,7 +36,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Group extends Magento_Core_Mod
     /**
      * Checks if attribute group exists
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Group $object
+     * @param \Magento\Eav\Model\Entity\Attribute\Group $object
      * @return boolean
      */
     public function itemExists($object)
@@ -55,10 +57,10 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Group extends Magento_Core_Mod
     /**
      * Perform actions before object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getSortOrder()) {
             $object->setSortOrder($this->_getMaxSortOrder($object) + 1);
@@ -69,10 +71,10 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Group extends Magento_Core_Mod
     /**
      * Perform actions after object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->getAttributes()) {
             foreach ($object->getAttributes() as $attribute) {
@@ -87,7 +89,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Group extends Magento_Core_Mod
     /**
      * Retreive max sort order
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return int
      */
     protected function _getMaxSortOrder($object)
@@ -95,7 +97,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Group extends Magento_Core_Mod
         $adapter = $this->_getReadAdapter();
         $bind    = array(':attribute_set_id' => $object->getAttributeSetId());
         $select  = $adapter->select()
-            ->from($this->getMainTable(), new Zend_Db_Expr("MAX(sort_order)"))
+            ->from($this->getMainTable(), new \Zend_Db_Expr("MAX(sort_order)"))
             ->where('attribute_set_id = :attribute_set_id');
 
         return $adapter->fetchOne($select, $bind);
@@ -105,7 +107,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Group extends Magento_Core_Mod
      * Set any group default if old one was removed
      *
      * @param integer $attributeSetId
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Group
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Group
      */
     public function updateDefaultGroup($attributeSetId)
     {

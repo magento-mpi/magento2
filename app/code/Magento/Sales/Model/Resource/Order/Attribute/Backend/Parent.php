@@ -16,13 +16,15 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Attribute_Backend_Parent extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Sales\Model\Resource\Order\Attribute\Backend;
+
+class Parent extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Perform operation after save
      *
      * @param \Magento\Object $object
-     * @return Magento_Sales_Model_Resource_Order_Attribute_Backend_Parent
+     * @return \Magento\Sales\Model\Resource\Order\Attribute\Backend\Parent
      */
     public function afterSave($object)
     {

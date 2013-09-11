@@ -16,14 +16,16 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
-    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
+
+class Urlkey
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Before save
      *
      * @param \Magento\Object $object
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Urlkey
      */
     public function beforeSave($object)
     {
@@ -43,12 +45,12 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
      * Refresh product rewrites
      *
      * @param \Magento\Object $object
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Urlkey
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Urlkey
      */
     public function afterSave($object)
     {
         if ($object->dataHasChangedFor($this->getAttribute()->getName())) {
-            Mage::getSingleton('Magento_Catalog_Model_Url')->refreshProductRewrites(null, $object, true);
+            \Mage::getSingleton('Magento\Catalog\Model\Url')->refreshProductRewrites(null, $object, true);
         }
         return $this;
     }

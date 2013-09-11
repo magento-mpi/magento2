@@ -9,34 +9,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Subscription_Config
+namespace Magento\Webhook\Model\Subscription;
+
+class Config
 {
     /** Webhook subscription configuration path */
     const XML_PATH_SUBSCRIPTIONS = 'global/webhook/subscriptions';
 
-    /** @var Magento_Webhook_Model_Resource_Subscription_Collection  */
+    /** @var \Magento\Webhook\Model\Resource\Subscription\Collection  */
     protected $_subscriptionSet;
 
-    /** @var  Magento_Core_Model_Config */
+    /** @var  \Magento\Core\Model\Config */
     protected $_mageConfig;
 
-    /** @var  Magento_Webhook_Model_Subscription_Factory */
+    /** @var  \Magento\Webhook\Model\Subscription\Factory */
     protected $_subscriptionFactory;
 
-    /** @var Magento_Core_Model_Logger */
+    /** @var \Magento\Core\Model\Logger */
     private $_logger;
 
     /**
-     * @param Magento_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
-     * @param Magento_Core_Model_Config $mageConfig
-     * @param Magento_Webhook_Model_Subscription_Factory $subscriptionFactory
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Webhook\Model\Resource\Subscription\Collection $subscriptionSet
+     * @param \Magento\Core\Model\Config $mageConfig
+     * @param \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Webhook_Model_Resource_Subscription_Collection $subscriptionSet,
-        Magento_Core_Model_Config $mageConfig,
-        Magento_Webhook_Model_Subscription_Factory $subscriptionFactory,
-        Magento_Core_Model_Logger $logger
+        \Magento\Webhook\Model\Resource\Subscription\Collection $subscriptionSet,
+        \Magento\Core\Model\Config $mageConfig,
+        \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_subscriptionSet = $subscriptionSet;
         $this->_mageConfig = $mageConfig;
@@ -47,7 +49,7 @@ class Magento_Webhook_Model_Subscription_Config
     /**
      * Checks if new subscriptions need to be generated from config files
      *
-     * @return Magento_Webhook_Model_Subscription_Config
+     * @return \Magento\Webhook\Model\Subscription\Config
      */
     public function updateSubscriptionCollection()
     {
@@ -69,7 +71,7 @@ class Magento_Webhook_Model_Subscription_Config
                     // add new subscription
                     $subscription = $this->_subscriptionFactory->create()
                         ->setAlias($alias)
-                        ->setStatus(Magento_Webhook_Model_Subscription::STATUS_INACTIVE);
+                        ->setStatus(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE);
                 } else {
                     // get first subscription from array
                     $subscription = current($subscriptions);
@@ -77,8 +79,8 @@ class Magento_Webhook_Model_Subscription_Config
 
                 // update subscription from config
                 $this->_updateSubscriptionFromConfigData($subscription, $subscriptionData);
-            } catch (LogicException $e){
-                $this->_logger->logException(new Magento_Webhook_Exception($e->getMessage()));
+            } catch (\LogicException $e){
+                $this->_logger->logException(new \Magento\Webhook\Exception($e->getMessage()));
             }
         }
         return $this;
@@ -89,14 +91,14 @@ class Magento_Webhook_Model_Subscription_Config
      *
      * @param mixed $data
      * @param string $alias
-     * @throws LogicException
+     * @throws \LogicException
      */
     protected function _validateConfigData($data, $alias)
     {
         //  We can't demand that every possible value be supplied as some of these can be supplied
         //  at a later point in time using the web API
         if (!( is_array($data) && isset($data['name']))) {
-            throw new LogicException(__(
+            throw new \LogicException(__(
                 "Invalid config data for subscription '%1'.", $alias
             ));
         }
@@ -105,12 +107,12 @@ class Magento_Webhook_Model_Subscription_Config
     /**
      * Configures a subscription
      *
-     * @param Magento_Webhook_Model_Subscription $subscription
+     * @param \Magento\Webhook\Model\Subscription $subscription
      * @param array $rawConfigData
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _updateSubscriptionFromConfigData(
-        Magento_Webhook_Model_Subscription $subscription,
+        \Magento\Webhook\Model\Subscription $subscription,
         array $rawConfigData
     ) {
         // Set defaults for unset values
@@ -140,7 +142,7 @@ class Magento_Webhook_Model_Subscription_Config
             'endpoint_url' => null,
             'topics' => array(),
             'authentication_type' => \Magento\Outbound\EndpointInterface::AUTH_TYPE_NONE,
-            'registration_mechanism' => Magento_Webhook_Model_Subscription::REGISTRATION_MECHANISM_MANUAL,
+            'registration_mechanism' => \Magento\Webhook\Model\Subscription::REGISTRATION_MECHANISM_MANUAL,
         );
 
         if (isset($configData['topics'])) {

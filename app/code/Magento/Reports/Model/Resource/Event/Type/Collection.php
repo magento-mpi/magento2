@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Event_Type_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Reports\Model\Resource\Event\Type;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
@@ -24,7 +26,7 @@ class Magento_Reports_Model_Resource_Event_Type_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reports_Model_Event_Type', 'Magento_Reports_Model_Resource_Event_Type');
+        $this->_init('\Magento\Reports\Model\Event\Type', '\Magento\Reports\Model\Resource\Event\Type');
     }
 
     /**

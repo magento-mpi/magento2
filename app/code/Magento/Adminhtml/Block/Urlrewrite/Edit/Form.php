@@ -11,14 +11,16 @@
 /**
  * URL rewrites edit form
  *
- * @method Magento_Core_Model_Url_Rewrite getUrlRewrite()
- * @method Magento_Adminhtml_Block_Urlrewrite_Edit_Form setUrlRewrite(Magento_Core_Model_Url_Rewrite $model)
+ * @method \Magento\Core\Model\Url\Rewrite getUrlRewrite()
+ * @method \Magento\Adminhtml\Block\Urlrewrite\Edit\Form setUrlRewrite(\Magento\Core\Model\Url\Rewrite $model)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Urlrewrite\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * @var array
@@ -55,7 +57,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
      * Initialize form values
      * Set form data either from model values or from session
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Edit_Form
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
      */
     protected function _initFormValues()
     {
@@ -84,7 +86,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     /**
      * Prepare the form layout
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Edit_Form
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
      */
     protected function _prepareForm()
     {
@@ -101,8 +103,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
             'legend' => __('URL Rewrite Information')
         ));
 
-        /** @var $typesModel Magento_Core_Model_Source_Urlrewrite_Types */
-        $typesModel = Mage::getModel('Magento_Core_Model_Source_Urlrewrite_Types');
+        /** @var $typesModel \Magento\Core\Model\Source\Urlrewrite\Types */
+        $typesModel = \Mage::getModel('\Magento\Core\Model\Source\Urlrewrite\Types');
         $fieldset->addField('is_system', 'select', array(
             'label'    => __('Type'),
             'title'    => __('Type'),
@@ -139,8 +141,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
             'value'    => $this->_formValues['target_path'],
         ));
 
-        /** @var $optionsModel Magento_Core_Model_Source_Urlrewrite_Options */
-        $optionsModel = Mage::getModel('Magento_Core_Model_Source_Urlrewrite_Options');
+        /** @var $optionsModel \Magento\Core\Model\Source\Urlrewrite\Options */
+        $optionsModel = \Mage::getModel('\Magento\Core\Model\Source\Urlrewrite\Options');
         $fieldset->addField('options', 'select', array(
             'label'   => __('Redirect'),
             'title'   => __('Redirect'),
@@ -175,15 +177,15 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     protected function _prepareStoreElement($fieldset)
     {
         // get store switcher or a hidden field with it's id
-        if (Mage::app()->isSingleStoreMode()) {
+        if (\Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'  => 'store_id',
-                'value' => Mage::app()->getStore(true)->getId()
+                'value' => \Mage::app()->getStore(true)->getId()
             ), 'id_path');
         } else {
-            /** @var $renderer Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element */
+            /** @var $renderer \Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element */
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
 
             $storeElement = $fieldset->addField('store_id', 'select', array(
                 'label'    => __('Store'),
@@ -202,12 +204,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
      * Form post init
      *
      * @param \Magento\Data\Form $form
-     * @return Magento_Adminhtml_Block_Urlrewrite_Edit_Form
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
      */
     protected function _formPostInit($form)
     {
         $form->setAction(
-            Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('*/*/save', array(
+            \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('*/*/save', array(
                 'id' => $this->_getModel()->getId()
             ))
         );
@@ -223,7 +225,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     protected function _getSessionData()
     {
         if (is_null($this->_sessionData)) {
-            $this->_sessionData = Mage::getModel('Magento_Adminhtml_Model_Session')->getData('urlrewrite_data', true);
+            $this->_sessionData = \Mage::getModel('\Magento\Adminhtml\Model\Session')->getData('urlrewrite_data', true);
         }
         return $this->_sessionData;
     }
@@ -231,12 +233,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     /**
      * Get URL rewrite model instance
      *
-     * @return Magento_Core_Model_Url_Rewrite
+     * @return \Magento\Core\Model\Url\Rewrite
      */
     protected function _getModel()
     {
         if (!$this->hasData('url_rewrite')) {
-            $this->setUrlRewrite(Mage::getModel('Magento_Core_Model_Url_Rewrite'));
+            $this->setUrlRewrite(\Mage::getModel('\Magento\Core\Model\Url\Rewrite'));
         }
         return $this->getUrlRewrite();
     }
@@ -249,7 +251,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_Form extends Magento_Adminhtml_Blo
     protected function _getAllStores()
     {
         if (is_null($this->_allStores)) {
-            $this->_allStores = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm();
+            $this->_allStores = \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm();
         }
 
         return $this->_allStores;

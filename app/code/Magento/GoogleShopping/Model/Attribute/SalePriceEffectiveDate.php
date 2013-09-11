@@ -15,12 +15,14 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Attribute_SalePriceEffectiveDate extends Magento_GoogleShopping_Model_Attribute_Default
+namespace Magento\GoogleShopping\Model\Attribute;
+
+class SalePriceEffectiveDate extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Gdata\Gshopping\Entry $entry
      * @return \Magento\Gdata\Gshopping\Entry
      */
@@ -33,17 +35,17 @@ class Magento_GoogleShopping_Model_Attribute_SalePriceEffectiveDate extends Mage
         $toValue = $effectiveDateTo->getProductAttributeValue($product);
 
         $from = $to = null;
-        if (!empty($fromValue) && Zend_Date::isDate($fromValue, Zend_Date::ATOM)) {
-            $from = new Zend_Date($fromValue, Zend_Date::ATOM);
+        if (!empty($fromValue) && \Zend_Date::isDate($fromValue, \Zend_Date::ATOM)) {
+            $from = new \Zend_Date($fromValue, \Zend_Date::ATOM);
         }
-        if (!empty($toValue) && Zend_Date::isDate($toValue, Zend_Date::ATOM)) {
-            $to = new Zend_Date($toValue, Zend_Date::ATOM);
+        if (!empty($toValue) && \Zend_Date::isDate($toValue, \Zend_Date::ATOM)) {
+            $to = new \Zend_Date($toValue, \Zend_Date::ATOM);
         }
 
         $dateString = null;
         // if we have from an to dates, and if these dates are correct
         if (!is_null($from) && !is_null($to) && $from->isEarlier($to)) {
-            $dateString = $from->toString(Zend_Date::ATOM) . '/' . $to->toString(Zend_Date::ATOM);
+            $dateString = $from->toString(\Zend_Date::ATOM) . '/' . $to->toString(\Zend_Date::ATOM);
         }
 
         // if we have only "from" date, send "from" day
@@ -53,10 +55,10 @@ class Magento_GoogleShopping_Model_Attribute_SalePriceEffectiveDate extends Mage
 
         // if we have only "to" date, use "now" date for "from"
         if (is_null($from) && !is_null($to)) {
-            $from = new Zend_Date();
+            $from = new \Zend_Date();
             // if "now" date is earlier than "to" date
             if ($from->isEarlier($to)) {
-                $dateString = $from->toString(Zend_Date::ATOM) . '/' . $to->toString(Zend_Date::ATOM);
+                $dateString = $from->toString(\Zend_Date::ATOM) . '/' . $to->toString(\Zend_Date::ATOM);
             }
         }
 

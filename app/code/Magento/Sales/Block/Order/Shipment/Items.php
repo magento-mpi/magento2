@@ -15,30 +15,32 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Shipment_Items extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Sales\Block\Order\Shipment;
+
+class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     public function getPrintShipmentUrl($shipment){
-        return Mage::getUrl('*/*/printShipment', array('shipment_id' => $shipment->getId()));
+        return \Mage::getUrl('*/*/printShipment', array('shipment_id' => $shipment->getId()));
     }
 
     public function getPrintAllShipmentsUrl($order){
-        return Mage::getUrl('*/*/printShipment', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/printShipment', array('order_id' => $order->getId()));
     }
 
     /**
      * Get html of shipment comments block
      *
-     * @param   Magento_Sales_Model_Order_Shipment $shipment
+     * @param   \Magento\Sales\Model\Order\Shipment $shipment
      * @return  string
      */
     public function getCommentsHtml($shipment)

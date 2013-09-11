@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Directory_Model_Config_Source_Allregion implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Directory\Model\Config\Source;
+
+class Allregion implements \Magento\Core\Model\Option\ArrayInterface
 {
     protected $_countries;
     protected $_options;
@@ -17,7 +19,7 @@ class Magento_Directory_Model_Config_Source_Allregion implements Magento_Core_Mo
     public function toOptionArray($isMultiselect=false)
     {
         if (!$this->_options) {
-            $countriesArray = Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection')->load()
+            $countriesArray = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country\Collection')->load()
                 ->toOptionArray(false);
             $this->_countries = array();
             foreach ($countriesArray as $a) {
@@ -25,7 +27,7 @@ class Magento_Directory_Model_Config_Source_Allregion implements Magento_Core_Mo
             }
 
             $countryRegions = array();
-            $regionsCollection = Mage::getResourceModel('Magento_Directory_Model_Resource_Region_Collection')->load();
+            $regionsCollection = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Region\Collection')->load();
             foreach ($regionsCollection as $region) {
                 $countryRegions[$region->getCountryId()][$region->getId()] = $region->getDefaultName();
             }

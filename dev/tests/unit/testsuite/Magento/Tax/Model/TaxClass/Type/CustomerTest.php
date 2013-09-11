@@ -13,7 +13,7 @@ class Magento_Tax_Model_TaxClass_Type_CustomerTest extends PHPUnit_Framework_Tes
 {
     public function testGetAssignedObjects()
     {
-        $collectionMock = $this->getMockBuilder('Magento_Core_Model_Resource_Db_Collection_Abstract')
+        $collectionMock = $this->getMockBuilder('Magento\Core\Model\Resource\Db\Collection\AbstractCollection')
             ->setMethods(array(
                 'addFieldToFilter'
             ))
@@ -24,7 +24,7 @@ class Magento_Tax_Model_TaxClass_Type_CustomerTest extends PHPUnit_Framework_Tes
             ->with($this->equalTo('tax_class_id'), $this->equalTo(5))
             ->will($this->returnSelf());
 
-        $customerGroupMock = $this->getMockBuilder('Magento_Customer_Model_Group')
+        $customerGroupMock = $this->getMockBuilder('Magento\Customer\Model\Group')
             ->setMethods(array('getCollection'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -33,9 +33,9 @@ class Magento_Tax_Model_TaxClass_Type_CustomerTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($collectionMock));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Tax_Model_TaxClass_Type_Customer */
+        /** @var $model \Magento\Tax\Model\TaxClass\Type\Customer */
         $model = $objectManagerHelper->getObject(
-            'Magento_Tax_Model_TaxClass_Type_Customer',
+            '\Magento\Tax\Model\TaxClass\Type\Customer',
             array(
                 'modelCustomerGroup' => $customerGroupMock,
                 'data' => array('id' => 5)

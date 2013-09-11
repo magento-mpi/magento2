@@ -15,9 +15,11 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tabs extends Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs
 {
-    protected $_attributeTabBlock = 'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes';
+    protected $_attributeTabBlock = '\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes';
 
     protected function _prepareLayout()
     {

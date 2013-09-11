@@ -14,7 +14,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Block_Text_TextList_Link extends Magento_Core_Block_Text
+namespace Magento\Core\Block\Text\TextList;
+
+class Link extends \Magento\Core\Block\Text
 {
     function setLink($liParams, $aParams, $innerText, $afterText='')
     {

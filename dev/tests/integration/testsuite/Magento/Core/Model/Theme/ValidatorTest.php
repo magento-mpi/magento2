@@ -19,8 +19,8 @@ class Magento_Core_Model_Theme_ValidatorTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateWithValidData()
     {
-        /** @var $validator Magento_Core_Model_Theme_Validator */
-        $validator = Mage::getModel('Magento_Core_Model_Theme_Validator');
+        /** @var $validator \Magento\Core\Model\Theme\Validator */
+        $validator = Mage::getModel('\Magento\Core\Model\Theme\Validator');
 
         $themeModel = $this->_getThemeModel();
         $themeModel->setData($this->_getThemeValidData());
@@ -33,8 +33,8 @@ class Magento_Core_Model_Theme_ValidatorTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateWithInvalidData()
     {
-        /** @var $validator Magento_Core_Model_Theme_Validator */
-        $validator = Mage::getModel('Magento_Core_Model_Theme_Validator');
+        /** @var $validator \Magento\Core\Model\Theme\Validator */
+        $validator = Mage::getModel('\Magento\Core\Model\Theme\Validator');
 
         $themeModel = $this->_getThemeModel();
         $themeModel->setData($this->_getThemeInvalidData());
@@ -45,11 +45,11 @@ class Magento_Core_Model_Theme_ValidatorTest extends PHPUnit_Framework_TestCase
     /**
      * Get theme model
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _getThemeModel()
     {
-        return Mage::getModel('Magento_Core_Model_Theme');
+        return Mage::getModel('\Magento\Core\Model\Theme');
     }
 
     /**

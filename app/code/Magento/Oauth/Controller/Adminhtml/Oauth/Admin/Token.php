@@ -17,12 +17,14 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Adminhtml_Controller_Action
+namespace Magento\Oauth\Controller\Adminhtml\Oauth\Admin;
+
+class Token extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Perform layout initialization actions
      *
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Consumer
      */
     protected function  _initAction()
     {
@@ -34,7 +36,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Admin
     /**
      * Init titles
      *
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Admin\Token
      */
     public function preDispatch()
     {
@@ -84,18 +86,18 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Admin
         }
 
         try {
-            /** @var $user Magento_User_Model_User */
-            $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getData('user');
+            /** @var $user \Magento\User\Model\User */
+            $user = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getData('user');
 
-            /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+            /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
+            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByAdminId($user->getId())
-                    ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
+                    ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                     ->addFilterById($ids)
                     ->addFilterByRevoked(!$status);
 
-            /** @var $item Magento_Oauth_Model_Token */
+            /** @var $item \Magento\Oauth\Model\Token */
             foreach ($collection as $item) {
                 $item->load($item->getId());
                 $item->setRevoked($status)->save();
@@ -106,11 +108,11 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Admin
                 $message = __('Selected entries enabled.');
             }
             $this->_getSession()->addSuccess($message);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('An error occurred on update revoke status.'));
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         $this->_redirect('*/*/index');
     }
@@ -130,26 +132,26 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Admin_Token extends Magento_Admin
         }
 
         try {
-            /** @var $user Magento_User_Model_User */
-            $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getData('user');
+            /** @var $user \Magento\User\Model\User */
+            $user = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getData('user');
 
-            /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+            /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
+            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByAdminId($user->getId())
-                    ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
+                    ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                     ->addFilterById($ids);
 
-            /** @var $item Magento_Oauth_Model_Token */
+            /** @var $item \Magento\Oauth\Model\Token */
             foreach ($collection as $item) {
                 $item->delete();
             }
             $this->_getSession()->addSuccess(__('Selected entries has been deleted.'));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('An error occurred on delete action.'));
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         $this->_redirect('*/*/index');
     }

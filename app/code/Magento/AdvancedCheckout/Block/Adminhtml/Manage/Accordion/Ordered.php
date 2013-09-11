@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Ordered
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
      * Collection field name for using in controls
@@ -56,13 +58,13 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
      */
     protected function _getPriceRenderer()
     {
-        return 'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Ordered_Price';
+        return '\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Ordered\Price';
     }
 
     /**
      * Prepare customer wishlist product collection
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
@@ -71,8 +73,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
             $storeIds = $this->_getStore()->getWebsite()->getStoreIds();
 
             // Load last order of a customer
-            /* @var $collection Magento_Core_Model_Resource_Db_Collection_Abstract */
-            $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+            /* @var $collection \Magento\Core\Model\Resource\Db\Collection\AbstractCollection */
+            $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
                 ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())
                 ->addAttributeToFilter('store_id', array('in' => $storeIds))
                 ->addAttributeToSort('created_at', 'desc')
@@ -95,20 +97,20 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Ordered
                 }
                 if ($productIds) {
                     // Load products collection
-                    $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-                    $products = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+                    $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+                    $products = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
                         ->setStore($this->_getStore())
                         ->addAttributeToSelect($attributes)
                         ->addAttributeToSelect('sku')
                         ->addAttributeToFilter('type_id',
                             array_keys(
-                                Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')
+                                \Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')
                                     ->asArray()
                             )
-                        )->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+                        )->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
                         ->addStoreFilter($this->_getStore())
                         ->addIdFilter($productIds);
-                    Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($products);
+                    \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')->addIsInStockFilterToCollection($products);
                     $products->addOptionsToResult();
 
                     // Set products to items

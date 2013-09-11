@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
-$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL)
+/** @var $product \Magento\Catalog\Model\Product */
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL)
     ->setId(21)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(1))
@@ -19,6 +19,6 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL)
     ->setSku('virtual-product')
     ->setPrice(10)
     ->setTaxClassId(0)
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->save();

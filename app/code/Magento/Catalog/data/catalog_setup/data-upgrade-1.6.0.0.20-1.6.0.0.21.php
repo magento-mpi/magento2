@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Catalog_Model_Resource_Setup */
+/** @var $this \Magento\Catalog\Model\Resource\Setup */
 
 $newGeneralTabName = 'Product Details';
 $newPriceTabName = 'Advanced Pricing';
@@ -47,7 +47,7 @@ $tabNames = array(
     )
 );
 
-$entityTypeId = $this->getEntityTypeId(Magento_Catalog_Model_Product::ENTITY);
+$entityTypeId = $this->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
 $attributeSetId = $this->getAttributeSetId($entityTypeId, 'Default');
 
 //Rename attribute tabs

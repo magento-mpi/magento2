@@ -15,7 +15,9 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Oauth\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**#@+
      * Endpoint types with appropriate routes
@@ -72,11 +74,11 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function _generateRandomString($length)
     {
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = Mage::helper('Magento_Core_Helper_Data');
+        /** @var $helper \Magento\Core\Helper\Data */
+        $helper = \Mage::helper('Magento\Core\Helper\Data');
 
         return $helper->getRandomString(
-            $length, Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS
+            $length, \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS
         );
     }
 
@@ -87,7 +89,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function generateToken()
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_TOKEN);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_TOKEN);
     }
 
     /**
@@ -97,7 +99,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function generateTokenSecret()
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_SECRET);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_SECRET);
     }
 
     /**
@@ -107,7 +109,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function generateVerifier()
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Token::LENGTH_VERIFIER);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Token::LENGTH_VERIFIER);
     }
 
     /**
@@ -117,7 +119,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function generateConsumerKey()
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Consumer::KEY_LENGTH);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Consumer::KEY_LENGTH);
     }
 
     /**
@@ -127,32 +129,32 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function generateConsumerSecret()
     {
-        return $this->_generateRandomString(Magento_Oauth_Model_Consumer::SECRET_LENGTH);
+        return $this->_generateRandomString(\Magento\Oauth\Model\Consumer::SECRET_LENGTH);
     }
 
     /**
      * Return complete callback URL or boolean FALSE if no callback provided
      *
-     * @param Magento_Oauth_Model_Token $token Token object
+     * @param \Magento\Oauth\Model\Token $token Token object
      * @param bool $rejected OPTIONAL Add user reject sign
      * @return bool|string
      */
-    public function getFullCallbackUrl(Magento_Oauth_Model_Token $token, $rejected = false)
+    public function getFullCallbackUrl(\Magento\Oauth\Model\Token $token, $rejected = false)
     {
         $callbackUrl = $token->getCallbackUrl();
 
-        if (Magento_Oauth_Model_Server::CALLBACK_ESTABLISHED == $callbackUrl) {
+        if (\Magento\Oauth\Model\Server::CALLBACK_ESTABLISHED == $callbackUrl) {
             return false;
         }
         if ($rejected) {
-            /** @var $consumer Magento_Oauth_Model_Consumer */
-            $consumer = Mage::getModel('Magento_Oauth_Model_Consumer')->load($token->getConsumerId());
+            /** @var $consumer \Magento\Oauth\Model\Consumer */
+            $consumer = \Mage::getModel('\Magento\Oauth\Model\Consumer')->load($token->getConsumerId());
 
             if ($consumer->getId() && $consumer->getRejectedCallbackUrl()) {
                 $callbackUrl = $consumer->getRejectedCallbackUrl();
             }
         } elseif (!$token->getAuthorized()) {
-            Mage::throwException('Token is not authorized');
+            \Mage::throwException('Token is not authorized');
         }
         $callbackUrl .= (false === strpos($callbackUrl, '?') ? '?' : '&');
         $callbackUrl .= 'oauth_token=' . $token->getToken() . '&';
@@ -166,14 +168,14 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param string $type Endpoint type (one of ENDPOINT_ constants)
      * @return string
-     * @throws Exception    Exception when endpoint not found
+     * @throws \Exception    \Exception when endpoint not found
      */
     public function getProtocolEndpointUrl($type)
     {
         if (!in_array($type, $this->_endpoints)) {
-            throw new Exception('Invalid endpoint type passed.');
+            throw new \Exception('Invalid endpoint type passed.');
         }
-        return rtrim(Mage::getUrl($type), '/');
+        return rtrim(\Mage::getUrl($type), '/');
     }
 
     /**
@@ -184,7 +186,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     public function isCleanupProbability()
     {
         // Safe get cleanup probability value from system configuration
-        $configValue = (int) Mage::getStoreConfig(self::XML_PATH_CLEANUP_PROBABILITY);
+        $configValue = (int) \Mage::getStoreConfig(self::XML_PATH_CLEANUP_PROBABILITY);
         return $configValue > 0 ? 1 == mt_rand(1, $configValue) : false;
     }
 
@@ -195,7 +197,7 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCleanupExpirationPeriod()
     {
-        $minutes = (int) Mage::getStoreConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
+        $minutes = (int) \Mage::getStoreConfig(self::XML_PATH_CLEANUP_EXPIRATION_PERIOD);
         return $minutes > 0 ? $minutes : self::CLEANUP_EXPIRATION_PERIOD_DEFAULT;
     }
 
@@ -209,12 +211,12 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function sendNotificationOnTokenStatusChange($userEmail, $userName, $applicationName, $status)
     {
-        /* @var $mailTemplate Magento_Core_Model_Email_Template */
-        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
+        /* @var $mailTemplate \Magento\Core\Model\Email\Template */
+        $mailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
 
         $mailTemplate->sendTransactional(
-            Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
-            Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY),
+            \Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
+            \Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY),
             $userEmail,
             $userName,
             array(
@@ -254,20 +256,20 @@ class Magento_Oauth_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $simple = $this->_getIsSimple();
 
-        if (Magento_Oauth_Model_Token::USER_TYPE_CUSTOMER == $userType) {
+        if (\Magento\Oauth\Model\Token::USER_TYPE_CUSTOMER == $userType) {
             if ($simple) {
                 $route = self::ENDPOINT_AUTHORIZE_CUSTOMER_SIMPLE;
             } else {
                 $route = self::ENDPOINT_AUTHORIZE_CUSTOMER;
             }
-        } elseif (Magento_Oauth_Model_Token::USER_TYPE_ADMIN == $userType) {
+        } elseif (\Magento\Oauth\Model\Token::USER_TYPE_ADMIN == $userType) {
             if ($simple) {
                 $route = self::ENDPOINT_AUTHORIZE_ADMIN_SIMPLE;
             } else {
                 $route = self::ENDPOINT_AUTHORIZE_ADMIN;
             }
         } else {
-            throw new Exception('Invalid user type.');
+            throw new \Exception('Invalid user type.');
         }
 
         return $this->_getUrl($route, array('_query' => array('oauth_token' => $this->getOauthToken())));

@@ -16,7 +16,9 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Log\Model\Resource\Visitor\Online;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * joined fields array
@@ -31,17 +33,17 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Log_Model_Visitor_Online', 'Magento_Log_Model_Resource_Visitor_Online');
+        $this->_init('\Magento\Log\Model\Visitor\Online', '\Magento\Log\Model\Resource\Visitor\Online');
     }
 
     /**
      * Add Customer data to collection
      *
-     * @return Magento_Log_Model_Resource_Visitor_Online_Collection
+     * @return \Magento\Log\Model\Resource\Visitor\Online\Collection
      */
     public function addCustomerData()
     {
-        $customer   = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer   = \Mage::getModel('\Magento\Customer\Model\Customer');
         // alias => attribute_code
         $attributes = array(
             'customer_lastname'     => 'lastname',
@@ -51,7 +53,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
 
         foreach ($attributes as $alias => $attributeCode) {
             $attribute = $customer->getAttribute($attributeCode);
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
 
             if ($attribute->getBackendType() == 'static') {
                 $tableAlias = 'customer_' . $attribute->getAttributeCode();
@@ -90,7 +92,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
      * Filter collection by specified website(s)
      *
      * @param int|array $websiteIds
-     * @return Magento_Log_Model_Resource_Visitor_Online_Collection
+     * @return \Magento\Log\Model\Resource\Visitor\Online\Collection
      */
     public function addWebsiteFilter($websiteIds)
     {
@@ -113,7 +115,7 @@ class Magento_Log_Model_Resource_Visitor_Online_Collection extends Magento_Core_
      *
      * @param string $field
      * @param null|string|array $condition
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function addFieldToFilter($field, $condition = null)
     {

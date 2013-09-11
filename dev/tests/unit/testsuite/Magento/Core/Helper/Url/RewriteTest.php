@@ -19,8 +19,8 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $optionsModel = new Magento_Core_Model_Source_Urlrewrite_Options();
-        Mage::register('_singleton/Magento_Core_Model_Source_Urlrewrite_Options', $optionsModel);
+        $optionsModel = new \Magento\Core\Model\Source\Urlrewrite\Options();
+        Mage::register('_singleton/\Magento\Core\Model\Source\Urlrewrite\Options', $optionsModel);
     }
 
     /**
@@ -28,7 +28,7 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Mage::unregister('_singleton/Magento_Core_Model_Source_Urlrewrite_Options');
+        Mage::unregister('_singleton/\Magento\Core\Model\Source\Urlrewrite\Options');
     }
 
     /**
@@ -38,8 +38,8 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
      */
     public function testHasRedirectOptions($option, $expected)
     {
-        $helper = new Magento_Core_Helper_Url_Rewrite(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+        $helper = new \Magento\Core\Helper\Url\Rewrite(
+            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false)
         );
         $mockObject = new \Magento\Object();
         $mockObject->setOptions($option);

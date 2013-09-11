@@ -9,16 +9,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_QueueWriter implements \Magento\PubSub\Event\QueueWriterInterface
+namespace Magento\Webhook\Model\Event;
+
+class QueueWriter implements \Magento\PubSub\Event\QueueWriterInterface
 {
 
-    /** @var Magento_Webhook_Model_Event_Factory */
+    /** @var \Magento\Webhook\Model\Event\Factory */
     protected $_eventFactory;
 
     /**
      * Initialize queue writer
      */
-    public function __construct(Magento_Webhook_Model_Event_Factory $eventFactory)
+    public function __construct(\Magento\Webhook\Model\Event\Factory $eventFactory)
     {
         $this->_eventFactory = $eventFactory;
     }
@@ -31,7 +33,7 @@ class Magento_Webhook_Model_Event_QueueWriter implements \Magento\PubSub\Event\Q
      */
     public function offer(\Magento\PubSub\EventInterface $event)
     {
-        if ($event instanceof Magento_Webhook_Model_Event) {
+        if ($event instanceof \Magento\Webhook\Model\Event) {
             $event->save();
         } else {
             $magentoEvent = $this->_eventFactory->create($event->getTopic(), $event->getBodyData());

@@ -16,14 +16,16 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Image
-    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
+
+class Image
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * After save
      *
      * @param \Magento\Object $object
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Image
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Image
      */
     public function afterSave($object)
     {
@@ -37,14 +39,14 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Image
         }
 
         try {
-            $uploader = new Magento_Core_Model_File_Uploader($this->getAttribute()->getName());
+            $uploader = new \Magento\Core\Model\File\Uploader($this->getAttribute()->getName());
             $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
-        } catch (Exception $e){
+        } catch (\Exception $e){
             return $this;
         }
-        $uploader->save(Mage::getBaseDir('media') . '/catalog/product');
+        $uploader->save(\Mage::getBaseDir('media') . '/catalog/product');
 
         $fileName = $uploader->getUploadedFileName();
         if ($fileName) {

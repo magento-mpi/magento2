@@ -9,7 +9,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Model_Product_Attribute_Group extends Magento_Eav_Model_Entity_Attribute_Group
+namespace Magento\Catalog\Model\Product\Attribute;
+
+class Group extends \Magento\Eav\Model\Entity\Attribute\Group
 {
 
     /**
@@ -20,8 +22,8 @@ class Magento_Catalog_Model_Product_Attribute_Group extends Magento_Eav_Model_En
     public function hasSystemAttributes()
     {
         $result = false;
-        /** @var $attributesCollection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-        $attributesCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
+        /** @var $attributesCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
+        $attributesCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if (!$attribute->getIsUserDefined()) {
@@ -40,8 +42,8 @@ class Magento_Catalog_Model_Product_Attribute_Group extends Magento_Eav_Model_En
     public function hasConfigurableAttributes()
     {
         $result = false;
-        /** @var $attributesCollection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-        $attributesCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
+        /** @var $attributesCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
+        $attributesCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
         $attributesCollection->setAttributeGroupFilter($this->getId());
         foreach ($attributesCollection as $attribute) {
             if ($attribute->getIsConfigurable()) {

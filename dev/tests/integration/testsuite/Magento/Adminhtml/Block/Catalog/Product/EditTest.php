@@ -15,19 +15,19 @@
 class Magento_Adminhtml_Block_Catalog_Product_EditTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Catalog_Product_Edit
+     * @var \Magento\Adminhtml\Block\Catalog\Product\Edit
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = $this->getMock('Magento_Catalog_Model_Product', array('getAttributes'), array(), '', false);
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = $this->getMock('Magento\Catalog\Model\Product', array('getAttributes'), array(), '', false);
         $product->expects($this->any())->method('getAttributes')->will($this->returnValue(array()));
-        $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE);
+        $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
         Mage::register('current_product', $product);
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit');
     }
 
     public function testGetTypeSwitcherData()

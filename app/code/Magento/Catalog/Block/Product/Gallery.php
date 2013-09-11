@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_Gallery extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product;
+
+class Gallery extends \Magento\Core\Block\Template
 {
     protected function _prepareLayout()
     {
@@ -27,7 +29,7 @@ class Magento_Catalog_Block_Product_Gallery extends Magento_Core_Block_Template
 
     public function getProduct()
     {
-        return Mage::registry('product');
+        return \Mage::registry('product');
     }
 
     public function getGalleryCollection()

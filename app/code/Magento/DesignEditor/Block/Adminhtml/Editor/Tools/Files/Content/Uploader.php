@@ -13,8 +13,10 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Uploader
-    extends Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Uploader
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content;
+
+class Uploader
+    extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Uploader
 {
     /**
      * Path to uploader template

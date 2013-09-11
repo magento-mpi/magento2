@@ -15,8 +15,10 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
-    extends Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Authors
+    extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
 {
     /**
      * Get Tab Label
@@ -45,7 +47,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
      */
     public function getAddAuthorButtonHtml()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setType('button')
             ->setClass('add')
             ->setLabel(__('Add Author'))
@@ -71,7 +73,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Authors
                 }
             }
             foreach ($temp as $key => $value) {
-                $authors[$key] = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($value);
+                $authors[$key] = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($value);
             }
         }
         return $authors;

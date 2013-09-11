@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Config_Source_Product_Options_Type implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Catalog\Model\Config\Source\Product\Options;
+
+class Type implements \Magento\Core\Model\Option\ArrayInterface
 {
     const PRODUCT_OPTIONS_GROUPS_PATH = 'global/catalog/product/options/custom/groups';
 
@@ -25,17 +27,17 @@ class Magento_Catalog_Model_Config_Source_Product_Options_Type implements Magent
             array('value' => '', 'label' => __('-- Please select --'))
         );
 
-        foreach (Mage::getConfig()->getNode(self::PRODUCT_OPTIONS_GROUPS_PATH)->children() as $group) {
+        foreach (\Mage::getConfig()->getNode(self::PRODUCT_OPTIONS_GROUPS_PATH)->children() as $group) {
             $types = array();
             $typesPath = self::PRODUCT_OPTIONS_GROUPS_PATH . '/' . $group->getName() . '/types';
-            foreach (Mage::getConfig()->getNode($typesPath)->children() as $type) {
+            foreach (\Mage::getConfig()->getNode($typesPath)->children() as $type) {
                 if (isset($type->disabled) && (string)$type->disabled) {
                     continue;
                 }
                 $labelPath = self::PRODUCT_OPTIONS_GROUPS_PATH . '/' . $group->getName() . '/types/' . $type->getName()
                     . '/label';
                 $types[] = array(
-                    'label' => __((string) Mage::getConfig()->getNode($labelPath)),
+                    'label' => __((string) \Mage::getConfig()->getNode($labelPath)),
                     'value' => $type->getName()
                 );
             }
@@ -44,7 +46,7 @@ class Magento_Catalog_Model_Config_Source_Product_Options_Type implements Magent
 
             if (count($types)) {
                 $groups[] = array(
-                    'label' => __((string) Mage::getConfig()->getNode($labelPath)),
+                    'label' => __((string) \Mage::getConfig()->getNode($labelPath)),
                     'value' => $types
                 );
             }

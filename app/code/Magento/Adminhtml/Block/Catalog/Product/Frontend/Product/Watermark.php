@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
-    extends Magento_Backend_Block_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Frontend\Product;
+
+class Watermark
+    extends \Magento\Backend\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     const XML_PATH_IMAGE_TYPES = 'global/catalog/product/media/image_types';
@@ -24,9 +26,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $html = $this->_getHeaderHtml($element);
-        $renderer = Mage::getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
+        $renderer = \Mage::getBlockSingleton('\Magento\Backend\Block\System\Config\Form\Field');
 
-        $attributes = Mage::getConfig()->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
+        $attributes = \Mage::getConfig()->getNode(self::XML_PATH_IMAGE_TYPES)->asArray();
 
         foreach ($attributes as $key => $attribute) {
             /**
@@ -57,7 +59,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Frontend_Product_Watermark
                 ->setForm( $this->getForm() )
                 ->setLabel(__('Position of Watermark for %1', $attribute['title']))
                 ->setRenderer($renderer)
-                ->setValues(Mage::getSingleton('Magento_Catalog_Model_Config_Source_Watermark_Position')->toOptionArray());
+                ->setValues(\Mage::getSingleton('Magento\Catalog\Model\Config\Source\Watermark\Position')->toOptionArray());
             $html.= $field->toHtml();
         }
 

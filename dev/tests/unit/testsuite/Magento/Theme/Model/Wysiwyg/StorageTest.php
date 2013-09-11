@@ -24,7 +24,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var Magento_Theme_Helper_Storage
+     * @var \Magento\Theme\Helper\Storage
      */
     protected $_helperStorage;
 
@@ -34,18 +34,18 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var null|Magento_Theme_Model_Wysiwyg_Storage
+     * @var null|\Magento\Theme\Model\Wysiwyg\Storage
      */
     protected $_storageModel;
 
     public function setUp()
     {
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        $this->_helperStorage = $this->getMock('Magento_Theme_Helper_Storage', array(), array(), '', false);
+        $this->_helperStorage = $this->getMock('Magento\Theme\Helper\Storage', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
-        $this->_imageFactory = $this->getMock('Magento_Core_Model_Image_AdapterFactory', array(), array(), '', false);
+        $this->_imageFactory = $this->getMock('Magento\Core\Model\Image\AdapterFactory', array(), array(), '', false);
 
-        $this->_storageModel = new Magento_Theme_Model_Wysiwyg_Storage(
+        $this->_storageModel = new \Magento\Theme\Model\Wysiwyg\Storage(
             $this->_filesystem,
             $this->_helperStorage,
             $this->_objectManager,
@@ -65,8 +65,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::_createThumbnail
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::uploadFile
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::_createThumbnail
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::uploadFile
      */
     public function testUploadFile()
     {
@@ -78,7 +78,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $this->_helperStorage->expects($this->once())
             ->method('getStorageType')
-            ->will($this->returnValue(Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE));
+            ->will($this->returnValue(\Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE));
 
         /** Prepare filesystem */
 
@@ -117,7 +117,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         /** Prepare session */
 
-        $session = $this->getMock('Magento_Backend_Model_Session', array(), array(), '', false);
+        $session = $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false);
 
         $this->_helperStorage->expects($this->any())
             ->method('getSession')
@@ -138,8 +138,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::uploadFile
-     * @expectedException Magento_Core_Exception
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::uploadFile
+     * @expectedException \Magento\Core\Exception
      */
     public function testUploadInvalidFile()
     {
@@ -154,7 +154,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     protected function _prepareUploader()
     {
-        $uploader = $this->getMock('Magento_Core_Model_File_Uploader', array(), array(), '', false);
+        $uploader = $this->getMock('Magento\Core\Model\File\Uploader', array(), array(), '', false);
 
         $this->_objectManager->expects($this->once())
             ->method('create')
@@ -177,7 +177,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider booleanCasesDataProvider
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::createFolder
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::createFolder
      */
     public function testCreateFolder($isWritable)
     {
@@ -227,8 +227,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::createFolder
-     * @expectedException Magento_Core_Exception
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::createFolder
+     * @expectedException \Magento\Core\Exception
      */
     public function testCreateFolderWithInvalidName()
     {
@@ -237,8 +237,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::createFolder
-     * @expectedException Magento_Core_Exception
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::createFolder
+     * @expectedException \Magento\Core\Exception
      */
     public function testCreateFolderDirectoryAlreadyExist()
     {
@@ -259,7 +259,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::getDirsCollection
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::getDirsCollection
      */
     public function testGetDirsCollection()
     {
@@ -286,8 +286,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::getDirsCollection
-     * @expectedException Magento_Core_Exception
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::getDirsCollection
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetDirsCollectionWrongDirName()
     {
@@ -300,7 +300,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::getFilesCollection
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::getFilesCollection
      */
     public function testGetFilesCollection()
     {
@@ -310,7 +310,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $this->_helperStorage->expects($this->once())
             ->method('getStorageType')
-            ->will($this->returnValue(Magento_Theme_Model_Wysiwyg_Storage::TYPE_FONT));
+            ->will($this->returnValue(\Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT));
 
         $this->_helperStorage->expects($this->any())
             ->method('urlEncode')
@@ -339,7 +339,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::getFilesCollection
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::getFilesCollection
      */
     public function testGetFilesCollectionImageType()
     {
@@ -349,7 +349,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 
         $this->_helperStorage->expects($this->once())
             ->method('getStorageType')
-            ->will($this->returnValue(Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE));
+            ->will($this->returnValue(\Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE));
 
         $this->_helperStorage->expects($this->any())
             ->method('urlEncode')
@@ -377,7 +377,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::getTreeArray
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::getTreeArray
      */
     public function testTreeArray()
     {
@@ -431,7 +431,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::deleteFile
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::deleteFile
      */
     public function testDeleteFile()
     {
@@ -439,9 +439,9 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $storagePath = $this->_storageRoot;
         $imagePath = $storagePath . \Magento\Filesystem::DIRECTORY_SEPARATOR . $image;
         $thumbnailDir = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR
-            . Magento_Theme_Model_Wysiwyg_Storage::THUMBNAIL_DIRECTORY;
+            . \Magento\Theme\Model\Wysiwyg\Storage::THUMBNAIL_DIRECTORY;
 
-        $session = $this->getMock('Magento_Backend_Model_Session', array('getStoragePath'), array(), '', false);
+        $session = $this->getMock('Magento\Backend\Model\Session', array('getStoragePath'), array(), '', false);
         $session->expects($this->atLeastOnce())
             ->method('getStoragePath')
             ->will($this->returnValue($storagePath));
@@ -489,11 +489,11 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
             ->method('delete')
             ->with($thumbnailDir . \Magento\Filesystem::DIRECTORY_SEPARATOR . $image);
 
-        $this->assertInstanceOf('Magento_Theme_Model_Wysiwyg_Storage', $this->_storageModel->deleteFile($image));
+        $this->assertInstanceOf('\Magento\Theme\Model\Wysiwyg\Storage', $this->_storageModel->deleteFile($image));
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::deleteDirectory
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::deleteDirectory
      */
     public function testDeleteDirectory()
     {
@@ -512,8 +512,8 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::deleteDirectory
-     * @expectedException Magento_Core_Exception
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::deleteDirectory
+     * @expectedException \Magento\Core\Exception
      */
     public function testDeleteRootDirectory()
     {

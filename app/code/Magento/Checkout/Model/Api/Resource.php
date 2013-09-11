@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Checkout\Model\Api;
+
+class Resource extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Attributes map array per entity type
@@ -42,15 +44,15 @@ class Magento_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
      */
     protected $_storeIdSessionField = 'store_id';
 
-    /** @var Magento_Api_Helper_Data */
+    /** @var \Magento\Api\Helper\Data */
     protected $_apiHelper;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Api_Helper_Data $apiHelper
+     * @param \Magento\Api\Helper\Data $apiHelper
      */
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
+    public function __construct(\Magento\Api\Helper\Data $apiHelper)
     {
         $this->_apiHelper = $apiHelper;
     }
@@ -69,7 +71,7 @@ class Magento_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
 
         try {
             $quote = $this->_getQuote($quoteId);
-        } catch (Magento_Api_Exception $e) {
+        } catch (\Magento\Api\Exception $e) {
             return false;
         }
 
@@ -95,9 +97,9 @@ class Magento_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
         }
 
         try {
-            $storeId = Mage::app()->getStore($store)->getId();
+            $storeId = \Mage::app()->getStore($store)->getId();
 
-        } catch (Magento_Core_Model_Store_Exception $e) {
+        } catch (\Magento\Core\Model\Store\Exception $e) {
             $this->_fault('store_not_exists');
         }
 
@@ -109,12 +111,12 @@ class Magento_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
      *
      * @param int $quoteId
      * @param string|int $store
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _getQuote($quoteId, $store = null)
     {
-        /** @var $quote Magento_Sales_Model_Quote */
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
 
         if (!(is_string($store) || is_integer($store))) {
             $quote->loadByIdWithoutStore($quoteId);
@@ -139,8 +141,8 @@ class Magento_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
      */
     protected function _getStoreIdFromQuote($quoteId)
     {
-        /** @var $quote Magento_Sales_Model_Quote */
-        $quote = Mage::getModel('Magento_Sales_Model_Quote')
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = \Mage::getModel('\Magento\Sales\Model\Quote')
             ->loadByIdWithoutStore($quoteId);
 
         return $quote->getStoreId();
@@ -150,10 +152,10 @@ class Magento_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
      * Update attributes for entity
      *
      * @param array $data
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param string $type
      * @param array|null $attributes
-     * @return Magento_Checkout_Model_Api_Resource
+     * @return \Magento\Checkout\Model\Api\Resource
      */
     protected function _updateAttributes($data, $object, $type, array $attributes = null)
     {
@@ -169,10 +171,10 @@ class Magento_Checkout_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
     /**
      * Retrieve entity attributes values
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param string $type
      * @param array $attributes
-     * @return Magento_Checkout_Model_Api_Resource
+     * @return \Magento\Checkout\Model\Api\Resource
      */
     protected function _getAttributes($object, $type, array $attributes = null)
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Controller_Request extends Magento_Core_Controller_Front_Action
+namespace Magento\FullPageCache\Controller;
+
+class Request extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Request processing action
@@ -15,17 +17,17 @@ class Magento_FullPageCache_Controller_Request extends Magento_Core_Controller_F
     public function processAction()
     {
         /**
-         * @var $processor Magento_FullPageCache_Model_Processor
+         * @var $processor \Magento\FullPageCache\Model\Processor
          */
-        $processor  = $this->_objectManager->get('Magento_FullPageCache_Model_Processor');
+        $processor  = $this->_objectManager->get('Magento\FullPageCache\Model\Processor');
 
-        $content    = Mage::registry('cached_page_content');
+        $content    = \Mage::registry('cached_page_content');
         /**
-         * @var $containers Magento_FullPageCache_Model_ContainerInterface[]
+         * @var $containers \Magento\FullPageCache\Model\ContainerInterface[]
          */
-        $containers = Mage::registry('cached_page_containers');
+        $containers = \Mage::registry('cached_page_containers');
 
-        $cacheInstance = $this->_objectManager->get('Magento_FullPageCache_Model_Cache');
+        $cacheInstance = $this->_objectManager->get('Magento\FullPageCache\Model\Cache');
 
         foreach ($containers as $container) {
             $container->applyInApp($content);
@@ -40,8 +42,8 @@ class Magento_FullPageCache_Controller_Request extends Magento_Core_Controller_F
             $sessionInfo = array();
         }
 
-        /** @var $session Magento_Core_Model_Session */
-        $session = $this->_objectManager->get('Magento_Core_Model_Session');
+        /** @var $session \Magento\Core\Model\Session */
+        $session = $this->_objectManager->get('Magento\Core\Model\Session');
         $cookieName = $session->getSessionName();
         $cookieInfo = array(
             'lifetime' => $session->getCookie()->getLifetime(),
@@ -53,11 +55,11 @@ class Magento_FullPageCache_Controller_Request extends Magento_Core_Controller_F
         if (!isset($sessionInfo[$cookieName]) || $sessionInfo[$cookieName] != $cookieInfo) {
             $sessionInfo[$cookieName] = $cookieInfo;
             // customer cookies have to be refreshed as well as the session cookie
-            $sessionInfo[Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER] = $cookieInfo;
-            $sessionInfo[Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP] = $cookieInfo;
-            $sessionInfo[Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN] = $cookieInfo;
+            $sessionInfo[\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER] = $cookieInfo;
+            $sessionInfo[\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_GROUP] = $cookieInfo;
+            $sessionInfo[\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_LOGGED_IN] = $cookieInfo;
             $sessionInfo = serialize($sessionInfo);
-            $cacheInstance->save($sessionInfo, $cacheId, array(Magento_FullPageCache_Model_Processor::CACHE_TAG));
+            $cacheInstance->save($sessionInfo, $cacheId, array(\Magento\FullPageCache\Model\Processor::CACHE_TAG));
         }
     }
 }

@@ -14,11 +14,13 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Ups_Source_OriginShipment
+namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
+
+class OriginShipment
 {
     public function toOptionArray()
     {
-        $orShipArr = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Ups')->getCode('originShipment');
+        $orShipArr = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Ups')->getCode('originShipment');
         $returnArr = array();
         foreach ($orShipArr as $key => $val){
             $returnArr[] = array('value'=>$key,'label'=>$key);

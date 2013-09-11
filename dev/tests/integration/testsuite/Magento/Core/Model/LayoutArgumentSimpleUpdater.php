@@ -12,7 +12,7 @@
 /**
  * Dummy layout argument updater model
  */
-class Magento_Core_Model_LayoutArgumentSimpleUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+class Magento_Core_Model_LayoutArgumentSimpleUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * Update specified argument

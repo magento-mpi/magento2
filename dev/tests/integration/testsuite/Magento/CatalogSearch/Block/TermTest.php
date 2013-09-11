@@ -12,13 +12,13 @@
 class Magento_CatalogSearch_Block_TermTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CatalogSearch_Block_Term
+     * @var \Magento\CatalogSearch\Block\Term
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_CatalogSearch_Block_Term');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\CatalogSearch\Block\Term');
     }
 
     public function testGetSearchUrl()

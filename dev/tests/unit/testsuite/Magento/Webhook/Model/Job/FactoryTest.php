@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Job_Factory
+ * \Magento\Webhook\Model\Job\Factory
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@
  */
 class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webhook_Model_Job_Factory */
+    /** @var \Magento\Webhook\Model\Job\Factory */
     private $_jobFactory;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -22,7 +22,7 @@ class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_jobFactory = new Magento_Webhook_Model_Job_Factory($this->_mockObjectManager);
+        $this->_jobFactory = new \Magento\Webhook\Model\Job\Factory($this->_mockObjectManager);
     }
 
     public function testCreate()
@@ -37,7 +37,7 @@ class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_mockObjectManager->expects($this->once())
             ->method('create')
             ->with(
-                $this->equalTo('Magento_Webhook_Model_Job'),
+                $this->equalTo('\Magento\Webhook\Model\Job'),
                 $this->equalTo(
                     array(
                          'data' => array(

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Group_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Customer\Group;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Block_Customer_Group_Edit extends Magento_Adminhtml_Bloc
         $this->_updateButton('save', 'label', __('Save Customer Group'));
         $this->_updateButton('delete', 'label', __('Delete Customer Group'));
 
-        $group = Mage::registry('current_group');
+        $group = \Mage::registry('current_group');
         if(!$group || !$group->getId() || $group->usesAsDefault()) {
             $this->_removeButton('delete');
         }
@@ -36,8 +38,8 @@ class Magento_Adminhtml_Block_Customer_Group_Edit extends Magento_Adminhtml_Bloc
 
     public function getHeaderText()
     {
-        if(!is_null(Mage::registry('current_group')->getId())) {
-            return __('Edit Customer Group "%1"', $this->escapeHtml(Mage::registry('current_group')->getCustomerGroupCode()));
+        if(!is_null(\Mage::registry('current_group')->getId())) {
+            return __('Edit Customer Group "%1"', $this->escapeHtml(\Mage::registry('current_group')->getCustomerGroupCode()));
         } else {
             return __('New Customer Group');
         }

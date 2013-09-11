@@ -25,7 +25,7 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
         $codes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
         foreach ($codes as $code) {
             $mock = $this->getMock(
-                'Magento_Eav_Model_Entity_Attribute_Abstract',
+                '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 array('isInSet', 'getBackend'),
                 array(),
                 '',
@@ -50,7 +50,7 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
         $code = 'test_attr';
         $set = 10;
 
-        $object = $this->getMock('Magento_Catalog_Model_Product', null, array(), '', false);
+        $object = $this->getMock('Magento\Catalog\Model\Product', null, array(), '', false);
 
         $object->setData(array(
             'test_attr' => 'test_attr',
@@ -65,7 +65,7 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
         $attributes = $this->_getAttributes();
 
         $attribute = $this->getMock(
-            'Magento_Eav_Model_Entity_Attribute_Abstract',
+            '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('isInSet', 'getBackend'),
             array(),
             '',
@@ -82,8 +82,8 @@ class Magento_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_Test
         $attributes[$code] = $attribute;
 
 
-        /** @var $model Magento_Catalog_Model_Resource_Abstract */
-        $model = $this->getMock('Magento_Catalog_Model_Resource_Abstract', null, array(array(
+        /** @var $model \Magento\Catalog\Model\Resource\AbstractResource */
+        $model = $this->getMock('Magento\Catalog\Model\Resource\AbstractResource', null, array(array(
             'type' => $entityType,
             'entityTable' => 'entityTable',
             'attributesByCode' => $attributes,

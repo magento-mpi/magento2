@@ -11,7 +11,9 @@
 /**
  * Quick style renderer factory
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Factory
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
+
+class Factory
 {
     /**
      * Background image attribute
@@ -31,7 +33,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Factory
      * @var array
      */
     protected $_specificRenderer = array(
-        self::BACKGROUND_IMAGE => 'Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_BackgroundImage',
+        self::BACKGROUND_IMAGE => '\Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage',
     );
 
     /**
@@ -46,13 +48,13 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Factory
      * Create new instance
      *
      * @param string $attribute
-     * @return Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Abstract
+     * @return \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\AbstractRenderer
      */
     public function get($attribute)
     {
         $renderer = array_key_exists($attribute, $this->_specificRenderer)
             ? $this->_specificRenderer[$attribute]
-            : 'Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Renderer_Default';
+            : '\Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\DefaultRenderer';
 
         return $this->_objectManager->create($renderer);
     }

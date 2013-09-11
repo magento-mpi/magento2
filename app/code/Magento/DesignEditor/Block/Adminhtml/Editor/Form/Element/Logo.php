@@ -11,8 +11,10 @@
 /**
  * Form element renderer to display composite logo element for VDE
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+class Logo
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Composite\AbstractComposite
 {
     /**
      * Control type
@@ -22,7 +24,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
     /**
      * Add form elements
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo
      */
     protected function _addFields()
     {
@@ -45,11 +47,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
     /**
      * Add element types used in composite font element
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo
      */
     protected function _addElementTypes()
     {
-        $this->addType('logo-uploader', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader');
+        $this->addType('logo-uploader', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\LogoUploader');
         return $this;
     }
 }

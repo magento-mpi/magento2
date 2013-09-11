@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings
+namespace Magento\AdvancedCheckout\Model\Cart\Sku\Source;
+
+class Settings
 {
     /**
      * Enable Order by SKU in 'My Account' options values

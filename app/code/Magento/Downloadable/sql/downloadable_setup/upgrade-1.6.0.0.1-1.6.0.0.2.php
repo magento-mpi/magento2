@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
-$applyTo = explode(',', $installer->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'group_price', 'apply_to'));
-if (!in_array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE, $applyTo)) {
-    $applyTo[] = Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE;
-    $installer->updateAttribute(Magento_Catalog_Model_Product::ENTITY, 'group_price', 'apply_to', implode(',', $applyTo));
+$applyTo = explode(',', $installer->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'group_price', 'apply_to'));
+if (!in_array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE, $applyTo)) {
+    $applyTo[] = \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE;
+    $installer->updateAttribute(\Magento\Catalog\Model\Product::ENTITY, 'group_price', 'apply_to', implode(',', $applyTo));
 }

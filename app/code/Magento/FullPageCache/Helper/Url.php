@@ -11,7 +11,9 @@
 /**
  * Url processing helper
  */
-class Magento_FullPageCache_Helper_Url
+namespace Magento\FullPageCache\Helper;
+
+class Url
 {
     /**
      * Retrieve unique marker value
@@ -34,8 +36,8 @@ class Magento_FullPageCache_Helper_Url
         if (!$content) {
             return false;
         }
-        /** @var $session Magento_Core_Model_Session */
-        $session = Mage::getSingleton('Magento_Core_Model_Session');
+        /** @var $session \Magento\Core\Model\Session */
+        $session = \Mage::getSingleton('Magento\Core\Model\Session');
         $replacementCount = 0;
         $content = str_replace(
             $session->getSessionIdQueryParam() . '=' . $session->getSessionId(),
@@ -70,10 +72,10 @@ class Magento_FullPageCache_Helper_Url
     public static function replaceUenc($content)
     {
         /**
-         * @var $urlHelper Magento_Core_Helper_Url
+         * @var $urlHelper \Magento\Core\Helper\Url
          */
-        $urlHelper = Mage::getObjectManager()->create('Magento_Core_Helper_Url');
-        $search = '/\/(' . Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
+        $urlHelper = \Mage::getObjectManager()->create('Magento\Core\Helper\Url');
+        $search = '/\/(' . \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED . ')\/[^\/]*\//';
         $replace = '/$1/' . $urlHelper->getEncodedUrl() . '/';
         $content = preg_replace($search, $replace, $content);
         return $content;

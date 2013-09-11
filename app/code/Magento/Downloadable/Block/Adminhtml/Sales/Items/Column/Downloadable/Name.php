@@ -16,14 +16,16 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name extends Magento_Adminhtml_Block_Sales_Items_Column_Name
+namespace Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Downloadable;
+
+class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\Name
 {
     protected $_purchased = null;
     public function getLinks()
     {
-        $this->_purchased = Mage::getModel('Magento_Downloadable_Model_Link_Purchased')
+        $this->_purchased = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased')
             ->load($this->getItem()->getOrder()->getId(), 'order_id');
-        $purchasedItem = Mage::getModel('Magento_Downloadable_Model_Link_Purchased_Item')->getCollection()
+        $purchasedItem = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased\Item')->getCollection()
             ->addFieldToFilter('order_item_id', $this->getItem()->getId());
         $this->_purchased->setPurchasedItems($purchasedItem);
         return $this->_purchased;
@@ -34,7 +36,7 @@ class Magento_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name 
         if ($this->_purchased && $this->_purchased->getLinkSectionTitle()) {
             return $this->_purchased->getLinkSectionTitle();
         }
-        return Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return \Mage::getStoreConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
     }
 }
 ?>

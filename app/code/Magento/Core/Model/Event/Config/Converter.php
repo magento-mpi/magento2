@@ -1,38 +1,40 @@
 <?php
 /**
- * Converter of event observers configuration from DOMDocument to tree array
+ * Converter of event observers configuration from \DOMDocument to tree array
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Event_Config_Converter implements \Magento\Config\ConverterInterface
+namespace Magento\Core\Model\Event\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function convert($source)
     {
         $output = array();
-        /** @var DOMNodeList $events */
+        /** @var \DOMNodeList $events */
         $events = $source->getElementsByTagName('event');
-        /** @var DOMNode $eventConfig */
+        /** @var \DOMNode $eventConfig */
         foreach ($events as $eventConfig) {
             $eventName = $eventConfig->attributes->getNamedItem('name')->nodeValue;
             $eventObservers = array();
-            /** @var DOMNode $observerConfig */
+            /** @var \DOMNode $observerConfig */
             foreach ($eventConfig->childNodes as $observerConfig) {
                 if ($observerConfig->nodeName != 'observer' || $observerConfig->nodeType != XML_ELEMENT_NODE) {
                     continue;
                 }
                 $observerNameNode = $observerConfig->attributes->getNamedItem('name');
                 if (!$observerNameNode) {
-                    throw new InvalidArgumentException('Attribute name is missed');
+                    throw new \InvalidArgumentException('Attribute name is missed');
                 }
                 $config = $this->_convertObserverConfig($observerConfig);
                 $config['name'] = $observerNameNode->nodeValue;
@@ -46,7 +48,7 @@ class Magento_Core_Model_Event_Config_Converter implements \Magento\Config\Conve
     /**
      * Convert observer configuration
      *
-     * @param DOMNode $observerConfig
+     * @param \DOMNode $observerConfig
      * @return array
      */
     public function _convertObserverConfig($observerConfig)

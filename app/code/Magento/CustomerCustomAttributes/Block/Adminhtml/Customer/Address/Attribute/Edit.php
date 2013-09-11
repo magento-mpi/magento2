@@ -16,17 +16,19 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit
-    extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute;
+
+class Edit
+    extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Return current customer address attribute instance
      *
-     * @return Magento_Customer_Model_Attribute
+     * @return \Magento\Customer\Model\Attribute
      */
     protected function _getAttribute()
     {
-        return Mage::registry('entity_attribute');
+        return \Mage::registry('entity_attribute');
     }
 
     /**

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
+
+class Wishlist extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Initial settings
@@ -35,12 +37,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
     /**
      * Prepare collection
      *
-     * @return Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist
+     * @return \Magento\Adminhtml\Block\Customer\Edit\Tab\View\Wishlist
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
-            ->addCustomerIdFilter(Mage::registry('current_customer')->getId())
+        $collection = \Mage::getModel('\Magento\Wishlist\Model\Item')->getCollection()
+            ->addCustomerIdFilter(\Mage::registry('current_customer')->getId())
             ->addDaysInWishlist()
             ->addStoreData()
             ->setInStockFilter(true);
@@ -53,7 +55,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
     /**
      * Prepare columns
      *
-     * @return Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist
+     * @return \Magento\Adminhtml\Block\Customer\Edit\Tab\View\Wishlist
      */
     protected function _prepareColumns()
     {
@@ -67,10 +69,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
         $this->addColumn('product_name', array(
             'header'    => __('Product'),
             'index'     => 'product_name',
-            'renderer'  => 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
+            'renderer'  => '\Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store', array(
                 'header'    => __('Add Locale'),
                 'index'     => 'store_id',
@@ -109,7 +111,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Wishlist extends Magento_Ad
     /**
      * Get row url
      *
-     * @param Magento_Wishlist_Model_Item $item
+     * @param \Magento\Wishlist\Model\Item $item
      * @return string
      */
     public function getRowUrl($row)

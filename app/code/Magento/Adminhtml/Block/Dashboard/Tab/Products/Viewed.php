@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Tab_Products_Viewed extends Magento_Adminhtml_Block_Dashboard_Grid
+namespace Magento\Adminhtml\Block\Dashboard\Tab\Products;
+
+class Viewed extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
 
     protected function _construct()
@@ -28,15 +30,15 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Viewed extends Magento_Admi
     protected function _prepareCollection()
     {
         if ($this->getParam('website')) {
-            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+            $storeIds = \Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else if ($this->getParam('group')) {
-            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+            $storeIds = \Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else {
             $storeId = (int)$this->getParam('store');
         }
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Product\Collection')
             ->addAttributeToSelect('*')
             ->addViewsCount()
             ->setStoreId($storeId)
@@ -59,7 +61,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Viewed extends Magento_Admi
             'header'    =>__('Price'),
             'width'     =>'120px',
             'type'      =>'currency',
-            'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'currency_code' => (string) \Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
             'sortable'  => false,
             'index'     =>'price'
         ));

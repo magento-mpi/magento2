@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Resource_Shipping extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Rma\Model\Resource;
+
+class Shipping extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
@@ -27,7 +29,7 @@ class Magento_Rma_Model_Resource_Shipping extends Magento_Core_Model_Resource_Db
     /**
      * Delete tracking numbers for current rma shipping label
      *
-     * @var Magento_Rma_Model_Rma|int $rma
+     * @var \Magento\Rma\Model\Rma|int $rma
      * @return string
      */
     public function deleteTrackingNumbers($rma)
@@ -41,7 +43,7 @@ class Magento_Rma_Model_Resource_Shipping extends Magento_Core_Model_Resource_Db
         $where = $adapter->quoteInto('rma_entity_id = ? ', $rma);
         $where .= $adapter->quoteInto(
             'AND is_admin = ? ',
-            Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER
+            \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER
         );
 
         return $adapter->delete($this->getTable('magento_rma_shipping_label'), $where);

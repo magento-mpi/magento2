@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Search */
+/** @var $this \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Search */
 ?>
 <div id="product-attribute-search-container" class="suggest-expandable attribute-selector">
     <div class="actions-split">
@@ -52,7 +52,7 @@
                 data: {'template_id': data.id}
             });
         });
-        $suggest.mage('suggest',<?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getSelectorOptions())?>)
+        $suggest.mage('suggest',<?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getSelectorOptions())?>)
             .on('suggestselect', function (e, ui) {
                 $(this).val('');
                 var templateId = $('#attribute_set_id').val();

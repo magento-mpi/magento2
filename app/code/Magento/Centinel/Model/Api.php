@@ -16,7 +16,9 @@ include_once '3Dsecure/CentinelClient.php';
 /**
  * 3D Secure Validation Api
  */
-class Magento_Centinel_Model_Api extends \Magento\Object
+namespace Magento\Centinel\Model;
+
+class Api extends \Magento\Object
 {
     /**
      * Fields that should be replaced in debug with '***'
@@ -57,19 +59,19 @@ class Magento_Centinel_Model_Api extends \Magento\Object
     /**
      * Centinel validation client
      *
-     * @var CentinelClient
+     * @var \CentinelClient
      */
     protected $_clientInstance = null;
 
     /**
      * Return Centinel thin client object
      *
-     * @return CentinelClient
+     * @return \CentinelClient
      */
     protected function _getClientInstance()
     {
         if (empty($this->_clientInstance)) {
-            $this->_clientInstance = new CentinelClient();
+            $this->_clientInstance = new \CentinelClient();
         }
         return $this->_clientInstance;
     }
@@ -120,7 +122,7 @@ class Magento_Centinel_Model_Api extends \Magento\Object
      * @param $method string
      * @param $data array
      *
-     * @return CentinelClient
+     * @return \CentinelClient
      */
     protected function _call($method, $data)
     {
@@ -141,7 +143,7 @@ class Magento_Centinel_Model_Api extends \Magento\Object
                 $client->add($key, $val);
             }
             $client->sendHttp($this->_getApiEndpointUrl(), $this->_getTimeoutConnect(), $this->_getTimeoutRead());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $debugData['response'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $this->_debug($debugData);
             throw $e;
@@ -157,7 +159,7 @@ class Magento_Centinel_Model_Api extends \Magento\Object
      * Getter for API call URL
      *
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _getApiEndpointUrl()
     {
@@ -166,7 +168,7 @@ class Magento_Centinel_Model_Api extends \Magento\Object
         }
         $url = $this->getApiEndpointUrl();
         if (!$url) {
-            throw new Exception('Centinel API endpoint URL is not configured properly.');
+            throw new \Exception('Centinel API endpoint URL is not configured properly.');
         }
         return $url;
     }
@@ -174,7 +176,7 @@ class Magento_Centinel_Model_Api extends \Magento\Object
     /**
      * Call centinel api lookup method
      *
-     * @return Magento_Centinel_Model_Api
+     * @return \Magento\Centinel\Model\Api
      */
     public function callLookup($data)
     {
@@ -212,7 +214,7 @@ class Magento_Centinel_Model_Api extends \Magento\Object
     /**
      * Call centinel api authentication method
      *
-     * @return Magento_Centinel_Model_Api
+     * @return \Magento\Centinel\Model\Api
      */
     public function callAuthentication($data)
     {
@@ -242,7 +244,7 @@ class Magento_Centinel_Model_Api extends \Magento\Object
     protected function _debug($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => 'card_validation_3d_secure.log'))
+            \Mage::getModel('\Magento\Core\Model\Log\Adapter', array('fileName' => 'card_validation_3d_secure.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }

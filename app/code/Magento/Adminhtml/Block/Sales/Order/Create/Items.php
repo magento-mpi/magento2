@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Items extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Items extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
      * Contains button descriptions to be shown at the top of accordion
@@ -74,7 +76,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items extends Magento_Adminhtml
         // Make buttons to be rendered in opposite order of addition. This makes "Add products" the last one.
         $this->_buttons = array_reverse($this->_buttons);
         foreach ($this->_buttons as $buttonData) {
-            $html .= $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData($buttonData)->toHtml();
+            $html .= $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData($buttonData)->toHtml();
         }
 
         return $html;

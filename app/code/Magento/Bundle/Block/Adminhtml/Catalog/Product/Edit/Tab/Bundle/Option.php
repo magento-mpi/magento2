@@ -15,7 +15,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option extends Magento_Adminhtml_Block_Widget
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle;
+
+class Option extends \Magento\Adminhtml\Block\Widget
 {
     /**
      * Form element
@@ -74,12 +76,12 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
     /**
      * Retrieve Product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         if (!$this->getData('product')) {
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', \Mage::registry('product'));
         }
         return $this->getData('product');
     }
@@ -103,25 +105,25 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
 
     public function isMultiWebsites()
     {
-        return !Mage::app()->hasSingleStore();
+        return !\Mage::app()->hasSingleStore();
     }
 
     protected function _prepareLayout()
     {
-        $this->addChild('add_selection_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_selection_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'id'    => $this->getFieldId() . '_{{index}}_add_button',
             'label' => __('Add Products to Option'),
             'class' => 'add add-selection'
         ));
 
-        $this->addChild('close_search_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('close_search_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'id'    => $this->getFieldId().'_{{index}}_close_button',
             'label'     => __('Close'),
             'on_click'   => 'bSelection.closeSearch(event)',
             'class' => 'back no-display'
         ));
 
-        $this->addChild('option_delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('option_delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Delete Option'),
             'class' => 'action-delete',
             'on_click' => 'bOption.remove(event)'
@@ -129,7 +131,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
 
         $this->addChild(
             'selection_template',
-            'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection'
+            '\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection'
         );
 
         return parent::_prepareLayout();
@@ -203,27 +205,27 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option exte
 
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{index}}_type',
                 'class' => 'select select-product-option-type required-option-select',
                 'extra_params' => 'onchange="bOption.changeType(event)"'
             ))
             ->setName($this->getFieldName().'[{{index}}][type]')
-            ->setOptions(Mage::getSingleton('Magento_Bundle_Model_Source_Option_Type')->toOptionArray());
+            ->setOptions(\Mage::getSingleton('Magento\Bundle\Model\Source\Option\Type')->toOptionArray());
 
         return $select->getHtml();
     }
 
     public function getRequireSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{index}}_required',
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{index}}][required]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
 
         return $select->getHtml();
     }

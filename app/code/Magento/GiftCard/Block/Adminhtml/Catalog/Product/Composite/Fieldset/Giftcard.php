@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftcard
-    extends Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard
+namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Composite\Fieldset;
+
+class Giftcard
+    extends \Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -42,7 +44,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Giftca
     /**
      * Get current currency code
      *
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId $storeId
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId $storeId
      * @return string
      */
     public function getCurrentCurrencyCode($storeId)

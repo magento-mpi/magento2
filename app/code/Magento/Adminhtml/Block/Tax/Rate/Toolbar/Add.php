@@ -16,14 +16,16 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Tax_Rate_Toolbar_Add extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Tax\Rate\Toolbar;
+
+class Add extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'tax/toolbar/rate/add.phtml';
 
     protected function _prepareLayout()
     {
-        $this->addChild('addButton', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('addButton', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add New Tax Rate'),
             'onclick' => 'window.location.href=\''.$this->getUrl('*/tax_rate/add').'\'',
             'class' => 'add'

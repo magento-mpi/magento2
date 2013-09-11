@@ -8,8 +8,8 @@
 
 require __DIR__ . '/order.php';
 
-/** @var Magento_Sales_Model_Order $order */
-$order = Mage::getModel('Magento_Sales_Model_Order');
+/** @var \Magento\Sales\Model\Order $order */
+$order = Mage::getModel('\Magento\Sales\Model\Order');
 $order->loadByIncrementId('100000001');
 
 $order->setData('base_to_global_rate', 2)

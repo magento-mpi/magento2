@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Core_Model_Layout_Element extends \Magento\Simplexml\Element
+namespace Magento\Core\Model\Layout;
+
+class Element extends \Magento\Simplexml\Element
 {
     public function prepare($args)
     {

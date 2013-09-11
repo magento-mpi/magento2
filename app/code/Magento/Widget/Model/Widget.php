@@ -15,40 +15,42 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Model_Widget extends \Magento\Object
+namespace Magento\Widget\Model;
+
+class Widget extends \Magento\Object
 {
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_configReader;
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
+        \Magento\Core\Model\Config\Modules\Reader $configReader,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -182,13 +184,13 @@ class Magento_Widget_Model_Widget extends \Magento\Object
         if (is_array($filters) && count($filters) > 0) {
             foreach ($widgets as $code => $widget) {
                 try {
-                    $reflection = new ReflectionObject($widget);
+                    $reflection = new \ReflectionObject($widget);
                     foreach ($filters as $field => $value) {
                         if (!$reflection->hasProperty($field) || (string)$widget->{$field} != $value) {
-                            throw new Exception();
+                            throw new \Exception();
                         }
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     unset($result->{$code});
                     continue;
                 }
@@ -258,7 +260,7 @@ class Magento_Widget_Model_Widget extends \Magento\Object
         $html = sprintf('<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $this->getPlaceholderImageUrl($type),
-            Mage::helper('Magento_Core_Helper_Data')->escapeUrl($directive)
+            \Mage::helper('Magento\Core\Helper\Data')->escapeUrl($directive)
         );
         return $html;
     }

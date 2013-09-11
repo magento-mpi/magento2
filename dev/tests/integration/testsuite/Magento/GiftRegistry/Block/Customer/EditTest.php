@@ -12,13 +12,13 @@
 class Magento_GiftRegistry_Block_Customer_EditTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_GiftRegistry_Block_Customer_Edit
+     * @var \Magento\GiftRegistry\Block\Customer\Edit
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_GiftRegistry_Block_Customer_Edit');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\GiftRegistry\Block\Customer\Edit');
     }
 
     public function testAddInputTypeTemplate()

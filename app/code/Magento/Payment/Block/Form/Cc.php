@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
+namespace Magento\Payment\Block\Form;
+
+class Cc extends \Magento\Payment\Block\Form
 {
 
     protected $_template = 'Magento_Payment::form/cc.phtml';
@@ -17,11 +19,11 @@ class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
     /**
      * Retrieve payment configuration object
      *
-     * @return Magento_Payment_Model_Config
+     * @return \Magento\Payment\Model\Config
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('Magento_Payment_Model_Config');
+        return \Mage::getSingleton('Magento\Payment\Model\Config');
     }
 
     /**
@@ -132,7 +134,7 @@ class Magento_Payment_Block_Form_Cc extends Magento_Payment_Block_Form
      */
     protected function _toHtml()
     {
-        Mage::dispatchEvent('payment_form_block_to_html_before', array(
+        \Mage::dispatchEvent('payment_form_block_to_html_before', array(
             'block'     => $this
         ));
         return parent::_toHtml();

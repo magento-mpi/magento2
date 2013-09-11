@@ -12,22 +12,24 @@
 /**
  * Design settings change model
  *
- * @method Magento_Core_Model_Resource_Design _getResource()
- * @method Magento_Core_Model_Resource_Design getResource()
+ * @method \Magento\Core\Model\Resource\Design _getResource()
+ * @method \Magento\Core\Model\Resource\Design getResource()
  * @method int getStoreId()
- * @method Magento_Core_Model_Design setStoreId(int $value)
+ * @method \Magento\Core\Model\Design setStoreId(int $value)
  * @method string getDesign()
- * @method Magento_Core_Model_Design setDesign(string $value)
+ * @method \Magento\Core\Model\Design setDesign(string $value)
  * @method string getDateFrom()
- * @method Magento_Core_Model_Design setDateFrom(string $value)
+ * @method \Magento\Core\Model\Design setDateFrom(string $value)
  * @method string getDateTo()
- * @method Magento_Core_Model_Design setDateTo(string $value)
+ * @method \Magento\Core\Model\Design setDateTo(string $value)
  *
  * @category    Magento
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Design extends Magento_Core_Model_Abstract
+namespace Magento\Core\Model;
+
+class Design extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Cache tag
@@ -51,21 +53,21 @@ class Magento_Core_Model_Design extends Magento_Core_Model_Abstract
     protected $_cacheTag = self::CACHE_TAG;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -78,7 +80,7 @@ class Magento_Core_Model_Design extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Resource_Design');
+        $this->_init('\Magento\Core\Model\Resource\Design');
     }
 
     /**
@@ -86,7 +88,7 @@ class Magento_Core_Model_Design extends Magento_Core_Model_Abstract
      *
      * @param string $storeId
      * @param string|null $date
-     * @return Magento_Core_Model_Design
+     * @return \Magento\Core\Model\Design
      */
     public function loadChange($storeId, $date = null)
     {
@@ -116,10 +118,10 @@ class Magento_Core_Model_Design extends Magento_Core_Model_Abstract
     /**
      * Apply design change from self data into specified design package instance
      *
-     * @param Magento_Core_Model_View_DesignInterface $packageInto
-     * @return Magento_Core_Model_Design
+     * @param \Magento\Core\Model\View\DesignInterface $packageInto
+     * @return \Magento\Core\Model\Design
      */
-    public function changeDesign(Magento_Core_Model_View_DesignInterface $packageInto)
+    public function changeDesign(\Magento\Core\Model\View\DesignInterface $packageInto)
     {
         $design = $this->getDesign();
         if ($design) {

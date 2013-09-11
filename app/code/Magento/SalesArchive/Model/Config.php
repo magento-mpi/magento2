@@ -12,7 +12,9 @@
  * Order archive config model
  *
  */
-class Magento_SalesArchive_Model_Config
+namespace Magento\SalesArchive\Model;
+
+class Config
 {
     const XML_PATH_ARCHIVE_ACTIVE = 'sales/magento_salesarchive/active';
     const XML_PATH_ARCHIVE_AGE = 'sales/magento_salesarchive/age';
@@ -25,7 +27,7 @@ class Magento_SalesArchive_Model_Config
      */
     public function isArchiveActive()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ARCHIVE_ACTIVE);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_ARCHIVE_ACTIVE);
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_SalesArchive_Model_Config
      */
     public function getArchiveAge()
     {
-        return (int) Mage::getStoreConfig(self::XML_PATH_ARCHIVE_AGE);
+        return (int) \Mage::getStoreConfig(self::XML_PATH_ARCHIVE_AGE);
     }
 
     /**
@@ -45,7 +47,7 @@ class Magento_SalesArchive_Model_Config
      */
     public function getArchiveOrderStatuses()
     {
-        $statuses = Mage::getStoreConfig(self::XML_PATH_ARCHIVE_ORDER_STATUSES);
+        $statuses = \Mage::getStoreConfig(self::XML_PATH_ARCHIVE_ORDER_STATUSES);
 
         if (empty($statuses)) {
             return array();
@@ -57,7 +59,7 @@ class Magento_SalesArchive_Model_Config
     /**
      * Check order archiveablility for single archiving
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @param boolean $checkAge check order age for archive
      * @return boolean
      */
@@ -65,8 +67,8 @@ class Magento_SalesArchive_Model_Config
     {
         if (in_array($order->getStatus(), $this->getArchiveOrderStatuses())) {
             if ($checkAge) {
-                $now = Mage::app()->getLocale()->storeDate();
-                $updated = Mage::app()->getLocale()->storeDate($order->getUpdatedAt());
+                $now = \Mage::app()->getLocale()->storeDate();
+                $updated = \Mage::app()->getLocale()->storeDate($order->getUpdatedAt());
 
             }
 

@@ -16,7 +16,9 @@
  * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogRule_Model_Resource_Rule_Product_Price extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogRule\Model\Resource\Rule\Product;
+
+class Price extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table
@@ -37,7 +39,7 @@ class Magento_CatalogRule_Model_Resource_Rule_Product_Price extends Magento_Core
      * @param string $websiteId
      * @param array $updateFields       the array of fields for compare with rule price and update
      * @param string $websiteDate
-     * @return Magento_CatalogRule_Model_Resource_Rule_Product_Price
+     * @return \Magento\CatalogRule\Model\Resource\Rule\Product\Price
      */
     public function applyPriceRuleToIndexTable(\Magento\DB\Select $select, $indexTable, $entityId, $customerGroupId,
         $websiteId, $updateFields, $websiteDate)

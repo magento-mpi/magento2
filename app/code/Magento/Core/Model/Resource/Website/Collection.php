@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Website_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Website;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Map field to alias
@@ -32,7 +34,7 @@ class Magento_Core_Model_Resource_Website_Collection extends Magento_Core_Model_
     protected function _construct()
     {
         $this->setFlag('load_default_website', false);
-        $this->_init('Magento_Core_Model_Website', 'Magento_Core_Model_Resource_Website');
+        $this->_init('\Magento\Core\Model\Website', '\Magento\Core\Model\Resource\Website');
     }
 
     /**
@@ -50,7 +52,7 @@ class Magento_Core_Model_Resource_Website_Collection extends Magento_Core_Model_
      * Set flag for load default (admin) website
      *
      * @param boolean $loadDefault
-     * @return Magento_Core_Model_Resource_Website_Collection
+     * @return \Magento\Core\Model\Resource\Website\Collection
      */
     public function setLoadDefault($loadDefault)
     {
@@ -93,7 +95,7 @@ class Magento_Core_Model_Resource_Website_Collection extends Magento_Core_Model_
      * Add website filter to collection
      *
      * @param int $ids|array
-     * @return Magento_Core_Model_Resource_Website_Collection
+     * @return \Magento\Core\Model\Resource\Website\Collection
      */
     public function addIdFilter($ids)
     {
@@ -114,7 +116,7 @@ class Magento_Core_Model_Resource_Website_Collection extends Magento_Core_Model_
      *
      * @param boolean $printQuery
      * @param boolean $logQuery
-     * @return Magento_Core_Model_Resource_Website_Collection
+     * @return \Magento\Core\Model\Resource\Website\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -131,7 +133,7 @@ class Magento_Core_Model_Resource_Website_Collection extends Magento_Core_Model_
      * Sets extra combined ordering by group's name, defined
      * sort ordering and store's name.
      *
-     * @return Magento_Core_Model_Resource_Website_Collection
+     * @return \Magento\Core\Model\Resource\Website\Collection
      */
     public function joinGroupAndStore()
     {
@@ -161,7 +163,7 @@ class Magento_Core_Model_Resource_Website_Collection extends Magento_Core_Model_
      * tables with appropriate information were joined before.
      *
      * @param int|array $groupIds
-     * @return Magento_Core_Model_Resource_Website_Collection
+     * @return \Magento\Core\Model\Resource\Website\Collection
      */
     public function addFilterByGroupIds($groupIds)
     {

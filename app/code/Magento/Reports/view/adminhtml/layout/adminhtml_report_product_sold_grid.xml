@@ -13,7 +13,7 @@
         <reference name="adminhtml.report.grid">
             <arguments>
                 <argument name="id" xsi:type="string">gridProductsSold</argument>
-                <argument name="dataSource" xsi:type="object">Magento_Reports_Model_Resource_Product_Sold_Collection_Initial</argument>
+                <argument name="dataSource" xsi:type="object">\Magento\Reports\Model\Resource\Product\Sold\Collection\Initial</argument>
             </arguments>
         </reference>
         <reference name="adminhtml.report.grid.export">
@@ -33,7 +33,7 @@
                 <argument name="id" xsi:type="string">report_product_sold</argument>
                 <argument name="count_totals" xsi:type="string">1</argument>
             </arguments>
-            <block class="Magento_Backend_Block_Widget_Grid_Column" as="name">
+            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="name">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Product</argument>
                     <argument name="type" xsi:type="string">text</argument>
@@ -43,7 +43,7 @@
                     <argument name="header_css_class" xsi:type="string">col-product</argument>
                 </arguments>
             </block>
-            <block class="Magento_Backend_Block_Widget_Grid_Column" as="ordered_qty">
+            <block class="\Magento\Backend\Block\Widget\Grid\Column" as="ordered_qty">
                 <arguments>
                     <argument name="header" xsi:type="string" translate="true">Ordered Quantity</argument>
                     <argument name="total" xsi:type="string">sum</argument>

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Order_Edit extends Magento_Adminhtml_Controller_Sales_Order_Create
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
+class Edit extends \Magento\Adminhtml\Controller\Sales\Order\Create
 {
     /**
      * Start edit order initialization
@@ -24,7 +26,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Edit extends Magento_Adminhtml_Co
     {
         $this->_getSession()->clear();
         $orderId = $this->getRequest()->getParam('order_id');
-        $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
+        $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
 
         try {
             if ($order->getId()) {
@@ -35,11 +37,11 @@ class Magento_Adminhtml_Controller_Sales_Order_Edit extends Magento_Adminhtml_Co
             else {
                 $this->_redirect('*/sales_order/');
             }
-        } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addException($e, $e->getMessage());
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addException($e, $e->getMessage());
             $this->_redirect('*/sales_order/view', array('order_id' => $orderId));
         }
     }

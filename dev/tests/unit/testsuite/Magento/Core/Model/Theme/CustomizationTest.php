@@ -36,16 +36,16 @@ class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_fileCollection = $this->getMock('Magento_Core_Model_Resource_Theme_File_Collection',
+        $this->_fileCollection = $this->getMock('Magento\Core\Model\Resource\Theme\File\Collection',
             array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento_Core_Model_Resource_Theme_File_CollectionFactory',
             array('create'), array(), '', false);
         $collectionFactory->expects($this->any())->method('create')->will($this->returnValue($this->_fileCollection));
-        $this->_customizationPath = $this->getMock('Magento_Core_Model_Theme_Customization_Path',
+        $this->_customizationPath = $this->getMock('Magento\Core\Model\Theme\Customization\Path',
             array(), array(), '', false);
-        $this->_theme = $this->getMock('Magento_Core_Model_Theme', array('save', 'load'), array(), '', false);
+        $this->_theme = $this->getMock('Magento\Core\Model\Theme', array('save', 'load'), array(), '', false);
 
-        $this->_modelBuilder = $this->getMockBuilder('Magento_Core_Model_Theme_Customization')
+        $this->_modelBuilder = $this->getMockBuilder('Magento\Core\Model\Theme\Customization')
             ->setConstructorArgs(array($collectionFactory, $this->_customizationPath, $this->_theme))
             ->setMethods(null);
     }
@@ -59,8 +59,8 @@ class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization::getFiles
-     * @covers Magento_Core_Model_Theme_Customization::__construct
+     * @covers \Magento\Core\Model\Theme\Customization::getFiles
+     * @covers \Magento\Core\Model\Theme\Customization::__construct
      */
     public function testGetFiles()
     {
@@ -72,7 +72,7 @@ class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization::getFilesByType
+     * @covers \Magento\Core\Model\Theme\Customization::getFilesByType
      */
     public function testGetFilesByType()
     {
@@ -86,11 +86,11 @@ class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization::generateFileInfo
+     * @covers \Magento\Core\Model\Theme\Customization::generateFileInfo
      */
     public function testGenerationOfFileInfo()
     {
-        $file = $this->getMock('Magento_Core_Model_Theme_File', array('getFileInfo'), array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', array('getFileInfo'), array(), '', false);
         $file->expects($this->once())->method('getFileInfo')->will($this->returnValue(array('sample-generation')));
         $this->assertEquals(
             array(array('sample-generation')),
@@ -99,7 +99,7 @@ class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization::getCustomizationPath
+     * @covers \Magento\Core\Model\Theme\Customization::getCustomizationPath
      */
     public function testGetCustomizationPath()
     {
@@ -109,7 +109,7 @@ class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization::getThemeFilesPath
+     * @covers \Magento\Core\Model\Theme\Customization::getThemeFilesPath
      * @dataProvider getThemeFilesPathDataProvider
      * @param string $type
      * @param string $expectedMethod
@@ -133,14 +133,14 @@ class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestC
     public function getThemeFilesPathDataProvider()
     {
         return array(
-            'physical' => array(Magento_Core_Model_Theme::TYPE_PHYSICAL, 'getThemeFilesPath'),
-            'virtual'  => array(Magento_Core_Model_Theme::TYPE_VIRTUAL, 'getCustomizationPath'),
-            'staging'  => array(Magento_Core_Model_Theme::TYPE_STAGING, 'getCustomizationPath'),
+            'physical' => array(\Magento\Core\Model\Theme::TYPE_PHYSICAL, 'getThemeFilesPath'),
+            'virtual'  => array(\Magento\Core\Model\Theme::TYPE_VIRTUAL, 'getCustomizationPath'),
+            'staging'  => array(\Magento\Core\Model\Theme::TYPE_STAGING, 'getCustomizationPath'),
         );
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization::getCustomViewConfigPath
+     * @covers \Magento\Core\Model\Theme\Customization::getCustomViewConfigPath
      */
     public function testGetCustomViewConfigPath()
     {
@@ -150,14 +150,14 @@ class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization::reorder
+     * @covers \Magento\Core\Model\Theme\Customization::reorder
      * @dataProvider customFileContent
      */
     public function testReorder($sequence, $filesContent)
     {
         $files = array();
         foreach ($filesContent as $fileContent) {
-            $file = $this->getMock('Magento_Core_Model_Theme_File', array('save'), array(), '', false);
+            $file = $this->getMock('Magento\Core\Model\Theme\File', array('save'), array(), '', false);
             $file->expects($fileContent['isCalled'])->method('save')->will($this->returnSelf());
             $file->setData($fileContent['content']);
             $files[] = $file;
@@ -212,11 +212,11 @@ class Magento_Core_Model_Theme_CustomizationTest extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization::delete
+     * @covers \Magento\Core\Model\Theme\Customization::delete
      */
     public function testDelete()
     {
-        $file = $this->getMock('Magento_Core_Model_Theme_File', array('delete'), array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', array('delete'), array(), '', false);
         $file->expects($this->once())->method('delete')->will($this->returnSelf());
         $file->setData(array(
             'id'         => 1,

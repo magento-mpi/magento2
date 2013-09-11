@@ -9,7 +9,7 @@
 class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Adminhtml\Block\Sales\Order\Create\Items\Grid
      */
     protected $_block;
 
@@ -18,30 +18,30 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
      */
     public function setUp()
     {
-        $helperFactory = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')
+        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();
 
-        $contextMock = $this->getMockBuilder('Magento_Backend_Block_Template_Context')
+        $contextMock = $this->getMockBuilder('Magento\Backend\Block\Template\Context')
             ->disableOriginalConstructor()
             ->setMethods(array('getHelperFactory'))
             ->getMock();
         $contextMock->expects($this->any())->method('getHelperFactory')->will($this->returnValue($helperFactory));
-        $this->_block = $this->getMockBuilder('Magento_Adminhtml_Block_Sales_Order_Create_Items_Grid')
+        $this->_block = $this->getMockBuilder('Magento\Adminhtml\Block\Sales\Order\Create\Items\Grid')
             ->setConstructorArgs(array($contextMock))
             ->setMethods(array('_getSession'))
             ->getMock();
-        $sessionMock = $this->getMockBuilder('Magento_Adminhtml_Model_Session_Quote')
+        $sessionMock = $this->getMockBuilder('Magento\Adminhtml\Model\Session\Quote')
             ->disableOriginalConstructor()
             ->setMethods(array('getQuote'))
             ->getMock();
-        $quoteMock = $this->getMockBuilder('Magento_Sales_Model_Quote')
+        $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
             ->getMock();
 
-        $storeMock = $this->getMockBuilder('Magento_Core_Model_Store')
+        $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->setMethods(array('convertPrice'))
             ->getMock();
@@ -78,27 +78,27 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
             array(
                 array(array('price' => 100, 'price_qty' => 1)),
                 '1 with 100% discount each',
-                Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+                \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ),
             array(
                 array(array('price' => 100, 'price_qty' => 1), array('price' => 200, 'price_qty' => 2)),
                 '1 with 100% discount each<br/>2 with 200% discount each',
-                Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+                \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ),
             array(
                 array(array('price' => 50, 'price_qty' => 2)),
                 '2 for 50',
-                Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
+                \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
             ),
             array(
                 array(array('price' => 50, 'price_qty' => 2), array('price' => 150, 'price_qty' => 3)),
                 '2 for 50<br/>3 for 150',
-                Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
+                \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
             ),
             array(
                 0,
                 '',
-                Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
+                \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
             ),
         );
     }
@@ -106,18 +106,18 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Items_GridTest extends PHPUnit_
     /**
      * @param array|int $tierPrices
      * @param string $productType
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Model_Quote_Item
+     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Item
      */
     protected function _prepareItem($tierPrices, $productType)
     {
-        $product = $this->getMockBuilder('Magento_Catalog_Model_Product')
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->setMethods(array('getTierPrice'))
             ->getMock();
         $product->expects($this->once())
             ->method('getTierPrice')
             ->will($this->returnValue($tierPrices));
-        $item = $this->getMockBuilder('Magento_Sales_Model_Quote_Item')
+        $item = $this->getMockBuilder('Magento\Sales\Model\Quote\Item')
             ->disableOriginalConstructor()
             ->setMethods(array('getProduct', 'getProductType'))
             ->getMock();

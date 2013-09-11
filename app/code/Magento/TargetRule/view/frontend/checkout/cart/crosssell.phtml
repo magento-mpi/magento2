@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Magento_TargetRule_Block_Checkout_Cart_Crosssell */
+/* @var $this \Magento\TargetRule\Block\Checkout\Cart\Crosssell */
 ?>
 <?php if ($this->hasItems()):?>
 <div class="crosssell">
@@ -21,7 +21,7 @@
                 <?php echo $this->getPriceHtml($_item, true) ?>
                 <p><button class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button"><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
                 <ul class="add-to-links" data-role="add-to-links">
-                    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
+                    <?php if ($this->helper('\Magento\Wishlist\Helper\Data')->isAllow()) : ?>
                     <li><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></li>
                     <?php endif; ?>
                     <?php if($_compareUrl=$this->getAddToCompareUrl($_item)): ?>

@@ -15,13 +15,15 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Api_V2 extends Magento_Customer_Model_Customer_Api
+namespace Magento\Customer\Model\Customer\Api;
+
+class V2 extends \Magento\Customer\Model\Customer\Api
 {
     /**
      * Prepare data to insert/update.
-     * Creating array for stdClass Object
+     * Creating array for \stdClass Object
      *
-     * @param stdClass $data
+     * @param \stdClass $data
      * @return array
      */
     protected function _prepareData($data)

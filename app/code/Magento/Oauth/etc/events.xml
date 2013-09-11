@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="before_login_post_redirect">
-        <observer name="oauth" instance="Magento_Oauth_Model_Observer" method="afterCustomerLogin" />
+        <observer name="oauth" instance="\Magento\Oauth\Model\Observer" method="afterCustomerLogin" />
     </event>
     <event name="admin_session_user_login_success">
-        <observer name="oauth" instance="Magento_Oauth_Model_Observer" method="afterAdminLogin" />
+        <observer name="oauth" instance="\Magento\Oauth\Model\Observer" method="afterAdminLogin" />
     </event>
     <event name="admin_session_user_login_failed">
-        <observer name="oauth" instance="Magento_Oauth_Model_Observer" method="afterAdminLoginFailed" />
+        <observer name="oauth" instance="\Magento\Oauth\Model\Observer" method="afterAdminLoginFailed" />
     </event>
 </config>

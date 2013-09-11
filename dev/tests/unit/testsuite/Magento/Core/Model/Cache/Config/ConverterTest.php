@@ -8,13 +8,13 @@
 class Magento_Core_Model_Cache_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Cache_Config_Converter
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Cache\Config\Converter
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Magento_Core_Model_Cache_Config_Converter();
+        $this->_model = new \Magento\Core\Model\Cache\Config\Converter();
     }
 
     public function testConvert()

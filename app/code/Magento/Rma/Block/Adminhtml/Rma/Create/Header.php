@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Create_Header extends Magento_Rma_Block_Adminhtml_Rma_Create_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Create;
+
+class Header extends \Magento\Rma\Block\Adminhtml\Rma\Create\AbstractCreate
 {
     protected function _toHtml()
     {
@@ -24,7 +26,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Header extends Magento_Rma_Block_Ad
         $storeId    = $this->getStoreId();
         $out = '';
         if ($customerId && $storeId) {
-            $storeName      = Mage::app()->getStore($storeId)->getName();
+            $storeName      = \Mage::app()->getStore($storeId)->getName();
             $customerName   = $this->getCustomerName();
             $out .= __('Create New RMA for %1 in %2', $customerName, $storeName);
         } elseif ($customerId) {

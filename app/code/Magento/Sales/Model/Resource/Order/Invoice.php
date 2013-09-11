@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Invoice extends Magento_Sales_Model_Resource_Order_Abstract
+namespace Magento\Sales\Model\Resource\Order;
+
+class Invoice extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
      * Event prefix
@@ -58,7 +60,7 @@ class Magento_Sales_Model_Resource_Order_Invoice extends Magento_Sales_Model_Res
     /**
      * Init virtual grid records for entity
      *
-     * @return Magento_Sales_Model_Resource_Order_Invoice
+     * @return \Magento\Sales\Model\Resource\Order\Invoice
      */
     protected function _initVirtualGridColumns()
     {

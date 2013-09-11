@@ -9,15 +9,15 @@
 -->
 <config>
     <event name="catalog_category_save_commit_after">
-        <observer name="fulltext_reindex" instance="Magento_Catalog_Model_Observer_Reindex" method="fulltextReindex" />
+        <observer name="fulltext_reindex" instance="\Magento\Catalog\Model\Observer\Reindex" method="fulltextReindex" />
     </event>
     <event name="log_log_clean_after">
-        <observer name="catalog_product_compare_item" instance="Magento_Catalog_Model_Observer" method="catalogProductCompareClean" />
+        <observer name="catalog_product_compare_item" instance="\Magento\Catalog\Model\Observer" method="catalogProductCompareClean" />
     </event>
     <event name="page_block_html_topmenu_gethtml_before">
-        <observer name="catalog_add_topmenu_items" instance="Magento_Catalog_Model_Observer" method="addCatalogToTopmenuItems" />
+        <observer name="catalog_add_topmenu_items" instance="\Magento\Catalog\Model\Observer" method="addCatalogToTopmenuItems" />
     </event>
     <event name="catalog_product_transition_product_type">
-        <observer name="type_transition" instance="Magento_Catalog_Model_Observer" method="transitionProductType" />
+        <observer name="type_transition" instance="\Magento\Catalog\Model\Observer" method="transitionProductType" />
     </event>
 </config>

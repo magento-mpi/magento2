@@ -15,7 +15,9 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Payflow_Link_Iframe extends Magento_Paypal_Block_Iframe
+namespace Magento\Paypal\Block\Payflow\Link;
+
+class Iframe extends \Magento\Paypal\Block\Iframe
 {
     /**
      * Set payment method code
@@ -23,7 +25,7 @@ class Magento_Paypal_Block_Payflow_Link_Iframe extends Magento_Paypal_Block_Ifra
     protected function _construct()
     {
         parent::_construct();
-        $this->_paymentMethodCode = Magento_Paypal_Model_Config::METHOD_PAYFLOWLINK;
+        $this->_paymentMethodCode = \Magento\Paypal\Model\Config::METHOD_PAYFLOWLINK;
     }
 
     /**
@@ -67,7 +69,7 @@ class Magento_Paypal_Block_Payflow_Link_Iframe extends Magento_Paypal_Block_Ifra
      */
     public function getTransactionUrl()
     {
-        return Magento_Paypal_Model_Payflowlink::TRANSACTION_PAYFLOW_URL;
+        return \Magento\Paypal\Model\Payflowlink::TRANSACTION_PAYFLOW_URL;
     }
 
     /**
@@ -77,7 +79,7 @@ class Magento_Paypal_Block_Payflow_Link_Iframe extends Magento_Paypal_Block_Ifra
      */
     public function isTestMode()
     {
-        $mode = Mage::helper('Magento_Payment_Helper_Data')
+        $mode = \Mage::helper('Magento\Payment\Helper\Data')
             ->getMethodInstance($this->_paymentMethodCode)
             ->getConfigData('sandbox_flag');
         return (bool) $mode;

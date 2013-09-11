@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Product_Attribute_Media_Api.
+ * Test class for \Magento\Catalog\Model\Product\Attribute\Media\Api.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  * @magentoDataFixture productMediaFixture
@@ -18,7 +18,7 @@
 class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Attribute_Media_Api
+     * @var \Magento\Catalog\Model\Product\Attribute\Media\Api
      */
     protected $_model;
 
@@ -34,13 +34,13 @@ class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Fram
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Media_Api');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Media\Api');
     }
 
     public static function setUpBeforeClass()
     {
         self::$_filesDir = realpath(__DIR__ . '/../../../../_files');
-        self::$_mediaTmpDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath();
+        self::$_mediaTmpDir = Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseTmpMediaPath();
         $ioFile = new \Magento\Io\File();
         $ioFile->mkdir(self::$_mediaTmpDir . "/m/a", 0777, true);
         copy(self::$_filesDir . '/magento_image.jpg', self::$_mediaTmpDir . '/m/a/magento_image.jpg');
@@ -49,15 +49,15 @@ class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Fram
     public static function tearDownAfterClass()
     {
         \Magento\Io\File::rmdirRecursive(self::$_mediaTmpDir . "/m/a");
-        /** @var $config Magento_Catalog_Model_Product_Media_Config */
-        $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+        /** @var $config \Magento\Catalog\Model\Product\Media\Config */
+        $config = Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
         \Magento\Io\File::rmdirRecursive($config->getBaseMediaPath());
     }
 
     public static function productMediaFixture()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setTierPrice(array());
         $product->setData('media_gallery', array('images' => array(array('file' => '/m/a/magento_image.jpg',),)));
@@ -65,8 +65,8 @@ class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Fram
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product_Attribute_Media_Api::items
-     * @covers Magento_Catalog_Model_Product_Attribute_Media_Api::info
+     * @covers \Magento\Catalog\Model\Product\Attribute\Media\Api::items
+     * @covers \Magento\Catalog\Model\Product\Attribute\Media\Api::info
      */
     public function testItemsAndInfo()
     {
@@ -112,7 +112,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Fram
 
     /**
      * @dataProvider createFaultDataProvider
-     * @expectedException Magento_Api_Exception
+     * @expectedException \Magento\Api\Exception
      */
     public function testCreateFault($data)
     {
@@ -135,7 +135,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_ApiTest extends PHPUnit_Fram
 
     /**
      * @depends testItemsAndInfo
-     * @expectedException Magento_Api_Exception
+     * @expectedException \Magento\Api\Exception
      */
     public function testRemove($file)
     {

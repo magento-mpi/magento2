@@ -5,12 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Metadata implements Magento_FullPageCache_Model_MetadataInterface
+namespace Magento\FullPageCache\Model;
+
+class Metadata implements \Magento\FullPageCache\Model\MetadataInterface
 {
     /**
      * FPC cache model
      *
-     * @var Magento_FullPageCache_Model_Cache
+     * @var \Magento\FullPageCache\Model\Cache
      */
     protected $_fpcCache;
 
@@ -22,17 +24,17 @@ class Magento_FullPageCache_Model_Metadata implements Magento_FullPageCache_Mode
     protected $_metaData = null;
 
     /**
-     * @var Magento_FullPageCache_Model_Request_Identifier
+     * @var \Magento\FullPageCache\Model\Request\Identifier
      */
     protected $_requestIdentifier;
 
     /**
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_Request_Identifier $requestIdentifier
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\Request\Identifier $requestIdentifier
      */
     public function __construct(
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_Request_Identifier $requestIdentifier
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\Request\Identifier $requestIdentifier
     ) {
         $this->_fpcCache = $fpcCache;
         $this->_requestIdentifier = $requestIdentifier;

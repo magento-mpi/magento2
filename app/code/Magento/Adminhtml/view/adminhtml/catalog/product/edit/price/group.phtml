@@ -9,7 +9,7 @@
  */
 ?>
 <?php
-/** @var $this Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Group */
+/** @var $this \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Group */
 $element = $this->getElement();
 $_htmlId = $this->getElement()->getHtmlId();
 $_htmlClass = $this->getElement()->getClass();
@@ -21,7 +21,7 @@ $_showWebsite= $this->isMultiWebsites();
 ?>
 <div class="field" id="attribute-<?php echo $_htmlId?>-container" data-element-id="<?php echo $_htmlId?>"
      data-apply-to="<?php echo $this->escapeHtml(
-         $this->helper('Magento_Core_Helper_Data')->jsonEncode(
+         $this->helper('\Magento\Core\Helper\Data')->jsonEncode(
              $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : array()
          )
      )?>">

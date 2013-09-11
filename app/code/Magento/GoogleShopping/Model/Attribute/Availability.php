@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Attribute_Availability extends Magento_GoogleShopping_Model_Attribute_Default
+namespace Magento\GoogleShopping\Model\Attribute;
+
+class Availability extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     protected $_googleAvailabilityMap = array(
         0 => 'out of stock',
@@ -25,7 +27,7 @@ class Magento_GoogleShopping_Model_Attribute_Availability extends Magento_Google
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Gdata\Gshopping\Entry $entry
      * @return \Magento\Gdata\Gshopping\Entry
      */

@@ -14,9 +14,9 @@
         <areas>
             <webapi>
                 <frontName>webapi</frontName>
-                <front_controller>Magento_Webapi_Controller_Front</front_controller>
+                <front_controller>\Magento\Webapi\Controller\Front</front_controller>
                 <!--TODO: Utilize base action controller from config, not constant-->
-                <base_controller>Magento_Webapi_Controller_ActionAbstract</base_controller>
+                <base_controller>\Magento\Webapi\Controller\ActionAbstract</base_controller>
             </webapi>
         </areas>
         <resources>
@@ -33,20 +33,20 @@
                         <!-- JSON -->
                         <application_json>
                             <type>application/json</type>
-                            <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Json</model>
+                            <model>\Magento\Webapi\Controller\Request\Rest\Interpreter\Json</model>
                         </application_json>
                         <!-- XML -->
                         <application_xml>
                             <type>application/xml</type>
-                            <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Xml</model>
+                            <model>\Magento\Webapi\Controller\Request\Rest\Interpreter\Xml</model>
                         </application_xml>
                         <application_xhtml_xml>
                             <type>application/xhtml+xml</type>
-                            <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Xml</model>
+                            <model>\Magento\Webapi\Controller\Request\Rest\Interpreter\Xml</model>
                         </application_xhtml_xml>
                         <text_xml>
                             <type>text/xml</type>
-                            <model>Magento_Webapi_Controller_Request_Rest_Interpreter_Xml</model>
+                            <model>\Magento\Webapi\Controller\Request\Rest\Interpreter\Xml</model>
                         </text_xml>
                     </interpreters>
                 </request>
@@ -55,24 +55,24 @@
                         <!-- JSON -->
                         <default>
                             <type>*/*</type>
-                            <model>Magento_Webapi_Controller_Response_Rest_Renderer_Json</model>
+                            <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Json</model>
                         </default>
                         <application_json>
                             <type>application/json</type>
-                            <model>Magento_Webapi_Controller_Response_Rest_Renderer_Json</model>
+                            <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Json</model>
                         </application_json>
                         <!-- XML -->
                         <text_xml>
                             <type>text/xml</type>
-                            <model>Magento_Webapi_Controller_Response_Rest_Renderer_Xml</model>
+                            <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Xml</model>
                         </text_xml>
                         <application_xml>
                             <type>application/xml</type>
-                            <model>Magento_Webapi_Controller_Response_Rest_Renderer_Xml</model>
+                            <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Xml</model>
                         </application_xml>
                         <application_xhtml_xml>
                             <type>application/xhtml+xml</type>
-                            <model>Magento_Webapi_Controller_Response_Rest_Renderer_Xml</model>
+                            <model>\Magento\Webapi\Controller\Response\Rest\Renderer\Xml</model>
                         </application_xhtml_xml>
                     </renders>
                 </response>

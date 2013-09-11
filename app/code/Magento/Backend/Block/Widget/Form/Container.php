@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Backend_Block_Widget_Form_Container extends Magento_Backend_Block_Widget_Container
+namespace Magento\Backend\Block\Widget\Form;
+
+class Container extends \Magento\Backend\Block\Widget\Container
 {
     protected $_objectId = 'id';
     protected $_formScripts = array();
@@ -66,7 +68,7 @@ class Magento_Backend_Block_Widget_Form_Container extends Magento_Backend_Block_
     /**
      * Create form block
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -171,7 +173,7 @@ class Magento_Backend_Block_Widget_Form_Container extends Magento_Backend_Block_
      * Set data object and pass it to form
      *
      * @param \Magento\Object $object
-     * @return Magento_Backend_Block_Widget_Form_Container
+     * @return \Magento\Backend\Block\Widget\Form\Container
      */
     public function setDataObject($object)
     {

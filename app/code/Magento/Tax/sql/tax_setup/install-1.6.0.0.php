@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer Magento_Tax_Model_Resource_Setup */
+/** @var $installer \Magento\Tax\Model\Resource\Setup */
 $installer = $this;
 //
 /**
@@ -25,7 +25,7 @@ $table = $installer->getConnection()
         ), 'Class Name')
     ->addColumn('class_type', \Magento\DB\Ddl\Table::TYPE_TEXT, 8, array(
         'nullable'  => false,
-        'default'   => Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER,
+        'default'   => \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER,
         ), 'Class Type')
     ->setComment('Tax Class');
 $installer->getConnection()->createTable($table);
@@ -224,11 +224,11 @@ $installer->getConnection()->createTable($table);
 /**
  * Add tax_class_id attribute to the 'eav_attribute' table
  */
-$catalogInstaller = Mage::getResourceModel(
-    'Magento_Catalog_Model_Resource_Setup',
+$catalogInstaller = \Mage::getResourceModel(
+    '\Magento\Catalog\Model\Resource\Setup',
     array('resourceName' => 'catalog_setup')
 );
-$catalogInstaller->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'tax_class_id', array(
+$catalogInstaller->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'tax_class_id', array(
     'group'                      => 'Prices',
     'type'                       => 'int',
     'backend'                    => '',
@@ -236,8 +236,8 @@ $catalogInstaller->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'tax_clas
     'label'                      => 'Tax Class',
     'input'                      => 'select',
     'class'                      => '',
-    'source'                     => 'Magento_Tax_Model_TaxClass_Source_Product',
-    'global'                     => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'source'                     => '\Magento\Tax\Model\TaxClass\Source\Product',
+    'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'visible'                    => true,
     'required'                   => true,
     'user_defined'               => false,

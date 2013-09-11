@@ -13,23 +13,23 @@ class Magento_CustomerCustomAttributes_Block_FormTest extends PHPUnit_Framework_
 {
     public function testPrepareLayout()
     {
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        $template = $layout->createBlock('Magento_Core_Block_Text', 'customer_form_template');
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $template = $layout->createBlock('\Magento\Core\Block\Text', 'customer_form_template');
         $template->setData('renderers', array('test' => array(
-            'block' => 'Magento_Core_Block_Text', 'template' => '1.phtml'
+            'block' => '\Magento\Core\Block\Text', 'template' => '1.phtml'
         )));
-        $block = $layout->createBlock('Magento_CustomerCustomAttributes_Block_Form');
+        $block = $layout->createBlock('\Magento\CustomerCustomAttributes\Block\Form');
         $testRenderer = $block->getRenderer('test');
-        $this->assertInstanceOf('Magento_Core_Block_Text', $testRenderer);
+        $this->assertInstanceOf('\Magento\Core\Block\Text', $testRenderer);
         $this->assertNotSame($template, $testRenderer);
         $this->assertEquals('1.phtml', $testRenderer->getTemplate());
     }
 
     public function testPrepareLayoutNoRenderer()
     {
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        $layout->createBlock('Magento_Core_Block_Text', 'customer_form_template');
-        $block = $layout->createBlock('Magento_CustomerCustomAttributes_Block_Form');
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $layout->createBlock('\Magento\Core\Block\Text', 'customer_form_template');
+        $block = $layout->createBlock('\Magento\CustomerCustomAttributes\Block\Form');
         $this->assertEquals('', $block->toHtml());
     }
 }

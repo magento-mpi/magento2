@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_creditmemo_view">
         <reference name="creditmemo_totals">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="reward.points.refunded" template="Magento_Reward::sales/order/refunded.phtml">
+            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="reward.points.refunded" template="Magento_Reward::sales/order/refunded.phtml">
                 <action method="setDisplayArea">
                     <argument name="area" xsi:type="string">footer</argument>
                 </action>

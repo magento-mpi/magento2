@@ -16,7 +16,7 @@
             </action>
         </reference>
         <reference name="my.account.wrapper">
-            <block class="Magento_Invitation_Block_Form" name="invitationForm" template="Magento_Invitation::form.phtml">
+            <block class="\Magento\Invitation\Block\Form" name="invitationForm" template="Magento_Invitation::form.phtml">
                 <container name="invitations.form.form.before" as="form_before" label="Invitation Form Before" htmlTag="div" htmlClass="rewards"/>
             </block>
         </reference>

@@ -16,14 +16,16 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_Attributes extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product\View;
+
+class Attributes extends \Magento\Core\Block\Template
 {
     protected $_product = null;
 
     function getProduct()
     {
         if (!$this->_product) {
-            $this->_product = Mage::registry('product');
+            $this->_product = \Mage::registry('product');
         }
         return $this->_product;
     }
@@ -50,7 +52,7 @@ class Magento_Catalog_Block_Product_View_Attributes extends Magento_Core_Block_T
                 } elseif ((string)$value == '') {
                     $value = __('No');
                 } elseif ($attribute->getFrontendInput() == 'price' && is_string($value)) {
-                    $value = Mage::app()->getStore()->convertPrice($value, true);
+                    $value = \Mage::app()->getStore()->convertPrice($value, true);
                 }
 
                 if (is_string($value) && strlen($value)) {

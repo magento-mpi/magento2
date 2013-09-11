@@ -4,7 +4,9 @@
  *
  * @copyright {copyright}
  */
-class Magento_Oauth_Model_Nonce_Factory
+namespace Magento\Oauth\Model\Nonce;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -23,10 +25,10 @@ class Magento_Oauth_Model_Nonce_Factory
      * Create nonce model.
      *
      * @param array $arguments
-     * @return Magento_Oauth_Model_Nonce
+     * @return \Magento\Oauth\Model\Nonce
      */
     public function create($arguments = array())
     {
-        return $this->_objectManager->create('Magento_Oauth_Model_Nonce', $arguments);
+        return $this->_objectManager->create('Magento\Oauth\Model\Nonce', $arguments);
     }
 }

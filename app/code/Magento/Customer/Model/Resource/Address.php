@@ -7,20 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_Abstract
+namespace Magento\Customer\Model\Resource;
+
+class Address extends \Magento\Eav\Model\Entity\AbstractEntity
 {
     /**
-     * @var Magento_Core_Model_Validator_Factory
+     * @var \Magento\Core\Model\Validator\Factory
      */
     protected $_validatorFactory;
 
     /**
      * Initialize object dependencies
      *
-     * @param Magento_Core_Model_Validator_Factory $validatorFactory
+     * @param \Magento\Core\Model\Validator\Factory $validatorFactory
      * @param array $data
      */
-    public function __construct(Magento_Core_Model_Validator_Factory $validatorFactory, $data = array())
+    public function __construct(\Magento\Core\Model\Validator\Factory $validatorFactory, $data = array())
     {
         $this->_validatorFactory = $validatorFactory;
         parent::__construct($data);
@@ -31,7 +33,7 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
      */
     protected function _construct()
     {
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $this->setType('customer_address')->setConnection(
             $resource->getConnection('customer_read'),
             $resource->getConnection('customer_write')
@@ -42,7 +44,7 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
      * Set default shipping to address
      *
      * @param \Magento\Object $address
-     * @return Magento_Customer_Model_Resource_Address
+     * @return \Magento\Customer\Model\Resource\Address
      */
     protected function _afterSave(\Magento\Object $address)
     {
@@ -50,7 +52,7 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
             return $this;
         }
         if ($address->getId() && ($address->getIsDefaultBilling() || $address->getIsDefaultShipping())) {
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')
+            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
                 ->load($address->getCustomerId());
 
             if ($address->getIsDefaultBilling()) {
@@ -68,7 +70,7 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
      * Check customer address before saving
      *
      * @param \Magento\Object $address
-     * @return Magento_Customer_Model_Resource_Address
+     * @return \Magento\Customer\Model\Resource\Address
      */
     protected function _beforeSave(\Magento\Object $address)
     {
@@ -82,7 +84,7 @@ class Magento_Customer_Model_Resource_Address extends Magento_Eav_Model_Entity_A
     /**
      * Validate customer address entity
      *
-     * @param Magento_Customer_Model_Customer $address
+     * @param \Magento\Customer\Model\Customer $address
      * @throws \Magento\Validator\ValidatorException when validation failed
      */
     protected function _validate($address)

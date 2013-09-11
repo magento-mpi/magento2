@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/* @var $installer Magento_Index_Model_Resource_Setup */
+/* @var $installer \Magento\Index\Model\Resource\Setup */
 
 $installer->startSetup();
 

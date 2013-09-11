@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser_Container extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser;
+
+class Container extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'catalog/product/widget/chooser/container.phtml';
 }

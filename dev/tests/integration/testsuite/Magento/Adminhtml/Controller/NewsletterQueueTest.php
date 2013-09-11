@@ -15,21 +15,21 @@
 class Magento_Adminhtml_Controller_NewsletterQueueTest extends Magento_Backend_Utility_Controller
 {
     /**
-     * @var Magento_Newsletter_Model_Template
+     * @var \Magento\Newsletter\Model\Template
      */
     protected $_model;
 
     public function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Magento_Newsletter_Model_Template');
+        $this->_model = Mage::getModel('\Magento\Newsletter\Model\Template');
     }
     public function tearDown()
     {
         /**
          * Unset messages
          */
-        Mage::getSingleton('Magento_Backend_Model_Session')->getMessages(true);
+        Mage::getSingleton('Magento\Backend\Model\Session')->getMessages(true);
         unset($this->_model);
     }
 
@@ -51,13 +51,13 @@ class Magento_Adminhtml_Controller_NewsletterQueueTest extends Magento_Backend_U
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::ERROR);
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Core\Model\Message::ERROR);
 
         /**
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter queue has been saved.')), Magento_Core_Model_Message::SUCCESS
+            $this->equalTo(array('The newsletter queue has been saved.')), \Magento\Core\Model\Message::SUCCESS
         );
     }
 }

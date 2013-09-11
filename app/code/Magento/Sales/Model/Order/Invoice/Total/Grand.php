@@ -9,9 +9,11 @@
  */
 
 
-class Magento_Sales_Model_Order_Invoice_Total_Grand extends Magento_Sales_Model_Order_Invoice_Total_Abstract
+namespace Magento\Sales\Model\Order\Invoice\Total;
+
+class Grand extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
-    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
+    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         /**
          * Check order grand total and invoice amounts

@@ -16,16 +16,16 @@
  */
 require __DIR__ . '/../../../Magento/Catalog/_files/products.php';
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->setTypeId('bundle')
     ->setId(3)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(1))
     ->setName('Bundle Product')
     ->setSku('bundle-product')
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->setStockData(array(
         'use_config_manage_stock'   => 1,
         'qty'                       => 100,

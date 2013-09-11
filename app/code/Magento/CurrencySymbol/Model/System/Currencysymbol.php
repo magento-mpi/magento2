@@ -15,7 +15,9 @@
  * @package     Magento_CurrencySymbol
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Model_System_Currencysymbol
+namespace Magento\CurrencySymbol\Model\System;
+
+class Currencysymbol
 {
     /**
      * Custom currency symbol properties
@@ -43,9 +45,9 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      * @var array
      */
     protected $_cacheTypes = array(
-        Magento_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER,
-        Magento_Core_Model_Cache_Type_Block::TYPE_IDENTIFIER,
-        Magento_Core_Model_Cache_Type_Layout::TYPE_IDENTIFIER,
+        \Magento\Core\Model\Cache\Type\Config::TYPE_IDENTIFIER,
+        \Magento\Core\Model\Cache\Type\Block::TYPE_IDENTIFIER,
+        \Magento\Core\Model\Cache\Type\Layout::TYPE_IDENTIFIER,
     );
 
     /**
@@ -68,7 +70,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      * Sets store Id
      *
      * @param  $storeId
-     * @return Magento_CurrencySymbol_Model_System_Currencysymbol
+     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
      */
     public function setStoreId($storeId=null)
     {
@@ -82,7 +84,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      * Sets website Id
      *
      * @param  $websiteId
-     * @return Magento_CurrencySymbol_Model_System_Currencysymbol
+     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
      */
     public function setWebsiteId($websiteId=null)
     {
@@ -107,11 +109,11 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
 
         $allowedCurrencies = explode(
             self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-            Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
+            \Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
         );
 
-        /* @var $storeModel Magento_Core_Model_System_Store */
-        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
+        /* @var $storeModel \Magento\Core\Model\System\Store */
+        $storeModel = \Mage::getSingleton('Magento\Core\Model\System\Store');
         foreach ($storeModel->getWebsiteCollection() as $website) {
             $websiteShow = false;
             foreach ($storeModel->getGroupCollection() as $group) {
@@ -130,7 +132,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
                             $websiteSymbols
                         ));
                     }
-                    $storeSymbols = Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, $store);
+                    $storeSymbols = \Mage::getStoreConfig(self::XML_PATH_ALLOWED_CURRENCIES, $store);
                     $allowedCurrencies = array_merge($allowedCurrencies, explode(
                         self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
                         $storeSymbols
@@ -142,8 +144,8 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
 
         $currentSymbols = $this->_unserializeStoreConfig(self::XML_PATH_CUSTOM_CURRENCY_SYMBOL);
 
-        /** @var $locale Magento_Core_Model_LocaleInterface */
-        $locale = Mage::app()->getLocale();
+        /** @var $locale \Magento\Core\Model\LocaleInterface */
+        $locale = \Mage::app()->getLocale();
         foreach ($allowedCurrencies as $code) {
             if (!$symbol = $locale->getTranslation($code, 'currencysymbol')) {
                 $symbol = $code;
@@ -176,7 +178,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
      * Saves currency symbol to config
      *
      * @param  $symbols array
-     * @return Magento_CurrencySymbol_Model_System_Currencysymbol
+     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
      */
     public function setCurrencySymbolsData($symbols=array())
     {
@@ -192,24 +194,24 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
             $value['options']['fields']['customsymbol']['inherit'] = 1;
         }
 
-        Mage::getModel('Magento_Backend_Model_Config')
+        \Mage::getModel('\Magento\Backend\Model\Config')
             ->setSection(self::CONFIG_SECTION)
             ->setWebsite(null)
             ->setStore(null)
             ->setGroups($value)
             ->save();
 
-        Mage::dispatchEvent('admin_system_config_changed_section_currency_before_reinit',
+        \Mage::dispatchEvent('admin_system_config_changed_section_currency_before_reinit',
             array('website' => $this->_websiteId, 'store' => $this->_storeId)
         );
 
         // reinit configuration
-        Mage::getConfig()->reinit();
-        Mage::app()->reinitStores();
+        \Mage::getConfig()->reinit();
+        \Mage::app()->reinitStores();
 
         $this->clearCache();
 
-        Mage::dispatchEvent('admin_system_config_changed_section_currency',
+        \Mage::dispatchEvent('admin_system_config_changed_section_currency',
             array('website' => $this->_websiteId, 'store' => $this->_storeId)
         );
 
@@ -235,12 +237,12 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     /**
      * Clear translate cache
      *
-     * @return Magento_CurrencySymbol_Model_System_Currencysymbol
+     * @return \Magento\CurrencySymbol\Model\System\Currencysymbol
      */
     public function clearCache()
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+        $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
         // clear cache for frontend
         foreach ($this->_cacheTypes as $cacheType) {
             $cacheTypeList->invalidate($cacheType);
@@ -258,7 +260,7 @@ class Magento_CurrencySymbol_Model_System_Currencysymbol
     protected function _unserializeStoreConfig($configPath, $storeId = null)
     {
         $result = array();
-        $configData = (string)Mage::getStoreConfig($configPath, $storeId);
+        $configData = (string)\Mage::getStoreConfig($configPath, $storeId);
         if ($configData) {
             $result = unserialize($configData);
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Block_Adminhtml_User
+ * Test class for \Magento\Webapi\Block\Adminhtml\User
  *
  * {license_notice}
  *
@@ -10,16 +10,16 @@
 class Magento_Webapi_Block_Adminhtml_UserTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Webapi_Block_Adminhtml_User
+     * @var \Magento\Webapi\Block\Adminhtml\User
      */
     protected $_block;
 
     protected function setUp()
     {
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $helper->getObject('Magento_Webapi_Block_Adminhtml_User', array(
+        $this->_block = $helper->getObject('\Magento\Webapi\Block\Adminhtml\User', array(
             // TODO: Remove injecting of 'urlBuilder' after MAGETWO-5038 complete
-            'urlBuilder' => $this->getMockBuilder('Magento_Backend_Model_Url')
+            'urlBuilder' => $this->getMockBuilder('Magento\Backend\Model\Url')
                 ->disableOriginalConstructor()
                 ->getMock(),
         ));

@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="Customer GiftRegistry Email Items List" id="magento_giftregistry_email_entity_items" type="page" parent="magento_giftregistry_index_items">
-        <block class="Magento_GiftRegistry_Block_Email_Items" name="giftregistry.email.items" template="email/items.phtml"/>
+        <block class="\Magento\GiftRegistry\Block\Email\Items" name="giftregistry.email.items" template="email/items.phtml"/>
     </handle>
 </layout>

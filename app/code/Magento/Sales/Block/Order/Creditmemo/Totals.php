@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Block_Order_Creditmemo_Totals extends Magento_Sales_Block_Order_Totals
+namespace Magento\Sales\Block\Order\Creditmemo;
+
+class Totals extends \Magento\Sales\Block\Order\Totals
 {
     protected $_creditmemo = null;
 
@@ -16,8 +18,8 @@ class Magento_Sales_Block_Order_Creditmemo_Totals extends Magento_Sales_Block_Or
         if ($this->_creditmemo === null) {
             if ($this->hasData('creditmemo')) {
                 $this->_creditmemo = $this->_getData('creditmemo');
-            } elseif (Mage::registry('current_creditmemo')) {
-                $this->_creditmemo = Mage::registry('current_creditmemo');
+            } elseif (\Mage::registry('current_creditmemo')) {
+                $this->_creditmemo = \Mage::registry('current_creditmemo');
             } elseif ($this->getParentBlock()->getCreditmemo()) {
                 $this->_creditmemo = $this->getParentBlock()->getCreditmemo();
             }
@@ -34,7 +36,7 @@ class Magento_Sales_Block_Order_Creditmemo_Totals extends Magento_Sales_Block_Or
     /**
      * Get totals source object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getSource()
     {
@@ -44,7 +46,7 @@ class Magento_Sales_Block_Order_Creditmemo_Totals extends Magento_Sales_Block_Or
     /**
      * Initialize order totals array
      *
-     * @return Magento_Sales_Block_Order_Totals
+     * @return \Magento\Sales\Block\Order\Totals
      */
     protected function _initTotals()
     {

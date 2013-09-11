@@ -21,6 +21,6 @@
                 <argument name="a" xsi:type="string">class="link-rss"</argument>
             </action>
         </reference>
-        <block class="Magento_Rss_Block_List" name="head_rss" ifconfig="rss/config/active"/>
+        <block class="\Magento\Rss\Block\ListBlock" name="head_rss" ifconfig="rss/config/active"/>
     </handle>
 </layout>

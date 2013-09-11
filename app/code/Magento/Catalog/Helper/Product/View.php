@@ -15,7 +15,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
+namespace Magento\Catalog\Helper\Product;
+
+class View extends \Magento\Core\Helper\AbstractHelper
 {
     // List of exceptions throwable during prepareAndRender() method
     public $ERR_NO_PRODUCT_LOADED = 1;
@@ -29,17 +31,17 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     /**
      * General config object
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config
     ) {
         parent::__construct($context);
         $this->_config = $config;
@@ -48,14 +50,14 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     /**
      * Inits layout for viewing product page
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Core_Controller_Front_Action $controller
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Core\Controller\Front\Action $controller
      *
-     * @return Magento_Catalog_Helper_Product_View
+     * @return \Magento\Catalog\Helper\Product\View
      */
     public function initProductLayout($product, $controller)
     {
-        $design = Mage::getSingleton('Magento_Catalog_Model_Design');
+        $design = \Mage::getSingleton('Magento\Catalog\Model\Design');
         $settings = $design->getDesignSettings($product);
 
         if ($settings->getCustomDesign()) {
@@ -81,10 +83,10 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
 
         // Apply custom layout (page) template once the blocks are generated
         if ($settings->getPageLayout()) {
-            $controller->getLayout()->helper('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
+            $controller->getLayout()->helper('\Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
         }
 
-        $currentCategory = Mage::registry('current_category');
+        $currentCategory = \Mage::registry('current_category');
         $root = $controller->getLayout()->getBlock('root');
         if ($root) {
             $controllerClass = $controller->getFullActionName();
@@ -92,7 +94,7 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
                 $root->addBodyClass('catalog-product-view');
             }
             $root->addBodyClass('product-' . $product->getUrlKey());
-            if ($currentCategory instanceof Magento_Catalog_Model_Category) {
+            if ($currentCategory instanceof \Magento\Catalog\Model\Category) {
                 $root->addBodyClass('categorypath-' . $currentCategory->getUrlPath())
                     ->addBodyClass('category-' . $currentCategory->getUrlKey());
             }
@@ -104,23 +106,23 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
     /**
      * Prepares product view page - inits layout and all needed stuff
      *
-     * $params can have all values as $params in Magento_Catalog_Helper_Product - initProduct().
+     * $params can have all values as $params in \Magento\Catalog\Helper\Product - initProduct().
      * Plus following keys:
      *   - 'buy_request' - \Magento\Object holding buyRequest to configure product
      *   - 'specify_options' - boolean, whether to show 'Specify options' message
      *   - 'configure_mode' - boolean, whether we're in Configure-mode to edit product configuration
      *
      * @param int $productId
-     * @param Magento_Core_Controller_Front_Action $controller
+     * @param \Magento\Core\Controller\Front\Action $controller
      * @param null|\Magento\Object $params
      *
-     * @return Magento_Catalog_Helper_Product_View
-     * @throws Magento_Core_Exception
+     * @return \Magento\Catalog\Helper\Product\View
+     * @throws \Magento\Core\Exception
      */
     public function prepareAndRender($productId, $controller, $params = null)
     {
         // Prepare data
-        $productHelper = Mage::helper('Magento_Catalog_Helper_Product');
+        $productHelper = \Mage::helper('Magento\Catalog\Helper\Product');
         if (!$params) {
             $params = new \Magento\Object();
         }
@@ -128,7 +130,7 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
         // Standard algorithm to prepare and rendern product view page
         $product = $productHelper->initProduct($productId, $controller, $params);
         if (!$product) {
-            throw new Magento_Core_Exception(__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
+            throw new \Magento\Core\Exception(__('Product is not loaded'), $this->ERR_NO_PRODUCT_LOADED);
         }
 
         $buyRequest = $params->getBuyRequest();
@@ -140,23 +142,23 @@ class Magento_Catalog_Helper_Product_View extends Magento_Core_Helper_Abstract
             $product->setConfigureMode($params->getConfigureMode());
         }
 
-        Mage::dispatchEvent('catalog_controller_product_view', array('product' => $product));
+        \Mage::dispatchEvent('catalog_controller_product_view', array('product' => $product));
 
         if ($params->getSpecifyOptions()) {
             $notice = $product->getTypeInstance()->getSpecifyOptionMessage();
-            Mage::getSingleton('Magento_Catalog_Model_Session')->addNotice($notice);
+            \Mage::getSingleton('Magento\Catalog\Model\Session')->addNotice($notice);
         }
 
-        Mage::getSingleton('Magento_Catalog_Model_Session')->setLastViewedProductId($product->getId());
+        \Mage::getSingleton('Magento\Catalog\Model\Session')->setLastViewedProductId($product->getId());
 
         $this->initProductLayout($product, $controller);
 
-        if ($controller instanceof Magento_Catalog_Controller_Product_View_Interface) {
+        if ($controller instanceof \Magento\Catalog\Controller\Product\View\ViewInterface) {
             foreach ($this->_getSessionMessageModels() as $sessionModel) {
                 $controller->initLayoutMessages($sessionModel);
             }
         } else {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 __('Bad controller interface for showing product'),
                 $this->ERR_BAD_CONTROLLER_INTERFACE
             );

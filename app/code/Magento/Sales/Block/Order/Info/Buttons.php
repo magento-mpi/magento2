@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order\Info;
+
+class Buttons extends \Magento\Core\Block\Template
 {
 
     protected $_template = 'order/info/buttons.phtml';
@@ -24,11 +26,11 @@ class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     /**
@@ -39,7 +41,7 @@ class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
      */
     public function getPrintUrl($order)
     {
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
             return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
         }
         return $this->getUrl('sales/order/print', array('order_id' => $order->getId()));
@@ -53,7 +55,7 @@ class Magento_Sales_Block_Order_Info_Buttons extends Magento_Core_Block_Template
      */
     public function getReorderUrl($order)
     {
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
             return $this->getUrl('sales/guest/reorder', array('order_id' => $order->getId()));
         }
         return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));

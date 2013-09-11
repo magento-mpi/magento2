@@ -9,26 +9,28 @@
  */
 
 /**
- * Menu builder object. Retrieves commands (Magento_Backend_Model_Menu_Builder_CommandAbstract)
- * to build menu (Magento_Backend_Model_Menu)
+ * Menu builder object. Retrieves commands (\Magento\Backend\Model\Menu\Builder\CommandAbstract)
+ * to build menu (\Magento\Backend\Model\Menu)
  */
-class Magento_Backend_Model_Menu_Builder
+namespace Magento\Backend\Model\Menu;
+
+class Builder
 {
     /**
-     * @var Magento_Backend_Model_Menu_Builder_CommandAbstract[]
+     * @var \Magento\Backend\Model\Menu\Builder\CommandAbstract[]
      */
     protected $_commands = array();
 
     /**
-     * @var Magento_Backend_Model_Menu_Item_Factory
+     * @var \Magento\Backend\Model\Menu\Item\Factory
      */
     protected $_itemFactory;
 
     /**
-     * @param Magento_Backend_Model_Menu_Item_Factory $menuItemFactory
+     * @param \Magento\Backend\Model\Menu\Item\Factory $menuItemFactory
      */
     public function __construct(
-        Magento_Backend_Model_Menu_Item_Factory $menuItemFactory
+        \Magento\Backend\Model\Menu\Item\Factory $menuItemFactory
     ) {
         $this->_itemFactory = $menuItemFactory;
     }
@@ -36,10 +38,10 @@ class Magento_Backend_Model_Menu_Builder
     /**
      * Process provided command object
      *
-     * @param Magento_Backend_Model_Menu_Builder_CommandAbstract $command
-     * @return Magento_Backend_Model_Menu_Builder
+     * @param \Magento\Backend\Model\Menu\Builder\CommandAbstract $command
+     * @return \Magento\Backend\Model\Menu\Builder
      */
-    public function processCommand(Magento_Backend_Model_Menu_Builder_CommandAbstract $command)
+    public function processCommand(\Magento\Backend\Model\Menu\Builder\CommandAbstract $command)
     {
         if (!isset($this->_commands[$command->getId()])) {
             $this->_commands[$command->getId()] = $command;
@@ -52,13 +54,13 @@ class Magento_Backend_Model_Menu_Builder
     /**
      * Populate menu object
      *
-     * @param Magento_Backend_Model_Menu $menu
-     * @return Magento_Backend_Model_Menu
-     * @throws OutOfRangeException in case given parent id does not exists
+     * @param \Magento\Backend\Model\Menu $menu
+     * @return \Magento\Backend\Model\Menu
+     * @throws \OutOfRangeException in case given parent id does not exists
      */
-    public function getResult(Magento_Backend_Model_Menu $menu)
+    public function getResult(\Magento\Backend\Model\Menu $menu)
     {
-        /** @var $items Magento_Backend_Model_Menu_Item[] */
+        /** @var $items \Magento\Backend\Model\Menu\Item[] */
         $params = array();
         $items = array();
 
@@ -82,7 +84,7 @@ class Magento_Backend_Model_Menu_Builder
                 $menu->add($item, null, $sortOrder);
             } else {
                 if (!isset($items[$parentId])) {
-                    throw new OutOfRangeException(sprintf('Specified invalid parent id (%s)', $parentId));
+                    throw new \OutOfRangeException(sprintf('Specified invalid parent id (%s)', $parentId));
                 }
                 if (isset($params[$parentId]['removed'])) {
                     continue;

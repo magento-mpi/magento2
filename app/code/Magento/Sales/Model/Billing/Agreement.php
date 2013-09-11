@@ -11,30 +11,32 @@
 /**
  * Billing Agreement abstract model
  *
- * @method Magento_Sales_Model_Resource_Billing_Agreement _getResource()
- * @method Magento_Sales_Model_Resource_Billing_Agreement getResource()
+ * @method \Magento\Sales\Model\Resource\Billing\Agreement _getResource()
+ * @method \Magento\Sales\Model\Resource\Billing\Agreement getResource()
  * @method int getCustomerId()
- * @method Magento_Sales_Model_Billing_Agreement setCustomerId(int $value)
+ * @method \Magento\Sales\Model\Billing\Agreement setCustomerId(int $value)
  * @method string getMethodCode()
- * @method Magento_Sales_Model_Billing_Agreement setMethodCode(string $value)
+ * @method \Magento\Sales\Model\Billing\Agreement setMethodCode(string $value)
  * @method string getReferenceId()
- * @method Magento_Sales_Model_Billing_Agreement setReferenceId(string $value)
+ * @method \Magento\Sales\Model\Billing\Agreement setReferenceId(string $value)
  * @method string getStatus()
- * @method Magento_Sales_Model_Billing_Agreement setStatus(string $value)
+ * @method \Magento\Sales\Model\Billing\Agreement setStatus(string $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Billing_Agreement setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Billing\Agreement setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Sales_Model_Billing_Agreement setUpdatedAt(string $value)
+ * @method \Magento\Sales\Model\Billing\Agreement setUpdatedAt(string $value)
  * @method int getStoreId()
- * @method Magento_Sales_Model_Billing_Agreement setStoreId(int $value)
+ * @method \Magento\Sales\Model\Billing\Agreement setStoreId(int $value)
  * @method string getAgreementLabel()
- * @method Magento_Sales_Model_Billing_Agreement setAgreementLabel(string $value)
+ * @method \Magento\Sales\Model\Billing\Agreement setAgreementLabel(string $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billing_AgreementAbstract
+namespace Magento\Sales\Model\Billing;
+
+class Agreement extends \Magento\Payment\Model\Billing\AgreementAbstract
 {
     const STATUS_ACTIVE     = 'active';
     const STATUS_CANCELED   = 'canceled';
@@ -52,17 +54,17 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Billing_Agreement');
+        $this->_init('\Magento\Sales\Model\Resource\Billing\Agreement');
     }
 
     /**
      * Set created_at parameter
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        $date = Mage::getModel('Magento_Core_Model_Date')->gmtDate();
+        $date = \Mage::getModel('\Magento\Core\Model\Date')->gmtDate();
         if ($this->isObjectNew() && !$this->getCreatedAt()) {
             $this->setCreatedAt($date);
         } else {
@@ -74,7 +76,7 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
     /**
      * Save agreement order relations
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _afterSave()
     {
@@ -115,7 +117,7 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
      * Get billing agreement details
      * Data from response is inside this object
      *
-     * @return Magento_Sales_Model_Billing_Agreement
+     * @return \Magento\Sales\Model\Billing\Agreement
      */
     public function verifyToken()
     {
@@ -127,7 +129,7 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
     /**
      * Create billing agreement
      *
-     * @return Magento_Sales_Model_Billing_Agreement
+     * @return \Magento\Sales\Model\Billing\Agreement
      */
     public function place()
     {
@@ -148,7 +150,7 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
     /**
      * Cancel billing agreement
      *
-     * @return Magento_Sales_Model_Billing_Agreement
+     * @return \Magento\Sales\Model\Billing\Agreement
      */
     public function cancel()
     {
@@ -204,15 +206,15 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
      *  [billing_agreement_id]  => string
      *  [method_code]           => string
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
-     * @return Magento_Sales_Model_Billing_Agreement
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return \Magento\Sales\Model\Billing\Agreement
      */
-    public function importOrderPayment(Magento_Sales_Model_Order_Payment $payment)
+    public function importOrderPayment(\Magento\Sales\Model\Order\Payment $payment)
     {
         $baData = $payment->getBillingAgreementData();
 
         $this->_paymentMethodInstance = (isset($baData['method_code']))
-            ? Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($baData['method_code'])
+            ? \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($baData['method_code'])
             : $payment->getMethodInstance();
         if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($payment->getMethodInstance()->getStore());
@@ -228,11 +230,11 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
      * Retrieve available customer Billing Agreements
      *
      * @param int $customer
-     * @return Magento_Paypal_Controller_Express_Abstract
+     * @return \Magento\Paypal\Controller\Express\AbstractExpress
      */
     public function getAvailableCustomerBillingAgreements($customerId)
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Billing_Agreement_Collection');
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Billing\Agreement\Collection');
         $collection->addFieldToFilter('customer_id', $customerId)
             ->addFieldToFilter('status', self::STATUS_ACTIVE)
             ->setOrder('agreement_id');
@@ -253,8 +255,8 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
     /**
      * Add order relation to current billing agreement
      *
-     * @param int|Magento_Sales_Model_Order $orderId
-     * @return Magento_Sales_Model_Billing_Agreement
+     * @param int|\Magento\Sales\Model\Order $orderId
+     * @return \Magento\Sales\Model\Billing\Agreement
      */
     public function addOrderRelation($orderId)
     {
@@ -268,7 +270,7 @@ class Magento_Sales_Model_Billing_Agreement extends Magento_Payment_Model_Billin
     protected function _saveOrderRelations()
     {
         foreach ($this->_relatedOrders as $order) {
-            $orderId = $order instanceof Magento_Sales_Model_Order ? $order->getId() : (int) $order;
+            $orderId = $order instanceof \Magento\Sales\Model\Order ? $order->getId() : (int) $order;
             $this->getResource()->addOrderRelation($this->getId(), $orderId);
         }
     }

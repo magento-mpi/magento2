@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Response_Rest_Renderer_Xml implements
-    Magento_Webapi_Controller_Response_Rest_RendererInterface
+namespace Magento\Webapi\Controller\Response\Rest\Renderer;
+
+class Xml implements
+    \Magento\Webapi\Controller\Response\Rest\RendererInterface
 {
     /**
      * Renderer mime type.
@@ -71,7 +73,7 @@ class Magento_Webapi_Controller_Response_Rest_Renderer_Xml implements
      * @param array|\Magento\Object $data
      * @param bool $isRoot
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _formatData($data, $isRoot = false)
     {

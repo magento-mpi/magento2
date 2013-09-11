@@ -11,14 +11,16 @@
 /**
  * Log Aggregation Model
  *
- * @method Magento_Log_Model_Resource_Aggregation getResource()
- * @method Magento_Log_Model_Resource_Aggregation _getResource()
+ * @method \Magento\Log\Model\Resource\Aggregation getResource()
+ * @method \Magento\Log\Model\Resource\Aggregation _getResource()
  *
  * @category   Magento
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
+namespace Magento\Log\Model;
+
+class Aggregation extends \Magento\Core\Model\AbstractModel
 {
 
     /**
@@ -33,7 +35,7 @@ class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Log_Model_Resource_Aggregation');
+        $this->_init('\Magento\Log\Model\Resource\Aggregation');
     }
 
     /**
@@ -42,7 +44,7 @@ class Magento_Log_Model_Aggregation extends Magento_Core_Model_Abstract
     public function run()
     {
         $this->_lastRecord = $this->_timestamp($this->_round($this->getLastRecordDate()));
-        foreach (Mage::app()->getStores(false) as $store) {
+        foreach (\Mage::app()->getStores(false) as $store) {
             $this->_process($store->getId());
         }
     }

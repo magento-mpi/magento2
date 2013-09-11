@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_ImportExport_Model_Source_Import_BehaviorAbstract
+namespace Magento\ImportExport\Model\Source\Import;
+
+abstract class BehaviorAbstract
 {
     /**
      * Array of data helpers
@@ -40,11 +42,11 @@ abstract class Magento_ImportExport_Model_Source_Import_BehaviorAbstract
      * Helper getter
      *
      * @param string $helperName
-     * @return Magento_Core_Helper_Abstract
+     * @return \Magento\Core\Helper\AbstractHelper
      */
     protected function _helper($helperName)
     {
-        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : Mage::helper($helperName);
+        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : \Mage::helper($helperName);
     }
 
     /**

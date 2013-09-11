@@ -9,7 +9,7 @@
 class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CustomerSegment_Model_Observer
+     * @var \Magento\CustomerSegment\Model\Observer
      */
     private $_model;
 
@@ -21,9 +21,9 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_segmentHelper = $this->getMock(
-            'Magento_CustomerSegment_Helper_Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
+            '\Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
         );
-        $this->_model = new Magento_CustomerSegment_Model_Observer($this->_segmentHelper);
+        $this->_model = new \Magento\CustomerSegment\Model\Observer($this->_segmentHelper);
     }
 
     protected function tearDown()
@@ -37,14 +37,14 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
 
         $formDependency = $this->getMock(
-            'Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false
+            '\Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false
         );
 
-        $layout = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array('createBlock'), array(), '', false);
         $layout
             ->expects($this->once())
             ->method('createBlock')
-            ->with('Magento_Backend_Block_Widget_Form_Element_Dependence')
+            ->with('Magento\Backend\Block\Widget\Form\Element\Dependence')
             ->will($this->returnValue($formDependency))
         ;
 
@@ -64,7 +64,7 @@ class Magento_CustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestC
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $layout = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
         $form = new \Magento\Data\Form();

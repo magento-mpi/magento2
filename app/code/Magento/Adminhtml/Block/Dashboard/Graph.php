@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Dashboard_Abstract
+namespace Magento\Adminhtml\Block\Dashboard;
+
+class Graph extends \Magento\Adminhtml\Block\Dashboard\AbstractDashboard
 {
     /**
      * Api URL
@@ -174,9 +176,9 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
             $this->setAxisLabels($axis, $this->getRowsData($attr, true));
         }
 
-        $timezoneLocal = Mage::app()->getStore()->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        $timezoneLocal = \Mage::app()->getStore()->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
 
-        list ($dateStart, $dateEnd) = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')
+        list ($dateStart, $dateEnd) = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Order\Collection')
             ->getDateRange($this->getDataHelper()->getParam('period'), '', '', true);
 
         $dateStart->setTimezone($timezoneLocal);
@@ -349,18 +351,18 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
                             switch ($this->getDataHelper()->getParam('period')) {
                                 case '24h':
                                     $this->_axisLabels[$idx][$_index] = $this->formatTime(
-                                        new Zend_Date($_label, 'yyyy-MM-dd HH:00'), 'short', false
+                                        new \Zend_Date($_label, 'yyyy-MM-dd HH:00'), 'short', false
                                     );
                                     break;
                                 case '7d':
                                 case '1m':
                                     $this->_axisLabels[$idx][$_index] = $this->formatDate(
-                                        new Zend_Date($_label, 'yyyy-MM-dd')
+                                        new \Zend_Date($_label, 'yyyy-MM-dd')
                                     );
                                     break;
                                 case '1y':
                                 case '2y':
-                                    $formats = Mage::app()->getLocale()->getTranslationList('datetime');
+                                    $formats = \Mage::app()->getLocale()->getTranslationList('datetime');
                                     $format = isset($formats['yyMM']) ? $formats['yyMM'] : 'MM/yyyy';
                                     $format = str_replace(array("yyyy", "yy", "MM"), array("Y", "y", "m"), $format);
                                     $this->_axisLabels[$idx][$_index] = date($format, strtotime($_label));
@@ -411,7 +413,7 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
             return self::API_URL . '?' . implode('&', $p);
         } else {
             $gaData = urlencode(base64_encode(json_encode($params)));
-            $gaHash = Mage::helper('Magento_Adminhtml_Helper_Dashboard_Data')->getChartDataHash($gaData);
+            $gaHash = \Mage::helper('Magento\Adminhtml\Helper\Dashboard\Data')->getChartDataHash($gaData);
             $params = array('ga' => $gaData, 'h' => $gaHash);
             return $this->getUrl('*/*/tunnel', array('_query' => $params));
         }
@@ -517,7 +519,7 @@ class Magento_Adminhtml_Block_Dashboard_Graph extends Magento_Adminhtml_Block_Da
     protected function _prepareData()
     {
         if (!is_null($this->getDataHelperName())) {
-            $availablePeriods = array_keys($this->helper('Magento_Adminhtml_Helper_Dashboard_Data')->getDatePeriods());
+            $availablePeriods = array_keys($this->helper('\Magento\Adminhtml\Helper\Dashboard\Data')->getDatePeriods());
             $period = $this->getRequest()->getParam('period');
             $this->getDataHelper()->setParam('period',
                ($period && in_array($period, $availablePeriods)) ? $period : '24h'

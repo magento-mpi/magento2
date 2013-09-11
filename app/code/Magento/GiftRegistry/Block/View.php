@@ -12,16 +12,18 @@
  * @deprecated after 1.11.2.0
  * Gift registry view block
  */
-class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Customer_Items
+namespace Magento\GiftRegistry\Block;
+
+class View extends \Magento\GiftRegistry\Block\Customer\Items
 {
     /**
      * Return current giftregistry entity
      *
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getEntity()
     {
-        return Mage::registry('current_entity');
+        return \Mage::registry('current_entity');
     }
 
     /**
@@ -33,7 +35,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
     public function getFormattedDate($date)
     {
         if ($date) {
-            return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
         }
         return '';
     }
@@ -47,7 +49,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
     public function getCountryName($countryCode)
     {
         if ($countryCode) {
-            $country = Mage::getModel('Magento_Directory_Model_Country')->loadByCode($countryCode);
+            $country = \Mage::getModel('\Magento\Directory\Model\Country')->loadByCode($countryCode);
             return $country->getName();
         }
         return '';
@@ -57,7 +59,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
      * Retrieve comma-separated list of entity registrant roles
      *
      * @param string $attributeCode
-     * @param Magento_GiftRegistry_Model_Type $type
+     * @param \Magento\GiftRegistry\Model\Type $type
      * @return string
      */
     public function getRegistrantRoles($attributeCode, $type)
@@ -84,7 +86,7 @@ class Magento_GiftRegistry_Block_View extends Magento_GiftRegistry_Block_Custome
     public function getAttributesToDisplay()
     {
         $typeId = $this->getEntity()->getTypeId();
-        $type = Mage::getModel('Magento_GiftRegistry_Model_Type')->load($typeId);
+        $type = \Mage::getModel('\Magento\GiftRegistry\Model\Type')->load($typeId);
 
         $attributes = array_merge(
             array(

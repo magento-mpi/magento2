@@ -12,12 +12,12 @@
         <reference name="order_items">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">downloadable</argument>
-                <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Renderer_Default</argument>
+                <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Items\Renderer\DefaultRenderer</argument>
                 <argument name="template" xsi:type="string">Magento_Downloadable::sales/order/creditmemo/create/items/renderer/downloadable.phtml</argument>
             </action>
             <action method="addColumnRender">
                 <argument name="column" xsi:type="string">downloadable</argument>
-                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Adminhtml_Sales_Items_Column_Downloadable_Name</argument>
+                <argument name="block" xsi:type="string">\Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Downloadable\Name</argument>
                 <argument name="template" xsi:type="string">sales/items/column/downloadable/creditmemo/name.phtml</argument>
             </action>
         </reference>

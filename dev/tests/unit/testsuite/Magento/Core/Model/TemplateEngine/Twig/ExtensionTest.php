@@ -7,7 +7,7 @@
  */
 class Magento_Core_Model_TemplateEngine_Twig_ExtensionTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_TemplateEngine_Twig_Extension */
+    /** @var \Magento\Core\Model\TemplateEngine\Twig\Extension */
     protected $_extension;
 
     /** @var PHPUnit_Framework_MockObject_MockObject  */
@@ -21,19 +21,19 @@ class Magento_Core_Model_TemplateEngine_Twig_ExtensionTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        $this->_blockTrackerMock = $this->getMockBuilder('Magento_Core_Model_TemplateEngine_BlockTrackerInterface')
+        $this->_blockTrackerMock = $this->getMockBuilder('Magento\Core\Model\TemplateEngine\BlockTrackerInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_commonFunctionsMock = $this->getMockBuilder('Magento_Core_Model_TemplateEngine_Twig_CommonFunctions')
+        $this->_commonFunctionsMock = $this->getMockBuilder('Magento\Core\Model\TemplateEngine\Twig\CommonFunctions')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_layoutFunctionsMock = $this->getMockBuilder('Magento_Core_Model_TemplateEngine_Twig_LayoutFunctions')
+        $this->_layoutFunctionsMock = $this->getMockBuilder('Magento\Core\Model\TemplateEngine\Twig\LayoutFunctions')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_extension = new Magento_Core_Model_TemplateEngine_Twig_Extension(
+        $this->_extension = new \Magento\Core\Model\TemplateEngine\Twig\Extension(
             $this->_commonFunctionsMock,
             $this->_layoutFunctionsMock
         );

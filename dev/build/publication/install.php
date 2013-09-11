@@ -63,9 +63,9 @@ if ($installOptions) {
 /* Initialize Magento application */
 require_once __DIR__ . '/../../../app/bootstrap.php';
 
-$entryPoint = new Magento_Index_Model_EntryPoint_Indexer(
+$entryPoint = new \Magento\Index\Model\EntryPoint\Indexer(
     $reportDir,
     new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local()),
-    new Magento_Core_Model_Config_Primary(BP, array())
+    new \Magento\Core\Model\Config\Primary(BP, array())
 );
 $entryPoint->processRequest();

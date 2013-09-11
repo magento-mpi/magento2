@@ -15,27 +15,29 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_Product
+namespace Magento\GiftMessage\Model;
+
+class Api extends \Magento\Checkout\Model\Api\Resource\Product
 {
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Config_Scope
+     * @var \Magento\Core\Model\Config\Scope
      */
     protected $_configScope;
 
     /**
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Config_Scope $configScope
-     * @param Magento_Api_Helper_Data $apiHelper
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Config\Scope $configScope
+     * @param \Magento\Api\Helper\Data $apiHelper
      */
     public function __construct(
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Config_Scope $configScope,
-        Magento_Api_Helper_Data $apiHelper
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Config\Scope $configScope,
+        \Magento\Api\Helper\Data $apiHelper
     ) {
         $this->_configScope = $configScope;
         $this->_eventManager = $eventManager;
@@ -60,8 +62,8 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
      * Raise event for setting a giftMessage.
      *
      * @param string $entityId
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Sales\Model\Quote $quote
      * @return array
      */
     protected function _setGiftMessage($entityId, $request, $quote)
@@ -73,7 +75,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
          */
         try {
             /** Frontend area events must be loaded as we emulate frontend behavior. */
-            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_FRONTEND);
+            $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_FRONTEND);
             $this->_eventManager->dispatch(
                 'checkout_controller_onepage_save_shipping_method',
                 array('request' => $request, 'quote' => $quote)
@@ -81,7 +83,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
             /** Restore config scope */
             $this->_configScope->setCurrentScope($currentScope);
             return array('entityId' => $entityId, 'result' => true, 'error' => '');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             /** Restore config scope */
             $this->_configScope->setCurrentScope($currentScope);
             return array('entityId' => $entityId, 'result' => false, 'error' => $e->getMessage());
@@ -98,7 +100,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
      */
     public function setForQuote($quoteId, $giftMessage, $store = null)
     {
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
         $giftMessage = $this->_prepareData($giftMessage);
@@ -108,7 +110,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
 
         $giftMessage['type'] = 'quote';
         $giftMessages = array($quoteId => $giftMessage);
-        $request = new Magento_Core_Controller_Request_Http();
+        $request = new \Magento\Core\Controller\Request\Http();
         $request->setParam("giftmessage", $giftMessages);
 
         return $this->_setGiftMessage($quote->getId(), $request, $quote);
@@ -124,7 +126,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
      */
     public function setForQuoteProduct($quoteId, $productsAndMessages, $store = null)
     {
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
         $productsAndMessages = $this->_prepareData($productsAndMessages);
@@ -177,13 +179,13 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
      */
     public function setForQuoteItem($quoteItemId, $giftMessage, $store = null)
     {
-        /** @var $quote Magento_Sales_Model_Quote_Item */
-        $quoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item')->load($quoteItemId);
+        /** @var $quote \Magento\Sales\Model\Quote\Item */
+        $quoteItem = \Mage::getModel('\Magento\Sales\Model\Quote\Item')->load($quoteItemId);
         if (is_null($quoteItem->getId())) {
             $this->_fault("quote_item_not_exists");
         }
 
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->_getQuote($quoteItem->getQuoteId(), $store);
 
         $giftMessage = $this->_prepareData($giftMessage);
@@ -191,7 +193,7 @@ class Magento_GiftMessage_Model_Api extends Magento_Checkout_Model_Api_Resource_
 
         $giftMessages = array($quoteItem->getId() => $giftMessage);
 
-        $request = new Magento_Core_Controller_Request_Http();
+        $request = new \Magento\Core\Controller\Request\Http();
         $request->setParam("giftmessage", $giftMessages);
 
         return $this->_setGiftMessage($quoteItemId, $request, $quote);

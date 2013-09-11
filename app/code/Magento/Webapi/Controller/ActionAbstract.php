@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_Webapi_Controller_ActionAbstract
+namespace Magento\Webapi\Controller;
+
+abstract class ActionAbstract
 {
     /**#@+
      * Collection page sizes.
@@ -29,21 +31,21 @@ abstract class Magento_Webapi_Controller_ActionAbstract
     const METHOD_MULTI_CREATE = 'multiCreate';
     /**#@-*/
 
-    /** @var Magento_Webapi_Controller_Request */
+    /** @var \Magento\Webapi\Controller\Request */
     protected $_request;
 
-    /** @var Magento_Webapi_Controller_Response */
+    /** @var \Magento\Webapi\Controller\Response */
     protected $_response;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Controller_Request_Factory $requestFactory
-     * @param Magento_Webapi_Controller_Response_Factory $responseFactory
+     * @param \Magento\Webapi\Controller\Request\Factory $requestFactory
+     * @param \Magento\Webapi\Controller\Response\Factory $responseFactory
      */
     public function __construct(
-        Magento_Webapi_Controller_Request_Factory $requestFactory,
-        Magento_Webapi_Controller_Response_Factory $responseFactory
+        \Magento\Webapi\Controller\Request\Factory $requestFactory,
+        \Magento\Webapi\Controller\Response\Factory $responseFactory
     ) {
         $this->_request = $requestFactory->get();
         $this->_response = $responseFactory->get();
@@ -52,7 +54,7 @@ abstract class Magento_Webapi_Controller_ActionAbstract
     /**
      * Retrieve request.
      *
-     * @return Magento_Webapi_Controller_Request
+     * @return \Magento\Webapi\Controller\Request
      */
     public function getRequest()
     {
@@ -62,7 +64,7 @@ abstract class Magento_Webapi_Controller_ActionAbstract
     /**
      * Retrieve response.
      *
-     * @return Magento_Webapi_Controller_Response
+     * @return \Magento\Webapi\Controller\Response
      */
     public function getResponse()
     {
@@ -74,16 +76,16 @@ abstract class Magento_Webapi_Controller_ActionAbstract
      *
      * @param \Magento\Data\Collection\Db $collection
      * @return \Magento\Data\Collection\Db
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     // TODO: Check and finish this method (the implementation was migrated from Magento 1)
     final protected function _applyCollectionModifiers(\Magento\Data\Collection\Db $collection)
     {
         $pageNumber = $this->getRequest()->getPageNumber();
         if ($pageNumber != abs($pageNumber)) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __("Page number is invalid."),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
         $pageSize = $this->getRequest()->getPageSize();
@@ -91,9 +93,9 @@ abstract class Magento_Webapi_Controller_ActionAbstract
             $pageSize = self::PAGE_SIZE_DEFAULT;
         } else {
             if ($pageSize != abs($pageSize) || $pageSize > self::PAGE_SIZE_MAX) {
-                throw new Magento_Webapi_Exception(
+                throw new \Magento\Webapi\Exception(
                     __('The paging limit exceeds the allowed number.'),
-                    Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                    \Magento\Webapi\Exception::HTTP_BAD_REQUEST
                 );
             }
         }
@@ -102,9 +104,9 @@ abstract class Magento_Webapi_Controller_ActionAbstract
             if (!is_string($orderField)
                 // TODO: Check if order field is allowed for specified entity
             ) {
-                throw new Magento_Webapi_Exception(
+                throw new \Magento\Webapi\Exception(
                     __('Collection "order" value is invalid.'),
-                    Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                    \Magento\Webapi\Exception::HTTP_BAD_REQUEST
                 );
             }
             $collection->setOrder($orderField, $this->getRequest()->getOrderDirection());

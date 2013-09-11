@@ -11,7 +11,9 @@
 /**
  * Poll sidebar container
  */
-class Magento_FullPageCache_Model_Container_Sidebar_Poll extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container\Sidebar;
+
+class Poll extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
      * Current Poll id
@@ -26,7 +28,7 @@ class Magento_FullPageCache_Model_Container_Sidebar_Poll extends Magento_FullPag
      */
     protected function _getIdentifier()
     {
-        $visitor = $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER, '');
+        $visitor = $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER, '');
         if (!$visitor) {
             $visitor = $_SERVER['REMOTE_ADDR'];
         }
@@ -66,13 +68,13 @@ class Magento_FullPageCache_Model_Container_Sidebar_Poll extends Magento_FullPag
      * Saves informational cache, containing parameters used to show poll.
      *
      * @param array $renderedParams
-     * @return Magento_FullPageCache_Model_Container_Sidebar_Poll
+     * @return \Magento\FullPageCache\Model\Container\Sidebar\Poll
      */
     protected function _saveInfoCache($renderedParams)
     {
         $data = serialize($renderedParams);
         $id = $this->_getInfoCacheId();
-        $tags = array(Magento_FullPageCache_Model_Processor::CACHE_TAG);
+        $tags = array(\Magento\FullPageCache\Model\Processor::CACHE_TAG);
         $this->_fpcCache->save($data, $id, $tags);
         return $this;
     }
@@ -106,7 +108,7 @@ class Magento_FullPageCache_Model_Container_Sidebar_Poll extends Magento_FullPag
             }
 
             //filter voted
-            $voted = $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_POLL, '');
+            $voted = $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_POLL, '');
             if ($voted
                 && in_array($voted, $renderedParams['active_ids'])
                 && !in_array($voted, $renderedParams['voted_ids'])
@@ -143,7 +145,7 @@ class Magento_FullPageCache_Model_Container_Sidebar_Poll extends Magento_FullPag
             if($this->_getPollToShow()) {
                 $block->setPollId($this->_getPollToShow());
             } else {
-                $voted = $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_POLL, '');
+                $voted = $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_POLL, '');
                 if ($voted && in_array($voted, $renderedParams['active_ids'])) {
                     $renderedParams = array(
                         'active_ids' => $block->getActivePollsIds(),

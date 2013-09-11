@@ -13,18 +13,18 @@ class Magento_Catalog_Block_Product_View_AdditionalTest extends PHPUnit_Framewor
 {
     public function testGetChildHtmlList()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        /** @var $block Magento_Catalog_Block_Product_View_Additional */
-        $block = $layout->createBlock('Magento_Catalog_Block_Product_View_Additional', 'block');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        /** @var $block \Magento\Catalog\Block\Product\View\Additional */
+        $block = $layout->createBlock('\Magento\Catalog\Block\Product\View\Additional', 'block');
 
-        /** @var $childFirst Magento_Core_Block_Text */
-        $childFirst = $layout->addBlock('Magento_Core_Block_Text', 'child1', 'block');
+        /** @var $childFirst \Magento\Core\Block\Text */
+        $childFirst = $layout->addBlock('\Magento\Core\Block\Text', 'child1', 'block');
         $htmlFirst = '<b>Any html of child1</b>';
         $childFirst->setText($htmlFirst);
 
-        /** @var $childSecond Magento_Core_Block_Text */
-        $childSecond = $layout->addBlock('Magento_Core_Block_Text', 'child2', 'block');
+        /** @var $childSecond \Magento\Core\Block\Text */
+        $childSecond = $layout->addBlock('\Magento\Core\Block\Text', 'child2', 'block');
         $htmlSecond = '<b>Any html of child2</b>';
         $childSecond->setText($htmlSecond);
 

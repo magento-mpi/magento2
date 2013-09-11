@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Shipping_Controller_Tracking extends Magento_Core_Controller_Front_Action
+namespace Magento\Shipping\Controller;
+
+class Tracking extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Ajax action
@@ -28,8 +30,8 @@ class Magento_Shipping_Controller_Tracking extends Magento_Core_Controller_Front
             $response = '';
             $tracks = $order->getTracksCollection();
 
-            $block = $this->_objectManager->create('Magento_Core_Block_Template');
-            $block->setType('Magento_Core_Block_Template')
+            $block = $this->_objectManager->create('Magento\Core\Block\Template');
+            $block->setType('\Magento\Core\Block\Template')
                 ->setTemplate('order/trackinginfo.phtml');
 
             foreach ($tracks as $track){
@@ -48,8 +50,8 @@ class Magento_Shipping_Controller_Tracking extends Magento_Core_Controller_Front
      */
     public function popupAction()
     {
-        $shippingInfoModel = Mage::getModel('Magento_Shipping_Model_Info')->loadByHash($this->getRequest()->getParam('hash'));
-        Mage::register('current_shipping_info', $shippingInfoModel);
+        $shippingInfoModel = \Mage::getModel('\Magento\Shipping\Model\Info')->loadByHash($this->getRequest()->getParam('hash'));
+        \Mage::register('current_shipping_info', $shippingInfoModel);
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
             $this->norouteAction();
             return;
@@ -62,14 +64,14 @@ class Magento_Shipping_Controller_Tracking extends Magento_Core_Controller_Front
     /**
      * Initialize order model instance
      *
-     * @return Magento_Sales_Model_Order || false
+     * @return \Magento\Sales\Model\Order || false
      */
     protected function _initOrder()
     {
         $id = $this->getRequest()->getParam('order_id');
 
-        $order = Mage::getModel('Magento_Sales_Model_Order')->load($id);
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($id);
+        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
 
         if (!$order->getId() || !$customerId || $order->getCustomerId() != $customerId) {
             return false;

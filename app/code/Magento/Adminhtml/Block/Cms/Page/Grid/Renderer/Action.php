@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Cms_Page_Grid_Renderer_Action
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Cms\Page\Grid\Renderer;
+
+class Action
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     public function render(\Magento\Object $row)
     {
-        $urlModel = Mage::getModel('Magento_Core_Model_Url')->setStore($row->getData('_first_store_id'));
+        $urlModel = \Mage::getModel('\Magento\Core\Model\Url')->setStore($row->getData('_first_store_id'));
         $href = $urlModel->getUrl(
             $row->getIdentifier(), array(
                 '_current' => false,

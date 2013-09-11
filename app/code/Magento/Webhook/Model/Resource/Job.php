@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Job extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Webhook\Model\Resource;
+
+class Job extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initializes resource model

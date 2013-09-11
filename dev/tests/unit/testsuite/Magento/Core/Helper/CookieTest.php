@@ -12,14 +12,14 @@
 class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Cookie
+     * @var \Magento\Core\Helper\Cookie
      */
     protected $_object = null;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Core_Helper_Cookie(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
+        $this->_object = new \Magento\Core\Helper\Cookie(
+            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
             array(
                 'current_store' => $this->_getStoreStub(),
                 'cookie_model' => $this->_getCookieStub(array(1 => 1)),
@@ -31,8 +31,8 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
     public function testIsUserNotAllowSaveCookie()
     {
         $this->assertFalse($this->_object->isUserNotAllowSaveCookie());
-        $this->_object = new Magento_Core_Helper_Cookie(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
+        $this->_object = new \Magento\Core\Helper\Cookie(
+            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
             array(
                 'current_store' => $this->_getStoreStub(),
                 'cookie_model' => $this->_getCookieStub(array()),
@@ -57,8 +57,8 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnCallback('Magento_Core_Helper_CookieTest::getConfigMethodStub'))
             ->with($this->equalTo('web/cookie/cookie_restriction_lifetime'));
-        $this->_object = new Magento_Core_Helper_Cookie(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
+        $this->_object = new \Magento\Core\Helper\Cookie(
+            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
             array(
                 'current_store' => $storeStub,
                 'cookie_model' => $this->_getCookieStub(array(1 => 1)),
@@ -70,11 +70,11 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create store stub
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStoreStub()
     {
-        $store = $this->getMock('Magento_Core_Model_Store', array('getConfig'), array(), '', false);
+        $store = $this->getMock('Magento\Core\Model\Store', array('getConfig'), array(), '', false);
 
         $store->expects($this->any())
             ->method('getConfig')
@@ -86,11 +86,11 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
     /**
      * Create cookie model stub
      * @param array $cookieString
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     protected function _getCookieStub($cookieString = array())
     {
-        $cookie = $this->getMock('Magento_Core_Model_Cookie', array('get'), array(), '', false);
+        $cookie = $this->getMock('Magento\Core\Model\Cookie', array('get'), array(), '', false);
 
         $cookie->expects($this->any())
             ->method('get')
@@ -101,11 +101,11 @@ class Magento_Core_Helper_CookieTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create Website Stub
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     protected function _getWebsiteStub()
     {
-        $website = $this->getMock('Magento_Core_Model_Website', array('getId'), array(), '', false);
+        $website = $this->getMock('Magento\Core\Model\Website', array('getId'), array(), '', false);
 
         $website->expects($this->any())
             ->method('getId')

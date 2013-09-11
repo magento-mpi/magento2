@@ -15,7 +15,9 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\GiftWrapping\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Gift wrapping allow section in configuration
@@ -51,7 +53,7 @@ class Magento_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
      * Check availablity of gift wrapping for product
      *
      * @param int $productConfig
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function isGiftWrappingAvailableForProduct($productConfig, $store = null)
@@ -66,191 +68,191 @@ class Magento_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check availablity of gift wrapping on items level
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function isGiftWrappingAvailableForItems($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_ALLOWED_FOR_ITEMS, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_ALLOWED_FOR_ITEMS, $store);
     }
 
     /**
      * Check availablity of gift wrapping on order level
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function isGiftWrappingAvailableForOrder($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_ALLOWED_FOR_ORDER, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_ALLOWED_FOR_ORDER, $store);
     }
 
     /**
      * Check ability to display both prices for printed card
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function getWrappingTaxClass($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_TAX_CLASS, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_TAX_CLASS, $store);
     }
 
     /**
      * Check printed card allow
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function allowPrintedCard($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_ALLOW_PRINTED_CARD, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_ALLOW_PRINTED_CARD, $store);
     }
 
     /**
      * Check allow gift receipt
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function allowGiftReceipt($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_ALLOW_GIFT_RECEIPT, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_ALLOW_GIFT_RECEIPT, $store);
     }
 
     /**
      * Return printed card base price
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return mixed
      */
     public function getPrintedCardPrice($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_PRINTED_CARD_PRICE, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_PRINTED_CARD_PRICE, $store);
     }
 
     /**
      * Check ability to display prices including tax for gift wrapping in shopping cart
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function displayCartWrappingIncludeTaxPrice($store = null)
     {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
-        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        $configValue = \Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
+        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
+            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
      * Check ability to display prices excluding tax for gift wrapping in shopping cart
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function displayCartWrappingExcludeTaxPrice($store = null)
     {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+        $configValue = \Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     /**
      * Check ability to display both prices for gift wrapping in shopping cart
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function displayCartWrappingBothPrices($store = null)
     {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        $configValue = \Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_WRAPPING, $store);
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
      * Check ability to display prices including tax for printed card in shopping cart
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function displayCartCardIncludeTaxPrice($store = null)
     {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD, $store);
-        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        $configValue = \Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD, $store);
+        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
+            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
      * Check ability to display both prices for printed card in shopping cart
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function displayCartCardBothPrices($store = null)
     {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        $configValue = \Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_CART_PRINTED_CARD, $store);
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
      * Check ability to display prices including tax for gift wrapping in backend sales
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function displaySalesWrappingIncludeTaxPrice($store = null)
     {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
-        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        $configValue = \Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
+        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
+            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
      * Check ability to display prices excluding tax for gift wrapping in backend sales
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function displaySalesWrappingExcludeTaxPrice($store = null)
     {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
+        $configValue = \Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
     /**
      * Check ability to display both prices for gift wrapping in backend sales
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function displaySalesWrappingBothPrices($store = null)
     {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        $configValue = \Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_WRAPPING, $store);
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
      * Check ability to display prices including tax for printed card in backend sales
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function displaySalesCardIncludeTaxPrice($store = null)
     {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD, $store);
-        return ($configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH
-            || $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX);
+        $configValue = \Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD, $store);
+        return ($configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH
+            || $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_INCLUDING_TAX);
     }
 
     /**
      * Check ability to display both prices for printed card in backend sales
      *
-     * @param Magento_Core_Model_Store|int $store
+     * @param \Magento\Core\Model\Store|int $store
      * @return bool
      */
     public function displaySalesCardBothPrices($store = null)
     {
-        $configValue = Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD, $store);
-        return $configValue == Magento_Tax_Model_Config::DISPLAY_TYPE_BOTH;
+        $configValue = \Mage::getStoreConfig(self::XML_PATH_PRICE_DISPLAY_SALES_PRINTED_CARD, $store);
+        return $configValue == \Magento\Tax\Model\Config::DISPLAY_TYPE_BOTH;
     }
 
     /**
@@ -268,14 +270,14 @@ class Magento_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
         $displayCardBothPrices = false;
         $displayCardIncludeTaxPrice = false;
 
-        if ($dataObject instanceof Magento_Sales_Model_Order
-            || $dataObject instanceof Magento_Sales_Model_Order_Invoice
-            || $dataObject instanceof Magento_Sales_Model_Order_Creditmemo) {
+        if ($dataObject instanceof \Magento\Sales\Model\Order
+            || $dataObject instanceof \Magento\Sales\Model\Order\Invoice
+            || $dataObject instanceof \Magento\Sales\Model\Order\Creditmemo) {
             $displayWrappingBothPrices = $this->displaySalesWrappingBothPrices();
             $displayWrappingIncludeTaxPrice = $this->displaySalesWrappingIncludeTaxPrice();
             $displayCardBothPrices = $this->displaySalesCardBothPrices();
             $displayCardIncludeTaxPrice = $this->displaySalesCardIncludeTaxPrice();
-        } elseif ($dataObject instanceof Magento_Sales_Model_Quote_Address_Total) {
+        } elseif ($dataObject instanceof \Magento\Sales\Model\Quote\Address\Total) {
             $displayWrappingBothPrices = $this->displayCartWrappingBothPrices();
             $displayWrappingIncludeTaxPrice = $this->displayCartWrappingIncludeTaxPrice();
             $displayCardBothPrices = $this->displayCartCardBothPrices();
@@ -404,8 +406,8 @@ class Magento_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
      * @param  \Magento\Object $item
      * @param  float $price
      * @param  bool $includingTax
-     * @param  null|Magento_Customer_Model_Address $shippingAddress
-     * @param  null|Magento_Customer_Model_Address $billingAddress
+     * @param  null|\Magento\Customer\Model\Address $shippingAddress
+     * @param  null|\Magento\Customer\Model\Address $billingAddress
      * @param  null|int $ctc
      * @param  mixed $store
      * @return float
@@ -416,16 +418,16 @@ class Magento_GiftWrapping_Helper_Data extends Magento_Core_Helper_Abstract
         if (!$price) {
             return $price;
         }
-        $store = Mage::app()->getStore($store);
+        $store = \Mage::app()->getStore($store);
         $taxClassId = $item->getTaxClassId();
         if ($taxClassId && $includeTax) {
-            $request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(
+            $request = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRateRequest(
                 $shippingAddress,
                 $billingAddress,
                 $ctc,
                 $store
             );
-            $percent = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($request->setProductClassId($taxClassId));
+            $percent = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRate($request->setProductClassId($taxClassId));
             if ($percent) {
                 $price = $price * (1 + ($percent / 100));
             }

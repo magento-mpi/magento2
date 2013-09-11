@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Initialize Grid Block
@@ -32,11 +34,11 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid ex
     /**
      * Prepare grid collection object
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Eav_Model_Form_Type')
+        $collection = \Mage::getModel('\Magento\Eav\Model\Form\Type')
             ->getCollection();
 
         $this->setCollection($collection);
@@ -46,7 +48,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid ex
     /**
      * Prepare Grid columns
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid
      */
     protected function _prepareColumns()
     {
@@ -66,8 +68,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid ex
             'type'      => 'store'
         ));
 
-        /** @var $label Magento_Core_Model_Theme_Label */
-        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+        /** @var $label \Magento\Core\Model\Theme\Label */
+        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
         $design = $label->getLabelsCollection();
         array_unshift($design, array(
             'value' => 'all',

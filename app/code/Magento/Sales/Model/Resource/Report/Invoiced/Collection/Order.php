@@ -16,8 +16,10 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Report_Invoiced_Collection_Order
-    extends Magento_Sales_Model_Resource_Report_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Report\Invoiced\Collection;
+
+class Order
+    extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
      * Period format
@@ -39,7 +41,7 @@ class Magento_Sales_Model_Resource_Report_Invoiced_Collection_Order
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Sales_Model_Resource_Report $resource
+        \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init('sales_invoiced_aggregated_order');
         parent::__construct($fetchStrategy, $resource);
@@ -82,7 +84,7 @@ class Magento_Sales_Model_Resource_Report_Invoiced_Collection_Order
     /**
      * Add selected data
      *
-     * @return Magento_Sales_Model_Resource_Report_Invoiced_Collection_Order
+     * @return \Magento\Sales\Model\Resource\Report\Invoiced\Collection\Order
      */
     protected function _initSelect()
     {

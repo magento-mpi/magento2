@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Path_Composite
+ * \Magento\Core\Model\DataService\Path\Composite
  *
  * {license_notice}
  *
@@ -16,7 +16,7 @@ class Magento_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framewor
     const ITEM_TWO = 'ITEM_TWO';
     const ITEM_THREE = 'ITEM_THREE';
 
-    /** @var Magento_Core_Model_DataService_Path_Composite */
+    /** @var \Magento\Core\Model\DataService\Path\Composite */
     protected $_composite;
 
     /**
@@ -39,7 +39,7 @@ class Magento_Core_Model_DataService_Path_CompositeTest extends PHPUnit_Framewor
                         (self::ITEM_TWO)   => (self::ITEM_TWO),
                         (self::ITEM_THREE) => (self::ITEM_THREE));
         $this->_composite
-            = new Magento_Core_Model_DataService_Path_Composite($objectManagerMock, $vector);
+            = new \Magento\Core\Model\DataService\Path\Composite($objectManagerMock, $vector);
     }
 
     /**

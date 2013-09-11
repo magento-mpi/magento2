@@ -15,29 +15,31 @@
  * @category   Magento
  * @package    Magento_CustomerBalance
  */
-class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
+
+class Additional extends \Magento\Core\Block\Template
 {
     /**
      * Customer balance instance
      *
-     * @var Magento_CustomerBalance_Model_Balance
+     * @var \Magento\CustomerBalance\Model\Balance
      */
     protected $_balanceModel = null;
 
     /**
      * Get quote instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     /**
      * Getter
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -47,14 +49,14 @@ class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends 
     /**
      * Get balance instance
      *
-     * @return Magento_CustomerBalance_Model_Balance
+     * @return \Magento\CustomerBalance\Model\Balance
      */
     protected function _getBalanceModel()
     {
         if (is_null($this->_balanceModel)) {
-            $this->_balanceModel = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+            $this->_balanceModel = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
                 ->setCustomer($this->_getCustomer())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+                ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
 
             //load customer balance for customer in case we have
             //registered customer and this is not guest checkout
@@ -68,11 +70,11 @@ class Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends 
     /**
      * Get customer instance
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
     }
 
     /**

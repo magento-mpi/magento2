@@ -23,12 +23,12 @@ class Magento_Checkout_Model_Type_OnepageTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveOrder($customerData)
     {
-        /** @var $model Magento_Checkout_Model_Type_Onepage */
-        $model = Mage::getModel('Magento_Checkout_Model_Type_Onepage');
+        /** @var $model \Magento\Checkout\Model\Type\Onepage */
+        $model = Mage::getModel('\Magento\Checkout\Model\Type\Onepage');
 
-        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
-        /** @var Magento_Sales_Model_Quote $quote */
+        /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('\Magento\Sales\Model\Resource\Quote\Collection');
+        /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $quoteCollection->getFirstItem();
 
         $model->setQuote($quote);
@@ -38,8 +38,8 @@ class Magento_Checkout_Model_Type_OnepageTest extends PHPUnit_Framework_TestCase
 
         $model->saveOrder();
 
-        /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = Mage::getModel('\Magento\Sales\Model\Order');
         $order->loadByIncrementId($model->getLastOrderId());
 
         $this->assertNotEmpty($quote->getShippingAddress()->getCustomerAddressId(),
@@ -64,18 +64,18 @@ class Magento_Checkout_Model_Type_OnepageTest extends PHPUnit_Framework_TestCase
     /**
      * Prepare Quote
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      */
     protected function _prepareQuote($quote)
     {
-        /** @var $rate Magento_Sales_Model_Quote_Address_Rate */
-        $rate = Mage::getModel('Magento_Sales_Model_Quote_Address_Rate');
+        /** @var $rate \Magento\Sales\Model\Quote\Address\Rate */
+        $rate = Mage::getModel('\Magento\Sales\Model\Quote\Address\Rate');
         $rate->setCode('freeshipping_freeshipping');
         $rate->getPrice(1);
 
         $quote->getShippingAddress()->setShippingMethod('freeshipping_freeshipping');
         $quote->getShippingAddress()->addShippingRate($rate);
-        $quote->setCheckoutMethod(Magento_Checkout_Model_Type_Onepage::METHOD_REGISTER);
+        $quote->setCheckoutMethod(\Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER);
     }
 
     /**

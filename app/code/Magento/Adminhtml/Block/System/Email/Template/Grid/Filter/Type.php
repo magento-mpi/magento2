@@ -16,13 +16,15 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Email_Template_Grid_Filter_Type
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+namespace Magento\Adminhtml\Block\System\Email\Template\Grid\Filter;
+
+class Type
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
 {
     protected static $_types = array(
         null                                        =>  null,
-        Magento_Newsletter_Model_Template::TYPE_HTML   => 'HTML',
-        Magento_Newsletter_Model_Template::TYPE_TEXT   => 'Text',
+        \Magento\Newsletter\Model\Template::TYPE_HTML   => 'HTML',
+        \Magento\Newsletter\Model\Template::TYPE_TEXT   => 'Text',
     );
 
     protected function _getOptions()

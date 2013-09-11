@@ -17,7 +17,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $area = 'areaFixture';
         $params = array('module' => 'Magento_Core', 'area' => $area);
 
-        $fileSystem = $this->getMock('Magento_Core_Model_View_FileSystem', array(), array(), '', false);
+        $fileSystem = $this->getMock('Magento\Core\Model\View\FileSystem', array(), array(), '', false);
         $fileSystem->expects($this->once())->method('getFilename')->with($template, $params);
         $arguments = array(
             'viewFileSystem' => $fileSystem,
@@ -25,7 +25,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         );
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $block = $helper->getObject('Magento_Core_Block_Template', $arguments);
+        $block = $helper->getObject('\Magento\Core\Block\Template', $arguments);
 
         $block->getTemplateFile();
     }
@@ -38,22 +38,22 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testFetchView($filename, $expectedOutput)
     {
         $map = array(
-            array(Magento_Core_Model_Dir::APP, __DIR__),
-            array(Magento_Core_Model_Dir::THEMES, __DIR__ . 'design'),
+            array(\Magento\Core\Model\Dir::APP, __DIR__),
+            array(\Magento\Core\Model\Dir::THEMES, __DIR__ . 'design'),
         );
-        $dirMock = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false, false);
+        $dirMock = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false, false);
         $dirMock->expects($this->any())->method('getDir')->will($this->returnValueMap($map));
-        $layout = $this->getMock('Magento_Core_Model_Layout', array('isDirectOutput'), array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array('isDirectOutput'), array(), '', false);
         $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
-        $design = $this->getMock('Magento_Core_Model_View_DesignInterface', array(), array(), '', false);
-        $translator = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false);
+        $design = $this->getMock('Magento\Core\Model\View\DesignInterface', array(), array(), '', false);
+        $translator = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
 
         $objectManagerMock = $this->getMock('Magento\ObjectManager', array('get', 'create', 'configure'));
         $objectManagerMock->expects($this->any())
             ->method('get')
-            ->with('Magento_Core_Model_TemplateEngine_Php')
-            ->will($this->returnValue(new Magento_Core_Model_TemplateEngine_Php()));
-        $engineFactory = new Magento_Core_Model_TemplateEngine_Factory($objectManagerMock);
+            ->with('Magento\Core\Model\TemplateEngine\Php')
+            ->will($this->returnValue(new \Magento\Core\Model\TemplateEngine\Php()));
+        $engineFactory = new \Magento\Core\Model\TemplateEngine\Factory($objectManagerMock);
 
         $arguments = array(
             'design'        => $design,
@@ -66,9 +66,9 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
         $block = $this->getMock(
-            'Magento_Core_Block_Template',
+            '\Magento\Core\Block\Template',
             array('getShowTemplateHints'),
-            $helper->getConstructArguments('Magento_Core_Block_Template', $arguments)
+            $helper->getConstructArguments('\Magento\Core\Block\Template', $arguments)
         );
         $layout->expects($this->once())->method('isDirectOutput')->will($this->returnValue(false));
 

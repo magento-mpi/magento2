@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Sales\Block\Order\Print;
+
+class Shipment extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Tracks for Shippings
@@ -28,14 +30,14 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
      /**
      * Order shipments collection
      *
-     * @var array|Magento_Sales_Model_Resource_Order_Shipment_Collection
+     * @var array|\Magento\Sales\Model\Resource\Order\Shipment\Collection
      */
     protected $_shipmentsCollection;
 
     /**
      * Load all tracks and save it to local cache by shipments
      *
-     * @return Magento_Sales_Block_Order_Print_Shipment
+     * @return \Magento\Sales\Block\Order\Print\Shipment
      */
     protected function _beforeToHtml()
     {
@@ -46,7 +48,7 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
             $this->_tracks[$shipmentId][] = $track;
         }
 
-        $shipment = Mage::registry('current_shipment');
+        $shipment = \Mage::registry('current_shipment');
         if($shipment) {
             $this->_shipmentsCollection = array($shipment);
         } else {
@@ -63,18 +65,18 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
         }
         $this->setChild(
             'payment_info',
-            $this->helper('Magento_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('\Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return \Mage::getUrl('*/*/history');
     }
 
     public function getPrintUrl()
     {
-        return Mage::getUrl('*/*/print');
+        return \Mage::getUrl('*/*/print');
     }
 
     public function getPaymentInfoHtml()
@@ -84,15 +86,15 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
 
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return \Mage::registry('current_shipment');
     }
 
-    protected function _prepareItem(Magento_Core_Block_Abstract $renderer)
+    protected function _prepareItem(\Magento\Core\Block\AbstractBlock $renderer)
     {
         $renderer->setPrintStatus(true);
 
@@ -102,7 +104,7 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
      /**
      * Retrieve order shipments collection
      *
-     * @return array|Magento_Sales_Model_Resource_Order_Shipment_Collection
+     * @return array|\Magento\Sales\Model\Resource\Order\Shipment\Collection
      */
     public function getShipmentsCollection()
     {
@@ -112,7 +114,7 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
     /**
      * Getter for order tracking numbers collection per shipment
      *
-     * @param Magento_Sales_Model_Order_Shipment $shipment
+     * @param \Magento\Sales\Model\Order\Shipment $shipment
      * @return array
      */
     public function getShipmentTracks($shipment)
@@ -127,13 +129,13 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
     /**
      * Getter for shipment address by format
      *
-     * @param Magento_Sales_Model_Order_Shipment $shipment
+     * @param \Magento\Sales\Model\Order\Shipment $shipment
      * @return string
      */
     public function getShipmentAddressFormattedHtml($shipment)
     {
         $shippingAddress = $shipment->getShippingAddress();
-        if(!($shippingAddress instanceof Magento_Sales_Model_Order_Address)) {
+        if(!($shippingAddress instanceof \Magento\Sales\Model\Order\Address)) {
             return '';
         }
         return $shippingAddress->format('html');
@@ -142,13 +144,13 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
     /**
      * Getter for billing address of order by format
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return string
      */
     public function getBillingAddressFormattedHtml($order)
     {
         $billingAddress = $order->getBillingAddress();
-        if(!($billingAddress instanceof Magento_Sales_Model_Order_Address)) {
+        if(!($billingAddress instanceof \Magento\Sales\Model\Order\Address)) {
             return '';
         }
         return $billingAddress->format('html');
@@ -157,7 +159,7 @@ class Magento_Sales_Block_Order_Print_Shipment extends Magento_Sales_Block_Items
     /**
      * Getter for billing address of order by format
      *
-     * @param Magento_Sales_Model_Order_Shipment $shipment
+     * @param \Magento\Sales\Model\Order\Shipment $shipment
      * @return array
      */
     public function getShipmentItems($shipment)

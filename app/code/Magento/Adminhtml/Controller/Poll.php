@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller;
+
+class Poll extends \Magento\Adminhtml\Controller\Action
 {
 
     public function indexAction()
@@ -26,7 +28,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
         $this->_setActiveMenu('Magento_Poll::cms_poll');
         $this->_addBreadcrumb(__('Poll Manager'), __('Poll Manager'));
 
-        $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Poll'));
+        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Poll'));
         $this->renderLayout();
     }
 
@@ -35,12 +37,12 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
         $this->_title(__('Polls'));
 
         $pollId     = $this->getRequest()->getParam('id');
-        $pollModel  = Mage::getModel('Magento_Poll_Model_Poll')->load($pollId);
+        $pollModel  = \Mage::getModel('\Magento\Poll\Model\Poll')->load($pollId);
 
         if ($pollModel->getId() || $pollId == 0) {
             $this->_title($pollModel->getId() ? $pollModel->getPollTitle() : __('New Poll'));
 
-            Mage::register('poll_data', $pollModel);
+            \Mage::register('poll_data', $pollModel);
 
             $this->loadLayout();
             $this->_setActiveMenu('Magento_Poll::cms_poll');
@@ -48,12 +50,12 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
             $this->_addBreadcrumb(__('Edit Poll'), __('Edit Poll'));
 
             $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
-            $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Edit'))
-                ->_addLeft($this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Edit_Tabs'));
+            $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit'))
+                ->_addLeft($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit\Tabs'));
 
             $this->renderLayout();
         } else {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('The poll does not exist.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('The poll does not exist.'));
             $this->_redirect('*/*/');
         }
     }
@@ -62,27 +64,27 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
     {
         if ($id = $this->getRequest()->getParam('id')) {
             try {
-                $model = Mage::getModel('Magento_Poll_Model_Poll');
+                $model = \Mage::getModel('\Magento\Poll\Model\Poll');
                 $model->setId($id);
                 $model->delete();
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the poll.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the poll.'));
                 $this->_redirect('*/*/');
                 return;
             }
-            catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            catch (\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We can\'t find a poll to delete.'));
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a poll to delete.'));
         $this->_redirect('*/*/');
     }
 
     public function saveAction()
     {
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the poll.'));
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPollData(false);
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the poll.'));
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setPollData(false);
         $this->_redirect('*/*/');
     }
 
@@ -99,7 +101,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
         if ( $this->getRequest()->getPost() ) {
             try {
-                $pollModel = Mage::getModel('Magento_Poll_Model_Poll');
+                $pollModel = \Mage::getModel('\Magento\Poll\Model\Poll');
 
                 if( !$this->getRequest()->getParam('id') ) {
                     $pollModel->setDatePosted(now());
@@ -110,7 +112,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                 }
 
                 if( !$this->getRequest()->getParam('closed') ) {
-                    $pollModel->setDateClosed(new Zend_Db_Expr('null'));
+                    $pollModel->setDateClosed(new \Zend_Db_Expr('null'));
                 }
 
                 $pollModel->setPollTitle($this->getRequest()->getParam('poll_title'))
@@ -122,7 +124,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
                 $stores = $this->getRequest()->getParam('store_ids');
                 if (!is_array($stores) || count($stores) == 0) {
-                    Mage::throwException(__('Please indicate where this poll can be seen ("Visible In").'));
+                    \Mage::throwException(__('Please indicate where this poll can be seen ("Visible In").'));
                 }
 
                 if (is_array($stores)) {
@@ -139,7 +141,7 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                         }
                     }
                     if (count($storeIds) === 0) {
-                        Mage::throwException(__('Please indicate where this poll can be seen ("Visible In").'));
+                        \Mage::throwException(__('Please indicate where this poll can be seen ("Visible In").'));
                     }
                     $pollModel->setStoreIds($storeIds);
                 }
@@ -147,18 +149,18 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
                 $answers = $this->getRequest()->getParam('answer');
 
                 if( !is_array($answers) || sizeof($answers) == 0 ) {
-                    Mage::throwException(__('Please enter answer options for this poll.'));
+                    \Mage::throwException(__('Please enter answer options for this poll.'));
                 }
 
                 if( is_array($answers) ) {
                     $_titles = array();
                     foreach( $answers as $key => $answer ) {
                         if( in_array($answer['title'], $_titles) ) {
-                            Mage::throwException(__('Your answers contain duplicates.'));
+                            \Mage::throwException(__('Your answers contain duplicates.'));
                         }
                         $_titles[] = $answer['title'];
 
-                        $answerModel = Mage::getModel('Magento_Poll_Model_Poll_Answer');
+                        $answerModel = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
                         if( intval($key) > 0 ) {
                             $answerModel->setId($key);
                         }
@@ -171,20 +173,20 @@ class Magento_Adminhtml_Controller_Poll extends Magento_Adminhtml_Controller_Act
 
                 $pollModel->save();
 
-                Mage::register('current_poll_model', $pollModel);
+                \Mage::register('current_poll_model', $pollModel);
 
                 $answersDelete = $this->getRequest()->getParam('deleteAnswer');
                 if( is_array($answersDelete) ) {
                     foreach( $answersDelete as $answer ) {
-                        $answerModel = Mage::getModel('Magento_Poll_Model_Poll_Answer');
+                        $answerModel = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
                         $answerModel->setId($answer)
                             ->delete();
                     }
                 }
             }
-            catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-                $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+            catch (\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }

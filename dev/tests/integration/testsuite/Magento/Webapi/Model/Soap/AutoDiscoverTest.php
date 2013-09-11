@@ -19,17 +19,17 @@ include __DIR__ . '/../../_files/Controller/AutoDiscover/ModuleB.php';
 /**#@-*/
 
 /**
- * Class for {@see Magento_Webapi_Model_Soap_AutoDiscover} model testing.
+ * Class for {@see \Magento\Webapi\Model\Soap\AutoDiscover} model testing.
  */
 class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Model_Config_Soap */
+    /** @var \Magento\Webapi\Model\Config\Soap */
     protected $_config;
 
-    /** @var Magento_Webapi_Model_Soap_AutoDiscover */
+    /** @var \Magento\Webapi\Model\Soap\AutoDiscover */
     protected $_autoDiscover;
 
-    /** @var Magento_Webapi_Helper_Config */
+    /** @var \Magento\Webapi\Helper\Config */
     protected $_helper;
 
     /**
@@ -67,23 +67,23 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
     {
         $fixtureDir = __DIR__ . '/../../_files/Controller/AutoDiscover/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
-        /** @var Magento_Core_Model_App $app */
-        $app = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
+        /** @var \Magento\Core\Model\App $app */
+        $app = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_helper = $objectManager->get('Magento_Webapi_Helper_Config');
+        $this->_helper = $objectManager->get('Magento\Webapi\Helper\Config');
         $reader = $objectManager->create(
-            'Magento_Webapi_Model_Config_Reader_Soap',
+            '\Magento\Webapi\Model\Config\Reader\Soap',
             array(
-                'cache' => $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false)
+                'cache' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false)
             )
         );
         $reader->setDirectoryScanner($directoryScanner);
-        $this->_config = new Magento_Webapi_Model_Config_Soap($reader, $this->_helper, $app);
-        $objectManager->addSharedInstance($this->_config, 'Magento_Webapi_Model_Config_Soap');
-        $wsdlFactory = new Magento_Webapi_Model_Soap_Wsdl_Factory($objectManager);
-        $cache = $this->getMock('Magento_Core_Model_CacheInterface');
-        $cacheStateMock = $this->getMock('Magento_Core_Model_Cache_StateInterface');
-        $this->_autoDiscover = new Magento_Webapi_Model_Soap_AutoDiscover(
+        $this->_config = new \Magento\Webapi\Model\Config\Soap($reader, $this->_helper, $app);
+        $objectManager->addSharedInstance($this->_config, '\Magento\Webapi\Model\Config\Soap');
+        $wsdlFactory = new \Magento\Webapi\Model\Soap\Wsdl\Factory($objectManager);
+        $cache = $this->getMock('Magento\Core\Model\CacheInterface');
+        $cacheStateMock = $this->getMock('Magento\Core\Model\Cache\StateInterface');
+        $this->_autoDiscover = new \Magento\Webapi\Model\Soap\AutoDiscover(
             $this->_config,
             $wsdlFactory,
             $this->_helper,
@@ -240,7 +240,7 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
     protected function _assertAppinfo($expectedAppinfo, DOMElement $element)
     {
         $xsdNs = Wsdl::XSD_NS;
-        $infNs = Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased::APP_INF_NS;
+        $infNs = \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased::APP_INF_NS;
         /** @var DOMElement $appInfoNode */
         $appInfoNode = $this->_xpath->query("{$xsdNs}:annotation/{$xsdNs}:appinfo", $element)->item(0);
         $elementName = $element->getAttribute('name');
@@ -276,7 +276,7 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
      */
     protected function _assertDocInstructions(DOMElement $appInfoNode, array $appInfoData)
     {
-        $infNs = Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased::APP_INF_NS;
+        $infNs = \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased::APP_INF_NS;
         $elementName = $appInfoNode->parentNode->parentNode->getAttribute('name');
         /** @var DOMElement $docInstructionsNode */
         $docInstructionsNode = $this->_xpath->query("{$infNs}:docInstructions", $appInfoNode)->item(0);
@@ -299,7 +299,7 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
      */
     protected function _assertSeeLink(DOMElement $appInfoNode, array $appInfoData)
     {
-        $infNs = Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased::APP_INF_NS;
+        $infNs = \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased::APP_INF_NS;
         $elementName = $appInfoNode->parentNode->parentNode->getAttribute('name');
         /** @var DOMElement $seeLinkNode */
         $seeLinkNode = $this->_xpath->query("{$infNs}:seeLink", $appInfoNode)->item(0);
@@ -326,7 +326,7 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
      */
     protected function _assertCallInfo(DOMElement $appInfoNode, array $appInfoData)
     {
-        $infNs = Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased::APP_INF_NS;
+        $infNs = \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased::APP_INF_NS;
         $elementName = $appInfoNode->parentNode->parentNode->getAttribute('name');
         foreach ($appInfoData as $callName => $callData) {
             if ($callName == 'allCallsExcept') {

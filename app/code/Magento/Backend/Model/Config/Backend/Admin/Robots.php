@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
+class Robots extends \Magento\Core\Model\Config\Value
 {
     /**
      * @var \Magento\Filesystem
@@ -28,22 +30,22 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
     protected $_filePath;
 
     /**
-     * @param Magento_Core_Model_Context $context
+     * @param \Magento\Core\Model\Context $context
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
+        \Magento\Core\Model\Context $context,
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
         $this->_filesystem = $filesystem;
-        $this->_filePath = Mage::getBaseDir() . '/robots.txt';
+        $this->_filePath = \Mage::getBaseDir() . '/robots.txt';
     }
 
 
@@ -64,7 +66,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
     /**
      * Load default content from robots.txt if customer does not define own
      *
-     * @return Magento_Backend_Model_Config_Backend_Admin_Robots
+     * @return \Magento\Backend\Model\Config\Backend\Admin\Robots
      */
     protected function _afterLoad()
     {
@@ -78,7 +80,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Robots extends Magento_Core_Mod
     /**
      * Check and process robots file
      *
-     * @return Magento_Backend_Model_Config_Backend_Admin_Robots
+     * @return \Magento\Backend\Model\Config\Backend\Admin\Robots
      */
     protected function _afterSave()
     {

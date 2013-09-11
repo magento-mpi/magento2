@@ -9,7 +9,7 @@
  */
 class Magento_Webapi_Model_Rest_Oauth_ServerTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Model_Rest_Oauth_Server */
+    /** @var \Magento\Webapi\Model\Rest\Oauth\Server */
     protected $_server;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -26,22 +26,22 @@ class Magento_Webapi_Model_Rest_Oauth_ServerTest extends PHPUnit_Framework_TestC
      */
     protected function setUp()
     {
-        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Request_Rest')
+        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Request\Rest')
             ->setMethods(array('getHeader', 'getScheme', 'getHttpHost', 'getRequestUri'))
             ->disableOriginalConstructor()
             ->getMock();
-        $tokenFactory = $this->getMockBuilder('Magento_Oauth_Model_Token_Factory')
+        $tokenFactory = $this->getMockBuilder('Magento\Oauth\Model\Token\Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_consumerFactoryMock = $this->getMockBuilder('Magento_Webapi_Model_Acl_User_Factory')
+        $this->_consumerFactoryMock = $this->getMockBuilder('Magento\Webapi\Model\Acl\User\Factory')
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_nonceFactory = $this->getMockBuilder('Magento_Oauth_Model_Nonce_Factory')
+        $this->_nonceFactory = $this->getMockBuilder('Magento\Oauth\Model\Nonce\Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_server = new Magento_Webapi_Model_Rest_Oauth_Server(
+        $this->_server = new \Magento\Webapi\Model\Rest\Oauth\Server(
             $this->_requestMock,
             $tokenFactory,
             $this->_consumerFactoryMock,
@@ -64,11 +64,11 @@ class Magento_Webapi_Model_Rest_Oauth_ServerTest extends PHPUnit_Framework_TestC
             'oauth_nonce' => $utility->generateNonce(),
             'oauth_timestamp' => $utility->generateTimestamp(),
             'oauth_version' => '1.0',
-            'oauth_signature_method' => Magento_Oauth_Model_Server::SIGNATURE_PLAIN,
+            'oauth_signature_method' => \Magento\Oauth\Model\Server::SIGNATURE_PLAIN,
         );
         $params['oauth_signature'] = $utility->sign(
             $params,
-            Magento_Oauth_Model_Server::SIGNATURE_PLAIN,
+            \Magento\Oauth\Model\Server::SIGNATURE_PLAIN,
             $testUserSecret,
             '',
             'GET',
@@ -96,7 +96,7 @@ class Magento_Webapi_Model_Rest_Oauth_ServerTest extends PHPUnit_Framework_TestC
             ->with()
             ->will($this->returnValue('/api/rest/v1/baz'));
 
-        $userMock = $this->getMockBuilder('Magento_Webapi_Model_Acl_User')
+        $userMock = $this->getMockBuilder('Magento\Webapi\Model\Acl\User')
             ->setMethods(array('loadByKey', 'getId', 'getSecret'))
             ->disableOriginalConstructor()
             ->getMock();

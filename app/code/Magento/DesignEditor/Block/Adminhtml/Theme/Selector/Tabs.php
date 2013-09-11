@@ -11,7 +11,9 @@
 /**
  * Theme selectors tabs container
  */
-class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_Tabs extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector;
+
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize tab

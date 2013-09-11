@@ -16,24 +16,26 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Review\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected function _prepareForm()
     {
-        $review = Mage::registry('review_data');
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($review->getEntityPkValue());
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($review->getCustomerId());
+        $review = \Mage::registry('review_data');
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($review->getEntityPkValue());
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($review->getCustomerId());
 
         $form = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
-            'action'    => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => Mage::registry('ret'))),
+            'action'    => $this->getUrl('*/*/save', array('id' => $this->getRequest()->getParam('id'), 'ret' => \Mage::registry('ret'))),
             'method'    => 'post'
         ));
 
         $fieldset = $form->addFieldset('review_details', array('legend' => __('Review Details'), 'class' => 'fieldset-wide'));
 
-        /** @var $helper Magento_Review_Helper_Data */
-        $helper = Mage::helper('Magento_Review_Helper_Data');
+        /** @var $helper \Magento\Review\Helper\Data */
+        $helper = \Mage::helper('Magento\Review\Helper\Data');
         $fieldset->addField('product_name', 'note', array(
             'label'     => __('Product'),
             'text'      => '<a href="' . $this->getUrl('*/catalog_product/edit', array('id' => $product->getId())) . '" onclick="this.target=\'blank\'">' . $helper->escapeHtml($product->getName()) . '</a>'
@@ -56,14 +58,14 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
 
         $fieldset->addField('summary_rating', 'note', array(
             'label'     => __('Summary Rating'),
-            'text'      => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Rating_Summary')->toHtml(),
+            'text'      => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Rating\Summary')->toHtml(),
         ));
 
         $fieldset->addField('detailed_rating', 'note', array(
             'label'     => __('Detailed Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">'
-                           . $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Rating_Detailed')->toHtml()
+                           . $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Rating\Detailed')->toHtml()
                            . '</div>',
         ));
 
@@ -71,29 +73,29 @@ class Magento_Adminhtml_Block_Review_Edit_Form extends Magento_Adminhtml_Block_W
             'label'     => __('Status'),
             'required'  => true,
             'name'      => 'status_id',
-            'values'    => Mage::helper('Magento_Review_Helper_Data')->getReviewStatusesOptionArray(),
+            'values'    => \Mage::helper('Magento\Review\Helper\Data')->getReviewStatusesOptionArray(),
         ));
 
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->hasSingleStore()) {
+        if (!\Mage::app()->hasSingleStore()) {
             $field = $fieldset->addField('select_stores', 'multiselect', array(
                 'label'     => __('Visible In'),
                 'required'  => true,
                 'name'      => 'stores[]',
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
             $review->setSelectStores($review->getStores());
         }
         else {
             $fieldset->addField('select_stores', 'hidden', array(
                 'name'      => 'stores[]',
-                'value'     => Mage::app()->getStore(true)->getId()
+                'value'     => \Mage::app()->getStore(true)->getId()
             ));
-            $review->setSelectStores(Mage::app()->getStore(true)->getId());
+            $review->setSelectStores(\Mage::app()->getStore(true)->getId());
         }
 
         $fieldset->addField('nickname', 'text', array(

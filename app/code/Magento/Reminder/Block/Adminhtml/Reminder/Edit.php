@@ -11,7 +11,9 @@
 /**
  * Reminder rule edit form block
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Reminder\Block\Adminhtml\Reminder;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Initialize form
@@ -27,11 +29,11 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtml_B
 
         parent::_construct();
 
-        /** @var $rule Magento_Reminder_Model_Rule */
-        $rule = Mage::registry('current_reminder_rule');
+        /** @var $rule \Magento\Reminder\Model\Rule */
+        $rule = \Mage::registry('current_reminder_rule');
         if ($rule && $rule->getId()) {
             $confirm = __('Are you sure you want to match this rule now?');
-            if ($limit = Mage::helper('Magento_Reminder_Helper_Data')->getOneRunLimit()) {
+            if ($limit = \Mage::helper('Magento\Reminder\Helper\Data')->getOneRunLimit()) {
                 $confirm .= ' ' . __('No more than %1 customers may receive the reminder email after this action.', $limit);
             }
             $this->_addButton('run_now', array(
@@ -58,7 +60,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtml_B
      */
     public function getHeaderText()
     {
-        $rule = Mage::registry('current_reminder_rule');
+        $rule = \Mage::registry('current_reminder_rule');
         if ($rule->getRuleId()) {
             return __("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
         }
@@ -74,7 +76,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit extends Magento_Adminhtml_B
      */
     public function getRunUrl()
     {
-        $rule = Mage::registry('current_reminder_rule');
+        $rule = \Mage::registry('current_reminder_rule');
         return $this->getUrl('*/*/run', array('id' => $rule->getRuleId()));
     }
 }

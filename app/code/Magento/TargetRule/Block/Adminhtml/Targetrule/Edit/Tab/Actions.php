@@ -15,20 +15,22 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
+
+class Actions
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 
 {
     /**
      * Prepare target rule actions form before rendering HTML
      *
-     * @return Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
+     * @return \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Actions
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_TargetRule_Model_Rule */
-        $model  = Mage::registry('current_target_rule');
+        /* @var $model \Magento\TargetRule\Model\Rule */
+        $model  = \Mage::registry('current_target_rule');
         $form   = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('rule_');
 
@@ -38,7 +40,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
         $newCondUrl = $this->getUrl('*/targetrule/newActionsHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
-        $renderer   = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer   = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')
             ->setNewChildUrl($newCondUrl);
         $fieldset->setRenderer($renderer);
@@ -48,7 +50,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
             'required'  => true
         ));
         $element->setRule($model);
-        $element->setRenderer(Mage::getBlockSingleton('Magento_TargetRule_Block_Adminhtml_Actions_Conditions'));
+        $element->setRenderer(\Mage::getBlockSingleton('\Magento\TargetRule\Block\Adminhtml\Actions\Conditions'));
 
         $model->getActions()->setJsFormObject($fieldset->getHtmlId());
         $form->setValues($model->getData());

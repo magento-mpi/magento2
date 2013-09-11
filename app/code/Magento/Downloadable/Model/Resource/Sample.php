@@ -16,7 +16,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Resource_Sample extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Downloadable\Model\Resource;
+
+class Sample extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection
@@ -30,8 +32,8 @@ class Magento_Downloadable_Model_Resource_Sample extends Magento_Core_Model_Reso
     /**
      * Save title of sample item in store scope
      *
-     * @param Magento_Downloadable_Model_Sample $sampleObject
-     * @return Magento_Downloadable_Model_Resource_Sample
+     * @param \Magento\Downloadable\Model\Sample $sampleObject
+     * @return \Magento\Downloadable\Model\Resource\Sample
      */
     public function saveItemTitle($sampleObject)
     {
@@ -74,15 +76,15 @@ class Magento_Downloadable_Model_Resource_Sample extends Magento_Core_Model_Reso
     /**
      * Delete data by item(s)
      *
-     * @param Magento_Downloadable_Model_Sample|array|int $items
-     * @return Magento_Downloadable_Model_Resource_Sample
+     * @param \Magento\Downloadable\Model\Sample|array|int $items
+     * @return \Magento\Downloadable\Model\Resource\Sample
      */
     public function deleteItems($items)
     {
 
         $writeAdapter = $this->_getWriteAdapter();
         $where = '';
-        if ($items instanceof Magento_Downloadable_Model_Sample) {
+        if ($items instanceof \Magento\Downloadable\Model\Sample) {
             $where = array('sample_id = ?'    => $items->getId());
         } else {
             $where = array('sample_id in (?)' => $items);

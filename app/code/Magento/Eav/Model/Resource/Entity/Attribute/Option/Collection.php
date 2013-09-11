@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Eav\Model\Resource\Entity\Attribute\Option;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Option value table
@@ -30,15 +32,15 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Entity_Attribute_Option', 'Magento_Eav_Model_Resource_Entity_Attribute_Option');
-        $this->_optionValueTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_attribute_option_value');
+        $this->_init('\Magento\Eav\Model\Entity\Attribute\Option', '\Magento\Eav\Model\Resource\Entity\Attribute\Option');
+        $this->_optionValueTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('eav_attribute_option_value');
     }
 
     /**
      * Set attribute filter
      *
      * @param int $setId
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
      */
     public function setAttributeFilter($setId)
     {
@@ -51,12 +53,12 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
      *
      * @param int $storeId
      * @param bolean $useDefaultValue
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
      */
     public function setStoreFilter($storeId = null, $useDefaultValue = true)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = \Mage::app()->getStore()->getId();
         }
         $adapter = $this->getConnection();
 
@@ -94,7 +96,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
      * Add option id(s) frilter to collection
      *
      * @param int|array $optionId
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
      */
     public function setIdFilter($optionId)
     {
@@ -117,7 +119,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection extends Mage
      *
      * @param string $dir direction
      * @param boolean $sortAlpha sort alphabetically by values in admin
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
      */
     public function setPositionOrder($dir = self::SORT_ORDER_ASC, $sortAlpha = false)
     {

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Poll\Edit\Tab\Answers;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid extends Magento_Adminht
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Poll_Model_Poll_Answer')
+        $collection = \Mage::getModel('\Magento\Poll\Model\Poll\Answer')
             ->getResourceCollection()
             ->addPollFilter($this->getRequest()->getParam('id'));
         $this->setCollection($collection);

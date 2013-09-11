@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
      * Initialize edit tabs

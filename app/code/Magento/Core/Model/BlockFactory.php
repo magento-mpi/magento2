@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_BlockFactory
+namespace Magento\Core\Model;
+
+class BlockFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -26,7 +28,7 @@ class Magento_Core_Model_BlockFactory
     /**
      * @param string $blockName
      * @param array $arguments
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function createBlock($blockName, array $arguments = array())
     {

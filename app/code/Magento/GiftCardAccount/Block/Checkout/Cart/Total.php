@@ -9,17 +9,19 @@
  */
 
 
-class Magento_GiftCardAccount_Block_Checkout_Cart_Total extends Magento_Checkout_Block_Total_Default
+namespace Magento\GiftCardAccount\Block\Checkout\Cart;
+
+class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     protected $_template = 'Magento_GiftCardAccount::cart/total.phtml';
 
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     public function getQuoteGiftCards()
     {
-        return Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($this->getQuote());
+        return \Mage::helper('Magento\GiftCardAccount\Helper\Data')->getCards($this->getQuote());
     }
 }

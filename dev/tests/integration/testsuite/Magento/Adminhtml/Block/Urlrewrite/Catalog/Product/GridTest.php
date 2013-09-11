@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid
  * @magentoAppArea adminhtml
  */
 class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_GridTest extends PHPUnit_Framework_TestCase
@@ -20,12 +20,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_GridTest extends PHPUni
      */
     public function testPrepareGrid()
     {
-        /** @var $gridBlock Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid */
-        $gridBlock = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid');
+        /** @var $gridBlock \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid */
+        $gridBlock = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid');
         $gridBlock->toHtml();
 
         foreach (array('entity_id', 'name', 'sku', 'status') as $key) {
-            $this->assertInstanceOf('Magento_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn($key),
+            $this->assertInstanceOf('\Magento\Backend\Block\Widget\Grid\Column', $gridBlock->getColumn($key),
                 'Column with key "' . $key . '" is invalid');
         }
 

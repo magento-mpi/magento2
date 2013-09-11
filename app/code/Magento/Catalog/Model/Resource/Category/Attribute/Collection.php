@@ -16,19 +16,21 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Attribute_Collection
-    extends Magento_Eav_Model_Resource_Entity_Attribute_Collection
+namespace Magento\Catalog\Model\Resource\Category\Attribute;
+
+class Collection
+    extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
 {
     /**
      * Main select object initialization.
      * Joins catalog/eav_attribute table
      *
-     * @return Magento_Catalog_Model_Resource_Category_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Attribute\Collection
      */
     protected function _initSelect()
     {
         $this->getSelect()->from(array('main_table' => $this->getResource()->getMainTable()))
-            ->where('main_table.entity_type_id=?', Mage::getModel('Magento_Eav_Model_Entity')->setType(Magento_Catalog_Model_Category::ENTITY)->getTypeId())
+            ->where('main_table.entity_type_id=?', \Mage::getModel('\Magento\Eav\Model\Entity')->setType(\Magento\Catalog\Model\Category::ENTITY)->getTypeId())
             ->join(
                 array('additional_table' => $this->getTable('catalog_eav_attribute')),
                 'additional_table.attribute_id = main_table.attribute_id'
@@ -40,7 +42,7 @@ class Magento_Catalog_Model_Resource_Category_Attribute_Collection
      * Specify attribute entity type filter
      *
      * @param int $typeId
-     * @return Magento_Catalog_Model_Resource_Category_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Attribute\Collection
      */
     public function setEntityTypeFilter($typeId)
     {

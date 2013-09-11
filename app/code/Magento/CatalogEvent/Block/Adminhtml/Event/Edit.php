@@ -15,8 +15,10 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
-    extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\CatalogEvent\Block\Adminhtml\Event;
+
+class Edit
+    extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected $_objectId = 'id';
     protected $_blockGroup = 'Magento_CatalogEvent';
@@ -25,7 +27,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
     /**
      * Prepare catalog event form or category selector
      *
-     * @return Magento_CatalogEvent_Block_Adminhtml_Event_Edit
+     * @return \Magento\CatalogEvent\Block\Adminhtml\Event\Edit
      */
     protected function _prepareLayout()
     {
@@ -121,11 +123,11 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit
     /**
      * Retrive catalog event model
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function getEvent()
     {
-        return Mage::registry('magento_catalogevent_event');
+        return \Mage::registry('magento_catalogevent_event');
     }
 
 }

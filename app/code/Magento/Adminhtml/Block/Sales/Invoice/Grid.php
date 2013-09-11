@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Invoice;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -33,12 +35,12 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_Sales_Model_Resource_Order_Invoice_Grid_Collection';
+        return '\Magento\Sales\Model\Resource\Order\Invoice\Grid\Collection';
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel($this->_getCollectionClass());
+        $collection = \Mage::getResourceModel($this->_getCollectionClass());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -88,7 +90,7 @@ class Magento_Adminhtml_Block_Sales_Invoice_Grid extends Magento_Adminhtml_Block
             'header'    => __('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('Magento_Sales_Model_Order_Invoice')->getStates(),
+            'options'   => \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->getStates(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Layer_Filter_Decimal extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Layer\Filter;
+
+class Decimal extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table name
@@ -30,10 +32,10 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Decimal extends Magento_Core_M
     /**
      * Apply attribute filter to product collection
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Decimal $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
      * @param float $range
      * @param int $index
-     * @return Magento_Catalog_Model_Resource_Layer_Filter_Decimal
+     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Decimal
      */
     public function applyFilterToCollection($filter, $range, $index)
     {
@@ -63,7 +65,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Decimal extends Magento_Core_M
     /**
      * Retrieve array of minimal and maximal values
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Decimal $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
      * @return array
      */
     public function getMinMax($filter)
@@ -72,8 +74,8 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Decimal extends Magento_Core_M
         $adapter    = $this->_getReadAdapter();
 
         $select->columns(array(
-            'min_value' => new Zend_Db_Expr('MIN(decimal_index.value)'),
-            'max_value' => new Zend_Db_Expr('MAX(decimal_index.value)'),
+            'min_value' => new \Zend_Db_Expr('MIN(decimal_index.value)'),
+            'max_value' => new \Zend_Db_Expr('MAX(decimal_index.value)'),
         ));
 
         $result     = $adapter->fetchRow($select);
@@ -85,7 +87,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Decimal extends Magento_Core_M
      * Retrieve clean select with joined index table
      * Joined table has index
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Decimal $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
      * @return \Magento\DB\Select
      */
     protected function _getSelect($filter)
@@ -95,10 +97,10 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Decimal extends Magento_Core_M
         // clone select from collection with filters
         $select = clone $collection->getSelect();
         // reset columns, order and limitation conditions
-        $select->reset(Zend_Db_Select::COLUMNS);
-        $select->reset(Zend_Db_Select::ORDER);
-        $select->reset(Zend_Db_Select::LIMIT_COUNT);
-        $select->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $select->reset(\Zend_Db_Select::COLUMNS);
+        $select->reset(\Zend_Db_Select::ORDER);
+        $select->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $select->reset(\Zend_Db_Select::LIMIT_OFFSET);
 
         $attributeId = $filter->getAttributeModel()->getId();
         $storeId     = $collection->getStoreId();
@@ -117,7 +119,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Decimal extends Magento_Core_M
     /**
      * Retrieve array with products counts per range
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Decimal $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
      * @param int $range
      * @return array
      */
@@ -126,8 +128,8 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Decimal extends Magento_Core_M
         $select     = $this->_getSelect($filter);
         $adapter    = $this->_getReadAdapter();
 
-        $countExpr  = new Zend_Db_Expr("COUNT(*)");
-        $rangeExpr  = new Zend_Db_Expr("FLOOR(decimal_index.value / {$range}) + 1");
+        $countExpr  = new \Zend_Db_Expr("COUNT(*)");
+        $rangeExpr  = new \Zend_Db_Expr("FLOOR(decimal_index.value / {$range}) + 1");
 
         $select->columns(array(
             'decimal_range' => $rangeExpr,

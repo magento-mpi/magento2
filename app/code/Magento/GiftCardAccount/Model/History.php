@@ -10,26 +10,28 @@
 
 
 /**
- * @method Magento_GiftCardAccount_Model_Resource_History _getResource()
- * @method Magento_GiftCardAccount_Model_Resource_History getResource()
+ * @method \Magento\GiftCardAccount\Model\Resource\History _getResource()
+ * @method \Magento\GiftCardAccount\Model\Resource\History getResource()
  * @method int getGiftcardaccountId()
- * @method Magento_GiftCardAccount_Model_History setGiftcardaccountId(int $value)
+ * @method \Magento\GiftCardAccount\Model\History setGiftcardaccountId(int $value)
  * @method string getUpdatedAt()
- * @method Magento_GiftCardAccount_Model_History setUpdatedAt(string $value)
+ * @method \Magento\GiftCardAccount\Model\History setUpdatedAt(string $value)
  * @method int getAction()
- * @method Magento_GiftCardAccount_Model_History setAction(int $value)
+ * @method \Magento\GiftCardAccount\Model\History setAction(int $value)
  * @method float getBalanceAmount()
- * @method Magento_GiftCardAccount_Model_History setBalanceAmount(float $value)
+ * @method \Magento\GiftCardAccount\Model\History setBalanceAmount(float $value)
  * @method float getBalanceDelta()
- * @method Magento_GiftCardAccount_Model_History setBalanceDelta(float $value)
+ * @method \Magento\GiftCardAccount\Model\History setBalanceDelta(float $value)
  * @method string getAdditionalInfo()
- * @method Magento_GiftCardAccount_Model_History setAdditionalInfo(string $value)
+ * @method \Magento\GiftCardAccount\Model\History setAdditionalInfo(string $value)
  *
  * @category    Magento
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
+namespace Magento\GiftCardAccount\Model;
+
+class History extends \Magento\Core\Model\AbstractModel
 {
     const ACTION_CREATED  = 0;
     const ACTION_USED     = 1;
@@ -39,28 +41,28 @@ class Magento_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
     const ACTION_UPDATED  = 5;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_adminSession;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Backend_Model_Auth_Session $adminSession
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Model\Auth\Session $adminSession
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Backend_Model_Auth_Session $adminSession,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Model\Auth\Session $adminSession,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -72,14 +74,14 @@ class Magento_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_GiftCardAccount_Model_Resource_History');
+        $this->_init('\Magento\GiftCardAccount\Model\Resource\History');
     }
 
 
     /**
      * Get admin user
      *
-     * @return null|Magento_User_Model_User
+     * @return null|\Magento\User\Model\User
      */
     protected function _getAdminUser()
     {
@@ -175,7 +177,7 @@ class Magento_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
-            Mage::throwException(__('Please assign a gift card account.'));
+            \Mage::throwException(__('Please assign a gift card account.'));
         }
 
         $this->setAction($this->getGiftcardaccount()->getHistoryAction());
@@ -205,7 +207,7 @@ class Magento_GiftCardAccount_Model_History extends Magento_Core_Model_Abstract
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
             break;
             default:
-                Mage::throwException(__('Unknown history action.'));
+                \Mage::throwException(__('Unknown history action.'));
             break;
         }
 

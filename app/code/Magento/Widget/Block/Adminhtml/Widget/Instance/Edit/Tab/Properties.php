@@ -15,9 +15,11 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
-    extends Magento_Widget_Block_Adminhtml_Widget_Options
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
+
+class Properties
+    extends \Magento\Widget\Block\Adminhtml\Widget\Options
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare label for tab
@@ -66,14 +68,14 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
      */
     public function getWidgetInstance()
     {
-        return Mage::registry('current_widget_instance');
+        return \Mage::registry('current_widget_instance');
     }
 
     /**
      * Prepare block children and data.
      * Set widget type and widget parameters if available
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Properties
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Properties
      */
     protected function _preparelayout()
     {

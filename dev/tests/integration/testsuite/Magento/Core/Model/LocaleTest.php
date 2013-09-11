@@ -7,7 +7,7 @@
  */
 
 /**
- * Test for Magento_Core_Model_Locale class
+ * Test for \Magento\Core\Model\Locale class
  */
 class Magento_Core_Model_LocaleTest extends PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class Magento_Core_Model_LocaleTest extends PHPUnit_Framework_TestCase
     {
         Zend_Locale_Data::removeCache();
         $this->assertNull(Zend_Locale_Data::getCache());
-        $model = new Magento_Core_Model_Locale('some_locale');
+        $model = new \Magento\Core\Model\Locale('some_locale');
         $this->assertInstanceOf('Zend_Locale', $model->getLocale());
         $this->assertInstanceOf('Zend_Cache_Core', Zend_Locale_Data::getCache());
     }

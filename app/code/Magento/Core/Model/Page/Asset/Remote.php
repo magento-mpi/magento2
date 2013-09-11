@@ -11,7 +11,9 @@
 /**
  * Page asset residing outside of the local file system
  */
-class Magento_Core_Model_Page_Asset_Remote implements Magento_Core_Model_Page_Asset_AssetInterface
+namespace Magento\Core\Model\Page\Asset;
+
+class Remote implements \Magento\Core\Model\Page\Asset\AssetInterface
 {
     /**
      * @var string

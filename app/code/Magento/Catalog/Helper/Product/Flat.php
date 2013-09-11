@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Abstract
+namespace Magento\Catalog\Helper\Product;
+
+class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
 {
     /**
      * Catalog Product Flat Config
@@ -39,7 +41,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     /**
      * Catalog Product Flat index process instance
      *
-     * @var Magento_Index_Model_Process|null
+     * @var \Magento\Index\Model\Process|null
      */
     protected $_process = null;
 
@@ -55,19 +57,19 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     /**
      * Catalog Product Flat Flag object
      *
-     * @var Magento_Catalog_Model_Product_Flat_Flag
+     * @var \Magento\Catalog\Model\Product\Flat\Flag
      */
     protected $_flagObject;
 
     /**
      * Retrieve Catalog Product Flat Flag object
      *
-     * @return Magento_Catalog_Model_Product_Flat_Flag
+     * @return \Magento\Catalog\Model\Product\Flat\Flag
      */
     public function getFlag()
     {
         if (is_null($this->_flagObject)) {
-            $this->_flagObject = Mage::getSingleton('Magento_Catalog_Model_Product_Flat_Flag')
+            $this->_flagObject = \Mage::getSingleton('Magento\Catalog\Model\Product\Flat\Flag')
                 ->loadSelf();
         }
         return $this->_flagObject;
@@ -76,13 +78,13 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
     /**
      * Check Catalog Product Flat functionality is enabled
      *
-     * @param int|string|null|Magento_Core_Model_Store $store this parameter is deprecated and no longer in use
+     * @param int|string|null|\Magento\Core\Model\Store $store this parameter is deprecated and no longer in use
      *
      * @return bool
      */
     public function isEnabled($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_USE_PRODUCT_FLAT);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_USE_PRODUCT_FLAT);
     }
 
     /**
@@ -102,7 +104,7 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
      */
     public function isAddFilterableAttributes()
     {
-        return intval(Mage::getConfig()->getNode(self::XML_NODE_ADD_FILTERABLE_ATTRIBUTES));
+        return intval(\Mage::getConfig()->getNode(self::XML_NODE_ADD_FILTERABLE_ATTRIBUTES));
     }
 
     /**
@@ -112,6 +114,6 @@ class Magento_Catalog_Helper_Product_Flat extends Magento_Catalog_Helper_Flat_Ab
      */
     public function isAddChildData()
     {
-        return intval(Mage::getConfig()->getNode(self::XML_NODE_ADD_CHILD_DATA));
+        return intval(\Mage::getConfig()->getNode(self::XML_NODE_ADD_CHILD_DATA));
     }
 }

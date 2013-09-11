@@ -15,9 +15,11 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
+
+class Settings
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected function _construct()
     {
@@ -68,17 +70,17 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
     /**
      * Getter
      *
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
     {
-        return Mage::registry('current_widget_instance');
+        return \Mage::registry('current_widget_instance');
     }
 
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Settings
      */
     protected function _prepareForm()
     {
@@ -103,8 +105,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
             'values'   => $this->getTypesOptionsArray()
         ));
 
-        /** @var $label Magento_Core_Model_Theme_Label */
-        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+        /** @var $label \Magento\Core\Model\Theme\Label */
+        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
             'name'     => 'theme_id',
@@ -114,7 +116,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Settings
             'values'   => $options
         ));
         $continueButton = $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'     => __('Continue'),
                 'onclick'   => "setSettings('" . $this->getContinueUrl() . "', 'type', 'theme_id')",

@@ -16,16 +16,18 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Discount
-    extends Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend;
+
+class Discount
+    extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend
 {
     /**
      * Fetch discount
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Sales_Model_Resource_Quote_Address_Attribute_Frontend_Discount
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend\Discount
      */
-    public function fetchTotals(Magento_Sales_Model_Quote_Address $address)
+    public function fetchTotals(\Magento\Sales\Model\Quote\Address $address)
     {
         $amount = $address->getDiscountAmount();
         if ($amount != 0) {

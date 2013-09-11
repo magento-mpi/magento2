@@ -9,7 +9,9 @@
  */
 
 
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Element_Factory
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager

@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Api_Resource extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Customer\Model\Api;
+
+class Resource extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Default ignored attribute codes
@@ -34,7 +36,7 @@ class Magento_Customer_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
     /**
      * Check is attribute allowed
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param array $attributes
      * @return boolean
      */
@@ -53,7 +55,7 @@ class Magento_Customer_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
     /**
      * Return list of allowed attributes
      *
-     * @param Magento_Eav_Model_Entity_Abstract $entity
+     * @param \Magento\Eav\Model\Entity\AbstractEntity $entity
      * @param array $filter
      * @return array
      */
@@ -71,4 +73,4 @@ class Magento_Customer_Model_Api_Resource extends Magento_Api_Model_Resource_Abs
 
         return $result;
     }
-} // Class Magento_Customer_Model_Api_Resource End
+} // Class \Magento\Customer\Model\Api\Resource End

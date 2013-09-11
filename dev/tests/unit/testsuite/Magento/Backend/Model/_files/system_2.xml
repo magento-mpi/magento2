@@ -22,7 +22,7 @@
                 <label>Group 1 New</label>
                 <field id="field_2" translate="label" showInWebsite="1" type="text">
                     <label>Field 2</label>
-                    <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
+                    <backend_model>\Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
                 </field>
             </group>
             <group id="group_level_1" type="text">
@@ -39,7 +39,7 @@
                         <label>Group Level 3</label>
                         <field id="field_3.1.1" translate="label" showInWebsite="1" type="text">
                             <label>Field 3.1.1</label>
-                            <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
+                            <backend_model>\Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
                         </field>
                     </group>
                 </group>
@@ -65,7 +65,7 @@
                 </field>
                 <field id="field_4" translate="label" showInWebsite="1" type="text">
                     <label>Field 4</label>
-                    <backend_model>Magento_Backend_Model_Config_Backend_Encrypted</backend_model>
+                    <backend_model>\Magento\Backend\Model\Config\Backend\Encrypted</backend_model>
                     <attribute type="attribute_1">test_value_1</attribute>
                     <attribute type="attribute_2">test_value_2</attribute>
                     <attribute type="attribute_text"><![CDATA[<test_value>]]></attribute>

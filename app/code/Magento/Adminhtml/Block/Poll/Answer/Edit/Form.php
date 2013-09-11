@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Poll_Answer_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Poll\Answer\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected function _prepareForm()
     {
@@ -47,11 +49,11 @@ class Magento_Adminhtml_Block_Poll_Answer_Edit_Form extends Magento_Adminhtml_Bl
                 )
         );
 
-        $form->setValues(Mage::registry('answer_data')->getData());
+        $form->setValues(\Mage::registry('answer_data')->getData());
         $form->setUseContainer(true);
         $form->setId('edit_form');
         $form->setMethod('post');
-        $form->setAction($this->getUrl('*/*/save', array('id' => Mage::registry('answer_data')->getAnswerId())));
+        $form->setAction($this->getUrl('*/*/save', array('id' => \Mage::registry('answer_data')->getAnswerId())));
         $this->setForm($form);
     }
 }

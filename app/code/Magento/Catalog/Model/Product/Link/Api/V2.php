@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Link_Api_V2 extends Magento_Catalog_Model_Product_Link_Api
+namespace Magento\Catalog\Model\Product\Link\Api;
+
+class V2 extends \Magento\Catalog\Model\Product\Link\Api
 {
     /**
      * Add product link association
@@ -52,7 +54,7 @@ class Magento_Catalog_Model_Product_Link_Api_V2 extends Magento_Catalog_Model_Pr
 
         try {
             $link->getResource()->saveProductLinks($product, $links, $typeId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('data_invalid', __('The linked product does not exist.'));
         }
 
@@ -94,7 +96,7 @@ class Magento_Catalog_Model_Product_Link_Api_V2 extends Magento_Catalog_Model_Pr
 
         try {
             $link->getResource()->saveProductLinks($product, $links, $typeId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('data_invalid', __('The linked product does not exist.'));
         }
 

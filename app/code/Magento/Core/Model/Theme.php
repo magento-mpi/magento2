@@ -11,7 +11,7 @@
 /**
  * Theme model class
  *
- * @method Magento_Core_Model_Theme save()
+ * @method \Magento\Core\Model\Theme save()
  * @method string getPackageCode()
  * @method string getParentThemePath()
  * @method string getParentId()
@@ -22,23 +22,25 @@
  * @method int getThemeId()
  * @method int getType()
  * @method array getAssignedStores()
- * @method Magento_Core_Model_Resource_Theme_Collection getCollection()
- * @method Magento_Core_Model_Theme setAssignedStores(array $stores)
- * @method Magento_Core_Model_Theme addData(array $data)
- * @method Magento_Core_Model_Theme setParentId(int $id)
- * @method Magento_Core_Model_Theme setParentTheme($parentTheme)
- * @method Magento_Core_Model_Theme setPackageCode(string $packageCode)
- * @method Magento_Core_Model_Theme setThemeCode(string $themeCode)
- * @method Magento_Core_Model_Theme setThemePath(string $themePath)
- * @method Magento_Core_Model_Theme setThemeVersion(string $themeVersion)
- * @method Magento_Core_Model_Theme setArea(string $area)
- * @method Magento_Core_Model_Theme setThemeTitle(string $themeTitle)
- * @method Magento_Core_Model_Theme setType(int $type)
- * @method Magento_Core_Model_Theme setCode(string $code)
+ * @method \Magento\Core\Model\Resource\Theme\Collection getCollection()
+ * @method \Magento\Core\Model\Theme setAssignedStores(array $stores)
+ * @method \Magento\Core\Model\Theme addData(array $data)
+ * @method \Magento\Core\Model\Theme setParentId(int $id)
+ * @method \Magento\Core\Model\Theme setParentTheme($parentTheme)
+ * @method \Magento\Core\Model\Theme setPackageCode(string $packageCode)
+ * @method \Magento\Core\Model\Theme setThemeCode(string $themeCode)
+ * @method \Magento\Core\Model\Theme setThemePath(string $themePath)
+ * @method \Magento\Core\Model\Theme setThemeVersion(string $themeVersion)
+ * @method \Magento\Core\Model\Theme setArea(string $area)
+ * @method \Magento\Core\Model\Theme setThemeTitle(string $themeTitle)
+ * @method \Magento\Core\Model\Theme setType(int $type)
+ * @method \Magento\Core\Model\Theme setCode(string $code)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Magento_Core_Model_ThemeInterface
+namespace Magento\Core\Model;
+
+class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\Core\Model\ThemeInterface
 {
     /**#@+
      * Theme types group
@@ -68,12 +70,12 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
     protected $_eventObject = 'theme';
 
     /**
-     * @var Magento_Core_Model_Theme_FlyweightFactory
+     * @var \Magento\Core\Model\Theme\FlyweightFactory
      */
     protected $_themeFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_Domain_Factory
+     * @var \Magento\Core\Model\Theme\Domain\Factory
      */
     protected $_domainFactory;
 
@@ -83,12 +85,12 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
     protected $_imageFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_Validator
+     * @var \Magento\Core\Model\Theme\Validator
      */
     protected $_validator;
 
     /**
-     * @var Magento_Core_Model_Theme_Customization
+     * @var \Magento\Core\Model\Theme\Customization
      */
     protected $_customization;
 
@@ -111,25 +113,25 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
     /**
      * Initialize dependencies
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
-     * @param Magento_Core_Model_Theme_Domain_Factory $domainFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
+     * @param \Magento\Core\Model\Theme\Domain\Factory $domainFactory
      * @param Magento_Core_Model_Theme_ImageFactory $imageFactory
-     * @param Magento_Core_Model_Theme_Validator $validator
+     * @param \Magento\Core\Model\Theme\Validator $validator
      * @param Magento_Core_Model_Theme_CustomizationFactory $customizationFactory
-     * @param Magento_Core_Model_Resource_Theme $resource
-     * @param Magento_Core_Model_Resource_Theme_Collection $resourceCollection
+     * @param \Magento\Core\Model\Resource\Theme $resource
+     * @param \Magento\Core\Model\Resource\Theme\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Theme_FlyweightFactory $themeFactory,
-        Magento_Core_Model_Theme_Domain_Factory $domainFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory,
+        \Magento\Core\Model\Theme\Domain\Factory $domainFactory,
         Magento_Core_Model_Theme_ImageFactory $imageFactory,
-        Magento_Core_Model_Theme_Validator $validator,
+        \Magento\Core\Model\Theme\Validator $validator,
         Magento_Core_Model_Theme_CustomizationFactory $customizationFactory,
-        Magento_Core_Model_Resource_Theme $resource = null,
-        Magento_Core_Model_Resource_Theme_Collection $resourceCollection = null,
+        \Magento\Core\Model\Resource\Theme $resource = null,
+        \Magento\Core\Model\Resource\Theme\Collection $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
@@ -141,7 +143,7 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
 
         $this->addData(array(
             'type' => self::TYPE_VIRTUAL,
-            'area' => Magento_Core_Model_App_Area::AREA_FRONTEND
+            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND
         ));
     }
 
@@ -150,13 +152,13 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Resource_Theme');
+        $this->_init('\Magento\Core\Model\Resource\Theme');
     }
 
     /**
      * Get theme image model
      *
-     * @return Magento_Core_Model_Theme_Image
+     * @return \Magento\Core\Model\Theme\Image
      */
     public function getThemeImage()
     {
@@ -164,7 +166,7 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
     }
 
     /**
-     * @return Magento_Core_Model_Theme_Customization
+     * @return \Magento\Core\Model\Theme\Customization
      */
     public function getCustomization()
     {
@@ -232,7 +234,7 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
     public function hasChildThemes()
     {
         return (bool)$this->getCollection()
-            ->addTypeFilter(Magento_Core_Model_Theme::TYPE_VIRTUAL)
+            ->addTypeFilter(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
             ->addFieldToFilter('parent_id', array('eq' => $this->getId()))
             ->getSize();
     }
@@ -240,7 +242,7 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
     /**
      * Retrieve theme instance representing the latest changes to a theme
      *
-     * @return Magento_Core_Model_Theme|null
+     * @return \Magento\Core\Model\Theme|null
      */
     public function getStagingVersion()
     {
@@ -314,13 +316,13 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
      * Get one of theme domain models
      *
      * @param int|null $type
-     * @return Magento_Core_Model_Theme_Domain_Virtual|Magento_Core_Model_Theme_Domain_Staging
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\Theme\Domain\Virtual|\Magento\Core\Model\Theme\Domain\Staging
+     * @throws \InvalidArgumentException
      */
     public function getDomainModel($type = null)
     {
         if ($type !== null && $type != $this->getType()) {
-            throw new InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'Invalid domain model "%s" requested for theme "%s" of type "%s"',
                 $type,
                 $this->getId(),
@@ -334,14 +336,14 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
     /**
      * Validate theme data
      *
-     * @return Magento_Core_Model_Theme
-     * @throws Magento_Core_Exception
+     * @return \Magento\Core\Model\Theme
+     * @throws \Magento\Core\Exception
      */
     protected function _validate()
     {
         if (!$this->_validator->validate($this)) {
             $messages = $this->_validator->getErrorMessages();
-            throw new Magento_Core_Exception(implode(PHP_EOL, reset($messages)));
+            throw new \Magento\Core\Exception(implode(PHP_EOL, reset($messages)));
         }
         return $this;
     }
@@ -349,7 +351,7 @@ class Magento_Core_Model_Theme extends Magento_Core_Model_Abstract implements Ma
     /**
      * Before theme save
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     protected function _beforeSave()
     {

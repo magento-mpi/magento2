@@ -15,7 +15,7 @@
 class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -26,11 +26,11 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $customizationConfig = $this->getMock('Magento_Theme_Model_Config_Customization', array(), array(), '', false);
+        $customizationConfig = $this->getMock('Magento\Theme\Model\Config\Customization', array(), array(), '', false);
         $customizationFactory = $this->getMock('Magento_Core_Model_Theme_CustomizationFactory',
             array('create'), array(), '', false);
         $resourceCollection = $this->getMock(
-            'Magento_Core_Model_Resource_Theme_Collection',
+            '\Magento\Core\Model\Resource\Theme\Collection',
             array(),
             array(),
             '',
@@ -40,14 +40,14 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             array('create'), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Theme', array(
+        $arguments = $objectManagerHelper->getConstructArguments('\Magento\Core\Model\Theme', array(
             'customizationFactory' => $customizationFactory,
             'customizationConfig'  => $customizationConfig,
             'imageFactory'         => $this->_imageFactory,
             'resourceCollection'   => $resourceCollection
         ));
 
-        $this->_model = $objectManagerHelper->getObject('Magento_Core_Model_Theme', $arguments);
+        $this->_model = $objectManagerHelper->getObject('\Magento\Core\Model\Theme', $arguments);
     }
 
     protected function tearDown()
@@ -56,7 +56,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Theme::getThemeImage
+     * @covers \Magento\Core\Model\Theme::getThemeImage
      */
     public function testThemeImageGetter()
     {
@@ -68,12 +68,12 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      * @dataProvider isVirtualDataProvider
      * @param int $type
      * @param string $isVirtual
-     * @covers Magento_Core_Model_Theme::isVirtual
+     * @covers \Magento\Core\Model\Theme::isVirtual
      */
     public function testIsVirtual($type, $isVirtual)
     {
-        /** @var $themeModel Magento_Core_Model_Theme */
-        $themeModel = $this->getMock('Magento_Core_Model_Theme', null, array(), '', false);
+        /** @var $themeModel \Magento\Core\Model\Theme */
+        $themeModel = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false);
         $themeModel->setType($type);
         $this->assertEquals($isVirtual, $themeModel->isVirtual());
     }
@@ -84,9 +84,9 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function isVirtualDataProvider()
     {
         return array(
-            array('type' => Magento_Core_Model_Theme::TYPE_VIRTUAL, 'isVirtual' => true),
-            array('type' => Magento_Core_Model_Theme::TYPE_STAGING, 'isVirtual' => false),
-            array('type' => Magento_Core_Model_Theme::TYPE_PHYSICAL, 'isVirtual' => false)
+            array('type' => \Magento\Core\Model\Theme::TYPE_VIRTUAL, 'isVirtual' => true),
+            array('type' => \Magento\Core\Model\Theme::TYPE_STAGING, 'isVirtual' => false),
+            array('type' => \Magento\Core\Model\Theme::TYPE_PHYSICAL, 'isVirtual' => false)
         );
     }
 
@@ -94,12 +94,12 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      * @dataProvider isPhysicalDataProvider
      * @param int $type
      * @param string $isPhysical
-     * @covers Magento_Core_Model_Theme::isPhysical
+     * @covers \Magento\Core\Model\Theme::isPhysical
      */
     public function testIsPhysical($type, $isPhysical)
     {
-        /** @var $themeModel Magento_Core_Model_Theme */
-        $themeModel = $this->getMock('Magento_Core_Model_Theme', null, array(), '', false);
+        /** @var $themeModel \Magento\Core\Model\Theme */
+        $themeModel = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false);
         $themeModel->setType($type);
         $this->assertEquals($isPhysical, $themeModel->isPhysical());
     }
@@ -110,9 +110,9 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function isPhysicalDataProvider()
     {
         return array(
-            array('type' => Magento_Core_Model_Theme::TYPE_VIRTUAL, 'isPhysical' => false),
-            array('type' => Magento_Core_Model_Theme::TYPE_STAGING, 'isPhysical' => false),
-            array('type' => Magento_Core_Model_Theme::TYPE_PHYSICAL, 'isPhysical' => true)
+            array('type' => \Magento\Core\Model\Theme::TYPE_VIRTUAL, 'isPhysical' => false),
+            array('type' => \Magento\Core\Model\Theme::TYPE_STAGING, 'isPhysical' => false),
+            array('type' => \Magento\Core\Model\Theme::TYPE_PHYSICAL, 'isPhysical' => true)
         );
     }
 
@@ -120,12 +120,12 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      * @dataProvider isVisibleDataProvider
      * @param int $type
      * @param string $isVisible
-     * @covers Magento_Core_Model_Theme::isVisible
+     * @covers \Magento\Core\Model\Theme::isVisible
      */
     public function testIsVisible($type, $isVisible)
     {
-        /** @var $themeModel Magento_Core_Model_Theme */
-        $themeModel = $this->getMock('Magento_Core_Model_Theme', null, array(), '', false);
+        /** @var $themeModel \Magento\Core\Model\Theme */
+        $themeModel = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false);
         $themeModel->setType($type);
         $this->assertEquals($isVisible, $themeModel->isVisible());
     }
@@ -136,9 +136,9 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function isVisibleDataProvider()
     {
         return array(
-            array('type' => Magento_Core_Model_Theme::TYPE_VIRTUAL, 'isVisible' => true),
-            array('type' => Magento_Core_Model_Theme::TYPE_STAGING, 'isVisible' => false),
-            array('type' => Magento_Core_Model_Theme::TYPE_PHYSICAL, 'isVisible' => true)
+            array('type' => \Magento\Core\Model\Theme::TYPE_VIRTUAL, 'isVisible' => true),
+            array('type' => \Magento\Core\Model\Theme::TYPE_STAGING, 'isVisible' => false),
+            array('type' => \Magento\Core\Model\Theme::TYPE_PHYSICAL, 'isVisible' => true)
         );
     }
 
@@ -148,12 +148,12 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      * @dataProvider isDeletableDataProvider
      * @param string $themeType
      * @param bool $isDeletable
-     * @covers Magento_Core_Model_Theme::isDeletable
+     * @covers \Magento\Core\Model\Theme::isDeletable
      */
     public function testIsDeletable($themeType, $isDeletable)
     {
-        /** @var $themeModel Magento_Core_Model_Theme */
-        $themeModel = $this->getMock('Magento_Core_Model_Theme', array('getType'), array(), '', false);
+        /** @var $themeModel \Magento\Core\Model\Theme */
+        $themeModel = $this->getMock('Magento\Core\Model\Theme', array('getType'), array(), '', false);
         $themeModel->expects($this->once())
             ->method('getType')
             ->will($this->returnValue($themeType));
@@ -166,9 +166,9 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function isDeletableDataProvider()
     {
         return array(
-            array(Magento_Core_Model_Theme::TYPE_VIRTUAL, true),
-            array(Magento_Core_Model_Theme::TYPE_STAGING, true),
-            array(Magento_Core_Model_Theme::TYPE_PHYSICAL, false)
+            array(\Magento\Core\Model\Theme::TYPE_VIRTUAL, true),
+            array(\Magento\Core\Model\Theme::TYPE_STAGING, true),
+            array(\Magento\Core\Model\Theme::TYPE_PHYSICAL, false)
         );
     }
 

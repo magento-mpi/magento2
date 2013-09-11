@@ -15,7 +15,9 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Store_Switcher extends Magento_Backend_Block_Store_Switcher
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Store;
+
+class Switcher extends \Magento\Backend\Block\Store\Switcher
 {
     /**
      * @var bool
@@ -37,20 +39,20 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Store_Switcher extends Mag
     /**
      * Return current customer from regisrty
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {
-        return Mage::registry('checkout_current_customer');
+        return \Mage::registry('checkout_current_customer');
     }
 
     /**
      * Return current store from regisrty
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {
-        return Mage::registry('checkout_current_store');
+        return \Mage::registry('checkout_current_store');
     }
 }

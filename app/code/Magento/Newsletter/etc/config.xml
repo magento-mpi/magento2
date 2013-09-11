@@ -38,7 +38,7 @@
             </email>
         </template>
         <newsletter>
-            <tempate_filter>Magento_Newsletter_Model_Template_Filter</tempate_filter>
+            <tempate_filter>\Magento\Newsletter\Model\Template\Filter</tempate_filter>
         </newsletter>
     </global>
     <adminhtml>
@@ -90,7 +90,7 @@
                     <cron_expr>*/5 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_Newsletter_Model_Observer::scheduledSend</model>
+                    <model>\Magento\Newsletter\Model\Observer::scheduledSend</model>
                 </run>
             </newsletter_send_all>
         </jobs>

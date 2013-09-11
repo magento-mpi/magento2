@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block_Event_Abstract
+namespace Magento\CatalogEvent\Block\Event;
+
+class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
 {
     /**
      * Events list
@@ -45,8 +47,8 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
      */
     public function canDisplay()
     {
-        return Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()
-            && Mage::getStoreConfigFlag('catalog/magento_catalogevent/lister_output')
+        return \Mage::helper('Magento\CatalogEvent\Helper\Data')->isEnabled()
+            && \Mage::getStoreConfigFlag('catalog/magento_catalogevent/lister_output')
             && (count($this->getEvents()) > 0);
     }
 
@@ -59,16 +61,16 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
     {
         if ($this->_events === null) {
             $this->_events = array();
-            $categories = $this->helper('Magento_Catalog_Helper_Category')->getStoreCategories('position', true, false);
-            if (($categories instanceof Magento_Eav_Model_Entity_Collection_Abstract) ||
-                ($categories instanceof Magento_Core_Model_Resource_Db_Collection_Abstract)) {
+            $categories = $this->helper('\Magento\Catalog\Helper\Category')->getStoreCategories('position', true, false);
+            if (($categories instanceof \Magento\Eav\Model\Entity\Collection\AbstractCollection) ||
+                ($categories instanceof \Magento\Core\Model\Resource\Db\Collection\AbstractCollection)) {
                 $allIds = $categories->getAllIds();
             } else {
                 $allIds = array();
             }
 
             if (!empty($allIds)) {
-                $eventCollection = Mage::getModel('Magento_CatalogEvent_Model_Event')
+                $eventCollection = \Mage::getModel('\Magento\CatalogEvent\Model\Event')
                     ->getCollection();
                 $eventCollection->addFieldToFilter('category_id', array('in' => $allIds))
                     ->addVisibilityFilter()
@@ -103,23 +105,23 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
     /**
      * Retreive category url
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return string
      */
     public function getCategoryUrl($category)
     {
-        return $this->helper('Magento_Catalog_Helper_Category')->getCategoryUrl($category);
+        return $this->helper('\Magento\Catalog\Helper\Category')->getCategoryUrl($category);
     }
 
     /**
      * Retrieve catalog category image url
      *
-     * @param Magento_CatalogEvent_Model_Event $event
+     * @param \Magento\CatalogEvent\Model\Event $event
      * @return string
      */
     public function getEventImageUrl($event)
     {
-        return $this->helper('Magento_CatalogEvent_Helper_Data')->getEventImageUrl($event);
+        return $this->helper('\Magento\CatalogEvent\Helper\Data')->getEventImageUrl($event);
     }
 
     /**
@@ -133,7 +135,7 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
             $pageSize = (int) $this->_getData('limit');
         }
         else {
-            $pageSize = (int)Mage::getStoreConfig('catalog/magento_catalogevent/lister_widget_limit');
+            $pageSize = (int)\Mage::getStoreConfig('catalog/magento_catalogevent/lister_widget_limit');
         }
         return max($pageSize, 1);
     }
@@ -149,7 +151,7 @@ class Magento_CatalogEvent_Block_Event_Lister extends Magento_CatalogEvent_Block
             $scrollSize = (int) $this->_getData('scroll');
         }
         else {
-            $scrollSize = (int)Mage::getStoreConfig('catalog/magento_catalogevent/lister_widget_scroll');
+            $scrollSize = (int)\Mage::getStoreConfig('catalog/magento_catalogevent/lister_widget_scroll');
         }
         return  min(max($scrollSize, 1), $this->getPageSize());
     }

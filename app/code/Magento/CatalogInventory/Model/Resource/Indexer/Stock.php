@@ -16,7 +16,9 @@
  * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Catalog_Model_Resource_Product_Indexer_Abstract
+namespace Magento\CatalogInventory\Model\Resource\Indexer;
+
+class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractIndexer
 {
     /**
      * Stock Indexer models per product type
@@ -31,7 +33,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
      *
      * @var string
      */
-    protected $_defaultIndexer   = 'Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default';
+    protected $_defaultIndexer   = '\Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock';
 
     /**
      * Initialize connection and define main table
@@ -45,10 +47,10 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
     /**
      * Process stock item save action
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
      */
-    public function cataloginventoryStockItemSave(Magento_Index_Model_Event $event)
+    public function cataloginventoryStockItemSave(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['product_id'])) {
@@ -65,7 +67,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
      * Refresh stock index for specific product ids
      *
      * @param array $productIds
-     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
+     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
      */
     public function reindexProducts($productIds)
     {
@@ -99,7 +101,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
                     $indexer->reindexEntity($byType[$indexer->getTypeId()]);
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
         }
@@ -111,10 +113,10 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
     /**
      * Processing parent products after child product deleted
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
      */
-    public function catalogProductDelete(Magento_Index_Model_Event $event)
+    public function catalogProductDelete(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_stock_parent_ids'])) {
@@ -133,7 +135,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
             foreach ($parentIds as $parentType => $entityIds) {
                 $this->_getIndexer($parentType)->reindexEntity($entityIds);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
         }
@@ -146,10 +148,10 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
     /**
      * Process product mass update action
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
      */
-    public function catalogProductMassAction(Magento_Index_Model_Event $event)
+    public function catalogProductMassAction(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (empty($data['reindex_stock_product_ids'])) {
@@ -193,7 +195,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
         $select = $adapter->select()
             ->from($this->getTable('catalog_product_entity'), array('entity_id', 'type_id'))
             ->where('entity_id IN(?)', $processIds);
-        $query  = $select->query(Zend_Db::FETCH_ASSOC);
+        $query  = $select->query(\Zend_Db::FETCH_ASSOC);
         $byType = array();
         while ($row = $query->fetch()) {
             $byType[$row['type_id']][] = $row['entity_id'];
@@ -207,7 +209,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
                     $indexer->reindexEntity($byType[$indexer->getTypeId()]);
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
             throw $e;
         }
@@ -219,7 +221,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
     /**
      * Rebuild all index data
      *
-     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock
+     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
      */
     public function reindexAll()
     {
@@ -234,7 +236,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
 
             $this->syncData();
             $this->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -250,7 +252,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
     {
         if (is_null($this->_indexers)) {
             $this->_indexers = array();
-            $types = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getTypesByPriority();
+            $types = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getTypesByPriority();
             foreach ($types as $typeId => $typeInfo) {
                 if (isset($typeInfo['stock_indexer'])) {
                     $modelName = $typeInfo['stock_indexer'];
@@ -258,7 +260,7 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
                     $modelName = $this->_defaultIndexer;
                 }
                 $isComposite = !empty($typeInfo['composite']);
-                $indexer = Mage::getResourceModel($modelName)
+                $indexer = \Mage::getResourceModel($modelName)
                     ->setTypeId($typeId)
                     ->setIsComposite($isComposite);
 
@@ -272,13 +274,13 @@ class Magento_CatalogInventory_Model_Resource_Indexer_Stock extends Magento_Cata
      * Retrieve Stock indexer by Product Type
      *
      * @param string $productTypeId
-     * @return Magento_CatalogInventory_Model_Resource_Indexer_Stock_Interface
+     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock\StockInterface
      */
     protected function _getIndexer($productTypeId)
     {
         $types = $this->_getTypeIndexers();
         if (!isset($types[$productTypeId])) {
-            Mage::throwException(__('Unsupported product type "%1".', $productTypeId));
+            \Mage::throwException(__('Unsupported product type "%1".', $productTypeId));
         }
         return $types[$productTypeId];
     }

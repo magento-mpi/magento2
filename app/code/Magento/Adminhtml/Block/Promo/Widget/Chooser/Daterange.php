@@ -12,7 +12,9 @@
  * Date range promo widget chooser
  * Currently works without localized format
  */
-class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Backend_Block_Abstract
+namespace Magento\Adminhtml\Block\Promo\Widget\Chooser;
+
+class Daterange extends \Magento\Backend\Block\AbstractBlock
 {
     /**
      * HTML ID of the element that will obtain the joined chosen values
@@ -47,7 +49,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
             return '';
         }
 
-        $idSuffix = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        $idSuffix = \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
         $form = new \Magento\Data\Form();
         foreach (array(
             'from' => __('From'),
@@ -74,7 +76,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
      * Target element ID setter
      *
      * @param string $value
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange
      */
     public function setTargetElementId($value)
     {
@@ -87,7 +89,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
      *
      * @param string $from
      * @param string $to
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange
      */
     public function setRangeValues($from, $to)
     {
@@ -100,7 +102,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
      * Automatically attempts to split the string by delimiter
      *
      * @param string $delimitedString
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange
      */
     public function setRangeValue($delimitedString)
     {
@@ -116,7 +118,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Magento_Bac
      * Range delimiter setter
      *
      * @param string $value
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange
      */
     public function setRangeDelimiter($value)
     {

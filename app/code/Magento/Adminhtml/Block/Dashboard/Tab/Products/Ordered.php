@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adminhtml_Block_Dashboard_Grid
+namespace Magento\Adminhtml\Block\Dashboard\Tab\Products;
+
+class Ordered extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
 
     protected function _construct()
@@ -27,21 +29,21 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Sales')) {
+        if (!\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_Sales')) {
             return $this;
         }
         if ($this->getParam('website')) {
-            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+            $storeIds = \Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else if ($this->getParam('group')) {
-            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+            $storeIds = \Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else {
             $storeId = (int)$this->getParam('store');
         }
 
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Bestsellers_Collection')
-            ->setModel('Magento_Catalog_Model_Product')
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Bestsellers\Collection')
+            ->setModel('\Magento\Catalog\Model\Product')
             ->addStoreFilter($storeId)
         ;
 
@@ -63,7 +65,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
             'header'    => __('Price'),
             'width'     => '120px',
             'type'      => 'currency',
-            'currency_code' => (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
+            'currency_code' => (string) \Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode(),
             'sortable'  => false,
             'index'     => 'product_price'
         ));
@@ -87,7 +89,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered extends Magento_Adm
      * Returns row url to show in admin dashboard
      * $row is bestseller row wrapped in Product model
      *
-     * @param Magento_Catalog_Model_Product $row
+     * @param \Magento\Catalog\Model\Product $row
      *
      * @return string
      */

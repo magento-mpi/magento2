@@ -9,7 +9,9 @@
 /**
  * Menu builder command factory
  */
-class Magento_Backend_Model_Menu_Builder_CommandFactory
+namespace Magento\Backend\Model\Menu\Builder;
+
+class CommandFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -29,7 +31,7 @@ class Magento_Backend_Model_Menu_Builder_CommandFactory
      *
      * @param string $commandName
      * @param array $data
-     * @return Magento_Backend_Model_Config
+     * @return \Magento\Backend\Model\Config
      */
     public function create($commandName, array $data = array())
     {

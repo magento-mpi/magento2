@@ -17,19 +17,21 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Reports_Model_Test extends \Magento\Object
+namespace Magento\Reports\Model;
+
+class Test extends \Magento\Object
 {
 
     public function getUsersCountries( )
     {
-        return file_get_contents( Mage::getModuleDir('etc','Magento_Reports').DS.'flexTestDataCountries.xml' );
+        return file_get_contents( \Mage::getModuleDir('etc','Magento_Reports').DS.'flexTestDataCountries.xml' );
     }
 
     public function getUsersCities( $countryId )
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom -> preserveWhiteSpace = false;
-        $dom -> load( Mage::getModuleDir('etc','Magento_Reports').DS.'flexTestDataCities.xml' );
+        $dom -> load( \Mage::getModuleDir('etc','Magento_Reports').DS.'flexTestDataCities.xml' );
 
         $root = $dom -> documentElement;
         $rows = $root -> getElementsByTagName( 'row' );
@@ -56,12 +58,12 @@ class Magento_Reports_Model_Test extends \Magento\Object
 
     public function getTimelineData( )
     {
-        return file_get_contents( Mage::getModuleDir('etc','Magento_Reports').DS.'flexTestDataTimeline.xml' );
+        return file_get_contents( \Mage::getModuleDir('etc','Magento_Reports').DS.'flexTestDataTimeline.xml' );
     }
 
     public function getAllLinearExample( )
     {
-        $session = Mage::getModel('Magento_Reports_Model_Session');
+        $session = \Mage::getModel('Magento_Reports_Model_Session');
 
         $startPoint = time() - 24*60*60;
 
@@ -82,7 +84,7 @@ class Magento_Reports_Model_Test extends \Magento\Object
 
     public function getNewLinearData()
     {
-        $session = Mage::getModel('Magento_Reports_Model_Session');
+        $session = \Mage::getModel('Magento_Reports_Model_Session');
 
 
         $startPoint = $session -> getData('startPoint');
@@ -104,7 +106,7 @@ class Magento_Reports_Model_Test extends \Magento\Object
 
     private function returnAsDataSource( &$array , $reset = 0)
     {
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom -> preserveWhiteSpace = false;
         $dom -> loadXML( "<"."?xml version=\"1.0\" encoding=\"UTF-8\"?".">\n<dataSource></dataSource>" );
         $root = $dom ->documentElement;

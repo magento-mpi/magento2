@@ -1,6 +1,6 @@
 <?php
 /**
- * Integration test for service layer Magento_Customer_Service_Customer
+ * Integration test for service layer \Magento\Customer\Service\Customer
  *
  * {license_notice}
  *
@@ -10,7 +10,7 @@
 class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Customer_Service_Customer
+     * @var \Magento\Customer\Service\Customer
      */
     protected $_model;
 
@@ -20,7 +20,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     protected $_objectManager = null;
 
     /**
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_createdCustomer;
 
@@ -33,13 +33,13 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_customerFactory = $this->_objectManager->get('Magento_Customer_Model_CustomerFactory');
-        $this->_model = $this->_objectManager->create('Magento_Customer_Service_Customer');
+        $this->_model = $this->_objectManager->create('Magento\Customer\Service\Customer');
     }
 
     protected function tearDown()
     {
         $previousStoreId = Mage::app()->getStore();
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
+        Mage::app()->setCurrentStore(Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
         if ($this->_createdCustomer && $this->_createdCustomer->getId() > 0) {
             $this->_createdCustomer->getAddressesCollection()->delete();
             $this->_createdCustomer->delete();
@@ -56,7 +56,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     public function testCreate($customerData)
     {
         $this->_createdCustomer = $this->_model->create($customerData);
-        $this->assertInstanceOf('Magento_Customer_Model_Customer', $this->_createdCustomer);
+        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_createdCustomer);
         $this->assertNotEmpty($this->_createdCustomer->getId());
 
         $loadedCustomer = $this->_customerFactory->create()
@@ -96,7 +96,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'password' => '123123q',
                 'default_billing' => null,
                 'default_shipping' => null,
-                'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
+                'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
             )),
             'Mandatory data' => array(array(
                 'firstname' => 'SomeName',
@@ -134,7 +134,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123123q',
-                'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
+                'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
             ), '\Magento\Validator\ValidatorException'),
             'Invalid email' => array(array(
                 'website_id' => 0,
@@ -146,7 +146,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => '111@111',
                 'password' => '123123q',
-                'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
+                'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
             ), '\Magento\Validator\ValidatorException'),
             'Invalid password' => array(array(
                 'website_id' => 0,
@@ -158,8 +158,8 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'suffix' => null,
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'password' => '123',
-                'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
-            ), 'Magento_Eav_Model_Entity_Attribute_Exception', 'The password must have at least 6 characters.')
+                'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
+            ), '\Magento\Eav\Model\Entity\Attribute\Exception', 'The password must have at least 6 characters.')
         );
     }
 
@@ -178,12 +178,12 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->_createdCustomer = $this->_model->create($customerData, $addressesData);
         $this->assertCount(count($addressesData), $this->_createdCustomer->getAddresses());
 
-        /** @var Magento_Customer_Model_Customer $loadedCustomer */
+        /** @var \Magento\Customer\Model\Customer $loadedCustomer */
         $loadedCustomer = $this->_customerFactory->create()
             ->load($this->_createdCustomer->getId());
 
         $createdData = array();
-        /** @var Magento_Customer_Model_Address $address */
+        /** @var \Magento\Customer\Model\Address $address */
         foreach ($loadedCustomer->getAddresses() as $address) {
             $addressData = current($addressesData);
             $createdData[] = $address->toArray(array_keys($addressData));
@@ -262,7 +262,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage The address with the specified ID not found.
      */
     public function testCreateWithInvalidAddressId()
@@ -294,12 +294,12 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdate($customerData)
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $expected = $this->_customerFactory->create()
             ->load(1);
 
         $updatedCustomer = $this->_model->update($expected->getId(), $customerData);
-        $this->assertInstanceOf('Magento_Customer_Model_Customer', $updatedCustomer);
+        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $updatedCustomer);
         $this->assertFalse($updatedCustomer->isObjectNew());
 
         $actualData = $this->_customerFactory->create()
@@ -335,7 +335,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
                 'dob' => date('Y-m-d H:i:s'),
                 'gender' => 1,
-                'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
+                'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
             ))
         );
     }
@@ -349,7 +349,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testUpdateExceptions($customerData, $exceptionName, $exceptionMessage = '')
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $this->setExpectedException($exceptionName, $exceptionMessage);
         $this->_model->update(1, $customerData);
     }
@@ -362,7 +362,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         return array(
             'Invalid password' => array(array(
                 'password' => '111'
-            ), 'Magento_Eav_Model_Entity_Attribute_Exception'),
+            ), '\Magento\Eav\Model\Entity\Attribute\Exception'),
             'Invalid name' => array(array(
                 'firstname' => null
             ), '\Magento\Validator\ValidatorException'),
@@ -373,7 +373,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage The customer with the specified ID not found.
      */
     public function testUpdateInvalidCustomerId()
@@ -403,7 +403,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerAddressManipulation($addressesData)
     {
-        /** @var Magento_Customer_Model_Customer $customer */
+        /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->_customerFactory->create()
             ->load(1);
         $this->assertCount(2, $customer->getAddresses(), 'Not all customer addresses were created.');
@@ -411,7 +411,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->assertCount(count($addressesData), $updatedCustomer->getAddresses(),
             'Customer address was not deleted.');
 
-        /** @var Magento_Customer_Model_Customer $actualCustomer */
+        /** @var \Magento\Customer\Model\Customer $actualCustomer */
         $actualCustomer = $this->_customerFactory->create()
             ->load(1);
         $actualAddresses = $actualCustomer->getAddresses();
@@ -419,7 +419,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
         // Check that all addresses were updated correctly
         $updatedData = array();
-        /** @var Magento_Customer_Model_Address $address */
+        /** @var \Magento\Customer\Model\Address $address */
         $addressesData = $this->_getSortedByKey($addressesData, 'postcode');
         foreach ($this->_getSortedByKey($actualAddresses, 'postcode') as $address) {
             $addressData = current($addressesData);

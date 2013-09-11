@@ -15,7 +15,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Source_Weight
+namespace Magento\Search\Model\Source;
+
+class Weight
 {
     /**
      * Quick search weights

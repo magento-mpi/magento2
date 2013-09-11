@@ -15,7 +15,9 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Hosted_Pro_Form extends Magento_Payment_Block_Form
+namespace Magento\Paypal\Block\Hosted\Pro;
+
+class Form extends \Magento\Payment\Block\Form
 {
     protected $_template = 'hss/info.phtml';
 }

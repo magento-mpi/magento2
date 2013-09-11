@@ -12,22 +12,24 @@
 /**
  * Reward rate model
  *
- * @method Magento_Reward_Model_Resource_Reward_Rate _getResource()
- * @method Magento_Reward_Model_Resource_Reward_Rate getResource()
+ * @method \Magento\Reward\Model\Resource\Reward\Rate _getResource()
+ * @method \Magento\Reward\Model\Resource\Reward\Rate getResource()
  * @method int getWebsiteId()
- * @method Magento_Reward_Model_Reward_Rate setWebsiteId(int $value)
+ * @method \Magento\Reward\Model\Reward\Rate setWebsiteId(int $value)
  * @method int getCustomerGroupId()
- * @method Magento_Reward_Model_Reward_Rate setCustomerGroupId(int $value)
+ * @method \Magento\Reward\Model\Reward\Rate setCustomerGroupId(int $value)
  * @method int getDirection()
- * @method Magento_Reward_Model_Reward_Rate setDirection(int $value)
- * @method Magento_Reward_Model_Reward_Rate setPoints(int $value)
- * @method Magento_Reward_Model_Reward_Rate setCurrencyAmount(float $value)
+ * @method \Magento\Reward\Model\Reward\Rate setDirection(int $value)
+ * @method \Magento\Reward\Model\Reward\Rate setPoints(int $value)
+ * @method \Magento\Reward\Model\Reward\Rate setCurrencyAmount(float $value)
  *
  * @category    Magento
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
+namespace Magento\Reward\Model\Reward;
+
+class Rate extends \Magento\Core\Model\AbstractModel
 {
     const RATE_EXCHANGE_DIRECTION_TO_CURRENCY = 1;
     const RATE_EXCHANGE_DIRECTION_TO_POINTS   = 2;
@@ -45,9 +47,9 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
     {
         switch ($direction) {
             case self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY:
-                return Mage::helper('Magento_Reward_Helper_Data')->formatRateToCurrency($points, $amount, $currencyCode);
+                return \Mage::helper('Magento\Reward\Helper\Data')->formatRateToCurrency($points, $amount, $currencyCode);
             case self::RATE_EXCHANGE_DIRECTION_TO_POINTS:
-                return Mage::helper('Magento_Reward_Helper_Data')->formatRateToPoints($points, $amount, $currencyCode);
+                return \Mage::helper('Magento\Reward\Helper\Data')->formatRateToPoints($points, $amount, $currencyCode);
         }
     }
 
@@ -56,14 +58,14 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reward_Model_Resource_Reward_Rate');
+        $this->_init('\Magento\Reward\Model\Resource\Reward\Rate');
     }
 
     /**
      * Processing object before save data.
      * Prepare rate data
      *
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     protected function _beforeSave()
     {
@@ -85,7 +87,7 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
     /**
      * Reset rate data
      *
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     public function reset()
     {
@@ -114,7 +116,7 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
     /**
      * Prepare values in order to defined direction
      *
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     protected function _prepareRateValues()
     {
@@ -133,7 +135,7 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
      *
      * @param integer $customerGroupId
      * @param integer $websiteId
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     public function fetch($customerGroupId, $websiteId, $direction) {
         $this->setData('original_website_id', $websiteId)
@@ -216,8 +218,8 @@ class Magento_Reward_Model_Reward_Rate extends Magento_Core_Model_Abstract
             if ($websiteId === null) {
                 $websiteId = $this->getWebsiteId();
             }
-            $currencyCode = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
-            return Mage::app()->getLocale()->currency($currencyCode)->toCurrency($amount);
+            $currencyCode = \Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+            return \Mage::app()->getLocale()->currency($currencyCode)->toCurrency($amount);
         }
         return $amount;
     }

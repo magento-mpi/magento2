@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
+
+class Info extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Currently loaded page model
@@ -28,7 +30,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
     protected function _construct()
     {
         parent::_construct();
-        $this->_page = Mage::registry('cms_page');
+        $this->_page = \Mage::registry('cms_page');
     }
 
     /**
@@ -99,11 +101,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
     public function getAuthor()
     {
         $userId = $this->_page->getUserId();
-        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId() == $userId) {
-            return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getUsername();
+        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId() == $userId) {
+            return \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getUsername();
         }
 
-        $user = Mage::getModel('Magento_User_Model_User')
+        $user = \Mage::getModel('\Magento\User\Model\User')
             ->load($userId);
 
         if ($user->getId()) {
@@ -119,13 +121,13 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Ma
      */
     public function getCreatedAt()
     {
-        $format = Mage::app()->getLocale()->getDateTimeFormat(
-                Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
+        $format = \Mage::app()->getLocale()->getDateTimeFormat(
+                \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
             );
         $data = $this->_page->getRevisionCreatedAt();
         try {
-            $data = Mage::app()->getLocale()->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
-        } catch (Exception $e) {
+            $data = \Mage::app()->getLocale()->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
+        } catch (\Exception $e) {
             $data = __('N/A');
         }
         return  $data;

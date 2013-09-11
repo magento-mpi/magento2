@@ -15,7 +15,7 @@
             <controls>
                 <zend_page_cache translate="label">
                     <label>Zend Full Page Cache</label>
-                    <class>Magento_PageCache_Model_Control_Zend</class>
+                    <class>Magento\PageCache\Model\Control\Zend</class>
                 </zend_page_cache>
             </controls>
         </external_cache>
@@ -57,4 +57,4 @@
             </external_page_cache>
         </system>
     </default>
-</config>
+</config>

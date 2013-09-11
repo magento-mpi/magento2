@@ -11,16 +11,18 @@
 /**
  * PayPalUk Direct Module
  */
-class Magento_PaypalUk_Model_Direct extends Magento_Paypal_Model_Direct
+namespace Magento\PaypalUk\Model;
+
+class Direct extends \Magento\Paypal\Model\Direct
 {
-    protected $_code  = Magento_Paypal_Model_Config::METHOD_WPP_PE_DIRECT;
+    protected $_code  = \Magento\Paypal\Model\Config::METHOD_WPP_PE_DIRECT;
 
     /**
      * Website Payments Pro instance type
      *
      * @var string
      */
-    protected $_proType = 'Magento_PaypalUk_Model_Pro';
+    protected $_proType = '\Magento\PaypalUk\Model\Pro';
 
     /**
      * Return available CC types for gateway based on merchant country
@@ -52,14 +54,14 @@ class Magento_PaypalUk_Model_Direct extends Magento_Paypal_Model_Direct
     /**
      * Import direct payment results to payment
      *
-     * @param Magento_Paypal_Model_Api_Nvp
-     * @param Magento_Sales_Model_Order_Payment
+     * @param \Magento\Paypal\Model\Api\Nvp
+     * @param \Magento\Sales\Model\Order\Payment
      */
     protected function _importResultToPayment($api, $payment)
     {
         $payment->setTransactionId($api->getPaypalTransactionId())->setIsTransactionClosed(0)
             ->setIsTransactionPending($api->getIsPaymentPending())
-            ->setTransactionAdditionalInfo(Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
+            ->setTransactionAdditionalInfo(\Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID, $api->getTransactionId())
             ;
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
         $this->_pro->importPaymentInfo($api, $payment);

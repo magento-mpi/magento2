@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Fault extends RuntimeException
+namespace Magento\Webapi\Model\Soap;
+
+class Fault extends \RuntimeException
 {
     const FAULT_REASON_INTERNAL = 'Internal Error.';
 
@@ -22,12 +24,12 @@ class Magento_Webapi_Model_Soap_Fault extends RuntimeException
      *
      * @param string $reason
      * @param string $code
-     * @param Exception $previous
+     * @param \Exception $previous
      */
     public function __construct(
         $reason = self::FAULT_REASON_INTERNAL,
         $code = self::FAULT_CODE_RECEIVER,
-        Exception $previous = null
+        \Exception $previous = null
     ) {
         parent::__construct($reason, 0, $previous);
         $this->_soapCode = $code;

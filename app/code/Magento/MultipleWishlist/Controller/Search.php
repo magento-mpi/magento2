@@ -15,12 +15,14 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller_Front_Action
+namespace Magento\MultipleWishlist\Controller;
+
+class Search extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Localization filter
      *
-     * @var Zend_Filter_LocalizedToNormalized
+     * @var \Zend_Filter_LocalizedToNormalized
      */
     protected $_localFilter;
 
@@ -33,8 +35,8 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
     protected function _processLocalizedQty($qty)
     {
         if (!$this->_localFilter) {
-            $this->_localFilter = new Zend_Filter_LocalizedToNormalized(
-                array('locale' => Mage::app()->getLocale()->getLocaleCode())
+            $this->_localFilter = new \Zend_Filter_LocalizedToNormalized(
+                array('locale' => \Mage::app()->getLocale()->getLocaleCode())
             );
         }
         $qty = $this->_localFilter->filter($qty);
@@ -47,12 +49,12 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
     /**
      * Check if multiple wishlist is enabled on current store before all other actions
      *
-     * @return Magento_MultipleWishlist_Controller_Search
+     * @return \Magento\MultipleWishlist\Controller\Search
      */
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_MultipleWishlist_Helper_Data')->isModuleEnabled()) {
+        if (!\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isModuleEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -62,11 +64,11 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
     /**
      * Get current customer session
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return \Mage::getSingleton('Magento\Customer\Model\Session');
     }
 
     /**
@@ -75,7 +77,7 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
@@ -93,7 +95,7 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
         try {
             $params = $this->getRequest()->getParam('params');
             if (empty($params) || !is_array($params) || empty($params['search'])) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('Please specify correct search options.')
                 );
             };
@@ -101,30 +103,30 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
             $strategy = null;
             switch ($params['search']) {
                 case 'type':
-                    $strategy = Mage::getModel('Magento_MultipleWishlist_Model_Search_Strategy_Name');
+                    $strategy = \Mage::getModel('\Magento\MultipleWishlist\Model\Search\Strategy\Name');
                     break;
                 case 'email':
-                    $strategy = Mage::getModel('Magento_MultipleWishlist_Model_Search_Strategy_Email');
+                    $strategy = \Mage::getModel('\Magento\MultipleWishlist\Model\Search\Strategy\Email');
                     break;
                 default:
-                    Mage::throwException(
+                    \Mage::throwException(
                         __('Please specify correct search options.')
                     );
             }
 
             $strategy->setSearchParams($params);
-            $search = Mage::getModel('Magento_MultipleWishlist_Model_Search');
-            Mage::register('search_results', $search->getResults($strategy));
+            $search = \Mage::getModel('\Magento\MultipleWishlist\Model\Search');
+            \Mage::register('search_results', $search->getResults($strategy));
             $this->_getSession()->setLastWishlistSearchParams($params);
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $this->_getSession()->addNotice($e->getMessage());
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('We could not perform the search.'));
         }
 
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
@@ -141,20 +143,20 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
         if (!$wishlistId) {
             return $this->norouteAction();
         }
-        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+        $wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
         $wishlist->load($wishlistId);
         if (!$wishlist->getId()
             || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_getSession()->getCustomerId())) {
             return $this->norouteAction();
         }
-        Mage::register('wishlist', $wishlist);
+        \Mage::register('wishlist', $wishlist);
         $this->loadLayout();
         $block = $this->getLayout()->getBlock('customer.wishlist.info');
         if ($block) {
             $block->setRefererUrl($this->_getRefererUrl());
         }
 
-        $this->_initLayoutMessages(array('Magento_Customer_Model_Session', 'Magento_Checkout_Model_Session', 'Magento_Wishlist_Model_Session'));
+        $this->_initLayoutMessages(array('Magento\Customer\Model\Session', '\Magento\Checkout\Model\Session', 'Magento_Wishlist_Model_Session'));
         $this->renderLayout();
     }
 
@@ -168,15 +170,15 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
         $notSalable = array();
         $hasOptions = array();
 
-        /** @var Magento_Checkout_Model_Cart $cart  */
-        $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
+        /** @var \Magento\Checkout\Model\Cart $cart  */
+        $cart = \Mage::getSingleton('Magento\Checkout\Model\Cart');
         $qtys = $this->getRequest()->getParam('qty');
         $selected = $this->getRequest()->getParam('selected');
         foreach ($qtys as $itemId => $qty) {
             if ($qty && isset($selected[$itemId])) {
                 try {
-                    /** @var Magento_Wishlist_Model_Item $item*/
-                    $item = Mage::getModel('Magento_Wishlist_Model_Item');
+                    /** @var \Magento\Wishlist\Model\Item $item*/
+                    $item = \Mage::getModel('\Magento\Wishlist\Model\Item');
                     $item->loadWithOptions($itemId);
                     $item->unsProduct();
                     $qty = $this->_processLocalizedQty($qty);
@@ -186,23 +188,23 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
                     if ($item->addToCart($cart, false)) {
                         $addedItems[] = $item->getProduct();
                     }
-                } catch (Magento_Core_Exception $e) {
-                    if ($e->getCode() == Magento_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
+                } catch (\Magento\Core\Exception $e) {
+                    if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                         $notSalable[] = $item;
-                    } else if ($e->getCode() == Magento_Wishlist_Model_Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
+                    } else if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                         $hasOptions[] = $item;
                     } else {
                         $messages[] = __('%1 for "%2"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
                     }
-                } catch (Exception $e) {
-                    Mage::logException($e);
+                } catch (\Exception $e) {
+                    \Mage::logException($e);
                     $messages[] = __('We could not add the item to shopping cart.');
                 }
             }
         }
 
-        if (Mage::helper('Magento_Checkout_Helper_Cart')->getShouldRedirectToCart()) {
-            $redirectUrl = Mage::helper('Magento_Checkout_Helper_Cart')->getCartUrl();
+        if (\Mage::helper('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
+            $redirectUrl = \Mage::helper('Magento\Checkout\Helper\Cart')->getCartUrl();
         } else if ($this->_getRefererUrl()) {
             $redirectUrl = $this->_getRefererUrl();
         }
@@ -228,7 +230,7 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
                 $item = $hasOptions[0];
                 $redirectUrl = $item->getProductUrl();
             } else {
-                $wishlistSession = Mage::getSingleton('Magento_Checkout_Model_Session');
+                $wishlistSession = \Mage::getSingleton('Magento\Checkout\Model\Session');
                 foreach ($messages as $message) {
                     $wishlistSession->addError($message);
                 }
@@ -241,7 +243,7 @@ class Magento_MultipleWishlist_Controller_Search extends Magento_Core_Controller
                 $products[] = '"' . $product->getName() . '"';
             }
 
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->addSuccess(
                 __('%1 product(s) have been added to shopping cart: %2.', count($addedItems), join(', ', $products))
             );
         }

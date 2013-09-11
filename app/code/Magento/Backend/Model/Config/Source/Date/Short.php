@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Backend_Model_Config_Source_Date_Short implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Date;
+
+class Short implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

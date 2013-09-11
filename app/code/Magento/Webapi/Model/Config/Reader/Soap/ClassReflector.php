@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Config_Reader_Soap_ClassReflector
-    extends Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
+namespace Magento\Webapi\Model\Config\Reader\Soap;
+
+class ClassReflector
+    extends \Magento\Webapi\Model\Config\Reader\ClassReflectorAbstract
 {
     /**
      * Set types data into reader after reflecting all files.

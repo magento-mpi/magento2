@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Source_Destinationstates
+namespace Magento\GoogleShopping\Model\Source;
+
+class Destinationstates
 {
     /**
      * Retrieve option array with destinations

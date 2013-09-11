@@ -16,7 +16,9 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Event_Observer
+namespace Magento\Reports\Model\Event;
+
+class Observer
 {
     /**
      * Abstract Event obeserver logic
@@ -27,23 +29,23 @@ class Magento_Reports_Model_Event_Observer
      * @param int $objectId
      * @param int $subjectId
      * @param int $subtype
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     protected function _event($eventTypeId, $objectId, $subjectId = null, $subtype = 0)
     {
         if (is_null($subjectId)) {
-            if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-                $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+                $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
                 $subjectId = $customer->getId();
             }
             else {
-                $subjectId = Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
+                $subjectId = \Mage::getSingleton('Magento\Log\Model\Visitor')->getId();
                 $subtype = 1;
             }
         }
 
-        $eventModel = Mage::getModel('Magento_Reports_Model_Event');
-        $storeId    = Mage::app()->getStore()->getId();
+        $eventModel = \Mage::getModel('\Magento\Reports\Model\Event');
+        $storeId    = \Mage::app()->getStore()->getId();
         $eventModel
             ->setEventTypeId($eventTypeId)
             ->setObjectId($objectId)
@@ -59,23 +61,23 @@ class Magento_Reports_Model_Event_Observer
      * Customer login action
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     public function customerLogin(\Magento\Event\Observer $observer)
     {
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
             return $this;
         }
 
-        $visitorId  = Mage::getSingleton('Magento_Log_Model_Visitor')->getId();
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
-        $eventModel = Mage::getModel('Magento_Reports_Model_Event');
+        $visitorId  = \Mage::getSingleton('Magento\Log\Model\Visitor')->getId();
+        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+        $eventModel = \Mage::getModel('\Magento\Reports\Model\Event');
         $eventModel->updateCustomerType($visitorId, $customerId);
 
-        Mage::getModel('Magento_Reports_Model_Product_Index_Compared')
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')
             ->updateCustomerFromVisitor()
             ->calculate();
-        Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')
             ->updateCustomerFromVisitor()
             ->calculate();
 
@@ -86,14 +88,14 @@ class Magento_Reports_Model_Event_Observer
      * Customer logout processing
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     public function customerLogout(\Magento\Event\Observer $observer)
     {
-        Mage::getModel('Magento_Reports_Model_Product_Index_Compared')
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')
             ->purgeVisitorByCustomer()
             ->calculate();
-        Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')
             ->purgeVisitorByCustomer()
             ->calculate();
         return $this;
@@ -103,29 +105,29 @@ class Magento_Reports_Model_Event_Observer
      * View Catalog Product action
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     public function catalogProductView(\Magento\Event\Observer $observer)
     {
         $productId = $observer->getEvent()->getProduct()->getId();
 
-        Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')
             ->setProductId($productId)
             ->save()
             ->calculate();
 
-        return $this->_event(Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW, $productId);
+        return $this->_event(\Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, $productId);
     }
 
     /**
      * Send Product link to friends action
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     public function sendfriendProduct(\Magento\Event\Observer $observer)
     {
-        return $this->_event(Magento_Reports_Model_Event::EVENT_PRODUCT_SEND,
+        return $this->_event(\Magento\Reports\Model\Event::EVENT_PRODUCT_SEND,
             $observer->getEvent()->getProduct()->getId()
         );
     }
@@ -136,11 +138,11 @@ class Magento_Reports_Model_Event_Observer
      * Reset count of compared products cache
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     public function catalogProductCompareRemoveProduct(\Magento\Event\Observer $observer)
     {
-        Mage::getModel('Magento_Reports_Model_Product_Index_Compared')->calculate();
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')->calculate();
 
         return $this;
     }
@@ -151,11 +153,11 @@ class Magento_Reports_Model_Event_Observer
      * Reset count of compared products cache
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     public function catalogProductCompareClear(\Magento\Event\Observer $observer)
     {
-        Mage::getModel('Magento_Reports_Model_Product_Index_Compared')->calculate();
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')->calculate();
 
         return $this;
     }
@@ -172,26 +174,26 @@ class Magento_Reports_Model_Event_Observer
     {
         $productId = $observer->getEvent()->getProduct()->getId();
 
-        Mage::getModel('Magento_Reports_Model_Product_Index_Compared')
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')
             ->setProductId($productId)
             ->save()
             ->calculate();
 
-        return $this->_event(Magento_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $productId);
+        return $this->_event(\Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE, $productId);
     }
 
     /**
      * Add product to shopping cart action
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     public function checkoutCartAddProduct(\Magento\Event\Observer $observer)
     {
         $quoteItem = $observer->getEvent()->getItem();
         if (!$quoteItem->getId() && !$quoteItem->getParentItem()) {
             $productId = $quoteItem->getProductId();
-            $this->_event(Magento_Reports_Model_Event::EVENT_PRODUCT_TO_CART, $productId);
+            $this->_event(\Magento\Reports\Model\Event::EVENT_PRODUCT_TO_CART, $productId);
         }
         return $this;
     }
@@ -200,11 +202,11 @@ class Magento_Reports_Model_Event_Observer
      * Add product to wishlist action
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     public function wishlistAddProduct(\Magento\Event\Observer $observer)
     {
-        return $this->_event(Magento_Reports_Model_Event::EVENT_PRODUCT_TO_WISHLIST,
+        return $this->_event(\Magento\Reports\Model\Event::EVENT_PRODUCT_TO_WISHLIST,
             $observer->getEvent()->getProduct()->getId()
         );
     }
@@ -213,11 +215,11 @@ class Magento_Reports_Model_Event_Observer
      * Share customer wishlist action
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     public function wishlistShare(\Magento\Event\Observer $observer)
     {
-        return $this->_event(Magento_Reports_Model_Event::EVENT_WISHLIST_SHARE,
+        return $this->_event(\Magento\Reports\Model\Event::EVENT_WISHLIST_SHARE,
             $observer->getEvent()->getWishlist()->getId()
         );
     }
@@ -228,16 +230,16 @@ class Magento_Reports_Model_Event_Observer
      * @see Global Log Clean Settings
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Reports_Model_Event_Observer
+     * @return \Magento\Reports\Model\Event\Observer
      */
     public function eventClean(\Magento\Event\Observer $observer)
     {
-        /* @var $event Magento_Reports_Model_Event */
-        $event = Mage::getModel('Magento_Reports_Model_Event');
+        /* @var $event \Magento\Reports\Model\Event */
+        $event = \Mage::getModel('\Magento\Reports\Model\Event');
         $event->clean();
 
-        Mage::getModel('Magento_Reports_Model_Product_Index_Compared')->clean();
-        Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')->clean();
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')->clean();
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')->clean();
 
         return $this;
     }

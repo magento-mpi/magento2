@@ -14,27 +14,29 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Paypal_Model_Observer
+namespace Magento\Paypal\Model;
+
+class Observer
 {
     /**
      * Goes to reports.paypal.com and fetches Settlement reports.
-     * @return Magento_Paypal_Model_Observer
+     * @return \Magento\Paypal\Model\Observer
      */
     public function fetchReports()
     {
         try {
-            $reports = Mage::getModel('Magento_Paypal_Model_Report_Settlement');
-            /* @var $reports Magento_Paypal_Model_Report_Settlement */
+            $reports = \Mage::getModel('\Magento\Paypal\Model\Report\Settlement');
+            /* @var $reports \Magento\Paypal\Model\Report\Settlement */
             $credentials = $reports->getSftpCredentials(true);
             foreach ($credentials as $config) {
                 try {
-                    $reports->fetchAndSave(Magento_Paypal_Model_Report_Settlement::createConnection($config));
-                } catch (Exception $e) {
-                    Mage::logException($e);
+                    $reports->fetchAndSave(\Magento\Paypal\Model\Report\Settlement::createConnection($config));
+                } catch (\Exception $e) {
+                    \Mage::logException($e);
                 }
             }
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
         }
     }
 
@@ -42,7 +44,7 @@ class Magento_Paypal_Model_Observer
      * Clean unfinished transaction
      *
      * @deprecated since 1.6.2.0
-     * @return Magento_Paypal_Model_Observer
+     * @return \Magento\Paypal\Model\Observer
      */
     public function cleanTransactions()
     {
@@ -53,13 +55,13 @@ class Magento_Paypal_Model_Observer
      * Save order into registry to use it in the overloaded controller.
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Paypal_Model_Observer
+     * @return \Magento\Paypal\Model\Observer
      */
     public function saveOrderAfterSubmit(\Magento\Event\Observer $observer)
     {
-        /* @var $order Magento_Sales_Model_Order */
+        /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getData('order');
-        Mage::register('hss_order', $order, true);
+        \Mage::register('hss_order', $order, true);
 
         return $this;
     }
@@ -68,21 +70,21 @@ class Magento_Paypal_Model_Observer
      * Set data for response of frontend saveOrder action
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Paypal_Model_Observer
+     * @return \Magento\Paypal\Model\Observer
      */
     public function setResponseAfterSaveOrder(\Magento\Event\Observer $observer)
     {
-        /* @var $order Magento_Sales_Model_Order */
-        $order = Mage::registry('hss_order');
+        /* @var $order \Magento\Sales\Model\Order */
+        $order = \Mage::registry('hss_order');
 
         if ($order && $order->getId()) {
             $payment = $order->getPayment();
-            if ($payment && in_array($payment->getMethod(), Mage::helper('Magento_Paypal_Helper_Hss')->getHssMethods())) {
-                /* @var $controller Magento_Core_Controller_Varien_Action */
+            if ($payment && in_array($payment->getMethod(), \Mage::helper('Magento\Paypal\Helper\Hss')->getHssMethods())) {
+                /* @var $controller \Magento\Core\Controller\Varien\Action */
                 $controller = $observer->getEvent()->getData('controller_action');
-                $result = Mage::helper('Magento_Core_Helper_Data')->jsonDecode(
+                $result = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode(
                     $controller->getResponse()->getBody('default'),
-                    Zend_Json::TYPE_ARRAY
+                    \Zend_Json::TYPE_ARRAY
                 );
 
                 if (empty($result['error'])) {
@@ -95,7 +97,7 @@ class Magento_Paypal_Model_Observer
                     $result['redirect'] = false;
                     $result['success'] = false;
                     $controller->getResponse()->clearHeader('Location');
-                    $controller->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+                    $controller->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
                 }
             }
         }

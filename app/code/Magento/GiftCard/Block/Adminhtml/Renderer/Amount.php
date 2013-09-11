@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
- extends Magento_Adminhtml_Block_Widget
+namespace Magento\GiftCard\Block\Adminhtml\Renderer;
+
+class Amount
+ extends \Magento\Adminhtml\Block\Widget
  implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_element = null;
@@ -19,7 +21,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
 
     public function getProduct()
     {
-        return Mage::registry('product');
+        return \Mage::registry('product');
     }
 
     /**
@@ -32,7 +34,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
     {
         $this->setElement($element);
         $isAddButtonDisabled = ($element->getData('readonly_disabled') === true) ? true : false;
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add Amount'),
             'onclick'   => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
             'class'     => 'action-add',
@@ -60,7 +62,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
 
     public function isMultiWebsites()
     {
-        return !Mage::app()->hasSingleStore();
+        return !\Mage::app()->hasSingleStore();
     }
 
     public function getWebsites()
@@ -71,24 +73,24 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_Amount
         $websites = array();
         $websites[0] = array(
             'name'      => __('All Websites'),
-            'currency'  => Mage::app()->getBaseCurrencyCode()
+            'currency'  => \Mage::app()->getBaseCurrencyCode()
         );
 
-        if (!Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
+        if (!\Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             if ($storeId = $this->getProduct()->getStoreId()) {
-                $website = Mage::app()->getStore($storeId)->getWebsite();
+                $website = \Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'      => $website->getName(),
-                    'currency'  => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                    'currency'  => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
-                foreach (Mage::app()->getWebsites() as $website) {
+                foreach (\Mage::app()->getWebsites() as $website) {
                     if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
                         continue;
                     }
                     $websites[$website->getId()] = array(
                         'name'      => $website->getName(),
-                        'currency'  => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                        'currency'  => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
                     );
                 }
             }

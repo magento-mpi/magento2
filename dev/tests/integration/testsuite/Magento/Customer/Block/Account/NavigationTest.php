@@ -12,7 +12,7 @@ class Magento_Customer_Block_Account_NavigationTest extends PHPUnit_Framework_Te
 {
     public function testAddRemoveLink()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_Customer_Block_Account_Navigation');
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Customer\Block\Account\Navigation');
         $this->assertSame(array(), $block->getLinks());
         $this->assertSame($block, $block->addLink('Name', 'some/path/index', 'Label', array('parameter' => 'value')));
         $links = $block->getLinks();

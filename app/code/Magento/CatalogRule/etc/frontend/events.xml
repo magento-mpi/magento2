@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="catalog_product_get_final_price">
-        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="processFrontFinalPrice" />
+        <observer name="catalogrule" instance="\Magento\CatalogRule\Model\Observer" method="processFrontFinalPrice" />
     </event>
     <event name="prepare_catalog_product_collection_prices">
-        <observer name="catalogrule" instance="Magento_CatalogRule_Model_Observer" method="prepareCatalogProductCollectionPrices" />
+        <observer name="catalogrule" instance="\Magento\CatalogRule\Model\Observer" method="prepareCatalogProductCollectionPrices" />
     </event>
 </config>

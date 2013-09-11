@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Sales_Model_Quote_Address_Total_Shipping extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Set shipping code
@@ -22,10 +24,10 @@ class Magento_Sales_Model_Quote_Address_Total_Shipping extends Magento_Sales_Mod
     /**
      * Collect totals information about shipping
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Total_Shipping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Total\Shipping
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
 
@@ -157,10 +159,10 @@ class Magento_Sales_Model_Quote_Address_Total_Shipping extends Magento_Sales_Mod
     /**
      * Add shipping totals information to address object
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Total_Shipping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Total\Shipping
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $amount = $address->getShippingAmount();
         if ($amount != 0 || $address->getShippingDescription()) {

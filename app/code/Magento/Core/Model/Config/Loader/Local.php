@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Loader_Local implements Magento_Core_Model_Config_LoaderInterface
+namespace Magento\Core\Model\Config\Loader;
+
+class Local implements \Magento\Core\Model\Config\LoaderInterface
 {
     /**
      * Local configuration file
@@ -15,9 +17,9 @@ class Magento_Core_Model_Config_Loader_Local implements Magento_Core_Model_Confi
     const LOCAL_CONFIG_FILE = 'local.xml';
 
     /**
-     * Directory registry
+     * \Directory registry
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
@@ -50,23 +52,23 @@ class Magento_Core_Model_Config_Loader_Local implements Magento_Core_Model_Confi
     /**
      * Populate configuration object
      *
-     * @param Magento_Core_Model_Config_Base $config
+     * @param \Magento\Core\Model\Config\Base $config
      */
-    public function load(Magento_Core_Model_Config_Base $config)
+    public function load(\Magento\Core\Model\Config\Base $config)
     {
         $localConfigParts = array();
 
         $localConfigFile = $this->_dir . DIRECTORY_SEPARATOR . self::LOCAL_CONFIG_FILE;
         if (file_exists($localConfigFile)) {
             // 1. app/etc/local.xml
-            $localConfig = new Magento_Core_Model_Config_Base('<config/>');
+            $localConfig = new \Magento\Core\Model\Config\Base('<config/>');
             $localConfig->loadFile($localConfigFile);
             $localConfigParts[] = $localConfig;
 
             // 2. app/etc/<dir>/<file>.xml
             if (preg_match('/^[a-z\d_-]+(\/|\\\)+[a-z\d_-]+\.xml$/', $this->_customFile)) {
                 $localConfigExtraFile = $this->_dir . DIRECTORY_SEPARATOR . $this->_customFile;
-                $localConfig = new Magento_Core_Model_Config_Base('<config/>');
+                $localConfig = new \Magento\Core\Model\Config\Base('<config/>');
                 $localConfig->loadFile($localConfigExtraFile);
                 $localConfigParts[] = $localConfig;
             }
@@ -74,7 +76,7 @@ class Magento_Core_Model_Config_Loader_Local implements Magento_Core_Model_Confi
 
         // 3. extra local configuration string
         if ($this->_customConfig) {
-            $localConfig = new Magento_Core_Model_Config_Base('<config/>');
+            $localConfig = new \Magento\Core\Model\Config\Base('<config/>');
             $localConfig->loadString($this->_customConfig);
             $localConfigParts[] = $localConfig;
         }

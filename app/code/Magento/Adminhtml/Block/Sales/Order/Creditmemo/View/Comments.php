@@ -16,22 +16,24 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Comments extends Magento_Adminhtml_Block_Text_List
+namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\View;
+
+class Comments extends \Magento\Adminhtml\Block\Text\ListText
 {
     /**
      * Retrieve creditmemo model instance
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return \Mage::registry('current_creditmemo');
     }
 
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -41,7 +43,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Comments extends Magen
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getSource()
     {

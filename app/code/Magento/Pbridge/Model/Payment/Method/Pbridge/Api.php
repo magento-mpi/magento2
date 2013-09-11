@@ -16,7 +16,9 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_Payment_Method_Pbridge_Api extends Magento_Pbridge_Model_Pbridge_Api_Abstract
+namespace Magento\Pbridge\Model\Payment\Method\Pbridge;
+
+class Api extends \Magento\Pbridge\Model\Pbridge\Api\AbstractApi
 {
     /**
      * Prepare, merge, encrypt required params for Payment Bridge and payment request params.
@@ -29,8 +31,8 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Api extends Magento_Pbridge_M
     {
         $request['action'] = 'Payments';
         $request['token'] = $this->getMethodInstance()->getPbridgeResponse('token');
-        $request = Mage::helper('Magento_Pbridge_Helper_Data')->getRequestParams($request);
-        $request = array('data' => Mage::helper('Magento_Pbridge_Helper_Data')->encrypt(json_encode($request)));
+        $request = \Mage::helper('Magento\Pbridge\Helper\Data')->getRequestParams($request);
+        $request = array('data' => \Mage::helper('Magento\Pbridge\Helper\Data')->encrypt(json_encode($request)));
         return http_build_query($request, '', '&');
     }
 
@@ -52,7 +54,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Api extends Magento_Pbridge_M
      * Authorize
      *
      * @param \Magento\Object $request
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge_Api
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge\Api
      */
     public function doAuthorize($request)
     {
@@ -70,7 +72,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Api extends Magento_Pbridge_M
      * Capture
      *
      * @param \Magento\Object $request
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge_Api
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge\Api
      */
     public function doCapture($request)
     {
@@ -88,7 +90,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Api extends Magento_Pbridge_M
      * Refund
      *
      * @param \Magento\Object $request
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge_Api
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge\Api
      */
     public function doRefund($request)
     {
@@ -106,7 +108,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Api extends Magento_Pbridge_M
      * Void
      *
      * @param \Magento\Object $request
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge_Api
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge\Api
      */
     public function doVoid($request)
     {

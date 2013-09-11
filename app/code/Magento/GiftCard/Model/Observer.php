@@ -8,34 +8,36 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
+namespace Magento\GiftCard\Model;
+
+class Observer extends \Magento\Core\Model\AbstractModel
 {
     const ATTRIBUTE_CODE = 'giftcard_amounts';
 
     /**
      * Email template model instance
      *
-     * @var Magento_Core_Model_Email_Template
+     * @var \Magento\Core\Model\Email\Template
      */
     protected $_emailTemplateModel;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Resource_Abstract $resource
-     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
-        Magento_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()
     ) {
         if (isset($data['email_template_model'])) {
-            if (!$data['email_template_model'] instanceof Magento_Core_Model_Email_Template) {
-                throw new InvalidArgumentException(
-                    'Argument "email_template_model" is expected to be an instance of "Magento_Core_Model_Email_Template".'
+            if (!$data['email_template_model'] instanceof \Magento\Core\Model\Email\Template) {
+                throw new \InvalidArgumentException(
+                    'Argument "email_template_model" is expected to be an instance of "\Magento\Core\Model\Email\Template".'
                 );
             }
             $this->_emailTemplateModel = $data['email_template_model'];
@@ -57,7 +59,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
 
         if ($elem) {
             $elem->setRenderer(
-                Mage::app()->getLayout()->createBlock('Magento_GiftCard_Block_Adminhtml_Renderer_Amount')
+                \Mage::app()->getLayout()->createBlock('\Magento\GiftCard\Block\Adminhtml\Renderer\Amount')
             );
         }
     }
@@ -81,7 +83,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      * Append gift card additional data to order item options
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftCard_Model_Observer
+     * @return \Magento\GiftCard\Model\Observer
      */
     public function appendGiftcardAdditionalData(\Magento\Event\Observer $observer)
     {
@@ -107,8 +109,8 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         // set lifetime
         $lifetime = 0;
         if ($product->getUseConfigLifetime()) {
-            $lifetime = Mage::getStoreConfig(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_LIFETIME,
+            $lifetime = \Mage::getStoreConfig(
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_LIFETIME,
                 $orderItem->getStore()
             );
         } else {
@@ -119,8 +121,8 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         // set is_redeemable
         $isRedeemable = 0;
         if ($product->getUseConfigIsRedeemable()) {
-            $isRedeemable = Mage::getStoreConfigFlag(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_IS_REDEEMABLE,
+            $isRedeemable = \Mage::getStoreConfigFlag(
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_IS_REDEEMABLE,
                 $orderItem->getStore()
             );
         } else {
@@ -131,8 +133,8 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
         // set email_template
         $emailTemplate = 0;
         if ($product->getUseConfigEmailTemplate()) {
-            $emailTemplate = Mage::getStoreConfig(
-                Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE,
+            $emailTemplate = \Mage::getStoreConfig(
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE,
                 $orderItem->getStore()
             );
         } else {
@@ -150,32 +152,32 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      * Generate gift card accounts after order save
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftCard_Model_Observer
+     * @return \Magento\GiftCard\Model\Observer
      */
     public function generateGiftCardAccounts(\Magento\Event\Observer $observer)
     {
         // sales_order_save_after
 
         $order = $observer->getEvent()->getOrder();
-        $requiredStatus = Mage::getStoreConfig(
-            Magento_GiftCard_Model_Giftcard::XML_PATH_ORDER_ITEM_STATUS,
+        $requiredStatus = \Mage::getStoreConfig(
+            \Magento\GiftCard\Model\Giftcard::XML_PATH_ORDER_ITEM_STATUS,
             $order->getStore()
         );
         $loadedInvoices = array();
 
         foreach ($order->getAllItems() as $item) {
-            if ($item->getProductType() == Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) {
+            if ($item->getProductType() == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD) {
                 $qty = 0;
                 $options = $item->getProductOptions();
 
                 switch ($requiredStatus) {
-                    case Magento_Sales_Model_Order_Item::STATUS_INVOICED:
+                    case \Magento\Sales\Model\Order\Item::STATUS_INVOICED:
                         $paidInvoiceItems = isset($options['giftcard_paid_invoice_items'])
                             ? $options['giftcard_paid_invoice_items']
                             : array();
                         // find invoice for this order item
-                        $invoiceItemCollection = Mage::getResourceModel(
-                            'Magento_Sales_Model_Resource_Order_Invoice_Item_Collection'
+                        $invoiceItemCollection = \Mage::getResourceModel(
+                            '\Magento\Sales\Model\Resource\Order\Invoice\Item\Collection'
                         )->addFieldToFilter('order_item_id', $item->getId());
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
@@ -183,11 +185,11 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                             if(isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
-                                $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($invoiceId);
+                                $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->load($invoiceId);
                                 $loadedInvoices[$invoiceId] = $invoice;
                             }
                             // check, if this order item has been paid
-                            if ($invoice->getState() == Magento_Sales_Model_Order_Invoice::STATE_PAID &&
+                            if ($invoice->getState() == \Magento\Sales\Model\Order\Invoice::STATE_PAID &&
                                 !in_array($invoiceItem->getId(), $paidInvoiceItems)
                             ) {
                                 $qty += $invoiceItem->getQty();
@@ -217,7 +219,7 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                     }
 
                     $amount = $item->getBasePrice();
-                    $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
+                    $websiteId = \Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
                     $data = new \Magento\Object();
                     $data->setWebsiteId($websiteId)
@@ -231,12 +233,12 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new \Magento\Object();
-                            Mage::dispatchEvent('magento_giftcardaccount_create', array(
+                            \Mage::dispatchEvent('magento_giftcardaccount_create', array(
                                 'request' => $data, 'code' => $code
                             ));
                             $codes[] = $code->getCode();
                             $goodCodes++;
-                        } catch (Magento_Core_Exception $e) {
+                        } catch (\Magento\Core\Exception $e) {
                             $hasFailedCodes = true;
                             $codes[] = null;
                         }
@@ -248,12 +250,12 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                             $sender = "$sender <$senderEmail>";
                         }
 
-                        $codeList = Mage::helper('Magento_GiftCard_Helper_Data')->getEmailGeneratedItemsBlock()
+                        $codeList = \Mage::helper('Magento\GiftCard\Helper\Data')->getEmailGeneratedItemsBlock()
                             ->setCodes($codes)
                             ->setIsRedeemable($isRedeemable)
-                            ->setStore(Mage::app()->getStore($order->getStoreId()));
-                        $balance = Mage::app()->getLocale()->currency(
-                            Mage::app()->getStore($order->getStoreId())->getBaseCurrencyCode()
+                            ->setStore(\Mage::app()->getStore($order->getStoreId()));
+                        $balance = \Mage::app()->getLocale()->currency(
+                            \Mage::app()->getStore($order->getStoreId())->getBaseCurrencyCode()
                         )->toCurrency($amount);
 
                         $templateData = array(
@@ -270,15 +272,15 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                             'is_redeemable'          => $isRedeemable,
                         );
 
-                        $email = $this->_emailTemplateModel ?: Mage::getModel('Magento_Core_Model_Email_Template');
+                        $email = $this->_emailTemplateModel ?: \Mage::getModel('\Magento\Core\Model\Email\Template');
                         $email->setDesignConfig(array(
-                            'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+                            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                             'store' => $item->getOrder()->getStoreId(),
                         ));
                         $email->sendTransactional(
                             $item->getProductOptionByCode('giftcard_email_template'),
-                            Mage::getStoreConfig(
-                                Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_IDENTITY,
+                            \Mage::getStoreConfig(
+                                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY,
                                 $item->getOrder()->getStoreId()
                             ),
                             $item->getProductOptionByCode('giftcard_recipient_email'),
@@ -295,10 +297,10 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
                     $item->save();
                 }
                 if ($hasFailedCodes) {
-                    $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/giftcardaccount');
+                    $url = \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('adminhtml/giftcardaccount');
                     $message = __('Some gift card accounts were not created properly. You can create gift card accounts manually <a href="%1">here</a>.', $url);
 
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($message);
+                    \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($message);
                 }
             }
         }
@@ -310,14 +312,14 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      * Process `giftcard_amounts` attribute afterLoad logic on loading by collection
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftCard_Model_Observer
+     * @return \Magento\GiftCard\Model\Observer
      */
     public function loadAttributesAfterCollectionLoad(\Magento\Event\Observer $observer)
     {
         $collection = $observer->getEvent()->getCollection();
 
         foreach ($collection as $item) {
-            if (Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD == $item->getTypeId()) {
+            if (\Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD == $item->getTypeId()) {
                 $attribute = $item->getResource()->getAttribute('giftcard_amounts');
                 if ($attribute->getId()) {
                     $attribute->getBackend()->afterLoad($item);
@@ -331,12 +333,12 @@ class Magento_GiftCard_Model_Observer extends Magento_Core_Model_Abstract
      * Initialize product options renderer with giftcard specific params
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftCard_Model_Observer
+     * @return \Magento\GiftCard\Model\Observer
      */
     public function initOptionRenderer(\Magento\Event\Observer $observer)
     {
         $block = $observer->getBlock();
-        $block->addOptionsRenderCfg('giftcard', 'Magento_GiftCard_Helper_Catalog_Product_Configuration');
+        $block->addOptionsRenderCfg('giftcard', '\Magento\GiftCard\Helper\Catalog\Product\Configuration');
         return $this;
     }
 }

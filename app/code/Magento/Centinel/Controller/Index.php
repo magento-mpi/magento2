@@ -12,7 +12,9 @@
  * Centinel Authenticate Controller
  *
  */
-class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Action
+namespace Magento\Centinel\Controller;
+
+class Index extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Process autentication start action
@@ -21,7 +23,7 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
     public function authenticationStartAction()
     {
         if ($validator = $this->_getValidator()) {
-            Mage::register('current_centinel_validator', $validator);
+            \Mage::register('current_centinel_validator', $validator);
         }
         $this->loadLayout()->renderLayout();
     }
@@ -41,10 +43,10 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
                 $data->setPaResPayload($request->getParam('PaRes'));
 
                 $validator->authenticate($data);
-                Mage::register('current_centinel_validator', $validator);
+                \Mage::register('current_centinel_validator', $validator);
             }
-        } catch (Exception $e) {
-            Mage::register('current_centinel_validator', false);
+        } catch (\Exception $e) {
+            \Mage::register('current_centinel_validator', false);
         }
         $this->loadLayout()->renderLayout();
     }
@@ -52,17 +54,17 @@ class Magento_Centinel_Controller_Index extends Magento_Core_Controller_Front_Ac
     /**
      * Return payment model
      *
-     * @return Magento_Sales_Model_Quote_Payment
+     * @return \Magento\Sales\Model\Quote\Payment
      */
     private function _getPayment()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment();
     }
 
     /**
      * Return Centinel validation model
      *
-     * @return Magento_Centinel_Model_Service
+     * @return \Magento\Centinel\Model\Service
      */
     private function _getValidator()
     {

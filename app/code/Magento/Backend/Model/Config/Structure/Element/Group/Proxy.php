@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Group_Proxy
-    extends Magento_Backend_Model_Config_Structure_Element_Group
+namespace Magento\Backend\Model\Config\Structure\Element\Group;
+
+class Proxy
+    extends \Magento\Backend\Model\Config\Structure\Element\Group
 {
     /**
      * Object manager
@@ -18,7 +20,7 @@ class Magento_Backend_Model_Config_Structure_Element_Group_Proxy
     protected $_objectManager;
 
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_Group
+     * @var \Magento\Backend\Model\Config\Structure\Element\Group
      */
     protected $_subject;
 
@@ -33,12 +35,12 @@ class Magento_Backend_Model_Config_Structure_Element_Group_Proxy
     /**
      * Retrieve subject
      *
-     * @return Magento_Backend_Model_Config_Structure_Element_Group
+     * @return \Magento\Backend\Model\Config\Structure\Element\Group
      */
     protected function _getSubject()
     {
         if (!$this->_subject) {
-            $this->_subject = $this->_objectManager->create('Magento_Backend_Model_Config_Structure_Element_Group');
+            $this->_subject = $this->_objectManager->create('Magento\Backend\Model\Config\Structure\Element\Group');
         }
         return $this->_subject;
     }
@@ -149,7 +151,7 @@ class Magento_Backend_Model_Config_Structure_Element_Group_Proxy
     /**
      * Retrieve children iterator
      *
-     * @return Magento_Backend_Model_Config_Structure_Element_Iterator
+     * @return \Magento\Backend\Model\Config\Structure\Element\Iterator
      */
     public function getChildren()
     {
@@ -169,7 +171,7 @@ class Magento_Backend_Model_Config_Structure_Element_Group_Proxy
     /**
      * Retrieve clone model
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function getCloneModel()
     {

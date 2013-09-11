@@ -16,7 +16,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_Model_Resource_Report_Collection_Abstract
+namespace Magento\SalesRule\Model\Resource\Report;
+
+class Collection extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
      * Period format for report (day, month, year)
@@ -52,7 +54,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Sales_Model_Resource_Report $resource
+        \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init($this->_aggregationTable);
         parent::__construct($fetchStrategy, $resource);
@@ -106,7 +108,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
     /**
      * Add selected data
      *
-     * @return Magento_SalesRule_Model_Resource_Report_Collection
+     * @return \Magento\SalesRule\Model\Resource\Report\Collection
      */
     protected function _initSelect()
     {
@@ -127,7 +129,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
      * Add filtering by rules ids
      *
      * @param array $rulesList
-     * @return Magento_SalesRule_Model_Resource_Report_Collection
+     * @return \Magento\SalesRule\Model\Resource\Report\Collection
      */
     public function addRuleFilter($rulesList)
     {
@@ -138,7 +140,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
     /**
      * Apply filtering by rules ids
      *
-     * @return Magento_SalesRule_Model_Resource_Report_Collection
+     * @return \Magento\SalesRule\Model\Resource\Report\Collection
      */
     protected function _applyRulesFilter()
     {
@@ -146,7 +148,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
             return $this;
         }
 
-        $rulesList = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->getUniqRulesNamesList();
+        $rulesList = \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Report\Rule')->getUniqRulesNamesList();
 
         $rulesFilterSqlParts = array();
 
@@ -166,7 +168,7 @@ class Magento_SalesRule_Model_Resource_Report_Collection extends Magento_Sales_M
     /**
      * Apply collection custom filter
      *
-     * @return Magento_Sales_Model_Resource_Report_Collection_Abstract
+     * @return \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
      */
     protected function _applyCustomFilter()
     {

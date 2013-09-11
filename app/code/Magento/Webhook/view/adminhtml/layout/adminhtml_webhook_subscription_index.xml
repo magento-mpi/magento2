@@ -19,7 +19,7 @@
         </reference>
         <update handle="adminhtml_webhook_subscription_grid"/>
         <reference name="content">
-            <block class="Magento_Webhook_Block_Adminhtml_Subscription" name="webhook.subscriptions.list"/>
+            <block class="\Magento\Webhook\Block\Adminhtml\Subscription" name="webhook.subscriptions.list"/>
         </reference>
     </handle>
 </layout>

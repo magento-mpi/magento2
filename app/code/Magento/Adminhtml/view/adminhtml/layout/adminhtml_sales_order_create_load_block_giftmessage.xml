@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_create_load_block_giftmessage">
         <reference name="content">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage" template="sales/order/create/giftmessage.phtml" name="giftmessage"/>
+            <block class="\Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage" template="sales/order/create/giftmessage.phtml" name="giftmessage"/>
         </reference>
     </handle>
 </layout>

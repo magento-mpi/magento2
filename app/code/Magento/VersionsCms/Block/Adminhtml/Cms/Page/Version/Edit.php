@@ -16,8 +16,10 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit
-    extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version;
+
+class Edit
+    extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected $_objectId   = 'version_id';
     protected $_blockGroup = 'Magento_VersionsCms';
@@ -30,10 +32,10 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit
     protected function _construct()
     {
         parent::_construct();
-        $version = Mage::registry('cms_page_version');
+        $version = \Mage::registry('cms_page_version');
 
-        $config = Mage::getSingleton('Magento_VersionsCms_Model_Config');
-        /* @var $config Magento_VersionsCms_Model_Config */
+        $config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
+        /* @var $config \Magento\VersionsCms\Model\Config */
 
         // Add 'new button' depending on permission
         if ($config->canCurrentUserSaveVersion()) {
@@ -94,8 +96,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit
      */
     public function getHeaderText()
     {
-        $versionLabel = $this->escapeHtml(Mage::registry('cms_page_version')->getLabel());
-        $title = $this->escapeHtml(Mage::registry('cms_page')->getTitle());
+        $versionLabel = $this->escapeHtml(\Mage::registry('cms_page_version')->getLabel());
+        $title = $this->escapeHtml(\Mage::registry('cms_page')->getTitle());
 
         if (!$versionLabel) {
             $versionLabel = __('N/A');
@@ -113,7 +115,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit
     {
         return $this->getUrl('*/cms_page/edit',
              array(
-                'page_id' => Mage::registry('cms_page') ? Mage::registry('cms_page')->getPageId() : null,
+                'page_id' => \Mage::registry('cms_page') ? \Mage::registry('cms_page')->getPageId() : null,
                 'tab' => 'versions'
              ));
     }

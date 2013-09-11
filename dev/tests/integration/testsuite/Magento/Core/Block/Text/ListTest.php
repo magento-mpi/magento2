@@ -12,27 +12,27 @@
 class Magento_Core_Block_Text_ListTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Core_Block_Text_List
+     * @var \Magento\Core\Block\Text\ListText
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Magento_Core_Block_Text_List');
+        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('\Magento\Core\Block\Text\ListText');
     }
 
     public function testToHtml()
     {
         $children = array(
-            array('block1', 'Magento_Core_Block_Text', 'text1'),
-            array('block2', 'Magento_Core_Block_Text', 'text2'),
-            array('block3', 'Magento_Core_Block_Text', 'text3'),
+            array('block1', '\Magento\Core\Block\Text', 'text1'),
+            array('block2', '\Magento\Core\Block\Text', 'text2'),
+            array('block3', '\Magento\Core\Block\Text', 'text3'),
         );
         foreach ($children as $child) {
             $this->_layout->addBlock($child[1], $child[0], $this->_block->getNameInLayout())
@@ -45,10 +45,10 @@ class Magento_Core_Block_Text_ListTest extends PHPUnit_Framework_TestCase
     public function testToHtmlWithContainer()
     {
         $listName = $this->_block->getNameInLayout();
-        $block1 = $this->_layout->addBlock('Magento_Core_Block_Text', '', $listName);
+        $block1 = $this->_layout->addBlock('\Magento\Core\Block\Text', '', $listName);
         $this->_layout->addContainer('container', 'Container', array(), $listName);
-        $block2 = $this->_layout->addBlock('Magento_Core_Block_Text', '', 'container');
-        $block3 = $this->_layout->addBlock('Magento_Core_Block_Text', '', $listName);
+        $block2 = $this->_layout->addBlock('\Magento\Core\Block\Text', '', 'container');
+        $block3 = $this->_layout->addBlock('\Magento\Core\Block\Text', '', $listName);
         $block1->setText('text1');
         $block2->setText('text2');
         $block3->setText('text3');

@@ -15,7 +15,7 @@
             <salesrule_setup>
                 <setup>
                     <module>Magento_SalesRule</module>
-                    <class>Magento_Sales_Model_Resource_Setup</class>
+                    <class>Magento\Sales\Model\Resource\Setup</class>
                 </setup>
             </salesrule_setup>
         </resources>
@@ -23,19 +23,19 @@
             <quote>
                 <totals>
                     <freeshipping>
-                        <class>Magento_SalesRule_Model_Quote_Freeshipping</class>
+                        <class>Magento\SalesRule\Model\Quote\Freeshipping</class>
                         <after>subtotal</after>
                         <before>tax_subtotal,shipping</before>
                     </freeshipping>
                     <discount>
-                        <class>Magento_SalesRule_Model_Quote_Discount</class>
+                        <class>Magento\SalesRule\Model\Quote\Discount</class>
                         <after>subtotal,shipping</after>
                         <before>grand_total</before>
                     </discount>
                 </totals>
                 <nominal_totals>
                     <nominal_discount>
-                        <class>Magento_SalesRule_Model_Quote_Nominal_Discount</class>
+                        <class>Magento\SalesRule\Model\Quote\Nominal\Discount</class>
                         <sort_order>550</sort_order>
                     </nominal_discount>
                 </nominal_totals>
@@ -81,7 +81,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_SalesRule_Model_Observer::aggregateSalesReportCouponsData</model>
+                    <model>\Magento\SalesRule\Model\Observer::aggregateSalesReportCouponsData</model>
                 </run>
             </aggregate_sales_report_coupons_data>
         </jobs>
@@ -94,4 +94,4 @@
             </auto_generated_coupon_codes>
         </promo>
     </default>
-</config>
+</config>

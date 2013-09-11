@@ -16,7 +16,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Resource_Agreement extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Checkout\Model\Resource;
+
+class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Model initialization
@@ -30,14 +32,14 @@ class Magento_Checkout_Model_Resource_Agreement extends Magento_Core_Model_Resou
     /**
      * Method to run before save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         // format height
         $height = $object->getContentHeight();
-        $height = Mage::helper('Magento_Checkout_Helper_Data')->stripTags($height);
+        $height = \Mage::helper('Magento\Checkout\Helper\Data')->stripTags($height);
         if (!$height) {
             $height = '';
         }
@@ -51,10 +53,10 @@ class Magento_Checkout_Model_Resource_Agreement extends Magento_Core_Model_Resou
     /**
      * Method to run after save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $condition = array('agreement_id = ?' => $object->getId());
         $this->_getWriteAdapter()->delete($this->getTable('checkout_agreement_store'), $condition);
@@ -72,10 +74,10 @@ class Magento_Checkout_Model_Resource_Agreement extends Magento_Core_Model_Resou
     /**
      * Method to run after load
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getTable('checkout_agreement_store'), array('store_id'))

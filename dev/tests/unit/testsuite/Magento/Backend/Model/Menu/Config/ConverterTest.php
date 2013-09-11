@@ -8,13 +8,13 @@
 class Magento_Backend_Model_Menu_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu_Config_Converter
+     * @var \Magento\Backend\Model\Menu\Config\Converter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Backend_Model_Menu_Config_Converter();
+        $this->_model = new \Magento\Backend\Model\Menu\Config\Converter();
     }
 
     public function testConvertIfNodeHasAttribute()

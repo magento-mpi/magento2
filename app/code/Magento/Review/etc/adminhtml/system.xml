@@ -16,7 +16,7 @@
                 <label>Product Reviews</label>
                 <field id="allow_guest" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Allow Guests to Write Reviews</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
         </section>

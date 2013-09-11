@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ModuleList implements Magento_Core_Model_ModuleListInterface
+namespace Magento\Core\Model;
+
+class ModuleList implements \Magento\Core\Model\ModuleListInterface
 {
     /**
      * Configuration data
@@ -22,12 +24,12 @@ class Magento_Core_Model_ModuleList implements Magento_Core_Model_ModuleListInte
     protected $_scope = 'global';
 
     /**
-     * @param Magento_Core_Model_Module_Declaration_Reader_Filesystem $reader
+     * @param \Magento\Core\Model\Module\Declaration\Reader\Filesystem $reader
      * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Magento_Core_Model_Module_Declaration_Reader_Filesystem $reader,
+        \Magento\Core\Model\Module\Declaration\Reader\Filesystem $reader,
         \Magento\Config\CacheInterface $cache,
         $cacheId = 'modules_declaration_cache'
     ) {

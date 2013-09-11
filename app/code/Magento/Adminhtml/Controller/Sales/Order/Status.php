@@ -15,18 +15,20 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Sales\Order;
+
+class Status extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Initialize status model based on status code in request
      *
-     * @return Magento_Sales_Model_Order_Status | false
+     * @return \Magento\Sales\Model\Order\Status | false
      */
     protected function _initStatus()
     {
         $statusCode = $this->getRequest()->getParam('status');
         if ($statusCode) {
-            $status = Mage::getModel('Magento_Sales_Model_Order_Status')->load($statusCode);
+            $status = \Mage::getModel('\Magento\Sales\Model\Order\Status')->load($statusCode);
         } else {
             $status = false;
         }
@@ -49,9 +51,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
     {
         $data = $this->_getSession()->getFormData(true);
         if ($data) {
-            $status = Mage::getModel('Magento_Sales_Model_Order_Status')
+            $status = \Mage::getModel('\Magento\Sales\Model\Order\Status')
                 ->setData($data);
-            Mage::register('current_status', $status);
+            \Mage::register('current_status', $status);
         }
         $this->_title(__('Order Status'))->_title(__('Create New Order Status'));
         $this->loadLayout()
@@ -66,7 +68,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
     {
         $status = $this->_initStatus();
         if ($status) {
-            Mage::register('current_status', $status);
+            \Mage::register('current_status', $status);
             $this->_title(__('Order Status'))->_title(__('Edit Order Status'));
             $this->loadLayout()
                 ->_setActiveMenu('Magento_Sales::system_order_statuses')
@@ -91,8 +93,8 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
             $statusCode = $this->getRequest()->getParam('status');
 
             //filter tags in labels/status
-            /** @var $helper Magento_Adminhtml_Helper_Data */
-            $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
+            /** @var $helper \Magento\Adminhtml\Helper\Data */
+            $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
             if ($isNew) {
                 $statusCode = $data['status'] = $helper->stripTags($data['status']);
             }
@@ -101,7 +103,7 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
                 $label = $helper->stripTags($label);
             }
 
-            $status = Mage::getModel('Magento_Sales_Model_Order_Status')
+            $status = \Mage::getModel('\Magento\Sales\Model\Order\Status')
                     ->load($statusCode);
             // check if status exist
             if ($isNew && $status->getStatus()) {
@@ -120,9 +122,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
                 $this->_getSession()->addSuccess(__('You have saved the order status.'));
                 $this->_redirect('*/*/');
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException(
                     $e,
                     __('We couldn\'t add your order status because something went wrong saving.')
@@ -166,9 +168,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
                     $this->_getSession()->addSuccess(__('You have assigned the order status.'));
                     $this->_redirect('*/*/');
                     return;
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_getSession()->addException(
                         $e,
                         __('An error occurred while assigning order status. Status has not been assigned.')
@@ -191,9 +193,9 @@ class Magento_Adminhtml_Controller_Sales_Order_Status extends Magento_Adminhtml_
             try {
                 $status->unassignState($state);
                 $this->_getSession()->addSuccess(__('You have unassigned the order status.'));
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException(
                     $e,
                     __('Something went wrong while we were unassigning the order.')

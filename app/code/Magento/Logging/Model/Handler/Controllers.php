@@ -15,22 +15,24 @@
  * the event model respectively
  * Action will be logged only if the handler returns non-empty value
  */
-class Magento_Logging_Model_Handler_Controllers
+namespace Magento\Logging\Model\Handler;
+
+class Controllers
 {
     /**
      * Generic Action handler
      *
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processorModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processorModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchGeneric($config, $eventModel, $processorModel)
     {
         $collectedIds = $processorModel->getCollectedIds();
         if ($collectedIds) {
-            $eventModel->setInfo(Mage::helper('Magento_Logging_Helper_Data')->implodeValues($collectedIds));
+            $eventModel->setInfo(\Mage::helper('Magento\Logging\Helper\Data')->implodeValues($collectedIds));
             return true;
         }
         return false;
@@ -44,7 +46,7 @@ class Magento_Logging_Model_Handler_Controllers
      * Simply log action without any id-s
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
+     * @param \Magento\Logging\Model\Event $eventModel
      * @return bool
      */
     public function postDispatchSimpleSave($config, $eventModel)
@@ -56,12 +58,12 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for config view
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchConfigView($config, $eventModel)
     {
-        $sectionId = Mage::app()->getRequest()->getParam('section');
+        $sectionId = \Mage::app()->getRequest()->getParam('section');
         if (!$sectionId) {
             $sectionId = 'general';
         }
@@ -73,24 +75,24 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for config save
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchConfigSave($config, $eventModel, $processor)
     {
-        $request = Mage::app()->getRequest();
+        $request = \Mage::app()->getRequest();
         $postData = $request->getPost();
         $groupFieldsData = array();
-        $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
+        $change = \Mage::getModel('\Magento\Logging\Model\Event\Changes');
 
         //Collect skip encrypted fields
-        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
+        /** @var \Magento\Backend\Model\Config\Structure $configStructure  */
+        $configStructure = \Mage::getSingleton('Magento\Backend\Model\Config\Structure');
 
         $encryptedNodePaths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
-            'Magento_Backend_Model_Config_Backend_Encrypted'
+            '\Magento\Backend\Model\Config\Backend\Encrypted'
         );
 
         $skipEncrypted = array();
@@ -127,43 +129,43 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for category move
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchCategoryMove($config, $eventModel)
     {
-        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('id'));
+        return $eventModel->setInfo(\Mage::app()->getRequest()->getParam('id'));
     }
 
     /**
      * Custom handler for global search
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchGlobalSearch($config, $eventModel)
     {
-        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('query'));
+        return $eventModel->setInfo(\Mage::app()->getRequest()->getParam('query'));
     }
 
     /**
      * Handler for forgotpassword
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchForgotPassword($config, $eventModel)
     {
-        if (Mage::app()->getRequest()->isPost()) {
-            if ($model = Mage::registry('magento_logging_saved_model_adminhtml_index_forgotpassword')) {
+        if (\Mage::app()->getRequest()->isPost()) {
+            if ($model = \Mage::registry('magento_logging_saved_model_adminhtml_index_forgotpassword')) {
                 $info = $model->getId();
             } else {
-                $info = Mage::app()->getRequest()->getParam('email');
+                $info = \Mage::app()->getRequest()->getParam('email');
             }
             $success = true;
-            $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+            $messages = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getMessages()->getLastAddedMessage();
             if ($messages) {
                 $success = 'error' != $messages->getType();
             }
@@ -176,17 +178,17 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for poll save fail's action
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchPollValidation($config, $eventModel)
     {
-        $out = json_decode(Mage::app()->getResponse()->getBody());
+        $out = json_decode(\Mage::app()->getResponse()->getBody());
         if (!empty($out->error)) {
-            $pollId = Mage::app()->getRequest()->getParam('id');
+            $pollId = \Mage::app()->getRequest()->getParam('id');
             return $eventModel->setIsSuccess(false)->setInfo($pollId == 0 ? '' : $pollId);
         } else {
-            $poll = Mage::registry('current_poll_model');
+            $poll = \Mage::registry('current_poll_model');
             if ($poll && $poll->getId()) {
                 return $eventModel->setIsSuccess(true)->setInfo($poll->getId());
             }
@@ -198,14 +200,14 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for customer validation fail's action
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchCustomerValidate($config, $eventModel)
     {
-        $out = json_decode(Mage::app()->getResponse()->getBody());
+        $out = json_decode(\Mage::app()->getResponse()->getBody());
         if (!empty($out->error)) {
-            $customerId = Mage::app()->getRequest()->getParam('id');
+            $customerId = \Mage::app()->getRequest()->getParam('id');
             return $eventModel->setIsSuccess(false)->setInfo($customerId == 0 ? '' : $customerId);
         }
         return false;
@@ -215,9 +217,9 @@ class Magento_Logging_Model_Handler_Controllers
      * Handler for reports
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchReport($config, $eventModel, $processor)
     {
@@ -226,7 +228,7 @@ class Magento_Logging_Model_Handler_Controllers
             return false;
         }
 
-        $request = Mage::app()->getRequest();
+        $request = \Mage::app()->getRequest();
         $filter = $request->getParam('filter');
 
         //Filtering request data
@@ -241,13 +243,13 @@ class Magento_Logging_Model_Handler_Controllers
 
         //Need when in request data there are was no period info
         if ($filter) {
-            $filterData = Mage::app()->getHelper('Magento_Adminhtml_Helper_Data')->prepareFilterString($filter);
+            $filterData = \Mage::app()->getHelper('\Magento\Adminhtml\Helper\Data')->prepareFilterString($filter);
             $data = array_merge($data, (array)$filterData);
         }
 
         //Add log entry details
         if ($data) {
-            $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
+            $change = \Mage::getModel('\Magento\Logging\Model\Event\Changes');
             $processor->addEventChanges($change->setSourceName('params')
                 ->setOriginalData(array())
                 ->setResultData($data));
@@ -260,12 +262,12 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for catalog price rules apply
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchPromoCatalogApply($config, $eventModel)
     {
-        $request = Mage::app()->getRequest();
+        $request = \Mage::app()->getRequest();
         return $eventModel->setInfo($request->getParam('rule_id') ? $request->getParam('rule_id') : 'all rules');
     }
 
@@ -273,13 +275,13 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for catalog price rules save & apply
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processorModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processorModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchPromoCatalogSaveAndApply($config, $eventModel, $processorModel)
     {
-        $request = Mage::app()->getRequest();
+        $request = \Mage::app()->getRequest();
 
         $this->postDispatchGeneric($config, $eventModel, $processorModel);
         if ($request->getParam('auto_apply')) {
@@ -293,12 +295,12 @@ class Magento_Logging_Model_Handler_Controllers
      * Special handler for newsletter unsubscribe
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchNewsletterUnsubscribe($config, $eventModel)
     {
-        $subscriberId = Mage::app()->getRequest()->getParam('subscriber');
+        $subscriberId = \Mage::app()->getRequest()->getParam('subscriber');
         if (is_array($subscriberId)) {
             $subscriberId = implode(', ', $subscriberId);
         }
@@ -309,16 +311,16 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom tax import handler
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchTaxRatesImport($config, $eventModel)
     {
-        if (!Mage::app()->getRequest()->isPost()) {
+        if (!\Mage::app()->getRequest()->isPost()) {
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -329,17 +331,17 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for catalog product mass attribute update
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchProductUpdateAttributes($config, $eventModel, $processor)
     {
-        $request = Mage::app()->getRequest();
-        $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
+        $request = \Mage::app()->getRequest();
+        $change = \Mage::getModel('\Magento\Logging\Model\Event\Changes');
         $products = $request->getParam('product');
         if (!$products) {
-            $products = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')->getProductIds();
+            $products = \Mage::helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute')->getProductIds();
         }
         if ($products) {
             $processor->addEventChanges(clone $change->setSourceName('product')
@@ -380,16 +382,16 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchTaxClassSave($config, $eventModel)
     {
-        if (!Mage::app()->getRequest()->isPost()) {
+        if (!\Mage::app()->getRequest()->isPost()) {
             return false;
         }
-        $classType = Mage::app()->getRequest()->getParam('class_type');
-        $classId = (int)Mage::app()->getRequest()->getParam('class_id');
+        $classType = \Mage::app()->getRequest()->getParam('class_type');
+        $classId = (int)\Mage::app()->getRequest()->getParam('class_id');
 
         return $this->_logTaxClassEvent($classType, $eventModel, $classId);
     }
@@ -398,16 +400,16 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchTaxClassDelete($config, $eventModel)
     {
-        if (!Mage::app()->getRequest()->isPost()) {
+        if (!\Mage::app()->getRequest()->isPost()) {
             return false;
         }
-        $classId = (int)Mage::app()->getRequest()->getParam('class_id');
-        $classModel = Mage::registry('tax_class_model');
+        $classId = (int)\Mage::app()->getRequest()->getParam('class_id');
+        $classModel = \Mage::registry('tax_class_model');
         $classType = $classModel != null ? $classModel->getClassType() : '';
 
         return $this->_logTaxClassEvent($classType, $eventModel, $classId);
@@ -417,12 +419,12 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for creating System Backup
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemBackupsCreate($config, $eventModel)
     {
-        $backup = Mage::registry('backup_manager');
+        $backup = \Mage::registry('backup_manager');
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
@@ -442,16 +444,16 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for deleting System Backup
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemBackupsDelete($config, $eventModel)
     {
-        $backup = Mage::registry('backup_manager');
+        $backup = \Mage::registry('backup_manager');
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
-                ->setInfo(Mage::helper('Magento_Logging_Helper_Data')->implodeValues($backup->getDeleteResult()));
+                ->setInfo(\Mage::helper('Magento\Logging\Helper\Data')->implodeValues($backup->getDeleteResult()));
         } else {
             $eventModel->setIsSuccess(false);
         }
@@ -462,12 +464,12 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for creating System Rollback
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemRollback($config, $eventModel)
     {
-        $backup = Mage::registry('backup_manager');
+        $backup = \Mage::registry('backup_manager');
 
         if ($backup) {
             $eventModel->setIsSuccess($backup->getIsSuccess())
@@ -488,15 +490,15 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for mass unlocking locked admin users
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchAdminAccountsMassUnlock($config, $eventModel)
     {
-        if (!Mage::app()->getRequest()->isPost()) {
+        if (!\Mage::app()->getRequest()->isPost()) {
             return false;
         }
-        $userIds = Mage::app()->getRequest()->getPost('unlock', array());
+        $userIds = \Mage::app()->getRequest()->getPost('unlock', array());
         if (!is_array($userIds)) {
             $userIds = array();
         }
@@ -510,12 +512,12 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for mass reindex process on index management
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchReindexProcess($config, $eventModel)
     {
-        $processIds = Mage::app()->getRequest()->getParam('process', null);
+        $processIds = \Mage::app()->getRequest()->getParam('process', null);
         if (!$processIds) {
             return false;
         }
@@ -526,14 +528,14 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for System Currency save
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSystemCurrencySave($config, $eventModel, $processor)
     {
-        $request = Mage::app()->getRequest();
-        $change = Mage::getModel('Magento_Logging_Model_Event_Changes');
+        $request = \Mage::app()->getRequest();
+        $change = \Mage::getModel('\Magento\Logging\Model\Event\Changes');
         $data = $request->getParam('rate');
         $values = array();
         if (!is_array($data)) {
@@ -553,7 +555,7 @@ class Magento_Logging_Model_Handler_Controllers
             ->setOriginalData(array())
             ->setResultData(array('rates' => implode(', ', $values))));
         $success = true;
-        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -564,13 +566,13 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for Cache Settings Save
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @param Magento_Logging_Model_Processor $processor
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @param \Magento\Logging\Model\Processor $processor
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSaveCacheSettings($config, $eventModel, $processor)
     {
-        $request = Mage::app()->getRequest();
+        $request = \Mage::app()->getRequest();
         if (!$request->isPost()) {
             return false;
         }
@@ -582,7 +584,7 @@ class Magento_Logging_Model_Handler_Controllers
         }
 
         $success = true;
-        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -593,16 +595,16 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom tax export handler
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event|bool
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event|bool
      */
     public function postDispatchTaxRatesExport($config, $eventModel)
     {
-        if (!Mage::app()->getRequest()->isPost()) {
+        if (!\Mage::app()->getRequest()->isPost()) {
             return false;
         }
         $success = true;
-        $messages = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage();
+        $messages = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -613,12 +615,12 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for sales archive operations
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchSalesArchiveManagement($config, $eventModel)
     {
-        $request = Mage::app()->getRequest();
+        $request = \Mage::app()->getRequest();
         $ids = $request->getParam('order_id', $request->getParam('order_ids'));
         if (is_array($ids)) {
             $ids = implode(', ', $ids);
@@ -630,27 +632,27 @@ class Magento_Logging_Model_Handler_Controllers
      * Custom handler for Recurring Profiles status update
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchRecurringProfilesUpdate($config, $eventModel)
     {
         $message = '';
-        $request = Mage::app()->getRequest();
+        $request = \Mage::app()->getRequest();
         if ($request->getParam('action')) {
             $message .= ucfirst($request->getParam('action')) . ' action: ';
         }
-        $message .= Mage::getSingleton('Magento_Adminhtml_Model_Session')->getMessages()->getLastAddedMessage()->getCode();
+        $message .= \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getMessages()->getLastAddedMessage()->getCode();
         return $eventModel->setInfo($message);
     }
 
     /**
      * Log tax class event
      * @param string $classType
-     * @param Magento_Logging_Model_Event $eventModel
+     * @param \Magento\Logging\Model\Event $eventModel
      * @param int $classId
      *
-     * @return Magento_Logging_Model_Event
+     * @return \Magento\Logging\Model\Event
      */
     protected function _logTaxClassEvent($classType, $eventModel, $classId)
     {
@@ -659,8 +661,8 @@ class Magento_Logging_Model_Handler_Controllers
         }
 
         $success = true;
-        $body = Mage::app()->getResponse()->getBody();
-        $messages = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($body);
+        $body = \Mage::app()->getResponse()->getBody();
+        $messages = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($body);
         if (!empty($messages['success'])) {
             $success = $messages['success'];
             if (empty($classId) && !empty($messages['class_id'])) {

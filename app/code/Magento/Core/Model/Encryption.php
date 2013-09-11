@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Encryption
+namespace Magento\Core\Model;
+
+class Encryption
 {
     /**
      * @var \Magento\Crypt
@@ -42,18 +44,18 @@ class Magento_Core_Model_Encryption
     /**
      * Set helper instance
      *
-     * @param Magento_Core_Helper_Data|string $helper
-     * @return Magento_Core_Model_Encryption
-     * @throws InvalidArgumentException
+     * @param \Magento\Core\Helper\Data|string $helper
+     * @return \Magento\Core\Model\Encryption
+     * @throws \InvalidArgumentException
      */
     public function setHelper($helper)
     {
         if (!is_string($helper)) {
-            if ($helper instanceof Magento_Core_Helper_Abstract) {
+            if ($helper instanceof \Magento\Core\Helper\AbstractHelper) {
                 $helper = get_class($helper);
             } else {
-                throw new InvalidArgumentException(
-                    'Input parameter "$helper" must be either "string" or instance of "Magento_Core_Helper_Abstract"'
+                throw new \InvalidArgumentException(
+                    'Input parameter "$helper" must be either "string" or instance of "\Magento\Core\Helper\AbstractHelper"'
                 );
             }
         }
@@ -98,7 +100,7 @@ class Magento_Core_Model_Encryption
      * @param string $password
      * @param string $hash
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public function validateHash($password, $hash)
     {
@@ -109,7 +111,7 @@ class Magento_Core_Model_Encryption
             case 2:
                 return $this->hash($hashArr[1] . $password) === $hashArr[0];
         }
-        Mage::throwException('Invalid hash.');
+        \Mage::throwException('Invalid hash.');
     }
 
     /**
@@ -122,7 +124,7 @@ class Magento_Core_Model_Encryption
     {
         if (!$this->_crypt) {
             if (null === $key) {
-                $key = (string)Mage::getConfig()->getNode('global/crypt/key');
+                $key = (string)\Mage::getConfig()->getNode('global/crypt/key');
             }
             $this->_crypt = new \Magento\Crypt($key);
         }

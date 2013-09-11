@@ -12,7 +12,9 @@
  * Gift wrapping total block for checkout
  *
  */
-class Magento_GiftWrapping_Block_Checkout_Totals extends Magento_Checkout_Block_Total_Default
+namespace Magento\GiftWrapping\Block\Checkout;
+
+class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
      * Template file path
@@ -29,7 +31,7 @@ class Magento_GiftWrapping_Block_Checkout_Totals extends Magento_Checkout_Block_
     public function getValues(){
         $values = array();
         $total = $this->getTotal();
-        $totals = Mage::helper('Magento_GiftWrapping_Helper_Data')->getTotals($total);
+        $totals = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getTotals($total);
         foreach ($totals as $total) {
             $values[$total['label']] = $total['value'];
         }

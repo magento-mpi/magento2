@@ -8,9 +8,11 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
-    extends Magento_Adminhtml_Block_Template
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab;
+
+class Giftregistry
+    extends \Magento\Adminhtml\Block\Template
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Set identifier and title
@@ -49,9 +51,9 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
      */
     public function canShowTab()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = \Mage::registry('current_customer');
         return $customer->getId()
-           && Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled()
+           && \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled()
            && $this->_authorization->isAllowed('Magento_GiftRegistry::customer_magento_giftregistry');
     }
 

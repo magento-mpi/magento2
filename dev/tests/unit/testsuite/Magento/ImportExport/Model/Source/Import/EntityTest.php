@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for entity source model Magento_ImportExport_Model_Source_Import_Entity
+ * Test class for entity source model \Magento\ImportExport\Model\Source\Import\Entity
  */
 class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tested source model
      *
-     * @var Magento_ImportExport_Model_Source_Import_Entity
+     * @var \Magento\ImportExport\Model\Source\Import\Entity
      */
     public static $sourceModel;
 
@@ -39,7 +39,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        self::$sourceModel = new Magento_ImportExport_Model_Source_Import_Entity();
+        self::$sourceModel = new \Magento\ImportExport\Model\Source\Import\Entity();
     }
 
     /**
@@ -62,7 +62,7 @@ class Magento_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framew
      */
     protected function _mockConfig()
     {
-        $configObject = new Magento_Core_Model_Config_Base(new \Magento\Simplexml\Element('<config></config>'));
+        $configObject = new \Magento\Core\Model\Config\Base(new \Magento\Simplexml\Element('<config></config>'));
         $configObject->setNode(
             'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
             'Some_Class'

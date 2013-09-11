@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Grids extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Dashboard;
+
+class Grids extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 
     protected $_template = 'widget/tabshoriz.phtml';
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Dashboard_Grids extends Magento_Adminhtml_Block_Wi
      *     2) specify url (BE CAREFUL)
      *     3) specify class 'ajax'
      *
-     * @return Magento_Adminhtml_Block_Dashboard_Grids
+     * @return \Magento\Adminhtml\Block\Dashboard\Grids
      */
     protected function _prepareLayout()
     {
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Dashboard_Grids extends Magento_Adminhtml_Block_Wi
         $this->addTab('ordered_products', array(
             'label'     => __('Bestsellers'),
             'content'   => $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Dashboard_Tab_Products_Ordered')->toHtml(),
+                ->createBlock('\Magento\Adminhtml\Block\Dashboard\Tab\Products\Ordered')->toHtml(),
             'active'    => true
         ));
 

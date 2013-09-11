@@ -16,8 +16,10 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Shipment_Grid_Collection
-    extends Magento_Sales_Model_Resource_Order_Shipment_Collection
+namespace Magento\Sales\Model\Resource\Order\Shipment\Grid;
+
+class Collection
+    extends \Magento\Sales\Model\Resource\Order\Shipment\Collection
 {
     /**
      * Event prefix

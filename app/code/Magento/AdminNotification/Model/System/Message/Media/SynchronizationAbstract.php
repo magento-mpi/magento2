@@ -5,11 +5,13 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-abstract class Magento_AdminNotification_Model_System_Message_Media_SynchronizationAbstract
-    implements Magento_AdminNotification_Model_System_MessageInterface
+namespace Magento\AdminNotification\Model\System\Message\Media;
+
+abstract class SynchronizationAbstract
+    implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
-     * @var Magento_Core_Model_File_Storage_Flag
+     * @var \Magento\Core\Model\File\Storage\Flag
      */
     protected $_syncFlag;
 
@@ -28,9 +30,9 @@ abstract class Magento_AdminNotification_Model_System_Message_Media_Synchronizat
     protected $_isDisplayed = null;
 
     /**
-     * @param Magento_Core_Model_File_Storage $fileStorage
+     * @param \Magento\Core\Model\File\Storage $fileStorage
      */
-    public function __construct(Magento_Core_Model_File_Storage $fileStorage)
+    public function __construct(\Magento\Core\Model\File\Storage $fileStorage)
     {
         $this->_syncFlag = $fileStorage->getSyncFlag();
     }
@@ -62,7 +64,7 @@ abstract class Magento_AdminNotification_Model_System_Message_Media_Synchronizat
         if (null === $this->_isDisplayed) {
             $output = $this->_shouldBeDisplayed();
             if ($output) {
-                $this->_syncFlag->setState(Magento_Core_Model_File_Storage_Flag::STATE_NOTIFIED);
+                $this->_syncFlag->setState(\Magento\Core\Model\File\Storage\Flag::STATE_NOTIFIED);
                 $this->_syncFlag->save();
             }
             $this->_isDisplayed = $output;
@@ -77,6 +79,6 @@ abstract class Magento_AdminNotification_Model_System_Message_Media_Synchronizat
      */
     public function getSeverity()
     {
-        return Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR;
+        return \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_MAJOR;
     }
 }

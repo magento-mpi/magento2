@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Subscription_Grid_Collection
+ * \Magento\Webhook\Model\Resource\Subscription\Grid\Collection
  *
  * {license_notice}
  *
@@ -14,9 +14,9 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
     public function testConstructor()
     {
         $fetchStrategyMock = $this->_makeMock('\Magento\Data\Collection\Db\FetchStrategyInterface');
-        $endpointResMock = $this->_makeMock('Magento_Webhook_Model_Resource_Endpoint');
+        $endpointResMock = $this->_makeMock('\Magento\Webhook\Model\Resource\Endpoint');
 
-        $configMock = $this->_makeMock('Magento_Webhook_Model_Subscription_Config');
+        $configMock = $this->_makeMock('\Magento\Webhook\Model\Subscription\Config');
         $configMock->expects($this->once())
             ->method('updateSubscriptionCollection');
 
@@ -28,12 +28,12 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         $connectionMock->expects($this->any())
             ->method('select')
             ->will($this->returnValue($selectMock));
-        $resourceMock = $this-> _makeMock('Magento_Webhook_Model_Resource_Subscription');
+        $resourceMock = $this-> _makeMock('\Magento\Webhook\Model\Resource\Subscription');
         $resourceMock->expects($this->any())
             ->method('getReadConnection')
             ->will($this->returnValue($connectionMock));
 
-        new Magento_Webhook_Model_Resource_Subscription_Grid_Collection(
+        new \Magento\Webhook\Model\Resource\Subscription\Grid\Collection(
             $configMock, $fetchStrategyMock, $endpointResMock, $resourceMock);
     }
 

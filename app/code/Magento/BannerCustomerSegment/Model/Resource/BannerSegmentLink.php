@@ -9,7 +9,9 @@
 /**
  * Relations between a banner and customer segments
  */
-class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\BannerCustomerSegment\Model\Resource;
+
+class BannerSegmentLink extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Setup association with a table
@@ -61,10 +63,10 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink extends Mag
     /**
      * Limit the scope of a select object to certain customer segments
      *
-     * @param Zend_Db_Select $select
+     * @param \Zend_Db_Select $select
      * @param array $segmentIds
      */
-    public function addBannerSegmentFilter(Zend_Db_Select $select, array $segmentIds)
+    public function addBannerSegmentFilter(\Zend_Db_Select $select, array $segmentIds)
     {
         $select->joinLeft(
             array('banner_segment' => $this->getMainTable()),

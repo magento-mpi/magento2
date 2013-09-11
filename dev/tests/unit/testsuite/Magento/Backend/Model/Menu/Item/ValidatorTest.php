@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu_Item_Validator
+     * @var \Magento\Backend\Model\Menu\Item\Validator
      */
     protected $_model;
 
@@ -63,7 +63,7 @@ class Magento_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_Te
 
     public function setUp()
     {
-        $this->_model = new Magento_Backend_Model_Menu_Item_Validator();
+        $this->_model = new \Magento\Backend\Model\Menu\Item\Validator();
     }
 
     /**

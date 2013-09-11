@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleCheckout_Model_Api_Xml_Order extends Magento_GoogleCheckout_Model_Api_Xml_Abstract
+namespace Magento\GoogleCheckout\Model\Api\Xml;
+
+class Order extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
 {
     protected function _getApiUrl()
     {
@@ -26,7 +28,7 @@ class Magento_GoogleCheckout_Model_Api_Xml_Order extends Magento_GoogleCheckout_
             if (!$xml || !$xml->{'error-message'}) {
                 return false;
             }
-            Mage::throwException(__('Google Checkout: %1', (string)$xml->{'error-message'}));
+            \Mage::throwException(__('Google Checkout: %1', (string)$xml->{'error-message'}));
         }
     }
 

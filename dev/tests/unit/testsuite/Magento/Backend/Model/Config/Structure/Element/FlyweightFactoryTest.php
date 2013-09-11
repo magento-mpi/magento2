@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Config_Structure_Element_FlyweightFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_FlyweightFactory
+     * @var \Magento\Backend\Model\Config\Structure\Element\FlyweightFactory
      */
     protected $_model;
 
@@ -24,7 +24,7 @@ class Magento_Backend_Model_Config_Structure_Element_FlyweightFactoryTest extend
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_model = new Magento_Backend_Model_Config_Structure_Element_FlyweightFactory($this->_objectManagerMock);
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Element\FlyweightFactory($this->_objectManagerMock);
     }
 
     protected function tearDown()
@@ -36,9 +36,9 @@ class Magento_Backend_Model_Config_Structure_Element_FlyweightFactoryTest extend
     public function testCreate()
     {
         $this->_objectManagerMock->expects($this->any())->method('create')->will($this->returnValueMap(array(
-            array('Magento_Backend_Model_Config_Structure_Element_Section', array(), 'sectionObject'),
-            array('Magento_Backend_Model_Config_Structure_Element_Group', array(), 'groupObject'),
-            array('Magento_Backend_Model_Config_Structure_Element_Field', array(), 'fieldObject'),
+            array('Magento\Backend\Model\Config\Structure\Element\Section', array(), 'sectionObject'),
+            array('Magento\Backend\Model\Config\Structure\Element\Group', array(), 'groupObject'),
+            array('Magento\Backend\Model\Config\Structure\Element\Field', array(), 'fieldObject'),
         )));
         $this->assertEquals('sectionObject', $this->_model->create('section'));
         $this->assertEquals('groupObject', $this->_model->create('group'));

@@ -16,7 +16,9 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Calculation extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Tax\Model\Resource;
+
+class Calculation extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Rates cache
@@ -45,7 +47,7 @@ class Magento_Tax_Model_Resource_Calculation extends Magento_Core_Model_Resource
      * Delete calculation settings by rule id
      *
      * @param int $ruleId
-     * @return Magento_Tax_Model_Resource_Calculation
+     * @return \Magento\Tax\Model\Resource\Calculation
      */
     public function deleteByRuleId($ruleId)
     {
@@ -187,7 +189,7 @@ class Magento_Tax_Model_Resource_Calculation extends Magento_Core_Model_Resource
      */
     protected function _createSearchPostCodeTemplates($postcode)
     {
-        $len = Mage::helper('Magento_Tax_Helper_Data')->getPostCodeSubStringLength();
+        $len = \Mage::helper('Magento\Tax\Helper\Data')->getPostCodeSubStringLength();
         $strlen = strlen($postcode);
         if ($strlen > $len) {
             $postcode = substr($postcode, 0, $len);
@@ -214,7 +216,7 @@ class Magento_Tax_Model_Resource_Calculation extends Magento_Core_Model_Resource
     protected function _getRates($request)
     {
         // Extract params that influence our SELECT statement and use them to create cache key
-        $storeId = Mage::app()->getStore($request->getStore())->getId();
+        $storeId = \Mage::app()->getStore($request->getStore())->getId();
         $customerClassId = $request->getCustomerClassId();
         $countryId = $request->getCountryId();
         $regionId = $request->getRegionId();

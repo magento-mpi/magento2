@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
+namespace Magento\Rma\Model;
+
+class Rma extends \Magento\Core\Model\AbstractModel
 {
     /**
      * XML configuration paths
@@ -26,7 +28,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      /**
      * Rma Instance
      *
-     * @var Magento_Rma_Model_Rma
+     * @var \Magento\Rma\Model\Rma
      */
     protected $_rma = null;
 
@@ -40,7 +42,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Rma order object
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order           = null;
 
@@ -51,21 +53,21 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      * Init resource model
      */
     protected function _construct() {
-        $this->_init('Magento_Rma_Model_Resource_Rma');
+        $this->_init('\Magento\Rma\Model\Resource\Rma');
         parent::_construct();
     }
 
     /**
      * Processing object before save data
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
         parent::_beforeSave();
 
         if (!$this->getIncrementId()) {
-            $incrementId = Mage::getSingleton('Magento_Eav_Model_Config')
+            $incrementId = \Mage::getSingleton('Magento\Eav\Model\Config')
                 ->getEntityType('rma_item')
                 ->fetchNewIncrementId($this->getStoreId());
             $this->setIncrementId($incrementId);
@@ -79,18 +81,18 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Save related items
      *
-     * @return Magento_Rma_Model_Rma
+     * @return \Magento\Rma\Model\Rma
      */
     protected function _afterSave()
     {
         parent::_afterSave();
 
-        /** @var $gridModel Magento_Rma_Model_Grid */
-        $gridModel = Mage::getModel('Magento_Rma_Model_Grid');
+        /** @var $gridModel \Magento\Rma\Model\Grid */
+        $gridModel = \Mage::getModel('\Magento\Rma\Model\Grid');
         $gridModel->addData($this->getData());
         $gridModel->save();
 
-        Mage::getModel('Magento_Rma_Model_Rma_Status_History')->setRma($this)->saveSystemComment();
+        \Mage::getModel('\Magento\Rma\Model\Rma\Status\History')->setRma($this)->saveSystemComment();
 
         $itemsCollection = $this->getItemsCollection();
         if (is_array($itemsCollection)) {
@@ -123,7 +125,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     public function getAllStatuses()
     {
-        return Mage::getModel('Magento_Rma_Model_Rma_Source_Status')->getAllOptionsForGrid();
+        return \Mage::getModel('\Magento\Rma\Model\Rma\Source\Status')->getAllOptionsForGrid();
     }
 
     /**
@@ -135,7 +137,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     {
         if (is_null(parent::getStatusLabel())){
             $this->setStatusLabel(
-                Mage::getModel('Magento_Rma_Model_Rma_Source_Status')->getItemLabel($this->getStatus())
+                \Mage::getModel('\Magento\Rma\Model\Rma\Source\Status')->getItemLabel($this->getStatus())
             );
         }
         return parent::getStatusLabel();
@@ -144,7 +146,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Gets Rma items collection
      *
-     * @return Magento_Rma_Model_Resource_Item_Collection
+     * @return \Magento\Rma\Model\Resource\Item\Collection
      */
     public function getItemsCollection()
     {
@@ -161,12 +163,12 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Get rma order object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
         if (!$this->_order) {
-            $this->_order = Mage::getModel('Magento_Sales_Model_Order')->load($this->getOrderId());
+            $this->_order = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getOrderId());
         }
         return $this->_order;
     }
@@ -179,8 +181,8 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     public function canClose()
     {
         $status = $this->getStatus();
-        if ($status === Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED
-            || $status === Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED) {
+        if ($status === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED
+            || $status === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED) {
             return false;
         }
 
@@ -190,12 +192,12 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Close rma
      *
-     * @return Magento_Rma_Model_Rma
+     * @return \Magento\Rma\Model\Rma
      */
     public function close()
     {
         if ($this->canClose()) {
-            $this->setStatus(Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED);
+            $this->setStatus(\Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED);
         }
         return $this;
     }
@@ -204,7 +206,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      * Save Rma
      *
      * @param array $data
-     * @return bool|Magento_Rma_Model_Rma
+     * @return bool|\Magento\Rma\Model\Rma
      */
     public function saveRma($data)
     {
@@ -214,7 +216,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         if ($this->getCustomerCustomEmail()) {
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
-                $session = Mage::getSingleton('Magento_Core_Model_Session');
+                $session = \Mage::getSingleton('Magento\Core\Model\Session');
                 foreach($validateEmail as $error) {
                     $session->addError($error);
                 }
@@ -236,27 +238,27 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Sending email with RMA data
      *
-     * @return Magento_Rma_Model_Rma
+     * @return \Magento\Rma\Model\Rma
      */
     public function sendNewRmaEmail()
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        /** @var $configRmaEmail \Magento\Rma\Model\Config */
+        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
         return $this->_sendRmaEmailWithItems($configRmaEmail->getRootRmaEmail());
     }
 
     /**
      * Sending authorizing email with RMA data
      *
-     * @return Magento_Rma_Model_Rma
+     * @return \Magento\Rma\Model\Rma
      */
     public function sendAuthorizeEmail()
     {
         if (!$this->getIsSendAuthEmail()) {
             return $this;
         }
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        /** @var $configRmaEmail \Magento\Rma\Model\Config */
+        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
         return $this->_sendRmaEmailWithItems($configRmaEmail->getRootAuthEmail());
     }
 
@@ -264,24 +266,24 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      * Sending authorizing email with RMA data
      *
      * @param string $rootConfig
-     * @return Magento_Rma_Model_Rma
+     * @return \Magento\Rma\Model\Rma
      */
     public function _sendRmaEmailWithItems($rootConfig)
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        /** @var $configRmaEmail \Magento\Rma\Model\Config */
+        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
         $configRmaEmail->init($rootConfig, $this->getStoreId());
 
         if (!$configRmaEmail->isEnabled()) {
             return $this;
         }
 
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-        /* @var $translate Magento_Core_Model_Translate */
+        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
+        /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
-        /* @var $mailTemplate Magento_Core_Model_Email_Template */
+        $mailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        /* @var $mailTemplate \Magento\Core\Model\Email\Template */
         $copyTo = $configRmaEmail->getCopyTo();
         $copyMethod = $configRmaEmail->getCopyMethod();
         if ($copyTo && $copyMethod == 'bcc') {
@@ -319,13 +321,13 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
             }
         }
 
-        $returnAddress = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddress(
+        $returnAddress = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddress(
             'html', array(), $this->getStoreId()
         );
 
         foreach ($sendTo as $recipient) {
             $mailTemplate->setDesignConfig(array(
-                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $this->getStoreId()
             ))
                 ->sendTransactional(
@@ -388,9 +390,9 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         $order      = $this->getOrder();
         $realItem   = $order->getItemById($preparePost['order_item_id']);
 
-        $stat = Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING;
+        $stat = \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING;
         if (!empty($preparePost['status'])) {
-            $status = Mage::getModel('Magento_Rma_Model_Item_Attribute_Source_Status');
+            $status = \Mage::getModel('\Magento\Rma\Model\Item\Attribute\Source\Status');
             if ($status->checkStatus($preparePost['status'])) {
                 $stat = $preparePost['status'];
             }
@@ -400,8 +402,8 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
 
         $preparePost['product_name']       = $realItem->getName();
         $preparePost['product_sku']        = $realItem->getSku();
-        $preparePost['product_admin_name'] = Mage::helper('Magento_Rma_Helper_Data')->getAdminProductName($realItem);
-        $preparePost['product_admin_sku']  = Mage::helper('Magento_Rma_Helper_Data')->getAdminProductSku($realItem);
+        $preparePost['product_admin_name'] = \Mage::helper('Magento\Rma\Helper\Data')->getAdminProductName($realItem);
+        $preparePost['product_admin_sku']  = \Mage::helper('Magento\Rma\Helper\Data')->getAdminProductSku($realItem);
         $preparePost['product_options']    = serialize($realItem->getProductOptions());
         $preparePost['is_qty_decimal']     = $realItem->getIsQtyDecimal();
 
@@ -433,7 +435,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         }
 
         if ($errors) {
-            $session = Mage::getSingleton('Magento_Core_Model_Session');
+            $session = \Mage::getSingleton('Magento\Core\Model\Session');
             $session->addError(
                 __('There is an error in quantities for item %1.', $preparePost['product_name'])
             );
@@ -445,7 +447,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Checks Items Quantity in Return
      *
-     * @param  Magento_Rma_Model_Item $itemModels
+     * @param  \Magento\Rma\Model\Item $itemModels
      * @param  $orderId
      * @return array|bool
      */
@@ -454,9 +456,9 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         $errors     = array();
         $errorKeys  = array();
         if (!$this->getIsUpdate()) {
-            $availableItems = Mage::helper('Magento_Rma_Helper_Data')->getOrderItems($orderId);
+            $availableItems = \Mage::helper('Magento\Rma\Helper\Data')->getOrderItems($orderId);
         } else {
-            $availableItems = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+            $availableItems = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')
                 ->getOrderItemsCollection($orderId);
         }
 
@@ -481,7 +483,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
                 }
                 $validation['dummy'] = -1;
                 $previousValue = null;
-                $escapedProductName = Mage::helper('Magento_Rma_Helper_Data')->escapeHtml($item->getProductName());
+                $escapedProductName = \Mage::helper('Magento\Rma\Helper\Data')->escapeHtml($item->getProductName());
                 foreach ($validation as $key => $value) {
                     if (isset($previousValue) && $value > $previousValue) {
                         $errors[] = __('There is an error in quantities for item %1.', $escapedProductName);
@@ -496,15 +498,15 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
                 $qtyToStatus = array(
                     'qty_authorized' => array(
                             'name' => __('Authorized Qty'),
-                            'status' => Magento_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED
+                            'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED
                         ),
                     'qty_returned' => array(
                             'name' => __('Returned Qty'),
-                            'status' => Magento_Rma_Model_Rma_Source_Status::STATE_RECEIVED
+                            'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED
                         ),
                     'qty_approved' => array(
                             'name' => __('Approved Qty'),
-                            'status' => Magento_Rma_Model_Rma_Source_Status::STATE_APPROVED
+                            'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED
                         ),
 
                 );
@@ -531,7 +533,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
         }
 
         foreach ($itemsArray as $key=>$qty) {
-            $escapedProductName = Mage::helper('Magento_Rma_Helper_Data')->escapeHtml(
+            $escapedProductName = \Mage::helper('Magento\Rma\Helper\Data')->escapeHtml(
                 $availableItemsArray[$key]['name']
             );
             if (!array_key_exists($key, $availableItemsArray)) {
@@ -574,7 +576,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
                     if ($itemModel) {
                         $firstModel = $itemModel;
                     }
-                    $itemModel                  = Mage::getModel('Magento_Rma_Model_Item');
+                    $itemModel                  = \Mage::getModel('\Magento\Rma\Model\Item');
                     $subItem                    = $item;
                     unset($subItem['items']);
                     $subItem['order_item_id']   = $id;
@@ -599,7 +601,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
                     $itemModels[] = $itemModel;
                 }
             } else {
-                $itemModel = Mage::getModel('Magento_Rma_Model_Item');
+                $itemModel = \Mage::getModel('\Magento\Rma\Model\Item');
                 if (isset($item['entity_id']) && $item['entity_id']) {
                     $itemModel->load($item['entity_id']);
                     if ($itemModel->getId()) {
@@ -634,7 +636,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
 
                 $itemModels[] = $itemModel;
 
-                if (($itemModel->getStatus() === Magento_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED)
+                if (($itemModel->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED)
                     && ($itemModel->getOrigData('status') !== $itemModel->getStatus())) {
                     $this->setIsSendAuthEmail(1);
                 }
@@ -649,7 +651,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
             $errorKeys  = array_merge($errorKey, $errorKeys);
         }
 
-        $session    = Mage::getSingleton('Magento_Core_Model_Session');
+        $session    = \Mage::getSingleton('Magento\Core\Model\Session');
         $eMessages  = $session->getMessages()->getErrors();
 
         if (!empty($errors) || !empty($eMessages)) {
@@ -677,44 +679,44 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     protected function _validateEmail($value)
     {
-        $label = Mage::helper('Magento_Rma_Helper_Data')->getContactEmailLabel();
+        $label = \Mage::helper('Magento\Rma\Helper\Data')->getContactEmailLabel();
 
-        $validator = new Zend_Validate_EmailAddress();
+        $validator = new \Zend_Validate_EmailAddress();
         $validator->setMessage(
             __('You entered an invalid type: "%1".', $label),
-            Zend_Validate_EmailAddress::INVALID
+            \Zend_Validate_EmailAddress::INVALID
         );
         $validator->setMessage(
             __('You entered an invalid email address: "%1".', $label),
-            Zend_Validate_EmailAddress::INVALID_FORMAT
+            \Zend_Validate_EmailAddress::INVALID_FORMAT
         );
         $validator->setMessage(
             __('You entered an invalid hostname: "%1"', $label),
-            Zend_Validate_EmailAddress::INVALID_HOSTNAME
+            \Zend_Validate_EmailAddress::INVALID_HOSTNAME
         );
         $validator->setMessage(
             __('You entered an invalid hostname: "%1"', $label),
-            Zend_Validate_EmailAddress::INVALID_MX_RECORD
+            \Zend_Validate_EmailAddress::INVALID_MX_RECORD
         );
         $validator->setMessage(
             __('You entered an invalid hostname: "%1"', $label),
-            Zend_Validate_EmailAddress::INVALID_MX_RECORD
+            \Zend_Validate_EmailAddress::INVALID_MX_RECORD
         );
         $validator->setMessage(
             __('You entered an invalid email address: "%1".', $label),
-            Zend_Validate_EmailAddress::DOT_ATOM
+            \Zend_Validate_EmailAddress::DOT_ATOM
         );
         $validator->setMessage(
             __('You entered an invalid email address: "%1".', $label),
-            Zend_Validate_EmailAddress::QUOTED_STRING
+            \Zend_Validate_EmailAddress::QUOTED_STRING
         );
         $validator->setMessage(
             __('You entered an invalid email address: "%1".', $label),
-            Zend_Validate_EmailAddress::INVALID_LOCAL_PART
+            \Zend_Validate_EmailAddress::INVALID_LOCAL_PART
         );
         $validator->setMessage(
             __('"%1" is longer than allowed.', $label),
-            Zend_Validate_EmailAddress::LENGTH_EXCEEDED
+            \Zend_Validate_EmailAddress::LENGTH_EXCEEDED
         );
         if (!$validator->isValid($value)) {
             return array_unique($validator->getMessages());
@@ -731,7 +733,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     public function getCreatedAtFormated($format)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return \Mage::helper('Magento\Core\Helper\Data')->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     /**
@@ -744,12 +746,12 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     {
         $found      = false;
 
-        $rmaItems   = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+        $rmaItems   = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')
             ->getAuthorizedItems($this->getId())
         ;
 
         if (!empty($rmaItems)) {
-            $quoteItemsCollection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Item_Collection')
+            $quoteItemsCollection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Item\Collection')
                 ->addFieldToFilter('item_id', array('in' => array_keys($rmaItems)))
                 ->getData()
             ;
@@ -757,7 +759,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
             $quoteItems = array();
             $subtotal   = $weight = $qty = $storeId = 0;
             foreach ($quoteItemsCollection as $item) {
-                $itemModel = Mage::getModel('Magento_Sales_Model_Quote_Item');
+                $itemModel = \Mage::getModel('\Magento\Sales\Model\Quote\Item');
 
                 $item['qty']                    = $rmaItems[$item['item_id']]['qty'];
                 $item['name']                   = $rmaItems[$item['item_id']]['product_name'];
@@ -778,10 +780,10 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
 
                 if (!$storeId) {
                     $storeId = $item['store_id'];
-                    /** @var $address Magento_Sales_Model_Order */
-                    $address = Mage::getModel('Magento_Sales_Model_Order')->load($item['order_id'])->getShippingAddress();
+                    /** @var $address \Magento\Sales\Model\Order */
+                    $address = \Mage::getModel('\Magento\Sales\Model\Order')->load($item['order_id'])->getShippingAddress();
                 }
-                $quote = Mage::getModel('Magento_Sales_Model_Quote')
+                $quote = \Mage::getModel('\Magento\Sales\Model\Quote')
                         ->setStoreId($storeId);
                 $itemModel->setQuote($quote);
             }
@@ -790,7 +792,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
                 return $quoteItems;
             }
 
-            $store      = Mage::app()->getStore($storeId);
+            $store      = \Mage::app()->getStore($storeId);
             $this->setStore($store);
 
             $found = $this->_requestShippingRates($quoteItems, $address, $store, $subtotal, $weight, $qty);
@@ -813,13 +815,13 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     protected function _requestShippingRates($items, $address, $store, $subtotal, $weight, $qty)
     {
-        /** @var Magento_Sales_Model_Quote_Address $shippingDestinationInfo */
-        $shippingDestinationInfo = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel(
+        /** @var \Magento\Sales\Model\Quote\Address $shippingDestinationInfo */
+        $shippingDestinationInfo = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel(
             $this->getStoreId()
         );
 
-        /** @var $request Magento_Shipping_Model_Rate_Request */
-        $request = Mage::getModel('Magento_Shipping_Model_Rate_Request');
+        /** @var $request \Magento\Shipping\Model\Rate\Request */
+        $request = \Mage::getModel('\Magento\Shipping\Model\Rate\Request');
         $request->setAllItems($items);
         $request->setDestCountryId($shippingDestinationInfo->getCountryId());
         $request->setDestRegionId($shippingDestinationInfo->getRegionId());
@@ -877,8 +879,8 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
 
         $request->setIsReturn(true);
 
-        /** @var $result Magento_Shipping_Model_Shipping */
-        $result = Mage::getModel('Magento_Shipping_Model_Shipping')
+        /** @var $result \Magento\Shipping\Model\Shipping */
+        $result = \Mage::getModel('\Magento\Shipping\Model\Shipping')
             ->setCarrierAvailabilityConfigField('active_rma')
             ->collectRates($request)
             ->getResult();
@@ -891,10 +893,10 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
                 if (
                     in_array(
                         $shippingRate->getCarrier(),
-                        array_keys(Mage::helper('Magento_Rma_Helper_Data')->getShippingCarriers())
+                        array_keys(\Mage::helper('Magento\Rma\Helper\Data')->getShippingCarriers())
                     )
                 ) {
-                    $found[] = Mage::getModel('Magento_Sales_Model_Quote_Address_Rate')->importShippingRate($shippingRate);
+                    $found[] = \Mage::getModel('\Magento\Sales\Model\Quote\Address\Rate')->importShippingRate($shippingRate);
                 }
             }
         }
@@ -904,15 +906,15 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Get collection of tracking on this RMA
      *
-     * @return Magento_Rma_Model_Resource_Shipping_Collection
+     * @return \Magento\Rma\Model\Resource\Shipping\Collection
      */
     public function getTrackingNumbers()
     {
         if (is_null($this->_trackingNumbers)) {
-            $this->_trackingNumbers = Mage::getModel('Magento_Rma_Model_Shipping')
+            $this->_trackingNumbers = \Mage::getModel('\Magento\Rma\Model\Shipping')
             ->getCollection()
             ->addFieldToFilter('rma_entity_id', $this->getEntityId())
-            ->addFieldToFilter('is_admin', array('neq' => Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL));
+            ->addFieldToFilter('is_admin', array('neq' => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL));
         }
         return $this->_trackingNumbers;
     }
@@ -920,15 +922,15 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     /**
      * Get shipping label RMA
      *
-     * @return Magento_Rma_Model_Shipping
+     * @return \Magento\Rma\Model\Shipping
      */
     public function getShippingLabel()
     {
         if (is_null($this->_shippingLabel)) {
-            $this->_shippingLabel = Mage::getModel('Magento_Rma_Model_Shipping')
+            $this->_shippingLabel = \Mage::getModel('\Magento\Rma\Model\Shipping')
             ->getCollection()
             ->addFieldToFilter('rma_entity_id', $this->getEntityId())
-            ->addFieldToFilter('is_admin', Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL)
+            ->addFieldToFilter('is_admin', \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL)
             ->getFirstItem();
         }
         return $this->_shippingLabel;
@@ -951,9 +953,9 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     protected function _isRmaAvailableForPrintLabel()
     {
-        return ($this->getStatus() !== Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED)
-            && ($this->getStatus() !== Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED)
-            && ($this->getStatus() !== Magento_Rma_Model_Rma_Source_Status::STATE_PENDING);
+        return ($this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED)
+            && ($this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED)
+            && ($this->getStatus() !== \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING);
     }
 
     /**
@@ -963,20 +965,20 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     protected function _isItemsAvailableForPrintLabel()
     {
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item\Collection')
             ->addFieldToFilter('rma_entity_id', $this->getEntityId());
 
         $return = false;
         foreach ($collection as $item) {
             if (!in_array($item->getStatus(),
                 array(
-                    Magento_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED,
-                    Magento_Rma_Model_Item_Attribute_Source_Status::STATE_DENIED,
+                    \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED,
+                    \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED,
                 ), true)
             ) {
                 return false;
             }
-            if (($item->getStatus() === Magento_Rma_Model_Item_Attribute_Source_Status::STATE_AUTHORIZED)
+            if (($item->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED)
                 && is_numeric($item->getQtyAuthorized())
                 && $item->getQtyAuthorized() > 0
             ) {
@@ -990,11 +992,11 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      * Get collection of RMA Items with common order rules to be displayed in different lists
      *
      * @param bool $withoutAttributes - sets whether add EAV attributes into select
-     * @return Magento_Rma_Model_Resource_Item_Collection
+     * @return \Magento\Rma\Model\Resource\Item\Collection
      */
     public function getItemsForDisplay($withoutAttributes = false)
     {
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item\Collection')
             ->addFieldToFilter('rma_entity_id', $this->getEntityId())
             ->setOrder('order_item_id')
             ->setOrder('entity_id');
@@ -1013,7 +1015,7 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
     public function getButtonDisabledStatus()
     {
         return (bool)(
-            Mage::getModel('Magento_Rma_Model_Rma_Source_Status')->getButtonDisabledStatus($this->getStatus())
+            \Mage::getModel('\Magento\Rma\Model\Rma\Source\Status')->getButtonDisabledStatus($this->getStatus())
             && $this->_isItemsNotInPendingStatus()
         );
     }
@@ -1025,11 +1027,11 @@ class Magento_Rma_Model_Rma extends Magento_Core_Model_Abstract
      */
     public function _isItemsNotInPendingStatus()
     {
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item\Collection')
             ->addFieldToFilter('rma_entity_id', $this->getEntityId());
 
         foreach ($collection as $item) {
-            if ($item->getStatus() == Magento_Rma_Model_Item_Attribute_Source_Status::STATE_PENDING) {
+            if ($item->getStatus() == \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING) {
                 return false;
             }
         }

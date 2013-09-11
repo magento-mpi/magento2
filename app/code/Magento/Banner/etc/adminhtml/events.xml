@@ -9,15 +9,15 @@
 -->
 <config>
     <event name="adminhtml_controller_catalogrule_prepare_save">
-        <observer name="magento_banner" instance="Magento_Banner_Model_Observer" method="prepareCatalogRuleSave" />
+        <observer name="magento_banner" instance="\Magento\Banner\Model\Observer" method="prepareCatalogRuleSave" />
     </event>
     <event name="catalogrule_rule_save_after">
-        <observer name="magento_banner" instance="Magento_Banner_Model_Observer" method="bindRelatedBannersToCatalogRule" />
+        <observer name="magento_banner" instance="\Magento\Banner\Model\Observer" method="bindRelatedBannersToCatalogRule" />
     </event>
     <event name="adminhtml_controller_salesrule_prepare_save">
-        <observer name="magento_banner" instance="Magento_Banner_Model_Observer" method="prepareSalesRuleSave" />
+        <observer name="magento_banner" instance="\Magento\Banner\Model\Observer" method="prepareSalesRuleSave" />
     </event>
     <event name="salesrule_rule_save_after">
-        <observer name="magento_banner" instance="Magento_Banner_Model_Observer" method="bindRelatedBannersToSalesRule" />
+        <observer name="magento_banner" instance="\Magento\Banner\Model\Observer" method="bindRelatedBannersToSalesRule" />
     </event>
 </config>

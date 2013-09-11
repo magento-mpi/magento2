@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Review;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {
@@ -25,8 +27,8 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
         $this->_objectId = 'id';
         $this->_controller = 'review';
 
-        /** @var $actionPager Magento_Review_Helper_Action_Pager */
-        $actionPager = Mage::helper('Magento_Review_Helper_Action_Pager');
+        /** @var $actionPager \Magento\Review\Helper\Action\Pager */
+        $actionPager = \Mage::helper('Magento\Review\Helper\Action\Pager');
         $actionPager->setStorageId('reviews');
 
         $reviewId = $this->getRequest()->getParam('id');
@@ -126,13 +128,13 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
                     ) . '\''
                     . ')'
             );
-            Mage::register('ret', 'pending');
+            \Mage::register('ret', 'pending');
         }
 
         if( $this->getRequest()->getParam($this->_objectId) ) {
-            $reviewData = Mage::getModel('Magento_Review_Model_Review')
+            $reviewData = \Mage::getModel('\Magento\Review\Model\Review')
                 ->load($this->getRequest()->getParam($this->_objectId));
-            Mage::register('review_data', $reviewData);
+            \Mage::register('review_data', $reviewData);
         }
 
         $this->_formInitScripts[] = '
@@ -162,8 +164,8 @@ class Magento_Adminhtml_Block_Review_Edit extends Magento_Adminhtml_Block_Widget
 
     public function getHeaderText()
     {
-        if( Mage::registry('review_data') && Mage::registry('review_data')->getId() ) {
-            return __("Edit Review '%1'", $this->escapeHtml(Mage::registry('review_data')->getTitle()));
+        if( \Mage::registry('review_data') && \Mage::registry('review_data')->getId() ) {
+            return __("Edit Review '%1'", $this->escapeHtml(\Mage::registry('review_data')->getTitle()));
         } else {
             return __('New Review');
         }

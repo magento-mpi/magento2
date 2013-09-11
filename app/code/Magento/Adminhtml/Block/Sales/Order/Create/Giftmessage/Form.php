@@ -16,19 +16,21 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Entity for editing of gift message
      *
-     * @var Magento_Eav_Model_Entity_Abstract
+     * @var \Magento\Eav\Model\Entity\AbstractEntity
      */
     protected $_entity;
 
     /**
      * Giftmessage object
      *
-     * @var Magento_GiftMessage_Model_Message
+     * @var \Magento\GiftMessage\Model\Message
      */
     protected $_giftMessage;
 
@@ -36,7 +38,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      * Set entity for form
      *
      * @param \Magento\Object $entity
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
     public function setEntity(\Magento\Object $entity)
     {
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
 
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
     }
 
     /**
@@ -116,7 +118,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Prepares form
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
     public function _prepareForm()
     {
@@ -163,7 +165,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      *
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
     protected function _prepareHiddenFields(\Magento\Data\Form\Element\Fieldset $fieldset)
     {
@@ -192,7 +194,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
      *
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
     protected function _prepareVisibleFields(\Magento\Data\Form\Element\Fieldset $fieldset)
     {
@@ -225,11 +227,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Initialize gift message for entity
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('\Magento\GiftMessage\Helper\Message')->getGiftMessage(
                                    $this->getEntity()->getGiftMessageId()
                               );
         return $this;
@@ -238,7 +240,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Retrive gift message for entity
      *
-     * @return Magento_GiftMessage_Model_Message
+     * @return \Magento\GiftMessage\Model\Message
      */
     public function getMessage()
     {
@@ -284,7 +286,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form extends Magent
     /**
      * Aplies posted data to gift message
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Giftmessage_Form
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Giftmessage\Form
      */
     protected function _applyPostData()
     {

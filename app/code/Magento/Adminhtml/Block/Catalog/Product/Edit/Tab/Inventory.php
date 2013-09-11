@@ -13,23 +13,25 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
+
+class Inventory extends \Magento\Adminhtml\Block\Widget
 {
     protected $_template = 'catalog/product/tab/inventory.phtml';
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -38,8 +40,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
 
     public function getBackordersOption()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
-            return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Backorders')->toOptionArray();
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
+            return \Mage::getSingleton('Magento\CatalogInventory\Model\Source\Backorders')->toOptionArray();
         }
 
         return array();
@@ -52,8 +54,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
      */
     public function getStockOption()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
-            return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Stock')->toOptionArray();
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
+            return \Mage::getSingleton('Magento\CatalogInventory\Model\Source\Stock')->toOptionArray();
         }
 
         return array();
@@ -62,17 +64,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
     /**
      * Return current product instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('product');
+        return \Mage::registry('product');
     }
 
     /**
      * Retrieve Catalog Inventory  Stock Item Model
      *
-     * @return Magento_CatalogInventory_Model_Stock_Item
+     * @return \Magento\CatalogInventory\Model\Stock\Item
      */
     public function getStockItem()
     {
@@ -90,7 +92,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
             return $this->getStockItem()->getDataUsingMethod($field);
         }
 
-        return Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
     }
 
     public function getConfigFieldValue($field)
@@ -101,12 +103,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Magento
             }
         }
 
-        return Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
     }
 
     public function getDefaultConfigValue($field)
     {
-        return Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field);
+        return \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
     }
 
     /**

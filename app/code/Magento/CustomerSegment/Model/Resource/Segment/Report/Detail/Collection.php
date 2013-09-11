@@ -6,28 +6,30 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
-    extends Magento_CustomerSegment_Model_Resource_Report_Customer_Collection
+namespace Magento\CustomerSegment\Model\Resource\Segment\Report\Detail;
+
+class Collection
+    extends \Magento\CustomerSegment\Model\Resource\Report\Customer\Collection
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Registry $registryManager
+     * @param \Magento\Core\Model\Registry $registryManager
      */
     public function __construct(
         Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Registry $registryManager
+        \Magento\Core\Model\Registry $registryManager
     ) {
         $this->_registryManager = $registryManager;
         parent::__construct($fetchStrategy);
     }
 
     /**
-     * @return Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Collection
+     * @return \Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection
      */
     protected function _initSelect()
     {

@@ -11,7 +11,9 @@
 /**
  * System configuration clone model factory
  */
-class Magento_Backend_Model_Config_Clone_Factory
+namespace Magento\Backend\Model\Config\Clone;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -30,7 +32,7 @@ class Magento_Backend_Model_Config_Clone_Factory
      * Create new clone model
      *
      * @param string $cloneModel
-     * @return Magento_Core_Model_Config_Value
+     * @return \Magento\Core\Model\Config\Value
      */
     public function create($cloneModel)
     {

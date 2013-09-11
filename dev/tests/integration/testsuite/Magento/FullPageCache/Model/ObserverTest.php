@@ -12,7 +12,7 @@
 class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_FullPageCache_Model_Observer
+     * @var \Magento\FullPageCache\Model\Observer
      */
     protected $_observer;
 
@@ -24,12 +24,12 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
     protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
+        /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
         $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
-            'Magento_Core_Model_Cache_StateInterface');
+            '\Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('full_page', true);
         $this->_cookie = $this->getMock(
-            'Magento_FullPageCache_Model_Cookie',
+            '\Magento\FullPageCache\Model\Cookie',
             array('set', 'delete', 'updateCustomerCookies'),
             array(),
             '',
@@ -38,7 +38,7 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         );
 
         $this->_observer = $objectManager->create(
-            'Magento_FullPageCache_Model_Observer', 
+            '\Magento\FullPageCache\Model\Observer', 
             array('cookie' => $this->_cookie)
         );
     }
@@ -55,30 +55,30 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $observerData = new \Magento\Event\Observer();
         $arguments = array('request' => $request, 'response' => $response);
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+            ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $observerData->setEvent(new \Magento\Event(array(
             'controller_action' => Mage::getModel(
-                'Magento_Core_Controller_Front_Action',
+                '\Magento\Core\Controller\Front\Action',
                 array('context' => $context)
             )
         )));
 
         $this->_cookie->expects($this->once())->method('updateCustomerCookies');
 
-        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
         $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
-            'Magento_Core_Model_Cache_StateInterface');
+            '\Magento\Core\Model\Cache\StateInterface');
 
-        $cacheState->setEnabled(Magento_Core_Block_Abstract::CACHE_GROUP, true);
+        $cacheState->setEnabled(\Magento\Core\Block\AbstractBlock::CACHE_GROUP, true);
 
-        /** @var $session Magento_Catalog_Model_Session */
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
+        /** @var $session \Magento\Catalog\Model\Session */
+        $session = Mage::getSingleton('Magento\Catalog\Model\Session');
         $session->setParamsMemorizeDisabled(false);
 
         $this->_observer->processPreDispatch($observerData);
 
-        $this->assertFalse($cacheState->isEnabled(Magento_Core_Block_Abstract::CACHE_GROUP));
-        $this->assertTrue(Mage::getSingleton('Magento_Catalog_Model_Session')->getParamsMemorizeDisabled());
+        $this->assertFalse($cacheState->isEnabled(\Magento\Core\Block\AbstractBlock::CACHE_GROUP));
+        $this->assertTrue(Mage::getSingleton('Magento\Catalog\Model\Session')->getParamsMemorizeDisabled());
     }
 
     /**
@@ -86,18 +86,18 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
      */
     public function testProcessPreDispatchCannotProcessRequest()
     {
-        /** @var $restriction Magento_FullPageCache_Model_Processor_RestrictionInterface */
-        $restriction = Mage::getSingleton('Magento_FullPageCache_Model_Processor_RestrictionInterface');
+        /** @var $restriction \Magento\FullPageCache\Model\Processor\RestrictionInterface */
+        $restriction = Mage::getSingleton('Magento\FullPageCache\Model\Processor\RestrictionInterface');
         $restriction->setIsDenied();
 
         $observerData = new \Magento\Event\Observer();
         $arguments = array('request' => new Magento_TestFramework_Request(),
                            'response' => new Magento_TestFramework_Response());
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+            ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $observerData->setEvent(new \Magento\Event(array(
             'controller_action' => Mage::getModel(
-                'Magento_Core_Controller_Front_Action',
+                '\Magento\Core\Controller\Front\Action',
                 array('context' => $context)
             )
         )));
@@ -105,9 +105,9 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
             ->expects($this->once())
             ->method('updateCustomerCookies');
 
-        Mage::getSingleton('Magento_Catalog_Model_Session')->setParamsMemorizeDisabled(true);
+        Mage::getSingleton('Magento\Catalog\Model\Session')->setParamsMemorizeDisabled(true);
         $this->_observer->processPreDispatch($observerData);
-        $this->assertFalse(Mage::getSingleton('Magento_Catalog_Model_Session')->getParamsMemorizeDisabled());
+        $this->assertFalse(Mage::getSingleton('Magento\Catalog\Model\Session')->getParamsMemorizeDisabled());
     }
 
     public function testSetNoCacheCookie()
@@ -115,7 +115,7 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $this->_cookie
             ->expects($this->once())
             ->method('set')
-            ->with(Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
+            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
         ;
         $this->_observer->setNoCacheCookie(new \Magento\Event\Observer());
     }
@@ -125,7 +125,7 @@ class Magento_FullPageCache_Model_ObserverTest extends PHPUnit_Framework_TestCas
         $this->_cookie
             ->expects($this->once())
             ->method('delete')
-            ->with(Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE)
+            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
         ;
         $this->_observer->deleteNoCacheCookie(new \Magento\Event\Observer());
     }

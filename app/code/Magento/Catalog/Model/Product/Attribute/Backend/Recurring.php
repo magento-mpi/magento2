@@ -11,12 +11,14 @@
 /**
  * Backend for recurring profile parameter
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Recurring
-extends Magento_Eav_Model_Entity_Attribute_Backend_Serialized
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Recurring
+extends \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
 {
     /**
      * Serialize or remove before saving
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
     public function beforeSave($product)
     {
@@ -31,7 +33,7 @@ extends Magento_Eav_Model_Entity_Attribute_Backend_Serialized
 
     /**
      * Unserialize or remove on failure
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
     protected function _unserialize(\Magento\Object $product)
     {

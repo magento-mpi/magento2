@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reward_Block_Sales_Order_Total extends Magento_Core_Block_Template
+namespace Magento\Reward\Block\Sales\Order;
+
+class Total extends \Magento\Core\Block\Template
 {
     /**
      * Get label cell tag properties
@@ -22,7 +24,7 @@ class Magento_Reward_Block_Sales_Order_Total extends Magento_Core_Block_Template
     /**
      * Get order store object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -32,7 +34,7 @@ class Magento_Reward_Block_Sales_Order_Total extends Magento_Core_Block_Template
     /**
      * Get totals source object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getSource()
     {
@@ -52,7 +54,7 @@ class Magento_Reward_Block_Sales_Order_Total extends Magento_Core_Block_Template
     /**
      * Initialize reward points totals
      *
-     * @return Magento_Reward_Block_Sales_Order_Total
+     * @return \Magento\Reward\Block\Sales\Order\Total
      */
     public function initTotals()
     {
@@ -63,8 +65,8 @@ class Magento_Reward_Block_Sales_Order_Total extends Magento_Core_Block_Template
             $this->getParentBlock()->addTotal(new \Magento\Object(array(
                 'code'   => 'reward_points',
                 'strong' => false,
-                'label'  => Mage::helper('Magento_Reward_Helper_Data')->formatReward($source->getRewardPointsBalance()),
-                'value'  => $source instanceof Magento_Sales_Model_Order_Creditmemo ? - $value : $value
+                'label'  => \Mage::helper('Magento\Reward\Helper\Data')->formatReward($source->getRewardPointsBalance()),
+                'value'  => $source instanceof \Magento\Sales\Model\Order\Creditmemo ? - $value : $value
             )));
         }
 

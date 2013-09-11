@@ -11,41 +11,41 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
 {
     const WEBAPI_AREA_FRONT_NAME = 'webapi';
 
-    /** @var Magento_Webapi_Controller_Front */
+    /** @var \Magento\Webapi\Controller\Front */
     protected $_frontControllerMock;
 
     /** @var \Magento\Controller\Router\Route\Factory. */
     protected $_routeFactoryMock;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_Factory. */
+    /** @var \Magento\Webapi\Controller\Dispatcher\Factory. */
     protected $_dispatcherFactory;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_ErrorProcessor. */
+    /** @var \Magento\Webapi\Controller\Dispatcher\ErrorProcessor. */
     protected $_errorProcessorMock;
 
-    /** @var Magento_Core_Model_Config */
+    /** @var \Magento\Core\Model\Config */
     protected $_configMock;
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()
+        $this->_configMock = $this->getMockBuilder('Magento\Core\Model\Config')->disableOriginalConstructor()
             ->getMock();
         $this->_configMock->expects($this->any())->method('getAreaFrontName')->will(
             $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)
         );
 
-        $this->_dispatcherFactory = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_Factory')
+        $this->_dispatcherFactory = $this->getMockBuilder('Magento\Webapi\Controller\Dispatcher\Factory')
             ->disableOriginalConstructor()->getMock();
-        $application = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $application = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
         $application->expects($this->any())->method('getConfig')->will($this->returnValue($this->_configMock));
 
         $this->_routeFactoryMock = $this->getMockBuilder('Magento\Controller\Router\Route\Factory')
             ->disableOriginalConstructor()->getMock();
-        $this->_errorProcessorMock = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_ErrorProcessor')
+        $this->_errorProcessorMock = $this->getMockBuilder('Magento\Webapi\Controller\Dispatcher\ErrorProcessor')
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_frontControllerMock = new Magento_Webapi_Controller_Front(
+        $this->_frontControllerMock = new \Magento\Webapi\Controller\Front(
             $this->_dispatcherFactory,
             $application,
             $this->_routeFactoryMock,
@@ -76,11 +76,11 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     /**
      * Exception throwing logic for testInitWithException method.
      *
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function callbackThrowWebapiExcepion()
     {
-        throw new Magento_Webapi_Exception('Message', Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+        throw new \Magento\Webapi\Exception('Message', \Magento\Webapi\Exception::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -88,8 +88,8 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatch()
     {
-        $this->_createMockForApiRouteAndFactory(array('api_type' => Magento_Webapi_Controller_Front::API_TYPE_REST));
-        $restDispatcherMock = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_Rest')
+        $this->_createMockForApiRouteAndFactory(array('api_type' => \Magento\Webapi\Controller\Front::API_TYPE_REST));
+        $restDispatcherMock = $this->getMockBuilder('Magento\Webapi\Controller\Dispatcher\Rest')
             ->disableOriginalConstructor()
             ->getMock();
         /** Assert that handle method in mocked object will be executed only once. */
@@ -104,8 +104,8 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchException()
     {
-        $this->_createMockForApiRouteAndFactory(array('api_type' => Magento_Webapi_Controller_Front::API_TYPE_REST));
-        $restDispatcherMock = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_Rest')
+        $this->_createMockForApiRouteAndFactory(array('api_type' => \Magento\Webapi\Controller\Front::API_TYPE_REST));
+        $restDispatcherMock = $this->getMockBuilder('Magento\Webapi\Controller\Dispatcher\Rest')
             ->disableOriginalConstructor()
             ->getMock();
         /** Init Logical exception. */
@@ -127,11 +127,11 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     {
         $apiType = array('api_type' => 'invalidApiType');
         $this->_createMockForApiRouteAndFactory($apiType);
-        /** Assert Magento_Webapi_Exception type and message. */
+        /** Assert \Magento\Webapi\Exception type and message. */
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'The "invalidApiType" API type is not defined.',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         $this->_frontControllerMock->determineApiType();
     }
@@ -143,11 +143,11 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
     {
         $apiType = false;
         $this->_createMockForApiRouteAndFactory($apiType);
-        /** Assert Magento_Webapi_Exception type and message. */
+        /** Assert \Magento\Webapi\Exception type and message. */
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Request does not match any API type route.',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         $this->_frontControllerMock->determineApiType();
     }
@@ -157,7 +157,7 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
      */
     protected function _createMockForApiRouteAndFactory($apiType)
     {
-        $apiRouteMock = $this->getMockBuilder('Magento_Webapi_Controller_Router_Route')
+        $apiRouteMock = $this->getMockBuilder('Magento\Webapi\Controller\Router\Route')
             ->disableOriginalConstructor()->getMock();
         $apiRouteMock->expects($this->any())->method('match')->will($this->returnValue($apiType));
         $this->_routeFactoryMock->expects($this->any())->method('createRoute')->will(
@@ -167,7 +167,7 @@ class Magento_Webapi_Controller_FrontTest extends PHPUnit_Framework_TestCase
 
     public function testDeterminateApiTypeApiIsSet()
     {
-        $this->_createMockForApiRouteAndFactory(array('api_type' => Magento_Webapi_Controller_Front::API_TYPE_SOAP));
+        $this->_createMockForApiRouteAndFactory(array('api_type' => \Magento\Webapi\Controller\Front::API_TYPE_SOAP));
         /** Assert that createRoute method will be executed only once */
         $this->_routeFactoryMock->expects($this->once())->method('createRoute');
         /** The first method call will set apiType property using createRoute method. */

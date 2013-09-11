@@ -16,7 +16,9 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Model_Resource_Item_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Wishlist\Model\Resource\Item\Option;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Array of option ids grouped by item id
@@ -39,13 +41,13 @@ class Magento_Wishlist_Model_Resource_Item_Option_Collection extends Magento_Cor
      */
     protected function _construct()
     {
-        $this->_init('Magento_Wishlist_Model_Item_Option', 'Magento_Wishlist_Model_Resource_Item_Option');
+        $this->_init('\Magento\Wishlist\Model\Item\Option', '\Magento\Wishlist\Model\Resource\Item\Option');
     }
 
     /**
      * Fill array of options by item and product
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Option_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Option\Collection
      */
     protected function _afterLoad()
     {
@@ -74,7 +76,7 @@ class Magento_Wishlist_Model_Resource_Item_Option_Collection extends Magento_Cor
      * Apply quote item(s) filter to collection
      *
      * @param  int|array $item
-     * @return Magento_Wishlist_Model_Resource_Item_Option_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Option\Collection
      */
     public function addItemFilter($item)
     {
@@ -83,7 +85,7 @@ class Magento_Wishlist_Model_Resource_Item_Option_Collection extends Magento_Cor
             $this->_setIsLoaded(true);
         } else if (is_array($item)) {
             $this->addFieldToFilter('wishlist_item_id', array('in' => $item));
-        } else if ($item instanceof Magento_Wishlist_Model_Item) {
+        } else if ($item instanceof \Magento\Wishlist\Model\Item) {
             $this->addFieldToFilter('wishlist_item_id', $item->getId());
         } else {
             $this->addFieldToFilter('wishlist_item_id', $item);
@@ -112,7 +114,7 @@ class Magento_Wishlist_Model_Resource_Item_Option_Collection extends Magento_Cor
      */
     public function getOptionsByItem($item)
     {
-        if ($item instanceof Magento_Wishlist_Model_Item) {
+        if ($item instanceof \Magento\Wishlist\Model\Item) {
             $itemId = $item->getId();
         } else {
             $itemId = $item;
@@ -138,7 +140,7 @@ class Magento_Wishlist_Model_Resource_Item_Option_Collection extends Magento_Cor
      */
     public function getOptionsByProduct($product)
     {
-        if ($product instanceof Magento_Catalog_Model_Product) {
+        if ($product instanceof \Magento\Catalog\Model\Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;

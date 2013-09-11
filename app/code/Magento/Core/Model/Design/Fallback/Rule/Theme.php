@@ -9,19 +9,21 @@
 /**
  * An aggregate of a fallback rule that propagates it to every theme according to a hierarchy
  */
-class Magento_Core_Model_Design_Fallback_Rule_Theme implements Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+namespace Magento\Core\Model\Design\Fallback\Rule;
+
+class Theme implements \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
 {
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     private $_rule;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Design_Fallback_Rule_RuleInterface $rule
+     * @param \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $rule
      */
-    public function __construct(Magento_Core_Model_Design_Fallback_Rule_RuleInterface $rule)
+    public function __construct(\Magento\Core\Model\Design\Fallback\Rule\RuleInterface $rule)
     {
         $this->_rule = $rule;
     }
@@ -30,17 +32,17 @@ class Magento_Core_Model_Design_Fallback_Rule_Theme implements Magento_Core_Mode
      * Propagate an underlying fallback rule to every theme in a hierarchy: parent, grandparent, etc.
      *
      * {@inheritdoc}
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getPatternDirs(array $params)
     {
-        if (!array_key_exists('theme', $params) || !($params['theme'] instanceof Magento_Core_Model_ThemeInterface)) {
-            throw new InvalidArgumentException(
+        if (!array_key_exists('theme', $params) || !($params['theme'] instanceof \Magento\Core\Model\ThemeInterface)) {
+            throw new \InvalidArgumentException(
                 'Parameter "theme" should be specified and should implement the theme interface.'
             );
         }
         $result = array();
-        /** @var $theme Magento_Core_Model_ThemeInterface */
+        /** @var $theme \Magento\Core\Model\ThemeInterface */
         $theme = $params['theme'];
         unset($params['theme']);
         while ($theme) {

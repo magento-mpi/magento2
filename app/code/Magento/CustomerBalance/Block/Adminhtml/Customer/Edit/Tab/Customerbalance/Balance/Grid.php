@@ -6,15 +6,17 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid extends
-    Magento_Backend_Block_Widget_Grid
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance;
+
+class Grid extends
+    \Magento\Backend\Block\Widget\Grid
 {
     /**
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+        $collection = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
             ->getCollection()
             ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
         $this->setCollection($collection);

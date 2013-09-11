@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_Permissions_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Api\Model\Resource\Permissions;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization
@@ -24,6 +26,6 @@ class Magento_Api_Model_Resource_Permissions_Collection extends Magento_Core_Mod
      */
     protected function _construct()
     {
-        $this->_init('Magento_Api_Model_Rules', 'Magento_Api_Model_Resource_Rules');
+        $this->_init('\Magento\Api\Model\Rules', '\Magento\Api\Model\Resource\Rules');
     }
 }

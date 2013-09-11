@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Status extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer;
+
+class Status extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
 
     protected static $_statuses;
@@ -23,11 +25,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Status 
     protected function _construct()
     {
         self::$_statuses = array(
-                Magento_Newsletter_Model_Queue::STATUS_SENT 	=> __('Sent'),
-                Magento_Newsletter_Model_Queue::STATUS_CANCEL	=> __('Cancel'),
-                Magento_Newsletter_Model_Queue::STATUS_NEVER 	=> __('Not Sent'),
-                Magento_Newsletter_Model_Queue::STATUS_SENDING => __('Sending'),
-                Magento_Newsletter_Model_Queue::STATUS_PAUSE 	=> __('Paused'),
+                \Magento\Newsletter\Model\Queue::STATUS_SENT 	=> __('Sent'),
+                \Magento\Newsletter\Model\Queue::STATUS_CANCEL	=> __('Cancel'),
+                \Magento\Newsletter\Model\Queue::STATUS_NEVER 	=> __('Not Sent'),
+                \Magento\Newsletter\Model\Queue::STATUS_SENDING => __('Sending'),
+                \Magento\Newsletter\Model\Queue::STATUS_PAUSE 	=> __('Paused'),
             );
         parent::_construct();
     }

@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_checkout_viewwishlist">
         <remove name="root"/>
-        <block class="Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist" name="checkout.accordion.wishlist" output="1"/>
+        <block class="\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist" name="checkout.accordion.wishlist" output="1"/>
     </handle>
 </layout>

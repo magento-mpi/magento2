@@ -15,7 +15,9 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Shipment_Api_V2 extends Magento_Sales_Model_Order_Shipment_Api
+namespace Magento\Sales\Model\Order\Shipment\Api;
+
+class V2 extends \Magento\Sales\Model\Order\Shipment\Api
 {
     protected function _prepareItemQtyData($data)
     {
@@ -45,8 +47,8 @@ class Magento_Sales_Model_Order_Shipment_Api_V2 extends Magento_Sales_Model_Orde
         $email = false,
         $includeComment = false
     ) {
-        /** @var Magento_Sales_Model_Order $order */
-        $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
         $itemsQty = $this->_prepareItemQtyData($itemsQty);
         /**
          * Check order existing
@@ -60,7 +62,7 @@ class Magento_Sales_Model_Order_Shipment_Api_V2 extends Magento_Sales_Model_Orde
         if (!$order->canShip()) {
             $this->_fault('data_invalid', __('We cannot create a shipment for this order.'));
         }
-        /* @var $shipment Magento_Sales_Model_Order_Shipment */
+        /* @var $shipment \Magento\Sales\Model\Order\Shipment */
         $shipment = $order->prepareShipment($itemsQty);
         if ($shipment) {
             $shipment->register();
@@ -70,10 +72,10 @@ class Magento_Sales_Model_Order_Shipment_Api_V2 extends Magento_Sales_Model_Orde
             }
             $shipment->getOrder()->setIsInProcess(true);
             try {
-                $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction');
+                $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction');
                 $transactionSave->addObject($shipment)->addObject($shipment->getOrder())->save();
                 $shipment->sendEmail($email, ($includeComment ? $comment : ''));
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_fault('data_invalid', $e->getMessage());
             }
             return $shipment->getIncrementId();
@@ -89,7 +91,7 @@ class Magento_Sales_Model_Order_Shipment_Api_V2 extends Magento_Sales_Model_Orde
      */
     public function getCarriers($orderIncrementId)
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
+        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
 
         /**
          * Check order existing

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Webapi_User_Factory
+ * \Magento\Webhook\Model\Webapi\User\Factory
  *
  * @magentoDbIsolation enabled
  *
@@ -38,20 +38,20 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
 
     public function tearDown()
     {
-        /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Mage::getModel('Magento_Webapi_Model_Acl_User');
+        /** @var \Magento\Webapi\Model\Acl\User $user */
+        $user = Mage::getModel('\Magento\Webapi\Model\Acl\User');
         $user->load($this->_apiUserId);
         $user->delete();
     }
 
     public function testCreate()
     {
-        /** @var Magento_Webhook_Model_Webapi_User_Factory $userFactory */
-        $userFactory = Mage::getModel('Magento_Webhook_Model_Webapi_User_Factory');
+        /** @var \Magento\Webhook\Model\Webapi\User\Factory $userFactory */
+        $userFactory = Mage::getModel('\Magento\Webhook\Model\Webapi\User\Factory');
         $this->_apiUserId = $userFactory->createUser($this->_userContext, array('webhook/create'));
 
-        /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Mage::getModel('Magento_Webapi_Model_Acl_User');
+        /** @var \Magento\Webapi\Model\Acl\User $user */
+        $user = Mage::getModel('\Magento\Webapi\Model\Acl\User');
         $user->load($this->_apiUserId);
 
         $this->assertEquals(self::VALUE_COMPANY_NAME, $user->getCompanyName());
@@ -60,8 +60,8 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
         $this->assertEquals(self::VALUE_KEY_VALUE, $user->getApiKey());
         $this->assertNotEquals(0, $user->getRoleId());
 
-        /** @var Magento_Webapi_Model_Resource_Acl_Rule $ruleResources */
-        $ruleResources = Mage::getModel('Magento_Webapi_Model_Resource_Acl_Rule');
+        /** @var \Magento\Webapi\Model\Resource\Acl\Rule $ruleResources */
+        $ruleResources = Mage::getModel('\Magento\Webapi\Model\Resource\Acl\Rule');
         $rules = $ruleResources->getResourceIdsByRole($user->getRoleId());
         $this->assertNotEmpty($rules);
     }

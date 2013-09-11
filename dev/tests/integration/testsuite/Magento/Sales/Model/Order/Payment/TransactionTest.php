@@ -12,17 +12,17 @@
 /**
  * Tests transaction model:
  *
- * @see Magento_Sales_Model_Order_Payment_Transaction
+ * @see \Magento\Sales\Model\Order\Payment\Transaction
  * @magentoDataFixture Magento/Sales/_files/transactions.php
  */
 class Magento_Sales_Model_Order_Payment_TransactionTest extends PHPUnit_Framework_TestCase
 {
     public function testLoadByTxnId()
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Mage::getModel('\Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
 
-        $model = Mage::getModel('Magento_Sales_Model_Order_Payment_Transaction');
+        $model = Mage::getModel('\Magento\Sales\Model\Order\Payment\Transaction');
         $model->setOrderPaymentObject($order->getPayment())
             ->loadByTxnId('invalid_transaction_id');
 

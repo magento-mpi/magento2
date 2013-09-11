@@ -15,9 +15,11 @@
  * @package Magento_Adminhtml
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
+
+class Main
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare content for tab
@@ -61,7 +63,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_catalog_rule');
+        $model = \Mage::registry('current_promo_catalog_rule');
 
         $form = new \Magento\Data\Form();
 
@@ -102,8 +104,8 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             ),
         ));
 
-        if (Mage::app()->isSingleStoreMode()) {
-            $websiteId = Mage::app()->getStore(true)->getWebsiteId();
+        if (\Mage::app()->isSingleStoreMode()) {
+            $websiteId = \Mage::app()->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
                 'name'     => 'website_ids[]',
                 'value'    => $websiteId
@@ -115,9 +117,9 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
                 'label'     => __('Websites'),
                 'title'     => __('Websites'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -126,10 +128,10 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
             'label'     => __('Customer Groups'),
             'title'     => __('Customer Groups'),
             'required'  => true,
-            'values'    => Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')->toOptionArray()
+            'values'    => \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')->toOptionArray()
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),
@@ -164,7 +166,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
 
         $this->setForm($form);
 
-        Mage::dispatchEvent('adminhtml_promo_catalog_edit_tab_main_prepare_form', array('form' => $form));
+        \Mage::dispatchEvent('adminhtml_promo_catalog_edit_tab_main_prepare_form', array('form' => $form));
 
         return parent::_prepareForm();
     }

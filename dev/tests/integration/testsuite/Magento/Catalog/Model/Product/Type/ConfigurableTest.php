@@ -17,21 +17,21 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
     /**
      * Object under test
      *
-     * @var Magento_Catalog_Model_Product_Type_Configurable
+     * @var \Magento\Catalog\Model\Product\Type\Configurable
      */
     protected $_model;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
     protected function setUp()
     {
-        $this->_product = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_product = Mage::getModel('\Magento\Catalog\Model\Product');
         $this->_product->load(1); // fixture
 
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Type_Configurable');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product\Type\Configurable');
         // prevent fatal errors by assigning proper "singleton" of type instance to the product
         $this->_product->setTypeInstance($this->_model);
     }
@@ -77,7 +77,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->_model->setUsedProductAttributeIds(array($testConfigurable->getId()), $this->_product);
         $attributes = $this->_product->getData('_cache_instance_configurable_attributes');
         $this->assertArrayHasKey(0, $attributes);
-        $this->assertInstanceOf('Magento_Catalog_Model_Product_Type_Configurable_Attribute', $attributes[0]);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Product\Type\Configurable\Attribute', $attributes[0]);
         $this->assertSame($testConfigurable, $attributes[0]->getProductAttribute());
     }
 
@@ -93,12 +93,12 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
     public function testGetConfigurableAttributes()
     {
         $collection = $this->_model->getConfigurableAttributes($this->_product);
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection',
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection',
             $collection
         );
         $testConfigurable = $this->_getAttributeByCode('test_configurable');
         foreach ($collection as $attribute) {
-            $this->assertInstanceOf('Magento_Catalog_Model_Product_Type_Configurable_Attribute', $attribute);
+            $this->assertInstanceOf('\Magento\Catalog\Model\Product\Type\Configurable\Attribute', $attribute);
             $this->assertEquals($testConfigurable->getId(), $attribute->getAttributeId());
             $prices = $attribute->getPrices();
             $this->assertCount(2, $prices); // fixture
@@ -156,7 +156,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
     public function testGetConfigurableAttributeCollection()
     {
         $collection = $this->_model->getConfigurableAttributeCollection($this->_product);
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection',
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection',
             $collection
         );
     }
@@ -174,13 +174,13 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->assertInternalType('array', $products);
         $this->assertTrue(2 === count($products));
         foreach ($products as $product) {
-            $this->assertInstanceOf('Magento_Catalog_Model_Product', $product);
+            $this->assertInstanceOf('\Magento\Catalog\Model\Product', $product);
         }
     }
 
     public function testGetUsedProductCollection()
     {
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Type_Configurable_Product_Collection',
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Type\Configurable\Product\Collection',
             $this->_model->getUsedProductCollection($this->_product)
         );
     }
@@ -216,7 +216,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
             array($attribute['attribute_id'] => $optionValueId),
             $this->_product
         );
-        $this->assertInstanceOf('Magento_Catalog_Model_Product', $product);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Product', $product);
         $this->assertEquals("simple_{$optionValueId}", $product->getSku());
     }
 
@@ -258,7 +258,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
             'attributes',
             serialize(array($attribute['attribute_id'] => $optionValueId))
         );
-        /** @var Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection $configurableAttr */
+        /** @var \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection $configurableAttr */
         $configurableAttr = $this->_model->getConfigurableAttributes($this->_product);
         $attribute = $configurableAttr->getFirstItem();
 
@@ -292,7 +292,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->assertInternalType('array', $result);
         $this->assertTrue(2 === count($result));
         foreach ($result as $product) {
-            $this->assertInstanceOf('Magento_Catalog_Model_Product', $product);
+            $this->assertInstanceOf('\Magento\Catalog\Model\Product', $product);
         }
         $this->assertInstanceOf('\Magento\Object', $result[1]->getCustomOption('parent_product_id'));
     }
@@ -319,9 +319,9 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->assertArrayHasKey('product_calculations', $result);
         $this->assertArrayHasKey('shipment_type', $result);
         $this->assertEquals(
-            Magento_Catalog_Model_Product_Type_Abstract::CALCULATE_PARENT, $result['product_calculations']
+            \Magento\Catalog\Model\Product\Type\AbstractType::CALCULATE_PARENT, $result['product_calculations']
         );
-        $this->assertEquals(Magento_Catalog_Model_Product_Type_Abstract::SHIPMENT_TOGETHER, $result['shipment_type']);
+        $this->assertEquals(\Magento\Catalog\Model\Product\Type\AbstractType::SHIPMENT_TOGETHER, $result['shipment_type']);
     }
 
     /**
@@ -369,7 +369,7 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->assertInternalType('array', $result[0]);
         $this->assertTrue(2 === count($result[0])); // fixture has 2 simple products
         foreach ($result[0] as $product) {
-            $this->assertInstanceOf('Magento_Catalog_Model_Product', $product);
+            $this->assertInstanceOf('\Magento\Catalog\Model\Product', $product);
         }
     }
 
@@ -430,8 +430,8 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
         $this->assertEquals(3, count($generatedProducts));
         foreach ($generatedProducts as $productId) {
-            /** @var $product Magento_Catalog_Model_Product */
-            $product = Mage::getModel('Magento_Catalog_Model_Product');
+            /** @var $product \Magento\Catalog\Model\Product */
+            $product = Mage::getModel('\Magento\Catalog\Model\Product');
             $product->load($productId);
             $this->assertNotNull($product->getName());
             $this->assertNotNull($product->getSku());
@@ -450,8 +450,8 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
         $this->_product->setNewVariationsAttributeSetId(4);
         $generatedProducts = $this->_model->generateSimpleProducts($this->_product, $productsData);
         foreach ($generatedProducts as $productId) {
-            /** @var $product Magento_Catalog_Model_Product */
-            $product = Mage::getModel('Magento_Catalog_Model_Product');
+            /** @var $product \Magento\Catalog\Model\Product */
+            $product = Mage::getModel('\Magento\Catalog\Model\Product');
             $product->load($productId);
             $this->assertEquals('0', $product->getStockItem()->getData('manage_stock'));
         }
@@ -509,11 +509,11 @@ class Magento_Catalog_Model_Product_Type_ConfigurableTest extends PHPUnit_Framew
      * Find and instantiate a catalog attribute model by attribute code
      *
      * @param string $code
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     protected function _getAttributeByCode($code)
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', $code);
+        return Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', $code);
     }
 
     /**

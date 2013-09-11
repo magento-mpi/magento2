@@ -11,12 +11,14 @@
 /**
  * Config centinel model
  */
-class Magento_Centinel_Model_Config
+namespace Magento\Centinel\Model;
+
+class Config
 {
     /**
      * Store id or store model
      *
-     * @var int|Magento_Core_Model_Store
+     * @var int|\Magento\Core\Model\Store
      */
     protected $_store = false;
 
@@ -37,8 +39,8 @@ class Magento_Centinel_Model_Config
     /**
      * Set store to congif model
      *
-     * @param int|Magento_Core_Model_Store $store
-     * @return Magento_Centinel_Model_Config
+     * @param int|\Magento\Core\Model\Store $store
+     * @return \Magento\Centinel\Model\Config
      */
     public function setStore($store)
     {
@@ -49,7 +51,7 @@ class Magento_Centinel_Model_Config
     /**
      * Return store
      *
-     * @return int|Magento_Core_Model_Store
+     * @return int|\Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -64,7 +66,7 @@ class Magento_Centinel_Model_Config
      */
     public function getStateModelClass($cardType)
     {
-        $node = Mage::getConfig()->getNode($this->_cardTypesConfigPath . '/' . $cardType . '/validator/centinel/state');
+        $node = \Mage::getConfig()->getNode($this->_cardTypesConfigPath . '/' . $cardType . '/validator/centinel/state');
         if (!$node) {
             return false;
         }
@@ -98,7 +100,7 @@ class Magento_Centinel_Model_Config
      */
     public function getTransactionPwd()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->_getServiceConfigValue('password'));
+        return \Mage::helper('Magento\Core\Helper\Data')->decrypt($this->_getServiceConfigValue('password'));
     }
 
     /**
@@ -119,7 +121,7 @@ class Magento_Centinel_Model_Config
      */
     private function _getServiceConfigValue($key)
     {
-        return Mage::getStoreConfig($this->_serviceConfigPath . '/' . $key, $this->getStore());
+        return \Mage::getStoreConfig($this->_serviceConfigPath . '/' . $key, $this->getStore());
     }
 
     /**

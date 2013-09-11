@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setAttributeSetId(4)
     ->setStoreId(0)
@@ -16,8 +16,8 @@ $product->setTypeId('simple')
     ->setMetaTitle('meta title')
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->setStockData(
     array(
         'use_config_manage_stock' => 1,
@@ -28,5 +28,5 @@ $product->setTypeId('simple')
 )
     ->save();
 // to make stock item visible from created product it should be reloaded
-$product = Mage::getModel('Magento_Catalog_Model_Product')->load($product->getId());
+$product = Mage::getModel('\Magento\Catalog\Model\Product')->load($product->getId());
 Mage::register('product_simple', $product);

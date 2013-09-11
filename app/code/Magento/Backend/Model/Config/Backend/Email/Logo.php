@@ -15,7 +15,9 @@
   * @package    Magento_Backend
   * @author     Magento Core Team <core@magentocommerce.com>
   */
-class Magento_Backend_Model_Config_Backend_Email_Logo extends Magento_Backend_Model_Config_Backend_Image
+namespace Magento\Backend\Model\Config\Backend\Email;
+
+class Logo extends \Magento\Backend\Model\Config\Backend\Image
 {
     /**
      * The tail part of directory path for uploading
@@ -62,7 +64,7 @@ class Magento_Backend_Model_Config_Backend_Email_Logo extends Magento_Backend_Mo
      *
      * Save changes and delete file if "delete" option passed
      *
-     * @return Magento_Backend_Model_Config_Backend_Email_Logo
+     * @return \Magento\Backend\Model\Config\Backend\Email\Logo
      */
     protected function _beforeSave()
     {

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends \Magento\Data\Form\Element\Text
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class Price extends \Magento\Data\Form\Element\Text
 {
 
     protected function _construct()
@@ -35,9 +37,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price extends \Magento
             if (!($storeId = $attribute->getStoreId())) {
                 $storeId = $this->getForm()->getDataObject()->getStoreId();
             }
-            $store = Mage::app()->getStore($storeId);
-            $html.= '<strong>' . Mage::app()->getLocale()->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
-            if (Mage::helper('Magento_Tax_Helper_Data')->priceIncludesTax($store)) {
+            $store = \Mage::app()->getStore($storeId);
+            $html.= '<strong>' . \Mage::app()->getLocale()->currency($store->getBaseCurrencyCode())->getSymbol() . '</strong>';
+            if (\Mage::helper('Magento\Tax\Helper\Data')->priceIncludesTax($store)) {
                 if ($attribute->getAttributeCode()!=='cost') {
                     $addJsObserver = true;
                     $html.= ' <strong>['.__('Inc. Tax').'<span id="dynamic-tax-'.$attribute->getAttributeCode().'"></span>]</strong>';

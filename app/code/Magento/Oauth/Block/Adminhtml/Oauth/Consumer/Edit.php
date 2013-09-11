@@ -16,24 +16,26 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Oauth\Block\Adminhtml\Oauth\Consumer;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Consumer model
      *
-     * @var Magento_Oauth_Model_Consumer
+     * @var \Magento\Oauth\Model\Consumer
      */
     protected $_model;
 
     /**
      * Get consumer model
      *
-     * @return Magento_Oauth_Model_Consumer
+     * @return \Magento\Oauth\Model\Consumer
      */
     public function getModel()
     {
         if (null === $this->_model) {
-            $this->_model = Mage::registry('current_consumer');
+            $this->_model = \Mage::registry('current_consumer');
         }
         return $this->_model;
     }

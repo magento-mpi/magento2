@@ -15,8 +15,10 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
-    extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
+namespace Magento\GiftRegistry\Block\Wishlist\Item\Column;
+
+class Registry
+    extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
     /**
      * Check whether module is available
@@ -25,28 +27,28 @@ class Magento_GiftRegistry_Block_Wishlist_Item_Column_Registry
      */
     public function isEnabled()
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled() && count($this->getGiftRegistryList());
+        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled() && count($this->getGiftRegistryList());
     }
 
     /**
      * Return list of current customer gift registries
      *
-     * @return Magento_GiftRegistry_Model_Resource_GiftRegistry_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\GiftRegistry\Collection
      */
     public function getGiftRegistryList()
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->getCurrentCustomerEntityOptions();
+        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->getCurrentCustomerEntityOptions();
     }
 
     /**
      * Check if wishlist item can be added to gift registry
      *
-     * @param Magento_Catalog_Model_Product $item
+     * @param \Magento\Catalog\Model\Product $item
      * @return bool
      */
     public function checkProductType($item)
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item);
+        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->canAddToGiftRegistry($item);
     }
 
     /**

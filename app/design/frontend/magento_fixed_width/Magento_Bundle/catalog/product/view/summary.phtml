@@ -18,7 +18,7 @@
         <div class="block-title">
             <h2><?php echo __('Your Customization'); ?></h2>
         </div>
-        <img class="product-image no-display" src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'thumbnail')->resize($_imageSize); ?>" width="<?php echo $_imageSize?>" height="<?php echo $_imageSize?>" alt="<?php echo $this->escapeHtml($this->getImageLabel($_product, 'thumbnail')) ?>" />
+        <img class="product-image no-display" src="<?php echo $this->helper('\Magento\Catalog\Helper\Image')->init($_product, 'thumbnail')->resize($_imageSize); ?>" width="<?php echo $_imageSize?>" height="<?php echo $_imageSize?>" alt="<?php echo $this->escapeHtml($this->getImageLabel($_product, 'thumbnail')) ?>" />
         <div class="product-details">
             <h3 class="product-name no-display"><?php echo $this->escapeHtml($_product->getName()) ?></h3>
             <?php if($_product->getIsSalable()): ?>

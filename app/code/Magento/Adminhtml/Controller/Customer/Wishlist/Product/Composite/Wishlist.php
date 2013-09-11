@@ -15,44 +15,46 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
-    extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Customer\Wishlist\Product\Composite;
+
+class Wishlist
+    extends \Magento\Adminhtml\Controller\Action
 {
      /**
      * Wishlist we're working with
      *
-     * @var Magento_Wishlist_Model_Wishlist
+     * @var \Magento\Wishlist\Model\Wishlist
      */
     protected $_wishlist = null;
 
     /**
      * Wishlist item we're working with
      *
-     * @var Magento_Wishlist_Model_Wishlist
+     * @var \Magento\Wishlist\Model\Wishlist
      */
     protected $_wishlistItem = null;
 
     /**
      * Loads wishlist and wishlist item
      *
-     * @return Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
+     * @return \Magento\Adminhtml\Controller\Customer\Wishlist\Product\Composite\Wishlist
      */
     protected function _initData()
     {
         $wishlistItemId = (int) $this->getRequest()->getParam('id');
         if (!$wishlistItemId) {
-            Mage::throwException(__('No wishlist item ID is defined.'));
+            \Mage::throwException(__('No wishlist item ID is defined.'));
         }
 
-        /* @var $wishlistItem Magento_Wishlist_Model_Item */
-        $wishlistItem = Mage::getModel('Magento_Wishlist_Model_Item')
+        /* @var $wishlistItem \Magento\Wishlist\Model\Item */
+        $wishlistItem = \Mage::getModel('\Magento\Wishlist\Model\Item')
             ->loadWithOptions($wishlistItemId);
 
         if (!$wishlistItem->getWishlistId()) {
-            Mage::throwException(__('Please load the wish list item.'));
+            \Mage::throwException(__('Please load the wish list item.'));
         }
 
-        $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')
+        $this->_wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')
             ->load($wishlistItem->getWishlistId());
 
         $this->_wishlistItem = $wishlistItem;
@@ -63,7 +65,7 @@ class Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
     /**
      * Ajax handler to response configuration fieldset of composite product in customer's wishlist
      *
-     * @return Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
+     * @return \Magento\Adminhtml\Controller\Customer\Wishlist\Product\Composite\Wishlist
      */
     public function configureAction()
     {
@@ -77,13 +79,13 @@ class Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
             $configureResult->setCurrentCustomerId($this->_wishlist->getCustomerId());
 
             $configureResult->setOk(true);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
         }
 
-        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
+        $helper = \Mage::helper('Magento\Adminhtml\Helper\Catalog\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -108,12 +110,12 @@ class Magento_Adminhtml_Controller_Customer_Wishlist_Product_Composite_Wishlist
                 ->save();
 
             $updateResult->setOk(true);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $updateResult->setError(true);
             $updateResult->setMessage($e->getMessage());
         }
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
 
         return false;

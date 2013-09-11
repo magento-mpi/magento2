@@ -61,7 +61,7 @@
                 <types>
                     <pdo_mysql>
                         <adapter>\Magento\DB\Adapter\Pdo\Mysql</adapter>
-                        <class>Magento_Core_Model_Resource_Type_Db_Pdo_Mysql</class>
+                        <class>Magento\Core\Model\Resource\Type\Db\Pdo\Mysql</class>
                         <compatibleMode>1</compatibleMode>
                     </pdo_mysql>
                 </types>

@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <sales_widget_guestfrom type="Magento_Sales_Block_Widget_Guest_Form" translate="name description">
+    <sales_widget_guestfrom type="Magento\Sales\Block\Widget\Guest\Form" translate="name description">
         <name>Orders and Returns</name>
         <description>Orders and Returns Search Form</description>
         <is_email_compatible>1</is_email_compatible>

@@ -15,24 +15,26 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Tab_Info
-    extends Magento_Adminhtml_Block_Sales_Order_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Sales\Order\View\Tab;
+
+class Info
+    extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Retrieve order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     /**
      * Retrieve source model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getSource()
     {

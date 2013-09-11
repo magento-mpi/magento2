@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Config_Rest extends Magento_Webapi_Model_ConfigAbstract
+namespace Magento\Webapi\Model\Config;
+
+class Rest extends \Magento\Webapi\Model\ConfigAbstract
 {
     /** @var \Magento\Controller\Router\Route\Factory */
     protected $_routeFactory;
@@ -15,15 +17,15 @@ class Magento_Webapi_Model_Config_Rest extends Magento_Webapi_Model_ConfigAbstra
     /**
      * Construct config with REST reader & route factory.
      *
-     * @param Magento_Webapi_Model_Config_Reader_Rest $reader
-     * @param Magento_Webapi_Helper_Config $helper
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Webapi\Model\Config\Reader\Rest $reader
+     * @param \Magento\Webapi\Helper\Config $helper
+     * @param \Magento\Core\Model\App $application
      * @param \Magento\Controller\Router\Route\Factory $routeFactory
      */
     public function __construct(
-        Magento_Webapi_Model_Config_Reader_Rest $reader,
-        Magento_Webapi_Helper_Config $helper,
-        Magento_Core_Model_App $application,
+        \Magento\Webapi\Model\Config\Reader\Rest $reader,
+        \Magento\Webapi\Helper\Config $helper,
+        \Magento\Core\Model\App $application,
         \Magento\Controller\Router\Route\Factory $routeFactory
     ) {
         parent::__construct($reader, $helper, $application);
@@ -33,8 +35,8 @@ class Magento_Webapi_Model_Config_Rest extends Magento_Webapi_Model_ConfigAbstra
     /**
      * Get all modules routes defined in config.
      *
-     * @return Magento_Webapi_Controller_Router_Route_Rest[]
-     * @throws LogicException When config data has invalid structure.
+     * @return \Magento\Webapi\Controller\Router\Route\Rest[]
+     * @throws \LogicException When config data has invalid structure.
      */
     public function getAllRestRoutes()
     {
@@ -51,14 +53,14 @@ class Magento_Webapi_Model_Config_Rest extends Magento_Webapi_Model_ConfigAbstra
      * @param string $resourceName
      * @param string $methodName
      * @param string $version
-     * @return Magento_Webapi_Controller_Router_Route_Rest[]
-     * @throws InvalidArgumentException
+     * @return \Magento\Webapi\Controller\Router\Route\Rest[]
+     * @throws \InvalidArgumentException
      */
     public function getMethodRestRoutes($resourceName, $methodName, $version)
     {
         $resourceData = $this->_getResourceData($resourceName, $version);
         if (!isset($resourceData['methods'][$methodName]['rest_routes'])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 sprintf(
                     'The "%s" resource does not have any REST routes for "%s" method.',
                     $resourceName,
@@ -70,7 +72,7 @@ class Magento_Webapi_Model_Config_Rest extends Magento_Webapi_Model_ConfigAbstra
             $routes[] = $this->_createRoute(
                 $routePath,
                 $resourceName,
-                Magento_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName)
+                \Magento\Webapi\Controller\Request\Rest::getActionTypeByOperation($methodName)
             );
         }
         return $routes;
@@ -81,7 +83,7 @@ class Magento_Webapi_Model_Config_Rest extends Magento_Webapi_Model_ConfigAbstra
      *
      * @param string $resourceName
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getRestRouteToItem($resourceName)
     {
@@ -89,13 +91,13 @@ class Magento_Webapi_Model_Config_Rest extends Magento_Webapi_Model_ConfigAbstra
         /** The shortest routes must go first. */
         ksort($restRoutes);
         foreach ($restRoutes as $routePath => $routeMetadata) {
-            if ($routeMetadata['actionType'] == Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM
+            if ($routeMetadata['actionType'] == \Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_ITEM
                 && $routeMetadata['resourceName'] == $resourceName
             ) {
                 return $routePath;
             }
         }
-        throw new InvalidArgumentException(sprintf('No route to the item of "%s" resource was found.', $resourceName));
+        throw new \InvalidArgumentException(sprintf('No route to the item of "%s" resource was found.', $resourceName));
     }
 
     /**
@@ -104,15 +106,15 @@ class Magento_Webapi_Model_Config_Rest extends Magento_Webapi_Model_ConfigAbstra
      * @param string $routePath
      * @param string $resourceName
      * @param string $actionType
-     * @return Magento_Webapi_Controller_Router_Route_Rest
+     * @return \Magento\Webapi\Controller\Router\Route\Rest
      */
     protected function _createRoute($routePath, $resourceName, $actionType)
     {
         $apiTypeRoutePath = $this->_application->getConfig()->getAreaFrontName()
-            . '/:' . Magento_Webapi_Controller_Front::API_TYPE_REST;
+            . '/:' . \Magento\Webapi\Controller\Front::API_TYPE_REST;
         $fullRoutePath = $apiTypeRoutePath . $routePath;
-        /** @var $route Magento_Webapi_Controller_Router_Route_Rest */
-        $route = $this->_routeFactory->createRoute('Magento_Webapi_Controller_Router_Route_Rest', $fullRoutePath);
+        /** @var $route \Magento\Webapi\Controller\Router\Route\Rest */
+        $route = $this->_routeFactory->createRoute('\Magento\Webapi\Controller\Router\Route\Rest', $fullRoutePath);
         $route->setResourceName($resourceName)->setResourceType($actionType);
         return $route;
     }

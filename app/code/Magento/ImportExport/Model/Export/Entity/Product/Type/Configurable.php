@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Export_Entity_Product_Type_Configurable
-    extends Magento_ImportExport_Model_Export_Entity_Product_Type_Abstract
+namespace Magento\ImportExport\Model\Export\Entity\Product\Type;
+
+class Configurable
+    extends \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType
 {
 }

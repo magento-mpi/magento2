@@ -15,7 +15,9 @@
  * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Captcha\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Used for "name" attribute of captcha's input field
@@ -49,7 +51,7 @@ class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_captcha = array();
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
@@ -59,35 +61,35 @@ class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs = null;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Captcha_Model_CaptchaFactory
+     * @var \Magento\Captcha\Model\CaptchaFactory
      */
     protected $_factory;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Model_StoreManager $storeManager
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Captcha_Model_CaptchaFactory $factory
+     * @param \Magento\Captcha\Model\CaptchaFactory $factory
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Core_Model_StoreManager $storeManager,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\Config $config,
         Magento\Filesystem $filesystem,
-        Magento_Captcha_Model_CaptchaFactory $factory
+        \Magento\Captcha\Model\CaptchaFactory $factory
     ) {
         $this->_dirs = $dirs;
         $this->_storeManager = $storeManager;
@@ -101,7 +103,7 @@ class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
      * Get Captcha
      *
      * @param string $formId
-     * @return Magento_Captcha_Model_Interface
+     * @return \Magento\Captcha\Model\ModelInterface
      */
     public function getCaptcha($formId)
     {
@@ -124,8 +126,8 @@ class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
      * Returns value of the node with respect to current area (frontend or backend)
      *
      * @param string $key The last part of XML_PATH_$area_CAPTCHA_ constant (case insensitive)
-     * @param Magento_Core_Model_Store $store
-     * @return Magento_Core_Model_Config_Element
+     * @param \Magento\Core\Model\Store $store
+     * @return \Magento\Core\Model\Config\Element
      */
     public function getConfigNode($key, $store = null)
     {
@@ -144,10 +146,10 @@ class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getFonts()
     {
-        $fontsConfig = $this->_config->getValue(Magento_Captcha_Helper_Data::XML_PATH_CAPTCHA_FONTS, 'default');
+        $fontsConfig = $this->_config->getValue(\Magento\Captcha\Helper\Data::XML_PATH_CAPTCHA_FONTS, 'default');
         $fonts = array();
         if ($fontsConfig) {
-            $libDir = $this->_dirs->getDir(Magento_Core_Model_Dir::LIB);
+            $libDir = $this->_dirs->getDir(\Magento\Core\Model\Dir::LIB);
             foreach ($fontsConfig as $fontName => $fontConfig) {
                 $fonts[$fontName] = array(
                     'label' => $fontConfig['label'],
@@ -166,7 +168,7 @@ class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getImgDir($website = null)
     {
-        $mediaDir =  $this->_dirs->getDir(Magento_Core_Model_Dir::MEDIA);
+        $mediaDir =  $this->_dirs->getDir(\Magento\Core\Model\Dir::MEDIA);
         $captchaDir = $mediaDir . '/captcha/' . $this->_storeManager->getWebsite($website)->getCode();
         $this->_filesystem->setWorkingDirectory($mediaDir);
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -182,7 +184,7 @@ class Magento_Captcha_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getImgUrl($website = null)
     {
-        return $this->_storeManager->getStore()->getBaseUrl(Magento_Core_Model_Dir::MEDIA) . 'captcha'
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Dir::MEDIA) . 'captcha'
             . '/' . $this->_storeManager->getWebsite($website)->getCode() . '/';
     }
 }

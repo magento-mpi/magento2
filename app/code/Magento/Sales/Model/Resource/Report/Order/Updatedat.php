@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Report_Order_Updatedat extends Magento_Sales_Model_Resource_Report_Order_Createdat
+namespace Magento\Sales\Model\Resource\Report\Order;
+
+class Updatedat extends \Magento\Sales\Model\Resource\Report\Order\Createdat
 {
     /**
      * Model initialization
@@ -32,7 +34,7 @@ class Magento_Sales_Model_Resource_Report_Order_Updatedat extends Magento_Sales_
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Sales_Model_Resource_Report_Order_Updatedat
+     * @return \Magento\Sales\Model\Resource\Report\Order\Updatedat
      */
     public function aggregate($from = null, $to = null)
     {

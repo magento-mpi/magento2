@@ -12,7 +12,7 @@
         <reference name="order_items">
             <action method="addItemRender">
                 <argument name="type" xsi:type="string">downloadable</argument>
-                <argument name="block" xsi:type="string">Magento_Downloadable_Block_Sales_Order_Item_Renderer_Downloadable</argument>
+                <argument name="block" xsi:type="string">\Magento\Downloadable\Block\Sales\Order\Item\Renderer\Downloadable</argument>
                 <argument name="template" xsi:type="string">sales/order/items/renderer/downloadable.phtml</argument>
             </action>
         </reference>

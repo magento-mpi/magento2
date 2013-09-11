@@ -16,10 +16,12 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Totals extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     protected $_totalRenderers;
-    protected $_defaultRenderer = 'Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default';
+    protected $_defaultRenderer = '\Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals';
 
     protected function _construct()
     {
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
             $block = $this->_defaultRenderer;
-            $config = Mage::getConfig()->getNode("global/sales/quote/totals/{$code}/admin_renderer");
+            $config = \Mage::getConfig()->getNode("global/sales/quote/totals/{$code}/admin_renderer");
             if ($config) {
                 $block = (string) $config;
             }
@@ -85,6 +87,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals extends Magento_Adminhtm
 
     public function canSendNewOrderConfirmationEmail()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
+        return \Mage::helper('Magento\Sales\Helper\Data')->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
     }
 }

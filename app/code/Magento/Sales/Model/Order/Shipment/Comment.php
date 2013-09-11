@@ -10,29 +10,31 @@
 
 
 /**
- * @method Magento_Sales_Model_Resource_Order_Shipment_Comment _getResource()
- * @method Magento_Sales_Model_Resource_Order_Shipment_Comment getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Shipment\Comment _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Shipment\Comment getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Shipment_Comment setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Comment setParentId(int $value)
  * @method int getIsCustomerNotified()
- * @method Magento_Sales_Model_Order_Shipment_Comment setIsCustomerNotified(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Comment setIsCustomerNotified(int $value)
  * @method int getIsVisibleOnFront()
- * @method Magento_Sales_Model_Order_Shipment_Comment setIsVisibleOnFront(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Comment setIsVisibleOnFront(int $value)
  * @method string getComment()
- * @method Magento_Sales_Model_Order_Shipment_Comment setComment(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Comment setComment(string $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Order_Shipment_Comment setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Comment setCreatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Shipment_Comment extends Magento_Sales_Model_Abstract
+namespace Magento\Sales\Model\Order\Shipment;
+
+class Comment extends \Magento\Sales\Model\AbstractModel
 {
     /**
      * Shipment instance
      *
-     * @var Magento_Sales_Model_Order_Shipment
+     * @var \Magento\Sales\Model\Order\Shipment
      */
     protected $_shipment;
 
@@ -41,16 +43,16 @@ class Magento_Sales_Model_Order_Shipment_Comment extends Magento_Sales_Model_Abs
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Shipment_Comment');
+        $this->_init('\Magento\Sales\Model\Resource\Order\Shipment\Comment');
     }
 
     /**
      * Declare Shipment instance
      *
-     * @param   Magento_Sales_Model_Order_Shipment $shipment
-     * @return  Magento_Sales_Model_Order_Shipment_Comment
+     * @param   \Magento\Sales\Model\Order\Shipment $shipment
+     * @return  \Magento\Sales\Model\Order\Shipment\Comment
      */
-    public function setShipment(Magento_Sales_Model_Order_Shipment $shipment)
+    public function setShipment(\Magento\Sales\Model\Order\Shipment $shipment)
     {
         $this->_shipment = $shipment;
         return $this;
@@ -59,7 +61,7 @@ class Magento_Sales_Model_Order_Shipment_Comment extends Magento_Sales_Model_Abs
     /**
      * Retrieve Shipment instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
@@ -69,20 +71,20 @@ class Magento_Sales_Model_Order_Shipment_Comment extends Magento_Sales_Model_Abs
     /**
      * Get store object
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
         if ($this->getShipment()) {
             return $this->getShipment()->getStore();
         }
-        return Mage::app()->getStore();
+        return \Mage::app()->getStore();
     }
 
     /**
      * Before object save
      *
-     * @return Magento_Sales_Model_Order_Shipment_Comment
+     * @return \Magento\Sales\Model\Order\Shipment\Comment
      */
     protected function _beforeSave()
     {

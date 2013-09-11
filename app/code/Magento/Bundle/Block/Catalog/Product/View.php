@@ -16,12 +16,14 @@
  * @package    Magento_Bundle
  * @module     Catalog
  */
-class Magento_Bundle_Block_Catalog_Product_View extends Magento_Catalog_Block_Product_View
+namespace Magento\Bundle\Block\Catalog\Product;
+
+class View extends \Magento\Catalog\Block\Product\View
 {
     /**
      * Get tier prices (formatted)
      *
-     * @param Magento_Catalog_Model_Product|null $product
+     * @param \Magento\Catalog\Model\Product|null $product
      * @return array
      */
     public function getTierPrices($product = null)
@@ -34,8 +36,8 @@ class Magento_Bundle_Block_Catalog_Product_View extends Magento_Catalog_Block_Pr
 
         $prices = $product->getFormatedTierPrice();
         if (is_array($prices)) {
-            $store = Mage::app()->getStore();
-            $helper = Mage::helper('Magento_Tax_Helper_Data');
+            $store = \Mage::app()->getStore();
+            $helper = \Mage::helper('Magento\Tax\Helper\Data');
             $specialPrice = $product->getSpecialPrice();
             $defaultDiscount = max($product->getGroupPrice(), $specialPrice ? 100 - $specialPrice : 0);
             foreach ($prices as $price) {

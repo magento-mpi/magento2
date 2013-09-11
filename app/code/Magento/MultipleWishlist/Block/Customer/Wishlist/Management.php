@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magento_Core_Block_Template
+namespace Magento\MultipleWishlist\Block\Customer\Wishlist;
+
+class Management extends \Magento\Core\Block\Template
 {
     /**
      * Id of current customer
@@ -27,12 +29,12 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     /**
      * Wishlist Collection
      *
-     * @var Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @var \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     protected $_collection;
 
     /**
-     * @var Magento_Wishlist_Model_Wishlist
+     * @var \Magento\Wishlist\Model\Wishlist
      */
     protected $_current = null;
 
@@ -43,7 +45,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
      */
     protected function _toHtml()
     {
-        if (Mage::helper('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled()) {
+        if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()) {
             return parent::_toHtml();
         }
         return '';
@@ -57,7 +59,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     protected function _getCustomerId()
     {
         if (is_null($this->_customerId)) {
-            $this->_customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+            $this->_customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
         }
         return $this->_customerId;
     }
@@ -65,27 +67,27 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     /**
      * Retrieve wishlist collection
      *
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getWishlists()
     {
-        return Mage::helper('Magento_MultipleWishlist_Helper_Data')->getCustomerWishlists($this->_getCustomerId());
+        return \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getCustomerWishlists($this->_getCustomerId());
     }
 
     /**
      * Retrieve default wishlist for current customer
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getDefaultWishlist()
     {
-        return Mage::helper('Magento_MultipleWishlist_Helper_Data')->getDefaultWishlist();
+        return \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getDefaultWishlist();
     }
 
     /**
      * Retrieve currently selected wishlist
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getCurrentWishlist()
     {
@@ -103,12 +105,12 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     /**
      * Build string that displays the number of items in wishlist
      *
-     * @param Magento_Wishlist_Model_Wishlist $wishlist
+     * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @return string
      */
-    public function getItemCount(Magento_Wishlist_Model_Wishlist $wishlist)
+    public function getItemCount(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
-        $count = Mage::helper('Magento_MultipleWishlist_Helper_Data')->getWishlistItemCount($wishlist);
+        $count = \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getWishlistItemCount($wishlist);
         if ($count == 1) {
             return __('1 item');
         } else {
@@ -119,10 +121,10 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
     /**
      * Build wishlist management page url
      *
-     * @param Magento_Wishlist_Model_Wishlist $wishlist
+     * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @return string
      */
-    public function getWishlistManagementUrl(Magento_Wishlist_Model_Wishlist $wishlist)
+    public function getWishlistManagementUrl(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         return $this->getUrl('wishlist/*/*', array('wishlist_id' => $wishlist->getId()));
     }
@@ -196,6 +198,6 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Management extends Magent
      */
     public function canCreateWishlists($wishlists)
     {
-        return !Mage::helper('Magento_MultipleWishlist_Helper_Data')->isWishlistLimitReached($wishlists);
+        return !\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isWishlistLimitReached($wishlists);
     }
 }

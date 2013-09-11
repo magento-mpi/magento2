@@ -33,15 +33,15 @@ class Magento_User_Controller_Adminhtml_UserTest extends Magento_Backend_Utility
      */
     public function testSaveActionWrongId()
     {
-        /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User')->loadByUsername('dummy_username');
+        /** @var $user \Magento\User\Model\User */
+        $user = Mage::getModel('\Magento\User\Model\User')->loadByUsername('dummy_username');
         $userId = $user->getId();
         $this->assertNotEmpty($userId, 'Broken fixture');
         $user->delete();
         $this->getRequest()->setPost('user_id', $userId);
         $this->dispatch('backend/admin/user/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('This user no longer exists.')), Magento_Core_Model_Message::ERROR
+            $this->equalTo(array('This user no longer exists.')), \Magento\Core\Model\Message::ERROR
         );
         $this->assertRedirect($this->stringContains('backend/admin/user/index/'));
     }
@@ -53,7 +53,7 @@ class Magento_User_Controller_Adminhtml_UserTest extends Magento_Backend_Utility
     {
         $this->_createNew();
         $this->assertSessionMessages(
-            $this->equalTo(array('You saved the user.')), Magento_Core_Model_Message::SUCCESS
+            $this->equalTo(array('You saved the user.')), \Magento\Core\Model\Message::SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/user/index/'));
     }

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Oauth_Model_Consumer_Factory
+namespace Magento\Oauth\Model\Consumer;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -26,10 +28,10 @@ class Magento_Oauth_Model_Consumer_Factory
      * Create consumer model.
      *
      * @param array $arguments
-     * @return Magento_Oauth_Model_Consumer
+     * @return \Magento\Oauth\Model\Consumer
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento_Oauth_Model_Consumer', $arguments);
+        return $this->_objectManager->create('Magento\Oauth\Model\Consumer', $arguments);
     }
 }

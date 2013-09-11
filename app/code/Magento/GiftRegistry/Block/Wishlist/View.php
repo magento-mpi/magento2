@@ -11,16 +11,18 @@
 /**
  * Wishlist view block
  */
-class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Customer_Wishlist
+namespace Magento\GiftRegistry\Block\Wishlist;
+
+class View extends \Magento\Wishlist\Block\Customer\Wishlist
 {
     /**
      * Prepare block layout, override wishlist block with different template
      *
-     * @return Magento_GiftRegistry_Block_Wishlist_View
+     * @return \Magento\GiftRegistry\Block\Wishlist\View
      */
     protected function _prepareLayout()
     {
-        $outputEnabled = Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled($this->getModuleName());
+        $outputEnabled = \Mage::helper('Magento\Core\Helper\Data')->isModuleOutputEnabled($this->getModuleName());
         if ($outputEnabled) {
             if ($this->_layout->hasElement('my.account.wrapper')) {
                 $oldBlock = $this->_layout->getBlock('customer.wishlist');
@@ -51,27 +53,27 @@ class Magento_GiftRegistry_Block_Wishlist_View extends Magento_Wishlist_Block_Cu
      */
     public function getEnabled()
     {
-        return  Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled();
+        return  \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled();
     }
 
     /**
      * Return list of current customer gift registries
      *
-     * @return Magento_GiftRegistry_Model_Resource_GiftRegistry_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\GiftRegistry\Collection
      */
     public function getEntityValues()
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->getCurrentCustomerEntityOptions();
+        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->getCurrentCustomerEntityOptions();
     }
 
     /**
      * Check if wishlist item can be added to gift registry
      *
-     * @param Magento_Catalog_Model_Product $item
+     * @param \Magento\Catalog\Model\Product $item
      * @return bool
      */
     public function checkProductType($item)
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->canAddToGiftRegistry($item);
+        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->canAddToGiftRegistry($item);
     }
 }

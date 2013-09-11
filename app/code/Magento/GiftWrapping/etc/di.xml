@@ -10,7 +10,7 @@
 <config>
     <virtualType name="Magento_GiftWrapping_Model_StatusOptions" type="Magento_Backend_Model_Config_Source_Statuses_Options">
         <param name="helper">
-            <instance type="Magento_GiftWrapping_Helper_Data" />
+            <instance type="Magento\GiftWrapping\Helper\Data" />
         </param>
     </virtualType>
 </config>

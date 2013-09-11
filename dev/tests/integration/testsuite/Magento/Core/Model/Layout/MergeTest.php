@@ -9,7 +9,7 @@
 class Magento_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Merge
+     * @var \Magento\Core\Model\Layout\Merge
      */
     private $_model;
 

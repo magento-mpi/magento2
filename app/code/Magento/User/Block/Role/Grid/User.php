@@ -15,7 +15,9 @@
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\User\Block\Role\Grid;
+
+class User extends \Magento\Backend\Block\Widget\Grid\Extended
 {
 
     protected function _construct()
@@ -51,8 +53,8 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
     protected function _prepareCollection()
     {
         $roleId = $this->getRequest()->getParam('rid');
-        Mage::register('RID', $roleId);
-        $collection = Mage::getModel('Magento_User_Model_Role')->getUsersCollection();
+        \Mage::register('RID', $roleId);
+        $collection = \Mage::getModel('\Magento\User\Model\Role')->getUsersCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -146,15 +148,15 @@ class Magento_User_Block_Role_Grid_User extends Magento_Backend_Block_Widget_Gri
         }
         $roleId = ( $this->getRequest()->getParam('rid') > 0 ) ?
             $this->getRequest()->getParam('rid') :
-            Mage::registry('RID');
-        $users  = Mage::getModel('Magento_User_Model_Role')->setId($roleId)->getRoleUsers();
+            \Mage::registry('RID');
+        $users  = \Mage::getModel('\Magento\User\Model\Role')->setId($roleId)->getRoleUsers();
         if (sizeof($users) > 0) {
             if ($json) {
                 $jsonUsers = array();
                 foreach ($users as $usrid) {
                     $jsonUsers[$usrid] = 0;
                 }
-                return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonUsers);
+                return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode((object)$jsonUsers);
             } else {
                 return array_values($users);
             }

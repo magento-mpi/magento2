@@ -12,13 +12,15 @@
 /**
  * Cms Pages Hierarchy Grid Block
  *
- * @method Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser setScope(string $value)
- * @method Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser setScopeId(int $value)
+ * @method \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser setScope(string $value)
+ * @method \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser setScopeId(int $value)
  *
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Magento_Adminhtml_Block_Template
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
+
+class Chooser extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Prepare chooser element HTML
@@ -28,10 +30,10 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
      */
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $uniqueId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
+        $uniqueId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId));
 
-        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -40,13 +42,13 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
 
 
         if ($element->getValue()) {
-            $node = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node')->load($element->getValue());
+            $node = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node')->load($element->getValue());
             if ($node->getId()) {
                 $chooser->setLabel($node->getLabel());
             }
         }
 
-        $radioHtml = Mage::getBlockSingleton('Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio')
+        $radioHtml = \Mage::getBlockSingleton('\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio')
             ->setUniqId($uniqueId)
             ->toHtml();
 
@@ -136,7 +138,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
      */
     public function getNodesJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getNodes());
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getNodes());
     }
 
     /**
@@ -147,8 +149,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends M
     public function getNodes()
     {
         $nodes = array();
-        /** @var $hierarchyNode Magento_VersionsCms_Model_Hierarchy_Node */
-        $hierarchyNode = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node');
+        /** @var $hierarchyNode \Magento\VersionsCms\Model\Hierarchy\Node */
+        $hierarchyNode = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node');
         $hierarchyNode->setScope($this->getScope());
         $hierarchyNode->setScopeId($this->getScopeId());
 

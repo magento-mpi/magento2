@@ -1,0 +1,33 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Rss
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Rss\Block;
+
+class AbstractBlock extends \Magento\Core\Block\Template
+{
+    protected function _getStoreId()
+    {
+        //store id is store view id
+        $storeId =   (int) $this->getRequest()->getParam('store_id');
+        if($storeId == null) {
+           $storeId = \Mage::app()->getStore()->getId();
+        }
+        return $storeId;
+    }
+
+    protected function _getCustomerGroupId()
+    {
+        //customer group id
+        $custGroupID =   (int) $this->getRequest()->getParam('cid');
+        if($custGroupID == null) {
+            $custGroupID = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
+        }
+        return $custGroupID;
+    }
+}

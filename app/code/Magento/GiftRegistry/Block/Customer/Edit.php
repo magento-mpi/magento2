@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_Data
+namespace Magento\GiftRegistry\Block\Customer;
+
+class Edit extends \Magento\Directory\Block\Data
 {
     /**
      * Template container
@@ -30,7 +32,7 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
      */
     public function getFormHeader()
     {
-        if (Mage::registry('magento_giftregistry_entity')->getId()) {
+        if (\Mage::registry('magento_giftregistry_entity')->getId()) {
             return __('Edit Gift Registry');
         } else {
             return __('Create Gift Registry');
@@ -44,7 +46,7 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
      */
     public function getFormDataPost()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getGiftRegistryEntityFormData(true);
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getGiftRegistryEntityFormData(true);
     }
 
     /**
@@ -76,8 +78,8 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
      */
     public function getTypeList()
     {
-        $storeId = Mage::app()->getStore()->getId();
-        $collection = Mage::getModel('Magento_GiftRegistry_Model_Type')
+        $storeId = \Mage::app()->getStore()->getId();
+        $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Type')
             ->getCollection()
             ->addStoreData($storeId)
             ->applyListedFilter()
@@ -141,7 +143,7 @@ class Magento_GiftRegistry_Block_Customer_Edit extends Magento_Directory_Block_D
      *
      * @param string $type
      * @param string $template
-     * @return Magento_GiftRegistry_Block_Customer_Edit
+     * @return \Magento\GiftRegistry\Block\Customer\Edit
      */
     public function addInputTypeTemplate($type, $template)
     {

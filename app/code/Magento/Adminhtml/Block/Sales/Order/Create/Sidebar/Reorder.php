@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
+
+class Reorder extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
 
     /**
@@ -41,12 +43,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Reorder extends Magento
     /**
      * Retrieve last order on current website
      *
-     * @return Magento_Sales_Model_Order|false
+     * @return \Magento\Sales\Model\Order|false
      */
     public function getLastOrder()
     {
         $storeIds = $this->getQuote()->getStore()->getWebsite()->getStoreIds();
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
             ->addFieldToFilter('customer_id', $this->getCustomerId())
             ->addFieldToFilter('store_id', array('in' => $storeIds))
             ->setOrder('created_at', 'desc')

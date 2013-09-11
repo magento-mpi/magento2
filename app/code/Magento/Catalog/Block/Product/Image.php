@@ -19,16 +19,18 @@
  * @method string getImageLabel()
  * @method setAddWhiteBorders(bool)
  * @method bool getAddWhiteBorders()
- * @method Magento_Catalog_Helper_Image getImageHelper()
- * @method setImageHelper(Magento_Catalog_Helper_Image $imageHelper)
- * @method Magento_Catalog_Model_Product getProduct()
+ * @method \Magento\Catalog\Helper\Image getImageHelper()
+ * @method setImageHelper(\Magento\Catalog\Helper\Image $imageHelper)
+ * @method \Magento\Catalog\Model\Product getProduct()
  *
  * Product image block
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Catalog_Block_Product_Image extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product;
+
+class Image extends \Magento\Core\Block\Template
 {
     /**
      * Template image only
@@ -45,19 +47,19 @@ class Magento_Catalog_Block_Product_Image extends Magento_Core_Block_Template
     protected $_templateWithBorders = 'Magento_Catalog::product/image_with_borders.phtml';
 
     /**
-     * @var Magento_Catalog_Model_Product_Image_View
+     * @var \Magento\Catalog\Model\Product\Image\View
      */
     protected $_productImageView;
 
     /**
      * Constructor
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Catalog_Model_Product_Image_View $productImageView
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Model\Product\Image\View $productImageView
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Catalog_Model_Product_Image_View $productImageView,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Model\Product\Image\View $productImageView,
         array $data = array()
     ) {
         $this->_productImageView = $productImageView;
@@ -67,12 +69,12 @@ class Magento_Catalog_Block_Product_Image extends Magento_Core_Block_Template
     /**
      * Initialize model
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $location
      * @param string $module
-     * @return Magento_Catalog_Block_Product_Image
+     * @return \Magento\Catalog\Block\Product\Image
      */
-    public function init(Magento_Catalog_Model_Product $product, $location, $module = 'Magento_Catalog')
+    public function init(\Magento\Catalog\Model\Product $product, $location, $module = 'Magento_Catalog')
     {
         $this->_productImageView->init($product, $location, $module);
         $this->_initTemplate();
@@ -82,7 +84,7 @@ class Magento_Catalog_Block_Product_Image extends Magento_Core_Block_Template
     /**
      * Select a template based on white_border flag
      *
-     * @return Magento_Catalog_Block_Product_Image
+     * @return \Magento\Catalog\Block\Product\Image
      */
     protected function _initTemplate()
     {
@@ -98,7 +100,7 @@ class Magento_Catalog_Block_Product_Image extends Magento_Core_Block_Template
     /**
      * Getter for product image view model
      *
-     * @return Magento_Catalog_Model_Product_Image_View
+     * @return \Magento\Catalog\Model\Product\Image\View
      */
     public function getProductImageView()
     {

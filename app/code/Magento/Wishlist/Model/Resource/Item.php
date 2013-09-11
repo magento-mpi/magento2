@@ -16,7 +16,9 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Model_Resource_Item extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Wishlist\Model\Resource;
+
+class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table
@@ -30,11 +32,11 @@ class Magento_Wishlist_Model_Resource_Item extends Magento_Core_Model_Resource_D
     /**
      * Load item by wishlist, product and shared stores
      *
-     * @param Magento_Wishlist_Model_Item $object
+     * @param \Magento\Wishlist\Model\Item $object
      * @param int $wishlistId
      * @param int $productId
      * @param array $sharedStores
-     * @return Magento_Wishlist_Model_Resource_Item
+     * @return \Magento\Wishlist\Model\Resource\Item
      */
     public function loadByProductWishlist($object, $wishlistId, $productId, $sharedStores)
     {

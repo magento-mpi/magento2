@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var $_model Magento_Backend_Model_Widget_Grid_SubTotals
+     * @var $_model \Magento\Backend\Model\Widget\Grid\SubTotals
      */
     protected $_model;
 
@@ -29,7 +29,7 @@ class Magento_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_
     protected function setUp()
     {
         $this->_parserMock = $this->getMock(
-            'Magento_Backend_Model_Widget_Grid_Parser', array(), array(), '', false, false, false
+            '\Magento\Backend\Model\Widget\Grid\Parser', array(), array(), '', false, false, false
         );
 
         $this->_factoryMock = $this->getMock(
@@ -50,7 +50,7 @@ class Magento_Backend_Model_Widget_Grid_SubTotalsTest extends PHPUnit_Framework_
         );
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_Backend_Model_Widget_Grid_SubTotals', $arguments);
+        $this->_model = $objectManagerHelper->getObject('\Magento\Backend\Model\Widget\Grid\SubTotals', $arguments);
 
         // setup columns
         $columns = array(

@@ -15,12 +15,14 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Controller_Adminhtml_Import extends Magento_Adminhtml_Controller_Action
+namespace Magento\ImportExport\Controller\Adminhtml;
+
+class Import extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Initialize layout.
      *
-     * @return Magento_ImportExport_Controller_Adminhtml_Import
+     * @return \Magento\ImportExport\Controller\Adminhtml\Import
      */
     protected function _initAction()
     {
@@ -45,7 +47,7 @@ class Magento_ImportExport_Controller_Adminhtml_Import extends Magento_Adminhtml
      */
     public function indexAction()
     {
-        $this->_getSession()->addNotice($this->_objectManager->get('Magento_ImportExport_Helper_Data')
+        $this->_getSession()->addNotice($this->_objectManager->get('Magento\ImportExport\Helper\Data')
             ->getMaxUploadSizeMessage());
         $this->_initAction()->_title(__('Import'))->_addBreadcrumb(__('Import'), __('Import'));
         $this->renderLayout();
@@ -60,17 +62,17 @@ class Magento_ImportExport_Controller_Adminhtml_Import extends Magento_Adminhtml
         if ($data) {
             $this->loadLayout(false);
 
-            /** @var $resultBlock Magento_ImportExport_Block_Adminhtml_Import_Frame_Result */
+            /** @var $resultBlock \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result */
             $resultBlock = $this->getLayout()->getBlock('import.frame.result');
-            /** @var $importModel Magento_ImportExport_Model_Import */
-            $importModel = $this->_objectManager->create('Magento_ImportExport_Model_Import');
+            /** @var $importModel \Magento\ImportExport\Model\Import */
+            $importModel = $this->_objectManager->create('Magento\ImportExport\Model\Import');
 
             try {
                 $importModel->importSource();
                 $importModel->invalidateIndex();
                 $resultBlock->addAction('show', 'import_validation_container')
                     ->addAction('innerHTML', 'import_validation_container_header', __('Status'));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $resultBlock->addError($e->getMessage());
                 $this->renderLayout();
                 return;
@@ -91,19 +93,19 @@ class Magento_ImportExport_Controller_Adminhtml_Import extends Magento_Adminhtml
         $data = $this->getRequest()->getPost();
         if ($data) {
             $this->loadLayout(false);
-            /** @var $resultBlock Magento_ImportExport_Block_Adminhtml_Import_Frame_Result */
+            /** @var $resultBlock \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result */
             $resultBlock = $this->getLayout()->getBlock('import.frame.result');
             // common actions
             $resultBlock->addAction('show', 'import_validation_container')
                 ->addAction('clear', array(
-                    Magento_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE,
-                    Magento_ImportExport_Model_Import::FIELD_NAME_IMG_ARCHIVE_FILE
+                    \Magento\ImportExport\Model\Import::FIELD_NAME_SOURCE_FILE,
+                    \Magento\ImportExport\Model\Import::FIELD_NAME_IMG_ARCHIVE_FILE
             ));
 
             try {
-                /** @var $import Magento_ImportExport_Model_Import */
-                $import = $this->_objectManager->create('Magento_ImportExport_Model_Import')->setData($data);
-                $source = Magento_ImportExport_Model_Import_Adapter::findAdapterFor($import->uploadSource());
+                /** @var $import \Magento\ImportExport\Model\Import */
+                $import = $this->_objectManager->create('Magento\ImportExport\Model\Import')->setData($data);
+                $source = \Magento\ImportExport\Model\Import\Adapter::findAdapterFor($import->uploadSource());
                 $validationResult = $import->validateSource($source);
 
                 if (!$import->getProcessedRowsCount()) {
@@ -130,7 +132,7 @@ class Magento_ImportExport_Controller_Adminhtml_Import extends Magento_Adminhtml
                         )
                     );
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $resultBlock->addNotice(__('Please fix errors and re-upload file.'))
                     ->addError($e->getMessage());
             }
@@ -149,11 +151,11 @@ class Magento_ImportExport_Controller_Adminhtml_Import extends Magento_Adminhtml
     /**
      * Process validation results
      *
-     * @param Magento_ImportExport_Model_Import $import
-     * @param Magento_ImportExport_Block_Adminhtml_Import_Frame_Result $resultBlock
+     * @param \Magento\ImportExport\Model\Import $import
+     * @param \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result $resultBlock
      */
-    protected function _processValidationError(Magento_ImportExport_Model_Import $import,
-        Magento_ImportExport_Block_Adminhtml_Import_Frame_Result $resultBlock
+    protected function _processValidationError(\Magento\ImportExport\Model\Import $import,
+        \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result $resultBlock
     ) {
         if ($import->getProcessedRowsCount() == $import->getInvalidRowsCount()) {
             $resultBlock->addNotice(

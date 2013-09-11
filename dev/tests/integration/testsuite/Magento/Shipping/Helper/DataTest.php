@@ -12,13 +12,13 @@
 class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Shipping_Helper_Data
+     * @var \Magento\Shipping\Helper\Data
      */
     protected $_helper = null;
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Shipping_Helper_Data');
+        $this->_helper = Mage::helper('Magento\Shipping\Helper\Data');
     }
 
     /**
@@ -50,21 +50,21 @@ class Magento_Shipping_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'Magento_Sales_Model_Order',
+                '\Magento\Sales\Model\Order',
                 'getId',
                 42,
                 'abc',
                 'http://localhost/index.php/shipping/tracking/popup/hash/b3JkZXJfaWQ6NDI6YWJj/'
             ),
             array(
-                'Magento_Sales_Model_Order_Shipment',
+                '\Magento\Sales\Model\Order\Shipment',
                 'getId',
                 42,
                 'abc',
                 'http://localhost/index.php/shipping/tracking/popup/hash/c2hpcF9pZDo0MjphYmM,/'
             ),
             array(
-                'Magento_Sales_Model_Order_Shipment_Track',
+                '\Magento\Sales\Model\Order\Shipment\Track',
                 'getEntityId',
                 42,
                 'abc',

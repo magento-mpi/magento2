@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Abstract
+namespace Magento\Core\Model\Resource\Helper;
+
+class Mysql4 extends \Magento\Core\Model\Resource\Helper\AbstractHelper
 {
     /**
      * Returns array of quoted orders with direction
@@ -26,7 +28,7 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
      */
     protected function _prepareOrder(\Magento\DB\Select $select, $autoReset = false)
     {
-        $selectOrders = $select->getPart(Zend_Db_Select::ORDER);
+        $selectOrders = $select->getPart(\Zend_Db_Select::ORDER);
         if (!$selectOrders) {
             return array();
         }
@@ -45,7 +47,7 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
         }
 
         if ($autoReset) {
-            $select->reset(Zend_Db_Select::ORDER);
+            $select->reset(\Zend_Db_Select::ORDER);
         }
 
         return $orders;
@@ -86,7 +88,7 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
      */
     protected function _prepareGroup(\Magento\DB\Select $select, $autoReset = false)
     {
-        $selectGroups = $select->getPart(Zend_Db_Select::GROUP);
+        $selectGroups = $select->getPart(\Zend_Db_Select::GROUP);
         if (!$selectGroups) {
             return array();
         }
@@ -97,7 +99,7 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
         }
 
         if ($autoReset) {
-            $select->reset(Zend_Db_Select::GROUP);
+            $select->reset(\Zend_Db_Select::GROUP);
         }
 
         return $groups;
@@ -109,17 +111,17 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
      * @param \Magento\DB\Select $select
      * @param bool $autoReset
      * @return array
-     * @throws Zend_Db_Exception
+     * @throws \Zend_Db_Exception
      */
     protected function _prepareHaving(\Magento\DB\Select $select, $autoReset = false)
     {
-        $selectHavings = $select->getPart(Zend_Db_Select::HAVING);
+        $selectHavings = $select->getPart(\Zend_Db_Select::HAVING);
         if (!$selectHavings) {
             return array();
         }
 
         $havings = array();
-        $columns = $select->getPart(Zend_Db_Select::COLUMNS);
+        $columns = $select->getPart(\Zend_Db_Select::COLUMNS);
         foreach ($columns as $columnEntry) {
             $correlationName = (string)$columnEntry[1];
             $column          = $columnEntry[2];
@@ -134,7 +136,7 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
                          */
                         $havings[] = str_replace($correlationName, $column, $having);
                     } else {
-                        throw new Zend_Db_Exception(
+                        throw new \Zend_Db_Exception(
                             sprintf("Can't prepare expression without column alias: '%s'", $correlationName)
                         );
                     }
@@ -143,7 +145,7 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
         }
 
         if ($autoReset) {
-            $select->reset(Zend_Db_Select::HAVING);
+            $select->reset(\Zend_Db_Select::HAVING);
         }
 
         return $havings;
@@ -162,12 +164,12 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
         if ($limitCount !== null) {
               $limitCount = intval($limitCount);
             if ($limitCount <= 0) {
-                //throw new Exception("LIMIT argument count={$limitCount} is not valid");
+                //throw new \Exception("LIMIT argument count={$limitCount} is not valid");
             }
 
             $limitOffset = intval($limitOffset);
             if ($limitOffset < 0) {
-                //throw new Exception("LIMIT argument offset={$limitOffset} is not valid");
+                //throw new \Exception("LIMIT argument offset={$limitOffset} is not valid");
             }
 
             if ($limitOffset + $limitCount != $limitOffset + 1) {
@@ -188,34 +190,34 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
      * @param \Magento\DB\Select $select
      * @param string|null $groupByCondition OPTIONAL
      * @return array
-     * @throws Zend_Db_Exception
+     * @throws \Zend_Db_Exception
      */
     public function prepareColumnsList(\Magento\DB\Select $select, $groupByCondition = null)
     {
-        if (!count($select->getPart(Zend_Db_Select::FROM))) {
-            return $select->getPart(Zend_Db_Select::COLUMNS);
+        if (!count($select->getPart(\Zend_Db_Select::FROM))) {
+            return $select->getPart(\Zend_Db_Select::COLUMNS);
         }
 
-        $columns          = $select->getPart(Zend_Db_Select::COLUMNS);
-        $tables           = $select->getPart(Zend_Db_Select::FROM);
+        $columns          = $select->getPart(\Zend_Db_Select::COLUMNS);
+        $tables           = $select->getPart(\Zend_Db_Select::FROM);
         $preparedColumns  = array();
 
         foreach ($columns as $columnEntry) {
             list($correlationName, $column, $alias) = $columnEntry;
-            if ($column instanceof Zend_Db_Expr) {
+            if ($column instanceof \Zend_Db_Expr) {
                 if ($alias !== null) {
                     if (preg_match('/(^|[^a-zA-Z_])^(SELECT)?(SUM|MIN|MAX|AVG|COUNT)\s*\(/i', $column)) {
-                        $column = new Zend_Db_Expr($column);
+                        $column = new \Zend_Db_Expr($column);
                     }
                     $preparedColumns[strtoupper($alias)] = array(null, $column, $alias);
                 } else {
-                    throw new Zend_Db_Exception("Can't prepare expression without alias");
+                    throw new \Zend_Db_Exception("Can't prepare expression without alias");
                 }
             } else {
-                if ($column == Zend_Db_Select::SQL_WILDCARD) {
-                    if ($tables[$correlationName]['tableName'] instanceof Zend_Db_Expr) {
-                        throw new Zend_Db_Exception(
-                            "Can't prepare expression when tableName is instance of Zend_Db_Expr"
+                if ($column == \Zend_Db_Select::SQL_WILDCARD) {
+                    if ($tables[$correlationName]['tableName'] instanceof \Zend_Db_Expr) {
+                        throw new \Zend_Db_Exception(
+                            "Can't prepare expression when tableName is instance of \Zend_Db_Expr"
                         );
                     }
                     $tableColumns = $this->_getReadAdapter()->describeTable($tables[$correlationName]['tableName']);
@@ -258,7 +260,7 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
         if ($groupConcatDelimiter) {
             $separator = sprintf(" SEPARATOR '%s'", $groupConcatDelimiter);
         }
-        $select->columns(array($fieldAlias => new Zend_Db_Expr(sprintf('GROUP_CONCAT(%s%s)', $fieldExpr, $separator))));
+        $select->columns(array($fieldAlias => new \Zend_Db_Expr(sprintf('GROUP_CONCAT(%s%s)', $fieldExpr, $separator))));
         return $select;
     }
 
@@ -267,12 +269,12 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
      *
      * @param  string|Zend_Db_Expr $startDate
      * @param  string|Zend_Db_Expr $endDate
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      */
     public function getDateDiff($startDate, $endDate)
     {
         $dateDiff = '(TO_DAYS(' . $endDate . ') - TO_DAYS(' . $startDate . '))';
-        return new Zend_Db_Expr($dateDiff);
+        return new \Zend_Db_Expr($dateDiff);
     }
 
     /**
@@ -282,13 +284,13 @@ class Magento_Core_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resou
      *
      * @param string $value
      * @param array $options
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      *
      * @see escapeLikeValue()
      */
     public function addLikeEscape($value, $options = array())
     {
         $value = $this->escapeLikeValue($value, $options);
-        return new Zend_Db_Expr($this->_getReadAdapter()->quote($value));
+        return new \Zend_Db_Expr($this->_getReadAdapter()->quote($value));
     }
 }

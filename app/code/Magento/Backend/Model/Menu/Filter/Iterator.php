@@ -11,7 +11,9 @@
 /**
  * Menu filter iterator
  */
-class Magento_Backend_Model_Menu_Filter_Iterator extends FilterIterator
+namespace Magento\Backend\Model\Menu\Filter;
+
+class \Iterator extends \FilterIterator
 {
     /**
      * Check whether the current element of the iterator is acceptable

@@ -15,7 +15,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Catalog_Product_View_Type extends Magento_Catalog_Block_Product_View_Type_Virtual
+namespace Magento\Downloadable\Block\Catalog\Product\View;
+
+class Type extends \Magento\Catalog\Block\Product\View\Type\Virtual
 {
 
 }

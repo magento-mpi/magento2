@@ -15,13 +15,15 @@
  * @package    Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Controller_Currency extends Magento_Core_Controller_Front_Action
+namespace Magento\Directory\Controller;
+
+class Currency extends \Magento\Core\Controller\Front\Action
 {
     public function switchAction()
     {
         if ($curency = (string) $this->getRequest()->getParam('currency')) {
-            Mage::app()->getStore()->setCurrentCurrencyCode($curency);
+            \Mage::app()->getStore()->setCurrentCurrencyCode($curency);
         }
-        $this->_redirectReferer(Mage::getBaseUrl());
+        $this->_redirectReferer(\Mage::getBaseUrl());
     }
 }

@@ -27,15 +27,15 @@ class Magento_AdminNotification_Model_System_Message_CacheOutdatedTest extends P
     protected $_urlInterfaceMock;
 
     /**
-     * @var Magento_AdminNotification_Model_System_Message_CacheOutdated
+     * @var \Magento\AdminNotification\Model\System\Message\CacheOutdated
      */
     protected $_messageModel;
 
     public function setUp()
     {
         $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
-        $this->_urlInterfaceMock = $this->getMock('Magento_Core_Model_UrlInterface');
-        $this->_cacheTypeListMock = $this->getMock('Magento_Core_Model_Cache_TypeListInterface');
+        $this->_urlInterfaceMock = $this->getMock('Magento\Core\Model\UrlInterface');
+        $this->_cacheTypeListMock = $this->getMock('Magento\Core\Model\Cache\TypeListInterface');
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $arguments = array(
@@ -44,7 +44,7 @@ class Magento_AdminNotification_Model_System_Message_CacheOutdatedTest extends P
             'cacheTypeList' => $this->_cacheTypeListMock,
         );
         $this->_messageModel = $objectManagerHelper
-            ->getObject('Magento_AdminNotification_Model_System_Message_CacheOutdated', $arguments);
+            ->getObject('\Magento\AdminNotification\Model\System\Message\CacheOutdated', $arguments);
     }
 
     /**

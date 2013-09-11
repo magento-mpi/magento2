@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -422,7 +422,7 @@ $installer->getConnection()->createTable($table);
 /**
  * Add attributes to the eav/attribute table
  */
-$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'links_purchased_separately', array(
+$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'links_purchased_separately', array(
     'type'                    => 'int',
     'backend'                 => '',
     'frontend'                => '',
@@ -430,7 +430,7 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'links_purchased
     'input'                   => '',
     'class'                   => '',
     'source'                  => '',
-    'global'                  => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'global'                  => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
     'visible'                 => false,
     'required'                => true,
     'user_defined'            => false,
@@ -445,7 +445,7 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'links_purchased
     'used_in_product_listing' => true
 ));
 
-$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'samples_title', array(
+$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'samples_title', array(
     'type'              => 'varchar',
     'backend'           => '',
     'frontend'          => '',
@@ -453,7 +453,7 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'samples_title',
     'input'             => '',
     'class'             => '',
     'source'            => '',
-    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+    'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
     'visible'           => false,
     'required'          => true,
     'user_defined'      => false,
@@ -467,7 +467,7 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'samples_title',
     'is_configurable'   => false
 ));
 
-$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'links_title', array(
+$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'links_title', array(
     'type'              => 'varchar',
     'backend'           => '',
     'frontend'          => '',
@@ -475,7 +475,7 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'links_title', a
     'input'             => '',
     'class'             => '',
     'source'            => '',
-    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+    'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
     'visible'           => false,
     'required'          => true,
     'user_defined'      => false,
@@ -489,7 +489,7 @@ $installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'links_title', a
     'is_configurable'   => false
 ));
 
-$installer->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'links_exist', array(
+$installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'links_exist', array(
     'type'                      => 'int',
     'backend'                   => '',
     'frontend'                  => '',

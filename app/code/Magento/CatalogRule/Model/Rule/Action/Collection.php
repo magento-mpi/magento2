@@ -9,15 +9,17 @@
  */
 
 
-class Magento_CatalogRule_Model_Rule_Action_Collection extends Magento_Rule_Model_Action_Collection
+namespace Magento\CatalogRule\Model\Rule\Action;
+
+class Collection extends \Magento\Rule\Model\Action\Collection
 {
     /**
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl)
+    public function __construct(\Magento\Core\Model\View\Url $viewUrl)
     {
         parent::__construct($viewUrl);
-        $this->setType('Magento_CatalogRule_Model_Rule_Action_Collection');
+        $this->setType('\Magento\CatalogRule\Model\Rule\Action\Collection');
     }
 
     /**
@@ -28,7 +30,7 @@ class Magento_CatalogRule_Model_Rule_Action_Collection extends Magento_Rule_Mode
         $actions = parent::getNewChildSelectOptions();
         $actions = array_merge_recursive($actions, array(
             array(
-                'value' => 'Magento_CatalogRule_Model_Rule_Action_Product',
+                'value' => '\Magento\CatalogRule\Model\Rule\Action\Product',
                 'label' => __('Update the Product')
         )));
         return $actions;

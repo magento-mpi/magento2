@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Poll;
+
+class Answer extends \Magento\Adminhtml\Controller\Action
 {
     public function editAction()
     {
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
         $this->_addBreadcrumb(__('Edit Poll Answer'),
                               __('Edit Poll Answer'));
 
-        $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Answer_Edit'));
+        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Answer\Edit'));
 
         $this->renderLayout();
     }
@@ -38,18 +40,18 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
         //print '@@';
         if ( $post = $this->getRequest()->getPost() ) {
             try {
-                $model = Mage::getModel('Magento_Poll_Model_Poll_Answer');
+                $model = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
                 $model->setData($post)
                     ->setId($this->getRequest()->getParam('id'))
                     ->save();
 
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The answer has been saved.'));
                 $this->_redirect('*/poll/edit',
                                  array('id' => $this->getRequest()->getParam('poll_id'), 'tab' => 'answers_section'));
                 return;
-            } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -60,7 +62,7 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
     public function gridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Grid')->toHtml()
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Poll\Edit\Tab\Answers\Grid')->toHtml()
         );
     }
 
@@ -70,15 +72,15 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
         $response->setError(0);
 
         if ( $post = $this->getRequest()->getPost() ) {
-            $data = Zend_Json::decode($post['data']);
+            $data = \Zend_Json::decode($post['data']);
             try {
                 if( trim($data['answer_title']) == '' ) {
-                    throw new Exception(__('Invalid Answer'));
+                    throw new \Exception(__('Invalid Answer'));
                 }
-                $model = Mage::getModel('Magento_Poll_Model_Poll_Answer');
+                $model = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
                 $model->setData($data)
                     ->save();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response->setError(1);
                 $response->setMessage($e->getMessage());
             }
@@ -93,10 +95,10 @@ class Magento_Adminhtml_Controller_Poll_Answer extends Magento_Adminhtml_Control
 
         if ( $id = $this->getRequest()->getParam('id') ) {
             try {
-                $model = Mage::getModel('Magento_Poll_Model_Poll_Answer');
-                $model->setId(Zend_Json::decode($id))
+                $model = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
+                $model->setId(\Zend_Json::decode($id))
                     ->delete();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response->setError(1);
                 $response->setMessage($e->getMessage());
             }

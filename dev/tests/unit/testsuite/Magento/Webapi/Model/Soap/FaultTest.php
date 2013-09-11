@@ -9,13 +9,13 @@
  */
 class Magento_Webapi_Model_Soap_FaultTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Model_Soap_Fault */
+    /** @var \Magento\Webapi\Model\Soap\Fault */
     protected $_soapFault;
 
     protected function setUp()
     {
         /** Initialize SUT. */
-        $this->_soapFault = new Magento_Webapi_Model_Soap_Fault();
+        $this->_soapFault = new \Magento\Webapi\Model\Soap\Fault();
         parent::setUp();
     }
 

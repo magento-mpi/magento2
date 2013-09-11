@@ -15,12 +15,14 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Backend_Block_Widget_Form
+namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Prepare form before rendering HTML.
      *
-     * @return Magento_ImportExport_Block_Adminhtml_Export_Edit_Form
+     * @return \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form
      */
     protected function _prepareForm()
     {
@@ -31,8 +33,8 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Back
         ));
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Export Settings')));
-        /** @var $entitySourceModel Magento_ImportExport_Model_Source_Export_Entity */
-        $entitySourceModel = Mage::getModel('Magento_ImportExport_Model_Source_Export_Entity');
+        /** @var $entitySourceModel \Magento\ImportExport\Model\Source\Export\Entity */
+        $entitySourceModel = \Mage::getModel('\Magento\ImportExport\Model\Source\Export\Entity');
         $fieldset->addField('entity', 'select', array(
             'name'     => 'entity',
             'title'    => __('Entity Type'),
@@ -41,8 +43,8 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_Form extends Magento_Back
             'onchange' => 'varienExport.getFilter();',
             'values'   => $entitySourceModel->toOptionArray()
         ));
-        /** @var $formatSourceModel Magento_ImportExport_Model_Source_Export_Format */
-        $formatSourceModel = Mage::getModel('Magento_ImportExport_Model_Source_Export_Format');
+        /** @var $formatSourceModel \Magento\ImportExport\Model\Source\Export\Format */
+        $formatSourceModel = \Mage::getModel('\Magento\ImportExport\Model\Source\Export\Format');
         $fieldset->addField('file_format', 'select', array(
             'name'     => 'file_format',
             'title'    => __('Export File Format'),

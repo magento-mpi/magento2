@@ -14,7 +14,7 @@
         <resources>
             <magento_customerbalance translate="title" module="Magento_CustomerBalance">
                 <title>Customer Balance API</title>
-                <model>Magento_CustomerBalance_Model_Api</model>
+                <model>\Magento\CustomerBalance\Model\Api</model>
                 <acl>magento_customerbalance</acl>
                 <methods>
                     <balance translate="title" module="Magento_CustomerBalance">
@@ -43,7 +43,7 @@
             </magento_customerbalance>
             <magento_customerbalance_quote translate="title" module="Magento_CustomerBalance">
                 <title>Customer Balance for Quote API</title>
-                <model>Magento_CustomerBalance_Model_Quote_Api</model>
+                <model>\Magento\CustomerBalance\Model\Quote\Api</model>
                 <acl>cart/storecredit</acl>
                 <methods>
                     <setAmount>

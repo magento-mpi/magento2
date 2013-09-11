@@ -15,12 +15,14 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_Action
+namespace Magento\Catalog\Controller;
+
+class Category extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Initialize requested category object
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     protected function _initCategory()
     {
@@ -30,15 +32,15 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
             return false;
         }
 
-        $category = Mage::getModel('Magento_Catalog_Model_Category')
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $category = \Mage::getModel('\Magento\Catalog\Model\Category')
+            ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($categoryId);
 
-        if (!Mage::helper('Magento_Catalog_Helper_Category')->canShow($category)) {
+        if (!\Mage::helper('Magento\Catalog\Helper\Category')->canShow($category)) {
             return false;
         }
-        Mage::getSingleton('Magento_Catalog_Model_Session')->setLastVisitedCategoryId($category->getId());
-        Mage::register('current_category', $category);
+        \Mage::getSingleton('Magento\Catalog\Model\Session')->setLastVisitedCategoryId($category->getId());
+        \Mage::register('current_category', $category);
         try {
             $this->_eventManager->dispatch(
                 'catalog_controller_category_init_after',
@@ -47,8 +49,8 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
                     'controller_action' => $this
                 )
             );
-        } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::logException($e);
             return false;
         }
 
@@ -62,7 +64,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
     {
         $category = $this->_initCategory();
         if ($category) {
-            $design = Mage::getSingleton('Magento_Catalog_Model_Design');
+            $design = \Mage::getSingleton('Magento\Catalog\Model\Design');
             $settings = $design->getDesignSettings($category);
 
             // apply custom design
@@ -70,7 +72,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
                 $design->applyCustomDesign($settings->getCustomDesign());
             }
 
-            Mage::getSingleton('Magento_Catalog_Model_Session')->setLastViewedCategoryId($category->getId());
+            \Mage::getSingleton('Magento\Catalog\Model\Session')->setLastViewedCategoryId($category->getId());
 
             $update = $this->getLayout()->getUpdate();
             if ($category->getIsAnchor()) {
@@ -92,7 +94,7 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
             $this->generateLayoutXml()->generateLayoutBlocks();
             // apply custom layout (page) template once the blocks are generated
             if ($settings->getPageLayout()) {
-                $this->getLayout()->helper('Magento_Page_Helper_Layout')->applyTemplate($settings->getPageLayout());
+                $this->getLayout()->helper('\Magento\Page\Helper\Layout')->applyTemplate($settings->getPageLayout());
             }
 
             $root = $this->getLayout()->getBlock('root');
@@ -101,8 +103,8 @@ class Magento_Catalog_Controller_Category extends Magento_Core_Controller_Front_
                     ->addBodyClass('category-' . $category->getUrlKey());
             }
 
-            $this->_initLayoutMessages('Magento_Catalog_Model_Session');
-            $this->_initLayoutMessages('Magento_Checkout_Model_Session');
+            $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+            $this->_initLayoutMessages('\Magento\Checkout\Model\Session');
             $this->renderLayout();
         } elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noRoute');

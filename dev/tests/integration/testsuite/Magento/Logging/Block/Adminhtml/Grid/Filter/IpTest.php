@@ -15,14 +15,14 @@
 class Magento_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Logging_Block_Adminhtml_Grid_Filter_Ip
+     * @var \Magento\Logging\Block\Adminhtml\Grid\Filter\Ip
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Logging_Block_Adminhtml_Grid_Filter_Ip');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Logging\Block\Adminhtml\Grid\Filter\Ip');
     }
 
     public function testGetCondition()

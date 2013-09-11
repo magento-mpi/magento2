@@ -14,15 +14,17 @@
  * @category   Magento
  * @package    Magento_CatalogPermissions
  */
-class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row
-    extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions;
+
+class Row
+    extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
 
     protected $_template = 'catalog/category/tab/permissions/row.phtml';
 
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             //'label' => __('Remove Permission'),
             'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
             'disabled' => $this->isReadonly(),
@@ -40,7 +42,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
      */
     public function canEditWebsites()
     {
-        return !Mage::app()->hasSingleStore();
+        return !\Mage::app()->hasSingleStore();
     }
 
     /**
@@ -55,7 +57,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
 
     public function getDefaultWebsiteId()
     {
-        return Mage::app()->getStore(true)->getWebsiteId();
+        return \Mage::app()->getStore(true)->getWebsiteId();
     }
 
     /**
@@ -86,12 +88,12 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     /**
      * Retrieve websites collection
      *
-     * @return Magento_Core_Model_Resource_Website_Collection
+     * @return \Magento\Core\Model\Resource\Website\Collection
      */
     public function getWebsiteCollection()
     {
         if (!$this->hasData('website_collection')) {
-            $collection = Mage::getModel('Magento_Core_Model_Website')->getCollection();
+            $collection = \Mage::getModel('\Magento\Core\Model\Website')->getCollection();
             $this->setData('website_collection', $collection);
         }
 
@@ -101,12 +103,12 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     /**
      * Retrieve customer group collection
      *
-     * @return Magento_Customer_Model_Resource_Group_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Collection
      */
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_group_collection')) {
-            $collection = Mage::getModel('Magento_Customer_Model_Group')->getCollection();
+            $collection = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection();
             $this->setData('customer_group_collection', $collection);
         }
 

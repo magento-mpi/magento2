@@ -12,7 +12,7 @@
         <update handle="formkey"/>
         <update handle="adminhtml_targetrule_grid_block"/>
         <reference name="content">
-            <block class="Magento_TargetRule_Block_Adminhtml_Targetrule" name="adminhtml.targetrule.grid.container"/>
+            <block class="\Magento\TargetRule\Block\Adminhtml\Targetrule" name="adminhtml.targetrule.grid.container"/>
         </reference>
     </handle>
 </layout>

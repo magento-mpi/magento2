@@ -15,21 +15,23 @@
  * @category   Magento
  * @package    Magento_Bundle
  */
-class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_Product_Price
+namespace Magento\Bundle\Block\Catalog\Product;
+
+class Price extends \Magento\Catalog\Block\Product\Price
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -38,13 +40,13 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
 
     public function isRatesGraterThenZero()
     {
-        $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(false, false, false);
+        $_request = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRateRequest(false, false, false);
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $defaultTax = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($_request);
+        $defaultTax = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRate($_request);
 
-        $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest();
+        $_request = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRateRequest();
         $_request->setProductClassId($this->getProduct()->getTaxClassId());
-        $currentTax = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($_request);
+        $currentTax = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRate($_request);
 
         return (floatval($defaultTax) > 0 || floatval($currentTax) > 0);
     }
@@ -58,11 +60,11 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
     public function displayBothPrices()
     {
         $product = $this->getProduct();
-        if ($product->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC &&
+        if ($product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC &&
             $product->getPriceModel()->getIsPricesCalculatedByIndex() !== false) {
             return false;
         }
-        return $this->helper('Magento_Tax_Helper_Data')->displayBothPrices();
+        return $this->helper('\Magento\Tax\Helper\Data')->displayBothPrices();
     }
 
     /**
@@ -73,11 +75,11 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
     protected function _toHtml()
     {
         $product = $this->getProduct();
-        if ($this->getMAPTemplate() && Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)
-                && $product->getPriceType() != Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC
+        if ($this->getMAPTemplate() && \Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($product)
+                && $product->getPriceType() != \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
         ) {
             $hiddenPriceHtml = parent::_toHtml();
-            if (Mage::helper('Magento_Catalog_Helper_Data')->isShowPriceOnGesture($product)) {
+            if (\Mage::helper('Magento\Catalog\Helper\Data')->isShowPriceOnGesture($product)) {
                 $this->setWithoutPrice(true);
             }
             $realPriceHtml = parent::_toHtml();
@@ -85,7 +87,7 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
             $addToCartUrl  = $this->getLayout()->getBlock('product.info.bundle')->getAddToCartUrl($product);
             $product->setAddToCartUrl($addToCartUrl);
             $html = $this->getLayout()
-                ->createBlock('Magento_Catalog_Block_Product_Price')
+                ->createBlock('\Magento\Catalog\Block\Product\Price')
                 ->setTemplate($this->getMAPTemplate())
                 ->setRealPriceHtml($hiddenPriceHtml)
                 ->setPriceElementIdPrefix('bundle-price-')
@@ -100,8 +102,8 @@ class Magento_Bundle_Block_Catalog_Product_Price extends Magento_Catalog_Block_P
     }
 
     /**
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
-     * @return bool|Magento_Core_Model_Website
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
+     * @return bool|\Magento\Core\Model\Website
      */
     public function getWebsite($storeId)
     {

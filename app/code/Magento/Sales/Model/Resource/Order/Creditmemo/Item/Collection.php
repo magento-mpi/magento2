@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Creditmemo_Item_Collection extends Magento_Sales_Model_Resource_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Creditmemo\Item;
+
+class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -38,14 +40,14 @@ class Magento_Sales_Model_Resource_Order_Creditmemo_Item_Collection extends Mage
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Creditmemo_Item', 'Magento_Sales_Model_Resource_Order_Creditmemo_Item');
+        $this->_init('\Magento\Sales\Model\Order\Creditmemo\Item', '\Magento\Sales\Model\Resource\Order\Creditmemo\Item');
     }
 
     /**
      * Set creditmemo filter
      *
      * @param int $creditmemoId
-     * @return Magento_Sales_Model_Resource_Order_Creditmemo_Item_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Creditmemo\Item\Collection
      */
     public function setCreditmemoFilter($creditmemoId)
     {

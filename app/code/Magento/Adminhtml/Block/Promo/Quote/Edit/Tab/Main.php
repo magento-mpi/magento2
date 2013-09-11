@@ -15,9 +15,11 @@
  * @package Magento_Adminhtml
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
+
+class Main
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare content for tab
@@ -61,7 +63,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_quote_rule');
+        $model = \Mage::registry('current_promo_quote_rule');
 
         $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('rule_');
@@ -109,8 +111,8 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             $model->setData('is_active', '1');
         }
 
-        if (Mage::app()->isSingleStoreMode()) {
-            $websiteId = Mage::app()->getStore(true)->getWebsiteId();
+        if (\Mage::app()->isSingleStoreMode()) {
+            $websiteId = \Mage::app()->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
                 'name'     => 'website_ids[]',
                 'value'    => $websiteId
@@ -122,13 +124,13 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
                 'label'     => __('Websites'),
                 'title'     => __('Websites'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
-        $customerGroups = Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')->load()->toOptionArray();
+        $customerGroups = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')->load()->toOptionArray();
         $found = false;
 
         foreach ($customerGroups as $group) {
@@ -148,14 +150,14 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'label'     => __('Customer Groups'),
             'title'     => __('Customer Groups'),
             'required'  => true,
-            'values'    => Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')->toOptionArray(),
+            'values'    => \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')->toOptionArray(),
         ));
 
         $couponTypeFiled = $fieldset->addField('coupon_type', 'select', array(
             'name'       => 'coupon_type',
             'label'      => __('Coupon'),
             'required'   => true,
-            'options'    => Mage::getModel('Magento_SalesRule_Model_Rule')->getCouponTypes(),
+            'options'    => \Mage::getModel('\Magento\SalesRule\Model\Rule')->getCouponTypes(),
         ));
 
         $couponCodeFiled = $fieldset->addField('coupon_code', 'text', array(
@@ -173,7 +175,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         ));
 
         $autoGenerationCheckbox->setRenderer(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main\Renderer\Checkbox')
         );
 
         $usesPerCouponFiled = $fieldset->addField('uses_per_coupon', 'text', array(
@@ -186,7 +188,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             'label' => __('Uses per Customer'),
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),
@@ -240,7 +242,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
 
         // field dependencies
         $this->setChild('form_after', $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence')
+            ->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
             ->addFieldMap($couponTypeFiled->getHtmlId(), $couponTypeFiled->getName())
             ->addFieldMap($couponCodeFiled->getHtmlId(), $couponCodeFiled->getName())
             ->addFieldMap($autoGenerationCheckbox->getHtmlId(), $autoGenerationCheckbox->getName())
@@ -248,18 +250,18 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
             ->addFieldDependence(
                 $couponCodeFiled->getName(),
                 $couponTypeFiled->getName(),
-                Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC)
             ->addFieldDependence(
                 $autoGenerationCheckbox->getName(),
                 $couponTypeFiled->getName(),
-                Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC)
             ->addFieldDependence(
                 $usesPerCouponFiled->getName(),
                 $couponTypeFiled->getName(),
-                Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC)
+                \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC)
         );
 
-        Mage::dispatchEvent('adminhtml_promo_quote_edit_tab_main_prepare_form', array('form' => $form));
+        \Mage::dispatchEvent('adminhtml_promo_quote_edit_tab_main_prepare_form', array('form' => $form));
 
         return parent::_prepareForm();
     }

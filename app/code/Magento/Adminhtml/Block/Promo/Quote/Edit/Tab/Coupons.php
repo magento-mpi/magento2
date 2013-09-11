@@ -15,9 +15,11 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons
-    extends Magento_Adminhtml_Block_Text_List
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
+
+class Coupons
+    extends \Magento\Adminhtml\Block\Text\ListText
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare content for tab
@@ -66,7 +68,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons
      */
     protected function _isEditing()
     {
-        $priceRule = Mage::registry('current_promo_quote_rule');
+        $priceRule = \Mage::registry('current_promo_quote_rule');
         return !is_null($priceRule->getRuleId());
     }
 }

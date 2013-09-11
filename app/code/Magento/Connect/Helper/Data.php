@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
+namespace Magento\Connect\Helper;
+
+class Data extends \Magento\Core\Helper\Data
 {
     /**
      * @var \Magento\Filesystem
@@ -23,13 +25,13 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $config,
         \Magento\Filesystem $filesystem
     ) {
         parent::__construct($context, $config);
@@ -44,7 +46,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getLocalPackagesPath()
     {
-        return Mage::getBaseDir('var') . DS . 'connect' . DS;
+        return \Mage::getBaseDir('var') . DS . 'connect' . DS;
     }
 
     /**
@@ -55,7 +57,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getLocalPackagesPathV1x()
     {
-        return Mage::getBaseDir('var') . DS . 'pear' . DS;
+        return \Mage::getBaseDir('var') . DS . 'pear' . DS;
     }
 
     /**
@@ -132,7 +134,7 @@ class Magento_Connect_Helper_Data extends Magento_Core_Helper_Data
 
         if ($this->_filesystem->isFile($xmlFile) && $this->_filesystem->isReadable($xmlFile)) {
             $xml  = simplexml_load_string($this->_filesystem->read($xmlFile));
-            $data = Mage::helper('Magento_Core_Helper_Data')->xmlToAssoc($xml);
+            $data = \Mage::helper('Magento\Core\Helper\Data')->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }

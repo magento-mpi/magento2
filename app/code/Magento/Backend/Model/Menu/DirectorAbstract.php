@@ -7,18 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_Backend_Model_Menu_DirectorAbstract
+namespace Magento\Backend\Model\Menu;
+
+abstract class DirectorAbstract
 {
     /**
      * Factory model
-     * @var Magento_Backend_Model_Menu_Builder_CommandFactory
+     * @var \Magento\Backend\Model\Menu\Builder\CommandFactory
      */
     protected $_commandFactory;
 
     /**
-     * @param Magento_Backend_Model_Menu_Builder_CommandFactory $factory
+     * @param \Magento\Backend\Model\Menu\Builder\CommandFactory $factory
      */
-    public function __construct(Magento_Backend_Model_Menu_Builder_CommandFactory $factory)
+    public function __construct(\Magento\Backend\Model\Menu\Builder\CommandFactory $factory)
     {
         $this->_commandFactory = $factory;
     }
@@ -27,10 +29,10 @@ abstract class Magento_Backend_Model_Menu_DirectorAbstract
      * Build menu instance
      *
      * @param array $config
-     * @param Magento_Backend_Model_Menu_Builder $builder
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Backend\Model\Menu\Builder $builder
+     * @param \Magento\Core\Model\Logger $logger
      */
     abstract public function direct(
-        array $config, Magento_Backend_Model_Menu_Builder $builder, Magento_Core_Model_Logger $logger
+        array $config, \Magento\Backend\Model\Menu\Builder $builder, \Magento\Core\Model\Logger $logger
     );
 }

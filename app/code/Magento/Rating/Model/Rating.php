@@ -11,20 +11,22 @@
 /**
  * Rating model
  *
- * @method Magento_Rating_Model_Resource_Rating getResource()
- * @method Magento_Rating_Model_Resource_Rating _getResource()
+ * @method \Magento\Rating\Model\Resource\Rating getResource()
+ * @method \Magento\Rating\Model\Resource\Rating _getResource()
  * @method array getRatingCodes()
- * @method Magento_Rating_Model_Rating setRatingCodes(array $value)
+ * @method \Magento\Rating\Model\Rating setRatingCodes(array $value)
  * @method array getStores()
- * @method Magento_Rating_Model_Rating setStores(array $value)
+ * @method \Magento\Rating\Model\Rating setStores(array $value)
  * @method string getRatingCode()
- * @method Magento_Rating_Model_Rating getRatingCode(string $value)
+ * @method \Magento\Rating\Model\Rating getRatingCode(string $value)
  *
  * @category   Magento
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
+namespace Magento\Rating\Model;
+
+class Rating extends \Magento\Core\Model\AbstractModel
 {
     /**
      * rating entity codes
@@ -41,12 +43,12 @@ class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rating_Model_Resource_Rating');
+        $this->_init('\Magento\Rating\Model\Resource\Rating');
     }
 
     public function addOptionVote($optionId, $entityPkValue)
     {
-        Mage::getModel('Magento_Rating_Model_Rating_Option')->setOptionId($optionId)
+        \Mage::getModel('\Magento\Rating\Model\Rating\Option')->setOptionId($optionId)
             ->setRatingId($this->getId())
             ->setReviewId($this->getReviewId())
             ->setEntityPkValue($entityPkValue)
@@ -56,7 +58,7 @@ class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
 
     public function updateOptionVote($optionId)
     {
-        Mage::getModel('Magento_Rating_Model_Rating_Option')->setOptionId($optionId)
+        \Mage::getModel('\Magento\Rating\Model\Rating\Option')->setOptionId($optionId)
             ->setVoteId($this->getVoteId())
             ->setReviewId($this->getReviewId())
             ->setDoUpdate(1)
@@ -75,7 +77,7 @@ class Magento_Rating_Model_Rating extends Magento_Core_Model_Abstract
             return $options;
         }
         elseif ($id = $this->getId()) {
-            return Mage::getResourceModel('Magento_Rating_Model_Resource_Rating_Option_Collection')
+            return \Mage::getResourceModel('\Magento\Rating\Model\Resource\Rating\Option\Collection')
                ->addRatingFilter($id)
                ->setPositionOrder()
                ->load()

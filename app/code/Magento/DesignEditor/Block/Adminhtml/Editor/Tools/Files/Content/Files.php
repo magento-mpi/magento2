@@ -11,19 +11,21 @@
 /**
  * Files files block
  *
- * @method Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files
- *    setStorage(Magento_Theme_Model_Wysiwyg_Storage $storage)
- * @method Magento_Theme_Model_Wysiwyg_Storage getStorage
+ * @method \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Files
+ *    setStorage(\Magento\Theme\Model\Wysiwyg\Storage $storage)
+ * @method \Magento\Theme\Model\Wysiwyg\Storage getStorage
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content_Files
-    extends Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content_Files
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content;
+
+class Files
+    extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Files
 {
     /**
      * @return string
      */
     public function getStorageType()
     {
-        return __($this->helper('Magento_Theme_Helper_Storage')->getStorageType());
+        return __($this->helper('\Magento\Theme\Helper\Storage')->getStorageType());
     }
 
 }

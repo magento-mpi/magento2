@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Catalog_Model_Category_Api.
+ * Test class for \Magento\Catalog\Model\Category\Api.
  *
  * {license_notice}
  *
@@ -12,7 +12,7 @@
 class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Category_Api
+     * @var \Magento\Catalog\Model\Category\Api
      */
     protected $_model;
 
@@ -25,8 +25,8 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Category_Api');
-        Mage::app()->setCurrentStore(Magento_Core_Model_App::ADMIN_STORE_ID);
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Category\Api');
+        Mage::app()->setCurrentStore(\Magento\Core\Model\App::ADMIN_STORE_ID);
     }
 
     public function testLevel()
@@ -60,7 +60,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($tree);
         $this->assertArrayHasKey('category_id', $tree);
         $this->assertArrayHasKey('name', $tree);
-        $this->assertEquals(Magento_Catalog_Model_Category::TREE_ROOT_ID, $tree['category_id']);
+        $this->assertEquals(\Magento\Catalog\Model\Category::TREE_ROOT_ID, $tree['category_id']);
     }
 
     public function testCRUD()
@@ -222,7 +222,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             'Result of a create method is not an integer.'
         );
 
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
         $category->load($categoryId);
 
         //check created data
@@ -323,7 +323,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             Magento_TestFramework_Helper_Api::call($this, 'catalogCategoryUpdate', $categoryFixture['update']);
         $this->assertTrue($resultUpdated);
 
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
         $category->load($categoryId);
 
         //check updated data
@@ -361,7 +361,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
         );
         $this->assertTrue($categoryDelete);
 
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
         $category->load($categoryId);
         $this->assertEmpty($category->getId());
     }
@@ -388,7 +388,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             'Category cannot created with vulnerability in is_active field'
         );
 
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
         $category->load($categoryId);
 
         $this->assertEquals(
@@ -448,7 +448,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
         $exception = Magento_TestFramework_Helper_Api::callWithException(
             $this,
             'catalogCategoryDelete',
-            array('categoryId' => Magento_Catalog_Model_Category::TREE_ROOT_ID)
+            array('categoryId' => \Magento\Catalog\Model\Category::TREE_ROOT_ID)
         );
         $result = array(
             'faultcode' => $exception->faultcode,
@@ -463,7 +463,7 @@ class Magento_Catalog_Model_Category_ApiTest extends PHPUnit_Framework_TestCase
             'Exception message is not right.'
         );
 
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
-        $this->assertNotNull($category->load(Magento_Catalog_Model_Category::TREE_ROOT_ID)->getId());
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
+        $this->assertNotNull($category->load(\Magento\Catalog\Model\Category::TREE_ROOT_ID)->getId());
     }
 }

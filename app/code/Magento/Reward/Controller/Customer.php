@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_Action
+namespace Magento\Reward\Controller;
+
+class Customer extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Predispatch
@@ -26,10 +28,10 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
+        if (!\Mage::helper('Magento\Reward\Helper\Data')->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -40,9 +42,9 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
      */
     public function infoAction()
     {
-        Mage::register('current_reward', $this->_getReward());
+        \Mage::register('current_reward', $this->_getReward());
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Reward Points'));
@@ -84,7 +86,7 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
         }
 
         try {
-            /* @var $customer Magento_Customer_Model_Session */
+            /* @var $customer \Magento\Customer\Model\Session */
             $customer = $this->_getCustomer();
             if ($customer->getId()) {
                 if ($notification == 'update') {
@@ -98,7 +100,7 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
                     __('You have been unsubscribed.')
                 );
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('Failed to unsubscribe'));
         }
 
@@ -108,17 +110,17 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
     /**
      * Retrieve customer session model object
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return \Mage::getSingleton('Magento\Customer\Model\Session');
     }
 
     /**
      * Retrieve customer session model object
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getCustomer()
     {
@@ -128,13 +130,13 @@ class Magento_Reward_Controller_Customer extends Magento_Core_Controller_Front_A
     /**
      * Load reward by customer
      *
-     * @return Magento_Reward_Model_Reward
+     * @return \Magento\Reward\Model\Reward
      */
     protected function _getReward()
     {
-        $reward = Mage::getModel('Magento_Reward_Model_Reward')
+        $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
             ->setCustomer($this->_getCustomer())
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+            ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
             ->loadByCustomer();
         return $reward;
     }

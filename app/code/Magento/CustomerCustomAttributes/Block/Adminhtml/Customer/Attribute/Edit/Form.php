@@ -16,13 +16,15 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit;
+
+class Form
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Form
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Form
      */
     protected function _prepareForm()
     {

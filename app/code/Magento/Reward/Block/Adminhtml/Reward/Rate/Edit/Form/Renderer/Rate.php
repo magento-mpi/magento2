@@ -16,8 +16,10 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate
-    extends Magento_Adminhtml_Block_Template
+namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form\Renderer;
+
+class Rate
+    extends \Magento\Adminhtml\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_template = 'rate/form/renderer/rate.phtml';

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Core_Model_Store_Api extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Core\Model\Store;
+
+class Api extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Retrieve stores list
@@ -26,7 +28,7 @@ class Magento_Core_Model_Store_Api extends Magento_Api_Model_Resource_Abstract
     public function items()
     {
         // Retrieve stores
-        $stores = Mage::app()->getStores();
+        $stores = \Mage::app()->getStores();
 
         // Make result array
         $result = array();
@@ -55,8 +57,8 @@ class Magento_Core_Model_Store_Api extends Magento_Api_Model_Resource_Abstract
     {
         // Retrieve store info
         try {
-            $store = Mage::app()->getStore($storeId);
-        } catch (Magento_Core_Model_Store_Exception $e) {
+            $store = \Mage::app()->getStore($storeId);
+        } catch (\Magento\Core\Model\Store\Exception $e) {
             $this->_fault('store_not_exists');
         }
 

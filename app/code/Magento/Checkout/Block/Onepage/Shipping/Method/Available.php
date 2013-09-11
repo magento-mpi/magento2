@@ -16,7 +16,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_Checkout_Block_Onepage_Abstract
+namespace Magento\Checkout\Block\Onepage\Shipping\Method;
+
+class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     protected $_rates;
     protected $_address;
@@ -31,7 +33,7 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
             /*
             if (!empty($groups)) {
                 $ratesFilter = new \Magento\Filter\Object\Grid();
-                $ratesFilter->addFilter(Mage::app()->getStore()->getPriceFilter(), 'price');
+                $ratesFilter->addFilter(\Mage::app()->getStore()->getPriceFilter(), 'price');
 
                 foreach ($groups as $code => $groupItems) {
                     $groups[$code] = $ratesFilter->filter($groupItems);
@@ -55,7 +57,7 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
 
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
             return $name;
         }
         return $carrierCode;
@@ -69,7 +71,7 @@ class Magento_Checkout_Block_Onepage_Shipping_Method_Available extends Magento_C
     public function getShippingPrice($price, $flag)
     {
         return $this->getQuote()->getStore()->convertPrice(
-            Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice($price, $flag, $this->getAddress()),
+            \Mage::helper('Magento\Tax\Helper\Data')->getShippingPrice($price, $flag, $this->getAddress()),
             true
         );
     }

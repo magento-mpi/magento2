@@ -28,7 +28,7 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
         $this->assertNotEmpty($module);
         $this->assertTrue(class_exists($class), "Block class: {$class}");
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Scope')
+            ->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope($area);
         $block = Mage::getModel($class);
         $this->assertNotNull($block);
@@ -41,7 +41,7 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
     {
         $blockClass = '';
         try {
-            /** @var $website Magento_Core_Model_Website */
+            /** @var $website \Magento\Core\Model\Website */
             Mage::app()->getStore()->setWebsiteId(0);
 
             $enabledModules = $this->_getEnabledModules();
@@ -53,7 +53,7 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
                     continue;
                 }
                 $class = new ReflectionClass($blockClass);
-                if ($class->isAbstract() || !$class->isSubclassOf('Magento_Core_Block_Template')) {
+                if ($class->isAbstract() || !$class->isSubclassOf('\Magento\Core\Block\Template')) {
                     continue;
                 }
                 $templateBlocks = $this->_addBlock($module, $blockClass, $class, $templateBlocks);
@@ -94,13 +94,13 @@ class Magento_Test_Integrity_Modular_BlockInstantiationTest extends Magento_Test
             $area = 'install';
         } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
             || strpos($blockClass, '_Backend_')
-            || $class->isSubclassOf('Magento_Backend_Block_Template')
+            || $class->isSubclassOf('\Magento\Backend\Block\Template')
         ) {
             $area = 'adminhtml';
         }
         Mage::app()->loadAreaPart(
-            Magento_Core_Model_App_Area::AREA_ADMINHTML,
-            Magento_Core_Model_App_Area::PART_CONFIG
+            \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            \Magento\Core\Model\App\Area::PART_CONFIG
         );
         $templateBlocks[$module . ', ' . $blockClass . ', ' . $area]
             = array($module, $blockClass, $area);

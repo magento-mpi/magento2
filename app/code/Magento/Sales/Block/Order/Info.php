@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Info extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order;
+
+class Info extends \Magento\Core\Block\Template
 {
     protected $_links = array();
 
@@ -29,7 +31,7 @@ class Magento_Sales_Block_Order_Info extends Magento_Core_Block_Template
         }
         $this->setChild(
             'payment_info',
-            $this->helper('Magento_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('\Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 
@@ -41,11 +43,11 @@ class Magento_Sales_Block_Order_Info extends Magento_Core_Block_Template
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     public function addLink($name, $path, $label)
@@ -53,7 +55,7 @@ class Magento_Sales_Block_Order_Info extends Magento_Core_Block_Template
         $this->_links[$name] = new \Magento\Object(array(
             'name' => $name,
             'label' => $label,
-            'url' => empty($path) ? '' : Mage::getUrl($path, array('order_id' => $this->getOrder()->getId()))
+            'url' => empty($path) ? '' : \Mage::getUrl($path, array('order_id' => $this->getOrder()->getId()))
         ));
         return $this;
     }

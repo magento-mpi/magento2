@@ -16,23 +16,25 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
+namespace Magento\Customer\Block\Account;
+
+class Link extends \Magento\Core\Block\AbstractBlock
 {
     /**
      * Customer session
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Block_Context $context
-     * @param Magento_Customer_Model_Session $session
+     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\Customer\Model\Session $session
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Context $context,
-        Magento_Customer_Model_Session $session,
+        \Magento\Core\Block\Context $context,
+        \Magento\Customer\Model\Session $session,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -44,11 +46,11 @@ class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
      *
      * @param string $target
      * @param int $position
-     * @return Magento_Customer_Block_Account_Link
+     * @return \Magento\Customer\Block\Account\Link
      */
     public function addAccountLink($target, $position)
     {
-        $helper = $this->_helperFactory->get('Magento_Customer_Helper_Data');
+        $helper = $this->_helperFactory->get('Magento\Customer\Helper\Data');
         $this->_addLink(
             $target, __('My Account'), $helper->getAccountUrl(), __('My Account'), $position, '', ''
         );
@@ -62,13 +64,13 @@ class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
      * @param int $position
      * @param string $textBefore
      * @param string $textAfter
-     * @return Magento_Customer_Block_Account_Link
+     * @return \Magento\Customer\Block\Account\Link
      */
     public function addRegisterLink($target, $position, $textBefore = '', $textAfter = '')
     {
 
         if (!$this->_session->isLoggedIn()) {
-            $helper = $this->_helperFactory->get('Magento_Customer_Helper_Data');
+            $helper = $this->_helperFactory->get('Magento\Customer\Helper\Data');
             $this->_addLink(
                 $target,
                 __('register'),
@@ -86,11 +88,11 @@ class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
      * Remove link to customer registration page in the target block
      *
      * @param string $target
-     * @return Magento_Customer_Block_Account_Link
+     * @return \Magento\Customer\Block\Account\Link
      */
     public function removeRegisterLink($target)
     {
-        $helper = $this->_helperFactory->get('Magento_Customer_Helper_Data');
+        $helper = $this->_helperFactory->get('Magento\Customer\Helper\Data');
         $this->_removeLink($target, $helper->getRegisterUrl());
         return $this;
     }
@@ -100,11 +102,11 @@ class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
      *
      * @param string $target
      * @param int $position
-     * @return Magento_Customer_Block_Account_Link
+     * @return \Magento\Customer\Block\Account\Link
      */
     public function addLogInLink($target, $position)
     {
-        $helper = $this->_helperFactory->get('Magento_Customer_Helper_Data');
+        $helper = $this->_helperFactory->get('Magento\Customer\Helper\Data');
         if (!$this->_session->isLoggedIn()) {
             $this->_addLink(
                 $target, __('Log In'), $helper->getLogoutUrl(), __('Log In'), $position, '', ''
@@ -118,11 +120,11 @@ class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
      *
      * @param string $target
      * @param int $position
-     * @return Magento_Customer_Block_Account_Link
+     * @return \Magento\Customer\Block\Account\Link
      */
     public function addAuthLink($target, $position)
     {
-        $helper = $this->_helperFactory->get('Magento_Customer_Helper_Data');
+        $helper = $this->_helperFactory->get('Magento\Customer\Helper\Data');
         if ($this->_session->isLoggedIn()) {
             $this->_addLink(
                 $target, __('Log Out'), $helper->getLogoutUrl(), __('Log Out'), $position, '', ''
@@ -145,11 +147,11 @@ class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
      * @param int $position
      * @param string $textBefore
      * @param string $textAfter
-     * @return Magento_Customer_Block_Account_Link
+     * @return \Magento\Customer\Block\Account\Link
      */
     protected function _addLink($target, $text, $url, $title, $position, $textBefore='', $textAfter='')
     {
-        /** @var $target Magento_Page_Block_Template_Links */
+        /** @var $target \Magento\Page\Block\Template\Links */
         $target = $this->getLayout()->getBlock($target);
         if ($target && method_exists($target, 'addLink')) {
             $target->addLink($text, $url, $title, true, array(), $position, null, null, $textBefore, $textAfter);
@@ -161,11 +163,11 @@ class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
      * Remove Log In/Out link from the target block
      *
      * @param string $target
-     * @return Magento_Customer_Block_Account_Link
+     * @return \Magento\Customer\Block\Account\Link
      */
     public function removeAuthLink($target)
     {
-        $helper = $this->_helperFactory->get('Magento_Customer_Helper_Data');
+        $helper = $this->_helperFactory->get('Magento\Customer\Helper\Data');
         if ($this->_session->isLoggedIn()) {
             $this->_removeLink($target, $helper->getLogoutUrl());
         } else {
@@ -179,11 +181,11 @@ class Magento_Customer_Block_Account_Link extends Magento_Core_Block_Abstract
      *
      * @param string $target
      * @param string $url
-     * @return Magento_Customer_Block_Account_Link
+     * @return \Magento\Customer\Block\Account\Link
      */
     protected function _removeLink($target, $url)
     {
-        /** @var $target Magento_Page_Block_Template_Links */
+        /** @var $target \Magento\Page\Block\Template\Links */
         $target = $this->getLayout()->getBlock($target);
         if ($target && method_exists($target, 'removeLinkByUrl')) {
             $target->removeLinkByUrl($url);

@@ -15,14 +15,14 @@
 class Magento_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Catalog_Product_Options_Ajax
+     * @var \Magento\Adminhtml\Block\Catalog\Product\Options\Ajax
      */
     protected $_block = null;
 
     public function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Options_Ajax');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Options\Ajax');
     }
 
     public function testToHtmlWithoutProducts()

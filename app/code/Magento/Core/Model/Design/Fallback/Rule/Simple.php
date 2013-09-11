@@ -9,7 +9,9 @@
 /**
  * Class with simple substitution parameters to values
  */
-class Magento_Core_Model_Design_Fallback_Rule_Simple implements Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+namespace Magento\Core\Model\Design\Fallback\Rule;
+
+class Simple implements \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
 {
     /**
      * Optional params for rule
@@ -42,7 +44,7 @@ class Magento_Core_Model_Design_Fallback_Rule_Simple implements Magento_Core_Mod
      *
      * @param array $params array of parameters
      * @return array folders to perform a search
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getPatternDirs(array $params)
     {
@@ -53,7 +55,7 @@ class Magento_Core_Model_Design_Fallback_Rule_Simple implements Magento_Core_Mod
                     if (in_array($placeholder, $this->_optionalParams)) {
                         return array();
                     } else {
-                        throw new InvalidArgumentException("Required parameter '$placeholder' was not passed");
+                        throw new \InvalidArgumentException("Required parameter '$placeholder' was not passed");
                     }
                 }
                 $pattern = str_replace('<' . $placeholder . '>', $params[$placeholder], $pattern);

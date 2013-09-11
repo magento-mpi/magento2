@@ -11,11 +11,13 @@
 /**
  * Edit button block
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
-    extends Magento_Backend_Block_Widget_Button_Split
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
+
+class Edit
+    extends \Magento\Backend\Block\Widget\Button\Split
 {
     /**
-     * @var Magento_DesignEditor_Model_Theme_Context
+     * @var \Magento\DesignEditor\Model\Theme\Context
      */
     protected $_themeContext;
 
@@ -25,22 +27,22 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     protected $_changeFactory;
 
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_localeModel;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_DesignEditor_Model_Theme_Context $themeContext
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      * @param Magento_DesignEditor_Model_Theme_ChangeFactory $changeFactory
-     * @param Magento_Core_Model_LocaleInterface $localeModel
+     * @param \Magento\Core\Model\LocaleInterface $localeModel
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_DesignEditor_Model_Theme_Context $themeContext,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\DesignEditor\Model\Theme\Context $themeContext,
         Magento_DesignEditor_Model_Theme_ChangeFactory $changeFactory,
-        Magento_Core_Model_LocaleInterface $localeModel,
+        \Magento\Core\Model\LocaleInterface $localeModel,
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;
@@ -174,7 +176,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
                 )
             )
         );
-        return $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode($data));
+        return $this->helper('\Magento\Backend\Helper\Data')->escapeHtml(json_encode($data));
     }
 
     /**
@@ -195,7 +197,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
                 )
             )
         );
-        return $this->helper('Magento_Backend_Helper_Data')->escapeHtml(json_encode($data));
+        return $this->helper('\Magento\Backend\Helper\Data')->escapeHtml(json_encode($data));
     }
 
     /**
@@ -227,11 +229,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit
     /**
      * Checks themes for changes by time
      *
-     * @param Magento_Core_Model_Theme $sourceTheme
-     * @param Magento_Core_Model_Theme $targetTheme
+     * @param \Magento\Core\Model\Theme $sourceTheme
+     * @param \Magento\Core\Model\Theme $targetTheme
      * @return bool
      */
-    protected function _hasThemeChanged(Magento_Core_Model_Theme $sourceTheme, Magento_Core_Model_Theme $targetTheme)
+    protected function _hasThemeChanged(\Magento\Core\Model\Theme $sourceTheme, \Magento\Core\Model\Theme $targetTheme)
     {
         $sourceChange = $this->_changeFactory->create();
         $sourceChange->loadByThemeId($sourceTheme->getId());

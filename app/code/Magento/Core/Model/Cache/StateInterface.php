@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Cache_StateInterface
+namespace Magento\Core\Model\Cache;
+
+interface StateInterface
 {
     /**
      * Check if cache can be used for specific data type

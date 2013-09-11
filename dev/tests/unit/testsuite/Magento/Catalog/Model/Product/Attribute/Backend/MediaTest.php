@@ -12,7 +12,7 @@
 class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Attribute_Backend_Media
+     * @var \Magento\Catalog\Model\Product\Attribute\Backend\Media
      */
     protected $_model;
 
@@ -23,10 +23,10 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
             ->method('getMainTable')
             ->will($this->returnValue('table'));
 
-        $mediaConfig = $this->getMock('Magento_Catalog_Model_Product_Media_Config', array(), array(), '', false);
-        $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $mediaConfig = $this->getMock('Magento\Catalog\Model\Product\Media\Config', array(), array(), '', false);
+        $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
-        $this->_model = new Magento_Catalog_Model_Product_Attribute_Backend_Media(
+        $this->_model = new \Magento\Catalog\Model\Product\Attribute\Backend\Media(
             $mediaConfig,
             $dirs,
             $filesystem,
@@ -40,7 +40,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_
         $attributeId = 345345;
 
         $attribute = $this->getMock(
-            'Magento_Eav_Model_Entity_Attribute_Abstract',
+            '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('getBackendTable', 'isStatic', 'getAttributeId', 'getName'),
             array(),
             '',

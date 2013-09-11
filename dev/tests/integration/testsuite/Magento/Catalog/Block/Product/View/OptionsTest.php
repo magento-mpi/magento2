@@ -10,36 +10,36 @@
  */
 
 /**
- * Test class for Magento_Catalog_Block_Product_View_Options.
+ * Test class for \Magento\Catalog\Block\Product\View\Options.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
 class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Block_Product_View_Options
+     * @var \Magento\Catalog\Block\Product\View\Options
      */
     protected $_block;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
     protected function setUp()
     {
-        $this->_product = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_product = Mage::getModel('\Magento\Catalog\Model\Product');
         $this->_product->load(1);
         Mage::unregister('current_product');
         Mage::register('current_product', $this->_product);
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_View_Options');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Catalog\Block\Product\View\Options');
     }
 
     public function testSetGetProduct()
     {
         $this->assertSame($this->_product, $this->_block->getProduct());
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $this->_block->setProduct($product);
         $this->assertSame($product, $this->_block->getProduct());
     }
@@ -58,7 +58,7 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
 
         $this->assertEquals(
             array(
-                'block'     => 'Magento_Catalog_Block_Product_View_Options_Type_Default',
+                'block'     => '\Magento\Catalog\Block\Product\View\Options\Type\DefaultType',
                 'template'  => 'product/view/options/type/default.phtml',
                 'renderer'  => null,
             ),
@@ -77,7 +77,7 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
         $options = $this->_block->getOptions();
         $this->assertNotEmpty($options);
         foreach ($options as $option) {
-            $this->assertInstanceOf('Magento_Catalog_Model_Product_Option', $option);
+            $this->assertInstanceOf('\Magento\Catalog\Model\Product\Option', $option);
         }
     }
 
@@ -97,12 +97,12 @@ class Magento_Catalog_Block_Product_View_OptionsTest extends PHPUnit_Framework_T
     {
         $this->_block->addOptionRenderer(
             'select',
-            'Magento_Catalog_Block_Product_View_Options_Type_Select',
+            '\Magento\Catalog\Block\Product\View\Options\Type\Select',
             'product/view/options/type/select.phtml'
         );
         $this->_block->addOptionRenderer(
             'date',
-            'Magento_Catalog_Block_Product_View_Options_Type_Date',
+            '\Magento\Catalog\Block\Product\View\Options\Type\Date',
             'product/view/options/type/date.phtml'
         );
         $this->_block->setLayout(Mage::app()->getLayout());

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_NoRouteHandlerList
+namespace Magento\Core\Model;
+
+class NoRouteHandlerList
 {
     /**
      * No route handlers instances

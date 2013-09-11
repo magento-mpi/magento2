@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block_Widget
+namespace Magento\TargetRule\Block\Adminhtml;
+
+class Product extends \Magento\Adminhtml\Block\Widget
 {
     /**
      * Attributes is read only flag
@@ -18,18 +20,18 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
     protected $_readOnly = false;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -40,11 +42,11 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
     /**
      * Retrieve TargetRule Data Helper
      *
-     * @return Magento_TargetRule_Helper_Data
+     * @return \Magento\TargetRule\Helper\Data
      */
     protected function _getRuleHelper()
     {
-        return Mage::helper('Magento_TargetRule_Helper_Data');
+        return \Mage::helper('Magento\TargetRule\Helper\Data');
     }
 
     /**
@@ -57,10 +59,10 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
         $listType = '';
         switch ($this->getFormPrefix()) {
             case 'related':
-                $listType = Magento_TargetRule_Model_Rule::RELATED_PRODUCTS;
+                $listType = \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS;
                 break;
             case 'upsell':
-                $listType = Magento_TargetRule_Model_Rule::UP_SELLS;
+                $listType = \Magento\TargetRule\Model\Rule::UP_SELLS;
                 break;
         }
         return $listType;
@@ -69,11 +71,11 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
     /**
      * Retrieve current edit product instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return \Mage::registry('current_product');
     }
 
     /**
@@ -83,7 +85,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
      */
     public function getPositionBehaviorOptions()
     {
-        return Mage::getModel('Magento_TargetRule_Model_Source_Position')->toOptionArray();
+        return \Mage::getModel('\Magento\TargetRule\Model\Source\Position')->toOptionArray();
     }
 
     /**
@@ -151,7 +153,7 @@ class Magento_TargetRule_Block_Adminhtml_Product extends Magento_Adminhtml_Block
      * Set TargetRule Attributes is ReadOnly
      *
      * @param bool $flag
-     * @return Magento_TargetRule_Block_Adminhtml_Product
+     * @return \Magento\TargetRule\Block\Adminhtml\Product
      */
     public function setIsReadonly($flag)
     {

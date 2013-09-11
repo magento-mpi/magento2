@@ -16,8 +16,10 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCardAccount_Model_Resource_History_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GiftCardAccount\Model\Resource\History;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource constructor
@@ -25,6 +27,6 @@ class Magento_GiftCardAccount_Model_Resource_History_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftCardAccount_Model_History', 'Magento_GiftCardAccount_Model_Resource_History');
+        $this->_init('\Magento\GiftCardAccount\Model\History', '\Magento\GiftCardAccount\Model\Resource\History');
     }
 }

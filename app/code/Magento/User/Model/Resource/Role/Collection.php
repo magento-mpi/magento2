@@ -16,7 +16,9 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Model_Resource_Role_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\User\Model\Resource\Role;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource model
@@ -24,14 +26,14 @@ class Magento_User_Model_Resource_Role_Collection extends Magento_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('Magento_User_Model_Role', 'Magento_User_Model_Resource_Role');
+        $this->_init('\Magento\User\Model\Role', '\Magento\User\Model\Resource\Role');
     }
 
     /**
      * Add user filter
      *
      * @param int $userId
-     * @return Magento_User_Model_Resource_Role_Collection
+     * @return \Magento\User\Model\Resource\Role\Collection
      */
     public function setUserFilter($userId)
     {
@@ -43,7 +45,7 @@ class Magento_User_Model_Resource_Role_Collection extends Magento_Core_Model_Res
     /**
      * Set roles filter
      *
-     * @return Magento_User_Model_Resource_Role_Collection
+     * @return \Magento\User\Model\Resource\Role\Collection
      */
     public function setRolesFilter()
     {

@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Template.
+ * Test class for \Magento\Core\Model\Template.
  */
 class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Template mock
      *
-     * @var Magento_Core_Model_Template
+     * @var \Magento\Core\Model\Template
      */
     protected $_model;
 
@@ -25,13 +25,13 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Template',
+            '\Magento\Core\Model\Template',
             $helper->getConstructArguments(
-                'Magento_Core_Model_Template',
+                '\Magento\Core\Model\Template',
                 array(
-                    'design' => $this->getMock('Magento_Core_Model_View_DesignInterface'),
+                    'design' => $this->getMock('Magento\Core\Model\View\DesignInterface'),
                     'data' => array(
-                        'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+                        'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                         'store' => 1
                     )
                 )

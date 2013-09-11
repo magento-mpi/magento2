@@ -8,7 +8,9 @@
  * @license {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-abstract class Magento_GoogleAdwords_Model_Config_Backend_ConversionAbstract extends Magento_Core_Model_Config_Value
+namespace Magento\GoogleAdwords\Model\Config\Backend;
+
+abstract class ConversionAbstract extends \Magento\Core\Model\Config\Value
 {
     /**
      * @var \Magento\Validator\Composite\VarienObject
@@ -16,22 +18,22 @@ abstract class Magento_GoogleAdwords_Model_Config_Backend_ConversionAbstract ext
     protected $_validatorComposite;
 
     /**
-     * @var Magento_GoogleAdwords_Model_Validator_Factory
+     * @var \Magento\GoogleAdwords\Model\Validator\Factory
      */
     protected $_validatorFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
+     * @param \Magento\Core\Model\Context $context
      * @param Magento_Validator_Composite_VarienObjectFactory $validatorCompositeFactory
-     * @param Magento_GoogleAdwords_Model_Validator_Factory $validatorFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
+        \Magento\Core\Model\Context $context,
         Magento_Validator_Composite_VarienObjectFactory $validatorCompositeFactory,
-        Magento_GoogleAdwords_Model_Validator_Factory $validatorFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null
     ) {
         parent::__construct($context, $resource, $resourceCollection);

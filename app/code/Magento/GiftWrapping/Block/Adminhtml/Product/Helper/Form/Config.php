@@ -15,8 +15,10 @@
  * @category   Magento
  * @package    Magento_GiftWrapping
  */
-class Magento_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config
-    extends Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Config
+namespace Magento\GiftWrapping\Block\Adminhtml\Product\Helper\Form;
+
+class Config
+    extends \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Config
 {
     /**
      * Get config value data
@@ -25,6 +27,6 @@ class Magento_GiftWrapping_Block_Adminhtml_Product_Helper_Form_Config
      */
     protected function _getValueFromConfig()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForItems();
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForItems();
     }
 }

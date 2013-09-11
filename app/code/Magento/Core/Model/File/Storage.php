@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
+namespace Magento\Core\Model\File;
+
+class Storage extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Storage systems ids
@@ -43,12 +45,12 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     /**
      * Show if there were errors while synchronize process
      *
-     * @param  Magento_Core_Model_Abstract $sourceModel
-     * @param  Magento_Core_Model_Abstract $destinationModel
+     * @param  \Magento\Core\Model\AbstractModel $sourceModel
+     * @param  \Magento\Core\Model\AbstractModel $destinationModel
      * @return bool
      */
-    protected function _synchronizeHasErrors(Magento_Core_Model_Abstract $sourceModel,
-        Magento_Core_Model_Abstract $destinationModel
+    protected function _synchronizeHasErrors(\Magento\Core\Model\AbstractModel $sourceModel,
+        \Magento\Core\Model\AbstractModel $destinationModel
     ) {
         if (!$sourceModel || !$destinationModel) {
             return true;
@@ -60,11 +62,11 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     /**
      * Return synchronize process status flag
      *
-     * @return Magento_Core_Model_File_Storage_Flag
+     * @return \Magento\Core\Model\File\Storage\Flag
      */
     public function getSyncFlag()
     {
-        return Mage::getSingleton('Magento_Core_Model_File_Storage_Flag')->loadSelf();
+        return \Mage::getSingleton('Magento\Core\Model\File\Storage\Flag')->loadSelf();
     }
 
     /**
@@ -78,22 +80,22 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
      *
      * @param  int|null $storage
      * @param  array $params
-     * @return Magento_Core_Model_Abstract|bool
+     * @return \Magento\Core\Model\AbstractModel|bool
      */
     public function getStorageModel($storage = null, $params = array())
     {
         if (is_null($storage)) {
-            $storage = Mage::helper('Magento_Core_Helper_File_Storage')->getCurrentStorageCode();
+            $storage = \Mage::helper('Magento\Core\Helper\File\Storage')->getCurrentStorageCode();
         }
 
         switch ($storage) {
             case self::STORAGE_MEDIA_FILE_SYSTEM:
-                $model = Mage::getModel('Magento_Core_Model_File_Storage_File');
+                $model = \Mage::getModel('\Magento\Core\Model\File\Storage\File');
                 break;
             case self::STORAGE_MEDIA_DATABASE:
                 $connection = (isset($params['connection'])) ? $params['connection'] : null;
                 $arguments = array('connection' => $connection);
-                $model = Mage::getModel('Magento_Core_Model_File_Storage_Database',
+                $model = \Mage::getModel('\Magento\Core\Model\File\Storage\Database',
                     array('connectionName' => $arguments));
                 break;
             default:
@@ -115,14 +117,14 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
      * )
      *
      * @param  array $storage
-     * @return Magento_Core_Model_File_Storage
+     * @return \Magento\Core\Model\File\Storage
      */
     public function synchronize($storage)
     {
         if (is_array($storage) && isset($storage['type'])) {
             $storageDest    = (int) $storage['type'];
             $connection     = (isset($storage['connection'])) ? $storage['connection'] : null;
-            $helper         = Mage::helper('Magento_Core_Helper_File_Storage');
+            $helper         = \Mage::helper('Magento\Core\Helper\File\Storage');
 
             // if unable to sync to internal storage from itself
             if ($storageDest == $helper->getCurrentStorageCode() && $helper->isInternalStorage()) {
@@ -204,14 +206,14 @@ class Magento_Core_Model_File_Storage extends Magento_Core_Model_Abstract
     public function getScriptConfig()
     {
         $config = array();
-        $config['media_directory'] = Mage::getBaseDir('media');
+        $config['media_directory'] = \Mage::getBaseDir('media');
 
-        $allowedResources = Mage::getConfig()->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
+        $allowedResources = \Mage::getConfig()->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
         foreach ($allowedResources as $allowedResource) {
             $config['allowed_resources'][] = $allowedResource;
         }
 
-        $config['update_time'] = Mage::getStoreConfig(self::XML_PATH_MEDIA_UPDATE_TIME);
+        $config['update_time'] = \Mage::getStoreConfig(self::XML_PATH_MEDIA_UPDATE_TIME);
 
         return $config;
     }

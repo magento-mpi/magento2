@@ -24,13 +24,13 @@ class Magento_Adminhtml_Controller_Tax_RateTest extends Magento_Backend_Utility_
         $this->dispatch('backend/admin/tax_rate/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
-        $result = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($jsonBody);
+        $result = Mage::helper('Magento\Core\Helper\Data')->jsonDecode($jsonBody);
 
         $this->assertArrayHasKey('tax_calculation_rate_id', $result);
 
         $rateId = $result['tax_calculation_rate_id'];
-        /** @var $rate Magento_Tax_Model_Calculation_Rate */
-        $rate = Mage::getModel('Magento_Tax_Model_Calculation_Rate')->load($rateId, 'tax_calculation_rate_id');
+        /** @var $rate \Magento\Tax\Model\Calculation\Rate */
+        $rate = Mage::getModel('\Magento\Tax\Model\Calculation\Rate')->load($rateId, 'tax_calculation_rate_id');
 
         $this->assertEquals($expectedData['zip_is_range'], $rate->getZipIsRange());
         $this->assertEquals($expectedData['zip_from'], $rate->getZipFrom());
@@ -91,7 +91,7 @@ class Magento_Adminhtml_Controller_Tax_RateTest extends Magento_Backend_Utility_
         $this->dispatch('backend/admin/tax_rate/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
-        $result = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($jsonBody);
+        $result = Mage::helper('Magento\Core\Helper\Data')->jsonDecode($jsonBody);
 
         $this->assertEquals($expectedData['success'], $result['success']);
         $this->assertArrayHasKey('error_message', $result);

@@ -18,11 +18,11 @@ class Magento_Adminhtml_Block_Report_Sales_Refunded_GridTest extends PHPUnit_Fra
      * Creates and inits block
      *
      * @param string|null $reportType
-     * @return Magento_Adminhtml_Block_Report_Sales_Refunded_Grid
+     * @return \Magento\Adminhtml\Block\Report\Sales\Refunded\Grid
      */
     protected function _createBlock($reportType = null)
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Sales_Refunded_Grid');
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Refunded\Grid');
 
         $filterData = new \Magento\Object();
         if ($reportType) {

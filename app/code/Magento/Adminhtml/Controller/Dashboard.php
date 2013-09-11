@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Dashboard extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller;
+
+class Dashboard extends \Magento\Adminhtml\Controller\Action
 {
     public function indexAction()
     {
@@ -82,8 +84,8 @@ class Magento_Adminhtml_Controller_Dashboard extends Magento_Adminhtml_Controlle
         $gaData = $this->_request->getParam('ga');
         $gaHash = $this->_request->getParam('h');
         if ($gaData && $gaHash) {
-            /** @var $helper Magento_Adminhtml_Helper_Dashboard_Data */
-            $helper = $this->_objectManager->get('Magento_Adminhtml_Helper_Dashboard_Data');
+            /** @var $helper \Magento\Adminhtml\Helper\Dashboard\Data */
+            $helper = $this->_objectManager->get('Magento\Adminhtml\Helper\Dashboard\Data');
             $newHash = $helper->getChartDataHash($gaData);
             if ($newHash == $gaHash) {
                 $params = json_decode(base64_decode(urldecode($gaData)), true);
@@ -91,7 +93,7 @@ class Magento_Adminhtml_Controller_Dashboard extends Magento_Adminhtml_Controlle
                     try {
                         /** @var $httpClient \Magento\HTTP\ZendClient */
                         $httpClient = $this->_objectManager->create('Magento\HTTP\ZendClient');
-                        $response = $httpClient->setUri(Magento_Adminhtml_Block_Dashboard_Graph::API_URL)
+                        $response = $httpClient->setUri(\Magento\Adminhtml\Block\Dashboard\Graph::API_URL)
                             ->setParameterGet($params)
                             ->setConfig(array('timeout' => 5))
                             ->request('GET');
@@ -101,8 +103,8 @@ class Magento_Adminhtml_Controller_Dashboard extends Magento_Adminhtml_Controlle
                         $this->_response->setHeader('Content-type', $headers['Content-type'])
                             ->setBody($response->getBody());
                         return;
-                    } catch (Exception $e) {
-                        $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+                    } catch (\Exception $e) {
+                        $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                         $error = __('see error log for details');
                         $httpCode = 503;
                     }

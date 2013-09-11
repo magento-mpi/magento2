@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Search;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -34,20 +36,20 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
 
     /**
      * Retrieve quote store object
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getStore();
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getStore();
     }
 
     /**
      * Retrieve quote object
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote();
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -74,20 +76,20 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
     /**
      * Prepare collection to be displayed in the grid
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid
      */
     protected function _prepareCollection()
     {
-        $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection();
+        $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
+        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection();
         $collection
             ->setStore($this->getStore())
             ->addAttributeToSelect($attributes)
             ->addAttributeToSelect('sku')
             ->addStoreFilter()
             ->addAttributeToFilter('type_id', array_keys(
-                Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
+                \Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
             ))
             ->addAttributeToSelect('gift_message_available');
 
@@ -98,7 +100,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
     /**
      * Prepare columns
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid
      */
     protected function _prepareColumns()
     {
@@ -110,7 +112,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
         ));
         $this->addColumn('name', array(
             'header'    => __('Product'),
-            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
+            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Product',
             'index'     => 'name'
         ));
         $this->addColumn('sku', array(
@@ -126,7 +128,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
             'currency_code' => $this->getStore()->getCurrentCurrencyCode(),
             'rate'      => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price',
+            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price',
         ));
 
         $this->addColumn('in_products', array(
@@ -144,7 +146,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
             'filter'    => false,
             'sortable'  => false,
             'header'    => __('Quantity'),
-            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty',
+            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'center',
@@ -172,7 +174,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Magento_Adm
     /*
      * Add custom options to product collection
      *
-     * return Magento_Adminhtml_Block_Widget_Grid
+     * return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _afterLoadCollection() {
         $this->getCollection()->addOptionsToResult();

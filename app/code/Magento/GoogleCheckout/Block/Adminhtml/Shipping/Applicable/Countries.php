@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Applicable_Countries
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\GoogleCheckout\Block\Adminhtml\Shipping\Applicable;
+
+class Countries
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
     protected $_addRowButtonHtml = array();
     protected $_removeRowButtonHtml = array();

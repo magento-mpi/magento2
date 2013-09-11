@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model_Api_Resource
+namespace Magento\GiftCard\Model\Checkout\Cart;
+
+class Api extends \Magento\Checkout\Model\Api\Resource
 {
     /**
      * List gift cards account belonging to quote
@@ -18,10 +20,10 @@ class Magento_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model_Ap
      */
     public function items($quoteId, $store = null)
     {
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
-        $giftcardsList = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($quote);
+        $giftcardsList = \Mage::helper('Magento\GiftCardAccount\Helper\Data')->getCards($quote);
         // map short names of giftcard account attributes to long
         foreach($giftcardsList as $id => $card) {
             $giftcardsList[$id] = array(
@@ -44,18 +46,18 @@ class Magento_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model_Ap
      */
     public function add($giftcardAccountCode, $quoteId, $store = null)
     {
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
-        /** @var $giftcardAccount Magento_GiftCardAccount_Model_Giftcardaccount */
-        $giftcardAccount = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
+        /** @var $giftcardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
+        $giftcardAccount = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
                 ->loadByCode($giftcardAccountCode);
         if (!$giftcardAccount->getId()) {
             $this->_fault('giftcard_account_not_found_by_code');
         }
         try {
             $giftcardAccount->addToCart(true, $quote);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('save_error', $e->getMessage());
         }
 
@@ -72,18 +74,18 @@ class Magento_GiftCard_Model_Checkout_Cart_Api extends Magento_Checkout_Model_Ap
      */
     public function remove($giftcardAccountCode, $quoteId, $store = null)
     {
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->_getQuote($quoteId, $store);
 
-        /** @var $giftcardAccount Magento_GiftCardAccount_Model_Giftcardaccount */
-        $giftcardAccount = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
+        /** @var $giftcardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
+        $giftcardAccount = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
                 ->loadByCode($giftcardAccountCode);
         if (!$giftcardAccount->getId()) {
             $this->_fault('giftcard_account_not_found_by_code');
         }
         try {
             $giftcardAccount->removeFromCart(true, $quote);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('save_error', $e->getMessage());
         }
 

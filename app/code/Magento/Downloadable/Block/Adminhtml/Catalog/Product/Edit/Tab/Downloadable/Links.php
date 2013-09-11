@@ -15,8 +15,10 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links
-    extends Magento_Adminhtml_Block_Template
+namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
+
+class Links
+    extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Block config data
@@ -28,21 +30,21 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     /**
      * Purchased Separately Attribute cache
      *
-     * @var Magento_Catalog_Model_Resource_Eav_Attribute
+     * @var \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     protected $_purchasedSeparatelyAttribute = null;
 
     protected $_template = 'product/edit/downloadable/links.phtml';
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
 
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -64,25 +66,25 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     /**
      * Get product that is being edited
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('product');
+        return \Mage::registry('product');
     }
 
     /**
      * Retrieve Purchased Separately Attribute object
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     public function getPurchasedSeparatelyAttribute()
     {
         if (is_null($this->_purchasedSeparatelyAttribute)) {
             $_attributeCode = 'links_purchased_separately';
 
-            $this->_purchasedSeparatelyAttribute = Mage::getModel('Magento_Eav_Model_Entity_Attribute')
-                ->loadByCode(Magento_Catalog_Model_Product::ENTITY, $_attributeCode);
+            $this->_purchasedSeparatelyAttribute = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')
+                ->loadByCode(\Magento\Catalog\Model\Product::ENTITY, $_attributeCode);
         }
 
         return $this->_purchasedSeparatelyAttribute;
@@ -95,10 +97,10 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getPurchasedSeparatelySelect()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setName('product[links_purchased_separately]')
             ->setId('downloadable_link_purchase_type')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray())
+            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray())
             ->setValue($this->getProduct()->getLinksPurchasedSeparately());
 
         return $select->getHtml();
@@ -111,7 +113,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getAddButtonHtml()
     {
-        $addButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $addButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label' => __('Add New Row'),
                 'id'    => 'add_link_item',
@@ -129,7 +131,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     {
         return $this->getProduct()->getId() && $this->getProduct()->getTypeId() == 'downloadable'
             ? $this->getProduct()->getLinksTitle()
-            : Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+            : \Mage::getStoreConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
     }
 
     /**
@@ -149,8 +151,8 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getIsPriceWebsiteScope()
     {
-        $scope =  (int) Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
-        if ($scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
+        $scope =  (int) \Mage::app()->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
+        if ($scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE) {
             return true;
         }
         return false;
@@ -164,12 +166,12 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     public function getLinkData()
     {
         $linkArr = array();
-        if ($this->getProduct()->getTypeId() !== Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+        if ($this->getProduct()->getTypeId() !== \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             return $linkArr;
         }
         $links = $this->getProduct()->getTypeInstance()->getLinks($this->getProduct());
         $priceWebsiteScope = $this->getIsPriceWebsiteScope();
-        $fileHelper = Mage::helper('Magento_Downloadable_Helper_File');
+        $fileHelper = \Mage::helper('Magento\Downloadable\Helper\File');
         foreach ($links as $item) {
             $tmpLinkItem = array(
                 'link_id' => $item->getId(),
@@ -185,11 +187,11 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
                 'sort_order' => $item->getSortOrder(),
             );
             $file = $fileHelper->getFilePath(
-                Magento_Downloadable_Model_Link::getBasePath(), $item->getLinkFile()
+                \Magento\Downloadable\Model\Link::getBasePath(), $item->getLinkFile()
             );
 
             if ($item->getLinkFile() && !is_file($file)) {
-                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+                \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($file);
             }
 
             if ($item->getLinkFile() && is_file($file)) {
@@ -207,7 +209,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
                     ));
             }
             $sampleFile = $fileHelper->getFilePath(
-                Magento_Downloadable_Model_Link::getBaseSamplePath(), $item->getSampleFile()
+                \Magento\Downloadable\Model\Link::getBaseSamplePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && is_file($sampleFile)) {
                 $tmpLinkItem['sample_file_save'] = array(
@@ -250,7 +252,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getConfigMaxDownloads()
     {
-        return Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER);
+        return \Mage::getStoreConfig(\Magento\Downloadable\Model\Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER);
     }
 
     /**
@@ -259,7 +261,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     protected function _prepareLayout()
     {
-        $this->addChild('upload_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('upload_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'id'      => '',
             'label'   => __('Upload Files'),
             'type'    => 'button',
@@ -297,7 +299,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getUploadUrl($type)
     {
-        return Mage::getModel('Magento_Backend_Model_Url')->addSessionParam()
+        return \Mage::getModel('\Magento\Backend\Model\Url')->addSessionParam()
             ->getUrl('*/downloadable_file/upload', array('type' => $type, '_secure' => true));
     }
 
@@ -321,7 +323,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**
@@ -347,7 +349,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     }
 
     /**
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId $storeId
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId $storeId
      * @return string
      */
     public function getBaseCurrencyCode($storeId)

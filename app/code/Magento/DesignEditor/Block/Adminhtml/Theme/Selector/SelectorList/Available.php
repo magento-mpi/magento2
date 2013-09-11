@@ -12,10 +12,12 @@
  * Available theme list
  *
  * @method int getNextPage()
- * @method Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Available setNextPage(int $page)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Available setNextPage(int $page)
  */
-class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Available
-    extends Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
+
+class Available
+    extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList
 {
     /**
      * Get tab title
@@ -42,15 +44,15 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Available
     /**
      * Get edit button
      *
-     * @param Magento_DesignEditor_Block_Adminhtml_Theme $themeBlock
+     * @param \Magento\DesignEditor\Block\Adminhtml\Theme $themeBlock
      * @return $this
      */
     protected function _addEditButtonHtml($themeBlock)
     {
         $themeId = $themeBlock->getTheme()->getId();
 
-        /** @var $assignButton Magento_Backend_Block_Widget_Button */
-        $assignButton = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button');
+        /** @var $assignButton \Magento\Backend\Block\Widget\Button */
+        $assignButton = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button');
         $assignButton->setData(array(
             'label' => __('Edit'),
             'data_attribute' => array(
@@ -73,8 +75,8 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Available
     /**
      * Add theme buttons
      *
-     * @param Magento_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract
+     * @param \Magento\DesignEditor\Block\Adminhtml\Theme $themeBlock
+     * @return \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList
      */
     protected function _addThemeButtons($themeBlock)
     {

@@ -36,7 +36,7 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
 
         // emulate invalid installation date, so that application will think it is not installed
         self::$_params = array(Mage::PARAM_CUSTOM_LOCAL_CONFIG
-            => sprintf(Magento_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
+            => sprintf(\Magento\Core\Model\Config\Primary::CONFIG_TEMPLATE_INSTALL_DATE, 'invalid')
         );
     }
 
@@ -45,8 +45,8 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(self::$_params);
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
-                'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
-                'Magento_Core_Controller_Response_Http' => 'Magento_TestFramework_Response'
+                '\Magento\Core\Controller\Request\Http' => 'Magento_TestFramework_Request',
+                '\Magento\Core\Controller\Response\Http' => 'Magento_TestFramework_Response'
             )
         ));
         $this->dispatch('install/wizard');
@@ -61,12 +61,12 @@ class Magento_Install_Controller_WizardTest extends Magento_TestFramework_TestCa
     public function testPreDispatchImpossibleToRenderPage($action)
     {
         $params = self::$_params;
-        $params[Mage::PARAM_APP_DIRS][Magento_Core_Model_Dir::STATIC_VIEW] = self::$_tmpDir;
+        $params[Mage::PARAM_APP_DIRS][\Magento\Core\Model\Dir::STATIC_VIEW] = self::$_tmpDir;
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize($params);
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
             'preferences' => array(
-                'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
-                'Magento_Core_Controller_Response_Http' => 'Magento_TestFramework_Response'
+                '\Magento\Core\Controller\Request\Http' => 'Magento_TestFramework_Request',
+                '\Magento\Core\Controller\Response\Http' => 'Magento_TestFramework_Response'
             )
         ));
         $this->dispatch("install/wizard/{$action}");

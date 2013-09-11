@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Form extends Magento_Backend_Block_Widget_Form
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Prepare form container.
      *
-     * @return Magento_Webapi_Block_Adminhtml_Role_Edit_Form
+     * @return \Magento\Webapi\Block\Adminhtml\Role\Edit\Form
      */
     protected function _prepareForm()
     {

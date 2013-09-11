@@ -15,19 +15,21 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs_Configurable extends Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs;
+
+class Configurable extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs
 {
     /**
      * Preparing layout
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs_Configurable
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs\Configurable
      */
     protected function _prepareLayout()
     {
         $this->addTab('super_settings', array(
             'label'     => __('Configurable Product Settings'),
             'content'   => $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings')
+                ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings')
                 ->toHtml(),
             'active'    => true
         ));

@@ -12,13 +12,13 @@ class Magento_ScheduledImportExport_Model_ObserverTest extends PHPUnit_Framework
      */
     public function testScheduledLogClean()
     {
-        $model = new Magento_ScheduledImportExport_Model_Observer;
+        $model = new \Magento\ScheduledImportExport\Model\Observer;
         $model->scheduledLogClean('not_used', true);
-        /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir');
-        $this->assertFileExists($dirs->getDir(Magento_Core_Model_Dir::LOG)
+        /** @var $dirs \Magento\Core\Model\Dir */
+        $dirs = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir');
+        $this->assertFileExists($dirs->getDir(\Magento\Core\Model\Dir::LOG)
             . DIRECTORY_SEPARATOR
-            . Magento_ScheduledImportExport_Model_Scheduled_Operation::LOG_DIRECTORY
+            . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
         );
     }
 }

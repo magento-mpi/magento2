@@ -21,15 +21,15 @@ class Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid
      */
     public function testPrepareSelect()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         Mage::register('current_product', $product);
 
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getSingleton('Magento_Core_Model_Layout');
-        /** @var $block  Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet */
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getSingleton('Magento\Core\Model\Layout');
+        /** @var $block  \Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Backend\Grid\ColumnSet */
         $block = $layout->createBlock(
-            'Magento_Catalog_Block_Product_Configurable_AssociatedSelector_Backend_Grid_ColumnSet',
+            '\Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Backend\Grid\ColumnSet',
             'block'
         );
         $assertBlock = $block->getLayout()->getBlock('block.test_configurable');

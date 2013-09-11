@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Attribute extends Magento_Eav_Model_Attribute
+namespace Magento\Customer\Model;
+
+class Attribute extends \Magento\Eav\Model\Attribute
 {
     /**
      * Name of the module
@@ -41,6 +43,6 @@ class Magento_Customer_Model_Attribute extends Magento_Eav_Model_Attribute
      */
     protected function _construct()
     {
-        $this->_init('Magento_Customer_Model_Resource_Attribute');
+        $this->_init('\Magento\Customer\Model\Resource\Attribute');
     }
 }

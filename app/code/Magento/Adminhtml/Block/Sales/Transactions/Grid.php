@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Transactions;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Set grid params
@@ -34,15 +36,15 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
         $collection = $this->getCollection();
         if (!$collection) {
-            $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection');
+            $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection');
         }
-        $order = Mage::registry('current_order');
+        $order = \Mage::registry('current_order');
         if ($order) {
             $collection->addOrderIdFilter($order->getId());
         }
@@ -55,7 +57,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
     /**
      * Add columns to grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -95,8 +97,8 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
             'header' => __('Payment Method'),
             'index' => 'method',
             'type' => 'options',
-            'options' => Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(true),
-            'option_groups' => Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(true, true, true),
+            'options' => \Mage::helper('Magento\Payment\Helper\Data')->getPaymentMethodList(true),
+            'option_groups' => \Mage::helper('Magento\Payment\Helper\Data')->getPaymentMethodList(true, true, true),
             'header_css_class' => 'col-method',
             'column_css_class' => 'col-method'
         ));
@@ -105,7 +107,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Grid extends Magento_Adminhtml_
             'header' => __('Transaction Type'),
             'index' => 'txn_type',
             'type' => 'options',
-            'options' => Mage::getSingleton('Magento_Sales_Model_Order_Payment_Transaction')->getTransactionTypes(),
+            'options' => \Mage::getSingleton('Magento\Sales\Model\Order\Payment\Transaction')->getTransactionTypes(),
             'header_css_class' => 'col-transaction-type',
             'column_css_class' => 'col-transaction-type'
         ));

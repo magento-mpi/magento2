@@ -9,7 +9,7 @@
 class Magento_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Observer_Backend_BillingAgreement
+     * @var \Magento\Sales\Model\Observer\Backend\BillingAgreement
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class Magento_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_
     {
         $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
-        $this->_model = new Magento_Sales_Model_Observer_Backend_BillingAgreement(
+        $this->_model = new \Magento\Sales\Model\Observer\Backend\BillingAgreement(
             $this->_authorizationMock
         );
     }
@@ -45,7 +45,7 @@ class Magento_Sales_Model_Observer_Backend_BillingAgreementTest extends PHPUnit_
     {
         $event = $this->getMock('Magento\Event', array('getMethodInstance', 'getResult'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
-        $methodInstance = $this->getMock('Magento_Paypal_Model_Method_Agreement', array(), array(), '', false);
+        $methodInstance = $this->getMock('Magento\Paypal\Model\Method\Agreement', array(), array(), '', false);
         $event->expects($this->once())->method('getMethodInstance')->will($this->returnValue($methodInstance));
         $this->_authorizationMock->expects(
             $this->once())->method('isAllowed')->with('Magento_Sales::use')->will($this->returnValue(false)

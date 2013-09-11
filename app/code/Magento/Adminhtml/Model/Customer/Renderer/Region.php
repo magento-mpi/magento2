@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Customer_Renderer_Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
+namespace Magento\Adminhtml\Model\Customer\Renderer;
+
+class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Country region collections
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Model_Customer_Renderer_Region implements \Magento\Data\
         $regionCollection = false;
         if ($countryId) {
             if (!isset(self::$_regionCollections[$countryId])) {
-                self::$_regionCollections[$countryId] = Mage::getModel('Magento_Directory_Model_Country')
+                self::$_regionCollections[$countryId] = \Mage::getModel('\Magento\Directory\Model\Country')
                     ->setId($countryId)
                     ->getLoadedRegionCollection()
                     ->toOptionArray();
@@ -78,7 +80,7 @@ class Magento_Adminhtml_Model_Customer_Renderer_Region implements \Magento\Data\
                 $selected = ($regionId==$region['value']) ? ' selected="selected"' : '';
                 $regionVal = (0 == $region['value']) ? '' : (int)$region['value'];
                 $html.= '<option value="' . $regionVal . '"' . $selected . '>'
-                    . Mage::helper('Magento_Adminhtml_Helper_Data')->escapeHtml(__($region['label']))
+                    . \Mage::helper('Magento\Adminhtml\Helper\Data')->escapeHtml(__($region['label']))
                     . '</option>';
             }
             $html.= '</select>' . "\n";

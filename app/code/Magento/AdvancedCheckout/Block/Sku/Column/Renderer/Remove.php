@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdvancedCheckout_Block_Sku_Column_Renderer_Remove extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Button
+namespace Magento\AdvancedCheckout\Block\Sku\Column\Renderer;
+
+class Remove extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Button
 {
     public function render(\Magento\Object $row)
     {
-        $removeButtonHtml = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array(
+        $removeButtonHtml = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button', '', array(
             'data' => array(
                 'class' => 'delete',
                 'label' => 'Remove',

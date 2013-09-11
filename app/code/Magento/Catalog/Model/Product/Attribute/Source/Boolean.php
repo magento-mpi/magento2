@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Source_Boolean extends Magento_Eav_Model_Entity_Attribute_Source_Boolean
+namespace Magento\Catalog\Model\Product\Attribute\Source;
+
+class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\Boolean
 {
     /**
      * Retrieve all attribute options

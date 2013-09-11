@@ -15,12 +15,14 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Rating\Model\Resource\Rating\Option\Vote;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Application instance
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
@@ -28,19 +30,19 @@ class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magent
      * Collection constructor
      *
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      * @param array $data
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
         $data = array()
     ) {
-        $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
+        $this->_app = isset($data['app']) ? $data['app'] : \Mage::app();
 
-        if (!($this->_app instanceof Magento_Core_Model_App)) {
-            throw new InvalidArgumentException('Required app object is invalid');
+        if (!($this->_app instanceof \Magento\Core\Model\App)) {
+            throw new \InvalidArgumentException('Required app object is invalid');
         }
         parent::__construct($fetchStrategy, $resource);
     }
@@ -51,14 +53,14 @@ class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magent
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rating_Model_Rating_Option_Vote', 'Magento_Rating_Model_Resource_Rating_Option_Vote');
+        $this->_init('\Magento\Rating\Model\Rating\Option\Vote', '\Magento\Rating\Model\Resource\Rating\Option\Vote');
     }
 
     /**
      * Set review filter
      *
      * @param int $reviewId
-     * @return Magento_Rating_Model_Resource_Rating_Option_Vote_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Option\Vote\Collection
      */
     public function setReviewFilter($reviewId)
     {
@@ -71,7 +73,7 @@ class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magent
      * Set EntityPk filter
      *
      * @param int $entityId
-     * @return Magento_Rating_Model_Resource_Rating_Option_Vote_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Option\Vote\Collection
      */
     public function setEntityPkFilter($entityId)
     {
@@ -84,7 +86,7 @@ class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magent
      * Set store filter
      *
      * @param int $storeId
-     * @return Magento_Rating_Model_Resource_Rating_Option_Vote_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Option\Vote\Collection
      */
     public function setStoreFilter($storeId)
     {
@@ -104,7 +106,7 @@ class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magent
      * Add rating info to select
      *
      * @param int $storeId
-     * @return Magento_Rating_Model_Resource_Rating_Option_Vote_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Option\Vote\Collection
      */
     public function addRatingInfo($storeId=null)
     {
@@ -118,11 +120,11 @@ class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magent
             ->joinLeft(
                 array('title' => $this->getTable('rating_title')),
                 $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?',
-                    (int)Mage::app()->getStore()->getId()),
+                    (int)\Mage::app()->getStore()->getId()),
                 array('rating_code' => $ratingCodeCond));
         if (!$this->_app->isSingleStoreMode()) {
             if ($storeId == null) {
-                $storeId = Mage::app()->getStore()->getId();
+                $storeId = \Mage::app()->getStore()->getId();
             }
 
             if (is_array($storeId)) {
@@ -145,7 +147,7 @@ class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magent
     /**
      * Add option info to select
      *
-     * @return Magento_Rating_Model_Resource_Rating_Option_Vote_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Option\Vote\Collection
      */
     public function addOptionInfo()
     {
@@ -158,7 +160,7 @@ class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magent
     /**
      * Add rating options
      *
-     * @return Magento_Rating_Model_Resource_Rating_Option_Vote_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Option\Vote\Collection
      */
     public function addRatingOptions()
     {
@@ -166,7 +168,7 @@ class Magento_Rating_Model_Resource_Rating_Option_Vote_Collection extends Magent
             return $this;
         }
         foreach ($this->getItems() as $item) {
-            $options = Mage::getModel('Magento_Rating_Model_Rating_Option')
+            $options = \Mage::getModel('\Magento\Rating\Model\Rating\Option')
                     ->getResourceCollection()
                     ->addRatingFilter($item->getRatingId())
                     ->load();

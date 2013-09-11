@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty extends Magento_Core_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
+
+class Qty extends \Magento\Core\Block\Template
 {
     /**
      * Constructor for our block with options
@@ -31,12 +33,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Qty extends Mag
     /**
      * Retrieve product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', \Mage::registry('product'));
         }
         $product = $this->getData('product');
 

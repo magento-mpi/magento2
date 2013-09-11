@@ -16,8 +16,10 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice
-    extends Magento_Downloadable_Model_Sales_Order_Pdf_Items_Abstract
+namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
+
+class Invoice
+    extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\AbstractItems
 {
     /**
      * Draw item line
@@ -32,7 +34,7 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Invoice
         $lines  = array();
 
         // draw Product name
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
+        $stringHelper = \Mage::helper('Magento\Core\Helper\String');
         $lines[0] = array(array(
             'text' => $stringHelper->str_split($item->getName(), 35, true, true),
             'feed' => 35,

@@ -15,21 +15,23 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Block_Address_Book extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Address;
+
+class Book extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Customer_Model_Session $customerSession
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Customer_Model_Session $customerSession,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -97,7 +99,7 @@ class Magento_Customer_Block_Address_Book extends Magento_Core_Block_Template
     {
         $customer = $this->getData('customer');
         if (is_null($customer)) {
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
             $this->setData('customer', $customer);
         }
         return $customer;
@@ -113,7 +115,7 @@ class Magento_Customer_Block_Address_Book extends Magento_Core_Block_Template
 
     /**
      * @param int $address
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getAddressById($address)
     {

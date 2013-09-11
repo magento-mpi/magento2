@@ -12,7 +12,9 @@
  * Sys config source model for private sales redirect modes
  *
  */
-class Magento_WebsiteRestriction_Model_System_Config_Source_Redirect
+namespace Magento\WebsiteRestriction\Model\System\Config\Source;
+
+class Redirect
 extends \Magento\Object
 {
     /**
@@ -24,11 +26,11 @@ extends \Magento\Object
     {
         return array(
             array(
-                'value' => Magento_WebsiteRestriction_Model_Mode::HTTP_302_LOGIN,
+                'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_302_LOGIN,
                 'label' => __('To login form (302 Found)'),
             ),
             array(
-                'value' => Magento_WebsiteRestriction_Model_Mode::HTTP_302_LANDING,
+                'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_302_LANDING,
                 'label' => __('To landing page (302 Found)'),
             ),
         );

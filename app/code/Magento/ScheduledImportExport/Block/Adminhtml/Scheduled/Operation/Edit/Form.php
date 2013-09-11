@@ -19,23 +19,25 @@
  * @method string getGeneralSettingsLabel() getGeneralSettingsLabel()
  * @method string getFileSettingsLabel() getFileSettingsLabel()
  * @method string getEmailSettingsLabel() getEmailSettingsLabel()
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form setFileSettingsLabel() setFileSettingsLabel(string $value)
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form setEmailSettingsLabel() setEmailSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form setFileSettingsLabel() setFileSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
 // @codingStandardsIgnoreEnd
-abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit;
+
+abstract class Form
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare general form for scheduled operation
      *
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
      */
     protected function _prepareForm()
     {
-        /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
-        $operation = Mage::registry('current_operation');
+        /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
+        $operation = \Mage::registry('current_operation');
         $form = new \Magento\Data\Form(array(
             'id'     => 'edit_form',
             'name'   => 'scheduled_operation'
@@ -66,8 +68,8 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
      * Add general information fieldset to form
      *
      * @param \Magento\Data\Form $form
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation $operation
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
      */
     protected function _addGeneralSettings($form, $operation)
     {
@@ -100,7 +102,7 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'required'  => false
         ));
 
-        $entities = Mage::getModel(
+        $entities = \Mage::getModel(
             'Magento_ImportExport_Model_Source_' . uc_words($operation->getOperationType()) . '_Entity'
         )->toOptionArray();
 
@@ -119,8 +121,8 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'required'  => true,
         ));
 
-        /** @var $operationData Magento_ScheduledImportExport_Model_Scheduled_Operation_Data */
-        $operationData = Mage::getSingleton('Magento_ScheduledImportExport_Model_Scheduled_Operation_Data');
+        /** @var $operationData \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data */
+        $operationData = \Mage::getSingleton('Magento\ScheduledImportExport\Model\Scheduled\Operation\Data');
 
         $fieldset->addField('freq', 'select', array(
             'name'      => 'freq',
@@ -145,13 +147,13 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
      * Add file information fieldset to form
      *
      * @param \Magento\Data\Form $form
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation $operation
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
      */
     protected function _addFileSettings($form, $operation)
     {
-        /** @var $operationData Magento_ScheduledImportExport_Model_Scheduled_Operation_Data */
-        $operationData = Mage::getSingleton('Magento_ScheduledImportExport_Model_Scheduled_Operation_Data');
+        /** @var $operationData \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data */
+        $operationData = \Mage::getSingleton('Magento\ScheduledImportExport\Model\Scheduled\Operation\Data');
 
         $fieldset = $form->addFieldset('file_settings', array(
             'legend' => $this->getFileSettingsLabel()
@@ -167,8 +169,8 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
 
         $fieldset->addField('file_path', 'text', array(
             'name'      => 'file_info[file_path]',
-            'title'     => __('File Directory'),
-            'label'     => __('File Directory'),
+            'title'     => __('File \Directory'),
+            'label'     => __('File \Directory'),
             'required'  => true,
             'note'      => __('For Type "Local Server" use relative path to Magento installation, e.g. var/export, var/import, var/export/some/dir')
         ));
@@ -202,8 +204,8 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'class'     => 'ftp-server server-dependent'
         ));
 
-        /** @var $sourceYesNo Magento_Backend_Model_Config_Source_Yesno */
-        $sourceYesNo = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno');
+        /** @var $sourceYesNo \Magento\Backend\Model\Config\Source\Yesno */
+        $sourceYesNo = \Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno');
         $fieldset->addField('passive', 'select', array(
             'name'      => 'file_info[passive]',
             'title'     => __('Passive Mode'),
@@ -219,8 +221,8 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
      * Add file information fieldset to form
      *
      * @param \Magento\Data\Form $form
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation $operation
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
      */
     protected function _addEmailSettings($form, $operation)
     {
@@ -228,8 +230,8 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'legend' => $this->getEmailSettingsLabel()
         ));
 
-        /** @var $sourceEmailIdentity Magento_Backend_Model_Config_Source_Email_Identity */
-        $sourceEmailIdentity = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Identity');
+        /** @var $sourceEmailIdentity \Magento\Backend\Model\Config\Source\Email\Identity */
+        $sourceEmailIdentity = \Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Identity');
 
         $fieldset->addField('email_receiver', 'select', array(
             'name'      => 'email_receiver',
@@ -257,8 +259,8 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
             'label'     => __('Send Failed Email Copy To')
         ));
 
-        /** @var $sourceEmailMethod Magento_Backend_Model_Config_Source_Email_Method */
-        $sourceEmailMethod = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Method');
+        /** @var $sourceEmailMethod \Magento\Backend\Model\Config\Source\Email\Method */
+        $sourceEmailMethod = \Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Method');
 
         $fieldset->addField('email_copy_method', 'select', array(
             'name'      => 'email_copy_method',
@@ -274,7 +276,7 @@ abstract class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation
      * Set values to form from operation model
      *
      * @param array $data
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form|bool
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form|bool
      */
     protected function _setFormValues(array $data)
     {

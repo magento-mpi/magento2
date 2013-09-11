@@ -37,8 +37,8 @@ class Magento_DB_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $installer = Mage::getResourceModel(
-            'Magento_Core_Model_Resource_Setup',
-            array('resourceName' => Magento_Core_Model_Resource_Setup::DEFAULT_SETUP_CONNECTION)
+            '\Magento\Core\Model\Resource\Setup',
+            array('resourceName' => \Magento\Core\Model\Resource\Setup::DEFAULT_SETUP_CONNECTION)
         );
         $this->_connection = $installer->getConnection();
         $this->_tableName = $installer->getTable('table_two_column_idx');

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catalog_Model_Product_Type_Abstract
+namespace Magento\GiftCard\Model\Catalog\Product\Type;
+
+class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     const TYPE_GIFTCARD = 'giftcard';
 
@@ -29,14 +31,14 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Mock for store instance
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
      * Locale instance
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
@@ -55,20 +57,20 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      */
     public function __construct(\Magento\Filesystem $filesystem, array $data = array())
     {
-        $this->_store = isset($data['store']) ? $data['store'] : Mage::app()->getStore();
-        $this->_locale = isset($data['locale']) ? $data['locale'] : Mage::app()->getLocale();
+        $this->_store = isset($data['store']) ? $data['store'] : \Mage::app()->getStore();
+        $this->_locale = isset($data['locale']) ? $data['locale'] : \Mage::app()->getLocale();
         parent::__construct($filesystem, $data);
     }
 
     /**
      * Check if gift card type is combined
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isTypeCombined($product)
     {
-        if ($product->getGiftcardType() == Magento_GiftCard_Model_Giftcard::TYPE_COMBINED) {
+        if ($product->getGiftcardType() == \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED) {
             return true;
         }
         return false;
@@ -77,12 +79,12 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Check if gift card type is physical
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isTypePhysical($product)
     {
-        if ($product->getGiftcardType() == Magento_GiftCard_Model_Giftcard::TYPE_PHYSICAL) {
+        if ($product->getGiftcardType() == \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL) {
             return true;
         }
         return false;
@@ -91,12 +93,12 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Check if gift card type is virtual
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isTypeVirtual($product)
     {
-        if ($product->getGiftcardType() == Magento_GiftCard_Model_Giftcard::TYPE_VIRTUAL) {
+        if ($product->getGiftcardType() == \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL) {
             return true;
         }
         return false;
@@ -105,18 +107,18 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Check if gift card is virtual product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isVirtual($product)
     {
-        return $product->getGiftcardType() == Magento_GiftCard_Model_Giftcard::TYPE_VIRTUAL;
+        return $product->getGiftcardType() == \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL;
     }
 
     /**
      * Check if product is available for sale
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isSalable($product)
@@ -136,7 +138,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      * Use standard preparation process and also add specific giftcard options.
      *
      * @param \Magento\Object $buyRequest
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
      * @return array|string
      */
@@ -150,10 +152,10 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
 
         try {
             $amount = $this->_validate($buyRequest, $product, $processMode);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             return $e->getMessage();
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
             return __('Something went wrong  preparing the gift card.');
         }
 
@@ -167,7 +169,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
 
         $messageAllowed = false;
         if ($product->getUseConfigAllowMessage()) {
-            $messageAllowed = Mage::getStoreConfigFlag(Magento_GiftCard_Model_Giftcard::XML_PATH_ALLOW_MESSAGE);
+            $messageAllowed = \Mage::getStoreConfigFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE);
         } else {
             $messageAllowed = (int) $product->getAllowMessage();
         }
@@ -183,7 +185,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      * Validate Gift Card product, determine and return its amount
      *
      * @param \Magento\Object $buyRequest
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param bool $processMode
      * @return double|float|mixed
      */
@@ -199,7 +201,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
         $amount = null;
         if (($selectedAmount == 'custom' || !$selectedAmount) && $allowOpen) {
             if ($customAmount <= 0 && $isStrictProcessMode) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('Please specify a gift card amount.')
                 );
             }
@@ -221,7 +223,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Get allowed giftcard amounts
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     protected function _getAllowedAmounts($product)
@@ -257,7 +259,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      * Check and count empty fields
      *
      * @param \Magento\Object $buyRequest
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param bool $isStrictProcessMode
      */
     protected function _checkFields($buyRequest, $product, $isStrictProcessMode)
@@ -279,7 +281,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
         }
 
         if ($emptyFields > 1 && $isStrictProcessMode) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Please specify all the required information.')
             );
         }
@@ -289,7 +291,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      * Count empty fields
      *
      * @param \Magento\Object $buyRequest
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return int
      */
     protected function _countEmptyFields($buyRequest, $product)
@@ -316,7 +318,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Check whether amount is appropriate
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $customAmount
      * @param bool $isStrict
      * @return int|void
@@ -329,14 +331,14 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
             if (!$maxAmount || $maxAmount && $customAmount <= $maxAmount) {
                 return $customAmount;
             } elseif ($customAmount > $maxAmount && $isStrict) {
-                $messageAmount = $this->_helper('Magento_Core_Helper_Data')->currency($maxAmount, true, false);
-                Mage::throwException(
+                $messageAmount = $this->_helper('\Magento\Core\Helper\Data')->currency($maxAmount, true, false);
+                \Mage::throwException(
                     __('Gift Card max amount is %1', $messageAmount)
                 );
             }
         } elseif ($customAmount < $minAmount && $isStrict) {
-            $messageAmount = $this->_helper('Magento_Core_Helper_Data')->currency($minAmount, true, false);
-            Mage::throwException(
+            $messageAmount = $this->_helper('\Magento\Core\Helper\Data')->currency($minAmount, true, false);
+            \Mage::throwException(
                 __('Gift Card min amount is %1', $messageAmount)
             );
         }
@@ -352,29 +354,29 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     protected function _checkGiftcardFields($buyRequest, $isPhysical, $amount)
     {
         if (is_null($amount)) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Please specify a gift card amount.')
             );
         }
         if (!$buyRequest->getGiftcardRecipientName()) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Please specify a recipient name.')
             );
         }
         if (!$buyRequest->getGiftcardSenderName()) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Please specify a sender name.')
             );
         }
 
         if (!$isPhysical) {
             if (!$buyRequest->getGiftcardRecipientEmail()) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('Please specify a recipient email.')
                 );
             }
             if (!$buyRequest->getGiftcardSenderEmail()) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('Please specify a sender email.')
                 );
             }
@@ -403,15 +405,15 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Check if product can be bought
      *
-     * @param  Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Product_Type_Abstract
-     * @throws Magento_Core_Exception
+     * @param  \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @throws \Magento\Core\Exception
      */
     public function checkProductBuyState($product)
     {
         parent::checkProductBuyState($product);
         $option = $product->getCustomOption('info_buyRequest');
-        if ($option instanceof Magento_Sales_Model_Quote_Item_Option) {
+        if ($option instanceof \Magento\Sales\Model\Quote\Item\Option) {
             $buyRequest = new \Magento\Object(unserialize($option->getValue()));
             $this->_validate($buyRequest, $product, self::PROCESS_MODE_FULL);
         }
@@ -423,8 +425,8 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
      * Sets flag that product has required options, because gift card always
      * has some required options, at least - recipient name
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_GiftCard_Model_Catalog_Product_Type_Giftcard
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard
      */
     public function beforeSave($product)
     {
@@ -437,7 +439,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Prepare selected options for giftcard
      *
-     * @param  Magento_Catalog_Model_Product $product
+     * @param  \Magento\Catalog\Model\Product $product
      * @param  \Magento\Object $buyRequest
      * @return array
      */
@@ -459,9 +461,9 @@ class Magento_GiftCard_Model_Catalog_Product_Type_Giftcard extends Magento_Catal
     /**
      * Delete data specific for Gift Card product type
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
-    public function deleteTypeSpecificData(Magento_Catalog_Model_Product $product)
+    public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {
     }
 }

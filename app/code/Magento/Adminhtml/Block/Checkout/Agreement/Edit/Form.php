@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Checkout\Agreement\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Init class
@@ -32,11 +34,11 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
 
     /**
      *
-     * return Magento_Adminhtml_Block_Widget_Form
+     * return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $model  = Mage::registry('checkout_agreement');
+        $model  = \Mage::registry('checkout_agreement');
         $form   = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
@@ -82,23 +84,23 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit_Form extends Magento_Admin
             ),
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
                 'label'     => __('Store View'),
                 'title'     => __('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
         else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'stores[]',
-                'value'     => Mage::app()->getStore(true)->getId()
+                'value'     => \Mage::app()->getStore(true)->getId()
             ));
-            $model->setStoreId(Mage::app()->getStore(true)->getId());
+            $model->setStoreId(\Mage::app()->getStore(true)->getId());
         }
 
         $fieldset->addField('checkbox_text', 'editor', array(

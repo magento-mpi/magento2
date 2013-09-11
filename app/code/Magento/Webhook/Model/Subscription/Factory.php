@@ -1,6 +1,6 @@
 <?php
 /**
- * Factory for Magento_Webhook_Model_Subscription
+ * Factory for \Magento\Webhook\Model\Subscription
  *
  * {license_notice}
  *
@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Subscription_Factory
+namespace Magento\Webhook\Model\Subscription;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -25,14 +27,14 @@ class Magento_Webhook_Model_Subscription_Factory
     }
 
     /**
-     * Create a new instance of Magento_Webhook_Model_Subscription
+     * Create a new instance of \Magento\Webhook\Model\Subscription
      *
      * @param array $data Data for our subscription
-     * @return Magento_Webhook_Model_Subscription
+     * @return \Magento\Webhook\Model\Subscription
      */
     public function create(array $data = array())
     {
-        $subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription', array());
+        $subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription', array());
         // Don't set data in the constructor as it bypasses our special case logic in setData function.
         $subscription->setData($data);
         return $subscription;

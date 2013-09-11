@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Customer_Reward_Subscription extends Magento_Core_Block_Template
+namespace Magento\Reward\Block\Customer\Reward;
+
+class Subscription extends \Magento\Core\Block\Template
 {
     /**
      * Getter for RewardUpdateNotification
@@ -41,10 +43,10 @@ class Magento_Reward_Block_Customer_Reward_Subscription extends Magento_Core_Blo
     /**
      * Retrieve customer model
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
     }
 }

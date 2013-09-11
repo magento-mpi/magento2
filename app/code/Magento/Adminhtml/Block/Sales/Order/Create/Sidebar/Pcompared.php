@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
+
+class Pcompared extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
     protected function _construct()
     {
@@ -53,14 +55,14 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magen
             }
 
             // prepare products collection and apply visitors log to it
-            $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+            $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
                 ->setStoreId($this->getQuote()->getStoreId())
                 ->addStoreFilter($this->getQuote()->getStoreId())
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image');
-            Mage::getResourceSingleton('Magento_Reports_Model_Resource_Event')->applyLogToCollection(
-                $productCollection, Magento_Reports_Model_Event::EVENT_PRODUCT_COMPARE, $this->getCustomerId(), 0, $skipProducts
+            \Mage::getResourceSingleton('\Magento\Reports\Model\Resource\Event')->applyLogToCollection(
+                $productCollection, \Magento\Reports\Model\Event::EVENT_PRODUCT_COMPARE, $this->getCustomerId(), 0, $skipProducts
             );
 
             $productCollection->load();
@@ -82,7 +84,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pcompared extends Magen
     /**
      * Get product Id
      *
-     * @param Magento_Catalog_Model_Product $item
+     * @param \Magento\Catalog\Model\Product $item
      * @return int
      */
     public function getIdentifierId($item)

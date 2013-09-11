@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Storage_Abstract
+namespace Magento\Core\Model\File\Storage;
+
+class File extends \Magento\Core\Model\File\Storage\AbstractStorage
 {
     /**
      * Prefix of model events names
@@ -44,13 +46,13 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
      */
     public function __construct()
     {
-        $this->_setResourceModel('Magento_Core_Model_Resource_File_Storage_File');
+        $this->_setResourceModel('\Magento\Core\Model\Resource\File\Storage\File');
     }
 
     /**
      * Initialization
      *
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function init()
     {
@@ -90,7 +92,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
     /**
      * Clear files and directories in storage
      *
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function clear()
     {
@@ -158,8 +160,8 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
         foreach ($slice as $fileName) {
             try {
                 $fileInfo = $this->collectFileInfo($fileName);
-            } catch (Exception $e) {
-                Mage::logException($e);
+            } catch (\Exception $e) {
+                \Mage::logException($e);
                 continue;
             }
 
@@ -174,7 +176,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
      *
      * @param  array $data
      * @param  string $callback
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function import($data, $callback)
     {
@@ -185,9 +187,9 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
         foreach ($data as $part) {
             try {
                 $this->$callback($part);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
-                Mage::logException($e);
+                \Mage::logException($e);
             }
         }
 
@@ -198,7 +200,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
      * Import directories to storage
      *
      * @param  array $dirs
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function importDirectories($dirs)
     {
@@ -209,7 +211,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
      * Import files list
      *
      * @param  array $files
-     * @return Magento_Core_Model_File_Storage_File
+     * @return \Magento\Core\Model\File\Storage\File
      */
     public function importFiles($files)
     {
@@ -230,7 +232,7 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
     /**
      * Save file to storage
      *
-     * @param  array|Magento_Core_Model_File_Storage_Database $file
+     * @param  array|\Magento\Core\Model\File\Storage\Database $file
      * @param  bool $overwrite
      * @return bool|int
      */
@@ -246,12 +248,12 @@ class Magento_Core_Model_File_Storage_File extends Magento_Core_Model_File_Stora
 
                 return $this->_getResource()
                     ->saveFile($filename, $file['content'], $overwrite);
-            } catch (Exception $e) {
-                Mage::logException($e);
-                Mage::throwException(__('Unable to save file "%1" at "%2"', $file['filename'], $file['directory']));
+            } catch (\Exception $e) {
+                \Mage::logException($e);
+                \Mage::throwException(__('Unable to save file "%1" at "%2"', $file['filename'], $file['directory']));
             }
         } else {
-            Mage::throwException(__('Wrong file info format'));
+            \Mage::throwException(__('Wrong file info format'));
         }
 
         return false;

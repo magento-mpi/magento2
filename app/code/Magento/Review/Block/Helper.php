@@ -15,7 +15,9 @@
  * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Block_Helper extends Magento_Core_Block_Template
+namespace Magento\Review\Block;
+
+class Helper extends \Magento\Core\Block\Template
 {
     protected $_availableTemplates = array(
         'default' => 'helper/summary.phtml',
@@ -33,8 +35,8 @@ class Magento_Review_Block_Helper extends Magento_Core_Block_Template
         $this->setDisplayIfEmpty($displayIfNoReviews);
 
         if (!$product->getRatingSummary()) {
-            Mage::getModel('Magento_Review_Model_Review')
-               ->getEntitySummary($product, Mage::app()->getStore()->getId());
+            \Mage::getModel('\Magento\Review\Model\Review')
+               ->getEntitySummary($product, \Mage::app()->getStore()->getId());
         }
         $this->setProduct($product);
 
@@ -53,7 +55,7 @@ class Magento_Review_Block_Helper extends Magento_Core_Block_Template
 
     public function getReviewsUrl()
     {
-        return Mage::getUrl('review/product/list', array(
+        return \Mage::getUrl('review/product/list', array(
            'id'        => $this->getProduct()->getId(),
            'category'  => $this->getProduct()->getCategoryId()
         ));

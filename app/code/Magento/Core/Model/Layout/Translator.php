@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_Translator
+namespace Magento\Core\Model\Layout;
+
+class Translator
 {
     /**
      * Translate layout node

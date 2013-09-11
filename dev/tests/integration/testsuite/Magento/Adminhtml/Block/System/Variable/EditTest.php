@@ -26,13 +26,13 @@ class Magento_Adminhtml_Block_System_Variable_EditTest extends PHPUnit_Framework
             'html_value' => '<b>Test Variable 1 HTML Value</b>',
             'plain_value' => 'Test Variable 1 plain Value',
         );
-        $variable = Mage::getModel('Magento_Core_Model_Variable')
+        $variable = Mage::getModel('\Magento\Core\Model\Variable')
             ->setData($data)
             ->save();
 
         Mage::register('current_variable', $variable);
         Mage::app()->getRequest()->setParam('variable_id', $variable->getId());
-        $block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_System_Variable_Edit', 'variable');
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\System\Variable\Edit', 'variable');
         $this->assertArrayHasKey('variable-delete_button', $block->getLayout()->getAllBlocks());
     }
 }

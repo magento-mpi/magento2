@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Order_Status extends Magento_Core_Model_Abstract
+namespace Magento\Sales\Model\Order;
+
+class Status extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Status');
+        $this->_init('\Magento\Sales\Model\Resource\Order\Status');
     }
 
     /**
@@ -20,8 +22,8 @@ class Magento_Sales_Model_Order_Status extends Magento_Core_Model_Abstract
      *
      * @param string $state
      * @param boolean $isDefault make the status as default one for state
-     * @throws Exception
-     * @return Magento_Sales_Model_Order_Status
+     * @throws \Exception
+     * @return \Magento\Sales\Model\Order\Status
      */
     public function assignState($state, $isDefault = false)
     {
@@ -29,7 +31,7 @@ class Magento_Sales_Model_Order_Status extends Magento_Core_Model_Abstract
         try {
             $this->_getResource()->assignState($this->getStatus(), $state, $isDefault);
             $this->_getResource()->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getResource()->rollBack();
             throw $e;
         }
@@ -40,8 +42,8 @@ class Magento_Sales_Model_Order_Status extends Magento_Core_Model_Abstract
      * Unassigns order status from particular state
      *
      * @param string $state
-     * @throws Exception
-     * @return Magento_Sales_Model_Order_Status
+     * @throws \Exception
+     * @return \Magento\Sales\Model\Order\Status
      */
     public function unassignState($state)
     {
@@ -51,7 +53,7 @@ class Magento_Sales_Model_Order_Status extends Magento_Core_Model_Abstract
             $this->_getResource()->commit();
             $params = array('status' => $this->getStatus(), 'state' => $state);
             $this->_eventDispatcher->dispatch('sales_order_status_unassign', $params);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getResource()->rollBack();
             throw $e;
         }
@@ -81,7 +83,7 @@ class Magento_Sales_Model_Order_Status extends Magento_Core_Model_Abstract
      */
     public function getStoreLabel($store = null)
     {
-        $store = Mage::app()->getStore($store);
+        $store = \Mage::app()->getStore($store);
         $label = false;
         if (!$store->isAdmin()) {
             $labels = $this->getStoreLabels();
@@ -96,7 +98,7 @@ class Magento_Sales_Model_Order_Status extends Magento_Core_Model_Abstract
      * Load default status per state
      *
      * @param string $state
-     * @return Magento_Sales_Model_Order_Status
+     * @return \Magento\Sales\Model\Order\Status
      */
     public function loadDefaultByState($state)
     {

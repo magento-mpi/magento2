@@ -15,7 +15,9 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Model_Directpost_Response extends \Magento\Object
+namespace Magento\Authorizenet\Model\Directpost;
+
+class Response extends \Magento\Object
 {
     /**
      * Generates an Md5 hash to compare against AuthNet's.
@@ -54,6 +56,6 @@ class Magento_Authorizenet_Model_Directpost_Response extends \Magento\Object
      */
     public function isApproved()
     {
-        return $this->getXResponseCode() == Magento_Authorizenet_Model_Directpost::RESPONSE_CODE_APPROVED;
+        return $this->getXResponseCode() == \Magento\Authorizenet\Model\Directpost::RESPONSE_CODE_APPROVED;
     }
 }

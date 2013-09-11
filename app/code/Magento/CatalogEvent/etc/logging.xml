@@ -13,7 +13,7 @@
     <magento_catalogevent translate="label">
         <label>Catalog Events</label>
         <expected_models>
-            <Magento_CatalogEvent_Model_Event/>
+            <Magento\CatalogEvent\Model\Event/>
         </expected_models>
         <actions>
             <adminhtml_catalog_event_edit>

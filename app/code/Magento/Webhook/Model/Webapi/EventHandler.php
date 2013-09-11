@@ -11,21 +11,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Webapi_EventHandler
+namespace Magento\Webhook\Model\Webapi;
+
+class EventHandler
 {
-    /** @var Magento_Webapi_Model_Resource_Acl_User  */
+    /** @var \Magento\Webapi\Model\Resource\Acl\User  */
     private $_resourceAclUser;
 
-    /** @var Magento_Webhook_Model_Resource_Subscription_Collection  */
+    /** @var \Magento\Webhook\Model\Resource\Subscription\Collection  */
     private $_subscriptionSet;
 
     /**
-     * @param Magento_Webhook_Model_Resource_Subscription_Collection $subscriptionSet
-     * @param Magento_Webapi_Model_Resource_Acl_User $resourceAclUser
+     * @param \Magento\Webhook\Model\Resource\Subscription\Collection $subscriptionSet
+     * @param \Magento\Webapi\Model\Resource\Acl\User $resourceAclUser
      */
     public function __construct(
-        Magento_Webhook_Model_Resource_Subscription_Collection $subscriptionSet,
-        Magento_Webapi_Model_Resource_Acl_User $resourceAclUser
+        \Magento\Webhook\Model\Resource\Subscription\Collection $subscriptionSet,
+        \Magento\Webapi\Model\Resource\Acl\User $resourceAclUser
     ) {
         $this->_subscriptionSet = $subscriptionSet;
         $this->_resourceAclUser = $resourceAclUser;
@@ -34,7 +36,7 @@ class Magento_Webhook_Model_Webapi_EventHandler
     /**
      * Notifies the event handler that a webapi user has changed
      *
-     * @param  Magento_Webapi_Model_Acl_User $user User object that changed
+     * @param  \Magento\Webapi\Model\Acl\User $user User object that changed
      */
     public function userChanged($user)
     {
@@ -45,7 +47,7 @@ class Magento_Webhook_Model_Webapi_EventHandler
     /**
      * Notifies the event handler that a webapi role has changed
      *
-     * @param  Magento_Webapi_Model_Acl_Role $role Role object that changed
+     * @param  \Magento\Webapi\Model\Acl\Role $role Role object that changed
      */
     public function roleChanged($role)
     {
@@ -65,7 +67,7 @@ class Magento_Webhook_Model_Webapi_EventHandler
     {
         $subscriptions = $this->_subscriptionSet->getApiUserSubscriptions($userIds);
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
         foreach ($subscriptions as $subscription) {
             if ($subscription->findRestrictedTopics()) {
                 $subscription->deactivate();

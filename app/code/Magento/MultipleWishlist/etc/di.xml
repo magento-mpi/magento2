@@ -8,9 +8,9 @@
  */
 -->
 <config>
-    <type name="Magento_MultipleWishlist_Model_Item_Collection">
+    <type name="Magento\MultipleWishlist\Model\Item\Collection">
         <param name="resource">
-            <instance type="Magento_MultipleWishlist_Model_Resource_Item" />
+            <instance type="Magento\MultipleWishlist\Model\Resource\Item" />
         </param>
     </type>
 </config>

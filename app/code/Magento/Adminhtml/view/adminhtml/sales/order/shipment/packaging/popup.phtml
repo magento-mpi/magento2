@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging */ ?>
+<?php /** @var $this \Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging */ ?>
 <?php
 $shippingMethod = $this->getShipment()->getOrder()->getShippingMethod();
 $sizeSource = $this->getSourceSizeModel()->toOptionArray();
-$girthEnabled = $this->helper('Magento_Usa_Helper_Data')->displayGirthValue($shippingMethod) && $this->isGirthAllowed() ? 1 : 0;
+$girthEnabled = $this->helper('\Magento\Usa\Helper\Data')->displayGirthValue($shippingMethod) && $this->isGirthAllowed() ? 1 : 0;
 ?>
 <script type="text/javascript">
     //<![CDATA[

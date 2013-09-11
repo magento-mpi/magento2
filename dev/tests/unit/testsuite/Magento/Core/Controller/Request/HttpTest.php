@@ -8,12 +8,12 @@
 
 class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Controller_Request_Http */
+    /** @var \Magento\Core\Controller\Request\Http */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Magento_Core_Controller_Request_Http();
+        $this->_model = new \Magento\Core\Controller\Request\Http();
     }
 
     /**

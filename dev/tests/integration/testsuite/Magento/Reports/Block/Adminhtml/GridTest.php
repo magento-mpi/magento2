@@ -10,16 +10,16 @@
  */
 
 /**
- * Test class for Magento_Reports_Block_Adminhtml_Grid
+ * Test class for \Magento\Reports\Block\Adminhtml\Grid
  * @magentoAppArea adminhtml
  */
 class Magento_Reports_Block_Adminhtml_GridTest extends PHPUnit_Framework_TestCase
 {
     public function testGetDateFormat()
     {
-        /** @var $block Magento_Reports_Block_Adminhtml_Grid */
+        /** @var $block \Magento\Reports\Block\Adminhtml\Grid */
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Reports_Block_Adminhtml_Grid');
+            ->create('Magento\Reports\Block\Adminhtml\Grid');
         $this->assertNotEmpty($block->getDateFormat());
     }
 }

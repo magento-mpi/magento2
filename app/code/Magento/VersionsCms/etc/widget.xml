@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <cms_hierarchy_node type="Magento_VersionsCms_Block_Widget_Node" translate="name description">
+    <cms_hierarchy_node type="Magento\VersionsCms\Block\Widget\Node" translate="name description">
         <name>CMS Hierarchy Node Link</name>
         <description>Link to Specified CMS Hierarchy Node</description>
         <is_email_compatible>1</is_email_compatible>
@@ -22,7 +22,7 @@
                 <required>1</required>
                 <type>label</type>
                 <helper_block>
-                    <type>Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser</type>
+                    <type>\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select a page or node.</open>

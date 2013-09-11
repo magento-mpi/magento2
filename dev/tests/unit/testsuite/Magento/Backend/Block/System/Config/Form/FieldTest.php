@@ -12,7 +12,7 @@
 class Magento_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field
+     * @var \Magento\Backend\Block\System\Config\Form\Field
      */
     protected $_object;
 
@@ -38,16 +38,16 @@ class Magento_Backend_Block_System_Config_Form_FieldTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $this->_appModelMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false, false);
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
+        $this->_appModelMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false, false);
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
 
         $data = array(
             'layout' => $this->_layoutMock,
             'application' => $this->_appModelMock,
-            'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Form_Field', $data);
+        $this->_object = $helper->getObject('\Magento\Backend\Block\System\Config\Form\Field', $data);
 
         $this->_testData = array(
             'htmlId' => 'test_field_id',

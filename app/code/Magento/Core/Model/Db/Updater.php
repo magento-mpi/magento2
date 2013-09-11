@@ -6,12 +6,14 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInterface
+namespace Magento\Core\Model\Db;
+
+class Updater implements \Magento\Core\Model\Db\UpdaterInterface
 {
     /**
      * Modules configuration
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
@@ -20,12 +22,12 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
      *
      * @var string
      */
-    protected $_defaultClass = 'Magento_Core_Model_Resource_Setup';
+    protected $_defaultClass = '\Magento\Core\Model\Resource\Setup';
 
     /**
      * Setup model factory
      *
-     * @var Magento_Core_Model_Resource_SetupFactory
+     * @var \Magento\Core\Model\Resource\SetupFactory
      */
     protected $_factory;
 
@@ -39,19 +41,19 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
     /**
      * Application state model
      *
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_Resource_SetupFactory $factory
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\Resource\SetupFactory $factory
+     * @param \Magento\Core\Model\App\State $appState
      */
     public function __construct(
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_Resource_SetupFactory $factory,
-        Magento_Core_Model_App_State $appState
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\Resource\SetupFactory $factory,
+        \Magento\Core\Model\App\State $appState
     ) {
         $this->_config = $config;
         $this->_factory = $factory;
@@ -70,7 +72,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
         }
 
         $ignoreDevMode = (bool)(string)$this->_config->getNode(self::XML_PATH_IGNORE_DEV_MODE);
-        if (($this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER)
+        if (($this->_appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER)
             && false == $ignoreDevMode
         ) {
             return false;
@@ -110,7 +112,7 @@ class Magento_Core_Model_Db_Updater implements Magento_Core_Model_Db_UpdaterInte
             }
         }
 
-        /** @var $setupClass Magento_Core_Model_Resource_SetupInterface*/
+        /** @var $setupClass \Magento\Core\Model\Resource\SetupInterface*/
         foreach ($afterApplyUpdates as $setupClass) {
             $setupClass->afterApplyAllUpdates();
         }

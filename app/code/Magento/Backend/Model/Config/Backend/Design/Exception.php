@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Backend_Design_Exception
-    extends Magento_Backend_Model_Config_Backend_Serialized_Array
+namespace Magento\Backend\Model\Config\Backend\Design;
+
+class Exception
+    extends \Magento\Backend\Model\Config\Backend\Serialized\ArraySerialized
 {
     protected $_eventPrefix = 'core_config_backend_design_exception';
 }

@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address
+ * Test class for \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
  *
  * @todo Fix tests in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
@@ -19,7 +19,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Customer address entity adapter mock
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -107,9 +107,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      * @var array
      */
     protected $_availableBehaviors = array(
-        Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
-        Magento_ImportExport_Model_Import::BEHAVIOR_DELETE,
-        Magento_ImportExport_Model_Import::BEHAVIOR_CUSTOM,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
+        \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
     );
 
     /**
@@ -174,8 +174,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             'data_source_model'            => $dataSourceModel,
             'connection'                   => $connection,
             'json_helper'                  => 'not_used',
-            'string_helper'                => new Magento_Core_Helper_String(
-                $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+            'string_helper'                => new \Magento\Core\Helper\String(
+                $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false)
             ),
             'page_size'                    => 1,
             'max_data_size'                => 1,
@@ -204,9 +204,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $objectManagerHelper->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
+            $arguments = $objectManagerHelper->getConstructArguments('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract',
+            $attribute = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct', 'getBackend')
             );
             $attribute->expects($this->any())
@@ -223,18 +223,18 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Create mock of customer storage, so it can be used for tests
      *
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_ImportExport_Model_Resource_Customer_Storage
+     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\ImportExport\Model\Resource\Customer\Storage
      */
     protected function _createCustomerStorageMock()
     {
-        $customerStorage = $this->getMock('Magento_ImportExport_Model_Resource_Customer_Storage', array('load'),
+        $customerStorage = $this->getMock('Magento\ImportExport\Model\Resource\Customer\Storage', array('load'),
             array(), '', false);
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($this->_customers as $customerData) {
-            $arguments = $objectManagerHelper->getConstructArguments('Magento_Customer_Model_Customer');
+            $arguments = $objectManagerHelper->getConstructArguments('\Magento\Customer\Model\Customer');
             $arguments['data'] = $customerData;
-            /** @var $customer Magento_Customer_Model_Customer */
-            $customer = $this->getMock('Magento_Customer_Model_Customer', array('_construct'), $arguments);
+            /** @var $customer \Magento\Customer\Model\Customer */
+            $customer = $this->getMock('Magento\Customer\Model\Customer', array('_construct'), $arguments);
             $customerStorage->addCustomer($customer);
         }
         return $customerStorage;
@@ -270,7 +270,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(
@@ -304,21 +304,21 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Create mock for custom behavior test
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getModelMockForTestImportDataWithCustomBehaviour()
     {
         // input data
         $customBehaviorRows = array(
              array(
-                Magento_ImportExport_Model_Import_EntityAbstract::COLUMN_ACTION => 'update',
-                Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID
+                \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION => 'update',
+                \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID
                     => $this->_customBehaviour['update_id'],
             ),
             array(
-                Magento_ImportExport_Model_Import_EntityAbstract::COLUMN_ACTION
-                    => Magento_ImportExport_Model_Import_EntityAbstract::COLUMN_ACTION_VALUE_DELETE,
-                Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID
+                \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION
+                    => \Magento\ImportExport\Model\Import\EntityAbstract::COLUMN_ACTION_VALUE_DELETE,
+                \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_ADDRESS_ID
                     => $this->_customBehaviour['delete_id'],
             ),
         );
@@ -330,7 +330,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // entity adapter mock
         $modelMock = $this->getMock(
-            'Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address',
+            '\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
             array(
                 'validateRow',
                 '_prepareDataForUpdate',
@@ -353,7 +353,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
 
         // mock to imitate data source model
         $dataSourceMock = $this->getMock(
-            'Magento_ImportExport_Model_Resource_Import_Data',
+            '\Magento\ImportExport\Model\Resource\Import\Data',
             array('getNextBunch'),
             array(),
             '',
@@ -367,7 +367,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             ->will($this->returnValue(null));
 
         $dataSourceModel = new ReflectionProperty(
-            'Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address',
+            '\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
             '_dataSourceModel'
         );
         $dataSourceModel->setAccessible(true);
@@ -408,11 +408,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Create mock for customer address model class
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getModelMock()
     {
-        $modelMock = $this->getMock('Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address',
+        $modelMock = $this->getMock('Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address',
             array(
                 'isAttributeValid',
             ),
@@ -451,7 +451,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             'no customer' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_address_update_no_customer.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::ERROR_CUSTOMER_NOT_FOUND => array(
+                    \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::ERROR_CUSTOMER_NOT_FOUND => array(
                         array(1, null)
                     )
                 ),
@@ -459,16 +459,16 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             'absent required attribute' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_address_update_absent_required_attribute.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::ERROR_VALUE_IS_REQUIRED => array(
-                        array(1, Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_COUNTRY_ID)
+                    \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::ERROR_VALUE_IS_REQUIRED => array(
+                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_COUNTRY_ID)
                     )
                 ),
             ),
             'invalid region' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_address_update_invalid_region.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::ERROR_INVALID_REGION => array(
-                        array(1, Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_REGION)
+                    \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::ERROR_INVALID_REGION => array(
+                        array(1, \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_REGION)
                     )
                 ),
             ),
@@ -491,7 +491,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             'empty address id' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_address_delete_empty_address_id.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::ERROR_ADDRESS_ID_IS_EMPTY => array(
+                    \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::ERROR_ADDRESS_ID_IS_EMPTY => array(
                         array(1, null)
                     ),
                 )
@@ -499,7 +499,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             'invalid address' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_address_delete_address_not_found.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::ERROR_ADDRESS_NOT_FOUND => array(
+                    \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::ERROR_ADDRESS_NOT_FOUND => array(
                         array(1, null)
                     ),
                 )
@@ -507,7 +507,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
             'no customer' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_address_delete_no_customer.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::ERROR_CUSTOMER_NOT_FOUND => array(
+                    \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::ERROR_CUSTOMER_NOT_FOUND => array(
                         array(1, null)
                     )
                 ),
@@ -516,10 +516,10 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     }
 
     /**
-     * Test Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::validateRow() with add/update action
+     * Test \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::validateRow() with add/update action
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::validateRow
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_validateRowForUpdate
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::validateRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_validateRowForUpdate
      * @dataProvider validateRowForUpdateDataProvider
      *
      * @param array $rowData
@@ -528,7 +528,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     public function testValidateRowForUpdate(array $rowData, array $errors, $isValid = false)
     {
-        $this->_model->setParameters(array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE));
+        $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE));
 
         if ($isValid) {
             $this->assertTrue($this->_model->validateRow($rowData, 0));
@@ -539,15 +539,15 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     }
 
     /**
-     * Test Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::validateRow()
+     * Test \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::validateRow()
      * with 2 rows with identical PKs in case when add/update behavior is performed
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::validateRow
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_validateRowForUpdate
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::validateRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_validateRowForUpdate
      */
     public function testValidateRowForUpdateDuplicateRows()
     {
-        $behavior = Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE;
+        $behavior = \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE;
 
         $this->_model->setParameters(
             array('behavior' => $behavior)
@@ -582,7 +582,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $secondRow['postcode']  = '90210';
 
         $errors = array(
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::ERROR_DUPLICATE_PK
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::ERROR_DUPLICATE_PK
                 => array(array(2, null))
         );
 
@@ -593,9 +593,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     }
 
     /**
-     * Test Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::validateRow() with delete action
+     * Test \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::validateRow() with delete action
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::validateRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::validateRow
      * @dataProvider validateRowForDeleteDataProvider
      *
      * @param array $rowData
@@ -604,7 +604,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      */
     public function testValidateRowForDelete(array $rowData, array $errors, $isValid = false)
     {
-        $this->_model->setParameters(array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE));
+        $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE));
 
         if ($isValid) {
             $this->assertTrue($this->_model->validateRow($rowData, 0));
@@ -630,12 +630,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
         $attributeMapping = $this->_model->getDefaultAddressAttributeMapping();
         $this->assertInternalType('array', $attributeMapping, 'Default address attribute mapping must be an array.');
         $this->assertArrayHasKey(
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_DEFAULT_BILLING,
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_DEFAULT_BILLING,
             $attributeMapping,
             'Default address attribute mapping array must have a default billing column.'
         );
         $this->assertArrayHasKey(
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_DEFAULT_SHIPPING,
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::COLUMN_DEFAULT_SHIPPING,
             $attributeMapping,
             'Default address attribute mapping array must have a default shipping column.'
         );
@@ -644,12 +644,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
     /**
      * Test if correct methods are invoked according to different custom behaviours
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address::_importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::_importData
      */
     public function testImportDataWithCustomBehaviour()
     {
         $this->_model = $this->_getModelMockForTestImportDataWithCustomBehaviour();
-        $this->_model->setParameters(array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_CUSTOM));
+        $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM));
 
         // validation in validateSaveAddressEntities and validateDeleteAddressEntities
         $this->_model->importData();
@@ -659,7 +659,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      * Validation method for _saveAddressEntities (callback for _saveAddressEntities)
      *
      * @param array $addUpdateRows
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|PHPUnit_Framework_MockObject_MockObject
      */
     public function validateSaveAddressEntities(array $addUpdateRows)
     {
@@ -672,7 +672,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends 
      * Validation method for _deleteAddressEntities (callback for _deleteAddressEntities)
      *
      * @param array $deleteRowIds
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address|PHPUnit_Framework_MockObject_MockObject
      */
     public function validateDeleteAddressEntities(array $deleteRowIds)
     {

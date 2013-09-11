@@ -10,7 +10,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_xmlParserMock;
 
-    /** @var Magento_Webapi_Controller_Request_Rest_Interpreter_Xml */
+    /** @var \Magento\Webapi\Controller\Request\Rest\Interpreter\Xml */
     protected $_xmlInterpreter;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -19,12 +19,12 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit
     protected function setUp()
     {
         $this->_xmlParserMock = $this->getMock('Magento\Xml\Parser', array('xmlToArray', 'loadXML'));
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')
+        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')
             ->setMethods(array('isDeveloperMode'))
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_xmlInterpreter = new Magento_Webapi_Controller_Request_Rest_Interpreter_Xml(
+        $this->_xmlInterpreter = new \Magento\Webapi\Controller\Request\Rest\Interpreter\Xml(
             $this->_xmlParserMock,
             $this->_appMock
         );
@@ -97,9 +97,9 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit
         $this->_xmlParserMock->expects($this->once())->method('loadXML');
         $invalidXml = '<?xml version="1.0"?><xml><key1>test1</xml>';
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Decoding Error: End tag for "key1" was omitted.',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         /** Initialize SUT. */
         $this->_xmlInterpreter->interpret($invalidXml);
@@ -116,9 +116,9 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_XmlTest extends PHPUnit
         $this->_xmlParserMock->expects($this->once())->method('loadXML');
         $invalidXml = '<?xml version="1.0"?><xml><key1>test1</xml>';
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Decoding error.',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         /** Initialize SUT. */
         $this->_xmlInterpreter->interpret($invalidXml);

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Account_Redeem extends Magento_Core_Block_Template
+namespace Magento\GiftCardAccount\Block\Account;
+
+class Redeem extends \Magento\Core\Block\Template
 {
     /**
      * Stub for future ability to implement redeem limitations based on customer/settings
@@ -17,7 +19,7 @@ class Magento_GiftCardAccount_Block_Account_Redeem extends Magento_Core_Block_Te
      */
     public function canRedeem()
     {
-        return Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled();
+        return \Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled();
     }
 
     /**

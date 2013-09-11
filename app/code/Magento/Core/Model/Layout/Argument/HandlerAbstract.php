@@ -15,8 +15,10 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Core_Model_Layout_Argument_HandlerAbstract
-    implements Magento_Core_Model_Layout_Argument_HandlerInterface
+namespace Magento\Core\Model\Layout\Argument;
+
+abstract class HandlerAbstract
+    implements \Magento\Core\Model\Layout\Argument\HandlerInterface
 {
     /**
      * @var \Magento\ObjectManager

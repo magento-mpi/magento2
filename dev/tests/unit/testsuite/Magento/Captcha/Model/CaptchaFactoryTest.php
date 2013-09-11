@@ -10,19 +10,19 @@ class Magento_Captcha_Model_CaptchaFactoryTest extends PHPUnit_Framework_TestCas
     /**@var PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
-    /** @var Magento_Captcha_Model_CaptchaFactory */
+    /** @var \Magento\Captcha\Model\CaptchaFactory */
     protected $_model;
 
     public function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
-        $this->_model = new Magento_Captcha_Model_CaptchaFactory($this->_objectManagerMock);
+        $this->_model = new \Magento\Captcha\Model\CaptchaFactory($this->_objectManagerMock);
     }
 
     public function testCreatePositive()
     {
         $instance = 'sample_captcha_instance';
-        $defaultCaptchaMock = $this->getMock('Magento_Captcha_Model_Default', array(), array(), '', false);
+        $defaultCaptchaMock = $this->getMock('Magento\Captcha\Model\DefaultModel', array(), array(), '', false);
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
             ->with($instance, array())
@@ -38,7 +38,7 @@ class Magento_Captcha_Model_CaptchaFactoryTest extends PHPUnit_Framework_TestCas
         $this->_objectManagerMock->expects($this->once())->method('create')
             ->with($instance, array())->will($this->returnValue($defaultCaptchaMock));
         $this->setExpectedException('InvalidArgumentException',
-            'wrong_instance does not implements Magento_Captcha_Model_Interface');
+            'wrong_instance does not implements \Magento\Captcha\Model\ModelInterface');
 
         $this->assertEquals($defaultCaptchaMock, $this->_model->create($instance));
     }

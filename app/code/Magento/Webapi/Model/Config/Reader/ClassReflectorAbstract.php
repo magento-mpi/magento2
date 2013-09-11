@@ -1,7 +1,7 @@
 <?php
-use Zend\Server\Reflection,
-    Zend\Code\Reflection\DocBlockReflection,
-    Zend\Server\Reflection\ReflectionMethod;
+use \Zend\Server\Reflection,
+    \Zend\Code\Reflection\DocBlockReflection,
+    \Zend\Server\Reflection\ReflectionMethod;
 
 /**
  * Abstract class reflector for config reader.
@@ -11,23 +11,25 @@ use Zend\Server\Reflection,
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
+namespace Magento\Webapi\Model\Config\Reader;
+
+abstract class ClassReflectorAbstract
 {
-    /** @var Magento_Webapi_Helper_Config */
+    /** @var \Magento\Webapi\Helper\Config */
     protected $_helper;
 
-    /** @var Magento_Webapi_Model_Config_Reader_TypeProcessor */
+    /** @var \Magento\Webapi\Model\Config\Reader\TypeProcessor */
     protected $_typeProcessor;
 
     /**
      * Construct reflector.
      *
-     * @param Magento_Webapi_Helper_Config $helper
-     * @param Magento_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
+     * @param \Magento\Webapi\Helper\Config $helper
+     * @param \Magento\Webapi\Model\Config\Reader\TypeProcessor $typeProcessor
      */
     public function __construct(
-        Magento_Webapi_Helper_Config $helper,
-        Magento_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
+        \Magento\Webapi\Helper\Config $helper,
+        \Magento\Webapi\Model\Config\Reader\TypeProcessor $typeProcessor
     ) {
         $this->_helper = $helper;
         $this->_typeProcessor = $typeProcessor;
@@ -51,11 +53,11 @@ abstract class Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
         $data = array(
             'controller' => $className,
         );
-        $serverReflection = new Reflection;
+        $serverReflection = new \Reflection;
         foreach ($serverReflection->reflectClass($className)->getMethods() as $methodReflection) {
             try {
                 $method = $this->getMethodNameWithoutVersionSuffix($methodReflection);
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 /** Resources can contain methods that should not be exposed through API. */
                 continue;
             }
@@ -77,13 +79,13 @@ abstract class Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
     /**
      * Identify API method name without version suffix by its reflection.
      *
-     * @param ReflectionMethod|string $method Method name or method reflection.
+     * @param \ReflectionMethod|string $method Method name or method reflection.
      * @return string Method name without version suffix on success.
-     * @throws InvalidArgumentException When method name is invalid API resource method.
+     * @throws \InvalidArgumentException When method name is invalid API resource method.
      */
     public function getMethodNameWithoutVersionSuffix($method)
     {
-        if ($method instanceof ReflectionMethod) {
+        if ($method instanceof \ReflectionMethod) {
             $methodNameWithSuffix = $method->getName();
         } else {
             $methodNameWithSuffix = $method;
@@ -93,17 +95,17 @@ abstract class Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
             $methodName = $methodMatches[1];
             return $methodName;
         }
-        throw new InvalidArgumentException(sprintf('"%s" is an invalid API resource method.', $methodNameWithSuffix));
+        throw new \InvalidArgumentException(sprintf('"%s" is an invalid API resource method.', $methodNameWithSuffix));
     }
 
     /**
      * Identify API method version by its reflection.
      *
-     * @param ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $methodReflection
      * @return string|bool Method version with prefix on success.
      *      false is returned in case when method should not be exposed via API.
      */
-    public function getMethodVersion(ReflectionMethod $methodReflection)
+    public function getMethodVersion(\ReflectionMethod $methodReflection)
     {
         $methodVersion = false;
         $methodNameWithSuffix = $methodReflection->getName();
@@ -122,17 +124,17 @@ abstract class Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
      */
     protected function _getMethodNameRegularExpression()
     {
-        return sprintf('/(%s)(V\d+)/', implode('|', Magento_Webapi_Controller_ActionAbstract::getAllowedMethods()));
+        return sprintf('/(%s)(V\d+)/', implode('|', \Magento\Webapi\Controller\ActionAbstract::getAllowedMethods()));
     }
 
     /**
      * Retrieve method interface and documentation description.
      *
-     * @param ReflectionMethod $method
+     * @param \ReflectionMethod $method
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function extractMethodData(ReflectionMethod $method)
+    public function extractMethodData(\ReflectionMethod $method)
     {
         $methodData = array('documentation' => $method->getDescription());
         $prototypes = $method->getPrototypes();
@@ -179,11 +181,11 @@ abstract class Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
      * )
      * </pre>
      *
-     * @param ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $methodReflection
      * @return array|bool On success array with policy details; false otherwise.
-     * @throws LogicException If deprecation tag format is incorrect.
+     * @throws \LogicException If deprecation tag format is incorrect.
      */
-    protected function _extractDeprecationPolicy(ReflectionMethod $methodReflection)
+    protected function _extractDeprecationPolicy(\ReflectionMethod $methodReflection)
     {
         $deprecationPolicy = false;
         $methodDocumentation = $methodReflection->getDocComment();
@@ -210,13 +212,13 @@ abstract class Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
     /**
      * Extract method deprecation policy "use method" data.
      *
-     * @param ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $methodReflection
      * @param string $useMethod
      * @param array $deprecationPolicy
-     * @throws LogicException
+     * @throws \LogicException
      */
     protected function _extractDeprecationPolicyUseMethod(
-        ReflectionMethod $methodReflection,
+        \ReflectionMethod $methodReflection,
         $useMethod,
         &$deprecationPolicy
     ) {
@@ -239,7 +241,7 @@ abstract class Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
                 try {
                     /** Support of: Magento_Catalog_Webapi_ProductController::createV1 */
                     $resourceName = $this->_helper->translateResourceName($useMethodParts[0]);
-                } catch (InvalidArgumentException $e) {
+                } catch (\InvalidArgumentException $e) {
                     /** Support of: catalogProduct::createV1 */
                     $resourceName = $useMethodParts[0];
                 }
@@ -254,13 +256,13 @@ abstract class Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
                 );
                 break;
             default:
-                throw new LogicException($invalidFormatMessage);
+                throw new \LogicException($invalidFormatMessage);
                 break;
         }
         try {
             $methodWithoutVersion = $this->getMethodNameWithoutVersionSuffix($methodName);
-        } catch (Exception $e) {
-            throw new LogicException($invalidFormatMessage);
+        } catch (\Exception $e) {
+            throw new \LogicException($invalidFormatMessage);
         }
         $deprecationPolicy['use_method'] = $methodWithoutVersion;
         $methodVersion = str_replace($methodWithoutVersion, '', $methodName);

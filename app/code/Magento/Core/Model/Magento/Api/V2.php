@@ -15,6 +15,8 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Magento_Api_V2 extends Magento_Core_Model_Magento_Api
+namespace Magento\Core\Model\Magento\Api;
+
+class V2 extends \Magento\Core\Model\Magento\Api
 {
 }

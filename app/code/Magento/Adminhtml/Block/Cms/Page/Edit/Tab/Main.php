@@ -16,14 +16,16 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
+
+class Main
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected function _prepareForm()
     {
-        /* @var $model Magento_Cms_Model_Page */
-        $model = Mage::registry('cms_page');
+        /* @var $model \Magento\Cms\Model\Page */
+        $model = \Mage::registry('cms_page');
 
         /*
          * Checking if user have permissions to save information
@@ -68,24 +70,24 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
                 'label'     => __('Store View'),
                 'title'     => __('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true),
                 'disabled'  => $isElementDisabled,
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
         else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'stores[]',
-                'value'     => Mage::app()->getStore(true)->getId()
+                'value'     => \Mage::app()->getStore(true)->getId()
             ));
-            $model->setStoreId(Mage::app()->getStore(true)->getId());
+            $model->setStoreId(\Mage::app()->getStore(true)->getId());
         }
 
         $fieldset->addField('is_active', 'select', array(
@@ -100,7 +102,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Main
             $model->setData('is_active', $isElementDisabled ? '0' : '1');
         }
 
-        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_main_prepare_form', array('form' => $form));
+        \Mage::dispatchEvent('adminhtml_cms_page_edit_tab_main_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
         $this->setForm($form);

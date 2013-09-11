@@ -7,33 +7,35 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Request
+namespace Magento\Webapi\Controller\Dispatcher\Rest\Presentation;
+
+class Request
 {
-    /** @var Magento_Webapi_Model_Config_Rest */
+    /** @var \Magento\Webapi\Model\Config\Rest */
     protected $_apiConfig;
 
-    /** @var Magento_Webapi_Helper_Data */
+    /** @var \Magento\Webapi\Helper\Data */
     protected $_apiHelper;
 
-    /** @var Magento_Webapi_Helper_Config */
+    /** @var \Magento\Webapi\Helper\Config */
     protected $_configHelper;
 
-    /** @var Magento_Webapi_Controller_Request_Rest */
+    /** @var \Magento\Webapi\Controller\Request\Rest */
     protected $_request;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Model_Config_Rest $apiConfig
-     * @param Magento_Webapi_Helper_Data $helper
-     * @param Magento_Webapi_Helper_Config $configHelper
-     * @param Magento_Webapi_Controller_Request_Factory $requestFactory
+     * @param \Magento\Webapi\Model\Config\Rest $apiConfig
+     * @param \Magento\Webapi\Helper\Data $helper
+     * @param \Magento\Webapi\Helper\Config $configHelper
+     * @param \Magento\Webapi\Controller\Request\Factory $requestFactory
      */
     public function __construct(
-        Magento_Webapi_Model_Config_Rest $apiConfig,
-        Magento_Webapi_Helper_Data $helper,
-        Magento_Webapi_Helper_Config $configHelper,
-        Magento_Webapi_Controller_Request_Factory $requestFactory
+        \Magento\Webapi\Model\Config\Rest $apiConfig,
+        \Magento\Webapi\Helper\Data $helper,
+        \Magento\Webapi\Helper\Config $configHelper,
+        \Magento\Webapi\Controller\Request\Factory $requestFactory
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_apiHelper = $helper;
@@ -50,7 +52,7 @@ class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Request
      */
     public function fetchRequestData($controllerInstance, $action)
     {
-        $methodReflection = Magento_Webapi_Helper_Data::createMethodReflection($controllerInstance, $action);
+        $methodReflection = \Magento\Webapi\Helper\Data::createMethodReflection($controllerInstance, $action);
         $methodName = $this->_configHelper->getMethodNameWithoutVersionSuffix($methodReflection);
         $bodyParamName = $this->_configHelper->getOperationBodyParamName($methodReflection);
         $requestParams = array_merge(
@@ -59,8 +61,8 @@ class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Request
         );
         /** Convert names of ID and Parent ID params in request to those which are used in method interface. */
         $idArgumentName = $this->_configHelper->getOperationIdParamName($methodReflection);
-        $parentIdParamName = Magento_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
-        $idParamName = Magento_Webapi_Controller_Router_Route_Rest::PARAM_ID;
+        $parentIdParamName = \Magento\Webapi\Controller\Router\Route\Rest::PARAM_PARENT_ID;
+        $idParamName = \Magento\Webapi\Controller\Router\Route\Rest::PARAM_ID;
         if (isset($requestParams[$parentIdParamName]) && ($idArgumentName != $parentIdParamName)) {
             $requestParams[$idArgumentName] = $requestParams[$parentIdParamName];
             unset($requestParams[$parentIdParamName]);
@@ -82,28 +84,28 @@ class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Request
     {
         $processedInputData = null;
         switch ($method) {
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_CREATE:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_CREATE:
                 $processedInputData = $this->_request->getBodyParams();
                 // TODO: Implement data filtration of item
                 break;
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_CREATE:
                 $processedInputData = $this->_request->getBodyParams();
                 break;
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_UPDATE:
                 $processedInputData = $this->_request->getBodyParams();
                 // TODO: Implement data filtration
                 break;
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_UPDATE:
                 $processedInputData = $this->_request->getBodyParams();
                 // TODO: Implement fields filtration
                 break;
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_DELETE:
                 // break is intentionally omitted
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_GET:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_GET:
                 // break is intentionally omitted
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_DELETE:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_DELETE:
                 // break is intentionally omitted
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_LIST:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_LIST:
                 break;
         }
         return $processedInputData;

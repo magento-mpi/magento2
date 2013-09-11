@@ -9,7 +9,7 @@
 class Magento_Sales_Model_Observer_Backend_CustomerQuoteTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Observer_Backend_CustomerQuote
+     * @var \Magento\Sales\Model\Observer\Backend\CustomerQuote
      */
     protected $_model;
 
@@ -45,20 +45,20 @@ class Magento_Sales_Model_Observer_Backend_CustomerQuoteTest extends PHPUnit_Fra
 
     public function setUp()
     {
-        $this->_quoteMock = $this->getMock('Magento_Sales_Model_Quote',
+        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Quote',
             array('setWebsite', 'loadByCustomer', 'getId', 'setCustomerGroupId', 'collectTotals'), array(), '', false
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
-        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
-        $this->_configMock = $this->getMock('Magento_Customer_Model_Config_Share', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento\Customer\Model\Config\Share', array(), array(), '', false);
         $this->_eventMock = $this->getMock('Magento\Event', array('getCustomer'), array(), '', false);
-        $this->_customerMock = $this->getMock('Magento_Customer_Model_Customer', array(), array(), '', false);
+        $this->_customerMock = $this->getMock('Magento\Customer\Model\Customer', array(), array(), '', false);
         $this->_observerMock->expects($this->any())->method('getEvent')->will($this->returnValue($this->_eventMock));
         $this->_eventMock
             ->expects($this->once())
             ->method('getCustomer')
             ->will($this->returnValue($this->_customerMock));
-        $this->_model = new Magento_Sales_Model_Observer_Backend_CustomerQuote(
+        $this->_model = new \Magento\Sales\Model\Observer\Backend\CustomerQuote(
             $this->_storeManagerMock,
             $this->_configMock,
             $this->_quoteMock
@@ -85,7 +85,7 @@ class Magento_Sales_Model_Observer_Backend_CustomerQuoteTest extends PHPUnit_Fra
 
     public function testDispatchIfWebsiteScopeDisable()
     {
-        $websiteMock = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false);
+        $websiteMock = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false);
         $this->_customerMock->expects($this->once())->method('getGroupId')->will($this->returnValue(1));
         $this->_customerMock->expects($this->once())->method('getOrigData')->will($this->returnValue(2));
         $this->_configMock->expects($this->any())->method('isWebsiteScope')->will($this->returnValue(false));
@@ -104,7 +104,7 @@ class Magento_Sales_Model_Observer_Backend_CustomerQuoteTest extends PHPUnit_Fra
      */
     public function testDispatchIfArrayExist($quoteId)
     {
-        $websiteMock = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false);
+        $websiteMock = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false);
         $this->_customerMock->expects($this->any())->method('getGroupId')->will($this->returnValue(1));
         $this->_customerMock->expects($this->once())->method('getOrigData')->will($this->returnValue(2));
         $this->_configMock->expects($this->any())->method('isWebsiteScope')->will($this->returnValue(true));

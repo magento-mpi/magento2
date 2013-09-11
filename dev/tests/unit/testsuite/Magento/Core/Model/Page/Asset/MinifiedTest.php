@@ -14,7 +14,7 @@ class Magento_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestC
     const ORIGINAL_URL = 'http://localhost/original.js';
 
     /**
-     * @var Magento_Core_Model_Page_Asset_LocalInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Page\Asset\LocalInterface|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_asset;
 
@@ -24,33 +24,33 @@ class Magento_Core_Model_Page_Asset_MinifiedTest extends PHPUnit_Framework_TestC
     protected $_minifier;
 
     /**
-     * @var Magento_Core_Model_View_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\View\Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewUrl;
 
     /**
-     * @var Magento_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_logger;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_Minified
+     * @var \Magento\Core\Model\Page\Asset\Minified
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_asset = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Page_Asset_LocalInterface',
+            '\Magento\Core\Model\Page\Asset\LocalInterface',
             array(),
             '',
             false
         );
         $this->_minifier = $this->getMock('Magento\Code\Minifier', array('getMinifiedFile'), array(), '', false);
-        $this->_viewUrl = $this->getMock('Magento_Core_Model_View_Url', array(), array(), '', false);
-        $this->_logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
+        $this->_viewUrl = $this->getMock('Magento\Core\Model\View\Url', array(), array(), '', false);
+        $this->_logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
 
-        $this->_model = new Magento_Core_Model_Page_Asset_Minified($this->_asset, $this->_minifier, $this->_viewUrl,
+        $this->_model = new \Magento\Core\Model\Page\Asset\Minified($this->_asset, $this->_minifier, $this->_viewUrl,
             $this->_logger
         );
     }

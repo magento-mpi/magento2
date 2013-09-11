@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogInventory_Model_Stock_Item_Api_V2 extends Magento_CatalogInventory_Model_Stock_Item_Api
+namespace Magento\CatalogInventory\Model\Stock\Item\Api;
+
+class V2 extends \Magento\CatalogInventory\Model\Stock\Item\Api
 {
     /**
      * Update product stock data
@@ -19,8 +21,8 @@ class Magento_CatalogInventory_Model_Stock_Item_Api_V2 extends Magento_CatalogIn
      */
     public function update($productId, $data)
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
         $productId = $product->getIdBySku($productId) ?: $productId;
 
         $product->setStoreId($this->_getStoreId())
@@ -30,14 +32,14 @@ class Magento_CatalogInventory_Model_Stock_Item_Api_V2 extends Magento_CatalogIn
             $this->_fault('not_exists');
         }
 
-        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+        /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
         $stockItem = $product->getStockItem();
         $stockData = array_replace($stockItem->getData(), (array)$data);
         $stockItem->setData($stockData);
 
         try {
             $stockItem->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('not_updated', $e->getMessage());
         }
 

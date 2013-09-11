@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_GiftRegistry_Block_Customer_Edit_Abstract
+namespace Magento\GiftRegistry\Block\Customer\Edit;
+
+class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
 {
     /**
      * Scope Selector 'registry/registrant'
@@ -31,7 +33,7 @@ class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_Gift
      */
     public function getMaxRegistrant()
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->getMaxRegistrant();
+        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->getMaxRegistrant();
     }
 
     /**
@@ -47,7 +49,7 @@ class Magento_GiftRegistry_Block_Customer_Edit_Registrants extends  Magento_Gift
     /**
      * Return registrant collection
      *
-     * @return Magento_GiftRegistry_Model_Resource_Person_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Person\Collection
      */
     public function getRegistrantList() {
         return $this->getEntity->getRegistrantCollection();

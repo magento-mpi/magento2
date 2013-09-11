@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer;
+
+class Product extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
      * Render product name to add Configure link

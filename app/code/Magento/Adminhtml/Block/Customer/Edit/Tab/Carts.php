@@ -12,23 +12,25 @@
  * Obtain all carts contents for specified client
  *
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Carts extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
+
+class Carts extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Add shopping cart grid of each website
      *
-     * @return Magento_Adminhtml_Block_Customer_Edit_Tab_Carts
+     * @return \Magento\Adminhtml\Block\Customer\Edit\Tab\Carts
      */
     protected function _prepareLayout()
     {
-        $sharedWebsiteIds = Mage::registry('current_customer')->getSharedWebsiteIds();
+        $sharedWebsiteIds = \Mage::registry('current_customer')->getSharedWebsiteIds();
         $isShared = count($sharedWebsiteIds) > 1;
         foreach ($sharedWebsiteIds as $websiteId) {
             $blockName = 'customer_cart_' . $websiteId;
-            $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Cart',
+            $block = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\Cart',
                 $blockName, array('data' => array('website_id' => $websiteId)));
             if ($isShared) {
-                $block->setCartHeader(__('Shopping Cart from %1', Mage::app()->getWebsite($websiteId)->getName()));
+                $block->setCartHeader(__('Shopping Cart from %1', \Mage::app()->getWebsite($websiteId)->getName()));
             }
             $this->setChild($blockName, $block);
         }
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Carts extends Magento_Adminhtml_
      */
     protected function _toHtml()
     {
-        Mage::dispatchEvent('adminhtml_block_html_before', array('block' => $this));
+        \Mage::dispatchEvent('adminhtml_block_html_before', array('block' => $this));
         return $this->getChildHtml();
     }
 }

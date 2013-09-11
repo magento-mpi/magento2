@@ -16,18 +16,20 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Import setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Import setFileSettingsLabel() setFileSettingsLabel(string $value)
- * @method Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Import setEmailSettingsLabel() setEmailSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Import setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Import setFileSettingsLabel() setFileSettingsLabel(string $value)
+ * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Import setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
 // @codingStandardsIgnoreEnd
-class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Import
-    extends Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form;
+
+class Import
+    extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
 {
     /**
      * Prepare form for import operation
      *
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Import
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form\Import
      */
     protected function _prepareForm()
     {
@@ -42,10 +44,10 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         $fieldset = $form->getElement('operation_settings');
 
         // add behaviour fields
-        $uniqueBehaviors = Magento_ImportExport_Model_Import::getUniqueEntityBehaviors();
+        $uniqueBehaviors = \Magento\ImportExport\Model\Import::getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
-            /** @var $behaviorSource Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
-            $behaviorSource = Mage::getModel($behaviorClass);
+            /** @var $behaviorSource \Magento\ImportExport\Model\Source\Import\BehaviorAbstract */
+            $behaviorSource = \Mage::getModel($behaviorClass);
             $fieldset->addField($behaviorCode, 'select', array(
                 'name'     => 'behavior',
                 'title'    => __('Import Behavior'),
@@ -56,8 +58,8 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
             ), 'entity');
         }
 
-        /** @var $operationData Magento_ScheduledImportExport_Model_Scheduled_Operation_Data */
-        $operationData = Mage::getSingleton('Magento_ScheduledImportExport_Model_Scheduled_Operation_Data');
+        /** @var $operationData \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data */
+        $operationData = \Mage::getSingleton('Magento\ScheduledImportExport\Model\Scheduled\Operation\Data');
         $fieldset->addField('force_import', 'select', array(
             'name'     => 'force_import',
             'title'    => __('On Error'),
@@ -67,7 +69,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         ), 'freq');
 
         $form->getElement('email_template')
-            ->setValues(Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template')
+            ->setValues(\Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Template')
                 ->setPath('magento_scheduledimportexport_import_failed')
                 ->toOptionArray()
             );
@@ -84,8 +86,8 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_For
         $element = $form->getElement('entity');
         $element->setData('onchange', 'varienImportExportScheduled.handleEntityTypeSelector();');
 
-        /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
-        $operation = Mage::registry('current_operation');
+        /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
+        $operation = \Mage::registry('current_operation');
         $this->_setFormValues($operation->getData());
 
         return $this;

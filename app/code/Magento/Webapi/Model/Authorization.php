@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization
+namespace Magento\Webapi\Model;
+
+class Authorization
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -30,17 +32,17 @@ class Magento_Webapi_Model_Authorization
      *
      * @param string $resource
      * @param string $method
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function checkResourceAcl($resource, $method)
     {
         $coreAuthorization = $this->_authorization;
-        if (!$coreAuthorization->isAllowed($resource . Magento_Webapi_Model_Acl_Rule::RESOURCE_SEPARATOR . $method)
+        if (!$coreAuthorization->isAllowed($resource . \Magento\Webapi\Model\Acl\Rule::RESOURCE_SEPARATOR . $method)
             && !$coreAuthorization->isAllowed(null)
         ) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __('Access to resource is forbidden.'),
-                Magento_Webapi_Exception::HTTP_FORBIDDEN
+                \Magento\Webapi\Exception::HTTP_FORBIDDEN
             );
         }
     }

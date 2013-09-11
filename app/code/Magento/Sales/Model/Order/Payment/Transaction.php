@@ -13,26 +13,28 @@
  * Tracks transaction history, allows to build transactions hierarchy
  * By default transactions are saved as closed.
  *
- * @method Magento_Sales_Model_Resource_Order_Payment_Transaction _getResource()
- * @method Magento_Sales_Model_Resource_Order_Payment_Transaction getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Payment\Transaction _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Payment\Transaction getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Payment_Transaction setParentId(int $value)
- * @method Magento_Sales_Model_Order_Payment_Transaction setOrderId(int $value)
+ * @method \Magento\Sales\Model\Order\Payment\Transaction setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Payment\Transaction setOrderId(int $value)
  * @method int getPaymentId()
- * @method Magento_Sales_Model_Order_Payment_Transaction setPaymentId(int $value)
+ * @method \Magento\Sales\Model\Order\Payment\Transaction setPaymentId(int $value)
  * @method string getTxnId()
  * @method string getParentTxnId()
  * @method string getTxnType()
  * @method int getIsClosed()
- * @method Magento_Sales_Model_Order_Payment_Transaction setIsClosed(int $value)
+ * @method \Magento\Sales\Model\Order\Payment\Transaction setIsClosed(int $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Order_Payment_Transaction setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Payment\Transaction setCreatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_Abstract
+namespace Magento\Sales\Model\Order\Payment;
+
+class Transaction extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Supported transaction types
@@ -53,7 +55,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
 
     /**
      * Payment instance. Required for most transaction writing and search operations
-     * @var Magento_Sales_Model_Order_Payment
+     * @var \Magento\Sales\Model\Order\Payment
      */
     protected $_paymentObject = null;
 
@@ -61,13 +63,13 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Order instance
      *
-     * @var Magento_Sales_Model_Order_Payment
+     * @var \Magento\Sales\Model\Order\Payment
      */
     protected $_order = null;
 
     /**
      * Parent transaction instance
-     * @var Magento_Sales_Model_Order_Payment_Transaction
+     * @var \Magento\Sales\Model\Order\Payment\Transaction
      */
     protected $_parentTransaction = null;
 
@@ -132,16 +134,16 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Payment_Transaction');
+        $this->_init('\Magento\Sales\Model\Resource\Order\Payment\Transaction');
         return parent::_construct();
     }
 
     /**
      * Payment instance setter
-     * @param Magento_Sales_Model_Order_Payment $payment
-     * @return Magento_Sales_Model_Order_Payment_Transaction
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
      */
-    public function setOrderPaymentObject(Magento_Sales_Model_Order_Payment $payment)
+    public function setOrderPaymentObject(\Magento\Sales\Model\Order\Payment $payment)
     {
         $this->_paymentObject = $payment;
         $this->setOrder($payment->getOrder());
@@ -151,7 +153,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Transaction ID setter
      * @param string $txnId
-     * @return Magento_Sales_Model_Order_Payment_Transaction
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
      */
     public function setTxnId($txnId)
     {
@@ -164,15 +166,15 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      * Can set the transaction id as well
      * @param string $parentTxnId
      * @param string $txnId
-     * @return Magento_Sales_Model_Order_Payment_Transaction
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
+     * @throws \Magento\Core\Exception
      */
     public function setParentTxnId($parentTxnId, $txnId = null)
     {
         $this->_verifyTxnId($parentTxnId);
         if (empty($txnId)) {
             if ('' == $this->getTxnId()) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('The parent transaction ID must have a transaction ID.')
                 );
             }
@@ -186,7 +188,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      * Transaction type setter
      *
      * @param $txnType
-     * @return Magento_Sales_Model_Order_Payment_Transaction
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
      */
     public function setTxnType($txnType)
     {
@@ -199,7 +201,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      * May attempt to load it.
      *
      * @param bool $shouldLoad
-     * @return Magento_Sales_Model_Order_Payment_Transaction|false
+     * @return \Magento\Sales\Model\Order\Payment\Transaction|false
      */
     public function getParentTransaction($shouldLoad = true)
     {
@@ -236,7 +238,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      * @param array|string $types
      * @param string $txnId
      * @param bool $recursive
-     * @return Magento_Sales_Model_Order_Payment_Transaction|array|null
+     * @return \Magento\Sales\Model\Order\Payment\Transaction|array|null
      */
     public function getChildTransactions($types = null, $txnId = null, $recursive = false)
     {
@@ -292,14 +294,14 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      *
      * @param bool $shouldSave
      * @param bool $dryRun
-     * @return Magento_Sales_Model_Order_Payment_Transaction|false
-     * @throws Exception
+     * @return \Magento\Sales\Model\Order\Payment\Transaction|false
+     * @throws \Exception
      */
     public function closeAuthorization($shouldSave = true, $dryRun = false)
     {
         try {
             $this->_verifyThisTransactionExists();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($dryRun) {
                 return false;
             }
@@ -363,7 +365,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
                 return false;
             }
             return true;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             // jam all logical exceptions, fallback to false
         }
         return false;
@@ -372,7 +374,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Getter/Setter of whether current transaction has a child transaction
      * @param bool $whetherHasChild
-     * @return bool|Magento_Sales_Model_Order_Payment_Transaction
+     * @return bool|\Magento\Sales\Model\Order\Payment\Transaction
      */
     public function hasChildTransaction($whetherHasChild = null)
     {
@@ -393,19 +395,19 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Check object before loading by by specified transaction ID
      * @param $txnId
-     * @return Magento_Sales_Model_Order_Payment_Transaction
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
      */
     protected function _beforeLoadByTxnId($txnId)
     {
         $this->_verifyPaymentObject();
-        Mage::dispatchEvent($this->_eventPrefix . '_load_by_txn_id_before', $this->_getEventData() + array('txn_id' => $txnId));
+        \Mage::dispatchEvent($this->_eventPrefix . '_load_by_txn_id_before', $this->_getEventData() + array('txn_id' => $txnId));
         return $this;
     }
 
     /**
      * Load self by specified transaction ID. Requires the valid payment object to be set
      * @param string $txnId
-     * @return Magento_Sales_Model_Order_Payment_Transaction
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
      */
     public function loadByTxnId($txnId)
     {
@@ -420,11 +422,11 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Check object after loading by by specified transaction ID
      * @param $txnId
-     * @return Magento_Sales_Model_Order_Payment_Transaction
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
      */
     protected function _afterLoadByTxnId()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_load_by_txn_id_after', $this->_getEventData());
+        \Mage::dispatchEvent($this->_eventPrefix . '_load_by_txn_id_after', $this->_getEventData());
         return $this;
     }
 
@@ -436,13 +438,13 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      *
      * @param string $key
      * @param mixed $value
-     * @return Magento_Sales_Model_Order_Payment_Transaction
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
+     * @throws \Magento\Core\Exception
      */
     public function setAdditionalInformation($key, $value)
     {
         if (is_object($value)) {
-            Mage::throwException(__('Payment transactions disallow storing objects.'));
+            \Mage::throwException(__('Payment transactions disallow storing objects.'));
         }
         $info = $this->_getData('additional_information');
         if (!$info) {
@@ -472,7 +474,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Unsetter for entire additional_information value or one of its element by key
      * @param string $key
-     * @return Magento_Sales_Model_Order_Payment_Transaction
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
      */
     public function unsAdditionalInformation($key = null)
     {
@@ -490,8 +492,8 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Close this transaction
      * @param bool $shouldSave
-     * @return Magento_Sales_Model_Order_Payment_Transaction
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
+     * @throws \Magento\Core\Exception
      */
     public function close($shouldSave = true)
     {
@@ -499,7 +501,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
             $this->_verifyThisTransactionExists();
         }
         if (1 == $this->getIsClosed() && $this->_isFailsafe) {
-            Mage::throwException(__('The transaction "%1" (%2) is already closed.', $this->getTxnId(), $this->getTxnType()));
+            \Mage::throwException(__('The transaction "%1" (%2) is already closed.', $this->getTxnId(), $this->getTxnType()));
         }
         $this->setIsClosed(1);
         if ($shouldSave) {
@@ -511,7 +513,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
                 if ($paymentTransaction) {
                     $paymentTransaction->close($shouldSave);
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 if (!$this->_isFailsafe) {
                     throw $e;
                 }
@@ -524,13 +526,13 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      * Order Payment instance getter
      * Will attempt to load by payment_id if it is set in data
      * @param bool $shouldLoad
-     * @return Magento_Sales_Model_Order_Payment
+     * @return \Magento\Sales\Model\Order\Payment
      */
     public function getOrderPaymentObject($shouldLoad = true)
     {
         $this->_verifyThisTransactionExists();
         if (null === $this->_paymentObject && $shouldLoad) {
-            $payment = Mage::getModel('Magento_Sales_Model_Order_Payment')->load($this->getPaymentId());
+            $payment = \Mage::getModel('\Magento\Sales\Model\Order\Payment')->load($this->getPaymentId());
             if ($payment->getId()) {
                 $this->setOrderPaymentObject($payment);
             }
@@ -559,7 +561,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Retrieve order instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -574,8 +576,8 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      * Set order instance for transaction depends on transaction behavior
      * If $order equals to true, method isn't loading new order instance.
      *
-     * @param Magento_Sales_Model_Order|null|boolean $order
-     * @return Magento_Sales_Model_Order_Payment_Transaction
+     * @param \Magento\Sales\Model\Order|null|boolean $order
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
      */
     public function setOrder($order = null)
     {
@@ -583,14 +585,14 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
             if (null !== $this->_paymentObject && $this->_paymentObject->getOrder()) {
                 $this->_order = $this->_paymentObject->getOrder();
             } elseif ($this->getOrderId() && $order === null) {
-                $this->_order = Mage::getModel('Magento_Sales_Model_Order')->load($this->getOrderId());
+                $this->_order = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getOrderId());
             } else {
                 $this->_order = false;
             }
         } elseif (!$this->getId() || ($this->getOrderId() == $order->getId())) {
             $this->_order = $order;
         } else {
-            Mage::throwException(__('Set order for existing transactions not allowed'));
+            \Mage::throwException(__('Set order for existing transactions not allowed'));
         }
 
         return $this;
@@ -612,8 +614,8 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
 
     /**
      * Verify data required for saving
-     * @return Magento_Sales_Model_Order_Payment_Transaction
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {
@@ -629,14 +631,14 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
                 $this->setOrderId($this->_order->getId());
             }
 
-            $this->setCreatedAt(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
+            $this->setCreatedAt(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
         }
         return parent::_beforeSave();
     }
 
     /**
      * Load child transactions
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _loadChildren()
     {
@@ -649,7 +651,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
         $payment = $this->_verifyPaymentObject(true);
         $paymentId = $payment ? $payment->getId() : $this->_getData('payment_id');
         if (!$paymentId) {
-            Mage::throwException(__('At minimum, you need to set a payment ID.'));
+            \Mage::throwException(__('At minimum, you need to set a payment ID.'));
         }
 
         $this->setOrder(true);
@@ -716,11 +718,11 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     public function getTransactionTypes()
     {
         return array(
-            Magento_Sales_Model_Order_Payment_Transaction::TYPE_ORDER    => __('Order'),
-            Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH    => __('Authorization'),
-            Magento_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE => __('Capture'),
-            Magento_Sales_Model_Order_Payment_Transaction::TYPE_VOID    => __('Void'),
-            Magento_Sales_Model_Order_Payment_Transaction::TYPE_REFUND  => __('Refund')
+            \Magento\Sales\Model\Order\Payment\Transaction::TYPE_ORDER    => __('Order'),
+            \Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH    => __('Authorization'),
+            \Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE => __('Capture'),
+            \Magento\Sales\Model\Order\Payment\Transaction::TYPE_VOID    => __('Void'),
+            \Magento\Sales\Model\Order\Payment\Transaction::TYPE_REFUND  => __('Refund')
         );
     }
 
@@ -740,7 +742,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Check whether specified or set transaction type is supported
      * @param string $txnType
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _verifyTxnType($txnType = null)
     {
@@ -756,7 +758,7 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
             case self::TYPE_REFUND:
                 break;
             default:
-                Mage::throwException(__('We found an unsupported transaction type "%1".', $txnType));
+                \Mage::throwException(__('We found an unsupported transaction type "%1".', $txnType));
         }
     }
 
@@ -764,14 +766,14 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
      * Check whether the payment object is set and it has order object or there is an order_id is set
      * $dryRun allows to not throw exception
      * @param bool $dryRun
-     * @return Magento_Sales_Model_Order_Payment|null|false
-     * @throws Magento_Core_Exception
+     * @return \Magento\Sales\Model\Order\Payment|null|false
+     * @throws \Magento\Core\Exception
      */
     protected function _verifyPaymentObject($dryRun = false)
     {
         if (!$this->_paymentObject || !$this->getOrderId()) {
             if (!$dryRun) {
-                Mage::throwException(__('Please set a proper payment object.'));
+                \Mage::throwException(__('Please set a proper payment object.'));
             }
         }
         return $this->_paymentObject;
@@ -780,24 +782,24 @@ class Magento_Sales_Model_Order_Payment_Transaction extends Magento_Core_Model_A
     /**
      * Check whether specified transaction ID is valid
      * @param string $txnId
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _verifyTxnId($txnId)
     {
         if (null !== $txnId && 0 == strlen($txnId)) {
-            Mage::throwException(__('The Transaction ID field cannot be empty.'));
+            \Mage::throwException(__('The Transaction ID field cannot be empty.'));
         }
     }
 
     /**
      * Make sure this object is a valid transaction
      * TODO for more restriction we can check for data consistency
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _verifyThisTransactionExists()
     {
         if (!$this->getId()) {
-            Mage::throwException(__('You can\'t do this without a transaction object.'));
+            \Mage::throwException(__('You can\'t do this without a transaction object.'));
         }
         $this->_verifyTxnType();
     }

@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Model_Resource_Code extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GoogleOptimizer\Model\Resource;
+
+class Code extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -20,11 +22,11 @@ class Magento_GoogleOptimizer_Model_Resource_Code extends Magento_Core_Model_Res
     /**
      * Load scripts by entity and store
      *
-     * @param Magento_GoogleOptimizer_Model_Code $object
+     * @param \Magento\GoogleOptimizer\Model\Code $object
      * @param int $entityId
      * @param string $entityType
      * @param int $storeId
-     * @return Magento_GoogleOptimizer_Model_Resource_Code
+     * @return \Magento\GoogleOptimizer\Model\Resource\Code
      */
     public function loadByEntityType($object, $entityId, $entityType, $storeId)
     {

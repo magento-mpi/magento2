@@ -15,13 +15,15 @@
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
+namespace Magento\Page\Helper;
+
+class Layout extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Apply page layout handle
      *
      * @param string $pageLayout
-     * @return Magento_Page_Helper_Layout
+     * @return \Magento\Page\Helper\Layout
      */
     public function applyHandle($pageLayout)
     {
@@ -43,7 +45,7 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
      * (for old design packages)
      *
      * @param string $pageLayout
-     * @return Magento_Page_Helper_Layout
+     * @return \Magento\Page\Helper\Layout
      */
     public function applyTemplate($pageLayout = null)
     {
@@ -101,10 +103,10 @@ class Magento_Page_Helper_Layout extends Magento_Core_Helper_Abstract
     /**
      * Retrieve page config
      *
-     * @return Magento_Page_Model_Config
+     * @return \Magento\Page\Model\Config
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('Magento_Page_Model_Config');
+        return \Mage::getSingleton('Magento\Page\Model\Config');
     }
 }

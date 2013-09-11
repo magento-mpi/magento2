@@ -9,7 +9,7 @@
 class Magento_Sales_Model_Observer_Backend_CatalogPriceRuleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Observer_Backend_CatalogPriceRule
+     * @var \Magento\Sales\Model\Observer\Backend\CatalogPriceRule
      */
     protected $_model;
 
@@ -20,8 +20,8 @@ class Magento_Sales_Model_Observer_Backend_CatalogPriceRuleTest extends PHPUnit_
 
     public function setUp()
     {
-        $this->_quoteMock = $this->getMock('Magento_Sales_Model_Resource_Quote', array(), array(), '', false);
-        $this->_model = new Magento_Sales_Model_Observer_Backend_CatalogPriceRule(
+        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Resource\Quote', array(), array(), '', false);
+        $this->_model = new \Magento\Sales\Model\Observer\Backend\CatalogPriceRule(
             $this->_quoteMock
         );
     }

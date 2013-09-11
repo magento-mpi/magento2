@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reports_Model_Grouped_Collection
-    extends \Magento\Data\Collection //Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Reports\Model\Grouped;
+
+class Collection
+    extends \Magento\Data\Collection //\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Column name for group by clause 
@@ -20,7 +22,7 @@ class Magento_Reports_Model_Grouped_Collection
     /**
      * Collection resource
      *
-     * @var Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_resourceCollection  = null;
 
@@ -28,7 +30,7 @@ class Magento_Reports_Model_Grouped_Collection
      * Set column to group by
      *
      * @param string $column
-     * @return Magento_Reports_Model_Grouped_Collection
+     * @return \Magento\Reports\Model\Grouped\Collection
      */
     public function setColumnGroupBy($column)
     {
@@ -41,7 +43,7 @@ class Magento_Reports_Model_Grouped_Collection
      *
      * @param boolean $printQuery
      * @param boolean $logQuery
-     * @return Magento_Reports_Model_Grouped_Collection
+     * @return \Magento\Reports\Model\Grouped\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -64,7 +66,7 @@ class Magento_Reports_Model_Grouped_Collection
      * Setter for resource collection
      *
      * @param \Magento\Data\Collection\Db $collection
-     * @return Magento_Reports_Model_Grouped_Collection
+     * @return \Magento\Reports\Model\Grouped\Collection
      */
     public function setResourceCollection($collection)
     {
@@ -75,7 +77,7 @@ class Magento_Reports_Model_Grouped_Collection
     /**
      * Merge empty data collection with resource collection
      *
-     * @return Magento_Reports_Model_Grouped_Collection
+     * @return \Magento\Reports\Model\Grouped\Collection
      */
     protected function _mergeWithEmptyData()
     {
@@ -101,7 +103,7 @@ class Magento_Reports_Model_Grouped_Collection
     /**
      * Group data in resource collection
      *
-     * @return Magento_Reports_Model_Grouped_Collection
+     * @return \Magento\Reports\Model\Grouped\Collection
      */
     protected function _groupResourceData()
     {

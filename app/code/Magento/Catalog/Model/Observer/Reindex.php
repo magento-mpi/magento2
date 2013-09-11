@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Observer_Reindex
+namespace Magento\Catalog\Model\Observer;
+
+class Reindex
 {
     /**
      * Object manager
@@ -38,15 +40,15 @@ class Magento_Catalog_Model_Observer_Reindex
      * Reindex fulltext
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Catalog_Model_Observer_Reindex
+     * @return \Magento\Catalog\Model\Observer\Reindex
      */
     public function fulltextReindex(\Magento\Event\Observer $observer)
     {
-        /** @var $category Magento_Catalog_Model_Category */
+        /** @var $category \Magento\Catalog\Model\Category */
         $category = $observer->getDataObject();
         if ($category && count($category->getAffectedProductIds()) > 0) {
-            /** @var $resource Magento_CatalogSearch_Model_Resource_Fulltext */
-            $resource = $this->_objectManager->get('Magento_CatalogSearch_Model_Resource_Fulltext');
+            /** @var $resource \Magento\CatalogSearch\Model\Resource\Fulltext */
+            $resource = $this->_objectManager->get('Magento\CatalogSearch\Model\Resource\Fulltext');
             $resource->rebuildIndex(null, $category->getAffectedProductIds());
         }
         return $this;

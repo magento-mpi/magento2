@@ -8,10 +8,10 @@
 //Set up customer fixture
 Mage::app()->loadArea('adminhtml');
 require 'customer.php';
-/** @var $customer Magento_Customer_Model_Customer */
+/** @var $customer \Magento\Customer\Model\Customer */
 //Set up customer address fixture
 $customer = Mage::registry('customer');
-/** @var $customerAddress Magento_Customer_Model_Address */
+/** @var $customerAddress \Magento\Customer\Model\Address */
 $customerAddress = Mage::registry('customer_address');
 /*//$customerAddress->addShippingRate($rate);
 $customerAddress->setShippingMethod('freeshipping_freeshipping');
@@ -20,12 +20,12 @@ $customerAddress->save();*/
 
 //Set up simple product fixture
 require 'product_simple.php';
-/** @var $product Magento_Catalog_Model_Product */
+/** @var $product \Magento\Catalog\Model\Product */
 $product = Mage::registry('product_simple');
 
 
 //Create quote
-$quote = Mage::getModel('Magento_Sales_Model_Quote');
+$quote = Mage::getModel('\Magento\Sales\Model\Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)
@@ -34,8 +34,8 @@ $quote->setStoreId(1)
     ->setPasswordHash($customer->encryptPassword($customer->getPassword()))
     ->addProduct($product->load($product->getId()), 5);
 
-/** @var $rate Magento_Sales_Model_Quote_Address_Rate */
-$rate = Mage::getModel('Magento_Sales_Model_Quote_Address_Rate');
+/** @var $rate \Magento\Sales\Model\Quote\Address\Rate */
+$rate = Mage::getModel('\Magento\Sales\Model\Quote\Address\Rate');
 $rate->setCode('freeshipping_freeshipping');
 $rate->getPrice(1);
 
@@ -47,7 +47,7 @@ $quote->save();
 Mage::register('quote', $quote);
 
 //Create order
-$quoteService = new Magento_Sales_Model_Service_Quote($quote);
+$quoteService = new \Magento\Sales\Model\Service\Quote($quote);
 //Set payment method to check/money order
 $quoteService->getQuote()->getPayment()->setMethod('checkmo');
 $order = $quoteService->submitOrder();

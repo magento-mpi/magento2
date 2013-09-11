@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_GiftRegistry_Model_Resource_Setup */
+/** @var $installer \Magento\GiftRegistry\Model\Resource\Setup */
 $installer = $this;
 
 /**

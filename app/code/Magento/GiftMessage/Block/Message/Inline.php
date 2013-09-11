@@ -16,7 +16,9 @@
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Template
+namespace Magento\GiftMessage\Block\Message;
+
+class Inline extends \Magento\Core\Block\Template
 {
 
     protected $_entity = null;
@@ -50,7 +52,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
      * Set type
      *
      * @param string $type
-     * @return Magento_GiftMessage_Block_Message_Inline
+     * @return \Magento\GiftMessage\Block\Message\Inline
      */
     public function setType($type)
     {
@@ -81,11 +83,11 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     /**
      * Init message
      *
-     * @return Magento_GiftMessage_Block_Message_Inline
+     * @return \Magento\GiftMessage\Block\Message\Inline
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage(
+        $this->_giftMessage = $this->helper('\Magento\GiftMessage\Helper\Message')->getGiftMessage(
             $this->getEntity()->getGiftMessageId()
         );
         return $this;
@@ -98,8 +100,8 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
      */
     public function getDefaultFrom()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getName();
+        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getName();
         } else {
             return $this->getEntity()->getBillingAddress()->getName();
         }
@@ -134,7 +136,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
         if ($entity) {
             if (!$entity->getGiftMessage()) {
                 $entity->setGiftMessage(
-                    $this->helper('Magento_GiftMessage_Helper_Message')->getGiftMessage($entity->getGiftMessageId())
+                    $this->helper('\Magento\GiftMessage\Helper\Message')->getGiftMessage($entity->getGiftMessageId())
                 );
             }
             return $entity->getGiftMessage();
@@ -154,7 +156,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
             $items = array();
 
             $entityItems = $this->getEntity()->getAllItems();
-            Mage::dispatchEvent('gift_options_prepare_items', array('items' => $entityItems));
+            \Mage::dispatchEvent('gift_options_prepare_items', array('items' => $entityItems));
 
             foreach ($entityItems as $item) {
                 if ($item->getParentItem()) {
@@ -243,7 +245,7 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
      */
     public function isMessagesAvailable()
     {
-        return Mage::helper('Magento_GiftMessage_Helper_Message')->isMessagesAvailable('quote', $this->getEntity());
+        return \Mage::helper('Magento\GiftMessage\Helper\Message')->isMessagesAvailable('quote', $this->getEntity());
     }
 
     /**
@@ -254,18 +256,18 @@ class Magento_GiftMessage_Block_Message_Inline extends Magento_Core_Block_Templa
     public function isItemMessagesAvailable($item)
     {
         $type = substr($this->getType(), 0, 5) == 'multi' ? 'address_item' : 'item';
-        return Mage::helper('Magento_GiftMessage_Helper_Message')->isMessagesAvailable($type, $item);
+        return \Mage::helper('Magento\GiftMessage\Helper\Message')->isMessagesAvailable($type, $item);
     }
 
     /**
      * Product thumbnail image url getter
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')
+        return (string)$this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
             ->resize($this->getThumbnailSize());
     }
 

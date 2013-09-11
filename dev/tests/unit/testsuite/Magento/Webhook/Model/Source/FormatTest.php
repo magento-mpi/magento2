@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Source_Format
+ * \Magento\Webhook\Model\Source\Format
  *
  * {license_notice}
  *
@@ -14,7 +14,7 @@ class Magento_Webhook_Model_Source_FormatTest extends Magento_Webhook_Model_Sour
 {
     public function testGetFormatsForForm()
     {
-        $unitUnderTest = new Magento_Webhook_Model_Source_Format(array('type' => 'blah'));
+        $unitUnderTest = new \Magento\Webhook\Model\Source\Format(array('type' => 'blah'));
         $elements = $unitUnderTest->getFormatsForForm();
         $this->_assertElements($elements);
 

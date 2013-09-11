@@ -16,9 +16,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
-    extends Magento_Adminhtml_Block_Widget_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
+
+class Versions
+    extends \Magento\Adminhtml\Block\Widget\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Array of admin users in system
@@ -37,17 +39,17 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Prepares collection of versions
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
      */
     protected function _prepareCollection()
     {
-        $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
+        $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
 
         /* var $collection Magento_VersionsCms_Model_Resource_Version_Collection */
-        $collection = Mage::getModel('Magento_VersionsCms_Model_Page_Version')->getCollection()
+        $collection = \Mage::getModel('\Magento\VersionsCms\Model\Page\Version')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVisibilityFilter($userId,
-                Mage::getSingleton('Magento_VersionsCms_Model_Config')->getAllowedAccessLevel())
+                \Mage::getSingleton('Magento\VersionsCms\Model\Config')->getAllowedAccessLevel())
             ->addUserColumn()
             ->addUserNameColumn();
 
@@ -63,7 +65,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Retrieve collection for grid if there is not collection call _prepareCollection
      *
-     * @return Magento_VersionsCms_Model_Resource_Page_Version_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Page\Version\Collection
      */
     public function getCollection()
     {
@@ -77,7 +79,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Prepare versions grid columns
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
      */
     protected function _prepareColumns()
     {
@@ -87,7 +89,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             'width' => 100,
             'index' => 'version_number',
             'type' => 'options',
-            'options' => Mage::helper('Magento_VersionsCms_Helper_Data')->getVersionsArray($this->getPage())
+            'options' => \Mage::helper('Magento\VersionsCms\Helper\Data')->getVersionsArray($this->getPage())
         ));
 */
         $this->addColumn('label', array(
@@ -111,7 +113,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
-            'options' => Mage::helper('Magento_VersionsCms_Helper_Data')->getVersionAccessLevels()
+            'options' => \Mage::helper('Magento\VersionsCms\Helper\Data')->getVersionAccessLevels()
         ));
 
         $this->addColumn('revisions', array(
@@ -143,11 +145,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Returns cms page object from registry
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {
-        return Mage::registry('cms_page');
+        return \Mage::registry('cms_page');
     }
 
     /**
@@ -194,11 +196,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      * Prepare massactions for this grid.
      * For now it is only ability to remove versions
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
      */
     protected function _prepareMassaction()
     {
-        if (Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserDeleteVersion()) {
+        if (\Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserDeleteVersion()) {
             $this->setMassactionIdField('version_id');
             $this->getMassactionBlock()->setFormFieldName('version');
 

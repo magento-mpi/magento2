@@ -7,7 +7,7 @@
  */
 
 //Add customer
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+$customer = Mage::getModel('\Magento\Customer\Model\Customer');
 $customer->setStoreId(1)
     ->setWebsiteId(1)
     ->setCreatedIn('Default Store View')
@@ -23,7 +23,7 @@ $customer->setStoreId(1)
     ->save();
 
 //Change customer balance several times to create balance with history
-$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
+$customerBalance = Mage::getModel('\Magento\CustomerBalance\Model\Balance');
 $customerBalance->setCustomerId($customer->getId())
     ->setWebsiteId(1)
     ->setAmountDelta(1000)
@@ -33,7 +33,7 @@ $customerBalance->setCustomerId($customer->getId())
 Magento_CustomerBalance_Model_Quote_ApiTest::$customer = $customer;
 
 //Create new simple product to add it to shopping cart
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setStoreId(1)
     ->setWebsiteId(1)
@@ -45,8 +45,8 @@ $product->setTypeId('simple')
     ->setMetaTitle('meta title')
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->setWeight(12)
     ->setStockData(
         array(
@@ -61,7 +61,7 @@ $product->setTypeId('simple')
 Magento_CustomerBalance_Model_Quote_ApiTest::$product = $product;
 
 //Create shopping cart
-$quote = Mage::getModel('Magento_Sales_Model_Quote');
+$quote = Mage::getModel('\Magento\Sales\Model\Quote');
 $quote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false);
@@ -73,11 +73,11 @@ $quote->addProduct($product);
 
 //Assign customer to cart
 $quote->setCustomer($customer)
-    ->setCheckoutMethod(Magento_Checkout_Model_Type_Onepage::METHOD_CUSTOMER)
+    ->setCheckoutMethod(\Magento\Checkout\Model\Type\Onepage::METHOD_CUSTOMER)
     ->setPasswordHash($customer->encryptPassword($customer->getPassword()));
 
 //Create billing/shipping address
-$address = Mage::getModel('Magento_Sales_Model_Quote_Address');
+$address = Mage::getModel('\Magento\Sales\Model\Quote\Address');
 $address->setData(
     array(
         'city' => 'New York',
@@ -107,7 +107,7 @@ $quote->collectTotals()
 Magento_CustomerBalance_Model_Quote_ApiTest::$quote = $quote;
 
 //Create shopping cart by guest
-$guestQuote = Mage::getModel('Magento_Sales_Model_Quote');
+$guestQuote = Mage::getModel('\Magento\Sales\Model\Quote');
 $guestQuote->setStoreId(1)
     ->setIsActive(false)
     ->setIsMultiShipping(false)

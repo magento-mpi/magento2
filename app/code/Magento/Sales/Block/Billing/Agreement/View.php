@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Billing\Agreement;
+
+class View extends \Magento\Core\Block\Template
 {
     /**
      * Payment methods array
@@ -25,31 +27,31 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     /**
      * Billing Agreement instance
      *
-     * @var Magento_Sales_Model_Billing_Agreement
+     * @var \Magento\Sales\Model\Billing\Agreement
      */
     protected $_billingAgreementInstance = null;
 
     /**
      * Related orders collection
      *
-     * @var Magento_Sales_Model_Resource_Order_Collection
+     * @var \Magento\Sales\Model\Resource\Order\Collection
      */
     protected $_relatedOrders = null;
 
     /**
      * Retrieve related orders collection
      *
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function getRelatedOrders()
     {
         if (is_null($this->_relatedOrders)) {
-            $this->_relatedOrders = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+            $this->_relatedOrders = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
                 ->addFieldToSelect('*')
-                ->addFieldToFilter('customer_id', Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getId())
+                ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
                 ->addFieldToFilter(
                     'state',
-                    array('in' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getVisibleOnFrontStates())
+                    array('in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates())
                 )
                 ->addBillingAgreementsFilter($this->_billingAgreementInstance->getAgreementId())
                 ->setOrder('created_at', 'desc');
@@ -60,11 +62,11 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     /**
      * Retrieve order item value by key
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @param string $key
      * @return string
      */
-    public function getOrderItemValue(Magento_Sales_Model_Order $order, $key)
+    public function getOrderItemValue(\Magento\Sales\Model\Order $order, $key)
     {
         $escape = true;
         switch ($key) {
@@ -72,7 +74,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
                 $value = $order->getIncrementId();
                 break;
             case 'created_at':
-                $value = $this->helper('Magento_Core_Helper_Data')->formatDate($order->getCreatedAt(), 'short', true);
+                $value = $this->helper('\Magento\Core\Helper\Data')->formatDate($order->getCreatedAt(), 'short', true);
                 break;
             case 'shipping_address':
                 $value = $order->getShippingAddress()
@@ -97,16 +99,16 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     /**
      * Set pager
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
         if (is_null($this->_billingAgreementInstance)) {
-            $this->_billingAgreementInstance = Mage::registry('current_billing_agreement');
+            $this->_billingAgreementInstance = \Mage::registry('current_billing_agreement');
         }
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager')
+        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager')
             ->setCollection($this->getRelatedOrders())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         $this->getRelatedOrders()->load();
@@ -122,7 +124,7 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('Magento_Payment_Helper_Data')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->helper('\Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -154,11 +156,11 @@ class Magento_Sales_Block_Billing_Agreement_View extends Magento_Core_Block_Temp
             $createdAt = $this->_billingAgreementInstance->getCreatedAt();
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
-                ($createdAt) ? $this->helper('Magento_Core_Helper_Data')->formatDate($createdAt, 'short', true) : __('N/A')
+                ($createdAt) ? $this->helper('\Magento\Core\Helper\Data')->formatDate($createdAt, 'short', true) : __('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(
-                    $this->helper('Magento_Core_Helper_Data')->formatDate($updatedAt, 'short', true)
+                    $this->helper('\Magento\Core\Helper\Data')->formatDate($updatedAt, 'short', true)
                 );
             }
             $this->setAgreementStatus($this->_billingAgreementInstance->getStatusLabel());

@@ -12,16 +12,16 @@
 /**
  * Config data model
  *
- * @method Magento_Core_Model_Resource_Config_Data _getResource()
- * @method Magento_Core_Model_Resource_Config_Data getResource()
+ * @method \Magento\Core\Model\Resource\Config\Data _getResource()
+ * @method \Magento\Core\Model\Resource\Config\Data getResource()
  * @method string getScope()
- * @method Magento_Core_Model_Config_Value setScope(string $value)
+ * @method \Magento\Core\Model\Config\Value setScope(string $value)
  * @method int getScopeId()
- * @method Magento_Core_Model_Config_Value setScopeId(int $value)
+ * @method \Magento\Core\Model\Config\Value setScopeId(int $value)
  * @method string getPath()
- * @method Magento_Core_Model_Config_Value setPath(string $value)
+ * @method \Magento\Core\Model\Config\Value setPath(string $value)
  * @method string getValue()
- * @method Magento_Core_Model_Config_Value setValue(string $value)
+ * @method \Magento\Core\Model\Config\Value setValue(string $value)
  *
  * @category    Mage
  * @package     Magento_Core
@@ -29,7 +29,9 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
+namespace Magento\Core\Model\Config;
+
+class Value extends \Magento\Core\Model\AbstractModel
 {
     const ENTITY = 'core_config_data';
     /**
@@ -53,7 +55,7 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Resource_Config_Data');
+        $this->_init('\Magento\Core\Model\Resource\Config\Data');
     }
 
     /**
@@ -86,12 +88,12 @@ class Magento_Core_Model_Config_Value extends Magento_Core_Model_Abstract
         $path        = $this->getPath();
 
         if ($storeCode) {
-            return Mage::app()->getStore($storeCode)->getConfig($path);
+            return \Mage::app()->getStore($storeCode)->getConfig($path);
         }
         if ($websiteCode) {
-            return Mage::app()->getWebsite($websiteCode)->getConfig($path);
+            return \Mage::app()->getWebsite($websiteCode)->getConfig($path);
         }
-        return (string) Mage::getConfig()->getValue($path, 'default');
+        return (string) \Mage::getConfig()->getValue($path, 'default');
     }
 
 

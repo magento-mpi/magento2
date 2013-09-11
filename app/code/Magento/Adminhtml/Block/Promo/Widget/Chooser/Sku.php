@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Promo\Widget\Chooser;
+
+class Sku extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -41,11 +43,11 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
 
     /**
      * Retrieve quote store object
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
-        return Mage::app()->getStore();
+        return \Mage::app()->getStore();
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -70,11 +72,11 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
     /**
      * Prepare Catalog Product Collection for attribute SKU in Promo Conditions SKU chooser
      *
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
             ->setStoreId(0)
             ->addAttributeToSelect('name', 'type_id', 'attribute_set_id');
 
@@ -86,7 +88,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
     /**
      * Define Cooser Grid Columns and filters
      *
-     * @return Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku
+     * @return \Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku
      */
     protected function _prepareColumns()
     {
@@ -113,11 +115,11 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Magento_Adminhtml
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
+                'options' => \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getOptionArray(),
         ));
 
-        $sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
+        $sets = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+            ->setEntityTypeFilter(\Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 

@@ -24,8 +24,8 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
      */
     public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
     {
-        /** @var $store Magento_Core_Model_Store */
-        $store = Mage::getModel('Magento_Core_Model_Store');
+        /** @var $store \Magento\Core\Model\Store */
+        $store = Mage::getModel('\Magento\Core\Model\Store');
         $store->load('fixturestore', 'code');
         $storeId = $store->getId();
 
@@ -35,11 +35,11 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
         $this->dispatch('backend/admin/catalog_category/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(array('You saved the category.')), Magento_Core_Model_Message::SUCCESS
+            $this->equalTo(array('You saved the category.')), \Magento\Core\Model\Message::SUCCESS
         );
 
-        /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        /** @var $category \Magento\Catalog\Model\Category */
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
         $category->setStoreId($storeId);
         $category->load(2);
 
@@ -83,7 +83,7 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
                 $body
             );
         } else {
-            $result = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($body);
+            $result = Mage::helper('Magento\Core\Helper\Data')->jsonDecode($body);
             $this->assertArrayHasKey('messages', $result);
             $this->assertFalse($result['error']);
             $category = $result['category'];
@@ -284,7 +284,7 @@ class Magento_Adminhtml_Controller_Catalog_CategoryTest extends Magento_Backend_
         ));
         $this->dispatch('backend/admin/catalog_category/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('Unable to save the category')), Magento_Core_Model_Message::ERROR
+            $this->equalTo(array('Unable to save the category')), \Magento\Core\Model\Message::ERROR
         );
     }
 }

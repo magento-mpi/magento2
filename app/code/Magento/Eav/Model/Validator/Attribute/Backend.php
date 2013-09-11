@@ -15,29 +15,31 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Validator_Attribute_Backend extends \Magento\Validator\ValidatorAbstract
+namespace Magento\Eav\Model\Validator\Attribute;
+
+class Backend extends \Magento\Validator\ValidatorAbstract
 {
     /**
      * Returns true if and only if $value meets the validation requirements.
      *
-     * @param Magento_Core_Model_Abstract $entity
+     * @param \Magento\Core\Model\AbstractModel $entity
      * @return boolean
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function isValid($entity)
     {
         $this->_messages = array();
-        if (!($entity instanceof Magento_Core_Model_Abstract)) {
-            throw new InvalidArgumentException('Model must be extended from Magento_Core_Model_Abstract');
+        if (!($entity instanceof \Magento\Core\Model\AbstractModel)) {
+            throw new \InvalidArgumentException('Model must be extended from \Magento\Core\Model\AbstractModel');
         }
-        /** @var Magento_Eav_Model_Entity_Abstract $resource */
+        /** @var \Magento\Eav\Model\Entity\AbstractEntity $resource */
         $resource = $entity->getResource();
-        if (!($resource instanceof Magento_Eav_Model_Entity_Abstract)) {
-            throw new InvalidArgumentException('Model resource must be extended from Magento_Eav_Model_Entity_Abstract');
+        if (!($resource instanceof \Magento\Eav\Model\Entity\AbstractEntity)) {
+            throw new \InvalidArgumentException('Model resource must be extended from \Magento\Eav\Model\Entity\AbstractEntity');
         }
         $resource->loadAllAttributes($entity);
         $attributes = $resource->getAttributesByCode();
-        /** @var Magento_Eav_Model_Entity_Attribute $attribute */
+        /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
         foreach ($attributes as $attribute) {
             $backend = $attribute->getBackend();
             if (!method_exists($backend, 'validate')) {
@@ -52,7 +54,7 @@ class Magento_Eav_Model_Validator_Attribute_Backend extends \Magento\Validator\V
                 } elseif (is_string($result)) {
                     $this->_messages[$attribute->getAttributeCode()][] = $result;
                 }
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_messages[$attribute->getAttributeCode()][] = $e->getMessage();
             }
         }

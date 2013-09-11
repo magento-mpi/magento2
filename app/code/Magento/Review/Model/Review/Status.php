@@ -16,11 +16,13 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Review_Model_Review_Status extends Magento_Core_Model_Abstract
+namespace Magento\Review\Model\Review;
+
+class Status extends \Magento\Core\Model\AbstractModel
 {
 
     public function __construct()
     {
-        $this->_init('Magento_Review_Model_Resource_Review_Status');
+        $this->_init('\Magento\Review\Model\Resource\Review\Status');
     }
 }

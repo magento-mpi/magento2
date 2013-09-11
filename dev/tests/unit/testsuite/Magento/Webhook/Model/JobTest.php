@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Job
+ * \Magento\Webhook\Model\Job
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@
  */
 class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Webhook_Model_Job */
+    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Job */
     protected $_job;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -28,23 +28,23 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_mockEventFactory = $this->getMockBuilder('Magento_Webhook_Model_Event_Factory')
+        $this->_mockEventFactory = $this->getMockBuilder('Magento\Webhook\Model\Event\Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockSubscrFactory = $this->getMockBuilder('Magento_Webhook_Model_Subscription_Factory')
+        $this->_mockSubscrFactory = $this->getMockBuilder('Magento\Webhook\Model\Subscription\Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockContext = $this->getMockBuilder('Magento_Core_Model_Context')
+        $this->_mockContext = $this->getMockBuilder('Magento\Core\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockEvent = $this->getMockBuilder('Magento_Webhook_Model_Event')
+        $this->_mockEvent = $this->getMockBuilder('Magento\Webhook\Model\Event')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(
                 array($this->_mockEventFactory,
                       $this->_mockSubscrFactory,
@@ -59,7 +59,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $eventId = 'some event test id';
         $subscriptionId = 'some subscription test id';
 
-        $mockEvent = $this->getMockBuilder('Magento_Webhook_Model_Event')
+        $mockEvent = $this->getMockBuilder('Magento\Webhook\Model\Event')
             ->disableOriginalConstructor()
             ->getMock();
         $mockEvent->expects($this->once())
@@ -67,7 +67,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue($eventId));
 
-        $mockSubscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $mockSubscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->disableOriginalConstructor()
             ->getMock();
         $mockSubscription->expects($this->once())
@@ -78,7 +78,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $data = array('event'        => $mockEvent,
                       'subscription' => $mockSubscription);
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(
                 array($this->_mockEventFactory,
                       $this->_mockSubscrFactory,
@@ -110,7 +110,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($eventId))
             ->will($this->returnValue($event));
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(
                 array($this->_mockEventFactory,
                       $this->_mockSubscrFactory,
@@ -127,7 +127,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
 
     public function testGetEventWithEventInData()
     {
-        $mockEvent = $this->getMockBuilder('Magento_Webhook_Model_Event')
+        $mockEvent = $this->getMockBuilder('Magento\Webhook\Model\Event')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -144,7 +144,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $this->_mockEvent->expects($this->never())
             ->method('load');
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(
                 array($this->_mockEventFactory,
                       $this->_mockSubscrFactory,
@@ -165,7 +165,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $subscr = 'some subscription';
         $data = array('subscription_id' => $subscrId);
 
-        $mockSubscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $mockSubscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->disableOriginalConstructor()
             ->getMock();
         $mockSubscription->expects($this->once())
@@ -177,7 +177,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($mockSubscription));
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(
                 array($this->_mockEventFactory,
                       $this->_mockSubscrFactory,
@@ -210,7 +210,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
         $this->_mockSubscrFactory->expects($this->never())
             ->method('create');
 
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(
                 array($this->_mockEventFactory,
                       $this->_mockSubscrFactory,
@@ -270,7 +270,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
      */
     public function testJobGiven8Retries()
     {
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(
                 array($this->_mockEventFactory,
                       $this->_mockSubscrFactory,
@@ -301,7 +301,7 @@ class Magento_Webhook_Model_JobTest extends PHPUnit_Framework_TestCase
      */
     public function testJobFailAfter8Retries()
     {
-        $this->_job = $this->getMockBuilder('Magento_Webhook_Model_Job')
+        $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(
                 array($this->_mockEventFactory,
                       $this->_mockSubscrFactory,

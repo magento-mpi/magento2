@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_ValidationState implements \Magento\Config\ValidationStateInterface
+namespace Magento\Core\Model\Config;
+
+class ValidationState implements \Magento\Config\ValidationStateInterface
 {
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\App\State $appState
      */
-    public function __construct(Magento_Core_Model_App_State $appState)
+    public function __construct(\Magento\Core\Model\App\State $appState)
     {
         $this->_appState = $appState;
     }
@@ -29,6 +31,6 @@ class Magento_Core_Model_Config_ValidationState implements \Magento\Config\Valid
      */
     public function isValidated()
     {
-        return $this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER;
+        return $this->_appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER;
     }
 }

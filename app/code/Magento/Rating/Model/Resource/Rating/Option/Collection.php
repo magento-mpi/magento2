@@ -16,7 +16,9 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Resource_Rating_Option_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Rating\Model\Resource\Rating\Option;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Rating votes table
@@ -31,7 +33,7 @@ class Magento_Rating_Model_Resource_Rating_Option_Collection extends Magento_Cor
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rating_Model_Rating_Option', 'Magento_Rating_Model_Resource_Rating_Option');
+        $this->_init('\Magento\Rating\Model\Rating\Option', '\Magento\Rating\Model\Resource\Rating\Option');
         $this->_ratingVoteTable     = $this->getTable('rating_option_vote');
     }
 
@@ -39,7 +41,7 @@ class Magento_Rating_Model_Resource_Rating_Option_Collection extends Magento_Cor
      * Add rating filter
      *
      * @param   int|array $rating
-     * @return  Magento_Rating_Model_Resource_Rating_Option_Collection
+     * @return  \Magento\Rating\Model\Resource\Rating\Option\Collection
      */
     public function addRatingFilter($rating)
     {
@@ -55,7 +57,7 @@ class Magento_Rating_Model_Resource_Rating_Option_Collection extends Magento_Cor
      * Set order by position field
      *
      * @param   string $dir
-     * @return  Magento_Rating_Model_Resource_Rating_Option_Collection
+     * @return  \Magento\Rating\Model\Resource\Rating\Option\Collection
      */
     public function setPositionOrder($dir='ASC')
     {

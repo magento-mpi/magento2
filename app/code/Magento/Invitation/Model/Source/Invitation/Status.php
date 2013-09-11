@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Source_Invitation_Status
+namespace Magento\Invitation\Model\Source\Invitation;
+
+class Status
 {
     /**
      * Return list of invitation statuses as options
@@ -24,10 +26,10 @@ class Magento_Invitation_Model_Source_Invitation_Status
     public function getOptions()
     {
         return array(
-            Magento_Invitation_Model_Invitation::STATUS_NEW  => __('Not Sent'),
-            Magento_Invitation_Model_Invitation::STATUS_SENT => __('Sent'),
-            Magento_Invitation_Model_Invitation::STATUS_ACCEPTED => __('Accepted'),
-            Magento_Invitation_Model_Invitation::STATUS_CANCELED => __('Discarded')
+            \Magento\Invitation\Model\Invitation::STATUS_NEW  => __('Not Sent'),
+            \Magento\Invitation\Model\Invitation::STATUS_SENT => __('Sent'),
+            \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED => __('Accepted'),
+            \Magento\Invitation\Model\Invitation::STATUS_CANCELED => __('Discarded')
         );
     }
 

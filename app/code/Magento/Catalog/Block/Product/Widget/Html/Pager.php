@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_Widget_Html_Pager extends Magento_Page_Block_Html_Pager
+namespace Magento\Catalog\Block\Product\Widget\Html;
+
+class Pager extends \Magento\Page\Block\Html\Pager
 {
     /**
      * Collection size
@@ -102,8 +104,8 @@ class Magento_Catalog_Block_Product_Widget_Html_Pager extends Magento_Page_Block
     /**
      * Connect collection to paging
      *
-     * @param   Magento_Core_Model_Resource_Db_Collection_Abstract $collection
-     * @return  Magento_Catalog_Block_Product_Widget_Html_Pager
+     * @param   \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @return  \Magento\Catalog\Block\Product\Widget\Html\Pager
      */
     public function setCollection($collection)
     {
@@ -249,7 +251,7 @@ class Magento_Catalog_Block_Product_Widget_Html_Pager extends Magento_Page_Block
     /**
      * Initialize frame data, such as frame start, frame start etc.
      *
-     * @return Magento_Catalog_Block_Product_Widget_Html_Pager
+     * @return \Magento\Catalog\Block\Product\Widget\Html\Pager
      */
     protected function _initFrame()
     {

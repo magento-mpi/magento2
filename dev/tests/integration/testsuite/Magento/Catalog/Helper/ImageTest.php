@@ -12,7 +12,7 @@
 class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Image
+     * @var \Magento\Catalog\Helper\Image
      */
     protected $_helper;
 
@@ -27,14 +27,14 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
     protected static $_sampleCachedUrl = '';
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected static $_product;
 
     public static function setUpBeforeClass()
     {
         // image fixtures
-        self::$_fixtureMediaDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        self::$_fixtureMediaDir = Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
         mkdir(self::$_fixtureMediaDir . '/m/a', 0777, true);
         $fixtureDir = dirname(dirname(__FILE__)) . '/_files';
         copy("{$fixtureDir}/magento_image.jpg", self::$_fixtureMediaDir . '/m/a/magento_image.jpg');
@@ -48,7 +48,7 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
         );
 
         // sample product with images
-        self::$_product = Mage::getModel('Magento_Catalog_Model_Product');
+        self::$_product = Mage::getModel('\Magento\Catalog\Model\Product');
         self::$_product
             ->addData(array(
                 'image'       => '/m/a/magento_image.jpg',
@@ -58,7 +58,7 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
         ;
 
         // sample image cached URL
-        $helper = Mage::helper('Magento_Catalog_Helper_Image');
+        $helper = Mage::helper('Magento\Catalog\Helper\Image');
         self::$_sampleCachedUrl = (string)$helper->init(self::$_product, 'image');
     }
 
@@ -66,7 +66,7 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
     {
         \Magento\Io\File::rmdirRecursive(self::$_fixtureMediaDir);
         \Magento\Io\File::rmdirRecursive(
-            Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseTmpMediaPath()
+            Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseTmpMediaPath()
         );
     }
 
@@ -76,7 +76,7 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Catalog_Helper_Image');
+        $this->_helper = Mage::helper('Magento\Catalog\Helper\Image');
     }
 
     /**
@@ -177,8 +177,8 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPlaceholder()
     {
-        /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $model \Magento\Catalog\Model\Product */
+        $model = Mage::getModel('\Magento\Catalog\Model\Product');
         $this->_helper->init($model, 'image');
         $placeholder = $this->_helper->getPlaceholder();
         $this->assertEquals('Magento_Catalog::images/product/placeholder/image.jpg', $placeholder);
@@ -204,7 +204,7 @@ class Magento_Catalog_Helper_ImageTest extends PHPUnit_Framework_TestCase
      * Initialize image by specified type
      *
      * @param string $imageType
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     protected function _init($imageType = 'image')
     {

@@ -15,21 +15,23 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\Backend\Block\System\Config;
+
+class Dwstree extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -44,7 +46,7 @@ class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_
     }
 
     /**
-     * @return Magento_Backend_Block_System_Config_Dwstree
+     * @return \Magento\Backend\Block\System\Config\Dwstree
      */
     public function initTabs()
     {
@@ -59,7 +61,7 @@ class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_
             'class' => 'default',
         ));
 
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach ($this->_storeManager->getWebsites(true) as $website) {
             $wCode = $website->getCode();
             $wName = $website->getName();
@@ -76,7 +78,7 @@ class Magento_Backend_Block_System_Config_Dwstree extends Magento_Backend_Block_
                     $this->_addBreadcrumb($wName);
                 }
             }
-            /** @var $store Magento_Core_Model_Store */
+            /** @var $store \Magento\Core\Model\Store */
             foreach ($website->getStores() as $store) {
                 $sCode = $store->getCode();
                 $sName = $store->getName();

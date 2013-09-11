@@ -16,17 +16,19 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Newsletter_Block_Subscribe extends Magento_Core_Block_Template
+namespace Magento\Newsletter\Block;
+
+class Subscribe extends \Magento\Core\Block\Template
 {
     public function getSuccessMessage()
     {
-        $message = Mage::getSingleton('Magento_Newsletter_Model_Session')->getSuccess();
+        $message = \Mage::getSingleton('Magento\Newsletter\Model\Session')->getSuccess();
         return $message;
     }
 
     public function getErrorMessage()
     {
-        $message = Mage::getSingleton('Magento_Newsletter_Model_Session')->getError();
+        $message = \Mage::getSingleton('Magento\Newsletter\Model\Session')->getError();
         return $message;
     }
 

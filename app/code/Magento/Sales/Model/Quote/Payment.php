@@ -11,48 +11,50 @@
 /**
  * Quote payment information
  *
- * @method Magento_Sales_Model_Resource_Quote_Payment _getResource()
- * @method Magento_Sales_Model_Resource_Quote_Payment getResource()
+ * @method \Magento\Sales\Model\Resource\Quote\Payment _getResource()
+ * @method \Magento\Sales\Model\Resource\Quote\Payment getResource()
  * @method int getQuoteId()
- * @method Magento_Sales_Model_Quote_Payment setQuoteId(int $value)
+ * @method \Magento\Sales\Model\Quote\Payment setQuoteId(int $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Quote_Payment setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Sales_Model_Quote_Payment setUpdatedAt(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setUpdatedAt(string $value)
  * @method string getMethod()
- * @method Magento_Sales_Model_Quote_Payment setMethod(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setMethod(string $value)
  * @method string getCcType()
- * @method Magento_Sales_Model_Quote_Payment setCcType(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setCcType(string $value)
  * @method string getCcNumberEnc()
- * @method Magento_Sales_Model_Quote_Payment setCcNumberEnc(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setCcNumberEnc(string $value)
  * @method string getCcLast4()
- * @method Magento_Sales_Model_Quote_Payment setCcLast4(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setCcLast4(string $value)
  * @method string getCcCidEnc()
- * @method Magento_Sales_Model_Quote_Payment setCcCidEnc(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setCcCidEnc(string $value)
  * @method string getCcSsOwner()
- * @method Magento_Sales_Model_Quote_Payment setCcSsOwner(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setCcSsOwner(string $value)
  * @method int getCcSsStartMonth()
- * @method Magento_Sales_Model_Quote_Payment setCcSsStartMonth(int $value)
+ * @method \Magento\Sales\Model\Quote\Payment setCcSsStartMonth(int $value)
  * @method int getCcSsStartYear()
- * @method Magento_Sales_Model_Quote_Payment setCcSsStartYear(int $value)
+ * @method \Magento\Sales\Model\Quote\Payment setCcSsStartYear(int $value)
  * @method string getPaypalCorrelationId()
- * @method Magento_Sales_Model_Quote_Payment setPaypalCorrelationId(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setPaypalCorrelationId(string $value)
  * @method string getPaypalPayerId()
- * @method Magento_Sales_Model_Quote_Payment setPaypalPayerId(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setPaypalPayerId(string $value)
  * @method string getPaypalPayerStatus()
- * @method Magento_Sales_Model_Quote_Payment setPaypalPayerStatus(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setPaypalPayerStatus(string $value)
  * @method string getPoNumber()
- * @method Magento_Sales_Model_Quote_Payment setPoNumber(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setPoNumber(string $value)
  * @method string getAdditionalData()
- * @method Magento_Sales_Model_Quote_Payment setAdditionalData(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setAdditionalData(string $value)
  * @method string getCcSsIssue()
- * @method Magento_Sales_Model_Quote_Payment setCcSsIssue(string $value)
+ * @method \Magento\Sales\Model\Quote\Payment setCcSsIssue(string $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
+namespace Magento\Sales\Model\Quote;
+
+class Payment extends \Magento\Payment\Model\Info
 {
     protected $_eventPrefix = 'sales_quote_payment';
     protected $_eventObject = 'payment';
@@ -64,16 +66,16 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Quote_Payment');
+        $this->_init('\Magento\Sales\Model\Resource\Quote\Payment');
     }
 
     /**
      * Declare quote model instance
      *
-     * @param   Magento_Sales_Model_Quote $quote
-     * @return  Magento_Sales_Model_Quote_Payment
+     * @param   \Magento\Sales\Model\Quote $quote
+     * @return  \Magento\Sales\Model\Quote\Payment
      */
-    public function setQuote(Magento_Sales_Model_Quote $quote)
+    public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
         $this->_quote = $quote;
         $this->setQuoteId($quote->getId());
@@ -83,7 +85,7 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
     /**
      * Retrieve quote model instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -96,13 +98,13 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
      * can be related to quote totals
      *
      * @param   array $data
-     * @throws  Magento_Core_Exception
-     * @return  Magento_Sales_Model_Quote_Payment
+     * @throws  \Magento\Core\Exception
+     * @return  \Magento\Sales\Model\Quote\Payment
      */
     public function importData(array $data)
     {
         $data = new \Magento\Object($data);
-        Mage::dispatchEvent(
+        \Mage::dispatchEvent(
             $this->_eventPrefix . '_import_data_before',
             array(
                 $this->_eventObject=>$this,
@@ -122,7 +124,7 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
         if (!$method->isAvailable($this->getQuote())
             || !$method->isApplicableToQuote($this->getQuote(), $data->getChecks())
         ) {
-            Mage::throwException(__('The requested Payment Method is not available.'));
+            \Mage::throwException(__('The requested Payment Method is not available.'));
         }
 
         $method->assignData($data);
@@ -136,7 +138,7 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
     /**
      * Prepare object for save
      *
-     * @return Magento_Sales_Model_Quote_Payment
+     * @return \Magento\Sales\Model\Quote\Payment
      */
     protected function _beforeSave()
     {
@@ -145,7 +147,7 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
         }
         try {
             $method = $this->getMethodInstance();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             return parent::_beforeSave();
         }
         $method->prepareSave();
@@ -183,7 +185,7 @@ class Magento_Sales_Model_Quote_Payment extends Magento_Payment_Model_Info
     /**
      * Retrieve payment method model object
      *
-     * @return Magento_Payment_Model_Method_Abstract
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getMethodInstance()
     {

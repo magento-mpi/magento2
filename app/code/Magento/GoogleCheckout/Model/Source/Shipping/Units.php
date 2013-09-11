@@ -9,7 +9,9 @@
  */
 
 
-class Magento_GoogleCheckout_Model_Source_Shipping_Units
+namespace Magento\GoogleCheckout\Model\Source\Shipping;
+
+class Units
 {
     public function toOptionArray()
     {

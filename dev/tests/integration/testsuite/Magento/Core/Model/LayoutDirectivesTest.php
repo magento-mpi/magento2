@@ -38,8 +38,8 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     public function testGetBlockUnscheduled()
     {
         $layout = $this->_getLayoutModel('get_block.xml');
-        $this->assertInstanceOf('Magento_Core_Block_Text', $layout->getBlock('block1'));
-        $this->assertInstanceOf('Magento_Core_Block_Text', $layout->getBlock('block2'));
+        $this->assertInstanceOf('\Magento\Core\Block\Text', $layout->getBlock('block1'));
+        $this->assertInstanceOf('\Magento\Core\Block\Text', $layout->getBlock('block2'));
     }
 
     /**
@@ -74,8 +74,8 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
     public function testLayoutObjectArgumentsDirective()
     {
         $layout = $this->_getLayoutModel('arguments_object_type.xml');
-        $this->assertInstanceOf('Magento_Core_Block_Text', $layout->getBlock('block_with_object_args')->getOne());
-        $this->assertInstanceOf('Magento_Core_Block_Messages',
+        $this->assertInstanceOf('\Magento\Core\Block\Text', $layout->getBlock('block_with_object_args')->getOne());
+        $this->assertInstanceOf('\Magento\Core\Block\Messages',
             $layout->getBlock('block_with_object_args')->getTwo()
         );
         $this->assertEquals(3, $layout->getBlock('block_with_object_args')->getThree());
@@ -102,7 +102,7 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
         $expectedSimpleData = 2;
 
         $block = $layout->getBlock('block_with_object_updater_args')->getOne();
-        $this->assertInstanceOf('Magento_Core_Block_Text', $block);
+        $this->assertInstanceOf('\Magento\Core\Block\Text', $block);
         $this->assertEquals($expectedObjectData, $block->getUpdaterCall());
         $this->assertEquals($expectedSimpleData, $layout->getBlock('block_with_object_updater_args')->getTwo());
     }
@@ -209,16 +209,16 @@ class Magento_Core_Model_LayoutDirectivesTest extends PHPUnit_Framework_TestCase
      * Prepare a layout model with pre-loaded fixture of an update XML
      *
      * @param string $fixtureFile
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     protected function _getLayoutModel($fixtureFile)
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        /** @var $xml Magento_Core_Model_Layout_Element */
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        /** @var $xml \Magento\Core\Model\Layout\Element */
         $xml = simplexml_load_file(
             __DIR__ . "/_files/layout_directives_test/{$fixtureFile}",
-            'Magento_Core_Model_Layout_Element'
+            '\Magento\Core\Model\Layout\Element'
         );
         $layout->loadString($xml->handle->asXml());
         $layout->generateElements();

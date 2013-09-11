@@ -16,7 +16,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Link extends Magento_Core_Block_Template
+namespace Magento\Rma\Block;
+
+class Link extends \Magento\Core\Block\Template
 {
     /**
      * Adding link to account links block link params if rma
@@ -27,12 +29,12 @@ class Magento_Rma_Block_Link extends Magento_Core_Block_Template
      * @param string $path
      * @param string $label
      * @param array $urlParams
-     * @return Magento_Rma_Block_Link
+     * @return \Magento\Rma\Block\Link
      */
     public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
     {
-        if (Mage::helper('Magento_Rma_Helper_Data')->isEnabled()) {
-            /** @var $blockInstance Magento_Page_Block_Template_Links */
+        if (\Mage::helper('Magento\Rma\Helper\Data')->isEnabled()) {
+            /** @var $blockInstance \Magento\Page\Block\Template\Links */
             $blockInstance = $this->getLayout()->getBlock($block);
             if ($blockInstance) {
                 $blockInstance->addLink($name, $path, $label, $urlParams);

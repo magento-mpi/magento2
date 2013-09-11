@@ -11,7 +11,7 @@
     <handle id="adminhtml_customer_grid">
         <update handle="formkey"/>
         <container name="root" label="Root" output="1">
-            <block class="Magento_Adminhtml_Block_Customer_Grid" name="admin.customer.grid"/>
+            <block class="\Magento\Adminhtml\Block\Customer\Grid" name="admin.customer.grid"/>
         </container>
     </handle>
 </layout>

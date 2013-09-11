@@ -13,7 +13,7 @@
         <reference name="sales.order.grid">
             <arguments>
                 <argument name="dataSource" xsi:type="object">
-                    <updater>Magento_Sales_Model_Billing_Agreement_OrdersUpdater</updater>
+                    <updater>\Magento\Sales\Model\Billing\Agreement\OrdersUpdater</updater>
                 </argument>
                 <argument name="grid_url" xsi:type="url" path="*/*/ordersgrid"/>
             </arguments>
@@ -21,15 +21,15 @@
         <remove name="sales.order.grid.export"/>
         <remove name="sales.order.grid.massaction"/>
         <reference name="content">
-            <block class="Magento_Sales_Block_Adminhtml_Billing_Agreement_View" name="sales.billing.agreement.view"/>
+            <block class="\Magento\Sales\Block\Adminhtml\Billing\Agreement\View" name="sales.billing.agreement.view"/>
         </reference>
         <reference name="left">
-            <block class="Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tabs" name="sales.billing.agreement.tabs">
+            <block class="\Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tabs" name="sales.billing.agreement.tabs">
                 <action method="addTab">
                     <argument name="name" xsi:type="string">billing_agreement_info</argument>
-                    <argument name="block" xsi:type="string">Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Info</argument>
+                    <argument name="block" xsi:type="string">\Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tab\Info</argument>
                 </action>
-                <block class="Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tab_Orders" name="sales_order.grid.container"/>
+                <block class="\Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tab\Orders" name="sales_order.grid.container"/>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">billing_agreement_orders</argument>
                     <argument name="block" xsi:type="string">sales_order.grid.container</argument>

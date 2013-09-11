@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Payment_Info_Billing_Agreement extends Magento_Payment_Block_Info
+namespace Magento\Sales\Block\Payment\Info\Billing;
+
+class Agreement extends \Magento\Payment\Block\Info
 {
 /**
      * Add reference id to payment method information
@@ -27,7 +29,7 @@ class Magento_Sales_Block_Payment_Info_Billing_Agreement extends Magento_Payment
         }
         $info = $this->getInfo();
         $referenceID = $info->getAdditionalInformation(
-            Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract::PAYMENT_INFO_REFERENCE_ID
+            \Magento\Sales\Model\Payment\Method\Billing\AgreementAbstract::PAYMENT_INFO_REFERENCE_ID
         );
         $transport = new \Magento\Object(array((string)__('Reference ID') => $referenceID,));
         $transport = parent::_prepareSpecificInformation($transport);

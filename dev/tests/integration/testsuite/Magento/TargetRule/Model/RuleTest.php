@@ -12,13 +12,13 @@
 class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_TargetRule_Model_Rule
+     * @var \Magento\TargetRule\Model\Rule
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_TargetRule_Model_Rule');
+        $this->_model = Mage::getModel('\Magento\TargetRule\Model\Rule');
     }
 
     public function testValidateDataOnEmpty()
@@ -33,7 +33,7 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
         $data->setRule(array(
             'actions' => array(
                 'test' => array(
-                    'type' => 'Magento_TargetRule_Model_Actions_Condition_Combine',
+                    'type' => '\Magento\TargetRule\Model\Actions\Condition\Combine',
                 )
             )
         ));
@@ -51,7 +51,7 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
         $data->setRule(array(
             'actions' => array(
                 'test' => array(
-                    'type' => 'Magento_TargetRule_Model_Actions_Condition_Combine',
+                    'type' => '\Magento\TargetRule\Model\Actions\Condition\Combine',
                     'attribute' => $code,
                 )
             )
@@ -75,7 +75,7 @@ class Magento_TargetRule_Model_RuleTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testValidateDataOnInvalidType()
     {

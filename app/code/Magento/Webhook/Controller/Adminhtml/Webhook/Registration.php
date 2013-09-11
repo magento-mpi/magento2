@@ -10,7 +10,9 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Magento_Webhook_Controller_Adminhtml_Webhook_Registration extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\Webhook\Controller\Adminhtml\Webhook;
+
+class Registration extends \Magento\Backend\Controller\ActionAbstract
 {
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
     const DATA_TOPICS = 'topics';
@@ -26,28 +28,28 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Registration extends Magento_
     const PARAM_EMAIL = 'email';
     const PARAM_COMPANY = 'company';
 
-    /** @var Magento_Core_Model_Registry */
+    /** @var \Magento\Core\Model\Registry */
     private $_registry;
 
-    /** @var Magento_Webhook_Service_SubscriptionV1Interface */
+    /** @var \Magento\Webhook\Service\SubscriptionV1Interface */
     private $_subscriptionService;
 
-    /** @var Magento_Webhook_Model_Webapi_User_Factory */
+    /** @var \Magento\Webhook\Model\Webapi\User\Factory */
     private $_userFactory;
 
 
     /**
-     * @param Magento_Webhook_Model_Webapi_User_Factory $userFactory
-     * @param Magento_Webhook_Service_SubscriptionV1Interface $subscriptionService
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Backend_Controller_Context $context
+     * @param \Magento\Webhook\Model\Webapi\User\Factory $userFactory
+     * @param \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Backend\Controller\Context $context
      * @param string $areaCode
      */
     public function __construct(
-        Magento_Webhook_Model_Webapi_User_Factory $userFactory,
-        Magento_Webhook_Service_SubscriptionV1Interface $subscriptionService,
-        Magento_Core_Model_Registry $registry,
-        Magento_Backend_Controller_Context $context,
+        \Magento\Webhook\Model\Webapi\User\Factory $userFactory,
+        \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Controller\Context $context,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
@@ -66,7 +68,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Registration extends Magento_
             $this->_initSubscription();
             $this->loadLayout();
             $this->renderLayout();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
     }
@@ -85,7 +87,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Registration extends Magento_
                 $route,
                 array(self::PARAM_SUBSCRIPTION_ID => $subscriptionData[self::DATA_SUBSCRIPTION_ID])
             );
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
     }
@@ -99,7 +101,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Registration extends Magento_
             $this->_initSubscription();
             $this->loadLayout();
             $this->renderLayout();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
     }
@@ -121,7 +123,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Registration extends Magento_
             $company = $this->getRequest()->getParam(self::PARAM_COMPANY);
 
             if (empty($key) || empty($secret) || empty($email)) {
-                throw new Magento_Webhook_Exception(
+                throw new \Magento\Webhook\Exception(
                     __('API Key, API Secret and Contact Email are required fields.')
                 );
             }
@@ -143,12 +145,12 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Registration extends Magento_
             $userId = $this->_userFactory->createUser($userContext, $topics);
 
             $subscriptionData['api_user_id'] = $userId;
-            $subscriptionData['status'] = Magento_Webhook_Model_Subscription::STATUS_ACTIVE;
+            $subscriptionData['status'] = \Magento\Webhook\Model\Subscription::STATUS_ACTIVE;
             $subscriptionData = $this->_subscriptionService->update($subscriptionData);
 
             $this->_redirectSucceeded($subscriptionData);
 
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
     }
@@ -167,7 +169,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Registration extends Magento_
                 __('The subscription \'%1\' has been activated.',
                     $subscriptionData[self::DATA_NAME])
             );
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
     }
@@ -184,7 +186,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Registration extends Magento_
     /**
      * Initialize general settings for subscription
      *
-     * @throws Exception|Magento_Core_Exception if subscription can't be found
+     * @throws \Exception|\Magento\Core\Exception if subscription can't be found
      * @return array
      */
     protected function _initSubscription()

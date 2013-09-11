@@ -8,7 +8,7 @@
 class Magento_Core_Model_Config_Section_Processor_PlaceholderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Section_Processor_Placeholder
+     * @var \Magento\Core\Model\Config\Section\Processor\Placeholder
      */
     protected $_model;
 
@@ -19,11 +19,11 @@ class Magento_Core_Model_Config_Section_Processor_PlaceholderTest extends PHPUni
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
         $this->_requestMock->expects($this->any())
             ->method('getDistroBaseUrl')
             ->will($this->returnValue('http://localhost/'));
-        $this->_model = new Magento_Core_Model_Config_Section_Processor_Placeholder($this->_requestMock);
+        $this->_model = new \Magento\Core\Model\Config\Section\Processor\Placeholder($this->_requestMock);
     }
 
     public function testProcess()

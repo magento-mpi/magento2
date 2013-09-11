@@ -41,7 +41,7 @@ class Magento_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Frame
  * we can't use ReflectionMethod::setAccessible() and then ReflectionMethod::invokeArgs() to call it from test.
  */
 class Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_Product
-    extends Magento_ImportExport_Model_Export_Entity_Product
+    extends \Magento\ImportExport\Model\Export\Entity\Product
 {
     /**
      * Disable parent constructor

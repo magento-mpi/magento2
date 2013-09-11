@@ -5,26 +5,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerSegment_Model_Resource_Segment_Report_Massaction_Set
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\CustomerSegment\Model\Resource\Segment\Report\Massaction;
+
+class Set
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_CustomerSegment_Helper_Data
+     * @var \Magento\CustomerSegment\Helper\Data
      */
     protected $_segmentHelper;
 
     /**
-     * @var Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter
+     * @var \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter
      */
     protected $_dataConverter;
 
     /**
-     * @param Magento_CustomerSegment_Helper_Data $helper
-     * @param Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter
+     * @param \Magento\CustomerSegment\Helper\Data $helper
+     * @param \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter
      */
     public function __construct(
-        Magento_CustomerSegment_Helper_Data $helper,
-        Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter
+        \Magento\CustomerSegment\Helper\Data $helper,
+        \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter
     ) {
         $this->_segmentHelper = $helper;
         $this->_dataConverter = $converter;

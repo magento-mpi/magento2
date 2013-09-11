@@ -10,11 +10,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_CategoryTest extends P
     public function testGetAfterElementHtml()
     {
         $layout = Mage::getModel(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            '\Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
 
-        $block = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category(array(), $layout);
+        $block = new \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Category(array(), $layout);
 
         $form = new \Magento\Data\Form();
         $block->setForm($form);

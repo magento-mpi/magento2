@@ -10,7 +10,7 @@
  */
 
 /**
- * Test collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection
+ * Test collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
  *
  * @magentoConfigFixture current_store magento_reward/general/is_enabled            1
  * @magentoConfigFixture current_store customer/magento_customerbalance/is_enabled  1
@@ -32,18 +32,18 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testJoinWithRewardPoints()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = Mage::getModel('\Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithRewardPoints();
         $items = $collection->getItems();
         $this->assertCount(1, $items);
 
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = reset($items);
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
-                . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
+                . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_REWARD_POINTS;
             $rewardPoints = $customer->getData($key);
             $this->assertNotEmpty($rewardPoints);
@@ -58,18 +58,18 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testJoinWithCustomerBalance()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = Mage::getModel('\Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithCustomerBalance();
         $items = $collection->getItems();
         $this->assertCount(1, $items);
 
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         $customer = reset($items);
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $key = $website->getCode() . '_'
-                . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::
+                . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
                     COLUMN_CUSTOMER_BALANCE;
             $customerBalance = $customer->getData($key);
             $this->assertNotEmpty($customerBalance);
@@ -84,8 +84,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testFilterWithRewardPointsAndCustomerBalance()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = Mage::getModel('\Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithCustomerBalance()
             ->joinWithRewardPoints();
         $items = $collection->getItems();
@@ -109,8 +109,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testFilterWithRewardPoints()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = Mage::getModel('\Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithRewardPoints();
         $items = $collection->getItems();
         $this->assertCount(2, $items);
@@ -133,8 +133,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testFilterWithCustomerBalance()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = Mage::getModel('\Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $collection->joinWithCustomerBalance();
         $items = $collection->getItems();
         $this->assertCount(2, $items);
@@ -157,8 +157,8 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_CollectionTest exten
      */
     public function testFilterWithoutRewardPointsAndCustomerBalance()
     {
-        /** @var $collection Magento_ScheduledImportExport_Model_Resource_Customer_Collection */
-        $collection = Mage::getModel('Magento_ScheduledImportExport_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\ScheduledImportExport\Model\Resource\Customer\Collection */
+        $collection = Mage::getModel('\Magento\ScheduledImportExport\Model\Resource\Customer\Collection');
         $items = $collection->getItems();
         $this->assertCount(4, $items);
 

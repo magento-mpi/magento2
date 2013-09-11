@@ -8,7 +8,7 @@
 class Magento_Core_Model_File_Storage_SynchronizationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_File_Storage_Synchronization
+     * @var \Magento\Core\Model\File\Storage\Synchronization
      */
     protected $_model;
 
@@ -41,7 +41,7 @@ class Magento_Core_Model_File_Storage_SynchronizationTest extends PHPUnit_Framew
     {
         $this->_storageFactoryMock =
             $this->getMock('Magento_Core_Model_File_Storage_DatabaseFactory', array('create'), array(), '', false);
-        $this->_storageMock = $this->getMock('Magento_Core_Model_File_Storage_Database',
+        $this->_storageMock = $this->getMock('Magento\Core\Model\File\Storage\Database',
                 array('getContent', 'getId', 'loadByFilename'), array(), '', false);
         $this->_storageFactoryMock
             ->expects($this->once())
@@ -57,7 +57,7 @@ class Magento_Core_Model_File_Storage_SynchronizationTest extends PHPUnit_Framew
             ->method('create')
             ->will($this->returnValue($this->_streamMock));
 
-        $this->_model = new Magento_Core_Model_File_Storage_Synchronization(
+        $this->_model = new \Magento\Core\Model\File\Storage\Synchronization(
                         $this->_storageFactoryMock, $this->_streamFactoryMock);
     }
 

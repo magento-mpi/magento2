@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_Rules_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Api\Model\Resource\Rules;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization
@@ -24,14 +26,14 @@ class Magento_Api_Model_Resource_Rules_Collection extends Magento_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('Magento_Api_Model_Rules', 'Magento_Api_Model_Resource_Rules');
+        $this->_init('\Magento\Api\Model\Rules', '\Magento\Api\Model\Resource\Rules');
     }
 
     /**
      * Retrieve rules by role
      *
      * @param int $id
-     * @return Magento_Api_Model_Resource_Rules_Collection
+     * @return \Magento\Api\Model\Resource\Rules\Collection
      */
     public function getByRoles($id)
     {
@@ -42,7 +44,7 @@ class Magento_Api_Model_Resource_Rules_Collection extends Magento_Core_Model_Res
     /**
      * Add sort by length
      *
-     * @return Magento_Api_Model_Resource_Rules_Collection
+     * @return \Magento\Api\Model\Resource\Rules\Collection
      */
     public function addSortByLength()
     {

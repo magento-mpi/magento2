@@ -12,22 +12,24 @@
 /**
  * Gift Message model
  *
- * @method Magento_GiftMessage_Model_Resource_Message _getResource()
- * @method Magento_GiftMessage_Model_Resource_Message getResource()
+ * @method \Magento\GiftMessage\Model\Resource\Message _getResource()
+ * @method \Magento\GiftMessage\Model\Resource\Message getResource()
  * @method int getCustomerId()
- * @method Magento_GiftMessage_Model_Message setCustomerId(int $value)
+ * @method \Magento\GiftMessage\Model\Message setCustomerId(int $value)
  * @method string getSender()
- * @method Magento_GiftMessage_Model_Message setSender(string $value)
+ * @method \Magento\GiftMessage\Model\Message setSender(string $value)
  * @method string getRecipient()
- * @method Magento_GiftMessage_Model_Message setRecipient(string $value)
+ * @method \Magento\GiftMessage\Model\Message setRecipient(string $value)
  * @method string getMessage()
- * @method Magento_GiftMessage_Model_Message setMessage(string $value)
+ * @method \Magento\GiftMessage\Model\Message setMessage(string $value)
  *
  * @category    Magento
  * @package     Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Model_Message extends Magento_Core_Model_Abstract
+namespace Magento\GiftMessage\Model;
+
+class Message extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Allowed types of entities for using of gift messages
@@ -35,34 +37,34 @@ class Magento_GiftMessage_Model_Message extends Magento_Core_Model_Abstract
      * @var array
      */
     static protected $_allowedEntityTypes = array(
-        'order'         => 'Magento_Sales_Model_Order',
-        'order_item'    => 'Magento_Sales_Model_Order_Item',
-        'order_address' => 'Magento_Sales_Model_Order_Address',
-        'quote'         => 'Magento_Sales_Model_Quote',
-        'quote_item'    => 'Magento_Sales_Model_Quote_Item',
-        'quote_address' => 'Magento_Sales_Model_Quote_Address',
-        'quote_address_item' => 'Magento_Sales_Model_Quote_Address_Item'
+        'order'         => '\Magento\Sales\Model\Order',
+        'order_item'    => '\Magento\Sales\Model\Order\Item',
+        'order_address' => '\Magento\Sales\Model\Order\Address',
+        'quote'         => '\Magento\Sales\Model\Quote',
+        'quote_item'    => '\Magento\Sales\Model\Quote\Item',
+        'quote_address' => '\Magento\Sales\Model\Quote\Address',
+        'quote_address_item' => '\Magento\Sales\Model\Quote\Address\Item'
     );
 
     protected function _construct()
     {
-        $this->_init('Magento_GiftMessage_Model_Resource_Message');
+        $this->_init('\Magento\GiftMessage\Model\Resource\Message');
     }
 
     /**
      * Return model from entity type
      *
      * @param string $type
-     * @return Magento_Eav_Model_Entity_Abstract
+     * @return \Magento\Eav\Model\Entity\AbstractEntity
      */
     public function getEntityModelByType($type)
     {
         $types = self::getAllowedEntityTypes();
         if(!isset($types[$type])) {
-            Mage::throwException(__('Unknown entity type'));
+            \Mage::throwException(__('Unknown entity type'));
         }
 
-        return Mage::getModel($types[$type]);
+        return \Mage::getModel($types[$type]);
     }
 
     /**

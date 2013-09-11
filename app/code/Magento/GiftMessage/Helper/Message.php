@@ -16,7 +16,9 @@
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
+namespace Magento\GiftMessage\Helper;
+
+class Message extends \Magento\Core\Helper\Data
 {
     /**
      * Giftmessages allow section in configuration
@@ -55,7 +57,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
             return '';
         }
 
-        return Mage::app()->getLayout()->createBlock('Magento_GiftMessage_Block_Message_Inline')
+        return \Mage::app()->getLayout()->createBlock('\Magento\GiftMessage\Block\Message\Inline')
             ->setId('giftmessage_form_' . $this->_nextId++)
             ->setDontDisplayContainer($dontDisplayContainer)
             ->setEntity($entity)
@@ -67,7 +69,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      *
      * @param string $type
      * @param \Magento\Object $entity
-     * @param Magento_Core_Model_Store|integer $store
+     * @param \Magento\Core\Model\Store|integer $store
      * @return boolean
      */
     public function isMessagesAvailable($type, \Magento\Object $entity, $store = null)
@@ -75,9 +77,9 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
         if ($type == 'items') {
             $items = $entity->getAllItems();
             if(!is_array($items) || empty($items)) {
-                return Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
+                return \Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
             }
-            if($entity instanceof Magento_Sales_Model_Quote) {
+            if($entity instanceof \Magento\Sales\Model\Quote) {
                 $_type = $entity->getIsMultiShipping() ? 'address_item' : 'item';
             }
             else {
@@ -103,12 +105,12 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
                 $store
             );
         } elseif ($type == 'address_item') {
-            $storeId = is_numeric($store) ? $store : Mage::app()->getStore($store)->getId();
+            $storeId = is_numeric($store) ? $store : \Mage::app()->getStore($store)->getId();
 
             if (!$this->isCached('address_item_' . $entity->getProductId())) {
                 $this->setCached(
                     'address_item_' . $entity->getProductId(),
-                    Mage::getModel('Magento_Catalog_Model_Product')
+                    \Mage::getModel('\Magento\Catalog\Model\Product')
                         ->setStoreId($storeId)
                         ->load($entity->getProductId())
                         ->getGiftMessageAvailable()
@@ -119,7 +121,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
                 $store
             );
         } else {
-            return Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, $store);
+            return \Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, $store);
         }
 
         return false;
@@ -129,12 +131,12 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Check availablity of gift messages from store config if flag eq 2.
      *
      * @param int $productGiftMessageAllow
-     * @param Magento_Core_Model_Store|integer $store
+     * @param \Magento\Core\Model\Store|integer $store
      * @return boolean
      */
     protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store=null)
     {
-        $result = Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
+        $result = \Mage::getStoreConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
         if ($productGiftMessageAllow === '' || is_null($productGiftMessageAllow)) {
             return $result;
         } else {
@@ -147,7 +149,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      *
      * @param string $type
      * @param \Magento\Object $entity
-     * @param Magento_Core_Model_Store|integer $store
+     * @param \Magento\Core\Model\Store|integer $store
      * @return boolen
      */
     public function getIsMessagesAvailable($type, \Magento\Object $entity, $store=null)
@@ -174,7 +176,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Retrive gift message for entity. If message not exists return null
      *
      * @param \Magento\Object $entity
-     * @return Magento_GiftMessage_Model_Message
+     * @return \Magento\GiftMessage\Model\Message
      */
     public function getGiftMessageForEntity(\Magento\Object $entity)
     {
@@ -218,7 +220,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      *
      * @param string $key
      * @param mixed $value
-     * @return Magento_GiftMessage_Helper_Message
+     * @return \Magento\GiftMessage\Helper\Message
      */
     public function setCached($key, $value)
     {
@@ -230,7 +232,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Check availability for onepage checkout items
      *
      * @param array $items
-     * @param Magento_Core_Model_Store|integer $store
+     * @param \Magento\Core\Model\Store|integer $store
      * @return boolen
      */
     public function getAvailableForQuoteItems($quote, $store=null)
@@ -248,7 +250,7 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Check availability for multishiping checkout items
      *
      * @param array $items
-     * @param Magento_Core_Model_Store|integer $store
+     * @param \Magento\Core\Model\Store|integer $store
      * @return boolen
      */
     public function getAvailableForAddressItems($items, $store=null)
@@ -265,11 +267,11 @@ class Magento_GiftMessage_Helper_Message extends Magento_Core_Helper_Data
      * Retrive gift message with specified id
      *
      * @param integer $messageId
-     * @return Magento_GiftMessage_Model_Message
+     * @return \Magento\GiftMessage\Model\Message
      */
     public function getGiftMessage($messageId=null)
     {
-        $message = Mage::getModel('Magento_GiftMessage_Model_Message');
+        $message = \Mage::getModel('\Magento\GiftMessage\Model\Message');
         if(!is_null($messageId)) {
             $message->load($messageId);
         }

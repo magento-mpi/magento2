@@ -16,7 +16,9 @@
  * @package     Magento_Pci
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pci_Model_Resource_Admin_User extends Magento_User_Model_Resource_User
+namespace Magento\Pci\Model\Resource\Admin;
+
+class User extends \Magento\User\Model\Resource\User
 {
     /**
      * Unlock specified user record(s)
@@ -60,13 +62,13 @@ class Magento_Pci_Model_Resource_Admin_User extends Magento_User_Model_Resource_
     /**
      * Increment failures count along with updating lock expire and first failure dates
      *
-     * @param Magento_User_Model_User $user
+     * @param \Magento\User\Model\User $user
      * @param int|false $setLockExpires
      * @param int|false $setFirstFailure
      */
     public function updateFaiure($user, $setLockExpires = false, $setFirstFailure = false)
     {
-        $update = array('failures_num' => new Zend_Db_Expr('failures_num + 1'));
+        $update = array('failures_num' => new \Zend_Db_Expr('failures_num + 1'));
         if (false !== $setFirstFailure) {
             $update['first_failure'] = $this->formatDate($setFirstFailure);
             $update['failures_num']  = 1;
@@ -82,7 +84,7 @@ class Magento_Pci_Model_Resource_Admin_User extends Magento_User_Model_Resource_
     /**
      * Purge and get remaining old password hashes
      *
-     * @param Magento_User_Model_User $user
+     * @param \Magento\User\Model\User $user
      * @param int $retainLimit
      * @return array
      */
@@ -119,7 +121,7 @@ class Magento_Pci_Model_Resource_Admin_User extends Magento_User_Model_Resource_
     /**
      * Remember a password hash for further usage
      *
-     * @param Magento_User_Model_User $user
+     * @param \Magento\User\Model\User $user
      * @param string $passwordHash
      * @param int $lifetime
      */

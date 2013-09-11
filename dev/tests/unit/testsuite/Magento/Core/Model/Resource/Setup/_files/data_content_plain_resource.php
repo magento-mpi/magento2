@@ -14,8 +14,8 @@ return array(
         array(
             'table',
             'collection',
-            Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_RESOURCE,
-            Magento_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN,
+            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_RESOURCE,
+            \Magento\Core\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
             array(),
             'flag = 1'
         )
@@ -28,7 +28,7 @@ return array(
             array(
                 'table' => 'table',
                 'field' => 'collection',
-                'to'    => 'Magento_Customer_Model_Resource_Attribute_Collection',
+                'to'    => '\Magento\Customer\Model\Resource\Attribute\Collection',
                 'from'  => array('`collection` = ?' => 'customer/attribute_collection')
             ),
         ),
@@ -36,8 +36,8 @@ return array(
             'flag = 1'
         ),
         'aliases_map' => array(
-            Magento_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_RESOURCE => array(
-                'customer/attribute_collection' => 'Magento_Customer_Model_Resource_Attribute_Collection'
+            \Magento\Core\Model\Resource\Setup\Migration::ENTITY_TYPE_RESOURCE => array(
+                'customer/attribute_collection' => '\Magento\Customer\Model\Resource\Attribute\Collection'
             ),
         )
     ),

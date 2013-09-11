@@ -17,8 +17,8 @@ umask(0);
 
 try {
     $params = array(Mage::PARAM_RUN_CODE => 'admin');
-    $config = new Magento_Core_Model_Config_Primary(BP, $params);
-    $entryPoint = new Magento_Core_Model_EntryPoint_Cron($config);
+    $config = new \Magento\Core\Model\Config\Primary(BP, $params);
+    $entryPoint = new \Magento\Core\Model\EntryPoint\Cron($config);
     $entryPoint->processRequest();
 } catch (Exception $e) {
     Mage::printException($e);

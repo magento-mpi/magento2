@@ -11,19 +11,21 @@
 /**
  * Quote submit service model
  */
-class Magento_Sales_Model_Service_Quote
+namespace Magento\Sales\Model\Service;
+
+class Quote
 {
     /**
      * Quote object
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
      * Quote convert object
      *
-     * @var Magento_Sales_Model_Convert_Quote
+     * @var \Magento\Sales\Model\Convert\Quote
      */
     protected $_convertor;
 
@@ -44,7 +46,7 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Order that may be created during submission
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order = null;
 
@@ -58,21 +60,21 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Class constructor
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      */
-    public function __construct(Magento_Sales_Model_Quote $quote)
+    public function __construct(\Magento\Sales\Model\Quote $quote)
     {
         $this->_quote       = $quote;
-        $this->_convertor   = Mage::getModel('Magento_Sales_Model_Convert_Quote');
+        $this->_convertor   = \Mage::getModel('\Magento\Sales\Model\Convert\Quote');
     }
 
     /**
      * Quote convertor declaration
      *
-     * @param   Magento_Sales_Model_Convert_Quote $convertor
-     * @return  Magento_Sales_Model_Service_Quote
+     * @param   \Magento\Sales\Model\Convert\Quote $convertor
+     * @return  \Magento\Sales\Model\Service\Quote
      */
-    public function setConvertor(Magento_Sales_Model_Convert_Quote $convertor)
+    public function setConvertor(\Magento\Sales\Model\Convert\Quote $convertor)
     {
         $this->_convertor = $convertor;
         return $this;
@@ -81,7 +83,7 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Get assigned quote object
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -92,7 +94,7 @@ class Magento_Sales_Model_Service_Quote
      * Specify additional order data
      *
      * @param array $data
-     * @return Magento_Sales_Model_Service_Quote
+     * @return \Magento\Sales\Model\Service\Quote
      */
     public function setOrderData(array $data)
     {
@@ -103,7 +105,7 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Submit the quote. Quote submit process will create the order based on quote data
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function submitOrder()
     {
@@ -112,7 +114,7 @@ class Magento_Sales_Model_Service_Quote
         $quote = $this->_quote;
         $isVirtual = $quote->isVirtual();
 
-        $transaction = Mage::getModel('Magento_Core_Model_Resource_Transaction');
+        $transaction = \Mage::getModel('\Magento\Core\Model\Resource\Transaction');
         if ($quote->getCustomerId()) {
             $transaction->addObject($quote->getCustomer());
         }
@@ -157,31 +159,31 @@ class Magento_Sales_Model_Service_Quote
         /**
          * We can use configuration data for declare new order status
          */
-        Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$quote));
-        Mage::dispatchEvent('sales_model_service_quote_submit_before', array('order'=>$order, 'quote'=>$quote));
+        \Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$quote));
+        \Mage::dispatchEvent('sales_model_service_quote_submit_before', array('order'=>$order, 'quote'=>$quote));
         try {
             $transaction->save();
             $this->_inactivateQuote();
-            Mage::dispatchEvent('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
-        } catch (Exception $e) {
+            \Mage::dispatchEvent('sales_model_service_quote_submit_success', array('order'=>$order, 'quote'=>$quote));
+        } catch (\Exception $e) {
 
-            if (!Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+            if (!\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
                 // reset customer ID's on exception, because customer not saved
                 $quote->getCustomer()->setId(null);
             }
 
             //reset order ID's on exception, because order not saved
             $order->setId(null);
-            /** @var $item Magento_Sales_Model_Order_Item */
+            /** @var $item \Magento\Sales\Model\Order\Item */
             foreach ($order->getItemsCollection() as $item) {
                 $item->setOrderId(null);
                 $item->setItemId(null);
             }
 
-            Mage::dispatchEvent('sales_model_service_quote_submit_failure', array('order'=>$order, 'quote'=>$quote));
+            \Mage::dispatchEvent('sales_model_service_quote_submit_failure', array('order'=>$order, 'quote'=>$quote));
             throw $e;
         }
-        Mage::dispatchEvent('sales_model_service_quote_submit_after', array('order'=>$order, 'quote'=>$quote));
+        \Mage::dispatchEvent('sales_model_service_quote_submit_after', array('order'=>$order, 'quote'=>$quote));
         $this->_order = $order;
         return $order;
     }
@@ -211,7 +213,7 @@ class Magento_Sales_Model_Service_Quote
         try {
             $this->submitNominalItems();
             $this->_shouldInactivateQuote = $inactivateQuoteOld;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_shouldInactivateQuote = $inactivateQuoteOld;
             throw $e;
         }
@@ -236,7 +238,7 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Get an order that may had been created during submission
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -246,7 +248,7 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Inactivate quote
      *
-     * @return Magento_Sales_Model_Service_Quote
+     * @return \Magento\Sales\Model\Service\Quote
      */
     protected function _inactivateQuote()
     {
@@ -259,7 +261,7 @@ class Magento_Sales_Model_Service_Quote
     /**
      * Validate quote data before converting to order
      *
-     * @return Magento_Sales_Model_Service_Quote
+     * @return \Magento\Sales\Model\Service\Quote
      */
     protected function _validate()
     {
@@ -267,26 +269,26 @@ class Magento_Sales_Model_Service_Quote
             $address = $this->getQuote()->getShippingAddress();
             $addressValidation = $address->validate();
             if ($addressValidation !== true) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('Please check the shipping address information. %1', implode(' ', $addressValidation))
                 );
             }
             $method= $address->getShippingMethod();
             $rate  = $address->getShippingRateByCode($method);
             if (!$this->getQuote()->isVirtual() && (!$method || !$rate)) {
-                Mage::throwException(__('Please specify a shipping method.'));
+                \Mage::throwException(__('Please specify a shipping method.'));
             }
         }
 
         $addressValidation = $this->getQuote()->getBillingAddress()->validate();
         if ($addressValidation !== true) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Please check the billing address information. %1', implode(' ', $addressValidation))
             );
         }
 
         if (!($this->getQuote()->getPayment()->getMethod())) {
-            Mage::throwException(__('Please select a valid payment method.'));
+            \Mage::throwException(__('Please select a valid payment method.'));
         }
 
         return $this;
@@ -300,7 +302,7 @@ class Magento_Sales_Model_Service_Quote
         $profiles = $this->_quote->prepareRecurringPaymentProfiles();
         foreach ($profiles as $profile) {
             if (!$profile->isValid()) {
-                Mage::throwException($profile->getValidationErrors(true, true));
+                \Mage::throwException($profile->getValidationErrors(true, true));
             }
             $profile->submit();
         }

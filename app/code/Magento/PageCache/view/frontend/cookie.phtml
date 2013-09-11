@@ -14,9 +14,9 @@
     (function($) {
         head.js("<?php echo $this->getViewFileUrl('mage/cookies.js')?>", function() {
             $.mage.cookies.set(
-                '<?php echo Magento_PageCache_Helper_Data::NO_CACHE_COOKIE ?>',
+                '<?php echo \Magento\PageCache\Helper\Data::NO_CACHE_COOKIE ?>',
                 1,
-                {lifetime: <?php echo $this->helper('Magento_PageCache_Helper_Data')->getNoCacheCookieLifetime() ?>}
+                {lifetime: <?php echo $this->helper('\Magento\PageCache\Helper\Data')->getNoCacheCookieLifetime() ?>}
             )
         });
     })(jQuery);

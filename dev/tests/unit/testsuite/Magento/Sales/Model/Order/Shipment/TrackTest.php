@@ -12,14 +12,14 @@
 class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Order_Shipment_Track
+     * @var \Magento\Sales\Model\Order\Shipment\Track
      */
     protected $_model;
 
     protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_Sales_Model_Order_Shipment_Track');
+        $this->_model = $objectManagerHelper->getObject('\Magento\Sales\Model\Order\Shipment\Track');
     }
 
     public function testAddData()
@@ -42,7 +42,7 @@ class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_Tes
             array('id' => $storeId)
         );
 
-        $shipmentMock = $this->getMock('Magento_Sales_Model_Order_Shipment', array('getStore'), array(), '', false);
+        $shipmentMock = $this->getMock('Magento\Sales\Model\Order\Shipment', array('getStore'), array(), '', false);
         $shipmentMock->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($storeObject));
@@ -79,7 +79,7 @@ class Magento_Sales_Model_Order_Shipment_TrackTest extends PHPUnit_Framework_Tes
     public static function isCustomDataProvider()
     {
         return array(
-            array(true, Magento_Sales_Model_Order_Shipment_Track::CUSTOM_CARRIER_CODE),
+            array(true, \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE),
             array(false, 'ups'),
         );
     }

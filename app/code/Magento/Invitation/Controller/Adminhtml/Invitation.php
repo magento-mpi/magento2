@@ -15,7 +15,9 @@
  * @package    Magento_Invitation
  */
 
-class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminhtml_Controller_Action
+namespace Magento\Invitation\Controller\Adminhtml;
+
+class Invitation extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Invitation list
@@ -32,17 +34,17 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
     /**
      * Init invitation model by request
      *
-     * @return Magento_Invitation_Model_Invitation
+     * @return \Magento\Invitation\Model\Invitation
      */
     protected function _initInvitation()
     {
         $this->_title(__('Invitations'));
 
-        $invitation = Mage::getModel('Magento_Invitation_Model_Invitation')->load($this->getRequest()->getParam('id'));
+        $invitation = \Mage::getModel('\Magento\Invitation\Model\Invitation')->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {
-            Mage::throwException(__("We couldn't find this invitation."));
+            \Mage::throwException(__("We couldn't find this invitation."));
         }
-        Mage::register('current_invitation', $invitation);
+        \Mage::register('current_invitation', $invitation);
 
         return $invitation;
     }
@@ -57,7 +59,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             $this->loadLayout()->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
             $this->renderLayout();
         }
-        catch (Magento_Core_Exception $e) {
+        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -95,10 +97,10 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                 }
             }
             if (empty($emails)) {
-                Mage::throwException(__('Please specify at least one email address.'));
+                \Mage::throwException(__('Please specify at least one email address.'));
             }
-            if (Mage::app()->hasSingleStore()) {
-                $storeId = Mage::app()->getStore(true)->getId();
+            if (\Mage::app()->hasSingleStore()) {
+                $storeId = \Mage::app()->getStore(true)->getId();
             }
             else {
                 $storeId = $this->getRequest()->getParam('store_id');
@@ -110,7 +112,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             $customerExistsCount = 0;
             foreach ($emails as $key => $email) {
                 try {
-                    $invitation = Mage::getModel('Magento_Invitation_Model_Invitation')->setData(array(
+                    $invitation = \Mage::getModel('\Magento\Invitation\Model\Invitation')->setData(array(
                         'email'    => $email,
                         'store_id' => $storeId,
                         'message'  => $this->getRequest()->getParam('message'),
@@ -123,10 +125,10 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                         $failedCount++;
                     }
                 }
-                catch (Magento_Core_Exception $e) {
+                catch (\Magento\Core\Exception $e) {
                     if ($e->getCode()) {
                         $failedCount++;
-                        if ($e->getCode() == Magento_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS) {
+                        if ($e->getCode() == \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS) {
                             $customerExistsCount++;
                         }
                     }
@@ -148,7 +150,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
             $this->_redirect('*/*/');
             return;
         }
-        catch (Magento_Core_Exception $e) {
+        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/new');
@@ -184,7 +186,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                 $this->_getSession()->addSuccess(__('The invitation has been saved.'));
             }
         }
-        catch (Magento_Core_Exception $e) {
+        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/view', array('_current' => true));
@@ -198,9 +200,9 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
         try {
             $invitationsPost = $this->getRequest()->getParam('invitations', array());
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
-                Mage::throwException(__('Please select invitations.'));
+                \Mage::throwException(__('Please select invitations.'));
             }
-            $collection = Mage::getModel('Magento_Invitation_Model_Invitation')->getCollection()
+            $collection = \Mage::getModel('\Magento\Invitation\Model\Invitation')->getCollection()
                 ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
                 ->addCanBeSentFilter();
             $found = 0;
@@ -214,13 +216,13 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                         $sent++;
                     }
                 }
-                catch (Magento_Core_Exception $e) {
+                catch (\Magento\Core\Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
                         throw $e;
                     }
                     // close irrelevant invitations
-                    if ($e->getCode() === Magento_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS) {
+                    if ($e->getCode() === \Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS) {
                         $customerExists++;
                         $invitation->cancel();
                     }
@@ -241,7 +243,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                 );
             }
         }
-        catch (Magento_Core_Exception $e) {
+        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -255,9 +257,9 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
         try {
             $invitationsPost = $this->getRequest()->getParam('invitations', array());
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
-                Mage::throwException(__('Please select invitations.'));
+                \Mage::throwException(__('Please select invitations.'));
             }
-            $collection = Mage::getModel('Magento_Invitation_Model_Invitation')->getCollection()
+            $collection = \Mage::getModel('\Magento\Invitation\Model\Invitation')->getCollection()
                 ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
                 ->addCanBeCanceledFilter();
             $found     = 0;
@@ -270,7 +272,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                         $cancelled++;
                     }
                 }
-                catch (Magento_Core_Exception $e) {
+                catch (\Magento\Core\Exception $e) {
                     // jam all exceptions with codes
                     if (!$e->getCode()) {
                         throw $e;
@@ -284,7 +286,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
                 $this->_getSession()->addNotice(__('We skipped %1 of the selected invitations.', $failed));
             }
         }
-        catch (Magento_Core_Exception $e) {
+        catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -297,7 +299,7 @@ class Magento_Invitation_Controller_Adminhtml_Invitation extends Magento_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Magento_Invitation_Model_Config')->isEnabled()
+        return \Mage::getSingleton('Magento\Invitation\Model\Config')->isEnabled()
             && $this->_authorization->isAllowed('Magento_Invitation::magento_invitation');
     }
 }

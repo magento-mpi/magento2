@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Selector extends Magento_Core_Block_Template
+namespace Magento\Adminhtml\Block\Urlrewrite;
+
+class Selector extends \Magento\Core\Block\Template
 {
     /**
      * List of available modes from source model

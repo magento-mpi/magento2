@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Product_Index_Compared extends Magento_Reports_Model_Resource_Product_Index_Abstract
+namespace Magento\Reports\Model\Resource\Product\Index;
+
+class Compared extends \Magento\Reports\Model\Resource\Product\Index\AbstractIndex
 {
     /**
      * Initialize connection and main resource table

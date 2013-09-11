@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
+namespace Magento\Checkout\Helper;
+
+class Cart extends \Magento\Core\Helper\Url
 {
     const XML_PATH_REDIRECT_TO_CART = 'checkout/cart/redirect_to_cart';
 
@@ -25,23 +27,23 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Retrieve cart instance
      *
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     public function getCart()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Cart');
+        return \Mage::getSingleton('Magento\Checkout\Model\Cart');
     }
 
     /**
      * Retrieve url for add product to cart
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  string
      */
     public function getAddUrl($product, $additional = array())
     {
-        $continueUrl    = Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getCurrentUrl());
-        $urlParamName   = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $continueUrl    = \Mage::helper('Magento\Core\Helper\Data')->urlEncode($this->getCurrentUrl());
+        $urlParamName   = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
 
         $routeParams = array(
             $urlParamName   => $continueUrl,
@@ -75,7 +77,7 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     {
         $params = array(
             'id'=>$item->getId(),
-            Magento_Core_Controller_Front_Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
+            \Magento\Core\Controller\Front\Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
         );
         return $this->_getUrl('checkout/cart/delete', $params);
     }
@@ -93,11 +95,11 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Retrieve current quote instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     /**
@@ -143,11 +145,11 @@ class Magento_Checkout_Helper_Cart extends Magento_Core_Helper_Url
     /**
      * Checks if customer should be redirected to shopping cart after adding a product
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function getShouldRedirectToCart($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_REDIRECT_TO_CART, $store);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_REDIRECT_TO_CART, $store);
     }
 }

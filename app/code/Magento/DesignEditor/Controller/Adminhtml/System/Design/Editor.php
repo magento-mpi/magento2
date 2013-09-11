@@ -13,27 +13,29 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Magento_Adminhtml_Controller_Action
+namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
+
+class Editor extends \Magento\Adminhtml\Controller\Action
 {
     /**
-     * @var Magento_Theme_Model_Config
+     * @var \Magento\Theme\Model\Config
      */
     protected $_themeConfig;
 
     /**
-     * @var Magento_Theme_Model_Config_Customization
+     * @var \Magento\Theme\Model\Config\Customization
      */
     protected $_customizationConfig;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Theme_Model_Config $themeConfig
-     * @param Magento_Theme_Model_Config_Customization $customizationConfig
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Theme\Model\Config $themeConfig
+     * @param \Magento\Theme\Model\Config\Customization $customizationConfig
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Theme_Model_Config $themeConfig,
-        Magento_Theme_Model_Config_Customization $customizationConfig
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Theme\Model\Config $themeConfig,
+        \Magento\Theme\Model\Config\Customization $customizationConfig
     ) {
         $this->_themeConfig         = $themeConfig;
         $this->_customizationConfig = $customizationConfig;
@@ -56,28 +58,28 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
      */
     public function loadThemeListAction()
     {
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = $this->_objectManager->get('Magento\Core\Helper\Data');
 
         $page = $this->getRequest()->getParam('page', 1);
         $pageSize = $this->getRequest()
-            ->getParam('page_size', Magento_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE);
+            ->getParam('page_size', \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE);
 
         try {
             $this->loadLayout();
-            /** @var $collection Magento_Core_Model_Resource_Theme_Collection */
-            $collection = $this->_objectManager->get('Magento_Core_Model_Resource_Theme_Collection')
+            /** @var $collection \Magento\Core\Model\Resource\Theme\Collection */
+            $collection = $this->_objectManager->get('Magento\Core\Model\Resource\Theme\Collection')
                 ->filterPhysicalThemes($page, $pageSize);
 
-            /** @var $availableThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Available */
+            /** @var $availableThemeBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Available */
             $availableThemeBlock =  $this->getLayout()->getBlock('available.theme.list');
             $availableThemeBlock->setCollection($collection)->setNextPage(++$page);
             $availableThemeBlock->setIsFirstEntrance($this->_isFirstEntrance());
             $availableThemeBlock->setHasThemeAssigned($this->_customizationConfig->hasThemeAssigned());
 
             $response = array('content' => $this->getLayout()->getOutput());
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $response = array('error' => __('Sorry, but we can\'t load the theme list.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
@@ -89,14 +91,14 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
     public function launchAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
-        $mode = (string)$this->getRequest()->getParam('mode', Magento_DesignEditor_Model_State::MODE_NAVIGATION);
+        $mode = (string)$this->getRequest()->getParam('mode', \Magento\DesignEditor\Model\State::MODE_NAVIGATION);
         try {
-            /** @var Magento_DesignEditor_Model_Theme_Context $themeContext */
-            $themeContext = $this->_objectManager->get('Magento_DesignEditor_Model_Theme_Context');
+            /** @var \Magento\DesignEditor\Model\Theme\Context $themeContext */
+            $themeContext = $this->_objectManager->get('Magento\DesignEditor\Model\Theme\Context');
             $themeContext->setEditableThemeById($themeId);
             $launchedTheme = $themeContext->getEditableTheme();
             if ($launchedTheme->isPhysical()) {
-                $launchedTheme = $launchedTheme->getDomainModel(Magento_Core_Model_Theme::TYPE_PHYSICAL)
+                $launchedTheme = $launchedTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_PHYSICAL)
                     ->createVirtualTheme($launchedTheme);
                 $this->_redirect($this->getUrl('*/*/*', array('theme_id' => $launchedTheme->getId())));
                 return;
@@ -112,7 +114,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
             $this->_configureToolsBlocks($launchedTheme, $mode); //bottom panel
             $this->_configureEditorBlock($launchedTheme, $mode); //editor container
 
-            /** @var $storeViewBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
+            /** @var $storeViewBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
             $storeViewBlock->setData(array(
                 'actionOnAssign' => 'none',
@@ -120,14 +122,14 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
             ));
 
             $this->renderLayout();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('Sorry, there was an unknown error.'));
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_redirect('*/*/');
             return;
         }
@@ -141,8 +143,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         $reportToSession = (bool)$this->getRequest()->getParam('reportToSession');
 
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = $this->_objectManager->get('Magento\Core\Helper\Data');
 
         $hadThemeAssigned = $this->_customizationConfig->hasThemeAssigned();
 
@@ -151,9 +153,9 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
 
             $themeCustomization = $theme->isVirtual()
                 ? $theme
-                : $theme->getDomainModel(Magento_Core_Model_Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
+                : $theme->getDomainModel(\Magento\Core\Model\Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
 
-            /** @var $themeCustomization Magento_Core_Model_Theme */
+            /** @var $themeCustomization \Magento\Core\Model\Theme */
             $this->_themeConfig->assignToStore($themeCustomization, $this->_getStores());
 
             $successMessage = $hadThemeAssigned
@@ -166,8 +168,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
                 'message' => $successMessage,
                 'themeId' => $themeCustomization->getId()
             );
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
                 array('error' => __('This theme is not assigned.'))
             ));
@@ -187,22 +189,22 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
         $themeId = (int)$this->getRequest()->getParam('theme_id');
         $themeTitle = (string)$this->getRequest()->getParam('theme_title');
 
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = $this->_objectManager->get('Magento\Core\Helper\Data');
         try {
             $theme = $this->_loadThemeById($themeId);
             if (!$theme->isEditable()) {
-                throw new Magento_Core_Exception(__('Sorry, but you can\'t edit theme "%1".',
+                throw new \Magento\Core\Exception(__('Sorry, but you can\'t edit theme "%1".',
                     $theme->getThemeTitle()));
             }
             $theme->setThemeTitle($themeTitle);
             $theme->save();
             $response = array('success' => true);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('This theme is not saved.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
@@ -225,8 +227,8 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
 
-        /** @var Magento_DesignEditor_Model_Theme_Context $themeContext */
-        $themeContext = $this->_objectManager->get('Magento_DesignEditor_Model_Theme_Context');
+        /** @var \Magento\DesignEditor\Model\Theme\Context $themeContext */
+        $themeContext = $this->_objectManager->get('Magento\DesignEditor\Model\Theme\Context');
         $themeContext->setEditableThemeById($themeId);
         try {
             $themeContext->copyChanges();
@@ -236,13 +238,13 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
                 $message = __('You saved updates to this theme.');
             }
             $response = array('message' =>  $message);
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('Sorry, there was an unknown error.'));
         }
 
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = $this->_objectManager->get('Magento\Core\Helper\Data');
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
     }
 
@@ -252,14 +254,14 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
     public function duplicateAction()
     {
         $themeId = (int)$this->getRequest()->getParam('theme_id');
-        /** @var $themeCopy Magento_Core_Model_Theme */
-        $themeCopy = $this->_objectManager->create('Magento_Core_Model_Theme');
-        /** @var $copyService Magento_Core_Model_Theme_CopyService */
-        $copyService = $this->_objectManager->get('Magento_Core_Model_Theme_CopyService');
+        /** @var $themeCopy \Magento\Core\Model\Theme */
+        $themeCopy = $this->_objectManager->create('Magento\Core\Model\Theme');
+        /** @var $copyService \Magento\Core\Model\Theme\CopyService */
+        $copyService = $this->_objectManager->get('Magento\Core\Model\Theme\CopyService');
         try {
             $theme = $this->_loadThemeById($themeId);
             if (!$theme->isVirtual()) {
-                throw new Magento_Core_Exception(__('Sorry, but you can\'t edit theme "%1".',
+                throw new \Magento\Core\Exception(__('Sorry, but you can\'t edit theme "%1".',
                     $theme->getThemeTitle()));
             }
             $themeCopy->setData($theme->getData());
@@ -270,11 +272,11 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
             $this->_getSession()->addSuccess(
                 __('You saved a duplicate copy of this theme in "My Customizations."')
             );
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $this->_getSession()->addError(__('You cannot duplicate this theme.'));
         }
         $this->_redirectUrl($this->_getRefererUrl());
@@ -283,7 +285,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
     /**
      * Revert 'staging' theme to the state of 'physical' or 'virtual'
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function revertAction()
     {
@@ -292,13 +294,13 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
 
         $virtualTheme = $this->_loadThemeById($themeId);
         if (!$virtualTheme->isVirtual()) {
-            throw new Magento_Core_Exception(__('Theme "%1" is not editable.', $virtualTheme->getId()));
+            throw new \Magento\Core\Exception(__('Theme "%1" is not editable.', $virtualTheme->getId()));
         }
 
         try {
-            /** @var $copyService Magento_Core_Model_Theme_CopyService */
-            $copyService = $this->_objectManager->get('Magento_Core_Model_Theme_CopyService');
-            $stagingTheme = $virtualTheme->getDomainModel(Magento_Core_Model_Theme::TYPE_VIRTUAL)->getStagingTheme();
+            /** @var $copyService \Magento\Core\Model\Theme\CopyService */
+            $copyService = $this->_objectManager->get('Magento\Core\Model\Theme\CopyService');
+            $stagingTheme = $virtualTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_VIRTUAL)->getStagingTheme();
             switch ($revertTo) {
                 case 'last_saved':
                     $copyService->copy($virtualTheme, $stagingTheme);
@@ -308,7 +310,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
                     break;
 
                 case 'physical':
-                    $physicalTheme = $virtualTheme->getDomainModel(Magento_Core_Model_Theme::TYPE_VIRTUAL)
+                    $physicalTheme = $virtualTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
                         ->getPhysicalTheme();
                     $copyService->copy($physicalTheme, $stagingTheme);
                     $message = __('Theme "%1" reverted to last default state',
@@ -320,12 +322,12 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
                     throw new \Magento\Exception('Invalid revert mode "%s"', $revertTo);
             }
             $response = array('message' => $message);
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('Unknown error'));
         }
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = $this->_objectManager->get('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = $this->_objectManager->get('Magento\Core\Helper\Data');
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
     }
 
@@ -341,16 +343,16 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
      * Load theme by id
      *
      * @param int $themeId
-     * @return Magento_Core_Model_Theme
-     * @throws Magento_Core_Exception
+     * @return \Magento\Core\Model\Theme
+     * @throws \Magento\Core\Exception
      */
     protected function _loadThemeById($themeId)
     {
-        /** @var $themeFactory Magento_Core_Model_Theme_FlyweightFactory */
-        $themeFactory = $this->_objectManager->create('Magento_Core_Model_Theme_FlyweightFactory');
+        /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->create('Magento\Core\Model\Theme\FlyweightFactory');
         $theme = $themeFactory->create($themeId);
         if (empty($theme)) {
-            throw new Magento_Core_Exception(__('We can\'t find this theme.'));
+            throw new \Magento\Core\Exception(__('We can\'t find this theme.'));
         }
         return $theme;
     }
@@ -368,23 +370,23 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
     /**
      * Pass data to the Tools panel blocks that is needed it for rendering
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @param string $mode
-     * @return Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor
+     * @return \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
      */
     protected function _configureToolsBlocks($theme, $mode)
     {
-        /** @var $toolsBlock Magento_DesignEditor_Block_Adminhtml_Editor_Tools */
+        /** @var $toolsBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Tools */
         $toolsBlock = $this->getLayout()->getBlock('design_editor_tools');
         if ($toolsBlock) {
             $toolsBlock->setMode($mode);
         }
 
-        /** @var $cssTabBlock Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Css */
+        /** @var $cssTabBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css */
         $cssTabBlock = $this->getLayout()->getBlock('design_editor_tools_code_css');
         if ($cssTabBlock) {
-            /** @var $helper Magento_Core_Helper_Theme */
-            $helper = $this->_objectManager->get('Magento_Core_Helper_Theme');
+            /** @var $helper \Magento\Core\Helper\Theme */
+            $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
             $cssFiles = $helper->getGroupedCssFiles($theme);
             $cssTabBlock->setCssFiles($cssFiles)
                 ->setThemeId($theme->getId());
@@ -395,26 +397,26 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
     /**
      * Pass data to the Toolbar panel blocks that is needed for rendering
      *
-     * @param Magento_Core_Model_Theme $theme
-     * @param Magento_Core_Model_Theme $editableTheme
+     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\Core\Model\Theme $editableTheme
      * @param string $mode
-     * @return Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor
+     * @return \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
      */
     protected function _configureToolbarBlocks($theme, $editableTheme, $mode)
     {
-        /** @var $toolbarBlock Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons */
+        /** @var $toolbarBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons */
         $toolbarBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons');
         $toolbarBlock->setThemeId($editableTheme->getId())->setVirtualThemeId($theme->getId())
             ->setMode($mode);
 
-        /** @var $saveButtonBlock Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Save */
+        /** @var $saveButtonBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Save */
         $saveButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_save');
         if ($saveButtonBlock) {
             $saveButtonBlock->setTheme($theme)->setMode($mode)->setHasThemeAssigned(
                 $this->_customizationConfig->hasThemeAssigned()
             );
         }
-        /** @var $saveButtonBlock Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons_Edit */
+        /** @var $saveButtonBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Edit */
         $editButtonBlock = $this->getLayout()->getBlock('design_editor_toolbar_buttons_edit');
         if ($editButtonBlock) {
             $editButtonBlock->setTheme($editableTheme);
@@ -426,13 +428,13 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
     /**
      * Set to iframe block selected mode and theme
      *
-     * @param Magento_Core_Model_Theme $editableTheme
+     * @param \Magento\Core\Model\Theme $editableTheme
      * @param string $mode
-     * @return Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor
+     * @return \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
      */
     protected function _configureEditorBlock($editableTheme, $mode)
     {
-        /** @var $editorBlock Magento_DesignEditor_Block_Adminhtml_Editor_Container */
+        /** @var $editorBlock \Magento\DesignEditor\Block\Adminhtml\Editor\Container */
         $editorBlock = $this->getLayout()->getBlock('design_editor');
         $currentUrl = $this->_getCurrentUrl($editableTheme->getId(), $mode);
         $editorBlock->setFrameUrl($currentUrl);
@@ -450,7 +452,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
     {
         $isCustomized = (bool)$this->_objectManager->get('Magento_Core_Model_Resource_Theme_CollectionFactory')
             ->create()
-            ->addTypeFilter(Magento_Core_Model_Theme::TYPE_VIRTUAL)
+            ->addTypeFilter(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
             ->getSize();
         return !$isCustomized;
     }
@@ -465,23 +467,23 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
             $this->loadLayout();
             $this->_setActiveMenu('Magento_DesignEditor::system_design_editor');
             if (!$this->_isFirstEntrance()) {
-                /** @var $assignedThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Assigned */
+                /** @var $assignedThemeBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Assigned */
                 $assignedThemeBlock = $this->getLayout()->getBlock('assigned.theme.list');
                 $assignedThemeBlock->setCollection($this->_customizationConfig->getAssignedThemeCustomizations());
 
-                /** @var $unassignedThemeBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Unassigned */
+                /** @var $unassignedThemeBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Unassigned */
                 $unassignedThemeBlock = $this->getLayout()->getBlock('unassigned.theme.list');
                 $unassignedThemeBlock->setCollection($this->_customizationConfig->getUnassignedThemeCustomizations());
                 $unassignedThemeBlock->setHasThemeAssigned($this->_customizationConfig->hasThemeAssigned());
             }
-            /** @var $storeViewBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView */
+            /** @var $storeViewBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\StoreView */
             $storeViewBlock = $this->getLayout()->getBlock('theme.selector.storeview');
             $storeViewBlock->setData('actionOnAssign', 'refresh');
             $this->renderLayout();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t load the list of themes.'));
             $this->_redirectUrl($this->_getRefererUrl());
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
         }
     }
 
@@ -510,11 +512,11 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
      */
     protected function _getCurrentUrl($themeId = null, $mode = null)
     {
-        /** @var $vdeUrlModel Magento_DesignEditor_Model_Url_NavigationMode */
-        $vdeUrlModel = $this->_objectManager->create('Magento_DesignEditor_Model_Url_NavigationMode', array(
+        /** @var $vdeUrlModel \Magento\DesignEditor\Model\Url\NavigationMode */
+        $vdeUrlModel = $this->_objectManager->create('Magento\DesignEditor\Model\Url\NavigationMode', array(
              'data' => array('mode' => $mode, 'themeId' => $themeId)
         ));
-        $url = $this->_getSession()->getData(Magento_DesignEditor_Model_State::CURRENT_URL_SESSION_KEY);
+        $url = $this->_getSession()->getData(\Magento\DesignEditor\Model\State::CURRENT_URL_SESSION_KEY);
         if (empty($url)) {
             $url = '';
         }
@@ -527,7 +529,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
      * @todo temporary method. used until we find a way to convert array to JSON on JS side
      *
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _getStores()
     {
@@ -536,14 +538,14 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor extends Mag
         $defaultStore = -1;
         $emptyStores = -2;
         if ($stores == $defaultStore) {
-            $ids = array_keys(Mage::app()->getStores());
+            $ids = array_keys(\Mage::app()->getStores());
             $stores = array(array_shift($ids));
         } elseif ($stores == $emptyStores) {
             $stores = array();
         }
 
         if (!is_array($stores)) {
-            throw new InvalidArgumentException('Param "stores" is not valid');
+            throw new \InvalidArgumentException('Param "stores" is not valid');
         }
 
         return $stores;

@@ -18,27 +18,29 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Helper_Price
+namespace Magento\GoogleShopping\Helper;
+
+class Price
 {
     /**
      * Tries to return price that looks like price in catalog
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param null|Magento_Core_Model_Store $store Store view
+     * @param \Magento\Catalog\Model\Product $product
+     * @param null|\Magento\Core\Model\Store $store Store view
      * @return null|float Price
      */
-    public function getCatalogPrice(Magento_Catalog_Model_Product $product, $store = null, $inclTax = null)
+    public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = null)
     {
         switch ($product->getTypeId()) {
-            case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
+            case \Magento\Catalog\Model\Product\Type::TYPE_GROUPED:
                 // Workaround to avoid loading stock status by admin's website
-                if ($store instanceof Magento_Core_Model_Store) {
-                    $oldStore = Mage::app()->getStore();
-                    Mage::app()->setCurrentStore($store);
+                if ($store instanceof \Magento\Core\Model\Store) {
+                    $oldStore = \Mage::app()->getStore();
+                    \Mage::app()->setCurrentStore($store);
                 }
                 $subProducts = $product->getTypeInstance()->getAssociatedProducts($product);
-                if ($store instanceof Magento_Core_Model_Store) {
-                    Mage::app()->setCurrentStore($oldStore);
+                if ($store instanceof \Magento\Core\Model\Store) {
+                    \Mage::app()->setCurrentStore($oldStore);
                 }
                 if (!count($subProducts)) {
                     return null;
@@ -56,22 +58,22 @@ class Magento_GoogleShopping_Helper_Price
                 }
                 return $minPrice;
 
-            case Magento_Catalog_Model_Product_Type::TYPE_BUNDLE:
-                if ($store instanceof Magento_Core_Model_Store) {
-                    $oldStore = Mage::app()->getStore();
-                    Mage::app()->setCurrentStore($store);
+            case \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
+                if ($store instanceof \Magento\Core\Model\Store) {
+                    $oldStore = \Mage::app()->getStore();
+                    \Mage::app()->setCurrentStore($store);
                 }
 
-                Mage::unregister('rule_data');
-                Mage::register('rule_data', new \Magento\Object(array(
+                \Mage::unregister('rule_data');
+                \Mage::register('rule_data', new \Magento\Object(array(
                     'store_id'          => $product->getStoreId(),
                     'website_id'        => $product->getWebsiteId(),
                     'customer_group_id' => $product->getCustomerGroupId())));
 
                 $minPrice = $product->getPriceModel()->getTotalPrices($product, 'min', $inclTax);
 
-                if ($store instanceof Magento_Core_Model_Store) {
-                    Mage::app()->setCurrentStore($oldStore);
+                if ($store instanceof \Magento\Core\Model\Store) {
+                    \Mage::app()->setCurrentStore($oldStore);
                 }
                 return $minPrice;
 
@@ -88,11 +90,11 @@ class Magento_GoogleShopping_Helper_Price
      * @param $product
      * @param $store
      */
-    public function getCatalogRegularPrice(Magento_Catalog_Model_Product $product, $store = null)
+    public function getCatalogRegularPrice(\Magento\Catalog\Model\Product $product, $store = null)
     {
          switch ($product->getTypeId()) {
-            case Magento_Catalog_Model_Product_Type::TYPE_GROUPED:
-            case Magento_Catalog_Model_Product_Type::TYPE_BUNDLE:
+            case \Magento\Catalog\Model\Product\Type::TYPE_GROUPED:
+            case \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
             case 'giftcard':
                 return null;
 

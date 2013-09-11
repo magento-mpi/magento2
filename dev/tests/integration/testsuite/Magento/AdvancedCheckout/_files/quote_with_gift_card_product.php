@@ -11,8 +11,8 @@
 
 require __DIR__ . '/../../../Magento/GiftCard/_files/gift_card.php';
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->load(1);
 
 $requestInfo = new \Magento\Object(array(
@@ -26,13 +26,13 @@ $requestInfo = new \Magento\Object(array(
     'giftcard_message'        => 'message'
 ));
 
-/** @var $cart Magento_Checkout_Model_Cart */
-$cart = Mage::getModel('Magento_Checkout_Model_Cart');
+/** @var $cart \Magento\Checkout\Model\Cart */
+$cart = Mage::getModel('\Magento\Checkout\Model\Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 
-Mage::unregister('_singleton/Magento_Checkout_Model_Session');
+Mage::unregister('_singleton/\Magento\Checkout\Model\Session');
 
 /** @var $objectManager Magento_TestFramework_ObjectManager */
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->removeSharedInstance('Magento_Checkout_Model_Session');
+$objectManager->removeSharedInstance('\Magento\Checkout\Model\Session');

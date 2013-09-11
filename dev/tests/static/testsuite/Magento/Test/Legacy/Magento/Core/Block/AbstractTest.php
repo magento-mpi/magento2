@@ -10,7 +10,7 @@
  */
 
 /**
- * Tests usage of Magento_Core_Block_Abstract
+ * Tests usage of \Magento\Core\Block\AbstractBlock
  */
 class Magento_Test_Legacy_Magento_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 {

@@ -15,7 +15,9 @@
  * @package    Magento_CurrencySymbol
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Helper_Data extends Magento_Core_Helper_Data
+namespace Magento\CurrencySymbol\Helper;
+
+class Data extends \Magento\Core\Helper\Data
 {
 
     /**
@@ -27,13 +29,13 @@ class Magento_CurrencySymbol_Helper_Data extends Magento_Core_Helper_Data
     public function getCurrencyOptions($baseCode)
     {
         $currencyOptions = array();
-        $currencySymbol = Mage::getModel('Magento_CurrencySymbol_Model_System_Currencysymbol');
+        $currencySymbol = \Mage::getModel('\Magento\CurrencySymbol\Model\System\Currencysymbol');
         if($currencySymbol) {
             $customCurrencySymbol = $currencySymbol->getCurrencySymbol($baseCode);
 
             if ($customCurrencySymbol) {
                 $currencyOptions['symbol']  = $customCurrencySymbol;
-                $currencyOptions['display'] = Zend_Currency::USE_SYMBOL;
+                $currencyOptions['display'] = \Zend_Currency::USE_SYMBOL;
             }
         }
 

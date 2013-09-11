@@ -12,14 +12,14 @@
 class Magento_Core_Model_Layout_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     public function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_layout = $objectManagerHelper->getObject('Magento_Core_Model_Layout');
+        $this->_layout = $objectManagerHelper->getObject('\Magento\Core\Model\Layout');
     }
 
     /**
@@ -63,7 +63,7 @@ class Magento_Core_Model_Layout_LayoutTest extends PHPUnit_Framework_TestCase
         $reflectionObject = new ReflectionObject($this->_layout);
         $reflectionMethod = $reflectionObject->getMethod($method);
         $reflectionMethod->setAccessible(true);
-        $result = $reflectionMethod->invoke($this->_layout, new Magento_Core_Model_Layout_Element($layoutElement));
+        $result = $reflectionMethod->invoke($this->_layout, new \Magento\Core\Model\Layout\Element($layoutElement));
         $argument = $method == '_readArguments' ? $result['argumentName']['value'] : $result['argumentName'];
 
 

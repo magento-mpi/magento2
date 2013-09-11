@@ -11,7 +11,9 @@
 /**
  * Create order status form
  */
-class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Sales\Order\Status\New;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected function _construct()
     {
@@ -22,11 +24,11 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
     /**
      * Prepare form fields and structure
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_status');
+        $model = \Mage::registry('current_status');
 
         $form = new \Magento\Data\Form(array(
             'id' => 'edit_form',
@@ -58,7 +60,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
             )
         );
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->_addStoresFieldset($model, $form);
         }
 
@@ -75,7 +77,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
     /**
      * Add Fieldset with Store labels
      *
-     * @param Magento_Sales_Model_Order_Status $model
+     * @param \Magento\Sales\Model\Order\Status $model
      * @param \Magento\Data\Form $form
      */
     protected function _addStoresFieldset($model, $form)
@@ -85,10 +87,10 @@ class Magento_Adminhtml_Block_Sales_Order_Status_New_Form extends Magento_Adminh
             'legend' => __('Store View Specific Labels'),
             'class' => 'store-scope',
         ));
-        $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
+        $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
         $fieldset->setRenderer($renderer);
 
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach (\Mage::app()->getWebsites() as $website) {
             $fieldset->addField("w_{$website->getId()}_label", 'note', array(
                 'label' => $website->getName(),
                 'fieldset_html_class' => 'website',

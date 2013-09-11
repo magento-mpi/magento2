@@ -11,26 +11,28 @@
 /**
  * Events model
  *
- * @method Magento_Reports_Model_Resource_Event _getResource()
- * @method Magento_Reports_Model_Resource_Event getResource()
+ * @method \Magento\Reports\Model\Resource\Event _getResource()
+ * @method \Magento\Reports\Model\Resource\Event getResource()
  * @method string getLoggedAt()
- * @method Magento_Reports_Model_Event setLoggedAt(string $value)
+ * @method \Magento\Reports\Model\Event setLoggedAt(string $value)
  * @method int getEventTypeId()
- * @method Magento_Reports_Model_Event setEventTypeId(int $value)
+ * @method \Magento\Reports\Model\Event setEventTypeId(int $value)
  * @method int getObjectId()
- * @method Magento_Reports_Model_Event setObjectId(int $value)
+ * @method \Magento\Reports\Model\Event setObjectId(int $value)
  * @method int getSubjectId()
- * @method Magento_Reports_Model_Event setSubjectId(int $value)
+ * @method \Magento\Reports\Model\Event setSubjectId(int $value)
  * @method int getSubtype()
- * @method Magento_Reports_Model_Event setSubtype(int $value)
+ * @method \Magento\Reports\Model\Event setSubtype(int $value)
  * @method int getStoreId()
- * @method Magento_Reports_Model_Event setStoreId(int $value)
+ * @method \Magento\Reports\Model\Event setStoreId(int $value)
  *
  * @category    Magento
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
+namespace Magento\Reports\Model;
+
+class Event extends \Magento\Core\Model\AbstractModel
 {
     const EVENT_PRODUCT_VIEW    = 1;
     const EVENT_PRODUCT_SEND    = 2;
@@ -45,17 +47,17 @@ class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reports_Model_Resource_Event');
+        $this->_init('\Magento\Reports\Model\Resource\Event');
     }
 
     /**
      * Before Event save process
      *
-     * @return Magento_Reports_Model_Event
+     * @return \Magento\Reports\Model\Event
      */
     protected function _beforeSave()
     {
-        $this->setLoggedAt(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
+        $this->setLoggedAt(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
         return parent::_beforeSave();
     }
 
@@ -65,13 +67,13 @@ class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
      * @param int $visitorId
      * @param int $customerId
      * @param array $types
-     * @return Magento_Reports_Model_Event
+     * @return \Magento\Reports\Model\Event
      */
     public function updateCustomerType($visitorId, $customerId, $types = null)
     {
         if (is_null($types)) {
             $types = array();
-            foreach (Mage::getModel('Magento_Reports_Model_Event_Type')->getCollection() as $eventType) {
+            foreach (\Mage::getModel('\Magento\Reports\Model\Event\Type')->getCollection() as $eventType) {
                 if ($eventType->getCustomerLogin()) {
                     $types[$eventType->getId()] = $eventType->getId();
                 }
@@ -84,7 +86,7 @@ class Magento_Reports_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Clean events (visitors)
      *
-     * @return Magento_Reports_Model_Event
+     * @return \Magento\Reports\Model\Event
      */
     public function clean()
     {

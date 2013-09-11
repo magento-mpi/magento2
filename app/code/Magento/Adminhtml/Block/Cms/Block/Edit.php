@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Block_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Cms\Block;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {
@@ -56,8 +58,8 @@ class Magento_Adminhtml_Block_Cms_Block_Edit extends Magento_Adminhtml_Block_Wid
      */
     public function getHeaderText()
     {
-        if (Mage::registry('cms_block')->getId()) {
-            return __("Edit Block '%1'", $this->escapeHtml(Mage::registry('cms_block')->getTitle()));
+        if (\Mage::registry('cms_block')->getId()) {
+            return __("Edit Block '%1'", $this->escapeHtml(\Mage::registry('cms_block')->getTitle()));
         }
         else {
             return __('New Block');

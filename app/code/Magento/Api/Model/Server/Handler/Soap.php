@@ -15,7 +15,9 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Server_Handler_Soap extends Magento_Api_Model_Server_HandlerAbstract
+namespace Magento\Api\Model\Server\Handler;
+
+class Soap extends \Magento\Api\Model\Server\HandlerAbstract
 {
     protected $_resourceSuffix = '_V2';
 
@@ -31,7 +33,7 @@ class Magento_Api_Model_Server_Handler_Soap extends Magento_Api_Model_Server_Han
     {
         $sessionId = array_shift($args);
         $apiKey = '';
-        $nodes = Mage::getSingleton('Magento_Api_Model_Config')->getNode('v2/resources_function_prefix')->children();
+        $nodes = \Mage::getSingleton('Magento\Api\Model\Config')->getNode('v2/resources_function_prefix')->children();
         foreach ($nodes as $resource => $prefix) {
             $prefix = $prefix->asArray();
             if (false !== strpos($function, $prefix)) {

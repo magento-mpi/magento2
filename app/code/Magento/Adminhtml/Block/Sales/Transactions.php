@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Transactions extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Sales;
+
+class Transactions extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     protected function _construct()
     {

@@ -9,41 +9,43 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Dispatcher_Soap_Handler
+namespace Magento\Webapi\Controller\Dispatcher\Soap;
+
+class Handler
 {
     const HEADER_SECURITY = 'Security';
     const RESULT_NODE_NAME = 'result';
 
-    /** @var Magento_Webapi_Model_Config_Soap */
+    /** @var \Magento\Webapi\Model\Config\Soap */
     protected $_apiConfig;
 
     /**
      * WS-Security UsernameToken object from request.
      *
-     * @var stdClass
+     * @var \stdClass
      */
     protected $_usernameToken;
 
-    /** @var Magento_Webapi_Helper_Data */
+    /** @var \Magento\Webapi\Helper\Data */
     protected $_helper;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_Soap_Authentication */
+    /** @var \Magento\Webapi\Controller\Dispatcher\Soap\Authentication */
     protected $_authentication;
 
     /**
      * Action controller factory.
      *
-     * @var Magento_Webapi_Controller_Action_Factory
+     * @var \Magento\Webapi\Controller\Action\Factory
      */
     protected $_controllerFactory;
 
-    /** @var Magento_Webapi_Model_Authorization */
+    /** @var \Magento\Webapi\Model\Authorization */
     protected $_authorization;
 
-    /** @var Magento_Webapi_Controller_Request_Soap */
+    /** @var \Magento\Webapi\Controller\Request\Soap */
     protected $_request;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_ErrorProcessor */
+    /** @var \Magento\Webapi\Controller\Dispatcher\ErrorProcessor */
     protected $_errorProcessor;
 
     /**
@@ -56,22 +58,22 @@ class Magento_Webapi_Controller_Dispatcher_Soap_Handler
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Model_Config_Soap $apiConfig
-     * @param Magento_Webapi_Helper_Data $helper
-     * @param Magento_Webapi_Controller_Dispatcher_Soap_Authentication $authentication
-     * @param Magento_Webapi_Controller_Action_Factory $controllerFactory
-     * @param Magento_Webapi_Model_Authorization $authorization
-     * @param Magento_Webapi_Controller_Request_Soap $request
-     * @param Magento_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+     * @param \Magento\Webapi\Model\Config\Soap $apiConfig
+     * @param \Magento\Webapi\Helper\Data $helper
+     * @param \Magento\Webapi\Controller\Dispatcher\Soap\Authentication $authentication
+     * @param \Magento\Webapi\Controller\Action\Factory $controllerFactory
+     * @param \Magento\Webapi\Model\Authorization $authorization
+     * @param \Magento\Webapi\Controller\Request\Soap $request
+     * @param \Magento\Webapi\Controller\Dispatcher\ErrorProcessor $errorProcessor
      */
     public function __construct(
-        Magento_Webapi_Model_Config_Soap $apiConfig,
-        Magento_Webapi_Helper_Data $helper,
-        Magento_Webapi_Controller_Dispatcher_Soap_Authentication $authentication,
-        Magento_Webapi_Controller_Action_Factory $controllerFactory,
-        Magento_Webapi_Model_Authorization $authorization,
-        Magento_Webapi_Controller_Request_Soap $request,
-        Magento_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
+        \Magento\Webapi\Model\Config\Soap $apiConfig,
+        \Magento\Webapi\Helper\Data $helper,
+        \Magento\Webapi\Controller\Dispatcher\Soap\Authentication $authentication,
+        \Magento\Webapi\Controller\Action\Factory $controllerFactory,
+        \Magento\Webapi\Model\Authorization $authorization,
+        \Magento\Webapi\Controller\Request\Soap $request,
+        \Magento\Webapi\Controller\Dispatcher\ErrorProcessor $errorProcessor
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_helper = $helper;
@@ -87,9 +89,9 @@ class Magento_Webapi_Controller_Dispatcher_Soap_Handler
      *
      * @param string $operation
      * @param array $arguments
-     * @return stdClass
-     * @throws Magento_Webapi_Model_Soap_Fault
-     * @throws Magento_Webapi_Exception
+     * @return \stdClass
+     * @throws \Magento\Webapi\Model\Soap\Fault
+     * @throws \Magento\Webapi\Exception
      */
     public function __call($operation, $arguments)
     {
@@ -98,18 +100,18 @@ class Magento_Webapi_Controller_Dispatcher_Soap_Handler
         } else {
             try {
                 if (is_null($this->_usernameToken)) {
-                    throw new Magento_Webapi_Exception(
+                    throw new \Magento\Webapi\Exception(
                         __('WS-Security UsernameToken is not found in SOAP-request.'),
-                        Magento_Webapi_Exception::HTTP_UNAUTHORIZED
+                        \Magento\Webapi\Exception::HTTP_UNAUTHORIZED
                     );
                 }
                 $this->_authentication->authenticate($this->_usernameToken);
                 $resourceVersion = $this->_getOperationVersion($operation);
                 $resourceName = $this->_apiConfig->getResourceNameByOperation($operation, $resourceVersion);
                 if (!$resourceName) {
-                    throw new Magento_Webapi_Exception(
+                    throw new \Magento\Webapi\Exception(
                         __('Method "%1" is not found.', $operation),
-                        Magento_Webapi_Exception::HTTP_NOT_FOUND
+                        \Magento\Webapi\Exception::HTTP_NOT_FOUND
                     );
                 }
                 $controllerClass = $this->_apiConfig->getControllerClassByOperationName($operation);
@@ -138,13 +140,13 @@ class Magento_Webapi_Controller_Dispatcher_Soap_Handler
                 );
                 $outputData = call_user_func_array(array($controllerInstance, $action), $arguments);
                 return (object)array(self::RESULT_NODE_NAME => $outputData);
-            } catch (Magento_Webapi_Exception $e) {
-                throw new Magento_Webapi_Model_Soap_Fault($e->getMessage(), $e->getOriginator(), $e);
-            } catch (Exception $e) {
+            } catch (\Magento\Webapi\Exception $e) {
+                throw new \Magento\Webapi\Model\Soap\Fault($e->getMessage(), $e->getOriginator(), $e);
+            } catch (\Exception $e) {
                 $maskedException = $this->_errorProcessor->maskException($e);
-                throw new Magento_Webapi_Model_Soap_Fault(
+                throw new \Magento\Webapi\Model\Soap\Fault(
                     $maskedException->getMessage(),
-                    Magento_Webapi_Model_Soap_Fault::FAULT_CODE_RECEIVER,
+                    \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_RECEIVER,
                     $maskedException
                 );
             }
@@ -191,16 +193,16 @@ class Magento_Webapi_Controller_Dispatcher_Soap_Handler
      *
      * @param string $operationName
      * @return int
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     protected function _getOperationVersion($operationName)
     {
         $requestedResources = $this->_request->getRequestedResources();
         $resourceName = $this->_apiConfig->getResourceNameByOperation($operationName);
         if (!isset($requestedResources[$resourceName])) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __('The version of "%1" operation cannot be identified.', $operationName),
-                Magento_Webapi_Exception::HTTP_NOT_FOUND
+                \Magento\Webapi\Exception::HTTP_NOT_FOUND
             );
         }
         $version = (int)str_replace('V', '', ucfirst($requestedResources[$resourceName]));

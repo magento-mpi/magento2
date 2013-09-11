@@ -15,12 +15,14 @@
  * @package    Magento_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstract
+namespace Magento\Rss\Block\Catalog;
+
+class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
 {
     /**
-     * Zend_Date object for date comparsions
+     * \Zend_Date object for date comparsions
      *
-     * @var Zend_Date $_currentDate
+     * @var \Zend_Date $_currentDate
      */
     protected static $_currentDate = null;
 
@@ -37,12 +39,12 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
     {
          //store id is store view id
         $storeId = $this->_getStoreId();
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
 
         //customer group id
         $customerGroupId = $this->_getCustomerGroupId();
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
 
         $fields = array(
             'final_price',
@@ -62,11 +64,11 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
             ->addAttributeToSort('name', 'asc')
         ;
 
-        $newurl = Mage::getUrl('rss/catalog/special/store_id/' . $storeId);
-        $title = __('%1 - Special Products', Mage::app()->getStore()->getFrontendName());
-        $lang = Mage::getStoreConfig('general/locale/code');
+        $newurl = \Mage::getUrl('rss/catalog/special/store_id/' . $storeId);
+        $title = __('%1 - Special Products', \Mage::app()->getStore()->getFrontendName());
+        $lang = \Mage::getStoreConfig('general/locale/code');
 
-        $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
+        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -80,7 +82,7 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+        \Mage::getSingleton('Magento\Core\Model\Resource\Iterator')->walk(
             $specials->getSelect(),
             array(array($this, 'addSpecialXmlCallback')),
             array('rssObj'=> $rssObj, 'results'=> &$results)
@@ -94,8 +96,8 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
                     <td><a href="%s"><img src="%s" alt="" border="0" align="left" height="75" width="75" /></a></td>
                     <td style="text-decoration:none;">%s',
                     $product->getProductUrl(),
-                    $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75),
-                    $this->helper('Magento_Catalog_Helper_Output')->productAttribute(
+                    $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75),
+                    $this->helper('\Magento\Catalog\Helper\Output')->productAttribute(
                         $product,
                         $product->getDescription(),
                         'description'
@@ -104,17 +106,17 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
 
                 // add price data if needed
                 if ($product->getAllowedPriceInRss()) {
-                    if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                    if (\Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($product)) {
                         $html .= '<br/><a href="' . $product->getProductUrl() . '">'
                             . __('Click for price') . '</a>';
                     } else {
                         $special = '';
                         if ($result['use_special']) {
-                            $special = '<br />' . __('Special Expires On: %1', $this->formatDate($result['special_to_date'], Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM));
+                            $special = '<br />' . __('Special Expires On: %1', $this->formatDate($result['special_to_date'], \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM));
                         }
                         $html .= sprintf('<p>%s %s%s</p>',
-                            __('Price: %1', Mage::helper('Magento_Core_Helper_Data')->currency($result['price'])),
-                            __('Special Price: %1', Mage::helper('Magento_Core_Helper_Data')->currency($result['final_price'])),
+                            __('Price: %1', \Mage::helper('Magento\Core\Helper\Data')->currency($result['price'])),
+                            __('Special Price: %1', \Mage::helper('Magento\Core\Helper\Data')->currency($result['final_price'])),
                             $special
                         );
                     }
@@ -140,13 +142,13 @@ class Magento_Rss_Block_Catalog_Special extends Magento_Rss_Block_Catalog_Abstra
     public function addSpecialXmlCallback($args)
     {
         if (!isset(self::$_currentDate)) {
-            self::$_currentDate = new Zend_Date();
+            self::$_currentDate = new \Zend_Date();
         }
 
         // dispatch event to determine whether the product will eventually get to the result
         $product = new \Magento\Object(array('allowed_in_rss' => true, 'allowed_price_in_rss' => true));
         $args['product'] = $product;
-        Mage::dispatchEvent('rss_catalog_special_xml_callback', $args);
+        \Mage::dispatchEvent('rss_catalog_special_xml_callback', $args);
         if (!$product->getAllowedInRss()) {
             return;
         }

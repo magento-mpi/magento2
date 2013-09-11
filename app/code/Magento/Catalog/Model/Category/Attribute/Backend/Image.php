@@ -16,14 +16,16 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Category_Attribute_Backend_Image extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Category\Attribute\Backend;
+
+class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
 
     /**
      * Save uploaded file and set its name to category
      *
      * @param \Magento\Object $object
-     * @return Magento_Catalog_Model_Category_Attribute_Backend_Image
+     * @return \Magento\Catalog\Model\Category\Attribute\Backend\Image
      */
     public function afterSave($object)
     {
@@ -41,19 +43,19 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Image extends Magento_Eav
             return $this;
         }
 
-        $path = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'category' . DS;
+        $path = \Mage::getBaseDir('media') . DS . 'catalog' . DS . 'category' . DS;
 
         try {
-            $uploader = new Magento_Core_Model_File_Uploader($this->getAttribute()->getName());
+            $uploader = new \Magento\Core\Model\File\Uploader($this->getAttribute()->getName());
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $result = $uploader->save($path);
 
             $object->setData($this->getAttribute()->getName(), $result['file']);
             $this->getAttribute()->getEntity()->saveAttribute($object, $this->getAttribute()->getName());
-        } catch (Exception $e) {
-            if ($e->getCode() != Magento_Core_Model_File_Uploader::TMP_NAME_EMPTY) {
-                Mage::logException($e);
+        } catch (\Exception $e) {
+            if ($e->getCode() != \Magento\Core\Model\File\Uploader::TMP_NAME_EMPTY) {
+                \Mage::logException($e);
             }
         }
         return $this;

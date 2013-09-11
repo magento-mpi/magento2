@@ -12,13 +12,13 @@
 class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Layout_Update
+     * @var \Magento\Core\Model\Resource\Layout\Update
      */
     protected $_resourceModel;
 
     protected function setUp()
     {
-        $this->_resourceModel = Mage::getModel('Magento_Core_Model_Resource_Layout_Update');
+        $this->_resourceModel = Mage::getModel('\Magento\Core\Model\Resource\Layout\Update');
     }
 
     /**
@@ -26,8 +26,8 @@ class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_Te
      */
     public function testFetchUpdatesByHandle()
     {
-        /** @var $theme Magento_Core_Model_Theme */
-        $theme = Mage::getModel('Magento_Core_Model_Theme');
+        /** @var $theme \Magento\Core\Model\Theme */
+        $theme = Mage::getModel('\Magento\Core\Model\Theme');
         $theme->load('Test Theme', 'theme_title');
         $result = $this->_resourceModel->fetchUpdatesByHandle('test_handle', $theme, Mage::app()->getStore());
         $this->assertEquals('not_temporary', $result);
@@ -40,16 +40,16 @@ class Magento_Core_Model_Resource_Layout_UpdateTest extends PHPUnit_Framework_Te
      */
     public function testSaveAfterClearCache()
     {
-        /** @var $appCache Magento_Core_Model_Cache */
-        $appCache = Mage::getSingleton('Magento_Core_Model_Cache');
-        /** @var Magento_Core_Model_Cache_Type_Layout $layoutCache */
-        $layoutCache = Mage::getSingleton('Magento_Core_Model_Cache_Type_Layout');
+        /** @var $appCache \Magento\Core\Model\Cache */
+        $appCache = Mage::getSingleton('Magento\Core\Model\Cache');
+        /** @var \Magento\Core\Model\Cache\Type\Layout $layoutCache */
+        $layoutCache = Mage::getSingleton('Magento\Core\Model\Cache\Type\Layout');
 
         $this->assertNotEmpty($appCache->load('APPLICATION_FIXTURE'));
         $this->assertNotEmpty($layoutCache->load('LAYOUT_CACHE_FIXTURE'));
 
-        /** @var $layoutUpdate Magento_Core_Model_Layout_Update */
-        $layoutUpdate = Mage::getModel('Magento_Core_Model_Layout_Update');
+        /** @var $layoutUpdate \Magento\Core\Model\Layout\Update */
+        $layoutUpdate = Mage::getModel('\Magento\Core\Model\Layout\Update');
         $this->_resourceModel->save($layoutUpdate);
 
         $this->assertNotEmpty($appCache->load('APPLICATION_FIXTURE'), 'Non-layout cache must be kept');

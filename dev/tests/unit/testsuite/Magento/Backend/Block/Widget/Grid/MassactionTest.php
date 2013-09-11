@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Backend_Block_Widget_Grid_Massaction
+ * Test class for \Magento\Backend\Block\Widget\Grid\Massaction
  */
 class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Widget_Grid_Massaction
+     * @var \Magento\Backend\Block\Widget\Grid\Massaction
      */
     protected $_block;
 
@@ -51,16 +51,16 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
 
     protected function setUp()
     {
-        $this->_gridMock = $this->getMock('Magento_Backend_Block_Widget_Grid', array('getId'), array(), '', false);
+        $this->_gridMock = $this->getMock('Magento\Backend\Block\Widget\Grid', array('getId'), array(), '', false);
         $this->_gridMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue('test_grid'));
 
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array('getParentName', 'getBlock', 'helper'),
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array('getParentName', 'getBlock', 'helper'),
             array(), '', false, false
         );
 
-        $this->_backendHelperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $this->_backendHelperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $this->_layoutMock->expects($this->any())
             ->method('helper')
             ->will($this->returnValue($this->_backendHelperMock));
@@ -73,11 +73,11 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
             ->with('test_grid')
             ->will($this->returnValue($this->_gridMock));
 
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array('getParam'), array(), '',
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array('getParam'), array(), '',
             false
         );
 
-        $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
+        $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
         $arguments = array(
             'layout'       => $this->_layoutMock,
@@ -90,7 +90,7 @@ class Magento_Backend_Block_Widget_Grid_MassactionTest extends PHPUnit_Framework
         );
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_Massaction', $arguments);
+        $this->_block = $objectManagerHelper->getObject('\Magento\Backend\Block\Widget\Grid\Massaction', $arguments);
         $this->_block->setNameInLayout('test_grid_massaction');
     }
 

@@ -16,8 +16,10 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_Resource_Payment_Transaction_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Paypal\Model\Resource\Payment\Transaction;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Created Before filter
@@ -30,7 +32,7 @@ class Magento_Paypal_Model_Resource_Payment_Transaction_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Paypal_Model_Payment_Transaction', 'Magento_Paypal_Model_Resource_Payment_Transaction');
+        $this->_init('\Magento\Paypal\Model\Payment\Transaction', '\Magento\Paypal\Model\Resource\Payment\Transaction');
         parent::_construct();
     }
 
@@ -38,7 +40,7 @@ class Magento_Paypal_Model_Resource_Payment_Transaction_Collection
      * CreatedAt filter setter
      *
      * @param string $date
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
      */
     public function addCreatedBeforeFilter($date)
     {
@@ -49,7 +51,7 @@ class Magento_Paypal_Model_Resource_Payment_Transaction_Collection
     /**
      * Prepare filters
      *
-     * @return Magento_Paypal_Model_Resource_Payment_Transaction_Collection
+     * @return \Magento\Paypal\Model\Resource\Payment\Transaction\Collection
      */
     protected function _beforeLoad()
     {
@@ -69,7 +71,7 @@ class Magento_Paypal_Model_Resource_Payment_Transaction_Collection
     /**
      * Unserialize additional_information in each item
      *
-     * @return Magento_Paypal_Model_Resource_Payment_Transaction_Collection
+     * @return \Magento\Paypal\Model\Resource\Payment\Transaction\Collection
      */
     protected function _afterLoad()
     {

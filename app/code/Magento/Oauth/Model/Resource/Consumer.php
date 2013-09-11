@@ -15,7 +15,9 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Model_Resource_Consumer extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Oauth\Model\Resource;
+
+class Consumer extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource model

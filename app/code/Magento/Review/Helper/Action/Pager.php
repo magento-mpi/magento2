@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
+namespace Magento\Review\Helper\Action;
+
+class Pager extends \Magento\Core\Helper\AbstractHelper
 {
     const STORAGE_PREFIX = 'search_result_ids';
 
@@ -41,7 +43,7 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
      * Set items to storage
      *
      * @param array $items
-     * @return Magento_Review_Helper_Action_Pager
+     * @return \Magento\Review\Helper\Action\Pager
      */
     public function setItems(array $items)
     {
@@ -113,7 +115,7 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
     protected function _getStorageKey()
     {
         if (!$this->_storageId) {
-            Mage::throwException(__('Storage key was not set'));
+            \Mage::throwException(__('Storage key was not set'));
         }
 
         return self::STORAGE_PREFIX . $this->_storageId;
@@ -122,10 +124,10 @@ class Magento_Review_Helper_Action_Pager extends Magento_Core_Helper_Abstract
     /**
      * Get session
      *
-     * @return Magento_Backend_Model_Session
+     * @return \Magento\Backend\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Session');
+        return \Mage::getSingleton('Magento\Backend\Model\Session');
     }
 }

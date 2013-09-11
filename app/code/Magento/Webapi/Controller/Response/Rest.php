@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Response_Rest extends Magento_Webapi_Controller_Response
+namespace Magento\Webapi\Controller\Response;
+
+class Rest extends \Magento\Webapi\Controller\Response
 {
     /**#@+
      * Success HTTP response codes.
@@ -17,26 +19,26 @@ class Magento_Webapi_Controller_Response_Rest extends Magento_Webapi_Controller_
     const HTTP_MULTI_STATUS = 207;
     /**#@-*/
 
-    /** @var Magento_Webapi_Controller_Dispatcher_ErrorProcessor */
+    /** @var \Magento\Webapi\Controller\Dispatcher\ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var Magento_Webapi_Controller_Response_Rest_RendererInterface */
+    /** @var \Magento\Webapi\Controller\Response\Rest\RendererInterface */
     protected $_renderer;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_app;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
-     * @param Magento_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Webapi\Controller\Response\Rest\Renderer\Factory $rendererFactory
+     * @param \Magento\Webapi\Controller\Dispatcher\ErrorProcessor $errorProcessor
+     * @param \Magento\Core\Model\App $app
      */
     public function __construct(
-        Magento_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
-        Magento_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
-        Magento_Core_Model_App $app
+        \Magento\Webapi\Controller\Response\Rest\Renderer\Factory $rendererFactory,
+        \Magento\Webapi\Controller\Dispatcher\ErrorProcessor $errorProcessor,
+        \Magento\Core\Model\App $app
     ) {
         $this->_renderer = $rendererFactory->get();
         $this->_errorProcessor = $errorProcessor;
@@ -48,10 +50,10 @@ class Magento_Webapi_Controller_Response_Rest extends Magento_Webapi_Controller_
      *
      * Replace real error message of untrusted exceptions to prevent potential vulnerability.
      *
-     * @param Exception $exception
-     * @return Magento_Webapi_Controller_Response_Rest
+     * @param \Exception $exception
+     * @return \Magento\Webapi\Controller\Response\Rest
      */
-    public function setException(Exception $exception)
+    public function setException(\Exception $exception)
     {
         return parent::setException($this->_errorProcessor->maskException($exception));
     }
@@ -66,11 +68,11 @@ class Magento_Webapi_Controller_Response_Rest extends Magento_Webapi_Controller_
                 $this->_renderMessages();
             }
             parent::sendResponse();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // If the server does not support all MIME types accepted by the client it SHOULD send 406 (not acceptable).
-            $httpCode = $e->getCode() == Magento_Webapi_Exception::HTTP_NOT_ACCEPTABLE
-                ? Magento_Webapi_Exception::HTTP_NOT_ACCEPTABLE
-                : Magento_Webapi_Exception::HTTP_INTERNAL_ERROR;
+            $httpCode = $e->getCode() == \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE
+                ? \Magento\Webapi\Exception::HTTP_NOT_ACCEPTABLE
+                : \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR;
 
             /** If error was encountered during "error rendering" process then use error renderer. */
             $this->_errorProcessor->renderException($e, $httpCode);
@@ -85,11 +87,11 @@ class Magento_Webapi_Controller_Response_Rest extends Magento_Webapi_Controller_
         $formattedMessages = array();
         $formattedMessages['messages'] = $this->getMessages();
         $responseHttpCode = null;
-        /** @var Exception $exception */
+        /** @var \Exception $exception */
         foreach ($this->getException() as $exception) {
-            $code = ($exception instanceof Magento_Webapi_Exception)
+            $code = ($exception instanceof \Magento\Webapi\Exception)
                 ? $exception->getCode()
-                : Magento_Webapi_Exception::HTTP_INTERNAL_ERROR;
+                : \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR;
             $messageData = array('code' => $code, 'message' => $exception->getMessage());
             if ($this->_app->isDeveloperMode()) {
                 $messageData['trace'] = $exception->getTraceAsString();

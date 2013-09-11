@@ -12,7 +12,9 @@
  * Target rule edit form block
  */
 
-class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected $_blockGroup = 'Magento_TargetRule';
     protected $_controller = 'adminhtml_targetrule';
@@ -44,7 +46,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit extends Magento_Adminht
      */
     public function getHeaderText()
     {
-        $rule = Mage::registry('current_target_rule');
+        $rule = \Mage::registry('current_target_rule');
         if ($rule && $rule->getRuleId()) {
             return __("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
         }

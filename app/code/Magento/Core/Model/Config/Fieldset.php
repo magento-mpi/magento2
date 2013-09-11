@@ -8,19 +8,21 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Config_Fieldset extends Magento_Core_Model_Config_Base
+namespace Magento\Core\Model\Config;
+
+class Fieldset extends \Magento\Core\Model\Config\Base
 {
     /**
      * Constructor.
      * Load configuration from enabled modules with appropriate caching.
      *
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Simplexml\Element|string|null $data
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        \Magento\Core\Model\Config\Modules\Reader $configReader,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
         $data = null
     ) {
         parent::__construct($data);

@@ -12,13 +12,13 @@
 class Magento_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Widget_Config
+     * @var \Magento\Widget\Model\Widget\Config
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Widget_Model_Widget_Config');
+        $this->_model = Mage::getModel('\Magento\Widget\Model\Widget\Config');
     }
 
     /**
@@ -28,7 +28,7 @@ class Magento_Widget_Model_Widget_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPluginSettings()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
 
         $config = new \Magento\Object();

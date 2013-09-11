@@ -15,17 +15,19 @@
  * @package    Magento_CatalogEvent
  */
 
-class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Adminhtml_Controller_Action
+namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
+
+class Event extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Check is enabled module in config
      *
-     * @return Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event
+     * @return \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
      */
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\CatalogEvent\Helper\Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -83,7 +85,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     {
         $this->_title(__('Events'));
 
-        $event = Mage::getModel('Magento_CatalogEvent_Model_Event')
+        $event = \Mage::getModel('\Magento\CatalogEvent\Model\Event')
             ->setStoreId($this->getRequest()->getParam('store', 0));
         if ($eventId = $this->getRequest()->getParam('id', false)) {
             $event->load($eventId);
@@ -93,18 +95,18 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
 
         $this->_title($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
 
-        $sessionData = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getEventData(true);
+        $sessionData = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getEventData(true);
         if (!empty($sessionData)) {
             $event->addData($sessionData);
         }
 
-        Mage::register('magento_catalogevent_event', $event);
+        \Mage::register('magento_catalogevent_event', $event);
 
         $this->_initAction();
         $layout = $this->getLayout();
         $layout->getBlock('head')->setCanLoadExtJs(true);
         if (($switchBlock = $layout->getBlock('store_switcher'))) {
-            if (!$event->getId() || Mage::app()->isSingleStoreMode()) {
+            if (!$event->getId() || \Mage::app()->isSingleStoreMode()) {
                 $layout->unsetChild($layout->getParentName('store_switcher'), 'store_switcher');
             } else {
                 $switchBlock->setDefaultStoreName(__('Default Values'))
@@ -122,9 +124,9 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
      */
     public function saveAction()
     {
-        $event = Mage::getModel('Magento_CatalogEvent_Model_Event')
+        $event = \Mage::getModel('\Magento\CatalogEvent\Model\Event')
             ->setStoreId($this->getRequest()->getParam('store', 0));
-        /* @var $event Magento_CatalogEvent_Model_Event */
+        /* @var $event \Magento\CatalogEvent\Model\Event */
         if ($eventId = $this->getRequest()->getParam('id', false)) {
             $event->load($eventId);
         } else {
@@ -150,12 +152,12 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
 
         $isUploaded = true;
         try {
-            $uploader = new Magento_Core_Model_File_Uploader('image');
+            $uploader = new \Magento\Core\Model\File\Uploader('image');
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
             $uploader->setFilesDispersion(false);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $isUploaded = false;
         }
 
@@ -177,8 +179,8 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             } elseif ($isUploaded) {
                 try {
                     $event->setImage($uploader);
-                } catch (Exception $e) {
-                    Mage::throwException(
+                } catch (\Exception $e) {
+                    \Mage::throwException(
                         __('We did not upload your image.')
                     );
                 }
@@ -193,7 +195,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
             } else {
                 $this->_redirect('*/*/');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_getSession()->setEventData($event->getData());
             $this->_redirect('*/*/edit', array('_current' => true));
@@ -209,7 +211,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
      */
     public function deleteAction()
     {
-        $event = Mage::getModel('Magento_CatalogEvent_Model_Event');
+        $event = \Mage::getModel('\Magento\CatalogEvent\Model\Event');
         $event->load($this->getRequest()->getParam('id', false));
         if ($event->getId()) {
             try {
@@ -222,7 +224,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
                 } else {
                     $this->_redirect('*/*/');
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('_current' => true));
             }
@@ -237,7 +239,7 @@ class Magento_CatalogEvent_Controller_Adminhtml_Catalog_Event extends Magento_Ad
     {
         $id = $this->getRequest()->getParam('id', null);
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category')
+            $this->getLayout()->createBlock('\Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category')
                 ->getTreeArray($id, true, 1)
         );
     }

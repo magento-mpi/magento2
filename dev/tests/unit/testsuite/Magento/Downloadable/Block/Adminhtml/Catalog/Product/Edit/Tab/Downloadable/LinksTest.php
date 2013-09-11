@@ -13,7 +13,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links
+     * @var \Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links
      */
     protected $_block;
 
@@ -21,9 +21,9 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_block = $objectManagerHelper->getObject(
-            'Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links',
+            '\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links',
             array(
-                'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
+                'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
             )
         );
     }

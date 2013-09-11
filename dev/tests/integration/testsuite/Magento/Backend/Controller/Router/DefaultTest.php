@@ -15,7 +15,7 @@
 class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Controller_Router_Default
+     * @var \Magento\Backend\Controller\Router\DefaultRouter
      */
     protected $_model;
 
@@ -33,20 +33,20 @@ class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_Te
     {
         parent::setUp();
 
-        $this->_routeConfigMock = $this->getMock('Magento_Core_Model_Route_Config', array(), array(), '', false);
+        $this->_routeConfigMock = $this->getMock('Magento\Core\Model\Route\Config', array(), array(), '', false);
         $options = array(
-            'areaCode'        => Magento_Core_Model_App_Area::AREA_ADMINHTML,
-            'baseController'  => 'Magento_Backend_Controller_ActionAbstract',
+            'areaCode'        => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            'baseController'  => '\Magento\Backend\Controller\ActionAbstract',
             'routeConfig' => $this->_routeConfigMock
         );
-        $this->_frontMock = $this->getMock('Magento_Core_Controller_Varien_Front', array(), array(), '', false);
-        $this->_model = Mage::getModel('Magento_Backend_Controller_Router_Default', $options);
+        $this->_frontMock = $this->getMock('Magento\Core\Controller\Varien\Front', array(), array(), '', false);
+        $this->_model = Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
         $this->_model->setFront($this->_frontMock);
     }
 
     public function testRouterCannotProcessRequestsWithWrongFrontName()
     {
-        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
         $request->expects($this->once())
             ->method('getPathInfo')
             ->will($this->returnValue('frontend/admin/dashboard'));
@@ -57,7 +57,7 @@ class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_Te
 
     public function testRouterCanProcessRequestsWithProperFrontName()
     {
-        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
         $request->expects($this->once())
             ->method('getPathInfo')
             ->will($this->returnValue('backend/admin/dashboard'));
@@ -82,8 +82,8 @@ class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_Te
 
 
     /**
-     * @covers Magento_Backend_Controller_Router_Default::fetchDefault
-     * @covers Magento_Backend_Controller_Router_Default::getDefaultModuleFrontName
+     * @covers \Magento\Backend\Controller\Router\DefaultRouter::fetchDefault
+     * @covers \Magento\Backend\Controller\Router\DefaultRouter::getDefaultModuleFrontName
      */
     public function testFetchDefault()
     {
@@ -116,7 +116,7 @@ class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_Te
      * @param string $controller
      * @param string $className
      *
-     * @covers Magento_Backend_Controller_Router_Default::getControllerClassName
+     * @covers \Magento\Backend\Controller\Router\DefaultRouter::getControllerClassName
      * @dataProvider getControllerClassNameDataProvider
      */
     public function testGetControllerClassName($module, $controller, $className)
@@ -127,9 +127,9 @@ class Magento_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_Te
     public function getControllerClassNameDataProvider()
     {
         return array(
-            array('Magento_Adminhtml', 'index', 'Magento_Adminhtml_Controller_Index'),
-            array('Magento_Index', 'process', 'Magento_Index_Controller_Adminhtml_Process'),
-            array('Magento_Index_Adminhtml', 'process', 'Magento_Index_Controller_Adminhtml_Process'),
+            array('Magento_Adminhtml', 'index', '\Magento\Adminhtml\Controller\Index'),
+            array('Magento_Index', 'process', '\Magento\Index\Controller\Adminhtml\Process'),
+            array('Magento_Index_Adminhtml', 'process', '\Magento\Index\Controller\Adminhtml\Process'),
         );
     }
 }

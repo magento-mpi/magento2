@@ -11,34 +11,34 @@
 
 class Magento_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Router_Route_Rest */
+    /** @var \Magento\Webapi\Controller\Router\Route\Rest */
     protected $_routeMock;
 
-    /** @var Magento_Webapi_Controller_Request_Rest */
+    /** @var \Magento\Webapi\Controller\Request\Rest */
     protected $_request;
 
-    /** @var Magento_Webapi_Model_Config_Rest */
+    /** @var \Magento\Webapi\Model\Config\Rest */
     protected $_apiConfigMock;
 
-    /** @var Magento_Webapi_Controller_Router_Rest */
+    /** @var \Magento\Webapi\Controller\Router\Rest */
     protected $_router;
 
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_apiConfigMock = $this->getMockBuilder('Magento_Webapi_Model_Config_Rest')
+        $this->_apiConfigMock = $this->getMockBuilder('Magento\Webapi\Model\Config\Rest')
             ->disableOriginalConstructor()
             ->getMock();
-        $interpreterFactory = $this->getMockBuilder('Magento_Webapi_Controller_Request_Rest_Interpreter_Factory')
+        $interpreterFactory = $this->getMockBuilder('Magento\Webapi\Controller\Request\Rest\Interpreter\Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_routeMock = $this->getMockBuilder('Magento_Webapi_Controller_Router_Route_Rest')
+        $this->_routeMock = $this->getMockBuilder('Magento\Webapi\Controller\Router\Route\Rest')
             ->disableOriginalConstructor()
             ->setMethods(array('match'))
             ->getMock();
-        $this->_request = new Magento_Webapi_Controller_Request_Rest($interpreterFactory);
+        $this->_request = new \Magento\Webapi\Controller\Request\Rest($interpreterFactory);
         /** Initialize SUT. */
-        $this->_router = new Magento_Webapi_Controller_Router_Rest($this->_apiConfigMock);
+        $this->_router = new \Magento\Webapi\Controller\Router\Rest($this->_apiConfigMock);
     }
 
     protected function tearDown()
@@ -65,7 +65,7 @@ class Magento_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @expectedException Magento_Webapi_Exception
+     * @expectedException \Magento\Webapi\Exception
      */
     public function testNotMatch()
     {
@@ -107,9 +107,9 @@ class Magento_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCa
             ->with($checkRouteData['request'])
             ->will($this->returnValue(false));
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Request does not match any route.',
-            Magento_Webapi_Exception::HTTP_NOT_FOUND
+            \Magento\Webapi\Exception::HTTP_NOT_FOUND
         );
         /** Execute SUT. */
         $this->_router->checkRoute(
@@ -128,7 +128,7 @@ class Magento_Webapi_Controller_Router_RestTest extends PHPUnit_Framework_TestCa
     {
         $methodName = 'foo';
         $version = 'bar';
-        $request = $this->getMockBuilder('Magento_Webapi_Controller_Request_Rest')
+        $request = $this->getMockBuilder('Magento\Webapi\Controller\Request\Rest')
             ->disableOriginalConstructor()
             ->setMethods(array('getResourceName'))
             ->getMock();

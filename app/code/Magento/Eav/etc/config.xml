@@ -15,7 +15,7 @@
             <eav_setup>
                 <setup>
                     <module>Magento_Eav</module>
-                    <class>Magento_Eav_Model_Entity_Setup</class>
+                    <class>Magento\Eav\Model\Entity\Setup</class>
                 </setup>
             </eav_setup>
         </resources>

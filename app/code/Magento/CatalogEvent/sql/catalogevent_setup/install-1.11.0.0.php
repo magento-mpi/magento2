@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_CatalogEvent_Model_Resource_Setup */
+/** @var $installer \Magento\CatalogEvent\Model\Resource\Setup */
 $installer = $this;
 
 $installer->startSetup();

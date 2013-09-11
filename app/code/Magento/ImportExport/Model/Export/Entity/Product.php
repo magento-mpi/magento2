@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExport_Model_Export_Entity_Abstract
+namespace Magento\ImportExport\Model\Export\Entity;
+
+class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
 {
     /**
      * Attributes that should be exported
@@ -115,7 +117,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Product collection
      *
-     * @var Magento_Catalog_Model_Resource_Product_Collection
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected $_entityCollection;
 
@@ -136,9 +138,9 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Constructor
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      */
-    public function __construct(Magento_Catalog_Model_Resource_Product_Collection $collection)
+    public function __construct(\Magento\Catalog\Model\Resource\Product\Collection $collection)
     {
         parent::__construct();
 
@@ -154,12 +156,12 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Initialize attribute sets code-to-id pairs.
      *
-     * @return Magento_ImportExport_Model_Export_Entity_Product
+     * @return \Magento\ImportExport\Model\Export\Entity\Product
      */
     protected function _initAttributeSets()
     {
-        $productTypeId = Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId();
-        foreach (Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        $productTypeId = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId();
+        foreach (\Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
                 ->setEntityTypeFilter($productTypeId) as $attributeSet) {
             $this->_attrSetIdToName[$attributeSet->getId()] = $attributeSet->getAttributeSetName();
         }
@@ -169,12 +171,12 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Initialize categories ID to text-path hash.
      *
-     * @return Magento_ImportExport_Model_Export_Entity_Product
+     * @return \Magento\ImportExport\Model\Export\Entity\Product
      */
     protected function _initCategories()
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection')->addNameToResult();
-        /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Collection')->addNameToResult();
+        /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
         foreach ($collection as $category) {
             $structure = preg_split('#/+#', $category->getPath());
             $pathSize  = count($structure);
@@ -196,19 +198,19 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Initialize product type models.
      *
-     * @throws Exception
-     * @return Magento_ImportExport_Model_Export_Entity_Product
+     * @throws \Exception
+     * @return \Magento\ImportExport\Model\Export\Entity\Product
      */
     protected function _initTypeModels()
     {
-        $config = Mage::getConfig()->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
+        $config = \Mage::getConfig()->getNode(self::CONFIG_KEY_PRODUCT_TYPES)->asCanonicalArray();
         foreach ($config as $type => $typeModel) {
-            if (!($model = Mage::getModel($typeModel))) {
-                Mage::throwException("Entity type model '{$typeModel}' is not found");
+            if (!($model = \Mage::getModel($typeModel))) {
+                \Mage::throwException("Entity type model '{$typeModel}' is not found");
             }
-            if (! $model instanceof Magento_ImportExport_Model_Export_Entity_Product_Type_Abstract) {
-                Mage::throwException(
-                    __('Entity type model must be an instance of Magento_ImportExport_Model_Export_Entity_Product_Type_Abstract')
+            if (! $model instanceof \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType) {
+                \Mage::throwException(
+                    __('Entity type model must be an instance of \Magento\ImportExport\Model\Export\Entity\Product\Type\AbstractType')
                 );
             }
             if ($model->isSuitable()) {
@@ -220,7 +222,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
             }
         }
         if (!$this->_productTypeModels) {
-            Mage::throwException(__('There are no product types available for export'));
+            \Mage::throwException(__('There are no product types available for export'));
         }
         $this->_disabledAttrs = array_unique($this->_disabledAttrs);
 
@@ -230,12 +232,12 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Initialize website values.
      *
-     * @return Magento_ImportExport_Model_Export_Entity_Product
+     * @return \Magento\ImportExport\Model\Export\Entity\Product
      */
     protected function _initWebsites()
     {
-        /** @var $website Magento_Core_Model_Website */
-        foreach (Mage::app()->getWebsites() as $website) {
+        /** @var $website \Magento\Core\Model\Website */
+        foreach (\Mage::app()->getWebsites() as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
         return $this;
@@ -252,7 +254,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $select = $this->_connection->select()
             ->from($resource->getTableName('catalog_product_entity_tier_price'))
             ->where('entity_id IN(?)', $productIds);
@@ -285,7 +287,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $select = $this->_connection->select()
             ->from($resource->getTableName('catalog_product_entity_group_price'))
             ->where('entity_id IN(?)', $productIds);
@@ -318,7 +320,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $select = $this->_connection->select()
                 ->from(
                         array('mg' => $resource->getTableName('catalog_product_entity_media_gallery')),
@@ -361,7 +363,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
             return array();
         }
         $select = $this->_connection->select()
-            ->from(Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock_Item')->getMainTable())
+            ->from(\Mage::getResourceModel('\Magento\CatalogInventory\Model\Resource\Stock\Item')->getMainTable())
             ->where('product_id IN (?)', $productIds);
 
         $stmt = $this->_connection->query($select);
@@ -388,7 +390,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         if (empty($productIds)) {
             return array();
         }
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $adapter = $this->_connection;
         $select = $adapter->select()
             ->from(
@@ -430,10 +432,10 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
                 array()
             )
             ->where('cpl.link_type_id IN (?)', array(
-                Magento_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
-                Magento_Catalog_Model_Product_Link::LINK_TYPE_UPSELL,
-                Magento_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
-                Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED
+                \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED,
+                \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL,
+                \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL,
+                \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED
             ))
             ->where('cpl.product_id IN (?)', $productIds);
 
@@ -539,7 +541,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Get product collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _getEntityCollection()
     {
@@ -640,7 +642,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
         try {
             $collection = $this->_getEntityCollection();
             $validAttrCodes = $this->_getExportAttrCodes();
-            $defaultStoreId  = Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+            $defaultStoreId  = \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
             $dataRows        = array();
             $rowCategories   = array();
             $rowWebsites     = array();
@@ -726,12 +728,12 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
             // prepare links information
             $linksRows = $this->_prepareLinks($productIds);
             $linkIdColPrefix = array(
-                Magento_Catalog_Model_Product_Link::LINK_TYPE_RELATED   => '_links_related_',
-                Magento_Catalog_Model_Product_Link::LINK_TYPE_UPSELL    => '_links_upsell_',
-                Magento_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL => '_links_crosssell_',
-                Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED   => '_associated_'
+                \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED   => '_links_related_',
+                \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL    => '_links_upsell_',
+                \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL => '_links_crosssell_',
+                \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED   => '_associated_'
             );
-            $configurableProductsCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+            $configurableProductsCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
             $configurableProductsCollection->addAttributeToFilter(
                 'entity_id',
                 array(
@@ -740,7 +742,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
             )->addAttributeToFilter(
                 'type_id',
                 array(
-                    'eq'    => Magento_Catalog_Model_Product_Type_Configurable::TYPE_CODE
+                    'eq'    => \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE
                 )
             );
             $configurableData = array();
@@ -766,7 +768,7 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
             $customOptionsDataPre = array();
 
             foreach ($this->_storeIdToCode as $storeId => &$storeCode) {
-                $options = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Option_Collection')
+                $options = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Option\Collection')
                     ->reset()
                     ->addTitleToResult($storeId)
                     ->addPriceToResult($storeId)
@@ -986,8 +988,8 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
                     }
                 }
             }
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
         }
         return $exportData;
     }
@@ -995,10 +997,10 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Clean up already loaded attribute collection.
      *
-     * @param Magento_Eav_Model_Resource_Entity_Attribute_Collection $collection
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Collection
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Collection $collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
-    public function filterAttributeCollection(Magento_Eav_Model_Resource_Entity_Attribute_Collection $collection)
+    public function filterAttributeCollection(\Magento\Eav\Model\Resource\Entity\Attribute\Collection $collection)
     {
         $validTypes = array_keys($this->_productTypeModels);
 
@@ -1026,11 +1028,11 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Entity attributes collection getter.
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function getAttributeCollection()
     {
-        return Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
+        return \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
     }
 
     /**
@@ -1046,14 +1048,14 @@ class Magento_ImportExport_Model_Export_Entity_Product extends Magento_ImportExp
     /**
      * Initialize attribute option values and types.
      *
-     * @return Magento_ImportExport_Model_Export_Entity_Product
+     * @return \Magento\ImportExport\Model\Export\Entity\Product
      */
     protected function _initAttributes()
     {
         foreach ($this->getAttributeCollection() as $attribute) {
             $this->_attributeValues[$attribute->getAttributeCode()] = $this->getAttributeOptions($attribute);
             $this->_attributeTypes[$attribute->getAttributeCode()] =
-                Magento_ImportExport_Model_Import::getAttributeType($attribute);
+                \Magento\ImportExport\Model\Import::getAttributeType($attribute);
         }
         return $this;
     }

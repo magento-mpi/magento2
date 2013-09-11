@@ -16,34 +16,36 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Dashboard_Totals extends Magento_Adminhtml_Block_Dashboard_Bar
+namespace Magento\Adminhtml\Block\Dashboard;
+
+class Totals extends \Magento\Adminhtml\Block\Dashboard\Bar
 {
     protected $_template = 'dashboard/totalbar.phtml';
 
     protected function _prepareLayout()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Reports')) {
+        if (!\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
         $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website') || $this->getRequest()->getParam('group');
         $period = $this->getRequest()->getParam('period', '24h');
 
-        /* @var $collection Magento_Reports_Model_Resource_Order_Collection */
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')
+        /* @var $collection \Magento\Reports\Model\Resource\Order\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Order\Collection')
             ->addCreateAtPeriodFilter($period)
             ->calculateTotals($isFilter);
 
         if ($this->getRequest()->getParam('store')) {
             $collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
         } else if ($this->getRequest()->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } else if ($this->getRequest()->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } elseif (!$collection->isLive()) {
             $collection->addFieldToFilter('store_id',
-                array('eq' => Mage::app()->getStore(Magento_Core_Model_Store::ADMIN_CODE)->getId())
+                array('eq' => \Mage::app()->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId())
             );
         }
 

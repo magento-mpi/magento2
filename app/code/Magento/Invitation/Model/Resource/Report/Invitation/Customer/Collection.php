@@ -16,15 +16,17 @@
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Invitation_Model_Resource_Report_Invitation_Customer_Collection
-    extends Magento_Reports_Model_Resource_Customer_Collection
+namespace Magento\Invitation\Model\Resource\Report\Invitation\Customer;
+
+class Collection
+    extends \Magento\Reports\Model\Resource\Customer\Collection
 {
     /**
      * Joins Invitation report data, and filter by date
      *
-     * @param Zend_Date|string $fromDate
-     * @param Zend_Date|string $toDate
-     * @return Magento_Invitation_Model_Resource_Report_Invitation_Customer_Collection
+     * @param \Zend_Date|string $fromDate
+     * @param \Zend_Date|string $toDate
+     * @return \Magento\Invitation\Model\Resource\Report\Invitation\Customer\Collection
      */
     public function setDateRange($fromDate, $toDate)
     {
@@ -33,8 +35,8 @@ class Magento_Invitation_Model_Resource_Report_Invitation_Customer_Collection
             ->join(array('invitation' => $this->getTable('magento_invitation')),
                 'invitation.customer_id = e.entity_id',
                 array(
-                    'sent' => new Zend_Db_Expr('COUNT(invitation.invitation_id)'),
-                    'accepted' => new Zend_Db_Expr('COUNT(invitation.referral_id) ')
+                    'sent' => new \Zend_Db_Expr('COUNT(invitation.invitation_id)'),
+                    'accepted' => new \Zend_Db_Expr('COUNT(invitation.referral_id) ')
                 )
             )->group('e.entity_id');
 
@@ -59,7 +61,7 @@ class Magento_Invitation_Model_Resource_Report_Invitation_Customer_Collection
      * Filters report by stores
      *
      * @param array $storeIds
-     * @return Magento_Invitation_Model_Resource_Report_Invitation_Customer_Collection
+     * @return \Magento\Invitation\Model\Resource\Report\Invitation\Customer\Collection
      */
     public function setStoreIds($storeIds)
     {

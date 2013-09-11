@@ -9,13 +9,15 @@
  */
 
 /**
- * Directory Region Api
+ * \Directory Region Api
  *
  * @category   Magento
  * @package    Magento_Directory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Region_Api extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Directory\Model\Region;
+
+class Api extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Retrieve regions list
@@ -26,8 +28,8 @@ class Magento_Directory_Model_Region_Api extends Magento_Api_Model_Resource_Abst
     public function items($country)
     {
         try {
-            $country = Mage::getModel('Magento_Directory_Model_Country')->loadByCode($country);
-        } catch (Magento_Core_Exception $e) {
+            $country = \Mage::getModel('\Magento\Directory\Model\Country')->loadByCode($country);
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('country_not_exists', $e->getMessage());
         }
 
@@ -43,4 +45,4 @@ class Magento_Directory_Model_Region_Api extends Magento_Api_Model_Resource_Abst
 
         return $result;
     }
-} // Class Magento_Directory_Model_Region_Api End
+} // Class \Magento\Directory\Model\Region\Api End

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Eav_Model_Entity_Setup */
+/** @var $installer \Magento\Eav\Model\Entity\Setup */
 $installer = $this;
 /** @var $connection \Magento\DB\Adapter\Pdo\Mysql */
 $connection = $installer->getConnection();

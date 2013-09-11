@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Product_Attribute_Backend_Sku.
+ * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Sku.
  */
 class Magento_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Framework_TestCase
 {
@@ -19,8 +19,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Fr
      */
     public function testGenerateUniqueSkuExistingProduct()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setId(null);
         $this->assertEquals('simple', $product->getSku());
@@ -29,7 +29,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Fr
     }
 
     /**
-     * @param $product Magento_Catalog_Model_Product
+     * @param $product \Magento\Catalog\Model\Product
      * @dataProvider uniqueSkuDataProvider
      */
     public function testGenerateUniqueSkuNotExistingProduct($product)
@@ -40,7 +40,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Fr
     }
 
     /**
-     * @param $product Magento_Catalog_Model_Product
+     * @param $product \Magento\Catalog\Model\Product
      * @dataProvider uniqueLongSkuDataProvider
      * @magentoDbIsolation enabled
      */
@@ -80,13 +80,13 @@ class Magento_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Fr
     /**
      * Get product form data provider
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _getProduct()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
-        $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
             ->setId(1)
             ->setAttributeSetId(4)
             ->setWebsiteIds(array(1))
@@ -94,8 +94,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Fr
             ->setSku('simple')
             ->setPrice(10)
             ->setDescription('Description with <b>html tag</b>')
-            ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-            ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
             ->setCategoryIds(array(2))
             ->setStockData(
                 array(

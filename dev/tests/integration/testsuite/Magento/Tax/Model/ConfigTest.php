@@ -9,13 +9,13 @@
 class Magento_Tax_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Tax_Model_Config');
+        $this->_model = Mage::getModel('\Magento\Tax\Model\Config');
     }
 
     public function testSetPriceIncludesTax()

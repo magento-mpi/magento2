@@ -8,7 +8,7 @@
 class Magento_Core_Model_Config_Section_Reader_StoreTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Section_Reader_Store
+     * @var \Magento\Core\Model\Config\Section\Reader\Store
      */
     protected $_model;
 
@@ -39,28 +39,28 @@ class Magento_Core_Model_Config_Section_Reader_StoreTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $this->_sectionPullMock = $this->getMock('Magento_Core_Model_Config_SectionPool', array(), array(), '', false);
-        $this->_initialConfigMock = $this->getMock('Magento_Core_Model_Config_Initial', array(), array(), '', false);
+        $this->_sectionPullMock = $this->getMock('Magento\Core\Model\Config\SectionPool', array(), array(), '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\Core\Model\Config\Initial', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
-            'Magento_Core_Model_Resource_Config_Value_Collection_ScopedFactory',
+            'Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory',
             array('create'),
             array(),
             '',
             false
         );
-        $storeFactoryMock = $this->getMock('Magento_Core_Model_StoreFactory', array('create'), array(), '', false);
-        $this->_storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $storeFactoryMock = $this->getMock('Magento\Core\Model\StoreFactory', array('create'), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $storeFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_storeMock));
 
-        $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
         $this->_appStateMock->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue(true));
 
         $placeholderProcessor = $this->getMock(
-            'Magento_Core_Model_Config_Section_Processor_Placeholder',
+            '\Magento\Core\Model\Config\Section\Processor\Placeholder',
             array(),
             array(),
             '',
@@ -69,10 +69,10 @@ class Magento_Core_Model_Config_Section_Reader_StoreTest extends PHPUnit_Framewo
         $placeholderProcessor->expects($this->any())
             ->method('process')
             ->will($this->returnArgument(0));
-        $this->_model = new Magento_Core_Model_Config_Section_Reader_Store(
+        $this->_model = new \Magento\Core\Model\Config\Section\Reader\Store(
             $this->_initialConfigMock,
             $this->_sectionPullMock,
-            new Magento_Core_Model_Config_Section_Store_Converter($placeholderProcessor),
+            new \Magento\Core\Model\Config\Section\Store\Converter($placeholderProcessor),
             $this->_collectionFactory,
             $storeFactoryMock,
             $this->_appStateMock
@@ -84,7 +84,7 @@ class Magento_Core_Model_Config_Section_Reader_StoreTest extends PHPUnit_Framewo
         $websiteCode = 'default';
         $storeCode = 'default';
         $storeId = 1;
-        $websiteMock = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false);
+        $websiteMock = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false);
         $websiteMock->expects($this->any())->method('getCode')->will($this->returnValue($websiteCode));
         $this->_storeMock->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteMock));
         $this->_storeMock->expects($this->once())
@@ -94,7 +94,7 @@ class Magento_Core_Model_Config_Section_Reader_StoreTest extends PHPUnit_Framewo
             ->method('getId')
             ->will($this->returnValue($storeId));
 
-        $sectionMock = $this->getMock('Magento_Core_Model_Config_Data', array(), array(), '', false);
+        $sectionMock = $this->getMock('Magento\Core\Model\Config\Data', array(), array(), '', false);
         $sectionMock->expects($this->once())->method('getValue')->will($this->returnValue(array(
             'config' => array('key0' => 'website_value0', 'key1' => 'website_value1'),
         )));

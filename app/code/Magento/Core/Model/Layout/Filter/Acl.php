@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Layout_Filter_Acl
+namespace Magento\Core\Model\Layout\Filter;
+
+class Acl
 {
     /**
      * Authorization

@@ -16,10 +16,12 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Report_Collection extends Magento_Sales_Model_Resource_Report_Collection_Abstract
+namespace Magento\Tax\Model\Resource\Report;
+
+class Collection extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
-     * @var Zend_Db_Expr
+     * @var \Zend_Db_Expr
      */
     protected $_periodFormat;
 
@@ -41,7 +43,7 @@ class Magento_Tax_Model_Resource_Report_Collection extends Magento_Sales_Model_R
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Sales_Model_Resource_Report $resource
+        \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init($this->_aggregationTable);
         parent::__construct($fetchStrategy, $resource);
@@ -84,7 +86,7 @@ class Magento_Tax_Model_Resource_Report_Collection extends Magento_Sales_Model_R
     /**
      * Add selected data
      *
-     * @return Magento_Tax_Model_Resource_Report_Collection
+     * @return \Magento\Tax\Model\Resource\Report\Collection
      */
     protected function _initSelect()
     {

@@ -15,7 +15,9 @@
  * @package Magento_CustomerSegment
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Initialize grid
@@ -35,12 +37,12 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magen
      * Add websites to customer segments collection
      * Set collection
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_CustomerSegment_Model_Resource_Segment_Collection */
-        $collection = Mage::getModel('Magento_CustomerSegment_Model_Segment')->getCollection();
+        /** @var $collection \Magento\CustomerSegment\Model\Resource\Segment\Collection */
+        $collection = \Mage::getModel('\Magento\CustomerSegment\Model\Segment')->getCollection();
         $collection->addWebsitesToResult();
         $this->setCollection($collection);
 
@@ -51,7 +53,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magen
     /**
      * Add grid columns
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid
      */
     protected function _prepareColumns()
     {
@@ -81,14 +83,14 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Magen
             ),
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('grid_segment_website', array(
                 'header'    => __('Website'),
                 'align'     => 'left',
                 'index'     => 'website_ids',
                 'type'      => 'options',
                 'sortable'  => false,
-                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'options'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash(),
                 'width'     => 200,
             ));
         }

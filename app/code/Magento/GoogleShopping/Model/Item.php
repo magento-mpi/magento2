@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
+namespace Magento\GoogleShopping\Model;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Regestry keys for caching attributes and types
@@ -27,25 +29,25 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Service Item Instance
      *
-     * @var Magento_GoogleShopping_Model_Service_Item
+     * @var \Magento\GoogleShopping\Model\Service\Item
      */
     protected $_serviceItem = null;
 
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_GoogleShopping_Model_Resource_Item');
+        $this->_init('\Magento\GoogleShopping\Model\Resource\Item');
     }
 
     /**
      * Return Service Item Instance
      *
-     * @return Magento_GoogleShopping_Model_Service_Item
+     * @return \Magento\GoogleShopping\Model\Service\Item
      */
     public function getServiceItem()
     {
         if (is_null($this->_serviceItem)) {
-            $this->_serviceItem = Mage::getModel('Magento_GoogleShopping_Model_Service_Item')
+            $this->_serviceItem = \Mage::getModel('\Magento\GoogleShopping\Model\Service\Item')
                 ->setStoreId($this->getStoreId());
         }
         return $this->_serviceItem;
@@ -54,8 +56,8 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Set Service Item Instance
      *
-     * @param Magento_GoogleShopping_Model_Service_Item $service
-     * @return Magento_GoogleShopping_Model_Item
+     * @param \Magento\GoogleShopping\Model\Service\Item $service
+     * @return \Magento\GoogleShopping\Model\Item
      */
     public function setServiceItem($service)
     {
@@ -70,16 +72,16 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
      */
     public function getTargetCountry()
     {
-        return Mage::getSingleton('Magento_GoogleShopping_Model_Config')->getTargetCountry($this->getStoreId());
+        return \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getTargetCountry($this->getStoreId());
     }
 
     /**
      * Save item to Google Content
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_GoogleShopping_Model_Item
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\GoogleShopping\Model\Item
      */
-    public function insertItem(Magento_Catalog_Model_Product $product)
+    public function insertItem(\Magento\Catalog\Model\Product $product)
     {
         $this->setProduct($product);
         $this->getServiceItem()
@@ -92,7 +94,7 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Update Item data
      *
-     * @return Magento_GoogleShopping_Model_Item
+     * @return \Magento\GoogleShopping\Model\Item
      */
     public function updateItem()
     {
@@ -106,7 +108,7 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Delete Item from Google Content
      *
-     * @return Magento_GoogleShopping_Model_Item
+     * @return \Magento\GoogleShopping\Model\Item
      */
     public function deleteItem()
     {
@@ -117,8 +119,8 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Load Item Model by Product
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_GoogleShopping_Model_Item
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\GoogleShopping\Model\Item
      */
     public function loadByProduct($product)
     {
@@ -130,24 +132,24 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Return Google Content Item Type Model for current Item
      *
-     * @return Magento_GoogleShopping_Model_Type
+     * @return \Magento\GoogleShopping\Model\Type
      */
     public function getType()
     {
         $attributeSetId = $this->getProduct()->getAttributeSetId();
         $targetCountry = $this->getTargetCountry();
 
-        $registry = Mage::registry(self::TYPES_REGISTRY_KEY);
+        $registry = \Mage::registry(self::TYPES_REGISTRY_KEY);
         if (is_array($registry) && isset($registry[$attributeSetId][$targetCountry])) {
             return $registry[$attributeSetId][$targetCountry];
         }
 
-        $type = Mage::getModel('Magento_GoogleShopping_Model_Type')
+        $type = \Mage::getModel('\Magento\GoogleShopping\Model\Type')
             ->loadByAttributeSetId($attributeSetId, $targetCountry);
 
         $registry[$attributeSetId][$targetCountry] = $type;
-        Mage::unregister(self::TYPES_REGISTRY_KEY);
-        Mage::register(self::TYPES_REGISTRY_KEY, $registry);
+        \Mage::unregister(self::TYPES_REGISTRY_KEY);
+        \Mage::register(self::TYPES_REGISTRY_KEY, $registry);
 
         return $type;
     }
@@ -155,12 +157,12 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Product Getter. Load product if not exist.
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         if (is_null($this->getData('product')) && !is_null($this->getProductId())) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
             $this->setData('product', $product);
@@ -172,10 +174,10 @@ class Magento_GoogleShopping_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Product Setter.
      *
-     * @param Magento_Catalog_Model_Product
-     * @return Magento_GoogleShopping_Model_Item
+     * @param \Magento\Catalog\Model\Product
+     * @return \Magento\GoogleShopping\Model\Item
      */
-    public function setProduct(Magento_Catalog_Model_Product $product)
+    public function setProduct(\Magento\Catalog\Model\Product $product)
     {
         $this->setData('product', $product);
         $this->setProductId($product->getId());

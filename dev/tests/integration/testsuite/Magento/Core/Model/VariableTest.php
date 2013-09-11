@@ -12,13 +12,13 @@
 class Magento_Core_Model_VariableTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Variable
+     * @var \Magento\Core\Model\Variable
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Variable');
+        $this->_model = Mage::getModel('\Magento\Core\Model\Variable');
     }
 
     public function testGetSetStoreId()
@@ -35,7 +35,7 @@ class Magento_Core_Model_VariableTest extends PHPUnit_Framework_TestCase
         ));
         $this->_model->save();
 
-        $variable = Mage::getModel('Magento_Core_Model_Variable');
+        $variable = Mage::getModel('\Magento\Core\Model\Variable');
         $variable->loadByCode('test_code');
         $this->assertEquals($this->_model->getName(), $variable->getName());
         $this->_model->delete();
@@ -51,8 +51,8 @@ class Magento_Core_Model_VariableTest extends PHPUnit_Framework_TestCase
             'plain_value'   => $text
         ));
         $this->assertEquals($html, $this->_model->getValue());
-        $this->assertEquals($html, $this->_model->getValue(Magento_Core_Model_Variable::TYPE_HTML));
-        $this->assertEquals($text, $this->_model->getValue(Magento_Core_Model_Variable::TYPE_TEXT));
+        $this->assertEquals($html, $this->_model->getValue(\Magento\Core\Model\Variable::TYPE_HTML));
+        $this->assertEquals($text, $this->_model->getValue(\Magento\Core\Model\Variable::TYPE_TEXT));
     }
 
     public function testValidate()

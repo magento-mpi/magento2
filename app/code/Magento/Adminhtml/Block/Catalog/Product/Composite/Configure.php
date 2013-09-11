@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite;
+
+class Configure extends \Magento\Adminhtml\Block\Widget
 {
     protected $_product;
 
@@ -24,15 +26,15 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
     /**
      * Retrieve product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         if (!$this->_product) {
-            if (Mage::registry('current_product')) {
-                $this->_product = Mage::registry('current_product');
+            if (\Mage::registry('current_product')) {
+                $this->_product = \Mage::registry('current_product');
             } else {
-                $this->_product = Mage::getSingleton('Magento_Catalog_Model_Product');
+                $this->_product = \Mage::getSingleton('Magento\Catalog\Model\Product');
             }
         }
         return $this->_product;
@@ -41,10 +43,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Configure extends Magent
     /**
      * Set product object
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Adminhtml_Block_Catalog_Product_Composite_Configure
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Composite\Configure
      */
-    public function setProduct(Magento_Catalog_Model_Product $product = null)
+    public function setProduct(\Magento\Catalog\Model\Product $product = null)
     {
         $this->_product = $product;
         return $this;

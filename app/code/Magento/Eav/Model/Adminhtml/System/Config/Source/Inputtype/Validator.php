@@ -15,7 +15,9 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator extends Zend_Validate_InArray
+namespace Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype;
+
+class Validator extends \Zend_Validate_InArray
 {
 
     /**
@@ -24,8 +26,8 @@ class Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator exten
     public function __construct()
     {
         //set data haystack
-        /** @var $helper Magento_Eav_Helper_Data */
-        $helper = Mage::helper('Magento_Eav_Helper_Data');
+        /** @var $helper \Magento\Eav\Helper\Data */
+        $helper = \Mage::helper('Magento\Eav\Helper\Data');
         $haystack = $helper->getInputTypesValidatorData();
 
         //reset message template and set custom
@@ -59,7 +61,7 @@ class Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator exten
      * Add input type to haystack
      *
      * @param string $type
-     * @return Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator
+     * @return \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator
      */
     public function addInputType($type)
     {

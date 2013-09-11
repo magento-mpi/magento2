@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Catalog\Product\Widget;
+
+class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected $_selectedProducts = array();
 
@@ -37,13 +39,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
      */
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $uniqId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
+        $uniqId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/catalog_product_widget/chooser', array(
             'uniq_id' => $uniqId,
             'use_massaction' => false,
         ));
 
-        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -59,12 +61,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
             $categoryId = isset($value[2]) ? $value[2] : false;
             $label = '';
             if ($categoryId) {
-                $label = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category')
-                    ->getAttributeRawValue($categoryId, 'name', Mage::app()->getStore()) . '/';
+                $label = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category')
+                    ->getAttributeRawValue($categoryId, 'name', \Mage::app()->getStore()) . '/';
             }
             if ($productId) {
-                $label .= Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product')
-                    ->getAttributeRawValue($productId, 'name', Mage::app()->getStore());
+                $label .= \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product')
+                    ->getAttributeRawValue($productId, 'name', \Mage::app()->getStore());
             }
             $chooser->setLabel($label);
         }
@@ -139,8 +141,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
     /**
      * Filter checked/unchecked rows in grid
      *
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
-     * @return Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -160,17 +162,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
     /**
      * Prepare products collection, defined collection filters (category, product type)
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
             ->setStoreId(0)
             ->addAttributeToSelect('name');
 
         if ($categoryId = $this->getCategoryId()) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
             if ($category->getId()) {
                 // $collection->addCategoryFilter($category);
                 $productIds = $category->getProductsPosition();
@@ -193,7 +195,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
     /**
      * Prepare columns for products grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -256,7 +258,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Magento_Adm
      * Setter
      *
      * @param array $selectedProducts
-     * @return Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser
      */
     public function setSelectedProducts($selectedProducts)
     {

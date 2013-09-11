@@ -8,15 +8,17 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\CustomerBalance\Model\Total\Creditmemo;
+
+class Customerbalance extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
     /**
      * Collect customer balance totals for credit memo
      *
-     * @param Magento_Sales_Model_Order_Creditmemo $creditmemo
-     * @return Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return \Magento\CustomerBalance\Model\Total\Creditmemo\Customerbalance
      */
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $creditmemo->setBsCustomerBalTotalRefunded(0);
         $creditmemo->setCustomerBalTotalRefunded(0);
@@ -24,7 +26,7 @@ class Magento_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends Mag
         $creditmemo->setBaseCustomerBalanceReturnMax(0);
         $creditmemo->setCustomerBalanceReturnMax(0);
 
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             return $this;
         }
 

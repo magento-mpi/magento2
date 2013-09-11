@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Index\Block\Adminhtml\Process;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()
@@ -20,7 +22,7 @@ class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block
         parent::_construct();
 
         $this->_updateButton('save', 'label', __('Save Process'));
-        if (Mage::registry('current_index_process')) {
+        if (\Mage::registry('current_index_process')) {
             $this->_addButton('reindex', array(
                 'label'     => __('Reindex Data'),
                 'onclick'   => "setLocation('{$this->getRunUrl()}')"
@@ -48,7 +50,7 @@ class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block
     public function getRunUrl()
     {
         return $this->getUrl('adminhtml/process/reindexProcess', array(
-            'process' => Mage::registry('current_index_process')->getId()
+            'process' => \Mage::registry('current_index_process')->getId()
         ));
     }
 
@@ -59,7 +61,7 @@ class Magento_Index_Block_Adminhtml_Process_Edit extends Magento_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        $process = Mage::registry('current_index_process');
+        $process = \Mage::registry('current_index_process');
         if ($process && $process->getId()) {
             return __("'%1' Index Process Information", $process->getIndexer()->getName());
         }

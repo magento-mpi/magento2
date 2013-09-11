@@ -16,9 +16,11 @@
  * @package    Magento_Usa
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl
-    extends Magento_Usa_Model_Shipping_Carrier_Abstract
-    implements Magento_Shipping_Model_Carrier_Interface
+namespace Magento\Usa\Model\Shipping\Carrier;
+
+class Dhl
+    extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+    implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
 
     /**
@@ -38,7 +40,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Rate request data
      *
-     * @var Magento_Shipping_Model_Rate_Request|null
+     * @var \Magento\Shipping\Model\Rate\Request|null
      */
     protected $_request = null;
 
@@ -52,7 +54,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Rate result data
      *
-     * @var Magento_Shipping_Model_Rate_Result|null
+     * @var \Magento\Shipping\Model\Rate\Result|null
      */
     protected $_result = null;
 
@@ -78,7 +80,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     protected $_defaultGatewayUrl = 'https://eCommerce.airborne.com/ApiLandingTest.asp';
 
     /**
-     * Factory for Magento_Usa_Model_Simplexml_Element
+     * Factory for \Magento\Usa\Model\Simplexml\Element
      *
      * @var Magento_Usa_Model_Simplexml_ElementFactory
      */
@@ -118,10 +120,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Collect and get rates
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return bool|Magento_Shipping_Model_Rate_Result|null
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return bool|\Magento\Shipping\Model\Rate\Result|null
      */
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
@@ -130,38 +132,38 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
         $requestDhl = clone $request;
         $origCompanyName = $requestDhl->getOrigCompanyName();
         if (!$origCompanyName) {
-            $origCompanyName = Mage::getStoreConfig(
-                Magento_Core_Model_Store::XML_PATH_STORE_STORE_NAME,
+            $origCompanyName = \Mage::getStoreConfig(
+                \Magento\Core\Model\Store::XML_PATH_STORE_STORE_NAME,
                 $requestDhl->getStoreId()
             );
         }
 
         $origCountryId = $requestDhl->getOrigCountryId();
         if (!$origCountryId) {
-            $origCountryId = Mage::getStoreConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+            $origCountryId = \Mage::getStoreConfig(
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $requestDhl->getStoreId()
             );
         }
         $origState = $requestDhl->getOrigState();
         if (!$origState) {
-            $origState = Mage::getStoreConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID,
+            $origState = \Mage::getStoreConfig(
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_REGION_ID,
                 $requestDhl->getStoreId()
             );
         }
         $origCity = $requestDhl->getOrigCity();
         if (!$origCity) {
-            $origCity = Mage::getStoreConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY,
+            $origCity = \Mage::getStoreConfig(
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_CITY,
                 $requestDhl->getStoreId()
             );
         }
 
         $origPostcode = $requestDhl->getOrigPostcode();
         if (!$origPostcode) {
-            $origPostcode = Mage::getStoreConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
+            $origPostcode = \Mage::getStoreConfig(
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP,
                 $requestDhl->getStoreId()
             );
         }
@@ -181,7 +183,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
      * Prepare and set request in property of current instance
      *
      * @param \Magento\Object $request
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl
      */
     public function setRequest(\Magento\Object $request)
     {
@@ -272,8 +274,8 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = Mage::getStoreConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+            $origCountry = \Mage::getStoreConfig(
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $r->getStoreId()
             );
         }
@@ -282,8 +284,8 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
         if ($request->getOrigCountryId()) {
             $origCountryId = $request->getOrigCountryId();
         } else {
-            $origCountryId = Mage::getStoreConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+            $origCountryId = \Mage::getStoreConfig(
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $r->getStoreId()
             );
         }
@@ -292,28 +294,28 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
         if ($request->getAction() == 'GenerateLabel') {
             $packageParams = $request->getPackageParams();
             $shippingWeight = $request->getPackageWeight();
-            if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
-                $shippingWeight = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+            if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
+                $shippingWeight = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
                     $request->getPackageWeight(),
                     $packageParams->getWeightUnits(),
-                    Zend_Measure_Weight::POUND
+                    \Zend_Measure_Weight::POUND
                 ));
             }
-            if ($packageParams->getDimensionUnits() != Zend_Measure_Length::INCH) {
-                $packageParams->setLength(round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+            if ($packageParams->getDimensionUnits() != \Zend_Measure_Length::INCH) {
+                $packageParams->setLength(round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
                     $packageParams->getLength(),
                     $packageParams->getDimensionUnits(),
-                    Zend_Measure_Length::INCH
+                    \Zend_Measure_Length::INCH
                 )));
-                $packageParams->setWidth(round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+                $packageParams->setWidth(round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
                     $packageParams->getWidth(),
                     $packageParams->getDimensionUnits(),
-                    Zend_Measure_Length::INCH
+                    \Zend_Measure_Length::INCH
                 )));
-                $packageParams->setHeight(round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+                $packageParams->setHeight(round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
                     $packageParams->getHeight(),
                     $packageParams->getDimensionUnits(),
-                    Zend_Measure_Length::INCH
+                    \Zend_Measure_Length::INCH
                 )));
             }
             $r->setPackageParams($packageParams);
@@ -332,7 +334,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
         $r->setValueWithDiscount($request->getPackageValueWithDiscount());
         $r->setCustomsValue($request->getPackageCustomsValue());
         $r->setDestStreet(
-            Mage::helper('Magento_Core_Helper_String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
+            \Mage::helper('Magento\Core\Helper\String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
         );
         $r->setDestStreetLine2($request->getDestStreetLine2());
         $r->setDestCity($request->getDestCity());
@@ -340,11 +342,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
         $r->setOrigCity($request->getOrigCity());
         $r->setOrigPhoneNumber($request->getOrigPhoneNumber());
         $r->setOrigPersonName($request->getOrigPersonName());
-        $r->setOrigEmail(Mage::getStoreConfig('trans_email/ident_general/email', $r->getStoreId()));
+        $r->setOrigEmail(\Mage::getStoreConfig('trans_email/ident_general/email', $r->getStoreId()));
         $r->setOrigCity($request->getOrigCity());
         $r->setOrigPostal($request->getOrigPostal());
-        $originStreet1 = Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS1,$r->getStoreId());
-        $originStreet2 = Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $r->getStoreId());
+        $originStreet1 = \Mage::getStoreConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS1,$r->getStoreId());
+        $originStreet2 = \Mage::getStoreConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS2, $r->getStoreId());
         $r->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
         $r->setOrigStreetLine2($request->getOrigStreetLine2());
         $r->setDestPhoneNumber($request->getDestPhoneNumber());
@@ -353,7 +355,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
 
 
         if (is_numeric($request->getOrigState())) {
-            $r->setOrigState(Mage::getModel('Magento_Directory_Model_Region')->load($request->getOrigState())->getCode());
+            $r->setOrigState(\Mage::getModel('\Magento\Directory\Model\Region')->load($request->getOrigState())->getCode());
         } else {
             $r->setOrigState($request->getOrigState());
         }
@@ -403,7 +405,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Get quotes
      *
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _getQuotes()
     {
@@ -458,7 +460,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Get xml quotes
      *
-     * @return Magento_Core_Model_Abstract|\Magento\Object
+     * @return \Magento\Core\Model\AbstractModel|\Magento\Object
      */
     protected function _getXmlQuotes()
     {
@@ -468,7 +470,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     /**
      * Do rate request and handle errors
      *
-     * @return Magento_Shipping_Model_Rate_Result|\Magento\Object
+     * @return \Magento\Shipping\Model\Rate\Result|\Magento\Object
      */
     protected function _doRequest()
     {
@@ -578,7 +580,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $responseBody = '';
             }
@@ -599,7 +601,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     {
         $r = $this->_rawRequest;
 
-        $store = Mage::app()->getStore($r->getStoreId());
+        $store = \Mage::app()->getStore($r->getStoreId());
 
         $_haz = $this->getConfigFlag('hazardous_materials');
 
@@ -774,7 +776,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
      * Parse xml response and return result
      *
      * @param string $response
-     * @return Magento_Shipping_Model_Rate_Result|\Magento\Object
+     * @return \Magento\Shipping\Model\Rate\Result|\Magento\Object
      */
     protected function _parseXmlResponse($response)
     {
@@ -845,12 +847,12 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
             }
             return $result;
         } else {
-            $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+            $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
             if ($this->_dhlRates) {
                 foreach ($this->_dhlRates as $rate) {
                     $method = $rate['service'];
                     $data = $rate['data'];
-                    $rate = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+                    $rate = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
                     $rate->setCarrier('dhl');
                     $rate->setCarrierTitle($this->getConfigData('title'));
                     $rate->setMethod($method);
@@ -860,7 +862,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
                     $result->append($rate);
                 }
             } else if (!empty($this->_errors)) {
-                $error = Mage::getModel('Magento_Shipping_Model_Rate_Result_Error');
+                $error = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Error');
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setErrorMessage($this->getConfigData('specificerrmsg'));
@@ -874,7 +876,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
      * Parse xml object
      *
      * @param mixed $shipXml
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl
      */
     protected function _parseXmlObject($shipXml)
     {
@@ -1079,7 +1081,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
             $responseBody = curl_exec($ch);
             $debugData['result'] = $responseBody;
             curl_close($ch);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
             $responseBody = '';
         }
@@ -1218,10 +1220,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
             }
         }
 
-        $result = Mage::getModel('Magento_Shipping_Model_Tracking_Result');
+        $result = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result');
         if ($errorArr || $resultArr) {
             foreach ($errorArr as $t => $r) {
-                $error = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Error');
+                $error = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Error');
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking($t);
@@ -1230,7 +1232,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
             }
 
             foreach ($resultArr as $t => $data) {
-                $tracking = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Status');
+                $tracking = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Status');
                 $tracking->setCarrier('dhl');
                 $tracking->setCarrierTitle($this->getConfigData('title'));
                 $tracking->setTracking($t);
@@ -1240,7 +1242,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
             }
         } else {
             foreach ($trackings as $t) {
-                $error = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Error');
+                $error = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Error');
                 $error->setCarrier('dhl');
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking($t);
@@ -1260,7 +1262,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl
     public function getResponse()
     {
         $statuses = '';
-        if ($this->_result instanceof Magento_Shipping_Model_Tracking_Result) {
+        if ($this->_result instanceof \Magento\Shipping\Model\Tracking\Result) {
             if ($trackings = $this->_result->getAllTrackings()) {
                 foreach ($trackings as $tracking) {
                     if ($data = $tracking->getAllData()) {

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Getawayinfo extends Magento_Adminhtml_Block_Widget
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View;
+
+class Getawayinfo extends \Magento\Adminhtml\Block\Widget
 {
     /**
      * Return recurring profile getaway information for view
@@ -24,7 +26,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Getawayinfo extends M
      */
     public function getRecurringProfileGetawayInformation()
     {
-        $recurringProfile = Mage::registry('current_recurring_profile');
+        $recurringProfile = \Mage::registry('current_recurring_profile');
         $information = array();
         foreach($recurringProfile->getData() as $kay => $value) {
             $information[$recurringProfile->getFieldLabel($kay)] = $value;

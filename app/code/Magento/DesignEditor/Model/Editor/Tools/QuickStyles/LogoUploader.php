@@ -18,22 +18,24 @@
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_LogoUploader
-    extends Magento_Backend_Model_Config_Backend_Image_Logo
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles;
+
+class LogoUploader
+    extends \Magento\Backend\Model\Config\Backend\Image\Logo
 {
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_DesignEditor_Model_Config_Backend_File_RequestData $requestData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\DesignEditor\Model\Config\Backend\File\RequestData $requestData
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_DesignEditor_Model_Config_Backend_File_RequestData $requestData,
+        \Magento\Core\Model\Context $context,
+        \Magento\DesignEditor\Model\Config\Backend\File\RequestData $requestData,
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

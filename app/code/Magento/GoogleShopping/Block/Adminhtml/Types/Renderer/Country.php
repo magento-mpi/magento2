@@ -16,8 +16,10 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Types_Renderer_Country
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\GoogleShopping\Block\Adminhtml\Types\Renderer;
+
+class Country
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders Google Content Item Id
@@ -28,6 +30,6 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Renderer_Country
     public function render(\Magento\Object $row)
     {
         $iso = $row->getData($this->getColumn()->getIndex());
-        return Mage::getSingleton('Magento_GoogleShopping_Model_Config')->getCountryInfo($iso, 'name');
+        return \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getCountryInfo($iso, 'name');
     }
 }

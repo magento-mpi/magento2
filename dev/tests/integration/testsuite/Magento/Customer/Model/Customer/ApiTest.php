@@ -32,8 +32,8 @@ class Magento_Customer_Model_Customer_ApiTest extends PHPUnit_Framework_TestCase
             array('customerData' => $customerData)
         );
         /** Load created customer. */
-        /** @var Magento_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = Mage::getModel('\Magento\Customer\Model\Customer');
         $customer->load($customerId);
         /** Assert main customers fields are set. */
         $this->assertEquals($customerEmail, $customer->getEmail(), 'Customer email is not set.');
@@ -112,8 +112,8 @@ class Magento_Customer_Model_Customer_ApiTest extends PHPUnit_Framework_TestCase
         /** Assert API update operation result. */
         $this->assertTrue($updateResult, 'Customer update is failed.');
         /** Assert fields are updated. */
-        /** @var Magento_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
         $this->assertEquals(
             'new_firstname',
             $customer->getFirstname(),
@@ -143,8 +143,8 @@ class Magento_Customer_Model_Customer_ApiTest extends PHPUnit_Framework_TestCase
         /** Assert delete operation result. */
         $this->assertTrue($deleteResult, 'Customer is not deleted.');
         /** Assert customer is deleted. */
-        /** @var Magento_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
         $this->assertNull($customer->getEntityId());
     }
 }

@@ -16,19 +16,21 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onepage_Abstract
+namespace Magento\Checkout\Block\Onepage;
+
+class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     /**
      * Sales Qoute Billing Address instance
      *
-     * @var Magento_Sales_Model_Quote_Address
+     * @var \Magento\Sales\Model\Quote\Address
      */
     protected $_address;
 
     /**
      * Customer Taxvat Widget block
      *
-     * @var Magento_Customer_Block_Widget_Taxvat
+     * @var \Magento\Customer\Block\Widget\Taxvat
      */
     protected $_taxvat;
 
@@ -61,11 +63,11 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
     /**
      * Return country collection
      *
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function getCountries()
     {
-        return Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection')->loadByStore();
+        return \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country\Collection')->loadByStore();
     }
 
     /**
@@ -81,7 +83,7 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
     /**
      * Return Sales Quote Address model
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
@@ -95,7 +97,7 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
                     $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
                 }
             } else {
-                $this->_address = Mage::getModel('Magento_Sales_Model_Quote_Address');
+                $this->_address = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
             }
         }
 
@@ -149,12 +151,12 @@ class Magento_Checkout_Block_Onepage_Billing extends Magento_Checkout_Block_Onep
     /**
      * Get Customer Taxvat Widget block
      *
-     * @return Magento_Customer_Block_Widget_Taxvat
+     * @return \Magento\Customer\Block\Widget\Taxvat
      */
     protected function _getTaxvat()
     {
         if (!$this->_taxvat) {
-            $this->_taxvat = $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Taxvat');
+            $this->_taxvat = $this->getLayout()->createBlock('\Magento\Customer\Block\Widget\Taxvat');
         }
 
         return $this->_taxvat;

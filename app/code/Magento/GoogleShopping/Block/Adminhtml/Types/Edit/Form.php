@@ -16,12 +16,14 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GoogleShopping\Block\Adminhtml\Types\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Form
      */
     protected function _prepareForm()
     {
@@ -62,7 +64,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
             'text'      => '<div id="attribute_set_select">' . $attributeSetsSelect->toHtml() . '</div>',
         ));
 
-        $categories = Mage::helper('Magento_GoogleShopping_Helper_Category')->getCategories();
+        $categories = \Mage::helper('Magento\GoogleShopping\Helper\Category')->getCategories();
         $fieldset->addField('category', 'select', array(
             'label'     => __('Google Product Category'),
             'title'     => __('Google Product Category'),
@@ -73,14 +75,14 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
         ));
 
         $attributesBlock = $this->getLayout()
-            ->createBlock('Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes')
+            ->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes')
             ->setTargetCountry($targetCountry);
         if ($itemType->getId()) {
             $attributesBlock->setAttributeSetId($itemType->getAttributeSetId())
                 ->setAttributeSetSelected(true);
         }
 
-        $attributes = Mage::registry('attributes');
+        $attributes = \Mage::registry('attributes');
         if (is_array($attributes) && count($attributes) > 0) {
             $attributesBlock->setAttributesData($attributes);
         }
@@ -124,7 +126,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
      */
     protected function _getCountriesArray()
     {
-        $_allowed = Mage::getSingleton('Magento_GoogleShopping_Model_Config')->getAllowedCountries();
+        $_allowed = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[$iso] = $info['name'];
@@ -140,14 +142,14 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
      */
     protected function _getAttributeSetsArray($targetCountry)
     {
-        $entityType = Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getEntityType();
-        $collection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        $entityType = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getEntityType();
+        $collection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
             ->setEntityTypeFilter($entityType->getId());
 
         $ids = array();
         $itemType = $this->getItemType();
         if ( !($itemType instanceof \Magento\Object && $itemType->getId()) ) {
-            $typesCollection = Mage::getResourceModel('Magento_GoogleShopping_Model_Resource_Type_Collection')
+            $typesCollection = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Type\Collection')
                 ->addCountryFilter($targetCountry)
                 ->load();
             foreach ($typesCollection as $type) {
@@ -167,11 +169,11 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Form extends Magento_Adm
     /**
      * Get current attribute set mapping from register
      *
-     * @return Magento_GoogleShopping_Model_Type
+     * @return \Magento\GoogleShopping\Model\Type
      */
     public function getItemType()
     {
-        return Mage::registry('current_item_type');
+        return \Mage::registry('current_item_type');
     }
 
     /**

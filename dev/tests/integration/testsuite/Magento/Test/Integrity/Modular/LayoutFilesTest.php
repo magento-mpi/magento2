@@ -26,7 +26,7 @@ class Magento_Test_Integrity_Modular_LayoutFilesTest extends PHPUnit_Framework_T
      */
     public function testLayouts($layout)
     {
-        $modulesReader = $this->_objectManager->get('Magento_Core_Model_Config_Modules_Reader');
+        $modulesReader = $this->_objectManager->get('Magento\Core\Model\Config\Modules\Reader');
         $domLayout = $this->_objectManager->create('Magento\Config\Dom', array('xml' => file_get_contents($layout)));
         $result = $domLayout->validate(
             $modulesReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'layouts.xsd', $errors

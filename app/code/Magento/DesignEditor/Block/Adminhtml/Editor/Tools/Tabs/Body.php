@@ -14,11 +14,13 @@
  * @method string getContentBlock()
  * @method string getTabId()
  * @method bool getIsActive()
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body setContentBlock($content)
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body setIsActive($flag)
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body setTabId($id)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs\Body setContentBlock($content)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs\Body setIsActive($flag)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs\Body setTabId($id)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Tabs_Body extends Magento_Core_Block_Template
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs;
+
+class Body extends \Magento\Core\Block\Template
 {
     /**
      * Get tab content

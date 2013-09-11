@@ -35,7 +35,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     /**
      * Composite customer entity adapter instance
      *
-     * @var Magento_ImportExport_Model_Import_Entity_CustomerComposite
+     * @var \Magento\ImportExport\Model\Import\Entity\CustomerComposite
      */
     protected $_entityAdapter;
 
@@ -86,7 +86,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_entityAdapter = $this->_objectManager
-            ->create('Magento_ImportExport_Model_Import_Entity_CustomerComposite');
+            ->create('Magento\ImportExport\Model\Import\Entity\CustomerComposite');
     }
 
     /**
@@ -96,14 +96,14 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
      */
     protected function _assertCustomerData(array $expectedData)
     {
-        /** @var $collection Magento_Customer_Model_Resource_Customer_Collection */
-        $collection = $this->_objectManager->create('Magento_Customer_Model_Resource_Customer_Collection');
+        /** @var $collection \Magento\Customer\Model\Resource\Customer\Collection */
+        $collection = $this->_objectManager->create('Magento\Customer\Model\Resource\Customer\Collection');
         $collection->addAttributeToSelect($this->_customerAttributes);
         $customers = $collection->getItems();
 
         $this->assertSameSize($expectedData, $customers);
 
-        /** @var $customer Magento_Customer_Model_Customer */
+        /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customers as $customer) {
             // assert customer existence
             $email = strtolower($customer->getEmail());
@@ -119,7 +119,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
             // assert address data
             $addresses = $customer->getAddresses();
             $this->assertSameSize($expectedData[$email]['addresses'], $addresses);
-            /** @var $address Magento_Customer_Model_Address */
+            /** @var $address \Magento\Customer\Model\Address */
             foreach ($addresses as $address) {
                 $this->assertContains($address->getData('postcode'), $expectedData[$email]['addresses']);
             }
@@ -137,17 +137,17 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
      * @magentoAppIsolation enabled
      *
      * @dataProvider importDataDataProvider
-     * @covers Magento_ImportExport_Model_Import_Entity_CustomerComposite::_importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\CustomerComposite::_importData
      */
     public function testImportData($behavior, $sourceFile, array $dataBefore, array $dataAfter, array $errors = array())
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         // set entity adapter parameters
         $this->_entityAdapter->setParameters(array('behavior' => $behavior));
 
         // set fixture CSV file
         $result = $this->_entityAdapter
-            ->setSource(Magento_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile))
+            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile))
             ->isDataValid();
         if ($errors) {
             $this->assertFalse($result);
@@ -180,7 +180,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         $filesDirectory    = __DIR__ . '/_files/';
         $sourceData = array(
             'delete_behavior' => array(
-                '$behavior'   => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE,
+                '$behavior'   => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
                 '$sourceFile' => $filesDirectory. self::DELETE_FILE_NAME,
                 '$dataBefore' => $this->_beforeImport,
                 '$dataAfter'  => array(),
@@ -188,7 +188,7 @@ class Magento_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHP
         );
 
         $sourceData['add_update_behavior'] = array(
-            '$behavior'   => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+            '$behavior'   => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
             '$sourceFile' => $filesDirectory . self::UPDATE_FILE_NAME,
             '$dataBefore' => $this->_beforeImport,
             '$dataAfter'  => $this->_afterImport,

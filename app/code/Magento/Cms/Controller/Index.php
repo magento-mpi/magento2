@@ -16,7 +16,9 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Controller_Index extends Magento_Core_Controller_Front_Action
+namespace Magento\Cms\Controller;
+
+class Index extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Renders CMS Home page
@@ -25,8 +27,8 @@ class Magento_Cms_Controller_Index extends Magento_Core_Controller_Front_Action
      */
     public function indexAction($coreRoute = null)
     {
-        $pageId = Mage::getStoreConfig(Magento_Cms_Helper_Page::XML_PATH_HOME_PAGE);
-        if (!Mage::helper('Magento_Cms_Helper_Page')->renderPage($this, $pageId)) {
+        $pageId = \Mage::getStoreConfig(\Magento\Cms\Helper\Page::XML_PATH_HOME_PAGE);
+        if (!\Mage::helper('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultIndex');
         }
     }
@@ -55,8 +57,8 @@ class Magento_Cms_Controller_Index extends Magento_Core_Controller_Front_Action
         $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
         $this->getResponse()->setHeader('Status','404 File not found');
 
-        $pageId = Mage::getStoreConfig(Magento_Cms_Helper_Page::XML_PATH_NO_ROUTE_PAGE);
-        if (!Mage::helper('Magento_Cms_Helper_Page')->renderPage($this, $pageId)) {
+        $pageId = \Mage::getStoreConfig(\Magento\Cms\Helper\Page::XML_PATH_NO_ROUTE_PAGE);
+        if (!\Mage::helper('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultNoRoute');
         }
     }
@@ -81,8 +83,8 @@ class Magento_Cms_Controller_Index extends Magento_Core_Controller_Front_Action
      */
     public function noCookiesAction()
     {
-        $pageId = Mage::getStoreConfig(Magento_Cms_Helper_Page::XML_PATH_NO_COOKIES_PAGE);
-        if (!Mage::helper('Magento_Cms_Helper_Page')->renderPage($this, $pageId)) {
+        $pageId = \Mage::getStoreConfig(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE);
+        if (!\Mage::helper('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultNoCookies');;
         }
     }

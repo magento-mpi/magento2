@@ -16,8 +16,10 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Grid
-    extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute;
+
+class Grid
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
      * Initialize grid, set grid Id
@@ -33,12 +35,12 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     /**
      * Prepare customer address attributes grid collection object
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Customer_Model_Resource_Address_Attribute_Collection */
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Address_Attribute_Collection')
+        /** @var $collection \Magento\Customer\Model\Resource\Address\Attribute\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Address\Attribute\Collection')
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
@@ -49,7 +51,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     /**
      * Prepare customer address attributes grid columns
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Grid
      */
     protected function _prepareColumns()
     {

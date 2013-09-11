@@ -17,10 +17,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
      */
     public function testIsVirtualChecked($type)
     {
-        $currentProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        $currentProduct = Mage::getModel('\Magento\Catalog\Model\Product');
         $currentProduct->setTypeInstance(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($type));
 
-        $block = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight();
+        $block = new \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight();
 
         $form = new \Magento\Data\Form();
         $form->setDataObject($currentProduct);
@@ -36,8 +36,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     public static function virtualTypesDataProvider()
     {
         return array(
-            array('Magento_Catalog_Model_Product_Type_Virtual'),
-            array('Magento_Downloadable_Model_Product_Type'),
+            array('Magento\Catalog\Model\Product\Type\Virtual'),
+            array('Magento\Downloadable\Model\Product\Type'),
         );
     }
 
@@ -47,10 +47,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
      */
     public function testIsVirtualUnchecked($type)
     {
-        $currentProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        $currentProduct = Mage::getModel('\Magento\Catalog\Model\Product');
         $currentProduct->setTypeInstance(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create($type));
 
-        $block = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight();
+        $block = new \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight();
 
         $form = new \Magento\Data\Form();
         $form->setDataObject($currentProduct);
@@ -66,8 +66,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     public static function physicalTypesDataProvider()
     {
         return array(
-            array('Magento_Catalog_Model_Product_Type_Simple'),
-            array('Magento_Bundle_Model_Product_Type'),
+            array('Magento\Catalog\Model\Product\Type\Simple'),
+            array('Magento\Bundle\Model\Product\Type'),
         );
     }
 }

@@ -10,16 +10,16 @@
  */
 
 /**
- * Test class for Magento_GiftRegistry_Block_Form_Element
+ * Test class for \Magento\GiftRegistry\Block\Form\Element
  */
 class Magento_GiftRegistry_Block_Form_ElementTest extends PHPUnit_Framework_TestCase
 {
     public function testGetCalendarDateHtml()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_GiftRegistry_Block_Form_Element');
+        $block = Mage::app()->getLayout()->createBlock('\Magento\GiftRegistry\Block\Form\Element');
 
         $value = null;
-        $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL;
+        $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 

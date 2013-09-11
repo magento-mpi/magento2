@@ -14,13 +14,13 @@
  */
 class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_Registry */
+    /** @var \Magento\Core\Model\Registry */
     private $_registry;
 
     public function setUp()
     {
         $this->_registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Registry');
+            ->create('Magento\Core\Model\Registry');
     }
 
     public function tearDown()
@@ -30,16 +30,16 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Fram
 
     public function testAddSubscriptionTitle()
     {
-        /** @var Magento_Core_Model_Layout $layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout');
+        /** @var \Magento\Core\Model\Layout $layout */
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
         $subscription = array(
             'subscription_id' => null,
         );
         $this->_registry->register('current_subscription', $subscription);
 
-        /** @var Magento_Webhook_Block_Adminhtml_Subscription_Edit $block */
-        $block = $layout->createBlock('Magento_Webhook_Block_Adminhtml_Subscription_Edit',
+        /** @var \Magento\Webhook\Block\Adminhtml\Subscription\Edit $block */
+        $block = $layout->createBlock('\Magento\Webhook\Block\Adminhtml\Subscription\Edit',
             '', array('registry' => $this->_registry)
         );
         $block->toHtml();
@@ -49,16 +49,16 @@ class Magento_Webhook_Block_Adminhtml_Subscription_EditTest extends PHPUnit_Fram
 
     public function testEditSubscriptionTitle()
     {
-        /** @var Magento_Core_Model_Layout $layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout');
+        /** @var \Magento\Core\Model\Layout $layout */
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
         $subscription = array(
             'subscription_id' => 1,
         );
         $this->_registry->register('current_subscription', $subscription);
 
-        /** @var Magento_Webhook_Block_Adminhtml_Subscription_Edit $block */
-        $block = $layout->createBlock('Magento_Webhook_Block_Adminhtml_Subscription_Edit',
+        /** @var \Magento\Webhook\Block\Adminhtml\Subscription\Edit $block */
+        $block = $layout->createBlock('\Magento\Webhook\Block\Adminhtml\Subscription\Edit',
             '', array('registry' => $this->_registry)
         );
         $block->toHtml();

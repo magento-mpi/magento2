@@ -16,7 +16,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends \Magento\Data\Form\Element\AbstractElement
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
+
+class Image extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Initialize Form Element
@@ -149,8 +151,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Image extends \Mage
         if (is_array($this->getValue())) {
             return false;
         }
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/rma/viewfile', array(
-            'image'      => Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()),
+        return \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/rma/viewfile', array(
+            'image'      => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($this->getValue()),
         ));
     }
 

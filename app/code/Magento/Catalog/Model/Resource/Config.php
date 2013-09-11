@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource;
+
+class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * catalog_product entity type id
@@ -45,7 +47,7 @@ class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_
      * Set store id
      *
      * @param integer $storeId
-     * @return Magento_Catalog_Model_Resource_Config
+     * @return \Magento\Catalog\Model\Resource\Config
      */
     public function setStoreId($storeId)
     {
@@ -62,7 +64,7 @@ class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_
     public function getStoreId()
     {
         if ($this->_storeId === null) {
-            return Mage::app()->getStore()->getId();
+            return \Mage::app()->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -75,7 +77,7 @@ class Magento_Catalog_Model_Resource_Config extends Magento_Core_Model_Resource_
     public function getEntityTypeId()
     {
         if ($this->_entityTypeId === null) {
-            $this->_entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
+            $this->_entityTypeId = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
         }
         return $this->_entityTypeId;
     }

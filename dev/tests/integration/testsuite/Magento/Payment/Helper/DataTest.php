@@ -10,16 +10,16 @@
  */
 
 /**
- * Test class for Magento_Payment_Helper_Data
+ * Test class for \Magento\Payment\Helper\Data
  */
 class Magento_Payment_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     public function testGetInfoBlock()
     {
-        $helper = Mage::helper('Magento_Payment_Helper_Data');
-        $paymentInfo = Mage::getModel('Magento_Payment_Model_Info');
+        $helper = Mage::helper('Magento\Payment\Helper\Data');
+        $paymentInfo = Mage::getModel('\Magento\Payment\Model\Info');
         $paymentInfo->setMethod('checkmo');
         $result = $helper->getInfoBlock($paymentInfo);
-        $this->assertInstanceOf('Magento_Payment_Block_Info_Checkmo', $result);
+        $this->assertInstanceOf('\Magento\Payment\Block\Info\Checkmo', $result);
     }
 }

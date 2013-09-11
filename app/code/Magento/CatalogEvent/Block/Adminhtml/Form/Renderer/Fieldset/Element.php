@@ -15,8 +15,10 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\CatalogEvent\Block\Adminhtml\Form\Renderer\Fieldset;
+
+class Element
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
     protected $_template = 'form/renderer/fieldset/element.phtml';
 
@@ -63,7 +65,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element
     /**
      * Disable field in default value using case
      *
-     * @return Magento_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element
+     * @return \Magento\CatalogEvent\Block\Adminhtml\Form\Renderer\Fieldset\Element
      */
     public function checkFieldDisable()
     {
@@ -84,7 +86,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element
     {
         $html = '';
         $element = $this->getElement();
-        if (Mage::app()->isSingleStoreMode()) {
+        if (\Mage::app()->isSingleStoreMode()) {
             return $html;
         }
         if ($element->getScope() == 'global' || $element->getScope() === null) {

@@ -15,14 +15,16 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model_Layer_Filter_Abstract
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     const OPTIONS_ONLY_WITH_RESULTS = 1;
 
     /**
      * Resource instance
      *
-     * @var Magento_Catalog_Model_Resource_Layer_Filter_Attribute
+     * @var \Magento\Catalog\Model\Resource\Layer\Filter\Attribute
      */
     protected $_resource;
 
@@ -39,12 +41,12 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
     /**
      * Retrieve resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Layer_Filter_Attribute
+     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Attribute
      */
     protected function _getResource()
     {
         if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Layer_Filter_Attribute');
+            $this->_resource = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Layer\Filter\Attribute');
         }
         return $this->_resource;
     }
@@ -63,11 +65,11 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
     /**
      * Apply attribute option filter to product collection
      *
-     * @param   Zend_Controller_Request_Abstract $request
+     * @param   \Zend_Controller_Request_Abstract $request
      * @param   \Magento\Object $filterBlock
-     * @return  Magento_Catalog_Model_Layer_Filter_Attribute
+     * @return  \Magento\Catalog\Model\Layer\Filter\Attribute
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {
@@ -85,7 +87,7 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
     /**
      * Check whether specified attribute can be used in LN
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @return bool
      */
     protected function _getIsFilterableAttribute($attribute)
@@ -110,7 +112,7 @@ class Magento_Catalog_Model_Layer_Filter_Attribute extends Magento_Catalog_Model
             if (is_array($option['value'])) {
                 continue;
             }
-            if (Mage::helper('Magento_Core_Helper_String')->strlen($option['value'])) {
+            if (\Mage::helper('Magento\Core\Helper\String')->strlen($option['value'])) {
                 // Check filter type
                 if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
                     if (!empty($optionsCount[$option['value']])) {

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends Magento_Backend_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
+
+class Front extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * @inheritdoc
@@ -24,11 +26,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends M
      */
     protected function _prepareForm()
     {
-        $attributeObject = Mage::registry('entity_attribute');
+        $attributeObject = \Mage::registry('entity_attribute');
 
         $form = new \Magento\Data\Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
 
-        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();;
+        $yesnoSource = \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();;
 
         $fieldset = $form->addFieldset(
             'front_fieldset',
@@ -137,7 +139,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Front extends M
         // define field dependencies
         $this->setChild(
             'form_after',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
                 ->addFieldMap("is_wysiwyg_enabled", 'wysiwyg_enabled')
                 ->addFieldMap("is_html_allowed_on_front", 'html_allowed_on_front')
                 ->addFieldMap("frontend_input", 'frontend_input_type')

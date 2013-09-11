@@ -15,13 +15,15 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_State extends \Magento\Object
+namespace Magento\Catalog\Model\Layer;
+
+class State extends \Magento\Object
 {
     /**
      * Add filter item to layer state
      *
-     * @param   Magento_Catalog_Model_Layer_Filter_Item $filter
-     * @return  Magento_Catalog_Model_Layer_State
+     * @param   \Magento\Catalog\Model\Layer\Filter\Item $filter
+     * @return  \Magento\Catalog\Model\Layer\State
      */
     public function addFilter($filter)
     {
@@ -35,12 +37,12 @@ class Magento_Catalog_Model_Layer_State extends \Magento\Object
      * Set layer state filter items
      *
      * @param   array $filters
-     * @return  Magento_Catalog_Model_Layer_State
+     * @return  \Magento\Catalog\Model\Layer\State
      */
     public function setFilters($filters)
     {
         if (!is_array($filters)) {
-            Mage::throwException(__('The filters must be an array.'));
+            \Mage::throwException(__('The filters must be an array.'));
         }
         $this->setData('filters', $filters);
         return $this;

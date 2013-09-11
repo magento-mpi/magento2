@@ -11,7 +11,9 @@
 /**
  * Cart link block
  */
-class Magento_GiftRegistry_Block_Cart_Link extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Cart;
+
+class Link extends \Magento\Core\Block\Template
 {
 
     /**
@@ -31,16 +33,16 @@ class Magento_GiftRegistry_Block_Cart_Link extends Magento_Core_Block_Template
      */
     public function getEnabled()
     {
-        return  Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled();
+        return  \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled();
     }
 
     /**
      * Return list of current customer gift registries
      *
-     * @return Magento_GiftRegistry_Model_Resource_GiftRegistry_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\GiftRegistry\Collection
      */
     public function getEntityValues()
     {
-        return Mage::helper('Magento_GiftRegistry_Helper_Data')->getCurrentCustomerEntityOptions();
+        return \Mage::helper('Magento\GiftRegistry\Helper\Data')->getCurrentCustomerEntityOptions();
     }
 }

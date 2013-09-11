@@ -9,7 +9,9 @@
 /**
  * Paypal Data helper
  */
-class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Paypal\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Cache for shouldAskToCreateBillingAgreement()
@@ -21,16 +23,16 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether customer should be asked confirmation whether to sign a billing agreement
      *
-     * @param Magento_Paypal_Model_Config $config
+     * @param \Magento\Paypal\Model\Config $config
      * @param int $customerId
      * @return bool
      */
-    public function shouldAskToCreateBillingAgreement(Magento_Paypal_Model_Config $config, $customerId)
+    public function shouldAskToCreateBillingAgreement(\Magento\Paypal\Model\Config $config, $customerId)
     {
         if (null === self::$_shouldAskToCreateBillingAgreement) {
             self::$_shouldAskToCreateBillingAgreement = false;
             if ($customerId && $config->shouldAskToCreateBillingAgreement()) {
-                if (Mage::getModel('Magento_Sales_Model_Billing_Agreement')->needToCreateForCustomer($customerId)) {
+                if (\Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->needToCreateForCustomer($customerId)) {
                     self::$_shouldAskToCreateBillingAgreement = true;
                 }
             }
@@ -57,6 +59,6 @@ class Magento_Paypal_Helper_Data extends Magento_Core_Helper_Abstract
         if (isset($config['disable_for_countries'])) {
             $config['disable_for_countries'] = explode(',', str_replace(' ', '', $config['disable_for_countries']));
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config);
     }
 }

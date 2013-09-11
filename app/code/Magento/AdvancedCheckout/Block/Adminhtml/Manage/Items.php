@@ -15,7 +15,9 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Adminhtml_Block_Template
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
+
+class Items extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Rterieve grid id in template
@@ -54,8 +56,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
      */
     public function displayTotalsIncludeTax()
     {
-        $res = Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalInclTax($this->getStore())
-            || Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth($this->getStore());
+        $res = \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartSubtotalInclTax($this->getStore())
+            || \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartSubtotalBoth($this->getStore());
 
         return $res;
     }
@@ -142,37 +144,37 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     /**
      * Return current quote from registry
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function getQuote()
     {
-        return Mage::registry('checkout_current_quote');
+        return \Mage::registry('checkout_current_quote');
     }
 
     /**
      * Return current store from registry
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function getStore()
     {
-        return Mage::registry('checkout_current_store');
+        return \Mage::registry('checkout_current_store');
     }
 
     /**
      * Return current customer from registry
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function getCustomer()
     {
-        return Mage::registry('checkout_current_customer');
+        return \Mage::registry('checkout_current_customer');
     }
 
     /**
      * Generate configure button html
      *
-     * @param  Magento_Sales_Model_Quote_Item $item
+     * @param  \Magento\Sales\Model\Quote\Item $item
      * @return string
      */
     public function getConfigureButtonHtml($item)
@@ -196,7 +198,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     /**
      * Returns whether moving to wishlist is allowed for this item
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return bool
      */
     public function isMoveToWishlistAllowed($item)
@@ -207,12 +209,12 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Items extends Magento_Admi
     /**
      * Retrieve collection of customer wishlists
      *
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getCustomerWishlists()
     {
-        /* @var Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlistCollection */
-        return Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection()
+        /* @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistCollection */
+        return \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->getCollection()
             ->filterByCustomerId($this->getCustomerId());
     }
 }

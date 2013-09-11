@@ -15,7 +15,9 @@
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Logging_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Logging\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Join array into string except empty values
@@ -50,6 +52,6 @@ class Magento_Logging_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getLoggingActionTranslatedLabel($action)
     {
-        return Mage::getSingleton('Magento_Logging_Model_Config')->getActionLabel($action);
+        return \Mage::getSingleton('Magento\Logging\Model\Config')->getActionLabel($action);
     }
 }

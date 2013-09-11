@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Enterprise_Model_Resource_Setup_Migration */
-$installer = Mage::getResourceModel('Magento_Enterprise_Model_Resource_Setup_Migration',
+/** @var $installer \Magento\Enterprise\Model\Resource\Setup\Migration */
+$installer = \Mage::getResourceModel('\Magento\Enterprise\Model\Resource\Setup\Migration',
     array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('magento_rma_item_eav_attribute', 'data_model',
-    Magento_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
-    Magento_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN,
+    \Magento\Enterprise\Model\Resource\Setup\Migration::ENTITY_TYPE_MODEL,
+    \Magento\Enterprise\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
     array('attribute_id')
 );
 $installer->doUpdateClassAliases();

@@ -16,9 +16,11 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Options
-    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
+
+class Options
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Return Tab label

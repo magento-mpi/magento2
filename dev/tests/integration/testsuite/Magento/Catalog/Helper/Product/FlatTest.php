@@ -12,19 +12,19 @@
 class Magento_Catalog_Helper_Product_FlatTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Product_Flat
+     * @var \Magento\Catalog\Helper\Product\Flat
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Catalog_Helper_Product_Flat');
+        $this->_helper = Mage::helper('Magento\Catalog\Helper\Product\Flat');
     }
 
     public function testGetFlag()
     {
         $flag = $this->_helper->getFlag();
-        $this->assertInstanceOf('Magento_Catalog_Model_Product_Flat_Flag', $flag);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Product\Flat\Flag', $flag);
     }
 
     public function testIsBuilt()

@@ -14,8 +14,8 @@
     <?php echo $this->getFormatedPrice() ?></dt>
 <dd<?php if ($_option->getDecoratedIsLast()):?> class="last"<?php endif; ?>>
 
-<?php if ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
-    || $_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DATE): ?>
+<?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME
+    || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE): ?>
 
     <?php echo $this->getDateHtml() ?>
 
@@ -37,8 +37,8 @@
 
 <?php endif; ?>
 
-<?php if ($_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_DATE_TIME
-    || $_option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_TIME): ?>
+<?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME
+    || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_TIME): ?>
     <span class="time-picker"><?php echo $this->getTimeHtml() ?></span>
 <?php endif; ?>
 

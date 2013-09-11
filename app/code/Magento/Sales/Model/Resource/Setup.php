@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
+namespace Magento\Sales\Model\Resource;
+
+class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
      * List of entities converted from EAV to flat data structure
@@ -77,7 +79,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @param int|string $entityTypeId
      * @param string $code
      * @param array $attr
-     * @return Magento_Sales_Model_Resource_Setup
+     * @return \Magento\Sales\Model\Resource\Setup
      */
     public function addAttribute($entityTypeId, $code, array $attr)
     {
@@ -98,7 +100,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @param string $table
      * @param string $attribute
      * @param array $attr
-     * @return Magento_Sales_Model_Resource_Setup
+     * @return \Magento\Sales\Model\Resource\Setup
      */
     protected function _addFlatAttribute($table, $attribute, $attr)
     {
@@ -118,7 +120,7 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
      * @param string $attribute
      * @param array $attr
      * @param string $entityTypeId
-     * @return Magento_Sales_Model_Resource_Setup
+     * @return \Magento\Sales\Model\Resource\Setup
      */
     protected function _addGridAttribute($table, $attribute, $attr, $entityTypeId)
     {
@@ -180,30 +182,30 @@ class Magento_Sales_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
     {
         $entities = array(
             'order'                       => array(
-                'entity_model'                   => 'Magento_Sales_Model_Resource_Order',
+                'entity_model'                   => '\Magento\Sales\Model\Resource\Order',
                 'table'                          => 'sales_flat_order',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => '\Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'invoice'                       => array(
-                'entity_model'                   => 'Magento_Sales_Model_Resource_Order_Invoice',
+                'entity_model'                   => '\Magento\Sales\Model\Resource\Order\Invoice',
                 'table'                          => 'sales_flat_invoice',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => '\Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'creditmemo'                       => array(
-                'entity_model'                   => 'Magento_Sales_Model_Resource_Order_Creditmemo',
+                'entity_model'                   => '\Magento\Sales\Model\Resource\Order\Creditmemo',
                 'table'                          => 'sales_flat_creditmemo',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => '\Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             ),
             'shipment'                       => array(
-                'entity_model'                   => 'Magento_Sales_Model_Resource_Order_Shipment',
+                'entity_model'                   => '\Magento\Sales\Model\Resource\Order\Shipment',
                 'table'                          => 'sales_flat_shipment',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => '\Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store'            => true,
                 'attributes'                     => array()
             )

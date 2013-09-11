@@ -16,9 +16,11 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
-    extends Magento_Adminhtml_Block_Catalog_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab;
+
+class Attributes
+    extends \Magento\Adminhtml\Block\Catalog\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected function _construct()
     {
@@ -38,7 +40,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
             'recurring_profile',
             'tier_price',
         ));
-        Mage::dispatchEvent('adminhtml_catalog_product_form_prepare_excluded_field_list', array('object'=>$this));
+        \Mage::dispatchEvent('adminhtml_catalog_product_form_prepare_excluded_field_list', array('object'=>$this));
 
         $form = new \Magento\Data\Form();
         $fieldset = $form->addFieldset('fields', array(
@@ -49,7 +51,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
          * Initialize product object as form property
          * for using it in elements generation
          */
-        $form->setDataObject(Mage::getModel('Magento_Catalog_Model_Product'));
+        $form->setDataObject(\Mage::getModel('\Magento\Catalog\Model\Product'));
         $this->_setFieldset($attributes, $fieldset, $this->getFormExcludedFieldList());
         $form->setFieldNameSuffix('attributes');
         $this->setForm($form);
@@ -62,7 +64,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
      */
     public function getAttributes()
     {
-        return $this->helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute')
+        return $this->helper('\Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute')
             ->getAttributes()->getItems();
     }
 
@@ -74,10 +76,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attribut
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'price' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price',
-            'weight' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight',
-            'image' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Image',
-            'boolean' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean',
+            'price' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price',
+            'weight' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight',
+            'image' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Image',
+            'boolean' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Boolean',
         );
     }
 

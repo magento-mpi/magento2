@@ -15,17 +15,19 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order\Shipment\View;
+
+class Tracking extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Prepares layout of block
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_View_Giftmessage
+     * @return \Magento\Adminhtml\Block\Sales\Order\View\Giftmessage
      */
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'   => __('Add'),
             'class'   => 'save',
             'onclick' => $onclick
@@ -35,11 +37,11 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Magento
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return \Mage::registry('current_shipment');
     }
 
     /**
@@ -96,7 +98,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Magento
     public function getCarriers()
     {
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('Magento_Shipping_Model_Config')->getAllCarriers(
+        $carrierInstances = \Mage::getSingleton('Magento\Shipping\Model\Config')->getAllCarriers(
             $this->getShipment()->getStoreId()
         );
         $carriers['custom'] = __('Custom Value');
@@ -110,7 +112,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking extends Magento
 
     public function getCarrierTitle($code)
     {
-        if ($carrier = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($code)) {
+        if ($carrier = \Mage::getSingleton('Magento\Shipping\Model\Config')->getCarrierInstance($code)) {
             return $carrier->getConfigData('title');
         }
         else {

@@ -11,8 +11,10 @@
 /**
  * Fieldset renderer for PayPal solution
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
-    extends Magento_Backend_Block_System_Config_Form_Fieldset
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
+
+class Payment
+    extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
      * Add custom css class
@@ -41,7 +43,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Payment
             return false;
         }
 
-        $isPaymentEnabled = (string)Mage::getSingleton('Magento_Backend_Model_Config')->getConfigDataValue($activityPath);
+        $isPaymentEnabled = (string)\Mage::getSingleton('Magento\Backend\Model\Config')->getConfigDataValue($activityPath);
 
         return (bool)$isPaymentEnabled;
     }

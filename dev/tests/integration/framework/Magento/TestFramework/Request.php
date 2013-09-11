@@ -12,7 +12,7 @@
 /**
  * HTTP request implementation that is used instead core one for testing
  */
-class Magento_TestFramework_Request extends Magento_Core_Controller_Request_Http
+class Magento_TestFramework_Request extends \Magento\Core\Controller\Request\Http
 {
     /**
      * Server super-global mock

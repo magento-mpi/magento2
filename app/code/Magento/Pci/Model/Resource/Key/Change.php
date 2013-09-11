@@ -17,10 +17,12 @@
  * @package     Magento_Pci
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Pci\Model\Resource\Key;
+
+class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var Magento_Pci_Model_Encryption
+     * @var \Magento\Pci\Model\Encryption
      */
     protected $_encryptor;
 
@@ -32,10 +34,10 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(Magento_Core_Model_Resource $resource, \Magento\Filesystem $filesystem)
+    public function __construct(\Magento\Core\Model\Resource $resource, \Magento\Filesystem $filesystem)
     {
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
@@ -53,12 +55,12 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
     /**
      * Re-encrypt all encrypted data in the database
      *
-     * @throws Exception
+     * @throws \Exception
      * @param bool $safe Specifies whether wrapping re-encryption into the database transaction or not
      */
     public function reEncryptDatabaseValues($safe = true)
     {
-        $this->_encryptor = clone Mage::helper('Magento_Core_Helper_Data')->getEncryptor();
+        $this->_encryptor = clone \Mage::helper('Magento\Core\Helper\Data')->getEncryptor();
 
         // update database only
         if ($safe) {
@@ -71,7 +73,7 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
                 $this->commit();
             }
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             if ($safe) {
                 $this->rollBack();
             }
@@ -82,25 +84,25 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
     /**
      * Change encryption key
      *
-     * @throws Exception
+     * @throws \Exception
      * @param string $key
      * @return string
      */
     public function changeEncryptionKey($key = null)
     {
-        $this->_filesystem->setWorkingDirectory(Mage::getBaseDir('etc'));
+        $this->_filesystem->setWorkingDirectory(\Mage::getBaseDir('etc'));
         // prepare new key, encryptor and new file contents
-        $file = Mage::getBaseDir('etc') . DS . 'local.xml';
+        $file = \Mage::getBaseDir('etc') . DS . 'local.xml';
 
         if (!$this->_filesystem->isWritable($file)) {
-            throw new Exception(__('File %1 is not writeable.', $file));
+            throw new \Exception(__('File %1 is not writeable.', $file));
         }
 
         $contents = $this->_filesystem->read($file);
         if (null === $key) {
             $key = md5(time());
         }
-        $this->_encryptor = clone Mage::helper('Magento_Core_Helper_Data')->getEncryptor();
+        $this->_encryptor = clone \Mage::helper('Magento\Core\Helper\Data')->getEncryptor();
         $this->_encryptor->setNewKey($key);
         $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', 
             '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents
@@ -115,7 +117,7 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
             $this->commit();
             return $key;
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -128,11 +130,11 @@ class Magento_Pci_Model_Resource_Key_Change extends Magento_Core_Model_Resource_
     protected function _reEncryptSystemConfigurationValues()
     {
         // look for encrypted node entries in all system.xml files
-        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
+        /** @var \Magento\Backend\Model\Config\Structure $configStructure  */
+        $configStructure = \Mage::getSingleton('Magento\Backend\Model\Config\Structure');
         $paths = $configStructure->getFieldPathsByAttribute(
             'backend_model',
-            'Magento_Backend_Model_Config_Backend_Encrypted'
+            '\Magento\Backend\Model\Config\Backend\Encrypted'
         );
 
         // walk through found data and re-encrypt it

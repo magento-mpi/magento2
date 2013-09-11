@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Image_AdapterFactory
+namespace Magento\Core\Model\Image;
+
+class AdapterFactory
 {
     const ADAPTER_GD2   = 'GD2';
     const ADAPTER_IM    = 'IMAGEMAGICK';
@@ -26,31 +28,31 @@ class Magento_Core_Model_Image_AdapterFactory
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_Core_Model_Config_Storage_WriterInterface
+     * @var \Magento\Core\Model\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Magento_Core_Model_Config $configModel
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\Core\Model\Config $configModel
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Magento_Core_Model_Config $configModel
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
+        \Magento\Core\Model\Config $configModel
     ) {
         $this->_objectManager = $objectManager;
         $this->_storeConfig = $storeConfig;
@@ -67,8 +69,8 @@ class Magento_Core_Model_Image_AdapterFactory
      *
      * @param string $adapterType
      * @return \Magento\Image\Adapter\AbstractAdapter
-     * @throws InvalidArgumentException
-     * @throws Exception if some of dependecies are missing
+     * @throws \InvalidArgumentException
+     * @throws \Exception if some of dependecies are missing
      */
     public function create($adapterType = null)
     {
@@ -76,7 +78,7 @@ class Magento_Core_Model_Image_AdapterFactory
             $adapterType = $this->_getImageAdapterType();
         }
         if (!isset($this->_adapterClasses[$adapterType])) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 __('Invalid adapter selected.')
             );
         }
@@ -89,7 +91,7 @@ class Magento_Core_Model_Image_AdapterFactory
      * Returns image adapter type
      *
      * @return string|null
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function _getImageAdapterType()
     {
@@ -103,18 +105,18 @@ class Magento_Core_Model_Image_AdapterFactory
                     $this->_configWriter->save(
                         self::XML_PATH_IMAGE_ADAPTER,
                         $adapter,
-                        Magento_Core_Model_Config::SCOPE_DEFAULT
+                        \Magento\Core\Model\Config::SCOPE_DEFAULT
                     );
 
                     $this->_config->reinit();
                     $adapterType = $adapter;
                     break;
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $errorMessage .= $e->getMessage();
                 }
             }
             if (!isset($adapterType)) {
-                 throw new Magento_Core_Exception($errorMessage);
+                 throw new \Magento\Core\Exception($errorMessage);
             }
         }
         return $adapterType;

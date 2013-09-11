@@ -16,7 +16,9 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Sales_Order_Email_Items_Order_Downloadable extends Magento_Sales_Block_Order_Email_Items_Order_Default
+namespace Magento\Downloadable\Block\Sales\Order\Email\Items\Order;
+
+class Downloadable extends \Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder
 {
     protected $_purchased = null;
 
@@ -27,9 +29,9 @@ class Magento_Downloadable_Block_Sales_Order_Email_Items_Order_Downloadable exte
      */
     public function getLinks()
     {
-        $this->_purchased = Mage::getModel('Magento_Downloadable_Model_Link_Purchased')
+        $this->_purchased = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased')
             ->load($this->getItem()->getOrder()->getId(), 'order_id');
-        $purchasedLinks = Mage::getModel('Magento_Downloadable_Model_Link_Purchased_Item')->getCollection()
+        $purchasedLinks = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased\Item')->getCollection()
             ->addFieldToFilter('order_item_id', $this->getItem()->getId());
         $this->_purchased->setPurchasedItems($purchasedLinks);
 
@@ -41,7 +43,7 @@ class Magento_Downloadable_Block_Sales_Order_Email_Items_Order_Downloadable exte
         if ($this->_purchased->getLinkSectionTitle()) {
             return $this->_purchased->getLinkSectionTitle();
         }
-        return Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return \Mage::getStoreConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
     }
 
     public function getPurchasedLinkUrl($item)

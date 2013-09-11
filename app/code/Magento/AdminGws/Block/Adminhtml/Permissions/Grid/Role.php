@@ -12,12 +12,14 @@
  * Admin roles grid
  *
  */
-class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Magento_Backend_Block_Widget_Grid
+namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid;
+
+class Role extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * Add allowed websites/stores column
      *
-     * @return Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Role
+     * @return \Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Role
      */
     protected function _prepareColumns()
     {
@@ -28,7 +30,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Magento_Bac
             'width'    => '200',
             'sortable' => false,
             'filter'   => false,
-            'renderer' => 'Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws'
+            'renderer' => '\Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer\Gws'
         ));
 
         return $this;

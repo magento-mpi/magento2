@@ -12,23 +12,25 @@
  * Sales archive order view replacer for archive
  *
  */
-class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
-    extends Magento_Adminhtml_Block_Sales_Order_Abstract
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View;
+
+class Replacer
+    extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     protected function _prepareLayout()
     {
         if ($this->getOrder()->getIsArchived()) {
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
                 'magento_order_shipments',
-                'Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Shipments'
+                '\Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Shipments'
             );
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
                 'magento_order_invoices',
-                'Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Invoices'
+                '\Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Invoices'
             );
             $this->getLayout()->getBlock('sales_order_tabs')->addTab(
                 'magento_order_creditmemos',
-                'Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos'
+                '\Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Creditmemos'
             );
 
             $restoreUrl = $this->getUrl(
@@ -43,7 +45,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Replacer
                 ));
             }
         } elseif ($this->getOrder()->getIsMoveable() !== false) {
-            $isActive = Mage::getSingleton('Magento_SalesArchive_Model_Config')->isArchiveActive();
+            $isActive = \Mage::getSingleton('Magento\SalesArchive\Model\Config')->isArchiveActive();
             if ($isActive) {
                 $archiveUrl = $this->getUrl(
                     '*/sales_archive/add',

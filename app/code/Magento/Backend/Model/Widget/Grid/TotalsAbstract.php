@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
-    implements Magento_Backend_Model_Widget_Grid_TotalsInterface
+namespace Magento\Backend\Model\Widget\Grid;
+
+abstract class TotalsAbstract
+    implements \Magento\Backend\Model\Widget\Grid\TotalsInterface
 {
     /**
      * List of columns should be proceed with expression
@@ -39,15 +41,15 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
     /**
      * Parser for expressions like operand operation operand
      *
-     * @var Magento_Backend_Model_Widget_Grid_Parser
+     * @var \Magento\Backend\Model\Widget\Grid\Parser
      */
     protected $_parser;
 
     /**
      * @param \Magento\Object\Factory $factory
-     * @param Magento_Backend_Model_Widget_Grid_Parser $parser
+     * @param \Magento\Backend\Model\Widget\Grid\Parser $parser
      */
-    public function __construct(\Magento\Object\Factory $factory, Magento_Backend_Model_Widget_Grid_Parser $parser)
+    public function __construct(\Magento\Object\Factory $factory, \Magento\Backend\Model\Widget\Grid\Parser $parser)
     {
         $this->_factory = $factory;
         $this->_parser = $parser;
@@ -201,7 +203,7 @@ abstract class Magento_Backend_Model_Widget_Grid_TotalsAbstract
      *
      * @param string $index
      * @param string $totalExpr
-     * @return Magento_Backend_Model_Widget_Grid_TotalsAbstract
+     * @return \Magento\Backend\Model\Widget\Grid\TotalsAbstract
      */
     public function setColumn($index, $totalExpr)
     {

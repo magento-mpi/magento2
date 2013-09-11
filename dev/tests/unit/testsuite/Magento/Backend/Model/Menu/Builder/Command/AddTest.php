@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Menu_Builder_Command_AddTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu_Builder_Command_Add
+     * @var \Magento\Backend\Model\Menu\Builder\Command\Add
      */
     protected $_model;
 
@@ -26,7 +26,7 @@ class Magento_Backend_Model_Menu_Builder_Command_AddTest extends PHPUnit_Framewo
 
     public function setUp()
     {
-        $this->_model = new Magento_Backend_Model_Menu_Builder_Command_Add($this->_params);
+        $this->_model = new \Magento\Backend\Model\Menu\Builder\Command\Add($this->_params);
     }
 
     public function testExecuteFillsEmptyItemWithData()
@@ -47,6 +47,6 @@ class Magento_Backend_Model_Menu_Builder_Command_AddTest extends PHPUnit_Framewo
      */
     public function testChainWithAnotherAddCommandTrowsException()
     {
-        $this->_model->chain(new Magento_Backend_Model_Menu_Builder_Command_Add($this->_params));
+        $this->_model->chain(new \Magento\Backend\Model\Menu\Builder\Command\Add($this->_params));
     }
 }

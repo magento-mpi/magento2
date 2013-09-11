@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Grid extends Magento_Backend_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Order;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
 
 }

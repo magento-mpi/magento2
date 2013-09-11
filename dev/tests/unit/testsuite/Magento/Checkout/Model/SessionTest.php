@@ -7,14 +7,14 @@
  */
 
 /**
- * Test class for Magento_Checkout_Model_Session
+ * Test class for \Magento\Checkout\Model\Session
  */
 class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @param int|null $orderId
      * @param int|null $incrementId
-     * @param Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject $orderMock
+     * @param \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject $orderMock
      * @dataProvider getLastRealOrderDataProvider
      */
     public function testGetLastRealOrder($orderId, $incrementId, $orderMock)
@@ -27,7 +27,7 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($orderMock));
 
-        $session = $this->getMockBuilder('Magento_Checkout_Model_Session')
+        $session = $this->getMockBuilder('Magento\Checkout\Model\Session')
             ->setConstructorArgs(array($orderFactory))
             ->setMethods(array('init'))
             ->getMock();
@@ -54,12 +54,12 @@ class Magento_Checkout_Model_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * @param int|null $incrementId
      * @param int|null $orderId
-     * @return Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getOrderMock($incrementId, $orderId)
     {
-        /** @var $order PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Model_Order */
-        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
+        /** @var $order PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order */
+        $order = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->setMethods(array('getIncrementId', 'loadByIncrementId'))
             ->getMock();

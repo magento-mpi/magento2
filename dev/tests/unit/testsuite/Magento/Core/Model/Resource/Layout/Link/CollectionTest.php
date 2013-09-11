@@ -25,11 +25,11 @@ class Magento_Core_Model_Resource_Layout_Link_CollectionTest extends Magento_Cor
 
     /**
      * @param Zend_Db_Select $select
-     * @return Magento_Core_Model_Resource_Layout_Link_Collection
+     * @return \Magento\Core\Model\Resource\Layout\Link\Collection
      */
     protected function _getCollection(Zend_Db_Select $select)
     {
-        return new Magento_Core_Model_Resource_Layout_Link_Collection(
+        return new \Magento\Core\Model\Resource\Layout\Link\Collection(
             $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface'),
             $this->_getResource($select)
         );
@@ -70,7 +70,7 @@ class Magento_Core_Model_Resource_Layout_Link_CollectionTest extends Magento_Cor
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Layout_Link_Collection::_joinWithUpdate
+     * @covers \Magento\Core\Model\Resource\Layout\Link\Collection::_joinWithUpdate
      */
     public function testJoinWithUpdate()
     {

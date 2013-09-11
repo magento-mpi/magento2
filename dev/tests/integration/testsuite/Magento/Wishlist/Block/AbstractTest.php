@@ -12,15 +12,15 @@
 class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Wishlist_Block_Abstract
+     * @var \Magento\Wishlist\Block\AbstractBlock
      */
     protected $_block;
 
     protected function setUp()
     {
         $this->_block = $this->getMockForAbstractClass(
-            'Magento_Wishlist_Block_Abstract',
-            array(Mage::getSingleton('Magento_Core_Block_Template_Context'))
+            '\Magento\Wishlist\Block\AbstractBlock',
+            array(Mage::getSingleton('Magento\Core\Block\Template\Context'))
         );
     }
 
@@ -30,11 +30,11 @@ class Magento_Wishlist_Block_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testImage()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1);
 
         $size = $this->_block->getImageSize();

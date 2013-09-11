@@ -12,13 +12,13 @@
 class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Customer_Model_Address_Config
+     * @var \Magento\Customer\Model\Address\Config
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento_Customer_Model_Address_Config');
+        $this->_model= Mage::getModel('\Magento\Customer\Model\Address\Config');
     }
 
     /**
@@ -50,7 +50,7 @@ class Magento_Customer_Model_Address_ConfigTest extends PHPUnit_Framework_TestCa
             }
 
             $this->assertInstanceOf(
-                Magento_Customer_Model_Address_Config::DEFAULT_ADDRESS_RENDERER,
+                \Magento\Customer\Model\Address\Config::DEFAULT_ADDRESS_RENDERER,
                 $format->getRenderer()
             );
         }

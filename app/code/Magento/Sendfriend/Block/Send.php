@@ -16,7 +16,9 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
+namespace Magento\Sendfriend\Block;
+
+class Send extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve username for form field
@@ -30,8 +32,8 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
             return trim($name);
         }
 
-        /* @var $session Magento_Customer_Model_Session */
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        /* @var $session \Magento\Customer\Model\Session */
+        $session = \Mage::getSingleton('Magento\Customer\Model\Session');
 
         if ($session->isLoggedIn()) {
             return $session->getCustomer()->getName();
@@ -52,8 +54,8 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
             return trim($email);
         }
 
-        /* @var $session Magento_Customer_Model_Session */
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        /* @var $session \Magento\Customer\Model\Session */
+        $session = \Mage::getSingleton('Magento\Customer\Model\Session');
 
         if ($session->isLoggedIn()) {
             return $session->getCustomer()->getEmail();
@@ -92,7 +94,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
      * Set Form data array
      *
      * @param array $data
-     * @return Magento_Sendfriend_Block_Send
+     * @return \Magento\Sendfriend\Block\Send
      */
     public function setFormData($data)
     {
@@ -130,7 +132,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
      */
     public function getMaxRecipients()
     {
-        return Mage::helper('Magento_Sendfriend_Helper_Data')->getMaxRecipients();
+        return \Mage::helper('Magento\Sendfriend\Helper\Data')->getMaxRecipients();
     }
 
     /**
@@ -140,7 +142,7 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
      */
     public function getSendUrl()
     {
-        return Mage::getUrl('*/*/sendmail', array(
+        return \Mage::getUrl('*/*/sendmail', array(
             'id'     => $this->getProductId(),
             'cat_id' => $this->getCategoryId()
         ));
@@ -149,11 +151,11 @@ class Magento_Sendfriend_Block_Send extends Magento_Core_Block_Template
     /**
      * Return send friend model
      *
-     * @return Magento_Sendfriend_Model_Sendfriend
+     * @return \Magento\Sendfriend\Model\Sendfriend
      */
     protected function _getSendfriendModel()
     {
-        return Mage::registry('send_to_friend_model');
+        return \Mage::registry('send_to_friend_model');
     }
 
     /**

@@ -64,7 +64,7 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
      */
     public function testDownloadableLinkItems()
     {
-        /** @var Magento_Catalog_Model_Product $product */
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = Mage::registry('downloadable');
         $productId = $product->getId();
 
@@ -73,7 +73,7 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
             'catalogProductDownloadableLinkList',
             array('productId' => $productId)
         );
-        /** @var Magento_Downloadable_Model_Product_Type $downloadable */
+        /** @var \Magento\Downloadable\Model\Product\Type $downloadable */
         $downloadable = $product->getTypeInstance();
         $links = $downloadable->getLinks($product);
 
@@ -95,9 +95,9 @@ class Magento_Downloadable_Model_Product_Api_LinkCRUDTest extends PHPUnit_Framew
      */
     public function testDownloadableLinkRemove()
     {
-        /** @var Magento_Catalog_Model_Product $product */
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = Mage::registry('downloadable');
-        /** @var Magento_Downloadable_Model_Product_Type $downloadable */
+        /** @var \Magento\Downloadable\Model\Product\Type $downloadable */
         $downloadable = $product->getTypeInstance();
         $links = $downloadable->getLinks($product);
         foreach ($links as $link) {

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product;
+
+class Edit extends \Magento\Adminhtml\Block\Widget
 {
     protected $_template = 'catalog/product/edit.phtml';
 
@@ -29,22 +31,22 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
     /**
      * Retrieve currently edited product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return \Mage::registry('current_product');
     }
 
     /**
      * Add elements in layout
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit
      */
     protected function _prepareLayout()
     {
         if (!$this->getRequest()->getParam('popup')) {
-            $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Back'),
                 'title' => __('Back'),
                 'onclick' => 'setLocation(\''
@@ -52,7 +54,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
                 'class' => 'action-back'
             ));
         } else {
-            $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Close Window'),
                 'onclick' => 'window.close()',
                 'class' => 'cancel'
@@ -60,17 +62,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('reset_button', '\Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Reset'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('_current' => true)) . '\')'
             ));
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->addChild('save-split-button', 'Magento_Backend_Block_Widget_Button_Split', array(
+            $this->addChild('save-split-button', '\Magento\Backend\Block\Widget\Button\Split', array(
                 'id' => 'save-split-button',
                 'label' => __('Save'),
-                'class_name' => 'Magento_Backend_Block_Widget_Button_Split',
+                'class_name' => '\Magento\Backend\Block\Widget\Button\Split',
                 'button_class' => 'widget-button-save',
                 'options' => $this->_getSaveSplitButtonOptions()
             ));
@@ -176,7 +178,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
     public function getAttributeSetName()
     {
         if ($setId = $this->getProduct()->getAttributeSetId()) {
-            $set = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+            $set = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
                 ->load($setId);
             return $set->getAttributeSetName();
         }
@@ -208,7 +210,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
      */
     public function getFieldsAutogenerationMasks()
     {
-        return $this->helper('Magento_Catalog_Helper_Product')->getFieldsAutogenerationMasks();
+        return $this->helper('\Magento\Catalog\Helper\Product')->getFieldsAutogenerationMasks();
     }
 
     /**
@@ -218,7 +220,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
      */
     public function getAttributesAllowedForAutogeneration()
     {
-        return $this->helper('Magento_Catalog_Helper_Product')->getAttributesAllowedForAutogeneration();
+        return $this->helper('\Magento\Catalog\Helper\Product')->getAttributesAllowedForAutogeneration();
     }
 
     /**
@@ -228,9 +230,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
      */
     public function getTypeSwitcherData()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array(
             'tab_id' => 'product_info_tabs_downloadable_items',
-            'is_virtual_id' => Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight::VIRTUAL_FIELD_HTML_ID,
+            'is_virtual_id' => \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight::VIRTUAL_FIELD_HTML_ID,
             'weight_id' => 'weight',
             'current_type' => $this->getProduct()->getTypeId(),
             'attributes' => $this->_getAttributes(),
@@ -244,7 +246,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit extends Magento_Adminhtml_Blo
      */
     protected function _getAttributes()
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->getProduct();
         $attributes = array();
 

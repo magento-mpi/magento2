@@ -12,13 +12,13 @@
 class Magento_Customer_Model_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Customer_Model_Form
+     * @var \Magento\Customer\Model\Form
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento_Customer_Model_Form');
+        $this->_model= Mage::getModel('\Magento\Customer\Model\Form');
         $this->_model->setFormCode('customer_account_create');
     }
 

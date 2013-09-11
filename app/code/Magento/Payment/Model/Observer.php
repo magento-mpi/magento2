@@ -15,7 +15,9 @@
  * @package     Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Model_Observer
+namespace Magento\Payment\Model;
+
+class Observer
 {
     /**
      * @var \Magento\ObjectManager
@@ -33,7 +35,7 @@ class Magento_Payment_Model_Observer
      * Set forced canCreditmemo flag
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Payment_Model_Observer
+     * @return \Magento\Payment\Model\Observer
      */
     public function salesOrderBeforeSave($observer)
     {
@@ -47,7 +49,7 @@ class Magento_Payment_Model_Observer
             return $this;
         }
 
-        if ($order->isCanceled() || $order->getState() === Magento_Sales_Model_Order::STATE_CLOSED) {
+        if ($order->isCanceled() || $order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
             return $this;
         }
         /**
@@ -75,9 +77,9 @@ class Magento_Payment_Model_Observer
             return;
         }
 
-        $profile = Mage::getModel('Magento_Payment_Model_Recurring_Profile')
-            ->setLocale(Mage::app()->getLocale())
-            ->setStore(Mage::app()->getStore())
+        $profile = \Mage::getModel('\Magento\Payment\Model\Recurring\Profile')
+            ->setLocale(\Mage::app()->getLocale())
+            ->setStore(\Mage::app()->getStore())
             ->importBuyRequest($buyRequest)
             ->importProduct($product);
         if (!$profile) {
@@ -85,7 +87,7 @@ class Magento_Payment_Model_Observer
         }
 
         // add the start datetime as product custom option
-        $product->addCustomOption(Magento_Payment_Model_Recurring_Profile::PRODUCT_OPTIONS_KEY,
+        $product->addCustomOption(\Magento\Payment\Model\Recurring\Profile::PRODUCT_OPTIONS_KEY,
             serialize(array('start_datetime' => $profile->getStartDatetime()))
         );
 
@@ -112,9 +114,9 @@ class Magento_Payment_Model_Observer
      */
     public function beforeOrderPaymentSave(\Magento\Event\Observer $observer)
     {
-        /** @var Magento_Sales_Model_Order_Payment $payment */
+        /** @var \Magento\Sales\Model\Order\Payment $payment */
         $payment = $observer->getEvent()->getPayment();
-        if($payment->getMethod() === Magento_Payment_Model_Method_Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
+        if($payment->getMethod() === \Magento\Payment\Model\Method\Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
             $payment->setAdditionalInformation('instructions',
                 $payment->getMethodInstance()->getInstructions());
         }
@@ -125,16 +127,16 @@ class Magento_Payment_Model_Observer
      */
     public function updateOrderStatusForPaymentMethods(\Magento\Event\Observer $observer)
     {
-        if ($observer->getEvent()->getState() !== Magento_Sales_Model_Order::STATE_NEW) {
+        if ($observer->getEvent()->getState() !== \Magento\Sales\Model\Order::STATE_NEW) {
             return;
         }
         $status = $observer->getEvent()->getStatus();
-        $defaultStatus = $this->_objectManager->get('Magento_Sales_Model_Order_Config')
-            ->getStateDefaultStatus(Magento_Sales_Model_Order::STATE_NEW);
-        $methods = $this->_objectManager->get('Magento_Payment_Model_Config')->getActiveMethods();
+        $defaultStatus = $this->_objectManager->get('Magento\Sales\Model\Order\Config')
+            ->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_NEW);
+        $methods = $this->_objectManager->get('Magento\Payment\Model\Config')->getActiveMethods();
         foreach ($methods as $method) {
             if ($method->getConfigData('order_status') == $status) {
-                $this->_objectManager->get('Magento_Core_Model_Resource_Config')
+                $this->_objectManager->get('Magento\Core\Model\Resource\Config')
                     ->saveConfig('payment/' . $method->getCode() . '/order_status', $defaultStatus, 'default', 0);
             }
         }

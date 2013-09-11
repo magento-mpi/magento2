@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Dir_Verification
+namespace Magento\Core\Model\Dir;
+
+class Verification
 {
     /**
      * Codes of directories to create and verify in production mode
@@ -15,12 +17,12 @@ class Magento_Core_Model_Dir_Verification
      * @var array
      */
     protected static $_productionDirs = array(
-        Magento_Core_Model_Dir::MEDIA,
-        Magento_Core_Model_Dir::VAR_DIR,
-        Magento_Core_Model_Dir::TMP,
-        Magento_Core_Model_Dir::CACHE,
-        Magento_Core_Model_Dir::LOG,
-        Magento_Core_Model_Dir::SESSION,
+        \Magento\Core\Model\Dir::MEDIA,
+        \Magento\Core\Model\Dir::VAR_DIR,
+        \Magento\Core\Model\Dir::TMP,
+        \Magento\Core\Model\Dir::CACHE,
+        \Magento\Core\Model\Dir::LOG,
+        \Magento\Core\Model\Dir::SESSION,
     );
 
     /**
@@ -29,13 +31,13 @@ class Magento_Core_Model_Dir_Verification
      * @var array
      */
     protected static $_nonProductionDirs = array(
-        Magento_Core_Model_Dir::MEDIA,
-        Magento_Core_Model_Dir::STATIC_VIEW,
-        Magento_Core_Model_Dir::VAR_DIR,
-        Magento_Core_Model_Dir::TMP,
-        Magento_Core_Model_Dir::CACHE,
-        Magento_Core_Model_Dir::LOG,
-        Magento_Core_Model_Dir::SESSION,
+        \Magento\Core\Model\Dir::MEDIA,
+        \Magento\Core\Model\Dir::STATIC_VIEW,
+        \Magento\Core\Model\Dir::VAR_DIR,
+        \Magento\Core\Model\Dir::TMP,
+        \Magento\Core\Model\Dir::CACHE,
+        \Magento\Core\Model\Dir::LOG,
+        \Magento\Core\Model\Dir::SESSION,
     );
 
     /**
@@ -44,7 +46,7 @@ class Magento_Core_Model_Dir_Verification
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
@@ -59,13 +61,13 @@ class Magento_Core_Model_Dir_Verification
      * Constructor - initialize object with required dependencies, determine application state
      *
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Model\App\State $appState
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Core_Model_App_State $appState
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Model\App\State $appState
     ) {
         $this->_filesystem = $filesystem;
         $this->_dirs = $dirs;
@@ -75,13 +77,13 @@ class Magento_Core_Model_Dir_Verification
     /**
      * Return list of directories, that must be verified according to the application mode
      *
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\App\State $appState
      * @return array
      */
-    protected function _getDirsToVerify(Magento_Core_Model_App_State $appState)
+    protected function _getDirsToVerify(\Magento\Core\Model\App\State $appState)
     {
         $result = array();
-        $codes = ($appState->getMode() == Magento_Core_Model_App_State::MODE_PRODUCTION)
+        $codes = ($appState->getMode() == \Magento\Core\Model\App\State::MODE_PRODUCTION)
             ? self::$_productionDirs
             : self::$_nonProductionDirs;
         foreach ($codes as $code) {

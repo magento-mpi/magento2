@@ -7,13 +7,13 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 
 $installer->startSetup();
 
-$entityTypeId = $installer->getEntityTypeId(Magento_Catalog_Model_Category::ENTITY);
+$entityTypeId = $installer->getEntityTypeId(\Magento\Catalog\Model\Category::ENTITY);
 $attributeId = $installer->getAttributeId($entityTypeId, 'filter_price_range');
 $attributeTableOld = $installer->getAttributeTable($entityTypeId, $attributeId);
 
@@ -44,9 +44,8 @@ if ($attributeTableOld != $attributeTableNew) {
     $connection->enableTableKeys($attributeTableOld)
         ->enableTableKeys($attributeTableNew);
 }
-
-Mage::getModel('Magento_Index_Model_Indexer')
-    ->getProcessByCode(Magento_Catalog_Helper_Category_Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE)
-    ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+ \Mage::getModel('\Magento\Index\Model\Indexer')
+    ->getProcessByCode(\Magento\Catalog\Helper\Category\Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE)
+    ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
 
 $installer->endSetup();

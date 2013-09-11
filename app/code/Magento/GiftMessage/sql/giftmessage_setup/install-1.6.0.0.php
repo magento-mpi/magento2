@@ -9,7 +9,7 @@
  */
 
 
-/** @var $installer Magento_GiftMessage_Model_Resource_Setup */
+/** @var $installer \Magento\GiftMessage\Model\Resource\Setup */
 
 $installer = $this;
 $installer->startSetup();
@@ -63,24 +63,23 @@ foreach ($entities as $entity) {
 /**
  * Add 'gift_message_available' attributes for entities
  */
-$installer->addAttribute('order_item', 'gift_message_available', $options);
-Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'))->addAttribute(
-    Magento_Catalog_Model_Product::ENTITY, 'gift_message_available',
+$installer->addAttribute('order_item', 'gift_message_available', $options); \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'))->addAttribute(
+    \Magento\Catalog\Model\Product::ENTITY, 'gift_message_available',
     array(
         'group'         => 'Gift Options',
-        'backend'       => 'Magento_Catalog_Model_Product_Attribute_Backend_Boolean',
+        'backend'       => '\Magento\Catalog\Model\Product\Attribute\Backend\Boolean',
         'frontend'      => '',
         'label'         => 'Allow Gift Message',
         'input'         => 'select',
         'class'         => '',
-        'source'        => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
+        'source'        => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean',
         'global'        => true,
         'visible'       => true,
         'required'      => false,
         'user_defined'  => false,
         'default'       => '',
         'apply_to'      => '',
-        'input_renderer'   => 'Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config',
+        'input_renderer'   => '\Magento\GiftMessage\Block\Adminhtml\Product\Helper\Form\Config',
         'is_configurable'  => 0,
         'visible_on_front' => false
     )

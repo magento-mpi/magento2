@@ -11,7 +11,9 @@
 /**
  * Backend menu model
  */
-class Magento_Backend_Model_Menu extends ArrayObject
+namespace Magento\Backend\Model;
+
+class Menu extends \ArrayObject
 {
     /**
      * Name of special logger key for debugging building menu
@@ -26,37 +28,37 @@ class Magento_Backend_Model_Menu extends ArrayObject
     protected $_path = '';
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      * @param string $pathInMenuStructure
      */
-    public function __construct(Magento_Core_Model_Logger $logger, $pathInMenuStructure = '')
+    public function __construct(\Magento\Core\Model\Logger $logger, $pathInMenuStructure = '')
     {
         if ($pathInMenuStructure) {
             $this->_path = $pathInMenuStructure . '/';
         }
         $this->_logger = $logger;
-        $this->setIteratorClass('Magento_Backend_Model_Menu_Iterator');
+        $this->setIteratorClass('\Magento\Backend\Model\Menu\Iterator');
     }
 
     /**
      * Add child to menu item
      *
-     * @param Magento_Backend_Model_Menu_Item $item
+     * @param \Magento\Backend\Model\Menu\Item $item
      * @param string $parentId
      * @param int $index
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function add(Magento_Backend_Model_Menu_Item $item, $parentId = null, $index = null)
+    public function add(\Magento\Backend\Model\Menu\Item $item, $parentId = null, $index = null)
     {
         if (!is_null($parentId)) {
             $parentItem = $this->get($parentId);
             if ($parentItem === null) {
-                throw new InvalidArgumentException("Item with identifier {$parentId} does not exist");
+                throw new \InvalidArgumentException("Item with identifier {$parentId} does not exist");
             }
             $parentItem->getChildren()->add($item, null, $index);
         } else {
@@ -77,13 +79,13 @@ class Magento_Backend_Model_Menu extends ArrayObject
      * Retrieve menu item by id
      *
      * @param string $itemId
-     * @return Magento_Backend_Model_Menu_Item|null
+     * @return \Magento\Backend\Model\Menu\Item|null
      */
     public function get($itemId)
     {
         $result = null;
         foreach ($this as $item) {
-            /** @var $item Magento_Backend_Model_Menu_Item */
+            /** @var $item \Magento\Backend\Model\Menu\Item */
             if ($item->getId() == $itemId) {
                 $result = $item;
                 break;
@@ -102,13 +104,13 @@ class Magento_Backend_Model_Menu extends ArrayObject
      * @param string $itemId
      * @param string $toItemId
      * @param int $sortIndex
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function move($itemId, $toItemId, $sortIndex = null)
     {
         $item = $this->get($itemId);
         if ($item === null) {
-            throw new InvalidArgumentException("Item with identifier {$itemId} does not exist");
+            throw new \InvalidArgumentException("Item with identifier {$itemId} does not exist");
         }
         $this->remove($itemId);
         $this->add($item, $toItemId, $sortIndex);
@@ -124,7 +126,7 @@ class Magento_Backend_Model_Menu extends ArrayObject
     {
         $result = false;
         foreach ($this as $key => $item) {
-            /** @var $item Magento_Backend_Model_Menu_Item */
+            /** @var $item \Magento\Backend\Model\Menu\Item */
             if ($item->getId() == $itemId) {
                 unset($this[$key]);
                 $result = true;
@@ -153,7 +155,7 @@ class Magento_Backend_Model_Menu extends ArrayObject
     {
         $result = false;
         foreach ($this as $key => $item) {
-            /** @var $item Magento_Backend_Model_Menu_Item */
+            /** @var $item \Magento\Backend\Model\Menu\Item */
             if ($item->getId() == $itemId) {
                 unset($this[$key]);
                 $this->add($item, null, $position);
@@ -169,10 +171,10 @@ class Magento_Backend_Model_Menu extends ArrayObject
     /**
      * Check whether provided item is last in list
      *
-     * @param Magento_Backend_Model_Menu_Item $item
+     * @param \Magento\Backend\Model\Menu\Item $item
      * @return bool
      */
-    public function isLast(Magento_Backend_Model_Menu_Item $item)
+    public function isLast(\Magento\Backend\Model\Menu\Item $item)
     {
         return $this->offsetGet(max(array_keys($this->getArrayCopy())))->getId() == $item->getId();
     }
@@ -180,12 +182,12 @@ class Magento_Backend_Model_Menu extends ArrayObject
     /**
      * Find first menu item that user is able to access
      *
-     * @return Magento_Backend_Model_Menu_Item|null
+     * @return \Magento\Backend\Model\Menu\Item|null
      */
     public function getFirstAvailable()
     {
         $result = null;
-        /** @var $item Magento_Backend_Model_Menu_Item */
+        /** @var $item \Magento\Backend\Model\Menu\Item */
         foreach ($this as $item) {
             if ($item->isAllowed() && !$item->isDisabled()) {
                 if ($item->hasChildren()) {
@@ -206,7 +208,7 @@ class Magento_Backend_Model_Menu extends ArrayObject
      * Get parent items by item id
      *
      * @param string $itemId
-     * @return Magento_Backend_Model_Menu_Item[]
+     * @return \Magento\Backend\Model\Menu\Item[]
      */
     public function getParentItems($itemId)
     {
@@ -218,7 +220,7 @@ class Magento_Backend_Model_Menu extends ArrayObject
     /**
      * Find parent items
      *
-     * @param Magento_Backend_Model_Menu $menu
+     * @param \Magento\Backend\Model\Menu $menu
      * @param string $itemId
      * @param array $parents
      * @return bool
@@ -226,7 +228,7 @@ class Magento_Backend_Model_Menu extends ArrayObject
     protected function _findParentItems($menu, $itemId, &$parents)
     {
         foreach ($menu as $item) {
-            /** @var $item Magento_Backend_Model_Menu_Item */
+            /** @var $item \Magento\Backend\Model\Menu\Item */
             if ($item->getId() == $itemId) {
                 return true;
             }

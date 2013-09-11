@@ -18,11 +18,11 @@ class Magento_Adminhtml_Block_Report_Sales_Sales_GridTest extends PHPUnit_Framew
      * Creates and inits block
      *
      * @param string|null $reportType
-     * @return Magento_Adminhtml_Block_Report_Sales_Sales_Grid
+     * @return \Magento\Adminhtml\Block\Report\Sales\Sales\Grid
      */
     protected function _createBlock($reportType = null)
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Sales_Sales_Grid');
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Sales\Grid');
 
         $filterData = new \Magento\Object();
         if ($reportType) {

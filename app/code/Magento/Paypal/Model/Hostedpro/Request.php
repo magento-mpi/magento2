@@ -16,19 +16,21 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Paypal_Model_Hostedpro_Request extends \Magento\Object
+namespace Magento\Paypal\Model\Hostedpro;
+
+class Request extends \Magento\Object
 {
     /**
      * Request's order model
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
     /**
      * Request's Hosted Pro payment method model
      *
-     * @var Magento_Paypal_Model_Hostedpro
+     * @var \Magento\Paypal\Model\Hostedpro
      */
     protected $_paymentMethod;
 
@@ -76,8 +78,8 @@ class Magento_Paypal_Model_Hostedpro_Request extends \Magento\Object
     /**
      * Append payment data to request
      *
-     * @param Magento_Paypal_Model_Hostedpro $paymentMethod
-     * @return Magento_Paypal_Model_Hostedpro_Request
+     * @param \Magento\Paypal\Model\Hostedpro $paymentMethod
+     * @return \Magento\Paypal\Model\Hostedpro\Request
      */
     public function setPaymentMethod($paymentMethod)
     {
@@ -91,8 +93,8 @@ class Magento_Paypal_Model_Hostedpro_Request extends \Magento\Object
     /**
      * Append order data to request
      *
-     * @param Magento_Sales_Model_Order $order
-     * @return Magento_Paypal_Model_Hostedpro_Request
+     * @param \Magento\Sales\Model\Order $order
+     * @return \Magento\Paypal\Model\Hostedpro\Request
      */
     public function setOrder($order)
     {
@@ -106,10 +108,10 @@ class Magento_Paypal_Model_Hostedpro_Request extends \Magento\Object
     /**
      * Get peymet request data as array
      *
-     * @param Magento_Paypal_Model_Hostedpro $paymentMethod
+     * @param \Magento\Paypal\Model\Hostedpro $paymentMethod
      * @return array
      */
-    protected function _getPaymentData(Magento_Paypal_Model_Hostedpro $paymentMethod)
+    protected function _getPaymentData(\Magento\Paypal\Model\Hostedpro $paymentMethod)
     {
         $request = array(
             'paymentaction' => strtolower($paymentMethod->getConfigData('payment_action')),
@@ -134,10 +136,10 @@ class Magento_Paypal_Model_Hostedpro_Request extends \Magento\Object
     /**
      * Get order request data as array
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return array
      */
-    protected function _getOrderData(Magento_Sales_Model_Order $order)
+    protected function _getOrderData(\Magento\Sales\Model\Order $order)
     {
         $request = array(
             'subtotal'      => $this->_formatPrice(
@@ -184,7 +186,7 @@ class Magento_Paypal_Model_Hostedpro_Request extends \Magento\Object
         );
 
         // convert streets to tow lines format
-        $street = Mage::helper('Magento_Customer_Helper_Address')
+        $street = \Mage::helper('Magento\Customer\Helper\Address')
             ->convertStreetLines($address->getStreet(), 2);
 
         $request['address1'] = isset($street[0]) ? $street[0]: '';
@@ -211,7 +213,7 @@ class Magento_Paypal_Model_Hostedpro_Request extends \Magento\Object
         );
 
         // convert streets to tow lines format
-        $street = Mage::helper('Magento_Customer_Helper_Address')
+        $street = \Mage::helper('Magento\Customer\Helper\Address')
             ->convertStreetLines($address->getStreet(), 2);
 
         $request['billing_address1'] = isset($street[0]) ? $street[0]: '';

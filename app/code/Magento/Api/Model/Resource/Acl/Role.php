@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_Acl_Role extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Api\Model\Resource\Acl;
+
+class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -30,13 +32,13 @@ class Magento_Api_Model_Resource_Acl_Role extends Magento_Core_Model_Resource_Db
     /**
      * Action before save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Api_Model_Resource_Acl_Role
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Api\Model\Resource\Acl\Role
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getId()) {
-            $this->setCreated(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+            $this->setCreated(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
         }
         return $this;
     }

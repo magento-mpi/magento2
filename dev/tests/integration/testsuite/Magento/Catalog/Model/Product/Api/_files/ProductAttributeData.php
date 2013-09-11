@@ -75,7 +75,7 @@ return array(
             'input' => 'text',
             'label' => 'a_text_ins',
             'required' => 0,
-            'global' => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+            'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
             'user_defined' => true,
 
         ),
@@ -87,7 +87,7 @@ return array(
             'input' => 'select',
             'label' => 'a_select_ins',
             'required' => 0,
-            'global' => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+            'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
             'user_defined' => true,
             'option' => array(
                 'values' => array(

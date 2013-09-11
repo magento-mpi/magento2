@@ -15,7 +15,9 @@
  * @package    Magento_Paygate
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends Magento_Adminhtml_Controller_Action
+namespace Magento\Paygate\Controller\Adminhtml\Paygate\Authorizenet;
+
+class Payment extends \Magento\Adminhtml\Controller\Action
 {
 
     /**
@@ -25,25 +27,25 @@ class Magento_Paygate_Controller_Adminhtml_Paygate_Authorizenet_Payment extends 
     {
         $result['success'] = false;
         try {
-            $paymentMethod = Mage::helper('Magento_Payment_Helper_Data')
-                ->getMethodInstance(Magento_Paygate_Model_Authorizenet::METHOD_CODE);
+            $paymentMethod = \Mage::helper('Magento\Payment\Helper\Data')
+                ->getMethodInstance(\Magento\Paygate\Model\Authorizenet::METHOD_CODE);
             if ($paymentMethod) {
-                $paymentMethod->setStore(Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getStoreId());
-                $paymentMethod->cancelPartialAuthorization(Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getPayment());
+                $paymentMethod->setStore(\Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote()->getStoreId());
+                $paymentMethod->cancelPartialAuthorization(\Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote()->getPayment());
             }
 
             $result['success']  = true;
             $result['update_html'] = $this->_getPaymentMethodsHtml();
-        } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::logException($e);
             $result['error_message'] = $e->getMessage();
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
             $result['error_message'] = __('Something went wrong canceling the transactions.');
         }
 
-        Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote()->getPayment()->save();
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote()->getPayment()->save();
+        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**

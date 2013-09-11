@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Request_Rest extends Magento_Webapi_Controller_Request
+namespace Magento\Webapi\Controller\Request;
+
+class Rest extends \Magento\Webapi\Controller\Request
 {
     /**
      * Character set which must be used in request.
@@ -40,34 +42,34 @@ class Magento_Webapi_Controller_Request_Rest extends Magento_Webapi_Controller_R
     protected $_resourceVersion;
 
     /**
-     * @var Magento_Webapi_Controller_Request_Rest_InterpreterInterface
+     * @var \Magento\Webapi\Controller\Request\Rest\InterpreterInterface
      */
     protected $_interpreter;
 
     /** @var array */
     protected $_bodyParams;
 
-    /** @var Magento_Webapi_Controller_Request_Rest_Interpreter_Factory */
+    /** @var \Magento\Webapi\Controller\Request\Rest\Interpreter\Factory */
     protected $_interpreterFactory;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Controller_Request_Rest_Interpreter_Factory $interpreterFactory
+     * @param \Magento\Webapi\Controller\Request\Rest\Interpreter\Factory $interpreterFactory
      * @param string|null $uri
      */
     public function __construct(
-        Magento_Webapi_Controller_Request_Rest_Interpreter_Factory $interpreterFactory,
+        \Magento\Webapi\Controller\Request\Rest\Interpreter\Factory $interpreterFactory,
         $uri = null
     ) {
-        parent::__construct(Magento_Webapi_Controller_Front::API_TYPE_REST, $uri);
+        parent::__construct(\Magento\Webapi\Controller\Front::API_TYPE_REST, $uri);
         $this->_interpreterFactory = $interpreterFactory;
     }
 
     /**
      * Get request interpreter.
      *
-     * @return Magento_Webapi_Controller_Request_Rest_InterpreterInterface
+     * @return \Magento\Webapi\Controller\Request\Rest\InterpreterInterface
      */
     protected function _getInterpreter()
     {
@@ -131,24 +133,24 @@ class Magento_Webapi_Controller_Request_Rest extends Magento_Webapi_Controller_R
      * Get Content-Type of request.
      *
      * @return string
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function getContentType()
     {
         $headerValue = $this->getHeader('Content-Type');
 
         if (!$headerValue) {
-            throw new Magento_Webapi_Exception(__('Content-Type header is empty.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new \Magento\Webapi\Exception(__('Content-Type header is empty.'),
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST);
         }
         if (!preg_match('~^([a-z\d/\-+.]+)(?:; *charset=(.+))?$~Ui', $headerValue, $matches)) {
-            throw new Magento_Webapi_Exception(__('Content-Type header is invalid.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new \Magento\Webapi\Exception(__('Content-Type header is invalid.'),
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST);
         }
         // request encoding check if it is specified in header
         if (isset($matches[2]) && self::REQUEST_CHARSET != strtolower($matches[2])) {
-            throw new Magento_Webapi_Exception(__('UTF-8 is the only supported charset.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new \Magento\Webapi\Exception(__('UTF-8 is the only supported charset.'),
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST);
         }
 
         return $matches[1];
@@ -158,13 +160,13 @@ class Magento_Webapi_Controller_Request_Rest extends Magento_Webapi_Controller_R
      * Retrieve one of CRUD operations depending on HTTP method.
      *
      * @return string
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function getHttpMethod()
     {
         if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
-            throw new Magento_Webapi_Exception(__('Request method is invalid.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new \Magento\Webapi\Exception(__('Request method is invalid.'),
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST);
         }
         // Map HTTP methods to classic CRUD verbs
         $operationByMethod = array(
@@ -221,12 +223,12 @@ class Magento_Webapi_Controller_Request_Rest extends Magento_Webapi_Controller_R
      * Retrieve action version.
      *
      * @return int
-     * @throws LogicException If resource version cannot be identified.
+     * @throws \LogicException If resource version cannot be identified.
      */
     public function getResourceVersion()
     {
         if (!$this->_resourceVersion) {
-            $this->setResourceVersion($this->getParam(Magento_Webapi_Controller_Router_Route_Rest::PARAM_VERSION));
+            $this->setResourceVersion($this->getParam(\Magento\Webapi\Controller\Router\Route\Rest::PARAM_VERSION));
         }
         return $this->_resourceVersion;
     }
@@ -235,18 +237,18 @@ class Magento_Webapi_Controller_Request_Rest extends Magento_Webapi_Controller_R
      * Set resource version.
      *
      * @param string|int $resourceVersion Version number either with prefix or without it
-     * @throws Magento_Webapi_Exception
-     * @return Magento_Webapi_Controller_Request_Rest
+     * @throws \Magento\Webapi\Exception
+     * @return \Magento\Webapi\Controller\Request\Rest
      */
     public function setResourceVersion($resourceVersion)
     {
-        $versionPrefix = Magento_Webapi_Model_ConfigAbstract::VERSION_NUMBER_PREFIX;
+        $versionPrefix = \Magento\Webapi\Model\ConfigAbstract::VERSION_NUMBER_PREFIX;
         if (preg_match("/^{$versionPrefix}?(\d+)$/i", $resourceVersion, $matches)) {
             $versionNumber = (int)$matches[1];
         } else {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __("Resource version is not specified or invalid one is specified."),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
         $this->_resourceVersion = $versionNumber;
@@ -257,31 +259,31 @@ class Magento_Webapi_Controller_Request_Rest extends Magento_Webapi_Controller_R
      * Identify operation name according to HTTP request parameters.
      *
      * @return string
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function getOperationName()
     {
         $restMethodsMap = array(
             self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_CREATE =>
-                Magento_Webapi_Controller_ActionAbstract::METHOD_CREATE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_CREATE,
             self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_GET =>
-                Magento_Webapi_Controller_ActionAbstract::METHOD_LIST,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_LIST,
             self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE =>
-                Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_UPDATE,
             self::ACTION_TYPE_COLLECTION . self::HTTP_METHOD_DELETE =>
-                Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_DELETE,
             self::ACTION_TYPE_ITEM . self::HTTP_METHOD_GET =>
-                Magento_Webapi_Controller_ActionAbstract::METHOD_GET,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_GET,
             self::ACTION_TYPE_ITEM . self::HTTP_METHOD_UPDATE =>
-                Magento_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_UPDATE,
             self::ACTION_TYPE_ITEM . self::HTTP_METHOD_DELETE =>
-                Magento_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_DELETE,
         );
         $httpMethod = $this->getHttpMethod();
         $resourceType = $this->getResourceType();
         if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
-            throw new Magento_Webapi_Exception(__('Requested method does not exist.'),
-                Magento_Webapi_Exception::HTTP_NOT_FOUND);
+            throw new \Magento\Webapi\Exception(__('Requested method does not exist.'),
+                \Magento\Webapi\Exception::HTTP_NOT_FOUND);
         }
         $methodName = $restMethodsMap[$resourceType . $httpMethod];
         if ($methodName == self::HTTP_METHOD_CREATE) {
@@ -290,7 +292,7 @@ class Magento_Webapi_Controller_Request_Rest extends Magento_Webapi_Controller_R
             if (count($params)) {
                 $keys = array_keys($params);
                 if (is_numeric($keys[0])) {
-                    $methodName = Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE;
+                    $methodName = \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_CREATE;
                 }
             }
         }
@@ -303,22 +305,22 @@ class Magento_Webapi_Controller_Request_Rest extends Magento_Webapi_Controller_R
      *
      * @param string $operation
      * @return string 'collection' or 'item'
-     * @throws InvalidArgumentException When method does not match the list of allowed methods
+     * @throws \InvalidArgumentException When method does not match the list of allowed methods
      */
     public static function getActionTypeByOperation($operation)
     {
         $actionTypeMap = array(
-            Magento_Webapi_Controller_ActionAbstract::METHOD_CREATE => self::ACTION_TYPE_COLLECTION,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => self::ACTION_TYPE_COLLECTION,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_GET => self::ACTION_TYPE_ITEM,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_LIST => self::ACTION_TYPE_COLLECTION,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_UPDATE => self::ACTION_TYPE_ITEM,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => self::ACTION_TYPE_COLLECTION,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_DELETE => self::ACTION_TYPE_ITEM,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => self::ACTION_TYPE_COLLECTION,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_CREATE => self::ACTION_TYPE_COLLECTION,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_CREATE => self::ACTION_TYPE_COLLECTION,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_GET => self::ACTION_TYPE_ITEM,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_LIST => self::ACTION_TYPE_COLLECTION,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_UPDATE => self::ACTION_TYPE_ITEM,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_UPDATE => self::ACTION_TYPE_COLLECTION,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_DELETE => self::ACTION_TYPE_ITEM,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_DELETE => self::ACTION_TYPE_COLLECTION,
         );
         if (!isset($actionTypeMap[$operation])) {
-            throw new InvalidArgumentException(sprintf('The "%s" method is not a valid resource method.', $operation));
+            throw new \InvalidArgumentException(sprintf('The "%s" method is not a valid resource method.', $operation));
         }
         return $actionTypeMap[$operation];
     }

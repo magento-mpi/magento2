@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Catalog_Controller_Product (bundle product type)
+ * Test class for \Magento\Catalog\Controller\Product (bundle product type)
  */
 class Magento_Bundle_Controller_ProductTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {

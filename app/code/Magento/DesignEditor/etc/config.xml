@@ -15,7 +15,7 @@
             <designeditor_setup>
                 <setup>
                     <module>Magento_DesignEditor</module>
-                    <class>Magento_Core_Model_Resource_Setup</class>
+                    <class>Magento\Core\Model\Resource\Setup</class>
                 </setup>
             </designeditor_setup>
         </resources>
@@ -23,7 +23,7 @@
     <default>
         <theme>
             <customization>
-                <quick_style_css>Magento_DesignEditor_Model_Theme_Customization_File_QuickStyleCss</quick_style_css>
+                <quick_style_css>\Magento\DesignEditor\Model\Theme\Customization\File\QuickStyleCss</quick_style_css>
             </customization>
         </theme>
     </default>
@@ -36,4 +36,4 @@
             </disabledCacheTypes>
         </design_editor>
     </vde>
-</config>
+</config>

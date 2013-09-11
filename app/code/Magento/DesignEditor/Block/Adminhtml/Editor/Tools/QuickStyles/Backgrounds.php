@@ -11,14 +11,16 @@
 /**
  * Block that renders Quick Styles > Backgrounds tab
  *
- * @method Magento_Core_Model_Theme getTheme()
+ * @method \Magento\Core\Model\Theme getTheme()
  * @method setTheme($theme)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Backgrounds
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_AbstractTab
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
+
+class Backgrounds
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles\AbstractTab
 {
     /**
      * Tab form HTML identifier

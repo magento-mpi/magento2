@@ -11,24 +11,26 @@
 /**
  * Downloadable sample model
  *
- * @method Magento_Downloadable_Model_Resource_Sample _getResource()
- * @method Magento_Downloadable_Model_Resource_Sample getResource()
+ * @method \Magento\Downloadable\Model\Resource\Sample _getResource()
+ * @method \Magento\Downloadable\Model\Resource\Sample getResource()
  * @method int getProductId()
- * @method Magento_Downloadable_Model_Sample setProductId(int $value)
+ * @method \Magento\Downloadable\Model\Sample setProductId(int $value)
  * @method string getSampleUrl()
- * @method Magento_Downloadable_Model_Sample setSampleUrl(string $value)
+ * @method \Magento\Downloadable\Model\Sample setSampleUrl(string $value)
  * @method string getSampleFile()
- * @method Magento_Downloadable_Model_Sample setSampleFile(string $value)
+ * @method \Magento\Downloadable\Model\Sample setSampleFile(string $value)
  * @method string getSampleType()
- * @method Magento_Downloadable_Model_Sample setSampleType(string $value)
+ * @method \Magento\Downloadable\Model\Sample setSampleType(string $value)
  * @method int getSortOrder()
- * @method Magento_Downloadable_Model_Sample setSortOrder(int $value)
+ * @method \Magento\Downloadable\Model\Sample setSortOrder(int $value)
  *
  * @category    Magento
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
+namespace Magento\Downloadable\Model;
+
+class Sample extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_SAMPLES_TITLE = 'catalog/downloadable/samples_title';
 
@@ -38,7 +40,7 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Downloadable_Model_Resource_Sample');
+        $this->_init('\Magento\Downloadable\Model\Resource\Sample');
         parent::_construct();
     }
 
@@ -49,13 +51,13 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
      */
     public static function getSampleDir()
     {
-        return Mage::getBaseDir();
+        return \Mage::getBaseDir();
     }
 
     /**
      * After save process
      *
-     * @return Magento_Downloadable_Model_Sample
+     * @return \Magento\Downloadable\Model\Sample
      */
     protected function _afterSave()
     {
@@ -85,7 +87,7 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
      */
     public static function getBaseTmpPath()
     {
-        return Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'tmp' . DS . 'samples';
+        return \Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'tmp' . DS . 'samples';
     }
 
     /**
@@ -95,7 +97,7 @@ class Magento_Downloadable_Model_Sample extends Magento_Core_Model_Abstract
      */
     public static function getBasePath()
     {
-        return Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'files' . DS . 'samples';
+        return \Mage::getBaseDir('media') . DS . 'downloadable' . DS . 'files' . DS . 'samples';
     }
 
     /**

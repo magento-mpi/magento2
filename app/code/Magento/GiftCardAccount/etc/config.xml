@@ -15,7 +15,7 @@
             <giftcardaccount_setup>
                 <setup>
                     <module>Magento_GiftCardAccount</module>
-                    <class>Magento_GiftCardAccount_Model_Resource_Setup</class>
+                    <class>Magento\GiftCardAccount\Model\Resource\Setup</class>
                 </setup>
             </giftcardaccount_setup>
         </resources>
@@ -23,17 +23,17 @@
             <quote>
                 <totals>
                     <giftcardaccount>
-                        <class>Magento_GiftCardAccount_Model_Total_Quote_Giftcardaccount</class>
+                        <class>Magento\GiftCardAccount\Model\Total\Quote\Giftcardaccount</class>
                         <after>weee,discount,tax,tax_subtotal,grand_total</after>
                         <before>customerbalance</before>
-                        <renderer>Magento_GiftCardAccount_Block_Checkout_Cart_Total</renderer>
+                        <renderer>\Magento\GiftCardAccount\Block\Checkout\Cart\Total</renderer>
                     </giftcardaccount>
                 </totals>
             </quote>
             <order_invoice>
                 <totals>
                     <giftcardaccount>
-                        <class>Magento_GiftCardAccount_Model_Total_Invoice_Giftcardaccount</class>
+                        <class>Magento\GiftCardAccount\Model\Total\Invoice\Giftcardaccount</class>
                         <after>discount,tax,grand_total</after>
                         <before>customerbalance</before>
                     </giftcardaccount>
@@ -42,7 +42,7 @@
             <order_creditmemo>
                 <totals>
                     <giftcardaccount>
-                        <class>Magento_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount</class>
+                        <class>Magento\GiftCardAccount\Model\Total\Creditmemo\Giftcardaccount</class>
                         <after>weee,discount,tax,grand_total,customerbalance</after>
                     </giftcardaccount>
                 </totals>
@@ -129,7 +129,7 @@
                     <cron_expr>0 1 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_GiftCardAccount_Model_Cron::updateStates</model>
+                    <model>\Magento\GiftCardAccount\Model\Cron::updateStates</model>
                 </run>
             </magento_giftcardaccount_update_states>
             <magento_giftcardaccount_generage_codes_pool>
@@ -137,9 +137,9 @@
                     <cron_expr>30 * * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_GiftCardAccount_Model_Pool::applyCodesGeneration</model>
+                    <model>\Magento\GiftCardAccount\Model\Pool::applyCodesGeneration</model>
                 </run>
             </magento_giftcardaccount_generage_codes_pool>
         </jobs>
     </crontab>
-</config>
+</config>

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Install_Model_EntryPoint_Upgrade extends Magento_Core_Model_EntryPointAbstract
+namespace Magento\Install\Model\EntryPoint;
+
+class Upgrade extends \Magento\Core\Model\EntryPointAbstract
 {
     /**
      * Key for passing reindexing parameter
@@ -26,15 +28,15 @@ class Magento_Install_Model_EntryPoint_Upgrade extends Magento_Core_Model_EntryP
      */
     protected function _processRequest()
     {
-        /** @var $cacheFrontendPool Magento_Core_Model_Cache_Frontend_Pool */
-        $cacheFrontendPool = $this->_objectManager->get('Magento_Core_Model_Cache_Frontend_Pool');
+        /** @var $cacheFrontendPool \Magento\Core\Model\Cache\Frontend\Pool */
+        $cacheFrontendPool = $this->_objectManager->get('Magento\Core\Model\Cache\Frontend\Pool');
         /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
         foreach ($cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->clean();
         }
 
-        /** @var $updater \Magento_Core_Model_Db_Updater */
-        $updater = $this->_objectManager->get('Magento_Core_Model_Db_Updater');
+        /** @var $updater \Magento\Core\Model\Db\Updater */
+        $updater = $this->_objectManager->get('Magento\Core\Model\Db\Updater');
         $updater->updateScheme();
         $updater->updateData();
 
@@ -46,12 +48,12 @@ class Magento_Install_Model_EntryPoint_Upgrade extends Magento_Core_Model_EntryP
      */
     private function _reindex()
     {
-        /** @var $config Magento_Core_Model_Config_Primary */
-        $config = $this->_objectManager->get('Magento_Core_Model_Config_Primary');
+        /** @var $config \Magento\Core\Model\Config\Primary */
+        $config = $this->_objectManager->get('Magento\Core\Model\Config\Primary');
         $reindexMode = $config->getParam(self::REINDEX);
         if ($reindexMode) {
-            /** @var $indexer Magento_Index_Model_Indexer */
-            $indexer = $this->_objectManager->get('Magento_Index_Model_Indexer');
+            /** @var $indexer \Magento\Index\Model\Indexer */
+            $indexer = $this->_objectManager->get('Magento\Index\Model\Indexer');
             if (self::REINDEX_ALL == $reindexMode) {
                 $indexer->reindexAll();
             } elseif (self::REINDEX_INVALID == $reindexMode) {

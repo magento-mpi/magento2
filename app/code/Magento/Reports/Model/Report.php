@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-class Magento_Reports_Model_Report extends Magento_Core_Model_Abstract
+namespace Magento\Reports\Model;
+
+class Report extends \Magento\Core\Model\AbstractModel
 {
     protected $_reportModel;
 
     public function initCollection($modelClass)
     {
-        $this->_reportModel = Mage::getResourceModel($modelClass);
+        $this->_reportModel = \Mage::getResourceModel($modelClass);
 
         return $this;
     }

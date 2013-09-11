@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var Magento_Core_Model_Resource_Setup $this */
+/* @var \Magento\Core\Model\Resource\Setup $this */
 $this->startSetup();
 
 /* @var $connection \Magento\DB\Adapter\AdapterInterface */

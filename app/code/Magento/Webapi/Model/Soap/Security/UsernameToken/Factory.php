@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Security_UsernameToken_Factory
+namespace Magento\Webapi\Model\Soap\Security\UsernameToken;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -30,6 +32,6 @@ class Magento_Webapi_Model_Soap_Security_UsernameToken_Factory
      */
     public function create($arguments = array())
     {
-        return $this->_objectManager->create('Magento_Webapi_Model_Soap_Security_UsernameToken', $arguments);
+        return $this->_objectManager->create('Magento\Webapi\Model\Soap\Security\UsernameToken', $arguments);
     }
 }

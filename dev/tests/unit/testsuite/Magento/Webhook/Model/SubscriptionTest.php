@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Subscription
+ * \Magento\Webhook\Model\Subscription
  *
  * {license_notice}
  *
@@ -14,7 +14,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     /**
      * Unit under test
      *
-     * @var Magento_Webhook_Model_Subscription|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Webhook\Model\Subscription|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_subscription;
 
@@ -29,13 +29,13 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_mockEndpoint = $this->getMockBuilder('Magento_Webhook_Model_Endpoint')
+        $this->_mockEndpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
             ->setMethods(array('_init', 'save', 'setEndpointId', 'getId', 'getUser', '_getResource', 'delete',
                 'load', 'hasDataChanges'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockUser = $this->getMockBuilder('Magento_Webhook_Model_User')
+        $this->_mockUser = $this->getMockBuilder('Magento\Webhook\Model\User')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -43,11 +43,11 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             ->method('getUser')
             ->will($this->returnValue($this->_mockUser));
 
-        $mockEventDispatcher = $this->getMockBuilder('Magento_Core_Model_Event_Manager')
+        $mockEventDispatcher = $this->getMockBuilder('Magento\Core\Model\Event\Manager')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockContext = $this->getMockBuilder('Magento_Core_Model_Context')
+        $this->_mockContext = $this->getMockBuilder('Magento\Core\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -56,12 +56,12 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue($mockEventDispatcher));
 
-        $this->_subscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $this->_subscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->setMethods(array('_init', '_hasModelChanged', '_getResource'))
             ->setConstructorArgs(array($this->_mockEndpoint, $this->_mockContext))
             ->getMock();
 
-        $subscriptionResource = $this->getMockBuilder('Magento_Webhook_Model_Resource_Subscription')
+        $subscriptionResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Subscription')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_subscription->expects($this->any())
@@ -92,7 +92,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testFindRestrictedTopicsWithNoUser()
     {
         // The only way to override a pre-existing implementation is to create a new object
-        $this->_mockEndpoint = $this->getMockBuilder('Magento_Webhook_Model_Endpoint')
+        $this->_mockEndpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
             ->setMethods(array('_init', 'save', 'setEndpointId', 'getId', 'getUser', '_getResource', 'delete'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -101,7 +101,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             ->method('getUser')
             ->will($this->returnValue(null));
 
-        $this->_subscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $this->_subscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->setMethods(array('_init', '_hasModelChanged', '_getResource'))
             ->setConstructorArgs(array($this->_mockEndpoint, $this->_mockContext))
             ->getMock();
@@ -116,7 +116,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testAfterDelete()
     {
         // it's useful to mock out more methods for the purposes of testing this one method
-        $this->_subscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $this->_subscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->setMethods(
                 array('hasStatus', 'setStatus', 'hasRegistrationMechanism',
                     'setRegistrationMechanism', 'getEndpointId', 'setEndpointId', 'setUpdatedAt',
@@ -125,7 +125,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             ->setConstructorArgs(array($this->_mockEndpoint, $this->_mockContext))
             ->getMock();
 
-        $mockResource = $this->getMockBuilder('Magento_Webhook_Model_Resource_Subscription')
+        $mockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Subscription')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -152,7 +152,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
     public function testBeforeSave($hasRegiMechanism, $hasEndpointChanges, $hasEndpointId, $hasDataChanges)
     {
         // it's useful to mock out more methods for the purposes of testing this one method
-        $this->_subscription = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $this->_subscription = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->setMethods(
                 array('hasStatus', 'setStatus', 'hasRegistrationMechanism', 'setRegistrationMechanism', 'getEndpointId',
                       'setEndpointId', 'setUpdatedAt', 'hasDataChanges', '_init', '_hasModelChanged', '_getResource')
@@ -160,7 +160,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
             ->setConstructorArgs(array($this->_mockEndpoint, $this->_mockContext))
             ->getMock();
 
-        $mockResource = $this->getMockBuilder('Magento_Webhook_Model_Resource_Subscription')
+        $mockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Subscription')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -201,7 +201,7 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         if (!$hasRegiMechanism) {
             $this->_subscription->expects($this->once())
                 ->method('setRegistrationMechanism')
-                ->with($this->equalTo(Magento_Webhook_Model_Subscription::REGISTRATION_MECHANISM_MANUAL));
+                ->with($this->equalTo(\Magento\Webhook\Model\Subscription::REGISTRATION_MECHANISM_MANUAL));
         } else {
             $this->_subscription->expects($this->never())
                 ->method('setRegistrationMechanism');
@@ -437,13 +437,13 @@ class Magento_Webhook_Model_SubscriptionTest extends PHPUnit_Framework_TestCase
         $this->assertSame(
             $this->_subscription,
             $this->_subscription->setRegistrationMechanism(
-                Magento_Webhook_Model_Subscription::REGISTRATION_MECHANISM_MANUAL
+                \Magento\Webhook\Model\Subscription::REGISTRATION_MECHANISM_MANUAL
             )
         );
         $this->assertTrue($this->_subscription->hasDataChanges());
         $this->assertTrue($this->_subscription->hasRegistrationMechanism());
         $this->assertSame(
-            Magento_Webhook_Model_Subscription::REGISTRATION_MECHANISM_MANUAL,
+            \Magento\Webhook\Model\Subscription::REGISTRATION_MECHANISM_MANUAL,
             $this->_subscription->getRegistrationMechanism()
         );
     }

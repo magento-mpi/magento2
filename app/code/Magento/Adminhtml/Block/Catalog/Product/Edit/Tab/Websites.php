@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_Backend_Block_Store_Switcher
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
+
+class Websites extends \Magento\Backend\Block\Store\Switcher
 {
     protected $_storeFromHtml;
 
@@ -24,11 +26,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_
     /**
      * Retrieve edited product model instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('product');
+        return \Mage::registry('product');
     }
 
     /**
@@ -90,13 +92,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Websites extends Magento_
      */
     public function getStoreName($storeId)
     {
-        return Mage::app()->getStore($storeId)->getName();
+        return \Mage::app()->getStore($storeId)->getName();
     }
 
     /**
      * Get HTML of store chooser
      *
-     * @param Magento_Core_Model_Store $storeTo
+     * @param \Magento\Core\Model\Store $storeTo
      * @return string
      */
     public function getChooseFromStoreHtml($storeTo)

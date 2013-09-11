@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Value
+namespace Magento\Customer\Model\Config;
+
+class Share extends \Magento\Core\Model\Config\Value
 {
     /**
      * Xml config path to customers sharing scope value
@@ -47,7 +49,7 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
      */
     public function isWebsiteScope()
     {
-        return Mage::getStoreConfig(self::XML_PATH_CUSTOMER_ACCOUNT_SHARE) == self::SHARE_WEBSITE;
+        return \Mage::getStoreConfig(self::XML_PATH_CUSTOMER_ACCOUNT_SHARE) == self::SHARE_WEBSITE;
     }
 
     /**
@@ -66,15 +68,15 @@ class Magento_Customer_Model_Config_Share extends Magento_Core_Model_Config_Valu
     /**
      * Check for email dublicates before saving customers sharing options
      *
-     * @return Magento_Customer_Model_Config_Share
-     * @throws Magento_Core_Exception
+     * @return \Magento\Customer\Model\Config\Share
+     * @throws \Magento\Core\Exception
      */
     public function _beforeSave()
     {
         $value = $this->getValue();
         if ($value == self::SHARE_GLOBAL) {
-            if (Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')->findEmailDuplicates()) {
-                Mage::throwException(
+            if (\Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer')->findEmailDuplicates()) {
+                \Mage::throwException(
                     __('Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.')
                 );
             }

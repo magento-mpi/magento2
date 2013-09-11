@@ -16,6 +16,8 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Attribute_Data_Textarea extends Magento_Eav_Model_Attribute_Data_Textarea
+namespace Magento\Customer\Model\Attribute\Data;
+
+class Textarea extends \Magento\Eav\Model\Attribute\Data\Textarea
 {
 }

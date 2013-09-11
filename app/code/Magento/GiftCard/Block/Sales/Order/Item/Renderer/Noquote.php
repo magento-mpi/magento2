@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Sales_Order_Item_Renderer_Noquote extends Magento_GiftCard_Block_Sales_Order_Item_Renderer
+namespace Magento\GiftCard\Block\Sales\Order\Item\Renderer;
+
+class Noquote extends \Magento\GiftCard\Block\Sales\Order\Item\Renderer
 {
     /**
      * Prepare custom option for display, returns false if there's no value

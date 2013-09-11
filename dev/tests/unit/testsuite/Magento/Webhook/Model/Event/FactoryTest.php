@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Event_Factory
+ * \Magento\Webhook\Model\Event\Factory
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@
  */
 class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webhook_Model_Event_Factory */
+    /** @var \Magento\Webhook\Model\Event\Factory */
     protected $_factory;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -28,12 +28,12 @@ class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_arrayConverter = $this->getMockBuilder('Magento\Convert\Object')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_factory = new Magento_Webhook_Model_Event_Factory($this->_objectManager, $this->_arrayConverter);
+        $this->_factory = new \Magento\Webhook\Model\Event\Factory($this->_objectManager, $this->_arrayConverter);
     }
 
     public function testCreate()
     {
-        $webhookEvent = $this->getMockBuilder('Magento_Webhook_Model_Event')
+        $webhookEvent = $this->getMockBuilder('Magento\Webhook\Model\Event')
             ->disableOriginalConstructor()
             ->getMock();
         $topic = 'TEST_TOPIC';
@@ -46,7 +46,7 @@ class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
         $this->_objectManager->expects($this->once())
             ->method('create')
             ->with(
-                $this->equalTo('Magento_Webhook_Model_Event'),
+                $this->equalTo('\Magento\Webhook\Model\Event'),
                 $this->equalTo(
                     array(
                          'data' => array(
@@ -69,7 +69,7 @@ class Magento_Webhook_Model_Event_FactoryTest extends PHPUnit_Framework_TestCase
         $testValue = "test value";
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento_Webhook_Model_Event'))
+            ->with($this->equalTo('Magento\Webhook\Model\Event'))
             ->will($this->returnValue($testValue));
         $this->assertSame($testValue, $this->_factory->createEmpty());
     }

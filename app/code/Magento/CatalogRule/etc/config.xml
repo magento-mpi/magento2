@@ -53,7 +53,7 @@
                     <cron_expr>0 1 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_CatalogRule_Model_Observer::dailyCatalogUpdate</model>
+                    <model>\Magento\CatalogRule\Model\Observer::dailyCatalogUpdate</model>
                 </run>
             </catalogrule_apply_all>
         </jobs>

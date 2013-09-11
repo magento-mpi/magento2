@@ -15,8 +15,10 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples
-    extends Magento_Adminhtml_Block_Widget
+namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
+
+class Samples
+    extends \Magento\Adminhtml\Block\Widget
 {
     /**
      * Block config data
@@ -28,18 +30,18 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     protected $_template = 'product/edit/downloadable/samples.phtml';
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -49,11 +51,11 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     /**
      * Get model of the product that is being edited
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return \Mage::registry('current_product');
     }
 
     /**
@@ -74,7 +76,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getAddButtonHtml()
     {
-        $addButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $addButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label' => __('Add New Row'),
                 'id' => 'add_sample_item',
@@ -91,11 +93,11 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     public function getSampleData()
     {
         $samplesArr = array();
-        if ($this->getProduct()->getTypeId() !== Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+        if ($this->getProduct()->getTypeId() !== \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             return $samplesArr;
         }
         $samples = $this->getProduct()->getTypeInstance()->getSamples($this->getProduct());
-        $fileHelper = Mage::helper('Magento_Downloadable_Helper_File');
+        $fileHelper = \Mage::helper('Magento\Downloadable\Helper\File');
         foreach ($samples as $item) {
             $tmpSampleItem = array(
                 'sample_id' => $item->getId(),
@@ -105,10 +107,10 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
                 'sort_order' => $item->getSortOrder(),
             );
             $file = $fileHelper->getFilePath(
-                Magento_Downloadable_Model_Sample::getBasePath(), $item->getSampleFile()
+                \Magento\Downloadable\Model\Sample::getBasePath(), $item->getSampleFile()
             );
             if ($item->getSampleFile() && !is_file($file)) {
-                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($file);
+                \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($file);
             }
             if ($item->getSampleFile() && is_file($file)) {
                 $tmpSampleItem['file_save'] = array(
@@ -147,7 +149,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     {
         return $this->getProduct()->getId() && $this->getProduct()->getTypeId() == 'downloadable'
             ? $this->getProduct()->getSamplesTitle()
-            : Mage::getStoreConfig(Magento_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
+            : \Mage::getStoreConfig(\Magento\Downloadable\Model\Sample::XML_PATH_SAMPLES_TITLE);
     }
 
     /**
@@ -156,7 +158,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     protected function _prepareLayout()
     {
-        $this->addChild('upload_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('upload_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'id'      => '',
             'label'   => __('Upload Files'),
             'type'    => 'button',
@@ -181,7 +183,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getConfigJson()
     {
-        $this->getConfig()->setUrl(Mage::getModel('Magento_Backend_Model_Url')
+        $this->getConfig()->setUrl(\Mage::getModel('\Magento\Backend\Model\Url')
             ->addSessionParam()
             ->getUrl('*/downloadable_file/upload', array('type' => 'samples', '_secure' => true)));
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
@@ -195,7 +197,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**

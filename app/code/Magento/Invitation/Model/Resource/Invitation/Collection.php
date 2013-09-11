@@ -16,7 +16,9 @@
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Invitation_Model_Resource_Invitation_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Invitation\Model\Resource\Invitation;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Fields mapping 
@@ -36,13 +38,13 @@ class Magento_Invitation_Model_Resource_Invitation_Collection extends Magento_Co
      */
     protected function _construct()
     {
-        $this->_init('Magento_Invitation_Model_Invitation', 'Magento_Invitation_Model_Resource_Invitation');
+        $this->_init('\Magento\Invitation\Model\Invitation', '\Magento\Invitation\Model\Resource\Invitation');
     }
 
     /**
      * Instantiate select object
      *
-     * @return Magento_Invitation_Model_Resource_Invitation_Collection
+     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
      */
     protected function _initSelect()
     {
@@ -57,7 +59,7 @@ class Magento_Invitation_Model_Resource_Invitation_Collection extends Magento_Co
      * Load collection where customer id equals passed parameter
      *
      * @param int $id
-     * @return Magento_Invitation_Model_Resource_Invitation_Collection
+     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
      */
     public function loadByCustomerId($id)
     {
@@ -69,7 +71,7 @@ class Magento_Invitation_Model_Resource_Invitation_Collection extends Magento_Co
      * Filter by specified store ids
      *
      * @param array|int $storeIds
-     * @return Magento_Invitation_Model_Resource_Invitation_Collection
+     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
      */
     public function addStoreFilter($storeIds)
     {
@@ -80,7 +82,7 @@ class Magento_Invitation_Model_Resource_Invitation_Collection extends Magento_Co
     /**
      * Join website ID
      *
-     * @return Magento_Invitation_Model_Resource_Invitation_Collection
+     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
      */
     public function addWebsiteInformation()
     {
@@ -96,7 +98,7 @@ class Magento_Invitation_Model_Resource_Invitation_Collection extends Magento_Co
     /**
      * Join referrals information (email)
      *
-     * @return Magento_Invitation_Model_Resource_Invitation_Collection
+     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
      */
     public function addInviteeInformation()
     {
@@ -110,23 +112,23 @@ class Magento_Invitation_Model_Resource_Invitation_Collection extends Magento_Co
     /**
      * Filter collection by items that can be sent
      *
-     * @return Magento_Invitation_Model_Resource_Invitation_Collection
+     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
      */
     public function addCanBeSentFilter()
     {
-        return $this->addFieldToFilter('status', Magento_Invitation_Model_Invitation::STATUS_NEW);
+        return $this->addFieldToFilter('status', \Magento\Invitation\Model\Invitation::STATUS_NEW);
     }
 
     /**
      * Filter collection by items that can be cancelled
      *
-     * @return Magento_Invitation_Model_Resource_Invitation_Collection
+     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
      */
     public function addCanBeCanceledFilter()
     {
         return $this->addFieldToFilter('status', array('nin' => array(
-            Magento_Invitation_Model_Invitation::STATUS_CANCELED,
-            Magento_Invitation_Model_Invitation::STATUS_ACCEPTED
+            \Magento\Invitation\Model\Invitation::STATUS_CANCELED,
+            \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED
         )));
     }
 }

@@ -15,9 +15,11 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Local
-    extends Magento_Backend_Block_Template
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Local
+    extends \Magento\Backend\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Retrieve Tab load URL

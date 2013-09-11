@@ -13,8 +13,10 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
-    extends Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files;
+
+class Content
+    extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content
 {
     /**
      * Get header text
@@ -23,7 +25,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
      */
     public function getHeaderText()
     {
-        return __('CSS Editor ') . __($this->helper('Magento_Theme_Helper_Storage')->getStorageTypeName());
+        return __('CSS Editor ') . __($this->helper('\Magento\Theme\Helper\Storage')->getStorageTypeName());
     }
     /**
      * Javascript setup object for filebrowser instance
@@ -48,6 +50,6 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content
             'showBreadcrumbs' => false
         ));
 
-        return $this->helper('Magento_Core_Helper_Data')->jsonEncode($setupObject);
+        return $this->helper('\Magento\Core\Helper\Data')->jsonEncode($setupObject);
     }
 }

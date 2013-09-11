@@ -24,23 +24,25 @@
  * we will need to use node = revision_id and level = 2  (for future).
  * Type is only one value '0' at this time bc revision control used only for pages.
  *
- * @method Magento_VersionsCms_Model_Resource_Increment _getResource()
- * @method Magento_VersionsCms_Model_Resource_Increment getResource()
+ * @method \Magento\VersionsCms\Model\Resource\Increment _getResource()
+ * @method \Magento\VersionsCms\Model\Resource\Increment getResource()
  * @method int getType()
- * @method Magento_VersionsCms_Model_Increment setType(int $value)
+ * @method \Magento\VersionsCms\Model\Increment setType(int $value)
  * @method int getNode()
- * @method Magento_VersionsCms_Model_Increment setNode(int $value)
+ * @method \Magento\VersionsCms\Model\Increment setNode(int $value)
  * @method int getLevel()
- * @method Magento_VersionsCms_Model_Increment setLevel(int $value)
+ * @method \Magento\VersionsCms\Model\Increment setLevel(int $value)
  * @method int getLastId()
- * @method Magento_VersionsCms_Model_Increment setLastId(int $value)
+ * @method \Magento\VersionsCms\Model\Increment setLastId(int $value)
  *
  * @category    Magento
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Model_Increment extends Magento_Core_Model_Abstract
+namespace Magento\VersionsCms\Model;
+
+class Increment extends \Magento\Core\Model\AbstractModel
 {
     /*
      * Increment types
@@ -59,7 +61,7 @@ class Magento_VersionsCms_Model_Increment extends Magento_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_VersionsCms_Model_Resource_Increment');
+        $this->_init('\Magento\VersionsCms\Model\Resource\Increment');
     }
 
     /**
@@ -68,7 +70,7 @@ class Magento_VersionsCms_Model_Increment extends Magento_Core_Model_Abstract
      * @param int $type
      * @param int $node
      * @param int $level
-     * @return Magento_VersionsCms_Model_Increment
+     * @return \Magento\VersionsCms\Model\Increment
      */
     public function loadByTypeNodeLevel($type, $node, $level)
     {

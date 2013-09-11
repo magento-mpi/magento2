@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Theme_Validator
+namespace Magento\Core\Model\Theme;
+
+class Validator
 {
     /**
      * Validators list by data key
@@ -40,7 +42,7 @@ class Magento_Core_Model_Theme_Validator
     /**
      * Set version validators
      *
-     * @return Magento_Core_Model_Theme_Validator
+     * @return \Magento\Core\Model\Theme\Validator
      */
     protected function _setVersionValidators()
     {
@@ -81,7 +83,7 @@ class Magento_Core_Model_Theme_Validator
     /**
      * Set theme type validators
      *
-     * @return Magento_Core_Model_Theme_Validator
+     * @return \Magento\Core\Model\Theme\Validator
      */
     protected function _setTypeValidators()
     {
@@ -97,7 +99,7 @@ class Magento_Core_Model_Theme_Validator
                 'name' => 'available',
                 'class' => 'Zend_Validate_InArray',
                 'break' => true,
-                'options' => array('haystack' => Magento_Core_Model_Theme::$types),
+                'options' => array('haystack' => \Magento\Core\Model\Theme::$types),
                 'message' => __('Theme type is invalid')
             )
         );
@@ -112,7 +114,7 @@ class Magento_Core_Model_Theme_Validator
      *
      * @param string $dataKey
      * @param array $validators
-     * @return Magento_Core_Model_Theme_Validator
+     * @return \Magento\Core\Model\Theme\Validator
      */
     public function addDataValidators($dataKey, $validators)
     {
@@ -143,7 +145,7 @@ class Magento_Core_Model_Theme_Validator
      * Instantiate class validator
      *
      * @param array $validators
-     * @return Magento_Core_Model_Theme_Validator
+     * @return \Magento\Core\Model\Theme\Validator
      */
     protected function _instantiateValidators(array &$validators)
     {
@@ -166,7 +168,7 @@ class Magento_Core_Model_Theme_Validator
      */
     protected function _validateDataItem($validator, $dataKey, $dataValue)
     {
-        if ($validator['class'] instanceof Zend_Validate_NotEmpty && !$validator['class']->isValid($dataValue)
+        if ($validator['class'] instanceof \Zend_Validate_NotEmpty && !$validator['class']->isValid($dataValue)
             || !empty($dataValue) && !$validator['class']->isValid($dataValue)
         ) {
             $this->_errorMessages[$dataKey][] = $validator['message'];

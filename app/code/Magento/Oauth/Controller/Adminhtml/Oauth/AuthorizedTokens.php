@@ -15,12 +15,14 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_Adminhtml_Controller_Action
+namespace Magento\Oauth\Controller\Adminhtml\Oauth;
+
+class AuthorizedTokens extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Init titles
      *
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\AuthorizedTokens
      */
     public function preDispatch()
     {
@@ -70,14 +72,14 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
         }
 
         try {
-            /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+            /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
+            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
-                    ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
+                    ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                     ->addFilterById($ids)
                     ->addFilterByRevoked(!$status);
 
-            /** @var $item Magento_Oauth_Model_Token */
+            /** @var $item \Magento\Oauth\Model\Token */
             foreach ($collection as $item) {
                 $item->load($item->getId());
                 $item->setRevoked($status)->save();
@@ -90,11 +92,11 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
                 $message = __('Selected entries enabled.');
             }
             $this->_getSession()->addSuccess($message);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('An error occurred on update revoke status.'));
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         $this->_redirect('*/*/index');
     }
@@ -114,24 +116,24 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
         }
 
         try {
-            /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+            /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
+            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
-                    ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
+                    ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                     ->addFilterById($ids);
 
-            /** @var $item Magento_Oauth_Model_Token */
+            /** @var $item \Magento\Oauth\Model\Token */
             foreach ($collection as $item) {
                 $item->delete();
 
                 $this->_sendTokenStatusChangeNotification($item, __('deleted'));
             }
             $this->_getSession()->addSuccess(__('Selected entries has been deleted.'));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('An error occurred on delete action.'));
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         $this->_redirect('*/*/index');
     }
@@ -149,16 +151,16 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
     /**
      * Send email notification to user about token status change
      *
-     * @param Magento_Oauth_Model_Token $token Token object
+     * @param \Magento\Oauth\Model\Token $token Token object
      * @param string $newStatus Name of new token status
      */
     protected function _sendTokenStatusChangeNotification($token, $newStatus)
     {
         if (($adminId = $token->getAdminId())) {
-            /** @var $session Magento_Backend_Model_Auth_Session */
-            $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+            /** @var $session \Magento\Backend\Model\Auth\Session */
+            $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
 
-            /** @var $admin Magento_User_Model_User */
+            /** @var $admin \Magento\User\Model\User */
             $admin = $session->getUser();
 
             if ($admin->getId() == $adminId) { // skip own tokens
@@ -167,16 +169,16 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_AuthorizedTokens extends Magento_
             $email = $admin->getEmail();
             $name  = $admin->getName(' ');
         } else {
-            /** @var $customer Magento_Customer_Model_Customer */
-            $customer = Mage::getModel('Magento_Customer_Model_Customer');
+            /** @var $customer \Magento\Customer\Model\Customer */
+            $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
 
             $customer->load($token->getCustomerId());
 
             $email = $customer->getEmail();
             $name  = $customer->getName();
         }
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = Mage::helper('Magento_Oauth_Helper_Data');
+        /** @var $helper \Magento\Oauth\Helper\Data */
+        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
 
         $helper->sendNotificationOnTokenStatusChange($email, $name, $token->getConsumer()->getName(), $newStatus);
     }

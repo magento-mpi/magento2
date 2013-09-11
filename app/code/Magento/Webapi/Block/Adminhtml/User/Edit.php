@@ -8,9 +8,11 @@
  * @license     {license_link}
  *
  * @method \Magento\Object getApiUser() getApiUser()
- * @method Magento_Webapi_Block_Adminhtml_User_Edit setApiUser() setApiUser(\Magento\Object $apiUser)
+ * @method \Magento\Webapi\Block\Adminhtml\User\Edit setApiUser() setApiUser(\Magento\Object $apiUser)
  */
-class Magento_Webapi_Block_Adminhtml_User_Edit extends Magento_Backend_Block_Widget_Form_Container
+namespace Magento\Webapi\Block\Adminhtml\User;
+
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * @var string
@@ -52,11 +54,11 @@ class Magento_Webapi_Block_Adminhtml_User_Edit extends Magento_Backend_Block_Wid
     /**
      * Set Web API user to child form block.
      *
-     * @return Magento_Webapi_Block_Adminhtml_User_Edit
+     * @return \Magento\Webapi\Block\Adminhtml\User\Edit
      */
     protected function _beforeToHtml()
     {
-        /** @var $formBlock Magento_Webapi_Block_Adminhtml_User_Edit_Form */
+        /** @var $formBlock \Magento\Webapi\Block\Adminhtml\User\Edit\Form */
         $formBlock = $this->getChildBlock('form');
         $formBlock->setApiUser($this->getApiUser());
         return parent::_beforeToHtml();

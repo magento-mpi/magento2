@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Listtype
+namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
+
+class Listtype
 {
     /**
      * Retrieve options array

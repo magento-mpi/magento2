@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
+namespace Magento\Rma\Model;
+
+class Attribute extends \Magento\Eav\Model\Entity\Attribute
 {
     /**
      * Name of the module
@@ -39,31 +41,31 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
     /**
      * Active Website instance
      *
-     * @var Magento_Core_Model_Website
+     * @var \Magento\Core\Model\Website
      */
     protected $_website;
 
     /**
      * Set active website instance
      *
-     * @param Magento_Core_Model_Website|int $website
-     * @return Magento_Rma_Model_Attribute
+     * @param \Magento\Core\Model\Website|int $website
+     * @return \Magento\Rma\Model\Attribute
      */
     public function setWebsite($website)
     {
-        $this->_website = Mage::app()->getWebsite($website);
+        $this->_website = \Mage::app()->getWebsite($website);
         return $this;
     }
 
     /**
      * Return active website instance
      *
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     public function getWebsite()
     {
         if (is_null($this->_website)) {
-            $this->_website = Mage::app()->getWebsite();
+            $this->_website = \Mage::app()->getWebsite();
         }
 
         return $this->_website;
@@ -74,17 +76,17 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rma_Model_Resource_Item_Attribute');
+        $this->_init('\Magento\Rma\Model\Resource\Item\Attribute');
     }
 
     /**
      * Processing object after save data
      *
-     * @return Magento_Rma_Model_Attribute
+     * @return \Magento\Rma\Model\Attribute
      */
     protected function _afterSave()
     {
-        Mage::getSingleton('Magento_Eav_Model_Config')->clear();
+        \Mage::getSingleton('Magento\Eav\Model\Config')->clear();
         return parent::_afterSave();
     }
 
@@ -126,7 +128,7 @@ class Magento_Rma_Model_Attribute extends Magento_Eav_Model_Entity_Attribute
      * Set validate rules
      *
      * @param array|string $rules
-     * @return Magento_Rma_Model_Attribute
+     * @return \Magento\Rma\Model\Attribute
      */
     public function setValidateRules($rules)
     {

@@ -16,41 +16,43 @@
  * @package    Magento_CatalogSearch
  * @module     Catalog
  */
-class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
+namespace Magento\CatalogSearch\Block;
+
+class Result extends \Magento\Core\Block\Template
 {
     /**
      * Catalog Product collection
      *
-     * @var Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     protected $_productCollection;
 
     /**
      * Retrieve query model object
      *
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     protected function _getQuery()
     {
-        return $this->helper('Magento_CatalogSearch_Helper_Data')->getQuery();
+        return $this->helper('\Magento\CatalogSearch\Helper\Data')->getQuery();
     }
 
     /**
      * Prepare layout
      *
-     * @return Magento_CatalogSearch_Block_Result
+     * @return \Magento\CatalogSearch\Block\Result
      */
     protected function _prepareLayout()
     {
         // add Home breadcrumb
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         if ($breadcrumbs) {
-            $title = __("Search results for: '%1'", $this->helper('Magento_CatalogSearch_Helper_Data')->getQueryText());
+            $title = __("Search results for: '%1'", $this->helper('\Magento\CatalogSearch\Helper\Data')->getQueryText());
 
             $breadcrumbs->addCrumb('home', array(
                 'label' => __('Home'),
                 'title' => __('Go to Home Page'),
-                'link'  => Mage::getBaseUrl()
+                'link'  => \Mage::getBaseUrl()
             ))->addCrumb('search', array(
                 'label' => $title,
                 'title' => $title
@@ -58,7 +60,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
         }
 
         // modify page title
-        $title = __("Search results for: '%1'", $this->helper('Magento_CatalogSearch_Helper_Data')->getEscapedQueryText());
+        $title = __("Search results for: '%1'", $this->helper('\Magento\CatalogSearch\Helper\Data')->getEscapedQueryText());
         $this->getLayout()->getBlock('head')->setTitle($title);
 
         return parent::_prepareLayout();
@@ -77,7 +79,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Retrieve search list toolbar block
      *
-     * @return Magento_Catalog_Block_Product_List
+     * @return \Magento\Catalog\Block\Product\ListProduct
      */
     public function getListBlock()
     {
@@ -87,13 +89,13 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Set search available list orders
      *
-     * @return Magento_CatalogSearch_Block_Result
+     * @return \Magento\CatalogSearch\Block\Result
      */
     public function setListOrders()
     {
-        $category = Mage::getSingleton('Magento_Catalog_Model_Layer')
+        $category = \Mage::getSingleton('Magento\Catalog\Model\Layer')
             ->getCurrentCategory();
-        /* @var $category Magento_Catalog_Model_Category */
+        /* @var $category \Magento\Catalog\Model\Category */
         $availableOrders = $category->getAvailableSortByOptions();
         unset($availableOrders['position']);
         $availableOrders = array_merge(array(
@@ -111,7 +113,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Set available view mode
      *
-     * @return Magento_CatalogSearch_Block_Result
+     * @return \Magento\CatalogSearch\Block\Result
      */
     public function setListModes()
     {
@@ -126,7 +128,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Set Search Result collection
      *
-     * @return Magento_CatalogSearch_Block_Result
+     * @return \Magento\CatalogSearch\Block\Result
      */
     public function setListCollection()
     {
@@ -148,7 +150,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
     /**
      * Retrieve loaded category collection
      *
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     protected function _getProductCollection()
     {
@@ -181,7 +183,7 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
      */
     public function getNoResultText()
     {
-        if (Mage::helper('Magento_CatalogSearch_Helper_Data')->isMinQueryLength()) {
+        if (\Mage::helper('Magento\CatalogSearch\Helper\Data')->isMinQueryLength()) {
             return __('Minimum Search query length is %1', $this->_getQuery()->getMinQueryLength());
         }
         return $this->_getData('no_result_text');
@@ -194,6 +196,6 @@ class Magento_CatalogSearch_Block_Result extends Magento_Core_Block_Template
      */
     public function getNoteMessages()
     {
-        return Mage::helper('Magento_CatalogSearch_Helper_Data')->getNoteMessages();
+        return \Mage::helper('Magento\CatalogSearch\Helper\Data')->getNoteMessages();
     }
 }

@@ -9,13 +9,13 @@
 class Magento_Sales_Model_Resource_Report_Order_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Resource_Report_Order_Collection
+     * @var \Magento\Sales\Model\Resource\Report\Order\Collection
      */
     private $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Order_Collection');
+        $this->_collection = Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Order\Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)
@@ -33,7 +33,7 @@ class Magento_Sales_Model_Resource_Report_Order_CollectionTest extends PHPUnit_F
             array('orders_count' => 1, 'total_qty_ordered' => 2, 'total_qty_invoiced' => 2),
         );
         $actualResult = array();
-        /** @var Magento_Adminhtml_Model_Report_Item $reportItem */
+        /** @var \Magento\Adminhtml\Model\Report\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[] = array_intersect_key($reportItem->getData(), $expectedResult[0]);
         }

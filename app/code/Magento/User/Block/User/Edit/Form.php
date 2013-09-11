@@ -15,7 +15,9 @@
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Block_User_Edit_Form extends Magento_Backend_Block_Widget_Form
+namespace Magento\User\Block\User\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     protected function _prepareForm()
     {

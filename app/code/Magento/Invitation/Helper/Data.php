@@ -14,32 +14,34 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Invitation\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     protected $_isRegistrationAllowed = null;
 
     /**
      * Return text for invetation status
      *
-     * @return Magento_Invitation_Model_Invitation $invitation
+     * @return \Magento\Invitation\Model\Invitation $invitation
      * @return string
      */
     public function getInvitationStatusText($invitation)
     {
-        return Mage::getSingleton('Magento_Invitation_Model_Source_Invitation_Status')->getOptionText($invitation->getStatus());
+        return \Mage::getSingleton('Magento\Invitation\Model\Source\Invitation\Status')->getOptionText($invitation->getStatus());
     }
 
     /**
      * Return invitation url
      *
-     * @param Magento_Invitation_Model_Invitation $invitation
+     * @param \Magento\Invitation\Model\Invitation $invitation
      * @return string
      */
     public function getInvitationUrl($invitation)
     {
-        return Mage::getModel('Magento_Core_Model_Url')->setStore($invitation->getStoreId())
+        return \Mage::getModel('\Magento\Core\Model\Url')->setStore($invitation->getStoreId())
             ->getUrl('magento_invitation/customer_account/create', array(
-                'invitation' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($invitation->getInvitationCode()),
+                'invitation' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($invitation->getInvitationCode()),
                 '_store_to_url' => true,
                 '_nosid' => true
             ));
@@ -74,7 +76,7 @@ class Magento_Invitation_Helper_Data extends Magento_Core_Helper_Abstract
     public function isRegistrationAllowed($isAllowed = null)
     {
         if ($isAllowed === null && $this->_isRegistrationAllowed === null) {
-            $result = Mage::helper('Magento_Customer_Helper_Data')->isRegistrationAllowed();
+            $result = \Mage::helper('Magento\Customer\Helper\Data')->isRegistrationAllowed();
             if ($this->_isRegistrationAllowed === null) {
                 $this->_isRegistrationAllowed = $result;
             }

@@ -9,26 +9,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Backend_Encrypted
-    extends Magento_Core_Model_Config_Value
-    implements Magento_Core_Model_Config_Data_BackendModelInterface
+namespace Magento\Backend\Model\Config\Backend;
+
+class Encrypted
+    extends \Magento\Core\Model\Config\Value
+    implements \Magento\Core\Model\Config\Data\BackendModelInterface
 {
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Helper_Data $helper
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Helper\Data $helper
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Helper_Data $helper,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Helper\Data $helper,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -51,17 +51,17 @@ class Magento_Adminhtml_Block_Widget_ContainerTest extends PHPUnit_Framework_Tes
      * Composes a container with several buttons in it
      *
      * @param array $titles
-     * @return Magento_Adminhtml_Block_Widget_Container
+     * @return \Magento\Adminhtml\Block\Widget\Container
      */
     protected function _buildBlock($titles)
     {
-        /** @var $layout Magento_Core_Model_Layout */
+        /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            '\Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
-        /** @var $block Magento_Adminhtml_Block_Widget_Container */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Widget_Container', 'block');
+        /** @var $block \Magento\Adminhtml\Block\Widget\Container */
+        $block = $layout->createBlock('\Magento\Adminhtml\Block\Widget\Container', 'block');
         foreach ($titles as $id => $title) {
             $block->addButton($id, array('title' => $title));
         }

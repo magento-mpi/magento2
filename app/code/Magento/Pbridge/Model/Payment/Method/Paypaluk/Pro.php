@@ -12,26 +12,28 @@
  * PayPal UK Website Payments Pro implementation for payment method instaces
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk_Model_Pro
+namespace Magento\Pbridge\Model\Payment\Method\Paypaluk;
+
+class Pro extends \Magento\PaypalUk\Model\Pro
 {
 
     /**
      * Payment Bridge Payment Method Instance
      *
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
 
     /**
      * Paypal pbridge payment method
-     * @var Magento_Pbridge_Model_Payment_Method_Paypal
+     * @var \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     protected $_pbridgePaymentMethod = null;
 
     /**
      * Pbridge payment method setter
      *
-     * @param Magento_Pbridge_Model_Payment_Method_Paypal $pbridgePaymentMethod
+     * @param \Magento\Pbridge\Model\Payment\Method\Paypal $pbridgePaymentMethod
      */
 
     public function setPaymentMethod($pbridgePaymentMethod)
@@ -42,12 +44,12 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
     /**
      * Return Payment Bridge method instance
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
         }
         return $this->_pbridgeMethodInstance;
@@ -99,7 +101,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
     public function void(\Magento\Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new \Magento\Object($result), $payment);
+        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
         return $result;
     }
 
@@ -112,7 +114,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new \Magento\Object($result), $payment);
+            \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
         }
     }
 
@@ -132,8 +134,8 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
     /**
      * Import capture results to payment
      *
-     * @param Magento_Paypal_Model_Api_Nvp
-     * @param Magento_Sales_Model_Order_Payment
+     * @param \Magento\Paypal\Model\Api\Nvp
+     * @param \Magento\Sales\Model\Order\Payment
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
@@ -141,14 +143,14 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
         );
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment($api, $payment);
     }
 
     /**
      * Import refund results to payment
      *
-     * @param Magento_Paypal_Model_Api_Nvp $api
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento\Paypal\Model\Api\Nvp $api
+     * @param \Magento\Sales\Model\Order\Payment $payment
      * @param bool $canRefundMore
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
@@ -161,6 +163,6 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro extends Magento_PaypalUk
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
         );
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment($api, $payment);
     }
 }

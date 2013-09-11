@@ -12,17 +12,19 @@
  * CustomerSegment observer
  *
  */
-class Magento_CustomerSegment_Model_Observer
+namespace Magento\CustomerSegment\Model;
+
+class Observer
 {
     /**
-     * @var Magento_CustomerSegment_Helper_Data
+     * @var \Magento\CustomerSegment\Helper\Data
      */
     private $_segmentHelper;
 
     /**
-     * @param Magento_CustomerSegment_Helper_Data $segmentHelper
+     * @param \Magento\CustomerSegment\Helper\Data $segmentHelper
      */
-    public function __construct(Magento_CustomerSegment_Helper_Data $segmentHelper)
+    public function __construct(\Magento\CustomerSegment\Helper\Data $segmentHelper)
     {
         $this->_segmentHelper = $segmentHelper;
     }
@@ -40,7 +42,7 @@ class Magento_CustomerSegment_Model_Observer
         $additional = $observer->getEvent()->getAdditional();
         $additional->setConditions(array(array(
             'label' => __('Customer Segment'),
-            'value' => 'Magento_CustomerSegment_Model_Segment_Condition_Segment'
+            'value' => '\Magento\CustomerSegment\Model\Segment\Condition\Segment'
         )));
     }
 
@@ -64,7 +66,7 @@ class Magento_CustomerSegment_Model_Observer
         }
 
         if ($customerId) {
-            Mage::getSingleton('Magento_CustomerSegment_Model_Customer')->processCustomerEvent(
+            \Mage::getSingleton('Magento\CustomerSegment\Model\Customer')->processCustomerEvent(
                 $eventName,
                 $customerId
             );
@@ -80,15 +82,15 @@ class Magento_CustomerSegment_Model_Observer
     public function processEvent(\Magento\Event\Observer $observer)
     {
         $eventName = $observer->getEvent()->getName();
-        $customer = Mage::registry('segment_customer');
+        $customer = \Mage::registry('segment_customer');
 
         // For visitors use customer instance from customer session
         if (!$customer) {
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
         }
 
-        $website = Mage::app()->getStore()->getWebsite();
-        Mage::getSingleton('Magento_CustomerSegment_Model_Customer')->processEvent($eventName, $customer, $website);
+        $website = \Mage::app()->getStore()->getWebsite();
+        \Mage::getSingleton('Magento\CustomerSegment\Model\Customer')->processEvent($eventName, $customer, $website);
     }
 
     /**
@@ -104,7 +106,7 @@ class Magento_CustomerSegment_Model_Observer
         $customer = $quote->getCustomer();
         if ($customer && $customer->getId()) {
             $website = $quote->getStore()->getWebsite();
-            Mage::getSingleton('Magento_CustomerSegment_Model_Customer')->processCustomer($customer, $website);
+            \Mage::getSingleton('Magento\CustomerSegment\Model\Customer')->processCustomer($customer, $website);
         }
     }
 
@@ -121,7 +123,7 @@ class Magento_CustomerSegment_Model_Observer
             'name'      => 'is_used_for_customer_segment',
             'label'     => __('Use in Customer Segment'),
             'title'     => __('Use in Customer Segment'),
-            'values'    => Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray(),
+            'values'    => \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray(),
         ));
     }
 
@@ -141,11 +143,11 @@ class Magento_CustomerSegment_Model_Observer
         $form = $observer->getEvent()->getForm();
         /** @var \Magento\Object $model */
         $model = $observer->getEvent()->getModel();
-        /** @var Magento_Core_Block_Abstract $block */
+        /** @var \Magento\Core\Block\AbstractBlock $block */
         $block = $observer->getEvent()->getBlock();
 
-        /** @var Magento_Backend_Block_Widget_Form_Element_Dependence $fieldDependencies */
-        $fieldDependencies = $block->getLayout()->createBlock('Magento_Backend_Block_Widget_Form_Element_Dependence');
+        /** @var \Magento\Backend\Block\Widget\Form\Element\Dependence $fieldDependencies */
+        $fieldDependencies = $block->getLayout()->createBlock('\Magento\Backend\Block\Widget\Form\Element\Dependence');
         $block->setChild('form_after', $fieldDependencies);
 
         $this->_segmentHelper->addSegmentFieldsToForm($form, $model, $fieldDependencies);

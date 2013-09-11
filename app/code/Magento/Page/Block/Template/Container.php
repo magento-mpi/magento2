@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Template_Container extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Template;
+
+class Container extends \Magento\Core\Block\Template
 {
 
     protected $_template = 'template/container.phtml';

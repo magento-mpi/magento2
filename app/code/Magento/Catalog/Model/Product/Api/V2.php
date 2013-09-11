@@ -15,14 +15,16 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product_Api
+namespace Magento\Catalog\Model\Product\Api;
+
+class V2 extends \Magento\Catalog\Model\Product\Api
 {
     /**
      * Retrieve product info
      *
      * @param int|string $productId
      * @param string|int $store
-     * @param stdClass $attributes
+     * @param \stdClass $attributes
      * @param string $identifierType if set to sku, then consider the productId to be a SKU even if it is numeric
      * @return array
      */
@@ -99,8 +101,8 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
         $this->_checkProductTypeExists($type);
         $this->_checkProductAttributeSet($set);
 
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
         $product->setStoreId($this->_getStoreId($store))
             ->setAttributeSetId($set)
             ->setTypeId($type)
@@ -121,7 +123,7 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
 
         try {
             $product->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -145,7 +147,7 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
         try {
             /**
              * @todo implement full validation process with errors returning which are ignoring now
-             * @todo see Magento_Catalog_Model_Product::validate()
+             * @todo see \Magento\Catalog\Model\Product::validate()
              */
             if (is_array($errors = $product->validate())) {
                 $strErrors = array();
@@ -162,7 +164,7 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
             }
 
             $product->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -190,7 +192,7 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
         foreach ($productIds as $index => $productId) {
             try {
                 $this->update($productId, $productData[$index], $store, $identifierType);
-            } catch (Magento_Api_Exception $e) {
+            } catch (\Magento\Api\Exception $e) {
                 $failMessages[] = sprintf("Product ID %d:\n %s", $productId, $e->getMessage());
             }
         }
@@ -207,7 +209,7 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
     /**
      *  Set additional data before product saved
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $productData
      * @return object
      */
@@ -237,7 +239,7 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
             $_attrCode = $attribute->getAttributeCode();
 
             //Unset data if object attribute has no value in current store
-            if (Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID !== (int) $product->getStoreId()
+            if (\Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID !== (int) $product->getStoreId()
                 && !$product->getExistsStoreValueFlag($_attrCode)
                 && !$attribute->isScopeGlobal()
             ) {
@@ -260,16 +262,16 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
             foreach ($productData->websites as &$website) {
                 if (is_string($website)) {
                     try {
-                        $website = Mage::app()->getWebsite($website)->getId();
-                    } catch (Exception $e) {
+                        $website = \Mage::app()->getWebsite($website)->getId();
+                    } catch (\Exception $e) {
                     }
                 }
             }
             $product->setWebsiteIds($productData->websites);
         }
 
-        if (Mage::app()->hasSingleStore()) {
-            $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
+        if (\Mage::app()->hasSingleStore()) {
+            $product->setWebsiteIds(array(\Mage::app()->getStore(true)->getWebsite()->getId()));
         }
 
         if (property_exists($productData, 'stock_data')) {
@@ -281,13 +283,13 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
         }
 
         if (property_exists($productData, 'tier_price')) {
-             $tierPrices = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2')
+             $tierPrices = \Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Tierprice\Api\V2')
                  ->prepareTierPrices($product, $productData->tier_price);
-             $product->setData(Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2::ATTRIBUTE_CODE, $tierPrices);
+             $product->setData(\Magento\Catalog\Model\Product\Attribute\Tierprice\Api\V2::ATTRIBUTE_CODE, $tierPrices);
         }
 
-        /** @var $helper Magento_Api_Helper_Data */
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        /** @var $helper \Magento\Api\Helper\Data */
+        $helper = \Mage::helper('Magento\Api\Helper\Data');
         $helper->v2AssociativeArrayUnpacker($productData);
         $helper->toArray($productData);
         $this->_prepareConfigurableAttributes($product, $productData);
@@ -308,7 +310,7 @@ class Magento_Catalog_Model_Product_Api_V2 extends Magento_Catalog_Model_Product
     public function setSpecialPrice($productId, $specialPrice = null, $fromDate = null, $toDate = null, $store = null,
         $identifierType = null
     ) {
-        $obj = new stdClass();
+        $obj = new \stdClass();
         $obj->special_price = $specialPrice;
         $obj->special_from_date = $fromDate;
         $obj->special_to_date = $toDate;

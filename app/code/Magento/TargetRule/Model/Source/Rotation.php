@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_TargetRule_Model_Source_Rotation
+namespace Magento\TargetRule\Model\Source;
+
+class Rotation
 {
 
     /**
@@ -19,9 +21,9 @@ class Magento_TargetRule_Model_Source_Rotation
     public function toOptionArray()
     {
         return array(
-            Magento_TargetRule_Model_Rule::ROTATION_NONE =>
+            \Magento\TargetRule\Model\Rule::ROTATION_NONE =>
                 __('Do not rotate'),
-            Magento_TargetRule_Model_Rule::ROTATION_SHUFFLE =>
+            \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE =>
                 __('Shuffle'),
         );
     }

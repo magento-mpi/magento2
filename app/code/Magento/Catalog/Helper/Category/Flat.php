@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Helper_Category_Flat extends Magento_Catalog_Helper_Flat_Abstract
+namespace Magento\Catalog\Helper\Category;
+
+class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
 {
     /**
      * Catalog Category Flat Is Enabled Config
@@ -37,7 +39,7 @@ class Magento_Catalog_Helper_Category_Flat extends Magento_Catalog_Helper_Flat_A
     /**
      * Store catalog Category Flat index process instance
      *
-     * @var Magento_Index_Model_Process|null
+     * @var \Magento\Index\Model\Process|null
      */
     protected $_process = null;
 
@@ -50,7 +52,7 @@ class Magento_Catalog_Helper_Category_Flat extends Magento_Catalog_Helper_Flat_A
      */
     public function isEnabled($skipAdminCheck = false)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY);
     }
 
     /**
@@ -60,13 +62,13 @@ class Magento_Catalog_Helper_Category_Flat extends Magento_Catalog_Helper_Flat_A
      */
     public function isBuilt()
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category_Flat')->isBuilt();
+        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category\Flat')->isBuilt();
     }
 
     /**
      * Check if Catalog Category Flat Data has been initialized
      *
-     * @deprecated after 1.7.0.0 use Magento_Catalog_Helper_Category_Flat::isBuilt() instead
+     * @deprecated after 1.7.0.0 use \Magento\Catalog\Helper\Category\Flat::isBuilt() instead
      *
      * @return bool
      */

@@ -11,17 +11,19 @@
 /**
  * Cart items subselection condition
  */
-class Magento_Reminder_Model_Rule_Condition_Cart_Subselection
-    extends Magento_Reminder_Model_Condition_Combine_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+class Subselection
+    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Subselection');
+        $this->setType('\Magento\Reminder\Model\Rule\Condition\Cart\Subselection');
     }
 
     /**
@@ -31,7 +33,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Subselection
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('Magento_Reminder_Model_Rule_Condition_Cart_Subcombine')->getNewChildSelectOptions();
+        return \Mage::getModel('\Magento\Reminder\Model\Rule\Condition\Cart\Subcombine')->getNewChildSelectOptions();
     }
 
     /**
@@ -47,7 +49,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Subselection
     /**
      * Prepare operator select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Cart_Subselection
+     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Subselection
      */
     public function loadOperatorOptions()
     {
@@ -75,7 +77,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Subselection
      * Build query for matching shopping cart items
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
+     * @param int | \Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -84,7 +86,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Subselection
         $quoteTable = $this->getResource()->getTable('sales_flat_quote');
         $quoteItemTable = $this->getResource()->getTable('sales_flat_quote_item');
 
-        $select->from(array('item' => $quoteItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('quote' => $quoteTable),

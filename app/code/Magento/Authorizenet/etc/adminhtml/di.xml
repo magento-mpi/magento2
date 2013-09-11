@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="Magento_Authorizenet_Model_Directpost_Session">
+    <type name="Magento\Authorizenet\Model\Directpost\Session">
         <param name="sessionName">
             <value>adminhtml</value>
         </param>

@@ -16,8 +16,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Massaction
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Checkbox
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Massaction
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox
 {
     protected $_defaultWidth = 20;
 

@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Search_Strategy_Email implements Magento_MultipleWishlist_Model_Search_Strategy_Interface
+namespace Magento\MultipleWishlist\Model\Search\Strategy;
+
+class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyInterface
 {
     /**
      * Email provided for search
@@ -32,7 +34,7 @@ class Magento_MultipleWishlist_Model_Search_Strategy_Email implements Magento_Mu
     public function setSearchParams(array $params)
     {
         if (empty($params['email']) || !Zend_Validate::is($params['email'], 'EmailAddress')) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 __('Please input a valid email address.')
             );
         }
@@ -42,13 +44,13 @@ class Magento_MultipleWishlist_Model_Search_Strategy_Email implements Magento_Mu
     /**
      * Filter given wishlist collection
      *
-     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection $collection
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
-    public function filterCollection(Magento_Wishlist_Model_Resource_Wishlist_Collection $collection)
+    public function filterCollection(\Magento\Wishlist\Model\Resource\Wishlist\Collection $collection)
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+            ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
             ->loadByEmail($this->_email);
 
         $collection->filterByCustomer($customer);

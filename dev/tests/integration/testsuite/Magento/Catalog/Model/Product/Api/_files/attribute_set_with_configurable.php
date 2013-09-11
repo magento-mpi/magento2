@@ -6,28 +6,28 @@
  * @license {license_link}
  */
 
-if (!Mage::registry('attribute_set_with_configurable')) {
+if (!\Mage::registry('attribute_set_with_configurable')) {
     define('ATTRIBUTES_COUNT', 2);
     define('ATTRIBUTE_OPTIONS_COUNT', 3);
 
-    /** @var $entityType Magento_Eav_Model_Entity_Type */
-    $entityType = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode('catalog_product');
+    /** @var $entityType \Magento\Eav\Model\Entity\Type */
+    $entityType = Mage::getModel('\Magento\Eav\Model\Entity\Type')->loadByCode('catalog_product');
 
-    /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
-    $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
+    /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
+    $attributeSet = Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set');
     $attributeSet->setEntityTypeId($entityType->getEntityTypeId())
         ->setAttributeSetName('Test Attribute Set ' . uniqid());
 
     $attributeSet->save();
-    /** @var $entityType Magento_Eav_Model_Entity_Type */
-    $entityType = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode('catalog_product');
+    /** @var $entityType \Magento\Eav\Model\Entity\Type */
+    $entityType = Mage::getModel('\Magento\Eav\Model\Entity\Type')->loadByCode('catalog_product');
     $attributeSet->initFromSkeleton($entityType->getDefaultAttributeSetId())->save();
     Mage::register('attribute_set_with_configurable', $attributeSet);
 
-    /** @var $attributeFixture Magento_Catalog_Model_Resource_Eav_Attribute */
-    $attributeFixture = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+    /** @var $attributeFixture \Magento\Catalog\Model\Resource\Eav\Attribute */
+    $attributeFixture = Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
 
-    $attributeFixture->setEntityTypeId(Mage::getModel('Magento_Eav_Model_Entity')->setType('catalog_product')
+    $attributeFixture->setEntityTypeId(Mage::getModel('\Magento\Eav\Model\Entity')->setType('catalog_product')
         ->getTypeId())
         ->setAttributeCode('test_attr_' . uniqid())
         ->setIsUserDefined(true)

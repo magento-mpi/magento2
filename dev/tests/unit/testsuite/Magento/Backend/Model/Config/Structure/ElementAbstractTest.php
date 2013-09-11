@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_ElementAbstract
+     * @var \Magento\Backend\Model\Config\Structure\ElementAbstract
      */
     protected $_model;
 
@@ -23,10 +23,10 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Backend_Model_Config_Structure_ElementAbstract',
+            '\Magento\Backend\Model\Config\Structure\ElementAbstract',
             array($this->_applicationMock)
         );
     }
@@ -82,7 +82,7 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
     {
         $this->_applicationMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
         $this->_model->setData(array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 0),
-            Magento_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT);
+            \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT);
         $this->assertTrue($this->_model->isVisible());
     }
 
@@ -91,7 +91,7 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
         $this->_applicationMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
         $this->_model->setData(
             array('hide_in_single_store_mode' => 1, 'showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 0),
-            Magento_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT
+            \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT
         );
         $this->assertFalse($this->_model->isVisible());
     }
@@ -103,7 +103,7 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
     {
         $this->_applicationMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(true));
         $this->_model->setData(array('showInDefault' => 0, 'showInStore' => 0, 'showInWebsite' => 0),
-            Magento_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT
+            \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT
         );
         $this->assertFalse($this->_model->isVisible());
     }
@@ -124,15 +124,15 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
         return array(
             array(
                 array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 0),
-                Magento_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT
+                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT
             ),
             array(
                 array('showInDefault' => 0, 'showInStore' => 1, 'showInWebsite' => 0),
-                Magento_Backend_Model_Config_ScopeDefiner::SCOPE_STORE
+                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_STORE
             ),
             array(
                 array('showInDefault' => 0, 'showInStore' => 0, 'showInWebsite' => 1),
-                Magento_Backend_Model_Config_ScopeDefiner::SCOPE_WEBSITE
+                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_WEBSITE
             ),
         );
     }
@@ -153,15 +153,15 @@ class Magento_Backend_Model_Config_Structure_ElementAbstractTest extends PHPUnit
         return array(
             array(
                 array('showInDefault' => 0, 'showInStore' => 1, 'showInWebsite' => 1),
-                Magento_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT
+                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT
             ),
             array(
                 array('showInDefault' => 1, 'showInStore' => 0, 'showInWebsite' => 1),
-                Magento_Backend_Model_Config_ScopeDefiner::SCOPE_STORE
+                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_STORE
             ),
             array(
                 array('showInDefault' => 1, 'showInStore' => 1, 'showInWebsite' => 0),
-                Magento_Backend_Model_Config_ScopeDefiner::SCOPE_WEBSITE
+                \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_WEBSITE
             ),
         );
     }

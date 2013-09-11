@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab;
+
+class General
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Return current gift registry type instance
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function getType()
     {
-        return Mage::registry('current_giftregistry_type');
+        return \Mage::registry('current_giftregistry_type');
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         }
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element',
+                '\Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element'
             )
         );
@@ -44,7 +46,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
     /**
      * Prepare general properties form
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\General
      */
     protected function _prepareForm()
     {
@@ -84,7 +86,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General
         $fieldset->addField('is_listed', 'select', array(
             'label'    => __('Is Listed'),
             'name'     => 'is_listed',
-            'values'   => Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray(),
+            'values'   => \Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray(),
             'scope'    => 'store'
         ));
 

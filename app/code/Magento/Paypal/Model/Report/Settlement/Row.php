@@ -12,46 +12,48 @@
  * Model for report rows
  */
 /**
- * @method Magento_Paypal_Model_Resource_Report_Settlement_Row _getResource()
- * @method Magento_Paypal_Model_Resource_Report_Settlement_Row getResource()
+ * @method \Magento\Paypal\Model\Resource\Report\Settlement\Row _getResource()
+ * @method \Magento\Paypal\Model\Resource\Report\Settlement\Row getResource()
  * @method int getReportId()
- * @method Magento_Paypal_Model_Report_Settlement_Row setReportId(int $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setReportId(int $value)
  * @method string getTransactionId()
- * @method Magento_Paypal_Model_Report_Settlement_Row setTransactionId(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setTransactionId(string $value)
  * @method string getInvoiceId()
- * @method Magento_Paypal_Model_Report_Settlement_Row setInvoiceId(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setInvoiceId(string $value)
  * @method string getPaypalReferenceId()
- * @method Magento_Paypal_Model_Report_Settlement_Row setPaypalReferenceId(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setPaypalReferenceId(string $value)
  * @method string getPaypalReferenceIdType()
- * @method Magento_Paypal_Model_Report_Settlement_Row setPaypalReferenceIdType(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setPaypalReferenceIdType(string $value)
  * @method string getTransactionEventCode()
- * @method Magento_Paypal_Model_Report_Settlement_Row setTransactionEventCode(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setTransactionEventCode(string $value)
  * @method string getTransactionInitiationDate()
- * @method Magento_Paypal_Model_Report_Settlement_Row setTransactionInitiationDate(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setTransactionInitiationDate(string $value)
  * @method string getTransactionCompletionDate()
- * @method Magento_Paypal_Model_Report_Settlement_Row setTransactionCompletionDate(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setTransactionCompletionDate(string $value)
  * @method string getTransactionDebitOrCredit()
- * @method Magento_Paypal_Model_Report_Settlement_Row setTransactionDebitOrCredit(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setTransactionDebitOrCredit(string $value)
  * @method float getGrossTransactionAmount()
- * @method Magento_Paypal_Model_Report_Settlement_Row setGrossTransactionAmount(float $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setGrossTransactionAmount(float $value)
  * @method string getGrossTransactionCurrency()
- * @method Magento_Paypal_Model_Report_Settlement_Row setGrossTransactionCurrency(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setGrossTransactionCurrency(string $value)
  * @method string getFeeDebitOrCredit()
- * @method Magento_Paypal_Model_Report_Settlement_Row setFeeDebitOrCredit(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setFeeDebitOrCredit(string $value)
  * @method float getFeeAmount()
- * @method Magento_Paypal_Model_Report_Settlement_Row setFeeAmount(float $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setFeeAmount(float $value)
  * @method string getFeeCurrency()
- * @method Magento_Paypal_Model_Report_Settlement_Row setFeeCurrency(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setFeeCurrency(string $value)
  * @method string getCustomField()
- * @method Magento_Paypal_Model_Report_Settlement_Row setCustomField(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setCustomField(string $value)
  * @method string getConsumerId()
- * @method Magento_Paypal_Model_Report_Settlement_Row setConsumerId(string $value)
+ * @method \Magento\Paypal\Model\Report\Settlement\Row setConsumerId(string $value)
  *
  * @category    Magento
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_Report_Settlement_Row extends Magento_Core_Model_Abstract
+namespace Magento\Paypal\Model\Report\Settlement;
+
+class Row extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Assoc array event code => label
@@ -72,7 +74,7 @@ class Magento_Paypal_Model_Report_Settlement_Row extends Magento_Core_Model_Abst
      */
     protected function _construct()
     {
-        $this->_init('Magento_Paypal_Model_Resource_Report_Settlement_Row');
+        $this->_init('\Magento\Paypal\Model\Resource\Report\Settlement\Row');
     }
 
     /**

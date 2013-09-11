@@ -15,13 +15,15 @@
  * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute_Backend_Time_Updated extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Backend\Time;
+
+class Updated extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Set modified date
      *
      * @param \Magento\Object $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Time_Updated
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Time\Updated
      */
     public function beforeSave($object)
     {

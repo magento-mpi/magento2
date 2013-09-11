@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Search_Model_ObjectManager_Configurator implements Magento_Core_Model_ObjectManager_DynamicConfigInterface
+namespace Magento\Search\Model\ObjectManager;
+
+class Configurator implements \Magento\Core\Model\ObjectManager\DynamicConfigInterface
 {
     /**
      * Retrieve runtime environment specific di configuration
@@ -17,16 +19,16 @@ class Magento_Search_Model_ObjectManager_Configurator implements Magento_Core_Mo
     public function getConfiguration()
     {
         if (extension_loaded('solr')) {
-            $adapter = 'Magento_Search_Model_Adapter_PhpExtension';
-            $clientFactory = 'Magento_Search_Model_Client_SolrClient_Factory';
+            $adapter = '\Magento\Search\Model\Adapter\PhpExtension';
+            $clientFactory = '\Magento\Search\Model\Client\SolrClient\Factory';
         } else {
-            $adapter = 'Magento_Search_Model_Adapter_HttpStream';
-            $clientFactory = 'Magento_Search_Model_Client_Solr_Factory';
+            $adapter = '\Magento\Search\Model\Adapter\HttpStream';
+            $clientFactory = '\Magento\Search\Model\Client\Solr\Factory';
         }
         return array(
             'preferences' => array(
-                'Magento_Search_Model_AdapterInterface' => $adapter,
-                'Magento_Search_Model_Client_FactoryInterface' => $clientFactory
+                '\Magento\Search\Model\AdapterInterface' => $adapter,
+                '\Magento\Search\Model\Client\FactoryInterface' => $clientFactory
             )
         );
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource block
+ * Test for \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource block
  *
  * {license_notice}
  *
@@ -10,26 +10,26 @@
 class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_Rule|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Webapi\Model\Resource\Acl\Rule|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_ruleResource;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource
+     * @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_ruleResource = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_Rule')
+        $this->_ruleResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Rule')
             ->disableOriginalConstructor()
             ->setMethods(array('getResourceIdsByRole'))
             ->getMock();
 
-        $rootResource = new Magento_Core_Model_Acl_RootResource('Magento_Webapi');
+        $rootResource = new \Magento\Core\Model\Acl\RootResource('Magento_Webapi');
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $helper->getObject('Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource', array(
+        $this->_block = $helper->getObject('\Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource', array(
             'ruleResource' => $this->_ruleResource,
             'rootResource' => $rootResource
         ));

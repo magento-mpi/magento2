@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-/** @var $model Magento_GiftCardAccount_Model_Giftcardaccount */
-$model = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount');
+/** @var $model \Magento\GiftCardAccount\Model\Giftcardaccount */
+$model = Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount');
 $model->setCode('giftcardaccount_fixture')
-    ->setStatus(Magento_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED)
-    ->setState(Magento_GiftCardAccount_Model_Giftcardaccount::STATE_AVAILABLE)
+    ->setStatus(\Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED)
+    ->setState(\Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE)
     ->setWebsiteId(Mage::app()->getWebsite()->getId())
-    ->setIsRedeemable(Magento_GiftCardAccount_Model_Giftcardaccount::REDEEMABLE)
+    ->setIsRedeemable(\Magento\GiftCardAccount\Model\Giftcardaccount::REDEEMABLE)
     ->setBalance(9.99)
     ->setDateExpires(date('Y-m-d'))
     ->save()

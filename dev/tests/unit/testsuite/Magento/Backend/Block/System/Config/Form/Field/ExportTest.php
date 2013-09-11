@@ -12,7 +12,7 @@
 class Magento_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field_Export
+     * @var \Magento\Backend\Block\System\Config\Form\Field\Export
      */
     protected $_object;
 
@@ -23,14 +23,14 @@ class Magento_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_
 
     protected function setUp()
     {
-        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper',
+        $this->_helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper',
             array(), array(), '', false, false
         );
 
         $data = array(
             'helperFactory' => $this->_helperFactoryMock
         );
-        $this->_object = new Magento_Backend_Block_System_Config_Form_Field_Export($data);
+        $this->_object = new \Magento\Backend\Block\System\Config\Form\Field\Export($data);
     }
 
     public function testGetElementHtml()
@@ -38,21 +38,21 @@ class Magento_Backend_Block_System_Config_Form_Field_ExportTest extends PHPUnit_
         $expected = 'some test data';
 
         $form = $this->getMock('Magento\Data\Form', array('getParent'), array(), '', false, false);
-        $parentObjectMock = $this->getMock('Magento_Backend_Block_Template',
+        $parentObjectMock = $this->getMock('Magento\Backend\Block\Template',
             array('getLayout'), array(), '', false, false
         );
-        $layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
+        $layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
 
-        $blockMock = $this->getMock('Magento_Backend_Block_Widget_Button', array(), array(), '', false, false);
+        $blockMock = $this->getMock('Magento\Backend\Block\Widget\Button', array(), array(), '', false, false);
 
-        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false, false);
+        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false, false);
         $requestMock->expects($this->once())->method('getParam')->with('website')->will($this->returnValue(1));
 
-        $helperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false, false);
+        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false, false);
         $helperMock->expects($this->once())->method('getUrl')->with("*/*/exportTablerates", array('website' => 1));
 
         $this->_helperFactoryMock->expects($this->any())
-            ->method('get')->with('Magento_Backend_Helper_Data')->will($this->returnValue($helperMock));
+            ->method('get')->with('Magento\Backend\Helper\Data')->will($this->returnValue($helperMock));
 
         $mockData = $this->getMock('StdClass', array('toHtml'));
         $mockData->expects($this->once())->method('toHtml')->will($this->returnValue($expected));

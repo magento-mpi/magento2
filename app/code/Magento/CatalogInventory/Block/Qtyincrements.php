@@ -16,7 +16,9 @@
  * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Block_Qtyincrements extends Magento_Core_Block_Template
+namespace Magento\CatalogInventory\Block;
+
+class Qtyincrements extends \Magento\Core\Block\Template
 {
     /**
      * Qty Increments cache
@@ -28,11 +30,11 @@ class Magento_CatalogInventory_Block_Qtyincrements extends Magento_Core_Block_Te
     /**
      * Retrieve current product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return \Mage::registry('current_product');
     }
 
     /**

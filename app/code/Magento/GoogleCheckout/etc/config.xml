@@ -24,7 +24,7 @@
             <googlecheckout_setup>
                 <setup>
                     <module>Magento_GoogleCheckout</module>
-                    <class>Magento_GoogleCheckout_Model_Resource_Setup</class>
+                    <class>Magento\GoogleCheckout\Model\Resource\Setup</class>
                 </setup>
             </googlecheckout_setup>
         </resources>
@@ -60,20 +60,20 @@
         <carriers>
             <googlecheckout>
                 <active>1</active>
-                <model>Magento_GoogleCheckout_Model_Shipping</model>
+                <model>\Magento\GoogleCheckout\Model\Shipping</model>
             </googlecheckout>
         </carriers>
         <payment>
             <googlecheckout>
                 <active>1</active>
-                <model>Magento_GoogleCheckout_Model_Payment</model>
+                <model>\Magento\GoogleCheckout\Model\Payment</model>
                 <title>Google Checkout</title>
             </googlecheckout>
         </payment>
         <google>
             <checkout>
-                <merchant_id backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
-                <merchant_key backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <merchant_id backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
+                <merchant_key backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
                 <use_secure_callback_url>0</use_secure_callback_url>
                 <disable_default_tax_tables>0</disable_default_tax_tables>
                 <hide_cart_contents>1</hide_cart_contents>

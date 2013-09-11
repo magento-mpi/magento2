@@ -13,8 +13,10 @@
  * Renderer for service JavaScript code that disables corresponding paypal methods on page load
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
-    extends Magento_Backend_Block_Template
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
+
+class Store
+    extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
@@ -32,7 +34,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
      */
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $html = Mage::getModel('Magento_Core_Model_StoreManagerInterface')->isSingleStoreMode() ? '' : $this->toHtml();
+        $html = \Mage::getModel('\Magento\Core\Model\StoreManagerInterface')->isSingleStoreMode() ? '' : $this->toHtml();
         return $html;
     }
 
@@ -56,7 +58,7 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Store
         $website = $this->getRequest()->getParam('website');
         $disabledMethods = array();
         foreach ($methods as $methodId => $methodPath) {
-            $isEnabled = (int)  Mage::getConfig()->getValue($methodPath, 'website', $website);
+            $isEnabled = (int)  \Mage::getConfig()->getValue($methodPath, 'website', $website);
             if ($isEnabled === 0) {
                 $disabledMethods[$methodId] = $isEnabled;
             }

@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_GoogleShopping_Block_Adminhtml_Types_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\GoogleShopping\Block\Adminhtml\Types;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {
@@ -24,7 +26,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit extends Magento_Adminhtm
         $this->_blockGroup = 'Magento_GoogleShopping';
         $this->_controller = 'adminhtml_types';
         $this->_mode = 'edit';
-        $model = Mage::registry('current_item_type');
+        $model = \Mage::registry('current_item_type');
         $this->_removeButton('reset');
         $this->_updateButton('save', 'label', __('Save Mapping'));
         $this->_updateButton('save', 'id', 'save_button');
@@ -41,7 +43,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit extends Magento_Adminhtm
      */
     public function getFormInitScripts()
     {
-        return $this->getLayout()->createBlock('Magento_Core_Block_Template')
+        return $this->getLayout()->createBlock('\Magento\Core\Block\Template')
             ->setTemplate('Magento_GoogleShopping::types/edit.phtml')
             ->toHtml();
     }
@@ -53,7 +55,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit extends Magento_Adminhtm
      */
     public function getHeaderText()
     {
-        if(!is_null(Mage::registry('current_item_type')->getId())) {
+        if(!is_null(\Mage::registry('current_item_type')->getId())) {
             return __('Edit attribute set mapping');
         } else {
             return __('New attribute set mapping');

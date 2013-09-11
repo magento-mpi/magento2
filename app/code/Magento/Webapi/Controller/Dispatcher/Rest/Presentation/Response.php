@@ -7,43 +7,45 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Response
+namespace Magento\Webapi\Controller\Dispatcher\Rest\Presentation;
+
+class Response
 {
-    /** @var Magento_Webapi_Model_Config_Rest */
+    /** @var \Magento\Webapi\Model\Config\Rest */
     protected $_apiConfig;
 
-    /** @var Magento_Webapi_Controller_Request_Rest */
+    /** @var \Magento\Webapi\Controller\Request\Rest */
     protected $_request;
 
-    /** @var Magento_Webapi_Controller_Response_Rest */
+    /** @var \Magento\Webapi\Controller\Response\Rest */
     protected $_response;
 
     /** @var \Magento\Controller\Router\Route\Factory */
     protected $_routeFactory;
 
-    /** @var Magento_Webapi_Controller_Response_Rest_RendererInterface */
+    /** @var \Magento\Webapi\Controller\Response\Rest\RendererInterface */
     protected $_renderer;
 
-    /** @var Magento_Core_Model_Config */
+    /** @var \Magento\Core\Model\Config */
     protected $_applicationConfig;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Model_Config_Rest $apiConfig
-     * @param Magento_Webapi_Controller_Request_Factory $requestFactory
-     * @param Magento_Webapi_Controller_Response_Rest $response
-     * @param Magento_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory
+     * @param \Magento\Webapi\Model\Config\Rest $apiConfig
+     * @param \Magento\Webapi\Controller\Request\Factory $requestFactory
+     * @param \Magento\Webapi\Controller\Response\Rest $response
+     * @param \Magento\Webapi\Controller\Response\Rest\Renderer\Factory $rendererFactory
      * @param \Magento\Controller\Router\Route\Factory $routeFactory
-     * @param Magento_Core_Model_Config $applicationConfig
+     * @param \Magento\Core\Model\Config $applicationConfig
      */
     public function __construct(
-        Magento_Webapi_Model_Config_Rest $apiConfig,
-        Magento_Webapi_Controller_Request_Factory $requestFactory,
-        Magento_Webapi_Controller_Response_Rest $response,
-        Magento_Webapi_Controller_Response_Rest_Renderer_Factory $rendererFactory,
+        \Magento\Webapi\Model\Config\Rest $apiConfig,
+        \Magento\Webapi\Controller\Request\Factory $requestFactory,
+        \Magento\Webapi\Controller\Response\Rest $response,
+        \Magento\Webapi\Controller\Response\Rest\Renderer\Factory $rendererFactory,
         \Magento\Controller\Router\Route\Factory $routeFactory,
-        Magento_Core_Model_Config $applicationConfig
+        \Magento\Core\Model\Config $applicationConfig
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_request = $requestFactory->get();
@@ -62,31 +64,31 @@ class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     public function prepareResponse($method, $outputData = null)
     {
         switch ($method) {
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_CREATE:
-                /** @var $createdItem Magento_Core_Model_Abstract */
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_CREATE:
+                /** @var $createdItem \Magento\Core\Model\AbstractModel */
                 $createdItem = $outputData;
                 $this->_response->setHeader('Location', $this->_getCreatedItemLocation($createdItem));
                 break;
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_GET:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_GET:
                 // TODO: Implement fields filtration
                 $filteredData = $outputData;
                 $this->_render($filteredData);
                 break;
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_LIST:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_LIST:
                 // TODO: Implement fields filtration
                 $filteredData = $outputData;
                 $this->_render($filteredData);
                 break;
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_UPDATE:
                 // break is intentionally omitted
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_CREATE:
                 // break is intentionally omitted
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE:
-                $this->_response->setHttpResponseCode(Magento_Webapi_Controller_Response_Rest::HTTP_MULTI_STATUS);
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_DELETE:
+                $this->_response->setHttpResponseCode(\Magento\Webapi\Controller\Response\Rest::HTTP_MULTI_STATUS);
                 break;
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_UPDATE:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_UPDATE:
                 // break is intentionally omitted
-            case Magento_Webapi_Controller_ActionAbstract::METHOD_DELETE:
+            case \Magento\Webapi\Controller\ActionAbstract::METHOD_DELETE:
                 break;
         }
         $this->_renderMessages();
@@ -105,14 +107,14 @@ class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Response
     /**
      * Generate resource location.
      *
-     * @param Magento_Core_Model_Abstract $createdItem
+     * @param \Magento\Core\Model\AbstractModel $createdItem
      * @return string URL
      */
     protected function _getCreatedItemLocation($createdItem)
     {
         $apiTypeRoute = $this->_routeFactory->createRoute(
-            'Magento_Webapi_Controller_Router_Route',
-            $this->_applicationConfig->getAreaFrontName() . '/:' . Magento_Webapi_Controller_Request::PARAM_API_TYPE
+            '\Magento\Webapi\Controller\Router\Route',
+            $this->_applicationConfig->getAreaFrontName() . '/:' . \Magento\Webapi\Controller\Request::PARAM_API_TYPE
         );
         $resourceName = $this->_request->getResourceName();
         $routeToItem = $this->_routeFactory->createRoute(
@@ -121,9 +123,9 @@ class Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Response
         );
         $chain = $apiTypeRoute->chain($routeToItem);
         $params = array(
-            Magento_Webapi_Controller_Request::PARAM_API_TYPE => $this->_request->getApiType(),
-            Magento_Webapi_Controller_Router_Route_Rest::PARAM_ID => $createdItem->getId(),
-            Magento_Webapi_Controller_Router_Route_Rest::PARAM_VERSION => $this->_request->getResourceVersion()
+            \Magento\Webapi\Controller\Request::PARAM_API_TYPE => $this->_request->getApiType(),
+            \Magento\Webapi\Controller\Router\Route\Rest::PARAM_ID => $createdItem->getId(),
+            \Magento\Webapi\Controller\Router\Route\Rest::PARAM_VERSION => $this->_request->getResourceVersion()
         );
         $uri = $chain->assemble($params);
 

@@ -11,10 +11,12 @@
 /**
  * Form element renderer to display file element for VDE
  *
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader setAccept($accept)
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader setMultiple(bool $isMultiple)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader setAccept($accept)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader setMultiple(bool $isMultiple)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader extends \Magento\Data\Form\Element\File
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+class Uploader extends \Magento\Data\Form\Element\File
 {
     //const CONTROL_TYPE = 'uploader';
 

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Config_Source_TaxClass_Customer implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Tax\Model\Config\Source\TaxClass;
+
+class Customer implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve a list of customer tax classes
@@ -17,7 +19,7 @@ class Magento_Tax_Model_Config_Source_TaxClass_Customer implements Magento_Core_
      */
     public function toOptionArray()
     {
-        $taxClasses = Mage::getModel('Magento_Tax_Model_TaxClass_Source_Customer')->toOptionArray();
+        $taxClasses = \Mage::getModel('\Magento\Tax\Model\TaxClass\Source\Customer')->toOptionArray();
         array_unshift($taxClasses, array('value' => '0', 'label' => __('None')));
         return $taxClasses;
     }

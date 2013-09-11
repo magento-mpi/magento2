@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Validator_NotProtectedExtension extends Zend_Validate_Abstract
+namespace Magento\Core\Model\File\Validator;
+
+class NotProtectedExtension extends \Zend_Validate_Abstract
 {
     const PROTECTED_EXTENSION = 'protectedExtension';
 
@@ -46,7 +48,7 @@ class Magento_Core_Model_File_Validator_NotProtectedExtension extends Zend_Valid
     /**
      * Initialize message templates with translating
      *
-     * @return Magento_Core_Model_File_Validator_NotProtectedExtension
+     * @return \Magento\Core\Model\File\Validator\NotProtectedExtension
      */
     protected function _initMessageTemplates()
     {
@@ -61,13 +63,13 @@ class Magento_Core_Model_File_Validator_NotProtectedExtension extends Zend_Valid
     /**
      * Initialize protected file extensions
      *
-     * @return Magento_Core_Model_File_Validator_NotProtectedExtension
+     * @return \Magento\Core\Model\File\Validator\NotProtectedExtension
      */
     protected function _initProtectedFileExtensions()
     {
         if (!$this->_protectedFileExtensions) {
-            /** @var $helper Magento_Core_Helper_Data */
-            $helper = Mage::helper('Magento_Core_Helper_Data');
+            /** @var $helper \Magento\Core\Helper\Data */
+            $helper = \Mage::helper('Magento\Core\Helper\Data');
             $extensions = $helper->getProtectedFileExtensions();
             if (is_string($extensions)) {
                 $extensions = explode(',', $extensions);

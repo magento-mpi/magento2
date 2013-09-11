@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $this Magento_Eav_Block_Adminhtml_Attribute_Edit_Options_Labels  */
+/** @var $this \Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\Labels  */
 ?>
 
 <div class="fieldset-wrapper collapsable-wrapper opened" id="manage-titles-wrapper">
@@ -31,7 +31,7 @@
                     <?php $_labels = $this->getLabelValues() ?>
                     <?php foreach ($this->getStores() as $_store): ?>
                         <td class="col-store-view">
-                            <input class="input-text<?php if ($_store->getId() == Magento_Core_Model_App::ADMIN_STORE_ID): ?> required-option<?php endif; ?>" type="text" name="frontend_label[<?php echo $_store->getId() ?>]" value="<?php echo $this->escapeHtml($_labels[$_store->getId()]) ?>"<?php if ($this->getReadOnly()):?> disabled="disabled"<?php endif;?>/>
+                            <input class="input-text<?php if ($_store->getId() == \Magento\Core\Model\App::ADMIN_STORE_ID): ?> required-option<?php endif; ?>" type="text" name="frontend_label[<?php echo $_store->getId() ?>]" value="<?php echo $this->escapeHtml($_labels[$_store->getId()]) ?>"<?php if ($this->getReadOnly()):?> disabled="disabled"<?php endif;?>/>
                         </td>
                     <?php endforeach; ?>
                 </tr>

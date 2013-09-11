@@ -11,44 +11,46 @@
 /**
  * Downloadable links purchased item model
  *
- * @method Magento_Downloadable_Model_Resource_Link_Purchased_Item _getResource()
- * @method Magento_Downloadable_Model_Resource_Link_Purchased_Item getResource()
+ * @method \Magento\Downloadable\Model\Resource\Link\Purchased\Item _getResource()
+ * @method \Magento\Downloadable\Model\Resource\Link\Purchased\Item getResource()
  * @method int getPurchasedId()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setPurchasedId(int $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setPurchasedId(int $value)
  * @method int getOrderItemId()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setOrderItemId(int $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setOrderItemId(int $value)
  * @method int getProductId()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setProductId(int $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setProductId(int $value)
  * @method string getLinkHash()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setLinkHash(string $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setLinkHash(string $value)
  * @method int getNumberOfDownloadsBought()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setNumberOfDownloadsBought(int $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setNumberOfDownloadsBought(int $value)
  * @method int getNumberOfDownloadsUsed()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setNumberOfDownloadsUsed(int $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setNumberOfDownloadsUsed(int $value)
  * @method int getLinkId()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setLinkId(int $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setLinkId(int $value)
  * @method string getLinkTitle()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setLinkTitle(string $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setLinkTitle(string $value)
  * @method int getIsShareable()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setIsShareable(int $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setIsShareable(int $value)
  * @method string getLinkUrl()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setLinkUrl(string $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setLinkUrl(string $value)
  * @method string getLinkFile()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setLinkFile(string $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setLinkFile(string $value)
  * @method string getLinkType()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setLinkType(string $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setLinkType(string $value)
  * @method string getStatus()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setStatus(string $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setStatus(string $value)
  * @method string getCreatedAt()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setCreatedAt(string $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Downloadable_Model_Link_Purchased_Item setUpdatedAt(string $value)
+ * @method \Magento\Downloadable\Model\Link\Purchased\Item setUpdatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Link_Purchased_Item extends Magento_Core_Model_Abstract
+namespace Magento\Downloadable\Model\Link\Purchased;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_ORDER_ITEM_STATUS = 'catalog/downloadable/order_item_status';
 
@@ -64,19 +66,19 @@ class Magento_Downloadable_Model_Link_Purchased_Item extends Magento_Core_Model_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Downloadable_Model_Resource_Link_Purchased_Item');
+        $this->_init('\Magento\Downloadable\Model\Resource\Link\Purchased\Item');
         parent::_construct();
     }
 
     /**
      * Check order item id
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function _beforeSave()
     {
         if (null == $this->getOrderItemId()) {
-            throw new Exception(
+            throw new \Exception(
                 __('Order item id cannot be null'));
         }
         return parent::_beforeSave();

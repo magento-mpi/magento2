@@ -15,20 +15,20 @@
 class Magento_User_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_helper;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_helper = Mage::helper('Magento_User_Helper_Data');
+        $this->_helper = Mage::helper('Magento\User\Helper\Data');
     }
 
     /**
      * Test generate unique token for reset password confirmation link
      *
-     * @covers Magento_User_Helper_Data::generateResetPasswordLinkToken
+     * @covers \Magento\User\Helper\Data::generateResetPasswordLinkToken
      */
     public function testGenerateResetPasswordLinkToken()
     {
@@ -45,7 +45,7 @@ class Magento_User_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             1,
             (int) Mage::getConfig()->getValue(
-                Magento_User_Helper_Data::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
+                \Magento\User\Helper\Data::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
                 'default'
             )
         );

@@ -11,7 +11,9 @@
 /**
  * Theme js file service class
  */
-class Magento_Core_Model_Theme_Customization_File_Js extends Magento_Core_Model_Theme_Customization_FileAbstract
+namespace Magento\Core\Model\Theme\Customization\File;
+
+class Js extends \Magento\Core\Model\Theme\Customization\FileAbstract
 {
     /**#@+
      * File type customization

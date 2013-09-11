@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Category;
+
+class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
     protected $_withProductCount;
 
@@ -37,7 +39,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
             '_query' => false
         ));
 
-        $this->addChild('add_sub_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_sub_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add Subcategory'),
             'onclick'   => "addNew('".$addUrl."', false)",
             'class'     => 'add',
@@ -46,7 +48,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         ));
 
         if ($this->canAddRootCategory()) {
-            $this->addChild('add_root_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+            $this->addChild('add_root_button', '\Magento\Adminhtml\Block\Widget\Button', array(
                 'label'     => __('Add Root Category'),
                 'onclick'   => "addNew('".$addUrl."', true)",
                 'class'     => 'add',
@@ -55,7 +57,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         }
 
         $this->setChild('store_switcher',
-            $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher')
+            $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher')
                 ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, '_query'=>false, 'store'=>null)))
                 ->setTemplate('store/switcher/enhanced.phtml')
         );
@@ -64,7 +66,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
 
     protected function _getDefaultStoreId()
     {
-        return Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+        return \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
     }
 
     public function getCategoryCollection()
@@ -72,9 +74,9 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
         $collection = $this->getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection();
+            $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection();
 
-            /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */
+            /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
             $collection->addAttributeToSelect('name')
                 ->addAttributeToSelect('is_active')
                 ->setProductStoreId($storeId)
@@ -96,13 +98,13 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     {
         $storeId = $this->getRequest()->getParam('store', $this->_getDefaultStoreId());
 
-        /* @var $collection Magento_Catalog_Model_Resource_Category_Collection */
-        $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection();
+        /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
+        $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection();
 
         $matchingNamesCollection = clone $collection;
-        $escapedNamePart = Mage::getResourceHelper('Magento_Core')->addLikeEscape($namePart, array('position' => 'any'));
+        $escapedNamePart = \Mage::getResourceHelper('Magento_Core')->addLikeEscape($namePart, array('position' => 'any'));
         $matchingNamesCollection->addAttributeToFilter('name', array('like' => $escapedNamePart))
-            ->addAttributeToFilter('entity_id', array('neq' => Magento_Catalog_Model_Category::TREE_ROOT_ID))
+            ->addAttributeToFilter('entity_id', array('neq' => \Magento\Catalog\Model\Category::TREE_ROOT_ID))
             ->addAttributeToSelect('path')
             ->setStoreId($storeId);
 
@@ -118,8 +120,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
             ->setStoreId($storeId);
 
         $categoryById = array(
-            Magento_Catalog_Model_Category::TREE_ROOT_ID => array(
-                'id' => Magento_Catalog_Model_Category::TREE_ROOT_ID,
+            \Magento\Catalog\Model\Category::TREE_ROOT_ID => array(
+                'id' => \Magento\Catalog\Model\Category::TREE_ROOT_ID,
                 'children' => array()
             )
         );
@@ -134,8 +136,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
             $categoryById[$category->getParentId()]['children'][] = &$categoryById[$category->getId()];
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
-            $categoryById[Magento_Catalog_Model_Category::TREE_ROOT_ID]['children']
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(
+            $categoryById[\Magento\Catalog\Model\Category::TREE_ROOT_ID]['children']
         );
     }
 
@@ -168,7 +170,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     {
         $params = array('_current'=>true, 'id'=>null,'store'=>null);
         if (
-            (is_null($expanded) && Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getIsTreeWasExpanded())
+            (is_null($expanded) && \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getIsTreeWasExpanded())
             || $expanded == true) {
             $params['expand_all'] = true;
         }
@@ -190,7 +192,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
 
     public function getIsWasExpanded()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getIsTreeWasExpanded();
+        return \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getIsTreeWasExpanded();
     }
 
     public function getMoveUrl()
@@ -208,7 +210,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     public function getTreeJson($parenNodeCategory=null)
     {
         $rootArray = $this->_getNodeJson($this->getRoot($parenNodeCategory));
-        $json = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
+        $json = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(
             isset($rootArray['children']) ? $rootArray['children'] : array()
         );
         return $json;
@@ -227,7 +229,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
             return '';
         }
 
-        $categories = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Category_Tree')
+        $categories = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Category\Tree')
             ->setStoreId($this->getStore()->getId())->loadBreadcrumbsArray($path);
         if (empty($categories)) {
             return '';
@@ -237,7 +239,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         }
         return
             '<script type="text/javascript">'
-            . $javascriptVarName . ' = ' . Mage::helper('Magento_Core_Helper_Data')->jsonEncode($categories) . ';'
+            . $javascriptVarName . ' = ' . \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($categories) . ';'
             . ($this->canAddSubCategory()
                 ? '$("add_subcategory_button").show();'
                 : '$("add_subcategory_button").hide();')
@@ -261,7 +263,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
         $item = array();
         $item['text'] = $this->buildNodeName($node);
 
-        /* $rootForStores = Mage::getModel('Magento_Core_Model_Store')
+        /* $rootForStores = \Mage::getModel('\Magento\Core\Model\Store')
             ->getCollection()
             ->loadByCategoryIds(array($node->getEntityId())); */
         $rootForStores = in_array($node->getEntityId(), $this->getRootIds());
@@ -321,7 +323,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
             'category' => $node
         ));
 
-        Mage::dispatchEvent('adminhtml_catalog_category_tree_is_moveable',
+        \Mage::dispatchEvent('adminhtml_catalog_category_tree_is_moveable',
             array('options'=>$options)
         );
 
@@ -358,7 +360,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     public function canAddRootCategory()
     {
         $options = new \Magento\Object(array('is_allow'=>true));
-        Mage::dispatchEvent(
+        \Mage::dispatchEvent(
             'adminhtml_catalog_category_tree_can_add_root_category',
             array(
                 'category' => $this->getCategory(),
@@ -378,7 +380,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tree extends Magento_Adminhtml_Bl
     public function canAddSubCategory()
     {
         $options = new \Magento\Object(array('is_allow'=>true));
-        Mage::dispatchEvent(
+        \Mage::dispatchEvent(
             'adminhtml_catalog_category_tree_can_add_sub_category',
             array(
                 'category' => $this->getCategory(),

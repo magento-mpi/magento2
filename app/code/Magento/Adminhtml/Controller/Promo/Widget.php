@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Adminhtml_Controller_Promo_Widget extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Promo;
+
+class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Prepare block for chooser
@@ -23,7 +25,7 @@ class Magento_Adminhtml_Controller_Promo_Widget extends Magento_Adminhtml_Contro
         switch ($request->getParam('attribute')) {
             case 'sku':
                 $block = $this->getLayout()->createBlock(
-                    'Magento_Adminhtml_Block_Promo_Widget_Chooser_Sku', 'promo_widget_chooser_sku',
+                    '\Magento\Adminhtml\Block\Promo\Widget\Chooser\Sku', 'promo_widget_chooser_sku',
                     array('data' => array('js_form_object' => $request->getParam('form')),
                 ));
                 break;
@@ -45,7 +47,7 @@ class Magento_Adminhtml_Controller_Promo_Widget extends Magento_Adminhtml_Contro
 
 
                 $block = $this->getLayout()->createBlock(
-                        'Magento_Adminhtml_Block_Catalog_Category_Checkboxes_Tree', 'promo_widget_chooser_category_ids',
+                        '\Magento\Adminhtml\Block\Catalog\Category\Checkboxes\Tree', 'promo_widget_chooser_category_ids',
                         array('data' => array('js_form_object' => $request->getParam('form')))
                     )
                     ->setCategoryIds($ids)
@@ -79,7 +81,7 @@ class Magento_Adminhtml_Controller_Promo_Widget extends Magento_Adminhtml_Contro
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Category_Tree')
+                $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Category\Tree')
                     ->getTreeJson($category)
             );
         }
@@ -88,20 +90,20 @@ class Magento_Adminhtml_Controller_Promo_Widget extends Magento_Adminhtml_Contro
     /**
      * Initialize category object in registry
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     protected function _initCategory()
     {
         $categoryId = (int) $this->getRequest()->getParam('id',false);
         $storeId    = (int) $this->getRequest()->getParam('store');
 
-        $category   = Mage::getModel('Magento_Catalog_Model_Category');
+        $category   = \Mage::getModel('\Magento\Catalog\Model\Category');
         $category->setStoreId($storeId);
 
         if ($categoryId) {
             $category->load($categoryId);
             if ($storeId) {
-                $rootId = Mage::app()->getStore($storeId)->getRootCategoryId();
+                $rootId = \Mage::app()->getStore($storeId)->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
                     $this->_redirect('*/*/', array('_current'=>true, 'id'=>null));
                     return false;
@@ -109,8 +111,8 @@ class Magento_Adminhtml_Controller_Promo_Widget extends Magento_Adminhtml_Contro
             }
         }
 
-        Mage::register('category', $category);
-        Mage::register('current_category', $category);
+        \Mage::register('category', $category);
+        \Mage::register('current_category', $category);
 
         return $category;
     }

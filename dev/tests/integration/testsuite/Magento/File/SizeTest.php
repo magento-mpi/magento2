@@ -25,7 +25,7 @@ class Magento_File_SizeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Helper_File_Storage::getMaxFileSize
+     * @covers \Magento\Core\Helper\File\Storage::getMaxFileSize
      * @backupStaticAttributes
      */
     public function testGetMaxFileSize()
@@ -35,7 +35,7 @@ class Magento_File_SizeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Helper_File_Storage::convertSizeToInteger
+     * @covers \Magento\Core\Helper\File\Storage::convertSizeToInteger
      * @dataProvider getConvertSizeToIntegerDataProvider
      * @backupStaticAttributes
      * @param string $value

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerBalance_Model_Api extends Magento_Api_Model_Resource_Abstract
+namespace Magento\CustomerBalance\Model;
+
+class Api extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Retrieve customer store credit balance information
@@ -19,14 +21,14 @@ class Magento_CustomerBalance_Model_Api extends Magento_Api_Model_Resource_Abstr
     public function balance($customerId, $websiteId)
     {
         /**
-         * @var Magento_CustomerBalance_Model_Balance $balanceModel
+         * @var \Magento\CustomerBalance\Model\Balance $balanceModel
          */
         try {
-            $balanceModel = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+            $balanceModel = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
                     ->setCustomerId($customerId)
                     ->setWebsiteId($websiteId)
                     ->loadByCustomer();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
         // check if balance found
@@ -46,9 +48,9 @@ class Magento_CustomerBalance_Model_Api extends Magento_Api_Model_Resource_Abstr
     public function history($customerId, $websiteId = null)
     {
         try {
-            $result = Mage::getModel('Magento_CustomerBalance_Model_Balance_History')
+            $result = \Mage::getModel('\Magento\CustomerBalance\Model\Balance\History')
                     ->getHistoryData($customerId, $websiteId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
         // check if history found

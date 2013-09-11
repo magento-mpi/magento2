@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Model_Source_Hierarchy_Visibility
+namespace Magento\VersionsCms\Model\Source\Hierarchy;
+
+class Visibility
 {
     /**
      * Retrieve options array
@@ -25,9 +27,9 @@ class Magento_VersionsCms_Model_Source_Hierarchy_Visibility
     public function toOptionArray()
     {
         return array(
-            Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT => __('Use Parent'),
-            Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_YES => __('Yes'),
-            Magento_VersionsCms_Helper_Hierarchy::METADATA_VISIBILITY_NO => __('No'),
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_PARENT => __('Use Parent'),
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES => __('Yes'),
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO => __('No'),
         );
     }
 }

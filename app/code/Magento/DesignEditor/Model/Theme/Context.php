@@ -11,7 +11,9 @@
 /**
  * Design editor theme context
  */
-class Magento_DesignEditor_Model_Theme_Context
+namespace Magento\DesignEditor\Model\Theme;
+
+class Context
 {
     /**
      * @var Magento_Core_Model_ThemeFactory
@@ -19,17 +21,17 @@ class Magento_DesignEditor_Model_Theme_Context
     protected $_themeFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_CopyService
+     * @var \Magento\Core\Model\Theme\CopyService
      */
     protected $_copyService;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_stagingTheme;
 
@@ -37,11 +39,11 @@ class Magento_DesignEditor_Model_Theme_Context
      * Initialize dependencies
      *
      * @param Magento_Core_Model_ThemeFactory $themeFactory
-     * @param Magento_Core_Model_Theme_CopyService $copyService
+     * @param \Magento\Core\Model\Theme\CopyService $copyService
      */
     public function __construct(
         Magento_Core_Model_ThemeFactory $themeFactory,
-        Magento_Core_Model_Theme_CopyService $copyService
+        \Magento\Core\Model\Theme\CopyService $copyService
     ) {
         $this->_themeFactory = $themeFactory;
         $this->_copyService = $copyService;
@@ -50,7 +52,7 @@ class Magento_DesignEditor_Model_Theme_Context
     /**
      * Reset checked theme
      *
-     * @return Magento_DesignEditor_Model_State
+     * @return \Magento\DesignEditor\Model\State
      */
     public function reset()
     {
@@ -63,16 +65,16 @@ class Magento_DesignEditor_Model_Theme_Context
      *
      * @param int $themeId
      * @return $this
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function setEditableThemeById($themeId)
     {
         $this->_theme = $this->_themeFactory->create();
         if (!$this->_theme->load($themeId)->getId()) {
-            throw new Magento_Core_Exception(__('We can\'t find theme "%1".', $themeId));
+            throw new \Magento\Core\Exception(__('We can\'t find theme "%1".', $themeId));
         }
-        if ($this->_theme->getType() === Magento_Core_Model_Theme::TYPE_STAGING) {
-            throw new Magento_Core_Exception(__('Wrong theme type set as editable'));
+        if ($this->_theme->getType() === \Magento\Core\Model\Theme::TYPE_STAGING) {
+            throw new \Magento\Core\Exception(__('Wrong theme type set as editable'));
         }
         return $this;
     }
@@ -80,13 +82,13 @@ class Magento_DesignEditor_Model_Theme_Context
     /**
      * Get current editable theme
      *
-     * @return Magento_Core_Model_Theme
-     * @throws Magento_Core_Exception
+     * @return \Magento\Core\Model\Theme
+     * @throws \Magento\Core\Exception
      */
     public function getEditableTheme()
     {
         if (null === $this->_theme) {
-            throw new Magento_Core_Exception(__('Theme has not been set'));
+            throw new \Magento\Core\Exception(__('Theme has not been set'));
         }
         return $this->_theme;
     }
@@ -94,19 +96,19 @@ class Magento_DesignEditor_Model_Theme_Context
     /**
      * Get staging theme
      *
-     * @return Magento_Core_Model_Theme
-     * @throws Magento_Core_Exception
+     * @return \Magento\Core\Model\Theme
+     * @throws \Magento\Core\Exception
      */
     public function getStagingTheme()
     {
         if (null === $this->_stagingTheme) {
             $editableTheme = $this->getEditableTheme();
             if (!$editableTheme->isVirtual()) {
-                throw new Magento_Core_Exception(
+                throw new \Magento\Core\Exception(
                     __('Theme "%1" is not editable.', $editableTheme->getThemeTitle())
                 );
             }
-            $this->_stagingTheme = $editableTheme->getDomainModel(Magento_Core_Model_Theme::TYPE_VIRTUAL)
+            $this->_stagingTheme = $editableTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
                 ->getStagingTheme();
         }
         return $this->_stagingTheme;
@@ -115,7 +117,7 @@ class Magento_DesignEditor_Model_Theme_Context
     /**
      * Theme which can be rendered on store designer
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function getVisibleTheme()
     {

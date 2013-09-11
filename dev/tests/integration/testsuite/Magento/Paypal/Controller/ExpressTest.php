@@ -15,10 +15,10 @@ class Magento_Paypal_Controller_ExpressTest extends Magento_TestFramework_TestCa
     public function testReviewAction()
     {
         $this->markTestSkipped('There is a dependency that needs to be identified for this test');
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        $quote = Mage::getModel('\Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
         echo "Quote ID: {$quote->getId}\n";
-        Mage::getSingleton('Magento_Checkout_Model_Session')->setQuoteId($quote->getId());
+        Mage::getSingleton('Magento\Checkout\Model\Session')->setQuoteId($quote->getId());
 
         $this->dispatch('paypal/express/review');
 
@@ -34,11 +34,11 @@ class Magento_Paypal_Controller_ExpressTest extends Magento_TestFramework_TestCa
      */
     public function testCancelAction()
     {
-        $quote = $this->_objectManager->create('Magento_Sales_Model_Quote');
+        $quote = $this->_objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test02', 'reserved_order_id');
-        $order = $this->_objectManager->create('Magento_Sales_Model_Order');
+        $order = $this->_objectManager->create('Magento\Sales\Model\Order');
         $order->load('100000002', 'increment_id');
-        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         $session->setLastRealOrderId($order->getRealOrderId())
             ->setLastOrderId($order->getId())
             ->setLastQuoteId($order->getQuoteId())

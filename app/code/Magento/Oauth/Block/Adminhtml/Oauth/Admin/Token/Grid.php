@@ -15,7 +15,9 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Oauth\Block\Adminhtml\Oauth\Admin\Token;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Construct grid block
@@ -33,17 +35,17 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Admin
     /**
      * Prepare collection
      *
-     * @return Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid
+     * @return \Magento\Oauth\Block\Adminhtml\Oauth\Admin\Token\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $user Magento_User_Model_User */
-        $user = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getData('user');
+        /** @var $user \Magento\User\Model\User */
+        $user = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getData('user');
 
-        /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-        $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+        /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
+        $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
         $collection->joinConsumerAsApplication()
-                ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
+                ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                 ->addFilterByAdminId($user->getId());
         $this->setCollection($collection);
 
@@ -54,7 +56,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Admin
     /**
      * Prepare columns
      *
-     * @return Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid
+     * @return \Magento\Oauth\Block\Adminhtml\Oauth\Admin\Token\Grid
      */
     protected function _prepareColumns()
     {
@@ -71,8 +73,8 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Admin
             'escape'    => true,
         ));
 
-        /** @var $sourceYesNo Magento_Backend_Model_Config_Source_Yesno */
-        $sourceYesNo = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno');
+        /** @var $sourceYesNo \Magento\Backend\Model\Config\Source\Yesno */
+        $sourceYesNo = \Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno');
         $this->addColumn('revoked', array(
             'header'    => __('Revoked'),
             'index'     => 'revoked',
@@ -89,7 +91,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid extends Magento_Admin
     /**
      * Add mass-actions to grid
      *
-     * @return Magento_Oauth_Block_Adminhtml_Oauth_Admin_Token_Grid
+     * @return \Magento\Oauth\Block\Adminhtml\Oauth\Admin\Token\Grid
      */
     protected function _prepareMassaction()
     {

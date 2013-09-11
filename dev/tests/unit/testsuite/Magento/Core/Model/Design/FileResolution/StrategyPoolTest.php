@@ -11,17 +11,17 @@
 class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\ObjectManager|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_App_State|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\App\State|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_appState;
 
     /**
-     * @var Magento_Core_Model_Dir|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Dir|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirs;
 
@@ -31,30 +31,30 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Design_FileResolution_StrategyPool|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Design\FileResolution\StrategyPool|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_objectManager = $this->getMock('Magento_Core_Model_ObjectManager', array(), array(), '', false);
-        $this->_appState = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $this->_objectManager = $this->getMock('Magento\Core\Model\ObjectManager', array(), array(), '', false);
+        $this->_appState = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
 
-        $this->_dirs = new Magento_Core_Model_Dir('base_dir');
+        $this->_dirs = new \Magento\Core\Model\Dir('base_dir');
 
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 
-        $config = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
+        $config = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         $config->expects($this->any())
             ->method('getNode')
-            ->with(Magento_Core_Model_Design_FileResolution_StrategyPool::XML_PATH_ALLOW_MAP_UPDATE)
+            ->with(\Magento\Core\Model\Design\FileResolution\StrategyPool::XML_PATH_ALLOW_MAP_UPDATE)
             ->will($this->returnValue('1'));
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->with('Magento_Core_Model_Config')
+            ->with('Magento\Core\Model\Config')
             ->will($this->returnValue($config));
 
-        $this->_model = new Magento_Core_Model_Design_FileResolution_StrategyPool($this->_objectManager,
+        $this->_model = new \Magento\Core\Model\Design\FileResolution\StrategyPool($this->_objectManager,
             $this->_appState, $this->_dirs, $this->_filesystem);
     }
 
@@ -73,11 +73,11 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
             ->will($this->returnValue($mode));
 
         $strategy = new StdClass;
-        $mapDir = 'base_dir/var/' . Magento_Core_Model_Design_FileResolution_StrategyPool::FALLBACK_MAP_DIR;
+        $mapDir = 'base_dir/var/' . \Magento\Core\Model\Design\FileResolution\StrategyPool::FALLBACK_MAP_DIR;
         $mapDir = str_replace('/', DIRECTORY_SEPARATOR, $mapDir);
         $map = array(
             array(
-                'Magento_Core_Model_Design_FileResolution_Strategy_Fallback_CachingProxy',
+                '\Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
                 array(
                     'mapDir' => $mapDir,
                     'baseDir' => 'base_dir',
@@ -85,7 +85,7 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
                 ),
                 $strategy
             ),
-            array('Magento_Core_Model_Design_FileResolution_Strategy_Fallback', array(), $strategy),
+            array('Magento\Core\Model\Design\FileResolution\Strategy\Fallback', array(), $strategy),
         );
         $this->_objectManager->expects($this->atLeastOnce())
             ->method('create')
@@ -106,13 +106,13 @@ class Magento_Core_Model_Design_FileResolution_StrategyPoolTest extends PHPUnit_
     {
         return array(
             'default mode' => array(
-                Magento_Core_Model_App_State::MODE_DEFAULT
+                \Magento\Core\Model\App\State::MODE_DEFAULT
             ),
             'production mode' => array(
-                Magento_Core_Model_App_State::MODE_PRODUCTION
+                \Magento\Core\Model\App\State::MODE_PRODUCTION
             ),
             'developer mode' => array(
-                Magento_Core_Model_App_State::MODE_DEVELOPER
+                \Magento\Core\Model\App\State::MODE_DEVELOPER
             ),
         );
     }

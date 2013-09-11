@@ -13,28 +13,30 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Controller_Payflowadvanced extends Magento_Paypal_Controller_Express_Abstract
+namespace Magento\Paypal\Controller;
+
+class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
 {
     /**
      * Config mode type
      *
      * @var string
      */
-    protected $_configType = 'Magento_Paypal_Model_Config';
+    protected $_configType = '\Magento\Paypal\Model\Config';
 
     /**
      * Config method type
      *
      * @var string
      */
-    protected $_configMethod = Magento_Paypal_Model_Config::METHOD_PAYFLOWADVANCED;
+    protected $_configMethod = \Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED;
 
     /**
      * Checkout mode type
      *
      * @var string
      */
-    protected $_checkoutType = 'Magento_Paypal_Model_Payflowadvanced';
+    protected $_checkoutType = '\Magento\Paypal\Model\Payflowadvanced';
 
     /**
      * When a customer cancel payment from payflow gateway.
@@ -60,14 +62,14 @@ class Magento_Paypal_Controller_Payflowadvanced extends Magento_Paypal_Controlle
         $this->loadLayout(false);
         $redirectBlock = $this->getLayout()->getBlock('payflow.advanced.iframe');;
 
-        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         if ($session->getLastRealOrderId()) {
-            $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($session->getLastRealOrderId());
+            $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($session->getLastRealOrderId());
 
             if ($order && $order->getIncrementId() == $session->getLastRealOrderId()) {
                 $allowedOrderStates = array(
-                    Magento_Sales_Model_Order::STATE_PROCESSING,
-                    Magento_Sales_Model_Order::STATE_COMPLETE
+                    \Magento\Sales\Model\Order::STATE_PROCESSING,
+                    \Magento\Sales\Model\Order::STATE_COMPLETE
                 );
                 if (in_array($order->getState(), $allowedOrderStates)) {
                     $session->unsLastRealOrderId();
@@ -104,12 +106,12 @@ class Magento_Paypal_Controller_Payflowadvanced extends Magento_Paypal_Controlle
     {
         $data = $this->getRequest()->getPost();
         if (isset($data['INVNUM'])) {
-            /** @var $paymentModel Magento_Paypal_Model_Payflowadvanced */
-            $paymentModel = Mage::getModel('Magento_Paypal_Model_Payflowadvanced');
+            /** @var $paymentModel \Magento\Paypal\Model\Payflowadvanced */
+            $paymentModel = \Mage::getModel('\Magento\Paypal\Model\Payflowadvanced');
             try {
                 $paymentModel->process($data);
-            } catch (Exception $e) {
-                Mage::logException($e);
+            } catch (\Exception $e) {
+                \Mage::logException($e);
             }
         }
     }
@@ -123,7 +125,7 @@ class Magento_Paypal_Controller_Payflowadvanced extends Magento_Paypal_Controlle
     protected function _cancelPayment($errorMsg = '')
     {
         $gotoSection = false;
-        $helper = $this->_objectManager->get('Magento_Paypal_Helper_Checkout');
+        $helper = $this->_objectManager->get('Magento\Paypal\Helper\Checkout');
         $helper->cancelCurrentOrder($errorMsg);
         if ($helper->restoreQuote()) {
             $gotoSection = 'payment';

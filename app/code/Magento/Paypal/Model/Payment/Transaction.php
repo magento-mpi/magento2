@@ -12,17 +12,19 @@
  * Payment transaction model
  * Tracks transaction history
  *
- * @method Magento_Paypal_Model_Resource_Payment_Transaction _getResource()
- * @method Magento_Paypal_Model_Resource_Payment_Transaction getResource()
+ * @method \Magento\Paypal\Model\Resource\Payment\Transaction _getResource()
+ * @method \Magento\Paypal\Model\Resource\Payment\Transaction getResource()
  * @method string getTxnId()
  * @method string getCreatedAt()
- * @method Magento_Paypal_Model_Payment_Transaction setCreatedAt(string $value)
+ * @method \Magento\Paypal\Model\Payment\Transaction setCreatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_Payment_Transaction extends Magento_Core_Model_Abstract
+namespace Magento\Paypal\Model\Payment;
+
+class Transaction extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Whether to throw exceptions on different operations
@@ -59,14 +61,14 @@ class Magento_Paypal_Model_Payment_Transaction extends Magento_Core_Model_Abstra
      */
     protected function _construct()
     {
-        $this->_init('Magento_Paypal_Model_Resource_Payment_Transaction');
+        $this->_init('\Magento\Paypal\Model\Resource\Payment\Transaction');
         return parent::_construct();
     }
 
     /**
      * Transaction ID setter
      * @param string $txnId
-     * @return Magento_Paypal_Model_Payment_Transaction
+     * @return \Magento\Paypal\Model\Payment\Transaction
      */
     public function setTxnId($txnId)
     {
@@ -77,11 +79,11 @@ class Magento_Paypal_Model_Payment_Transaction extends Magento_Core_Model_Abstra
     /**
      * Check object before loading by by specified transaction ID
      * @param $txnId
-     * @return Magento_Paypal_Model_Payment_Transaction
+     * @return \Magento\Paypal\Model\Payment\Transaction
      */
     protected function _beforeLoadByTxnId($txnId)
     {
-        Mage::dispatchEvent(
+        \Mage::dispatchEvent(
             $this->_eventPrefix . '_load_by_txn_id_before',
             $this->_getEventData() + array('txn_id' => $txnId)
         );
@@ -91,7 +93,7 @@ class Magento_Paypal_Model_Payment_Transaction extends Magento_Core_Model_Abstra
     /**
      * Load self by specified transaction ID. Requires the valid payment object to be set
      * @param string $txnId
-     * @return Magento_Paypal_Model_Payment_Transaction
+     * @return \Magento\Paypal\Model\Payment\Transaction
      */
     public function loadByTxnId($txnId)
     {
@@ -106,11 +108,11 @@ class Magento_Paypal_Model_Payment_Transaction extends Magento_Core_Model_Abstra
     /**
      * Check object after loading by by specified transaction ID
      * @param $txnId
-     * @return Magento_Paypal_Model_Payment_Transaction
+     * @return \Magento\Paypal\Model\Payment\Transaction
      */
     protected function _afterLoadByTxnId()
     {
-        Mage::dispatchEvent($this->_eventPrefix . '_load_by_txn_id_after', $this->_getEventData());
+        \Mage::dispatchEvent($this->_eventPrefix . '_load_by_txn_id_after', $this->_getEventData());
         return $this;
     }
 
@@ -123,12 +125,12 @@ class Magento_Paypal_Model_Payment_Transaction extends Magento_Core_Model_Abstra
      * @param string $key
      * @param mixed $value
      * @return Magento_Paypal_Model_Order_Payment_Transaction
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function setAdditionalInformation($key, $value)
     {
         if (is_object($value)) {
-            Mage::throwException(__('Payment transactions disallow storing objects.'));
+            \Mage::throwException(__('Payment transactions disallow storing objects.'));
         }
         $info = $this->_getData('additional_information');
         if (!$info) {
@@ -158,7 +160,7 @@ class Magento_Paypal_Model_Payment_Transaction extends Magento_Core_Model_Abstra
     /**
      * Unsetter for entire additional_information value or one of its element by key
      * @param string $key
-     * @return Magento_Paypal_Model_Payment_Transaction
+     * @return \Magento\Paypal\Model\Payment\Transaction
      */
     public function unsAdditionalInformation($key = null)
     {
@@ -189,13 +191,13 @@ class Magento_Paypal_Model_Payment_Transaction extends Magento_Core_Model_Abstra
 
     /**
      * Verify data required for saving
-     * @return Magento_Paypal_Model_Payment_Transaction
-     * @throws Magento_Core_Exception
+     * @return \Magento\Paypal\Model\Payment\Transaction
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {
         if (!$this->getId()) {
-            $this->setCreatedAt(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
+            $this->setCreatedAt(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
         }
         return parent::_beforeSave();
     }
@@ -203,24 +205,24 @@ class Magento_Paypal_Model_Payment_Transaction extends Magento_Core_Model_Abstra
     /**
      * Check whether specified transaction ID is valid
      * @param string $txnId
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _verifyTxnId($txnId)
     {
         if (null !== $txnId && 0 == strlen($txnId)) {
-            Mage::throwException(__('You need to enter a transaction ID.'));
+            \Mage::throwException(__('You need to enter a transaction ID.'));
         }
     }
 
     /**
      * Make sure this object is a valid transaction
      * TODO for more restriction we can check for data consistency
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _verifyThisTransactionExists()
     {
         if (!$this->getId()) {
-            Mage::throwException(__('This operation requires an existing transaction object.'));
+            \Mage::throwException(__('This operation requires an existing transaction object.'));
         }
     }
 }

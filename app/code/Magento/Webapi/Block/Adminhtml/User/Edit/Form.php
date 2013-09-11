@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Webapi_Block_Adminhtml_User_Edit setApiUser() setApiUser(Magento_Webapi_Model_Acl_User $user)
- * @method Magento_Webapi_Model_Acl_User getApiUser() getApiUser()
+ * @method \Magento\Webapi\Block\Adminhtml\User\Edit setApiUser() setApiUser(\Magento\Webapi\Model\Acl\User $user)
+ * @method \Magento\Webapi\Model\Acl\User getApiUser() getApiUser()
  */
-class Magento_Webapi_Block_Adminhtml_User_Edit_Form extends Magento_Backend_Block_Widget_Form
+namespace Magento\Webapi\Block\Adminhtml\User\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Prepare Form.
      *
-     * @return Magento_Webapi_Block_Adminhtml_User_Edit_Form
+     * @return \Magento\Webapi\Block\Adminhtml\User\Edit\Form
      */
     protected function _prepareForm()
     {

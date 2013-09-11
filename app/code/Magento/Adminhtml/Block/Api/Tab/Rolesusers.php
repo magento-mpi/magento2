@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Api_Tab_Rolesusers extends Magento_Adminhtml_Block_Widget_Tabs {
+namespace Magento\Adminhtml\Block\Api\Tab;
+
+class Rolesusers extends \Magento\Adminhtml\Block\Widget\Tabs {
 
     protected function _construct()
     {
@@ -16,7 +18,7 @@ class Magento_Adminhtml_Block_Api_Tab_Rolesusers extends Magento_Adminhtml_Block
 
         $roleId = $this->getRequest()->getParam('rid', false);
 
-        $users = Mage::getModel('Magento_Api_Model_User')->getCollection()->load();
+        $users = \Mage::getModel('\Magento\Api\Model\User')->getCollection()->load();
         $this->setTemplate('api/rolesusers.phtml')
             ->assign('users', $users->getItems())
             ->assign('roleId', $roleId);
@@ -26,7 +28,7 @@ class Magento_Adminhtml_Block_Api_Tab_Rolesusers extends Magento_Adminhtml_Block
     {
         $this->setChild(
             'userGrid',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_Role_Grid_User', 'roleUsersGrid')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\Role\Grid\User', 'roleUsersGrid')
         );
         return parent::_prepareLayout();
     }

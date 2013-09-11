@@ -9,16 +9,18 @@
 /**
  * Decorator that sorts layout files according to dependencies between modules they belong to
  */
-class Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependency
-    implements Magento_Core_Model_Layout_File_SourceInterface
+namespace Magento\Core\Model\Layout\File\Source\Decorator;
+
+class ModuleDependency
+    implements \Magento\Core\Model\Layout\File\SourceInterface
 {
     /**
-     * @var Magento_Core_Model_Layout_File_SourceInterface
+     * @var \Magento\Core\Model\Layout\File\SourceInterface
      */
     private $_subject;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     private $_moduleList;
 
@@ -30,12 +32,12 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependency
     private $_orderedModules = null;
 
     /**
-     * @param Magento_Core_Model_Layout_File_SourceInterface $subject
-     * @param Magento_Core_Model_ModuleListInterface $listInterface
+     * @param \Magento\Core\Model\Layout\File\SourceInterface $subject
+     * @param \Magento\Core\Model\ModuleListInterface $listInterface
      */
     public function __construct(
-        Magento_Core_Model_Layout_File_SourceInterface $subject,
-        Magento_Core_Model_ModuleListInterface $listInterface
+        \Magento\Core\Model\Layout\File\SourceInterface $subject,
+        \Magento\Core\Model\ModuleListInterface $listInterface
     ) {
         $this->_subject = $subject;
         $this->_moduleList = $listInterface;
@@ -46,7 +48,7 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependency
      *
      * {@inheritdoc}
      */
-    public function getFiles(Magento_Core_Model_ThemeInterface $theme)
+    public function getFiles(\Magento\Core\Model\ThemeInterface $theme)
     {
         $result = $this->_subject->getFiles($theme);
         usort($result, array($this, 'compareFiles'));
@@ -56,11 +58,11 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependency
     /**
      * Compare layout files according to the priority of modules they belong to. To be used as a callback for sorting.
      *
-     * @param Magento_Core_Model_Layout_File $fileOne
-     * @param Magento_Core_Model_Layout_File $fileTwo
+     * @param \Magento\Core\Model\Layout\File $fileOne
+     * @param \Magento\Core\Model\Layout\File $fileTwo
      * @return int
      */
-    public function compareFiles(Magento_Core_Model_Layout_File $fileOne, Magento_Core_Model_Layout_File $fileTwo)
+    public function compareFiles(\Magento\Core\Model\Layout\File $fileOne, \Magento\Core\Model\Layout\File $fileTwo)
     {
         if ($fileOne->getModule() == $fileTwo->getModule()) {
             return strcmp($fileOne->getName(), $fileTwo->getName());

@@ -12,18 +12,18 @@
 class Magento_Core_Model_Translate_StringTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Translate_String
+     * @var \Magento\Core\Model\Translate\String
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Translate_String');
+        $this->_model = Mage::getModel('\Magento\Core\Model\Translate\String');
     }
 
     public function testConstructor()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Resource_Translate_String', $this->_model->getResource());
+        $this->assertInstanceOf('\Magento\Core\Model\Resource\Translate\String', $this->_model->getResource());
     }
 
     public function testSetGetString()

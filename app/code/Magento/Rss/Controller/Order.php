@@ -16,20 +16,22 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
+namespace Magento\Rss\Controller;
+
+class Order extends \Magento\Core\Controller\Front\Action
 {
     /**
-     * @var Magento_Core_Model_Config_Scope
+     * @var \Magento\Core\Model\Config\Scope
      */
     protected $_configScope;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Config_Scope $configScope
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Config\Scope $configScope
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Config_Scope $configScope
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Config\Scope $configScope
     ) {
         $this->_configScope = $configScope;
         parent::__construct($context);
@@ -38,7 +40,7 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
     public function preDispatch()
     {
         if ('new' === $this->getRequest()->getActionName()) {
-            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+            $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
             if (!self::authenticateAndAuthorizeAdmin($this, 'Magento_Sales::sales_order')) {
                 return;
             }
@@ -51,31 +53,31 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
      *
      * If not authenticated, will try to do it using credentials from HTTP-request
      *
-     * @param Magento_Core_Controller_Front_Action $controller
+     * @param \Magento\Core\Controller\Front\Action $controller
      * @param string $aclResource
      * @return bool
      */
-    public static function authenticateAndAuthorizeAdmin(Magento_Core_Controller_Front_Action $controller, $aclResource)
+    public static function authenticateAndAuthorizeAdmin(\Magento\Core\Controller\Front\Action $controller, $aclResource)
     {
-        Mage::app()->loadAreaPart(Magento_Core_Model_App_Area::AREA_ADMINHTML, Magento_Core_Model_App_Area::PART_CONFIG);
-        /** @var $auth Magento_Backend_Model_Auth */
-        $auth = Mage::getModel('Magento_Backend_Model_Auth');
+        \Mage::app()->loadAreaPart(\Magento\Core\Model\App\Area::AREA_ADMINHTML, \Magento\Core\Model\App\Area::PART_CONFIG);
+        /** @var $auth \Magento\Backend\Model\Auth */
+        $auth = \Mage::getModel('\Magento\Backend\Model\Auth');
         $session = $auth->getAuthStorage();
 
         // try to login using HTTP-authentication
         if (!$session->isLoggedIn()) {
-            list($login, $password) = Mage::helper('Magento_Core_Helper_Http')
+            list($login, $password) = \Mage::helper('Magento\Core\Helper\Http')
                 ->getHttpAuthCredentials($controller->getRequest());
             try {
                 $auth->login($login, $password);
-            } catch (Magento_Backend_Model_Auth_Exception $e) {
-                Mage::logException($e);
+            } catch (\Magento\Backend\Model\Auth\Exception $e) {
+                \Mage::logException($e);
             }
         }
 
         // verify if logged in and authorized
-        if (!$session->isLoggedIn() || !Mage::getSingleton('Magento\AuthorizationInterface')->isAllowed($aclResource)) {
-            Mage::helper('Magento_Core_Helper_Http')->failHttpAuthentication($controller->getResponse(), 'RSS Feeds');
+        if (!$session->isLoggedIn() || !\Mage::getSingleton('Magento\AuthorizationInterface')->isAllowed($aclResource)) {
+            \Mage::helper('Magento\Core\Helper\Http')->failHttpAuthentication($controller->getResponse(), 'RSS Feeds');
             $controller->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
@@ -94,9 +96,9 @@ class Magento_Rss_Controller_Order extends Magento_Core_Controller_Front_Action
      */
     public function statusAction()
     {
-        $order = Mage::helper('Magento_Rss_Helper_Order')->getOrderByStatusUrlKey((string)$this->getRequest()->getParam('data'));
+        $order = \Mage::helper('Magento\Rss\Helper\Order')->getOrderByStatusUrlKey((string)$this->getRequest()->getParam('data'));
         if (!is_null($order)) {
-            Mage::register('current_order', $order);
+            \Mage::register('current_order', $order);
             $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
             $this->loadLayout(false);
             $this->renderLayout();

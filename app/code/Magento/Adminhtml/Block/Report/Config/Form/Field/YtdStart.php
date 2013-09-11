@@ -15,16 +15,18 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Config_Form_Field_YtdStart extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Adminhtml\Block\Report\Config\Form\Field;
+
+class YtdStart extends \Magento\Backend\Block\System\Config\Form\Field
 {
 
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $_months = array();
         for ($i = 1; $i <= 12; $i++) {
-            $_months[$i] = Mage::app()->getLocale()
+            $_months[$i] = \Mage::app()->getLocale()
                 ->date(mktime(null,null,null,$i))
-                ->get(Zend_Date::MONTH_NAME);
+                ->get(\Zend_Date::MONTH_NAME);
         }
 
         $_days = array();

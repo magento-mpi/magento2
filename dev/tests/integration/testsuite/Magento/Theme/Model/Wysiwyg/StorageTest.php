@@ -14,7 +14,7 @@
 class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
@@ -24,7 +24,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Magento_Theme_Helper_Storage
+     * @var \Magento\Theme\Helper\Storage
      */
     protected $_helperStorage;
 
@@ -34,7 +34,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var Magento_Theme_Model_Wysiwyg_Storage
+     * @var \Magento\Theme\Model\Wysiwyg\Storage
      */
     protected $_storageModel;
 
@@ -44,18 +44,18 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
         $this->_filesystem = $this->_objectManager->get('Magento\Filesystem');
         $this->_filesystem->setIsAllowCreateDirectories(true);
 
-        /** @var $theme Magento_Core_Model_Theme */
-        $theme = $this->_objectManager->create('Magento_Core_Model_Theme')->getCollection()->getFirstItem();
+        /** @var $theme \Magento\Core\Model\Theme */
+        $theme = $this->_objectManager->create('Magento\Core\Model\Theme')->getCollection()->getFirstItem();
 
-        /** @var $request Magento_Core_Controller_Request_Http */
-        $request = $this->_objectManager->get('Magento_Core_Controller_Request_Http');
-        $request->setParam(Magento_Theme_Helper_Storage::PARAM_THEME_ID, $theme->getId());
-        $request->setParam(Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE,
-            Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE);
+        /** @var $request \Magento\Core\Controller\Request\Http */
+        $request = $this->_objectManager->get('Magento\Core\Controller\Request\Http');
+        $request->setParam(\Magento\Theme\Helper\Storage::PARAM_THEME_ID, $theme->getId());
+        $request->setParam(\Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE,
+            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE);
 
-        $this->_helperStorage = $this->_objectManager->get('Magento_Theme_Helper_Storage');
+        $this->_helperStorage = $this->_objectManager->get('Magento\Theme\Helper\Storage');
 
-        $this->_storageModel = $this->_objectManager->create('Magento_Theme_Model_Wysiwyg_Storage', array(
+        $this->_storageModel = $this->_objectManager->create('Magento\Theme\Model\Wysiwyg\Storage', array(
             'helper' => $this->_helperStorage
         ));
     }
@@ -66,7 +66,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Theme_Model_Wysiwyg_Storage::_createThumbnail
+     * @covers \Magento\Theme\Model\Wysiwyg\Storage::_createThumbnail
      */
     public function testCreateThumbnail()
     {
@@ -90,7 +90,7 @@ class Magento_Theme_Model_Wysiwyg_StorageTest extends PHPUnit_Framework_TestCase
      */
     protected function _getMethod($name)
     {
-        $class = new ReflectionClass('Magento_Theme_Model_Wysiwyg_Storage');
+        $class = new ReflectionClass('\Magento\Theme\Model\Wysiwyg\Storage');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;

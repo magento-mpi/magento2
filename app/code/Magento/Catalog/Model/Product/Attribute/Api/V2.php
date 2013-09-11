@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Api_V2 extends Magento_Catalog_Model_Product_Attribute_Api
+namespace Magento\Catalog\Model\Product\Attribute\Api;
+
+class V2 extends \Magento\Catalog\Model\Product\Attribute\Api
 {
     /**
      * Create new product attribute
@@ -25,9 +27,9 @@ class Magento_Catalog_Model_Product_Attribute_Api_V2 extends Magento_Catalog_Mod
      */
     public function create($data)
     {
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        $helper = \Mage::helper('Magento\Api\Helper\Data');
         $helper->v2AssociativeArrayUnpacker($data);
-        Mage::helper('Magento_Api_Helper_Data')->toArray($data);
+        \Mage::helper('Magento\Api\Helper\Data')->toArray($data);
         return parent::create($data);
     }
 
@@ -40,9 +42,9 @@ class Magento_Catalog_Model_Product_Attribute_Api_V2 extends Magento_Catalog_Mod
      */
     public function update($attribute, $data)
     {
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        $helper = \Mage::helper('Magento\Api\Helper\Data');
         $helper->v2AssociativeArrayUnpacker($data);
-        Mage::helper('Magento_Api_Helper_Data')->toArray($data);
+        \Mage::helper('Magento\Api\Helper\Data')->toArray($data);
         return parent::update($attribute, $data);
     }
 
@@ -55,7 +57,7 @@ class Magento_Catalog_Model_Product_Attribute_Api_V2 extends Magento_Catalog_Mod
      */
     public function addOption($attribute, $data)
     {
-        Mage::helper('Magento_Api_Helper_Data')->toArray($data);
+        \Mage::helper('Magento\Api\Helper\Data')->toArray($data);
         return parent::addOption($attribute, $data);
     }
 

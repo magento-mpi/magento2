@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_File extends \Magento\Data\Form\Element\File
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class File extends \Magento\Data\Form\Element\File
 {
     /**
      * Get element html

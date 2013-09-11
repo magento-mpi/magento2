@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Review_Controller_Customer extends Magento_Core_Controller_Front_Action
+namespace Magento\Review\Controller;
+
+class Customer extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Action predispatch
@@ -26,7 +28,7 @@ class Magento_Review_Controller_Customer extends Magento_Core_Controller_Front_A
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -34,7 +36,7 @@ class Magento_Review_Controller_Customer extends Magento_Core_Controller_Front_A
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
+        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
 
         if ($navigationBlock = $this->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('review/customer');

@@ -12,19 +12,21 @@
 /**
  * TargetRule Product Index by Rule Product List Type Model
  *
- * @method Magento_TargetRule_Model_Resource_Index _getResource()
- * @method Magento_TargetRule_Model_Resource_Index getResource()
- * @method Magento_TargetRule_Model_Index setEntityId(int $value)
+ * @method \Magento\TargetRule\Model\Resource\Index _getResource()
+ * @method \Magento\TargetRule\Model\Resource\Index getResource()
+ * @method \Magento\TargetRule\Model\Index setEntityId(int $value)
  * @method int getTypeId()
- * @method Magento_TargetRule_Model_Index setTypeId(int $value)
+ * @method \Magento\TargetRule\Model\Index setTypeId(int $value)
  * @method int getFlag()
- * @method Magento_TargetRule_Model_Index setFlag(int $value)
+ * @method \Magento\TargetRule\Model\Index setFlag(int $value)
  *
  * @category    Magento
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstract
+namespace Magento\TargetRule\Model;
+
+class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
 {
     /**
      * Reindex products target-rules event type
@@ -69,13 +71,13 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      */
     protected function _construct()
     {
-        $this->_init('Magento_TargetRule_Model_Resource_Index');
+        $this->_init('\Magento\TargetRule\Model\Resource\Index');
     }
 
     /**
      * Retrieve resource instance
      *
-     * @return Magento_TargetRule_Model_Resource_Index
+     * @return \Magento\TargetRule\Model\Resource\Index
      */
     protected function _getResource()
     {
@@ -86,7 +88,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * Set Catalog Product List identifier
      *
      * @param int $type
-     * @return Magento_TargetRule_Model_Index
+     * @return \Magento\TargetRule\Model\Index
      */
     public function setType($type)
     {
@@ -96,14 +98,14 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     /**
      * Retrieve Catalog Product List identifier
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return int
      */
     public function getType()
     {
         $type = $this->getData('type');
         if (is_null($type)) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Undefined Catalog Product List Type')
             );
         }
@@ -114,7 +116,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * Set store scope
      *
      * @param int $storeId
-     * @return Magento_TargetRule_Model_Index
+     * @return \Magento\TargetRule\Model\Index
      */
     public function setStoreId($storeId)
     {
@@ -130,7 +132,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     {
         $storeId = $this->getData('store_id');
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = \Mage::app()->getStore()->getId();
         }
         return $storeId;
     }
@@ -139,7 +141,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * Set customer group identifier
      *
      * @param int $customerGroupId
-     * @return Magento_TargetRule_Model_Index
+     * @return \Magento\TargetRule\Model\Index
      */
     public function setCustomerGroupId($customerGroupId)
     {
@@ -155,7 +157,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     {
         $customerGroupId = $this->getData('customer_group_id');
         if (is_null($customerGroupId)) {
-            $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+            $customerGroupId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
         }
         return $customerGroupId;
     }
@@ -164,7 +166,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * Set result limit
      *
      * @param int $limit
-     * @return Magento_TargetRule_Model_Index
+     * @return \Magento\TargetRule\Model\Index
      */
     public function setLimit($limit)
     {
@@ -180,7 +182,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     {
         $limit = $this->getData('limit');
         if (is_null($limit)) {
-            $limit = Mage::helper('Magento_TargetRule_Helper_Data')->getMaximumNumberOfProduct($this->getType());
+            $limit = \Mage::helper('Magento\TargetRule\Helper\Data')->getMaximumNumberOfProduct($this->getType());
         }
         return $limit;
     }
@@ -189,7 +191,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * Set Product data object
      *
      * @param \Magento\Object $product
-     * @return Magento_TargetRule_Model_Index
+     * @return \Magento\TargetRule\Model\Index
      */
     public function setProduct(\Magento\Object $product)
     {
@@ -199,14 +201,14 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     /**
      * Retrieve Product data object
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return \Magento\Object
      */
     public function getProduct()
     {
         $product = $this->getData('product');
         if (!$product instanceof \Magento\Object) {
-            Mage::throwException(__('Please define a product data object.'));
+            \Mage::throwException(__('Please define a product data object.'));
         }
         return $product;
     }
@@ -215,7 +217,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * Set product ids list be excluded
      *
      * @param int|array $productIds
-     * @return Magento_TargetRule_Model_Index
+     * @return \Magento\TargetRule\Model\Index
      */
     public function setExcludeProductIds($productIds)
     {
@@ -252,12 +254,12 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     /**
      * Retrieve Rule collection by type and product
      *
-     * @return Magento_TargetRule_Model_Resource_Rule_Collection
+     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
      */
     public function getRuleCollection()
     {
-        /* @var $collection Magento_TargetRule_Model_Resource_Rule_Collection */
-        $collection = Mage::getResourceModel('Magento_TargetRule_Model_Resource_Rule_Collection');
+        /* @var $collection \Magento\TargetRule\Model\Resource\Rule\Collection */
+        $collection = \Mage::getResourceModel('\Magento\TargetRule\Model\Resource\Rule\Collection');
         $collection->addApplyToFilter($this->getType())
             ->addProductFilter($this->getProduct()->getId())
             ->addIsActiveFilter()
@@ -284,16 +286,16 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      */
     public function cron()
     {
-        $websites = Mage::app()->getWebsites();
+        $websites = \Mage::app()->getWebsites();
 
-        /** @var $indexer Magento_Index_Model_Indexer */
-        $indexer = Mage::getSingleton('Magento_Index_Model_Indexer');
+        /** @var $indexer \Magento\Index\Model\Indexer */
+        $indexer = \Mage::getSingleton('Magento\Index\Model\Indexer');
 
         foreach ($websites as $website) {
-            /* @var $website Magento_Core_Model_Website */
+            /* @var $website \Magento\Core\Model\Website */
             $store = $website->getDefaultStore();
-            $date  = Mage::app()->getLocale()->storeDate($store);
-            if ($date->equals(0, Zend_Date::HOUR)) {
+            $date  = \Mage::app()->getLocale()->storeDate($store);
+            if ($date->equals(0, \Zend_Date::HOUR)) {
                 $indexer->logEvent(
                     new \Magento\Object(array('type_id' => null, 'store' => $website->getStoreIds())),
                     self::ENTITY_TARGETRULE,
@@ -320,9 +322,9 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     /**
      * Register indexer required data inside event object
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    protected function _registerEvent(Magento_Index_Model_Event $event)
+    protected function _registerEvent(\Magento\Index\Model\Event $event)
     {
         switch ($event->getType()) {
             case self::EVENT_TYPE_REINDEX_PRODUCTS:
@@ -345,9 +347,9 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
     /**
      * Process event based on event state data
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    protected function _processEvent(Magento_Index_Model_Event $event)
+    protected function _processEvent(\Magento\Index\Model\Event $event)
     {
         switch ($event->getType()) {
             case self::EVENT_TYPE_REINDEX_PRODUCTS:
@@ -378,7 +380,7 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * Reindex targetrules
      *
      * @param \Magento\Object $product
-     * @return Magento_TargetRule_Model_Index
+     * @return \Magento\TargetRule\Model\Index
      */
     protected function _reindex($product)
     {
@@ -390,11 +392,11 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
         // remove old matched product index
         $indexResource->removeProductIndex($product->getId());
 
-        $ruleCollection = Mage::getResourceModel('Magento_TargetRule_Model_Resource_Rule_Collection')
+        $ruleCollection = \Mage::getResourceModel('\Magento\TargetRule\Model\Resource\Rule\Collection')
             ->addProductFilter($product->getId());
 
         foreach ($ruleCollection as $rule) {
-            /** @var $rule Magento_TargetRule_Model_Rule */
+            /** @var $rule \Magento\TargetRule\Model\Rule */
             if ($rule->validate($product)) {
                 $indexResource->saveProductIndex($rule->getId(), $product->getId(), $product->getStoreId());
             }
@@ -406,8 +408,8 @@ class Magento_TargetRule_Model_Index extends Magento_Index_Model_Indexer_Abstrac
      * Remove targetrule's index
      *
      * @param int|null $typeId
-     * @param Magento_Core_Model_Store|int|array|null $store
-     * @return Magento_TargetRule_Model_Index
+     * @param \Magento\Core\Model\Store|int|array|null $store
+     * @return \Magento\TargetRule\Model\Index
      */
     protected function _cleanIndex($typeId = null, $store = null)
     {

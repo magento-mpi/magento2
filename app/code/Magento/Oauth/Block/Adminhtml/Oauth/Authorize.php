@@ -15,7 +15,9 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Authorize extends Magento_Oauth_Block_AuthorizeBaseAbstract
+namespace Magento\Oauth\Block\Adminhtml\Oauth;
+
+class Authorize extends \Magento\Oauth\Block\AuthorizeBaseAbstract
 {
     /**
      * Retrieve Session Form Key
@@ -24,7 +26,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Authorize extends Magento_Oauth_Block_
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('Magento_Core_Model_Session')->getFormKey();
+        return \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey();
     }
 
     /**

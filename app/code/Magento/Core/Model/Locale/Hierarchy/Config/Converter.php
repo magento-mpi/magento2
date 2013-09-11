@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Locale_Hierarchy_Config_Converter implements \Magento\Config\ConverterInterface
+namespace Magento\Core\Model\Locale\Hierarchy\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Compose locale inheritance hierarchy based on given config
@@ -36,15 +38,15 @@ class Magento_Core_Model_Locale_Hierarchy_Config_Converter implements \Magento\C
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
      */
     public function convert($source)
     {
         $output = array();
-        /** @var DOMNodeList $locales */
+        /** @var \DOMNodeList $locales */
         $locales = $source->getElementsByTagName('locale');
-        /** @var DOMNode $locale */
+        /** @var \DOMNode $locale */
         foreach ($locales as $locale) {
             $parent = $locale->attributes->getNamedItem('parent');
             if ($parent) {

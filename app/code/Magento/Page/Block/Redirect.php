@@ -16,7 +16,9 @@
  * @package     Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Redirect extends Magento_Core_Block_Template
+namespace Magento\Page\Block;
+
+class Redirect extends \Magento\Core\Block\Template
 {
 
     /**

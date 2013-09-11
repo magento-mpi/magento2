@@ -16,7 +16,9 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Controller_Page extends Magento_Core_Controller_Front_Action
+namespace Magento\Cms\Controller;
+
+class Page extends \Magento\Core\Controller\Front\Action
 {
     /**
      * View CMS page action
@@ -26,7 +28,7 @@ class Magento_Cms_Controller_Page extends Magento_Core_Controller_Front_Action
     {
         $pageId = $this->getRequest()
             ->getParam('page_id', $this->getRequest()->getParam('id', false));
-        if (!Mage::helper('Magento_Cms_Helper_Page')->renderPage($this, $pageId)) {
+        if (!\Mage::helper('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('noRoute');
         }
     }

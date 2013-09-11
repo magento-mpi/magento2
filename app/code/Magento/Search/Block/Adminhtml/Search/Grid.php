@@ -15,24 +15,26 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Adminhtml_Search_Grid extends Magento_Backend_Block_Widget_Grid
+namespace Magento\Search\Block\Adminhtml\Search;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
-     * @var Magento_Search_Model_Adminhtml_Search_Grid_Options
+     * @var \Magento\Search\Model\Adminhtml\Search\Grid\Options
      */
     protected $_options;
 
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
-        Magento_Search_Model_Adminhtml_Search_Grid_Options $options,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Search\Model\Adminhtml\Search\Grid\Options $options,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $storeManager, $urlModel, $data);
@@ -87,7 +89,7 @@ class Magento_Search_Block_Adminhtml_Search_Grid extends Magento_Backend_Block_W
     {
         $queries = array_flip($this->getSelectedQueries());
         if (!empty($queries)) {
-            return $this->helper('Magento_Core_Helper_Data')->jsonEncode($queries);
+            return $this->helper('\Magento\Core\Helper\Data')->jsonEncode($queries);
         }
         return '{}';
     }

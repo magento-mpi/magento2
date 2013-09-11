@@ -14,28 +14,28 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
     /**
      * Customer fixture
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     public static $customer = null;
 
     /**
      * Product fixture
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     public static $product = null;
 
     /**
      * Shopping cart fixture
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     public static $quote = null;
 
     /**
      * Shopping shoppingCartCreated by guest fixture
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     public static $guestQuote = null;
 
@@ -71,7 +71,7 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
             $data['input']),
             'Remove used amount fail');
 
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        $quote = Mage::getModel('\Magento\Sales\Model\Quote');
         $quote->load(self::$quote->getId());
         $this->assertEquals(0, $quote->getCustomerBalanceAmountUsed(), 'Used amount must be deleted');
     }
@@ -102,7 +102,7 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
             assertTrue(Magento_TestFramework_Helper_Api::call($this, 'shoppingCartCustomerbalanceRemoveAmount', $input),
             'Remove used amount fail');
 
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        $quote = Mage::getModel('\Magento\Sales\Model\Quote');
         $quote->load(self::$quote->getId());
         $this->assertEquals(0, $quote->getCustomerBalanceAmountUsed(), 'Used amount must be deleted');
     }
@@ -144,7 +144,7 @@ class Magento_CustomerBalance_Model_Quote_ApiTest extends PHPUnit_Framework_Test
             'Remove used amount fail'
         );
 
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        $quote = Mage::getModel('\Magento\Sales\Model\Quote');
         $quote->load(self::$quote->getId());
         $this->assertEquals(0, $quote->getCustomerBalanceAmountUsed(), 'Used amount must be deleted');
     }

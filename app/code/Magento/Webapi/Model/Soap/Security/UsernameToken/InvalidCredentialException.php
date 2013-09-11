@@ -1,6 +1,6 @@
 <?php
 /**
- * Exception for case of invalid SOAP WS-Security credentials.
+ * \Exception for case of invalid SOAP WS-Security credentials.
  *
  * {license_notice}
  *
@@ -8,6 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException extends RuntimeException
+namespace Magento\Webapi\Model\Soap\Security\UsernameToken;
+
+class InvalidCredentialException extends \RuntimeException
 {
 }

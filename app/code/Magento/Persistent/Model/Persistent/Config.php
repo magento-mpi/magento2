@@ -16,7 +16,9 @@
  * @package    Magento_Persistent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Persistent_Model_Persistent_Config
+namespace Magento\Persistent\Model\Persistent;
+
+class Config
 {
     /**
      * XML config instance for Persistent mode
@@ -35,7 +37,7 @@ class Magento_Persistent_Model_Persistent_Config
      * Set path to config file that should be loaded
      *
      * @param string $path
-     * @return Magento_Persistent_Model_Persistent_Config
+     * @return \Magento\Persistent\Model\Persistent\Config
      */
     public function setConfigFilePath($path)
     {
@@ -48,14 +50,14 @@ class Magento_Persistent_Model_Persistent_Config
      * Load persistent XML config
      *
      * @return \Magento\Simplexml\Element
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function getXmlConfig()
     {
         if (is_null($this->_xmlConfig)) {
             $filePath = $this->_configFilePath;
             if (!is_file($filePath) || !is_readable($filePath)) {
-                Mage::throwException(__('We cannot load the configuration from file %1.', $filePath));
+                \Mage::throwException(__('We cannot load the configuration from file %1.', $filePath));
             }
             $xml = file_get_contents($filePath);
             $this->_xmlConfig = new \Magento\Simplexml\Element($xml);
@@ -77,7 +79,7 @@ class Magento_Persistent_Model_Persistent_Config
     /**
      * Run all methods declared in persistent configuration
      *
-     * @return Magento_Persistent_Model_Persistent_Config
+     * @return \Magento\Persistent\Model\Persistent\Config
      */
     public function fire()
     {
@@ -88,7 +90,7 @@ class Magento_Persistent_Model_Persistent_Config
             foreach ($elements as $info) {
                 switch ($type) {
                     case 'blocks':
-                        $this->fireOne($info, Mage::app()->getLayout()->getBlock($info['name_in_layout']));
+                        $this->fireOne($info, \Mage::app()->getLayout()->getBlock($info['name_in_layout']));
                         break;
                 }
             }
@@ -101,7 +103,7 @@ class Magento_Persistent_Model_Persistent_Config
      *
      * @param array $info
      * @param bool $instance
-     * @return Magento_Persistent_Model_Persistent_Config
+     * @return \Magento\Persistent\Model\Persistent\Config
      */
     public function fireOne($info, $instance = false)
     {
@@ -112,13 +114,13 @@ class Magento_Persistent_Model_Persistent_Config
         ) {
             return $this;
         }
-        $object     = Mage::getModel($info['class']);
+        $object     = \Mage::getModel($info['class']);
         $method     = $info['method'];
 
         if (method_exists($object, $method)) {
             $object->$method($instance);
-        } elseif (Mage::getIsDeveloperMode()) {
-            Mage::throwException('Method "' . $method.'" is not defined in "' . get_class($object) . '"');
+        } elseif (\Mage::getIsDeveloperMode()) {
+            \Mage::throwException('Method "' . $method.'" is not defined in "' . get_class($object) . '"');
         }
 
         return $this;

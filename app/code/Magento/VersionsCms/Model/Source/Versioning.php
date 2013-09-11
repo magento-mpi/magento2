@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Model_Source_Versioning
+namespace Magento\VersionsCms\Model\Source;
+
+class Versioning
 {
     /**
      * Retrieve options array

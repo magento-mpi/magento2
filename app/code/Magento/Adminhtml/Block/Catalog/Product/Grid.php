@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Catalog\Product;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -33,19 +35,19 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
     protected function _getStore()
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
-        return Mage::app()->getStore($storeId);
+        return \Mage::app()->getStore($storeId);
     }
 
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
             ->addAttributeToSelect('type_id');
 
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
             $collection->joinField('qty',
                 'cataloginventory_stock_item',
                 'qty',
@@ -55,7 +57,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
         }
         if ($store->getId()) {
             //$collection->setStoreId($store->getId());
-            $adminStore = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
+            $adminStore = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
             $collection->addStoreFilter($store);
             $collection->joinAttribute(
                 'name',
@@ -163,13 +165,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
+                'options' => \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getOptionArray(),
                 'header_css_class'  => 'col-type',
                 'column_css_class'  => 'col-type'
         ));
 
-        $sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
+        $sets = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+            ->setEntityTypeFilter(\Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -204,7 +206,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
                 'column_css_class'  => 'col-price'
         ));
 
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
             $this->addColumn('qty',
                 array(
                     'header'=> __('Quantity'),
@@ -222,7 +224,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
                 'width' => '70px',
                 'index' => 'visibility',
                 'type'  => 'options',
-                'options' => Mage::getModel('Magento_Catalog_Model_Product_Visibility')->getOptionArray(),
+                'options' => \Mage::getModel('\Magento\Catalog\Model\Product\Visibility')->getOptionArray(),
                 'header_css_class'  => 'col-visibility',
                 'column_css_class'  => 'col-visibility'
         ));
@@ -233,12 +235,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
                 'width' => '70px',
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
+                'options' => \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getOptionArray(),
                 'header_css_class'  => 'col-status',
                 'column_css_class'  => 'col-status'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
                     'header'=> __('Websites'),
@@ -246,7 +248,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => Mage::getModel('Magento_Core_Model_Website')->getCollection()->toOptionHash(),
+                    'options'   => \Mage::getModel('\Magento\Core\Model\Website')->getCollection()->toOptionHash(),
                     'header_css_class'  => 'col-websites',
                     'column_css_class'  => 'col-websites'
             ));
@@ -275,7 +277,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
                 'column_css_class'  => 'col-action'
         ));
 
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Rss')) {
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Rss')) {
             $this->addRssList('rss/catalog/notifystock', __('Notify Low Stock RSS'));
         }
 
@@ -294,7 +296,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
              'confirm' => __('Are you sure?')
         ));
 
-        $statuses = Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray();
+        $statuses = \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getOptionArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('status', array(
@@ -318,7 +320,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Grid extends Magento_Adminhtml_Blo
             ));
         }
 
-        Mage::dispatchEvent('adminhtml_catalog_product_grid_prepare_massaction', array('block' => $this));
+        \Mage::dispatchEvent('adminhtml_catalog_product_grid_prepare_massaction', array('block' => $this));
         return $this;
     }
 

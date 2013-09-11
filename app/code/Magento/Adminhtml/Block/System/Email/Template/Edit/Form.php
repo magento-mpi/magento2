@@ -16,13 +16,15 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\System\Email\Template\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare layout.
      * Add files to use dialog windows
      *
-     * @return Magento_Adminhtml_Block_System_Email_Template_Edit_Form
+     * @return \Magento\Adminhtml\Block\System\Email\Template\Edit\Form
      */
     protected function _prepareLayout()
     {
@@ -38,7 +40,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
     /**
      * Add fields to form and create template info form
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
@@ -93,7 +95,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
 
         $fieldset->addField('variables', 'hidden', array(
             'name' => 'variables',
-            'value' => Zend_Json::encode($this->getVariables())
+            'value' => \Zend_Json::encode($this->getVariables())
         ));
 
         $fieldset->addField('template_variables', 'hidden', array(
@@ -101,7 +103,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
         ));
 
         $insertVariableButton = $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
+            ->createBlock('\Magento\Adminhtml\Block\Widget\Button', '', array('data' => array(
                 'type' => 'button',
                 'label' => __('Insert Variable...'),
                 'onclick' => 'templateControl.openVariableChooser();return false;'
@@ -131,7 +133,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
             $form->addValues($this->getEmailTemplate()->getData());
         }
 
-        if ($values = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getData('email_template_form_data', true)) {
+        if ($values = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getData('email_template_form_data', true)) {
             $form->setValues($values);
         }
 
@@ -143,11 +145,11 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
     /**
      * Return current email template model
      *
-     * @return Magento_Core_Model_Email_Template
+     * @return \Magento\Core\Model\Email\Template
      */
     public function getEmailTemplate()
     {
-        return Mage::registry('current_email_template');
+        return \Mage::registry('current_email_template');
     }
 
     /**
@@ -158,15 +160,15 @@ class Magento_Adminhtml_Block_System_Email_Template_Edit_Form extends Magento_Ad
     public function getVariables()
     {
         $variables = array();
-        $variables[] = Mage::getModel('Magento_Core_Model_Source_Email_Variables')
+        $variables[] = \Mage::getModel('\Magento\Core\Model\Source\Email\Variables')
             ->toOptionArray(true);
-        $customVariables = Mage::getModel('Magento_Core_Model_Variable')
+        $customVariables = \Mage::getModel('\Magento\Core\Model\Variable')
             ->getVariablesOptionArray(true);
         if ($customVariables) {
             $variables[] = $customVariables;
         }
-        /* @var $template Magento_Core_Model_Email_Template */
-        $template = Mage::registry('current_email_template');
+        /* @var $template \Magento\Core\Model\Email\Template */
+        $template = \Mage::registry('current_email_template');
         if ($template->getId() && $templateVariables = $template->getVariablesOptionArray(true)) {
             $variables[] = $templateVariables;
         }

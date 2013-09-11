@@ -15,7 +15,9 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Size
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method;
+
+class Size
 {
     /**
      * Returns array to be used in multiselect on back-end
@@ -24,7 +26,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Size
      */
     public function toOptionArray()
     {
-        $unitArr = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Dhl_International')->getCode('size');
+        $unitArr = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Dhl\International')->getCode('size');
 
         $returnArr = array();
         foreach ($unitArr as $key => $val) {

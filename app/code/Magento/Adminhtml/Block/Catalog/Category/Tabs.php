@@ -15,14 +15,16 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Catalog\Category;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
      * Default Attribute Tab Block
      *
      * @var string
      */
-    protected $_attributeTabBlock = 'Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes';
+    protected $_attributeTabBlock = '\Magento\Adminhtml\Block\Catalog\Category\Tab\Attributes';
 
     protected $_template = 'widget/tabshoriz.phtml';
 
@@ -42,21 +44,21 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
     /**
      * Retrieve cattegory object
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return \Mage::registry('current_category');
     }
 
     /**
      * Return Adminhtml Catalog Helper
      *
-     * @return Magento_Adminhtml_Helper_Catalog
+     * @return \Magento\Adminhtml\Helper\Catalog
      */
     public function getCatalogHelper()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Catalog');
+        return \Mage::helper('Magento\Adminhtml\Helper\Catalog');
     }
 
     /**
@@ -75,7 +77,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
     /**
      * Prepare Layout Content
      *
-     * @return Magento_Adminhtml_Block_Catalog_Category_Tabs
+     * @return \Magento\Adminhtml\Block\Catalog\Category\Tabs
      */
     protected function _prepareLayout()
     {
@@ -90,24 +92,24 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
         }
 
         $attributeSetId     = $this->getCategory()->getDefaultAttributeSetId();
-        /** @var $groupCollection Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection */
-        $groupCollection    = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection')
+        /** @var $groupCollection \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection */
+        $groupCollection    = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
             ->setAttributeSetFilter($attributeSetId)
             ->setSortOrder()
             ->load();
         $defaultGroupId = 0;
         foreach ($groupCollection as $group) {
-            /* @var $group Magento_Eav_Model_Entity_Attribute_Group */
+            /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
             if ($defaultGroupId == 0 or $group->getIsDefault()) {
                 $defaultGroupId = $group->getId();
             }
         }
 
         foreach ($groupCollection as $group) {
-            /* @var $group Magento_Eav_Model_Entity_Attribute_Group */
+            /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
             $attributes = array();
             foreach ($categoryAttributes as $attribute) {
-                /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+                /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
                 if ($attribute->isInGroup($attributeSetId, $group->getId())) {
                     $attributes[] = $attribute;
                 }
@@ -135,13 +137,13 @@ class Magento_Adminhtml_Block_Catalog_Category_Tabs extends Magento_Adminhtml_Bl
         $this->addTab('products', array(
             'label'     => __('Category Products'),
             'content'   => $this->getLayout()->createBlock(
-                'Magento_Adminhtml_Block_Catalog_Category_Tab_Product',
+                '\Magento\Adminhtml\Block\Catalog\Category\Tab\Product',
                 'category.product.grid'
             )->toHtml(),
         ));
 
         // dispatch event add custom tabs
-        Mage::dispatchEvent('adminhtml_catalog_category_tabs', array(
+        \Mage::dispatchEvent('adminhtml_catalog_category_tabs', array(
             'tabs'  => $this
         ));
 

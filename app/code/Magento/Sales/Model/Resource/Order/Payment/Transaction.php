@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Payment_Transaction extends Magento_Sales_Model_Resource_Order_Abstract
+namespace Magento\Sales\Model\Resource\Order\Payment;
+
+class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
      * Serializeable field: additional_information
@@ -40,12 +42,12 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction extends Magento_Sal
      * Update transactions in database using provided transaction as parent for them
      * have to repeat the business logic to avoid accidental injection of wrong transactions
      *
-     * @param Magento_Sales_Model_Order_Payment_Transaction $transaction
+     * @param \Magento\Sales\Model\Order\Payment\Transaction $transaction
      */
-    public function injectAsParent(Magento_Sales_Model_Order_Payment_Transaction $transaction)
+    public function injectAsParent(\Magento\Sales\Model\Order\Payment\Transaction $transaction)
     {
         $txnId = $transaction->getTxnId();
-        if ($txnId && Magento_Sales_Model_Order_Payment_Transaction::TYPE_PAYMENT === $transaction->getTxnType()
+        if ($txnId && \Magento\Sales\Model\Order\Payment\Transaction::TYPE_PAYMENT === $transaction->getTxnType()
             && $id = $transaction->getId()
         ) {
             $adapter = $this->_getWriteAdapter();
@@ -63,7 +65,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction extends Magento_Sal
             // inject
             $where = array(
                 $adapter->quoteIdentifier($this->getIdFieldName()) . '!=?' => $id,
-                new Zend_Db_Expr('parent_id IS NULL'),
+                new \Zend_Db_Expr('parent_id IS NULL'),
                 'payment_id = ?'    => (int)$paymentId,
                 'order_id = ?'      => (int)$orderId,
                 'parent_txn_id = ?' => $txnId
@@ -78,13 +80,13 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction extends Magento_Sal
     /**
      * Load the transaction object by specified txn_id
      *
-     * @param Magento_Sales_Model_Order_Payment_Transaction $transaction
+     * @param \Magento\Sales\Model\Order\Payment\Transaction $transaction
      * @param int $orderId
      * @param int $paymentId
      * @param string $txnId
-     * @return Magento_Sales_Model_Order_Payment_Transaction
+     * @return \Magento\Sales\Model\Order\Payment\Transaction
      */
-    public function loadObjectByTxnId(Magento_Sales_Model_Order_Payment_Transaction $transaction, $orderId, $paymentId,
+    public function loadObjectByTxnId(\Magento\Sales\Model\Order\Payment\Transaction $transaction, $orderId, $paymentId,
         $txnId
     ) {
         $select = $this->_getLoadByUniqueKeySelect($orderId, $paymentId, $txnId);
@@ -120,12 +122,12 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction extends Magento_Sal
      * Lookup for parent_id in already saved transactions of this payment by the order_id
      * Also serialize additional information, if any
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      *
-     * @param Magento_Sales_Model_Order_Payment_Transaction $transaction
-     * @return Magento_Sales_Model_Resource_Order_Payment_Transaction
+     * @param \Magento\Sales\Model\Order\Payment\Transaction $transaction
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Transaction
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $transaction)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $transaction)
     {
         $parentTxnId = $transaction->getData('parent_txn_id');
         $txnId       = $transaction->getData('txn_id');
@@ -135,7 +137,7 @@ class Magento_Sales_Model_Resource_Order_Payment_Transaction extends Magento_Sal
 
         if ($parentTxnId) {
             if (!$txnId || !$orderId || !$paymentId) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('We don\'t have enough information to save the parent transaction ID.'));
             }
             $parentId = (int)$this->_lookupByTxnId($orderId, $paymentId, $parentTxnId, $idFieldName);

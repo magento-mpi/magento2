@@ -23,13 +23,13 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
      */
     public function testPrepareLayout($blockType, $blockName, $tabsType, $tabsName)
     {
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $layout->addBlock($blockType, $blockName);
         $tabs = $layout->addBlock($tabsType, $tabsName);
         $tab = $layout->addBlock(
-            'Magento_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners',
+            '\Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners',
             'banners_section',
             $tabsName
         );
@@ -38,7 +38,7 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
         $this->assertContains('banners_section', $tabs->getTabsIds());
         $this->assertTrue($layout->hasElement($blockName));
         $this->assertInstanceOf($blockType, $layout->getBlock($blockName));
-        $layout->createBlock('Magento_Banner_Block_Adminhtml_Permission_Monitor', 'bannner.permission.monitor');
+        $layout->createBlock('\Magento\Banner\Block\Adminhtml\Permission\Monitor', 'bannner.permission.monitor');
         $this->assertFalse($layout->hasElement($blockName));
         $this->assertFalse($layout->getBlock($blockName));
         $this->assertNotContains('banners_section', $tabs->getTabsIds());
@@ -48,15 +48,15 @@ class Magento_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_Fram
     {
         return array(
             array(
-                'Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners',
+                '\Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners',
                 'salesrule.related.banners',
-                'Magento_Adminhtml_Block_Promo_Quote_Edit_Tabs',
+                '\Magento\Adminhtml\Block\Promo\Quote\Edit\Tabs',
                 'promo_quote_edit_tabs',
             ),
             array(
-                'Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners',
+                '\Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners',
                 'catalogrule.related.banners',
-                'Magento_Adminhtml_Block_Widget_Tabs',
+                '\Magento\Adminhtml\Block\Widget\Tabs',
                 'promo_catalog_edit_tabs',
             ),
         );

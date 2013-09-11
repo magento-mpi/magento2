@@ -15,16 +15,18 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Retrieve current form type instance
      *
-     * @return Magento_Eav_Model_Form_Type
+     * @return \Magento\Eav\Model\Form\Type
      */
     protected function _getFormType()
     {
-        return Mage::registry('current_form_type');
+        return \Mage::registry('current_form_type');
     }
 
     /**
@@ -39,7 +41,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit ex
 
         parent::_construct();
 
-        $editMode = Mage::registry('edit_mode');
+        $editMode = \Mage::registry('edit_mode');
         if ($editMode == 'edit') {
             $this->_updateButton('save', 'onclick', 'formType.save(false)');
             $this->_updateButton('save', 'data_attribute', null);

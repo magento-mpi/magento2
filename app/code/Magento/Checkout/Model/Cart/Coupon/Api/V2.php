@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Checkout_Model_Cart_Coupon_Api_V2 extends Magento_Checkout_Model_Cart_Coupon_Api
+namespace Magento\Checkout\Model\Cart\Coupon\Api;
+
+class V2 extends \Magento\Checkout\Model\Cart\Coupon\Api
 {
 
 }

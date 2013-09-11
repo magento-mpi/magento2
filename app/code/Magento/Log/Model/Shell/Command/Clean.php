@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_Shell_Command_Clean implements Magento_Log_Model_Shell_CommandInterface
+namespace Magento\Log\Model\Shell\Command;
+
+class Clean implements \Magento\Log\Model\Shell\CommandInterface
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -25,7 +27,7 @@ class Magento_Log_Model_Shell_Command_Clean implements Magento_Log_Model_Shell_C
     protected $_days;
 
     public function __construct(
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         Magento_Log_Model_LogFactory $logFactory,
         $days
     ) {
@@ -42,9 +44,9 @@ class Magento_Log_Model_Shell_Command_Clean implements Magento_Log_Model_Shell_C
     public function execute()
     {
         if ($this->_days > 0) {
-            $this->_storeManager->getStore()->setConfig(Magento_Log_Model_Log::XML_LOG_CLEAN_DAYS, $this->_days);
+            $this->_storeManager->getStore()->setConfig(\Magento\Log\Model\Log::XML_LOG_CLEAN_DAYS, $this->_days);
         }
-        /** @var $model Magento_Log_Model_Log */
+        /** @var $model \Magento\Log\Model\Log */
         $model = $this->_logFactory->create();
         $model->clean();
         return "Log cleaned\n";

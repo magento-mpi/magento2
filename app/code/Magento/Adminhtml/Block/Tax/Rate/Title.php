@@ -14,7 +14,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Tax_Rate_Title extends Magento_Core_Block_Template
+namespace Magento\Adminhtml\Block\Tax\Rate;
+
+class Title extends \Magento\Core\Block\Template
 {
     protected $_titles;
 
@@ -24,7 +26,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Title extends Magento_Core_Block_Template
     {
         if (is_null($this->_titles)) {
             $this->_titles = array();
-            $titles = Mage::getSingleton('Magento_Tax_Model_Calculation_Rate')->getTitles();
+            $titles = \Mage::getSingleton('Magento\Tax\Model\Calculation\Rate')->getTitles();
             foreach ($titles as $title) {
                 $this->_titles[$title->getStoreId()] = $title->getValue();
             }
@@ -41,7 +43,7 @@ class Magento_Adminhtml_Block_Tax_Rate_Title extends Magento_Core_Block_Template
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = Mage::getModel('Magento_Core_Model_Store')
+            $stores = \Mage::getModel('\Magento\Core\Model\Store')
                 ->getResourceCollection()
                 ->setLoadDefault(false)
                 ->load();

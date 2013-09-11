@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Adminhtml_Product_Bundle_Js extends Magento_Adminhtml_Block_Template
+namespace Magento\Rma\Block\Adminhtml\Product\Bundle;
+
+class Js extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Get url for Bundle AJAX Action
@@ -28,7 +30,7 @@ class Magento_Rma_Block_Adminhtml_Product_Bundle_Js extends Magento_Adminhtml_Bl
     public function getLoadAttributesUrl()
     {
         return $this->getUrl('*/*/loadNewAttributes', array(
-            'order_id' => Mage::registry('current_order')->getId()
+            'order_id' => \Mage::registry('current_order')->getId()
         ));
     }
 

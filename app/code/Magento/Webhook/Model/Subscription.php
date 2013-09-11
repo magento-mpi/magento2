@@ -10,23 +10,25 @@
  * @license     {license_link}
  *
  * @method string getName()
- * @method Magento_Webhook_Model_Subscription setName(string $value)
- * @method Magento_Webhook_Model_Subscription setEndpointId(string $value)
+ * @method \Magento\Webhook\Model\Subscription setName(string $value)
+ * @method \Magento\Webhook\Model\Subscription setEndpointId(string $value)
  * @method string getEndpointId()
  * @method string getUpdatedAt()
- * @method Magento_Webhook_Model_Subscription setUpdatedAt(string $value)
- * @method Magento_Webhook_Model_Subscription setStatus(int $value)
+ * @method \Magento\Webhook\Model\Subscription setUpdatedAt(string $value)
+ * @method \Magento\Webhook\Model\Subscription setStatus(int $value)
  * @method string getAlias()
- * @method Magento_Webhook_Model_Subscription setAlias(string $value)
- * @method Magento_Webhook_Model_Subscription setTopics(array $value)
- * @method Magento_Webhook_Model_Subscription setRegistrationMechanism(string $value)
+ * @method \Magento\Webhook\Model\Subscription setAlias(string $value)
+ * @method \Magento\Webhook\Model\Subscription setTopics(array $value)
+ * @method \Magento\Webhook\Model\Subscription setRegistrationMechanism(string $value)
  * @method string getRegistrationMechanism()
  * @method bool hasRegistrationMechanism()
  * @method bool hasStatus()
  * @method int getSubscriptionId()
  */
-class Magento_Webhook_Model_Subscription
-    extends Magento_Core_Model_Abstract
+namespace Magento\Webhook\Model;
+
+class Subscription
+    extends \Magento\Core\Model\AbstractModel
     implements \Magento\PubSub\SubscriptionInterface
 {
     /** subscription fields */
@@ -42,7 +44,7 @@ class Magento_Webhook_Model_Subscription
     const REGISTRATION_MECHANISM_MANUAL = 'manual';
 
     /**
-     * @var Magento_Webhook_Model_Endpoint
+     * @var \Magento\Webhook\Model\Endpoint
      */
     private $_endpoint = null;
 
@@ -54,16 +56,16 @@ class Magento_Webhook_Model_Subscription
     private $_endpointLoaded = false;
 
     /**
-     * @param Magento_Webhook_Model_Endpoint $endpoint
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Webhook\Model\Endpoint $endpoint
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Webhook_Model_Endpoint $endpoint,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Webhook\Model\Endpoint $endpoint,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -82,13 +84,13 @@ class Magento_Webhook_Model_Subscription
     public function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Webhook_Model_Resource_Subscription');
+        $this->_init('\Magento\Webhook\Model\Resource\Subscription');
     }
 
     /**
      * Prepare data to be saved to database
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -116,7 +118,7 @@ class Magento_Webhook_Model_Subscription
      *
      * We need to be sure that related objects like Endpoint are also deleted.
      *
-     * @return Magento_Core_Model_Abstract|void
+     * @return \Magento\Core\Model\AbstractModel|void
      */
     protected function _afterDelete()
     {
@@ -185,7 +187,7 @@ class Magento_Webhook_Model_Subscription
     /**
      * Returns the endpoint to which messages will be sent
      *
-     * @return Magento_Webhook_Model_Endpoint
+     * @return \Magento\Webhook\Model\Endpoint
      */
     public function getEndpoint()
     {
@@ -205,7 +207,7 @@ class Magento_Webhook_Model_Subscription
      *
      * @param string|array  $key
      * @param mixed         $value
-     * @return Magento_Webhook_Model_Subscription
+     * @return \Magento\Webhook\Model\Subscription
      */
     public function setData($key, $value = null)
     {
@@ -240,7 +242,7 @@ class Magento_Webhook_Model_Subscription
      * Set the endpoint URL for this Subscription
      *
      * @param string $url
-     * @return Magento_Webhook_Model_Subscription
+     * @return \Magento\Webhook\Model\Subscription
      */
     public function setEndpointUrl($url)
     {
@@ -253,7 +255,7 @@ class Magento_Webhook_Model_Subscription
      * Set the endpoint timeout in seconds.
      *
      * @param int $timeout
-     * @return Magento_Webhook_Model_Subscription
+     * @return \Magento\Webhook\Model\Subscription
      */
     public function setTimeoutInSecs($timeout)
     {
@@ -266,7 +268,7 @@ class Magento_Webhook_Model_Subscription
      * Set the format in which data should be sent (json, xml)
      *
      * @param string $format
-     * @return Magento_Webhook_Model_Subscription
+     * @return \Magento\Webhook\Model\Subscription
      */
     public function setFormat($format)
     {
@@ -279,7 +281,7 @@ class Magento_Webhook_Model_Subscription
      * Set the api user id that this subscription is associated with
      *
      * @param string $userId
-     * @return Magento_Webhook_Model_Subscription
+     * @return \Magento\Webhook\Model\Subscription
      */
     public function setApiUserId($userId)
     {
@@ -292,7 +294,7 @@ class Magento_Webhook_Model_Subscription
      * Set the authentication type for this subscription
      *
      * @param string $authType
-     * @return Magento_Webhook_Model_Subscription
+     * @return \Magento\Webhook\Model\Subscription
      */
     public function setAuthenticationType($authType)
     {

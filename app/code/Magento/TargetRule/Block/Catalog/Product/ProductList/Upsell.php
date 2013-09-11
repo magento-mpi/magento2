@@ -15,8 +15,10 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Magento_TargetRule_Block_Catalog_Product_ProductList_Upsell
-    extends Magento_TargetRule_Block_Catalog_Product_ProductList_Abstract
+namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
+
+class Upsell
+    extends \Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
 {
     /**
      * Default MAP renderer type
@@ -32,14 +34,14 @@ class Magento_TargetRule_Block_Catalog_Product_ProductList_Upsell
      */
     public function getProductListType()
     {
-        return Magento_TargetRule_Model_Rule::UP_SELLS;
+        return \Magento\TargetRule\Model\Rule::UP_SELLS;
     }
 
     /**
      * Retrieve related product collection assigned to product
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getLinkCollection()
     {
@@ -48,7 +50,7 @@ class Magento_TargetRule_Block_Catalog_Product_ProductList_Upsell
             /**
              * Updating collection with desired items
              */
-            Mage::dispatchEvent('catalog_product_upsell', array(
+            \Mage::dispatchEvent('catalog_product_upsell', array(
                 'product'       => $this->getProduct(),
                 'collection'    => $this->_linkCollection,
                 'limit'         => $this->getPositionLimit()
@@ -75,7 +77,7 @@ class Magento_TargetRule_Block_Catalog_Product_ProductList_Upsell
             /**
              * Updating collection with desired items
              */
-            Mage::dispatchEvent('catalog_product_upsell', array(
+            \Mage::dispatchEvent('catalog_product_upsell', array(
                 'product'       => $this->getProduct(),
                 'collection'    => $ids,
                 'limit'         => null,

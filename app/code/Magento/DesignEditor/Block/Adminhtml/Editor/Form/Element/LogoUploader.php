@@ -13,8 +13,10 @@
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+class LogoUploader
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader
 {
     /**
      * Control type

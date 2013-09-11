@@ -15,13 +15,15 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
+namespace Magento\Downloadable\Helper;
+
+class File extends \Magento\Core\Helper\AbstractHelper
 {
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Config $config)
+    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\Config $config)
     {
         parent::__construct($context);
         $nodes = $config->getNode('global/mime/types');
@@ -50,8 +52,8 @@ class Magento_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
                     $fileName = $this->_moveFileFromTmp(
                         $baseTmpPath, $basePath, $file[0]['file']
                     );
-                } catch (Exception $e) {
-                    Mage::throwException(__('Something went wrong while saving the file(s).'));
+                } catch (\Exception $e) {
+                    \Mage::throwException(__('Something went wrong while saving the file(s).'));
                 }
             }
             return $fileName;
@@ -73,7 +75,7 @@ class Magento_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
         $destDirectory = dirname($this->getFilePath($basePath, $file));
         try {
             $ioObject->open(array('path'=>$destDirectory));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $ioObject->mkdir($destDirectory, 0777, true);
             $ioObject->open(array('path'=>$destDirectory));
         }
@@ -83,9 +85,9 @@ class Magento_Downloadable_Helper_File extends Magento_Core_Helper_Abstract
         }
 
         $destFile = dirname($file) . $ioObject->dirsep()
-                  . Magento_Core_Model_File_Uploader::getNewFileName($this->getFilePath($basePath, $file));
+                  . \Magento\Core\Model\File\Uploader::getNewFileName($this->getFilePath($basePath, $file));
 
-        Mage::helper('Magento_Core_Helper_File_Storage_Database')->copyFile(
+        \Mage::helper('Magento\Core\Helper\File\Storage\Database')->copyFile(
             $this->getFilePath($baseTmpPath, $file),
             $this->getFilePath($basePath, $destFile)
         );

@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="Magento_Checkout_Model_Session">
+    <type name="Magento\Checkout\Model\Session">
         <param name="sessionName">
             <value>frontend</value>
         </param>

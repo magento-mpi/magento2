@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Poll;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -29,11 +31,11 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Poll_Model_Poll')->getCollection();
+        $collection = \Mage::getModel('\Magento\Poll\Model\Poll')->getCollection();
         $this->setCollection($collection);
         parent::_prepareCollection();
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->getCollection()->addStoreData();
         }
 
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
             'width'     => '120px',
             'type'      => 'datetime',
             'index'     => 'date_posted',
-            'date_format' => Mage::app()->getLocale()->getDateFormat()
+            'date_format' => \Mage::app()->getLocale()->getDateFormat()
         ));
 
         $this->addColumn('date_closed', array(
@@ -78,10 +80,10 @@ class Magento_Adminhtml_Block_Poll_Grid extends Magento_Adminhtml_Block_Widget_G
             'type'      => 'datetime',
             'default'   => '--',
             'index'     => 'date_closed',
-            'date_format' => Mage::app()->getLocale()->getDateFormat()
+            'date_format' => \Mage::app()->getLocale()->getDateFormat()
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
                 'header'    => __('Visibility'),
                 'index'     => 'stores',

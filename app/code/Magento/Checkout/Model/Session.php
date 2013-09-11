@@ -9,21 +9,23 @@
  */
 
 
-class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Checkout\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     const CHECKOUT_STATE_BEGIN = 'begin';
 
     /**
      * Quote instance
      *
-     * @var null|Magento_Sales_Model_Quote
+     * @var null|\Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
      * Customer instance
      *
-     * @var null|Magento_Customer_Model_Customer
+     * @var null|\Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -37,7 +39,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Loaded order instance
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
@@ -71,8 +73,8 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Set customer instance
      *
-     * @param Magento_Customer_Model_Customer|null $customer
-     * @return Magento_Checkout_Model_Session
+     * @param \Magento\Customer\Model\Customer|null $customer
+     * @return \Magento\Checkout\Model\Session
      */
     public function setCustomer($customer)
     {
@@ -94,7 +96,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * Set quote to be loaded even if inactive
      *
      * @param bool $load
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function setLoadInactive($load = true)
     {
@@ -105,15 +107,15 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Get checkout quote instance by current session
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        Mage::dispatchEvent('custom_quote_process', array('checkout_session' => $this));
+        \Mage::dispatchEvent('custom_quote_process', array('checkout_session' => $this));
 
         if ($this->_quote === null) {
-            /** @var $quote Magento_Sales_Model_Quote */
-            $quote = Mage::getModel('Magento_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
+            /** @var $quote \Magento\Sales\Model\Quote */
+            $quote = \Mage::getModel('\Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
             if ($this->getQuoteId()) {
                 if ($this->_loadInactive) {
                     $quote->load($this->getQuoteId());
@@ -126,14 +128,14 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
                      * need recalculate totals of quote. It is possible if customer use currency switcher or
                      * store switcher.
                      */
-                    if ($quote->getQuoteCurrencyCode() != Mage::app()->getStore()->getCurrentCurrencyCode()) {
-                        $quote->setStore(Mage::app()->getStore());
+                    if ($quote->getQuoteCurrencyCode() != \Mage::app()->getStore()->getCurrentCurrencyCode()) {
+                        $quote->setStore(\Mage::app()->getStore());
                         $quote->collectTotals()->save();
                         /*
                          * We mast to create new quote object, because collectTotals()
                          * can to create links with other objects.
                          */
-                        $quote = Mage::getModel('Magento_Sales_Model_Quote')->setStoreId(Mage::app()->getStore()->getId());
+                        $quote = \Mage::getModel('\Magento\Sales\Model\Quote')->setStoreId(\Mage::app()->getStore()->getId());
                         $quote->load($this->getQuoteId());
                     }
                 } else {
@@ -141,7 +143,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
                 }
             }
 
-            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+            $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
 
             if (!$this->getQuoteId()) {
                 if ($customerSession->isLoggedIn() || $this->_customer) {
@@ -150,7 +152,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
                     $this->setQuoteId($quote->getId());
                 } else {
                     $quote->setIsCheckoutCart(true);
-                    Mage::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
+                    \Mage::dispatchEvent('checkout_quote_init', array('quote'=>$quote));
                 }
             }
 
@@ -161,13 +163,13 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
                 }
             }
 
-            $quote->setStore(Mage::app()->getStore());
+            $quote->setStore(\Mage::app()->getStore());
             $this->_quote = $quote;
         }
 
-        if ($remoteAddr = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr()) {
+        if ($remoteAddr = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr()) {
             $this->_quote->setRemoteIp($remoteAddr);
-            $xForwardIp = Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR');
+            $xForwardIp = \Mage::app()->getRequest()->getServer('HTTP_X_FORWARDED_FOR');
             $this->_quote->setXForwardedFor($xForwardIp);
         }
         return $this->_quote;
@@ -175,7 +177,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
 
     protected function _getQuoteIdKey()
     {
-        return 'quote_id_' . Mage::app()->getStore()->getWebsiteId();
+        return 'quote_id_' . \Mage::app()->getStore()->getWebsiteId();
     }
 
     public function setQuoteId($quoteId)
@@ -191,19 +193,19 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Load data for customer quote and merge with current quote
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function loadCustomerQuote()
     {
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) {
+        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) {
             return $this;
         }
 
-        Mage::dispatchEvent('load_customer_quote_before', array('checkout_session' => $this));
+        \Mage::dispatchEvent('load_customer_quote_before', array('checkout_session' => $this));
 
-        $customerQuote = Mage::getModel('Magento_Sales_Model_Quote')
-            ->setStoreId(Mage::app()->getStore()->getId())
-            ->loadByCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
+        $customerQuote = \Mage::getModel('\Magento\Sales\Model\Quote')
+            ->setStoreId(\Mage::app()->getStore()->getId())
+            ->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId());
 
         if ($customerQuote->getId() && $this->getQuoteId() != $customerQuote->getId()) {
             if ($this->getQuoteId()) {
@@ -221,7 +223,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
         } else {
             $this->getQuote()->getBillingAddress();
             $this->getQuote()->getShippingAddress();
-            $this->getQuote()->setCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer())
+            $this->getQuote()->setCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer())
                 ->setTotalsCollectedFlag(false)
                 ->collectTotals()
                 ->save();
@@ -295,7 +297,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param string $itemKey
      * @param bool $clear
      *
-     * @return null|Magento_Core_Model_Message_Collection
+     * @return null|\Magento\Core\Model\Message\Collection
      */
     public function getItemAdditionalMessages($itemKey, $clear = false)
     {
@@ -317,15 +319,15 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * itemKey is a unique hash (e.g 'quote_item17') to distinguish item messages among message collections
      *
      * @param string $itemKey
-     * @param Magento_Core_Model_Message $message
+     * @param \Magento\Core\Model\Message $message
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function addItemAdditionalMessage($itemKey, $message)
     {
         $allMessages = $this->getAdditionalMessages();
         if (!isset($allMessages[$itemKey])) {
-            $allMessages[$itemKey] = Mage::getModel('Magento_Core_Model_Message_Collection');
+            $allMessages[$itemKey] = \Mage::getModel('\Magento\Core\Model\Message\Collection');
         }
         $allMessages[$itemKey]->add($message);
         $this->setAdditionalMessages($allMessages);
@@ -338,7 +340,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * @param int $itemId
      * @param bool $clear
      *
-     * @return null|Magento_Core_Model_Message_Collection
+     * @return null|\Magento\Core\Model\Message\Collection
      */
     public function getQuoteItemMessages($itemId, $clear = false)
     {
@@ -349,9 +351,9 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
      * Adds new message to a list of quote item messages, saved in this session
      *
      * @param int $itemId
-     * @param Magento_Core_Model_Message $message
+     * @param \Magento\Core\Model\Message $message
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     function addQuoteItemMessage($itemId, $message)
     {
@@ -360,7 +362,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
 
     public function clear()
     {
-        Mage::dispatchEvent('checkout_quote_destroy', array('quote'=>$this->getQuote()));
+        \Mage::dispatchEvent('checkout_quote_destroy', array('quote'=>$this->getQuote()));
         $this->_quote = null;
         $this->setQuoteId(null);
         $this->setLastSuccessQuoteId(null);
@@ -396,7 +398,7 @@ class Magento_Checkout_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Get order instance based on last order ID
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getLastRealOrder()
     {

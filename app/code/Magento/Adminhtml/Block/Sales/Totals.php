@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Totals
+namespace Magento\Adminhtml\Block\Sales;
+
+class Totals extends \Magento\Sales\Block\Order\Totals
 {
     /**
      * Format total value based on order currency
@@ -19,7 +21,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
     public function formatValue($total)
     {
         if (!$total->getIsFormated()) {
-            return $this->helper('Magento_Adminhtml_Helper_Sales')->displayPrices(
+            return $this->helper('\Magento\Adminhtml\Helper\Sales')->displayPrices(
                 $this->getOrder(),
                 $total->getBaseValue(),
                 $total->getValue()
@@ -31,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Totals extends Magento_Sales_Block_Order_Tot
     /**
      * Initialize order totals array
      *
-     * @return Magento_Sales_Block_Order_Totals
+     * @return \Magento\Sales\Block\Order\Totals
      */
     protected function _initTotals()
     {

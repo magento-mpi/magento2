@@ -15,9 +15,11 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Block_Product_Widget_Viewed
-    extends Magento_Reports_Block_Product_Viewed
-    implements Magento_Widget_Block_Interface
+namespace Magento\Reports\Block\Product\Widget;
+
+class Viewed
+    extends \Magento\Reports\Block\Product\Viewed
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Internal constructor
@@ -32,7 +34,7 @@ class Magento_Reports_Block_Product_Widget_Viewed
             ->addColumnCountLayoutDepend('three_columns', 3);
         $this->addPriceBlockType(
             'bundle',
-            'Magento_Bundle_Block_Catalog_Product_Price',
+            '\Magento\Bundle\Block\Catalog\Product\Price',
             'catalog/product/price.phtml'
         );
     }

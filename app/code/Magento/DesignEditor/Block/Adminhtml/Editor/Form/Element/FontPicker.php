@@ -12,10 +12,12 @@
  * Form element renderer to display font picker element for VDE
  *
  * @method array getOptions()
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker setOptions(array $options)
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker setCssClass($class)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker setOptions(array $options)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker setCssClass($class)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker extends \Magento\Data\Form\Element\Select
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+class FontPicker extends \Magento\Data\Form\Element\Select
 {
     /**
      * Control type

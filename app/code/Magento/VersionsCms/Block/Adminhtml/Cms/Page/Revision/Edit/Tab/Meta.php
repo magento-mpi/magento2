@@ -17,19 +17,21 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta
-    extends Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
+
+class Meta
+    extends \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Meta
 {
     /**
      * Adding onchange js call
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Meta
      */
     protected function _prepareForm()
     {
         parent::_prepareForm();
 
-        Mage::helper('Magento_VersionsCms_Helper_Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
+        \Mage::helper('Magento\VersionsCms\Helper\Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
         return $this;
     }

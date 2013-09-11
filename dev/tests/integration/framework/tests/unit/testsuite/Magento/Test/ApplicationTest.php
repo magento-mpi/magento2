@@ -20,7 +20,7 @@ class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
     {
         $dbInstance = $this->getMockForAbstractClass('Magento_TestFramework_Db_DbAbstract', array(), '', false);
         $installDir = '/install/dir';
-        $appMode = Magento_Core_Model_App_State::MODE_DEVELOPER;
+        $appMode = \Magento\Core\Model\App\State::MODE_DEVELOPER;
 
         $object = new Magento_TestFramework_Application(
             $dbInstance,
@@ -39,7 +39,7 @@ class Magento_Test_ApplicationTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(Mage::PARAM_APP_DIRS, $initParams, 'Directories are not configured');
         $this->assertArrayHasKey(Mage::PARAM_MODE, $initParams, 'Application mode is not configured');
         $this->assertEquals(
-            Magento_Core_Model_App_State::MODE_DEVELOPER,
+            \Magento\Core\Model\App\State::MODE_DEVELOPER,
             $initParams[Mage::PARAM_MODE],
             'Wrong application mode configured'
         );

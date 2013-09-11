@@ -11,7 +11,9 @@
 /**
  * Image form element that generates correct thumbnail image URL for theme preview image
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image extends \Magento\Data\Form\Element\Image
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
+
+class Image extends \Magento\Data\Form\Element\Image
 {
     /**
      * Get image preview url
@@ -22,7 +24,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Image 
     {
         $url = false;
         if ($this->getValue()) {
-            $url = Mage::getObjectManager()->get('Magento_Core_Model_Theme_Image_Path')->getPreviewImageDirectoryUrl()
+            $url = \Mage::getObjectManager()->get('Magento\Core\Model\Theme\Image\Path')->getPreviewImageDirectoryUrl()
                 . $this->getValue();
         }
         return $url;

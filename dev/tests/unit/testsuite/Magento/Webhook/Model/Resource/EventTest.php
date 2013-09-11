@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Event
+ * \Magento\Webhook\Model\Resource\Event
  *
  * {license_notice}
  *
@@ -16,7 +16,7 @@ class Magento_Webhook_Model_Resource_EventTest extends PHPUnit_Framework_TestCas
         $tableName = 'webhook_event_table';
         $idFieldName = 'event_id';
 
-        $resourceMock = $this->getMockBuilder('Magento_Core_Model_Resource')
+        $resourceMock = $this->getMockBuilder('Magento\Core\Model\Resource')
             ->disableOriginalConstructor()
             ->getMock();
         $resourceMock->expects($this->once())
@@ -24,7 +24,7 @@ class Magento_Webhook_Model_Resource_EventTest extends PHPUnit_Framework_TestCas
             ->with('webhook_event')
             ->will($this->returnValue($tableName));
 
-        $event = new Magento_Webhook_Model_Resource_Event ($resourceMock);
+        $event = new \Magento\Webhook\Model\Resource\Event ($resourceMock);
         $this->assertEquals($tableName, $event->getMainTable() );
         $this->assertEquals($idFieldName, $event->getIdFieldName());
     }

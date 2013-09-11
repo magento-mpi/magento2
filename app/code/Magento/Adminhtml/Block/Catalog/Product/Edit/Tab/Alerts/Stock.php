@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Stock extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts;
+
+class Stock extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected function _construct()
     {
@@ -35,10 +37,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Stock extends Mage
         $productId = $this->getRequest()->getParam('id');
         $websiteId = 0;
         if ($store = $this->getRequest()->getParam('store')) {
-            $websiteId = Mage::app()->getStore($store)->getWebsiteId();
+            $websiteId = \Mage::app()->getStore($store)->getWebsiteId();
         }
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_ProductAlert')) {
-            $collection = Mage::getModel('Magento_ProductAlert_Model_Stock')
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_ProductAlert')) {
+            $collection = \Mage::getModel('\Magento\ProductAlert\Model\Stock')
                 ->getCustomerCollection()
                 ->join($productId, $websiteId);
             $this->setCollection($collection);
@@ -88,7 +90,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Stock extends Mage
         $productId = $this->getRequest()->getParam('id');
         $storeId   = $this->getRequest()->getParam('store', 0);
         if ($storeId) {
-            $storeId = Mage::app()->getStore($storeId)->getId();
+            $storeId = \Mage::app()->getStore($storeId)->getId();
         }
         return $this->getUrl('*/catalog_product/alertsStockGrid', array(
             'id'    => $productId,

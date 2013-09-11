@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Config_Source_Product_Options_Price implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Catalog\Model\Config\Source\Product\Options;
+
+class Price implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

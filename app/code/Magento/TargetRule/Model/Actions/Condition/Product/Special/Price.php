@@ -15,19 +15,21 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Magento_TargetRule_Model_Actions_Condition_Product_Special_Price
-    extends Magento_TargetRule_Model_Actions_Condition_Product_Special
+namespace Magento\TargetRule\Model\Actions\Condition\Product\Special;
+
+class Price
+    extends \Magento\TargetRule\Model\Actions\Condition\Product\Special
 {
     /**
      * Set rule type
      *
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_TargetRule_Model_Actions_Condition_Product_Special_Price');
+        $this->setType('\Magento\TargetRule\Model\Actions\Condition\Product\Special\Price');
         $this->setValue(100);
     }
 
@@ -50,7 +52,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Special_Price
     /**
      * Set operator options
      *
-     * @return Magento_TargetRule_Model_Actions_Condition_Product_Special_Price
+     * @return \Magento\TargetRule\Model\Actions\Condition\Product\Special\Price
      */
     public function loadOperatorOptions()
     {
@@ -74,19 +76,19 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Special_Price
     /**
      * Retrieve SELECT WHERE condition for product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @param Magento_TargetRule_Model_Index $object
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @param \Magento\TargetRule\Model\Index $object
      * @param array $bind
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      */
     public function getConditionForCollection($collection, $object, &$bind)
     {
-        /* @var $resource Magento_TargetRule_Model_Resource_Index */
+        /* @var $resource \Magento\TargetRule\Model\Resource\Index */
         $resource       = $object->getResource();
         $operator       = $this->getOperator();
 
         $where = $resource->getOperatorBindCondition('price_index.min_price', 'final_price', $operator, $bind,
             array(array('bindPercentOf', $this->getValue())));
-        return new Zend_Db_Expr(sprintf('(%s)', $where));
+        return new \Zend_Db_Expr(sprintf('(%s)', $where));
     }
 }

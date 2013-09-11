@@ -15,7 +15,9 @@
  * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Source_Option_Type
+namespace Magento\Bundle\Model\Source\Option;
+
+class Type
 {
     const BUNDLE_OPTIONS_TYPES_PATH = 'global/catalog/product/options/bundle/types';
 
@@ -23,10 +25,10 @@ class Magento_Bundle_Model_Source_Option_Type
     {
         $types = array();
 
-        foreach (Mage::getConfig()->getNode(self::BUNDLE_OPTIONS_TYPES_PATH)->children() as $type) {
+        foreach (\Mage::getConfig()->getNode(self::BUNDLE_OPTIONS_TYPES_PATH)->children() as $type) {
             $labelPath = self::BUNDLE_OPTIONS_TYPES_PATH . '/' . $type->getName() . '/label';
             $types[] = array(
-                'label' => (string) Mage::getConfig()->getNode($labelPath),
+                'label' => (string) \Mage::getConfig()->getNode($labelPath),
                 'value' => $type->getName()
             );
         }

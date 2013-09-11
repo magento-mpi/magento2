@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource\Translate;
+
+class String extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
@@ -30,12 +32,12 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
     /**
      * Load
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param String $value
      * @param String $field
      * @return array
      */
-    public function load(Magento_Core_Model_Abstract $object, $value, $field = null)
+    public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
     {
         if (is_string($value)) {
             $select = $this->_getReadAdapter()->select()
@@ -55,23 +57,23 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
      *
      * @param String $field
      * @param String $value
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        $select->where('store_id = ?', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        $select->where('store_id = ?', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         return $select;
     }
 
     /**
      * After translation loading
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    public function _afterLoad(Magento_Core_Model_Abstract $object)
+    public function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
@@ -85,10 +87,10 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
     /**
      * Before save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Translate_String
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Translate\String
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()
@@ -98,7 +100,7 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
 
         $bind = array(
             'string'   => $object->getString(),
-            'store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID
+            'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
         );
 
         $object->setId($adapter->fetchOne($select, $bind));
@@ -108,10 +110,10 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
     /**
      * After save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Translate_String
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Translate\String
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()
@@ -156,12 +158,12 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
      * @param string $string
      * @param string $locale
      * @param int|null $storeId
-     * @return Magento_Core_Model_Resource_Translate_String
+     * @return \Magento\Core\Model\Resource\Translate\String
      */
     public function deleteTranslate($string, $locale = null, $storeId = null)
     {
         if (is_null($locale)) {
-            $locale = Mage::app()->getLocale()->getLocaleCode();
+            $locale = \Mage::app()->getLocale()->getLocaleCode();
         }
 
         $where = array(
@@ -170,7 +172,7 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
         );
 
         if ($storeId === false) {
-            $where['store_id > ?'] = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
+            $where['store_id > ?'] = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
         } elseif ($storeId !== null) {
             $where['store_id = ?'] = $storeId;
         }
@@ -187,7 +189,7 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
      * @param String $translate
      * @param String $locale
      * @param int|null $storeId
-     * @return Magento_Core_Model_Resource_Translate_String
+     * @return \Magento\Core\Model\Resource\Translate\String
      */
     public function saveTranslate($string, $translate, $locale = null, $storeId = null)
     {
@@ -195,11 +197,11 @@ class Magento_Core_Model_Resource_Translate_String extends Magento_Core_Model_Re
         $table = $this->getMainTable();
 
         if (is_null($locale)) {
-            $locale = Mage::app()->getLocale()->getLocaleCode();
+            $locale = \Mage::app()->getLocale()->getLocaleCode();
         }
 
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = \Mage::app()->getStore()->getId();
         }
 
         $select = $write->select()

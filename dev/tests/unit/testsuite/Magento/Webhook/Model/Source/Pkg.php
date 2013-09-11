@@ -19,17 +19,17 @@ class Magento_Webhook_Model_Source_Pkg extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfig;
     
-    /** @var Magento_Core_Model_Config_Element */
+    /** @var \Magento\Core\Model\Config\Element */
     protected $_modelConfigElement;
     
     public function setUp()
     {
         $label = self::CONFIG_LABEL;
         $status = self::CONFIG_STATUS;
-        $this->_modelConfigElement = new Magento_Core_Model_Config_Element(
+        $this->_modelConfigElement = new \Magento\Core\Model\Config\Element(
             "<types><type><status>{$status}</status><label>{$label}</label></type></types>"
         );
-        $this->_mockConfig = $this->getMockBuilder('Magento_Core_Model_Config')
+        $this->_mockConfig = $this->getMockBuilder('Magento\Core\Model\Config')
             ->disableOriginalConstructor()->getMock();
         $this->_mockConfig->expects($this->any())
             ->method('getNode')

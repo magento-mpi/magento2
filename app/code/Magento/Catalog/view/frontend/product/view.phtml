@@ -11,11 +11,11 @@
 /**
  * Product view template
  *
- * @see Magento_Catalog_Block_Product_View
- * @see Magento_Review_Block_Product_View
+ * @see \Magento\Catalog\Block\Product\View
+ * @see \Magento\Review\Block\Product\View
  */
 ?>
-<?php $_helper = $this->helper('Magento_Catalog_Helper_Output'); ?>
+<?php $_helper = $this->helper('\Magento\Catalog\Helper\Output'); ?>
 <?php $_product = $this->getProduct(); ?>
 <script type="text/javascript">
     (function ($) {
@@ -42,7 +42,7 @@
 
                 <?php if ($this->canEmailToFriend()): ?>
                 <p class="email-friend"><a
-                    href="<?php echo $this->helper('Magento_Catalog_Helper_Product')->getEmailToFriendUrl($_product) ?>"><?php echo __('Email to a Friend') ?></a>
+                    href="<?php echo $this->helper('\Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>"><?php echo __('Email to a Friend') ?></a>
                 </p>
                 <?php endif; ?>
 
@@ -56,7 +56,7 @@
                 <div class="add-to-box">
                     <?php if ($_product->isSaleable()): ?>
                     <?php echo $this->getChildHtml('addtocart') ?>
-                    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow() || $_compareUrl = $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddUrl($_product)): ?>
+                    <?php if ($this->helper('\Magento\Wishlist\Helper\Data')->isAllow() || $_compareUrl = $this->helper('\Magento\Catalog\Helper\Product\Compare')->getAddUrl($_product)): ?>
                         <span class="or"><?php echo __('OR') ?></span>
                         <?php endif; ?>
                     <?php endif; ?>

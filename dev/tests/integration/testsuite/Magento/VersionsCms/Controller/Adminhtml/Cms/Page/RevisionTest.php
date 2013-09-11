@@ -19,8 +19,8 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_RevisionTest extends Mag
      */
     public function testPreviewAction()
     {
-        /** @var $page Magento_Cms_Model_Page */
-        $page = $this->_objectManager->create('Magento_Cms_Model_Page');
+        /** @var $page \Magento\Cms\Model\Page */
+        $page = $this->_objectManager->create('Magento\Cms\Model\Page');
         $page->load('page100', 'identifier'); // fixture cms/page
         $this->getRequest()->setPost('page_id', $page->getId());
         $this->dispatch('backend/admin/cms_page_revision/preview/');
@@ -38,8 +38,8 @@ class Magento_VersionsCms_Controller_Adminhtml_Cms_Page_RevisionTest extends Mag
         $storeId = Mage::app()->getAnyStoreView(); // fixture design_change
         $this->getRequest()->setParam('preview_selected_store', $storeId);
 
-        /** @var $page Magento_Cms_Model_Page */
-        $page = $this->_objectManager->create('Magento_Cms_Model_Page');
+        /** @var $page \Magento\Cms\Model\Page */
+        $page = $this->_objectManager->create('Magento\Cms\Model\Page');
         $page->load('page100', 'identifier'); // fixture cms/page
         $this->getRequest()->setPost('page_id', $page->getId());
 

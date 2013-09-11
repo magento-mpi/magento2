@@ -16,7 +16,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Resource_Cart extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Checkout\Model\Resource;
+
+class Cart extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Model initialization
@@ -64,9 +66,9 @@ class Magento_Checkout_Model_Resource_Cart extends Magento_Core_Model_Resource_D
     /**
      * Make collection not to load products that are in specified quote
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param int $quoteId
-     * @return Magento_Checkout_Model_Resource_Cart
+     * @return \Magento\Checkout\Model\Resource\Cart
      */
     public function addExcludeProductFilter($collection, $quoteId)
     {

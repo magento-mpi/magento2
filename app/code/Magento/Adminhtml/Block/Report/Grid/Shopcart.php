@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Grid_Shopcart extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Report\Grid;
+
+class Shopcart extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * stores current currency code
@@ -49,8 +51,8 @@ class Magento_Adminhtml_Block_Report_Grid_Shopcart extends Magento_Adminhtml_Blo
         if (is_null($this->_currentCurrencyCode)) {
             reset($this->_storeIds);
             $this->_currentCurrencyCode = (count($this->_storeIds) > 0)
-                ? Mage::app()->getStore(current($this->_storeIds))->getBaseCurrencyCode()
-                : Mage::app()->getStore()->getBaseCurrencyCode();
+                ? \Mage::app()->getStore(current($this->_storeIds))->getBaseCurrencyCode()
+                : \Mage::app()->getStore()->getBaseCurrencyCode();
         }
         return $this->_currentCurrencyCode;
     }
@@ -58,11 +60,11 @@ class Magento_Adminhtml_Block_Report_Grid_Shopcart extends Magento_Adminhtml_Blo
     /**
      * Get currency rate (base to given currency)
      *
-     * @param string|Magento_Directory_Model_Currency $currencyCode
+     * @param string|\Magento\Directory\Model\Currency $currencyCode
      * @return double
      */
     public function getRate($toCurrency)
     {
-        return Mage::app()->getStore()->getBaseCurrency()->getRate($toCurrency);
+        return \Mage::app()->getStore()->getBaseCurrency()->getRate($toCurrency);
     }
 }

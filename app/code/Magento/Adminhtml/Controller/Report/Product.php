@@ -16,12 +16,14 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Controller_Report_Abstract
+namespace Magento\Adminhtml\Controller\Report;
+
+class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
 {
     /**
      * Add report/products breadcrumbs
      *
-     * @return Magento_Adminhtml_Controller_Report_Product
+     * @return \Magento\Adminhtml\Controller\Report\Product
      */
     public function _initAction()
     {
@@ -57,7 +59,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     {
         $this->loadLayout();
         $fileName   = 'products_ordered.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -70,7 +72,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     {
         $this->loadLayout();
         $fileName   = 'products_ordered.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -83,7 +85,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     {
         $this->_title(__('Product Views Report'));
 
-        $this->_showLastExecutionTime(Magento_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE, 'viewed');
+        $this->_showLastExecutionTime(\Magento\Reports\Model\Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE, 'viewed');
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_products_viewed')
@@ -110,7 +112,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     public function exportViewedCsvAction()
     {
         $fileName   = 'products_mostviewed.csv';
-        $grid       = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Product_Viewed_Grid');
+        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Product\Viewed\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
@@ -122,7 +124,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     public function exportViewedExcelAction()
     {
         $fileName   = 'products_mostviewed.xml';
-        $grid       = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Product_Viewed_Grid');
+        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Product\Viewed\Grid');
         $this->_initReportAction($grid);
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
@@ -182,7 +184,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
                 __('Downloads'),
                 __('Downloads')
             )
-            ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Product_Downloads'))
+            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Product\Downloads'))
             ->renderLayout();
     }
 
@@ -193,7 +195,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     public function exportDownloadsCsvAction()
     {
         $fileName   = 'products_downloads.csv';
-        $content    = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Product_Downloads_Grid')
+        $content    = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Product\Downloads\Grid')
             ->setSaveParametersInSession(true)
             ->getCsv();
 
@@ -207,7 +209,7 @@ class Magento_Adminhtml_Controller_Report_Product extends Magento_Adminhtml_Cont
     public function exportDownloadsExcelAction()
     {
         $fileName   = 'products_downloads.xml';
-        $content    = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Product_Downloads_Grid')
+        $content    = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Product\Downloads\Grid')
             ->setSaveParametersInSession(true)
             ->getExcel($fileName);
 

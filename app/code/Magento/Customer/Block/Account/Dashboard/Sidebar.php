@@ -16,14 +16,16 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Account\Dashboard;
+
+class Sidebar extends \Magento\Core\Block\Template
 {
     protected $_cartItemsCount;
 
     /**
      * Enter description here...
      *
-     * @var Magento_Wishlist_Model_Wishlist
+     * @var \Magento\Wishlist\Model\Wishlist
      */
     protected $_wishlist;
 
@@ -31,14 +33,14 @@ class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Bloc
 
     public function getShoppingCartUrl()
     {
-        return Mage::getUrl('checkout/cart');
+        return \Mage::getUrl('checkout/cart');
     }
 
     public function getCartItemsCount()
     {
         if( !$this->_cartItemsCount ) {
-            $this->_cartItemsCount = Mage::getModel('Magento_Sales_Model_Quote')
-                ->setId(Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getId())
+            $this->_cartItemsCount = \Mage::getModel('\Magento\Sales\Model\Quote')
+                ->setId(\Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getId())
                 ->getItemsCollection()
                 ->getSize();
         }
@@ -49,8 +51,8 @@ class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Bloc
     public function getWishlist()
     {
         if( !$this->_wishlist ) {
-            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist')
-                ->loadByCustomer(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer());
+            $this->_wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')
+                ->loadByCustomer(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer());
             $this->_wishlist->getItemCollection()
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
@@ -72,17 +74,17 @@ class Magento_Customer_Block_Account_Dashboard_Sidebar extends Magento_Core_Bloc
 
     public function getWishlistAddToCartLink($wishlistItem)
     {
-        return Mage::getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
+        return \Mage::getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
     }
 
     public function getCompareItems()
     {
         if( !$this->_compareItems ) {
             $this->_compareItems =
-                Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Compare_Item_Collection')
-                    ->setStoreId(Mage::app()->getStore()->getId());
+                \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection')
+                    ->setStoreId(\Mage::app()->getStore()->getId());
             $this->_compareItems->setCustomerId(
-                Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()
+                \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()
             );
             $this->_compareItems
                 ->addAttributeToSelect('name')

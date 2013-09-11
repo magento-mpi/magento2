@@ -15,8 +15,10 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create;
+
+class Sku
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
      * Define ID
@@ -58,6 +60,6 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku
             'onclick' => 'addBySku.submitSkuForm()',
             'class' => 'action-add',
         );
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
     }
 }

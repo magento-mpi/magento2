@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Group_Api extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Customer\Model\Group;
+
+class Api extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Retrieve groups
@@ -24,11 +26,11 @@ class Magento_Customer_Model_Group_Api extends Magento_Api_Model_Resource_Abstra
      */
     public function items()
     {
-        $collection = Mage::getModel('Magento_Customer_Model_Group')->getCollection();
+        $collection = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection();
 
         $result = array();
         foreach ($collection as $group) {
-            /* @var $group Magento_Customer_Model_Group */
+            /* @var $group \Magento\Customer\Model\Group */
             $result[] = $group->toArray(array('customer_group_id', 'customer_group_code'));
         }
 

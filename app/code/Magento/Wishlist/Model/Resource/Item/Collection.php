@@ -16,7 +16,9 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Wishlist\Model\Resource\Item;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Product Visibility Filter to product collection flag
@@ -81,14 +83,14 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      */
     public function _construct()
     {
-        $this->_init('Magento_Wishlist_Model_Item', 'Magento_Wishlist_Model_Resource_Item');
+        $this->_init('\Magento\Wishlist\Model\Item', '\Magento\Wishlist\Model\Resource\Item');
         $this->addFilterToMap('store_id', 'main_table.store_id');
     }
 
     /**
      * After load processing
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _afterLoad()
     {
@@ -109,16 +111,16 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Add options to items
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _assignOptions()
     {
         $itemIds = array_keys($this->_items);
-        /* @var $optionCollection Magento_Wishlist_Model_Resource_Item_Option_Collection */
-        $optionCollection = Mage::getModel('Magento_Wishlist_Model_Item_Option')->getCollection();
+        /* @var $optionCollection \Magento\Wishlist\Model\Resource\Item\Option\Collection */
+        $optionCollection = \Mage::getModel('\Magento\Wishlist\Model\Item\Option')->getCollection();
         $optionCollection->addItemFilter($itemIds);
 
-        /* @var $item Magento_Wishlist_Model_Item */
+        /* @var $item \Magento\Wishlist\Model\Item */
         foreach ($this as $item) {
             $item->setOptions($optionCollection->getOptionsByItem($item));
         }
@@ -131,14 +133,14 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Add products to items and item options
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _assignProducts()
     {
         \Magento\Profiler::start('WISHLIST:'.__METHOD__, array('group' => 'WISHLIST', 'method' => __METHOD__));
         $productIds = array();
 
-        $isStoreAdmin = Mage::app()->getStore()->isAdmin();
+        $isStoreAdmin = \Mage::app()->getStore()->isAdmin();
 
         $storeIds = array();
         foreach ($this as $item) {
@@ -152,14 +154,14 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
         }
 
         $this->_productIds = array_merge($this->_productIds, array_keys($productIds));
-        $attributes = Mage::getSingleton('Magento_Wishlist_Model_Config')->getProductAttributes();
-        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection();
+        $attributes = \Mage::getSingleton('Magento\Wishlist\Model\Config')->getProductAttributes();
+        $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection();
         foreach ($storeIds as $id) {
             $productCollection->addStoreFilter($id);
         }
 
         if ($this->_productVisible) {
-            $productCollection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+            $productCollection->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds());
         }
 
         $productCollection->addPriceData()
@@ -170,14 +172,14 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
             ->addUrlRewrite();
 
         if ($this->_productSalable) {
-            $productCollection = Mage::helper('Magento_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($productCollection);
+            $productCollection = \Mage::helper('Magento\Adminhtml\Helper\Sales')->applySalableProductTypesFilter($productCollection);
         }
 
-        Mage::dispatchEvent('wishlist_item_collection_products_after_load', array(
+        \Mage::dispatchEvent('wishlist_item_collection_products_after_load', array(
             'product_collection' => $productCollection
         ));
 
-        $checkInStock = $this->_productInStock && !Mage::helper('Magento_CatalogInventory_Helper_Data')->isShowOutOfStock();
+        $checkInStock = $this->_productInStock && !\Mage::helper('Magento\CatalogInventory\Helper\Data')->isShowOutOfStock();
 
         foreach ($this as $item) {
             $product = $productCollection->getItemById($item->getProductId());
@@ -204,10 +206,10 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Add filter by wishlist object
      *
-     * @param Magento_Wishlist_Model_Wishlist $wishlist
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @param \Magento\Wishlist\Model\Wishlist $wishlist
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
-    public function addWishlistFilter(Magento_Wishlist_Model_Wishlist $wishlist)
+    public function addWishlistFilter(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         $this->addFieldToFilter('wishlist_id', $wishlist->getId());
         return $this;
@@ -217,7 +219,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * Add filtration by customer id
      *
      * @param int $customerId
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addCustomerIdFilter($customerId)
     {
@@ -236,7 +238,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      *
      * @param array $storeIds
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addStoreFilter($storeIds = array())
     {
@@ -252,11 +254,11 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Add items store data to collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addStoreData()
     {
-        $storeTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('core_store');
+        $storeTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('core_store');
         $this->getSelect()->join(array('store'=>$storeTable), 'main_table.store_id=store.store_id', array(
             'store_name'=>'name',
             'item_store_id' => 'store_id'
@@ -267,11 +269,11 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Reset sort order
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function resetSortOrder()
     {
-        $this->getSelect()->reset(Zend_Db_Select::ORDER);
+        $this->getSelect()->reset(\Zend_Db_Select::ORDER);
         return $this;
     }
 
@@ -279,7 +281,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * Set product Visibility Filter to product collection flag
      *
      * @param bool $flag
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function setVisibilityFilter($flag = true)
     {
@@ -292,7 +294,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * This filter apply Salable Product Types Filter to product collection.
      *
      * @param bool $flag
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function setSalableFilter($flag = true)
     {
@@ -305,7 +307,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * This filter remove items with no salable product.
      *
      * @param bool $flag
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function setInStockFilter($flag = true)
     {
@@ -316,7 +318,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Set flag of adding days in wishlist
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addDaysInWishlist()
     {
@@ -330,7 +332,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * $constraints may contain 'from' and 'to' indexes with number of days to look for items
      *
      * @param array $constraints
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addDaysFilter($constraints)
     {
@@ -340,17 +342,17 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
 
         $filter = array();
 
-        $now = Mage::getSingleton('Magento_Core_Model_Date')->date();
-        $gmtOffset = (int) Mage::getSingleton('Magento_Core_Model_Date')->getGmtOffset();
+        $now = \Mage::getSingleton('Magento\Core\Model\Date')->date();
+        $gmtOffset = (int) \Mage::getSingleton('Magento\Core\Model\Date')->getGmtOffset();
         if (isset($constraints['from'])) {
-            $lastDay = new Zend_Date($now, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $lastDay = new \Zend_Date($now, \Magento\Date::DATETIME_INTERNAL_FORMAT);
             $lastDay->subSecond($gmtOffset)
                 ->subDay(intval($constraints['from']));
             $filter['to'] = $lastDay;
         }
 
         if (isset($constraints['to'])) {
-            $firstDay = new Zend_Date($now, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $firstDay = new \Zend_Date($now, \Magento\Date::DATETIME_INTERNAL_FORMAT);
             $firstDay->subSecond($gmtOffset)
                 ->subDay(intval($constraints['to']) + 1);
             $filter['from'] = $firstDay;
@@ -367,17 +369,17 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     /**
      * Joins product name attribute value to use it in WHERE and ORDER clauses
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _joinProductNameTable()
     {
         if (!$this->_isProductNameJoined) {
-            $entityTypeId = Mage::getResourceModel('Magento_Catalog_Model_Resource_Config')
+            $entityTypeId = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Config')
                 ->getEntityTypeId();
-            $attribute = Mage::getModel('Magento_Catalog_Model_Entity_Attribute')
+            $attribute = \Mage::getModel('\Magento\Catalog\Model\Entity\Attribute')
                 ->loadByCode($entityTypeId, 'name');
 
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = \Mage::app()->getStore()->getId();
 
             $this->getSelect()
                 ->join(
@@ -398,7 +400,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * Adds filter on product name
      *
      * @param string $productName
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function addProductNameFilter($productName)
     {
@@ -413,7 +415,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
      * Sets ordering by product name
      *
      * @param string $dir
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function setOrderByProductName($dir)
     {
@@ -441,18 +443,18 @@ class Magento_Wishlist_Model_Resource_Item_Collection extends Magento_Core_Model
     }
 
     /**
-     * @return Magento_Wishlist_Model_Resource_Item_Collection|\Magento\Data\Collection\Db
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection|\Magento\Data\Collection\Db
      */
     protected function _afterLoadData()
     {
         parent::_afterLoadData();
 
         if ($this->_addDaysInWishlist) {
-            $gmtOffset = (int) Mage::getSingleton('Magento_Core_Model_Date')->getGmtOffset();
-            $nowTimestamp = Mage::getSingleton('Magento_Core_Model_Date')->timestamp();
+            $gmtOffset = (int) \Mage::getSingleton('Magento\Core\Model\Date')->getGmtOffset();
+            $nowTimestamp = \Mage::getSingleton('Magento\Core\Model\Date')->timestamp();
 
             foreach ($this as $wishlistItem) {
-                $wishlistItemTimestamp = Mage::getSingleton('Magento_Core_Model_Date')
+                $wishlistItemTimestamp = \Mage::getSingleton('Magento\Core\Model\Date')
                     ->timestamp($wishlistItem->getAddedAt());
 
                 $wishlistItem->setDaysInWishlist(

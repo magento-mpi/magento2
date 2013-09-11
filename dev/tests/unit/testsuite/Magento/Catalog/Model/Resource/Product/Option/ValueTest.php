@@ -23,7 +23,7 @@ class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Fr
      */
     public static $valueTitleData = array(
         'id'       => 2,
-        'store_id' => Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+        'store_id' => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
         'scope'    => array('title' => 1)
     );
 
@@ -40,12 +40,12 @@ class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Fr
     /**
      * Test that there is no notice in _saveValueTitles()
      *
-     * @covers Magento_Catalog_Model_Resource_Product_Option_Value::_saveValueTitles
+     * @covers \Magento\Catalog\Model\Resource\Product\Option\Value::_saveValueTitles
      */
     public function testSaveValueTitles()
     {
         $object = new Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_Core_Model_Stub(
-            $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
             null,
             null,
             self::$valueTitleData
@@ -56,7 +56,7 @@ class Magento_Catalog_Model_Resource_Product_Option_ValueTest extends PHPUnit_Fr
 }
 
 class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value
-    extends Magento_Catalog_Model_Resource_Product_Option_Value
+    extends \Magento\Catalog\Model\Resource\Product\Option\Value
 {
     /**
      * Stub parent constructor
@@ -74,9 +74,9 @@ class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value
     /**
      * Save option value price data
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      */
-    public function saveValueTitles(Magento_Core_Model_Abstract $object)
+    public function saveValueTitles(\Magento\Core\Model\AbstractModel $object)
     {
         $this->_saveValueTitles($object);
     }
@@ -131,9 +131,9 @@ class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_
 }
 
 /*
- * Because Magento_Core_Model_Abstract is abstract - we can't instantiate it directly
+ * Because \Magento\Core\Model\AbstractModel is abstract - we can't instantiate it directly
  */
 class Stub_UnitTest_Magento_Catalog_Model_Resource_Product_Option_Value_Magento_Core_Model_Stub
-    extends Magento_Core_Model_Abstract
+    extends \Magento\Core\Model\AbstractModel
 {
 }

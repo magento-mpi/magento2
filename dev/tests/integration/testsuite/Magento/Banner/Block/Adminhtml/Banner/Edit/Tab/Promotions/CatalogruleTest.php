@@ -14,13 +14,13 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_CatalogruleTest 
 {
     public function testGetCollection()
     {
-        /** @var Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule $block */
+        /** @var \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule $block */
         $block = Mage::app()->getLayout()->createBlock(
-            'Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule'
+            '\Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule'
         );
 
-        /** @var Magento_CatalogRule_Model_Rule $catalogRule */
-        $catalogRule = Mage::getModel('Magento_CatalogRule_Model_Rule');
+        /** @var \Magento\CatalogRule\Model\Rule $catalogRule */
+        $catalogRule = Mage::getModel('\Magento\CatalogRule\Model\Rule');
         $catalogRule->load('Test Catalog Rule', 'name');
 
         $this->assertSame(array($catalogRule->getId()), $block->getCollection()->getAllIds());

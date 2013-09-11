@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Checkout_Model_Cart_Coupon_Api extends Magento_Checkout_Model_Api_Resource
+namespace Magento\Checkout\Model\Cart\Coupon;
+
+class Api extends \Magento\Checkout\Model\Api\Resource
 {
     /**
      * @param  $quoteId
@@ -64,7 +66,7 @@ class Magento_Checkout_Model_Cart_Coupon_Api extends Magento_Checkout_Model_Api_
             $quote->setCouponCode(strlen($couponCode) ? $couponCode : '')
                 ->collectTotals()
                 ->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault("cannot_apply_coupon_code", $e->getMessage());
         }
 

@@ -16,7 +16,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Report_Rule_Updatedat extends Magento_SalesRule_Model_Resource_Report_Rule_Createdat
+namespace Magento\SalesRule\Model\Resource\Report\Rule;
+
+class Updatedat extends \Magento\SalesRule\Model\Resource\Report\Rule\Createdat
 {
     /**
      * Resource Report Rule constructor
@@ -32,7 +34,7 @@ class Magento_SalesRule_Model_Resource_Report_Rule_Updatedat extends Magento_Sal
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_SalesRule_Model_Resource_Report_Rule_Updatedat
+     * @return \Magento\SalesRule\Model\Resource\Report\Rule\Updatedat
      */
     public function aggregate($from = null, $to = null)
     {

@@ -15,7 +15,9 @@
  * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PageCache_Model_Control_Zend implements Magento_PageCache_Model_Control_Interface
+namespace Magento\PageCache\Model\Control;
+
+class Zend implements \Magento\PageCache\Model\Control\ControlInterface
 {
     /**
      * Clean zend server page cache

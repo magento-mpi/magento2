@@ -13,7 +13,9 @@
  *
  * TODO: implement ACL restrictions
  */
-class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Sales\Recurring;
+
+class Profile extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Recurring profiles list
@@ -43,10 +45,10 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
                 ->renderLayout()
             ;
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -59,10 +61,10 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
         try {
             $this->loadLayout()->renderLayout();
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -75,8 +77,8 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
         try {
             $this->_initProfile();
             $this->loadLayout()->renderLayout();
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
             $this->norouteAction();
         }
     }
@@ -102,11 +104,11 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
                     break;
             }
             $this->_getSession()->addSuccess(__('The profile state has been updated.'));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('We could not update the profile.'));
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         if ($profile) {
             $this->_redirect('*/*/view', array('profile' => $profile->getId()));
@@ -130,11 +132,11 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
             } else {
                 $this->_getSession()->addNotice(__('The profile has no changes.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('We could not update the profile.'));
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         if ($profile) {
             $this->_redirect('*/*/view', array('profile' => $profile->getId()));
@@ -157,33 +159,33 @@ class Magento_Adminhtml_Controller_Sales_Recurring_Profile extends Magento_Admin
     /**
      * Initialize customer by ID specified in request
      *
-     * @return Magento_Adminhtml_Controller_Sales_Billing_Agreement
+     * @return \Magento\Adminhtml\Controller\Sales\Billing\Agreement
      */
     protected function _initCustomer()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
 
         if ($customerId) {
             $customer->load($customerId);
         }
 
-        Mage::register('current_customer', $customer);
+        \Mage::register('current_customer', $customer);
         return $this;
     }
 
     /**
      * Load/set profile
      *
-     * @return Magento_Sales_Model_Recurring_Profile
+     * @return \Magento\Sales\Model\Recurring\Profile
      */
     protected function _initProfile()
     {
-        $profile = Mage::getModel('Magento_Sales_Model_Recurring_Profile')->load($this->getRequest()->getParam('profile'));
+        $profile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
-            Mage::throwException(__('The profile you specified does not exist.'));
+            \Mage::throwException(__('The profile you specified does not exist.'));
         }
-        Mage::register('current_recurring_profile', $profile);
+        \Mage::register('current_recurring_profile', $profile);
         return $profile;
     }
 }

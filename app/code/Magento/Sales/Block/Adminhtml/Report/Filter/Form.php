@@ -15,12 +15,14 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Report_Filter_Form extends Magento_Adminhtml_Block_Report_Filter_Form
+namespace Magento\Sales\Block\Adminhtml\Report\Filter;
+
+class Form extends \Magento\Adminhtml\Block\Report\Filter\Form
 {
     /**
      * Add fields to base fieldset which are general to sales reports
      *
-     * @return Magento_Sales_Block_Adminhtml_Report_Filter_Form
+     * @return \Magento\Sales\Block\Adminhtml\Report\Filter\Form
      */
     protected function _prepareForm()
     {
@@ -32,7 +34,7 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form extends Magento_Adminhtml
 
         if (is_object($fieldset) && $fieldset instanceof \Magento\Data\Form\Element\Fieldset) {
 
-            $statuses = Mage::getModel('Magento_Sales_Model_Order_Config')->getStatuses();
+            $statuses = \Mage::getModel('\Magento\Sales\Model\Order\Config')->getStatuses();
             $values = array();
             foreach ($statuses as $code => $label) {
                 if (false === strpos($code, 'pending')) {
@@ -63,7 +65,7 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form extends Magento_Adminhtml
             if ($this->getFieldVisibility('show_order_statuses') && $this->getFieldVisibility('order_statuses')) {
                 $this->setChild(
                     'form_after',
-                    $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence')
+                    $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
                         ->addFieldMap("{$htmlIdPrefix}show_order_statuses", 'show_order_statuses')
                         ->addFieldMap("{$htmlIdPrefix}order_statuses", 'order_statuses')
                         ->addFieldDependence('order_statuses', 'show_order_statuses', '1')

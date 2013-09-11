@@ -17,7 +17,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Search extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Catalog;
+
+class Search extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     protected function _construct()
     {

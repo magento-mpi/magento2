@@ -7,18 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerSegment_Model_Segment_Report_Detail_Grid_UrlGenerator
-    extends Magento_Backend_Model_Widget_Grid_Row_UrlGenerator
+namespace Magento\CustomerSegment\Model\Segment\Report\Detail\Grid;
+
+class UrlGenerator
+    extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
+     * @param \Magento\Core\Model\Registry $registry
      */
-    public function __construct(Magento_Core_Model_Registry $registry)
+    public function __construct(\Magento\Core\Model\Registry $registry)
     {
         $this->_registryManager = $registry;
         parent::__construct();

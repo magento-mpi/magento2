@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Sales_Model_Email_Template extends Magento_Core_Model_Email_Template
+namespace Magento\Sales\Model\Email;
+
+class Template extends \Magento\Core\Model\Email\Template
 {
     /**
      * @param string $template

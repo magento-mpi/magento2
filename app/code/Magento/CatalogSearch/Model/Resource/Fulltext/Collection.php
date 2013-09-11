@@ -16,27 +16,29 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\CatalogSearch\Model\Resource\Fulltext;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Retrieve query model object
      *
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     protected function _getQuery()
     {
-        return Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery();
+        return \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery();
     }
 
     /**
      * Add search query filter
      *
      * @param string $query
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function addSearchFilter($query)
     {
-        Mage::getSingleton('Magento_CatalogSearch_Model_Fulltext')->prepareResult();
+        \Mage::getSingleton('Magento\CatalogSearch\Model\Fulltext')->prepareResult();
 
         $this->getSelect()->joinInner(
             array('search_result' => $this->getTable('catalogsearch_result')),
@@ -55,7 +57,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function setOrder($attribute, $dir = 'desc')
     {
@@ -70,7 +72,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Collection extends Magento_C
     /**
      * Stub method for campatibility with other search engines
      *
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function setGeneralDefaultQuery()
     {

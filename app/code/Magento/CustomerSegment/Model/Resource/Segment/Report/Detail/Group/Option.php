@@ -5,18 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerSegment_Model_Resource_Segment_Report_Detail_Group_Option
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Group;
+
+class Option
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Customer_Model_Resource_Group_Collection
+     * @var \Magento\Customer\Model\Resource\Group\Collection
      */
     protected $_resourceCollection;
 
     /**
-     * @param Magento_Customer_Model_Resource_Group_Collection $groupCollection
+     * @param \Magento\Customer\Model\Resource\Group\Collection $groupCollection
      */
-    public function __construct(Magento_Customer_Model_Resource_Group_Collection $groupCollection)
+    public function __construct(\Magento\Customer\Model\Resource\Group\Collection $groupCollection)
     {
         $this->_resourceCollection = $groupCollection;
     }

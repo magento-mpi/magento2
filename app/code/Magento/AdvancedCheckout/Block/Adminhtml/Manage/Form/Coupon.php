@@ -15,7 +15,9 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon extends Magento_Adminhtml_Block_Template
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form;
+
+class Coupon extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Return applied coupon code for current quote
@@ -30,11 +32,11 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon extends Magent
     /**
      * Return current quote from regisrty
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return Mage::registry('checkout_current_quote');
+        return \Mage::registry('checkout_current_quote');
     }
 
     /**
@@ -45,7 +47,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon extends Magent
     public function getApplyButtonHtml()
     {
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
                 ->setData(array(
                     'id'        => 'apply_coupon',
                     'label'     => __('Apply'),

@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Updater
+ * Test class for \Magento\Core\Model\Layout\Argument\Updater
  */
 class Magento_Core_Model_Layout_Argument_UpdaterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Updater
+     * @var \Magento\Core\Model\Layout\Argument\Updater
      */
     protected $_model;
 
@@ -32,11 +32,11 @@ class Magento_Core_Model_Layout_Argument_UpdaterTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_argUpdaterMock = $this->getMock('Magento_Core_Model_Layout_Argument_UpdaterInterface', array(), array(),
+        $this->_argUpdaterMock = $this->getMock('Magento\Core\Model\Layout\Argument\UpdaterInterface', array(), array(),
             '', false
         );
 
-        $this->_model = new Magento_Core_Model_Layout_Argument_Updater($this->_objectManagerMock);
+        $this->_model = new \Magento\Core\Model\Layout\Argument\Updater($this->_objectManagerMock);
     }
 
     protected function tearDown()

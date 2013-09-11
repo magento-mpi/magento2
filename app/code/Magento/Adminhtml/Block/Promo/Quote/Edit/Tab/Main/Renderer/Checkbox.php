@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main_Renderer_Checkbox
-    extends Magento_Backend_Block_Abstract
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main\Renderer;
+
+class Checkbox
+    extends \Magento\Backend\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**

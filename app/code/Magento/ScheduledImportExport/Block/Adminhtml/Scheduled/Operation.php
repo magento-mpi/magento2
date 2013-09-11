@@ -15,7 +15,9 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled;
+
+class Operation extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize block

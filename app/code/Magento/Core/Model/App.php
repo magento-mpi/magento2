@@ -17,7 +17,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
+namespace Magento\Core\Model;
+
+class App implements \Magento\Core\Model\AppInterface
 {
     /**
      * Application loaded areas array
@@ -29,21 +31,21 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Application location object
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * Application configuration object
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
      * Application front controller
      *
-     * @var Magento_Core_Controller_FrontInterface
+     * @var \Magento\Core\Controller\FrontInterface
      */
     protected $_frontController;
 
@@ -57,28 +59,28 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Cache object
      *
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
      * Request object
      *
-     * @var Zend_Controller_Request_Http
+     * @var \Zend_Controller_Request_Http
      */
     protected $_request;
 
     /**
      * Response object
      *
-     * @var Zend_Controller_Response_Http
+     * @var \Zend_Controller_Response_Http
      */
     protected $_response;
 
     /**
      * Use session in URL flag
      *
-     * @see Magento_Core_Model_Url
+     * @see \Magento\Core\Model\Url
      * @var bool
      */
     protected $_useSessionInUrl = true;
@@ -100,53 +102,53 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Data base updater object
      *
-     * @var Magento_Core_Model_Db_UpdaterInterface
+     * @var \Magento\Core\Model\Db\UpdaterInterface
      */
     protected $_dbUpdater;
 
     /**
      * Store list manager
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Config_Scope
+     * @var \Magento\Core\Model\Config\Scope
      */
     protected $_configScope;
 
     /**
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Controller_Varien_Front $frontController
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\Core\Model\CacheInterface $cache
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_Db_UpdaterInterface $dbUpdater
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_Config_Scope $configScope
+     * @param \Magento\Core\Model\Db\UpdaterInterface $dbUpdater
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\Config\Scope $configScope
      */
     public function __construct(
-        Magento_Core_Model_Config $config,
-        Magento_Core_Controller_Varien_Front $frontController,
-        Magento_Core_Model_CacheInterface $cache,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\Core\Model\CacheInterface $cache,
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Model_Db_UpdaterInterface $dbUpdater,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_Config_Scope $configScope
+        \Magento\Core\Model\Db\UpdaterInterface $dbUpdater,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\Config\Scope $configScope
     ) {
         $this->_config = $config;
         $this->_cache = $cache;
@@ -162,7 +164,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Run application. Run process responsible for request processing and sending response.
      *
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     public function run()
     {
@@ -198,7 +200,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Init request object
      *
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     protected function _initRequest()
     {
@@ -209,17 +211,17 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve cookie object
      *
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function getCookie()
     {
-        return $this->_objectManager->get('Magento_Core_Model_Cookie');
+        return $this->_objectManager->get('Magento\Core\Model\Cookie');
     }
 
     /**
      * Initialize application front controller
      *
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     protected function _initFrontController()
     {
@@ -230,18 +232,18 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Instantiate proper front controller instance depending on current area
      *
-     * @return Magento_Core_Controller_FrontInterface
+     * @return \Magento\Core\Controller\FrontInterface
      */
     protected function _getFrontControllerByCurrentArea()
     {
         /**
          * TODO: Temporary implementation for API. Must be reconsidered during implementation
          * TODO: of ability to set different front controllers in different area.
-         * TODO: See also related changes in Magento_Core_Model_Config.
+         * TODO: See also related changes in \Magento\Core\Model\Config.
          */
         // TODO: Assure that everything work fine work in areas without routers (e.g. URL generation)
         /** Default front controller class */
-        $frontControllerClass = 'Magento_Core_Controller_Varien_Front';
+        $frontControllerClass = '\Magento\Core\Controller\Varien\Front';
         $pathParts = explode('/', trim($this->getRequest()->getPathInfo(), '/'));
         if ($pathParts) {
             /** If area front name is used it is expected to be set on the first place in path info */
@@ -263,7 +265,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * Re-declare custom error handler
      *
      * @param   string $handler
-     * @return  Magento_Core_Model_App
+     * @return  \Magento\Core\Model\App
      */
     public function setErrorHandler($handler)
     {
@@ -275,7 +277,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * Loading application area
      *
      * @param   string $code
-     * @return  Magento_Core_Model_App
+     * @return  \Magento\Core\Model\App
      */
     public function loadArea($code)
     {
@@ -289,7 +291,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      *
      * @param   string $area
      * @param   string $part
-     * @return  Magento_Core_Model_App
+     * @return  \Magento\Core\Model\App
      */
     public function loadAreaPart($area, $part)
     {
@@ -301,13 +303,13 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * Retrieve application area
      *
      * @param   string $code
-     * @return  Magento_Core_Model_App_Area
+     * @return  \Magento\Core\Model\App\Area
      */
     public function getArea($code)
     {
         if (!isset($this->_areas[$code])) {
             $this->_areas[$code] = $this->_objectManager->create(
-                'Magento_Core_Model_App_Area',
+                '\Magento\Core\Model\App\Area',
                 array('areaCode' => $code)
             );
         }
@@ -327,12 +329,12 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve application locale object
      *
-     * @return Magento_Core_Model_LocaleInterface
+     * @return \Magento\Core\Model\LocaleInterface
      */
     public function getLocale()
     {
         if (!$this->_locale) {
-            $this->_locale = $this->_objectManager->get('Magento_Core_Model_LocaleInterface');
+            $this->_locale = $this->_objectManager->get('Magento\Core\Model\LocaleInterface');
         }
         return $this->_locale;
     }
@@ -340,22 +342,22 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve layout object
      *
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function getLayout()
     {
-        return $this->_objectManager->get('Magento_Core_Model_Layout');
+        return $this->_objectManager->get('Magento\Core\Model\Layout');
     }
 
     /**
      * Retrieve helper object
      *
      * @param string $name
-     * @return Magento_Core_Helper_Abstract
+     * @return \Magento\Core\Helper\AbstractHelper
      */
     public function getHelper($name)
     {
-        return Mage::helper($name);
+        return \Mage::helper($name);
     }
 
     /**
@@ -365,13 +367,13 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      */
     public function getBaseCurrencyCode()
     {
-        return $this->_config->getValue(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE, 'default');
+        return $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
     }
 
     /**
      * Retrieve configuration object
      *
-     * @return Magento_Core_Model_Config
+     * @return \Magento\Core\Model\Config
      */
     public function getConfig()
     {
@@ -381,7 +383,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve front controller object
      *
-     * @return Magento_Core_Controller_Varien_Front
+     * @return \Magento\Core\Controller\Varien\Front
      */
     public function getFrontController()
     {
@@ -395,7 +397,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Get core cache model
      *
-     * @return Magento_Core_Model_CacheInterface
+     * @return \Magento\Core\Model\CacheInterface
      */
     public function getCacheInstance()
     {
@@ -430,7 +432,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * @param string $cacheId
      * @param array $tags
      * @param bool $lifeTime
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     public function saveCache($data, $cacheId, $tags = array(), $lifeTime = false)
     {
@@ -442,7 +444,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * Remove cache
      *
      * @param   string $cacheId
-     * @return  Magento_Core_Model_App
+     * @return  \Magento\Core\Model\App
      */
     public function removeCache($cacheId)
     {
@@ -454,7 +456,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * Cleaning cache
      *
      * @param   array $tags
-     * @return  Magento_Core_Model_App
+     * @return  \Magento\Core\Model\App
      */
     public function cleanCache($tags = array())
     {
@@ -466,7 +468,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Deletes all session files
      *
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     public function cleanAllSessions()
     {
@@ -481,12 +483,12 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve request object
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function getRequest()
     {
         if (!$this->_request) {
-            $this->_request = $this->_objectManager->get('Magento_Core_Controller_Request_Http');
+            $this->_request = $this->_objectManager->get('Magento\Core\Controller\Request\Http');
         }
         return $this->_request;
     }
@@ -494,10 +496,10 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Request setter
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @return Magento_Core_Model_App
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @return \Magento\Core\Model\App
      */
-    public function setRequest(Magento_Core_Controller_Request_Http $request)
+    public function setRequest(\Magento\Core\Controller\Request\Http $request)
     {
         $this->_request = $request;
         return $this;
@@ -506,13 +508,13 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve response object
      *
-     * @return Zend_Controller_Response_Http
+     * @return \Zend_Controller_Response_Http
      */
     public function getResponse()
     {
         if (!$this->_response) {
-            $this->_response = $this->_objectManager->get('Magento_Core_Controller_Response_Http');
-            $this->_response->headersSentThrowsException = Mage::$headersSentThrowsException;
+            $this->_response = $this->_objectManager->get('Magento\Core\Controller\Response\Http');
+            $this->_response->headersSentThrowsException = \Mage::$headersSentThrowsException;
             $this->_response->setHeader('Content-Type', 'text/html; charset=UTF-8');
         }
         return $this->_response;
@@ -521,10 +523,10 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Response setter
      *
-     * @param Magento_Core_Controller_Response_Http $response
-     * @return Magento_Core_Model_App
+     * @param \Magento\Core\Controller\Response\Http $response
+     * @return \Magento\Core\Model\App
      */
-    public function setResponse(Magento_Core_Controller_Response_Http $response)
+    public function setResponse(\Magento\Core\Controller\Response\Http $response)
     {
         $this->_response = $response;
         return $this;
@@ -534,7 +536,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * Set use session var instead of SID for URL
      *
      * @param bool $var
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     public function setUseSessionVar($var)
     {
@@ -556,7 +558,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      * Set Use session in URL flag
      *
      * @param bool $flag
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     public function setUseSessionInUrl($flag = true)
     {
@@ -581,16 +583,16 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      */
     public function isDeveloperMode()
     {
-        return $this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER;
+        return $this->_appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER;
     }
 
     /**
      * Retrieve application store object without Store_Exception
      *
-     * @param string|int|Magento_Core_Model_Store $storeId
-     * @return Magento_Core_Model_Store
+     * @param string|int|\Magento\Core\Model\Store $storeId
+     * @return \Magento\Core\Model\Store
      *
-     * @deprecated use Magento_Core_Model_StoreManagerInterface::getSafeStore()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getSafeStore()
      */
     public function getSafeStore($storeId = null)
     {
@@ -602,7 +604,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      *
      * @param bool $value
      *
-     * @deprecated use Magento_Core_Model_StoreManager::setIsSingleStoreModeAllowed()
+     * @deprecated use \Magento\Core\Model\StoreManager::setIsSingleStoreModeAllowed()
      */
     public function setIsSingleStoreModeAllowed($value)
     {
@@ -614,7 +616,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      *
      * @return bool
      *
-     * @deprecated use Magento_Core_Model_StoreManager::hasSingleStore()
+     * @deprecated use \Magento\Core\Model\StoreManager::hasSingleStore()
      */
     public function hasSingleStore()
     {
@@ -626,7 +628,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      *
      * @return bool
      *
-     * @deprecated use Magento_Core_Model_StoreManager::isSingleStoreMode()
+     * @deprecated use \Magento\Core\Model\StoreManager::isSingleStoreMode()
      */
     public function isSingleStoreMode()
     {
@@ -634,9 +636,9 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     }
 
     /**
-     * @throws Magento_Core_Model_Store_Exception
+     * @throws \Magento\Core\Model\Store\Exception
      *
-     * @deprecated use Magento_Core_Model_StoreManager::throwStoreException()
+     * @deprecated use \Magento\Core\Model\StoreManager::throwStoreException()
      */
     public function throwStoreException()
     {
@@ -646,11 +648,11 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
-     * @return Magento_Core_Model_Store
-     * @throws Magento_Core_Model_Store_Exception
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
+     * @return \Magento\Core\Model\Store
+     * @throws \Magento\Core\Model\Store\Exception
      *
-     * @deprecated use Magento_Core_Model_StoreManager::getStore()
+     * @deprecated use \Magento\Core\Model\StoreManager::getStore()
      */
     public function getStore($storeId = null)
     {
@@ -662,9 +664,9 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return Magento_Core_Model_Store[]
+     * @return \Magento\Core\Model\Store[]
      *
-     * @deprecated use Magento_Core_Model_StoreManager::getStores()
+     * @deprecated use \Magento\Core\Model\StoreManager::getStores()
      */
     public function getStores($withDefault = false, $codeKey = false)
     {
@@ -674,11 +676,11 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|Magento_Core_Model_Website $websiteId
-     * @return Magento_Core_Model_Website
-     * @throws Magento_Core_Exception
+     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
+     * @return \Magento\Core\Model\Website
+     * @throws \Magento\Core\Exception
      *
-     * @deprecated use Magento_Core_Model_StoreManager::getWebsite()
+     * @deprecated use \Magento\Core\Model\StoreManager::getWebsite()
      */
     public function getWebsite($websiteId = null)
     {
@@ -690,9 +692,9 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      *
      * @param bool $withDefault
      * @param bool|string $codeKey
-     * @return Magento_Core_Model_Website[]
+     * @return \Magento\Core\Model\Website[]
      *
-     * @deprecated use Magento_Core_Model_StoreManager::getWebsites()
+     * @deprecated use \Magento\Core\Model\StoreManager::getWebsites()
      */
     public function getWebsites($withDefault = false, $codeKey = false)
     {
@@ -702,7 +704,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Reinitialize store list
      *
-     * @deprecated use Magento_Core_Model_StoreManager::reinitStores()
+     * @deprecated use \Magento\Core\Model\StoreManager::reinitStores()
      */
     public function reinitStores()
     {
@@ -714,7 +716,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      *
      * @param string $store
      *
-     * @deprecated use Magento_Core_Model_StoreManager::setCurrentStore()
+     * @deprecated use \Magento\Core\Model\StoreManager::setCurrentStore()
      */
     public function setCurrentStore($store)
     {
@@ -726,7 +728,7 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      *
      * @return string
      *
-     * @deprecated use Magento_Core_Model_StoreManager::getCurrentStore()
+     * @deprecated use \Magento\Core\Model\StoreManager::getCurrentStore()
      */
     public function getCurrentStore()
     {
@@ -737,9 +739,9 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      *
-     * @deprecated use Magento_Core_Model_StoreManager::getDefaultStoreView()
+     * @deprecated use \Magento\Core\Model\StoreManager::getDefaultStoreView()
      */
     public function getDefaultStoreView()
     {
@@ -749,11 +751,11 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Retrieve application store group object
      *
-     * @param null|Magento_Core_Model_Store_Group|string $groupId
-     * @return Magento_Core_Model_Store_Group
-     * @throws Magento_Core_Exception
+     * @param null|\Magento\Core\Model\Store\Group|string $groupId
+     * @return \Magento\Core\Model\Store\Group
+     * @throws \Magento\Core\Exception
      *
-     * @deprecated use Magento_Core_Model_StoreManager::getGroup()
+     * @deprecated use \Magento\Core\Model\StoreManager::getGroup()
      */
     public function getGroup($groupId = null)
     {
@@ -767,9 +769,9 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return Magento_Core_Model_Store_Group[]
+     * @return \Magento\Core\Model\Store\Group[]
      *
-     * @deprecated use Magento_Core_Model_StoreManager::getGroups()
+     * @deprecated use \Magento\Core\Model\StoreManager::getGroups()
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
@@ -779,9 +781,9 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|Magento_Core_Model_Website $websiteId
+     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
      *
-     * @deprecated use Magento_Core_Model_StoreManager::clearWebsiteCache()
+     * @deprecated use \Magento\Core\Model\StoreManager::clearWebsiteCache()
      */
     public function clearWebsiteCache($websiteId = null)
     {
@@ -791,9 +793,9 @@ class Magento_Core_Model_App implements Magento_Core_Model_AppInterface
     /**
      * Get either default or any store view
      *
-     * @return Magento_Core_Model_Store|null
+     * @return \Magento\Core\Model\Store|null
      *
-     * @deprecated use Magento_Core_Model_StoreManager::getAnyStoreView()
+     * @deprecated use \Magento\Core\Model\StoreManager::getAnyStoreView()
      */
     public function getAnyStoreView()
     {

@@ -14,8 +14,10 @@
  * @category   Magento
  * @package    Magento_CustomerSegment
  */
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid_Chooser
-    extends Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid;
+
+class Chooser
+    extends \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid
 {
     /**
      * Intialize grid
@@ -57,7 +59,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid_Chooser
     /**
      * Prepare columns for grid
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Grid_Chooser
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid\Chooser
      */
     protected function _prepareColumns()
     {

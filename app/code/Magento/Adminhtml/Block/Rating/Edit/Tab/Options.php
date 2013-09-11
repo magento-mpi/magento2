@@ -13,7 +13,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Rating_Edit_Tab_Options extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Rating\Edit\Tab;
+
+class Options extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     protected function _prepareForm()
@@ -22,10 +24,10 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Options extends Magento_Adminhtml_
 
         $fieldset = $form->addFieldset('options_form', array('legend'=>__('Assigned Options')));
 
-        if( Mage::registry('rating_data') ) {
-            $collection = Mage::getModel('Magento_Rating_Model_Rating_Option')
+        if( \Mage::registry('rating_data') ) {
+            $collection = \Mage::getModel('\Magento\Rating\Model\Rating\Option')
                 ->getResourceCollection()
-                ->addRatingFilter(Mage::registry('rating_data')->getId())
+                ->addRatingFilter(\Mage::registry('rating_data')->getId())
                 ->load();
 
             $i = 1;

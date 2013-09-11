@@ -11,26 +11,28 @@
 /**
  * Country model
  *
- * @method Magento_Directory_Model_Resource_Country _getResource()
- * @method Magento_Directory_Model_Resource_Country getResource()
+ * @method \Magento\Directory\Model\Resource\Country _getResource()
+ * @method \Magento\Directory\Model\Resource\Country getResource()
  * @method string getCountryId()
- * @method Magento_Directory_Model_Country setCountryId(string $value)
+ * @method \Magento\Directory\Model\Country setCountryId(string $value)
  * @method string getIso2Code()
- * @method Magento_Directory_Model_Country setIso2Code(string $value)
+ * @method \Magento\Directory\Model\Country setIso2Code(string $value)
  * @method string getIso3Code()
- * @method Magento_Directory_Model_Country setIso3Code(string $value)
+ * @method \Magento\Directory\Model\Country setIso3Code(string $value)
  *
  * @category    Magento
  * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Country extends Magento_Core_Model_Abstract
+namespace Magento\Directory\Model;
+
+class Country extends \Magento\Core\Model\AbstractModel
 {
     static public $_format = array();
 
     protected function _construct()
     {
-        $this->_init('Magento_Directory_Model_Resource_Country');
+        $this->_init('\Magento\Directory\Model\Resource\Country');
     }
 
     public function loadByCode($code)
@@ -53,7 +55,7 @@ class Magento_Directory_Model_Country extends Magento_Core_Model_Abstract
 
     public function getRegionCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Directory_Model_Resource_Region_Collection');
+        $collection = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Region\Collection');
         $collection->addCountryFilter($this->getId());
         return $collection;
     }
@@ -99,12 +101,12 @@ T: {{telephone}}";
     /**
      * Retrive formats for
      *
-     * @return Magento_Directory_Model_Resource_Country_Format_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Format\Collection
      */
     public function getFormats()
     {
         if (!isset(self::$_format[$this->getId()]) && $this->getId()) {
-            self::$_format[$this->getId()] = Mage::getModel('Magento_Directory_Model_Country_Format')
+            self::$_format[$this->getId()] = \Mage::getModel('\Magento\Directory\Model\Country\Format')
                                                 ->getCollection()
                                                 ->setCountryFilter($this)
                                                 ->load();
@@ -121,7 +123,7 @@ T: {{telephone}}";
      * Retrive format
      *
      * @param string $type
-     * @return Magento_Directory_Model_Country_Format
+     * @return \Magento\Directory\Model\Country\Format
      */
     public function getFormat($type)
     {
@@ -140,7 +142,7 @@ T: {{telephone}}";
         if(!$this->getData('name')) {
             $this->setData(
                 'name',
-                Mage::app()->getLocale()->getCountryTranslation($this->getId())
+                \Mage::app()->getLocale()->getCountryTranslation($this->getId())
             );
         }
         return $this->getData('name');

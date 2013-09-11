@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Sales_Model_Config
+namespace Magento\Sales\Model;
+
+class Config
 {
     const XML_PATH_ORDER_STATES = 'global/sales/order/states';
 
@@ -21,7 +23,7 @@ class Magento_Sales_Model_Config
      */
     public function getOrderStatusesForState($state)
     {
-        $states = Mage::getConfig()->getNode(self::XML_PATH_ORDER_STATES);
+        $states = \Mage::getConfig()->getNode(self::XML_PATH_ORDER_STATES);
         if (!isset($states->$state) || !isset($states->$state->statuses)) {
            return array();
         }

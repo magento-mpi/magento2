@@ -15,12 +15,14 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Controller_Soap extends Magento_Api_Controller_Action
+namespace Magento\Api\Controller;
+
+class Soap extends \Magento\Api\Controller\Action
 {
     public function indexAction()
     {
         $handlerName = 'soap_v2';
-        /* @var $server Magento_Api_Model_Server */
+        /* @var $server \Magento\Api\Model\Server */
         $this->_getServer()->init($this, $handlerName, $handlerName)->run();
     }
 }

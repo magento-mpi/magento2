@@ -92,8 +92,8 @@ class Magento_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_Tes
      */
     protected function _loadGiftCards($quoteId)
     {
-        /** @var Magento_Sales_Model_Quote $updatedQuote */
-        $updatedQuote = Mage::getModel('Magento_Sales_Model_Quote')->load($quoteId);
+        /** @var \Magento\Sales\Model\Quote $updatedQuote */
+        $updatedQuote = Mage::getModel('\Magento\Sales\Model\Quote')->load($quoteId);
         $this->assertInternalType(
             'string',
             $updatedQuote->getGiftCards(),
@@ -111,13 +111,13 @@ class Magento_GiftCard_Model_Checkout_Cart_ApiTest extends PHPUnit_Framework_Tes
     /**
      * Retrieve quote created in fixture.
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _getQuote()
     {
-        /** @var $session Magento_Checkout_Model_Session */
-        $session = Mage::getModel('Magento_Checkout_Model_Session');
-        /** @var Magento_Sales_Model_Quote $quote */
+        /** @var $session \Magento\Checkout\Model\Session */
+        $session = Mage::getModel('\Magento\Checkout\Model\Session');
+        /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $session->getQuote();
         return $quote;
     }

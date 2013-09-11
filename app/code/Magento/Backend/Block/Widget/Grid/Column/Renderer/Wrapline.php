@@ -15,8 +15,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Wrapline
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Wrapline
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Default max length of a line at one row
@@ -38,8 +40,8 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Wrapline
         $lineLength = $this->getColumn()->getData('lineLength')
             ? $this->getColumn()->getData('lineLength')
             : $this->_defaultMaxLineLength;
-        for ($i = 0, $n = floor(Mage::helper('Magento_Core_Helper_String')->strlen($line) / $lineLength); $i <= $n; $i++) {
-            $wrappedLine .= Mage::helper('Magento_Core_Helper_String')->substr($line, ($lineLength * $i), $lineLength)
+        for ($i = 0, $n = floor(\Mage::helper('Magento\Core\Helper\String')->strlen($line) / $lineLength); $i <= $n; $i++) {
+            $wrappedLine .= \Mage::helper('Magento\Core\Helper\String')->substr($line, ($lineLength * $i), $lineLength)
                 . "<br />";
         }
         return $wrappedLine;

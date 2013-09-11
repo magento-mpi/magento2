@@ -15,7 +15,9 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Product extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer;
+
+class Product extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
      * Render product name to add Configure link
@@ -27,9 +29,9 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Product exte
     {
         $rendered       =  parent::render($row);
         $listType = $this->getColumn()->getGrid()->getListType();
-        if ($row instanceof Magento_Catalog_Model_Product) {
+        if ($row instanceof \Magento\Catalog\Model\Product) {
             $product = $row;
-        } else if (($row instanceof Magento_Wishlist_Model_Item) || ($row instanceof Magento_Sales_Model_Order_Item)) {
+        } else if (($row instanceof \Magento\Wishlist\Model\Item) || ($row instanceof \Magento\Sales\Model\Order\Item)) {
             $product = $row->getProduct();
         }
         if ($product->canConfigure()) {

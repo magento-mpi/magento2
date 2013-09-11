@@ -12,24 +12,24 @@
 class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Varien_Action|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Varien\Action|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     protected function setUp()
     {
         Mage::getConfig();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         $arguments = array(
             'request'  => new Magento_TestFramework_Request(),
             'response' => new Magento_TestFramework_Response(),
         );
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+            ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Core_Controller_Varien_Action',
+            '\Magento\Core\Controller\Varien\Action',
             array($context)
         );
     }
@@ -83,10 +83,10 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     public function testGetLayout($controllerClass, $expectedArea)
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_Config_Scope')->setCurrentScope($expectedArea);
-        /** @var $controller Magento_Core_Controller_Varien_Action */
+        $objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope($expectedArea);
+        /** @var $controller \Magento\Core\Controller\Varien\Action */
         $controller = $objectManager->create($controllerClass);
-        $this->assertInstanceOf('Magento_Core_Model_Layout', $controller->getLayout());
+        $this->assertInstanceOf('\Magento\Core\Model\Layout', $controller->getLayout());
         $this->assertEquals($expectedArea, $controller->getLayout()->getArea());
     }
 
@@ -101,7 +101,7 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
         $this->_model->loadLayout('test');
         $this->assertContains('test', $this->_model->getLayout()->getUpdate()->getHandles());
 
-        $this->assertInstanceOf('Magento_Core_Block_Abstract', $this->_model->getLayout()->getBlock('root'));
+        $this->assertInstanceOf('\Magento\Core\Block\AbstractBlock', $this->_model->getLayout()->getBlock('root'));
     }
 
     public function testGetDefaultLayoutHandle()
@@ -240,13 +240,13 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
             'request'  => $request,
             'response' => new Magento_TestFramework_Response(),
         );
-        $context = $objectManager->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+        $context = $objectManager->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
 
         /* Area-specific controller is used because area must be known at the moment of loading the design */
-        $this->_model = $objectManager->create('Magento_Core_Controller_Front_Action',
+        $this->_model = $objectManager->create('Magento\Core\Controller\Front\Action',
             array('context'  => $context)
         );
-        $objectManager->get('Magento_Core_Model_Config_Scope')->setCurrentScope('frontend');
+        $objectManager->get('Magento\Core\Model\Config\Scope')->setCurrentScope('frontend');
         $this->_model->dispatch('not_exists');
 
         $this->assertFalse($request->isDispatched());
@@ -293,14 +293,14 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     {
         Mage::app()->loadArea($expectedArea);
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $controller Magento_Core_Controller_Varien_Action */
+        /** @var $controller \Magento\Core\Controller\Varien\Action */
         $context =
         $context = $objectManager->create($context, array('response' => new Magento_TestFramework_Response()));
         $controller = $objectManager->create($controllerClass, array('context' => $context));
         $controller->preDispatch();
 
         $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+            ->get('Magento\Core\Model\View\DesignInterface');
         $this->assertEquals($expectedArea, $design->getArea());
         $this->assertEquals($expectedStore, Mage::app()->getStore()->getCode());
         if ($expectedDesign) {
@@ -315,25 +315,25 @@ class Magento_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCa
     {
         return array(
             'install' => array(
-                'Magento_Install_Controller_Action',
+                '\Magento\Install\Controller\Action',
                 'install',
                 'default',
                 'magento_basic',
-                'Magento_Core_Controller_Varien_Action_Context'
+                '\Magento\Core\Controller\Varien\Action\Context'
             ),
             'frontend' => array(
-                'Magento_Core_Controller_Front_Action',
+                '\Magento\Core\Controller\Front\Action',
                 'frontend',
                 'default',
                 'magento_demo',
-                'Magento_Core_Controller_Varien_Action_Context'
+                '\Magento\Core\Controller\Varien\Action\Context'
             ),
             'backend' => array(
-                'Magento_Adminhtml_Controller_Action',
+                '\Magento\Adminhtml\Controller\Action',
                 'adminhtml',
                 'admin',
                 'magento_basic',
-                'Magento_Backend_Controller_Context'
+                '\Magento\Backend\Controller\Context'
             ),
         );
     }

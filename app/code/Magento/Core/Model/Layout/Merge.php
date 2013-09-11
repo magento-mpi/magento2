@@ -11,7 +11,9 @@
 /**
  * Layout merge model
  */
-class Magento_Core_Model_Layout_Merge
+namespace Magento\Core\Model\Layout;
+
+class Merge
 {
     /**#@+
      * Available item type names
@@ -26,19 +28,19 @@ class Magento_Core_Model_Layout_Merge
     const XPATH_HANDLE_DECLARATION = '/layout/*[@*[local-name()!="id"] or label]';
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     private $_theme;
 
     /**
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     private $_store;
 
     /**
      * In-memory cache for loaded layout updates
      *
-     * @var Magento_Core_Model_Layout_Element
+     * @var \Magento\Core\Model\Layout\Element
      */
     protected $_layoutUpdatesCache;
 
@@ -71,17 +73,17 @@ class Magento_Core_Model_Layout_Merge
     protected $_subst = null;
 
     /**
-     * @var Magento_Core_Model_Layout_File_SourceInterface
+     * @var \Magento\Core\Model\Layout\File\SourceInterface
      */
     private $_fileSource;
 
     /**
-     * @var Magento_Core_Model_Resource_Layout_Update
+     * @var \Magento\Core\Model\Resource\Layout\Update
      */
     private $_resource;
 
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     private $_appState;
 
@@ -93,22 +95,22 @@ class Magento_Core_Model_Layout_Merge
     /**
      * Init merge model
      *
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Layout_File_SourceInterface $fileSource,
-     * @param Magento_Core_Model_Resource_Layout_Update $resource
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+     * @param \Magento\Core\Model\Resource\Layout\Update $resource
+     * @param \Magento\Core\Model\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
-     * @param Magento_Core_Model_Theme $theme Non-injectable theme instance
+     * @param \Magento\Core\Model\Theme $theme Non-injectable theme instance
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Layout_File_SourceInterface $fileSource,
-        Magento_Core_Model_Resource_Layout_Update $resource,
-        Magento_Core_Model_App_State $appState,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+        \Magento\Core\Model\Resource\Layout\Update $resource,
+        \Magento\Core\Model\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,
-        Magento_Core_Model_Theme $theme = null
+        \Magento\Core\Model\Theme $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
         $this->_store = $storeManager->getStore();
@@ -122,7 +124,7 @@ class Magento_Core_Model_Layout_Merge
      * Add XML update instruction
      *
      * @param string $update
-     * @return Magento_Core_Model_Layout_Merge
+     * @return \Magento\Core\Model\Layout\Merge
      */
     public function addUpdate($update)
     {
@@ -154,7 +156,7 @@ class Magento_Core_Model_Layout_Merge
      * Add handle(s) to update
      *
      * @param array|string $handleName
-     * @return Magento_Core_Model_Layout_Merge
+     * @return \Magento\Core\Model\Layout\Merge
      */
     public function addHandle($handleName)
     {
@@ -172,7 +174,7 @@ class Magento_Core_Model_Layout_Merge
      * Remove handle from update
      *
      * @param string $handleName
-     * @return Magento_Core_Model_Layout_Merge
+     * @return \Magento\Core\Model\Layout\Merge
      */
     public function removeHandle($handleName)
     {
@@ -257,7 +259,7 @@ class Magento_Core_Model_Layout_Merge
      * Get handle xml node by handle name
      *
      * @param string $handleName
-     * @return Magento_Core_Model_Layout_Element|null
+     * @return \Magento\Core\Model\Layout\Element|null
      */
     protected function _getPageHandleNode($handleName)
     {
@@ -332,7 +334,7 @@ class Magento_Core_Model_Layout_Merge
         }
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
-        /** @var $node Magento_Core_Model_Layout_Element */
+        /** @var $node \Magento\Core\Model\Layout\Element */
         foreach ($nodes as $node) {
             $name = $node->getAttribute('id');
             $info = array(
@@ -366,7 +368,7 @@ class Magento_Core_Model_Layout_Merge
      *
      * @param array|string $handles
      * @throws \Magento\Exception
-     * @return Magento_Core_Model_Layout_Merge
+     * @return \Magento\Core\Model\Layout\Merge
      */
     public function load($handles = array())
     {
@@ -394,9 +396,9 @@ class Magento_Core_Model_Layout_Merge
     }
 
     /**
-     * Get layout updates as Magento_Core_Model_Layout_Element object
+     * Get layout updates as \Magento\Core\Model\Layout\Element object
      *
-     * @return SimpleXMLElement
+     * @return \SimpleXMLElement
      */
     public function asSimplexml()
     {
@@ -410,18 +412,18 @@ class Magento_Core_Model_Layout_Merge
      * Return object representation of XML string
      *
      * @param string $xmlString
-     * @return SimpleXMLElement
+     * @return \SimpleXMLElement
      */
     protected function _loadXmlString($xmlString)
     {
-        return simplexml_load_string($xmlString, 'Magento_Core_Model_Layout_Element');
+        return simplexml_load_string($xmlString, '\Magento\Core\Model\Layout\Element');
     }
 
     /**
      * Merge layout update by handle
      *
      * @param string $handle
-     * @return Magento_Core_Model_Layout_Merge
+     * @return \Magento\Core\Model\Layout\Merge
      */
     protected function _merge($handle)
     {
@@ -490,7 +492,7 @@ class Magento_Core_Model_Layout_Merge
         if ($this->_subst === null) {
             $placeholders = array(
                 'baseUrl'       => $this->_store->getBaseUrl(),
-                'baseSecureUrl' => $this->_store->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_LINK, true),
+                'baseSecureUrl' => $this->_store->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, true),
             );
             $this->_subst = array();
             foreach ($placeholders as $key => $value) {
@@ -515,8 +517,8 @@ class Magento_Core_Model_Layout_Merge
     /**
      * Add handles declared as '<update handle="handle_name"/>' directives
      *
-     * @param SimpleXMLElement $updateXml
-     * @return Magento_Core_Model_Layout_Merge
+     * @param \SimpleXMLElement $updateXml
+     * @return \Magento\Core\Model\Layout\Merge
      */
     protected function _fetchRecursiveUpdates($updateXml)
     {
@@ -533,7 +535,7 @@ class Magento_Core_Model_Layout_Merge
     /**
      * Retrieve already merged layout updates from files for specified area/theme/package/store
      *
-     * @return Magento_Core_Model_Layout_Element
+     * @return \Magento\Core\Model\Layout\Element
      */
     public function getFileLayoutUpdatesXml()
     {
@@ -590,7 +592,7 @@ class Magento_Core_Model_Layout_Merge
      * Collect and merge layout updates from files
      *
      * @throws \Magento\Exception
-     * @return Magento_Core_Model_Layout_Element
+     * @return \Magento\Core\Model\Layout\Element
      */
     protected function _loadFileLayoutUpdatesXml()
     {
@@ -600,7 +602,7 @@ class Magento_Core_Model_Layout_Merge
         foreach ($updateFiles as $file) {
             $fileStr = file_get_contents($file->getFilename());
             $fileStr = $this->_substitutePlaceholders($fileStr);
-            /** @var $fileXml Magento_Core_Model_Layout_Element */
+            /** @var $fileXml \Magento\Core\Model\Layout\Element */
             $fileXml = $this->_loadXmlString($fileStr);
             if (!$file->isBase() && $fileXml->xpath(self::XPATH_HANDLE_DECLARATION)) {
                 throw new \Magento\Exception(sprintf(
@@ -618,11 +620,11 @@ class Magento_Core_Model_Layout_Merge
     /**
      * Find the closest physical theme among ancestors and a theme itself
      *
-     * @param Magento_Core_Model_Theme $theme
-     * @return Magento_Core_Model_Theme
+     * @param \Magento\Core\Model\Theme $theme
+     * @return \Magento\Core\Model\Theme
      * @throws \Magento\Exception
      */
-    protected function _getPhysicalTheme(Magento_Core_Model_Theme $theme)
+    protected function _getPhysicalTheme(\Magento\Core\Model\Theme $theme)
     {
         $result = $theme;
         while ($result->getId() && !$result->isPhysical()) {
@@ -649,7 +651,7 @@ class Magento_Core_Model_Layout_Merge
     {
         $result = array();
         $containerNodes = $this->asSimplexml()->xpath('//container');
-        /** @var $oneContainerNode Magento_Core_Model_Layout_Element */
+        /** @var $oneContainerNode \Magento\Core\Model\Layout\Element */
         foreach ($containerNodes as $oneContainerNode) {
             $result[$oneContainerNode->getAttribute('name')] = __($oneContainerNode->getAttribute('label'));
         }

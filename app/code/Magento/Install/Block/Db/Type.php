@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_Db_Type extends Magento_Core_Block_Template
+namespace Magento\Install\Block\Db;
+
+class Type extends \Magento\Core\Block\Template
 {
     /**
      * Db title
@@ -41,9 +43,9 @@ class Magento_Install_Block_Db_Type extends Magento_Core_Block_Template
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
+            $data = \Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
             if (empty($data)) {
-                $data = Mage::getModel('Magento_Install_Model_Installer_Config')->getFormData();
+                $data = \Mage::getModel('\Magento\Install\Model\Installer\Config')->getFormData();
             } else {
                 $data = new \Magento\Object($data);
             }

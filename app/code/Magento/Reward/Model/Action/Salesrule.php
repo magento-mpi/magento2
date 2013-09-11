@@ -15,12 +15,14 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_Salesrule extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
 {
      /**
      * Quote instance, required for estimating checkout reward (rule defined static value)
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote = null;
 
@@ -37,7 +39,7 @@ class Magento_Reward_Model_Action_Salesrule extends Magento_Reward_Model_Action_
             if ($this->_quote->getAppliedRuleIds()) { 
                 $ruleIds = explode(',', $this->_quote->getAppliedRuleIds());
                 $ruleIds = array_unique($ruleIds);
-                $data = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward')->getRewardSalesrule($ruleIds);
+                $data = \Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward')->getRewardSalesrule($ruleIds);
                 foreach ($data as $rule) {
                     $pointsDelta += (int)$rule['points_delta'];
                 }
@@ -49,10 +51,10 @@ class Magento_Reward_Model_Action_Salesrule extends Magento_Reward_Model_Action_
     /**
      * Quote setter
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Reward_Model_Action_OrderExtra
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Reward\Model\Action\OrderExtra
      */
-    public function setQuote(Magento_Sales_Model_Quote $quote)
+    public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -84,7 +86,7 @@ class Magento_Reward_Model_Action_Salesrule extends Magento_Reward_Model_Action_
      * Setter for $_entity and add some extra data to history
      *
      * @param \Magento\Object $entity
-     * @return Magento_Reward_Model_Action_Abstract
+     * @return \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)
     {

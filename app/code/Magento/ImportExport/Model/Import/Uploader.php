@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File_Uploader
+namespace Magento\ImportExport\Model\Import;
+
+class Uploader extends \Magento\Core\Model\File\Uploader
 {
     protected $_tmpDir  = '';
     protected $_destDir = '';
@@ -28,11 +30,11 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
     const DEFAULT_FILE_TYPE = 'application/octet-stream';
 
     /**
-     * @var Magento_Core_Model_Image_AdapterFactory
+     * @var \Magento\Core\Model\Image\AdapterFactory
      */
     protected $_imageFactory;
 
-    function __construct(Magento_Core_Model_Image_AdapterFactory $imageFactory, $filePath = null)
+    function __construct(\Magento\Core\Model\Image\AdapterFactory $imageFactory, $filePath = null)
     {
         if (!is_null($filePath)) {
             $this->_setUploadFile($filePath);
@@ -77,7 +79,7 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
     protected function _setUploadFile($filePath)
     {
         if (!is_readable($filePath)) {
-            Mage::throwException("File '{$filePath}' was not found or has read restriction.");
+            \Mage::throwException("File '{$filePath}' was not found or has read restriction.");
         }
         $this->_file = $this->_readFileInfo($filePath);
 
@@ -117,7 +119,7 @@ class Magento_ImportExport_Model_Import_Uploader extends Magento_Core_Model_File
 
         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
         if (!$this->checkAllowedExtension($fileExtension)) {
-            throw new Exception('Disallowed file type.');
+            throw new \Exception('Disallowed file type.');
         }
         //run validate callbacks
         foreach ($this->_validateCallbacks as $params) {

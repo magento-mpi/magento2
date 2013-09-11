@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends \Magento\Data\Form\Element\Textarea
+namespace Magento\Adminhtml\Block\Catalog\Helper\Form;
+
+class Wysiwyg extends \Magento\Data\Form\Element\Textarea
 {
     /**
      * Retrieve additional html and put it at the end of element html
@@ -27,14 +29,14 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg extends \Magento\Data\
         $html = parent::getAfterElementHtml();
         if ($this->getIsWysiwygEnabled()) {
             $disabled = ($this->getDisabled() || $this->getReadonly());
-            $html .= Mage::app()->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Widget_Button', '', array('data' => array(
+            $html .= \Mage::app()->getLayout()
+                ->createBlock('\Magento\Adminhtml\Block\Widget\Button', '', array('data' => array(
                     'label'   => __('WYSIWYG Editor'),
                     'type'    => 'button',
                     'disabled' => $disabled,
                     'class' => ($disabled) ? 'disabled action-wysiwyg' : 'action-wysiwyg',
                     'onclick' => 'catalogWysiwygEditor.open(\''
-                        . Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_product/wysiwyg')
+                        . \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/catalog_product/wysiwyg')
                         . '\', \'' . $this->getHtmlId().'\')'
                 )))->toHtml();
             $html .= <<<HTML
@@ -70,8 +72,8 @@ HTML;
      */
     public function getIsWysiwygEnabled()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Cms')) {
-            return (bool)(Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Cms')) {
+            return (bool)(\Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()
                 && $this->getEntityAttribute()->getIsWysiwygEnabled());
         }
 

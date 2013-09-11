@@ -11,7 +11,7 @@
 class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Cache
+     * @var \Magento\Core\Model\Cache
      */
     protected $_model;
 
@@ -33,7 +33,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
             '\Magento\Cache\FrontendInterface', array(), '', true, true, true, array('clean')
         );
 
-        $frontendPoolMock = $this->getMock('Magento_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
+        $frontendPoolMock = $this->getMock('Magento\Core\Model\Cache\Frontend\Pool', array(), array(), '', false);
         $frontendPoolMock
             ->expects($this->any())
             ->method('valid')
@@ -46,10 +46,10 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
         $frontendPoolMock
             ->expects($this->any())
             ->method('get')
-            ->with(Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID)
+            ->with(\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID)
             ->will($this->returnValue($this->_cacheFrontendMock));
 
-        $this->_model = new Magento_Core_Model_Cache($frontendPoolMock);
+        $this->_model = new \Magento\Core\Model\Cache($frontendPoolMock);
     }
 
     /**
@@ -126,7 +126,7 @@ class Magento_Core_Model_CacheTest extends PHPUnit_Framework_TestCase
 
     public function saveDataProvider()
     {
-        $configTag = Magento_Core_Model_Config::CACHE_TAG;
+        $configTag = \Magento\Core\Model\Config::CACHE_TAG;
         return array(
             'default tags' => array(
                 'test_data', 'test_id', array(), 'test_data', 'test_id', array()

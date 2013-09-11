@@ -34,7 +34,7 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
     protected $_validatorMock;
 
     /**
-     * @var Magento_GoogleAdwords_Model_Validator_Factory
+     * @var \Magento\GoogleAdwords\Model\Validator\Factory
      */
     protected $_factory;
 
@@ -46,7 +46,7 @@ class Magento_GoogleAdwords_Model_Validator_FactoryTest extends PHPUnit_Framewor
         $this->_validatorMock = $this->getMock('Magento\Validator\ValidatorInterface', array(), array(), '', false);
 
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_factory = $objectManager->getObject('Magento_GoogleAdwords_Model_Validator_Factory', array(
+        $this->_factory = $objectManager->getObject('\Magento\GoogleAdwords\Model\Validator\Factory', array(
             'validatorBuilderFactory' => $this->_validatorBuilderFactoryMock,
         ));
     }

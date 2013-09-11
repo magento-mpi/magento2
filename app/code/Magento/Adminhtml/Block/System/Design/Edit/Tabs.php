@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_System_Design_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\System\Design\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     protected function _construct()
     {
@@ -23,7 +25,7 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tabs extends Magento_Adminhtml_
         $this->addTab('general', array(
             'label'     => __('General'),
             'content'   => $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_System_Design_Edit_Tab_General')->toHtml(),
+                ->createBlock('\Magento\Adminhtml\Block\System\Design\Edit\Tab\General')->toHtml(),
         ));
 
         return parent::_prepareLayout();

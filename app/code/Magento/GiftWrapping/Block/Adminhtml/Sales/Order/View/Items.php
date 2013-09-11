@@ -16,13 +16,15 @@
  * @package    Magento_GiftWrapping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Adminhtml_Sales_Order_View_Items
+namespace Magento\GiftWrapping\Block\Adminhtml\Sales\Order\View;
+
+class Items
     extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
     /**
      * Get order item from parent block
      *
-     * @return Magento_Sales_Model_Order_Item
+     * @return \Magento\Sales\Model\Order\Item
      */
     public function getItem()
     {

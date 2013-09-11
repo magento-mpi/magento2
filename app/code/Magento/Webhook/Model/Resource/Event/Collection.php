@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Webhook\Model\Resource\Event;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Number of events to load at once;
@@ -28,12 +30,12 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
      * Collection constructor
      *
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      * @param int $timeoutIdling
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
         $timeoutIdling = null
     ) {
         parent::__construct($fetchStrategy, $resource);
@@ -44,13 +46,13 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
     public function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Webhook_Model_Event', 'Magento_Webhook_Model_Resource_Event');
+        $this->_init('\Magento\Webhook\Model\Event', '\Magento\Webhook\Model\Resource\Event');
     }
 
     /**
      * Adds FOR UPDATE lock on retrieved rows and filter status
      *
-     * @return Magento_Webhook_Model_Resource_Event_Collection
+     * @return \Magento\Webhook\Model\Resource\Event\Collection
      */
     protected function _initSelect()
     {
@@ -65,7 +67,7 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
     /**
      * Start transaction before executing the query in order to update the status atomically
      *
-     * @return Magento_Webhook_Model_Resource_Event_Collection
+     * @return \Magento\Webhook\Model\Resource\Event\Collection
      */
     protected function _beforeLoad()
     {
@@ -77,8 +79,8 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
     /**
      * Update the status and commit transaction in case of success
      *
-     * @return Magento_Webhook_Model_Resource_Event_Collection
-     * @throws Exception
+     * @return \Magento\Webhook\Model\Resource\Event\Collection
+     * @throws \Exception
      */
     protected function _afterLoad()
     {
@@ -91,7 +93,7 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
                     array('event_id IN (?)' => $loadedIds));
             }
             $this->getConnection()->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->getConnection()->rollBack();
             $this->clear();
             throw $e;
@@ -119,7 +121,7 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
      *
      * Regularly run by scheduling mechanism
      *
-     * @throws Exception
+     * @throws \Exception
      * @return null
      */
     public function revokeIdlingInProgress()
@@ -137,7 +139,7 @@ class Magento_Webhook_Model_Resource_Event_Collection extends Magento_Core_Model
                     array('status' => \Magento\PubSub\EventInterface::STATUS_READY_TO_SEND),
                     array('event_id IN (?)' => $idsToRevoke));
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->getConnection()->rollBack();
             $this->clear();
             throw $e;

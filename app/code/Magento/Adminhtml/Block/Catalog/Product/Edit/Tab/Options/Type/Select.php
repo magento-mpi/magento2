@@ -16,8 +16,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select extends
-    Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type;
+
+class Select extends
+    \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Type\AbstractType
 {
 
     protected $_template = 'catalog/product/edit/options/type/select.phtml';
@@ -35,13 +37,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select exten
 
     protected function _prepareLayout()
     {
-        $this->addChild('add_select_row_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_select_row_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add New Row'),
             'class' => 'add add-select-row',
             'id'    => 'product_option_${option_id}_add_select_row'
         ));
 
-        $this->addChild('delete_select_row_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_select_row_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Delete Row'),
             'class' => 'delete delete-select-row icon-btn',
             'id'    => 'product_option_${id}_select_${select_id}_delete'

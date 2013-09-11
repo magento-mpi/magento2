@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Adminhtml_Block_Report_Grid_Shopcart
+namespace Magento\Adminhtml\Block\Report\Shopcart\Product;
+
+class Grid extends \Magento\Adminhtml\Block\Report\Grid\Shopcart
 {
 
     protected function _construct()
@@ -26,10 +28,10 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Admin
 
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Reports_Model_Resource_Quote_Collection */
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Quote_Collection');
+        /** @var $collection \Magento\Reports\Model\Resource\Quote\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Quote\Collection');
         $collection->prepareForProductsInCarts()
-            ->setSelectCountSqlType(Magento_Reports_Model_Resource_Quote_Collection::SELECT_COUNT_SQL_TYPE_CART);
+            ->setSelectCountSqlType(\Magento\Reports\Model\Resource\Quote\Collection::SELECT_COUNT_SQL_TYPE_CART);
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -58,7 +60,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Product_Grid extends Magento_Admin
             'type'      =>'currency',
             'currency_code' => $currencyCode,
             'index'     =>'price',
-            'renderer'  =>'Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Currency',
+            'renderer'  =>'\Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency',
             'rate'          => $this->getRate($currencyCode),
             'header_css_class'  => 'col-price',
             'column_css_class'  => 'col-price'

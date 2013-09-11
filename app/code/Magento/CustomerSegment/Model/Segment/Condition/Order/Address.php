@@ -11,8 +11,10 @@
 /**
  * Order address condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Order_Address
-    extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order;
+
+class Address
+    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * @var string
@@ -20,13 +22,13 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address
     protected $_inputType = 'select';
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Address');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Order\Address');
     }
 
     /**
@@ -46,7 +48,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Combine')
+        return \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Combine')
             ->getNewChildSelectOptions();
     }
 
@@ -76,7 +78,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address
      * Prepare base condition select which related with current condition combine
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
+     * @param int | \Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -88,7 +90,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address
         $extraAddressTable  = $this->getResource()->getTable('magento_customer_sales_flat_order_address');
         $orderTable         = $this->getResource()->getTable('sales_flat_order');
 
-        $select->from(array('order_address' => $mainAddressTable), array(new Zend_Db_Expr(1)))
+        $select->from(array('order_address' => $mainAddressTable), array(new \Zend_Db_Expr(1)))
             ->join(
                 array('order_address_order' => $orderTable),
                 'order_address.parent_id = order_address_order.entity_id',

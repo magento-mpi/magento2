@@ -16,16 +16,18 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends Magento_Adminhtml_Block_Template
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
+class Tracking extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getRma()
     {
-        return Mage::registry('current_rma');
+        return \Mage::registry('current_rma');
     }
 
     /**
@@ -35,19 +37,19 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
      */
     public function getCarriers()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
+        return \Mage::helper('Magento\Rma\Helper\Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**
      * Gets all tracks
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getAllTracks()
     {
-        return Mage::getResourceModel('Magento_Rma_Model_Resource_Shipping_Collection')
+        return \Mage::getResourceModel('\Magento\Rma\Model\Resource\Shipping\Collection')
             ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
-            ->addFieldToFilter('is_admin', array("neq" => Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
+            ->addFieldToFilter('is_admin', array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
         ;
     }
 
@@ -61,7 +63,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
         $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
         $this->setChild(
             'save_button',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Add'),
@@ -75,11 +77,11 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return \Mage::registry('current_shipment');
     }
 
     /**
@@ -105,7 +107,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
     /**
      * Retrieve remove url
      *
-     * @param Magento_Rma_Model_Shipping $track
+     * @param \Magento\Rma\Model\Shipping $track
      * @return string
      */
     public function getRemoveUrl($track)
@@ -124,7 +126,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking extends
      */
     public function getCarrierTitle($code)
     {
-        $carrier = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($code);
+        $carrier = \Mage::getSingleton('Magento\Shipping\Model\Config')->getCarrierInstance($code);
         return $carrier ? $carrier->getConfigData('title') : __('Custom Value');
     }
 }

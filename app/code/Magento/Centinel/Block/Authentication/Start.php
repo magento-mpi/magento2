@@ -12,7 +12,9 @@
 /**
  * Authentication start/redirect form
  */
-class Magento_Centinel_Block_Authentication_Start extends Magento_Core_Block_Template
+namespace Magento\Centinel\Block\Authentication;
+
+class Start extends \Magento\Core\Block\Template
 {
     /**
      * Prepare form parameters and render
@@ -21,7 +23,7 @@ class Magento_Centinel_Block_Authentication_Start extends Magento_Core_Block_Tem
      */
     protected function _toHtml()
     {
-        $validator = Mage::registry('current_centinel_validator');
+        $validator = \Mage::registry('current_centinel_validator');
         if ($validator && $validator->shouldAuthenticate()) {
             $this->addData($validator->getAuthenticateStartData());
             return parent::_toHtml();

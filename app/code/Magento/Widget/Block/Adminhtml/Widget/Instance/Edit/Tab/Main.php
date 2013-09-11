@@ -15,9 +15,11 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab;
+
+class Main
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Internal constructor
@@ -76,13 +78,13 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
      */
     public function getWidgetInstance()
     {
-        return Mage::registry('current_widget_instance');
+        return \Mage::registry('current_widget_instance');
     }
 
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main
      */
     protected function _prepareForm()
     {
@@ -114,8 +116,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
             'disabled' => true
         ));
 
-        /** @var $label Magento_Core_Model_Theme_Label */
-        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+        /** @var $label \Magento\Core\Model\Theme\Label */
+        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(
             'name'  => 'theme_id',
@@ -134,16 +136,16 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
             'required' => true,
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_ids', 'multiselect', array(
                 'name'      => 'store_ids[]',
                 'label'     => __('Assign to Store Views'),
                 'title'     => __('Assign to Store Views'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -156,9 +158,9 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
             'note' => __('Sort Order of widget instances in the same container')
         ));
 
-        /* @var $layoutBlock Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout */
+        /* @var $layoutBlock \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout */
         $layoutBlock = $this->getLayout()
-            ->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main_Layout')
+            ->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout')
             ->setWidgetInstance($widgetInstance);
         $fieldset = $form->addFieldset('layout_updates_fieldset',
             array('legend' => __('Layout Updates'))
@@ -184,7 +186,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
     /**
      * Initialize form fileds values
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Tab_Main
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main
      */
     protected function _initFormValues()
     {

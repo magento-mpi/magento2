@@ -7,35 +7,37 @@
      * @copyright   {copyright}
      * @license     {license_link}
      */
-class Magento_Reward_Model_Resource_Reward_History_Grid_Collection
-    extends Magento_Reward_Model_Resource_Reward_History_Collection
+namespace Magento\Reward\Model\Resource\Reward\History\Grid;
+
+class Collection
+    extends \Magento\Reward\Model\Resource\Reward\History\Collection
 {
     /**
-     * @var Magento_Reward_Helper_Data
+     * @var \Magento\Reward\Helper\Data
      */
     protected $_helper;
 
     /**
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Reward_Helper_Data $helper
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Reward\Helper\Data $helper
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Reward_Helper_Data $helper,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Reward\Helper\Data $helper,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_helper = $helper;
         parent::__construct($fetchStrategy, $resource);
     }
 
     /**
-     * @return Magento_Reward_Model_Resource_Reward_History_Grid_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Grid\Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        /** @var $collection Magento_Reward_Model_Resource_Reward_History_Collection */
+        /** @var $collection \Magento\Reward\Model\Resource\Reward\History\Collection */
         $this->setExpiryConfig($this->_helper->getExpiryConfig())
             ->addExpirationDate()
             ->setOrder('history_id', 'desc');
@@ -48,7 +50,7 @@ class Magento_Reward_Model_Resource_Reward_History_Grid_Collection
      *
      * @param array|string $field
      * @param null $condition
-     * @return Magento_Reward_Model_Resource_Reward_History_Grid_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\History\Grid\Collection
      */
     public  function addFieldToFilter($field, $condition = null)
     {

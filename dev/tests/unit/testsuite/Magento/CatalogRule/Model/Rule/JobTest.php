@@ -16,13 +16,13 @@ class Magento_CatalogRule_Model_Rule_JobTest extends PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
         $eventManager->expects($this->once())
             ->method('dispatch')
             ->with($this->equalTo('catalogrule_apply_all'));
 
-        /** @var $jobModel Magento_CatalogRule_Model_Rule_Job */
-        $jobModel = $objectManagerHelper->getObject('Magento_CatalogRule_Model_Rule_Job', array(
+        /** @var $jobModel \Magento\CatalogRule\Model\Rule\Job */
+        $jobModel = $objectManagerHelper->getObject('\Magento\CatalogRule\Model\Rule\Job', array(
             'eventManager' => $eventManager,
         ));
 

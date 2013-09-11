@@ -8,8 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var Magento_Customer_Model_Customer $customer */
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+/** @var \Magento\Customer\Model\Customer $customer */
+$customer = Mage::getModel('\Magento\Customer\Model\Customer');
 
 $customerData = array(
     'group_id' => 1,
@@ -23,8 +23,8 @@ $customerData = array(
 $customer->setData($customerData);
 $customer->setId(1);
 
-/** @var Magento_Customer_Model_Address $addressOne  */
-$addressOne = Mage::getModel('Magento_Customer_Model_Address');
+/** @var \Magento\Customer\Model\Address $addressOne  */
+$addressOne = Mage::getModel('\Magento\Customer\Model\Address');
 $addressOneData = array(
     'firstname' => 'test firstname',
     'lastname' => 'test lastname',
@@ -38,8 +38,8 @@ $addressOneData = array(
 $addressOne->setData($addressOneData);
 $customer->addAddress($addressOne);
 
-/** @var Magento_Customer_Model_Address $addressTwo  */
-$addressTwo = Mage::getModel('Magento_Customer_Model_Address');
+/** @var \Magento\Customer\Model\Address $addressTwo  */
+$addressTwo = Mage::getModel('\Magento\Customer\Model\Address');
 $addressTwoData = array(
     'firstname' => 'test firstname',
     'lastname' => 'test lastname',
@@ -53,8 +53,8 @@ $addressTwoData = array(
 $addressTwo->setData($addressTwoData);
 $customer->addAddress($addressTwo);
 
-/** @var Magento_Customer_Model_Address $addressThree  */
-$addressThree = Mage::getModel('Magento_Customer_Model_Address');
+/** @var \Magento\Customer\Model\Address $addressThree  */
+$addressThree = Mage::getModel('\Magento\Customer\Model\Address');
 $addressThreeData = array(
     'firstname' => 'removed firstname',
     'lastname' => 'removed lastname',

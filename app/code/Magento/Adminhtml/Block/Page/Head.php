@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page_Head extends Magento_Page_Block_Html_Head
+namespace Magento\Adminhtml\Block\Page;
+
+class Head extends \Magento\Page\Block\Html\Head
 {
     protected $_template = 'page/head.phtml';
 
@@ -26,6 +28,6 @@ class Magento_Adminhtml_Block_Page_Head extends Magento_Page_Block_Html_Head
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('Magento_Core_Model_Session')->getFormKey();
+        return \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey();
     }
 }

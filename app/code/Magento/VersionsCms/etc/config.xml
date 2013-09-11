@@ -15,7 +15,7 @@
             <versionscms_setup>
                 <setup>
                     <module>Magento_VersionsCms</module>
-                    <class>Magento_Core_Model_Resource_Setup</class>
+                    <class>Magento\Core\Model\Resource\Setup</class>
                 </setup>
             </versionscms_setup>
         </resources>
@@ -72,4 +72,4 @@
             </content>
         </cms>
     </default>
-</config>
+</config>

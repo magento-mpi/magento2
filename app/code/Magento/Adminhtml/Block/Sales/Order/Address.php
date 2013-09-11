@@ -11,7 +11,9 @@
 /**
  * Edit order address form container block
  */
-class Magento_Adminhtml_Block_Sales_Order_Address extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Sales\Order;
+
+class Address extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()
@@ -30,7 +32,7 @@ class Magento_Adminhtml_Block_Sales_Order_Address extends Magento_Adminhtml_Bloc
      */
     public function getHeaderText()
     {
-        $address = Mage::registry('order_address');
+        $address = \Mage::registry('order_address');
         $orderId = $address->getOrder()->getIncrementId();
         if ($address->getAddressType() == 'shipping') {
             $type = __('Shipping');
@@ -47,7 +49,7 @@ class Magento_Adminhtml_Block_Sales_Order_Address extends Magento_Adminhtml_Bloc
      */
     public function getBackUrl()
     {
-        $address = Mage::registry('order_address');
+        $address = \Mage::registry('order_address');
         return $this->getUrl(
             '*/*/view',
             array('order_id' => $address ? $address->getOrder()->getId() : null)

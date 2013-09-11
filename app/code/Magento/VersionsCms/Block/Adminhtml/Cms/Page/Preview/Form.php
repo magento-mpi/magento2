@@ -16,12 +16,14 @@
  * @package    Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Preparing from for revision page
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Preview_Form
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Form
      */
     protected function _prepareForm()
     {

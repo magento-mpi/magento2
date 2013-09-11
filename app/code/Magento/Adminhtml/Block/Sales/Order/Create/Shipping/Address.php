@@ -16,8 +16,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Address
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Shipping;
+
+class Address
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Form\Address
 {
     /**
      * Return header text
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Address
     /**
      * Prepare Form and add elements to form
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Address
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Shipping\Address
      */
     protected function _prepareForm()
     {
@@ -109,7 +111,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Address
     /**
      * Return address object
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getAddress()
     {

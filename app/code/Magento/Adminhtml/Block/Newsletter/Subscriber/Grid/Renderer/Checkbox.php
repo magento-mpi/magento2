@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Renderer_Checkbox extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Newsletter\Subscriber\Grid\Renderer;
+
+class Checkbox extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders grid column
@@ -26,11 +28,11 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Renderer_Checkbox exten
      */
     public function render(\Magento\Object $row)
     {
-        if($row->getSubscriberStatus()==Magento_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED) {
+        if($row->getSubscriberStatus()==\Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED) {
             return '<input type="checkbox" name="subscriber[]" value="' . $row->getId() . '" class="subscriberCheckbox"/>';
         } else {
             return '';
         }
 
     }
-}// Class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Renderer_Checkbox END
+}// Class \Magento\Adminhtml\Block\Newsletter\Subscriber\Grid\Renderer\Checkbox END

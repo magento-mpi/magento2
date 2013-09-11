@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Magento_Backend_Helper_Data
+namespace Magento\Adminhtml\Helper\Catalog\Product\Edit\Action;
+
+class Attribute extends \Magento\Backend\Helper\Data
 {
     /**
      * Selected products for mass-update
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
     /**
      * Array of same attributes for selected products
      *
-     * @var Magento_Eav_Model_Resource_Entity_Attribute_Collection
+     * @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     protected $_attributes;
 
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
      * Return product collection with selected product filter
      * Product collection didn't load
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getProducts()
     {
@@ -54,7 +56,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
                 $productsIds = array(0);
             }
 
-            $this->_products = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+            $this->_products = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
                 ->setStoreId($this->getSelectedStoreId())
                 ->addIdFilter($productsIds);
         }
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
      */
     public function getProductIds()
     {
-        $session = Mage::getSingleton('Magento_Adminhtml_Model_Session');
+        $session = \Mage::getSingleton('Magento\Adminhtml\Model\Session');
 
         if ($this->_getRequest()->isPost() && $this->_getRequest()->getActionName() == 'edit') {
             $session->setProductIds($this->_getRequest()->getParam('product', null));
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
      */
     public function getSelectedStoreId()
     {
-        return (int)$this->_getRequest()->getParam('store', Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        return (int)$this->_getRequest()->getParam('store', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
     }
 
     /**
@@ -101,13 +103,13 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
     /**
      * Return collection of same attributes for selected products without unique
      *
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes  = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getEntityType(Magento_Catalog_Model_Product::ENTITY)
+            $this->_attributes  = \Mage::getSingleton('Magento\Eav\Model\Config')
+                ->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
                 ->getAttributeCollection()
                 ->addIsNotUniqueFilter()
                 ->setInAllAttributeSetsFilter($this->getProductsSetIds());
@@ -119,7 +121,7 @@ class Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute extends Mag
             // check product type apply to limitation and remove attributes that impossible to change in mass-update
             $productTypeIds  = $this->getProducts()->getProductTypeIds();
             foreach ($this->_attributes as $attribute) {
-                /* @var $attribute Magento_Catalog_Model_Entity_Attribute */
+                /* @var $attribute \Magento\Catalog\Model\Entity\Attribute */
                 foreach ($productTypeIds as $productTypeId) {
                     $applyTo = $attribute->getApplyTo();
                     if (count($applyTo) > 0 && !in_array($productTypeId, $applyTo)) {

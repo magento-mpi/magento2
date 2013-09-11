@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Search_Model_Client_Solr_Factory implements Magento_Search_Model_Client_FactoryInterface
+namespace Magento\Search\Model\Client\Solr;
+
+class Factory implements \Magento\Search\Model\Client\FactoryInterface
 {
     /**
      * Constructor
@@ -27,6 +29,6 @@ class Magento_Search_Model_Client_Solr_Factory implements Magento_Search_Model_C
      */
     public function createClient($options)
     {
-        return $this->_objectManager->create('Magento_Search_Model_Client_Solr', array('options' => $options));
+        return $this->_objectManager->create('Magento\Search\Model\Client\Solr', array('options' => $options));
     }
 }

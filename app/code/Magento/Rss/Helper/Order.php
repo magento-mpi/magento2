@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
+namespace Magento\Rss\Helper;
+
+class Order extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Check whether status notification is allowed
@@ -22,7 +24,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
      */
     public function isStatusNotificationAllow()
     {
-        if (Mage::getStoreConfig('rss/order/status_notified')) {
+        if (\Mage::getStoreConfig('rss/order/status_notified')) {
             return true;
         }
         return false;
@@ -31,7 +33,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
     /**
      * Retrieve order status history url
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return string
      */
     public function getStatusHistoryRssUrl($order)
@@ -44,7 +46,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
     /**
      * Retrieve order status url key
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return string
      */
     public function getStatusUrlKey($order)
@@ -62,7 +64,7 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
      * Retrieve order instance by specified status url key
      *
      * @param string $key
-     * @return Magento_Sales_Model_Order|null
+     * @return \Magento\Sales\Model\Order|null
      */
     public function getOrderByStatusUrlKey($key)
     {
@@ -73,8 +75,8 @@ class Magento_Rss_Helper_Order extends Magento_Core_Helper_Abstract
             return null;
         }
 
-        /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order')->load($data['order_id']);
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($data['order_id']);
         if ($order->getId()
             && $order->getIncrementId() == $data['increment_id']
             && $order->getCustomerId() == $data['customer_id']

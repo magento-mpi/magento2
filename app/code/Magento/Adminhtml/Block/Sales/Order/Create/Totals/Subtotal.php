@@ -14,7 +14,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Subtotal extends Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Totals;
+
+class Subtotal extends \Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals
 {
     protected $_template = 'sales/order/create/totals/subtotal.phtml';
 
@@ -28,6 +30,6 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Subtotal extends Magento
         /**
          * Check without store parameter - we wil get admin configuration value
          */
-        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth();
+        return \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartSubtotalBoth();
     }
 }

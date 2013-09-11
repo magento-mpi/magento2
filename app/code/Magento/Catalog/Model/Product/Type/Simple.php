@@ -15,14 +15,16 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Type_Simple extends Magento_Catalog_Model_Product_Type_Abstract
+namespace Magento\Catalog\Model\Product\Type;
+
+class Simple extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     /**
      * Delete data specific for Simple product type
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
-    public function deleteTypeSpecificData(Magento_Catalog_Model_Product $product)
+    public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {
     }
 }

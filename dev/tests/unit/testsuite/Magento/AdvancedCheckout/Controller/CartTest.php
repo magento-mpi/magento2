@@ -14,8 +14,8 @@ class Magento_AdvancedCheckout_Controller_CartTest extends PHPUnit_Framework_Tes
     public function testControllerImplementsProductViewInterface()
     {
         $this->assertInstanceOf(
-            'Magento_Catalog_Controller_Product_View_Interface',
-            $this->getMock('Magento_AdvancedCheckout_Controller_Cart', array(), array(), '', false)
+            '\Magento\Catalog\Controller\Product\View\ViewInterface',
+            $this->getMock('Magento\AdvancedCheckout\Controller\Cart', array(), array(), '', false)
         );
     }
 }

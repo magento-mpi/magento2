@@ -15,8 +15,10 @@
  * @package    \Magento\Backup
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Block_Adminhtml_Grid_Column_Renderer_Download
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
+namespace Magento\Backup\Block\Adminhtml\Grid\Column\Renderer;
+
+class Download
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
      * Renders grid column

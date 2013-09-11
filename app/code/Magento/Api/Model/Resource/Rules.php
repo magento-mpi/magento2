@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Api\Model\Resource;
+
+class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -30,9 +32,9 @@ class Magento_Api_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Save rule
      *
-     * @param Magento_Api_Model_Rules $rule
+     * @param \Magento\Api\Model\Rules $rule
      */
-    public function saveRel(Magento_Api_Model_Rules $rule)
+    public function saveRel(\Magento\Api\Model\Rules $rule)
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->beginTransaction();
@@ -40,7 +42,7 @@ class Magento_Api_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_Ab
         try {
             $roleId = $rule->getRoleId();
             $adapter->delete($this->getMainTable(), array('role_id = ?' => $roleId));
-            $masterResources = Mage::getModel('Magento_Api_Model_Roles')->getResourcesList2D();
+            $masterResources = \Mage::getModel('\Magento\Api\Model\Roles')->getResourcesList2D();
             $masterAdmin = false;
             if ($postedResources = $rule->getResources()) {
                 foreach ($masterResources as $index => $resName) {
@@ -62,9 +64,9 @@ class Magento_Api_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_Ab
             }
 
             $adapter->commit();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollBack();
         }
     }

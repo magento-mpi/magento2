@@ -11,7 +11,9 @@
 /**
  * Nominal shipping total
  */
-class Magento_Sales_Model_Quote_Address_Total_Nominal_Shipping extends Magento_Sales_Model_Quote_Address_Total_Shipping
+namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
+
+class Shipping extends \Magento\Sales\Model\Quote\Address\Total\Shipping
 {
     /**
      * Don't add/set amounts
@@ -37,10 +39,10 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal_Shipping extends Magento_S
     /**
      * Collect shipping amount individually for each item
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Sales_Model_Quote_Address_Total_Nominal_Shipping
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Quote\Address\Total\Nominal\Shipping
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $items = $address->getAllNominalItems();
         if (!count($items)) {
@@ -71,21 +73,21 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal_Shipping extends Magento_S
     /**
      * Don't fetch anything
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        return Magento_Sales_Model_Quote_Address_Total_Abstract::fetch($address);
+        return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal::fetch($address);
     }
 
     /**
      * Get nominal items only or indeed get all items, depending on current logic requirements
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    protected function _getAddressItems(Magento_Sales_Model_Quote_Address $address)
+    protected function _getAddressItems(\Magento\Sales\Model\Quote\Address $address)
     {
         if ($this->_shouldGetAllItems) {
             return $address->getAllItems();

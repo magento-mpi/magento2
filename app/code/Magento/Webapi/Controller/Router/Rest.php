@@ -7,21 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Router_Rest
+namespace Magento\Webapi\Controller\Router;
+
+class Rest
 {
     /** @var array */
     protected $_routes = array();
 
-    /** @var Magento_Webapi_Model_Config_Rest */
+    /** @var \Magento\Webapi\Model\Config\Rest */
     protected $_apiConfig;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Model_Config_Rest $apiConfig
+     * @param \Magento\Webapi\Model\Config\Rest $apiConfig
      */
     public function __construct(
-        Magento_Webapi_Model_Config_Rest $apiConfig
+        \Magento\Webapi\Model\Config\Rest $apiConfig
     ) {
         $this->_apiConfig = $apiConfig;
     }
@@ -30,13 +32,13 @@ class Magento_Webapi_Controller_Router_Rest
      * Route the Request, the only responsibility of the class.
      * Find route that matches current URL, set parameters of the route to Request object.
      *
-     * @param Magento_Webapi_Controller_Request_Rest $request
-     * @return Magento_Webapi_Controller_Router_Route_Rest
-     * @throws Magento_Webapi_Exception
+     * @param \Magento\Webapi\Controller\Request\Rest $request
+     * @return \Magento\Webapi\Controller\Router\Route\Rest
+     * @throws \Magento\Webapi\Exception
      */
-    public function match(Magento_Webapi_Controller_Request_Rest $request)
+    public function match(\Magento\Webapi\Controller\Request\Rest $request)
     {
-        /** @var Magento_Webapi_Controller_Router_Route_Rest[] $routes */
+        /** @var \Magento\Webapi\Controller\Router\Route\Rest[] $routes */
         $routes = $this->_apiConfig->getAllRestRoutes();
         foreach ($routes as $route) {
             $params = $route->match($request);
@@ -48,19 +50,19 @@ class Magento_Webapi_Controller_Router_Rest
                 return $route;
             }
         }
-        throw new Magento_Webapi_Exception(__('Request does not match any route.'),
-            Magento_Webapi_Exception::HTTP_NOT_FOUND);
+        throw new \Magento\Webapi\Exception(__('Request does not match any route.'),
+            \Magento\Webapi\Exception::HTTP_NOT_FOUND);
     }
 
     /**
      * Check whether current request matches any route of specified method or not. Method version is taken into account.
      *
-     * @param Magento_Webapi_Controller_Request_Rest $request
+     * @param \Magento\Webapi\Controller\Request\Rest $request
      * @param string $methodName
      * @param string $version
-     * @throws Magento_Webapi_Exception In case when request does not match any route of specified method.
+     * @throws \Magento\Webapi\Exception In case when request does not match any route of specified method.
      */
-    public function checkRoute(Magento_Webapi_Controller_Request_Rest $request, $methodName, $version)
+    public function checkRoute(\Magento\Webapi\Controller\Request\Rest $request, $methodName, $version)
     {
         $resourceName = $request->getResourceName();
         $routes = $this->_apiConfig->getMethodRestRoutes($resourceName, $methodName, $version);
@@ -69,7 +71,7 @@ class Magento_Webapi_Controller_Router_Rest
                 return;
             }
         }
-        throw new Magento_Webapi_Exception(__('Request does not match any route.'),
-            Magento_Webapi_Exception::HTTP_NOT_FOUND);
+        throw new \Magento\Webapi\Exception(__('Request does not match any route.'),
+            \Magento\Webapi\Exception::HTTP_NOT_FOUND);
     }
 }

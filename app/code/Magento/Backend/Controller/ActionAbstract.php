@@ -13,7 +13,9 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Controller_Varien_Action
+namespace Magento\Backend\Controller;
+
+abstract class ActionAbstract extends \Magento\Core\Controller\Varien\Action
 {
     /**
      * Name of "is URLs checked" flag
@@ -40,17 +42,17 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     protected $_sessionNamespace = self::SESSION_NAMESPACE;
 
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
@@ -60,14 +62,14 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
+     * @param \Magento\Backend\Controller\Context $context
      */
-    public function __construct(Magento_Backend_Controller_Context $context)
+    public function __construct(\Magento\Backend\Controller\Context $context)
     {
         parent::__construct($context);
         $this->_helper = $context->getHelper();
@@ -85,7 +87,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     /**
      * Retrieve adminhtml session model object
      *
-     * @return Magento_Backend_Model_Session
+     * @return \Magento\Backend\Model\Session
      */
     protected function _getSession()
     {
@@ -95,7 +97,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     /**
      * Retrieve base adminhtml helper
      *
-     * @return Magento_Backend_Helper_Data
+     * @return \Magento\Backend\Helper\Data
      */
     protected function _getHelper()
     {
@@ -105,17 +107,17 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     /**
      * Define active menu item in menu block
      * @param string $itemId current active menu item
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
     protected function _setActiveMenu($itemId)
     {
-        /** @var $menuBlock Magento_Backend_Block_Menu */
+        /** @var $menuBlock \Magento\Backend\Block\Menu */
         $menuBlock = $this->getLayout()->getBlock('menu');
         $menuBlock->setActive($itemId);
         $parents = $menuBlock->getMenuModel()->getParentItems($itemId);
         $parents = array_reverse($parents);
         foreach ($parents as $item) {
-            /** @var $item Magento_Backend_Model_Menu_Item */
+            /** @var $item \Magento\Backend\Model\Menu\Item */
             array_unshift($this->_titles, $item->getTitle());
         }
         return $this;
@@ -125,7 +127,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
      * @param $label
      * @param $title
      * @param null $link
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
     protected function _addBreadcrumb($label, $title, $link=null)
     {
@@ -134,28 +136,28 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     }
 
     /**
-     * @param Magento_Core_Block_Abstract $block
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @param \Magento\Core\Block\AbstractBlock $block
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
-    protected function _addContent(Magento_Core_Block_Abstract $block)
+    protected function _addContent(\Magento\Core\Block\AbstractBlock $block)
     {
         return $this->_moveBlockToContainer($block, 'content');
     }
 
     /**
-     * @param Magento_Core_Block_Abstract $block
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @param \Magento\Core\Block\AbstractBlock $block
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
-    protected function _addLeft(Magento_Core_Block_Abstract $block)
+    protected function _addLeft(\Magento\Core\Block\AbstractBlock $block)
     {
         return $this->_moveBlockToContainer($block, 'left');
     }
 
     /**
-     * @param Magento_Core_Block_Abstract $block
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @param \Magento\Core\Block\AbstractBlock $block
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
-    protected function _addJs(Magento_Core_Block_Abstract $block)
+    protected function _addJs(\Magento\Core\Block\AbstractBlock $block)
     {
         return $this->_moveBlockToContainer($block, 'js');
     }
@@ -165,11 +167,11 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
      *
      * The block will be moved to the container from previous parent after all other elements
      *
-     * @param Magento_Core_Block_Abstract $block
+     * @param \Magento\Core\Block\AbstractBlock $block
      * @param string $containerName
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
-    private function _moveBlockToContainer(Magento_Core_Block_Abstract $block, $containerName)
+    private function _moveBlockToContainer(\Magento\Core\Block\AbstractBlock $block, $containerName)
     {
         $this->getLayout()->setChild($containerName, $block->getNameInLayout(), '');
         return $this;
@@ -178,12 +180,12 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     /**
      * Controller predispatch method
      *
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
     public function preDispatch()
     {
-        /** @var $storeManager Magento_Core_Model_StoreManager */
-        $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManager');
+        /** @var $storeManager \Magento\Core\Model\StoreManager */
+        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
         $storeManager->setCurrentStore('admin');
 
         $this->_eventManager->dispatch('adminhtml_controller_action_predispatch_start', array());
@@ -219,7 +221,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         return !$this->getFlag('', self::FLAG_IS_URLS_CHECKED)
             && !$this->getRequest()->getParam('forwarded')
             && !$this->_getSession()->getIsUrlNotice(true)
-            && !Mage::getConfig()->getNode('global/can_use_base_url');
+            && !\Mage::getConfig()->getNode('global/can_use_base_url');
     }
 
     /**
@@ -232,11 +234,11 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         $_isValidFormKey = true;
         $_isValidSecretKey = true;
         $_keyErrorMsg = '';
-        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
+        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->isLoggedIn()) {
             if ($this->getRequest()->isPost()) {
                 $_isValidFormKey = $this->_validateFormKey();
                 $_keyErrorMsg = __('Invalid Form Key. Please refresh the page.');
-            } elseif (Mage::getSingleton('Magento_Backend_Model_Url')->useSecretKey()) {
+            } elseif (\Mage::getSingleton('Magento\Backend\Model\Url')->useSecretKey()) {
                 $_isValidSecretKey = $this->_validateSecretKey();
                 $_keyErrorMsg = __('You entered an invalid Secret Key. Please refresh the page.');
             }
@@ -245,12 +247,12 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
             if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+                $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array(
                     'error' => true,
                     'message' => $_keyErrorMsg
                 )));
             } else {
-                $this->_redirect(Mage::getSingleton('Magento_Backend_Model_Url')->getStartupPageUrl());
+                $this->_redirect(\Mage::getSingleton('Magento\Backend\Model\Url')->getStartupPageUrl());
             }
             return false;
         }
@@ -261,17 +263,17 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
      * Set session locale,
      * process force locale set through url params
      *
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
     protected function _processLocaleSettings()
     {
         $forceLocale = $this->getRequest()->getParam('locale', null);
-        if ($this->_objectManager->get('Magento_Core_Model_Locale_Validator')->isValid($forceLocale)) {
+        if ($this->_objectManager->get('Magento\Core\Model\Locale\Validator')->isValid($forceLocale)) {
             $this->_getSession()->setSessionLocale($forceLocale);
         }
 
         if (is_null($this->_getSession()->getLocale())) {
-            $this->_getSession()->setLocale(Mage::app()->getLocale()->getLocaleCode());
+            $this->_getSession()->setLocale(\Mage::app()->getLocale()->getLocaleCode());
         }
 
         return $this;
@@ -291,12 +293,12 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     /**
      * Start authentication process
      *
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
     protected function _initAuthentication()
     {
-        /** @var $auth Magento_Backend_Model_Auth */
-        $auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        /** @var $auth \Magento\Backend\Model\Auth */
+        $auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
 
         $request = $this->getRequest();
 
@@ -325,9 +327,9 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     /**
      * Process not logged in user data
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      */
-    protected function _processNotLoggedInUser(Magento_Core_Controller_Request_Http $request)
+    protected function _processNotLoggedInUser(\Magento\Core\Controller\Request\Http $request)
     {
         $isRedirectNeeded = false;
         if ($request->getPost('login') && $this->_performLogin()) {
@@ -370,8 +372,8 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         $this->getRequest()->setPost('login', null);
 
         try {
-            Mage::getSingleton('Magento_Backend_Model_Auth')->login($username, $password);
-        } catch (Magento_Backend_Model_Auth_Exception $e) {
+            \Mage::getSingleton('Magento\Backend\Model\Auth')->login($username, $password);
+        } catch (\Magento\Backend\Model\Auth\Exception $e) {
             if (!$this->getRequest()->getParam('messageSent')) {
                 $this->_session->addError($e->getMessage());
                 $this->getRequest()->setParam('messageSent', true);
@@ -390,8 +392,8 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
     {
         $requestUri = null;
 
-        /** @var $urlModel Magento_Backend_Model_Url */
-        $urlModel = Mage::getSingleton('Magento_Backend_Model_Url');
+        /** @var $urlModel \Magento\Backend\Model\Url */
+        $urlModel = \Mage::getSingleton('Magento\Backend\Model\Url');
 
         // Checks, whether secret key is required for admin access or request uri is explicitly set
         if ($urlModel->useSecretKey()) {
@@ -405,14 +407,14 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
         }
 
         $this->getResponse()->setRedirect($requestUri);
-        $this->setFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+        $this->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
         return true;
     }
 
     public function deniedAction()
     {
         $this->getResponse()->setHeader('HTTP/1.1', '403 Forbidden');
-        if (!Mage::getSingleton('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
+        if (!\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->isLoggedIn()) {
             $this->_redirect('*/auth/login');
             return;
         }
@@ -426,18 +428,18 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
      * @param string|null|bool|array $ids
      * @param bool $generateBlocks
      * @param bool $generateXml
-     * @return Magento_Backend_Controller_ActionAbstract|Magento_Core_Controller_Varien_Action
+     * @return \Magento\Backend\Controller\ActionAbstract|\Magento\Core\Controller\Varien\Action
      */
     public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
         parent::loadLayout($ids, false, $generateXml);
-        $this->_objectManager->get('Magento_Core_Model_Layout_Filter_Acl')
+        $this->_objectManager->get('Magento\Core\Model\Layout\Filter\Acl')
             ->filterAclNodes($this->getLayout()->getNode());
         if ($generateBlocks) {
             $this->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;
         }
-        $this->_initLayoutMessages('Magento_Backend_Model_Session');
+        $this->_initLayoutMessages('\Magento\Backend\Model\Session');
         return $this;
     }
 
@@ -461,7 +463,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
      * Is overridden here to set defaultUrl to admin url
      *
      * @param   string $defaultUrl
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
     protected function _redirectReferer($defaultUrl = null)
     {
@@ -475,7 +477,7 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
      *
      * @param   string $path
      * @param   array $arguments
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
     protected function _redirect($path, $arguments=array())
     {
@@ -513,8 +515,8 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
             return true;
         }
 
-        $secretKey = $this->getRequest()->getParam(Magento_Backend_Model_Url::SECRET_KEY_PARAM_NAME, null);
-        if (!$secretKey || $secretKey != Mage::getSingleton('Magento_Backend_Model_Url')->getSecretKey()) {
+        $secretKey = $this->getRequest()->getParam(\Magento\Backend\Model\Url::SECRET_KEY_PARAM_NAME, null);
+        if (!$secretKey || $secretKey != \Mage::getSingleton('Magento\Backend\Model\Url')->getSecretKey()) {
             return false;
         }
         return true;
@@ -528,13 +530,13 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
      */
     protected function _outTemplate($tplName, $data = array())
     {
-        $this->_initLayoutMessages('Magento_Backend_Model_Session');
-        $block = $this->getLayout()->createBlock('Magento_Backend_Block_Template')->setTemplate("{$tplName}.phtml");
+        $this->_initLayoutMessages('\Magento\Backend\Model\Session');
+        $block = $this->getLayout()->createBlock('\Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
         foreach ($data as $index => $value) {
             $block->assign($index, $value);
         }
         $html = $block->toHtml();
-        $this->_objectManager->get('Magento_Core_Model_Translate')->processResponseBody($html);
+        $this->_objectManager->get('Magento\Core\Model\Translate')->processResponseBody($html);
         $this->getResponse()->setBody($html);
     }
 
@@ -546,14 +548,14 @@ abstract class Magento_Backend_Controller_ActionAbstract extends Magento_Core_Co
      * that case
      * @param string $contentType
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
     protected function _prepareDownloadResponse($fileName, $content, $contentType = 'application/octet-stream',
         $contentLength = null
     ) {
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         if ($session->isFirstPageAfterLogin()) {
-            $this->_redirect(Mage::getSingleton('Magento_Backend_Model_Url')->getStartupPageUrl());
+            $this->_redirect(\Mage::getSingleton('Magento\Backend\Model\Url')->getStartupPageUrl());
             return $this;
         }
         return parent::_prepareDownloadResponse($fileName, $content, $contentType, $contentLength);

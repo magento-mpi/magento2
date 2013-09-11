@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
+
+class Newsletter extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected $_template = 'customer/tab/newsletter.phtml';
 
@@ -23,9 +25,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Admin
     {
         $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('_newsletter');
-        $customer = Mage::registry('current_customer');
-        $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')->loadByCustomer($customer);
-        Mage::register('subscriber', $subscriber);
+        $customer = \Mage::registry('current_customer');
+        $subscriber = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->loadByCustomer($customer);
+        \Mage::register('subscriber', $subscriber);
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Newsletter Information')));
 
@@ -59,9 +61,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Admin
 
     public function getStatusChangedDate()
     {
-        $subscriber = Mage::registry('subscriber');
+        $subscriber = \Mage::registry('subscriber');
         if($subscriber->getChangeStatusAt()) {
-            return $this->formatDate($subscriber->getChangeStatusAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($subscriber->getChangeStatusAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true);
         }
 
         return null;
@@ -70,7 +72,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter extends Magento_Admin
     protected function _prepareLayout()
     {
         $this->setChild('grid',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid','newsletter.grid')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid','newsletter.grid')
         );
         return parent::_prepareLayout();
     }

@@ -15,8 +15,10 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
-    extends Magento_ImportExport_Model_Import_EntityAbstract
+namespace Magento\ImportExport\Model\Import\Entity;
+
+abstract class EavAbstract
+    extends \Magento\ImportExport\Model\Import\EntityAbstract
 {
     /**
      * Attribute collection name
@@ -24,16 +26,16 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     const ATTRIBUTE_COLLECTION_NAME = '\Magento\Data\Collection';
 
     /**
-     * Website manager (currently Magento_Core_Model_App works as website manager)
+     * Website manager (currently \Magento\Core\Model\App works as website manager)
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_websiteManager;
 
     /**
-     * Store manager (currently Magento_Core_Model_App works as store manager)
+     * Store manager (currently \Magento\Core\Model\App works as store manager)
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_storeManager;
 
@@ -95,15 +97,15 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     {
         parent::__construct($data);
 
-        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
-        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();
+        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : \Mage::app();
+        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : \Mage::app();
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
-            : Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            : \Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];
         } else {
-            $this->_entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')
+            $this->_entityTypeId = \Mage::getSingleton('Magento\Eav\Model\Config')
                 ->getEntityType($this->getEntityTypeCode())
                 ->getEntityTypeId();
         }
@@ -128,11 +130,11 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
      * Initialize website values
      *
      * @param bool $withDefault
-     * @return Magento_ImportExport_Model_Import_Entity_EavAbstract
+     * @return \Magento\ImportExport\Model\Import\Entity\EavAbstract
      */
     protected function _initWebsites($withDefault = false)
     {
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach ($this->_websiteManager->getWebsites($withDefault) as $website) {
             $this->_websiteCodeToId[$website->getCode()] = $website->getId();
         }
@@ -143,11 +145,11 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
      * Initialize stores data
      *
      * @param bool $withDefault
-     * @return Magento_ImportExport_Model_Import_Entity_EavAbstract
+     * @return \Magento\ImportExport\Model\Import\Entity\EavAbstract
      */
     protected function _initStores($withDefault = false)
     {
-        /** @var $store Magento_Core_Model_Store */
+        /** @var $store \Magento\Core\Model\Store */
         foreach ($this->_storeManager->getStores($withDefault) as $store) {
             $this->_storeCodeToId[$store->getCode()] = $store->getId();
         }
@@ -157,11 +159,11 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     /**
      * Initialize entity attributes
      *
-     * @return Magento_ImportExport_Model_Import_Entity_EavAbstract
+     * @return \Magento\ImportExport\Model\Import\Entity\EavAbstract
      */
     protected function _initAttributes()
     {
-        /** @var $attribute Magento_Eav_Model_Attribute */
+        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->_attributeCollection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
                 'id'          => $attribute->getId(),
@@ -170,7 +172,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
                 'is_required' => $attribute->getIsRequired(),
                 'is_static'   => $attribute->isStatic(),
                 'rules'       => $attribute->getValidateRules() ? unserialize($attribute->getValidateRules()) : null,
-                'type'        => Magento_ImportExport_Model_Import::getAttributeType($attribute),
+                'type'        => \Magento\ImportExport\Model\Import::getAttributeType($attribute),
                 'options'     => $this->getAttributeOptions($attribute)
             );
         }
@@ -190,11 +192,11 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
     /**
      * Returns attributes all values in label-value or value-value pairs form. Labels are lower-cased
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param array $indexAttributes OPTIONAL Additional attribute codes with index values.
      * @return array
      */
-    public function getAttributeOptions(Magento_Eav_Model_Entity_Attribute_Abstract $attribute,
+    public function getAttributeOptions(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute,
         array $indexAttributes = array()
     ) {
         $options = array();
@@ -207,7 +209,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
             $index = in_array($attribute->getAttributeCode(), $indexAttributes) ? 'value' : 'label';
 
             // only default (admin) store values used
-            $attribute->setStoreId(Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+            $attribute->setStoreId(\Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
 
             try {
                 foreach ($attribute->getSource()->getAllOptions(false) as $option) {
@@ -218,7 +220,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_EavAbstract
                         }
                     }
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // ignore exceptions connected with source models
             }
         }

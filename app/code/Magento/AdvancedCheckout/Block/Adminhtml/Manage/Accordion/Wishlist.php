@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Wishlist
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
      * Collection field name for using in controls
@@ -64,17 +66,17 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
     /**
      * Create wishlist item collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _createItemsCollection()
     {
-        return Mage::getModel('Magento_Wishlist_Model_Item')->getCollection();
+        return \Mage::getModel('\Magento\Wishlist\Model\Item')->getCollection();
     }
 
     /**
      * Return items collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function getItemsCollection()
     {
@@ -118,13 +120,13 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
      * Add columns with controls to manage added products and their quantity
      * Uses inherited methods, but modifies Qty column to change renderer
      *
-     * @return Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
+     * @return \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
      */
     protected function _addControlColumns()
     {
         parent::_addControlColumns();
         $this->getColumn('qty')->addData(array(
-            'renderer' => 'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Wishlist_Qty'
+            'renderer' => '\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty'
         ));
 
         return $this;

@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Quote;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
@@ -24,7 +26,7 @@ class Magento_Sales_Model_Resource_Quote_Collection extends Magento_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Quote', 'Magento_Sales_Model_Resource_Quote');
+        $this->_init('\Magento\Sales\Model\Quote', '\Magento\Sales\Model\Resource\Quote');
     }
 }
 

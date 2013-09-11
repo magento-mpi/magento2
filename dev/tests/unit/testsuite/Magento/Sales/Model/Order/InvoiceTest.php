@@ -12,33 +12,33 @@
 class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Order_Invoice
+     * @var \Magento\Sales\Model\Order\Invoice
      */
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Model_Order
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order
      */
     protected $_orderMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Sales_Model_Order_Payment
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Order\Payment
      */
     protected $_paymentMock;
 
     public function setUp()
     {
         $helperManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_orderMock = $this->getMockBuilder('Magento_Sales_Model_Order')
+        $this->_orderMock = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->setMethods(array('getPayment'))
             ->getMock();
-        $this->_paymentMock = $this->getMockBuilder('Magento_Sales_Model_Order_Payment')
+        $this->_paymentMock = $this->getMockBuilder('Magento\Sales\Model\Order\Payment')
             ->disableOriginalConstructor()
             ->setMethods(array('canVoid'))
             ->getMock();
 
-        $this->_model = $helperManager->getObject('Magento_Sales_Model_Order_Invoice', array());
+        $this->_model = $helperManager->getObject('\Magento\Sales\Model\Order\Invoice', array());
         $this->_model->setOrder($this->_orderMock);
     }
 
@@ -54,7 +54,7 @@ class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo($this->_model))
             ->will($this->returnValue($canVoid));
 
-        $this->_model->setState(Magento_Sales_Model_Order_Invoice::STATE_PAID);
+        $this->_model->setState(\Magento\Sales\Model\Order\Invoice::STATE_PAID);
         $this->assertEquals($canVoid, $this->_model->canVoid());
     }
 
@@ -64,7 +64,7 @@ class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
      */
     public function testDefaultCanVoid($canVoid)
     {
-        $this->_model->setState(Magento_Sales_Model_Order_Invoice::STATE_PAID);
+        $this->_model->setState(\Magento\Sales\Model\Order\Invoice::STATE_PAID);
         $this->_model->setCanVoidFlag($canVoid);
 
         $this->assertEquals($canVoid, $this->_model->canVoid());

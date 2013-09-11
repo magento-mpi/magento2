@@ -13,19 +13,21 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Sales_Order_Random
+namespace Magento\Adminhtml\Model\Sales\Order;
+
+class Random
 {
     /**
      * Quote model object
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
      * Order model object
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
     protected $_store;
@@ -37,14 +39,14 @@ class Magento_Adminhtml_Model_Sales_Order_Random
 
     public function __construct()
     {
-        $this->_quote = Mage::getModel('Magento_Sales_Model_Quote')->save();
-        $this->_order = Mage::getModel('Magento_Sales_Model_Order');
+        $this->_quote = \Mage::getModel('\Magento\Sales\Model\Quote')->save();
+        $this->_order = \Mage::getModel('\Magento\Sales\Model\Order');
     }
 
     protected function _getStores()
     {
         if (!self::$_storeCollection) {
-            self::$_storeCollection = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection')
+            self::$_storeCollection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection')
                 ->load();
         }
         return self::$_storeCollection->getItems();
@@ -53,7 +55,7 @@ class Magento_Adminhtml_Model_Sales_Order_Random
     protected function _getCustomers()
     {
         if (!self::$_customerCollection) {
-            self::$_customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
+            self::$_customerCollection = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection')
                 ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'inner')
                 ->joinAttribute('shipping_country_id', 'customer_address/country_id', 'default_shipping', null, 'inner')
                 ->load();
@@ -64,12 +66,12 @@ class Magento_Adminhtml_Model_Sales_Order_Random
     protected function _getProducts()
     {
         if (!$this->_productCollection) {
-            $this->_productCollection= Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+            $this->_productCollection= \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
             //$this->_productCollection->getEntity()->setStore($this->_getStore());
             $this->_productCollection->addAttributeToSelect('name')
                 ->addAttributeToSelect('sku')
-                ->addAttributeToFilter('type_id', Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
-                ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSearchIds())
+                ->addAttributeToFilter('type_id', \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
+                ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSearchIds())
                 ->load();
         }
         return $this->_productCollection->getItems();
@@ -78,7 +80,7 @@ class Magento_Adminhtml_Model_Sales_Order_Random
     /**
      * Retrieve customer model
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {

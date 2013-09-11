@@ -16,8 +16,10 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapter_Solr_Abstract
-    implements Magento_Search_Model_AdapterInterface
+namespace Magento\Search\Model\Adapter;
+
+class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
+    implements \Magento\Search\Model\AdapterInterface
 {
     /**
      * Object name used to create solr document object
@@ -60,7 +62,7 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
         $offset = (isset($_params['offset'])) ? (int) $_params['offset'] : 0;
         $limit  = (isset($_params['limit']))
             ? (int) $_params['limit']
-            : Magento_Search_Model_Adapter_Solr_Abstract::DEFAULT_ROWS_LIMIT;
+            : \Magento\Search\Model\Adapter\Solr\AbstractSolr::DEFAULT_ROWS_LIMIT;
 
         $languageSuffix = $this->_getLanguageSuffix($params['locale_code']);
         $searchParams   = array();
@@ -145,7 +147,7 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
         if ($_params['store_id'] > 0) {
             $searchParams['fq'][] = 'store_id:' . $_params['store_id'];
         }
-        if (!Mage::helper('Magento_CatalogInventory_Helper_Data')->isShowOutOfStock()) {
+        if (!\Mage::helper('Magento\CatalogInventory\Helper\Data')->isShowOutOfStock()) {
             $searchParams['fq'][] = 'in_stock:true';
         }
 
@@ -213,7 +215,7 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
             }
 
             return $result;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_log->logException($e);
         }
     }
@@ -231,7 +233,7 @@ class Magento_Search_Model_Adapter_HttpStream extends Magento_Search_Model_Adapt
     /**
      * Retrieve attribute solr field name
      *
-     * @param   Magento_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param   \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
      * @param   string $target - default|sort|nav
      *
      * @return  string|bool

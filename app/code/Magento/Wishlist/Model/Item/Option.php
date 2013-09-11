@@ -15,8 +15,10 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
-    implements Magento_Catalog_Model_Product_Configuration_Item_Option_Interface
+namespace Magento\Wishlist\Model\Item;
+
+class Option extends \Magento\Core\Model\AbstractModel
+    implements \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
     protected $_item;
     protected $_product;
@@ -26,7 +28,7 @@ class Magento_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Wishlist_Model_Resource_Item_Option');
+        $this->_init('\Magento\Wishlist\Model\Resource\Item\Option');
     }
 
     /**
@@ -46,8 +48,8 @@ class Magento_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Set quote item
      *
-     * @param   Magento_Wishlist_Model_Item $item
-     * @return  Magento_Wishlist_Model_Item_Option
+     * @param   \Magento\Wishlist\Model\Item $item
+     * @return  \Magento\Wishlist\Model\Item\Option
      */
     public function setItem($item)
     {
@@ -59,7 +61,7 @@ class Magento_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Get option item
      *
-     * @return Magento_Wishlist_Model_Item
+     * @return \Magento\Wishlist\Model\Item
      */
     public function getItem()
     {
@@ -69,8 +71,8 @@ class Magento_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Set option product
      *
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_Wishlist_Model_Item_Option
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\Wishlist\Model\Item\Option
      */
     public function setProduct($product)
     {
@@ -82,7 +84,7 @@ class Magento_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Get option product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -102,7 +104,7 @@ class Magento_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Initialize item identifier before save data
      *
-     * @return Magento_Wishlist_Model_Item_Option
+     * @return \Magento\Wishlist\Model\Item\Option
      */
     protected function _beforeSave()
     {
@@ -115,7 +117,7 @@ class Magento_Wishlist_Model_Item_Option extends Magento_Core_Model_Abstract
     /**
      * Clone option object
      *
-     * @return Magento_Wishlist_Model_Item_Option
+     * @return \Magento\Wishlist\Model\Item\Option
      */
     public function __clone()
     {

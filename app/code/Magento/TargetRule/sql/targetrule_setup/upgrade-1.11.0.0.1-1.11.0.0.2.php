@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_TargetRule_Model_Resource_Setup */
+/* @var $installer \Magento\TargetRule\Model\Resource\Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 

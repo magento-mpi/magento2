@@ -14,8 +14,10 @@
  * @author Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Totals;
+
+class Shipping
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals
 {
     protected $_template = 'sales/order/create/totals/shipping.phtml';
 
@@ -26,7 +28,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping
      */
     public function displayBoth()
     {
-        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartShippingBoth();
+        return \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartShippingBoth();
     }
 
     /**
@@ -36,7 +38,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping
      */
     public function displayIncludeTax()
     {
-        return Mage::getSingleton('Magento_Tax_Model_Config')->displayCartShippingInclTax();
+        return \Mage::getSingleton('Magento\Tax\Model\Config')->displayCartShippingInclTax();
     }
 
     /**

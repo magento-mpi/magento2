@@ -15,7 +15,9 @@
  * @package     Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Notices extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Notices extends \Magento\Core\Block\Template
 {
     /**
      * Check if noscript notice should be displayed
@@ -24,7 +26,7 @@ class Magento_Page_Block_Html_Notices extends Magento_Core_Block_Template
      */
     public function displayNoscriptNotice()
     {
-        return Mage::getStoreConfig('web/browser_capabilities/javascript');
+        return \Mage::getStoreConfig('web/browser_capabilities/javascript');
     }
 
     /**
@@ -34,7 +36,7 @@ class Magento_Page_Block_Html_Notices extends Magento_Core_Block_Template
      */
     public function displayDemoNotice()
     {
-        return Mage::getStoreConfig('design/head/demonotice');
+        return \Mage::getStoreConfig('design/head/demonotice');
     }
 
     /**
@@ -44,6 +46,6 @@ class Magento_Page_Block_Html_Notices extends Magento_Core_Block_Template
      */
     public function getPrivacyPolicyLink()
     {
-        return Mage::getUrl('privacy-policy-cookie-restriction-mode');
+        return \Mage::getUrl('privacy-policy-cookie-restriction-mode');
     }
 }

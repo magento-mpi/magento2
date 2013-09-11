@@ -13,7 +13,7 @@
     <magento_invitation translate="label">
         <label>Customer Invitations</label>
         <expected_models>
-            <Magento_Invitation_Model_Invitation/>
+            <Magento\Invitation\Model\Invitation/>
         </expected_models>
         <actions>
             <adminhtml_invitation_view>
@@ -34,7 +34,7 @@
 
             <adminhtml_invitation_massResend>
                 <action>massUpdate</action>
-                <post_dispatch>Magento_Invitation_Model_Observer::postDispatchInvitationMassUpdate</post_dispatch>
+                <post_dispatch>\Magento\Invitation\Model\Observer::postDispatchInvitationMassUpdate</post_dispatch>
             </adminhtml_invitation_massResend>
         </actions>
     </magento_invitation>

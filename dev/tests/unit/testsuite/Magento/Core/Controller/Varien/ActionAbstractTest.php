@@ -10,22 +10,22 @@
  */
 
 /**
- * Test class Magento_Core_Controller_Varien_ActionAbstract
+ * Test class \Magento\Core\Controller\Varien\ActionAbstract
  */
 class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Varien_ActionAbstract
+     * @var \Magento\Core\Controller\Varien\ActionAbstract
      */
     protected $_actionAbstract;
 
     /**
-     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
     /**
-     * @var Magento_Core_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Response\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_response;
 
@@ -36,19 +36,19 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      */
     public function setUp()
     {
-        $this->_request = $this->getMock('Magento_Core_Controller_Request_Http',
+        $this->_request = $this->getMock('Magento\Core\Controller\Request\Http',
             array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'), array(), '', false
         );
-        $this->_response = $this->getMock('Magento_Core_Controller_Response_Http', array(), array(), '', false);
+        $this->_response = $this->getMock('Magento\Core\Controller\Response\Http', array(), array(), '', false);
         $this->_response->headersSentThrowsException = false;
-        $this->_actionAbstract = new Magento_Core_Controller_Varien_Action_Forward($this->_request, $this->_response);
+        $this->_actionAbstract = new \Magento\Core\Controller\Varien\Action\Forward($this->_request, $this->_response);
     }
 
     /**
      * Test for getRequest method
      *
      * @test
-     * @covers Magento_Core_Controller_Varien_ActionAbstract::getRequest
+     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getRequest
      */
     public function testGetRequest()
     {
@@ -59,7 +59,7 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      * Test for getResponse method
      *
      * @test
-     * @covers Magento_Core_Controller_Varien_ActionAbstract::getResponse
+     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getResponse
      */
     public function testGetResponse()
     {
@@ -70,14 +70,14 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      * Test for getResponse method. Checks that response headers are set correctly
      *
      * @test
-     * @covers Magento_Core_Controller_Varien_ActionAbstract::getResponse
+     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getResponse
      */
     public function testResponseHeaders()
     {
-        $request = new Magento_Core_Controller_Request_Http();
-        $response = new Magento_Core_Controller_Response_Http();
+        $request = new \Magento\Core\Controller\Request\Http();
+        $response = new \Magento\Core\Controller\Response\Http();
         $response->headersSentThrowsException = false;
-        $action = new Magento_Core_Controller_Varien_Action_Forward($request, $response);
+        $action = new \Magento\Core\Controller\Varien\Action\Forward($request, $response);
 
         $headers = array(
             array(
@@ -94,7 +94,7 @@ class Magento_Core_Controller_Varien_ActionAbstractTest extends PHPUnit_Framewor
      * Test for getFullActionName method
      *
      * @test
-     * @covers Magento_Core_Controller_Varien_ActionAbstract::getFullActionName
+     * @covers \Magento\Core\Controller\Varien\ActionAbstract::getFullActionName
      */
     public function testGetFullActionName()
     {

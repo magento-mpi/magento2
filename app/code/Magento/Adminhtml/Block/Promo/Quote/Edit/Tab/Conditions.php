@@ -16,9 +16,11 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
+
+class Conditions
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare content for tab
@@ -62,14 +64,14 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_quote_rule');
+        $model = \Mage::registry('current_promo_quote_rule');
 
         //$form = new \Magento\Data\Form(array('id' => 'edit_form1', 'action' => $this->getData('action'), 'method' => 'post'));
         $form = new \Magento\Data\Form();
 
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($this->getUrl('*/promo_quote/newConditionHtml/form/rule_conditions_fieldset'));
 
@@ -81,7 +83,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Conditions
             'name' => 'conditions',
             'label' => __('Conditions'),
             'title' => __('Conditions'),
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
+        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Conditions'));
 
         $form->setValues($model->getData());
         $this->setForm($form);

@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
+
+class Cart
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
     /**
      * Storage action on selected item
@@ -71,7 +73,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart
     /**
      * Retrieve product identifier linked with item
      *
-     * @param   Magento_Sales_Model_Quote_Item $item
+     * @param   \Magento\Sales\Model\Quote\Item $item
      * @return  int
      */
     public function getProductId($item)
@@ -84,12 +86,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart
      *
      * Add button that clears customer's shopping cart
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Cart
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Cart
      */
     protected function _prepareLayout()
     {
         $deleteAllConfirmString = __('Are you sure you want to delete all items from shopping cart?');
-        $this->addChild('empty_customer_cart_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('empty_customer_cart_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Clear Shopping Cart'),
             'onclick' => 'order.clearShoppingCart(\'' . $deleteAllConfirmString . '\')'
         ));

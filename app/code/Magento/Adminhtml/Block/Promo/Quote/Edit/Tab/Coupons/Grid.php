@@ -16,7 +16,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Constructor
@@ -31,16 +33,16 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $priceRule = Mage::registry('current_promo_quote_rule');
+        $priceRule = \Mage::registry('current_promo_quote_rule');
 
         /**
-         * @var Magento_SalesRule_Model_Resource_Coupon_Collection $collection
+         * @var \Magento\SalesRule\Model\Resource\Coupon\Collection $collection
          */
-        $collection = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon_Collection')
+        $collection = \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Coupon\Collection')
             ->addRuleToFilter($priceRule)
             ->addGeneratedCouponsFilter();
 
@@ -52,7 +54,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
     /**
      * Define grid columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -78,9 +80,9 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
                 __('No'),
                 __('Yes')
             ),
-            'renderer' => 'Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid_Column_Renderer_Used',
+            'renderer' => '\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid\Column\Renderer\Used',
             'filter_condition_callback' => array(
-                Mage::getResourceModel('Magento_SalesRule_Model_Resource_Coupon_Collection'), 'addIsUsedFilterCallback'
+                \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Coupon\Collection'), 'addIsUsedFilterCallback'
             )
         ));
 
@@ -99,7 +101,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid extends Magento_
     /**
      * Configure grid mass actions
      *
-     * @return Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid
+     * @return \Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid
      */
     protected function _prepareMassaction()
     {

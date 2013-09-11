@@ -12,13 +12,13 @@
 class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Block_Order_Comments
+     * @var \Magento\Sales\Block\Order\Comments
      */
     protected $_block;
 
     public function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Sales_Block_Order_Comments');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Sales\Block\Order\Comments');
     }
 
     /**
@@ -40,26 +40,26 @@ class Magento_Sales_Block_Order_CommentsTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                Mage::getModel('Magento_Sales_Model_Order_Invoice'),
-                'Magento_Sales_Model_Resource_Order_Invoice_Comment_Collection'
+                Mage::getModel('\Magento\Sales\Model\Order\Invoice'),
+                '\Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection'
             ),
             array(
-                Mage::getModel('Magento_Sales_Model_Order_Creditmemo'),
-                'Magento_Sales_Model_Resource_Order_Creditmemo_Comment_Collection'
+                Mage::getModel('\Magento\Sales\Model\Order\Creditmemo'),
+                '\Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection'
             ),
             array(
-                Mage::getModel('Magento_Sales_Model_Order_Shipment'),
-                'Magento_Sales_Model_Resource_Order_Shipment_Comment_Collection'
+                Mage::getModel('\Magento\Sales\Model\Order\Shipment'),
+                '\Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection'
             )
         );
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetCommentsWrongEntityException()
     {
-        $entity = Mage::getModel('Magento_Catalog_Model_Product');
+        $entity = Mage::getModel('\Magento\Catalog\Model\Product');
         $this->_block->setEntity($entity);
         $this->_block->getComments();
     }

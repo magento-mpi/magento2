@@ -16,24 +16,26 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons;
+
+class Form
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare coupon codes generation parameters form
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
         $form = new \Magento\Data\Form();
 
         /**
-         * @var Magento_SalesRule_Helper_Coupon $couponHelper
+         * @var \Magento\SalesRule\Helper\Coupon $couponHelper
          */
-        $couponHelper = Mage::helper('Magento_SalesRule_Helper_Coupon');
+        $couponHelper = \Mage::helper('Magento\SalesRule\Helper\Coupon');
 
-        $model = Mage::registry('current_promo_quote_rule');
+        $model = \Mage::registry('current_promo_quote_rule');
         $ruleId = $model->getId();
 
         $form->setHtmlIdPrefix('coupons_');
@@ -114,7 +116,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Form
 
         $this->setForm($form);
 
-        Mage::dispatchEvent('adminhtml_promo_quote_edit_tab_coupons_form_prepare_form', array('form' => $form));
+        \Mage::dispatchEvent('adminhtml_promo_quote_edit_tab_coupons_form_prepare_form', array('form' => $form));
 
         return parent::_prepareForm();
     }

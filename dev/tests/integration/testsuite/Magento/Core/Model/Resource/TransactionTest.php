@@ -12,18 +12,18 @@
 class Magento_Core_Model_Resource_TransactionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Transaction
+     * @var \Magento\Core\Model\Resource\Transaction
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento_Core_Model_Resource_Transaction');
+        $this->_model = Mage::getResourceModel('\Magento\Core\Model\Resource\Transaction');
     }
 
     public function testSaveDelete()
     {
-        $first  = Mage::getModel('Magento_Core_Model_Store_Group');
+        $first  = Mage::getModel('\Magento\Core\Model\Store\Group');
         $first->setData(
             array(
                 'website_id'        => 1,
@@ -32,7 +32,7 @@ class Magento_Core_Model_Resource_TransactionTest extends PHPUnit_Framework_Test
                 'default_store_id'  => 1
             )
         );
-        $second  = Mage::getModel('Magento_Core_Model_Store_Group');
+        $second  = Mage::getModel('\Magento\Core\Model\Store\Group');
         $second->setData(
             array(
                 'website_id'        => 1,
@@ -50,10 +50,10 @@ class Magento_Core_Model_Resource_TransactionTest extends PHPUnit_Framework_Test
         $this->assertNotEmpty($first->getId());
         $this->assertNotEmpty($second->getId());
 
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $this->_model->delete();
 
-        $test  = Mage::getModel('Magento_Core_Model_Store_Group');
+        $test  = Mage::getModel('\Magento\Core\Model\Store\Group');
         $test->load($first->getId());
         $this->assertEmpty($test->getId());
     }

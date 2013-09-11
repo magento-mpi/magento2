@@ -16,8 +16,10 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Adminhtml_System_Config_Form_Field_Select_Flatproduct
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Catalog\Block\Adminhtml\System\Config\Form\Field\Select;
+
+class Flatproduct
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Retrieve Element HTML
@@ -26,7 +28,7 @@ class Magento_Catalog_Block_Adminhtml_System_Config_Form_Field_Select_Flatproduc
      * @return string
      */
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element) {
-        if (!$this->helper('Magento_Catalog_Helper_Product_Flat')->isBuilt()) {
+        if (!$this->helper('\Magento\Catalog\Helper\Product\Flat')->isBuilt()) {
             $element->setDisabled(true)
                 ->setValue(0);
         }

@@ -1,5 +1,5 @@
 <?php
-use Zend\Code\Reflection\ClassReflection;
+use \Zend\Code\Reflection\ClassReflection;
 
 /**
  * Type processor of config reader properties
@@ -9,9 +9,11 @@ use Zend\Code\Reflection\ClassReflection;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Config_Reader_TypeProcessor
+namespace Magento\Webapi\Model\Config\Reader;
+
+class TypeProcessor
 {
-    /** @var Magento_Webapi_Helper_Config */
+    /** @var \Magento\Webapi\Helper\Config */
     protected $_helper;
 
     /**
@@ -31,9 +33,9 @@ class Magento_Webapi_Model_Config_Reader_TypeProcessor
     /**
      * Construct type processor.
      *
-     * @param Magento_Webapi_Helper_Config $helper
+     * @param \Magento\Webapi\Helper\Config $helper
      */
-    public function __construct(Magento_Webapi_Helper_Config $helper)
+    public function __construct(\Magento\Webapi\Helper\Config $helper)
     {
         $this->_helper = $helper;
     }
@@ -87,7 +89,7 @@ class Magento_Webapi_Model_Config_Reader_TypeProcessor
      *
      * @param string $class
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _processComplexType($class)
     {
@@ -97,14 +99,14 @@ class Magento_Webapi_Model_Config_Reader_TypeProcessor
             $this->process($this->_helper->getArrayItemType($class));
         } else {
             if (!class_exists($class)) {
-                throw new InvalidArgumentException(sprintf('Could not load the "%s" class as parameter type.', $class));
+                throw new \InvalidArgumentException(sprintf('Could not load the "%s" class as parameter type.', $class));
             }
             $reflection = new ClassReflection($class);
             $docBlock = $reflection->getDocBlock();
             $this->_types[$typeName]['documentation'] = $docBlock ? $this->_getDescription($docBlock) : '';
             $defaultProperties = $reflection->getDefaultProperties();
             /** @var \Zend\Code\Reflection\PropertyReflection $property */
-            foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+            foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
                 $this->_processProperty($property, $defaultProperties, $typeName);
             }
         }
@@ -115,10 +117,10 @@ class Magento_Webapi_Model_Config_Reader_TypeProcessor
     /**
      * Process class property.
      *
-     * @param Zend\Code\Reflection\PropertyReflection $property
+     * @param \Zend\Code\Reflection\PropertyReflection $property
      * @param $defaultProperties
      * @param $typeName
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _processProperty(
         \Zend\Code\Reflection\PropertyReflection $property,
@@ -128,11 +130,11 @@ class Magento_Webapi_Model_Config_Reader_TypeProcessor
         $propertyName = $property->getName();
         $propertyDocBlock = $property->getDocBlock();
         if (!$propertyDocBlock) {
-            throw new InvalidArgumentException('Each property must have description with @var annotation.');
+            throw new \InvalidArgumentException('Each property must have description with @var annotation.');
         }
         $varTags = $propertyDocBlock->getTags('var');
         if (empty($varTags)) {
-            throw new InvalidArgumentException('Property type must be defined with @var tag.');
+            throw new \InvalidArgumentException('Property type must be defined with @var tag.');
         }
         /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $varTag */
         $varTag = current($varTags);
@@ -159,7 +161,7 @@ class Magento_Webapi_Model_Config_Reader_TypeProcessor
     /**
      * Get short and long description from docblock and concatenate.
      *
-     * @param Zend\Code\Reflection\DocBlockReflection $doc
+     * @param \Zend\Code\Reflection\DocBlockReflection $doc
      * @return string
      */
     protected function _getDescription(\Zend\Code\Reflection\DocBlockReflection $doc)

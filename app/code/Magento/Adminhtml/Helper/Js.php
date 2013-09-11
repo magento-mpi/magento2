@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Js extends Magento_Core_Helper_Js
+namespace Magento\Adminhtml\Helper;
+
+class Js extends \Magento\Core\Helper\Js
 {
     /**
      * Decode serialized grid data

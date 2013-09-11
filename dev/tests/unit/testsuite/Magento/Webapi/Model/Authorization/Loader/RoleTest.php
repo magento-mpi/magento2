@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Authorization_Loader_Role
+ * Test class for \Magento\Webapi\Model\Authorization\Loader\Role
  *
  * {license_notice}
  *
@@ -10,17 +10,17 @@
 class Magento_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_Role
+     * @var \Magento\Webapi\Model\Resource\Acl\Role
      */
     protected $_resourceModelMock;
 
     /**
-     * @var Magento_Webapi_Model_Authorization_Loader_Role
+     * @var \Magento\Webapi\Model\Authorization\Loader\Role
      */
     protected $_model;
 
     /**
-     * @var Magento_Webapi_Model_Authorization_Role_Factory
+     * @var \Magento\Webapi\Model\Authorization\Role\Factory
      */
     protected $_roleFactory;
 
@@ -36,30 +36,30 @@ class Magento_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framewo
     {
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $this->_resourceModelMock = $this->getMock('Magento_Webapi_Model_Resource_Acl_Role',
+        $this->_resourceModelMock = $this->getMock('Magento\Webapi\Model\Resource\Acl\Role',
             array('getRolesIds'), array(), '', false);
 
-        $this->_roleFactory = $this->getMock('Magento_Webapi_Model_Authorization_Role_Factory',
+        $this->_roleFactory = $this->getMock('Magento\Webapi\Model\Authorization\Role\Factory',
             array('createRole'), array(), '', false);
 
         $this->_acl = $this->getMock('Magento\Acl', array('addRole', 'deny'), array(), '',
             false);
 
-        $this->_model = $helper->getObject('Magento_Webapi_Model_Authorization_Loader_Role', array(
+        $this->_model = $helper->getObject('\Magento\Webapi\Model\Authorization\Loader\Role', array(
             'roleResource' => $this->_resourceModelMock,
             'roleFactory' => $this->_roleFactory,
         ));
     }
 
     /**
-     * Test for Magento_Webapi_Model_Authorization_Loader_Role::populateAcl.
+     * Test for \Magento\Webapi\Model\Authorization\Loader\Role::populateAcl.
      *
      * Test with existing role IDs.
      */
     public function testPopulateAclWithRoles()
     {
-        $roleOne = new Magento_Webapi_Model_Authorization_Role(3);
-        $roleTwo = new Magento_Webapi_Model_Authorization_Role(4);
+        $roleOne = new \Magento\Webapi\Model\Authorization\Role(3);
+        $roleTwo = new \Magento\Webapi\Model\Authorization\Role(4);
         $roleIds = array(3, 4);
         $createRoleMap = array(
             array(array('roleId' => 3), $roleOne),
@@ -85,7 +85,7 @@ class Magento_Webapi_Model_Authorization_Loader_RoleTest extends PHPUnit_Framewo
     }
 
     /**
-     * Test for Magento_Webapi_Model_Authorization_Loader_Role::populateAcl.
+     * Test for \Magento\Webapi\Model\Authorization\Loader\Role::populateAcl.
      *
      * Test with No existing role IDs.
      */

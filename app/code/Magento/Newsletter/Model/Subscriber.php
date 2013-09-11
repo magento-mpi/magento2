@@ -11,26 +11,28 @@
 /**
  * Subscriber model
  *
- * @method Magento_Newsletter_Model_Resource_Subscriber _getResource()
- * @method Magento_Newsletter_Model_Resource_Subscriber getResource()
+ * @method \Magento\Newsletter\Model\Resource\Subscriber _getResource()
+ * @method \Magento\Newsletter\Model\Resource\Subscriber getResource()
  * @method int getStoreId()
- * @method Magento_Newsletter_Model_Subscriber setStoreId(int $value)
+ * @method \Magento\Newsletter\Model\Subscriber setStoreId(int $value)
  * @method string getChangeStatusAt()
- * @method Magento_Newsletter_Model_Subscriber setChangeStatusAt(string $value)
+ * @method \Magento\Newsletter\Model\Subscriber setChangeStatusAt(string $value)
  * @method int getCustomerId()
- * @method Magento_Newsletter_Model_Subscriber setCustomerId(int $value)
+ * @method \Magento\Newsletter\Model\Subscriber setCustomerId(int $value)
  * @method string getSubscriberEmail()
- * @method Magento_Newsletter_Model_Subscriber setSubscriberEmail(string $value)
+ * @method \Magento\Newsletter\Model\Subscriber setSubscriberEmail(string $value)
  * @method int getSubscriberStatus()
- * @method Magento_Newsletter_Model_Subscriber setSubscriberStatus(int $value)
+ * @method \Magento\Newsletter\Model\Subscriber setSubscriberStatus(int $value)
  * @method string getSubscriberConfirmCode()
- * @method Magento_Newsletter_Model_Subscriber setSubscriberConfirmCode(string $value)
+ * @method \Magento\Newsletter\Model\Subscriber setSubscriberConfirmCode(string $value)
  *
  * @category    Magento
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
+namespace Magento\Newsletter\Model;
+
+class Subscriber extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_SUBSCRIBED     = 1;
     const STATUS_NOT_ACTIVE     = 2;
@@ -74,7 +76,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Newsletter_Model_Resource_Subscriber');
+        $this->_init('\Magento\Newsletter\Model\Resource\Subscriber');
     }
 
     /**
@@ -113,7 +115,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
      * @return string
      */
     public function getConfirmationLink() {
-        return Mage::helper('Magento_Newsletter_Helper_Data')->getConfirmationUrl($this);
+        return \Mage::helper('Magento\Newsletter\Helper\Data')->getConfirmationUrl($this);
     }
 
     /**
@@ -122,7 +124,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
      * @return string
      */
     public function getUnsubscriptionLink() {
-        return Mage::helper('Magento_Newsletter_Helper_Data')->getUnsubscribeUrl($this);
+        return \Mage::helper('Magento\Newsletter\Helper\Data')->getUnsubscribeUrl($this);
     }
 
     /**
@@ -159,7 +161,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
      * Set the error messages scope for subscription
      *
      * @param boolean $scope
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
 
     public function setMessagesScope($scope)
@@ -238,10 +240,10 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     /**
      * Load subscriber info by customer
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Newsletter_Model_Subscriber
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Newsletter\Model\Subscriber
      */
-    public function loadByCustomer(Magento_Customer_Model_Customer $customer)
+    public function loadByCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $data = $this->getResource()->loadByCustomer($customer);
         $this->addData($data);
@@ -280,22 +282,22 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
      * Subscribes by email
      *
      * @param string $email
-     * @throws Exception
+     * @throws \Exception
      * @return int
      */
     public function subscribe($email)
     {
         $this->loadByEmail($email);
-        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+        $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
 
         if(!$this->getId()) {
             $this->setSubscriberConfirmCode($this->randomSequence());
         }
 
-        $isConfirmNeed   = (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
+        $isConfirmNeed   = (\Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
         $isOwnSubscribes = false;
-        $ownerId = Mage::getModel('Magento_Customer_Model_Customer')
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+        $ownerId = \Mage::getModel('\Magento\Customer\Model\Customer')
+            ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
             ->loadByEmail($email)
             ->getId();
         $isSubscribeOwnEmail = $customerSession->isLoggedIn() && $ownerId == $customerSession->getId();
@@ -321,7 +323,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
             $this->setStoreId($customerSession->getCustomer()->getStoreId());
             $this->setCustomerId($customerSession->getCustomerId());
         } else {
-            $this->setStoreId(Mage::app()->getStore()->getId());
+            $this->setStoreId(\Mage::app()->getStore()->getId());
             $this->setCustomerId(0);
         }
 
@@ -338,8 +340,8 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
             }
 
             return $this->getStatus();
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -350,7 +352,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     public function unsubscribe()
     {
         if ($this->hasCheckCode() && $this->getCode() != $this->getCheckCode()) {
-            Mage::throwException(__('This is an invalid subscription confirmation code.'));
+            \Mage::throwException(__('This is an invalid subscription confirmation code.'));
         }
 
         $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)
@@ -362,8 +364,8 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     /**
      * Saving customer subscription status
      *
-     * @param   Magento_Customer_Model_Customer $customer
-     * @return  Magento_Newsletter_Model_Subscriber
+     * @param   \Magento\Customer\Model\Customer $customer
+     * @return  \Magento\Newsletter\Model\Subscriber
      */
     public function subscribeCustomer($customer)
     {
@@ -418,7 +420,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
         if(!$this->getId()) {
             $storeId = $customer->getStoreId();
             if ($customer->getStoreId() == 0) {
-                $storeId = Mage::app()->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
+                $storeId = \Mage::app()->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
             }
             $this->setStoreId($storeId)
                 ->setCustomerId($customer->getId())
@@ -461,10 +463,10 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     /**
      * Mark receiving subscriber of queue newsletter
      *
-     * @param  Magento_Newsletter_Model_Queue $queue
+     * @param  \Magento\Newsletter\Model\Queue $queue
      * @return boolean
      */
-    public function received(Magento_Newsletter_Model_Queue $queue)
+    public function received(\Magento\Newsletter\Model\Queue $queue)
     {
         $this->getResource()->received($this,$queue);
         return $this;
@@ -473,7 +475,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     /**
      * Sends out confirmation email
      *
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     public function sendConfirmationRequestEmail()
     {
@@ -481,21 +483,21 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
             return $this;
         }
 
-        if(!Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE)
-           || !Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY)
+        if(!\Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE)
+           || !\Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY)
         )  {
             return $this;
         }
 
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-        /* @var $translate Magento_Core_Model_Translate */
+        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
+        /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $email = Mage::getModel('Magento_Core_Model_Email_Template');
+        $email = \Mage::getModel('\Magento\Core\Model\Email\Template');
 
         $email->sendTransactional(
-            Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE),
-            Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY),
+            \Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE),
+            \Mage::getStoreConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY),
             $this->getEmail(),
             $this->getName(),
             array('subscriber'=>$this)
@@ -509,7 +511,7 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     /**
      * Sends out confirmation success email
      *
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     public function sendConfirmationSuccessEmail()
     {
@@ -517,21 +519,21 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
             return $this;
         }
 
-        if(!Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE)
-           || !Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY)
+        if(!\Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE)
+           || !\Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY)
         ) {
             return $this;
         }
 
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-        /* @var $translate Magento_Core_Model_Translate */
+        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
+        /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $email = Mage::getModel('Magento_Core_Model_Email_Template');
+        $email = \Mage::getModel('\Magento\Core\Model\Email\Template');
 
         $email->sendTransactional(
-            Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE),
-            Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY),
+            \Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE),
+            \Mage::getStoreConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY),
             $this->getEmail(),
             $this->getName(),
             array('subscriber'=>$this)
@@ -545,28 +547,28 @@ class Magento_Newsletter_Model_Subscriber extends Magento_Core_Model_Abstract
     /**
      * Sends out unsubsciption email
      *
-     * @return Magento_Newsletter_Model_Subscriber
+     * @return \Magento\Newsletter\Model\Subscriber
      */
     public function sendUnsubscriptionEmail()
     {
         if ($this->getImportMode()) {
             return $this;
         }
-        if(!Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE)
-           || !Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY)
+        if(!\Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE)
+           || !\Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY)
         ) {
             return $this;
         }
 
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-        /* @var $translate Magento_Core_Model_Translate */
+        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
+        /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $email = Mage::getModel('Magento_Core_Model_Email_Template');
+        $email = \Mage::getModel('\Magento\Core\Model\Email\Template');
 
         $email->sendTransactional(
-            Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE),
-            Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY),
+            \Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE),
+            \Mage::getStoreConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY),
             $this->getEmail(),
             $this->getName(),
             array('subscriber'=>$this)

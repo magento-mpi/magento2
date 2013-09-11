@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Status_New extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Sales\Order\Status;
+
+class New extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()

@@ -13,8 +13,10 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Renderer_Region
-    extends Magento_Backend_Block_Abstract
+namespace Magento\Adminhtml\Block\Customer\Edit\Renderer;
+
+class Region
+    extends \Magento\Backend\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
@@ -50,7 +52,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Region
         $html .= '<script type="text/javascript">' . "\n";
         $html .= '$("' . $selectId . '").setAttribute("defaultValue", "' . $regionId.'");' . "\n";
         $html .= 'new regionUpdater("' . $country->getHtmlId() . '", "' . $element->getHtmlId()
-            . '", "' . $selectId . '", ' . $this->helper('Magento_Directory_Helper_Data')->getRegionJson() . ');' . "\n";
+            . '", "' . $selectId . '", ' . $this->helper('\Magento\Directory\Helper\Data')->getRegionJson() . ');' . "\n";
         $html .= '</script>' . "\n";
 
         $html .= '</div></div>' . "\n";

@@ -12,7 +12,7 @@
 class Magento_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Product_Url
+     * @var \Magento\Catalog\Helper\Product\Url
      */
     protected $_helper;
 
@@ -28,7 +28,7 @@ class Magento_Catalog_Helper_Product_UrlTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Catalog_Helper_Product_Url');
+        $this->_helper = Mage::helper('Magento\Catalog\Helper\Product\Url');
     }
 
     public function testGetConvertTable()

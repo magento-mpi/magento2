@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Event_InvokerInterface
+namespace Magento\Core\Model\Event;
+
+interface InvokerInterface
 {
     /**
      * Dispatch event

@@ -14,17 +14,17 @@ class Magento_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framewor
      */
     public function testGetPatternDirsException()
     {
-        $rule = $this->getMockForAbstractClass('Magento_Core_Model_Design_Fallback_Rule_RuleInterface');
-        $object = new Magento_Core_Model_Design_Fallback_Rule_Theme($rule);
+        $rule = $this->getMockForAbstractClass('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
+        $object = new \Magento\Core\Model\Design\Fallback\Rule\Theme($rule);
         $object->getPatternDirs(array());
     }
 
     public function testGetPatternDirs()
     {
-        $parentTheme = $this->getMockForAbstractClass('Magento_Core_Model_ThemeInterface');
+        $parentTheme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
         $parentTheme->expects($this->any())->method('getThemePath')->will($this->returnValue('package/parent_theme'));
 
-        $theme = $this->getMockForAbstractClass('Magento_Core_Model_ThemeInterface');
+        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
         $theme->expects($this->any())->method('getThemePath')->will($this->returnValue('package/current_theme'));
         $theme->expects($this->any())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
@@ -38,10 +38,10 @@ class Magento_Core_Model_Design_Fallback_Rule_ThemeTest extends PHPUnit_Framewor
                 array('package/parent_theme/path/one', 'package/parent_theme/path/two')
             )
         );
-        $rule = $this->getMockForAbstractClass('Magento_Core_Model_Design_Fallback_Rule_RuleInterface');
+        $rule = $this->getMockForAbstractClass('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
         $rule->expects($this->any())->method('getPatternDirs')->will($this->returnValueMap($ruleDirsMap));
 
-        $object = new Magento_Core_Model_Design_Fallback_Rule_Theme($rule);
+        $object = new \Magento\Core\Model\Design\Fallback\Rule\Theme($rule);
 
         $expectedResult = array(
             'package/current_theme/path/one',

@@ -11,16 +11,18 @@
 /**
  * Catalog Rule Combine Condition data model
  */
-class Magento_CatalogRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_Condition_Combine
+namespace Magento\CatalogRule\Model\Rule\Condition;
+
+class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CatalogRule_Model_Rule_Condition_Combine');
+        $this->setType('\Magento\CatalogRule\Model\Rule\Condition\Combine');
     }
 
     /**
@@ -28,18 +30,18 @@ class Magento_CatalogRule_Model_Rule_Condition_Combine extends Magento_Rule_Mode
      */
     public function getNewChildSelectOptions()
     {
-        $productCondition = Mage::getModel('Magento_CatalogRule_Model_Rule_Condition_Product');
+        $productCondition = \Mage::getModel('\Magento\CatalogRule\Model\Rule\Condition\Product');
         $productAttributes = $productCondition->loadAttributeOptions()->getAttributeOption();
         $attributes = array();
         foreach ($productAttributes as $code => $label) {
             $attributes[] = array(
-                'value' => 'Magento_CatalogRule_Model_Rule_Condition_Product|' . $code, 'label' => $label
+                'value' => '\Magento\CatalogRule\Model\Rule\Condition\Product|' . $code, 'label' => $label
             );
         }
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
             array(
-                'value' => 'Magento_CatalogRule_Model_Rule_Condition_Combine',
+                'value' => '\Magento\CatalogRule\Model\Rule\Condition\Combine',
                 'label' => __('Conditions Combination')
             ),
             array(

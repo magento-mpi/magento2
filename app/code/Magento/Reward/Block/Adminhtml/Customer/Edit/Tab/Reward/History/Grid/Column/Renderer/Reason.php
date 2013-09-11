@@ -12,8 +12,10 @@
  * Column renderer for messages in reward history grid
  *
  */
-class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid_Column_Renderer_Reason
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\History\Grid\Column\Renderer;
+
+class Reason
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render "Expired / not expired" reward "Reason" field

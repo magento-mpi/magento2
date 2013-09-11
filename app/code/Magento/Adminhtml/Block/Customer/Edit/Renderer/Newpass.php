@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Renderer_Newpass
-    extends Magento_Backend_Block_Abstract
+namespace Magento\Adminhtml\Block\Customer\Edit\Renderer;
+
+class Newpass
+    extends \Magento\Backend\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
 

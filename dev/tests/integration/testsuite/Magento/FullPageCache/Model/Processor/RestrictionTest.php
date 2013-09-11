@@ -11,27 +11,27 @@
 class Magento_FullPageCache_Model_Processor_RestrictionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_FullPageCache_Model_Processor
+     * @var \Magento\FullPageCache\Model\Processor
      */
     protected $_model;
 
     public static function setUpBeforeClass()
     {
-        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
+        /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
         $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
-            'Magento_Core_Model_Cache_StateInterface');
+            '\Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('full_page', true);
     }
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_FullPageCache_Model_Processor');
+        $this->_model = Mage::getModel('\Magento\FullPageCache\Model\Processor');
     }
 
     public function testIsAllowedNoCacheCookie()
     {
         $this->assertTrue($this->_model->isAllowed());
-        $_COOKIE[Magento_FullPageCache_Model_Processor_RestrictionInterface::NO_CACHE_COOKIE] = '1';
+        $_COOKIE[\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE] = '1';
         $this->assertFalse($this->_model->isAllowed());
     }
 

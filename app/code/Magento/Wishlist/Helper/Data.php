@@ -16,7 +16,9 @@
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Wishlist\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Config key 'Display Wishlist Summary'
@@ -31,39 +33,39 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Currently logged in customer
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_currentCustomer = null;
 
     /**
      * Customer Wishlist instance
      *
-     * @var Magento_Wishlist_Model_Wishlist
+     * @var \Magento\Wishlist\Model\Wishlist
      */
     protected $_wishlist = null;
 
     /**
      * Wishlist Product Items Collection
      *
-     * @var Magento_Wishlist_Model_Resource_Item_Collection
+     * @var \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected $_productCollection = null;
 
     /**
      * Wishlist Items Collection
      *
-     * @var Magento_Wishlist_Model_Resource_Item_Collection
+     * @var \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected $_wishlistItemCollection = null;
 
     /**
      * Retreive customer session
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return \Mage::getSingleton('Magento\Customer\Model\Session');
     }
 
     /**
@@ -79,7 +81,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve logged in customer
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCurrentCustomer()
     {
@@ -89,9 +91,9 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Set current customer
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      */
-    public function setCustomer(Magento_Customer_Model_Customer $customer)
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $this->_currentCustomer = $customer;
     }
@@ -99,7 +101,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve current customer
      *
-     * @return Magento_Customer_Model_Customer|null
+     * @return \Magento\Customer\Model\Customer|null
      */
     public function getCustomer()
     {
@@ -112,19 +114,19 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve wishlist by logged in customer
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            if (Mage::registry('shared_wishlist')) {
-                $this->_wishlist = Mage::registry('shared_wishlist');
+            if (\Mage::registry('shared_wishlist')) {
+                $this->_wishlist = \Mage::registry('shared_wishlist');
             }
-            elseif (Mage::registry('wishlist')) {
-                $this->_wishlist = Mage::registry('wishlist');
+            elseif (\Mage::registry('wishlist')) {
+                $this->_wishlist = \Mage::registry('wishlist');
             }
             else {
-                $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+                $this->_wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
                 if ($this->getCustomer()) {
                     $this->_wishlist->loadByCustomer($this->getCustomer());
                 }
@@ -142,10 +144,10 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     public function getItemCount()
     {
         $storedDisplayType = $this->_getCustomerSession()->getWishlistDisplayType();
-        $currentDisplayType = Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
+        $currentDisplayType = \Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
 
         $storedDisplayOutOfStockProducts = $this->_getCustomerSession()->getDisplayOutOfStockProducts();
-        $currentDisplayOutOfStockProducts = Mage::getStoreConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK);
+        $currentDisplayOutOfStockProducts = \Mage::getStoreConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK);
         if (!$this->_getCustomerSession()->hasWishlistItemCount()
                 || ($currentDisplayType != $storedDisplayType)
                 || $this->_getCustomerSession()->hasDisplayOutOfStockProducts()
@@ -159,7 +161,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Create wishlist item collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _createWishlistItemCollection()
     {
@@ -169,7 +171,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve wishlist items collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     public function getWishlistItemCollection()
     {
@@ -182,16 +184,16 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve Item Store for URL
      *
-     * @param Magento_Catalog_Model_Product|Magento_Wishlist_Model_Item $item
-     * @return Magento_Core_Model_Store
+     * @param \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
+     * @return \Magento\Core\Model\Store
      */
     protected function _getUrlStore($item)
     {
         $storeId = null;
         $product = null;
-        if ($item instanceof Magento_Wishlist_Model_Item) {
+        if ($item instanceof \Magento\Wishlist\Model\Item) {
             $product = $item->getProduct();
-        } elseif ($item instanceof Magento_Catalog_Model_Product) {
+        } elseif ($item instanceof \Magento\Catalog\Model\Product) {
             $product = $item;
         }
         if ($product) {
@@ -202,13 +204,13 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
                 $storeId = $product->getUrlDataObject()->getStoreId();
             }
         }
-        return Mage::app()->getStore($storeId);
+        return \Mage::app()->getStore($storeId);
     }
 
     /**
      * Retrieve URL for removing item from wishlist
      *
-     * @param Magento_Catalog_Model_Product|Magento_Wishlist_Model_Item $item
+     * @param \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
      * @return string
      */
     public function getRemoveUrl($item)
@@ -221,7 +223,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve URL for removing item from wishlist
      *
-     * @param Magento_Catalog_Model_Product|Magento_Wishlist_Model_Item $item
+     * @param \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
      * @return string
      */
     public function getConfigureUrl($item)
@@ -234,7 +236,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve url for adding product to wishlist
      *
-     * @param Magento_Catalog_Model_Product|Magento_Wishlist_Model_Item $item
+     * @param \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
      *
      * @return  string|bool
      */
@@ -258,17 +260,17 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve url for updating product in wishlist
      *
-     * @param Magento_Catalog_Model_Product|Magento_Wishlist_Model_Item $item
+     * @param \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
      *
      * @return  string|bool
      */
     public function getUpdateUrl($item)
     {
         $itemId = null;
-        if ($item instanceof Magento_Catalog_Model_Product) {
+        if ($item instanceof \Magento\Catalog\Model\Product) {
             $itemId = $item->getWishlistItemId();
         }
-        if ($item instanceof Magento_Wishlist_Model_Item) {
+        if ($item instanceof \Magento\Wishlist\Model\Item) {
             $itemId = $item->getId();
         }
 
@@ -282,7 +284,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve url for adding product to wishlist with params
      *
-     * @param Magento_Catalog_Model_Product|Magento_Wishlist_Model_Item $item
+     * @param \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
      * @param array $params
      *
      * @return  string|bool
@@ -290,10 +292,10 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     public function getAddUrlWithParams($item, array $params = array())
     {
         $productId = null;
-        if ($item instanceof Magento_Catalog_Model_Product) {
+        if ($item instanceof \Magento\Catalog\Model\Product) {
             $productId = $item->getEntityId();
         }
-        if ($item instanceof Magento_Wishlist_Model_Item) {
+        if ($item instanceof \Magento\Wishlist\Model\Item) {
             $productId = $item->getProductId();
         }
 
@@ -308,21 +310,21 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve URL for adding item to shoping cart
      *
-     * @param string|Magento_Catalog_Model_Product|Magento_Wishlist_Model_Item $item
+     * @param string|\Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
      * @return  string
      */
     public function getAddToCartUrl($item)
     {
-        $urlParamName = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
-        $continueUrl  = Mage::helper('Magento_Core_Helper_Data')->urlEncode(
-            Mage::getUrl('*/*/*', array(
+        $urlParamName = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
+        $continueUrl  = \Mage::helper('Magento\Core\Helper\Data')->urlEncode(
+            \Mage::getUrl('*/*/*', array(
                 '_current'      => true,
                 '_use_rewrite'  => true,
                 '_store_to_url' => true,
             ))
         );
 
-        $urlParamName = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $urlParamName = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
         $params = array(
             'item' => is_string($item) ? $item : $item->getWishlistItemId(),
             $urlParamName => $continueUrl
@@ -333,18 +335,18 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve URL for adding item to shoping cart from shared wishlist
      *
-     * @param string|Magento_Catalog_Model_Product|Magento_Wishlist_Model_Item $item
+     * @param string|\Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
      * @return  string
      */
     public function getSharedAddToCartUrl($item)
     {
-        $continueUrl  = Mage::helper('Magento_Core_Helper_Data')->urlEncode(Mage::getUrl('*/*/*', array(
+        $continueUrl  = \Mage::helper('Magento\Core\Helper\Data')->urlEncode(\Mage::getUrl('*/*/*', array(
             '_current'      => true,
             '_use_rewrite'  => true,
             '_store_to_url' => true,
         )));
 
-        $urlParamName = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
+        $urlParamName = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
         $params = array(
             'item' => is_string($item) ? $item : $item->getWishlistItemId(),
             $urlParamName => $continueUrl
@@ -374,7 +376,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isAllow()
     {
-        if ($this->isModuleOutputEnabled() && Mage::getStoreConfig('wishlist/general/active')) {
+        if ($this->isModuleOutputEnabled() && \Mage::getStoreConfig('wishlist/general/active')) {
             return true;
         }
         return false;
@@ -415,7 +417,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
             $params = array(
-                'data' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($key),
+                'data' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($key),
                 '_secure' => false,
             );
         }
@@ -435,7 +437,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isRssAllow()
     {
-        return Mage::getStoreConfigFlag('rss/wishlist/active');
+        return \Mage::getStoreConfigFlag('rss/wishlist/active');
     }
 
     /**
@@ -463,7 +465,7 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      * Method called after wishlist modifications and trigger 'wishlist_items_renewed' event.
      * Depends from configuration.
      *
-     * @return Magento_Wishlist_Helper_Data
+     * @return \Magento\Wishlist\Helper\Data
      */
     public function calculate()
     {
@@ -471,18 +473,18 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
         $count = 0;
         if ($this->getCustomer()) {
             $collection = $this->getWishlistItemCollection()->setInStockFilter(true);
-            if (Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
+            if (\Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
                 $count = $collection->getItemsQty();
             } else {
                 $count = $collection->getSize();
             }
-            $session->setWishlistDisplayType(Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY));
+            $session->setWishlistDisplayType(\Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY));
             $session->setDisplayOutOfStockProducts(
-                Mage::getStoreConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK)
+                \Mage::getStoreConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK)
             );
         }
         $session->setWishlistItemCount($count);
-        Mage::dispatchEvent('wishlist_items_renewed');
+        \Mage::dispatchEvent('wishlist_items_renewed');
         return $this;
     }
 
@@ -493,6 +495,6 @@ class Magento_Wishlist_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isDisplayQty()
     {
-        return Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
+        return \Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
     }
 }

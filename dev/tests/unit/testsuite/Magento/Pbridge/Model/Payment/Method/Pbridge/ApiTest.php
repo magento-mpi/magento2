@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for Magento_Pbridge_Model_Payment_Method_Pbridge_Api
+ * Unit test for \Magento\Pbridge\Model\Payment\Method\Pbridge\Api
  *
  * {license_notice}
  *
@@ -16,11 +16,11 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_ApiTest extends PHPUnit_Frame
 
     /**
      * @param array $data
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Pbridge_Model_Payment_Method_Pbridge_Api
+     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Pbridge\Model\Payment\Method\Pbridge\Api
      */
     protected function _getApiMock(array $data)
     {
-        $mock = $this->getMockBuilder('Magento_Pbridge_Model_Payment_Method_Pbridge_Api')
+        $mock = $this->getMockBuilder('Magento\Pbridge\Model\Payment\Method\Pbridge\Api')
             ->disableOriginalConstructor()
             ->setMethods(array('_call'))
             ->getMock();

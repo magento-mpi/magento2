@@ -16,8 +16,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Renderer_Action
-    extends Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
+namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Renderer;
+
+class Action
+    extends \Magento\Adminhtml\Block\Sales\Reorder\Renderer\Action
 {
     /**
      * Render field HRML for column

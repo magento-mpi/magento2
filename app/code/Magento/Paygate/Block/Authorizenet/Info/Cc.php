@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Paygate_Block_Authorizenet_Info_Cc extends Magento_Payment_Block_Info_Cc
+namespace Magento\Paygate\Block\Authorizenet\Info;
+
+class Cc extends \Magento\Payment\Block\Info\Cc
 {
     /**
      * Checkout progress information block flag
@@ -49,7 +51,7 @@ class Magento_Paygate_Block_Authorizenet_Info_Cc extends Magento_Payment_Block_I
      * in Previously used card information block
      *
      * @param bool $flag
-     * @return Magento_Paygate_Block_Authorizenet_Info_Cc
+     * @return \Magento\Paygate\Block\Authorizenet\Info\Cc
      */
     public function setCheckoutProgressBlock($flag)
     {
@@ -71,11 +73,11 @@ class Magento_Paygate_Block_Authorizenet_Info_Cc extends Magento_Payment_Block_I
             foreach ($cardsData as $cardInfo) {
                 $data = array();
                 if ($cardInfo->getProcessedAmount()) {
-                    $amount = Mage::helper('Magento_Core_Helper_Data')->currency($cardInfo->getProcessedAmount(), true, false);
+                    $amount = \Mage::helper('Magento\Core\Helper\Data')->currency($cardInfo->getProcessedAmount(), true, false);
                     $data[__('Processed Amount')] = $amount;
                 }
                 if ($cardInfo->getBalanceOnCard() && is_numeric($cardInfo->getBalanceOnCard())) {
-                    $balance = Mage::helper('Magento_Core_Helper_Data')->currency($cardInfo->getBalanceOnCard(), true, false);
+                    $balance = \Mage::helper('Magento\Core\Helper\Data')->currency($cardInfo->getBalanceOnCard(), true, false);
                     $data[__('Remaining Balance')] = $balance;
                 }
                 $this->setCardInfoObject($cardInfo);

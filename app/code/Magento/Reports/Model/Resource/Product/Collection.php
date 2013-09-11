@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\Reports\Model\Resource\Product;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     const SELECT_COUNT_SQL_TYPE_CART           = 1;
 
@@ -53,7 +55,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Catalog_Model_Resource_Product $product
+        \Magento\Catalog\Model\Resource\Product $product
     ) {
         $this->setProductEntityId($product->getEntityIdField());
         $this->setProductEntityTableName($product->getEntityTable());
@@ -64,7 +66,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      * Set Type for COUNT SQL Select
      *
      * @param int $type
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function setSelectCountSqlType($type)
     {
@@ -76,7 +78,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      * Set product entity id
      *
      * @param int $value
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function setProductEntityId($entityId)
     {
@@ -98,7 +100,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      * Set product entity table name
      *
      * @param string $value
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function setProductEntityTableName($value)
     {
@@ -120,7 +122,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      * Set product entity type id
      *
      * @param int $value
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function setProductEntityTypeId($value)
     {
@@ -141,7 +143,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Join fields
      *
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     protected function _joinFields()
     {
@@ -176,12 +178,12 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
         }
 
         $countSelect = clone $this->getSelect();
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::COLUMNS);
-        $countSelect->reset(Zend_Db_Select::GROUP);
-        $countSelect->reset(Zend_Db_Select::HAVING);
+        $countSelect->reset(\Zend_Db_Select::ORDER);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(\Zend_Db_Select::COLUMNS);
+        $countSelect->reset(\Zend_Db_Select::GROUP);
+        $countSelect->reset(\Zend_Db_Select::HAVING);
         $countSelect->columns("count(DISTINCT e.entity_id)");
 
         return $countSelect;
@@ -190,7 +192,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
     /**
      * Add carts count
      *
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function addCartsCount()
     {
@@ -216,7 +218,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param string $from
      * @param string $to
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function addOrdersCount($from = '', $to = '')
     {
@@ -251,17 +253,17 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param string $from
      * @param string $to
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function addOrderedQty($from = '', $to = '')
     {
         $adapter              = $this->getConnection();
-        $compositeTypeIds     = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getCompositeTypes();
+        $compositeTypeIds     = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getCompositeTypes();
         $orderTableAliasName  = $adapter->quoteIdentifier('order');
 
         $orderJoinCondition   = array(
             $orderTableAliasName . '.entity_id = order_items.order_id',
-            $adapter->quoteInto("{$orderTableAliasName}.state <> ?", Magento_Sales_Model_Order::STATE_CANCELED),
+            $adapter->quoteInto("{$orderTableAliasName}.state <> ?", \Magento\Sales\Model\Order::STATE_CANCELED),
 
         );
 
@@ -312,7 +314,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
@@ -330,14 +332,14 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param string $from
      * @param string $to
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function addViewsCount($from = '', $to = '')
     {
         /**
          * Getting event type id for catalog_product_view event
          */
-        foreach (Mage::getModel('Magento_Reports_Model_Event_Type')->getCollection() as $eventType) {
+        foreach (\Mage::getModel('\Magento\Reports\Model\Event\Type')->getCollection() as $eventType) {
             if ($eventType->getEventName() == 'catalog_product_view') {
                 $productViewEvent = (int)$eventType->getId();
                 break;
@@ -387,7 +389,7 @@ class Magento_Reports_Model_Resource_Product_Collection extends Magento_Catalog_
      *
      * @param  array $storeIds
      * @param  array $websiteIds
-     * @return Magento_Reports_Model_Resource_Product_Collection
+     * @return \Magento\Reports\Model\Resource\Product\Collection
      */
     public function addStoreRestrictions($storeIds, $websiteIds)
     {

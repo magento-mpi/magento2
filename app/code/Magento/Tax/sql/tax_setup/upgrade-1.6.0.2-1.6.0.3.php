@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/* @var $installer Magento_Tax_Model_Resource_Setup */
+/* @var $installer \Magento\Tax\Model\Resource\Setup */
 
 /**
  * Add new field to 'sales_order_tax_item'

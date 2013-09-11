@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form
+ * Test class for \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form
  * @magentoAppArea adminhtml
  */
 class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUnit_Framework_TestCase
@@ -20,16 +20,16 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_FormTest extends PHPUnit_F
      */
     public function testPrepareForm()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        /** @var $event Magento_CatalogEvent_Model_Event */
-        $event = Mage::getModel('Magento_CatalogEvent_Model_Event');
+        /** @var $event \Magento\CatalogEvent\Model\Event */
+        $event = Mage::getModel('\Magento\CatalogEvent\Model\Event');
         $event->setCategoryId(1)->setId(1);
         Mage::register('magento_catalogevent_event', $event);
-        $block = Mage::app()->getLayout()->createBlock('Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form');
+        $block = Mage::app()->getLayout()->createBlock('\Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form');
         $prepareFormMethod = new ReflectionMethod(
-            'Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form', '_prepareForm');
+            '\Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

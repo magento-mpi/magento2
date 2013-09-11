@@ -15,18 +15,20 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class Url extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
 {
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlModel;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_UrlInterface $urlModel
+     * @param \Magento\Core\Model\UrlInterface $urlModel
      */
-    public function __construct(\Magento\ObjectManager $objectManager, Magento_Core_Model_UrlInterface $urlModel)
+    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\UrlInterface $urlModel)
     {
         parent::__construct($objectManager);
 
@@ -36,13 +38,13 @@ class Magento_Core_Model_Layout_Argument_Handler_Url extends Magento_Core_Model_
     /**
      * Generate url
      * @param string $value
-     * @throws InvalidArgumentException
-     * @return Magento_Core_Model_Abstract|boolean
+     * @throws \InvalidArgumentException
+     * @return \Magento\Core\Model\AbstractModel|boolean
      */
     public function process($value)
     {
         if (false === is_array($value) || (!isset($value['path']))) {
-            throw new InvalidArgumentException('Passed value has incorrect format');
+            throw new \InvalidArgumentException('Passed value has incorrect format');
         }
 
         $params = array_key_exists('params', $value) ? $value['params'] : null;

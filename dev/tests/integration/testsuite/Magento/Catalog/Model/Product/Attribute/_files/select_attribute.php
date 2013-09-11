@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-/** @var Magento_Eav_Model_Entity_Type $entityType */
-$entityType = Mage::getModel('Magento_Eav_Model_Entity_Type');
+/** @var \Magento\Eav\Model\Entity\Type $entityType */
+$entityType = Mage::getModel('\Magento\Eav\Model\Entity\Type');
 $entityType->loadByCode('catalog_product');
 $defaultSetId = $entityType->getDefaultAttributeSetId();
-/** @var Magento_Eav_Model_Entity_Attribute_Set $defaultSet */
-$defaultSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set');
+/** @var \Magento\Eav\Model\Entity\Attribute\Set $defaultSet */
+$defaultSet = Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set');
 $defaultSet->load($defaultSetId);
 $defaultGroupId = $defaultSet->getDefaultGroupId();
 $optionData = array(
@@ -25,8 +25,8 @@ $optionData = array(
     )
 );
 
-/** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-$attribute = Mage::getResourceModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+/** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
+$attribute = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
 $attribute->setAttributeCode('select_attribute')
     ->setEntityTypeId($entityType->getEntityTypeId())
     ->setAttributeGroupId($defaultGroupId)

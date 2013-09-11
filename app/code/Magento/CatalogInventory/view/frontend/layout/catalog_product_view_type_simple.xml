@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="catalog_product_view_type_simple">
         <reference name="product.info.simple.extra">
-            <block class="Magento_CatalogInventory_Block_Stockqty_Default" template="stockqty/default.phtml"/>
+            <block class="\Magento\CatalogInventory\Block\Stockqty\DefaultStockqty" template="stockqty/default.phtml"/>
         </reference>
     </handle>
 </layout>

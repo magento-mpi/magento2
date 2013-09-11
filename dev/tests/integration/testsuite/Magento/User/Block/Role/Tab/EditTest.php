@@ -15,18 +15,18 @@
 class Magento_User_Block_Role_Tab_EditTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Block_Role_Tab_Edit
+     * @var \Magento\User\Block\Role\Tab\Edit
      */
     protected $_block;
 
     public function setUp()
     {
-        $roleAdmin = Mage::getModel('Magento_User_Model_Role');
+        $roleAdmin = Mage::getModel('\Magento\User\Model\Role');
         $roleAdmin->load(Magento_TestFramework_Bootstrap::ADMIN_ROLE_NAME, 'role_name');
         Mage::app()->getRequest()->setParam('rid', $roleAdmin->getId());
 
         $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Block_Role_Tab_Edit');
+            ->create('Magento\User\Block\Role\Tab\Edit');
     }
 
     public function testConstructor()

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Set default sort
@@ -30,8 +32,8 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_GiftRegistry_Model_Resource_Entity_Collection */
-        $collection = Mage::getModel('Magento_GiftRegistry_Model_Entity')->getCollection();
+        /** @var $collection \Magento\GiftRegistry\Model\Resource\Entity\Collection */
+        $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Entity')->getCollection();
         $collection->filterByCustomerId($this->getRequest()->getParam('id'));
         $collection->addRegistryInfo();
 
@@ -91,12 +93,12 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Grid extends Magento_Adminht
             )
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header' => __('Website'),
                 'index'  => 'website_id',
                 'type'   => 'options',
-                'options' => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash()
+                'options' => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash()
             ));
         }
 

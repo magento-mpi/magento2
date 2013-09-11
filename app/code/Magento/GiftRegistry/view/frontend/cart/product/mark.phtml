@@ -10,6 +10,6 @@
 ?>
 <?php if ($this->getEnabled()): ?>
 <p class="gift-registry-name">
-    <a href="<?php echo $this->getGiftregistryUrl() ?>" title="<?php echo $this->getGiftregistryTitle() ?>"><?php echo $this->helper('Magento_Core_Helper_String')->truncate($this->getGiftregistryTitle(), 50) ?></a>
+    <a href="<?php echo $this->getGiftregistryUrl() ?>" title="<?php echo $this->getGiftregistryTitle() ?>"><?php echo $this->helper('\Magento\Core\Helper\String')->truncate($this->getGiftregistryTitle(), 50) ?></a>
 </p>
 <?php endif; ?>

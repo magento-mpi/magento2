@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Payment\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_PAYMENT_METHODS = 'payment';
     const XML_PATH_PAYMENT_GROUPS = 'global/payment/groups';
@@ -22,13 +24,13 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      * Retrieve method model object
      *
      * @param   string $code
-     * @return  Magento_Payment_Model_Method_Abstract|false
+     * @return  \Magento\Payment\Model\Method\AbstractMethod|false
      */
     public function getMethodInstance($code)
     {
         $key = self::XML_PATH_PAYMENT_METHODS.'/'.$code.'/model';
-        $class = Mage::getStoreConfig($key);
-        return Mage::getModel($class);
+        $class = \Mage::getStoreConfig($key);
+        return \Mage::getModel($class);
     }
 
     /**
@@ -38,7 +40,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      *  $index => \Magento\Simplexml\Element
      *
      * @param mixed $store
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return array
      */
     public function getStoreMethods($store = null, $quote = null)
@@ -48,10 +50,10 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
         uasort($methods, array($this, '_sortMethods'));
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/';
-            if (!$model = Mage::getStoreConfig($prefix . 'model', $store)) {
+            if (!$model = \Mage::getStoreConfig($prefix . 'model', $store)) {
                 continue;
             }
-            $methodInstance = Mage::getModel($model);
+            $methodInstance = \Mage::getModel($model);
             if (!$methodInstance) {
                 continue;
             }
@@ -80,9 +82,9 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      * Retreive payment method form html
      *
      * @param   Magento_Payment_Model_Abstract $method
-     * @return  Magento_Payment_Block_Form
+     * @return  \Magento\Payment\Block\Form
      */
-    public function getMethodFormBlock(Magento_Payment_Model_Method_Abstract $method)
+    public function getMethodFormBlock(\Magento\Payment\Model\Method\AbstractMethod $method)
     {
         $block = false;
         $blockType = $method->getFormBlockType();
@@ -96,13 +98,13 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve payment information block
      *
-     * @param  Magento_Payment_Model_Info $info
-     * @return Magento_Core_Block_Template
+     * @param  \Magento\Payment\Model\Info $info
+     * @return \Magento\Core\Block\Template
      */
-    public function getInfoBlock(Magento_Payment_Model_Info $info)
+    public function getInfoBlock(\Magento\Payment\Model\Info $info)
     {
         $blockType = $info->getMethodInstance()->getInfoBlockType();
-        $layout = $this->getLayout() ?: Mage::app()->getLayout();
+        $layout = $this->getLayout() ?: \Mage::app()->getLayout();
         $block = $layout->createBlock($blockType);
         $block->setInfo($info);
         return $block;
@@ -111,25 +113,25 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Render payment information block
      *
-     * @param  Magento_Payment_Model_Info $info
+     * @param  \Magento\Payment\Model\Info $info
      * @param  int $storeId
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
-    public function getInfoBlockHtml(Magento_Payment_Model_Info $info, $storeId)
+    public function getInfoBlockHtml(\Magento\Payment\Model\Info $info, $storeId)
     {
-        /** @var $appEmulation Magento_Core_Model_App_Emulation */
-        $appEmulation = Mage::getSingleton('Magento_Core_Model_App_Emulation');
+        /** @var $appEmulation \Magento\Core\Model\App\Emulation */
+        $appEmulation = \Mage::getSingleton('Magento\Core\Model\App\Emulation');
         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
 
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
             $paymentBlock = $info->getBlockMock() ?: $this->getInfoBlock($info);
-            $paymentBlock->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            $paymentBlock->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
                 ->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
             throw $exception;
         }
@@ -143,7 +145,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      * Retrieve available billing agreement methods
      *
      * @param mixed $store
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return array
      */
     public function getBillingAgreementMethods($store = null, $quote = null)
@@ -183,7 +185,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPaymentMethods($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_PAYMENT_METHODS, $store);
     }
 
     /**
@@ -226,7 +228,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
             }
         }
         if ($asLabelValue && $withGroups) {
-            $groups = Mage::app()->getConfig()->getNode(self::XML_PATH_PAYMENT_GROUPS)->asCanonicalArray();
+            $groups = \Mage::app()->getConfig()->getNode(self::XML_PATH_PAYMENT_GROUPS)->asCanonicalArray();
             foreach ($groups as $code => $title) {
                 $methods[$code] = $title; // for sorting, see below
             }
@@ -263,7 +265,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
     public function getAllBillingAgreementMethods()
     {
         $result = array();
-        $interface = 'Magento_Payment_Model_Billing_Agreement_MethodInterface';
+        $interface = '\Magento\Payment\Model\Billing\Agreement\MethodInterface';
         foreach ($this->getPaymentMethods() as $code => $data) {
             if (!isset($data['model'])) {
                 continue;
@@ -284,7 +286,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isZeroSubTotal($store = null)
     {
-        return Mage::getStoreConfig(Magento_Payment_Model_Method_Free::XML_PATH_PAYMENT_FREE_ACTIVE, $store);
+        return \Mage::getStoreConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE, $store);
     }
 
     /**
@@ -295,7 +297,7 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getZeroSubTotalOrderStatus($store = null)
     {
-        return Mage::getStoreConfig(Magento_Payment_Model_Method_Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS, $store);
+        return \Mage::getStoreConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS, $store);
     }
 
     /**
@@ -306,6 +308,6 @@ class Magento_Payment_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getZeroSubTotalPaymentAutomaticInvoice($store = null)
     {
-        return Mage::getStoreConfig(Magento_Payment_Model_Method_Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION, $store);
+        return \Mage::getStoreConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION, $store);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * File with unit tests for API configuration class: Magento_Webapi_Model_Config_Soap.
+ * File with unit tests for API configuration class: \Magento\Webapi\Model\Config\Soap.
  *
  * {license_notice}
  *
@@ -31,7 +31,7 @@ require_once __DIR__ . '/../_files/autodiscovery/reference_to_invalid_type/class
 class Magento_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Webapi_Model_Config_Soap
+     * @var \Magento\Webapi\Model\Config\Soap
      */
     protected $_apiConfig;
 
@@ -516,23 +516,23 @@ class Magento_Webapi_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
      * Create resource config initialized with classes found in the specified directory.
      *
      * @param string $pathToResources
-     * @return Magento_Webapi_Model_Config_Soap
+     * @return \Magento\Webapi\Model\Config\Soap
      */
     protected function _createResourceConfig($pathToResources)
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** Prepare arguments for SUT constructor. */
-        /** @var Magento_Core_Model_CacheInterface $cache */
-        $cache = $this->getMock('Magento_Core_Model_CacheInterface');
+        /** @var \Magento\Core\Model\CacheInterface $cache */
+        $cache = $this->getMock('Magento\Core\Model\CacheInterface');
 
-        /** @var Magento_Webapi_Model_Config_Reader_Soap $reader */
-        $reader = $objectManager->create('Magento_Webapi_Model_Config_Reader_Soap', array(
+        /** @var \Magento\Webapi\Model\Config\Reader\Soap $reader */
+        $reader = $objectManager->create('Magento\Webapi\Model\Config\Reader\Soap', array(
             'cache' => $cache
         ));
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));
 
         /** Initialize SUT. */
-        $apiConfig = $objectManager->create('Magento_Webapi_Model_Config_Soap', array('reader' => $reader));
+        $apiConfig = $objectManager->create('Magento\Webapi\Model\Config\Soap', array('reader' => $reader));
         return $apiConfig;
     }
 

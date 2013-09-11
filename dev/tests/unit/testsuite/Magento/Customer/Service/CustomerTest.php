@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Customer_Service_Customer
+ * \Magento\Customer\Service\Customer
  *
  * {license_notice}
  *
@@ -10,7 +10,7 @@
 class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Customer_Service_Customer|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\Customer|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_service;
 
@@ -29,7 +29,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     protected $_customer;
 
-    /** @var Magento_Customer_Helper_Data|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Customer\Helper\Data|PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
 
     /**
@@ -39,7 +39,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helperMock = $this->getMockBuilder('Magento_Customer_Helper_Data')
+        $this->_helperMock = $this->getMockBuilder('Magento\Customer\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('generateResetPasswordLinkToken'))
             ->getMock();
@@ -53,7 +53,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->getMock();
 
-        $this->_customer = $this->getMockBuilder('Magento_Customer_Model_Customer')
+        $this->_customer = $this->getMockBuilder('Magento\Customer\Model\Customer')
             ->setMethods(array('save', 'generatePassword', 'getOrigData', 'sendNewAccountEmail', 'getConfirmation',
                 'getPrimaryAddress', 'getAddresses', 'getAdditionalAddresses', 'load', 'getId', 'changePassword',
                 'sendPasswordReminderEmail', 'addAddress', 'getAddressItemById', 'getAddressesCollection',
@@ -70,7 +70,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_address));
 
-        $this->_service = new Magento_Customer_Service_Customer($this->_helperMock, $this->_customerFactory,
+        $this->_service = new \Magento\Customer\Service\Customer($this->_helperMock, $this->_customerFactory,
             $this->_addressFactory
         );
     }
@@ -84,7 +84,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     protected function _createAddress($hasChanges, $addressId)
     {
-        $address = $this->getMockBuilder('Magento_Customer_Model_Address')
+        $address = $this->getMockBuilder('Magento\Customer\Model\Address')
             ->disableOriginalConstructor()
             ->setMethods(array('hasDataChanges', 'getId', 'addData', 'setData', 'setCustomerId', 'setPostIndex'))
             ->getMock();
@@ -133,7 +133,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testSetBeforeSaveCallback()
     {
-        $this->assertInstanceOf('Magento_Customer_Service_Customer', $this->_service->setBeforeSaveCallback('intval'));
+        $this->assertInstanceOf('\Magento\Customer\Service\Customer', $this->_service->setBeforeSaveCallback('intval'));
         $this->assertAttributeEquals('intval', '_beforeSaveCallback', $this->_service);
     }
 
@@ -160,13 +160,13 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
         $this->_service->setBeforeSaveCallback(array($callback, 'beforeSave'));
         $this->_service->setAfterSaveCallback(array($callback, 'afterSave'));
         if ($method == 'create') {
-            $this->assertInstanceOf('Magento_Customer_Model_Customer',
+            $this->assertInstanceOf('\Magento\Customer\Model\Customer',
                 $this->_service->create($customerData, $addressData));
         } else {
             $this->_customer->expects($this->once())
                 ->method('getId')
                 ->will($this->returnValue(1));
-            $this->assertInstanceOf('Magento_Customer_Model_Customer',
+            $this->assertInstanceOf('\Magento\Customer\Model\Customer',
                 $this->_service->update(1, $customerData, $addressData));
         }
     }
@@ -184,7 +184,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     public function testSetAfterSaveCallback()
     {
-        $this->assertInstanceOf('Magento_Customer_Service_Customer', $this->_service->setAfterSaveCallback('intval'));
+        $this->assertInstanceOf('\Magento\Customer\Service\Customer', $this->_service->setAfterSaveCallback('intval'));
         $this->assertAttributeEquals('intval', '_afterSaveCallback', $this->_service);
     }
 
@@ -193,7 +193,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
      */
     public function testSetIsAdminStore()
     {
-        $this->assertInstanceOf('Magento_Customer_Service_Customer', $this->_service->setIsAdminStore(true));
+        $this->assertInstanceOf('\Magento\Customer\Service\Customer', $this->_service->setIsAdminStore(true));
         $this->assertAttributeEquals(true, '_isAdminStore', $this->_service);
     }
 
@@ -215,7 +215,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->method('save');
 
         $this->_service->setIsAdminStore($isAdminStore);
-        $this->assertInstanceOf('Magento_Customer_Model_Customer',
+        $this->assertInstanceOf('\Magento\Customer\Model\Customer',
             $this->_service->create($customerData));
         $this->assertEquals($expectedData, $this->_customer->toArray(array_keys($expectedData)));
     }
@@ -286,7 +286,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
             ->method('getConfirmation')
             ->will($this->returnValue(false));
 
-        $this->assertInstanceOf('Magento_Customer_Model_Customer', $this->_service->create($customerData));
+        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->create($customerData));
     }
 
     /**
@@ -327,7 +327,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 $this->equalTo($storeId)
             );
 
-        $this->assertInstanceOf('Magento_Customer_Model_Customer', $this->_service->create($customerData));
+        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->create($customerData));
     }
 
     /**
@@ -362,7 +362,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 $this->equalTo($storeId)
             );
 
-        $this->assertInstanceOf('Magento_Customer_Model_Customer', $this->_service->create($customerData));
+        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->create($customerData));
     }
 
     /**
@@ -430,7 +430,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                ->will($this->returnValue($customerData['confirmation']));
         }
 
-        $this->assertInstanceOf('Magento_Customer_Model_Customer', $this->_service->create($customerData));
+        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->create($customerData));
     }
 
     /**
@@ -486,7 +486,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage The customer with the specified ID not found.
      */
     public function testLoadCustomerByIdException()
@@ -528,7 +528,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 ->will($this->returnValue('generated_password'));
         }
 
-        $this->assertInstanceOf('Magento_Customer_Model_Customer', $this->_service->update(1, $customerData));
+        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->update(1, $customerData));
     }
 
     /**
@@ -548,8 +548,8 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
 
     /**
      * @param array $addressData
-     * @param Magento_Customer_Model_Address|null $newAddress
-     * @param Magento_Customer_Model_Address|null $existingAddress
+     * @param \Magento\Customer\Model\Address|null $newAddress
+     * @param \Magento\Customer\Model\Address|null $existingAddress
      * @param array $addressCollection
      * @param bool $dataChanged
      * @param bool $expectedDataChange
@@ -613,7 +613,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
                 ->with('_deleted', true);
         }
 
-        $this->assertInstanceOf('Magento_Customer_Model_Customer', $this->_service->update(1, array(), $addressData),
+        $this->assertInstanceOf('\Magento\Customer\Model\Customer', $this->_service->update(1, array(), $addressData),
             'Incorrect instance returned');
 
         $this->assertEquals($expectedDataChange, $this->_customer->hasDataChanges(),
@@ -658,7 +658,7 @@ class Magento_Customer_Service_CustomerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage The address with the specified ID not found.
      */
     public function testPrepareCustomerAddressForSaveException()

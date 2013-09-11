@@ -15,23 +15,25 @@
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Block_ToolbarEntry extends Magento_Backend_Block_Template
+namespace Magento\AdminNotification\Block;
+
+class ToolbarEntry extends \Magento\Backend\Block\Template
 {
     /**
      * Collection of latest unread notifications
      *
-     * @var Magento_AdminNotification_Model_Resource_Inbox_Collection
+     * @var \Magento\AdminNotification\Model\Resource\Inbox\Collection
      */
     protected $_notificationList;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_AdminNotification_Model_Resource_Inbox_Collection_Unread $notificationList
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\AdminNotification\Model\Resource\Inbox\Collection\Unread $notificationList
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_AdminNotification_Model_Resource_Inbox_Collection_Unread $notificationList,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\AdminNotification\Model\Resource\Inbox\Collection\Unread $notificationList,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -51,7 +53,7 @@ class Magento_AdminNotification_Block_ToolbarEntry extends Magento_Backend_Block
     /**
      * Retrieve the list of latest unread notifications
      *
-     * @return Magento_AdminNotification_Model_Resource_Inbox_Collection
+     * @return \Magento\AdminNotification\Model\Resource\Inbox\Collection
      */
     public function getLatestUnreadNotifications()
     {
@@ -67,8 +69,8 @@ class Magento_AdminNotification_Block_ToolbarEntry extends Magento_Backend_Block
     public function formatNotificationDate($dateString)
     {
         if (date('Ymd') == date('Ymd', strtotime($dateString))) {
-            return $this->formatTime($dateString, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, false);
+            return $this->formatTime($dateString, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, false);
         }
-        return $this->formatDate($dateString, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+        return $this->formatDate($dateString, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true);
     }
 }

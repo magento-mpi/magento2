@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleAdwords_Model_Config_Source_ValueType implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\GoogleAdwords\Model\Config\Source;
+
+class ValueType implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Get conversation value type option
@@ -18,11 +20,11 @@ class Magento_GoogleAdwords_Model_Config_Source_ValueType implements Magento_Cor
     {
         return array(
             array(
-                'value' => Magento_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_DYNAMIC,
+                'value' => \Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_TYPE_DYNAMIC,
                 'label' => __('Dynamic'),
             ),
             array(
-                'value' => Magento_GoogleAdwords_Helper_Data::CONVERSION_VALUE_TYPE_CONSTANT,
+                'value' => \Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_TYPE_CONSTANT,
                 'label' => __('Constant'),
             ),
         );

@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for class Magento_ImportExport_Model_Import_Entity_Eav_Customer which covers validation logic
+ * Test for class \Magento\ImportExport\Model\Import\Entity\Eav\Customer which covers validation logic
  *
  * @magentoDataFixture Magento/ImportExport/_files/customers.php
  */
@@ -19,7 +19,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
     /**
      * Model object which used for tests
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Eav_Customer|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Import\Entity\Eav\Customer|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -37,9 +37,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
     {
         parent::setUp();
 
-        $this->_model = Mage::getModel('Magento_ImportExport_Model_Import_Entity_Eav_Customer');
+        $this->_model = Mage::getModel('\Magento\ImportExport\Model\Import\Entity\Eav\Customer');
         $this->_model->setParameters(array(
-            'behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE
+            'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
         ));
 
         $propertyAccessor = new ReflectionProperty($this->_model, '_messageTemplates');
@@ -50,9 +50,9 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
             'firstname' => 'Firstname',
             'lastname' => 'Lastname',
             'group_id' => 1,
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => 'customer@example.com',
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'base',
-            Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_STORE => 'default',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL => 'customer@example.com',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => 'base',
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_STORE => 'default',
             'store_id' => 1,
             'website_id' => 1,
             'password' => 'password',
@@ -67,11 +67,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(0, $this->_model->getErrorsCount());
 
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL] =
-            strtoupper($this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]);
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL] =
+            strtoupper($this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]);
         $this->_model->validateRow($this->_customerData, 1);
         $this->assertEquals(1, $this->_model->getErrorsCount());
-        $this->assertArrayHasKey(Magento_ImportExport_Model_Import_Entity_Eav_Customer::ERROR_DUPLICATE_EMAIL_SITE,
+        $this->assertArrayHasKey(\Magento\ImportExport\Model\Import\Entity\Eav\Customer::ERROR_DUPLICATE_EMAIL_SITE,
             $this->_model->getErrorMessages());
     }
 
@@ -80,11 +80,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
      */
     public function testValidateRowInvalidEmail()
     {
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]
             = 'wrong_email@format';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(1, $this->_model->getErrorsCount());
-        $this->assertArrayHasKey(Magento_ImportExport_Model_Import_Entity_Eav_Customer::ERROR_INVALID_EMAIL,
+        $this->assertArrayHasKey(\Magento\ImportExport\Model\Import\Entity\Eav\Customer::ERROR_INVALID_EMAIL,
             $this->_model->getErrorMessages()
         );
     }
@@ -94,11 +94,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
      */
     public function testValidateRowInvalidWebsite()
     {
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE]
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE]
             = 'not_existing_web_site';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(1, $this->_model->getErrorsCount());
-        $this->assertArrayHasKey(Magento_ImportExport_Model_Import_Entity_Eav_Customer::ERROR_INVALID_WEBSITE,
+        $this->assertArrayHasKey(\Magento\ImportExport\Model\Import\Entity\Eav\Customer::ERROR_INVALID_WEBSITE,
             $this->_model->getErrorMessages()
         );
     }
@@ -108,11 +108,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
      */
     public function testValidateRowInvalidStore()
     {
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_STORE]
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_STORE]
             = 'not_existing_web_store';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(1, $this->_model->getErrorsCount());
-        $this->assertArrayHasKey(Magento_ImportExport_Model_Import_Entity_Eav_Customer::ERROR_INVALID_STORE,
+        $this->assertArrayHasKey(\Magento\ImportExport\Model\Import\Entity\Eav\Customer::ERROR_INVALID_STORE,
             $this->_model->getErrorMessages()
         );
     }
@@ -125,7 +125,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
         $this->_customerData['password'] = '12345';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(1, $this->_model->getErrorsCount());
-        $this->assertArrayHasKey(Magento_ImportExport_Model_Import_Entity_Eav_Customer::ERROR_PASSWORD_LENGTH,
+        $this->assertArrayHasKey(\Magento\ImportExport\Model\Import\Entity\Eav\Customer::ERROR_PASSWORD_LENGTH,
             $this->_model->getErrorMessages()
         );
     }
@@ -152,11 +152,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(0, $this->_model->getErrorsCount());
 
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]
             = 'new.customer@example.com';
         $this->_model->validateRow($this->_customerData, 1);
         $this->assertGreaterThan(0, $this->_model->getErrorsCount());
-        $this->assertArrayHasKey(Magento_ImportExport_Model_Import_Entity_Eav_Customer::ERROR_VALUE_IS_REQUIRED,
+        $this->assertArrayHasKey(\Magento\ImportExport\Model\Import\Entity\Eav\Customer::ERROR_VALUE_IS_REQUIRED,
             $this->_model->getErrorMessages()
         );
     }
@@ -164,19 +164,19 @@ class Magento_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends 
     /**
      * Check customer email validation for delete behavior
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Eav_Customer::validateRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::validateRow
      */
     public function testValidateEmailForDeleteBehavior()
     {
-        $this->_customerData[Magento_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]
+        $this->_customerData[\Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL]
             = 'new.customer@example.com';
 
         $this->_model->setParameters(array(
-            'behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE
+            'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
         ));
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertGreaterThan(0, $this->_model->getErrorsCount());
-        $this->assertArrayHasKey(Magento_ImportExport_Model_Import_Entity_Eav_Customer::ERROR_CUSTOMER_NOT_FOUND,
+        $this->assertArrayHasKey(\Magento\ImportExport\Model\Import\Entity\Eav\Customer::ERROR_CUSTOMER_NOT_FOUND,
             $this->_model->getErrorMessages()
         );
     }

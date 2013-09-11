@@ -11,11 +11,11 @@
 
 require __DIR__ . '/../../../Magento/Bundle/_files/product.php';
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->load(3);
 
-/** @var $typeInstance Magento_Bundle_Model_Product_Type */
+/** @var $typeInstance \Magento\Bundle\Model\Product\Type */
 //Load options
 $typeInstance = $product->getTypeInstance();
 $typeInstance->setStoreFilter($product->getStoreId(), $product);
@@ -24,9 +24,9 @@ $selectionCollection = $typeInstance->getSelectionsCollection($typeInstance->get
 
 $bundleOptions = array();
 $bundleOptionsQty = array();
-/** @var $option Magento_Bundle_Model_Option */
+/** @var $option \Magento\Bundle\Model\Option */
 foreach ($optionCollection as $option) {
-    /** @var $selection Magento_Bundle_Model_Selection */
+    /** @var $selection \Magento\Bundle\Model\Selection */
     $selection = $selectionCollection->getFirstItem();
     $bundleOptions[$option->getId()] = $selection->getSelectionId();
     $bundleOptionsQty[$option->getId()] = 1;
@@ -38,13 +38,13 @@ $requestInfo = new \Magento\Object(array(
     'bundle_option_qty' => $bundleOptionsQty
 ));
 
-/** @var $cart Magento_Checkout_Model_Cart */
-$cart = Mage::getModel('Magento_Checkout_Model_Cart');
+/** @var $cart \Magento\Checkout\Model\Cart */
+$cart = Mage::getModel('\Magento\Checkout\Model\Cart');
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 
-Mage::unregister('_singleton/Magento_Checkout_Model_Session');
+Mage::unregister('_singleton/\Magento\Checkout\Model\Session');
 
 /** @var $objectManager Magento_TestFramework_ObjectManager */
 $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-$objectManager->removeSharedInstance('Magento_Checkout_Model_Session');
+$objectManager->removeSharedInstance('\Magento\Checkout\Model\Session');

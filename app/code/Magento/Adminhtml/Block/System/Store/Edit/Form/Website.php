@@ -15,8 +15,10 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_System_Store_Edit_Form_Website
-    extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
+namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
+
+class Website
+    extends \Magento\Adminhtml\Block\System\Store\Edit\FormAbstract
 {
     /**
      * Prepare website specific fieldset
@@ -25,8 +27,8 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Website
      */
     protected function _prepareStoreFieldset(\Magento\Data\Form $form)
     {
-        $websiteModel = Mage::registry('store_data');
-        if ($postData = Mage::registry('store_post_data')) {
+        $websiteModel = \Mage::registry('store_data');
+        if ($postData = \Mage::registry('store_post_data')) {
             $websiteModel->setData($postData['website']);
         }
         $fieldset = $form->addFieldset('website_fieldset', array(
@@ -58,8 +60,8 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Website
             'disabled'  => $websiteModel->isReadOnly(),
         ));
 
-        if (Mage::registry('store_action') == 'edit') {
-            $groups = Mage::getModel('Magento_Core_Model_Store_Group')->getCollection()
+        if (\Mage::registry('store_action') == 'edit') {
+            $groups = \Mage::getModel('\Magento\Core\Model\Store\Group')->getCollection()
                 ->addWebsiteFilter($websiteModel->getId())
                 ->setWithoutStoreViewFilter()
                 ->toOptionArray();

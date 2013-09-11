@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_Resource_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order;
+
+class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -38,7 +40,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order', 'Magento_Sales_Model_Resource_Order');
+        $this->_init('\Magento\Sales\Model\Order', '\Magento\Sales\Model\Resource\Order');
         $this
             ->addFilterToMap('entity_id', 'main_table.entity_id')
             ->addFilterToMap('customer_id', 'main_table.customer_id')
@@ -48,7 +50,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
     /**
      * Add items count expr to collection select, backward capability with eav structure
      *
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function addItemCountExpr()
     {
@@ -79,7 +81,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      *
      * @param int $limit
      * @param int $offset
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected function _getAllIdsSelect($limit = null, $offset = null)
     {
@@ -92,7 +94,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      * Join table sales_flat_order_address to select for billing and shipping order addresses.
      * Create corillation map
      *
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     protected function _addAddressFields()
     {
@@ -135,14 +137,14 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
                     $shippingAliasName . '.postcode'
                 )
             );
-        Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect());
+        \Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect());
         return $this;
     }
 
     /**
      * Add addresses information to select
      *
-     * @return Magento_Sales_Model_Resource_Collection_Abstract
+     * @return \Magento\Sales\Model\Resource\Collection\AbstractCollection
      */
     public function addAddressFields()
     {
@@ -156,7 +158,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      *
      * @param string $field
      * @param null|string|array $condition
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function addFieldToSearchFilter($field, $condition = null)
     {
@@ -170,7 +172,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      *
      * @param array $attributes
      * @param array|integer|string|null $condition
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function addAttributeToSearchFilter($attributes, $condition = null)
     {
@@ -192,7 +194,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      * Add filter by specified billing agreements
      *
      * @param int|array $agreements
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function addBillingAgreementsFilter($agreements)
     {
@@ -210,7 +212,7 @@ class Magento_Sales_Model_Resource_Order_Collection extends Magento_Sales_Model_
      * Add filter by specified recurring profile id(s)
      *
      * @param array|int $ids
-     * @return Magento_Sales_Model_Resource_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function addRecurringProfilesFilter($ids)
     {

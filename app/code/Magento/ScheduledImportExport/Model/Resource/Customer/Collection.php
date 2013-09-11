@@ -16,8 +16,10 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_Resource_Customer_Collection
-    extends Magento_Customer_Model_Resource_Customer_Collection
+namespace Magento\ScheduledImportExport\Model\Resource\Customer;
+
+class Collection
+    extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * Additional filters to use
@@ -29,22 +31,22 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Collection
     /**
      * Join with reward points table
      *
-     * @return Magento_ScheduledImportExport_Model_Resource_Customer_Collection
+     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
      */
     public function joinWithRewardPoints()
     {
-        /** @var $rewardResourceModel Magento_Reward_Model_Resource_Reward */
-        $rewardResourceModel = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward');
+        /** @var $rewardResourceModel \Magento\Reward\Model\Resource\Reward */
+        $rewardResourceModel = \Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward');
 
         $joinFlag = 'join_reward_points';
         if (!$this->getFlag($joinFlag)) {
-            /** @var $website Magento_Core_Model_Website */
-            foreach (Mage::app()->getWebsites() as $website) {
+            /** @var $website \Magento\Core\Model\Website */
+            foreach (\Mage::app()->getWebsites() as $website) {
                 $tableName  = $rewardResourceModel->getMainTable();
                 $tableAlias = $tableName . $website->getId();
                 $fieldName  = $tableAlias . '.points_balance';
                 $fieldAlias = $website->getCode() . '_'
-                    . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+                    . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
                     ::COLUMN_REWARD_POINTS;
 
                 $this->joinTable(
@@ -66,22 +68,22 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Collection
     /**
      * Join with store credit table
      *
-     * @return Magento_ScheduledImportExport_Model_Resource_Customer_Collection
+     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
      */
     public function joinWithCustomerBalance()
     {
-        /** @var $customerBalanceResourceModel Magento_CustomerBalance_Model_Resource_Balance */
-        $customerBalanceResourceModel = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance');
+        /** @var $customerBalanceResourceModel \Magento\CustomerBalance\Model\Resource\Balance */
+        $customerBalanceResourceModel = \Mage::getResourceModel('\Magento\CustomerBalance\Model\Resource\Balance');
 
         $joinFlag = 'join_customer_balance';
         if (!$this->getFlag($joinFlag)) {
-            /** @var $website Magento_Core_Model_Website */
-            foreach (Mage::app()->getWebsites() as $website) {
+            /** @var $website \Magento\Core\Model\Website */
+            foreach (\Mage::app()->getWebsites() as $website) {
                 $tableName  = $customerBalanceResourceModel->getMainTable();
                 $tableAlias = $tableName . $website->getId();
                 $fieldName  = $tableAlias . '.amount';
                 $fieldAlias = $website->getCode() . '_'
-                    . Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+                    . \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
                     ::COLUMN_CUSTOMER_BALANCE;
 
                 $this->joinTable(
@@ -103,7 +105,7 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Collection
     /**
      * Additional filters
      *
-     * @return Magento_ScheduledImportExport_Model_Resource_Customer_Collection
+     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
      */
     protected function _beforeLoad()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Route_Config_Converter implements \Magento\Config\ConverterInterface
+namespace Magento\Core\Model\Route\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert config
@@ -19,24 +21,24 @@ class Magento_Core_Model_Route_Config_Converter implements \Magento\Config\Conve
     {
         $output = array();
 
-        /** @var DOMNodeList $routers */
+        /** @var \DOMNodeList $routers */
         $routers = $source->getElementsByTagName('router');
 
-        /** @var DOMNode $router */
+        /** @var \DOMNode $router */
         foreach ($routers as $router) {
             $routerConfig = array();
             foreach ($router->attributes as $attribute) {
                 $routerConfig[$attribute->nodeName] = $attribute->nodeValue;
             }
 
-            /** @var DOMNode $routeData */
+            /** @var \DOMNode $routeData */
             foreach ($router->getElementsByTagName('route') as $routeData) {
                 $routeConfig = array();
                 foreach ($routeData->attributes as $routeAttribute) {
                     $routeConfig[$routeAttribute->nodeName] = $routeAttribute->nodeValue;
                 }
 
-                /** @var DOMNode $module */
+                /** @var \DOMNode $module */
                 foreach ($routeData->getElementsByTagName('module') as $moduleData) {
                     $moduleConfig = array();
                     foreach ($moduleData->attributes as $moduleAttribute) {

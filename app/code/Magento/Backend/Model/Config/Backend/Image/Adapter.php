@@ -16,24 +16,26 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Image_Adapter extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Image;
+
+class Adapter extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var Magento_Core_Model_Image_AdapterFactory
+     * @var \Magento\Core\Model\Image\AdapterFactory
      */
     protected $_imageFactory;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Image_AdapterFactory $imageFactory
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Image\AdapterFactory $imageFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Image_AdapterFactory $imageFactory,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Image\AdapterFactory $imageFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -44,16 +46,16 @@ class Magento_Backend_Model_Config_Backend_Image_Adapter extends Magento_Core_Mo
     /**
      * Checks if choosen image adapter available
      *
-     * @throws Magento_Core_Exception if some of adapter dipendencies was not loaded
-     * @return Magento_Backend_Model_Config_Backend_File
+     * @throws \Magento\Core\Exception if some of adapter dipendencies was not loaded
+     * @return \Magento\Backend\Model\Config\Backend\File
      */
     protected function _beforeSave()
     {
         try {
             $this->_imageFactory->create($this->getValue());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $message = __('The specified image adapter cannot be used because of: ' . $e->getMessage());
-            throw new Magento_Core_Exception($message);
+            throw new \Magento\Core\Exception($message);
         }
 
         return $this;

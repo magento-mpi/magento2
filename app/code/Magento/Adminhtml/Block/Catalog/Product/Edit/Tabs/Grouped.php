@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs_Grouped extends Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs;
+
+class Grouped extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs
 {
     protected function _prepareLayout()
     {

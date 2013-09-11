@@ -17,7 +17,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Block_Product_ProductList_Crosssell extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Catalog\Block\Product\ProductList;
+
+class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Default MAP renderer type
@@ -29,22 +31,22 @@ class Magento_Catalog_Block_Product_ProductList_Crosssell extends Magento_Catalo
     /**
      * Crosssell item collection
      *
-     * @var Magento_Catalog_Model_Resource_Product_Link_Product_Collection
+     * @var \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
      */
     protected $_itemCollection;
 
     /**
      * Prepare crosssell items data
      *
-     * @return Magento_Catalog_Block_Product_ProductList_Crosssell
+     * @return \Magento\Catalog\Block\Product\ProductList\Crosssell
      */
     protected function _prepareData()
     {
-        $product = Mage::registry('product');
-        /* @var $product Magento_Catalog_Model_Product */
+        $product = \Mage::registry('product');
+        /* @var $product \Magento\Catalog\Model\Product */
 
         $this->_itemCollection = $product->getCrossSellProductCollection()
-            ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
+            ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
             ->setPositionOrder()
             ->addStoreFilter();
 
@@ -61,7 +63,7 @@ class Magento_Catalog_Block_Product_ProductList_Crosssell extends Magento_Catalo
      * Before rendering html process
      * Prepare items collection
      *
-     * @return Magento_Catalog_Block_Product_ProductList_Crosssell
+     * @return \Magento\Catalog\Block\Product\ProductList\Crosssell
      */
     protected function _beforeToHtml()
     {
@@ -72,7 +74,7 @@ class Magento_Catalog_Block_Product_ProductList_Crosssell extends Magento_Catalo
     /**
      * Retrieve crosssell items collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Link_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
      */
     public function getItems()
     {

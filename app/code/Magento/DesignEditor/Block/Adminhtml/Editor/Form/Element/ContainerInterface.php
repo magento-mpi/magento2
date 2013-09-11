@@ -11,7 +11,9 @@
 /**
  * Interface for form element that can contain other elements
  */
-interface Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ContainerInterface
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+interface ContainerInterface
 {
     /**
      * Add fields to composite composite element

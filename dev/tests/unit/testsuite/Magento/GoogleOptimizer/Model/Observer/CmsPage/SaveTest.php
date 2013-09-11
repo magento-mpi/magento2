@@ -33,7 +33,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
     protected $_requestMock;
 
     /**
-     * @var Magento_GoogleOptimizer_Model_Observer_CmsPage_Save
+     * @var \Magento\GoogleOptimizer\Model\Observer\CmsPage\Save
      */
     protected $_modelObserver;
 
@@ -44,11 +44,11 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
 
     public function setUp()
     {
-        $this->_helperMock = $this->getMock('Magento_GoogleOptimizer_Helper_Data', array(), array(), '', false);
-        $this->_codeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\GoogleOptimizer\Helper\Data', array(), array(), '', false);
+        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
 
-        $this->_pageMock = $this->getMock('Magento_Cms_Model_Page', array(), array(), '', false);
+        $this->_pageMock = $this->getMock('Magento\Cms\Model\Page', array(), array(), '', false);
         $event = $this->getMock('Magento\Event', array('getObject'), array(), '', false);
         $event->expects($this->once())->method('getObject')->will($this->returnValue($this->_pageMock));
         $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
@@ -56,7 +56,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
-            'Magento_GoogleOptimizer_Model_Observer_CmsPage_Save',
+            '\Magento\GoogleOptimizer\Model\Observer\CmsPage\Save',
             array(
                 'helper' => $this->_helperMock,
                 'modelCode' => $this->_codeMock,
@@ -81,7 +81,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
             )));
 
         $this->_codeMock->expects($this->once())->method('addData')->with(array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE,
             'entity_id' => $pageId,
             'store_id' => 0,
             'experiment_script' => $experimentScript,
@@ -147,7 +147,7 @@ class Magento_GoogleOptimizer_Model_Observer_CmsPage_SaveTest extends PHPUnit_Fr
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue($codeId));
 
         $this->_codeMock->expects($this->once())->method('addData')->with(array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PAGE,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE,
             'entity_id' => $pageId,
             'store_id' => $this->_storeId,
             'experiment_script' => $experimentScript,

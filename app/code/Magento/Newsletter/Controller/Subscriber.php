@@ -15,7 +15,9 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_Front_Action
+namespace Magento\Newsletter\Controller;
+
+class Subscriber extends \Magento\Core\Controller\Front\Action
 {
     /**
       * New subscription action
@@ -23,40 +25,40 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
     public function newAction()
     {
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
-            $session            = Mage::getSingleton('Magento_Core_Model_Session');
-            $customerSession    = Mage::getSingleton('Magento_Customer_Model_Session');
+            $session            = \Mage::getSingleton('Magento\Core\Model\Session');
+            $customerSession    = \Mage::getSingleton('Magento\Customer\Model\Session');
             $email              = (string) $this->getRequest()->getPost('email');
 
             try {
                 if (!Zend_Validate::is($email, 'EmailAddress')) {
-                    Mage::throwException(__('Please enter a valid email address.'));
+                    \Mage::throwException(__('Please enter a valid email address.'));
                 }
 
-                if (Mage::getStoreConfig(Magento_Newsletter_Model_Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
+                if (\Mage::getStoreConfig(\Magento\Newsletter\Model\Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1 && 
                     !$customerSession->isLoggedIn()) {
-                    Mage::throwException(__('Sorry, but the administrator denied subscription for guests. Please <a href="%1">register</a>.', Mage::helper('Magento_Customer_Helper_Data')->getRegisterUrl()));
+                    \Mage::throwException(__('Sorry, but the administrator denied subscription for guests. Please <a href="%1">register</a>.', \Mage::helper('Magento\Customer\Helper\Data')->getRegisterUrl()));
                 }
 
-                $ownerId = Mage::getModel('Magento_Customer_Model_Customer')
-                        ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                $ownerId = \Mage::getModel('\Magento\Customer\Model\Customer')
+                        ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
                         ->loadByEmail($email)
                         ->getId();
                 if ($ownerId !== null && $ownerId != $customerSession->getId()) {
-                    Mage::throwException(__('This email address is already assigned to another user.'));
+                    \Mage::throwException(__('This email address is already assigned to another user.'));
                 }
 
-                $status = Mage::getModel('Magento_Newsletter_Model_Subscriber')->subscribe($email);
-                if ($status == Magento_Newsletter_Model_Subscriber::STATUS_NOT_ACTIVE) {
+                $status = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->subscribe($email);
+                if ($status == \Magento\Newsletter\Model\Subscriber::STATUS_NOT_ACTIVE) {
                     $session->addSuccess(__('The confirmation request has been sent.'));
                 }
                 else {
                     $session->addSuccess(__('Thank you for your subscription.'));
                 }
             }
-            catch (Magento_Core_Exception $e) {
+            catch (\Magento\Core\Exception $e) {
                 $session->addException($e, __('There was a problem with the subscription: %1', $e->getMessage()));
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $session->addException($e, __('Something went wrong with the subscription.'));
             }
         }
@@ -72,8 +74,8 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')->load($id);
-            $session = Mage::getSingleton('Magento_Core_Model_Session');
+            $subscriber = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->load($id);
+            $session = \Mage::getSingleton('Magento\Core\Model\Session');
 
             if($subscriber->getId() && $subscriber->getCode()) {
                 if($subscriber->confirm($code)) {
@@ -86,7 +88,7 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
             }
         }
 
-        $this->_redirectUrl(Mage::getBaseUrl());
+        $this->_redirectUrl(\Mage::getBaseUrl());
     }
 
     /**
@@ -98,17 +100,17 @@ class Magento_Newsletter_Controller_Subscriber extends Magento_Core_Controller_F
         $code  = (string) $this->getRequest()->getParam('code');
 
         if ($id && $code) {
-            $session = Mage::getSingleton('Magento_Core_Model_Session');
+            $session = \Mage::getSingleton('Magento\Core\Model\Session');
             try {
-                Mage::getModel('Magento_Newsletter_Model_Subscriber')->load($id)
+                \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->load($id)
                     ->setCheckCode($code)
                     ->unsubscribe();
                 $session->addSuccess(__('You have been unsubscribed.'));
             }
-            catch (Magento_Core_Exception $e) {
+            catch (\Magento\Core\Exception $e) {
                 $session->addException($e, $e->getMessage());
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $session->addException($e, __('Something went wrong with the un-subscription.'));
             }
         }

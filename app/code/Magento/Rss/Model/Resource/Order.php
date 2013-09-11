@@ -16,7 +16,9 @@
  * @package     Magento_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Model_Resource_Order
+namespace Magento\Rss\Model\Resource;
+
+class Order
 {
     /**
      * Retrieve order comments
@@ -26,8 +28,8 @@ class Magento_Rss_Model_Resource_Order
      */
     public function getAllCommentCollection($orderId)
     {
-        /** @var $res Magento_Core_Model_Resource */
-        $res = Mage::getSingleton('Magento_Core_Model_Resource');
+        /** @var $res \Magento\Core\Model\Resource */
+        $res = \Mage::getSingleton('Magento\Core\Model\Resource');
         $read = $res->getConnection('core_read');
 
         $fields = array(
@@ -42,7 +44,7 @@ class Magento_Rss_Model_Resource_Order
             $select = $read->select()
                 ->from(array('main' => $mainTable), array(
                     'entity_id' => 'order_id',
-                    'entity_type_code' => new Zend_Db_Expr("'$entityTypeCode'")
+                    'entity_type_code' => new \Zend_Db_Expr("'$entityTypeCode'")
                 ))
                 ->join(array('slave' => $slaveTable), 'main.entity_id = slave.parent_id', $fields)
                 ->where('main.order_id = ?', $orderId);
@@ -51,14 +53,14 @@ class Magento_Rss_Model_Resource_Order
         $select = $read->select()
             ->from($res->getTableName('sales_flat_order_status_history'), array(
                 'entity_id' => 'parent_id',
-                'entity_type_code' => new Zend_Db_Expr("'order'")
+                'entity_type_code' => new \Zend_Db_Expr("'order'")
             ) + $fields)
             ->where('parent_id = ?', $orderId)
             ->where('is_visible_on_front > 0');
         $commentSelects[] = '(' . $select . ')';
 
         $commentSelect = $read->select()
-            ->union($commentSelects, Zend_Db_Select::SQL_UNION_ALL);
+            ->union($commentSelects, \Zend_Db_Select::SQL_UNION_ALL);
 
         $select = $read->select()
             ->from(array('orders' => $res->getTableName('sales_flat_order')), array('increment_id'))

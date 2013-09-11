@@ -9,7 +9,9 @@
 /**
  * Factory that produces layout file instances
  */
-class Magento_Core_Model_Layout_File_Factory
+namespace Magento\Core\Model\Layout\File;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -29,13 +31,13 @@ class Magento_Core_Model_Layout_File_Factory
      *
      * @param string $filename
      * @param string $module
-     * @param Magento_Core_Model_ThemeInterface $theme
-     * @return Magento_Core_Model_Layout_File
+     * @param \Magento\Core\Model\ThemeInterface $theme
+     * @return \Magento\Core\Model\Layout\File
      */
-    public function create($filename, $module, Magento_Core_Model_ThemeInterface $theme = null)
+    public function create($filename, $module, \Magento\Core\Model\ThemeInterface $theme = null)
     {
         return $this->_objectManager->create(
-            'Magento_Core_Model_Layout_File',
+            '\Magento\Core\Model\Layout\File',
             array('filename' => $filename, 'module' => $module, 'theme' => $theme)
         );
     }

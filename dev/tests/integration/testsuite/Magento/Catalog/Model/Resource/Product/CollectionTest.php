@@ -12,7 +12,7 @@
 class Magento_Catalog_Model_Resource_Product_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Collection
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected $_collection;
 
@@ -22,7 +22,7 @@ class Magento_Catalog_Model_Resource_Product_CollectionTest extends PHPUnit_Fram
      */
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+        $this->_collection = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
     }
 
     /**

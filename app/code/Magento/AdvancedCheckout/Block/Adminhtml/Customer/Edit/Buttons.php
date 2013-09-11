@@ -15,24 +15,26 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons extends Magento_Adminhtml_Block_Customer_Edit
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit;
+
+class Buttons extends \Magento\Adminhtml\Block\Customer\Edit
 {
     /**
      * Add "Manage Shopping Cart" button on customer management page
      *
-     * @return Magento_AdvancedCheckout_Block_Adminhtml_Customer_Edit_Buttons
+     * @return \Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit\Buttons
      */
     public function addButtons()
     {
         if (!$this->_authorization->isAllowed('Magento_AdvancedCheckout::view')
             && !$this->_authorization->isAllowed('Magento_AdvancedCheckout::update')
-            || Mage::app()->getStore()->getWebsiteId() == Mage::registry('current_customer')->getWebsiteId()
+            || \Mage::app()->getStore()->getWebsiteId() == \Mage::registry('current_customer')->getWebsiteId()
         ) {
             return $this;
         }
         $container = $this->getParentBlock();
-        if ($container instanceof Magento_Backend_Block_Template && $container->getCustomerId()) {
-            $url = Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/checkout/index', array(
+        if ($container instanceof \Magento\Backend\Block\Template && $container->getCustomerId()) {
+            $url = \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/checkout/index', array(
                 'customer' => $container->getCustomerId()
             ));
             $container->addButton('manage_quote', array(

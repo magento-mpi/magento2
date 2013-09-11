@@ -16,7 +16,9 @@
  * @package     Magento_AdminGws
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminGws_Model_Resource_Collections extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\AdminGws\Model\Resource;
+
+class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Class construction & resource initialization
@@ -52,8 +54,8 @@ class Magento_AdminGws_Model_Resource_Collections extends Magento_Core_Model_Res
             $roles = $this->_getReadAdapter()->fetchAll($select);
 
             foreach ($roles as $role) {
-                $roleStoreGroups = Mage::helper('Magento_AdminGws_Helper_Data')->explodeIds($role['gws_store_groups']);
-                $roleWebsites = Mage::helper('Magento_AdminGws_Helper_Data')->explodeIds($role['gws_websites']);
+                $roleStoreGroups = \Mage::helper('Magento\AdminGws\Helper\Data')->explodeIds($role['gws_store_groups']);
+                $roleWebsites = \Mage::helper('Magento\AdminGws\Helper\Data')->explodeIds($role['gws_websites']);
 
                 $hasAllPermissions = ($role['gws_is_all'] == 1);
 

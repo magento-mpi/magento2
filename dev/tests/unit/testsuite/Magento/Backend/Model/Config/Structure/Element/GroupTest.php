@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_Group
+     * @var \Magento\Backend\Model\Config\Structure\Element\Group
      */
     protected $_model;
 
@@ -39,17 +39,17 @@ class Magento_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_F
     protected function setUp()
     {
         $this->_iteratorMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Iterator_Field', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Element\Iterator\Field', array(), array(), '', false
         );
-        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $this->_cloneFactoryMock = $this->getMock(
-            'Magento_Backend_Model_Config_Clone_Factory', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Clone\Factory', array(), array(), '', false
         );
         $this->_depMapperMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper', array(), array(), '', false
         );
 
-        $this->_model = new Magento_Backend_Model_Config_Structure_Element_Group(
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Group(
             $this->_applicationMock,
             $this->_iteratorMock, $this->_cloneFactoryMock,
             $this->_depMapperMock
@@ -77,7 +77,7 @@ class Magento_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_F
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetCloneModelThrowsExceptionIfNoSourceModelIsSet()
     {
@@ -86,9 +86,9 @@ class Magento_Backend_Model_Config_Structure_Element_GroupTest extends PHPUnit_F
 
     public function testGetCloneModelCreatesCloneModel()
     {
-        $cloneModel = $this->getMock('Magento_Core_Model_Config_Value', array(), array(), '', false);
+        $cloneModel = $this->getMock('Magento\Core\Model\Config\Value', array(), array(), '', false);
         $this->_depMapperMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper', array(), array(), '', false
         );
         $this->_cloneFactoryMock->expects($this->once())->method('create')
             ->with('clone_model_name')

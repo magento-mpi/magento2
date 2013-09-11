@@ -16,11 +16,11 @@ class Magento_Adminhtml_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
 {
     public function testGetMassactionBlock()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_Widget_Grid */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Widget_Grid', 'block');
-        $child = $layout->addBlock('Magento_Core_Block_Template', 'massaction', 'block');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\Widget\Grid */
+        $block = $layout->createBlock('\Magento\Adminhtml\Block\Widget\Grid', 'block');
+        $child = $layout->addBlock('\Magento\Core\Block\Template', 'massaction', 'block');
         $this->assertSame($child, $block->getMassactionBlock());
     }
 }

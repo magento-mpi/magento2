@@ -13,17 +13,19 @@
  * Collects only items segregated by isNominal property
  * Aggregates row totals per item
  */
-class Magento_Sales_Model_Quote_Address_Total_Nominal extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Invoke collector for nominal items
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @param Magento_Sales_Model_Quote_Address_Total_Nominal
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param \Magento\Sales\Model\Quote\Address\Total\Nominal
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
-        $collector = Mage::getModel('Magento_Sales_Model_Quote_Address_Total_Nominal_Collector',
+        $collector = \Mage::getModel('\Magento\Sales\Model\Quote\Address\Total\Nominal\Collector',
             array('store' => $address->getQuote()->getStore())
         );
 
@@ -64,10 +66,10 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal extends Magento_Sales_Mode
     /**
      * Fetch collected nominal items
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Sales_Model_Quote_Address_Total_Nominal
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Quote\Address\Total\Nominal
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $items = $address->getAllNominalItems();
         if ($items) {

@@ -16,22 +16,24 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Option\Value;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Product_Option_Value', 'Magento_Catalog_Model_Resource_Product_Option_Value');
+        $this->_init('\Magento\Catalog\Model\Product\Option\Value', '\Magento\Catalog\Model\Resource\Product\Option\Value');
     }
 
     /**
      * Add price, title to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Value_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Value\Collection
      */
     public function getValues($storeId)
     {
@@ -45,7 +47,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
      * Add titles to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Value_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Value\Collection
      */
     public function addTitlesToResult($storeId)
     {
@@ -68,7 +70,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
             'store_value_title.title'
         );
         $joinExprDefaultPrice = 'default_value_price.option_type_id = main_table.option_type_id AND '
-                  . $adapter->quoteInto('default_value_price.store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+                  . $adapter->quoteInto('default_value_price.store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
 
         $joinExprStorePrice = 'store_value_price.option_type_id = main_table.option_type_id AND '
                        . $adapter->quoteInto('store_value_price.store_id = ?', $storeId);
@@ -104,7 +106,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
                     'store_title' => 'title',
                     'title'       => $titleExpr)
             )
-            ->where('default_value_title.store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+            ->where('default_value_title.store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
 
         return $this;
     }
@@ -113,7 +115,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
      * Add title result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Value_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Value\Collection
      */
     public function addTitleToResult($storeId)
     {
@@ -137,7 +139,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
                     'title'         => $titleExpr
                 )
             )
-            ->where('default_value_title.store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+            ->where('default_value_title.store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
 
         return $this;
     }
@@ -146,7 +148,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
      * Add price to result
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Value_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Value\Collection
      */
     public function addPriceToResult($storeId)
     {
@@ -161,7 +163,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
             );
 
         $joinExprDefault = 'default_value_price.option_type_id = main_table.option_type_id AND '
-                        . $this->getConnection()->quoteInto('default_value_price.store_id = ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+                        . $this->getConnection()->quoteInto('default_value_price.store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
         $joinExprStore = 'store_value_price.option_type_id = main_table.option_type_id AND '
                        . $this->getConnection()->quoteInto('store_value_price.store_id = ?', $storeId);
         $this->getSelect()
@@ -192,7 +194,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
      *
      * @param array $optionIds
      * @param int $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Option_Value_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Value\Collection
      */
     public function getValuesByOption($optionIds, $storeId = null)
     {
@@ -206,8 +208,8 @@ class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
     /**
      * Add option to filter
      *
-     * @param array|Magento_Catalog_Model_Product_Option|int $option
-     * @return Magento_Catalog_Model_Resource_Product_Option_Value_Collection
+     * @param array|\Magento\Catalog\Model\Product\Option|int $option
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Value\Collection
      */
     public function addOptionToFilter($option)
     {
@@ -215,7 +217,7 @@ class Magento_Catalog_Model_Resource_Product_Option_Value_Collection
             $this->addFieldToFilter('option_id', '');
         } elseif (is_array($option)) {
             $this->addFieldToFilter('option_id', array('in' => $option));
-        } elseif ($option instanceof Magento_Catalog_Model_Product_Option) {
+        } elseif ($option instanceof \Magento\Catalog\Model\Product\Option) {
             $this->addFieldToFilter('option_id', $option->getId());
         } else {
             $this->addFieldToFilter('option_id', $option);

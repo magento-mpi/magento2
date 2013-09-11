@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Api_Role extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Api;
+
+class Role extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
 
     protected function _construct()

@@ -12,7 +12,7 @@
 class Magento_Core_Model_PageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Page
+     * @var \Magento\Core\Model\Page
      */
     protected $_object;
 
@@ -23,8 +23,8 @@ class Magento_Core_Model_PageTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_pageAssets = new Magento_Core_Model_Page_Asset_Collection;
-        $this->_object = new Magento_Core_Model_Page($this->_pageAssets);
+        $this->_pageAssets = new \Magento\Core\Model\Page\Asset\Collection;
+        $this->_object = new \Magento\Core\Model\Page($this->_pageAssets);
     }
 
     protected function tearDown()

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GiftCard_Model_Customer_Api extends Magento_Api_Model_Resource_Abstract
+namespace Magento\GiftCard\Model\Customer;
+
+class Api extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Retrieve GiftCard data
@@ -17,12 +19,12 @@ class Magento_GiftCard_Model_Customer_Api extends Magento_Api_Model_Resource_Abs
      */
     public function info($code)
     {
-        /** @var $card Magento_GiftCardAccount_Model_Giftcardaccount */
+        /** @var $card \Magento\GiftCardAccount\Model\Giftcardaccount */
         $card = $this->_getGiftCard($code);
 
         try {
             $card->isValid(true, true, false, false);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('not_valid');
         }
 
@@ -42,20 +44,20 @@ class Magento_GiftCard_Model_Customer_Api extends Magento_Api_Model_Resource_Abs
      */
     public function redeem($code, $customerId, $store = null)
     {
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             $this->_fault('redemption_disabled');
         }
-        /** @var $card Magento_GiftCardAccount_Model_Giftcardaccount */
+        /** @var $card \Magento\GiftCardAccount\Model\Giftcardaccount */
         $card = $this->_getGiftCard($code);
 
-        Mage::app()->setCurrentStore(
-            Mage::app()->getStore($store)
+        \Mage::app()->setCurrentStore(
+            \Mage::app()->getStore($store)
         );
 
         try {
             $card->setIsRedeemed(true)
                     ->redeem($customerId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('unable_redeem', $e->getMessage());
         }
         return true;
@@ -65,11 +67,11 @@ class Magento_GiftCard_Model_Customer_Api extends Magento_Api_Model_Resource_Abs
      * Load gift card by code
      *
      * @param string $code
-     * @return Magento_GiftCardAccount_Model_Giftcardaccount
+     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     protected function _getGiftCard($code)
     {
-        $card = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
+        $card = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
             ->loadByCode($code);
         if (!$card->getId()) {
             $this->_fault('not_exists');

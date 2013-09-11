@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Core_Model_Resource_Type_Db_Pdo_Mysql extends Magento_Core_Model_Resource_Type_Db
+namespace Magento\Core\Model\Resource\Type\Db\Pdo;
+
+class Mysql extends \Magento\Core\Model\Resource\Type\Db
 {
 
     /**

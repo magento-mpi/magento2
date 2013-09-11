@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Block_Adminhtml_Frontend_Region_Updater
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Tax\Block\Adminhtml\Frontend\Region;
+
+class Updater
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
@@ -29,7 +31,7 @@ class Magento_Tax_Block_Adminhtml_Frontend_Region_Updater
                }
                </script>';
 
-        $html .= sprintf($js, $this->helper('Magento_Directory_Helper_Data')->getRegionJson());
+        $html .= sprintf($js, $this->helper('\Magento\Directory\Helper\Data')->getRegionJson());
         return $html;
     }
 }

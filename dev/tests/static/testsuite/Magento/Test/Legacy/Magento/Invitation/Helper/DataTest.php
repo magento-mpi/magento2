@@ -20,7 +20,7 @@ class Magento_Test_Legacy_Magento_Invitation_Helper_DataTest extends PHPUnit_Fra
      */
     public function testObsoleteMethods($file)
     {
-        $configModel = "Mage::getSingleton('Magento_Invitation_Model_Config')";
+        $configModel = "Mage::getSingleton('Magento\Invitation\Model\Config')";
         $obsoleteMethods = array(
             'getMaxInvitationsPerSend'   => "{$configModel}->getMaxInvitationsPerSend()",
             'getInvitationRequired'      => "{$configModel}->getInvitationRequired()",
@@ -31,9 +31,9 @@ class Magento_Test_Legacy_Magento_Invitation_Helper_DataTest extends PHPUnit_Fra
         $content = file_get_contents($file);
         foreach ($obsoleteMethods as $method => $suggestion) {
             $this->assertNotRegExp(
-                '/Magento_Invitation_Helper_Data[^;(]+?' . preg_quote($method, '/') . '\s*\(/i',
+                '/\Magento\Invitation\Helper\Data[^;(]+?' . preg_quote($method, '/') . '\s*\(/i',
                 $content,
-                "Method 'Magento_Invitation_Helper_Data::$method' is obsolete. Use $suggestion instead"
+                "Method '\Magento\Invitation\Helper\Data::$method' is obsolete. Use $suggestion instead"
             );
         }
     }
@@ -52,7 +52,7 @@ class Magento_Test_Legacy_Magento_Invitation_Helper_DataTest extends PHPUnit_Fra
             $file = (string)$fileInfo;
             /* Exclude files that don't need to be validated */
             $content = file_get_contents($file);
-            if (strpos($content, 'Magento_Invitation_Helper_Data') === false) {
+            if (strpos($content, '\Magento\Invitation\Helper\Data') === false) {
                 continue;
             }
             $files[] = $file;

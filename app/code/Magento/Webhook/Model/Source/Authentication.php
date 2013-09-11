@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Source_Authentication
+namespace Magento\Webhook\Model\Source;
+
+class Authentication
 {
 
     /** @var array $_authenticationTypes */

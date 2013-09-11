@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Resource_Config_Value_Collection_Scoped extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Config\Value\Collection;
+
+class Scoped extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Scope to filter by
@@ -25,13 +27,13 @@ class Magento_Core_Model_Resource_Config_Value_Collection_Scoped extends Magento
 
     /**
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource_Config_Data $resource
+     * @param \Magento\Core\Model\Resource\Config\Data $resource
      * @param string $scope
      * @param int $scopeId
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Resource_Config_Data $resource,
+        \Magento\Core\Model\Resource\Config\Data $resource,
         $scope,
         $scopeId = null
     ) {
@@ -43,7 +45,7 @@ class Magento_Core_Model_Resource_Config_Value_Collection_Scoped extends Magento
     /**
      * Initialize select
      *
-     * @return $this|Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return $this|\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {

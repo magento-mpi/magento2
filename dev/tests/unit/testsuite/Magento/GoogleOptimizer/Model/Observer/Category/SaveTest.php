@@ -33,7 +33,7 @@ class Magento_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_F
     protected $_requestMock;
 
     /**
-     * @var Magento_GoogleOptimizer_Model_Observer_Category_Save
+     * @var \Magento\GoogleOptimizer\Model\Observer\Category\Save
      */
     protected $_modelObserver;
 
@@ -44,8 +44,8 @@ class Magento_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_F
 
     public function setUp()
     {
-        $this->_helperMock = $this->getMock('Magento_GoogleOptimizer_Helper_Data', array(), array(), '', false);
-        $this->_categoryMock = $this->getMock('Magento_Catalog_Model_Category', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\GoogleOptimizer\Helper\Data', array(), array(), '', false);
+        $this->_categoryMock = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
         $this->_storeId = 0;
         $this->_categoryMock->expects($this->atLeastOnce())->method('getStoreId')
             ->will($this->returnValue($this->_storeId));
@@ -53,12 +53,12 @@ class Magento_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_F
         $event->expects($this->once())->method('getCategory')->will($this->returnValue($this->_categoryMock));
         $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
-        $this->_codeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
-            'Magento_GoogleOptimizer_Model_Observer_Category_Save',
+            '\Magento\GoogleOptimizer\Model\Observer\Category\Save',
             array(
                 'helper' => $this->_helperMock,
                 'modelCode' => $this->_codeMock,
@@ -83,7 +83,7 @@ class Magento_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_F
             )));
 
         $this->_codeMock->expects($this->once())->method('addData')->with(array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY,
             'entity_id' => $categoryId,
             'store_id' => $this->_storeId,
             'experiment_script' => $experimentScript,
@@ -149,7 +149,7 @@ class Magento_GoogleOptimizer_Model_Observer_Category_SaveTest extends PHPUnit_F
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue($codeId));
 
         $this->_codeMock->expects($this->once())->method('addData')->with(array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_CATEGORY,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_CATEGORY,
             'entity_id' => $categoryId,
             'store_id' => $this->_storeId,
             'experiment_script' => $experimentScript,

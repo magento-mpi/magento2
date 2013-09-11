@@ -16,7 +16,9 @@
  * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogInventory\Model\Resource;
+
+class Stock extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Is initialized configuration flag
@@ -63,7 +65,7 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     /**
      * Ctalog Inventory Stock instance
      *
-     * @var Magento_CatalogInventory_Model_Stock
+     * @var \Magento\CatalogInventory\Model\Stock
      */
     protected $_stock;
 
@@ -79,9 +81,9 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     /**
      * Lock product items
      *
-     * @param Magento_CatalogInventory_Model_Stock $stock
+     * @param \Magento\CatalogInventory\Model\Stock $stock
      * @param int|array $productIds
-     * @return Magento_CatalogInventory_Model_Resource_Stock
+     * @return \Magento\CatalogInventory\Model\Resource\Stock
      */
     public function lockProductItems($stock, $productIds)
     {
@@ -101,7 +103,7 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     /**
      * Get stock items data for requested products
      *
-     * @param Magento_CatalogInventory_Model_Stock $stock
+     * @param \Magento\CatalogInventory\Model\Stock $stock
      * @param array $productIds
      * @param bool $lockRows
      * @return array
@@ -125,10 +127,10 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     /**
      * Correct particular stock products qty based on operator
      *
-     * @param Magento_CatalogInventory_Model_Stock $stock
+     * @param \Magento\CatalogInventory\Model\Stock $stock
      * @param array $productQtys
      * @param string $operator +/-
-     * @return Magento_CatalogInventory_Model_Resource_Stock
+     * @return \Magento\CatalogInventory\Model\Resource\Stock
      */
     public function correctItemsQty($stock, $productQtys, $operator = '-')
     {
@@ -161,12 +163,12 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     /**
      * add join to select only in stock products
      *
-     * @param Magento_Catalog_Model_Resource_Product_Link_Product_Collection $collection
-     * @return Magento_CatalogInventory_Model_Resource_Stock
+     * @param \Magento\Catalog\Model\Resource\Product\Link\Product\Collection $collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock
      */
     public function setInStockFilterToCollection($collection)
     {
-        $manageStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK);
+        $manageStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK);
         $cond = array(
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=1 AND {{table}}.is_in_stock=1',
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=0',
@@ -196,19 +198,19 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     {
         if (!$this->_isConfig) {
             $configMap = array(
-                '_isConfigManageStock'  => Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK,
-                '_isConfigBackorders'   => Magento_CatalogInventory_Model_Stock_Item::XML_PATH_BACKORDERS,
-                '_configMinQty'         => Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MIN_QTY,
-                '_configNotifyStockQty' => Magento_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY
+                '_isConfigManageStock'  => \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
+                '_isConfigBackorders'   => \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_BACKORDERS,
+                '_configMinQty'         => \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_QTY,
+                '_configNotifyStockQty' => \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY
             );
 
             foreach ($configMap as $field => $const) {
-                $this->$field = (int)Mage::getStoreConfig($const);
+                $this->$field = (int)\Mage::getStoreConfig($const);
             }
 
             $this->_isConfig = true;
-            $this->_stock = Mage::getModel('Magento_CatalogInventory_Model_Stock');
-            $this->_configTypeIds = array_keys(Mage::helper('Magento_CatalogInventory_Helper_Data')->getIsQtyTypeIds(true));
+            $this->_stock = \Mage::getModel('\Magento\CatalogInventory\Model\Stock');
+            $this->_configTypeIds = array_keys(\Mage::helper('Magento\CatalogInventory\Helper\Data')->getIsQtyTypeIds(true));
         }
     }
 
@@ -237,7 +239,7 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
             . ' AND product_id IN (%6$s)',
             $this->_stock->getId(),
             $this->_isConfigManageStock,
-            Magento_CatalogInventory_Model_Stock::BACKORDERS_NO,
+            \Magento\CatalogInventory\Model\Stock::BACKORDERS_NO,
             $this->_isConfigBackorders,
             $this->_configMinQty,
             $select->assemble()
@@ -292,7 +294,7 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
         $conditionalDate = $adapter->getCheckSql($condition, $currentDbTime, 'NULL');
 
         $value  = array(
-            'low_stock_date' => new Zend_Db_Expr($conditionalDate),
+            'low_stock_date' => new \Zend_Db_Expr($conditionalDate),
         );
 
         $select = $adapter->select()
@@ -313,11 +315,11 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
     /**
      * Add low stock filter to product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param array $fields
-     * @return Magento_CatalogInventory_Model_Resource_Stock
+     * @return \Magento\CatalogInventory\Model\Resource\Stock
      */
-    public function addLowStockFilter(Magento_Catalog_Model_Resource_Product_Collection $collection, $fields)
+    public function addLowStockFilter(\Magento\Catalog\Model\Resource\Product\Collection $collection, $fields)
     {
         $this->_initConfig();
         $adapter = $collection->getSelect()->getAdapter();
@@ -340,12 +342,12 @@ class Magento_CatalogInventory_Model_Resource_Stock extends Magento_Core_Model_R
 
         $where = array();
         foreach ($conditions as $k => $part) {
-            $where[$k] = join(' ' . Zend_Db_Select::SQL_AND . ' ', $part);
+            $where[$k] = join(' ' . \Zend_Db_Select::SQL_AND . ' ', $part);
         }
 
         $where = $adapter->prepareSqlCondition('invtr.low_stock_date', array('notnull' => true))
-            . ' ' . Zend_Db_Select::SQL_AND . ' (('
-            .  join(') ' . Zend_Db_Select::SQL_OR .' (', $where)
+            . ' ' . \Zend_Db_Select::SQL_AND . ' (('
+            .  join(') ' . \Zend_Db_Select::SQL_OR .' (', $where)
             . '))';
 
         $collection->joinTable(array('invtr' => 'cataloginventory_stock_item'),

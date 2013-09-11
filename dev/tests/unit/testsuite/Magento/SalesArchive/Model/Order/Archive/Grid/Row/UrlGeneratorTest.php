@@ -12,7 +12,7 @@
 class Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var $_model Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator
+     * @var $_model \Magento\SalesArchive\Model\Order\Archive\Grid\Row\UrlGenerator
      */
     protected $_model;
 
@@ -31,7 +31,7 @@ class Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest extends
         $this->_authorizationMock = $this->getMockBuilder('Magento\AuthorizationInterface')
             ->getMock();
 
-        $this->_urlModelMock = $this->getMockBuilder('Magento_Backend_Model_Url')
+        $this->_urlModelMock = $this->getMockBuilder('Magento\Backend\Model\Url')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -55,7 +55,7 @@ class Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGeneratorTest extends
             ->method('getUrl')
             ->will($this->returnValueMap($urlMap));
 
-        $this->_model = new Magento_SalesArchive_Model_Order_Archive_Grid_Row_UrlGenerator(
+        $this->_model = new \Magento\SalesArchive\Model\Order\Archive\Grid\Row\UrlGenerator(
             $this->_authorizationMock,
             array(
                 'path' => '*/sales_order/view',

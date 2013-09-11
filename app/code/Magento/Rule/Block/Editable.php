@@ -9,8 +9,10 @@
  */
 
 
-class Magento_Rule_Block_Editable
-    extends Magento_Core_Block_Abstract
+namespace Magento\Rule\Block;
+
+class Editable
+    extends \Magento\Core\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
@@ -29,8 +31,8 @@ class Magento_Rule_Block_Editable
             $valueName = '...';
         }
 
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
+        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
+        $stringHelper = \Mage::helper('Magento\Core\Helper\String');
 
         if ($element->getShowAsText()) {
             $html = ' <input type="hidden" class="hidden" id="' . $element->getHtmlId()

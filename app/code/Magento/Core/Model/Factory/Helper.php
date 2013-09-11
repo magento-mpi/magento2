@@ -11,16 +11,18 @@
 /**
  * Helper factory model. Used to get helper objects
  */
-class Magento_Core_Model_Factory_Helper
+namespace Magento\Core\Model\Factory;
+
+class Helper
 {
     /**
      * Get helper object
      *
      * @param  string $className
-     * @return Magento_Core_Helper_Abstract
+     * @return \Magento\Core\Helper\AbstractHelper
      */
     public function get($className)
     {
-        return Mage::helper($className);
+        return \Mage::helper($className);
     }
 }

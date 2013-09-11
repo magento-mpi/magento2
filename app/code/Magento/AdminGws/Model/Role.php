@@ -12,12 +12,14 @@
  * Permissions checker
  *
  */
-class Magento_AdminGws_Model_Role extends \Magento\Object
+namespace Magento\AdminGws\Model;
+
+class Role extends \Magento\Object
 {
     /**
      * Store ACL role model instance
      *
-     * @var Magento_User_Model_Role
+     * @var \Magento\User\Model\Role
      */
     protected $_adminRole;
 
@@ -55,7 +57,7 @@ class Magento_AdminGws_Model_Role extends \Magento\Object
     /**
      * Set ACL role and determine its limitations
      *
-     * @param Magento_User_Model_Role $role
+     * @param \Magento\User\Model\Role $role
      */
     public function setAdminRole($role)
     {
@@ -63,18 +65,18 @@ class Magento_AdminGws_Model_Role extends \Magento\Object
             $this->_adminRole = $role;
 
             // find role disallowed data
-            foreach (Mage::app()->getWebsites(true) as $websiteId => $website) {
+            foreach (\Mage::app()->getWebsites(true) as $websiteId => $website) {
                 if (!in_array($websiteId, $this->getRelevantWebsiteIds())) {
                     $this->_disallowedWebsiteIds[] = $websiteId;
                 }
             }
-            foreach (Mage::app()->getStores(true) as $storeId => $store) {
+            foreach (\Mage::app()->getStores(true) as $storeId => $store) {
                 if (!in_array($storeId, $this->getStoreIds())) {
                     $this->_disallowedStores[] = $store;
                     $this->_disallowedStoreIds[] = $storeId;
                 }
             }
-            foreach (Mage::app()->getGroups(true) as $groupId => $group) {
+            foreach (\Mage::app()->getGroups(true) as $groupId => $group) {
                 if (!in_array($groupId, $this->getStoreGroupIds())) {
                     $this->_disallowedStoreGroups[] = $group;
                     $this->_disallowedStoreGroupIds[] = $groupId;
@@ -265,7 +267,7 @@ class Magento_AdminGws_Model_Role extends \Magento\Object
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
 
-            $categories = Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection')
+            $categories = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Collection')
                 ->addIdFilter($categoryIds);
             foreach ($categories  as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();
@@ -404,15 +406,15 @@ class Magento_AdminGws_Model_Role extends \Magento\Object
 
     /**
      * Find a store group by id
-     * Note: For case when we can't Mage::app()->getGroup() bc it will try to load
+     * Note: For case when we can't \Mage::app()->getGroup() bc it will try to load
      * store group in case store group is not preloaded
      *
      * @param int|string $findGroupId
-     * @return Magento_Core_Model_Store_Group|null
+     * @return \Magento\Core\Model\Store\Group|null
      */
     public function getGroup($findGroupId)
     {
-        foreach (Mage::app()->getGroups() as $groupId =>$group) {
+        foreach (\Mage::app()->getGroups() as $groupId =>$group) {
             if ($findGroupId == $groupId) {
                 return $group;
             }

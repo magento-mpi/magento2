@@ -9,7 +9,9 @@
  */
 
 
-class Magento_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\GiftCardAccount\Block\Adminhtml\System\Config;
+
+class Generate extends \Magento\Backend\Block\System\Config\Form\Field
 {
 
     protected $_template = 'config/generate.phtml';
@@ -33,6 +35,6 @@ class Magento_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends Mag
      */
     public function getUsage()
     {
-        return Mage::getModel('Magento_GiftCardAccount_Model_Pool')->getPoolUsageInfo();
+        return \Mage::getModel('\Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
     }
 }

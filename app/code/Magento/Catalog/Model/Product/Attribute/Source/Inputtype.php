@@ -14,7 +14,7 @@
  * @category   Magento
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
- */class Magento_Catalog_Model_Product_Attribute_Source_Inputtype extends Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype
+ */class Magento_Catalog_Model_Product_Attribute_Source_Inputtype extends \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype
 {
     /**
      * Get product input types as option array
@@ -36,7 +36,7 @@
 
         $response = new \Magento\Object();
         $response->setTypes(array());
-        Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
+        \Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
         $_disabledTypes = array();
         $_hiddenFields = array();
         foreach ($response->getTypes() as $type) {
@@ -49,11 +49,11 @@
             }
         }
 
-        if (Mage::registry('attribute_type_hidden_fields') === null) {
-            Mage::register('attribute_type_hidden_fields', $_hiddenFields);
+        if (\Mage::registry('attribute_type_hidden_fields') === null) {
+            \Mage::register('attribute_type_hidden_fields', $_hiddenFields);
         }
-        if (Mage::registry('attribute_type_disabled_types') === null) {
-            Mage::register('attribute_type_disabled_types', $_disabledTypes);
+        if (\Mage::registry('attribute_type_disabled_types') === null) {
+            \Mage::register('attribute_type_disabled_types', $_disabledTypes);
         }
 
         return array_merge(parent::toOptionArray(), $inputTypes);

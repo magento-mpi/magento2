@@ -11,7 +11,9 @@
 /**
  * Adminhtml media library uploader
  */
-class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Media;
+
+class Uploader extends \Magento\Adminhtml\Block\Widget
 {
     /**
      * @var \Magento\Object
@@ -24,7 +26,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     protected $_template = 'media/uploader.phtml';
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
@@ -34,14 +36,14 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     protected $_fileSizeService;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\View\Url $viewUrl
      * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_View_Url $viewUrl,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\View\Url $viewUrl,
         \Magento\File\Size $fileSize,
         array $data = array()
     ) {
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
 
         $this->setId($this->getId() . '_Uploader');
 
-        $uploadUrl = Mage::getModel('Magento_Backend_Model_Url')->addSessionParam()->getUrl('*/*/upload');
+        $uploadUrl = \Mage::getModel('\Magento\Backend\Model\Url')->addSessionParam()->getUrl('*/*/upload');
         $this->getConfig()->setUrl($uploadUrl);
         $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
         $this->getConfig()->setFileField('file');
@@ -89,7 +91,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
     /**
      * Prepares layout and set element renderer
      *
-     * @return Magento_Adminhtml_Block_Media_Uploader
+     * @return \Magento\Adminhtml\Block\Media\Uploader
      */
     protected function _prepareLayout()
     {
@@ -117,7 +119,7 @@ class Magento_Adminhtml_Block_Media_Uploader extends Magento_Adminhtml_Block_Wid
      */
     public function getConfigJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getConfig()->getData());
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getConfig()->getData());
     }
 
     /**

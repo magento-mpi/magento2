@@ -16,13 +16,13 @@ class Magento_Reminder_Model_Resource_Rule_CollectionTest extends PHPUnit_Framew
      */
     public function testAddDateFilter()
     {
-        $dateModel = Mage::getModel('Magento_Core_Model_Date');
-        $collection = Mage::getResourceModel('Magento_Reminder_Model_Resource_Rule_Collection');
+        $dateModel = Mage::getModel('\Magento\Core\Model\Date');
+        $collection = Mage::getResourceModel('\Magento\Reminder\Model\Resource\Rule\Collection');
         $collection->addDateFilter($dateModel->date());
         $this->markTestIncomplete('MAGE-5166 is incomplete');
         $this->assertEquals(1, $collection->count());
         foreach ($collection as $rule) {
-            $this->assertInstanceOf('Magento_Reminder_Model_Rule', $rule);
+            $this->assertInstanceOf('\Magento\Reminder\Model\Rule', $rule);
             $this->assertEquals('Rule 2', $rule->getName());
             return;
         }

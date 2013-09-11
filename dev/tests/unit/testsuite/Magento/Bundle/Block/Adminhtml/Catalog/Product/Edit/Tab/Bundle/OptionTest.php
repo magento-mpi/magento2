@@ -28,7 +28,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_OptionTest
             ->with('admin.product.bundle.items')
             ->will($this->returnValue($itemsBlock));
 
-        $block = $this->getMock('Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option',
+        $block = $this->getMock('Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option',
             array('getLayout'), array(), '', false);
         $block->expects($this->atLeastOnce())
             ->method('getLayout')

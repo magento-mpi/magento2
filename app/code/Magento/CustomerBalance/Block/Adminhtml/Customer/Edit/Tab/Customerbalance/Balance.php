@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance extends Magento_Adminhtml_Block_Template
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
+
+class Balance extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Get delete orphan balances button
@@ -17,10 +19,10 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
      */
     public function getDeleteOrphanBalancesButton()
     {
-        $customer = Mage::registry('current_customer');
-        $balance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
+        $customer = \Mage::registry('current_customer');
+        $balance = \Mage::getModel('\Magento\CustomerBalance\Model\Balance');
         if ($balance->getOrphanBalancesCount($customer->getId()) > 0) {
-            return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
+            return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData(array(
                 'label'     => __('Delete Orphan Balances'),
                 'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanBalancesUrl() .'\')',
                 'class'     => 'scalable delete',

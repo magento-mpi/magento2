@@ -15,8 +15,10 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Items
-    extends Magento_GiftWrapping_Block_Adminhtml_Order_Create_Abstract
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
+
+class Items
+    extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Select element for choosing gift wrapping design
@@ -25,7 +27,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Items
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
             ->setData(array(
                 'id'    => 'giftwrapping_design_item',
                 'class' => 'select'
@@ -90,13 +92,13 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Items
     /**
      * Check ability to display gift wrapping for quote item
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return bool
      */
     public function getDisplayGiftWrappingForItem($item)
     {
         $allowed = $item->getProduct()->getGiftWrappingAvailable();
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')
             ->isGiftWrappingAvailableForProduct($allowed, $this->getStoreId());
     }
 }

@@ -16,12 +16,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Subscriber extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Newsletter;
+
+class Subscriber extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Queue collection
      *
-     * @var Magento_Newsletter_Model_Resource_Queue_Collection
+     * @var \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     protected $_queueCollection = null;
 
@@ -30,7 +32,7 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber extends Magento_Adminhtml_Bl
     /**
      * Prepares block to render
      *
-     * @return Magento_Adminhtml_Block_Newsletter_Subscriber
+     * @return \Magento\Adminhtml\Block\Newsletter\Subscriber
      */
     protected function _beforeToHtml()
     {
@@ -40,13 +42,13 @@ class Magento_Adminhtml_Block_Newsletter_Subscriber extends Magento_Adminhtml_Bl
     /**
      * Return queue collection with loaded neversent queues
      *
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function getQueueCollection()
     {
         if (is_null($this->_queueCollection)) {
-            /** @var $this->_queueCollection Magento_Newsletter_Model_Resource_Queue_Collection */
-            $this->_queueCollection = Mage::getResourceSingleton('Magento_Newsletter_Model_Resource_Queue_Collection')
+            /** @var $this->_queueCollection \Magento\Newsletter\Model\Resource\Queue\Collection */
+            $this->_queueCollection = \Mage::getResourceSingleton('\Magento\Newsletter\Model\Resource\Queue\Collection')
                 ->addTemplateInfo()
                 ->addOnlyUnsentFilter()
                 ->load();

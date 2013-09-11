@@ -15,8 +15,10 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Controller_Adminhtml_Search_System_Config_Testconnection
-    extends Magento_Adminhtml_Controller_Action
+namespace Magento\Search\Controller\Adminhtml\Search\System\Config;
+
+class Testconnection
+    extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Check for connection to server

@@ -6,16 +6,16 @@
  * @license     {license_link}
  */
 
-/** @var Magento_SalesRule_Model_Rule $salesRule */
-$salesRule = Mage::getModel('Magento_SalesRule_Model_Rule');
+/** @var \Magento\SalesRule\Model\Rule $salesRule */
+$salesRule = Mage::getModel('\Magento\SalesRule\Model\Rule');
 $salesRule->setData(array(
     'name' => '40% Off on Large Orders',
     'is_active' => 1,
-    'customer_group_ids' => array(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID),
-    'coupon_type' => Magento_SalesRule_Model_Rule::COUPON_TYPE_NO_COUPON,
+    'customer_group_ids' => array(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID),
+    'coupon_type' => \Magento\SalesRule\Model\Rule::COUPON_TYPE_NO_COUPON,
     'conditions' => array(
         array(
-            'type' => 'Magento_SalesRule_Model_Rule_Condition_Address',
+            'type' => '\Magento\SalesRule\Model\Rule\Condition\Address',
             'attribute' => 'base_subtotal',
             'operator' => '>',
             'value' => 800,

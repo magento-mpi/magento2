@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Input_Filter_MaliciousCode implements Zend_Filter_Interface
+namespace Magento\Core\Model\Input\Filter;
+
+class MaliciousCode implements \Zend_Filter_Interface
 {
     /**
      * Regular expressions for cutting malicious code
@@ -56,7 +58,7 @@ class Magento_Core_Model_Input_Filter_MaliciousCode implements Zend_Filter_Inter
      * Add expression
      *
      * @param string $expression
-     * @return Magento_Core_Model_Input_Filter_MaliciousCode
+     * @return \Magento\Core\Model\Input\Filter\MaliciousCode
      */
     public function addExpression($expression)
     {
@@ -70,7 +72,7 @@ class Magento_Core_Model_Input_Filter_MaliciousCode implements Zend_Filter_Inter
      * Set expressions
      *
      * @param array $expressions
-     * @return Magento_Core_Model_Input_Filter_MaliciousCode
+     * @return \Magento\Core\Model\Input\Filter\MaliciousCode
      */
     public function setExpressions(array $expressions)
     {

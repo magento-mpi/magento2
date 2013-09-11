@@ -12,13 +12,13 @@
 class Magento_GiftMessage_Block_Message_InlineTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_GiftMessage_Block_Message_Inline
+     * @var \Magento\GiftMessage\Block\Message\Inline
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_GiftMessage_Block_Message_Inline');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\GiftMessage\Block\Message\Inline');
     }
 
     /**
@@ -26,8 +26,8 @@ class Magento_GiftMessage_Block_Message_InlineTest extends PHPUnit_Framework_Tes
      */
     public function testThumbnail()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1);
 
         $size = $this->_block->getThumbnailSize();

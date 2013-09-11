@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_cache_index">
         <reference name="cache.additional">
-            <block class="Magento_PageCache_Block_Adminhtml_Cache_Additional" name="page.cache.additional" template="cache/additional.phtml"/>
+            <block class="\Magento\PageCache\Block\Adminhtml\Cache\Additional" name="page.cache.additional" template="cache/additional.phtml"/>
         </reference>
     </handle>
 </layout>

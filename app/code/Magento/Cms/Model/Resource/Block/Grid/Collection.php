@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Cms_Model_Resource_Block_Grid_Collection extends Magento_Cms_Model_Resource_Block_Collection
+namespace Magento\Cms\Model\Resource\Block\Grid;
+
+class Collection extends \Magento\Cms\Model\Resource\Block\Collection
 {
 
     /**
-     * @return Magento_Cms_Model_Resource_Block_Grid_Collection
+     * @return \Magento\Cms\Model\Resource\Block\Grid\Collection
      */
     protected function _afterLoad()
     {
@@ -22,7 +24,7 @@ class Magento_Cms_Model_Resource_Block_Grid_Collection extends Magento_Cms_Model
     /**
      * @param string $field
      * @param null $condition
-     * @return Magento_Cms_Model_Resource_Block_Grid_Collection
+     * @return \Magento\Cms\Model\Resource\Block\Grid\Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {

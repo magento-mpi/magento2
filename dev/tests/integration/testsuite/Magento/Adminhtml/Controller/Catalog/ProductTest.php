@@ -27,7 +27,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
 
         $this->dispatch('backend/admin/catalog_product/save');
 
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = Mage::registry('current_product');
         $this->assertEquals($associatedProductIds, $product->getAssociatedProductIds());
 
@@ -38,12 +38,12 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
     /**
      * Retrieve configurable attribute instance
      *
-     * @return Magento_Catalog_Model_Entity_Attribute
+     * @return \Magento\Catalog\Model\Entity\Attribute
      */
     protected function _getConfigurableAttribute()
     {
-        return Mage::getModel('Magento_Catalog_Model_Entity_Attribute')->loadByCode(
-            Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('catalog_product')->getId(),
+        return Mage::getModel('\Magento\Catalog\Model\Entity\Attribute')->loadByCode(
+            Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );
     }
@@ -57,7 +57,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
         ));
         $this->dispatch('backend/admin/catalog_product/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('Unable to save product')), Magento_Core_Model_Message::ERROR
+            $this->equalTo(array('Unable to save product')), \Magento\Core\Model\Message::ERROR
         );
         $this->assertRedirect($this->stringContains('/backend/admin/catalog_product/edit'));
     }
@@ -71,7 +71,7 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
         $this->dispatch('backend/admin/catalog_product/save/id/1');
         $this->assertRedirect($this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/new/'));
         $this->assertSessionMessages(
-            $this->contains('You saved the product.'), Magento_Core_Model_Message::SUCCESS
+            $this->contains('You saved the product.'), \Magento\Core\Model\Message::SUCCESS
         );
     }
 
@@ -89,10 +89,10 @@ class Magento_Adminhtml_Controller_Catalog_ProductTest extends Magento_Backend_U
             $this->stringStartsWith('http://localhost/index.php/backend/admin/catalog_product/edit/id/1')
         ));
         $this->assertSessionMessages(
-            $this->contains('You saved the product.'), Magento_Core_Model_Message::SUCCESS
+            $this->contains('You saved the product.'), \Magento\Core\Model\Message::SUCCESS
         );
         $this->assertSessionMessages(
-            $this->contains('You duplicated the product.'), Magento_Core_Model_Message::SUCCESS
+            $this->contains('You duplicated the product.'), \Magento\Core\Model\Message::SUCCESS
         );
     }
 

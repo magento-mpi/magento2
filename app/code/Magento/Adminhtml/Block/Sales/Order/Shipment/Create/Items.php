@@ -16,12 +16,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Shipment\Create;
+
+class Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -31,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getSource()
     {
@@ -41,11 +43,11 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return \Mage::registry('current_shipment');
     }
 
     /**
@@ -53,7 +55,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
      */
     protected function _beforeToHtml()
     {
-        $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('submit_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Submit Shipment'),
             'class'     => 'save submit-button',
             'onclick'   => 'submitShipment(this);',
@@ -100,7 +102,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Create_Items extends Magento_
      */
     public function canSendShipmentEmail()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
+        return \Mage::helper('Magento\Sales\Helper\Data')->canSendNewShipmentEmail($this->getOrder()->getStore()->getId());
     }
 
     /**

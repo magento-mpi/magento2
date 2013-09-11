@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_Shell_Command_Status implements Magento_Log_Model_Shell_CommandInterface
+namespace Magento\Log\Model\Shell\Command;
+
+class Status implements \Magento\Log\Model\Shell\CommandInterface
 {
     /**
      * @var Magento_Log_Model_Resource_ShellFactory
@@ -100,7 +102,7 @@ class Magento_Log_Model_Shell_Command_Status implements Magento_Log_Model_Shell_
      */
     public function execute()
     {
-        /** @var $resource Magento_Log_Model_Resource_Shell */
+        /** @var $resource \Magento\Log\Model\Resource\Shell */
         $resource = $this->_resourceFactory->create();
         $tables = $resource->getTablesInfo();
 

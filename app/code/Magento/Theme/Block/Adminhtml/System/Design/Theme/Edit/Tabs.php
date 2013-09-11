@@ -11,7 +11,9 @@
 /**
  * Theme editor tab container
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tabs extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
+
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize tabs and define tabs block settings

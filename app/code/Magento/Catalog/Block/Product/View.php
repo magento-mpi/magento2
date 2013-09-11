@@ -17,7 +17,9 @@
  * @module   Catalog
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Catalog\Block\Product;
+
+class View extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Default MAP renderer type
@@ -29,11 +31,11 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     /**
      * Add meta information from product to head block
      *
-     * @return Magento_Catalog_Block_Product_View
+     * @return \Magento\Catalog\Block\Product\View
      */
     protected function _prepareLayout()
     {
-        $this->getLayout()->createBlock('Magento_Catalog_Block_Breadcrumbs');
+        $this->getLayout()->createBlock('\Magento\Catalog\Block\Breadcrumbs');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $product = $this->getProduct();
@@ -42,7 +44,7 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
                 $headBlock->setTitle($title);
             }
             $keyword = $product->getMetaKeyword();
-            $currentCategory = Mage::registry('current_category');
+            $currentCategory = \Mage::registry('current_category');
             if ($keyword) {
                 $headBlock->setKeywords($keyword);
             } elseif($currentCategory) {
@@ -52,9 +54,9 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
             if ($description) {
                 $headBlock->setDescription( ($description) );
             } else {
-                $headBlock->setDescription(Mage::helper('Magento_Core_Helper_String')->substr($product->getDescription(), 0, 255));
+                $headBlock->setDescription(\Mage::helper('Magento\Core\Helper\String')->substr($product->getDescription(), 0, 255));
             }
-            if ($this->helper('Magento_Catalog_Helper_Product')->canUseCanonicalTag()) {
+            if ($this->helper('\Magento\Catalog\Helper\Product')->canUseCanonicalTag()) {
                 $params = array('_ignore_category'=>true);
                 $headBlock->addLinkRel('canonical', $product->getUrlModel()->getUrl($product, $params));
             }
@@ -70,15 +72,15 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     /**
      * Retrieve current product model
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        if (!Mage::registry('product') && $this->getProductId()) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($this->getProductId());
-            Mage::register('product', $product);
+        if (!\Mage::registry('product') && $this->getProductId()) {
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($this->getProductId());
+            \Mage::register('product', $product);
         }
-        return Mage::registry('product');
+        return \Mage::registry('product');
     }
 
     /**
@@ -88,14 +90,14 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
      */
     public function canEmailToFriend()
     {
-        $sendToFriendModel = Mage::registry('send_to_friend_model');
+        $sendToFriendModel = \Mage::registry('send_to_friend_model');
         return $sendToFriendModel && $sendToFriendModel->canEmailToFriend();
     }
 
     /**
      * Retrieve url for direct adding product to cart
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $additional
      * @return string
      */
@@ -109,11 +111,11 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
             $additional['wishlist_next'] = 1;
         }
 
-        $addUrlKey = Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED;
-        $addUrlValue = Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
-        $additional[$addUrlKey] = Mage::helper('Magento_Core_Helper_Data')->urlEncode($addUrlValue);
+        $addUrlKey = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
+        $addUrlValue = \Mage::getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
+        $additional[$addUrlKey] = \Mage::helper('Magento\Core\Helper\Data')->urlEncode($addUrlValue);
 
-        return $this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product, $additional);
+        return $this->helper('\Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
     }
 
     /**
@@ -126,41 +128,41 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
     {
         $config = array();
         if (!$this->hasOptions()) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config);
         }
 
-        $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest(false, false, false);
-        /* @var $product Magento_Catalog_Model_Product */
+        $_request = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRateRequest(false, false, false);
+        /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->getProduct();
         $_request->setProductClassId($product->getTaxClassId());
-        $defaultTax = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($_request);
+        $defaultTax = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRate($_request);
 
-        $_request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest();
+        $_request = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRateRequest();
         $_request->setProductClassId($product->getTaxClassId());
-        $currentTax = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($_request);
+        $currentTax = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRate($_request);
 
         $_regularPrice = $product->getPrice();
         $_finalPrice = $product->getFinalPrice();
-        $_priceInclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $_finalPrice, true);
-        $_priceExclTax = Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $_finalPrice);
+        $_priceInclTax = \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $_finalPrice, true);
+        $_priceExclTax = \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $_finalPrice);
         $_tierPrices = array();
         $_tierPricesInclTax = array();
         foreach ($product->getTierPrice() as $tierPrice) {
-            $_tierPrices[] = Mage::helper('Magento_Core_Helper_Data')->currency($tierPrice['website_price'], false, false);
-            $_tierPricesInclTax[] = Mage::helper('Magento_Core_Helper_Data')->currency(
-                Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, (int)$tierPrice['website_price'], true),
+            $_tierPrices[] = \Mage::helper('Magento\Core\Helper\Data')->currency($tierPrice['website_price'], false, false);
+            $_tierPricesInclTax[] = \Mage::helper('Magento\Core\Helper\Data')->currency(
+                \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, (int)$tierPrice['website_price'], true),
                 false, false);
         }
         $config = array(
             'productId'           => $product->getId(),
-            'priceFormat'         => Mage::app()->getLocale()->getJsPriceFormat(),
-            'includeTax'          => Mage::helper('Magento_Tax_Helper_Data')->priceIncludesTax() ? 'true' : 'false',
-            'showIncludeTax'      => Mage::helper('Magento_Tax_Helper_Data')->displayPriceIncludingTax(),
-            'showBothPrices'      => Mage::helper('Magento_Tax_Helper_Data')->displayBothPrices(),
-            'productPrice'        => Mage::helper('Magento_Core_Helper_Data')->currency($_finalPrice, false, false),
-            'productOldPrice'     => Mage::helper('Magento_Core_Helper_Data')->currency($_regularPrice, false, false),
-            'priceInclTax'        => Mage::helper('Magento_Core_Helper_Data')->currency($_priceInclTax, false, false),
-            'priceExclTax'        => Mage::helper('Magento_Core_Helper_Data')->currency($_priceExclTax, false, false),
+            'priceFormat'         => \Mage::app()->getLocale()->getJsPriceFormat(),
+            'includeTax'          => \Mage::helper('Magento\Tax\Helper\Data')->priceIncludesTax() ? 'true' : 'false',
+            'showIncludeTax'      => \Mage::helper('Magento\Tax\Helper\Data')->displayPriceIncludingTax(),
+            'showBothPrices'      => \Mage::helper('Magento\Tax\Helper\Data')->displayBothPrices(),
+            'productPrice'        => \Mage::helper('Magento\Core\Helper\Data')->currency($_finalPrice, false, false),
+            'productOldPrice'     => \Mage::helper('Magento\Core\Helper\Data')->currency($_regularPrice, false, false),
+            'priceInclTax'        => \Mage::helper('Magento\Core\Helper\Data')->currency($_priceInclTax, false, false),
+            'priceExclTax'        => \Mage::helper('Magento\Core\Helper\Data')->currency($_priceExclTax, false, false),
             'defaultTax'          => $defaultTax,
             'currentTax'          => $currentTax,
             'idSuffix'            => '_clone',
@@ -174,14 +176,14 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
         );
 
         $responseObject = new \Magento\Object();
-        Mage::dispatchEvent('catalog_product_view_config', array('response_object'=>$responseObject));
+        \Mage::dispatchEvent('catalog_product_view_config', array('response_object'=>$responseObject));
         if (is_array($responseObject->getAdditionalOptions())) {
             foreach ($responseObject->getAdditionalOptions() as $option=>$value) {
                 $config[$option] = $value;
             }
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config);
     }
 
     /**
@@ -217,14 +219,14 @@ class Magento_Catalog_Block_Product_View extends Magento_Catalog_Block_Product_A
      */
     public function isStartCustomization()
     {
-        return $this->getProduct()->getConfigureMode() || Mage::app()->getRequest()->getParam('startcustomization');
+        return $this->getProduct()->getConfigureMode() || \Mage::app()->getRequest()->getParam('startcustomization');
     }
 
     /**
      * Get default qty - either as preconfigured, or as 1.
      * Also restricts it by minimal qty.
      *
-     * @param null|Magento_Catalog_Model_Product $product
+     * @param null|\Magento\Catalog\Model\Product $product
      * @return int|float
      */
     public function getProductDefaultQty($product = null)

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Api_Editroles extends Magento_Adminhtml_Block_Widget_Tabs {
+namespace Magento\Adminhtml\Block\Api;
+
+class Editroles extends \Magento\Adminhtml\Block\Widget\Tabs {
     protected function _construct()
     {
         parent::_construct();
@@ -20,14 +22,14 @@ class Magento_Adminhtml_Block_Api_Editroles extends Magento_Adminhtml_Block_Widg
     protected function _beforeToHtml()
     {
         $roleId = $this->getRequest()->getParam('rid', false);
-        $role = Mage::getModel('Magento_Api_Model_Roles')
+        $role = \Mage::getModel('\Magento\Api\Model\Roles')
            ->load($roleId);
 
         $this->addTab('info', array(
             'label'     => __('Role Info'),
             'title'     => __('Role Info'),
             'content'   => $this->getLayout()->createBlock(
-                'Magento_Adminhtml_Block_Api_Tab_Roleinfo'
+                '\Magento\Adminhtml\Block\Api\Tab\Roleinfo'
             )->setRole($role)->toHtml(),
             'active'    => true
         ));
@@ -35,7 +37,7 @@ class Magento_Adminhtml_Block_Api_Editroles extends Magento_Adminhtml_Block_Widg
         $this->addTab('account', array(
             'label'     => __('Role Resources'),
             'title'     => __('Role Resources'),
-            'content'   => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_Tab_Rolesedit')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\Tab\Rolesedit')->toHtml(),
         ));
 
         if( intval($roleId) > 0 ) {
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Block_Api_Editroles extends Magento_Adminhtml_Block_Widg
                 'label'     => __('Role Users'),
                 'title'     => __('Role Users'),
                 'content'   => $this->getLayout()->createBlock(
-                    'Magento_Adminhtml_Block_Api_Tab_Rolesusers',
+                    '\Magento\Adminhtml\Block\Api\Tab\Rolesusers',
                     'role.users.grid'
                 )->toHtml(),
             ));

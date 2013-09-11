@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Structure_Reader extends \Magento\Config\Reader\Filesystem
+namespace Magento\Backend\Model\Config\Structure;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * List of identifier attributes for merging
@@ -41,8 +43,8 @@ class Magento_Backend_Model_Config_Structure_Reader extends \Magento\Config\Read
 
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
-     * @param Magento_Backend_Model_Config_Structure_Converter $converter
-     * @param Magento_Backend_Model_Config_SchemaLocator $schemaLocator
+     * @param \Magento\Backend\Model\Config\Structure\Converter $converter
+     * @param \Magento\Backend\Model\Config\SchemaLocator $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
@@ -50,8 +52,8 @@ class Magento_Backend_Model_Config_Structure_Reader extends \Magento\Config\Read
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
-        Magento_Backend_Model_Config_Structure_Converter $converter,
-        Magento_Backend_Model_Config_SchemaLocator $schemaLocator,
+        \Magento\Backend\Model\Config\Structure\Converter $converter,
+        \Magento\Backend\Model\Config\SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'system.xml',
         $idAttributes = array(),

@@ -16,7 +16,9 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sendfriend_Model_Resource_Sendfriend_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sendfriend\Model\Resource\Sendfriend;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Init resource collection
@@ -24,6 +26,6 @@ class Magento_Sendfriend_Model_Resource_Sendfriend_Collection extends Magento_Co
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sendfriend_Model_Sendfriend', 'Magento_Sendfriend_Model_Resource_Sendfriend');
+        $this->_init('\Magento\Sendfriend\Model\Sendfriend', '\Magento\Sendfriend\Model\Resource\Sendfriend');
     }
 }

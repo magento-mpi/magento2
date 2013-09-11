@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Api_Resource extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Catalog\Model\Api;
+
+class Resource extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Default ignored attribute codes
@@ -40,7 +42,7 @@ class Magento_Catalog_Model_Api_Resource extends Magento_Api_Model_Resource_Abst
     /**
      * Check is attribute allowed
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param array $attributes
      * @return boolean
      */
@@ -71,8 +73,8 @@ class Magento_Catalog_Model_Api_Resource extends Magento_Api_Model_Resource_Abst
         }
 
         try {
-            $storeId = Mage::app()->getStore($store)->getId();
-        } catch (Magento_Core_Model_Store_Exception $e) {
+            $storeId = \Mage::app()->getStore($store)->getId();
+        } catch (\Magento\Core\Model\Store\Exception $e) {
             $this->_fault('store_not_exists');
         }
 
@@ -85,11 +87,11 @@ class Magento_Catalog_Model_Api_Resource extends Magento_Api_Model_Resource_Abst
      * @param  int|string $productId (SKU or ID)
      * @param  int|string $store
      * @param  string $identifierType
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _getProduct($productId, $store = null, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct($productId, $this->_getStoreId($store), $identifierType);
+        $product = \Mage::helper('Magento\Catalog\Helper\Product')->getProduct($productId, $this->_getStoreId($store), $identifierType);
         if (is_null($product->getId())) {
             $this->_fault('product_not_exists');
         }
@@ -106,8 +108,8 @@ class Magento_Catalog_Model_Api_Resource extends Magento_Api_Model_Resource_Abst
     {
         if (!is_null($store)) {
             try {
-                $storeId = Mage::app()->getStore($store)->getId();
-            } catch (Magento_Core_Model_Store_Exception $e) {
+                $storeId = \Mage::app()->getStore($store)->getId();
+            } catch (\Magento\Core\Model\Store\Exception $e) {
                 $this->_fault('store_not_exists');
             }
 
@@ -116,4 +118,4 @@ class Magento_Catalog_Model_Api_Resource extends Magento_Api_Model_Resource_Abst
 
         return $this->_getStoreId();
     }
-} // Class Magento_Catalog_Model_Api_Resource End
+} // Class \Magento\Catalog\Model\Api\Resource End

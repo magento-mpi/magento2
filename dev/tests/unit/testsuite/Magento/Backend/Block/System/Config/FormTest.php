@@ -12,7 +12,7 @@
 class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_System_Config_Form
+     * @var \Magento\Backend\Block\System\Config\Form
      */
     protected $_object;
 
@@ -58,11 +58,11 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
 
     protected function setUp()
     {
-        $this->_systemConfigMock = $this->getMock('Magento_Backend_Model_Config_Structure',
+        $this->_systemConfigMock = $this->getMock('Magento\Backend\Model\Config\Structure',
             array(), array(), '', false, false
         );
 
-        $requestMock = $this->getMock('Magento_Core_Controller_Request_Http',
+        $requestMock = $this->getMock('Magento\Core\Controller\Request\Http',
             array(), array(), '', false, false
         );
         $requestParams = array(
@@ -74,27 +74,27 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             ->method('getParam')
             ->will($this->returnValueMap($requestParams));
 
-        $layoutMock = $this->getMock('Magento_Core_Model_Layout',
+        $layoutMock = $this->getMock('Magento\Core\Model\Layout',
             array(), array(), '', false, false
         );
 
-        $this->_urlModelMock = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false, false);
-        $configFactoryMock = $this->getMock('Magento_Backend_Model_Config_Factory', array(), array(), '', false, false);
+        $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false);
+        $configFactoryMock = $this->getMock('Magento\Backend\Model\Config\Factory', array(), array(), '', false, false);
         $this->_formFactoryMock = $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false, false);
-        $cloneFactoryMock = $this->getMock('Magento_Backend_Model_Config_Clone_Factory',
+        $cloneFactoryMock = $this->getMock('Magento\Backend\Model\Config\Clone\Factory',
             array(), array(), '', false, false
         );
-        $this->_fieldsetFactoryMock = $this->getMock('Magento_Backend_Block_System_Config_Form_Fieldset_Factory',
+        $this->_fieldsetFactoryMock = $this->getMock('Magento\Backend\Block\System\Config\Form\Fieldset\Factory',
             array(), array(), '', false, false
         );
-        $this->_fieldFactoryMock = $this->getMock('Magento_Backend_Block_System_Config_Form_Field_Factory',
+        $this->_fieldFactoryMock = $this->getMock('Magento\Backend\Block\System\Config\Form\Field\Factory',
             array(), array(), '', false, false
         );
-        $this->_coreConfigMock = $this->getMock('Magento_Core_Model_Config',
+        $this->_coreConfigMock = $this->getMock('Magento\Core\Model\Config',
             array(), array(), '', false, false
         );
 
-        $this->_backendConfigMock = $this->getMock('Magento_Backend_Model_Config',
+        $this->_backendConfigMock = $this->getMock('Magento\Backend\Model\Config',
             array(), array(), '', false, false
         );
 
@@ -124,7 +124,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         );
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $helper->getObject('Magento_Backend_Block_System_Config_Form', $data);
+        $this->_object = $helper->getObject('\Magento\Backend\Block\System\Config\Form', $data);
         $this->_object->setData('scope_id', 1);
     }
 
@@ -149,19 +149,19 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $this->_formMock->expects($this->once())->method('setBaseUrl')->with('base_url');
         $this->_urlModelMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue('base_url'));
 
-        $fieldsetRendererMock = $this->getMock('Magento_Backend_Block_System_Config_Form_Fieldset',
+        $fieldsetRendererMock = $this->getMock('Magento\Backend\Block\System\Config\Form\Fieldset',
             array(), array(), '', false, false
         );
         $this->_fieldsetFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($fieldsetRendererMock));
 
-        $cloneModelMock = $this->getMock('Magento_Backend_Model_Config',
+        $cloneModelMock = $this->getMock('Magento\Backend\Model\Config',
             array('getPrefixes'), array(), '', false, false
         );
 
         $cloneModelMock->expects($this->once())->method('getPrefixes')->will($this->returnValue(array()));
 
-        $groupMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group',
+        $groupMock = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Group',
             array(), array(), '', false, false
         );
         $groupMock->expects($this->once())->method('getFrontendModel')->will($this->returnValue(false));
@@ -176,7 +176,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
         $groupMock->expects($this->once())
             ->method('getDependencies')->with('store_code')->will($this->returnValue(array()));
 
-        $sectionMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Section',
+        $sectionMock = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Section',
             array(), array(), '', false, false
         );
 
@@ -208,17 +208,17 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
     {
         // Parameters initialization
         $fieldsetMock = $this->getMock('Magento\Data\Form\Element\Fieldset', array(), array(), '', false, false);
-        $groupMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group',
+        $groupMock = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Group',
             array(), array(), '', false, false
         );
-        $sectionMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Section',
+        $sectionMock = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Section',
             array(), array(), '', false, false
         );
         $fieldPrefix = 'fieldPrefix';
         $labelPrefix = 'labelPrefix';
 
         // Field Renderer Mock configuration
-        $fieldRendererMock = $this->getMock('Magento_Backend_Block_System_Config_Form_Field',
+        $fieldRendererMock = $this->getMock('Magento\Backend\Block\System\Config\Form\Field',
             array(), array(), '', false, false
         );
         $this->_fieldFactoryMock->expects($this->once())->method('create')
@@ -234,7 +234,7 @@ class Magento_Backend_Block_System_Config_FormTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($configValue));
 
         // Field mock configuration
-        $fieldMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Field',
+        $fieldMock = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Field',
             array(), array(), '', false, false
         );
         $fieldMock->expects($this->any())->method('getPath')

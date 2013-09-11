@@ -11,7 +11,9 @@
 /**
  * GoogleCheckout data helper
  */
-class Magento_GoogleCheckout_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\GoogleCheckout\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Google Checkout settings
@@ -63,7 +65,7 @@ class Magento_GoogleCheckout_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isShippingCarrierActive($storeId)
     {
-        return (true == Mage::getStoreConfig(self::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId));
+        return (true == \Mage::getStoreConfig(self::XML_PATH_SHIPPING_CARRIER_ACTIVE, $storeId));
     }
 
     /**

@@ -11,14 +11,16 @@
 /**
  * Block for Urlrewrites grid container
  *
- * @method Magento_Adminhtml_Block_Urlrewrite setSelectorBlock(Magento_Adminhtml_Block_Urlrewrite_Selector $value)
- * @method null|Magento_Adminhtml_Block_Urlrewrite_Selector getSelectorBlock()
+ * @method \Magento\Adminhtml\Block\Urlrewrite setSelectorBlock(\Magento\Adminhtml\Block\Urlrewrite\Selector $value)
+ * @method null|\Magento\Adminhtml\Block\Urlrewrite\Selector getSelectorBlock()
  *
  * @category    Magento
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block;
+
+class Urlrewrite extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Part for generating apropriate grid block name
@@ -41,7 +43,7 @@ class Magento_Adminhtml_Block_Urlrewrite extends Magento_Adminhtml_Block_Widget_
     /**
      * Customize grid row URLs
      *
-     * @see Magento_Adminhtml_Block_Urlrewrite_Selector
+     * @see \Magento\Adminhtml\Block\Urlrewrite\Selector
      * @return string
      */
     public function getCreateUrl()
@@ -50,7 +52,7 @@ class Magento_Adminhtml_Block_Urlrewrite extends Magento_Adminhtml_Block_Widget_
 
         $selectorBlock = $this->getSelectorBlock();
         if ($selectorBlock === null) {
-            $selectorBlock = Mage::getBlockSingleton('Magento_Adminhtml_Block_Urlrewrite_Selector');
+            $selectorBlock = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Urlrewrite\Selector');
         }
 
         if ($selectorBlock) {

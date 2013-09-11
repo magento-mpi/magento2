@@ -17,11 +17,13 @@
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class LogoUploader
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader
 {
     /**
-     * @var Magento_DesignEditor_Model_Theme_Context
+     * @var \Magento\DesignEditor\Model\Theme\Context
      */
     protected $_themeContext;
 
@@ -40,13 +42,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * Initialize dependencies
      *
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_DesignEditor_Model_Theme_Context $themeContext
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_DesignEditor_Model_Theme_Context $themeContext,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\DesignEditor\Model\Theme\Context $themeContext,
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;
@@ -56,7 +58,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * Get logo upload url
      *
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Store $store
      * @return string
      */
     public function getLogoUploadUrl($store)
@@ -69,7 +71,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * Get logo upload url
      *
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Store $store
      * @return string
      */
     public function getLogoRemoveUrl($store)
@@ -82,7 +84,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * Get logo image
      *
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Store $store
      * @return string|null
      */
     public function getLogoImage($store)
@@ -97,11 +99,11 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader
     /**
      * Get stores list
      *
-     * @return Magento_Core_Model_Store|null
+     * @return \Magento\Core\Model\Store|null
      */
     public function getStoresList()
     {
-        $stores = Mage::getObjectManager()->get('Magento_Theme_Model_Config_Customization')->getStoresByThemes();
+        $stores = \Mage::getObjectManager()->get('Magento\Theme\Model\Config\Customization')->getStoresByThemes();
         return isset($stores[$this->_themeContext->getEditableTheme()->getId()])
             ? $stores[$this->_themeContext->getEditableTheme()->getId()]
             : null;

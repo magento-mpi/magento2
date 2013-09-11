@@ -40,23 +40,23 @@
         <cache>
             <dependency>
                 <change>
-                    <catalog_product>Magento_Catalog_Model_Product</catalog_product>
-                    <catalog_category>Magento_Catalog_Model_Category</catalog_category>
-                    <catalog_eav_attribute>Magento_Catalog_Model_Resource_Eav_Attribute</catalog_eav_attribute>
-                    <review>Magento_Review_Model_Review</review>
-                    <cms_hierarchy_node>Magento_VersionsCms_Model_Hierarchy_Node</cms_hierarchy_node>
-                    <banner>Magento_Banner_Model_Banner</banner>
-                    <core_store_group>Magento_Core_Model_Store_Group</core_store_group>
-                    <poll>Magento_Poll_Model_Poll</poll>
+                    <catalog_product>\Magento\Catalog\Model\Product</catalog_product>
+                    <catalog_category>\Magento\Catalog\Model\Category</catalog_category>
+                    <catalog_eav_attribute>\Magento\Catalog\Model\Resource\Eav\Attribute</catalog_eav_attribute>
+                    <review>\Magento\Review\Model\Review</review>
+                    <cms_hierarchy_node>\Magento\VersionsCms\Model\Hierarchy\Node</cms_hierarchy_node>
+                    <banner>\Magento\Banner\Model\Banner</banner>
+                    <core_store_group>\Magento\Core\Model\Store\Group</core_store_group>
+                    <poll>\Magento\Poll\Model\Poll</poll>
                 </change>
                 <delete>
-                    <catalog_category>Magento_Catalog_Model_Category</catalog_category>
-                    <catalog_eav_attribute>Magento_Catalog_Model_Resource_Eav_Attribute</catalog_eav_attribute>
-                    <review>Magento_Review_Model_Review</review>
-                    <cms_hierarchy_node>Magento_VersionsCms_Model_Hierarchy_Node</cms_hierarchy_node>
-                    <banner>Magento_Banner_Model_Banner</banner>
-                    <core_store_group>Magento_Core_Model_Store_Group</core_store_group>
-                    <poll>Magento_Poll_Model_Poll</poll>
+                    <catalog_category>\Magento\Catalog\Model\Category</catalog_category>
+                    <catalog_eav_attribute>\Magento\Catalog\Model\Resource\Eav\Attribute</catalog_eav_attribute>
+                    <review>\Magento\Review\Model\Review</review>
+                    <cms_hierarchy_node>\Magento\VersionsCms\Model\Hierarchy\Node</cms_hierarchy_node>
+                    <banner>\Magento\Banner\Model\Banner</banner>
+                    <core_store_group>\Magento\Core\Model\Store\Group</core_store_group>
+                    <poll>\Magento\Poll\Model\Poll</poll>
                 </delete>
             </dependency>
         </cache>
@@ -64,15 +64,15 @@
     <frontend>
         <cache>
             <requests>
-                <cms>Magento_FullPageCache_Model_Processor_Default</cms>
+                <cms>\Magento\FullPageCache\Model\Processor\DefaultProcessor</cms>
                 <catalog>
                     <category>
-                        <view>Magento_FullPageCache_Model_Processor_Category</view>
+                        <view>\Magento\FullPageCache\Model\Processor\Category</view>
                     </category>
                 </catalog>
                 <catalog>
                     <product>
-                        <view>Magento_FullPageCache_Model_Processor_Product</view>
+                        <view>\Magento\FullPageCache\Model\Processor\Product</view>
                     </product>
                 </catalog>
             </requests>
@@ -106,7 +106,7 @@
                     <cron_expr>0 3 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_FullPageCache_Model_Crawler::crawl</model>
+                    <model>\Magento\FullPageCache\Model\Crawler::crawl</model>
                 </run>
             </magento_full_page_cache_crawler>
         </jobs>

@@ -11,14 +11,16 @@
 /**
  * Block that renders Quick Styles > Buttons & Icons tab
  *
- * @method Magento_Core_Model_Theme getTheme()
+ * @method \Magento\Core\Model\Theme getTheme()
  * @method setTheme($theme)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_Buttons
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Tools_QuickStyles_AbstractTab
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
+
+class Buttons
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles\AbstractTab
 {
     /**
      * Tab form HTML identifier

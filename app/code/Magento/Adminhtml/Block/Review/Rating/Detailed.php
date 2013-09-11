@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Review\Rating;
+
+class Detailed extends \Magento\Adminhtml\Block\Template
 {
     protected $_voteCollection = false;
 
@@ -26,20 +28,20 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
     {
         parent::_construct();
 
-        if( Mage::registry('review_data') ) {
-            $this->setReviewId(Mage::registry('review_data')->getReviewId());
+        if( \Mage::registry('review_data') ) {
+            $this->setReviewId(\Mage::registry('review_data')->getReviewId());
         }
     }
 
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            if( Mage::registry('review_data') ) {
-                $stores = Mage::registry('review_data')->getStores();
+            if( \Mage::registry('review_data') ) {
+                $stores = \Mage::registry('review_data')->getStores();
 
                 $stores = array_diff($stores, array(0));
 
-                $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating')
+                $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating')
                     ->getResourceCollection()
                     ->addEntityFilter('product')
                     ->setStoreFilter($stores)
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
                     ->load()
                     ->addOptionToItems();
 
-                $this->_voteCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
+                $this->_voteCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
                     ->getResourceCollection()
                     ->setReviewFilter($this->getReviewId())
                     ->addOptionInfo()
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
                     ->addRatingOptions();
 
             } elseif (!$this->getIsIndependentMode()) {
-                $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating')
+                $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating')
                     ->getResourceCollection()
                     ->addEntityFilter('product')
                     ->setStoreFilter(null)
@@ -64,7 +66,7 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
                     ->load()
                     ->addOptionToItems();
             } else {
-                $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating')
+                $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating')
                     ->getResourceCollection()
                     ->addEntityFilter('product')
                     ->setStoreFilter($this->getRequest()->getParam('select_stores') ? $this->getRequest()->getParam('select_stores') : $this->getRequest()->getParam('stores'))
@@ -72,7 +74,7 @@ class Magento_Adminhtml_Block_Review_Rating_Detailed extends Magento_Adminhtml_B
                     ->load()
                     ->addOptionToItems();
                 if(intval($this->getRequest()->getParam('id'))){
-                    $this->_voteCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
+                    $this->_voteCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
                         ->getResourceCollection()
                         ->setReviewFilter(intval($this->getRequest()->getParam('id')))
                         ->addOptionInfo()

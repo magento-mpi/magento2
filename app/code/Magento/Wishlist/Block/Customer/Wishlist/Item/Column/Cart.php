@@ -15,15 +15,17 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Customer_Wishlist_Item_Column_Cart extends Magento_Wishlist_Block_Customer_Wishlist_Item_Column
+namespace Magento\Wishlist\Block\Customer\Wishlist\Item\Column;
+
+class Cart extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
     /**
      * Returns qty to show visually to user
      *
-     * @param Magento_Wishlist_Model_Item $item
+     * @param \Magento\Wishlist\Model\Item $item
      * @return float
      */
-    public function getAddToCartQty(Magento_Wishlist_Model_Item $item)
+    public function getAddToCartQty(\Magento\Wishlist\Model\Item $item)
     {
         $qty = $item->getQty();
         return $qty ? $qty : 1;

@@ -15,7 +15,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_Register extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class Register extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Retrieve points delta for action
@@ -25,7 +27,7 @@ class Magento_Reward_Model_Action_Register extends Magento_Reward_Model_Action_A
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig('register', $websiteId);
+        return (int)\Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig('register', $websiteId);
     }
 
     /**

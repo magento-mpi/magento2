@@ -15,24 +15,26 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
+namespace Magento\Sales\Model\Order;
+
+class Api extends \Magento\Sales\Model\Api\Resource
 {
     /**
      * Design package instance
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design = null;
 
     /**
      * Initialize attributes map
      *
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Api_Helper_Data $apiHelper
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Api\Helper\Data $apiHelper
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Api_Helper_Data $apiHelper
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Api\Helper\Data $apiHelper
     ) {
         $this->_design = $design;
         parent::__construct($apiHelper);
@@ -47,13 +49,13 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
      * Initialize basic order model
      *
      * @param mixed $orderIncrementId
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     protected function _initOrder($orderIncrementId)
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = \Mage::getModel('\Magento\Sales\Model\Order');
 
-        /* @var $order Magento_Sales_Model_Order */
+        /* @var $order \Magento\Sales\Model\Order */
 
         $order->loadByIncrementId($orderIncrementId);
 
@@ -78,8 +80,8 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
         $billingAliasName = 'billing_o_a';
         $shippingAliasName = 'shipping_o_a';
 
-        /** @var $orderCollection Magento_Sales_Model_Resource_Order_Collection */
-        $orderCollection = Mage::getModel('Magento_Sales_Model_Order')->getCollection();
+        /** @var $orderCollection \Magento\Sales\Model\Resource\Order\Collection */
+        $orderCollection = \Mage::getModel('\Magento\Sales\Model\Order')->getCollection();
         $billingFirstnameField = "$billingAliasName.firstname";
         $billingLastnameField = "$billingAliasName.lastname";
         $shippingFirstnameField = "$shippingAliasName.firstname";
@@ -102,14 +104,14 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
                 array('shipping_firstname' => $shippingFirstnameField, 'shipping_lastname' => $shippingLastnameField)
         );
 
-        /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        /** @var $apiHelper \Magento\Api\Helper\Data */
+        $apiHelper = \Mage::helper('Magento\Api\Helper\Data');
         $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['order']);
         try {
             foreach ($filters as $field => $value) {
                 $orderCollection->addFieldToFilter($field, $value);
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('filters_invalid', $e->getMessage());
         }
         foreach ($orderCollection as $order) {
@@ -130,7 +132,7 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
 
         if ($order->getGiftMessageId() > 0) {
             $order->setGiftMessage(
-                Mage::getSingleton('Magento_GiftMessage_Model_Message')->load($order->getGiftMessageId())->getMessage()
+                \Mage::getSingleton('Magento\GiftMessage\Model\Message')->load($order->getGiftMessageId())->getMessage()
             );
         }
 
@@ -143,7 +145,7 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
         foreach ($order->getAllItems() as $item) {
             if ($item->getGiftMessageId() > 0) {
                 $item->setGiftMessage(
-                    Mage::getSingleton('Magento_GiftMessage_Model_Message')->load($item->getGiftMessageId())->getMessage()
+                    \Mage::getSingleton('Magento\GiftMessage\Model\Message')->load($item->getGiftMessageId())->getMessage()
                 );
             }
 
@@ -189,7 +191,7 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
                 $this->_design->setArea($oldArea);
             }
 
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         }
 
@@ -209,7 +211,7 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
         try {
             $order->hold();
             $order->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         }
 
@@ -229,7 +231,7 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
         try {
             $order->unhold();
             $order->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         }
 
@@ -246,19 +248,19 @@ class Magento_Sales_Model_Order_Api extends Magento_Sales_Model_Api_Resource
     {
         $order = $this->_initOrder($orderIncrementId);
 
-        if (Magento_Sales_Model_Order::STATE_CANCELED == $order->getState()) {
+        if (\Magento\Sales\Model\Order::STATE_CANCELED == $order->getState()) {
             $this->_fault('status_not_changed');
         }
         try {
             $order->cancel();
             $order->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
         }
-        if (Magento_Sales_Model_Order::STATE_CANCELED != $order->getState()) {
+        if (\Magento\Sales\Model\Order::STATE_CANCELED != $order->getState()) {
             $this->_fault('status_not_changed');
         }
         return true;
     }
 
-} // Class Magento_Sales_Model_Order_Api End
+} // Class \Magento\Sales\Model\Order\Api End

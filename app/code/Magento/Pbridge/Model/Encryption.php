@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Pbridge_Model_Encryption extends Magento_Pci_Model_Encryption {
+namespace Magento\Pbridge\Model;
+
+class Encryption extends \Magento\Pci\Model\Encryption {
 
     /**
      * Constructor

@@ -15,7 +15,9 @@
  * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_View
+namespace Magento\Review\Block\Product;
+
+class View extends \Magento\Catalog\Block\Product\View
 {
     protected $_reviewsCollection;
 
@@ -35,15 +37,15 @@ class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_Vi
      * Replace review summary html with more detailed review summary
      * Reviews collection count will be jerked here
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $templateType
      * @param bool $displayIfNoReviews
      * @return string
      */
-    public function getReviewsSummaryHtml(Magento_Catalog_Model_Product $product, $templateType = false, $displayIfNoReviews = false)
+    public function getReviewsSummaryHtml(\Magento\Catalog\Model\Product $product, $templateType = false, $displayIfNoReviews = false)
     {
         return
-            $this->getLayout()->createBlock('Magento_Rating_Block_Entity_Detailed')
+            $this->getLayout()->createBlock('\Magento\Rating\Block\Entity\Detailed')
                 ->setEntityId($this->getProduct()->getId())
                 ->toHtml()
             .
@@ -56,9 +58,9 @@ class Magento_Review_Block_Product_View extends Magento_Catalog_Block_Product_Vi
     public function getReviewsCollection()
     {
         if (null === $this->_reviewsCollection) {
-            $this->_reviewsCollection = Mage::getModel('Magento_Review_Model_Review')->getCollection()
-                ->addStoreFilter(Mage::app()->getStore()->getId())
-                ->addStatusFilter(Magento_Review_Model_Review::STATUS_APPROVED)
+            $this->_reviewsCollection = \Mage::getModel('\Magento\Review\Model\Review')->getCollection()
+                ->addStoreFilter(\Mage::app()->getStore()->getId())
+                ->addStatusFilter(\Magento\Review\Model\Review::STATUS_APPROVED)
                 ->addEntityFilter('product', $this->getProduct()->getId())
                 ->setDateOrder();
         }

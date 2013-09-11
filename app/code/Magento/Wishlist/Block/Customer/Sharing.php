@@ -16,7 +16,9 @@
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Customer_Sharing extends Magento_Core_Block_Template
+namespace Magento\Wishlist\Block\Customer;
+
+class Sharing extends \Magento\Core\Block\Template
 {
     /**
      * Entered Data cache
@@ -28,18 +30,18 @@ class Magento_Wishlist_Block_Customer_Sharing extends Magento_Core_Block_Templat
     /**
      * Wishlist configuration
      *
-     * @var Magento_Wishlist_Model_Config
+     * @var \Magento\Wishlist\Model\Config
      */
     protected $_wishlistConfig;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Wishlist_Model_Config $wishlistConfig
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Wishlist_Model_Config $wishlistConfig,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Wishlist\Model\Config $wishlistConfig,
         array $data = array()
     ) {
         $this->_wishlistConfig = $wishlistConfig;
@@ -49,7 +51,7 @@ class Magento_Wishlist_Block_Customer_Sharing extends Magento_Core_Block_Templat
     /**
      * Prepare Global Layout
      *
-     * @return Magento_Wishlist_Block_Customer_Sharing
+     * @return \Magento\Wishlist\Block\Customer\Sharing
      */
     protected function _prepareLayout()
     {
@@ -78,7 +80,7 @@ class Magento_Wishlist_Block_Customer_Sharing extends Magento_Core_Block_Templat
     public function getEnteredData($key)
     {
         if (is_null($this->_enteredData)) {
-            $this->_enteredData = Mage::getSingleton('Magento_Wishlist_Model_Session')
+            $this->_enteredData = \Mage::getSingleton('Magento_Wishlist_Model_Session')
                 ->getData('sharing_form', true);
         }
 

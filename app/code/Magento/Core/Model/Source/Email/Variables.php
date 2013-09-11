@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Source_Email_Variables
+namespace Magento\Core\Model\Source\Email;
+
+class Variables
 {
     /**
      * Assoc array of configuration variables
@@ -33,11 +35,11 @@ class Magento_Core_Model_Source_Email_Variables
     {
         $this->_configVariables = array(
             array(
-                'value' => Magento_Core_Model_Url::XML_PATH_UNSECURE_URL,
+                'value' => \Magento\Core\Model\Url::XML_PATH_UNSECURE_URL,
                 'label' => __('Base Unsecure URL')
             ),
             array(
-                'value' => Magento_Core_Model_Url::XML_PATH_SECURE_URL,
+                'value' => \Magento\Core\Model\Url::XML_PATH_SECURE_URL,
                 'label' => __('Base Secure URL')
             ),
             array(

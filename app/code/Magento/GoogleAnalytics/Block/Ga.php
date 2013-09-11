@@ -16,7 +16,9 @@
  * @package    Magento_GoogleAnalytics
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleAnalytics_Block_Ga extends Magento_Core_Block_Template
+namespace Magento\GoogleAnalytics\Block;
+
+class Ga extends \Magento\Core\Block\Template
 {
     /**
      * Get config
@@ -73,7 +75,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
         if (empty($orderIds) || !is_array($orderIds)) {
             return;
         }
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
             ->addFieldToFilter('entity_id', array('in' => $orderIds))
         ;
         $result = array();
@@ -85,13 +87,13 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
             }
             $result[] = sprintf("_gaq.push(['_addTrans', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s']);",
                 $order->getIncrementId(),
-                $this->jsQuoteEscape(Mage::app()->getStore()->getFrontendName()),
+                $this->jsQuoteEscape(\Mage::app()->getStore()->getFrontendName()),
                 $order->getBaseGrandTotal(),
                 $order->getBaseTaxAmount(),
                 $order->getBaseShippingAmount(),
-                $this->jsQuoteEscape(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($address->getCity())),
-                $this->jsQuoteEscape(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($address->getRegion())),
-                $this->jsQuoteEscape(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($address->getCountry()))
+                $this->jsQuoteEscape(\Mage::helper('Magento\Core\Helper\Data')->escapeHtml($address->getCity())),
+                $this->jsQuoteEscape(\Mage::helper('Magento\Core\Helper\Data')->escapeHtml($address->getRegion())),
+                $this->jsQuoteEscape(\Mage::helper('Magento\Core\Helper\Data')->escapeHtml($address->getCountry()))
             );
             foreach ($order->getAllVisibleItems() as $item) {
                 $result[] = sprintf("_gaq.push(['_addItem', '%s', '%s', '%s', '%s', '%s', '%s']);",
@@ -113,7 +115,7 @@ _gaq.push(['_trackPageview'{$optPageURL}]);
      */
     protected function _toHtml()
     {
-        if (!Mage::helper('Magento_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {
+        if (!\Mage::helper('Magento\GoogleAnalytics\Helper\Data')->isGoogleAnalyticsAvailable()) {
             return '';
         }
 

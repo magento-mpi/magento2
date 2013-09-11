@@ -9,8 +9,8 @@
  */
 ?>
 
-<?php /* @var $this Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options */ ?>
-<?php $options = $this->helper('Magento_Core_Helper_Data')->decorateArray($this->getOptions()); ?>
+<?php /* @var $this \Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Options */ ?>
+<?php $options = $this->helper('\Magento\Core\Helper\Data')->decorateArray($this->getOptions()); ?>
 <?php if (count($options)): ?>
 
 <?php echo $this->getChildHtml('options_js') ?>

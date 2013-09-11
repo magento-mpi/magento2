@@ -23,10 +23,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
      */
     protected function _getFormInstance($args = array())
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_Urlrewrite_Edit_Form */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Urlrewrite_Edit_Form', 'block', array('data' => $args));
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Edit\Form */
+        $block = $layout->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Edit\Form', 'block', array('data' => $args));
         $block->setTemplate(null);
         $block->toHtml();
         return $block->getForm();
@@ -75,7 +75,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
             'options'      => 'options',
             'description'  => 'description'
         );
-        Mage::getModel('Magento_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
+        Mage::getModel('\Magento\Adminhtml\Model\Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
         $form = $this->_getFormInstance(array('url_rewrite' => new \Magento\Object()));
 
@@ -118,11 +118,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework
         $this->assertInstanceOf('\Magento\Data\Form\Element\Select', $storeElement);
 
         // Check store selection elements has correct renderer
-        $this->assertInstanceOf('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element',
+        $this->assertInstanceOf('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element',
             $storeElement->getRenderer());
 
         // Check store elements has expected values
-        $storesList = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm();
+        $storesList = Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm();
         $this->assertInternalType('array', $storeElement->getValues());
         $this->assertNotEmpty($storeElement->getValues());
         $this->assertEquals($storesList, $storeElement->getValues());

@@ -15,14 +15,16 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg;
+
+class Content
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare form.
      * Adding editor field to render
      *
-     * @return Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content
+     * @return \Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg\Content
      */
     protected function _prepareForm()
     {
@@ -41,7 +43,7 @@ class Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg_Content
             'style'     => 'width:725px;height:460px',
             'required'  => true,
             'force_load' => true,
-            'config'    => Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->getConfig($config)
+            'config'    => \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->getConfig($config)
         ));
         $this->setForm($form);
         return parent::_prepareForm();

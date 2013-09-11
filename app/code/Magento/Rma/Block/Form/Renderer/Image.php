@@ -16,7 +16,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Form_Renderer_Image extends Magento_CustomAttribute_Block_Form_Renderer_Image
+namespace Magento\Rma\Block\Form\Renderer;
+
+class Image extends \Magento\CustomAttribute\Block\Form\Renderer\Image
 {
 
     /**
@@ -26,8 +28,8 @@ class Magento_Rma_Block_Form_Renderer_Image extends Magento_CustomAttribute_Bloc
      */
     public function getImageUrl()
     {
-        $url = Mage::getBaseUrl('media')
-            .Magento_Rma_Model_Item::ITEM_IMAGE_URL;
+        $url = \Mage::getBaseUrl('media')
+            .\Magento\Rma\Model\Item::ITEM_IMAGE_URL;
 
 
         $file = $this->getValue();

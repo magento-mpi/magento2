@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_GiftRegistry_Block_Customer_Edit_Abstract
+ * Test class for \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
  */
 class Magento_GiftRegistry_Block_Customer_Edit_AbstractTest
     extends PHPUnit_Framework_TestCase
@@ -23,12 +23,12 @@ class Magento_GiftRegistry_Block_Customer_Edit_AbstractTest
     public function testGetCalendarDateHtml()
     {
         $this->getMockForAbstractClass(
-            'Magento_GiftRegistry_Block_Customer_Edit_Abstract', array(), self::STUB_CLASS, false
+            '\Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit', array(), self::STUB_CLASS, false
         );
         $block = Mage::app()->getLayout()->createBlock(self::STUB_CLASS);
 
         $value = null;
-        $formatType = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM;
+        $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 

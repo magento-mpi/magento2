@@ -17,11 +17,11 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockInjections = array(
-        'Magento_Core_Model_Context',
+        '\Magento\Core\Model\Context',
         '\Magento\Filesystem',
-        'Magento_Core_Model_View_Url',
-        'Magento_Core_Model_View_FileSystem',
-        'Magento_Core_Model_View_Design'
+        '\Magento\Core\Model\View\Url',
+        '\Magento\Core\Model\View\FileSystem',
+        '\Magento\Core\Model\View\Design'
     );
 
     /**
@@ -31,8 +31,8 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $order = Mage::getModel('\Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 
         $event = new \Magento\Event(array('order' => $order));
@@ -43,19 +43,19 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->method('send')
             ->will($this->returnValue(true));
 
-        $emailTemplateMock = $this->getMock('Magento_Core_Model_Email_Template', array('_getMail'),
+        $emailTemplateMock = $this->getMock('Magento\Core\Model\Email\Template', array('_getMail'),
             $this->_prepareConstructorArguments()
         );
         $emailTemplateMock->expects($this->once())
             ->method('_getMail')
             ->will($this->returnValue($zendMailMock));
 
-        $model = Mage::getModel('Magento_GiftCard_Model_Observer', array(
+        $model = Mage::getModel('\Magento\GiftCard\Model\Observer', array(
             'data' => array('email_template_model' => $emailTemplateMock)
         ));
         $model->generateGiftCardAccounts($observer);
         $this->assertEquals(
-            array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND, 'store' => 1),
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 1),
             $emailTemplateMock->getDesignConfig()->getData()
         );
 
@@ -65,7 +65,7 @@ class Magento_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * Check email sending related gift card product options
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @param bool $expectedEmpty
      */
     protected function _checkOrderItemProductOptions($order, $expectedEmpty)

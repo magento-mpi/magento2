@@ -12,17 +12,19 @@
  * Enterprise general observer
  *
  */
-class Magento_Enterprise_Model_Observer
+namespace Magento\Enterprise\Model;
+
+class Observer
 {
     /**
      * Set hide survey question to session
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Enterprise_Model_Observer
+     * @return \Magento\Enterprise\Model\Observer
      */
     public function setHideSurveyQuestion($observer)
     {
-        Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setHideSurveyQuestion(true);
+        \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setHideSurveyQuestion(true);
         return $this;
     }
 }

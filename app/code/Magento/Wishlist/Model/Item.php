@@ -12,25 +12,27 @@
 /**
  * Wishlist item model
  *
- * @method Magento_Wishlist_Model_Resource_Item _getResource()
- * @method Magento_Wishlist_Model_Resource_Item getResource()
+ * @method \Magento\Wishlist\Model\Resource\Item _getResource()
+ * @method \Magento\Wishlist\Model\Resource\Item getResource()
  * @method int getWishlistId()
- * @method Magento_Wishlist_Model_Item setWishlistId(int $value)
+ * @method \Magento\Wishlist\Model\Item setWishlistId(int $value)
  * @method int getProductId()
- * @method Magento_Wishlist_Model_Item setProductId(int $value)
+ * @method \Magento\Wishlist\Model\Item setProductId(int $value)
  * @method int getStoreId()
- * @method Magento_Wishlist_Model_Item setStoreId(int $value)
+ * @method \Magento\Wishlist\Model\Item setStoreId(int $value)
  * @method string getAddedAt()
- * @method Magento_Wishlist_Model_Item setAddedAt(string $value)
+ * @method \Magento\Wishlist\Model\Item setAddedAt(string $value)
  * @method string getDescription()
- * @method Magento_Wishlist_Model_Item setDescription(string $value)
+ * @method \Magento\Wishlist\Model\Item setDescription(string $value)
  *
  * @category    Magento
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
-    implements Magento_Catalog_Model_Product_Configuration_Item_Interface
+namespace Magento\Wishlist\Model;
+
+class Item extends \Magento\Core\Model\AbstractModel
+    implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     const EXCEPTION_CODE_NOT_SALABLE            = 901;
     const EXCEPTION_CODE_HAS_REQUIRED_OPTIONS   = 902;
@@ -90,14 +92,14 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Wishlist_Model_Resource_Item');
+        $this->_init('\Magento\Wishlist\Model\Resource\Item');
     }
 
     /**
      * Set quantity. If quantity is less than 0 - set it to 1
      *
      * @param int $qty
-     * @return Magento_Wishlist_Model_Item
+     * @return \Magento\Wishlist\Model\Item
      */
     public function setQty($qty)
     {
@@ -108,7 +110,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Magento_Wishlist_Model_Resource_Item
+     * @return \Magento\Wishlist\Model\Resource\Item
      */
     protected function _getResource()
     {
@@ -139,8 +141,8 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Register option code
      *
-     * @param   Magento_Wishlist_Model_Item_Option $option
-     * @return  Magento_Wishlist_Model_Item
+     * @param   \Magento\Wishlist\Model\Item\Option $option
+     * @return  \Magento\Wishlist\Model\Item
      */
     protected function _addOptionCode($option)
     {
@@ -148,7 +150,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
             $this->_optionsByCode[$option->getCode()] = $option;
         }
         else {
-            Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
+            \Mage::throwException(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }
@@ -171,7 +173,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Save item options
      *
-     * @return Magento_Wishlist_Model_Item
+     * @return \Magento\Wishlist\Model\Item
      */
     protected function _saveItemOptions()
     {
@@ -209,7 +211,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Save item options after item saved
      *
-     * @return Magento_Wishlist_Model_Item
+     * @return \Magento\Wishlist\Model\Item
      */
     protected function _afterSave()
     {
@@ -220,16 +222,16 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Validate wish list item data
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validate()
     {
         if (!$this->getWishlistId()) {
-            Mage::throwException(__('We can\'t specify a wish list.'));
+            \Mage::throwException(__('We can\'t specify a wish list.'));
         }
         if (!$this->getProductId()) {
-            Mage::throwException(__('Cannot specify product.'));
+            \Mage::throwException(__('Cannot specify product.'));
         }
 
         return true;
@@ -238,7 +240,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Check required data
      *
-     * @return Magento_Wishlist_Model_Item
+     * @return \Magento\Wishlist\Model\Item
      */
     protected function _beforeSave()
     {
@@ -249,12 +251,12 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
 
         // set current store id if it is not defined
         if (is_null($this->getStoreId())) {
-            $this->setStoreId(Mage::app()->getStore()->getId());
+            $this->setStoreId(\Mage::app()->getStore()->getId());
         }
 
         // set current date if added at data is not defined
         if (is_null($this->getAddedAt())) {
-            $this->setAddedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+            $this->setAddedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
         }
 
         return $this;
@@ -267,7 +269,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * @param int $wishlistId
      * @param int $productId
      * @param array $sharedStores
-     * @return Magento_Wishlist_Model_Item
+     * @return \Magento\Wishlist\Model\Item
      */
     public function loadByProductWishlist($wishlistId, $productId, $sharedStores)
     {
@@ -281,18 +283,18 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Retrieve item product instance
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Catalog_Model_Product
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$this->getProductId()) {
-                Mage::throwException(__('Cannot specify product.'));
+                \Mage::throwException(__('Cannot specify product.'));
             }
 
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
                 ->setStoreId($this->getStoreId())
                 ->load($this->getProductId());
 
@@ -313,18 +315,18 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * Return true if product was successful added or exception with code
      * Return false for disabled or unvisible products
      *
-     * @throws Magento_Core_Exception
-     * @param Magento_Checkout_Model_Cart $cart
+     * @throws \Magento\Core\Exception
+     * @param \Magento\Checkout\Model\Cart $cart
      * @param bool $delete  delete the item after successful add to cart
      * @return bool
      */
-    public function addToCart(Magento_Checkout_Model_Cart $cart, $delete = false)
+    public function addToCart(\Magento\Checkout\Model\Cart $cart, $delete = false)
     {
         $product = $this->getProduct();
 
         $storeId = $this->getStoreId();
 
-        if ($product->getStatus() != Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
+        if ($product->getStatus() != \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
             return false;
         }
 
@@ -332,7 +334,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
             if ($product->getStoreId() == $storeId) {
                 return false;
             }
-            $urlData = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
+            $urlData = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Url')
                 ->getRewriteByProductStore(array($product->getId() => $storeId));
             if (!isset($urlData[$product->getId()])) {
                 return false;
@@ -345,7 +347,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
         }
 
         if (!$product->isSalable()) {
-            throw new Magento_Core_Exception(null, self::EXCEPTION_CODE_NOT_SALABLE);
+            throw new \Magento\Core\Exception(null, self::EXCEPTION_CODE_NOT_SALABLE);
         }
 
         $buyRequest = $this->getBuyRequest();
@@ -407,7 +409,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * Merge data to item info_buyRequest option
      *
      * @param array|\Magento\Object $buyRequest
-     * @return Magento_Wishlist_Model_Item
+     * @return \Magento\Wishlist\Model\Item
      */
     public function mergeBuyRequest($buyRequest) {
         if ($buyRequest instanceof \Magento\Object) {
@@ -439,7 +441,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * Set buy request - object, holding request received from
      * product view page with keys and options for configured product
      * @param \Magento\Object $buyRequest
-     * @return Magento_Wishlist_Model_Item
+     * @return \Magento\Wishlist\Model\Item
      */
     public function setBuyRequest($buyRequest)
     {
@@ -453,7 +455,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Check product representation in item
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @param   \Magento\Object $buyRequest
      * @return  bool
      */
@@ -490,7 +492,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Check product representation in item
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  bool
      */
     public function representProduct($product)
@@ -541,7 +543,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * Initialize item options
      *
      * @param   array $options
-     * @return  Magento_Wishlist_Model_Item
+     * @return  \Magento\Wishlist\Model\Item
      */
     public function setOptions($options)
     {
@@ -574,22 +576,22 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     /**
      * Add option to item
      *
-     * @param   Magento_Wishlist_Model_Item_Option $option
-     * @return  Magento_Wishlist_Model_Item
+     * @param   \Magento\Wishlist\Model\Item\Option $option
+     * @return  \Magento\Wishlist\Model\Item
      */
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = Mage::getModel('Magento_Wishlist_Model_Item_Option')->setData($option)
+            $option = \Mage::getModel('\Magento\Wishlist\Model\Item\Option')->setData($option)
                 ->setItem($this);
-        } else if ($option instanceof Magento_Wishlist_Model_Item_Option) {
+        } else if ($option instanceof \Magento\Wishlist\Model\Item\Option) {
             $option->setItem($this);
         } else if ($option instanceof \Magento\Object) {
-            $option = Mage::getModel('Magento_Wishlist_Model_Item_Option')->setData($option->getData())
+            $option = \Mage::getModel('\Magento\Wishlist\Model\Item\Option')->setData($option->getData())
                ->setProduct($option->getProduct())
                ->setItem($this);
         } else {
-            Mage::throwException(__('Invalid item option format.'));
+            \Mage::throwException(__('Invalid item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -606,7 +608,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      *Remove option from item options
      *
      * @param string $code
-     * @return Magento_Wishlist_Model_Item
+     * @return \Magento\Wishlist\Model\Item
      */
     public function removeOption($code)
     {
@@ -621,7 +623,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * Get item option by code
      *
      * @param   string $code
-     * @return  Magento_Wishlist_Model_Item_Option || null
+     * @return  \Magento\Wishlist\Model\Item\Option || null
      */
     public function getOptionByCode($code)
     {
@@ -639,7 +641,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
     public function canHaveQty()
     {
         $product = $this->getProduct();
-        return $product->getTypeId() != Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
+        return $product->getTypeId() != \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE;
     }
 
     /**
@@ -660,7 +662,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
 
     /**
      * Returns special download params (if needed) for custom option with type = 'file'.
-     * Needed to implement Magento_Catalog_Model_Product_Configuration_Item_Interface.
+     * Needed to implement \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface.
      *
      * We have to customize only controller url, so return it.
      *
@@ -681,7 +683,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
      * @param int $id
      * @param null|string|array $optionsFilter
      *
-     * @return Magento_Wishlist_Model_Item
+     * @return \Magento\Wishlist\Model\Item
      */
     public function loadWithOptions($id, $optionsFilter = null)
     {
@@ -690,7 +692,7 @@ class Magento_Wishlist_Model_Item extends Magento_Core_Model_Abstract
             return $this;
         }
 
-        $options = Mage::getResourceModel('Magento_Wishlist_Model_Resource_Item_Option_Collection')
+        $options = \Mage::getResourceModel('\Magento\Wishlist\Model\Resource\Item\Option\Collection')
             ->addItemFilter($this);
         if ($optionsFilter) {
             $options->addFieldToFilter('code', $optionsFilter);

@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Catalog_Product_Widget extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Catalog\Product;
+
+class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Chooser Source action
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Widget extends Magento_Adminh
         $productTypeId = $this->getRequest()->getParam('product_type_id', null);
 
         $productsGrid = $this->getLayout()->createBlock(
-            'Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser',
+            '\Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser',
             '',
             array(
                 'data' => array(
@@ -44,7 +46,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Widget extends Magento_Adminh
 
         if (!$this->getRequest()->getParam('products_grid')) {
             $categoriesTree = $this->getLayout()->createBlock(
-                'Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser',
+                '\Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser',
                 '',
                 array(
                     'data' => array(
@@ -55,7 +57,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Widget extends Magento_Adminh
                 )
             );
 
-            $html = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser_Container')
+            $html = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser\Container')
                 ->setTreeHtml($categoriesTree->toHtml())
                 ->setGridHtml($html)
                 ->toHtml();

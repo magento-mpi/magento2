@@ -12,23 +12,25 @@
 /**
  * Bundle Product Price Index
  *
- * @method Magento_Bundle_Model_Resource_Price_Index _getResource()
- * @method Magento_Bundle_Model_Resource_Price_Index getResource()
- * @method Magento_Bundle_Model_Price_Index setEntityId(int $value)
+ * @method \Magento\Bundle\Model\Resource\Price\Index _getResource()
+ * @method \Magento\Bundle\Model\Resource\Price\Index getResource()
+ * @method \Magento\Bundle\Model\Price\Index setEntityId(int $value)
  * @method int getWebsiteId()
- * @method Magento_Bundle_Model_Price_Index setWebsiteId(int $value)
+ * @method \Magento\Bundle\Model\Price\Index setWebsiteId(int $value)
  * @method int getCustomerGroupId()
- * @method Magento_Bundle_Model_Price_Index setCustomerGroupId(int $value)
+ * @method \Magento\Bundle\Model\Price\Index setCustomerGroupId(int $value)
  * @method float getMinPrice()
- * @method Magento_Bundle_Model_Price_Index setMinPrice(float $value)
+ * @method \Magento\Bundle\Model\Price\Index setMinPrice(float $value)
  * @method float getMaxPrice()
- * @method Magento_Bundle_Model_Price_Index setMaxPrice(float $value)
+ * @method \Magento\Bundle\Model\Price\Index setMaxPrice(float $value)
  *
  * @category    Magento
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
+namespace Magento\Bundle\Model\Price;
+
+class Index extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Initialize resource model
@@ -36,13 +38,13 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Bundle_Model_Resource_Price_Index');
+        $this->_init('\Magento\Bundle\Model\Resource\Price\Index');
     }
 
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Magento_Bundle_Model_Resource_Price_Index
+     * @return \Magento\Bundle\Model\Resource\Price\Index
      */
     protected function _getResource()
     {
@@ -54,7 +56,7 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
      *
      * @param int $productId
      * @param int $priceType
-     * @return Magento_Bundle_Model_Price_Index
+     * @return \Magento\Bundle\Model\Price\Index
      */
     protected function _reindexProduct($productId, $priceType)
     {
@@ -65,8 +67,8 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     /**
      * Reindex Bundle product Price Index
      *
-     * @param Magento_Catalog_Model_Product|Magento_Catalog_Model_Product_Condition_Interface|array|int $products
-     * @return Magento_Bundle_Model_Price_Index
+     * @param \Magento\Catalog\Model\Product|\Magento\Catalog\Model\Product\Condition\ConditionInterface|array|int $products
+     * @return \Magento\Bundle\Model\Price\Index
      */
     public function reindex($products = null)
     {
@@ -77,23 +79,23 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     /**
      * Add bundle price range index to Product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @return Magento_Bundle_Model_Price_Index
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @return \Magento\Bundle\Model\Price\Index
      */
     public function addPriceIndexToCollection($collection)
     {
         $productObjects = array();
         $productIds     = array();
         foreach ($collection->getItems() as $product) {
-            /* @var $product Magento_Catalog_Model_Product */
-            if ($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            /* @var $product \Magento\Catalog\Model\Product */
+            if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                 $productIds[] = $product->getEntityId();
                 $productObjects[$product->getEntityId()] = $product;
             }
         }
-        $websiteId  = Mage::app()->getStore($collection->getStoreId())
+        $websiteId  = \Mage::app()->getStore($collection->getStoreId())
             ->getWebsiteId();
-        $groupId    = Mage::getSingleton('Magento_Customer_Model_Session')
+        $groupId    = \Mage::getSingleton('Magento\Customer\Model\Session')
             ->getCustomerGroupId();
 
         $addOptionsToResult = false;
@@ -120,13 +122,13 @@ class Magento_Bundle_Model_Price_Index extends Magento_Core_Model_Abstract
     /**
      * Add price index to bundle product after load
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Bundle_Model_Price_Index
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Bundle\Model\Price\Index
      */
     public function addPriceIndexToProduct($product)
     {
         $websiteId  = $product->getStore()->getWebsiteId();
-        $groupId    = Mage::getSingleton('Magento_Customer_Model_Session')
+        $groupId    = \Mage::getSingleton('Magento\Customer\Model\Session')
             ->getCustomerGroupId();
         $prices = $this->_getResource()
             ->loadPriceIndex($product->getId(), $websiteId, $groupId);

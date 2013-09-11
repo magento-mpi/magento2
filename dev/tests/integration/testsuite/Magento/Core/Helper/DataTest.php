@@ -23,7 +23,7 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
     const DATETIME_FORMAT_SHORT = 'n/j/y g:i A';
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_helper = null;
 
@@ -34,14 +34,14 @@ class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Core_Helper_Data');
+        $this->_helper = Mage::helper('Magento\Core\Helper\Data');
         $this->_dateTime = new DateTime;
         $this->_dateTime->setTimezone(new DateTimeZone(self::DATE_TIMEZONE));
     }
 
     public function testGetEncryptor()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Encryption', $this->_helper->getEncryptor());
+        $this->assertInstanceOf('\Magento\Core\Model\Encryption', $this->_helper->getEncryptor());
     }
 
     public function testCurrency()

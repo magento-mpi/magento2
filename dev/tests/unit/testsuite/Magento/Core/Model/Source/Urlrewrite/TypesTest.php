@@ -10,16 +10,16 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Source_Urlrewrite_Types.
+ * Test class for \Magento\Core\Model\Source\Urlrewrite\Types.
  */
 class Magento_Core_Model_Source_Urlrewrite_TypesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Core_Model_Source_Urlrewrite_Types::getAllOptions
+     * @covers \Magento\Core\Model\Source\Urlrewrite\Types::getAllOptions
      */
     public function testGetAllOptions()
     {
-        $model = new Magento_Core_Model_Source_Urlrewrite_Types();
+        $model = new \Magento\Core\Model\Source\Urlrewrite\Types();
         $options = $model->getAllOptions();
         $this->assertInternalType('array', $options);
         $expectedOptions = array(

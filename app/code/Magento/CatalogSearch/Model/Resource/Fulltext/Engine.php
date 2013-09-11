@@ -16,7 +16,9 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogSearch\Model\Resource\Fulltext;
+
+class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Init resource model
@@ -34,7 +36,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      * @param int $storeId
      * @param array $index
      * @param string $entity 'product'|'cms'
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entity = 'product')
     {
@@ -52,7 +54,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      * @param int $storeId
      * @param array $entityIndexes
      * @param string $entity 'product'|'cms'
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entity = 'product')
     {
@@ -67,7 +69,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
         }
 
         if ($data) {
-            Mage::getResourceHelper('Magento_CatalogSearch')
+            \Mage::getResourceHelper('Magento_CatalogSearch')
                 ->insertOnDuplicate($this->getMainTable(), $data, array('data_index'));
         }
 
@@ -81,7 +83,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      */
     public function getAllowedVisibility()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSearchIds();
+        return \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSearchIds();
     }
 
     /**
@@ -100,7 +102,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      * @param int $storeId
      * @param int $entityId
      * @param string $entity 'product'|'cms'
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Engine
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
      */
     public function cleanIndex($storeId = null, $entityId = null, $entity = 'product')
     {
@@ -130,7 +132,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      */
     public function prepareEntityIndex($index, $separator = ' ')
     {
-        return Mage::helper('Magento_CatalogSearch_Helper_Data')->prepareIndexdata($index, $separator);
+        return \Mage::helper('Magento\CatalogSearch\Helper\Data')->prepareIndexdata($index, $separator);
     }
 
     /**
@@ -140,27 +142,27 @@ class Magento_CatalogSearch_Model_Resource_Fulltext_Engine extends Magento_Core_
      */
     public function getResourceName()
     {
-        return 'Magento_CatalogSearch_Model_Resource_Advanced';
+        return '\Magento\CatalogSearch\Model\Resource\Advanced';
     }
 
     /**
      * Retrieve fulltext search result data collection
      *
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
      */
     public function getResultCollection()
     {
-        return Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Fulltext_Collection');
+        return \Mage::getResourceModel('\Magento\CatalogSearch\Model\Resource\Fulltext\Collection');
     }
 
     /**
      * Retrieve advanced search result data collection
      *
-     * @return Magento_CatalogSearch_Model_Resource_Advanced_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Advanced\Collection
      */
     public function getAdvancedResultCollection()
     {
-        return Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Advanced_Collection');
+        return \Mage::getResourceModel('\Magento\CatalogSearch\Model\Resource\Advanced\Collection');
     }
 
     /**

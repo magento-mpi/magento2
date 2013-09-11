@@ -19,7 +19,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
      */
     protected $_objectManager;
 
-    /** @var Magento_Webapi_Model_Acl_User */
+    /** @var \Magento\Webapi\Model\Acl\User */
     protected $_user;
 
     /**
@@ -29,10 +29,10 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $this->_objectManager->addSharedInstance(
-            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Dir'),
-            'Magento_Core_Model_Dir'
+            Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Dir'),
+            '\Magento\Core\Model\Dir'
         );
-        $userFactory = new Magento_Webapi_Model_Acl_User_Factory($this->_objectManager);
+        $userFactory = new \Magento\Webapi\Model\Acl\User\Factory($this->_objectManager);
         $this->_user = $userFactory->create();
         $this->_user->load('test_username', 'api_key');
     }
@@ -42,9 +42,9 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
      */
     public function testAuthenticatePasswordText()
     {
-        /** @var Magento_Webapi_Model_Soap_Security_UsernameToken $usernameToken */
-        $usernameToken = $this->_objectManager->create('Magento_Webapi_Model_Soap_Security_UsernameToken', array(
-            'passwordType' => Magento_Webapi_Model_Soap_Security_UsernameToken::PASSWORD_TYPE_TEXT
+        /** @var \Magento\Webapi\Model\Soap\Security\UsernameToken $usernameToken */
+        $usernameToken = $this->_objectManager->create('Magento\Webapi\Model\Soap\Security\UsernameToken', array(
+            'passwordType' => \Magento\Webapi\Model\Soap\Security\UsernameToken::PASSWORD_TYPE_TEXT
         ));
 
         $created = date('c');
@@ -59,8 +59,8 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
      */
     public function testAuthenticatePasswordDigest()
     {
-        /** @var Magento_Webapi_Model_Soap_Security_UsernameToken $usernameToken */
-        $usernameToken = $this->_objectManager->create('Magento_Webapi_Model_Soap_Security_UsernameToken');
+        /** @var \Magento\Webapi\Model\Soap\Security\UsernameToken $usernameToken */
+        $usernameToken = $this->_objectManager->create('Magento\Webapi\Model\Soap\Security\UsernameToken');
 
         $created = date('c');
         $nonce = mt_rand();
@@ -73,12 +73,12 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
     /**
      * Test negative authentication with used nonce-timestamp pair.
      *
-     * @expectedException Magento_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException
+     * @expectedException \Magento\Webapi\Model\Soap\Security\UsernameToken\NonceUsedException
      */
     public function testAuthenticateWithNonceUsed()
     {
-        /** @var Magento_Webapi_Model_Soap_Security_UsernameToken $usernameToken */
-        $usernameToken = $this->_objectManager->create('Magento_Webapi_Model_Soap_Security_UsernameToken');
+        /** @var \Magento\Webapi\Model\Soap\Security\UsernameToken $usernameToken */
+        $usernameToken = $this->_objectManager->create('Magento\Webapi\Model\Soap\Security\UsernameToken');
 
         $created = date('c');
         $nonce = mt_rand();

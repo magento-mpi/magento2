@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Address_Api extends Magento_Customer_Model_Api_Resource
+namespace Magento\Customer\Model\Address;
+
+class Api extends \Magento\Customer\Model\Api\Resource
 {
     protected $_mapAttributes = array(
         'customer_address_id' => 'entity_id'
@@ -34,9 +36,9 @@ class Magento_Customer_Model_Address_Api extends Magento_Customer_Model_Api_Reso
      */
     public function items($customerId)
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
             ->load($customerId);
-        /* @var $customer Magento_Customer_Model_Customer */
+        /* @var $customer \Magento\Customer\Model\Customer */
 
         if (!$customer->getId()) {
             $this->_fault('customer_not_exists');
@@ -75,7 +77,7 @@ class Magento_Customer_Model_Address_Api extends Magento_Customer_Model_Api_Reso
      */
     public function info($addressId)
     {
-        $address = Mage::getModel('Magento_Customer_Model_Address')
+        $address = \Mage::getModel('\Magento\Customer\Model\Address')
             ->load($addressId);
 
         if (!$address->getId()) {
@@ -109,7 +111,7 @@ class Magento_Customer_Model_Address_Api extends Magento_Customer_Model_Api_Reso
      */
     public function delete($addressId)
     {
-        $address = Mage::getModel('Magento_Customer_Model_Address')
+        $address = \Mage::getModel('\Magento\Customer\Model\Address')
             ->load($addressId);
 
         if (!$address->getId()) {
@@ -118,10 +120,10 @@ class Magento_Customer_Model_Address_Api extends Magento_Customer_Model_Api_Reso
 
         try {
             $address->delete();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('not_deleted', $e->getMessage());
         }
 
         return true;
     }
-} // Class Magento_Customer_Model_Address_Api End
+} // Class \Magento\Customer\Model\Address\Api End

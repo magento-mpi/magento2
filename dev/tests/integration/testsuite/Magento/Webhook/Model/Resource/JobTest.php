@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Job
+ * \Magento\Webhook\Model\Resource\Job
  *
  * {license_notice}
  *
@@ -16,9 +16,9 @@ class Magento_Webhook_Model_Resource_JobTest extends PHPUnit_Framework_TestCase
      */
     public function testInit()
     {
-        /** @var Magento_Webhook_Model_Resource_Job $jobResource */
+        /** @var \Magento\Webhook\Model\Resource\Job $jobResource */
         $jobResource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Resource_Job');
+            ->create('Magento\Webhook\Model\Resource\Job');
         $this->assertEquals('prefix_webhook_dispatch_job', $jobResource->getMainTable());
         $this->assertEquals('dispatch_job_id', $jobResource->getIdFieldName());
     }

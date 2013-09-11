@@ -10,18 +10,18 @@
  */
 
 /**
- * Test class for Magento_Page_Helper_Robots
+ * Test class for \Magento\Page\Helper\Robots
  */
 class Magento_Page_Helper_RobotsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Page_Helper_Robots
+     * @var \Magento\Page\Helper\Robots
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Page_Helper_Robots');
+        $this->_helper = Mage::helper('Magento\Page\Helper\Robots');
     }
 
     /**

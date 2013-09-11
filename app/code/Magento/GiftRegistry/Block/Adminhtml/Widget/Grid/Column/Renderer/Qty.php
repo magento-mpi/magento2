@@ -11,8 +11,10 @@
 /**
  * Column renderer for gift registry item grid qty column
  */
-class Magento_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Qty
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer;
+
+class Qty
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render gift registry item qty as input html element

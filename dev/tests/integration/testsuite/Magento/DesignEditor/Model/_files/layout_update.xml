@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 -->
-<block name="root" type="Magento_Core_Block_Template" template="template.phtml">
-    <block name="head" class="Magento_Page_Block_Html_Head">
+<block name="root" type="Magento\Core\Block\Template" template="template.phtml">
+    <block name="head" class="\Magento\Page\Block\Html\Head">
         <action method="addJs">
             <argument name="arg" xsi:type="string">1</argument>
         </action>
     </block>
     <container name="header" label="Header">
-        <block name="safe.block" class="Magento_Page_Block_Html_Header"/>
+        <block name="safe.block" class="\Magento\Page\Block\Html\Header"/>
     </container>
     <container name="content" label="Content">
         <block name="custom.not_safe" class="Namespace_Module_Block_NotSafe">
@@ -24,7 +24,7 @@
                 <argument name="arg" xsi:type="string">some_template.phtml</argument>
             </action>
         </block>
-        <block class="Magento_Page_Block_Html" name="content_schedule_block"/>
+        <block class="\Magento\Page\Block\Html" name="content_schedule_block"/>
     </container>
 </block>
 <reference name="head">

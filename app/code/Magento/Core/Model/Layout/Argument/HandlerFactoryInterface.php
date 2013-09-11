@@ -15,11 +15,13 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Core_Model_Layout_Argument_HandlerFactoryInterface
+namespace Magento\Core\Model\Layout\Argument;
+
+interface HandlerFactoryInterface
 {
     /**
      * Create concrete handler object
-     * @return Magento_Core_Model_Layout_Argument_HandlerInterface
+     * @return \Magento\Core\Model\Layout\Argument\HandlerInterface
      */
     public function createHandler();
 }

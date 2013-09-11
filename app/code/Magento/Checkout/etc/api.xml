@@ -13,7 +13,7 @@
     <api>
         <resources>
             <cart translate="title" module="Magento_Checkout">
-                <model>Magento_Checkout_Model_Cart_Api</model>
+                <model>\Magento\Checkout\Model\Cart\Api</model>
                 <title>Shopping Cart</title>
                 <acl>cart</acl>
                 <methods>
@@ -104,7 +104,7 @@
                 </faults>
             </cart>
             <cart_product translate="title" module="Magento_Checkout">
-                <model>Magento_Checkout_Model_Cart_Product_Api</model>
+                <model>\Magento\Checkout\Model\Cart\Product\Api</model>
                 <title>Cart Product API</title>
                 <acl>cart/product</acl>
                 <methods>
@@ -198,7 +198,7 @@
                 </faults>
             </cart_product>
             <cart_customer translate="title" module="Magento_Checkout">
-                <model>Magento_Checkout_Model_Cart_Customer_Api</model>
+                <model>\Magento\Checkout\Model\Cart\Customer\Api</model>
                 <title>Customer Information</title>
                 <acl>cart/customer</acl>
                 <methods>
@@ -265,7 +265,7 @@
                 </faults>
             </cart_customer>
             <cart_shipping translate="title" module="Magento_Checkout">
-                <model>Magento_Checkout_Model_Cart_Shipping_Api</model>
+                <model>\Magento\Checkout\Model\Cart\Shipping\Api</model>
                 <title>Shipping information</title>
                 <acl>cart/shipping</acl>
                 <methods>
@@ -308,7 +308,7 @@
                 </faults>
             </cart_shipping>
             <cart_payment translate="title" module="Magento_Checkout">
-                <model>Magento_Checkout_Model_Cart_Payment_Api</model>
+                <model>\Magento\Checkout\Model\Cart\Payment\Api</model>
                 <title>Payment method information</title>
                 <acl>cart/payment</acl>
                 <methods>
@@ -355,7 +355,7 @@
                 </faults>
             </cart_payment>
             <cart_coupon translate="title" module="Magento_Checkout">
-                <model>Magento_Checkout_Model_Cart_Coupon_Api</model>
+                <model>\Magento\Checkout\Model\Cart\Coupon\Api</model>
                 <title>Shopping cart ability to set coupon code</title>
                 <acl>cart/coupon</acl>
                 <methods>

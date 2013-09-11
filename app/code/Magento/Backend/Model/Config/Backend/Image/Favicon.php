@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Image_Favicon extends Magento_Backend_Model_Config_Backend_Image
+namespace Magento\Backend\Model\Config\Backend\Image;
+
+class Favicon extends \Magento\Backend\Model\Config\Backend\Image
 {
     /**
      * The tail part of directory path for uploading
@@ -34,7 +36,7 @@ class Magento_Backend_Model_Config_Backend_Image_Favicon extends Magento_Backend
      * Return path to directory for upload file
      *
      * @return string
-     * @throw Magento_Core_Exception
+     * @throw \Magento\Core\Exception
      */
     protected function _getUploadDir()
     {
@@ -72,6 +74,6 @@ class Magento_Backend_Model_Config_Backend_Image_Favicon extends Magento_Backend
      */
     protected function _getUploadRoot($token)
     {
-        return Mage::getBaseDir($token);
+        return \Mage::getBaseDir($token);
     }
 }

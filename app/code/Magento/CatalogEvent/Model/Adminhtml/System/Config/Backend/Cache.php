@@ -14,8 +14,10 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Model_Adminhtml_System_Config_Backend_Cache
-    extends Magento_Backend_Model_Config_Backend_Cache
+namespace Magento\CatalogEvent\Model\Adminhtml\System\Config\Backend;
+
+class Cache
+    extends \Magento\Backend\Model\Config\Backend\Cache
 {
     /**
      * Cache tags to clean
@@ -23,6 +25,6 @@ class Magento_CatalogEvent_Model_Adminhtml_System_Config_Backend_Cache
      * @var array
      */
     protected $_cacheTags = array(
-        Magento_Backend_Block_Menu::CACHE_TAGS
+        \Magento\Backend\Block\Menu::CACHE_TAGS
     );
 }

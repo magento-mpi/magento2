@@ -16,13 +16,15 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Type_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Eav\Model\Resource\Entity\Type;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Entity_Type', 'Magento_Eav_Model_Resource_Entity_Type');
+        $this->_init('\Magento\Eav\Model\Entity\Type', '\Magento\Eav\Model\Resource\Entity\Type');
     }
 }

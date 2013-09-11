@@ -11,16 +11,18 @@
 /**
  * Generic API controller
  */
-class Magento_Api_Controller_Action extends Magento_Core_Controller_Front_Action
+namespace Magento\Api\Controller;
+
+class Action extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Use 'admin' store and prevent the session from starting
      *
-     * @return Magento_Api_Controller_Action
+     * @return \Magento\Api\Controller\Action
      */
     public function preDispatch()
     {
-        Mage::app()->setCurrentStore('admin');
+        \Mage::app()->setCurrentStore('admin');
         $this->setFlag('', self::FLAG_NO_START_SESSION, 1);
         parent::preDispatch();
         return $this;
@@ -29,10 +31,10 @@ class Magento_Api_Controller_Action extends Magento_Core_Controller_Front_Action
     /**
      * Retrieve webservice server
      *
-     * @return Magento_Api_Model_Server
+     * @return \Magento\Api\Model\Server
      */
     protected function _getServer()
     {
-        return Mage::getSingleton('Magento_Api_Model_Server');
+        return \Mage::getSingleton('Magento\Api\Model\Server');
     }
 }

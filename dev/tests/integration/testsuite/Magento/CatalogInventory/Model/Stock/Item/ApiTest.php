@@ -49,8 +49,8 @@ class Magento_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framewor
         );
 
         $this->assertTrue($result, 'Failed updating stock item.');
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load(10);
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product')->load(10);
 
         $this->assertEquals(
             $newQty,
@@ -79,8 +79,8 @@ class Magento_CatalogInventory_Model_Stock_Item_ApiTest extends PHPUnit_Framewor
         );
 
         $this->assertTrue($result, 'Failed updating stock items.');
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
 
         foreach ($productIds as $index => $productId) {
             $qty = $product->load($productId)->getStockItem()->getQty();

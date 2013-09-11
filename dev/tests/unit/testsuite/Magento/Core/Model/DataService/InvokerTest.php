@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Invoker
+ * \Magento\Core\Model\DataService\Invoker
  *
  * {license_notice}
  *
@@ -21,7 +21,7 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
     const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
 
     /**
-     * @var Magento_Core_Model_DataService_Invoker
+     * @var \Magento\Core\Model\DataService\Invoker
      */
     protected $_invoker;
 
@@ -64,19 +64,19 @@ class Magento_Core_Model_DataService_InvokerTest extends PHPUnit_Framework_TestC
 
     public function setUp()
     {
-        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_DataService_ConfigInterface')
+        $this->_configMock = $this->getMockBuilder('Magento\Core\Model\DataService\ConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_compositeMock = $this->getMockBuilder('Magento_Core_Model_DataService_Path_Composite')
+        $this->_compositeMock = $this->getMockBuilder('Magento\Core\Model\DataService\Path\Composite')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_navigator = $this->getMockBuilder('Magento_Core_Model_DataService_Path_Navigator')
+        $this->_navigator = $this->getMockBuilder('Magento\Core\Model\DataService\Path\Navigator')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_invoker = new Magento_Core_Model_DataService_Invoker(
+        $this->_invoker = new \Magento\Core\Model\DataService\Invoker(
             $this->_configMock,
             $this->_objectManagerMock,
             $this->_compositeMock,

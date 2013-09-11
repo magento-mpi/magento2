@@ -16,7 +16,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Connect\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
 
     /**
@@ -54,7 +56,7 @@ class Magento_Connect_Model_Session extends Magento_Core_Model_Session_Abstract
                     array_push($data['authors']['email'], $data['maintainers']['email'][$i]);
                 }
                 // Convert channel from previous version for entire package
-                $helper = Mage::helper('Magento_Connect_Helper_Data');
+                $helper = \Mage::helper('Magento\Connect\Helper\Data');
                 if (isset($data['channel'])) {
                     $data['channel'] = $helper->convertChannelFromV1x($data['channel']);
                 }

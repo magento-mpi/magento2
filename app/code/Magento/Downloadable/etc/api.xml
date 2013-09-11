@@ -13,7 +13,7 @@
     <api>
         <resources>
             <catalog_product_downloadable_link translate="title" module="Magento_Downloadable">
-                <model>Magento_Downloadable_Model_Link_Api</model>
+                <model>\Magento\Downloadable\Model\Link\Api</model>
                 <title>Downloadable Product API</title>
                 <acl>catalog/product/downloadable_link</acl>
                 <methods>

@@ -16,7 +16,7 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
      */
     public function testIndexAction()
     {
-        $session = Mage::getModel('Magento_Customer_Model_Session');
+        $session = Mage::getModel('\Magento\Customer\Model\Session');
         $session->login('customer@example.com', 'password');
         $this->dispatch('customer/account/index');
         $this->assertContains('<div class="my-account">', $this->getResponse()->getBody());
@@ -27,10 +27,10 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
      */
     public function testCreatepasswordAction()
     {
-        /** @var Magento_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(1);
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = Mage::getModel('\Magento\Customer\Model\Customer')->load(1);
 
-        $token = Mage::helper('Magento_Customer_Helper_Data')->generateResetPasswordLinkToken();
+        $token = Mage::helper('Magento\Customer\Helper\Data')->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
         $this->getRequest()->setParam('token', $token);
@@ -46,10 +46,10 @@ class Magento_Customer_Controller_AccountTest extends Magento_TestFramework_Test
      */
     public function testOpenActionCreatepasswordAction()
     {
-        /** @var Magento_Customer_Model_Customer $customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(1);
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = Mage::getModel('\Magento\Customer\Model\Customer')->load(1);
 
-        $token = Mage::helper('Magento_Customer_Helper_Data')->generateResetPasswordLinkToken();
+        $token = Mage::helper('Magento\Customer\Helper\Data')->generateResetPasswordLinkToken();
         $customer->changeResetPasswordLinkToken($token);
 
         $this->getRequest()->setParam('token', $token);

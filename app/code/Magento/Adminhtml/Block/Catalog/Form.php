@@ -15,25 +15,27 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected function _prepareLayout()
     {
         \Magento\Data\Form::setElementRenderer(
             $this->getLayout()->createBlock(
-                'Magento_Adminhtml_Block_Widget_Form_Renderer_Element',
+                '\Magento\Adminhtml\Block\Widget\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element'
             )
         );
         \Magento\Data\Form::setFieldsetRenderer(
             $this->getLayout()->createBlock(
-                'Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset',
+                '\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset',
                 $this->getNameInLayout() . '_fieldset'
             )
         );
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element',
+                '\Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element',
                 $this->getNameInLayout() . '_fieldset_element'
             )
         );

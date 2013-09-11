@@ -12,23 +12,23 @@
 class Magento_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_DesignEditor_Model_Translate_InlineVde
+     * @var \Magento\DesignEditor\Model\Translate\InlineVde
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_DesignEditor_Helper_Data
+     * @var \Magento\DesignEditor\Helper\Data
      */
     protected $_helperData;
 
     public static function setUpBeforeClass()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo');
     }
 
@@ -36,19 +36,19 @@ class Magento_DesignEditor_Model_Translate_InlineVdeTest extends PHPUnit_Framewo
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        $this->_model = $objectManager->get('Magento_DesignEditor_Model_Translate_InlineVde');
-        $this->_request = $objectManager->get('Magento_Core_Controller_Request_Http');
+        $this->_model = $objectManager->get('Magento\DesignEditor\Model\Translate\InlineVde');
+        $this->_request = $objectManager->get('Magento\Core\Controller\Request\Http');
         $this->_request->setParam('translation_mode', 'text');
 
-        $this->_helperData = $objectManager->get('Magento_DesignEditor_Helper_Data');
+        $this->_helperData = $objectManager->get('Magento\DesignEditor\Helper\Data');
         $this->_helperData->setTranslationMode($this->_request);
     }
 
     public function testObjectCreation()
     {
-        $this->assertInstanceOf('Magento_DesignEditor_Model_Translate_InlineVde', $this->_model);
-        $this->assertInstanceOf('Magento_Core_Controller_Request_Http', $this->_request);
-        $this->assertInstanceOf('Magento_DesignEditor_Helper_Data', $this->_helperData);
+        $this->assertInstanceOf('\Magento\DesignEditor\Model\Translate\InlineVde', $this->_model);
+        $this->assertInstanceOf('\Magento\Core\Controller\Request\Http', $this->_request);
+        $this->assertInstanceOf('\Magento\DesignEditor\Helper\Data', $this->_helperData);
     }
 
     public function testIsAllowed()

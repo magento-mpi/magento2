@@ -12,13 +12,13 @@
 class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Weee_Model_Observer
+     * @var \Magento\Weee\Model\Observer
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Weee_Model_Observer');
+        $this->_model = Mage::getModel('\Magento\Weee\Model\Observer');
     }
 
     /**
@@ -32,10 +32,10 @@ class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_model->updateConfigurableProductOptions($eventObserver);
         $this->assertEquals(array(), $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions());
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         Mage::register('current_product', $product->load(1));
 
-        foreach (array(Magento_Weee_Model_Tax::DISPLAY_INCL, Magento_Weee_Model_Tax::DISPLAY_INCL_DESCR) as $mode) {
+        foreach (array(\Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR) as $mode) {
             Mage::app()->getStore()->setConfig('tax/weee/display', $mode);
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
             $this->_model->updateConfigurableProductOptions($eventObserver);
@@ -46,7 +46,7 @@ class Magento_Weee_Model_ObserverTest extends PHPUnit_Framework_TestCase
         }
 
         foreach (array(
-                Magento_Weee_Model_Tax::DISPLAY_EXCL, Magento_Weee_Model_Tax::DISPLAY_EXCL_DESCR_INCL) as $mode) {
+                \Magento\Weee\Model\Tax::DISPLAY_EXCL, \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL) as $mode) {
             Mage::app()->getStore()->setConfig('tax/weee/display', $mode);
             $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
             $this->_model->updateConfigurableProductOptions($eventObserver);

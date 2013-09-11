@@ -15,13 +15,13 @@
             </action>
         </reference>
         <reference name="left">
-            <block class="Magento_CatalogSearch_Block_Layer" name="catalogsearch.leftnav" after="currency" template="Magento_Catalog::layer/view.phtml"/>
+            <block class="\Magento\CatalogSearch\Block\Layer" name="catalogsearch.leftnav" after="currency" template="Magento_Catalog::layer/view.phtml"/>
         </reference>
         <reference name="content">
-            <block class="Magento_CatalogSearch_Block_Result" name="search.result" template="result.phtml">
-                <block class="Magento_Catalog_Block_Product_List" name="search_result_list" template="product/list.phtml">
-                    <block class="Magento_Catalog_Block_Product_ProductList_Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
-                        <block class="Magento_Page_Block_Html_Pager" name="product_list_toolbar_pager"/>
+            <block class="\Magento\CatalogSearch\Block\Result" name="search.result" template="result.phtml">
+                <block class="\Magento\Catalog\Block\Product\ListProduct" name="search_result_list" template="product/list.phtml">
+                    <block class="\Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
+                        <block class="\Magento\Page\Block\Html\Pager" name="product_list_toolbar_pager"/>
                     </block>
                     <action method="addColumnCountLayoutDepend">
                         <argument name="layout" xsi:type="string">empty</argument>

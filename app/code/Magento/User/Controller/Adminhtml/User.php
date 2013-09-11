@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\User\Controller\Adminhtml;
+
+class User extends \Magento\Backend\Controller\ActionAbstract
 {
 
     protected function _initAction()
@@ -38,7 +40,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
         $this->_title(__('Users'));
 
         $userId = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('Magento_User_Model_User');
+        $model = \Mage::getModel('\Magento\User\Model\User');
 
         if ($userId) {
             $model->load($userId);
@@ -48,7 +50,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
                 return;
             }
         } else {
-            $model->setInterfaceLocale(Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE);
+            $model->setInterfaceLocale(\Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE);
         }
 
         $this->_title($model->getId() ? $model->getName() : __('New User'));
@@ -59,7 +61,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
             $model->setData($data);
         }
 
-        Mage::register('permissions_user', $model);
+        \Mage::register('permissions_user', $model);
 
         if (isset($userId)) {
             $breadcrumb = __('Edit User');
@@ -78,8 +80,8 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
             $this->_redirect('*/*/');
             return;
         }
-        /** @var $model Magento_User_Model_User */
-        $model = $this->_objectManager->create('Magento_User_Model_User')->load($userId);
+        /** @var $model \Magento\User\Model\User */
+        $model = $this->_objectManager->create('Magento\User\Model\User')->load($userId);
         if ($userId && $model->isObjectNew()) {
             $this->_getSession()->addError(__('This user no longer exists.'));
             $this->_redirect('*/*/');
@@ -91,11 +93,11 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
             $model->setRoleId($uRoles[0]);
         }
 
-        $currentUser = $this->_objectManager->get('Magento_Backend_Model_Auth_Session')->getUser();
+        $currentUser = $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->getUser();
         if ($userId == $currentUser->getId()
-            && $this->_objectManager->get('Magento_Core_Model_Locale_Validator')->isValid($data['interface_locale'])
+            && $this->_objectManager->get('Magento\Core\Model\Locale\Validator')->isValid($data['interface_locale'])
         ) {
-            $this->_objectManager->get('Magento_Backend_Model_Locale_Manager')
+            $this->_objectManager->get('Magento\Backend\Model\Locale\Manager')
                 ->switchBackendInterfaceLocale($data['interface_locale']);
         }
 
@@ -104,7 +106,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
             $this->_getSession()->addSuccess(__('You saved the user.'));
             $this->_getSession()->setUserData(false);
             $this->_redirect('*/*/');
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addMessages($e->getMessages());
             $this->_getSession()->setUserData($data);
             $this->_redirect('*/*/edit', array('_current' => true));
@@ -130,7 +132,7 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
 
     public function deleteAction()
     {
-        $currentUser = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
+        $currentUser = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser();
 
         if ($userId = $this->getRequest()->getParam('user_id')) {
             if ( $currentUser->getId() == $userId ) {
@@ -141,14 +143,14 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
                 return;
             }
             try {
-                $model = Mage::getModel('Magento_User_Model_User');
+                $model = \Mage::getModel('\Magento\User\Model\User');
                 $model->setId($userId);
                 $model->delete();
                 $this->_session->addSuccess(__('You deleted the user.'));
                 $this->_redirect('*/*/');
                 return;
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $this->_session->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
                 return;
@@ -161,12 +163,12 @@ class Magento_User_Controller_Adminhtml_User extends Magento_Backend_Controller_
     public function rolesGridAction()
     {
         $userId = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('Magento_User_Model_User');
+        $model = \Mage::getModel('\Magento\User\Model\User');
 
         if ($userId) {
             $model->load($userId);
         }
-        Mage::register('permissions_user', $model);
+        \Mage::register('permissions_user', $model);
         $this->loadLayout();
         $this->renderLayout();
     }

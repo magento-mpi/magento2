@@ -9,15 +9,15 @@
 -->
 <config>
     <event name="webapi_user_delete_after">
-        <observer name="webhook_subscription_status_update" instance="Magento_Webhook_Model_Observer" method="afterWebapiUserDelete" />
+        <observer name="webhook_subscription_status_update" instance="\Magento\Webhook\Model\Observer" method="afterWebapiUserDelete" />
     </event>
     <event name="webapi_user_save_commit_after">
-        <observer name="webhook_subscription_status_update" instance="Magento_Webhook_Model_Observer" method="afterWebapiUserChange" />
+        <observer name="webhook_subscription_status_update" instance="\Magento\Webhook\Model\Observer" method="afterWebapiUserChange" />
     </event>
     <event name="webapi_role_save_commit_after">
-        <observer name="webhook_subscription_status_update" instance="Magento_Webhook_Model_Observer" method="afterWebapiRoleChange" />
+        <observer name="webhook_subscription_status_update" instance="\Magento\Webhook\Model\Observer" method="afterWebapiRoleChange" />
     </event>
     <event name="webapi_role_delete_commit_after">
-        <observer name="webhook_subscription_status_update" instance="Magento_Webhook_Model_Observer" method="afterWebapiRoleChange" />
+        <observer name="webhook_subscription_status_update" instance="\Magento\Webhook\Model\Observer" method="afterWebapiRoleChange" />
     </event>
 </config>

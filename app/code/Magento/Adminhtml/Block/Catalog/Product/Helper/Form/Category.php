@@ -15,17 +15,19 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends \Magento\Data\Form\Element\Multiselect
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class Category extends \Magento\Data\Form\Element\Multiselect
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
-    public function __construct($attributes = array(), Magento_Core_Model_Layout $layout = null)
+    public function __construct($attributes = array(), \Magento\Core\Model\Layout $layout = null)
     {
         parent::__construct($attributes);
-        $this->_layout = $layout ?: Mage::getObjectManager()->get('Magento_Core_Model_Layout');
+        $this->_layout = $layout ?: \Mage::getObjectManager()->get('Magento\Core\Model\Layout');
     }
 
     /**
@@ -55,11 +57,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends \Mage
 
     /**
      * Get categories collection
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     protected function _getCategoriesCollection()
     {
-        return Mage::getResourceModel('Magento_Catalog_Model_Resource_Category_Collection');
+        return \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Category\Collection');
     }
 
     /**
@@ -69,15 +71,15 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category extends \Mage
      */
     public function getAfterElementHtml()
     {
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
         $htmlId = $this->getHtmlId();
         $suggestPlaceholder = __('start typing to search category');
         $selectorOptions = $coreHelper->jsonEncode($this->_getSelectorOptions());
         $newCategoryCaption = __('New Category');
 
         $button = $this->_layout
-            ->createBlock('Magento_Backend_Block_Widget_Button')
+            ->createBlock('\Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'id'        => 'add_category_button',
                 'label'     => $newCategoryCaption,
@@ -101,7 +103,7 @@ HTML;
     protected function _getSelectorOptions()
     {
         return array(
-            'source' => Mage::helper('Magento_Backend_Helper_Data')
+            'source' => \Mage::helper('Magento\Backend\Helper\Data')
                 ->getUrl('adminhtml/catalog_category/suggestCategories'),
             'valueField' => '#' . $this->getHtmlId(),
             'className' => 'category-select',

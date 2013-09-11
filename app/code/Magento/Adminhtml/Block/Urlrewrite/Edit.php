@@ -11,17 +11,19 @@
 /**
  * Block for URL rewrites edit page
  *
- * @method Magento_Core_Model_Url_Rewrite getUrlRewrite()
- * @method Magento_Adminhtml_Block_Urlrewrite_Edit setUrlRewrite(Magento_Core_Model_Url_Rewrite $urlRewrite)
+ * @method \Magento\Core\Model\Url\Rewrite getUrlRewrite()
+ * @method \Magento\Adminhtml\Block\Urlrewrite\Edit setUrlRewrite(\Magento\Core\Model\Url\Rewrite $urlRewrite)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\Adminhtml\Block\Urlrewrite;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
-     * @var Magento_Adminhtml_Block_Urlrewrite_Selector
+     * @var \Magento\Adminhtml\Block\Urlrewrite\Selector
      */
     private $_selectorBlock;
 
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     /**
      * Prepare URL rewrite editing layout
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Edit
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Edit
      */
     protected function _prepareLayout()
     {
@@ -59,8 +61,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
      */
     protected function _prepareLayoutFeatures()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
+        /** @var $helper \Magento\Adminhtml\Helper\Data */
+        $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
 
         if ($this->_getUrlRewrite()->getId()) {
             $this->_headerText = __('Edit URL Rewrite');
@@ -106,8 +108,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
      */
     protected function _addBackButton()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
+        /** @var $helper \Magento\Adminhtml\Helper\Data */
+        $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
 
         $this->_addButton('back', array(
             'label'   => __('Back'),
@@ -132,8 +134,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
      */
     protected function _addDeleteButton()
     {
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
+        /** @var $helper \Magento\Adminhtml\Helper\Data */
+        $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
 
         $this->_addButton('delete', array(
             'label'   => __('Delete'),
@@ -165,11 +167,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     /**
      * Creates edit form block
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Edit_Form
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
      */
     protected function _createEditFormBlock()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Edit_Form', '',
+        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Edit\Form', '',
             array('data' => array(
                 'url_rewrite' => $this->_getUrlRewrite()
             ))
@@ -187,12 +189,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     /**
      * Get selector block
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Selector
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Selector
      */
     private function _getSelectorBlock()
     {
         if (!$this->_selectorBlock) {
-            $this->_selectorBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Selector');
+            $this->_selectorBlock = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Selector');
         }
         return $this->_selectorBlock;
     }
@@ -225,12 +227,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Edit extends Magento_Adminhtml_Block_Wi
     /**
      * Get or create new instance of URL rewrite
      *
-     * @return Magento_Core_Model_Url_Rewrite
+     * @return \Magento\Core\Model\Url\Rewrite
      */
     protected function _getUrlRewrite()
     {
         if (!$this->hasData('url_rewrite')) {
-            $this->setUrlRewrite(Mage::getModel('Magento_Core_Model_Url_Rewrite'));
+            $this->setUrlRewrite(\Mage::getModel('\Magento\Core\Model\Url\Rewrite'));
         }
         return $this->getUrlRewrite();
     }

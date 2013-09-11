@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="rss_order_status">
-        <block class="Magento_Rss_Block_Order_Status" output="1" name="rss.order.status"/>
+        <block class="\Magento\Rss\Block\Order\Status" output="1" name="rss.order.status"/>
     </handle>
 </layout>

@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Order extends Magento_Sales_Block_Adminhtml_Report_Filter_Form
+namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
+
+class Order extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
 {
     protected function _prepareForm()
     {

@@ -46,19 +46,19 @@ try {
     $config = new \Magento\Tools\View\Generator\Config(BP, $options);
 
     $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
-    $dirs = new Magento_Core_Model_Dir($config->getSourceDir());
+    $dirs = new \Magento\Core\Model\Dir($config->getSourceDir());
     $objectManager = new \Magento\ObjectManager\ObjectManager();
 
-    $themes = new Magento_Core_Model_Theme_Collection($filesystem, $objectManager, $dirs);
+    $themes = new \Magento\Core\Model\Theme\Collection($filesystem, $objectManager, $dirs);
     $themes->setItemObjectClass(' \Magento\Tools\View\Generator\ThemeLight');
     $themes->addDefaultPattern('*');
 
-    $fallbackFactory = new Magento_Core_Model_Design_Fallback_Factory($dirs);
+    $fallbackFactory = new \Magento\Core\Model\Design\Fallback\Factory($dirs);
     $generator = new \Magento\Tools\View\Generator\CopyRule($filesystem, $themes,
         $fallbackFactory->createViewFileRule());
     $copyRules = $generator->getCopyRules();
 
-    $cssHelper = new Magento_Core_Helper_Css($filesystem, $dirs);
+    $cssHelper = new \Magento\Core\Helper\Css($filesystem, $dirs);
     $deployment = new \Magento\Tools\View\Generator\ThemeDeployment(
         $cssHelper,
         $config->getDestinationDir(),

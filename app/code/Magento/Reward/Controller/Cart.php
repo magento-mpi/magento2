@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reward_Controller_Cart extends Magento_Core_Controller_Front_Action
+namespace Magento\Reward\Controller;
+
+class Cart extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Only logged in users can use this functionality,
@@ -18,7 +20,7 @@ class Magento_Reward_Controller_Cart extends Magento_Core_Controller_Front_Actio
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -29,20 +31,20 @@ class Magento_Reward_Controller_Cart extends Magento_Core_Controller_Front_Actio
      */
     public function removeAction()
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()
-            || !Mage::helper('Magento_Reward_Helper_Data')->getHasRates()) {
+        if (!\Mage::helper('Magento\Reward\Helper\Data')->isEnabledOnFront()
+            || !\Mage::helper('Magento\Reward\Helper\Data')->getHasRates()) {
             return $this->_redirect('customer/account/');
         }
 
-        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
 
         if ($quote->getUseRewardPoints()) {
             $quote->setUseRewardPoints(false)->collectTotals()->save();
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->addSuccess(
                 __('You removed the reward points from this order.')
             );
         } else {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->addError(
                 __('Reward points will not be used in this order.')
             );
         }

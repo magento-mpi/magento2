@@ -16,7 +16,9 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Newsletter\Model\Resource\Subscriber;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
 
     /**
@@ -62,7 +64,7 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Newsletter_Model_Subscriber', 'Magento_Newsletter_Model_Resource_Subscriber');
+        $this->_init('\Magento\Newsletter\Model\Subscriber', '\Magento\Newsletter\Model\Resource\Subscriber');
         $this->_queueLinkTable = $this->getTable('newsletter_queue_link');
         $this->_storeTable = $this->getTable('core_store');
 
@@ -80,10 +82,10 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     /**
      * Set loading mode subscribers by queue
      *
-     * @param Magento_Newsletter_Model_Queue $queue
-     * @return Magento_Newsletter_Model_Resource_Subscriber_Collection
+     * @param \Magento\Newsletter\Model\Queue $queue
+     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
      */
-    public function useQueue(Magento_Newsletter_Model_Queue $queue)
+    public function useQueue(\Magento\Newsletter\Model\Queue $queue)
     {
         $this->getSelect()
             ->join(array('link'=>$this->_queueLinkTable), "link.subscriber_id = main_table.subscriber_id", array())
@@ -95,7 +97,7 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     /**
      * Set using of links to only unsendet letter subscribers.
      *
-     * @return Magento_Newsletter_Model_Resource_Subscriber_Collection
+     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
      */
     public function useOnlyUnsent()
     {
@@ -109,12 +111,12 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     /**
      * Adds customer info to select
      *
-     * @return Magento_Newsletter_Model_Resource_Subscriber_Collection
+     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
      */
     public function showCustomerInfo()
     {
         $adapter = $this->getConnection();
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
         $firstname  = $customer->getAttribute('firstname');
         $lastname   = $customer->getAttribute('lastname');
 
@@ -138,19 +140,19 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     /**
      * Add type field expression to select
      *
-     * @return Magento_Newsletter_Model_Resource_Subscriber_Collection
+     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
      */
     public function addSubscriberTypeField()
     {
         $this->getSelect()
-            ->columns(array('type'=>new Zend_Db_Expr($this->_getMappedField('type'))));
+            ->columns(array('type'=>new \Zend_Db_Expr($this->_getMappedField('type'))));
         return $this;
     }
 
     /**
      * Sets flag for customer info loading on load
      *
-     * @return Magento_Newsletter_Model_Resource_Subscriber_Collection
+     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
      */
     public function showStoreInfo()
     {
@@ -174,7 +176,7 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
         $select = parent::getSelectCountSql();
         $countSelect = clone $this->getSelect();
 
-        $countSelect->reset(Zend_Db_Select::HAVING);
+        $countSelect->reset(\Zend_Db_Select::HAVING);
 
         return $select;
     }
@@ -182,7 +184,7 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     /**
      * Load only subscribed customers
      *
-     * @return Magento_Newsletter_Model_Resource_Subscriber_Collection
+     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
      */
     public function useOnlyCustomers()
     {
@@ -194,11 +196,11 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
     /**
      * Show only with subscribed status
      *
-     * @return Magento_Newsletter_Model_Resource_Subscriber_Collection
+     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
      */
     public function useOnlySubscribed()
     {
-        $this->addFieldToFilter('main_table.subscriber_status', Magento_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
+        $this->addFieldToFilter('main_table.subscriber_status', \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED);
 
         return $this;
     }
@@ -207,7 +209,7 @@ class Magento_Newsletter_Model_Resource_Subscriber_Collection extends Magento_Co
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return Magento_Newsletter_Model_Resource_Subscriber_Collection
+     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
      */
     public function addStoreFilter($storeIds)
     {

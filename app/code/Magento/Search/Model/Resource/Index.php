@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Resource_Fulltext
+namespace Magento\Search\Model\Resource;
+
+class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
 {
     /**
      * Return array of price data per customer and website by products
@@ -56,7 +58,7 @@ class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Re
     {
         $priceProductsIndexData = $this->_getCatalogProductPriceData($productIds);
 
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
         if (!isset($priceProductsIndexData[$websiteId])) {
             return array();
         }
@@ -164,8 +166,8 @@ class Magento_Search_Model_Resource_Index extends Magento_CatalogSearch_Model_Re
             ->where('product_id IN (?)', $productIds)
             ->where('store_id = ?', $storeId)
             ->group('product_id');
-        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $helper */
-        $helper = Mage::getResourceHelper('Magento_Core');
+        /** @var \Magento\Core\Model\Resource\Helper\Mysql4 $helper */
+        $helper = \Mage::getResourceHelper('Magento_Core');
         $helper->addGroupConcatColumn($select, 'parents', 'category_id', ' ', ',', 'is_parent = 1');
         $helper->addGroupConcatColumn($select, 'anchors', 'category_id', ' ', ',', 'is_parent = 0');
         $helper->addGroupConcatColumn($select, 'positions', array('category_id', 'position'), ' ', '_');

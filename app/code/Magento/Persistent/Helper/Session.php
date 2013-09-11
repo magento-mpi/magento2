@@ -16,19 +16,21 @@
  * @package    Magento_Persistent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
+namespace Magento\Persistent\Helper;
+
+class Session extends \Magento\Core\Helper\Data
 {
     /**
      * Instance of Session Model
      *
-     * @var null|Magento_Persistent_Model_Session
+     * @var null|\Magento\Persistent\Model\Session
      */
     protected $_sessionModel;
 
     /**
      * Persistent customer
      *
-     * @var null|Magento_Customer_Model_Customer
+     * @var null|\Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -42,12 +44,12 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     /**
      * Get Session model
      *
-     * @return Magento_Persistent_Model_Session
+     * @return \Magento\Persistent\Model\Session
      */
     public function getSession()
     {
         if (is_null($this->_sessionModel)) {
-            $this->_sessionModel = Mage::getModel('Magento_Persistent_Model_Session');
+            $this->_sessionModel = \Mage::getModel('\Magento\Persistent\Model\Session');
             $this->_sessionModel->loadByCookieKey();
         }
         return $this->_sessionModel;
@@ -56,8 +58,8 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     /**
      * Force setting session model
      *
-     * @param Magento_Persistent_Model_Session $sessionModel
-     * @return Magento_Persistent_Model_Session
+     * @param \Magento\Persistent\Model\Session $sessionModel
+     * @return \Magento\Persistent\Model\Session
      */
     public function setSession($sessionModel)
     {
@@ -72,7 +74,7 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
      */
     public function isPersistent()
     {
-        return $this->getSession()->getId() && Mage::helper('Magento_Persistent_Helper_Data')->isEnabled();
+        return $this->getSession()->getId() && \Mage::helper('Magento\Persistent\Helper\Data')->isEnabled();
     }
 
     /**
@@ -84,15 +86,15 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     {
         if (is_null($this->_isRememberMeChecked)) {
             //Try to get from checkout session
-            $isRememberMeChecked = Mage::getSingleton('Magento_Checkout_Model_Session')->getRememberMeChecked();
+            $isRememberMeChecked = \Mage::getSingleton('Magento\Checkout\Model\Session')->getRememberMeChecked();
             if (!is_null($isRememberMeChecked)) {
                 $this->_isRememberMeChecked = $isRememberMeChecked;
-                Mage::getSingleton('Magento_Checkout_Model_Session')->unsRememberMeChecked();
+                \Mage::getSingleton('Magento\Checkout\Model\Session')->unsRememberMeChecked();
                 return $isRememberMeChecked;
             }
 
-            /** @var $helper Magento_Persistent_Helper_Data */
-            $helper = Mage::helper('Magento_Persistent_Helper_Data');
+            /** @var $helper \Magento\Persistent\Helper\Data */
+            $helper = \Mage::helper('Magento\Persistent\Helper\Data');
             return $helper->isEnabled() && $helper->isRememberMeEnabled() && $helper->isRememberMeCheckedDefault();
         }
 
@@ -112,13 +114,13 @@ class Magento_Persistent_Helper_Session extends Magento_Core_Helper_Data
     /**
      * Return persistent customer
      *
-     * @return Magento_Customer_Model_Customer|bool
+     * @return \Magento\Customer\Model\Customer|bool
      */
     public function getCustomer()
     {
         if (is_null($this->_customer)) {
             $customerId = $this->getSession()->getCustomerId();
-            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
         }
         return $this->_customer;
     }

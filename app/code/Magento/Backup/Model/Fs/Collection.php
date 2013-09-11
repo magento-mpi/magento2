@@ -15,7 +15,9 @@
  * @package    \Magento\Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Model_Fs_Collection extends \Magento\Data\Collection\Filesystem
+namespace Magento\Backup\Model\Fs;
+
+class Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
      * Folder, where all backups are stored
@@ -38,7 +40,7 @@ class Magento_Backup_Model_Fs_Collection extends \Magento\Data\Collection\Filesy
     {
         parent::__construct();
 
-        $this->_baseDir = Mage::getBaseDir('var') . DS . 'backups';
+        $this->_baseDir = \Mage::getBaseDir('var') . DS . 'backups';
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($this->_baseDir);
@@ -47,7 +49,7 @@ class Magento_Backup_Model_Fs_Collection extends \Magento\Data\Collection\Filesy
         $this->_hideBackupsForApache();
 
         // set collection specific params
-        $extensions = Mage::helper('Magento_Backup_Helper_Data')->getExtensions();
+        $extensions = \Mage::helper('Magento\Backup\Helper\Data')->getExtensions();
 
         foreach ($extensions as $value) {
             $extensions[] = '(' . preg_quote($value, '/') . ')';
@@ -83,7 +85,7 @@ class Magento_Backup_Model_Fs_Collection extends \Magento\Data\Collection\Filesy
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        foreach (Mage::getSingleton('Magento_Backup_Model_Backup')->load($row['basename'], $this->_baseDir)
+        foreach (\Mage::getSingleton('Magento\Backup\Model\Backup')->load($row['basename'], $this->_baseDir)
             ->getData() as $key => $value) {
             $row[$key] = $value;
         }

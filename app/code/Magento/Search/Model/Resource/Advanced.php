@@ -15,7 +15,9 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource_Abstract
+namespace Magento\Search\Model\Resource;
+
+class Advanced extends \Magento\Core\Model\Resource\AbstractResource
 {
     /**
      * Defines text type fields
@@ -41,8 +43,8 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     /**
      * Add filter by indexable attribute
      *
-     * @param Magento_Search_Model_Resource_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Search\Model\Resource\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      *
      * @return bool
@@ -62,8 +64,8 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     /**
      * Retrieve filter array
      *
-     * @param Magento_Search_Model_Resource_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Search\Model\Resource\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @return array
      */
@@ -84,15 +86,15 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
             $value = array($value);
         }
 
-        $field = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine')
+        $field = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Engine')
                 ->getSearchEngineFieldName($attribute, 'nav');
 
         if ($attribute->getBackendType() == 'datetime') {
-            $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $format = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             foreach ($value as &$val) {
                 if (!is_empty_date($val)) {
-                    $date = new Zend_Date($val, $format);
-                    $val = $date->toString(Zend_Date::ISO_8601) . 'Z';
+                    $date = new \Zend_Date($val, $format);
+                    $val = $date->toString(\Zend_Date::ISO_8601) . 'Z';
                 }
             }
             unset($val);
@@ -108,8 +110,8 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     /**
      * Add filter by attribute rated price
      *
-     * @param Magento_Search_Model_Resource_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Search\Model\Resource\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @param int $rate
      *
@@ -118,7 +120,7 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     public function addRatedPriceFilter($collection, $attribute, $value, $rate = 1)
     {
         $collection->addPriceData();
-        $fieldName = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine')
+        $fieldName = \Mage::getResourceSingleton('\Magento\Search\Model\Resource\Engine')
                 ->getSearchEngineFieldName($attribute);
         $collection->addSearchParam(array($fieldName => $value));
 
@@ -128,9 +130,9 @@ class Magento_Search_Model_Resource_Advanced extends Magento_Core_Model_Resource
     /**
      * Add not indexable field to search
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
-     * @param Magento_Search_Model_Resource_Collection $collection
+     * @param \Magento\Search\Model\Resource\Collection $collection
      *
      * @return bool
      */

@@ -11,7 +11,9 @@
 /**
  * PayPal specific model for certificate based authentication
  */
-class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
+namespace Magento\Paypal\Model;
+
+class Cert extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Certificate base path
@@ -23,7 +25,7 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Paypal_Model_Resource_Cert');
+        $this->_init('\Magento\Paypal\Model\Resource\Cert');
     }
 
     /**
@@ -31,7 +33,7 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
      *
      * @param int $websiteId
      * @param bool $strictLoad
-     * @return Magento_Paypal_Model_Cert
+     * @return \Magento\Paypal\Model\Cert
      */
     public function loadByWebsite($websiteId, $strictLoad = true)
     {
@@ -48,7 +50,7 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
     public function getCertPath()
     {
         if (!$this->getContent()) {
-            Mage::throwException(__('The PayPal certificate does not exist.'));
+            \Mage::throwException(__('The PayPal certificate does not exist.'));
         }
 
         $certFileName = sprintf('cert_%s_%s.pem', $this->getWebsiteId(), strtotime($this->getUpdatedAt()));
@@ -75,7 +77,7 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
             $this->_removeOutdatedCertFile();
         }
 
-        file_put_contents($file, Mage::helper('Magento_Core_Helper_Data')->decrypt($this->getContent()));
+        file_put_contents($file, \Mage::helper('Magento\Core\Helper\Data')->decrypt($this->getContent()));
     }
 
     /**
@@ -103,13 +105,13 @@ class Magento_Paypal_Model_Cert extends Magento_Core_Model_Abstract
      */
     protected function _getBaseDir()
     {
-        return Mage::getBaseDir('var') . DS . self::BASEPATH_PAYPAL_CERT;
+        return \Mage::getBaseDir('var') . DS . self::BASEPATH_PAYPAL_CERT;
     }
 
     /**
      * Delete assigned certificate file after delete object
      *
-     * @return Magento_Paypal_Model_Cert
+     * @return \Magento\Paypal\Model\Cert
      */
     protected function _afterDelete()
     {

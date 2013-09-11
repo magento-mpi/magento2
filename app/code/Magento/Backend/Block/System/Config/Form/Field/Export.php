@@ -15,10 +15,12 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_Export extends \Magento\Data\Form\Element\AbstractElement
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Export extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * @var Magento_Core_Model_Factory_Helper
+     * @var \Magento\Core\Model\Factory\Helper
      */
     protected $_helperFactory;
 
@@ -31,7 +33,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Export extends \Magento\Dat
             $this->_helperFactory = $attributes['helperFactory'];
             unset($attributes['helperFactory']);
         } else {
-            $this->_helperFactory = Mage::getSingleton('Magento_Core_Model_Factory_Helper');
+            $this->_helperFactory = \Mage::getSingleton('Magento\Core\Model\Factory\Helper');
         }
 
         parent::__construct($attributes);
@@ -39,17 +41,17 @@ class Magento_Backend_Block_System_Config_Form_Field_Export extends \Magento\Dat
 
     public function getElementHtml()
     {
-        /** @var Magento_Backend_Block_Widget_Button $buttonBlock  */
+        /** @var \Magento\Backend\Block\Widget\Button $buttonBlock  */
         $buttonBlock = $this->getForm()
             ->getParent()
             ->getLayout()
-            ->createBlock('Magento_Backend_Block_Widget_Button');
+            ->createBlock('\Magento\Backend\Block\Widget\Button');
 
         $params = array(
             'website' => $buttonBlock->getRequest()->getParam('website')
         );
 
-        $url = $this->_helperFactory->get('Magento_Backend_Helper_Data')->getUrl("*/*/exportTablerates", $params);
+        $url = $this->_helperFactory->get('Magento\Backend\Helper\Data')->getUrl("*/*/exportTablerates", $params);
         $data = array(
             'label'     =>  __('Export CSV'),
             'onclick'   => "setLocation('" . $url

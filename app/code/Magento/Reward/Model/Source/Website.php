@@ -15,7 +15,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Source_Website implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Reward\Model\Source;
+
+class Website implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Prepare and return array of website ids and their names
@@ -25,7 +27,7 @@ class Magento_Reward_Model_Source_Website implements Magento_Core_Model_Option_A
      */
     public function toOptionArray($withAll = true)
     {
-        $websites = Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash();
+        $websites = \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash();
         if ($withAll) {
             $websites = array(0 => __('All Websites'))
                       + $websites;

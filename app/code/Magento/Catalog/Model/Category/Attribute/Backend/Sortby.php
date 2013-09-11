@@ -15,8 +15,10 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
-    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Category\Attribute\Backend;
+
+class Sortby
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Validate process
@@ -50,7 +52,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                Mage::throwException(__('The value of attribute "%1" must be unique.', $label));
+                \Mage::throwException(__('The value of attribute "%1" must be unique.', $label));
             }
         }
 
@@ -60,13 +62,13 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
                     $available = explode(',', $available);
                 }
                 $data = (!in_array('default_sort_by', $postDataConfig))? $object->getData($attributeCode):
-                       Mage::getStoreConfig("catalog/frontend/default_sort_by");
+                       \Mage::getStoreConfig("catalog/frontend/default_sort_by");
                 if (!in_array($data, $available)) {
-                    Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
+                    \Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
                 }
             } else {
                 if (!in_array('available_sort_by', $postDataConfig)) {
-                    Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
+                    \Mage::throwException(__('Default Product Listing Sort by does not exist in Available Product Listing Sort By.'));
                 }
             }
         }
@@ -78,7 +80,7 @@ class Magento_Catalog_Model_Category_Attribute_Backend_Sortby
      * Before Attribute Save Process
      *
      * @param \Magento\Object $object
-     * @return Magento_Catalog_Model_Category_Attribute_Backend_Sortby
+     * @return \Magento\Catalog\Model\Category\Attribute\Backend\Sortby
      */
     public function beforeSave($object)
     {

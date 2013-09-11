@@ -11,7 +11,9 @@
 /**
  * System configuration structure
  */
-class Magento_Backend_Model_Config_Structure implements Magento_Backend_Model_Config_Structure_SearchInterface
+namespace Magento\Backend\Model\Config;
+
+class Structure implements \Magento\Backend\Model\Config\Structure\SearchInterface
 {
     /**
      * Key that contains field type in structure array
@@ -28,42 +30,42 @@ class Magento_Backend_Model_Config_Structure implements Magento_Backend_Model_Co
     /**
      * Config tab iterator
      *
-     * @var Magento_Backend_Model_Config_Structure_Element_Iterator_Tab
+     * @var \Magento\Backend\Model\Config\Structure\Element\Iterator\Tab
      */
     protected $_tabIterator;
 
     /**
      * Pool of config element flyweight objects
      *
-     * @var Magento_Backend_Model_Config_Structure_Element_FlyweightFactory
+     * @var \Magento\Backend\Model\Config\Structure\Element\FlyweightFactory
      */
     protected $_flyweightFactory;
 
     /**
      * Provider of current config scope
      *
-     * @var Magento_Backend_Model_Config_ScopeDefiner
+     * @var \Magento\Backend\Model\Config\ScopeDefiner
      */
     protected $_scopeDefiner;
 
     /**
      * List of cached elements
      *
-     * @var Magento_Backend_Model_Config_Structure_ElementInterface[]
+     * @var \Magento\Backend\Model\Config\Structure\ElementInterface[]
      */
     protected $_elements;
 
     /**
-     * @param Magento_Backend_Model_Config_Structure_Data $structureData
-     * @param Magento_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator
-     * @param Magento_Backend_Model_Config_Structure_Element_FlyweightFactory $flyweightFactory
-     * @param Magento_Backend_Model_Config_ScopeDefiner $scopeDefiner
+     * @param \Magento\Backend\Model\Config\Structure\Data $structureData
+     * @param \Magento\Backend\Model\Config\Structure\Element\Iterator\Tab $tabIterator
+     * @param \Magento\Backend\Model\Config\Structure\Element\FlyweightFactory $flyweightFactory
+     * @param \Magento\Backend\Model\Config\ScopeDefiner $scopeDefiner
      */
     public function __construct(
-        Magento_Backend_Model_Config_Structure_Data $structureData,
-        Magento_Backend_Model_Config_Structure_Element_Iterator_Tab $tabIterator,
-        Magento_Backend_Model_Config_Structure_Element_FlyweightFactory $flyweightFactory,
-        Magento_Backend_Model_Config_ScopeDefiner $scopeDefiner
+        \Magento\Backend\Model\Config\Structure\Data $structureData,
+        \Magento\Backend\Model\Config\Structure\Element\Iterator\Tab $tabIterator,
+        \Magento\Backend\Model\Config\Structure\Element\FlyweightFactory $flyweightFactory,
+        \Magento\Backend\Model\Config\ScopeDefiner $scopeDefiner
     ) {
         $this->_data = $structureData->get();
         $this->_tabIterator = $tabIterator;
@@ -74,7 +76,7 @@ class Magento_Backend_Model_Config_Structure implements Magento_Backend_Model_Co
     /**
      * Retrieve tab iterator
      *
-     * @return Magento_Backend_Model_Config_Structure_Element_Iterator
+     * @return \Magento\Backend\Model\Config\Structure\Element\Iterator
      */
     public function getTabs()
     {
@@ -91,7 +93,7 @@ class Magento_Backend_Model_Config_Structure implements Magento_Backend_Model_Co
      * Find element by path
      *
      * @param string $path
-     * @return Magento_Backend_Model_Config_Structure_ElementInterface|null
+     * @return \Magento\Backend\Model\Config\Structure\ElementInterface|null
      */
     public function getElement($path)
     {
@@ -101,13 +103,13 @@ class Magento_Backend_Model_Config_Structure implements Magento_Backend_Model_Co
     /**
      * Retrieve first available section in config structure
      *
-     * @return Magento_Backend_Model_Config_Structure_ElementInterface
+     * @return \Magento\Backend\Model\Config\Structure\ElementInterface
      */
     public function getFirstSection()
     {
         $tabs = $this->getTabs();
         $tabs->rewind();
-        /** @var $tab Magento_Backend_Model_Config_Structure_Element_Tab */
+        /** @var $tab \Magento\Backend\Model\Config\Structure\Element\Tab */
         $tab = $tabs->current();
         $tab->getChildren()->rewind();
         return $tab->getChildren()->current();
@@ -117,7 +119,7 @@ class Magento_Backend_Model_Config_Structure implements Magento_Backend_Model_Co
      * Find element by path parts
      *
      * @param array $pathParts
-     * @return Magento_Backend_Model_Config_Structure_ElementInterface|null
+     * @return \Magento\Backend\Model\Config\Structure\ElementInterface|null
      */
     public function getElementByPathParts(array $pathParts)
     {

@@ -16,7 +16,9 @@
  * @package    Magento_Persistent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
+namespace Magento\Persistent\Helper;
+
+class Data extends \Magento\Core\Helper\Data
 {
     const XML_PATH_ENABLED = 'persistent/options/enabled';
     const XML_PATH_LIFE_TIME = 'persistent/options/lifetime';
@@ -35,56 +37,56 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
     /**
      * Checks whether Persistence Functionality is enabled
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isEnabled($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED, $store);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_ENABLED, $store);
     }
 
     /**
      * Checks whether "Remember Me" enabled
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isRememberMeEnabled($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_REMEMBER_ME_ENABLED, $store);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_REMEMBER_ME_ENABLED, $store);
     }
 
     /**
      * Is "Remember Me" checked by default
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isRememberMeCheckedDefault($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_REMEMBER_ME_DEFAULT, $store);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_REMEMBER_ME_DEFAULT, $store);
     }
 
     /**
      * Is shopping cart persist
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isShoppingCartPersist($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_PERSIST_SHOPPING_CART, $store);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_PERSIST_SHOPPING_CART, $store);
     }
 
     /**
      * Get Persistence Lifetime
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      * @return int
      */
     public function getLifeTime($store = null)
     {
-        $lifeTime = intval(Mage::getStoreConfig(self::XML_PATH_LIFE_TIME, $store));
+        $lifeTime = intval(\Mage::getStoreConfig(self::XML_PATH_LIFE_TIME, $store));
         return ($lifeTime < 0) ? 0 : $lifeTime;
     }
 
@@ -95,7 +97,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getClearOnLogout()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_LOGOUT_CLEAR);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_LOGOUT_CLEAR);
     }
 
     /**
@@ -115,7 +117,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getPersistentName()
     {
-        return __('(Not %1?)', $this->escapeHtml(Mage::helper('Magento_Persistent_Helper_Session')->getCustomer()->getName()));
+        return __('(Not %1?)', $this->escapeHtml(\Mage::helper('Magento\Persistent\Helper\Session')->getCustomer()->getName()));
     }
 
     /**
@@ -125,7 +127,7 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getPersistentConfigFilePath()
     {
-        return Mage::getConfig()->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
+        return \Mage::getConfig()->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
     }
 
     /**
@@ -139,11 +141,11 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
         $action = $observer->getEvent()->getAction();
         $controllerAction = $observer->getEvent()->getControllerAction();
 
-        if ($action instanceof Magento_Core_Controller_Varien_Action) {
-            return !$action->getFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
+        if ($action instanceof \Magento\Core\Controller\Varien\Action) {
+            return !$action->getFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_START_SESSION);
         }
-        if ($controllerAction instanceof Magento_Core_Controller_Varien_Action) {
-            return !$controllerAction->getFlag('', Magento_Core_Controller_Varien_Action::FLAG_NO_START_SESSION);
+        if ($controllerAction instanceof \Magento\Core\Controller\Varien\Action) {
+            return !$controllerAction->getFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_START_SESSION);
         }
         return true;
     }
@@ -156,8 +158,8 @@ class Magento_Persistent_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getCreateAccountUrl($url)
     {
-        if (Mage::helper('Magento_Checkout_Helper_Data')->isContextCheckout()) {
-            $url = Mage::helper('Magento_Core_Helper_Url')->addRequestParam($url, array('context' => 'checkout'));
+        if (\Mage::helper('Magento\Checkout\Helper\Data')->isContextCheckout()) {
+            $url = \Mage::helper('Magento\Core\Helper\Url')->addRequestParam($url, array('context' => 'checkout'));
         }
         return $url;
     }

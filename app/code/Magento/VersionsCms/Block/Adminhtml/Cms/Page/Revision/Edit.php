@@ -16,13 +16,15 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento_Adminhtml_Block_Cms_Page_Edit
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision;
+
+class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
 {
 
     /**
      * Constructor. Modifying default CE buttons.
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit
      */
     protected function _construct()
     {
@@ -35,8 +37,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento
         $this->_controller = 'adminhtml_cms_page_revision';
         $this->_blockGroup = 'Magento_VersionsCms';
 
-        /* @var $config Magento_VersionsCms_Model_Config */
-        $config = Mage::getSingleton('Magento_VersionsCms_Model_Config');
+        /* @var $config \Magento\VersionsCms\Model\Config */
+        $config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
 
         $this->setFormActionUrl($this->getUrl('*/cms_page_revision/save'));
 
@@ -72,7 +74,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento
                 'id'        => 'publish_button',
                 'label'     => __('Publish'),
                 'onclick'   => "publishAction('" . $this->getPublishUrl() . "')",
-                'class'     => 'publish' . (Mage::registry('cms_page')->getId()? '' : ' no-display'),
+                'class'     => 'publish' . (\Mage::registry('cms_page')->getId()? '' : ' no-display'),
             ), 1);
 
             if ($config->canCurrentUserSaveRevision()) {
@@ -108,7 +110,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento
                 )
             );
 
-            $page = Mage::registry('cms_page');
+            $page = \Mage::registry('cms_page');
             // Adding button to create new version
             $this->_addButton('new_version', array(
                 'id'        => 'new_version',
@@ -161,8 +163,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento
      */
     public function getHeaderText()
     {
-        $revisionNumber = Mage::registry('cms_page')->getRevisionNumber();
-        $title = $this->escapeHtml(Mage::registry('cms_page')->getTitle());
+        $revisionNumber = \Mage::registry('cms_page')->getRevisionNumber();
+        $title = $this->escapeHtml(\Mage::registry('cms_page')->getTitle());
 
         if ($revisionNumber) {
             return __("Edit Page '%1' Revision #%2", $title, $this->escapeHtml($revisionNumber));
@@ -193,7 +195,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit extends Magento
      */
     public function getBackUrl()
     {
-        $page = Mage::registry('cms_page');
+        $page = \Mage::registry('cms_page');
         return $this->getUrl('*/cms_page_version/edit',
              array(
                 'page_id' => $page ? $page->getPageId() : null,

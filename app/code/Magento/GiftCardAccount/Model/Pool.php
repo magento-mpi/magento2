@@ -9,18 +9,20 @@
  */
 
 /**
- * @method Magento_GiftCardAccount_Model_Resource_Pool _getResource()
- * @method Magento_GiftCardAccount_Model_Resource_Pool getResource()
+ * @method \Magento\GiftCardAccount\Model\Resource\Pool _getResource()
+ * @method \Magento\GiftCardAccount\Model\Resource\Pool getResource()
  * @method string getCode()
- * @method Magento_GiftCardAccount_Model_Pool setCode(string $value)
+ * @method \Magento\GiftCardAccount\Model\Pool setCode(string $value)
  * @method int getStatus()
- * @method Magento_GiftCardAccount_Model_Pool setStatus(int $value)
+ * @method \Magento\GiftCardAccount\Model\Pool setStatus(int $value)
  *
  * @category    Magento
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_Pool_Abstract
+namespace Magento\GiftCardAccount\Model;
+
+class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
 {
     const CODE_FORMAT_ALPHANUM = 'alphanum';
     const CODE_FORMAT_ALPHA = 'alpha';
@@ -41,21 +43,21 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
 
     protected function _construct()
     {
-        $this->_init('Magento_GiftCardAccount_Model_Resource_Pool');
+        $this->_init('\Magento\GiftCardAccount\Model\Resource\Pool');
     }
 
     public function generatePool()
     {
         $this->cleanupFree();
 
-        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $website = \Mage::app()->getWebsite($this->getWebsiteId());
         $size = $website->getConfig(self::XML_CONFIG_POOL_SIZE);
 
         for ($i=0; $i<$size;$i++) {
             $attempt = 0;
             do {
                 if ($attempt>=self::CODE_GENERATION_ATTEMPTS) {
-                    Mage::throwException(__('We were unable to create full code pool size. Please check settings and try again.'));
+                    \Mage::throwException(__('We were unable to create full code pool size. Please check settings and try again.'));
                 }
                 $code = $this->_generateCode();
                 $attempt++;
@@ -69,11 +71,11 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
     /**
      * Checks pool threshold and call codes generation in case if free codes count is less than threshold value
      *
-     * @return Magento_GiftCardAccount_Model_Pool
+     * @return \Magento\GiftCardAccount\Model\Pool
      */
     public function applyCodesGeneration()
     {
-        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $website = \Mage::app()->getWebsite($this->getWebsiteId());
         $threshold = $website->getConfig(self::XML_CONFIG_POOL_THRESHOLD);
         if ($this->getPoolUsageInfo()->getFree() < $threshold) {
             $this->generatePool();
@@ -88,7 +90,7 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
      */
     protected function _generateCode()
     {
-        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $website = \Mage::app()->getWebsite($this->getWebsiteId());
 
         $format  = $website->getConfig(self::XML_CONFIG_CODE_FORMAT);
         if (!$format) {
@@ -100,7 +102,7 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
         $prefix  = $website->getConfig(self::XML_CONFIG_CODE_PREFIX);
 
         $splitChar = $this->getCodeSeparator();
-        $charset = str_split((string) Mage::app()->getConfig()->getNode(sprintf(self::XML_CHARSET_NODE, $format)));
+        $charset = str_split((string) \Mage::app()->getConfig()->getNode(sprintf(self::XML_CHARSET_NODE, $format)));
 
         $code = '';
         for ($i=0; $i<$length; $i++) {
@@ -117,6 +119,6 @@ class Magento_GiftCardAccount_Model_Pool extends Magento_GiftCardAccount_Model_P
 
     public function getCodeSeparator()
     {
-        return (string) Mage::app()->getConfig()->getNode(self::XML_CHARSET_SEPARATOR);
+        return (string) \Mage::app()->getConfig()->getNode(self::XML_CHARSET_SEPARATOR);
     }
 }

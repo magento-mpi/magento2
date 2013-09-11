@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Observer_Backend_CatalogProductQuote
+namespace Magento\Sales\Model\Observer\Backend;
+
+class CatalogProductQuote
 {
     /**
-     * @var Magento_Sales_Model_Resource_Quote
+     * @var \Magento\Sales\Model\Resource\Quote
      */
     protected $_quote;
 
     /**
-     * @param Magento_Sales_Model_Resource_Quote $quote
+     * @param \Magento\Sales\Model\Resource\Quote $quote
      */
-    public function __construct(Magento_Sales_Model_Resource_Quote $quote)
+    public function __construct(\Magento\Sales\Model\Resource\Quote $quote)
     {
         $this->_quote = $quote;
     }
@@ -28,7 +30,7 @@ class Magento_Sales_Model_Observer_Backend_CatalogProductQuote
      */
     protected function _recollectQuotes($productId, $status)
     {
-        if ($status != Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
+        if ($status != \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
             $this->_quote->markQuotesRecollect($productId);
         }
     }

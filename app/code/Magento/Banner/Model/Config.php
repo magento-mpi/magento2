@@ -11,7 +11,9 @@
 /**
  * Banner configuration/source model
  */
-class Magento_Banner_Model_Config
+namespace Magento\Banner\Model;
+
+class Config
 {
     /**
      * Banner types getter
@@ -24,7 +26,7 @@ class Magento_Banner_Model_Config
     public function getTypes($sorted = true, $withEmpty = false)
     {
         $result = array();
-        foreach (Mage::getConfig()->getNode('global/magento/banner/types')->asCanonicalArray() as $type => $label) {
+        foreach (\Mage::getConfig()->getNode('global/magento/banner/types')->asCanonicalArray() as $type => $label) {
             $result[$type] = __($label);
         }
         if ($sorted) {

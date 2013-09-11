@@ -14,19 +14,19 @@
  */
 class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_Layout */
+    /** @var \Magento\Core\Model\Layout */
     protected $_layout = null;
 
-    /** @var Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion */
+    /** @var \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion */
     protected $_block = null;
 
     protected function setUp()
     {
         parent::setUp();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('\Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion');
     }
 
     protected function tearDown()
@@ -34,7 +34,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
         $this->_block = null;
         $this->_layout = null;
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Scope')
+            ->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(null);
     }
 
@@ -47,7 +47,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
         // set first child - block
         $title = 'Block 1';
         $url = 'http://content.url.1/';
-        $this->_layout->addBlock('Magento_Core_Block_Text', 'block1', $parentName)
+        $this->_layout->addBlock('\Magento\Core\Block\Text', 'block1', $parentName)
             ->setHeaderText($title)
             ->setData('content_url', $url);
 
@@ -55,12 +55,12 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
         $containerName = 'container';
         $this->_layout->addContainer($containerName, 'Container', array(), $parentName);
         $containerText = 'Block in container';
-        $this->_layout->addBlock('Magento_Core_Block_Text', 'container_block', $containerName)->setText($containerText);
+        $this->_layout->addBlock('\Magento\Core\Block\Text', 'container_block', $containerName)->setText($containerText);
 
         // set third child - block
         $titleOne = 'Block 2';
         $blockContent = 'Block 2 Text';
-        $this->_layout->addBlock('Magento_Core_Block_Text', 'block2', $parentName)
+        $this->_layout->addBlock('\Magento\Core\Block\Text', 'block2', $parentName)
             ->setHeaderText($titleOne)
             ->setText($blockContent);
 
@@ -77,9 +77,9 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_AccordionTest extends PHPU
      */
     protected function _initAcl()
     {
-        $user = Mage::getModel('Magento_User_Model_User');
+        $user = Mage::getModel('\Magento\User\Model\User');
         $user->setId(1)->setRole(true);
-        Mage::getSingleton('Magento_Backend_Model_Auth_Session')->setUpdatedAt(time())->setUser($user);
+        Mage::getSingleton('Magento\Backend\Model\Auth\Session')->setUpdatedAt(time())->setUser($user);
         Mage::getModel(
             '\Magento\AuthorizationInterface', array(
                 'data' => array('policy' => new \Magento\Authorization\Policy\DefaultPolicy())

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Status_Edit extends Magento_Adminhtml_Block_Sales_Order_Status_New
+namespace Magento\Adminhtml\Block\Sales\Order\Status;
+
+class Edit extends \Magento\Adminhtml\Block\Sales\Order\Status\New
 {
     protected function _construct()
     {

@@ -15,7 +15,9 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Form extends Magento_Adminhtml_Block_Template
+namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\View;
+
+class Form extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Indicates that block can display gift message form
@@ -24,7 +26,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_View_Form extends Magento_
      */
     public function canDisplayGiftmessageForm()
     {
-        $order = Mage::registry('current_order');
+        $order = \Mage::registry('current_order');
         if ($order) {
             foreach ($order->getAllItems() as $item) {
                 if ($item->getGiftMessageId()) {

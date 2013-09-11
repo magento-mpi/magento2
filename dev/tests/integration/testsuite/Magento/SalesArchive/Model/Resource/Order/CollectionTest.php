@@ -13,7 +13,7 @@ class Magento_SalesArchive_Model_Resource_Order_CollectionTest extends PHPUnit_F
 {
     public function testGetSelectCountSql()
     {
-        $countSql = Mage::getModel('Magento_SalesArchive_Model_Resource_Order_Collection')->getSelectCountSql();
+        $countSql = Mage::getModel('\Magento\SalesArchive\Model\Resource\Order\Collection')->getSelectCountSql();
         $this->assertInstanceOf('\Magento\DB\Select', $countSql);
     }
 }

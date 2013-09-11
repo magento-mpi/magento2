@@ -11,15 +11,17 @@
 /**
  * Customer Order model
  *
- * @method Magento_CustomerCustomAttributes_Model_Resource_Sales_Order _getResource()
- * @method Magento_CustomerCustomAttributes_Model_Resource_Sales_Order getResource()
- * @method Magento_CustomerCustomAttributes_Model_Sales_Order setEntityId(int $value)
+ * @method \Magento\CustomerCustomAttributes\Model\Resource\Sales\Order _getResource()
+ * @method \Magento\CustomerCustomAttributes\Model\Resource\Sales\Order getResource()
+ * @method \Magento\CustomerCustomAttributes\Model\Sales\Order setEntityId(int $value)
  *
  * @category    Magento
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Model_Sales_Order extends Magento_CustomerCustomAttributes_Model_Sales_Abstract
+namespace Magento\CustomerCustomAttributes\Model\Sales;
+
+class Order extends \Magento\CustomerCustomAttributes\Model\Sales\AbstractSales
 {
     /**
      * Initialize resource model
@@ -27,6 +29,6 @@ class Magento_CustomerCustomAttributes_Model_Sales_Order extends Magento_Custome
      */
     protected function _construct()
     {
-        $this->_init('Magento_CustomerCustomAttributes_Model_Resource_Sales_Order');
+        $this->_init('\Magento\CustomerCustomAttributes\Model\Resource\Sales\Order');
     }
 }

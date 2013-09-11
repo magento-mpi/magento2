@@ -12,20 +12,20 @@
 class Magento_Wishlist_Block_Customer_Wishlist_Item_ColumnTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout = null;
 
     /**
-     * @var Magento_Wishlist_Block_Customer_Wishlist_Item_Column
+     * @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
      */
     protected $_block = null;
 
     protected function setUp()
     {
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->addBlock('Magento_Wishlist_Block_Customer_Wishlist_Item_Column', 'test');
-        $this->_layout->addBlock('Magento_Core_Block_Text', 'child', 'test');
+        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->addBlock('\Magento\Wishlist\Block\Customer\Wishlist\Item\Column', 'test');
+        $this->_layout->addBlock('\Magento\Core\Block\Text', 'child', 'test');
     }
 
     public function testToHtml()

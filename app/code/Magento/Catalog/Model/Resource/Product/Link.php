@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Link extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product;
+
+class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Product Link Attributes Table
@@ -37,10 +39,10 @@ class Magento_Catalog_Model_Resource_Product_Link extends Magento_Core_Model_Res
     /**
      * Save Product Links process
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $data
      * @param int $typeId
-     * @return Magento_Catalog_Model_Resource_Product_Link
+     * @return \Magento\Catalog\Model\Resource\Product\Link
      */
     public function saveProductLinks($product, $data, $typeId)
     {
@@ -183,7 +185,7 @@ class Magento_Catalog_Model_Resource_Product_Link extends Magento_Core_Model_Res
             ->from(array('l' => $this->getMainTable()), array('linked_product_id'))
             ->where('product_id = :product_id')
             ->where('link_type_id = :link_type_id');
-        if ($typeId == Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED) {
+        if ($typeId == \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED) {
             $select->join(
                 array('e' => $this->getTable('catalog_product_entity')),
                 'e.entity_id = l.linked_product_id AND e.required_options = 0',
@@ -227,10 +229,10 @@ class Magento_Catalog_Model_Resource_Product_Link extends Magento_Core_Model_Res
     /**
      * Save grouped product relations
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $data
      * @param int $typeId
-     * @return Magento_Catalog_Model_Resource_Product_Link
+     * @return \Magento\Catalog\Model\Resource\Product\Link
      */
     public function saveGroupedLinks($product, $data, $typeId)
     {
@@ -255,7 +257,7 @@ class Magento_Catalog_Model_Resource_Product_Link extends Magento_Core_Model_Res
         $this->saveProductLinks($product, $data, $typeId);
 
         // Grouped product relations should be added to relation table
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Relation')
+        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Relation')
             ->processRelations($product->getId(), $new);
 
         return $this;

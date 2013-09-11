@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-/** @var $cacheTypeList Magento_Core_Model_Cache_TypeListInterface */
-$cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
+/** @var $cacheTypeList \Magento\Core\Model\Cache\TypeListInterface */
+$cacheTypeList = Mage::getModel('\Magento\Core\Model\Cache\TypeListInterface');
 $types = array_keys($cacheTypeList->getTypes());
 
-/** @var $cacheState Magento_Core_Model_Cache_StateInterface */
+/** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
 $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-    ->get('Magento_Core_Model_Cache_StateInterface');
+    ->get('Magento\Core\Model\Cache\StateInterface');
 foreach ($types as $type) {
     $cacheState->setEnabled($type, true);
 }

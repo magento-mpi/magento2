@@ -9,9 +9,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_User implements \Magento\Outbound\UserInterface
+namespace Magento\Webhook\Model;
+
+class User implements \Magento\Outbound\UserInterface
 {
-    /** @var Magento_Webapi_Model_Acl_User  */
+    /** @var \Magento\Webapi\Model\Acl\User  */
     private $_user;
 
     /**
@@ -22,16 +24,16 @@ class Magento_Webhook_Model_User implements \Magento\Outbound\UserInterface
     private $_authorization;
 
     /**
-     * @param Magento_Webapi_Model_Acl_User_Factory $userFactory
-     * @param Magento_Webapi_Model_Authorization_Role_Locator_Factory $roleLocatorFactory
-     * @param Magento_Webapi_Model_Authorization_Policy_Acl $aclPolicy
+     * @param \Magento\Webapi\Model\Acl\User\Factory $userFactory
+     * @param \Magento\Webapi\Model\Authorization\Role\Locator\Factory $roleLocatorFactory
+     * @param \Magento\Webapi\Model\Authorization\Policy\Acl $aclPolicy
      * @param \Magento\Authorization\Factory $authorizationFactory
      * @param string $webapiUserId
      */
     public function __construct(
-        Magento_Webapi_Model_Acl_User_Factory $userFactory,
-        Magento_Webapi_Model_Authorization_Role_Locator_Factory $roleLocatorFactory,
-        Magento_Webapi_Model_Authorization_Policy_Acl $aclPolicy,
+        \Magento\Webapi\Model\Acl\User\Factory $userFactory,
+        \Magento\Webapi\Model\Authorization\Role\Locator\Factory $roleLocatorFactory,
+        \Magento\Webapi\Model\Authorization\Policy\Acl $aclPolicy,
         \Magento\Authorization\Factory $authorizationFactory,
         $webapiUserId
     ) {

@@ -15,7 +15,7 @@
 class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout = null;
 
@@ -26,12 +26,12 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->addSharedInstance($this->_moduleListMock, 'Magento_Core_Model_ModuleList');
-        $objectManager->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
+        $objectManager->addSharedInstance($this->_moduleListMock, '\Magento\Core\Model\ModuleList');
+        $objectManager->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
     }
 
     /**
@@ -39,10 +39,10 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
      */
     public function testAdminhtmlBlockHtmlBefore($parentBlock, $childBlock)
     {
-        $block = $this->_layout->createBlock('Magento_Adminhtml_Block_Template', $parentBlock);
-        $this->_layout->addBlock('Magento_Adminhtml_Block_Template', $childBlock, $parentBlock);
+        $block = $this->_layout->createBlock('\Magento\Adminhtml\Block\Template', $parentBlock);
+        $this->_layout->addBlock('\Magento\Adminhtml\Block\Template', $childBlock, $parentBlock);
         $gridBlock = $this->_layout->addBlock(
-            'Magento_Adminhtml_Block_Template',
+            '\Magento\Adminhtml\Block\Template',
             'banners_grid_serializer',
             $childBlock
         );
@@ -55,7 +55,7 @@ class Magento_PromotionPermissions_Model_ObserverTest extends PHPUnit_Framework_
             ->will($this->returnValue(true));
         $event = new \Magento\Event\Observer();
         $event->setBlock($block);
-        $observer = Mage::getModel('Magento_PromotionPermissions_Model_Observer');
+        $observer = Mage::getModel('\Magento\PromotionPermissions\Model\Observer');
         $observer->adminhtmlBlockHtmlBefore($event);
 
         $this->assertFalse($this->_layout->getChildBlock($childBlock, 'banners_grid_serializer'));

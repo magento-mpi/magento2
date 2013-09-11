@@ -16,6 +16,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Create_Form extends Magento_Rma_Block_Adminhtml_Rma_Create_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Create;
+
+class Form extends \Magento\Rma\Block\Adminhtml\Rma\Create\AbstractCreate
 {
 }

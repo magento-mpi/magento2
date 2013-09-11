@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends Magento_Adminhtml_Block_Widget_Button
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes;
+
+class Create extends \Magento\Adminhtml\Block\Widget\Button
 {
     /**
      * Config of create new attribute
@@ -79,7 +81,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends
     protected function _toHtml()
     {
         $this->setCanShow(true);
-        Mage::dispatchEvent('adminhtml_catalog_product_edit_tab_attributes_create_html_before', array('block' => $this));
+        \Mage::dispatchEvent('adminhtml_catalog_product_edit_tab_attributes_create_html_before', array('block' => $this));
         if (!$this->getCanShow()) {
             return '';
         }
@@ -91,4 +93,4 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create extends
     {
         return $this->getId() . 'JsObject';
     }
-} // Class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes_Create End
+} // Class \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes\Create End

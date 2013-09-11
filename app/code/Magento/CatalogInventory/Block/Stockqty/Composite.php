@@ -16,7 +16,9 @@
  * @package    Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_CatalogInventory_Block_Stockqty_Composite extends Magento_CatalogInventory_Block_Stockqty_Default
+namespace Magento\CatalogInventory\Block\Stockqty;
+
+abstract class Composite extends \Magento\CatalogInventory\Block\Stockqty\DefaultStockqty
 {
     /**
      * Child products cache

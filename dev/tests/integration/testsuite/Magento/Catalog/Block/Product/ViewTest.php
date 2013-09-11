@@ -10,27 +10,27 @@
  */
 
 /**
- * Test class for Magento_Catalog_Block_Product_View.
+ * Test class for \Magento\Catalog\Block\Product\View.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
 class Magento_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Block_Product_View
+     * @var \Magento\Catalog\Block\Product\View
      */
     protected $_block;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
     protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_block = $objectManager->create('Magento_Catalog_Block_Product_View');
-        $this->_product = $objectManager->create('Magento_Catalog_Model_Product');
+        $this->_block = $objectManager->create('Magento\Catalog\Block\Product\View');
+        $this->_product = $objectManager->create('Magento\Catalog\Model\Product');
         $this->_product->load(1);
         Mage::unregister('product');
         Mage::register('product', $this->_product);
@@ -38,9 +38,9 @@ class Magento_Catalog_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     public function testSetLayout()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        $headBlock = $layout->createBlock('Magento_Core_Block_Template', 'head');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $headBlock = $layout->createBlock('\Magento\Core\Block\Template', 'head');
         $layout->addBlock($this->_block);
 
         $this->assertNotEmpty($headBlock->getTitle());

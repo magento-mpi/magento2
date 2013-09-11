@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Core_Model_Layout_Argument_HandlerInterface
+namespace Magento\Core\Model\Layout\Argument;
+
+interface HandlerInterface
 {
     /**
      * Process argument value

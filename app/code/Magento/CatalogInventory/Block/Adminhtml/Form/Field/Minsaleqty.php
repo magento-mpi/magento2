@@ -15,24 +15,26 @@
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Minsaleqty
-    extends Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract
+namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
+
+class Minsaleqty
+    extends \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
     /**
-     * @var Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup
+     * @var \Magento\CatalogInventory\Block\Adminhtml\Form\Field\Customergroup
      */
     protected $_groupRenderer;
 
     /**
      * Retrieve group column renderer
      *
-     * @return Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup
+     * @return \Magento\CatalogInventory\Block\Adminhtml\Form\Field\Customergroup
      */
     protected function _getGroupRenderer()
     {
         if (!$this->_groupRenderer) {
             $this->_groupRenderer = $this->getLayout()->createBlock(
-                'Magento_CatalogInventory_Block_Adminhtml_Form_Field_Customergroup', '',
+                '\Magento\CatalogInventory\Block\Adminhtml\Form\Field\Customergroup', '',
                 array('data' => array('is_render_to_js_template' => true))
             );
             $this->_groupRenderer->setClass('customer_group_select');

@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Processor
+ * Test class for \Magento\Core\Model\Layout\Argument\Processor
  */
 class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Processor
+     * @var \Magento\Core\Model\Layout\Argument\Processor
      */
     protected $_model;
 
@@ -32,21 +32,21 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
     protected function setUp()
     {
         $this->_argumentUpdaterMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_Updater',
+            '\Magento\Core\Model\Layout\Argument\Updater',
             array(),
             array(),
             '',
             false
         );
         $this->_handlerFactory = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_HandlerFactory',
+            '\Magento\Core\Model\Layout\Argument\HandlerFactory',
             array(),
             array(),
             '',
             false
         );
 
-        $this->_model = new Magento_Core_Model_Layout_Argument_Processor($this->_argumentUpdaterMock,
+        $this->_model = new \Magento\Core\Model\Layout\Argument\Processor($this->_argumentUpdaterMock,
             $this->_handlerFactory
         );
     }
@@ -65,7 +65,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
     public function testProcess($arguments)
     {
         $argumentHandlerMock = $this->getMock(
-            'Magento_Core_Model_Layout_Argument_HandlerInterface', array(), array(), '', false
+            '\Magento\Core\Model\Layout\Argument\HandlerInterface', array(), array(), '', false
         );
         $argumentHandlerMock->expects($this->exactly(2))
             ->method('process')
@@ -84,7 +84,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
     /**
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage dummy type handler
-     *     should implement Magento_Core_Model_Layout_Argument_HandlerInterface
+     *     should implement \Magento\Core\Model\Layout\Argument\HandlerInterface
      */
     public function testProcessIfArgumentHandlerFactoryIsIncorrect()
     {
@@ -97,7 +97,7 @@ class Magento_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage type handler should implement Magento_Core_Model_Layout_Argument_HandlerInterface
+     * @expectedExceptionMessage type handler should implement \Magento\Core\Model\Layout\Argument\HandlerInterface
      */
     public function testProcessIfArgumentHandlerIsIncorrect()
     {

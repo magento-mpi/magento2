@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_Model_Product_Option_Type_Default
+namespace Magento\Catalog\Model\Product\Option\Type;
+
+class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
      * @var mixed
@@ -25,9 +27,9 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     /**
      * Validate user input for option
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
-     * @return Magento_Catalog_Model_Product_Option_Type_Default
+     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function validateUserValue($values)
     {
@@ -38,14 +40,14 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
 
         if (empty($value) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            Mage::throwException(__('Please specify the product required option(s).'));
+            \Mage::throwException(__('Please specify the product required option(s).'));
         }
         if (!$this->_isSingleSelection()) {
             $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())
                 ->load();
             if ($valuesCollection->count() != count($value)) {
                 $this->setIsValid(false);
-                Mage::throwException(__('Please specify the product required option(s).'));
+                \Mage::throwException(__('Please specify the product required option(s).'));
             }
         }
         return $this;
@@ -54,7 +56,7 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     /**
      * Prepare option value for cart
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return mixed Prepared option value
      */
     public function prepareForCart()
@@ -75,7 +77,7 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     public function getFormattedOptionValue($optionValue)
     {
         if ($this->_formattedOptionValue === null) {
-            $this->_formattedOptionValue = Mage::helper('Magento_Core_Helper_Data')->escapeHtml(
+            $this->_formattedOptionValue = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml(
                 $this->getEditableOptionValue($optionValue)
             );
         }
@@ -129,7 +131,7 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
                     }
                 }
             }
-            $result = Mage::helper('Magento_Core_Helper_String')->substr($result, 0, -2);
+            $result = \Mage::helper('Magento\Core\Helper\String')->substr($result, 0, -2);
         } elseif ($this->_isSingleSelection()) {
             if ($_result = $option->getValueById($optionValue)) {
                 $result = $_result->getTitle();
@@ -298,8 +300,8 @@ class Magento_Catalog_Model_Product_Option_Type_Select extends Magento_Catalog_M
     protected function _isSingleSelection()
     {
         $_single = array(
-            Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
-            Magento_Catalog_Model_Product_Option::OPTION_TYPE_RADIO
+            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DROP_DOWN,
+            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_RADIO
         );
         return in_array($this->getOption()->getType(), $_single);
     }

@@ -8,35 +8,37 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftRegistry\Block\Customer\Address;
+
 /**
  * GiftRegistry shipping Address block
  */
- class Magento_GiftRegistry_Block_Customer_Address_Edit extends Magento_GiftRegistry_Block_Customer_Edit_Abstract
+ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
 {
     /**
      * Contains logged in customer
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
     /**
      * Getter for entity object
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getEntity()
     {
-        return Mage::registry('magento_giftregistry_entity');
+        return \Mage::registry('magento_giftregistry_entity');
     }
 
     /**
      * Getter for address object
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getAddress()
     {
-        return Mage::registry('magento_giftregistry_address');
+        return \Mage::registry('magento_giftregistry_address');
     }
 
     /**
@@ -59,7 +61,7 @@
     {
         if ($this->isCustomerLoggedIn()) {
             $options = array(array(
-                'value' => Magento_GiftRegistry_Helper_Data::ADDRESS_NONE,
+                'value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NONE,
                 'label' => __('None')
             ));
             foreach ($this->getCustomer()->getAddresses() as $address) {
@@ -69,11 +71,11 @@
                 );
             }
             $options[] = array(
-                'value' => Magento_GiftRegistry_Helper_Data::ADDRESS_NEW,
+                'value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NEW,
                 'label' => __('New Address')
             );
 
-            $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+            $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
                 ->setName('address_type_or_id')
                 ->setId($domId)
                 ->setClass('address-select')
@@ -87,12 +89,12 @@
     /**
      * Get logged in customer
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $this->_customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -104,6 +106,6 @@
      */
     public function isCustomerLoggedIn()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
     }
 }

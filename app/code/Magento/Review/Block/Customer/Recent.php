@@ -16,23 +16,25 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Review_Block_Customer_Recent extends Magento_Core_Block_Template
+namespace Magento\Review\Block\Customer;
+
+class Recent extends \Magento\Core\Block\Template
 {
     protected $_template = 'customer/list.phtml';
 
     /**
      * Product reviews collection
      *
-     * @var Magento_Review_Model_Resource_Review_Product_Collection
+     * @var \Magento\Review\Model\Resource\Review\Product\Collection
      */
     protected $_collection;
 
     protected function _initCollection()
     {
-        $this->_collection = Mage::getModel('Magento_Review_Model_Review')->getProductCollection();
+        $this->_collection = \Mage::getModel('\Magento\Review\Model\Review')->getProductCollection();
         $this->_collection
-            ->addStoreFilter(Mage::app()->getStore()->getId())
-            ->addCustomerFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
+            ->addStoreFilter(\Mage::app()->getStore()->getId())
+            ->addCustomerFilter(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
             ->setDateOrder()
             ->setPageSize(5)
             ->load()
@@ -60,26 +62,26 @@ class Magento_Review_Block_Customer_Recent extends Magento_Core_Block_Template
 
     public function getReviewLink()
     {
-        return Mage::getUrl('review/customer/view/');
+        return \Mage::getUrl('review/customer/view/');
     }
 
     public function getProductLink()
     {
-        return Mage::getUrl('catalog/product/view/');
+        return \Mage::getUrl('catalog/product/view/');
     }
 
     public function dateFormat($date)
     {
-        return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     public function getAllReviewsUrl()
     {
-        return Mage::getUrl('review/customer');
+        return \Mage::getUrl('review/customer');
     }
 
     public function getReviewUrl($id)
     {
-        return Mage::getUrl('review/customer/view', array('id' => $id));
+        return \Mage::getUrl('review/customer/view', array('id' => $id));
     }
 }

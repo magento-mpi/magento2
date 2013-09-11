@@ -9,11 +9,13 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Ups_Source_Unitofmeasure
+namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
+
+class Unitofmeasure
 {
     public function toOptionArray()
     {
-        $unitArr = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Ups')->getCode('unit_of_measure');
+        $unitArr = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Ups')->getCode('unit_of_measure');
         $returnArr = array();
         foreach ($unitArr as $key => $val){
             $returnArr[] = array('value'=>$key,'label'=>$key);

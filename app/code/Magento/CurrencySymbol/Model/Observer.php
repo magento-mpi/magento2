@@ -15,7 +15,9 @@
  * @package     Magento_CurrencySymbol
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Model_Observer
+namespace Magento\CurrencySymbol\Model;
+
+class Observer
 {
     /**
      * Generate options for currency displaying with custom currency symbol
@@ -27,7 +29,7 @@ class Magento_CurrencySymbol_Model_Observer
     {
         $baseCode = $observer->getEvent()->getBaseCode();
         $currencyOptions = $observer->getEvent()->getCurrencyOptions();
-        $currencyOptions->setData(Mage::helper('Magento_CurrencySymbol_Helper_Data')->getCurrencyOptions($baseCode));
+        $currencyOptions->setData(\Mage::helper('Magento\CurrencySymbol\Helper\Data')->getCurrencyOptions($baseCode));
 
         return $this;
     }

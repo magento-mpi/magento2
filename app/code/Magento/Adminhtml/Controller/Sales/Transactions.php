@@ -13,16 +13,18 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Sales;
+
+class Transactions extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Initialize payment transaction model
      *
-     * @return Magento_Sales_Model_Order_Payment_Transaction | bool
+     * @return \Magento\Sales\Model\Order\Payment\Transaction | bool
      */
     protected function _initTransaction()
     {
-        $txn = Mage::getModel('Magento_Sales_Model_Order_Payment_Transaction')->load(
+        $txn = \Mage::getModel('\Magento\Sales\Model\Order\Payment\Transaction')->load(
             $this->getRequest()->getParam('txn_id')
         );
 
@@ -39,7 +41,7 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
             );
         }
 
-        Mage::register('current_transaction', $txn);
+        \Mage::register('current_transaction', $txn);
         return $txn;
     }
 
@@ -92,16 +94,16 @@ class Magento_Adminhtml_Controller_Sales_Transactions extends Magento_Adminhtml_
                 ->setOrder($txn->getOrder())
                 ->importTransactionInfo($txn);
             $txn->save();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
                 __('The transaction details have been updated.')
             );
-        } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
                 __('We can\'t update the transaction details.')
             );
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         $this->_redirect('*/sales_transactions/view', array('_current' => true));
     }

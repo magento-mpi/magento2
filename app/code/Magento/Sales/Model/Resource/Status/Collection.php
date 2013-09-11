@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Resource_Status_Collection extends Magento_Sales_Model_Resource_Order_Status_Collection
+namespace Magento\Sales\Model\Resource\Status;
+
+class Collection extends \Magento\Sales\Model\Resource\Order\Status\Collection
 {
     /**
      * Join order states table
      *
-     * @return Magento_Sales_Model_Resource_Status_Collection
+     * @return \Magento\Sales\Model\Resource\Status\Collection
      */
     protected function _initSelect()
     {

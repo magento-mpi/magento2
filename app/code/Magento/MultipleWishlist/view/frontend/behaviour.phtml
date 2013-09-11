@@ -9,7 +9,7 @@
  */
 ?>
 <?php
-    /* @var $this Magento_MultipleWishlist_Block_Behaviour */
+    /* @var $this \Magento\MultipleWishlist\Block\Behaviour */
 ?>
 <script id="form-tmpl" type="text/x-jQuery-tmpl">
     <form id="wishlist-hidden-form" method="post" action="${url}" class="no-display">
@@ -87,7 +87,7 @@
                 $('body').splitButton().multipleWishlist({
                     canCreate: <?php echo $this->canCreateWishlists($this->getWishlists()) ? 'true' : 'false';?>,
                     createUrl: '<?php echo $this->getCreateUrl();?>',
-                    wishlists: <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getWishlistShortList());?>
+                    wishlists: <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getWishlistShortList());?>
                 });
             });
     })(jQuery);

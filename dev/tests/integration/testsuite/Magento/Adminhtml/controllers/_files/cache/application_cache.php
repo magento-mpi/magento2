@@ -6,6 +6,6 @@
  * @license     {license_link}
  */
 
-/** @var $cache Magento_Core_Model_Cache */
-$cache = Mage::getModel('Magento_Core_Model_Cache');
+/** @var $cache \Magento\Core\Model\Cache */
+$cache = Mage::getModel('\Magento\Core\Model\Cache');
 $cache->save('application data', 'APPLICATION_FIXTURE');

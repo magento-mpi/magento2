@@ -12,7 +12,7 @@
 class Magento_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param Magento_Core_Model_Theme $themeModel
+     * @param \Magento\Core\Model\Theme $themeModel
      * @dataProvider getViewFileUrlProductionModeDataProvider
      */
     public function testGetViewFileUrlProductionMode($themeModel)
@@ -36,14 +36,14 @@ class Magento_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
             ->method('copy');
 
         // 2. Get directories configuration
-        /** @var $dirs Magento_Core_Model_Dir|PHPUnit_Framework_MockObject_MockObject */
-        $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        /** @var $dirs \Magento\Core\Model\Dir|PHPUnit_Framework_MockObject_MockObject */
+        $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
         $dirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValue('some_dir'));
 
         // 3. Get store model
-        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $store->expects($this->any())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://example.com/'));
@@ -52,15 +52,15 @@ class Magento_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($isSigned));
 
         // 4. Get store manager
-        /** @var $storeManager Magento_Core_Model_StoreManager|PHPUnit_Framework_MockObject_MockObject */
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
+        /** @var $storeManager \Magento\Core\Model\StoreManager|PHPUnit_Framework_MockObject_MockObject */
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($store));
 
         // 5. Get viewService model
-        /** @var $viewService Magento_Core_Model_View_Service|PHPUnit_Framework_MockObject_MockObject */
-        $viewService = $this->getMock('Magento_Core_Model_View_Service',
+        /** @var $viewService \Magento\Core\Model\View\Service|PHPUnit_Framework_MockObject_MockObject */
+        $viewService = $this->getMock('Magento\Core\Model\View\Service',
             array('updateDesignParams', 'extractScope', 'isViewFileOperationAllowed'), array(), '', false
         );
         $viewService->expects($this->any())
@@ -73,21 +73,21 @@ class Magento_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
             ->method('updateDesignParams');
 
         // 6. Get publisher model
-        /** @var $publisher Magento_Core_Model_View_Publisher|PHPUnit_Framework_MockObject_MockObject */
-        $publisher = $this->getMock('Magento_Core_Model_View_Publisher', array(), array(), '', false);
+        /** @var $publisher \Magento\Core\Model\View\Publisher|PHPUnit_Framework_MockObject_MockObject */
+        $publisher = $this->getMock('Magento\Core\Model\View\Publisher', array(), array(), '', false);
         $publisher->expects($this->any())
             ->method('getPublicFilePath')
             ->will($this->returnValue(str_replace('/', DIRECTORY_SEPARATOR, 'some_dir/public_dir/a/t/m/file.js')));
 
         // 7. Get deployed file manager
-        /** @var $dFManager Magento_Core_Model_View_DeployedFilesManager|PHPUnit_Framework_MockObject_MockObject */
-        $dFManager = $this->getMock('Magento_Core_Model_View_DeployedFilesManager', array(), array(), '',
+        /** @var $dFManager \Magento\Core\Model\View\DeployedFilesManager|PHPUnit_Framework_MockObject_MockObject */
+        $dFManager = $this->getMock('Magento\Core\Model\View\DeployedFilesManager', array(), array(), '',
             false
         );
 
         // Create model to be tested
-        /** @var $model Magento_Core_Model_View_Url|PHPUnit_Framework_MockObject_MockObject */
-        $model = new Magento_Core_Model_View_Url(
+        /** @var $model \Magento\Core\Model\View\Url|PHPUnit_Framework_MockObject_MockObject */
+        $model = new \Magento\Core\Model\View\Url(
             $filesystem, $dirs, $storeManager, $viewService, $publisher, $dFManager
         );
 
@@ -107,7 +107,7 @@ class Magento_Core_Model_View_UrlTest extends PHPUnit_Framework_TestCase
     public static function getViewFileUrlProductionModeDataProvider()
     {
         $usualTheme = PHPUnit_Framework_MockObject_Generator::getMock(
-            'Magento_Core_Model_Theme',
+            '\Magento\Core\Model\Theme',
             array(),
             array(),
             '',

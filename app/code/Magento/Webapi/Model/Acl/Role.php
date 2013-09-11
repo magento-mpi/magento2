@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Role extends Magento_Core_Model_Abstract
+namespace Magento\Webapi\Model\Acl;
+
+class Role extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Prefix of model events names.
@@ -21,6 +23,6 @@ class Magento_Webapi_Model_Acl_Role extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Webapi_Model_Resource_Acl_Role');
+        $this->_init('\Magento\Webapi\Model\Resource\Acl\Role');
     }
 }

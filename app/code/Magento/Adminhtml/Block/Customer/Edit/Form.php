@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Customer_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Customer\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     protected function _prepareForm()
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Form extends Magento_Adminhtml_Block
             'enctype'   => 'multipart/form-data'
         ));
 
-        $customer = Mage::registry('current_customer');
+        $customer = \Mage::registry('current_customer');
 
         if ($customer->getId()) {
             $form->addField('entity_id', 'hidden', array(

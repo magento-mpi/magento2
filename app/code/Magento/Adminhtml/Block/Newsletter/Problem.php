@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Newsletter;
+
+class Problem extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'newsletter/problem/list.phtml';
@@ -25,7 +27,7 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
     {
         parent::_construct();
 
-        $collection = Mage::getResourceSingleton('Magento_Newsletter_Model_Resource_Problem_Collection')
+        $collection = \Mage::getResourceSingleton('\Magento\Newsletter\Model\Resource\Problem\Collection')
             ->addSubscriberInfo()
             ->addQueueInfo();
 
@@ -34,7 +36,7 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
     protected function _prepareLayout()
     {
         $this->setChild('deleteButton',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button','del.button')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button','del.button')
                 ->setData(
                     array(
                         'label' => __('Delete Selected Problems'),
@@ -44,7 +46,7 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
         );
 
         $this->setChild('unsubscribeButton',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button','unsubscribe.button')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button','unsubscribe.button')
                 ->setData(
                     array(
                         'label' => __('Unsubscribe Selected'),
@@ -67,7 +69,7 @@ class Magento_Adminhtml_Block_Newsletter_Problem extends Magento_Adminhtml_Block
 
     public function getShowButtons()
     {
-        return  Mage::getResourceSingleton('Magento_Newsletter_Model_Resource_Problem_Collection')->getSize() > 0;
+        return  \Mage::getResourceSingleton('\Magento\Newsletter\Model\Resource\Problem\Collection')->getSize() > 0;
     }
 
-}// Class Magento_Adminhtml_Block_Newsletter_Problem END
+}// Class \Magento\Adminhtml\Block\Newsletter\Problem END

@@ -8,16 +8,18 @@
  * @license     {license_link}
  */
 
-class Magento_Page_Block_Js_Cookie extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Js;
+
+class Cookie extends \Magento\Core\Block\Template
 {
     /**
      * Get cookie model instance
      *
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function getCookie()
     {
-        return Mage::getSingleton('Magento_Core_Model_Cookie');
+        return \Mage::getSingleton('Magento\Core\Model\Cookie');
     }
     /**
      * Get configured cookie domain

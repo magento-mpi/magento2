@@ -15,7 +15,9 @@
  * @package     Magento_Pbridge
  * @author      Magento
  */
-class Magento_Pbridge_Block_Checkout_Payment_Review_Container extends Magento_Core_Block_Template
+namespace Magento\Pbridge\Block\Checkout\Payment\Review;
+
+class Container extends \Magento\Core\Block\Template
 {
     /**
      * Custom rewrite for _toHtml() method
@@ -23,7 +25,7 @@ class Magento_Pbridge_Block_Checkout_Payment_Review_Container extends Magento_Co
      */
     protected function _toHtml()
     {
-        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
         if ($quote) {
             $payment = $quote->getPayment();
             if ($payment->getMethodInstance()->getIsDeferred3dCheck()) {

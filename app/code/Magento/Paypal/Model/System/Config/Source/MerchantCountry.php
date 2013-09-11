@@ -11,12 +11,14 @@
 /**
  * Source model for merchant countries supported by PayPal
  */
-class Magento_Paypal_Model_System_Config_Source_MerchantCountry
+namespace Magento\Paypal\Model\System\Config\Source;
+
+class MerchantCountry
 {
     public function toOptionArray($isMultiselect = false)
     {
-        $supported = Mage::getModel('Magento_Paypal_Model_Config')->getSupportedMerchantCountryCodes();
-        $options = Mage::getResourceModel('Magento_Directory_Model_Resource_Country_Collection')
+        $supported = \Mage::getModel('\Magento\Paypal\Model\Config')->getSupportedMerchantCountryCodes();
+        $options = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country\Collection')
             ->addCountryCodeFilter($supported, 'iso2')
             ->loadData()
             ->toOptionArray($isMultiselect ? false : __('--Please Select--'));

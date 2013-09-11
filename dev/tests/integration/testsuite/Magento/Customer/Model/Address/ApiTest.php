@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Customer_Model_Address_Api.
+ * Test class for \Magento\Customer\Model\Address\Api.
  *
  * {license_notice}
  *
@@ -28,13 +28,13 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($soapResult, 'Error during customer address list via API call');
         $this->assertCount(2, $soapResult, 'Result did not contain 2 addresses');
 
-        /** @var $firstAddress Magento_Customer_Model_Address */
-        $firstAddress = Mage::getModel('Magento_Customer_Model_Address');
+        /** @var $firstAddress \Magento\Customer\Model\Address */
+        $firstAddress = Mage::getModel('\Magento\Customer\Model\Address');
         $firstAddress->load(1);
         $this->_verifyAddress($firstAddress->getData(), $soapResult[0]);
 
-        /** @var $secondAddress Magento_Customer_Model_Address */
-        $secondAddress = Mage::getModel('Magento_Customer_Model_Address');
+        /** @var $secondAddress \Magento\Customer\Model\Address */
+        $secondAddress = Mage::getModel('\Magento\Customer\Model\Address');
         $secondAddress->load(2);
         $this->_verifyAddress($secondAddress->getData(), $soapResult[1]);
     }
@@ -44,8 +44,8 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCustomerAddressInfo()
     {
-        /** @var $customerAddress Magento_Customer_Model_Address */
-        $customerAddress = Mage::getModel('Magento_Customer_Model_Address');
+        /** @var $customerAddress \Magento\Customer\Model\Address */
+        $customerAddress = Mage::getModel('\Magento\Customer\Model\Address');
         $customerAddress->load(1);
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -97,8 +97,8 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         );
 
         // Verify the new address was added
-        /** @var $newAddressModel Magento_Customer_Model_Address */
-        $newAddressModel = Mage::getModel('Magento_Customer_Model_Address');
+        /** @var $newAddressModel \Magento\Customer\Model\Address */
+        $newAddressModel = Mage::getModel('\Magento\Customer\Model\Address');
         $newAddressModel->load($newAddressId);
 
         // Verify all field values were correctly set
@@ -126,8 +126,8 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         );
         $this->assertTrue($soapResult, 'Error during customer address delete via API call');
 
-        /** @var Magento_Customer_Model_Address $address */
-        $address = Mage::getModel('Magento_Customer_Model_Address')->load($addressId);
+        /** @var \Magento\Customer\Model\Address $address */
+        $address = Mage::getModel('\Magento\Customer\Model\Address')->load($addressId);
         $this->assertNull($address->getEntityId());
     }
 
@@ -161,8 +161,8 @@ class Magento_Customer_Model_Address_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($soapResult, 'Error during customer address update via API call');
 
         // Verify all field values were correctly set
-        /** @var $customerAddress Magento_Customer_Model_Address */
-        $customerAddress = Mage::getModel('Magento_Customer_Model_Address');
+        /** @var $customerAddress \Magento\Customer\Model\Address */
+        $customerAddress = Mage::getModel('\Magento\Customer\Model\Address');
         $customerAddress->load($addressId);
 
         $this->assertEquals(

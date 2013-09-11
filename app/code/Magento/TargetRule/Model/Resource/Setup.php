@@ -16,6 +16,8 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Resource_Setup extends Magento_Catalog_Model_Resource_Setup
+namespace Magento\TargetRule\Model\Resource;
+
+class Setup extends \Magento\Catalog\Model\Resource\Setup
 {
 }

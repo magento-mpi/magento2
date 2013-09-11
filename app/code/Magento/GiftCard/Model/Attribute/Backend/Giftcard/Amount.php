@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
-    extends Magento_Catalog_Model_Product_Attribute_Backend_Price
+namespace Magento\GiftCard\Model\Attribute\Backend\Giftcard;
+
+class Amount
+    extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 {
     /**
      * Retrieve resource model
@@ -18,13 +20,13 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount');
+        return \Mage::getResourceSingleton('\Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount');
     }
 
     /**
      * Validate data
      *
-     * @param   Magento_Catalog_Model_Product $object
+     * @param   \Magento\Catalog\Model\Product $object
      * @return  Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
      */
     public function validate($object)
@@ -43,7 +45,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
             $key1 = implode('-', array($row['website_id'], $row['price']));
 
             if (!empty($dup[$key1])) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('Duplicate amount found.')
                 );
             }
@@ -55,7 +57,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Assign amounts to product data
      *
-     * @param   Magento_Catalog_Model_Product $object
+     * @param   \Magento\Catalog\Model\Product $object
      * @return  Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
      */
     public function afterLoad($object)
@@ -64,7 +66,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
 
         foreach ($data as $i=>$row) {
             if ($data[$i]['website_id'] == 0) {
-                $rate = Mage::app()->getStore()->getBaseCurrency()->getRate(Mage::app()->getBaseCurrencyCode());
+                $rate = \Mage::app()->getStore()->getBaseCurrency()->getRate(\Mage::app()->getBaseCurrencyCode());
                 if ($rate) {
                     $data[$i]['website_value'] = $data[$i]['value']/$rate;
                 } else {
@@ -82,7 +84,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Save amounts data
      *
-     * @param Magento_Catalog_Model_Product $object
+     * @param \Magento\Catalog\Model\Product $object
      * @return Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
      */
     public function afterSave($object)
@@ -122,7 +124,7 @@ class Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amount
     /**
      * Delete amounts data
      *
-     * @param Magento_Catalog_Model_Product $object
+     * @param \Magento\Catalog\Model\Product $object
      * @return Magento_GiftCard_Model_Attribute_Backend_Giftcard_Amounts
      */
     public function afterDelete($object)

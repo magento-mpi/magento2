@@ -16,18 +16,18 @@ class Magento_Test_Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Frame
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
         // disable config caching to not pollute it
-        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = $objectManager->get('Magento_Core_Model_Cache_StateInterface');
-        $cacheState->setEnabled(Magento_Core_Model_Cache_Type_Config::TYPE_IDENTIFIER, false);
+        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
+        $cacheState = $objectManager->get('Magento\Core\Model\Cache\StateInterface');
+        $cacheState->setEnabled(\Magento\Core\Model\Cache\Type\Config::TYPE_IDENTIFIER, false);
 
-        /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = $objectManager->get('Magento_Core_Model_Dir');
-        $modulesDir = $dirs->getDir(Magento_Core_Model_Dir::MODULES);
+        /** @var $dirs \Magento\Core\Model\Dir */
+        $dirs = $objectManager->get('Magento\Core\Model\Dir');
+        $modulesDir = $dirs->getDir(\Magento\Core\Model\Dir::MODULES);
 
         $fileList = glob($modulesDir . '/*/*/etc/adminhtml/system.xml');
 
         $configMock = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader', array('getConfigurationFiles', 'getModuleDir'),
+            '\Magento\Core\Model\Config\Modules\Reader', array('getConfigurationFiles', 'getModuleDir'),
             array(), '', false
         );
         $configMock->expects($this->any())
@@ -40,7 +40,7 @@ class Magento_Test_Integrity_Modular_SystemConfigFilesTest extends PHPUnit_Frame
             ->will($this->returnValue($modulesDir . '/Magento/Backend/etc'))
         ;
         try {
-            $objectManager->create('Magento_Backend_Model_Config_Structure_Reader', array(
+            $objectManager->create('Magento\Backend\Model\Config\Structure\Reader', array(
                 'moduleReader' => $configMock,
                 'runtimeValidation' => true,
             ));

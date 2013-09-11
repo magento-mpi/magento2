@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Cms\Block\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
@@ -35,14 +37,14 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Bloc
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()) {
+        if (\Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('cms_block');
+        $model = \Mage::registry('cms_block');
 
         $form = new \Magento\Data\Form(
             array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
@@ -76,23 +78,23 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Bloc
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field =$fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
                 'label'     => __('Store View'),
                 'title'     => __('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
         else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'stores[]',
-                'value'     => Mage::app()->getStore(true)->getId()
+                'value'     => \Mage::app()->getStore(true)->getId()
             ));
-            $model->setStoreId(Mage::app()->getStore(true)->getId());
+            $model->setStoreId(\Mage::app()->getStore(true)->getId());
         }
 
         $fieldset->addField('is_active', 'select', array(
@@ -115,7 +117,7 @@ class Magento_Adminhtml_Block_Cms_Block_Edit_Form extends Magento_Adminhtml_Bloc
             'title'     => __('Content'),
             'style'     => 'height:36em',
             'required'  => true,
-            'config'    => Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->getConfig()
+            'config'    => \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->getConfig()
         ));
 
         $form->setValues($model->getData());

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Checkbox extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Checkbox
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Grid\Renderer;
+
+class Checkbox extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Checkbox
 {
     /**
      * Renders grid column
@@ -51,6 +53,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Rendere
             $result[] = $item;
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
     }
-}// Class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Grid_Renderer_Checkbox END
+}// Class \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Grid\Renderer\Checkbox END

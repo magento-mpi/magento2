@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -24,7 +24,7 @@ $connection->dropIndex($table, $installer->getIdxName(
 $connection->addColumn($table, 'crc_string', array(
     'type'     => \Magento\DB\Ddl\Table::TYPE_BIGINT,
     'nullable' => false,
-    'default'  => crc32(Magento_Core_Model_Translate::DEFAULT_STRING),
+    'default'  => crc32(\Magento\Core\Model\Translate::DEFAULT_STRING),
     'comment'  => 'Translation String CRC32 Hash',
 ));
 

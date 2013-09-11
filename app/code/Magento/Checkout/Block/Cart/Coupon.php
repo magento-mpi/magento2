@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Checkout_Block_Cart_Coupon extends Magento_Checkout_Block_Cart_Abstract
+namespace Magento\Checkout\Block\Cart;
+
+class Coupon extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     public function getCouponCode()
     {

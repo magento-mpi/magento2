@@ -16,7 +16,9 @@
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Abstract
+namespace Magento\Wishlist\Block\Customer;
+
+class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
     /*
      * List of product options rendering configurations by product type
@@ -26,8 +28,8 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
     /**
      * Add wishlist conditions to collection
      *
-     * @param  Magento_Wishlist_Model_Resource_Item_Collection $collection
-     * @return Magento_Wishlist_Block_Customer_Wishlist
+     * @param  \Magento\Wishlist\Model\Resource\Item\Collection $collection
+     * @return \Magento\Wishlist\Block\Customer\Wishlist
      */
     protected function _prepareCollection($collection)
     {
@@ -38,7 +40,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
     /**
      * Preparing global layout
      *
-     * @return Magento_Wishlist_Block_Customer_Wishlist
+     * @return \Magento\Wishlist\Block\Customer\Wishlist
      */
     protected function _prepareLayout()
     {
@@ -64,7 +66,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
      *
      * @deprecated after 1.6.2.0
      * @param null|array $optionCfg
-     * @return Magento_Wishlist_Block_Customer_Wishlist
+     * @return \Magento\Wishlist\Block\Customer\Wishlist
      */
     public function setOptionsRenderCfgs($optionCfg)
     {
@@ -90,7 +92,7 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
      * @param string $productType
      * @param string $helperName
      * @param null|string $template
-     * @return Magento_Wishlist_Block_Customer_Wishlist
+     * @return \Magento\Wishlist\Block\Customer\Wishlist
      */
     public function addOptionsRenderCfg($productType, $helperName, $template = null)
     {
@@ -120,19 +122,19 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
      * Returns html for showing item options
      *
      * @deprecated after 1.6.2.0
-     * @param Magento_Wishlist_Model_Item $item
+     * @param \Magento\Wishlist\Model\Item $item
      * @return string
      */
-    public function getDetailsHtml(Magento_Wishlist_Model_Item $item)
+    public function getDetailsHtml(\Magento\Wishlist\Model\Item $item)
     {
         $cfg = $this->getOptionsRenderCfg($item->getProduct()->getTypeId());
         if (!$cfg) {
             return '';
         }
 
-        $helper = Mage::helper($cfg['helper']);
-        if (!($helper instanceof Magento_Catalog_Helper_Product_Configuration_Interface)) {
-            Mage::throwException(__("Helper for wish list options rendering doesn't implement required interface."));
+        $helper = \Mage::helper($cfg['helper']);
+        if (!($helper instanceof \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface)) {
+            \Mage::throwException(__("Helper for wish list options rendering doesn't implement required interface."));
         }
 
         $block = $this->getChildBlock('item_options');
@@ -159,10 +161,10 @@ class Magento_Wishlist_Block_Customer_Wishlist extends Magento_Wishlist_Block_Ab
      * Returns qty to show visually to user
      *
      * @deprecated after 1.6.2.0
-     * @param Magento_Wishlist_Model_Item $item
+     * @param \Magento\Wishlist\Model\Item $item
      * @return float
      */
-    public function getAddToCartQty(Magento_Wishlist_Model_Item $item)
+    public function getAddToCartQty(\Magento\Wishlist\Model\Item $item)
     {
         $qty = $this->getQty($item);
         return $qty ? $qty : 1;

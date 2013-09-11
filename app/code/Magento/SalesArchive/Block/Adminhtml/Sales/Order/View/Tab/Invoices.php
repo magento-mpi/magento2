@@ -13,8 +13,10 @@
  *
  */
 
-class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Invoices
-     extends Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab;
+
+class Invoices
+     extends \Magento\Adminhtml\Block\Sales\Order\View\Tab\Invoices
 {
 
     /**
@@ -24,6 +26,6 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Invoices
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_SalesArchive_Model_Resource_Order_Invoice_Collection';
+        return '\Magento\SalesArchive\Model\Resource\Order\Invoice\Collection';
     }
 }

@@ -11,12 +11,14 @@
 /**
  * Recurring profiles listing
  */
-class Magento_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Recurring;
+
+class Profiles extends \Magento\Core\Block\Template
 {
     /**
      * Profiles collection
      *
-     * @var Magento_Sales_Model_Resource_Recurring_Profile_Collection
+     * @var \Magento\Sales\Model\Resource\Recurring\Profile\Collection
      */
     protected $_profiles = null;
 
@@ -27,12 +29,12 @@ class Magento_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
     {
         $this->_prepareProfiles(array('reference_id', 'state', 'created_at', 'updated_at', 'method_code'));
 
-        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager')
+        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager')
             ->setCollection($this->_profiles)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
 
-        /* @var $profile Magento_Sales_Model_Recurring_Profile */
-        $profile = Mage::getModel('Magento_Sales_Model_Recurring_Profile');
+        /* @var $profile \Magento\Sales\Model\Recurring\Profile */
+        $profile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile');
 
         $this->setGridColumns(array(
             new \Magento\Object(array(
@@ -67,8 +69,8 @@ class Magento_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
         ));
 
         $profiles = array();
-        $store = Mage::app()->getStore();
-        $locale = Mage::app()->getLocale();
+        $store = \Mage::app()->getStore();
+        $locale = \Mage::app()->getLocale();
         foreach($this->_profiles as $profile) {
             $profile->setStore($store)->setLocale($locale);
             $profiles[] = new \Magento\Object(array(
@@ -93,8 +95,8 @@ class Magento_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
      */
     protected function _prepareProfiles($fields = '*')
     {
-        $this->_profiles = Mage::getModel('Magento_Sales_Model_Recurring_Profile')->getCollection()
-            ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
+        $this->_profiles = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile')->getCollection()
+            ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
             ->addFieldToSelect($fields)
             ->setOrder('profile_id', 'desc')
         ;
@@ -103,7 +105,7 @@ class Magento_Sales_Block_Recurring_Profiles extends Magento_Core_Block_Template
     /**
      * Set back Url
      *
-     * @return Magento_Sales_Block_Recurring_Profiles
+     * @return \Magento\Sales\Block\Recurring\Profiles
      */
     protected function _beforeToHtml()
     {

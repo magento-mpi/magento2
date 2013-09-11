@@ -11,7 +11,7 @@
 /**
  * Shoping cart sidebar
  *
- * @see Magento_Checkout_Block_Cart_Sidebar
+ * @see \Magento\Checkout\Block\Cart\Sidebar
  */
 ?>
 
@@ -69,8 +69,8 @@
                             class="map-cart-sidebar-total"><?php echo __('ORDER TOTAL WILL BE DISPLAYED BEFORE YOU SUBMIT THE ORDER'); ?></span>
                         <?php else: ?>
                         <span
-                            class="label"><?php echo __('Cart Subtotal:') ?></span> <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
-                            / <?php echo $this->helper('Magento_Checkout_Helper_Data')->formatPrice($_subtotalInclTax) ?> <?php echo $this->helper('Magento_Tax_Helper_Data')->getIncExcText(true) ?><?php endif; ?>
+                            class="label"><?php echo __('Cart Subtotal:') ?></span> <?php echo $this->helper('\Magento\Checkout\Helper\Data')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?>
+                            / <?php echo $this->helper('\Magento\Checkout\Helper\Data')->formatPrice($_subtotalInclTax) ?> <?php echo $this->helper('\Magento\Tax\Helper\Data')->getIncExcText(true) ?><?php endif; ?>
                         <?php endif; ?>
                     </p>
                     <?php endif ?>

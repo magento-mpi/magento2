@@ -9,7 +9,9 @@
  */
 
 
-class Magento_TargetRule_Block_Adminhtml_Actions_Conditions implements \Magento\Data\Form\Element\Renderer\RendererInterface
+namespace Magento\TargetRule\Block\Adminhtml\Actions;
+
+class Conditions implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {

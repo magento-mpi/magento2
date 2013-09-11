@@ -5,22 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Search_Model_Resource_Search_Grid_Collection
-    extends Magento_CatalogSearch_Model_Resource_Query_Collection
+namespace Magento\Search\Model\Resource\Search\Grid;
+
+class Collection
+    extends \Magento\CatalogSearch\Model\Resource\Query\Collection
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Registry $registry,
+        \Magento\Core\Model\Registry $registry,
         $resource = null
     ) {
         $this->_registryManager = $registry;
@@ -28,7 +30,7 @@ class Magento_Search_Model_Resource_Search_Grid_Collection
     }
 
     /**
-     * @return Magento_Search_Model_Resource_Search_Grid_Collection
+     * @return \Magento\Search\Model\Resource\Search\Grid\Collection
      */
     protected function _initSelect()
     {
@@ -43,7 +45,7 @@ class Magento_Search_Model_Resource_Search_Grid_Collection
     /**
      *  Retrieve a value from registry by a key
      *
-     * @return Magento_CatalogSearch_Model_Query
+     * @return \Magento\CatalogSearch\Model\Query
      */
     public function getQuery()
     {

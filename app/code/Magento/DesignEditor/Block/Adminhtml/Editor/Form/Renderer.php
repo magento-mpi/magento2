@@ -11,7 +11,9 @@
 /**
  * Color-picker form element renderer
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer extends Magento_Backend_Block_Template
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form;
+
+class Renderer extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**

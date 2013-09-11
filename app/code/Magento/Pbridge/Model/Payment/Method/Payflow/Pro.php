@@ -16,26 +16,28 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Model_Payflowpro
+namespace Magento\Pbridge\Model\Payment\Method\Payflow;
+
+class Pro extends \Magento\Paypal\Model\Payflowpro
 {
     /**
      * Form block type for the frontend
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento_Pbridge_Block_Checkout_Payment_Payflow_Pro';
+    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Payflow\Pro';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Payflow_Pro';
+    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payflow\Pro';
 
     /**
      * Payment Bridge Payment Method Instance
      *
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
     protected $_canFetchTransactionInfo = false;
@@ -53,12 +55,12 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
     /**
      * Return Payment Bridge method instance
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -93,7 +95,7 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -113,19 +115,19 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        return \Mage::getStoreConfig($path, $storeId);
     }
 
     /**
      * Check whether payment method can be used
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
     {
-        $storeId = Mage::app()->getStore($this->getStore())->getId();
-        $config = Mage::getModel('Magento_Paypal_Model_Config')->setStoreId($storeId);
+        $storeId = \Mage::app()->getStore($this->getStore())->getId();
+        $config = \Mage::getModel('\Magento\Paypal\Model\Config')->setStoreId($storeId);
 
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
             && $config->isMethodAvailable($this->getOriginalCode());
@@ -138,7 +140,7 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
      */
     public function getFormBlockType()
     {
-        return Mage::app()->getStore()->isAdmin() ?
+        return \Mage::app()->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }
@@ -146,7 +148,7 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
     /**
      * Validate payment method information object
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Payflow_Pro
+     * @return \Magento\Pbridge\Model\Payment\Method\Payflow\Pro
      */
     public function validate()
     {
@@ -159,7 +161,7 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Payflow_Pro
+     * @return \Magento\Pbridge\Model\Payment\Method\Payflow\Pro
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -174,7 +176,7 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Payflow_Pro
+     * @return \Magento\Pbridge\Model\Payment\Method\Payflow\Pro
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -192,7 +194,7 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Payflow_Pro
+     * @return \Magento\Pbridge\Model\Payment\Method\Payflow\Pro
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -205,7 +207,7 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return Magento_Pbridge_Model_Payment_Method_Payflow_Pro
+     * @return \Magento\Pbridge\Model\Payment\Method\Payflow\Pro
      */
     public function void(\Magento\Object $payment)
     {
@@ -229,7 +231,7 @@ class Magento_Pbridge_Model_Payment_Method_Payflow_Pro extends Magento_Paypal_Mo
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Magento_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 }

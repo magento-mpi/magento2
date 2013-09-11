@@ -17,19 +17,21 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Quote_Address_Total_Msrp extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Collect information about MSRP price enabled
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Total_Msrp
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Total\Msrp
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
         $quote = $address->getQuote();
-        $store = Mage::app()->getStore($quote->getStoreId());
+        $store = \Mage::app()->getStore($quote->getStoreId());
 
         $items = $this->_getAddressItems($address);
         if (!count($items)) {
@@ -38,9 +40,9 @@ class Magento_Sales_Model_Quote_Address_Total_Msrp extends Magento_Sales_Model_Q
 
         $canApplyMsrp = false;
         foreach ($items as $item) {
-            if (!$item->getParentItemId() && Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp(
+            if (!$item->getParentItemId() && \Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp(
                 $item->getProductId(),
-                Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM,
+                \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM,
                 true
             )) {
                 $canApplyMsrp = true;

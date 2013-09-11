@@ -11,27 +11,29 @@
 /**
  * Staging theme model class
  */
-class Magento_Core_Model_Theme_Domain_Staging
+namespace Magento\Core\Model\Theme\Domain;
+
+class Staging
 {
     /**
      * Staging theme model instance
      *
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
     /**
-     * @var Magento_Core_Model_Theme_CopyService
+     * @var \Magento\Core\Model\Theme\CopyService
      */
     protected $_themeCopyService;
 
     /**
-     * @param Magento_Core_Model_Theme $theme
-     * @param Magento_Core_Model_Theme_CopyService $themeCopyService
+     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\Core\Model\Theme\CopyService $themeCopyService
      */
     public function __construct(
-        Magento_Core_Model_Theme $theme,
-        Magento_Core_Model_Theme_CopyService $themeCopyService
+        \Magento\Core\Model\Theme $theme,
+        \Magento\Core\Model\Theme\CopyService $themeCopyService
     ) {
         $this->_theme = $theme;
         $this->_themeCopyService = $themeCopyService;
@@ -40,7 +42,7 @@ class Magento_Core_Model_Theme_Domain_Staging
     /**
      * Copy changes from 'staging' theme
      *
-     * @return Magento_Core_Model_Theme_Domain_Virtual
+     * @return \Magento\Core\Model\Theme\Domain\Virtual
      */
     public function updateFromStagingTheme()
     {

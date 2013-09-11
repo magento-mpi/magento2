@@ -15,7 +15,7 @@
             <giftregistry_setup>
                 <setup>
                     <module>Magento_GiftRegistry</module>
-                    <class>Magento_GiftRegistry_Model_Resource_Setup</class>
+                    <class>Magento\GiftRegistry\Model\Resource\Setup</class>
                 </setup>
             </giftregistry_setup>
         </resources>
@@ -82,4 +82,4 @@
             </update_email>
         </magento_giftregistry>
     </default>
-</config>
+</config>

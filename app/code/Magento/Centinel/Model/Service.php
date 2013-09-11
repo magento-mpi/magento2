@@ -11,7 +11,9 @@
 /**
  * 3D Secure Validation Model
  */
-class Magento_Centinel_Model_Service extends \Magento\Object
+namespace Magento\Centinel\Model;
+
+class Service extends \Magento\Object
 {
     /**
      * Cmpi public keys
@@ -39,25 +41,25 @@ class Magento_Centinel_Model_Service extends \Magento\Object
     /**
      * Validation api model
      *
-     * @var Magento_Centinel_Model_Api
+     * @var \Magento\Centinel\Model\Api
      */
     protected $_api;
 
     /**
      * Validation state model
      *
-     * @var Magento_Centinel_Model_StateAbstract
+     * @var \Magento\Centinel\Model\StateAbstract
      */
     protected $_validationState;
 
     /**
      * Return validation session object
      *
-     * @return Magento_Core_Model_Session_Generic
+     * @return \Magento\Core\Model\Session\Generic
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Centinel_Model_Session');
+        return \Mage::getSingleton('Magento_Centinel_Model_Session');
     }
 
     /**
@@ -68,7 +70,7 @@ class Magento_Centinel_Model_Service extends \Magento\Object
      */
     protected function _getConfig()
     {
-        $config = Mage::getSingleton('Magento_Centinel_Model_Config');
+        $config = \Mage::getSingleton('Magento\Centinel\Model\Config');
         return $config->setStore($this->getStore());
     }
 
@@ -100,20 +102,20 @@ class Magento_Centinel_Model_Service extends \Magento\Object
         $params = array(
             '_secure'  => true,
             '_current' => $current,
-            'form_key' => Mage::getSingleton('Magento_Core_Model_Session')->getFormKey(),
+            'form_key' => \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey(),
             'isIframe' => true
         );
-        if (Mage::app()->getStore()->isAdmin()) {
-            return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/centinel_index/' . $suffix, $params);
+        if (\Mage::app()->getStore()->isAdmin()) {
+            return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/centinel_index/' . $suffix, $params);
         } else {
-            return Mage::getUrl('centinel/index/' . $suffix, $params);
+            return \Mage::getUrl('centinel/index/' . $suffix, $params);
         }
     }
 
     /**
      * Return validation api model
      *
-     * @return Magento_Centinel_Model_Api
+     * @return \Magento\Centinel\Model\Api
      */
     protected function _getApi()
     {
@@ -121,7 +123,7 @@ class Magento_Centinel_Model_Service extends \Magento\Object
             return $this->_api;
         }
 
-        $this->_api = Mage::getSingleton('Magento_Centinel_Model_Api');
+        $this->_api = \Mage::getSingleton('Magento\Centinel\Model\Api');
         $config = $this->_getConfig();
         $this->_api
            ->setProcessorId($config->getProcessorId())
@@ -137,12 +139,12 @@ class Magento_Centinel_Model_Service extends \Magento\Object
      * Create and return validation state model for card type
      *
      * @param string $cardType
-     * @return Magento_Centinel_Model_StateAbstract
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     protected function _getValidationStateModel($cardType)
     {
         if ($modelClass = $this->_getConfig()->getStateModelClass($cardType)) {
-            return Mage::getModel($modelClass);
+            return \Mage::getModel($modelClass);
         }
         return false;
     }
@@ -151,7 +153,7 @@ class Magento_Centinel_Model_Service extends \Magento\Object
      * Return validation state model
      *
      * @param string $cardType
-     * @return Magento_Centinel_Model_StateAbstract
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     protected function _getValidationState($cardType = null)
     {
@@ -182,7 +184,7 @@ class Magento_Centinel_Model_Service extends \Magento\Object
      *
      * @param string $cardType
      * @param string $dataChecksum
-     * @return Magento_Centinel_Model_StateAbstract
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     protected function _initValidationState($cardType, $dataChecksum)
     {
@@ -228,7 +230,7 @@ class Magento_Centinel_Model_Service extends \Magento\Object
     {
         $validationState = $this->_getValidationState();
         if (!$validationState || $data->getTransactionId() != $validationState->getLookupTransactionId()) {
-            throw new Exception('Authentication impossible: transaction id or validation state is wrong.');
+            throw new \Exception('Authentication impossible: transaction id or validation state is wrong.');
         }
 
         $api = $this->_getApi();
@@ -246,7 +248,7 @@ class Magento_Centinel_Model_Service extends \Magento\Object
      * Workflow state is stored validation state model
      *
      * @param \Magento\Object $data
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function validate($data)
     {
@@ -269,12 +271,12 @@ class Magento_Centinel_Model_Service extends \Magento\Object
         // check whether is authenticated before placing order
         if ($this->getIsPlaceOrder()) {
             if ($validationState->getChecksum() != $newChecksum) {
-                Mage::throwException(__('Payment information error. Please start over.'));
+                \Mage::throwException(__('Payment information error. Please start over.'));
             }
             if ($validationState->isAuthenticateSuccessful()) {
                 return;
             }
-            Mage::throwException(__('Please verify the card with the issuer bank before placing the order.'));
+            \Mage::throwException(__('Please verify the card with the issuer bank before placing the order.'));
         } else {
             if ($validationState->getChecksum() != $newChecksum || !$validationState->isLookupSuccessful()) {
                 $this->lookup($data);
@@ -283,14 +285,14 @@ class Magento_Centinel_Model_Service extends \Magento\Object
             if ($validationState->isLookupSuccessful()) {
                 return;
             }
-            Mage::throwException(__('This card has failed validation and cannot be used.'));
+            \Mage::throwException(__('This card has failed validation and cannot be used.'));
         }
     }
 
     /**
      * Reset validation state and drop api object
      *
-     * @return Magento_Centinel_Model_Service
+     * @return \Magento\Centinel\Model\Service
      */
     public function reset()
     {
@@ -339,7 +341,7 @@ class Magento_Centinel_Model_Service extends \Magento\Object
     {
         $validationState = $this->_getValidationState();
         if (!$validationState && $this->shouldAuthenticate()) {
-            throw new Exception('Authentication impossible: validation state is wrong.');
+            throw new \Exception('Authentication impossible: validation state is wrong.');
         }
         $data = array(
             'acs_url' => $validationState->getLookupAcsUrl(),

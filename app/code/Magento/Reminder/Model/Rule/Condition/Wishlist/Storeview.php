@@ -9,17 +9,19 @@
  */
 
 
-class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
-    extends Magento_Reminder_Model_Condition_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+class Storeview
+    extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview');
+        $this->setType('\Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview');
         $this->setValue(null);
     }
 
@@ -49,11 +51,11 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
     /**
      * Initialize value select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm());
+        $this->setValueOption(\Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm());
         return $this;
     }
 
@@ -80,7 +82,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
     /**
      * Prepare operator select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview
      */
     public function loadOperatorOptions()
     {
@@ -106,7 +108,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('list' => $wishlistTable),

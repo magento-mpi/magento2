@@ -15,8 +15,10 @@
  * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions extends Magento_Adminhtml_Block_Template
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
+
+class Promotions extends \Magento\Adminhtml\Block\Template
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare label for tab

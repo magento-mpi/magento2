@@ -16,9 +16,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Sales_Block_Widget_Guest_Form
-    extends Magento_Core_Block_Template
-    implements Magento_Widget_Block_Interface
+namespace Magento\Sales\Block\Widget\Guest;
+
+class Form
+    extends \Magento\Core\Block\Template
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Check whether module is available
@@ -27,7 +29,7 @@ class Magento_Sales_Block_Widget_Guest_Form
      */
     public function isEnable()
     {
-        return !(Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn());
+        return !(\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn());
     }
 
     /**
@@ -37,7 +39,7 @@ class Magento_Sales_Block_Widget_Guest_Form
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select guest-select',

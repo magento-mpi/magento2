@@ -12,19 +12,19 @@
 class Magento_Core_Model_Page_Asset_ViewFileTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Page_Asset_ViewFile
+     * @var \Magento\Core\Model\Page\Asset\ViewFile
      */
     protected $_object;
 
     /**
-     * @var Magento_Core_Model_View_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\View\Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewUrl;
 
     protected function setUp()
     {
-        $this->_viewUrl = $this->getMock('Magento_Core_Model_View_Url', array(), array(), '', false);
-        $this->_object = new Magento_Core_Model_Page_Asset_ViewFile($this->_viewUrl, 'test/script.js', 'js');
+        $this->_viewUrl = $this->getMock('Magento\Core\Model\View\Url', array(), array(), '', false);
+        $this->_object = new \Magento\Core\Model\Page\Asset\ViewFile($this->_viewUrl, 'test/script.js', 'js');
     }
 
     /**
@@ -33,7 +33,7 @@ class Magento_Core_Model_Page_Asset_ViewFileTest extends PHPUnit_Framework_TestC
      */
     public function testConstructorException()
     {
-        new Magento_Core_Model_Page_Asset_ViewFile($this->_viewUrl, '', 'unknown');
+        new \Magento\Core\Model\Page\Asset\ViewFile($this->_viewUrl, '', 'unknown');
     }
 
     public function testGetUrl()

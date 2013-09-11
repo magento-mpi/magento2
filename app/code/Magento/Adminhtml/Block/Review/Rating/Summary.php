@@ -16,21 +16,23 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Rating_Summary extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Review\Rating;
+
+class Summary extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'rating/stars/summary.phtml';
 
     protected function _construct()
     {
-        if (Mage::registry('review_data')) {
-            $this->setReviewId(Mage::registry('review_data')->getId());
+        if (\Mage::registry('review_data')) {
+            $this->setReviewId(\Mage::registry('review_data')->getId());
         }
     }
 
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
+            $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
                 ->addRatingInfo()
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Block_Review_Rating_Summary extends Magento_Adminhtml_Bl
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
-            $this->setRatingSummaryCache(Mage::getModel('Magento_Rating_Model_Rating')->getReviewSummary($this->getReviewId()));
+            $this->setRatingSummaryCache(\Mage::getModel('\Magento\Rating\Model\Rating')->getReviewSummary($this->getReviewId()));
         }
 
         return $this->getRatingSummaryCache();

@@ -15,15 +15,15 @@
 class Magento_Adminhtml_Block_Dashboard_GraphTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Dashboard_Graph
+     * @var \Magento\Adminhtml\Block\Dashboard\Graph
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Dashboard_Graph');
-        $this->_block->setDataHelperName('Magento_Adminhtml_Helper_Dashboard_Order');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Dashboard\Graph');
+        $this->_block->setDataHelperName('\Magento\Adminhtml\Helper\Dashboard\Order');
     }
 
     public function testGetChartUrl()

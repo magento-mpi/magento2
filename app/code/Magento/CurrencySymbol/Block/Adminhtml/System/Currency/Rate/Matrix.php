@@ -15,17 +15,19 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix extends Magento_Backend_Block_Template
+namespace Magento\CurrencySymbol\Block\Adminhtml\System\Currency\Rate;
+
+class Matrix extends \Magento\Backend\Block\Template
 {
 
     protected $_template = 'system/currency/rate/matrix.phtml';
 
     protected function _prepareLayout()
     {
-        $newRates = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRates();
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->unsetData('rates');
+        $newRates = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getRates();
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->unsetData('rates');
 
-        $currencyModel = Mage::getModel('Magento_Directory_Model_Currency');
+        $currencyModel = \Mage::getModel('\Magento\Directory\Model\Currency');
         $currencies = $currencyModel->getConfigAllowCurrencies();
         $defaultCurrencies = $currencyModel->getConfigBaseCurrencies();
         $oldCurrencies = $this->_prepareRates($currencyModel->getCurrencyRates($defaultCurrencies, $currencies));

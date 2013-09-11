@@ -9,7 +9,9 @@
  */
 
 
-class Magento_GoogleCheckout_Model_Source_Checkout_Image
+namespace Magento\GoogleCheckout\Model\Source\Checkout;
+
+class Image
 {
     public function toOptionArray()
     {

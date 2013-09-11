@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Helper_Sortby_Available
+namespace Magento\Adminhtml\Block\Catalog\Category\Helper\Sortby;
+
+class Available
     extends \Magento\Data\Form\Element\Multiselect
 {
     /**

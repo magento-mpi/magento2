@@ -15,7 +15,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
+namespace Magento\Checkout\Block;
+
+class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     /**
      * Prepare Quote Item Product URLs
@@ -33,7 +35,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
     public function prepareItemUrls()
     {
         $products = array();
-        /* @var $item Magento_Sales_Model_Quote_Item */
+        /* @var $item \Magento\Sales\Model\Quote\Item */
         foreach ($this->getItems() as $item) {
             $product    = $item->getProduct();
             $option     = $item->getOptionByCode('product_type');
@@ -41,7 +43,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
                 $product = $option->getProduct();
             }
 
-            if ($item->getStoreId() != Mage::app()->getStore()->getId()
+            if ($item->getStoreId() != \Mage::app()->getStore()->getId()
                 && !$item->getRedirectUrl()
                 && !$product->isVisibleInSiteVisibility())
             {
@@ -50,7 +52,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
         }
 
         if ($products) {
-            $products = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
+            $products = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Url')
                 ->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 $product    = $item->getProduct();
@@ -91,8 +93,8 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
     {
         $isActive = $this->_getData('is_wishlist_active');
         if ($isActive === null) {
-            $isActive = Mage::getStoreConfig('wishlist/general/active')
-                && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
+            $isActive = \Mage::getStoreConfig('wishlist/general/active')
+                && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
             $this->setIsWishlistActive($isActive);
         }
         return $isActive;
@@ -107,9 +109,9 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
     {
         $url = $this->getData('continue_shopping_url');
         if (is_null($url)) {
-            $url = Mage::getSingleton('Magento_Checkout_Model_Session')->getContinueShoppingUrl(true);
+            $url = \Mage::getSingleton('Magento\Checkout\Model\Session')->getContinueShoppingUrl(true);
             if (!$url) {
-                $url = Mage::getUrl();
+                $url = \Mage::getUrl();
             }
             $this->setData('continue_shopping_url', $url);
         }
@@ -118,7 +120,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
 
     public function getIsVirtual()
     {
-        return $this->helper('Magento_Checkout_Helper_Cart')->getIsVirtualQuote();
+        return $this->helper('\Magento\Checkout\Helper\Cart')->getIsVirtualQuote();
     }
 
     /**
@@ -146,7 +148,7 @@ class Magento_Checkout_Block_Cart extends Magento_Checkout_Block_Cart_Abstract
     {
         $block = $this->getLayout()->getBlock($name);
         if (!$block) {
-            Mage::throwException(__('Invalid method: %1', $name));
+            \Mage::throwException(__('Invalid method: %1', $name));
         }
         return $block->toHtml();
     }

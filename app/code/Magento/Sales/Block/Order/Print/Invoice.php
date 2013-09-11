@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Sales_Block_Order_Print_Invoice extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Sales\Block\Order\Print;
+
+class Invoice extends \Magento\Sales\Block\Items\AbstractItems
 {
     protected function _prepareLayout()
     {
@@ -25,18 +27,18 @@ class Magento_Sales_Block_Order_Print_Invoice extends Magento_Sales_Block_Items_
         }
         $this->setChild(
             'payment_info',
-            $this->helper('Magento_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('\Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/history');
+        return \Mage::getUrl('*/*/history');
     }
 
     public function getPrintUrl()
     {
-        return Mage::getUrl('*/*/print');
+        return \Mage::getUrl('*/*/print');
     }
 
     public function getPaymentInfoHtml()
@@ -46,15 +48,15 @@ class Magento_Sales_Block_Order_Print_Invoice extends Magento_Sales_Block_Items_
 
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return \Mage::registry('current_invoice');
     }
 
-    protected function _prepareItem(Magento_Core_Block_Abstract $renderer)
+    protected function _prepareItem(\Magento\Core\Block\AbstractBlock $renderer)
     {
         $renderer->setPrintStatus(true);
         return parent::_prepareItem($renderer);
@@ -63,7 +65,7 @@ class Magento_Sales_Block_Order_Print_Invoice extends Magento_Sales_Block_Items_
     /**
      * Get html of invoice totlas block
      *
-     * @param   Magento_Sales_Model_Order_Invoice $invoice
+     * @param   \Magento\Sales\Model\Order\Invoice $invoice
      * @return  string
      */
     public function getInvoiceTotalsHtml($invoice)

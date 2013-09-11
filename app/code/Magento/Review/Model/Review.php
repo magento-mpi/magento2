@@ -11,21 +11,23 @@
 /**
  * Review model
  *
- * @method Magento_Review_Model_Resource_Review _getResource()
- * @method Magento_Review_Model_Resource_Review getResource()
+ * @method \Magento\Review\Model\Resource\Review _getResource()
+ * @method \Magento\Review\Model\Resource\Review getResource()
  * @method string getCreatedAt()
- * @method Magento_Review_Model_Review setCreatedAt(string $value)
- * @method Magento_Review_Model_Review setEntityId(int $value)
+ * @method \Magento\Review\Model\Review setCreatedAt(string $value)
+ * @method \Magento\Review\Model\Review setEntityId(int $value)
  * @method int getEntityPkValue()
- * @method Magento_Review_Model_Review setEntityPkValue(int $value)
+ * @method \Magento\Review\Model\Review setEntityPkValue(int $value)
  * @method int getStatusId()
- * @method Magento_Review_Model_Review setStatusId(int $value)
+ * @method \Magento\Review\Model\Review setStatusId(int $value)
  *
  * @category    Magento
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
+namespace Magento\Review\Model;
+
+class Review extends \Magento\Core\Model\AbstractModel
 {
 
     /**
@@ -49,17 +51,17 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Review_Model_Resource_Review');
+        $this->_init('\Magento\Review\Model\Resource\Review');
     }
 
     public function getProductCollection()
     {
-        return Mage::getResourceModel('Magento_Review_Model_Resource_Review_Product_Collection');
+        return \Mage::getResourceModel('\Magento\Review\Model\Resource\Review\Product\Collection');
     }
 
     public function getStatusCollection()
     {
-        return Mage::getResourceModel('Magento_Review_Model_Resource_Review_Status_Collection');
+        return \Mage::getResourceModel('\Magento\Review\Model\Resource\Review\Status\Collection');
     }
 
     public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
@@ -75,7 +77,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
 
     public function getEntitySummary($product, $storeId=0)
     {
-        $summaryData = Mage::getModel('Magento_Review_Model_Review_Summary')
+        $summaryData = \Mage::getModel('\Magento\Review\Model\Review\Summary')
             ->setStoreId($storeId)
             ->load($product->getId());
         $summary = new \Magento\Object();
@@ -90,7 +92,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
 
     public function getReviewUrl()
     {
-        return Mage::getUrl('review/product/view', array('id' => $this->getReviewId()));
+        return \Mage::getUrl('review/product/view', array('id' => $this->getReviewId()));
     }
 
     public function validate()
@@ -118,7 +120,7 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     /**
      * Perform actions after object delete
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _afterDeleteCommit()
     {
@@ -129,8 +131,8 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     /**
      * Append review summary to product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @return Magento_Review_Model_Review
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @return \Magento\Review\Model\Review
      */
     public function appendSummary($collection)
     {
@@ -143,9 +145,9 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
             return $this;
         }
 
-        $summaryData = Mage::getResourceModel('Magento_Review_Model_Resource_Review_Summary_Collection')
+        $summaryData = \Mage::getResourceModel('\Magento\Review\Model\Resource\Review\Summary\Collection')
             ->addEntityFilter($entityIds)
-            ->addStoreFilter(Mage::app()->getStore()->getId())
+            ->addStoreFilter(\Mage::app()->getStore()->getId())
             ->load();
 
         foreach ($collection->getItems() as $_item ) {
@@ -178,12 +180,12 @@ class Magento_Review_Model_Review extends Magento_Core_Model_Abstract
     /**
      * Check if current review available on passed store
      *
-     * @param int|Magento_Core_Model_Store $store
+     * @param int|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function isAvailableOnStore($store = null)
     {
-        $store = Mage::app()->getStore($store);
+        $store = \Mage::app()->getStore($store);
         if ($store) {
             return in_array($store->getId(), (array)$this->getStores());
         }

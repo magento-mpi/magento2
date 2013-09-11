@@ -11,19 +11,21 @@
 /**
  * Backend model for saving certificate file in case of using certificate based authentication
  */
-class Magento_Paypal_Model_System_Config_Backend_Cert extends Magento_Core_Model_Config_Value
+namespace Magento\Paypal\Model\System\Config\Backend;
+
+class Cert extends \Magento\Core\Model\Config\Value
 {
     /**
      * Process additional data before save config
      *
-     * @return Magento_Paypal_Model_System_Config_Backend_Cert
+     * @return \Magento\Paypal\Model\System\Config\Backend\Cert
      */
     protected function _beforeSave()
     {
         $value = $this->getValue();
         if (is_array($value) && !empty($value['delete'])) {
             $this->setValue('');
-            Mage::getModel('Magento_Paypal_Model_Cert')->loadByWebsite($this->getScopeId())->delete();
+            \Mage::getModel('\Magento\Paypal\Model\Cert')->loadByWebsite($this->getScopeId())->delete();
         }
 
         if (!isset($_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value'])) {
@@ -32,11 +34,11 @@ class Magento_Paypal_Model_System_Config_Backend_Cert extends Magento_Core_Model
         $tmpPath = $_FILES['groups']['tmp_name'][$this->getGroupId()]['fields'][$this->getField()]['value'];
         if ($tmpPath && file_exists($tmpPath)) {
             if (!filesize($tmpPath)) {
-                Mage::throwException(__('The PayPal certificate file is empty.'));
+                \Mage::throwException(__('The PayPal certificate file is empty.'));
             }
             $this->setValue($_FILES['groups']['name'][$this->getGroupId()]['fields'][$this->getField()]['value']);
-            $content = Mage::helper('Magento_Core_Helper_Data')->encrypt(file_get_contents($tmpPath));
-            Mage::getModel('Magento_Paypal_Model_Cert')->loadByWebsite($this->getScopeId())
+            $content = \Mage::helper('Magento\Core\Helper\Data')->encrypt(file_get_contents($tmpPath));
+            \Mage::getModel('\Magento\Paypal\Model\Cert')->loadByWebsite($this->getScopeId())
                 ->setContent($content)
                 ->save();
         }
@@ -46,11 +48,11 @@ class Magento_Paypal_Model_System_Config_Backend_Cert extends Magento_Core_Model
     /**
      * Process object after delete data
      *
-     * @return Magento_Paypal_Model_System_Config_Backend_Cert
+     * @return \Magento\Paypal\Model\System\Config\Backend\Cert
      */
     protected function _afterDelete()
     {
-        Mage::getModel('Magento_Paypal_Model_Cert')->loadByWebsite($this->getScopeId())->delete();
+        \Mage::getModel('\Magento\Paypal\Model\Cert')->loadByWebsite($this->getScopeId())->delete();
         return $this;
     }
 }

@@ -15,10 +15,12 @@
  * @category   Magento
  * @package    Magento_TargetRule
  *
- * @method Magento_TargetRule_Block_Catalog_Product_Item setItem(Magento_Catalog_Model_Product $item)
- * @method Magento_Catalog_Model_Product getItem()
+ * @method \Magento\TargetRule\Block\Catalog\Product\Item setItem(\Magento\Catalog\Model\Product $item)
+ * @method \Magento\Catalog\Model\Product getItem()
  */
-class Magento_TargetRule_Block_Catalog_Product_Item extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\TargetRule\Block\Catalog\Product;
+
+class Item extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Get cache key informative items with the position number to differentiate
@@ -29,7 +31,7 @@ class Magento_TargetRule_Block_Catalog_Product_Item extends Magento_Catalog_Bloc
     {
         $cacheKeyInfo = parent::getCacheKeyInfo();
 
-        foreach (Mage::app()->getLayout()->getXpath('//action[@method="addPriceBlockType"]') as $element) {
+        foreach (\Mage::app()->getLayout()->getXpath('//action[@method="addPriceBlockType"]') as $element) {
             if (!empty($element->type)) {
                 $prefix = 'price_block_type_' . (string)$element->type;
                 $cacheKeyInfo[$prefix . '_block'] = empty($element->block) ? '' : (string)$element->block;

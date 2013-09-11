@@ -12,7 +12,7 @@
 class Magento_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+     * @var \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
     protected $_model;
 
@@ -22,9 +22,9 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends
      */
     public function setUp()
     {
-        $arguments = array(Mage::getModel('Magento_ImportExport_Model_Import_Entity_Product'), 'simple');
+        $arguments = array(Mage::getModel('\Magento\ImportExport\Model\Import\Entity\Product'), 'simple');
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract',
+            '\Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType',
             array($arguments)
         );
     }

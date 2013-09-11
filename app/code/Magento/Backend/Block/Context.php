@@ -9,7 +9,9 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_Context extends Magento_Core_Block_Context
+namespace Magento\Backend\Block;
+
+class Context extends \Magento\Core\Block\Context
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -17,40 +19,40 @@ class Magento_Backend_Block_Context extends Magento_Core_Block_Context
     protected $_authorization;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
-     * @param Magento_Core_Model_Translate $translator
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Session_Abstract $session
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Core_Controller_Varien_Front $frontController
-     * @param Magento_Core_Model_Factory_Helper $helperFactory
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_View_Config $viewConfig
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\Core\Model\Factory\Helper $helperFactory
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\View\Config $viewConfig
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param \Magento\AuthorizationInterface $authorization
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_UrlInterface $urlBuilder,
-        Magento_Core_Model_Translate $translator,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Session_Abstract $session,
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Core_Controller_Varien_Front $frontController,
-        Magento_Core_Model_Factory_Helper $helperFactory,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_View_Config $viewConfig,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
+        \Magento\Core\Model\Translate $translator,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\Core\Model\Factory\Helper $helperFactory,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\Config $viewConfig,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
         \Magento\AuthorizationInterface $authorization,
         array $data = array()
     ) {

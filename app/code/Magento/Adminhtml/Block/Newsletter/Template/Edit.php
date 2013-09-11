@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Newsletter\Template;
+
+class Edit extends \Magento\Adminhtml\Block\Widget
 {
     /**
      * Edit Block model
@@ -28,45 +30,45 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
     /**
      * Retrieve template object
      *
-     * @return Magento_Newsletter_Model_Template
+     * @return \Magento\Newsletter\Model\Template
      */
     public function getModel()
     {
-        return Mage::registry('_current_template');
+        return \Mage::registry('_current_template');
     }
 
     /**
      * Preparing block layout
      *
-     * @return Magento_Adminhtml_Block_Newsletter_Template_Edit
+     * @return \Magento\Adminhtml\Block\Newsletter\Template\Edit
      */
     protected function _prepareLayout()
     {
         // Load Wysiwyg on demand and Prepare layout
-        if (Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled() && ($block = $this->getLayout()->getBlock('head'))) {
+        if (\Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled() && ($block = $this->getLayout()->getBlock('head'))) {
             $block->setCanLoadTinyMce(true);
         }
 
-        $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => "window.location.href = '" . $this->getUrl('*/*') . "'",
             'class'     => 'action-back'
         ));
 
-        $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('reset_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Reset'),
             'onclick'   => 'window.location.href = window.location.href',
             'class'     => 'reset'
         ));
 
-        $this->addChild('to_plain_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('to_plain_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Convert to Plain Text'),
             'onclick'   => 'templateControl.stripTags();',
             'id'            => 'convert_button',
             'class'     => 'convert'
         ));
 
-        $this->addChild('to_html_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('to_html_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Return HTML Version'),
             'onclick'   => 'templateControl.unStripTags();',
             'id'            => 'convert_button_back',
@@ -74,25 +76,25 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
             'class'     => 'return'
         ));
 
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save Template'),
             'onclick'   => 'templateControl.save();',
             'class'     => 'save primary'
         ));
 
-        $this->addChild('save_as_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_as_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save As'),
             'onclick'   => 'templateControl.saveAs();',
             'class'     => 'save-as'
         ));
 
-        $this->addChild('preview_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('preview_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Preview Template'),
             'onclick'   => 'templateControl.preview();',
             'class'     => 'preview'
         ));
 
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete Template'),
             'onclick'   => 'templateControl.deleteTemplate();',
             'class'     => 'delete'
@@ -185,7 +187,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
      * Set edit flag for block
      *
      * @param boolean $value
-     * @return Magento_Adminhtml_Block_Newsletter_Template_Edit
+     * @return \Magento\Adminhtml\Block\Newsletter\Template\Edit
      */
     public function setEditMode($value = true)
     {
@@ -225,7 +227,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
     public function getForm()
     {
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Newsletter_Template_Edit_Form')
+            ->createBlock('\Magento\Adminhtml\Block\Newsletter\Template\Edit\Form')
             ->toHtml();
     }
 
@@ -296,7 +298,7 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
      */
     protected function isSingleStoreMode()
     {
-        return Mage::app()->isSingleStoreMode();
+        return \Mage::app()->isSingleStoreMode();
     }
 
     /**
@@ -306,6 +308,6 @@ class Magento_Adminhtml_Block_Newsletter_Template_Edit extends Magento_Adminhtml
      */
     protected function getStoreId()
     {
-        return Mage::app()->getStore(true)->getId();
+        return \Mage::app()->getStore(true)->getId();
     }
 }

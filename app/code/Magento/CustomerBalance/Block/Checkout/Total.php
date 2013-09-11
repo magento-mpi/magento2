@@ -12,7 +12,9 @@
  * Customer balance total block for checkout
  *
  */
-class Magento_CustomerBalance_Block_Checkout_Total extends Magento_Checkout_Block_Total_Default
+namespace Magento\CustomerBalance\Block\Checkout;
+
+class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
      * @var string

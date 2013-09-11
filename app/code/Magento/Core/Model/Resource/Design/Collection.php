@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Design_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Design;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Core Design resource collection
@@ -24,13 +26,13 @@ class Magento_Core_Model_Resource_Design_Collection extends Magento_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Design', 'Magento_Core_Model_Resource_Design');
+        $this->_init('\Magento\Core\Model\Design', '\Magento\Core\Model\Resource\Design');
     }
 
     /**
      * Join store data to collection
      *
-     * @return Magento_Core_Model_Resource_Design_Collection
+     * @return \Magento\Core\Model\Resource\Design\Collection
      */
     public function joinStore()
     {
@@ -44,7 +46,7 @@ class Magento_Core_Model_Resource_Design_Collection extends Magento_Core_Model_R
      * Add date filter to collection
      *
      * @param null|int|string|Zend_Date $date
-     * @return Magento_Core_Model_Resource_Design_Collection
+     * @return \Magento\Core\Model\Resource\Design\Collection
      */
     public function addDateFilter($date = null)
     {
@@ -63,7 +65,7 @@ class Magento_Core_Model_Resource_Design_Collection extends Magento_Core_Model_R
      * Add store filter to collection
      *
      * @param int|array $storeId
-     * @return Magento_Core_Model_Resource_Design_Collection
+     * @return \Magento\Core\Model\Resource\Design\Collection
      */
     public function addStoreFilter($storeId)
     {

@@ -8,7 +8,7 @@
 class Magento_Core_Model_Config_Section_Reader_DefaultReaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Section_Reader_DefaultReader
+     * @var \Magento\Core\Model\Config\Section\Reader\DefaultReader
      */
     protected $_model;
 
@@ -29,21 +29,21 @@ class Magento_Core_Model_Config_Section_Reader_DefaultReaderTest extends PHPUnit
 
     protected function setUp()
     {
-        $this->_initialConfigMock = $this->getMock('Magento_Core_Model_Config_Initial', array(), array(), '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\Core\Model\Config\Initial', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
-            'Magento_Core_Model_Resource_Config_Value_Collection_ScopedFactory',
+            'Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory',
             array('create'),
             array(),
             '',
             false
         );
-        $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
         $this->_appStateMock->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue(true));
-        $this->_model = new Magento_Core_Model_Config_Section_Reader_DefaultReader(
+        $this->_model = new \Magento\Core\Model\Config\Section\Reader\DefaultReader(
             $this->_initialConfigMock,
-            new Magento_Core_Model_Config_Section_Converter(),
+            new \Magento\Core\Model\Config\Section\Converter(),
             $this->_collectionFactory,
             $this->_appStateMock
         );

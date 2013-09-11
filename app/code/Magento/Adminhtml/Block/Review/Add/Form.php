@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Review\Add;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected function _prepareForm()
     {
@@ -33,27 +35,27 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Wi
             'label'     => __('Product Rating'),
             'required'  => true,
             'text'      => '<div id="rating_detail">'
-                . $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Rating_Detailed')->toHtml() . '</div>',
+                . $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Rating\Detailed')->toHtml() . '</div>',
         ));
 
         $fieldset->addField('status_id', 'select', array(
             'label'     => __('Status'),
             'required'  => true,
             'name'      => 'status_id',
-            'values'    => Mage::helper('Magento_Review_Helper_Data')->getReviewStatusesOptionArray(),
+            'values'    => \Mage::helper('Magento\Review\Helper\Data')->getReviewStatusesOptionArray(),
         ));
 
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('select_stores', 'multiselect', array(
                 'label'     => __('Visible In'),
                 'required'  => true,
                 'name'      => 'select_stores[]',
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -87,7 +89,7 @@ class Magento_Adminhtml_Block_Review_Add_Form extends Magento_Adminhtml_Block_Wi
 
         /*$gridFieldset = $form->addFieldset('add_review_grid', array('legend' => __('Please select a product')));
         $gridFieldset->addField('products_grid', 'note', array(
-            'text' => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Review_Product_Grid')->toHtml(),
+            'text' => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Review\Product\Grid')->toHtml(),
         ));*/
 
         $form->setMethod('post');

@@ -15,12 +15,14 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Observer
+namespace Magento\Downloadable\Model;
+
+class Observer
 {
     const XML_PATH_DISABLE_GUEST_CHECKOUT   = 'catalog/downloadable/disable_guest_checkout';
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_helper;
 
@@ -29,14 +31,14 @@ class Magento_Downloadable_Model_Observer
      */
     public function __construct(array $data = array())
     {
-        $this->_helper = isset($data['helper']) ? $data['helper'] : Mage::helper('Magento_Core_Helper_Data');
+        $this->_helper = isset($data['helper']) ? $data['helper'] : \Mage::helper('Magento\Core\Helper\Data');
     }
 
     /**
      * Prepare product to save
      *
      * @param   \Magento\Object $observer
-     * @return  Magento_Downloadable_Model_Observer
+     * @return  \Magento\Downloadable\Model\Observer
      */
     public function prepareProductSave($observer)
     {
@@ -53,26 +55,26 @@ class Magento_Downloadable_Model_Observer
      * Change product type on the fly depending on selected options
      *
      * @param  \Magento\Event\Observer $observer
-     * @return Magento_Downloadable_Model_Observer
+     * @return \Magento\Downloadable\Model\Observer
      */
     public function transitionProductType(\Magento\Event\Observer $observer)
     {
         $request = $observer->getEvent()->getRequest();
         $product = $observer->getEvent()->getProduct();
         $downloadable = $request->getPost('downloadable');
-        $isTransitionalType = $product->getTypeId() === Magento_Catalog_Model_Product_Type::TYPE_SIMPLE
-            || $product->getTypeId() === Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL
-            || $product->getTypeId() === Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE;
+        $isTransitionalType = $product->getTypeId() === \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
+            || $product->getTypeId() === \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
+            || $product->getTypeId() === \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE;
 
         if ($isTransitionalType) {
             if ($product->hasIsVirtual()) {
                 if ($downloadable) {
-                    $product->setTypeId(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE);
+                    $product->setTypeId(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE);
                 } else {
-                    $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL);
+                    $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL);
                 }
             } else {
-                $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE);
+                $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
             }
         }
         return $this;
@@ -82,7 +84,7 @@ class Magento_Downloadable_Model_Observer
      * Save data from order to purchased links
      *
      * @param \Magento\Object $observer
-     * @return Magento_Downloadable_Model_Observer
+     * @return \Magento\Downloadable\Model\Observer
      */
     public function saveDownloadableOrderItem($observer)
     {
@@ -92,30 +94,30 @@ class Magento_Downloadable_Model_Observer
             return $this;
         }
         $product = $orderItem->getProduct();
-        if ($product && $product->getTypeId() != Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+        if ($product && $product->getTypeId() != \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             return $this;
         }
-        $purchasedLink = Mage::getModel('Magento_Downloadable_Model_Link_Purchased')
+        $purchasedLink = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased')
             ->load($orderItem->getId(), 'order_item_id');
         if ($purchasedLink->getId()) {
             return $this;
         }
         if (!$product) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
                 ->setStoreId($orderItem->getOrder()->getStoreId())
                 ->load($orderItem->getProductId());
         }
-        if ($product->getTypeId() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+        if ($product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             $links = $product->getTypeInstance()->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
-                $linkPurchased = Mage::getModel('Magento_Downloadable_Model_Link_Purchased');
-                Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+                $linkPurchased = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased');
+                \Mage::helper('Magento\Core\Helper\Data')->copyFieldset(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
-                Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+                \Mage::helper('Magento\Core\Helper\Data')->copyFieldset(
                     'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
@@ -123,17 +125,17 @@ class Magento_Downloadable_Model_Observer
                 );
                 $linkSectionTitle = (
                     $product->getLinksTitle()?
-                    $product->getLinksTitle():Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE)
+                    $product->getLinksTitle():Mage::getStoreConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE)
                 );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)
                     ->save();
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
-                        $linkPurchasedItem = Mage::getModel('Magento_Downloadable_Model_Link_Purchased_Item')
+                        $linkPurchasedItem = \Mage::getModel('\Magento\Downloadable\Model\Link\Purchased\Item')
                             ->setPurchasedId($linkPurchased->getId())
                             ->setOrderItemId($orderItem->getId());
 
-                        Mage::helper('Magento_Core_Helper_Data')->copyFieldset(
+                        \Mage::helper('Magento\Core\Helper\Data')->copyFieldset(
                             'downloadable_sales_copy_link',
                             'to_purchased',
                             $links[$linkId],
@@ -144,7 +146,7 @@ class Magento_Downloadable_Model_Observer
                         $numberOfDownloads = $links[$linkId]->getNumberOfDownloads()*$orderItem->getQtyOrdered();
                         $linkPurchasedItem->setLinkHash($linkHash)
                             ->setNumberOfDownloadsBought($numberOfDownloads)
-                            ->setStatus(Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING)
+                            ->setStatus(\Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PENDING)
                             ->setCreatedAt($orderItem->getCreatedAt())
                             ->setUpdatedAt($orderItem->getUpdatedAt())
                             ->save();
@@ -160,17 +162,17 @@ class Magento_Downloadable_Model_Observer
      * Set checkout session flag if order has downloadable product(s)
      *
      * @param \Magento\Object $observer
-     * @return Magento_Downloadable_Model_Observer
+     * @return \Magento\Downloadable\Model\Observer
      */
     public function setHasDownloadableProducts($observer)
     {
-        $session = Mage::getSingleton('Magento_Checkout_Model_Session');
+        $session = \Mage::getSingleton('Magento\Checkout\Model\Session');
         if (!$session->getHasDownloadableProducts()) {
             $order = $observer->getEvent()->getOrder();
             foreach ($order->getAllItems() as $item) {
-                /* @var $item Magento_Sales_Model_Order_Item */
-                if ($item->getProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
-                || $item->getRealProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+                /* @var $item \Magento\Sales\Model\Order\Item */
+                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                 || $item->getProductOptionByCode('is_downloadable'))
                 {
                     $session->setHasDownloadableProducts(true);
@@ -185,7 +187,7 @@ class Magento_Downloadable_Model_Observer
      * Set status of link
      *
      * @param \Magento\Object $observer
-     * @return Magento_Downloadable_Model_Observer
+     * @return \Magento\Downloadable\Model\Observer
      */
     public function setLinkStatus($observer)
     {
@@ -196,34 +198,34 @@ class Magento_Downloadable_Model_Observer
             return $this;
         }
 
-        /* @var $order Magento_Sales_Model_Order */
+        /* @var $order \Magento\Sales\Model\Order */
         $status = '';
         $linkStatuses = array(
-            'pending'         => Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING,
-            'expired'         => Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_EXPIRED,
-            'avail'           => Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_AVAILABLE,
-            'payment_pending' => Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PENDING_PAYMENT,
-            'payment_review'  => Magento_Downloadable_Model_Link_Purchased_Item::LINK_STATUS_PAYMENT_REVIEW
+            'pending'         => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PENDING,
+            'expired'         => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_EXPIRED,
+            'avail'           => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_AVAILABLE,
+            'payment_pending' => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PENDING_PAYMENT,
+            'payment_review'  => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PAYMENT_REVIEW
         );
 
         $downloadableItemsStatuses = array();
-        $orderItemStatusToEnable = Mage::getStoreConfig(
-            Magento_Downloadable_Model_Link_Purchased_Item::XML_PATH_ORDER_ITEM_STATUS, $order->getStoreId()
+        $orderItemStatusToEnable = \Mage::getStoreConfig(
+            \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS, $order->getStoreId()
         );
 
-        if ($order->getState() == Magento_Sales_Model_Order::STATE_HOLDED) {
+        if ($order->getState() == \Magento\Sales\Model\Order::STATE_HOLDED) {
             $status = $linkStatuses['pending'];
         } elseif ($order->isCanceled()
-                  || $order->getState() == Magento_Sales_Model_Order::STATE_CLOSED
-                  || $order->getState() == Magento_Sales_Model_Order::STATE_COMPLETE
+                  || $order->getState() == \Magento\Sales\Model\Order::STATE_CLOSED
+                  || $order->getState() == \Magento\Sales\Model\Order::STATE_COMPLETE
         ) {
             $expiredStatuses = array(
-                Magento_Sales_Model_Order_Item::STATUS_CANCELED,
-                Magento_Sales_Model_Order_Item::STATUS_REFUNDED,
+                \Magento\Sales\Model\Order\Item::STATUS_CANCELED,
+                \Magento\Sales\Model\Order\Item::STATUS_REFUNDED,
             );
             foreach ($order->getAllItems() as $item) {
-                if ($item->getProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
-                    || $item->getRealProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                    || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                 ) {
                     if (in_array($item->getStatusId(), $expiredStatuses)) {
                         $downloadableItemsStatuses[$item->getId()] = $linkStatuses['expired'];
@@ -232,20 +234,20 @@ class Magento_Downloadable_Model_Observer
                     }
                 }
             }
-        } elseif ($order->getState() == Magento_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+        } elseif ($order->getState() == \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT) {
             $status = $linkStatuses['payment_pending'];
-        } elseif ($order->getState() == Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW) {
+        } elseif ($order->getState() == \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW) {
             $status = $linkStatuses['payment_review'];
         } else {
-            $availableStatuses = array($orderItemStatusToEnable, Magento_Sales_Model_Order_Item::STATUS_INVOICED);
+            $availableStatuses = array($orderItemStatusToEnable, \Magento\Sales\Model\Order\Item::STATUS_INVOICED);
             foreach ($order->getAllItems() as $item) {
-                if ($item->getProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
-                    || $item->getRealProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                    || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                 ) {
-                    if ($item->getStatusId() == Magento_Sales_Model_Order_Item::STATUS_BACKORDERED &&
-                        $orderItemStatusToEnable == Magento_Sales_Model_Order_Item::STATUS_PENDING &&
-                        !in_array(Magento_Sales_Model_Order_Item::STATUS_BACKORDERED, $availableStatuses, true) ) {
-                        $availableStatuses[] = Magento_Sales_Model_Order_Item::STATUS_BACKORDERED;
+                    if ($item->getStatusId() == \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED &&
+                        $orderItemStatusToEnable == \Magento\Sales\Model\Order\Item::STATUS_PENDING &&
+                        !in_array(\Magento\Sales\Model\Order\Item::STATUS_BACKORDERED, $availableStatuses, true) ) {
+                        $availableStatuses[] = \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED;
                     }
 
                     if (in_array($item->getStatusId(), $availableStatuses)) {
@@ -256,8 +258,8 @@ class Magento_Downloadable_Model_Observer
         }
         if (!$downloadableItemsStatuses && $status) {
             foreach ($order->getAllItems() as $item) {
-                if ($item->getProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
-                    || $item->getRealProductType() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
+                if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
+                    || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                 ) {
                     $downloadableItemsStatuses[$item->getId()] = $status;
                 }
@@ -265,7 +267,7 @@ class Magento_Downloadable_Model_Observer
         }
 
         if ($downloadableItemsStatuses) {
-            $linkPurchased = Mage::getResourceModel('Magento_Downloadable_Model_Resource_Link_Purchased_Item_Collection')
+            $linkPurchased = \Mage::getResourceModel('\Magento\Downloadable\Model\Resource\Link\Purchased\Item\Collection')
             ->addFieldToFilter('order_item_id', array('in' => array_keys($downloadableItemsStatuses)));
             foreach ($linkPurchased as $link) {
                 if ($link->getStatus() != $linkStatuses['expired']
@@ -283,12 +285,12 @@ class Magento_Downloadable_Model_Observer
      * Check is allowed guest checkout if quote contain downloadable product(s)
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Downloadable_Model_Observer
+     * @return \Magento\Downloadable\Model\Observer
      */
     public function isAllowedGuestCheckout(\Magento\Event\Observer $observer)
     {
         $quote  = $observer->getEvent()->getQuote();
-        /* @var $quote Magento_Sales_Model_Quote */
+        /* @var $quote \Magento\Sales\Model\Quote */
         $store  = $observer->getEvent()->getStore();
         $result = $observer->getEvent()->getResult();
 
@@ -296,12 +298,12 @@ class Magento_Downloadable_Model_Observer
 
         foreach ($quote->getAllItems() as $item) {
             if (($product = $item->getProduct()) &&
-            $product->getTypeId() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+            $product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
                 $isContain = true;
             }
         }
 
-        if ($isContain && Mage::getStoreConfigFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, $store)) {
+        if ($isContain && \Mage::getStoreConfigFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, $store)) {
             $result->setIsAllowed(false);
         }
 
@@ -312,12 +314,12 @@ class Magento_Downloadable_Model_Observer
      * Initialize product options renderer with downloadable specific params
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Downloadable_Model_Observer
+     * @return \Magento\Downloadable\Model\Observer
      */
     public function initOptionRenderer(\Magento\Event\Observer $observer)
     {
         $block = $observer->getBlock();
-        $block->addOptionsRenderCfg('downloadable', 'Magento_Downloadable_Helper_Catalog_Product_Configuration');
+        $block->addOptionsRenderCfg('downloadable', '\Magento\Downloadable\Helper\Catalog\Product\Configuration');
         return $this;
     }
 
@@ -325,13 +327,13 @@ class Magento_Downloadable_Model_Observer
      * Duplicating downloadable product data
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Downloadable_Model_Observer
+     * @return \Magento\Downloadable\Model\Observer
      */
     public function duplicateProduct($observer)
     {
         $currentProduct = $observer->getCurrentProduct();
         $newProduct = $observer->getNewProduct();
-        if ($currentProduct->getTypeId() !== Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+        if ($currentProduct->getTypeId() !== \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
             //do nothing if not downloadable
             return $this;
         }

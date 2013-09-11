@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Cms_Model_Config_Source_Page implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Cms\Model\Config\Source;
+
+class Page implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     protected $_options;
@@ -15,7 +17,7 @@ class Magento_Cms_Model_Config_Source_Page implements Magento_Core_Model_Option_
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('Magento_Cms_Model_Resource_Page_Collection')
+            $this->_options = \Mage::getResourceModel('\Magento\Cms\Model\Resource\Page\Collection')
                 ->load()->toOptionIdArray();
         }
         return $this->_options;

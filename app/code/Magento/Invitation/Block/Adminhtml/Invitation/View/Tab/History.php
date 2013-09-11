@@ -14,9 +14,11 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
-    extends Magento_Adminhtml_Block_Template
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
+
+class History
+    extends \Magento\Adminhtml\Block\Template
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected $_template = 'view/tab/history.phtml';
 
@@ -41,11 +43,11 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     /**
      * Return Invitation for view
      *
-     * @return Magento_Invitation_Model_Invitation
+     * @return \Magento\Invitation\Model\Invitation
      */
     public function getInvitation()
     {
-        return Mage::registry('current_invitation');
+        return \Mage::registry('current_invitation');
     }
 
     /**
@@ -55,7 +57,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
      */
     public function getHistoryCollection()
     {
-        return Mage::getModel('Magento_Invitation_Model_Invitation_History')
+        return \Mage::getModel('\Magento\Invitation\Model\Invitation\History')
             ->getCollection()
             ->addFieldToFilter('invitation_id', $this->getInvitation()->getId())
             ->addOrder('history_id');
@@ -72,7 +74,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     public function formatDate($date=null, $format='short', $showTime=false)
     {
         if (is_string($date)) {
-            $date = Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $date = \Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatDate($date, $format, $showTime);
@@ -89,7 +91,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     public function formatTime($date=null, $format='short', $showDate=false)
     {
         if (is_string($date)) {
-            $date = Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $date = \Mage::app()->getLocale()->date($date, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
         return parent::formatTime($date, $format, $showDate);

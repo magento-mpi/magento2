@@ -42,7 +42,7 @@ $linksData = array(
     ),
 );
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->setData($productData)
     ->setStoreId(0)
     ->setDownloadableData(array('link' => $linksData))

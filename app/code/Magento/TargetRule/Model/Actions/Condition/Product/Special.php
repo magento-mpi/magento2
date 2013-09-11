@@ -15,19 +15,21 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Magento_TargetRule_Model_Actions_Condition_Product_Special
-    extends Magento_Rule_Model_Condition_Product_Abstract
+namespace Magento\TargetRule\Model\Actions\Condition\Product;
+
+class Special
+    extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
      * Set condition type and value
      *
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_TargetRule_Model_Actions_Condition_Product_Special');
+        $this->setType('\Magento\TargetRule\Model\Actions\Condition\Product\Special');
         $this->setValue(null);
     }
 
@@ -40,7 +42,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Special
     {
         $conditions = array(
             array(
-                'value' => 'Magento_TargetRule_Model_Actions_Condition_Product_Special_Price',
+                'value' => '\Magento\TargetRule\Model\Actions\Condition\Product\Special\Price',
                 'label' => __('Price (percentage)')
             )
         );

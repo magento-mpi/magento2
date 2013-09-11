@@ -16,6 +16,6 @@ class Magento_Test_Integrity_Magento_Sales_TotalDeclarationTest extends PHPUnit_
                 'after'  => empty($row['after']) ? array() : explode(',', $row['after']),
             );
         }
-        Magento_Sales_Model_Config_Ordered::validateCollectorDeclarations($config);
+        \Magento\Sales\Model\Config\Ordered::validateCollectorDeclarations($config);
     }
 }

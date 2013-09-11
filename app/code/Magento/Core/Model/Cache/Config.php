@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Cache_Config
+namespace Magento\Core\Model\Cache;
+
+class Config
 {
     /**
-     * @var Magento_Core_Model_Cache_Config_Data
+     * @var \Magento\Core\Model\Cache\Config\Data
      */
     protected $_dataStorage;
 
     /**
-     * @param Magento_Core_Model_Cache_Config_Data $dataStorage
+     * @param \Magento\Core\Model\Cache\Config\Data $dataStorage
      */
-    public function __construct(Magento_Core_Model_Cache_Config_Data $dataStorage)
+    public function __construct(\Magento\Core\Model\Cache\Config\Data $dataStorage)
     {
         $this->_dataStorage = $dataStorage;
     }

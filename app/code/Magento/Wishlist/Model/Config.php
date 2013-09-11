@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Wishlist_Model_Config
+namespace Magento\Wishlist\Model;
+
+class Config
 {
     const XML_PATH_PRODUCT_ATTRIBUTES = 'global/wishlist/item/product_attributes';
     const XML_PATH_SHARING_EMAIL_LIMIT = 'wishlist/email/number_limit';
@@ -30,9 +32,9 @@ class Magento_Wishlist_Model_Config
     protected $_sharingTextLimit;
 
     /**
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      */
-    public function __construct(Magento_Core_Model_Store_Config $storeConfig)
+    public function __construct(\Magento\Core\Model\Store\Config $storeConfig)
     {
         $emailLimitInConfig = (int) $storeConfig->getConfig(self::XML_PATH_SHARING_EMAIL_LIMIT);
         $textLimitInConfig = (int) $storeConfig->getConfig(self::XML_PATH_SHARING_TEXT_LIMIT);
@@ -48,8 +50,8 @@ class Magento_Wishlist_Model_Config
      */
     public function getProductAttributes()
     {
-        $attrsForCatalog  = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-        $attrsForWishlist = Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_ATTRIBUTES)->asArray();
+        $attrsForCatalog  = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+        $attrsForWishlist = \Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_ATTRIBUTES)->asArray();
 
         return array_merge($attrsForCatalog, array_keys($attrsForWishlist));
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Event_Collection
+ * \Magento\Webhook\Model\Resource\Event\Collection
  *
  * {license_notice}
  *
@@ -17,7 +17,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
             ->disableOriginalConstructor()
             ->setMethods(array('_connect', '_quote'))
             ->getMockForAbstractClass();
-        $mockResourceEvent = $this->getMockBuilder('Magento_Webhook_Model_Resource_Event')
+        $mockResourceEvent = $this->getMockBuilder('Magento\Webhook\Model\Resource\Event')
             ->disableOriginalConstructor()
             ->getMock();
         $mockResourceEvent->expects($this->any())
@@ -27,7 +27,7 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
         $mockObjectManager = $this->_setMageObjectManager();
         $mockObjectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento_Webhook_Model_Resource_Event'))
+            ->with($this->equalTo('Magento\Webhook\Model\Resource\Event'))
             ->will($this->returnValue($mockResourceEvent));
     }
 
@@ -42,10 +42,10 @@ class Magento_Webhook_Model_Resource_Event_CollectionTest extends PHPUnit_Framew
         $mockFetchStrategy = $this->getMockBuilder('Magento\Data\Collection\Db\FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $collection = new Magento_Webhook_Model_Resource_Event_Collection($mockFetchStrategy);
-        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Event_Collection', $collection);
-        $this->assertEquals('Magento_Webhook_Model_Resource_Event', $collection->getResourceModelName());
-        $this->assertEquals('Magento_Webhook_Model_Event', $collection->getModelName());
+        $collection = new \Magento\Webhook\Model\Resource\Event\Collection($mockFetchStrategy);
+        $this->assertInstanceOf('\Magento\Webhook\Model\Resource\Event\Collection', $collection);
+        $this->assertEquals('\Magento\Webhook\Model\Resource\Event', $collection->getResourceModelName());
+        $this->assertEquals('\Magento\Webhook\Model\Event', $collection->getModelName());
     }
 
     /**

@@ -15,17 +15,19 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Observer
+namespace Magento\Search\Model;
+
+class Observer
 {
     /**
      * Add search weight field to attribute edit form (only for quick search)
-     * @see Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+     * @see \Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Main
      *
      * @param \Magento\Event\Observer $observer
      */
     public function eavAttributeEditFormInit(\Magento\Event\Observer $observer)
     {
-        if (!Mage::helper('Magento_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!\Mage::helper('Magento\Search\Helper\Data')->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -36,7 +38,7 @@ class Magento_Search_Model_Observer
         $fieldset->addField('search_weight', 'select', array(
             'name'        => 'search_weight',
             'label'       => __('Search Weight'),
-            'values'      => Mage::getModel('Magento_Search_Model_Source_Weight')->getOptions(),
+            'values'      => \Mage::getModel('\Magento\Search\Model\Source\Weight')->getOptions(),
         ), 'is_searchable');
         /**
          * Disable default search fields
@@ -65,7 +67,7 @@ class Magento_Search_Model_Observer
             $relatedQueries = explode('&', $relatedQueries);
         }
 
-        Mage::getResourceModel('Magento_Search_Model_Resource_Recommendations')
+        \Mage::getResourceModel('\Magento\Search\Model\Resource\Recommendations')
             ->saveRelatedQueries($queryId, $relatedQueries);
     }
 
@@ -78,14 +80,14 @@ class Magento_Search_Model_Observer
      */
     public function customerGroupSaveAfter(\Magento\Event\Observer $observer)
     {
-        if (!Mage::helper('Magento_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!\Mage::helper('Magento\Search\Helper\Data')->isThirdPartyEngineAvailable()) {
             return;
         }
 
         $object = $observer->getEvent()->getDataObject();
         if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
-            Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext')
-                ->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode('catalogsearch_fulltext')
+                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
     }
 
@@ -96,11 +98,11 @@ class Magento_Search_Model_Observer
      */
     public function holdCommit(\Magento\Event\Observer $observer)
     {
-        if (!Mage::helper('Magento_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!\Mage::helper('Magento\Search\Helper\Data')->isThirdPartyEngineAvailable()) {
             return;
         }
 
-        $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
+        $engine = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getEngine();
         if (!$engine->holdCommit()) {
             return;
         }
@@ -123,11 +125,11 @@ class Magento_Search_Model_Observer
      */
     public function applyIndexChanges(\Magento\Event\Observer $observer)
     {
-        if (!Mage::helper('Magento_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!\Mage::helper('Magento\Search\Helper\Data')->isThirdPartyEngineAvailable()) {
             return;
         }
 
-        $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
+        $engine = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getEngine();
         if (!$engine->allowCommit()) {
             return;
         }
@@ -141,8 +143,8 @@ class Magento_Search_Model_Observer
         /**
          * Cleaning MAXPRICE cache
          */
-        $cacheTag = Mage::getSingleton('Magento_Search_Model_Catalog_Layer_Filter_Price')->getCacheTag();
-        Mage::app()->cleanCache(array($cacheTag));
+        $cacheTag = \Mage::getSingleton('Magento\Search\Model\Catalog\Layer\Filter\Price')->getCacheTag();
+        \Mage::app()->cleanCache(array($cacheTag));
     }
 
     /**
@@ -154,7 +156,7 @@ class Magento_Search_Model_Observer
     {
         $engine     = $observer->getEvent()->getEngine();
         $attributes = $observer->getEvent()->getAttributes();
-        if (!$engine || !$attributes || !Mage::helper('Magento_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!$engine || !$attributes || !\Mage::helper('Magento\Search\Helper\Data')->isThirdPartyEngineAvailable()) {
             return;
         }
 
@@ -163,7 +165,7 @@ class Magento_Search_Model_Observer
                 continue;
             }
 
-            $optionCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $optionCollection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
                 ->setAttributeFilter($attribute->getAttributeId())
                 ->setPositionOrder(\Magento\DB\Select::SQL_ASC, true)
                 ->load();
@@ -199,23 +201,23 @@ class Magento_Search_Model_Observer
      */
     public function clearIndexForStores(\Magento\Event\Observer $observer)
     {
-        if (!Mage::helper('Magento_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!\Mage::helper('Magento\Search\Helper\Data')->isThirdPartyEngineAvailable()) {
             return;
         }
 
         $object = $observer->getEvent()->getDataObject();
-        if ($object instanceof Magento_Core_Model_Website
-            || $object instanceof Magento_Core_Model_Store_Group
+        if ($object instanceof \Magento\Core\Model\Website
+            || $object instanceof \Magento\Core\Model\Store\Group
         ) {
             $storeIds = $object->getStoreIds();
-        } elseif ($object instanceof Magento_Core_Model_Store) {
+        } elseif ($object instanceof \Magento\Core\Model\Store) {
             $storeIds = $object->getId();
         } else {
             $storeIds = array();
         }
 
         if (!empty($storeIds)) {
-            $engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
+            $engine = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getEngine();
             $engine->cleanIndex($storeIds);
         }
     }
@@ -227,8 +229,8 @@ class Magento_Search_Model_Observer
      */
     public function resetCurrentCatalogLayer(\Magento\Event\Observer $observer)
     {
-        if (Mage::helper('Magento_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
-            Mage::register('current_layer', Mage::getSingleton('Magento_Search_Model_Catalog_Layer'));
+        if (\Mage::helper('Magento\Search\Helper\Data')->getIsEngineAvailableForNavigation()) {
+            \Mage::register('current_layer', \Mage::getSingleton('Magento\Search\Model\Catalog\Layer'));
         }
     }
 
@@ -239,8 +241,8 @@ class Magento_Search_Model_Observer
      */
     public function resetCurrentSearchLayer(\Magento\Event\Observer $observer)
     {
-        if (Mage::helper('Magento_Search_Helper_Data')->getIsEngineAvailableForNavigation(false)) {
-            Mage::register('current_layer', Mage::getSingleton('Magento_Search_Model_Search_Layer'));
+        if (\Mage::helper('Magento\Search\Helper\Data')->getIsEngineAvailableForNavigation(false)) {
+            \Mage::register('current_layer', \Mage::getSingleton('Magento\Search\Model\Search\Layer'));
         }
     }
 
@@ -251,20 +253,20 @@ class Magento_Search_Model_Observer
      */
     public function runFulltextReindexAfterPriceReindex(\Magento\Event\Observer $observer)
     {
-        if (!Mage::helper('Magento_Search_Helper_Data')->isThirdPartyEngineAvailable()) {
+        if (!\Mage::helper('Magento\Search\Helper\Data')->isThirdPartyEngineAvailable()) {
             return;
         }
 
-        /* @var Magento_Search_Model_Indexer_Indexer $indexer */
-        $indexer = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
+        /* @var \Magento\Search\Model\Indexer\Indexer $indexer */
+        $indexer = \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode('catalogsearch_fulltext');
         if (empty($indexer)) {
             return;
         }
 
-        if ('process' == strtolower(Mage::app()->getRequest()->getControllerName())) {
+        if ('process' == strtolower(\Mage::app()->getRequest()->getControllerName())) {
             $indexer->reindexAll();
         } else {
-            $indexer->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            $indexer->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
     }
 }

@@ -16,12 +16,12 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
- abstract class Magento_Adminhtml_Helper_Dashboard_Abstract extends Magento_Core_Helper_Data
+ abstract class Magento_Adminhtml_Helper_Dashboard_Abstract extends \Magento\Core\Helper\Data
  {
         /**
          * Helper collection
          *
-         * @var Magento_Core_Model_Mysql_Collection_Abstract|Magento_Eav_Model_Entity_Collection_Abstract|array
+         * @var Magento_Core_Model_Mysql_Collection_Abstract|\Magento\Eav\Model\Entity\Collection\AbstractCollection|array
          */
         protected  $_collection;
 

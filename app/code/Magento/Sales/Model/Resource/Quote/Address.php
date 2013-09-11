@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Address extends Magento_Sales_Model_Resource_Abstract
+namespace Magento\Sales\Model\Resource\Quote;
+
+class Address extends \Magento\Sales\Model\Resource\AbstractResource
 {
     /**
      * Main table and field initialization

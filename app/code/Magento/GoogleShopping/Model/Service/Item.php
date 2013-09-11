@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_Model_Service
+namespace Magento\GoogleShopping\Model\Service;
+
+class Item extends \Magento\GoogleShopping\Model\Service
 {
     /**
      * Return Store level Service Instance
@@ -34,8 +36,8 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Insert Item into Google Content
      *
-     * @param Magento_GoogleShopping_Model_Item $item
-     * @return Magento_GoogleShopping_Model_Service_Item
+     * @param \Magento\GoogleShopping\Model\Item $item
+     * @return \Magento\GoogleShopping\Model\Service\Item
      */
     public function insert($item)
     {
@@ -61,8 +63,8 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Update Item data in Google Content
      *
-     * @param Magento_GoogleShopping_Model_Item $item
-     * @return Magento_GoogleShopping_Model_Service_Item
+     * @param \Magento\GoogleShopping\Model\Item $item
+     * @return \Magento\GoogleShopping\Model\Service\Item
      */
     public function update($item)
     {
@@ -83,8 +85,8 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Delete Item from Google Content
      *
-     * @param Magento_GoogleShopping_Model_Item $item
-     * @return Magento_GoogleShopping_Model_Service_Item
+     * @param \Magento\GoogleShopping\Model\Item $item
+     * @return \Magento\GoogleShopping\Model\Service\Item
      */
     public function delete($item)
     {
@@ -104,7 +106,7 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
      */
     public function convertContentDateToTimestamp($gContentDate)
     {
-        return Mage::getSingleton('Magento_Core_Model_Date')->date(null, $gContentDate);
+        return \Mage::getSingleton('Magento\Core\Model\Date')->date(null, $gContentDate);
     }
 
     /**
@@ -125,7 +127,7 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
     /**
      * Retrieve item query for Google Content
      *
-     * @param Magento_GoogleShopping_Model_Item $item
+     * @param \Magento\GoogleShopping\Model\Item $item
      * @return \Magento\Gdata\Gshopping\ItemQuery
      */
     protected function _buildItemQuery($item)
@@ -134,7 +136,7 @@ class Magento_GoogleShopping_Model_Service_Item extends Magento_GoogleShopping_M
         $service = $this->getService($storeId);
 
         $countryInfo = $this->getConfig()->getTargetCountryInfo($storeId);
-        $itemId = Mage::helper('Magento_GoogleShopping_Helper_Data')->buildContentProductId($item->getProductId(), $item->getStoreId());
+        $itemId = \Mage::helper('Magento\GoogleShopping\Helper\Data')->buildContentProductId($item->getProductId(), $item->getStoreId());
 
         $query = $service->newItemQuery()
             ->setId($itemId)

@@ -17,7 +17,7 @@
 class Magento_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Resource_Import_Data
+     * @var \Magento\ImportExport\Model\Resource\Import\Data
      */
     protected $_model;
 
@@ -25,7 +25,7 @@ class Magento_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framew
     {
         parent::setUp();
 
-        $this->_model = Mage::getResourceModel('Magento_ImportExport_Model_Resource_Import_Data');
+        $this->_model = Mage::getResourceModel('\Magento\ImportExport\Model\Resource\Import\Data');
     }
 
     /**
@@ -41,7 +41,7 @@ class Magento_ImportExport_Model_Resource_Import_DataTest extends PHPUnit_Framew
     /**
      * Test getUniqueColumnData() in case when in data stored in requested column is NOT unique
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetUniqueColumnDataException()
     {

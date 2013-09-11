@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_SalesRule_Model_Resource_Rule_Quote_Collection extends Magento_SalesRule_Model_Resource_Rule_Collection
+namespace Magento\SalesRule\Model\Resource\Rule\Quote;
+
+class Collection extends \Magento\SalesRule\Model\Resource\Rule\Collection
 {
     /**
      * Add websites for load

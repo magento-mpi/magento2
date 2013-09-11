@@ -12,30 +12,30 @@
 class Magento_Sales_Block_Order_Invoice_ItemsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Sales_Block_Order_Invoice_Items
+     * @var \Magento\Sales\Block\Order\Invoice\Items
      */
     protected $_block;
 
     /**
-     * @var Magento_Sales_Model_Order_Invoice
+     * @var \Magento\Sales\Model\Order\Invoice
      */
     protected $_invoice;
 
     public function setUp()
     {
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Magento_Sales_Block_Order_Invoice_Items', 'block');
-        $this->_invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice');
+        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('\Magento\Sales\Block\Order\Invoice\Items', 'block');
+        $this->_invoice = Mage::getModel('\Magento\Sales\Model\Order\Invoice');
     }
 
     public function testGetInvoiceTotalsHtml()
     {
-        $childBlock = $this->_layout->addBlock('Magento_Core_Block_Text', 'invoice_totals', 'block');
+        $childBlock = $this->_layout->addBlock('\Magento\Core\Block\Text', 'invoice_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
         $this->assertEmpty($childBlock->getInvoice());
@@ -49,7 +49,7 @@ class Magento_Sales_Block_Order_Invoice_ItemsTest extends PHPUnit_Framework_Test
 
     public function testGetInvoiceCommentsHtml()
     {
-        $childBlock = $this->_layout->addBlock('Magento_Core_Block_Text', 'invoice_comments', 'block');
+        $childBlock = $this->_layout->addBlock('\Magento\Core\Block\Text', 'invoice_comments', 'block');
 
         $expectedHtml = '<b>Any html</b>';
         $this->assertEmpty($childBlock->getEntity());

@@ -15,13 +15,15 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Type_Grouped_Price extends Magento_Catalog_Model_Product_Type_Price
+namespace Magento\Catalog\Model\Product\Type\Grouped;
+
+class Price extends \Magento\Catalog\Model\Product\Type\Price
 {
     /**
      * Returns product final price depending on options chosen
      *
      * @param   double $qty
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  double
      */
     public function getFinalPrice($qty=null, $product)
@@ -32,12 +34,12 @@ class Magento_Catalog_Model_Product_Type_Grouped_Price extends Magento_Catalog_M
 
         $finalPrice = parent::getFinalPrice($qty, $product);
         if ($product->hasCustomOptions()) {
-            /* @var $typeInstance Magento_Catalog_Model_Product_Type_Grouped */
+            /* @var $typeInstance \Magento\Catalog\Model\Product\Type\Grouped */
             $typeInstance = $product->getTypeInstance();
             $associatedProducts = $typeInstance->setStoreFilter($product->getStore(), $product)
                 ->getAssociatedProducts($product);
             foreach ($associatedProducts as $childProduct) {
-                /* @var $childProduct Magento_Catalog_Model_Product */
+                /* @var $childProduct \Magento\Catalog\Model\Product */
                 $option = $product->getCustomOption('associated_product_' . $childProduct->getId());
                 if (!$option) {
                     continue;
@@ -51,7 +53,7 @@ class Magento_Catalog_Model_Product_Type_Grouped_Price extends Magento_Catalog_M
         }
 
         $product->setFinalPrice($finalPrice);
-        Mage::dispatchEvent('catalog_product_type_grouped_price', array('product' => $product));
+        \Mage::dispatchEvent('catalog_product_type_grouped_price', array('product' => $product));
 
         return max(0, $product->getData('final_price'));
     }

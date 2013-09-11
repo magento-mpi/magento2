@@ -10,7 +10,7 @@
  */
 class Magento_Catalog_Model_Product_Api_Attribute_TierPriceTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Catalog_Model_Product */
+    /** @var \Magento\Catalog\Model\Product */
     protected $_product;
 
     /**
@@ -19,7 +19,7 @@ class Magento_Catalog_Model_Product_Api_Attribute_TierPriceTest extends PHPUnit_
     protected function setUp()
     {
         $productData = require realpath(dirname(__FILE__) . '/../_files/ProductData.php');
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
 
         $product->setData($productData['create_full_fledged']);
         $product->save();
@@ -41,12 +41,12 @@ class Magento_Catalog_Model_Product_Api_Attribute_TierPriceTest extends PHPUnit_
                 'productId' => $this->_product->getId(),
                 'tierPrices' => array(
                     (object)array(
-                        'customer_group_id' => Magento_Customer_Model_Group::CUST_GROUP_ALL,
+                        'customer_group_id' => \Magento\Customer\Model\Group::CUST_GROUP_ALL,
                         'qty' => 3,
                         'price' => 0.88,
                     ),
                     (object)array(
-                        'customer_group_id' => Magento_Customer_Model_Group::CUST_GROUP_ALL,
+                        'customer_group_id' => \Magento\Customer\Model\Group::CUST_GROUP_ALL,
                         'qty' => 5,
                         'price' => 0.77,
                     )

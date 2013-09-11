@@ -12,7 +12,7 @@
 class Magento_Core_Model_Locale_Hierarchy_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Locale_Hierarchy_Config_Converter
+     * @var \Magento\Core\Model\Locale\Hierarchy\Config\Converter
      */
     protected $_model;
 
@@ -23,7 +23,7 @@ class Magento_Core_Model_Locale_Hierarchy_Config_ConverterTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_model = new Magento_Core_Model_Locale_Hierarchy_Config_Converter();
+        $this->_model = new \Magento\Core\Model\Locale\Hierarchy\Config\Converter();
     }
 
     /**

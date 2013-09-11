@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Event_QueueWriter
+ * \Magento\Webhook\Model\Event\QueueWriter
  *
  * {license_notice}
  *
@@ -11,23 +11,23 @@
  */
 class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webhook_Model_Event_QueueWriter */
+    /** @var \Magento\Webhook\Model\Event\QueueWriter */
     protected $_eventQueue;
 
-    /** @var Magento_Webhook_Model_Event_Factory  */
+    /** @var \Magento\Webhook\Model\Event\Factory  */
     protected $_eventFactory;
 
     public function setUp()
     {
-        $this->_eventFactory = $this->_mockCollection = $this->getMockBuilder('Magento_Webhook_Model_Event_Factory')
+        $this->_eventFactory = $this->_mockCollection = $this->getMockBuilder('Magento\Webhook\Model\Event\Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_eventQueue = new Magento_Webhook_Model_Event_QueueWriter($this->_eventFactory);
+        $this->_eventQueue = new \Magento\Webhook\Model\Event\QueueWriter($this->_eventFactory);
     }
 
     public function testOfferMagentoEvent()
     {
-        $magentoEvent = $this->_mockCollection = $this->getMockBuilder('Magento_Webhook_Model_Event')
+        $magentoEvent = $this->_mockCollection = $this->getMockBuilder('Magento\Webhook\Model\Event')
             ->disableOriginalConstructor()
             ->getMock();
         $magentoEvent->expects($this->once())
@@ -38,7 +38,7 @@ class Magento_Webhook_Model_Event_QueueWriterTest extends PHPUnit_Framework_Test
 
     public function testOfferNonMagentoEvent()
     {
-        $magentoEvent = $this->getMockBuilder('Magento_Webhook_Model_Event')
+        $magentoEvent = $this->getMockBuilder('Magento\Webhook\Model\Event')
             ->disableOriginalConstructor()
             ->getMock();
         $magentoEvent->expects($this->once())

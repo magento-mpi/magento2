@@ -15,9 +15,11 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
-    extends Magento_Adminhtml_Block_Widget_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Sales\Order\View\Tab;
+
+class Creditmemos
+    extends \Magento\Adminhtml\Block\Widget\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected function _construct()
     {
@@ -33,13 +35,13 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_Sales_Model_Resource_Order_Creditmemo_Grid_Collection';
+        return '\Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Collection';
     }
 
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel($this->_getCollectionClass())
+        $collection = \Mage::getResourceModel($this->_getCollectionClass())
             ->addFieldToSelect('entity_id')
             ->addFieldToSelect('created_at')
             ->addFieldToSelect('increment_id')
@@ -84,7 +86,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
             'header'    => __('Status'),
             'index'     => 'state',
             'type'      => 'options',
-            'options'   => Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->getStates(),
+            'options'   => \Mage::getModel('\Magento\Sales\Model\Order\Creditmemo')->getStates(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
@@ -104,11 +106,11 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
     /**
      * Retrieve order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     public function getRowUrl($row)

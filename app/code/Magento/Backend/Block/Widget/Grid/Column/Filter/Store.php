@@ -16,8 +16,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Filter_Store
-    extends Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
+
+class Store
+    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
 
     /**
@@ -27,8 +29,8 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Store
      */
     public function getHtml()
     {
-        $storeModel = Mage::getSingleton('Magento_Core_Model_System_Store');
-        /* @var $storeModel Magento_Core_Model_System_Store */
+        $storeModel = \Mage::getSingleton('Magento\Core\Model\System\Store');
+        /* @var $storeModel \Magento\Core\Model\System\Store */
         $websiteCollection = $storeModel->getWebsiteCollection();
         $groupCollection = $storeModel->getGroupCollection();
         $storeCollection = $storeModel->getStoreCollection();

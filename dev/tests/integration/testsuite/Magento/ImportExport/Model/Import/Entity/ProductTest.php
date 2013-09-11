@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Import_Entity_Product
+ * Test class for \Magento\ImportExport\Model\Import\Entity\Product
  *
  * The "CouplingBetweenObjects" warning is caused by tremendous complexity of the original class
  *
@@ -19,13 +19,13 @@
 class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Import_Entity_Product
+     * @var \Magento\ImportExport\Model\Import\Entity\Product
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento_ImportExport_Model_Import_Entity_Product');
+        $this->_model = Mage::getModel('\Magento\ImportExport\Model\Import\Entity\Product');
     }
 
     /**
@@ -57,23 +57,23 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $existingProductIds = array(10, 11, 12);
         $productsBeforeImport = array();
         foreach ($existingProductIds as $productId) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product');
+            $product = Mage::getModel('\Magento\Catalog\Model\Product');
             $product->load($productId);
             $productsBeforeImport[] = $product;
         }
 
-        $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/products_to_import.csv');
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/products_to_import.csv');
         $this->_model->setParameters(array(
-            'behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_REPLACE,
+            'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
         ))->setSource($source)->isDataValid();
 
         $this->_model->importData();
 
-        /** @var $productBeforeImport Magento_Catalog_Model_Product */
+        /** @var $productBeforeImport \Magento\Catalog\Model\Product */
         foreach ($productsBeforeImport as $productBeforeImport) {
-            /** @var $productAfterImport Magento_Catalog_Model_Product */
-            $productAfterImport = Mage::getModel('Magento_Catalog_Model_Product');
+            /** @var $productAfterImport \Magento\Catalog\Model\Product */
+            $productAfterImport = Mage::getModel('\Magento\Catalog\Model\Product');
             $productAfterImport->load($productBeforeImport->getId());
 
             $this->assertEquals(
@@ -96,24 +96,24 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $existingProductIds = array(10, 11, 12);
         $stockItems = array();
         foreach ($existingProductIds as $productId) {
-            $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+            $stockItem = Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
             $stockItem->loadByProduct($productId);
             $stockItems[$productId] = $stockItem;
         }
 
-        $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/_files/products_to_import.csv');
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/products_to_import.csv');
         $this->_model->setParameters(array(
-            'behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_REPLACE,
+            'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
         ))->setSource($source)->isDataValid();
 
         $this->_model->importData();
 
-        /** @var $stockItmBeforeImport Magento_CatalogInventory_Model_Stock_Item */
+        /** @var $stockItmBeforeImport \Magento\CatalogInventory\Model\Stock\Item */
         foreach ($stockItems as $productId => $stockItmBeforeImport) {
 
-            /** @var $stockItemAfterImport Magento_CatalogInventory_Model_Stock_Item */
-            $stockItemAfterImport = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+            /** @var $stockItemAfterImport \Magento\CatalogInventory\Model\Stock\Item */
+            $stockItemAfterImport = Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
             $stockItemAfterImport->loadByProduct($productId);
 
             $this->assertEquals(
@@ -133,19 +133,19 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
      *
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @dataProvider getBehaviorDataProvider
-     * @covers Magento_ImportExport_Model_Import_Entity_Product::_saveCustomOptions
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product::_saveCustomOptions
      */
     public function testSaveCustomOptionsDuplicate($behavior)
     {
         // import data from CSV file
         $pathToFile = __DIR__ . '/_files/product_with_custom_options.csv';
-        $source = new Magento_ImportExport_Model_Import_Source_Csv($pathToFile);
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile);
         $this->_model->setSource($source)
             ->setParameters(array('behavior' => $behavior))
             ->isDataValid();
         $this->_model->importData();
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1); // product from fixture
         $options = $product->getProductOptionsCollection();
 
@@ -192,16 +192,16 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
         $productsBeforeImport = array();
         foreach ($existingProductIds as $productId) {
             $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Catalog_Model_Product');
+                ->create('Magento\Catalog\Model\Product');
             $product->load($productId);
             $productsBeforeImport[$product->getSku()] = $product;
         }
 
-        $source = new Magento_ImportExport_Model_Import_Source_Csv(
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import_with_datetime.csv'
         );
         $this->_model->setParameters(array(
-            'behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_REPLACE,
+            'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
             'entity' => 'catalog_product'
         ))->setSource($source)->isDataValid();
 
@@ -209,12 +209,12 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
 
         reset($source);
         foreach ($source as $row) {
-            /** @var $productAfterImport Magento_Catalog_Model_Product */
+            /** @var $productAfterImport \Magento\Catalog\Model\Product */
             $productBeforeImport = $productsBeforeImport[$row['sku']];
 
-            /** @var $productAfterImport Magento_Catalog_Model_Product */
+            /** @var $productAfterImport \Magento\Catalog\Model\Product */
             $productAfterImport = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Catalog_Model_Product');
+                ->create('Magento\Catalog\Model\Product');
             $productAfterImport->load($productBeforeImport->getId());
             $this->assertEquals(
                 @strtotime($row['news_from_date']),
@@ -253,7 +253,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
             if (!empty($data['_custom_option_row_title']) && empty($data['_custom_option_store'])) {
                 $optionData = array();
                 foreach ($this->_assertOptionValues as $assertKey) {
-                    $valueKey = Magento_ImportExport_Model_Import_Entity_Product_Option::COLUMN_PREFIX
+                    $valueKey = \Magento\ImportExport\Model\Import\Entity\Product\Option::COLUMN_PREFIX
                         . 'row_' . $assertKey;
                     $optionData[$assertKey] = $data[$valueKey];
                 }
@@ -273,11 +273,11 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
      * Updates expected options data array with existing unique options data
      *
      * @param array $expected
-     * @param Magento_Catalog_Model_Resource_Product_Option_Collection $options
+     * @param \Magento\Catalog\Model\Resource\Product\Option\Collection $options
      * @return array
      */
     protected function _mergeWithExistingData(array $expected,
-        Magento_Catalog_Model_Resource_Product_Option_Collection $options
+        \Magento\Catalog\Model\Resource\Product\Option\Collection $options
     ) {
         $expectedOptionId = $expected['id'];
         $expectedOptions = $expected['options'];
@@ -306,16 +306,16 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
     /**
      *  Returns actual product data: current id, options, options data and option values
      *
-     * @param Magento_Catalog_Model_Resource_Product_Option_Collection $options
+     * @param \Magento\Catalog\Model\Resource\Product\Option\Collection $options
      * @return array
      */
-    protected function _getActualOptionsData(Magento_Catalog_Model_Resource_Product_Option_Collection $options)
+    protected function _getActualOptionsData(\Magento\Catalog\Model\Resource\Product\Option\Collection $options)
     {
         $actualOptionId = 0;
         $actualOptions = array();  // array of type and title types, key is element ID
         $actualData = array();     // array of option data
         $actualValues = array();   // array of option values data
-        /** @var $option Magento_Catalog_Model_Product_Option */
+        /** @var $option \Magento\Catalog\Model\Product\Option */
         foreach ($options->getItems() as $option) {
             $lastOptionKey = $option->getType() . '|' . $option->getTitle();
             $actualOptionId++;
@@ -336,10 +336,10 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
     /**
      * Retrieve option data
      *
-     * @param Magento_Catalog_Model_Product_Option $option
+     * @param \Magento\Catalog\Model\Product\Option $option
      * @return array
      */
-    protected function _getOptionData(Magento_Catalog_Model_Product_Option $option)
+    protected function _getOptionData(\Magento\Catalog\Model\Product\Option $option)
     {
         $result = array();
         foreach (array_keys($this->_assertOptions) as $assertKey) {
@@ -351,15 +351,15 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
     /**
      * Retrieve option values or false for options which has no values
      *
-     * @param Magento_Catalog_Model_Product_Option $option
+     * @param \Magento\Catalog\Model\Product\Option $option
      * @return array|bool
      */
-    protected function _getOptionValues(Magento_Catalog_Model_Product_Option $option)
+    protected function _getOptionValues(\Magento\Catalog\Model\Product\Option $option)
     {
         $values = $option->getValues();
         if (!empty($values)) {
             $result = array();
-            /** @var $value Magento_Catalog_Model_Product_Option_Value */
+            /** @var $value \Magento\Catalog\Model\Product\Option\Value */
             foreach ($values as $value) {
                 $optionData = array();
                 foreach ($this->_assertOptionValues as $assertKey) {
@@ -384,10 +384,10 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
     {
         return array(
             'Append behavior' => array(
-                '$behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND
+                '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
             ),
             'Replace behavior' => array(
-                '$behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_REPLACE
+                '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE
             )
         );
     }
@@ -398,7 +398,7 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
      */
     public function testSaveMediaImage()
     {
-        $attribute = Mage::getModel('Magento_Catalog_Model_Entity_Attribute');
+        $attribute = Mage::getModel('\Magento\Catalog\Model\Entity\Attribute');
         $attribute->loadByCode('catalog_product', 'media_gallery');
         $data = implode(',', array(
             // minimum required set of attributes + media images
@@ -407,27 +407,27 @@ class Magento_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Frame
             '_media_attribute_id', '_media_image', '_media_label', '_media_position', '_media_is_disabled'
         )) . "\n";
         $data .= implode(',', array(
-            'test_sku', 'Default', Magento_Catalog_Model_Product_Type::DEFAULT_TYPE, 'base', 'Product Name', '9.99',
+            'test_sku', 'Default', \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE, 'base', 'Product Name', '9.99',
             'Product description', 'Short desc.', '1',
-            Magento_Catalog_Model_Product_Status::STATUS_ENABLED,
-            Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH, 0,
+            \Magento\Catalog\Model\Product\Status::STATUS_ENABLED,
+            \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH, 0,
             $attribute->getId(), 'magento_image.jpg', 'Image Label', '1', '0'
         )) . "\n";
         $data = 'data://text/plain;base64,' . base64_encode($data);
-        $fixture = new Magento_ImportExport_Model_Import_Source_Csv($data);
+        $fixture = new \Magento\ImportExport\Model\Import\Source\Csv($data);
 
-        foreach (Mage::getModel('Magento_Catalog_Model_Resource_Product_Collection') as $product) {
+        foreach (Mage::getModel('\Magento\Catalog\Model\Resource\Product\Collection') as $product) {
             $this->fail("Unexpected precondition - product exists: '{$product->getId()}'.");
         }
 
         $this->_model->setSource($fixture)
-            ->setParameters(array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND))
+            ->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND))
             ->isDataValid();
         $this->_model->importData();
 
-        $resource = new Magento_Catalog_Model_Resource_Product;
+        $resource = new \Magento\Catalog\Model\Resource\Product;
         $productId = $resource->getIdBySku('test_sku'); // fixture
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load($productId);
         $gallery = $product->getMediaGalleryImages();
         $this->assertInstanceOf('\Magento\Data\Collection', $gallery);

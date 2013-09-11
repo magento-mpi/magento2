@@ -15,15 +15,17 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Processor
+namespace Magento\Core\Model\Layout\Argument;
+
+class Processor
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_HandlerFactory
+     * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
      */
     protected $_handlerFactory;
 
     /**
-     * @var Magento_Core_Model_Layout_Argument_Updater
+     * @var \Magento\Core\Model\Layout\Argument\Updater
      */
     protected $_argumentUpdater;
 
@@ -35,12 +37,12 @@ class Magento_Core_Model_Layout_Argument_Processor
     protected $_argumentHandlers = array();
 
     /**
-     * @param Magento_Core_Model_Layout_Argument_Updater $argumentUpdater
-     * @param Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+     * @param \Magento\Core\Model\Layout\Argument\Updater $argumentUpdater
+     * @param \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory
      */
     public function __construct(
-        Magento_Core_Model_Layout_Argument_Updater $argumentUpdater,
-        Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+        \Magento\Core\Model\Layout\Argument\Updater $argumentUpdater,
+        \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory
     ) {
         $this->_handlerFactory  = $handlerFactory;
         $this->_argumentUpdater = $argumentUpdater;
@@ -49,7 +51,7 @@ class Magento_Core_Model_Layout_Argument_Processor
     /**
      * Process given arguments, prepare arguments of custom type.
      * @param array $arguments
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return array
      */
     public function process(array $arguments)
@@ -60,7 +62,7 @@ class Magento_Core_Model_Layout_Argument_Processor
 
             if (!in_array($argumentValue['type'], array('string', 'array', 'helper'))) {
                 if (!isset($value) && $argumentValue['type'] !== 'url') {
-                    throw new InvalidArgumentException('Argument value is required for type ' . $argumentValue['type']);
+                    throw new \InvalidArgumentException('Argument value is required for type ' . $argumentValue['type']);
                 }
 
                 $handler = $this->_getArgumentHandler($argumentValue['type']);
@@ -79,8 +81,8 @@ class Magento_Core_Model_Layout_Argument_Processor
      * Get argument handler by type
      *
      * @param string $type
-     * @throws InvalidArgumentException
-     * @return Magento_Core_Model_Layout_Argument_HandlerInterface
+     * @throws \InvalidArgumentException
+     * @return \Magento\Core\Model\Layout\Argument\HandlerInterface
      */
     protected function _getArgumentHandler($type)
     {
@@ -88,12 +90,12 @@ class Magento_Core_Model_Layout_Argument_Processor
             return $this->_argumentHandlers[$type];
         }
 
-        /** @var $handler Magento_Core_Model_Layout_Argument_HandlerInterface */
+        /** @var $handler \Magento\Core\Model\Layout\Argument\HandlerInterface */
         $handler = $this->_handlerFactory->getArgumentHandlerByType($type);
 
-        if (false === ($handler instanceof Magento_Core_Model_Layout_Argument_HandlerInterface)) {
-            throw new InvalidArgumentException($type
-            . ' type handler should implement Magento_Core_Model_Layout_Argument_HandlerInterface');
+        if (false === ($handler instanceof \Magento\Core\Model\Layout\Argument\HandlerInterface)) {
+            throw new \InvalidArgumentException($type
+            . ' type handler should implement \Magento\Core\Model\Layout\Argument\HandlerInterface');
         }
 
         $this->_argumentHandlers[$type] = $handler;

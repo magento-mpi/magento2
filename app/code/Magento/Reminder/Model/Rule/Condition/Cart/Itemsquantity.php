@@ -11,8 +11,10 @@
 /**
  * Cart items quantity condition
  */
-class Magento_Reminder_Model_Rule_Condition_Cart_Itemsquantity
-    extends Magento_Reminder_Model_Condition_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+class Itemsquantity
+    extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -20,13 +22,13 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Itemsquantity
     protected $_inputType = 'numeric';
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Itemsquantity');
+        $this->setType('\Magento\Reminder\Model\Rule\Condition\Cart\Itemsquantity');
         $this->setValue(null);
     }
 
@@ -57,7 +59,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Itemsquantity
      * Get SQL select for matching shopping cart items count
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
+     * @param int | \Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
@@ -66,7 +68,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Itemsquantity
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new Zend_Db_Expr(1)));
+        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

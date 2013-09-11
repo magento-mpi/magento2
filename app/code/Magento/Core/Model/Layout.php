@@ -20,7 +20,9 @@
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
+namespace Magento\Core\Model;
+
+class Layout extends \Magento\Simplexml\Config
 {
     /**#@+
      * Supported layout directives
@@ -74,19 +76,19 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     const SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT = 5;
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     private $_design;
 
     /**
      * Layout Update module
      *
-     * @var Magento_Core_Model_Layout_Merge
+     * @var \Magento\Core\Model\Layout\Merge
      */
     protected $_update;
 
     /**
-     * @var Magento_Core_Model_BlockFactory
+     * @var \Magento\Core\Model\BlockFactory
      */
     protected $_blockFactory;
 
@@ -154,12 +156,12 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     protected $_nameIncrement = array();
 
     /**
-     * @var Magento_Core_Model_Layout_Argument_Processor
+     * @var \Magento\Core\Model\Layout\Argument\Processor
      */
     protected $_argumentProcessor;
 
     /**
-     * @var Magento_Core_Model_Layout_ScheduledStructure
+     * @var \Magento\Core\Model\Layout\ScheduledStructure
      */
     protected $_scheduledStructure;
 
@@ -168,7 +170,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      */
     protected $_serviceCalls = array();
 
-    /** @var Magento_Core_Model_DataService_Graph  */
+    /** @var \Magento\Core\Model\DataService\Graph  */
     protected $_dataServiceGraph;
 
     /**
@@ -178,29 +180,29 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     protected $_renderers = array();
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_BlockFactory $blockFactory
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\BlockFactory $blockFactory
      * @param \Magento\Data\Structure $structure
-     * @param Magento_Core_Model_Layout_Argument_Processor $argumentProcessor
-     * @param Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure
-     * @param Magento_Core_Model_DataService_Graph $dataServiceGraph
+     * @param \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor
+     * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
+     * @param \Magento\Core\Model\DataService\Graph $dataServiceGraph
      * @param string $area
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_BlockFactory $blockFactory,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\BlockFactory $blockFactory,
         \Magento\Data\Structure $structure,
-        Magento_Core_Model_Layout_Argument_Processor $argumentProcessor,
-        Magento_Core_Model_Layout_ScheduledStructure $scheduledStructure,
-        Magento_Core_Model_DataService_Graph $dataServiceGraph,
-        $area = Magento_Core_Model_View_DesignInterface::DEFAULT_AREA
+        \Magento\Core\Model\Layout\Argument\Processor $argumentProcessor,
+        \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
+        \Magento\Core\Model\DataService\Graph $dataServiceGraph,
+        $area = \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_design = $design;
         $this->_blockFactory = $blockFactory;
         $this->_area = $area;
         $this->_structure = $structure;
         $this->_argumentProcessor = $argumentProcessor;
-        $this->_elementClass = 'Magento_Core_Model_Layout_Element';
+        $this->_elementClass = '\Magento\Core\Model\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new \Magento\Object;
         $this->_scheduledStructure = $scheduledStructure;
@@ -226,13 +228,13 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Retrieve the layout update instance
      *
-     * @return Magento_Core_Model_Layout_Merge
+     * @return \Magento\Core\Model\Layout\Merge
      */
     public function getUpdate()
     {
         if (!$this->_update) {
             $theme = $this->_getThemeInstance($this->getArea());
-            $this->_update = Mage::getModel('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
+            $this->_update = \Mage::getModel('\Magento\Core\Model\Layout\Merge', array('theme' => $theme));
         }
         return $this->_update;
     }
@@ -241,20 +243,20 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Retrieve instance of a theme currently used in an area
      *
      * @param string $area
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     protected function _getThemeInstance($area)
     {
         if ($this->_design->getDesignTheme()->getArea() == $area || $this->_design->getArea() == $area) {
             return $this->_design->getDesignTheme();
         }
-        /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
-        $themeCollection = Mage::getResourceModel('Magento_Core_Model_Resource_Theme_Collection');
+        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
+        $themeCollection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Theme\Collection');
         $themeIdentifier = $this->_design->getConfigurationDesignTheme($area);
         if (is_numeric($themeIdentifier)) {
             $result = $themeCollection->getItemById($themeIdentifier);
         } else {
-            $themeFullPath = $area . Magento_Core_Model_Theme::PATH_SEPARATOR . $themeIdentifier;
+            $themeFullPath = $area . \Magento\Core\Model\Theme::PATH_SEPARATOR . $themeIdentifier;
             $result = $themeCollection->getThemeByFullPath($themeFullPath);
         }
         return $result;
@@ -284,7 +286,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Declaring layout direct output flag
      *
      * @param   bool $flag
-     * @return  Magento_Core_Model_Layout
+     * @return  \Magento\Core\Model\Layout
      */
     public function setDirectOutput($flag)
     {
@@ -305,7 +307,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Layout xml generation
      *
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function generateXml()
     {
@@ -374,7 +376,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      *
      * @param string $elementName
      * @param bool $isChild
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     protected function _removeElement($elementName, $isChild = false)
     {
@@ -396,7 +398,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Move element in scheduled structure
      *
      * @param string $element
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     protected function _moveElementInStructure($element)
     {
@@ -412,12 +414,12 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Traverse through all elements of specified XML-node and schedule structural elements of it
      *
-     * @param Magento_Core_Model_Layout_Element $parent
+     * @param \Magento\Core\Model\Layout\Element $parent
      */
     protected function _readStructure($parent)
     {
         foreach ($parent as $node) {
-            /** @var $node Magento_Core_Model_Layout_Element */
+            /** @var $node \Magento\Core\Model\Layout\Element */
             switch ($node->getName()) {
                 case self::TYPE_CONTAINER:
                 case self::TYPE_BLOCK:
@@ -463,8 +465,8 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Grab information about data service from the node
      *
-     * @param Magento_Core_Model_Layout_Element $node
-     * @return Magento_Core_Model_Layout
+     * @param \Magento\Core\Model\Layout\Element $node
+     * @return \Magento\Core\Model\Layout
      */
     protected function _initServiceCalls($node)
     {
@@ -505,16 +507,16 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Read arguments node and create prepared array of them
      *
-     * @param Magento_Core_Model_Layout_Element $node
+     * @param \Magento\Core\Model\Layout\Element $node
      * @return array
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _readArguments(Magento_Core_Model_Layout_Element $node)
+    protected function _readArguments(\Magento\Core\Model\Layout\Element $node)
     {
         $arguments = array();
 
         foreach ($node->xpath('argument') as $argument) {
-            /** @var $argument Magento_Core_Model_Layout_Element */
+            /** @var $argument \Magento\Core\Model\Layout\Element */
 
             $name = (string)$argument['name'];
             $arguments[$name]['type'] = (string)$argument->attributes('xsi', true)->type;
@@ -578,10 +580,10 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Retrieve value from argument
      *
-     * @param SimpleXMLElement $argument
+     * @param \SimpleXMLElement $argument
      * @return string
      */
-    protected function _getArgumentValue(SimpleXMLElement $argument)
+    protected function _getArgumentValue(\SimpleXMLElement $argument)
     {
         if (isset($argument->value)) {
             $value = $argument->value;
@@ -594,13 +596,13 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Fill arguments array
      *
-     * @param Magento_Core_Model_Layout_Element $node
+     * @param \Magento\Core\Model\Layout\Element $node
      * @return array
      */
-    protected function _fillArgumentsArray(Magento_Core_Model_Layout_Element $node)
+    protected function _fillArgumentsArray(\Magento\Core\Model\Layout\Element $node)
     {
         $argumentsArray = array();
-        /** @var $childNode Magento_Core_Model_Layout_Element */
+        /** @var $childNode \Magento\Core\Model\Layout\Element */
         foreach ($node->children() as $childNode) {
             $nodeName = (string)$childNode['name'];
             if (empty($nodeName)) {
@@ -636,14 +638,14 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Get argument updaters list
      *
-     * @param Magento_Core_Model_Layout_Element $argument
+     * @param \Magento\Core\Model\Layout\Element $argument
      * @return array
      */
-    protected function _getArgumentUpdaters(Magento_Core_Model_Layout_Element $argument)
+    protected function _getArgumentUpdaters(\Magento\Core\Model\Layout\Element $argument)
     {
         $updaters = array();
         foreach ($argument->children() as $argumentChild) {
-            /** @var $argumentChild Magento_Core_Model_Layout_Element */
+            /** @var $argumentChild \Magento\Core\Model\Layout\Element */
             if ('updater' == $argumentChild->getName()) {
                 $updaters[uniqid()] = trim((string)$argumentChild);
             }
@@ -654,9 +656,9 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Schedule structural changes for move directive
      *
-     * @param Magento_Core_Model_Layout_Element $node
+     * @param \Magento\Core\Model\Layout\Element $node
      * @throws \Magento\Exception
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     protected function _scheduleMove($node)
     {
@@ -678,8 +680,8 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Populate queue for generating structural elements
      *
-     * @param Magento_Core_Model_Layout_Element $node
-     * @param Magento_Core_Model_Layout_Element $parent
+     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\Core\Model\Layout\Element $parent
      * @see _scheduleElement() where the _scheduledStructure is used
      */
     protected function _scheduleStructure($node, $parent)
@@ -734,7 +736,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Analyze "before" and "after" information in the node and return sibling name and whether "after" or "before"
      *
-     * @param Magento_Core_Model_Layout_Element $node
+     * @param \Magento\Core\Model\Layout\Element $node
      * @return array
      */
     protected function _beforeAfterToSibling($node)
@@ -785,7 +787,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
         $row = $this->_scheduledStructure->getStructureElement($key);
 
         if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT])) {
-            Mage::log("Broken reference: missing declaration of the element '{$key}'.", Zend_Log::CRIT);
+            \Mage::log("Broken reference: missing declaration of the element '{$key}'.", \Zend_Log::CRIT);
             $this->_scheduledStructure->unsetPathElement($key);
             $this->_scheduledStructure->unsetStructureElement($key);
             return;
@@ -800,8 +802,8 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
             if ($this->_structure->hasElement($parentName)) {
                 $this->_structure->setAsChild($name, $parentName, $alias);
             } else {
-                Mage::log("Broken reference: the '{$name}' element cannot be added as child to '{$parentName}, "
-                    . 'because the latter doesn\'t exist', Zend_Log::CRIT
+                \Mage::log("Broken reference: the '{$name}' element cannot be added as child to '{$parentName}, "
+                    . 'because the latter doesn\'t exist', \Zend_Log::CRIT
                 );
             }
         }
@@ -877,7 +879,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Creates block object based on xml node data and add it to the layout
      *
      * @param string $elementName
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      * @throws \Magento\Exception
      */
     protected function _generateBlock($elementName)
@@ -898,7 +900,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
 
         if (!empty($node['template'])) {
             $templateFileName = (string)$node['template'];
-            if ($block instanceof Magento_Core_Block_Template) {
+            if ($block instanceof \Magento\Core\Block\Template) {
                 $block->assign($dictionary);
             }
             $block->setTemplate($templateFileName);
@@ -949,13 +951,13 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Run action defined in layout update
      *
-     * @param Magento_Core_Model_Layout_Element $node
-     * @param Magento_Core_Model_Layout_Element $parent
+     * @param \Magento\Core\Model\Layout\Element $node
+     * @param \Magento\Core\Model\Layout\Element $parent
      */
     protected function _generateAction($node, $parent)
     {
         $configPath = $node->getAttribute('ifconfig');
-        if ($configPath && !Mage::getStoreConfigFlag($configPath)) {
+        if ($configPath && !\Mage::getStoreConfigFlag($configPath)) {
             return;
         }
 
@@ -982,7 +984,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      *
      * @param string $parentName
      * @param string $alias
-     * @return bool|Magento_Core_Block_Abstract
+     * @return bool|\Magento\Core\Block\AbstractBlock
      */
     public function getChildBlock($parentName, $alias)
     {
@@ -999,7 +1001,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * @param string $parentName
      * @param string $elementName
      * @param string $alias
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function setChild($parentName, $elementName, $alias)
     {
@@ -1032,10 +1034,10 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
             if ($childName !== $sibling) {
                 $siblingParentName = $this->_structure->getParentId($sibling);
                 if ($parentName !== $siblingParentName) {
-                    Mage::log(
+                    \Mage::log(
                         "Broken reference: the '{$childName}' tries to reorder itself towards '{$sibling}', "
                         . "but their parents are different: '{$parentName}' and '{$siblingParentName}' respectively.",
-                        Zend_Log::CRIT
+                        \Zend_Log::CRIT
                     );
                     return;
                 }
@@ -1070,7 +1072,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      *
      * @param string $parentName
      * @param string $alias
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function unsetChild($parentName, $alias)
     {
@@ -1139,7 +1141,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
             $this->_renderElementCache[$name] = $result;
         }
         $this->_renderingOutput->setData('output', $this->_renderElementCache[$name]);
-        Mage::dispatchEvent('core_layout_render_element', array(
+        \Mage::dispatchEvent('core_layout_render_element', array(
             'element_name' => $name,
             'layout'       => $this,
             'transport'    => $this->_renderingOutput,
@@ -1221,7 +1223,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Update args according to its type
      *
-     * @param Magento_Core_Model_Layout_Element $node
+     * @param \Magento\Core\Model\Layout\Element $node
      * @return array
      */
     protected function _extractArgs($node)
@@ -1234,7 +1236,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
             $key = (string)$argument['name'];
             if ($node->xpath("*[@name='{$key}' and @translate='true']")) {
                 $result[$key] = __($this->_getArgumentValue($argument));
-            } else if (($argument instanceof Magento_Core_Model_Layout_Element)) {
+            } else if (($argument instanceof \Magento\Core\Model\Layout\Element)) {
                 if (isset($argument['helper'])) {
                     $result[$key] = $this->_getArgsByHelper($argument);
                 } else {
@@ -1259,16 +1261,16 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Gets arguments using helper method
      *
-     * @param Magento_Core_Model_Layout_Element $arg
+     * @param \Magento\Core\Model\Layout\Element $arg
      * @return mixed
      */
-    protected function _getArgsByHelper(Magento_Core_Model_Layout_Element $arg)
+    protected function _getArgsByHelper(\Magento\Core\Model\Layout\Element $arg)
     {
         $helper = (string)$arg['helper'];
         list($helperName, $helperMethod) = explode('::', $helper);
         $arg = $this->_getArgsFromAssoc($arg);
         unset($arg['@']);
-        return call_user_func_array(array(Mage::helper($helperName), $helperMethod), $arg);
+        return call_user_func_array(array(\Mage::helper($helperName), $helperMethod), $arg);
     }
 
     /**
@@ -1354,8 +1356,8 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Save block in blocks registry
      *
      * @param string $name
-     * @param Magento_Core_Block_Abstract $block
-     * @return Magento_Core_Model_Layout
+     * @param \Magento\Core\Block\AbstractBlock $block
+     * @return \Magento\Core\Model\Layout
      */
     public function setBlock($name, $block)
     {
@@ -1367,7 +1369,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Remove block from registry
      *
      * @param string $name
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function unsetElement($name)
     {
@@ -1386,7 +1388,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * @param  string $type
      * @param  string $name
      * @param  array $attributes
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function createBlock($type, $name = '', array $attributes = array())
     {
@@ -1398,10 +1400,10 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Create block and add to layout
      *
-     * @param string|Magento_Core_Block_Abstract $block
+     * @param string|\Magento\Core\Block\AbstractBlock $block
      * @param string $name
      * @param array $attributes
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _createBlock($block, $name, array $attributes = array())
     {
@@ -1413,22 +1415,22 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
         $block->setLayout($this);
 
         $this->_blocks[$name] = $block;
-        Mage::dispatchEvent('core_layout_block_create_after', array('block' => $block));
+        \Mage::dispatchEvent('core_layout_block_create_after', array('block' => $block));
         return $this->_blocks[$name];
     }
 
     /**
      * Add a block to registry, create new object if needed
      *
-     * @param string|Magento_Core_Block_Abstract $block
+     * @param string|\Magento\Core\Block\AbstractBlock $block
      * @param string $name
      * @param string $parent
      * @param string $alias
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function addBlock($block, $name = '', $parent = '', $alias = '')
     {
-        if (empty($name) && $block instanceof Magento_Core_Block_Abstract) {
+        if (empty($name) && $block instanceof \Magento\Core\Block\AbstractBlock) {
             $name = $block->getNameInLayout();
         }
         $name = $this->_createStructuralElement(
@@ -1483,9 +1485,9 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Create block object instance based on block type
      *
-     * @param string|Magento_Core_Block_Abstract $block
+     * @param string|\Magento\Core\Block\AbstractBlock $block
      * @param array $attributes
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _getBlockInstance($block, array $attributes = array())
     {
@@ -1494,8 +1496,8 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             }
         }
-        if (!$block instanceof Magento_Core_Block_Abstract) {
-            Mage::throwException(__('Invalid block type: %1', $block));
+        if (!$block instanceof \Magento\Core\Block\AbstractBlock) {
+            \Mage::throwException(__('Invalid block type: %1', $block));
         }
         return $block;
     }
@@ -1515,7 +1517,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Get block object by name
      *
      * @param string $name
-     * @return Magento_Core_Block_Abstract|bool
+     * @return \Magento\Core\Block\AbstractBlock|bool
      */
     public function getBlock($name)
     {
@@ -1555,7 +1557,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Add an element to output
      *
      * @param string $name
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function addOutputElement($name)
     {
@@ -1567,7 +1569,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Remove an element from output
      *
      * @param string $name
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function removeOutputElement($name)
     {
@@ -1595,7 +1597,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Retrieve messages block
      *
-     * @return Magento_Core_Block_Messages
+     * @return \Magento\Core\Block\Messages
      */
     public function getMessagesBlock()
     {
@@ -1603,25 +1605,25 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
         if ($block) {
             return $block;
         }
-        return $this->createBlock('Magento_Core_Block_Messages', 'messages');
+        return $this->createBlock('\Magento\Core\Block\Messages', 'messages');
     }
 
     /**
      * Get block singleton
      *
      * @param string $type
-     * @return Magento_Core_Helper_Abstract
+     * @return \Magento\Core\Helper\AbstractHelper
      */
     public function getBlockSingleton($type)
     {
         if (!isset($this->_helpers[$type])) {
             if (!$type) {
-                Mage::throwException(__('Invalid block type: %1', $type));
+                \Mage::throwException(__('Invalid block type: %1', $type));
             }
 
-            $helper = Mage::getModel($type);
+            $helper = \Mage::getModel($type);
             if ($helper) {
-                if ($helper instanceof Magento_Core_Block_Abstract) {
+                if ($helper instanceof \Magento\Core\Block\AbstractBlock) {
                     $helper->setLayout($this);
                 }
                 $this->_helpers[$type] = $helper;
@@ -1634,11 +1636,11 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
      * Retrieve helper object
      *
      * @param   string $name
-     * @return  Magento_Core_Helper_Abstract
+     * @return  \Magento\Core\Helper\AbstractHelper
      */
     public function helper($name)
     {
-        $helper = Mage::helper($name);
+        $helper = \Mage::helper($name);
         if (!$helper) {
             return false;
         }
@@ -1648,7 +1650,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
     /**
      * Retrieve block factory
      *
-     * @return Magento_Core_Model_BlockFactory
+     * @return \Magento\Core\Model\BlockFactory
      */
     public function getBlockFactory()
     {
@@ -1716,7 +1718,7 @@ class Magento_Core_Model_Layout extends \Magento\Simplexml\Config
             if (!empty($options['dataServiceName'])) {
                 $dictionary = $this->_dataServiceGraph->get($options['dataServiceName']);
             }
-            /** @var $block Magento_Core_Block_Template */
+            /** @var $block \Magento\Core\Block\Template */
             $block = $this->createBlock($options['type'], '')
                 ->setData($data)
                 ->assign($dictionary)

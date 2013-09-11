@@ -16,7 +16,9 @@
  * @package     Magento_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Poll_Model_Resource_Poll_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Poll\Model\Resource\Poll;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection
@@ -24,7 +26,7 @@ class Magento_Poll_Model_Resource_Poll_Collection extends Magento_Core_Model_Res
      */
     public function _construct()
     {
-        $this->_init('Magento_Poll_Model_Poll', 'Magento_Poll_Model_Resource_Poll');
+        $this->_init('\Magento\Poll\Model\Poll', '\Magento\Poll\Model\Resource\Poll');
     }
 
     /**
@@ -48,7 +50,7 @@ class Magento_Poll_Model_Resource_Poll_Collection extends Magento_Core_Model_Res
      *
      * @param mixed $storeId
      * @param bool  $withAdmin
-     * @return Magento_Poll_Model_Resource_Poll_Collection
+     * @return \Magento\Poll\Model\Resource\Poll\Collection
      */
     public function addStoreFilter($storeId, $withAdmin = true)
     {
@@ -65,7 +67,7 @@ class Magento_Poll_Model_Resource_Poll_Collection extends Magento_Core_Model_Res
     /**
      * Add stores data
      *
-     * @return Magento_Poll_Model_Resource_Poll_Collection
+     * @return \Magento\Poll\Model\Resource\Poll\Collection
      */
     public function addStoreData()
     {
@@ -100,7 +102,7 @@ class Magento_Poll_Model_Resource_Poll_Collection extends Magento_Core_Model_Res
     /**
      * Set stores of the current poll
      *
-     * @return Magento_Poll_Model_Resource_Poll_Collection
+     * @return \Magento\Poll\Model\Resource\Poll\Collection
      */
     public function addSelectStores()
     {

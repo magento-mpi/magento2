@@ -9,10 +9,10 @@
  */
  ?>
 
-<?php /* @var $this Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable */ ?>
+<?php /* @var $this \Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Configurable */ ?>
 <?php $_product = $this->getProduct(); ?>
-<?php $_attributes = $this->helper('Magento_Core_Helper_Data')->decorateArray($this->getAllowAttributes()); ?>
-<?php $_skipSaleableCheck = $this->helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
+<?php $_attributes = $this->helper('\Magento\Core\Helper\Data')->decorateArray($this->getAllowAttributes()); ?>
+<?php $_skipSaleableCheck = $this->helper('\Magento\Catalog\Helper\Product')->getSkipSaleableCheck(); ?>
 <?php if (($_product->isSaleable() || $_skipSaleableCheck) && count($_attributes)):?>
 <fieldset id="catalog_product_composite_configure_fields_configurable" class="fieldset">
     <legend class="legend"><span><?php echo __('Associated Products') ?></span></legend>

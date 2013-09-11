@@ -9,13 +9,15 @@
  */
 
 
-class Magento_Tax_Model_System_Config_Source_Tax_Region
+namespace Magento\Tax\Model\System\Config\Source\Tax;
+
+class Region
 {
     protected $_options;
 
     public function toOptionArray($noEmpty=false, $country = null)
     {
-        $options = Mage::getModel('Magento_Directory_Model_Region')
+        $options = \Mage::getModel('\Magento\Directory\Model\Region')
             ->getCollection()
             ->addCountryFilter($country)
             ->toOptionArray();

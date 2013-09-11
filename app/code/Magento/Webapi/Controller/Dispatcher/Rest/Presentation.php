@@ -7,23 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Dispatcher_Rest_Presentation
+namespace Magento\Webapi\Controller\Dispatcher\Rest;
+
+class Presentation
 {
-    /** @var Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Request */
+    /** @var \Magento\Webapi\Controller\Dispatcher\Rest\Presentation\Request */
     protected $_requestProcessor;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Response */
+    /** @var \Magento\Webapi\Controller\Dispatcher\Rest\Presentation\Response */
     protected $_responseProcessor;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Request $requestPresentation
-     * @param Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Response $responsePresentation
+     * @param \Magento\Webapi\Controller\Dispatcher\Rest\Presentation\Request $requestPresentation
+     * @param \Magento\Webapi\Controller\Dispatcher\Rest\Presentation\Response $responsePresentation
      */
     public function __construct(
-        Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Request $requestPresentation,
-        Magento_Webapi_Controller_Dispatcher_Rest_Presentation_Response $responsePresentation
+        \Magento\Webapi\Controller\Dispatcher\Rest\Presentation\Request $requestPresentation,
+        \Magento\Webapi\Controller\Dispatcher\Rest\Presentation\Response $responsePresentation
     ) {
         $this->_requestProcessor = $requestPresentation;
         $this->_responseProcessor = $responsePresentation;

@@ -16,19 +16,19 @@ class Magento_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_Tes
 {
     public function testCreateVirtualTheme()
     {
-        $physicalTheme = $this->getMock('Magento_Core_Model_Theme', null, array(), '', false, false);
+        $physicalTheme = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false, false);
         $physicalTheme->setData(array(
             'parent_id' => 10,
             'theme_title' => 'Test Theme'
         ));
 
-        $copyService = $this->getMock('Magento_Core_Model_Theme_CopyService', array('copy'), array(), '', false, false);
+        $copyService = $this->getMock('Magento\Core\Model\Theme\CopyService', array('copy'), array(), '', false, false);
         $copyService->expects($this->once())
             ->method('copy')
             ->will($this->returnValue($copyService));
 
         $virtualTheme = $this->getMock(
-            'Magento_Core_Model_Theme', array('getThemeImage', 'createPreviewImageCopy', 'save'),
+            '\Magento\Core\Model\Theme', array('getThemeImage', 'createPreviewImageCopy', 'save'),
             array(), '', false, false
         );
         $virtualTheme->expects($this->once())
@@ -49,7 +49,7 @@ class Magento_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_Tes
             ->will($this->returnValue($virtualTheme));
 
         $themeCollection = $this->getMock(
-            'Magento_Core_Model_Resource_Theme_Collection',
+            '\Magento\Core\Model\Resource\Theme\Collection',
             array('addTypeFilter', 'addAreaFilter', 'addFilter', 'count'),
             array(), '', false, false
         );
@@ -70,8 +70,8 @@ class Magento_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_Tes
             ->method('count')
             ->will($this->returnValue(1));
 
-        $domainModel = new Magento_Core_Model_Theme_Domain_Physical(
-            $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false, false),
+        $domainModel = new \Magento\Core\Model\Theme\Domain\Physical(
+            $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false, false),
             $themeFactory,
             $copyService,
             $themeCollection

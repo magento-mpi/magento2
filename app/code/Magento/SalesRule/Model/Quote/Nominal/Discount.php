@@ -11,7 +11,9 @@
 /**
  * Nominal discount total
  */
-class Magento_SalesRule_Model_Quote_Nominal_Discount extends Magento_SalesRule_Model_Quote_Discount
+namespace Magento\SalesRule\Model\Quote\Nominal;
+
+class Discount extends \Magento\SalesRule\Model\Quote\Discount
 {
     /**
      * Don't add amounts to address
@@ -23,21 +25,21 @@ class Magento_SalesRule_Model_Quote_Nominal_Discount extends Magento_SalesRule_M
     /**
      * Don't fetch anything
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        return Magento_Sales_Model_Quote_Address_Total_Abstract::fetch($address);
+        return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal::fetch($address);
     }
 
     /**
      * Get nominal items only
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    protected function _getAddressItems(Magento_Sales_Model_Quote_Address $address)
+    protected function _getAddressItems(\Magento\Sales\Model\Quote\Address $address)
     {
         return $address->getAllNominalItems();
     }

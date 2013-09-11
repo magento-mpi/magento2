@@ -15,7 +15,9 @@
  * @package    Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Config_Value
+namespace Magento\Cron\Model\Config\Backend;
+
+class Sitemap extends \Magento\Core\Model\Config\Value
 {
 
     const CRON_STRING_PATH = 'crontab/jobs/sitemap_generate/schedule/cron_expr';
@@ -29,9 +31,9 @@ class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Confi
         $frequncy = $this->getData('groups/generate/frequency/value');
         $errorEmail = $this->getData('groups/generate/error_email/value');
 
-        $frequencyDaily = Magento_Cron_Model_Config_Source_Frequency::CRON_DAILY;
-        $frequencyWeekly = Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
-        $frequencyMonthly = Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
+        $frequencyDaily = \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY;
+        $frequencyWeekly = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
+        $frequencyMonthly = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
 
         $cronDayOfWeek = date('N');
 
@@ -46,18 +48,18 @@ class Magento_Cron_Model_Config_Backend_Sitemap extends Magento_Core_Model_Confi
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('\Magento\Core\Model\Config\Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('\Magento\Core\Model\Config\Value')
                 ->load(self::CRON_MODEL_PATH, 'path')
-                ->setValue((string) Mage::getConfig()->getNode(self::CRON_MODEL_PATH))
+                ->setValue((string) \Mage::getConfig()->getNode(self::CRON_MODEL_PATH))
                 ->setPath(self::CRON_MODEL_PATH)
                 ->save();
-        } catch (Exception $e) {
-            throw new Exception(__("We can't save the cron expression."));
+        } catch (\Exception $e) {
+            throw new \Exception(__("We can't save the cron expression."));
         }
     }
 

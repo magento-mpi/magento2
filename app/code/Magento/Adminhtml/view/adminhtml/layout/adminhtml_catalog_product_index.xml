@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="page-title">
-            <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher">
+            <block class="\Magento\Backend\Block\Store\Switcher" name="store_switcher">
                 <action method="setUseConfirm">
                     <argument name="params" xsi:type="string">1</argument>
                 </action>
@@ -25,7 +25,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_Adminhtml_Block_Catalog_Product" name="products_list"/>
+            <block class="\Magento\Adminhtml\Block\Catalog\Product" name="products_list"/>
         </reference>
     </handle>
 </layout>

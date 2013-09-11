@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
+
+class Cart extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -31,12 +33,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Magento_Adminh
 
     protected function _prepareCollection()
     {
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
         // set website to quote, if any
         if ($this->getWebsiteId()) {
-            $quote->setWebsite(Mage::app()->getWebsite($this->getWebsiteId()));
+            $quote->setWebsite(\Mage::app()->getWebsite($this->getWebsiteId()));
         }
-        $quote->loadByCustomer(Mage::registry('current_customer'));
+        $quote->loadByCustomer(\Mage::registry('current_customer'));
 
         if ($quote) {
             $collection = $quote->getItemsCollection(false);
@@ -81,14 +83,14 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Cart extends Magento_Adminh
             'header' => __('Price'),
             'index' => 'price',
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
             'header' => __('Total'),
             'index' => 'row_total',
             'type'  => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         return parent::_prepareColumns();

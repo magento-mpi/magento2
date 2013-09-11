@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_Backend_Block_Widget_Form_Renderer_Fieldset */ ?>
+<?php /** @var $this \Magento\Backend\Block\Widget\Form\Renderer\Fieldset */ ?>
 
 <div id="js-file-uploader" class="uploader">
 </div>
@@ -59,7 +59,7 @@ jQuery(function($) {
     });
     $('body').trigger(
         'refreshJsList',
-        {jsList: <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getJsFiles()) ?>}
+        {jsList: <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getJsFiles()) ?>}
     );
 });
 </script>

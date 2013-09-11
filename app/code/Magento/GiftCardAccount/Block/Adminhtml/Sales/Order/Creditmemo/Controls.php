@@ -8,16 +8,18 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Creditmemo_Controls
- extends Magento_Core_Block_Template
+namespace Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Creditmemo;
+
+class Controls
+ extends \Magento\Core\Block\Template
 {
     public function canRefundToCustomerBalance()
     {
-        if (!Mage::registry('current_creditmemo')->getGiftCardsAmount()) {
+        if (!\Mage::registry('current_creditmemo')->getGiftCardsAmount()) {
             return false;
         }
 
-        if (Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
+        if (\Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
             return false;
         }
         return true;

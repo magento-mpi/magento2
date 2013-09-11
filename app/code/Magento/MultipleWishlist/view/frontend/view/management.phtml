@@ -9,12 +9,12 @@
  */
 ?>
 <?php
-/* @var $this Magento_MultipleWishlist_Block_Customer_Wishlist_Management */
+/* @var $this \Magento\MultipleWishlist\Block\Customer\Wishlist\Management */
 ?>
 <?php if ($this->getCurrentWishlist()): ?>
 <div class="wishlist-management">
     <div class="sub-title">
-        <h2><?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?><a href="#" data-wishlist-edit='{"url":"<?php echo $this->getEditUrl($this->getCurrentWishlist()->getId());?>", "name":"<?php echo $this->helper('Magento_Core_Helper_Data')->quoteEscape($this->getCurrentWishlist()->getName(), true);?>", "isPublic":<?php echo $this->getCurrentWishlist()->getVisibility() ? 'true' : 'false';?>}' title="<?php echo __('Edit Wish List')?>" class="link-edit wishlist-edit"><?php echo __('Edit')?></a><span class="item-count">(<?php echo $this->getItemCount($this->getCurrentWishlist());?>)</span></h2>
+        <h2><?php echo $this->escapeHtml($this->getCurrentWishlist()->getName());?><a href="#" data-wishlist-edit='{"url":"<?php echo $this->getEditUrl($this->getCurrentWishlist()->getId());?>", "name":"<?php echo $this->helper('\Magento\Core\Helper\Data')->quoteEscape($this->getCurrentWishlist()->getName(), true);?>", "isPublic":<?php echo $this->getCurrentWishlist()->getVisibility() ? 'true' : 'false';?>}' title="<?php echo __('Edit Wish List')?>" class="link-edit wishlist-edit"><?php echo __('Edit')?></a><span class="item-count">(<?php echo $this->getItemCount($this->getCurrentWishlist());?>)</span></h2>
     </div>
     <?php if ($this->canCreateWishlists($this->getWishlists())): ?>
         <button type="button" id="wishlist-create-button" data-wishlist-create='{"url":"<?php echo $this->getCreateUrl();?>"}' title="<?php echo __('Create New Wish List') ?>" class="button btn-create"><span><span><?php echo __('Create New Wish List') ?></span></span></button>

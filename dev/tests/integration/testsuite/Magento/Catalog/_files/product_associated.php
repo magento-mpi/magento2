@@ -10,8 +10,8 @@
  */
 
 /* Create simple product */
-/** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -25,8 +25,8 @@ $product->setTypeId('simple')
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
 
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
 
     ->setStockData(array(
         'use_config_manage_stock' => 0,

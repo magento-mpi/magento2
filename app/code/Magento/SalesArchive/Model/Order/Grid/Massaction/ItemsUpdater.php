@@ -15,11 +15,13 @@
  * @package     Magento_SalesArchive
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
-    implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\SalesArchive\Model\Order\Grid\Massaction;
+
+class ItemsUpdater
+    implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
-     * @var Magento_SalesArchive_Model_Config $_salesArchiveConfig
+     * @var \Magento\SalesArchive\Model\Config $_salesArchiveConfig
      */
     protected $_salesArchiveConfig;
 
@@ -29,13 +31,13 @@ class Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
     protected $_authorizationModel;
 
     /**
-     * @param Magento_SalesArchive_Model_Config $config
+     * @param \Magento\SalesArchive\Model\Config $config
      * @param \Magento\AuthorizationInterface $authorization
      * @param array $data
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(
-        Magento_SalesArchive_Model_Config $config,
+        \Magento\SalesArchive\Model\Config $config,
         \Magento\AuthorizationInterface $authorization,
         $data = array()
     ) {

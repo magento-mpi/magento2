@@ -15,7 +15,9 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Model_Resource_Item_Option extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Wishlist\Model\Resource\Item;
+
+class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     protected function _construct()
     {

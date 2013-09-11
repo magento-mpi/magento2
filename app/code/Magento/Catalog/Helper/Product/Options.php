@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Helper_Product_Options extends Magento_Core_Helper_Abstract
+namespace Magento\Catalog\Helper\Product;
+
+class Options extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Filesystem
@@ -24,10 +26,10 @@ class Magento_Catalog_Helper_Product_Options extends Magento_Core_Helper_Abstrac
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(Magento_Core_Helper_Context $context, \Magento\Filesystem $filesystem)
+    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Filesystem $filesystem)
     {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
@@ -41,7 +43,7 @@ class Magento_Catalog_Helper_Product_Options extends Magento_Core_Helper_Abstrac
      *  - 'size' - size of file
      *  - 'title' - user-friendly name of file (usually - original name as uploaded in Magento)
      *
-     * @param Magento_Core_Controller_Response_Http $response
+     * @param \Magento\Core\Controller\Response\Http $response
      * @param string $filePath
      * @param array $info
      * @return bool
@@ -59,7 +61,7 @@ class Magento_Catalog_Helper_Product_Options extends Magento_Core_Helper_Abstrac
             $response->sendHeaders();
 
             echo $this->_filesystem->read($filePath);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
         return true;

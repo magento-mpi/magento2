@@ -7,18 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Tax_Model_Resource_Rule_Grid_Options_HashOptimized
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Tax\Model\Resource\Rule\Grid\Options;
+
+class HashOptimized
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Tax_Model_Resource_Calculation_Rate_Collection
+     * @var \Magento\Tax\Model\Resource\Calculation\Rate\Collection
      */
     protected $_collection;
 
     /**
-     * @param Magento_Tax_Model_Resource_Calculation_Rate_Collection $collection
+     * @param \Magento\Tax\Model\Resource\Calculation\Rate\Collection $collection
      */
-    public function __construct(Magento_Tax_Model_Resource_Calculation_Rate_Collection $collection)
+    public function __construct(\Magento\Tax\Model\Resource\Calculation\Rate\Collection $collection)
     {
         $this->_collection = $collection;
     }

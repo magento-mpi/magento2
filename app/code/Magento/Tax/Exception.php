@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Tax_Exception extends Magento_Core_Exception
+namespace Magento\Tax;
+
+class Exception extends \Magento\Core\Exception
 {
     
 }

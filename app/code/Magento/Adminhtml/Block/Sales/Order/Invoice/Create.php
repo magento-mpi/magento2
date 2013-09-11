@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Invoice_Create extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Sales\Order\Invoice;
+
+class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {
@@ -37,7 +39,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create extends Magento_Adminht
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return \Mage::registry('current_invoice');
     }
 
     /**

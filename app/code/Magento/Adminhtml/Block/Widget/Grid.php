@@ -14,7 +14,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Grid extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Adminhtml\Block\Widget;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
 
 }

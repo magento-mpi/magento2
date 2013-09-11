@@ -16,19 +16,21 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Newsletter\Model\Resource;
+
+class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * DB read connection
      *
-     * @var Zend_Db_Adapter_Abstract
+     * @var \Zend_Db_Adapter_Abstract
      */
     protected $_read;
 
     /**
      * DB write connection
      *
-     * @var Zend_Db_Adapter_Abstract
+     * @var \Zend_Db_Adapter_Abstract
      */
     protected $_write;
 
@@ -93,10 +95,10 @@ class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Re
     /**
      * Load subscriber by customer
      *
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @return array
      */
-    public function loadByCustomer(Magento_Customer_Model_Customer $customer)
+    public function loadByCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $select = $this->_read->select()
             ->from($this->getMainTable())
@@ -128,30 +130,30 @@ class Magento_Newsletter_Model_Resource_Subscriber extends Magento_Core_Model_Re
      */
     protected function _generateRandomCode()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
     }
 
     /**
      * Updates data when subscriber received
      *
-     * @param Magento_Newsletter_Model_Subscriber $subscriber
-     * @param Magento_Newsletter_Model_Queue $queue
-     * @return Magento_Newsletter_Model_Resource_Subscriber
+     * @param \Magento\Newsletter\Model\Subscriber $subscriber
+     * @param \Magento\Newsletter\Model\Queue $queue
+     * @return \Magento\Newsletter\Model\Resource\Subscriber
      */
-    public function received(Magento_Newsletter_Model_Subscriber $subscriber, Magento_Newsletter_Model_Queue $queue)
+    public function received(\Magento\Newsletter\Model\Subscriber $subscriber, \Magento\Newsletter\Model\Queue $queue)
     {
         $this->_write->beginTransaction();
         try {
-            $data['letter_sent_at'] = Mage::getSingleton('Magento_Core_Model_Date')->gmtDate();
+            $data['letter_sent_at'] = \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate();
             $this->_write->update($this->_subscriberLinkTable, $data, array(
                 'subscriber_id = ?' => $subscriber->getId(),
                 'queue_id = ?' => $queue->getId()
             ));
             $this->_write->commit();
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $this->_write->rollBack();
-            Mage::throwException(__('We cannot mark as received subscriber.'));
+            \Mage::throwException(__('We cannot mark as received subscriber.'));
         }
         return $this;
     }

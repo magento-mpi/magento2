@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Backend_Model_Url
+ * Test class for \Magento\Backend\Model\Url
  */
 class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
 {
@@ -25,25 +25,25 @@ class Magento_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Grid::addRssList
-     * @covers Magento_Backend_Block_Widget_Grid::clearRss
-     * @covers Magento_Backend_Block_Widget_Grid::getRssLists
+     * @covers \Magento\Backend\Block\Widget\Grid::addRssList
+     * @covers \Magento\Backend\Block\Widget\Grid::clearRss
+     * @covers \Magento\Backend\Block\Widget\Grid::getRssLists
      * @dataProvider addGetClearRssDataProvider
      */
     public function testAddGetClearRss($isUseStoreInUrl, $setStoreCount)
     {
-        $urlMock = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
+        $urlMock = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
         $urlMock->expects($this->at($setStoreCount))->method('setStore');
         $urlMock->expects($this->any())->method('getUrl')->will($this->returnValue('some_url'));
 
-        $storeMock = $this->getMock('Magento_Core_Model_Store', array('isUseStoreInUrl'), array(), '', false);
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array('isUseStoreInUrl'), array(), '', false);
         $storeMock->expects($this->any())->method('isUseStoreInUrl')->will($this->returnValue($isUseStoreInUrl));
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface');
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
 
-        /** @var $block Magento_Backend_Block_Widget_Grid */
+        /** @var $block \Magento\Backend\Block\Widget\Grid */
         $block = $this->_objectManager->getObject(
-            'Magento_Backend_Block_Widget_Grid',
+            '\Magento\Backend\Block\Widget\Grid',
             array(
                 'storeManager' => $storeManager,
                 'urlModel' => $urlMock,

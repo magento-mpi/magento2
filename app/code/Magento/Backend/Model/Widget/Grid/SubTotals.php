@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Widget_Grid_SubTotals extends Magento_Backend_Model_Widget_Grid_TotalsAbstract
+namespace Magento\Backend\Model\Widget\Grid;
+
+class SubTotals extends \Magento\Backend\Model\Widget\Grid\TotalsAbstract
 {
     /**
      * Count collection column sum based on column index

@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Report_Product_Viewed extends Magento_Sales_Model_Resource_Report_Abstract
+namespace Magento\Reports\Model\Resource\Report\Product;
+
+class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
 {
     /**
      * Aggregation key daily
@@ -47,7 +49,7 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed extends Magento_Sales
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Sales_Model_Resource_Report_Bestsellers
+     * @return \Magento\Sales\Model\Resource\Report\Bestsellers
      */
     public function aggregate($from = null, $to = null)
     {
@@ -84,27 +86,27 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed extends Magento_Sales
             'source_table.object_id'
         ));
 
-        $viewsNumExpr = new Zend_Db_Expr('COUNT(source_table.event_id)');
+        $viewsNumExpr = new \Zend_Db_Expr('COUNT(source_table.event_id)');
 
         $columns = array(
             'period'                 => $periodExpr,
             'store_id'               => 'source_table.store_id',
             'product_id'             => 'source_table.object_id',
-            'product_name'           => new Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
+            'product_name'           => new \Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
                 'product_name.value',
                 'product_default_name.value'
             ))),
-            'product_price' => new Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
+            'product_price' => new \Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
                 $adapter->getIfNullSql('product_price.value', 'product_default_price.value'), 0
             ))),
             'views_num' => $viewsNumExpr
         );
 
         $select->from(array('source_table' => $this->getTable('report_event')), $columns)
-            ->where('source_table.event_type_id = ?', Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW);
+            ->where('source_table.event_type_id = ?', \Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW);
 
-        /** @var Magento_Catalog_Model_Resource_Product $product */
-        $product  = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
+        /** @var \Magento\Catalog\Model\Resource\Product $product */
+        $product  = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product');
 
         $select->joinInner(
             array('product' => $this->getTable('catalog_product_entity')),
@@ -174,14 +176,14 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed extends Magento_Sales
         $insertQuery = $select->insertFromSelect($this->getMainTable(), array_keys($columns));
         $adapter->query($insertQuery);
 
-        Mage::getResourceHelper('Magento_Reports')
+        \Mage::getResourceHelper('Magento_Reports')
             ->updateReportRatingPos('day', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_DAILY));
-        Mage::getResourceHelper('Magento_Reports')
+        \Mage::getResourceHelper('Magento_Reports')
             ->updateReportRatingPos('month', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_MONTHLY));
-        Mage::getResourceHelper('Magento_Reports')
+        \Mage::getResourceHelper('Magento_Reports')
             ->updateReportRatingPos('year', 'views_num', $mainTable, $this->getTable(self::AGGREGATION_YEARLY));
 
-        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE);
+        $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE);
 
         return $this;
     }

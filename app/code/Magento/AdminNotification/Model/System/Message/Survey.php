@@ -5,11 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Model_System_Message_Survey
-    implements Magento_AdminNotification_Model_System_MessageInterface
+namespace Magento\AdminNotification\Model\System\Message;
+
+class Survey
+    implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
@@ -19,19 +21,19 @@ class Magento_AdminNotification_Model_System_Message_Survey
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
     /**
-     * @param Magento_Backend_Model_Auth_Session $authSession
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\AuthorizationInterface $authorization
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
      */
     public function __construct(
-        Magento_Backend_Model_Auth_Session $authSession,
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\AuthorizationInterface $authorization,
-        Magento_Core_Model_UrlInterface $urlBuilder
+        \Magento\Core\Model\UrlInterface $urlBuilder
     ) {
         $this->_authorization = $authorization;
         $this->_authSession = $authSession;
@@ -45,7 +47,7 @@ class Magento_AdminNotification_Model_System_Message_Survey
      */
     public function getSurveyUrl()
     {
-        return Magento_AdminNotification_Model_Survey::getSurveyUrl();
+        return \Magento\AdminNotification\Model\Survey::getSurveyUrl();
     }
 
     /**
@@ -67,8 +69,8 @@ class Magento_AdminNotification_Model_System_Message_Survey
     {
         if ($this->_authSession->getHideSurveyQuestion()
             || false == $this->_authorization->isAllowed(null)
-            || Magento_AdminNotification_Model_Survey::isSurveyViewed()
-            || false == Magento_AdminNotification_Model_Survey::isSurveyUrlValid()
+            || \Magento\AdminNotification\Model\Survey::isSurveyViewed()
+            || false == \Magento\AdminNotification\Model\Survey::isSurveyUrlValid()
         ) {
             return false;
         }
@@ -87,7 +89,7 @@ class Magento_AdminNotification_Model_System_Message_Survey
             'actionLink' => array(
                 'event' => 'surveyYes',
                 'eventData' => array(
-                    'surveyUrl' => Magento_AdminNotification_Model_Survey::getSurveyUrl(),
+                    'surveyUrl' => \Magento\AdminNotification\Model\Survey::getSurveyUrl(),
                     'surveyAction' => $this->_urlBuilder->getUrl('*/survey/index', array('_current' => true)),
                     'decision' => 'yes',
                 ),
@@ -103,6 +105,6 @@ class Magento_AdminNotification_Model_System_Message_Survey
      */
     public function getSeverity()
     {
-        return Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR;
+        return \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_MAJOR;
     }
 }

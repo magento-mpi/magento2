@@ -8,24 +8,26 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
-    extends Magento_Backend_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab;
+
+class Labels
+    extends \Magento\Backend\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Store manager instance
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
-    public function __construct(Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+    public function __construct(\Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -74,7 +76,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
 
     protected function _prepareForm()
     {
-        $rule = Mage::registry('current_promo_quote_rule');
+        $rule = \Mage::registry('current_promo_quote_rule');
         $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('rule_');
 
@@ -117,10 +119,10 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Labels
             'legend' => __('Store View Specific Labels'),
             'class' => 'store-scope',
         ));
-        $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset');
+        $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
         $fieldset->setRenderer($renderer);
 
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach (\Mage::app()->getWebsites() as $website) {
             $fieldset->addField("w_{$website->getId()}_label", 'note', array(
                 'label' => $website->getName(),
                 'fieldset_html_class' => 'website',

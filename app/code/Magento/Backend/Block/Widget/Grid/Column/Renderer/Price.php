@@ -15,8 +15,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Price
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Price
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     protected $_defaultWidth = 100;
     /**
@@ -41,7 +43,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Price
 
             $data = floatval($data) * $this->_getRate($row);
             $data = sprintf("%f", $data);
-            $data = Mage::app()->getLocale()->currency($currencyCode)->toCurrency($data);
+            $data = \Mage::app()->getLocale()->currency($currencyCode)->toCurrency($data);
             return $data;
         }
         return $this->getColumn()->getDefault();

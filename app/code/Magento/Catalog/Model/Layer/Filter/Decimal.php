@@ -16,14 +16,16 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_Layer_Filter_Abstract
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     const MIN_RANGE_POWER = 10;
 
     /**
      * Resource instance
      *
-     * @var Magento_Catalog_Model_Resource_Layer_Filter_Decimal
+     * @var \Magento\Catalog\Model\Resource\Layer\Filter\Decimal
      */
     protected $_resource;
 
@@ -40,12 +42,12 @@ class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_L
     /**
      * Retrieve resource instance
      *
-     * @return Magento_Catalog_Model_Resource_Layer_Filter_Decimal
+     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Decimal
      */
     protected function _getResource()
     {
         if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Layer_Filter_Decimal');
+            $this->_resource = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Layer\Filter\Decimal');
         }
         return $this->_resource;
     }
@@ -53,11 +55,11 @@ class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_L
     /**
      * Apply decimal range filter to product collection
      *
-     * @param Zend_Controller_Request_Abstract $request
-     * @param Magento_Catalog_Block_Layer_Filter_Decimal $filterBlock
-     * @return Magento_Catalog_Model_Layer_Filter_Decimal
+     * @param \Zend_Controller_Request_Abstract $request
+     * @param \Magento\Catalog\Block\Layer\Filter\Decimal $filterBlock
+     * @return \Magento\Catalog\Model\Layer\Filter\Decimal
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         parent::apply($request, $filterBlock);
 
@@ -110,8 +112,8 @@ class Magento_Catalog_Model_Layer_Filter_Decimal extends Magento_Catalog_Model_L
      */
     protected function _renderItemLabel($range, $value)
     {
-        $from   = Mage::app()->getStore()->formatPrice(($value - 1) * $range, false);
-        $to     = Mage::app()->getStore()->formatPrice($value * $range, false);
+        $from   = \Mage::app()->getStore()->formatPrice(($value - 1) * $range, false);
+        $to     = \Mage::app()->getStore()->formatPrice($value * $range, false);
         return __('%1 - %2', $from, $to);
     }
 

@@ -1,7 +1,7 @@
 <?php
-use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
-    Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface,
-    Zend\Soap\Wsdl;
+use \Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
+    \Zend\Soap\Wsdl\ComplexTypeStrategy\ComplexTypeStrategyInterface,
+    \Zend\Soap\Wsdl;
 
 /**
  * Magento-specific Complex type strategy for WSDL auto discovery.
@@ -11,7 +11,9 @@ use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy,
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends AbstractComplexTypeStrategy
+namespace Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
+
+class ConfigBased extends AbstractComplexTypeStrategy
 {
     /**
      *  Array item key value for element.
@@ -24,27 +26,27 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
     const APP_INF_NS = 'inf';
 
     /**
-     * @var Magento_Webapi_Model_Config_Soap
+     * @var \Magento\Webapi\Model\Config\Soap
      */
     protected $_config;
 
     /**
-     * @var Magento_Webapi_Helper_Config
+     * @var \Magento\Webapi\Helper\Config
      */
     protected $_helper;
 
     /**
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     protected $_dom;
 
     /**
      * Construct strategy with resource config.
      *
-     * @param Magento_Webapi_Model_Config_Soap $config
-     * @param Magento_Webapi_Helper_Config $helper
+     * @param \Magento\Webapi\Model\Config\Soap $config
+     * @param \Magento\Webapi\Helper\Config $helper
      */
-    public function __construct(Magento_Webapi_Model_Config_Soap $config, Magento_Webapi_Helper_Config $helper)
+    public function __construct(\Magento\Webapi\Model\Config\Soap $config, \Magento\Webapi\Helper\Config $helper)
     {
         $this->_config = $config;
         $this->_helper = $helper;
@@ -56,7 +58,7 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
      * @param string $type
      * @param array $parentCallInfo array of callInfo from parent complex type
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function addComplexType($type, $parentCallInfo = array())
     {
@@ -64,7 +66,7 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
             return $soapType;
         }
 
-        /** @var DOMDocument $dom */
+        /** @var \DOMDocument $dom */
         $dom = $this->getContext()->toDomDocument();
         $this->_dom = $dom;
         $soapType = Wsdl::TYPES_NS . ':' . $type;
@@ -94,7 +96,7 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
      *
      * @param array $parameters
      * @param array $callInfo
-     * @return DOMElement
+     * @return \DOMElement
      */
     protected function _processParameters($parameters, $callInfo)
     {
@@ -125,13 +127,13 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
     }
 
     /**
-     * @param DOMElement $element
+     * @param \DOMElement $element
      * @param boolean $isRequired
      * @param array $parameterData
      * @param string $parameterType
      * @param array $callInfo
      */
-    protected function _processParameter(DOMElement $element, $isRequired, $parameterData, $parameterType, $callInfo)
+    protected function _processParameter(\DOMElement $element, $isRequired, $parameterData, $parameterType, $callInfo)
     {
         $element->setAttribute('minOccurs', $isRequired ? 1 : 0);
         $maxOccurs = (isset($parameterData['isArray']) && $parameterData['isArray']) ? 'unbounded' : 1;
@@ -199,12 +201,12 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
      * Convert all {key:value} from documentation into appinfo nodes.
      * Override default callInfo values if defined in parameter documentation.
      *
-     * @param DOMElement $element
+     * @param \DOMElement $element
      * @param string $documentation parameter documentation string
      * @param string|null $default
      * @param array $callInfo
      */
-    public function addAnnotation(DOMElement $element, $documentation, $default = null, $callInfo = array())
+    public function addAnnotation(\DOMElement $element, $documentation, $default = null, $callInfo = array())
     {
         $annotationNode = $this->_dom->createElement(Wsdl::XSD_NS . ':annotation');
 
@@ -270,9 +272,9 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
      *
      * @param string $elementType
      * @param string $documentation
-     * @param DOMElement $appInfoNode
+     * @param \DOMElement $appInfoNode
      */
-    protected function _processElementType($elementType, $documentation, DOMElement $appInfoNode)
+    protected function _processElementType($elementType, $documentation, \DOMElement $appInfoNode)
     {
         if ($elementType == 'int') {
             $this->_processRequiredAnnotation('min', $documentation, $appInfoNode);
@@ -294,9 +296,9 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
      *
      * @param string $elementType
      * @param string $default
-     * @param DOMElement $appInfoNode
+     * @param \DOMElement $appInfoNode
      */
-    protected function _processDefaultValueAnnotation($elementType, $default, DOMElement $appInfoNode)
+    protected function _processDefaultValueAnnotation($elementType, $default, \DOMElement $appInfoNode)
     {
         if ($elementType == 'boolean') {
             $default = (bool)$default ? 'true' : 'false';
@@ -311,11 +313,11 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
     /**
      * Retrieve element type.
      *
-     * @param DOMElement $element
+     * @param \DOMElement $element
      * @return string|null
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    protected function _getElementType(DOMElement $element)
+    protected function _getElementType(\DOMElement $element)
     {
         $elementType = null;
         if ($element->hasAttribute('type')) {
@@ -329,9 +331,9 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
      *
      * @param $annotation
      * @param $documentation
-     * @param DOMElement $appInfoNode
+     * @param \DOMElement $appInfoNode
      */
-    protected function _processRequiredAnnotation($annotation, $documentation, DOMElement $appInfoNode)
+    protected function _processRequiredAnnotation($annotation, $documentation, \DOMElement $appInfoNode)
     {
         if (!preg_match("/{{$annotation}:.+}/Ui", $documentation)) {
             $annotationNode = $this->_dom->createElement(self::APP_INF_NS . ':' . $annotation);
@@ -342,10 +344,10 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
     /**
      * Process 'callInfo' appinfo tag.
      *
-     * @param DOMElement $appInfoNode
+     * @param \DOMElement $appInfoNode
      * @param $callInfo
      */
-    protected function _processCallInfo(DOMElement $appInfoNode, $callInfo)
+    protected function _processCallInfo(\DOMElement $appInfoNode, $callInfo)
     {
         if (!empty($callInfo)) {
             foreach ($callInfo as $direction => $conditions) {
@@ -374,10 +376,10 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
     /**
      * Process 'docInstructions' appinfo tag.
      *
-     * @param DOMElement $appInfoNode
+     * @param \DOMElement $appInfoNode
      * @param $tagValue
      */
-    protected function _processDocInstructions(DOMElement $appInfoNode, $tagValue)
+    protected function _processDocInstructions(\DOMElement $appInfoNode, $tagValue)
     {
         if (preg_match('/(input|output):(.+)/', $tagValue, $docMatches)) {
             $docInstructionsNode = $this->_dom->createElement(self::APP_INF_NS . ':docInstructions');
@@ -392,10 +394,10 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased extends Abs
     /**
      * Process 'seeLink' appinfo tag.
      *
-     * @param DOMElement $appInfoNode
+     * @param \DOMElement $appInfoNode
      * @param $tagValue
      */
-    protected function _processSeeLink(DOMElement $appInfoNode, $tagValue)
+    protected function _processSeeLink(\DOMElement $appInfoNode, $tagValue)
     {
         if (preg_match('|([http://]?.+):(.+):(.+)|i', $tagValue, $matches)) {
             $seeLink = array(

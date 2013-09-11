@@ -16,14 +16,16 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_Description extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product\View;
+
+class Description extends \Magento\Core\Block\Template
 {
     protected $_product = null;
 
     function getProduct()
     {
         if (!$this->_product) {
-            $this->_product = Mage::registry('product');
+            $this->_product = \Mage::registry('product');
         }
         return $this->_product;
     }

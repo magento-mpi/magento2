@@ -13,7 +13,9 @@
  *
  * Merges logging.xml files and provides access to nodes and labels
  */
-class Magento_Logging_Model_Config
+namespace Magento\Logging\Model;
+
+class Config
 {
     /**
      * logging.xml merged config
@@ -34,12 +36,12 @@ class Magento_Logging_Model_Config
     /**
      * Load config from cache or merged from logging.xml files
      *
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType
+        \Magento\Core\Model\Config\Modules\Reader $configReader,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType
     ) {
         $configXml = $configCacheType->load('magento_logging_config');
         if ($configXml) {
@@ -61,7 +63,7 @@ class Magento_Logging_Model_Config
     public function getSystemConfigValues()
     {
         if (null === $this->_systemConfigValues) {
-            $this->_systemConfigValues = Mage::getStoreConfig('admin/magento_logging/actions');
+            $this->_systemConfigValues = \Mage::getStoreConfig('admin/magento_logging/actions');
             if (null === $this->_systemConfigValues) {
                 $this->_systemConfigValues = array();
                 foreach ($this->getLabels() as $key => $label) {

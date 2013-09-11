@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Block_Adminhtml_Role
+ * Test class for \Magento\Webapi\Block\Adminhtml\Role
  *
  * {license_notice}
  *
@@ -10,23 +10,23 @@
 class Magento_Webapi_Block_Adminhtml_RoleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Model\Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilder;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_Role
+     * @var \Magento\Webapi\Block\Adminhtml\Role
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_urlBuilder = $this->getMockBuilder('Magento_Backend_Model_Url')
+        $this->_urlBuilder = $this->getMockBuilder('Magento\Backend\Model\Url')
             ->disableOriginalConstructor()
             ->getMock();
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $helper->getObject('Magento_Webapi_Block_Adminhtml_Role', array(
+        $this->_block = $helper->getObject('\Magento\Webapi\Block\Adminhtml\Role', array(
             'urlBuilder' => $this->_urlBuilder
         ));
     }

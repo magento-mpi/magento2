@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Config_Clone_Media_Image extends Magento_Core_Model_Config_Value
+namespace Magento\Catalog\Model\Config\Clone\Media;
+
+class Image extends \Magento\Core\Model\Config\Value
 {
 
     /**
@@ -27,17 +29,17 @@ class Magento_Catalog_Model_Config_Clone_Media_Image extends Magento_Core_Model_
     public function getPrefixes()
     {
         // use cached eav config
-        $entityTypeId = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType(Magento_Catalog_Model_Product::ENTITY)->getId();
+        $entityTypeId = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId();
 
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
         $collection->setEntityTypeFilter($entityTypeId);
         $collection->setFrontendInputTypeFilter('media_image');
 
         $prefixes = array();
 
         foreach ($collection as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $prefixes[] = array(
                 'field' => $attribute->getAttributeCode() . '_',
                 'label' => $attribute->getFrontend()->getLabel(),

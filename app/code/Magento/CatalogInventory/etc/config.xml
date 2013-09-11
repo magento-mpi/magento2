@@ -15,7 +15,7 @@
             <cataloginventory_setup>
                 <setup>
                     <module>Magento_CatalogInventory</module>
-                    <class>Magento_Eav_Model_Entity_Setup</class>
+                    <class>Magento\Eav\Model\Entity\Setup</class>
                 </setup>
             </cataloginventory_setup>
         </resources>
@@ -29,10 +29,10 @@
                         <is_qty>1</is_qty>
                     </virtual>
                     <configurable>
-                        <stock_indexer>Magento_CatalogInventory_Model_Resource_Indexer_Stock_Configurable</stock_indexer>
+                        <stock_indexer>\Magento\CatalogInventory\Model\Resource\Indexer\Stock\Configurable</stock_indexer>
                     </configurable>
                     <grouped>
-                        <stock_indexer>Magento_CatalogInventory_Model_Resource_Indexer_Stock_Grouped</stock_indexer>
+                        <stock_indexer>\Magento\CatalogInventory\Model\Resource\Indexer\Stock\Grouped</stock_indexer>
                     </grouped>
                 </type>
             </product>
@@ -40,7 +40,7 @@
         <index>
             <indexer>
                 <cataloginventory_stock>
-                    <model>Magento_CatalogInventory_Model_Indexer_Stock</model>
+                    <model>\Magento\CatalogInventory\Model\Indexer\Stock</model>
                 </cataloginventory_stock>
                 <catalog_product_attribute>
                     <depends>
@@ -98,4 +98,4 @@
             </item_options>
         </cataloginventory>
     </default>
-</config>
+</config>

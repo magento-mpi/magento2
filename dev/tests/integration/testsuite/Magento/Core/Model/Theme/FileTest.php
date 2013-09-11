@@ -12,7 +12,7 @@
 class Magento_Core_Model_Theme_FileTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Theme_File
+     * @var \Magento\Core\Model\Theme\File
      */
     protected $_model;
 
@@ -22,16 +22,16 @@ class Magento_Core_Model_Theme_FileTest extends PHPUnit_Framework_TestCase
     protected $_data = array();
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
     protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model = $objectManager->create('Magento_Core_Model_Theme_File');
-        /** @var $themeModel Magento_Core_Model_Theme */
-        $themeModel = $objectManager->create('Magento_Core_Model_Theme');
+        $this->_model = $objectManager->create('Magento\Core\Model\Theme\File');
+        /** @var $themeModel \Magento\Core\Model\Theme */
+        $themeModel = $objectManager->create('Magento\Core\Model\Theme');
         $this->_theme = $themeModel->getCollection()->getFirstItem();
         $this->_data = array(
             'file_path' => 'main.css',

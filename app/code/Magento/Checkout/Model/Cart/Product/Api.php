@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api_Resource_Product
+namespace Magento\Checkout\Model\Cart\Product;
+
+class Api extends \Magento\Checkout\Model\Api\Resource\Product
 {
     /**
      * Base preparation of product data
@@ -67,9 +69,9 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
             try {
                 $result = $quote->addProduct($productByItem, $productRequest);
                 if (is_string($result)) {
-                    Mage::throwException($result);
+                    \Mage::throwException($result);
                 }
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $errors[] = $e->getMessage();
             }
         }
@@ -80,7 +82,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
 
         try {
             $quote->collectTotals()->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault("add_product_quote_save_fault", $e->getMessage());
         }
 
@@ -116,7 +118,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
                 continue;
             }
 
-            /** @var $quoteItem Magento_Sales_Model_Quote_Item */
+            /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
             $quoteItem = $this->_getQuoteItemByProduct(
                 $quote,
                 $productByItem,
@@ -138,7 +140,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
 
         try {
             $quote->collectTotals()->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault("update_product_quote_save_fault", $e->getMessage());
         }
 
@@ -175,7 +177,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
             }
 
             try {
-                /** @var $quoteItem Magento_Sales_Model_Quote_Item */
+                /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
                 $quoteItem = $this->_getQuoteItemByProduct(
                     $quote,
                     $productByItem,
@@ -186,7 +188,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
                     continue;
                 }
                 $quote->removeItem($quoteItem->getId());
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $errors[] = $e->getMessage();
             }
         }
@@ -197,7 +199,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
 
         try {
             $quote->collectTotals()->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault("remove_product_quote_save_fault", $e->getMessage());
         }
 
@@ -222,7 +224,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
 
         $productsResult = array();
         foreach ($quote->getAllItems() as $item) {
-            /** @var $item Magento_Sales_Model_Quote_Item */
+            /** @var $item \Magento\Sales\Model\Quote\Item */
             $product = $item->getProduct();
             $productsResult[] = array( // Basic product data
                 'product_id' => $product->getId(),
@@ -257,8 +259,8 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
             $this->_fault('customer_not_set_for_quote');
         }
 
-        /** @var $customerQuote Magento_Sales_Model_Quote */
-        $customerQuote = Mage::getModel('Magento_Sales_Model_Quote')
+        /** @var $customerQuote \Magento\Sales\Model\Quote */
+        $customerQuote = \Mage::getModel('\Magento\Sales\Model\Quote')
             ->setStoreId($store)
             ->loadByCustomer($customer);
 
@@ -287,7 +289,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
             }
 
             try {
-                /** @var $quoteItem Magento_Sales_Model_Quote_Item */
+                /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
                 $quoteItem = $this->_getQuoteItemByProduct(
                     $quote,
                     $productByItem,
@@ -302,7 +304,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
                 } else {
                     $errors[] = __("One item of products is not belong any of quote item");
                 }
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $errors[] = $e->getMessage();
             }
         }
@@ -314,7 +316,7 @@ class Magento_Checkout_Model_Cart_Product_Api extends Magento_Checkout_Model_Api
         try {
             $customerQuote->collectTotals()->save();
             $quote->collectTotals()->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault("product_move_quote_save_fault", $e->getMessage());
         }
 

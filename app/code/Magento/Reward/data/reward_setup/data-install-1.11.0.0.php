@@ -54,5 +54,4 @@ $cmsPage = array(
 <p><strong>Note</strong>: You can sign up to receive email notifications each time your balance changes when you either earn, redeem or lose points, as well as point expiration notifications. This option is found in the <a href="{{store url="reward/customer/info"}}">Reward Points section</a> of the My Account area.</p>
 ',
 );
-
-Mage::getModel('Magento_Cms_Model_Page')->setData($cmsPage)->save();
+ \Mage::getModel('\Magento\Cms\Model\Page')->setData($cmsPage)->save();

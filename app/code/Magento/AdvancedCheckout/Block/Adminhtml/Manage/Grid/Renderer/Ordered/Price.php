@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Ordered_Price
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Ordered;
+
+class Price
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price
 {
     /**
      * Render price for last ordered item
@@ -33,7 +35,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Grid_Renderer_Ordered_Pric
         $priceInitial = sprintf("%f", $priceInitial);
         $currencyCode = $this->_getCurrencyCode($row);
         if ($currencyCode) {
-            $priceInitial = Mage::app()->getLocale()->currency($currencyCode)->toCurrency($priceInitial);
+            $priceInitial = \Mage::app()->getLocale()->currency($currencyCode)->toCurrency($priceInitial);
         }
 
         return $priceInitial;

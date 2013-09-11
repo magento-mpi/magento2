@@ -15,9 +15,11 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
-    extends Magento_Rma_Block_Adminhtml_Rma_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Rma\Block\Adminhtml\Order\View\Tab;
+
+class Rma
+    extends \Magento\Rma\Block\Adminhtml\Rma\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     public function _construct()
     {
@@ -29,7 +31,7 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
     /**
      * Configuring and setting collection
      *
-     * @return Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
+     * @return \Magento\Rma\Block\Adminhtml\Order\View\Tab\Rma
      */
     protected function _beforePrepareCollection()
     {
@@ -41,8 +43,8 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
             $orderId = $this->getOrderId();
         }
         if ($orderId) {
-            /** @var $collection Magento_Rma_Model_Resource_Rma_Grid_Collection */
-            $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
+            /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
+            $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection')
                 ->addFieldToFilter('order_id', $orderId);
             $this->setCollection($collection);
         }
@@ -52,7 +54,7 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
     /**
      * Prepare grid columns
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _prepareColumns()
     {
@@ -85,11 +87,11 @@ class Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma
     /**
      * Retrieve order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     /**

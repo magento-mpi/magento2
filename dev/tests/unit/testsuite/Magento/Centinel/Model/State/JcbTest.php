@@ -10,20 +10,20 @@
  */
 
 /**
- * Test class for Magento_Centinel_Model_State_Jcb.
+ * Test class for \Magento\Centinel\Model\State\Jcb.
  */
 class Magento_Centinel_Model_State_JcbTest extends PHPUnit_Framework_TestCase
 {
     /**
      * State model
      *
-     * @var Magento_Centinel_Model_State_Jcb
+     * @var \Magento\Centinel\Model\State\Jcb
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Magento_Centinel_Model_State_Jcb();
+        $this->_model = new \Magento\Centinel\Model\State\Jcb();
         $this->_model->setDataStorage(new \Magento\Object());
     }
 

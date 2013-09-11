@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer extends Magento_Core_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Ajax;
+
+class Serializer extends \Magento\Core\Block\Template
 {
     public function _construct()
     {
@@ -34,7 +36,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer extends M
                 $result[$id] = $product->toArray(array('qty', 'position'));
             }
         }
-        return $result ? Zend_Json::encode($result) : '{}';
+        return $result ? \Zend_Json::encode($result) : '{}';
     }
 
     /**
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Ajax_Serializer extends M
     {
         if ($block = $this->getLayout()->getBlock($blockName)) {
             $this->setGridBlock($block)
-                ->setProducts(Mage::registry('current_product')->$getProductFunction())
+                ->setProducts(\Mage::registry('current_product')->$getProductFunction())
                 ->setInputElementName($inputName);
         }
     }

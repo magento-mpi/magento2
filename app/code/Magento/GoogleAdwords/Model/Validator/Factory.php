@@ -8,7 +8,9 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_GoogleAdwords_Model_Validator_Factory
+namespace Magento\GoogleAdwords\Model\Validator;
+
+class Factory
 {
     /**
      * @var Magento_Validator_BuilderFactory

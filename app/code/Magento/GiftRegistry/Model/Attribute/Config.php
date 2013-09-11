@@ -11,18 +11,20 @@
 /**
  * Gift registry custom attribute config model
  */
-class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abstract
+namespace Magento\GiftRegistry\Model\Attribute;
+
+class Config extends \Magento\Core\Model\AbstractModel
 {
     protected $_config = null;
     protected $_staticTypes = null;
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @var Magento_Core_Model_Config_StorageInterface
+     * @var \Magento\Core\Model\Config\StorageInterface
      */
     protected $_configReader;
 
@@ -33,18 +35,18 @@ class Magento_GiftRegistry_Model_Attribute_Config extends Magento_Core_Model_Abs
     const XML_ATTRIBUTE_TYPES_PATH = 'prototype/attribute_types';
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Config\Modules\Reader $configReader,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -15,13 +15,15 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Image extends \Magento\Data\Form\Element\Image
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class Image extends \Magento\Data\Form\Element\Image
 {
     protected function _getUrl()
     {
         $url = false;
         if ($this->getValue()) {
-            $url = Mage::getBaseUrl('media').'catalog/product/'. $this->getValue();
+            $url = \Mage::getBaseUrl('media').'catalog/product/'. $this->getValue();
         }
         return $url;
     }

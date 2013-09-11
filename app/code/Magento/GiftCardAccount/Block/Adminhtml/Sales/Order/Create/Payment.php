@@ -8,23 +8,25 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_Core_Block_Template
+namespace Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Create;
+
+class Payment extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve order create model
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
     }
 
     public function getGiftCards()
     {
         $result = array();
         $quote = $this->_getOrderCreateModel()->getQuote();
-        $cards = Mage::helper('Magento_GiftCardAccount_Helper_Data')->getCards($quote);
+        $cards = \Mage::helper('Magento\GiftCardAccount\Helper\Data')->getCards($quote);
         foreach ($cards as $card) {
             $result[] = $card['c'];
         }

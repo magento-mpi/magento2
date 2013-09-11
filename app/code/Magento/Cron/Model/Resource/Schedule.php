@@ -16,7 +16,9 @@
  * @package     Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cron_Model_Resource_Schedule extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Cron\Model\Resource;
+
+class Schedule extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource

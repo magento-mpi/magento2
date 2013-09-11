@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_reward_rate_edit">
         <reference name="content">
-            <block class="Magento_Reward_Block_Adminhtml_Reward_Rate_Edit" name="reward.rate.edit.container"/>
+            <block class="\Magento\Reward\Block\Adminhtml\Reward\Rate\Edit" name="reward.rate.edit.container"/>
         </reference>
     </handle>
 </layout>

@@ -152,9 +152,9 @@ class Magento_TestFramework_Application
     {
         $this->_bootstrap();
 
-        /** @var $indexer Magento_Index_Model_Indexer */
-        $indexer = Mage::getModel('Magento_Index_Model_Indexer');
-        /** @var $process Magento_Index_Model_Process */
+        /** @var $indexer \Magento\Index\Model\Indexer */
+        $indexer = Mage::getModel('\Magento\Index\Model\Indexer');
+        /** @var $process \Magento\Index\Model\Process */
         foreach ($indexer->getProcessesCollection() as $process) {
             if ($process->getIndexer()->isVisible()) {
                 $process->reindexEverything();
@@ -179,12 +179,12 @@ class Magento_TestFramework_Application
      */
     protected function _bootstrap()
     {
-        if (!Mage::getObjectManager()) {
-            new Magento_Core_Model_ObjectManager(new Magento_Core_Model_Config_Primary(BP, $_SERVER));
+        if (!\Mage::getObjectManager()) {
+            new \Magento\Core\Model\ObjectManager(new \Magento\Core\Model\Config\Primary(BP, $_SERVER));
         }
 
-        /** @var $app Magento_Core_Model_App */
-        Mage::getObjectManager()->get('Magento_Core_Model_App');
+        /** @var $app \Magento\Core\Model\App */
+        Mage::getObjectManager()->get('Magento\Core\Model\App');
         return $this;
     }
 

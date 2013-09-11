@@ -15,7 +15,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHP
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_applicationConfig;
 
-    /** @var Magento_Webapi_Controller_Request_Rest_Interpreter_Factory */
+    /** @var \Magento\Webapi\Controller\Request\Rest\Interpreter\Factory */
     protected $_interpreterFactory;
 
     protected function setUp()
@@ -25,12 +25,12 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHP
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMockForAbstractClass();
-        $this->_applicationConfig = $this->getMockBuilder('Magento_Core_Model_Config')
+        $this->_applicationConfig = $this->getMockBuilder('Magento\Core\Model\Config')
             ->setMethods(array('getNode'))
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_interpreterFactory = new Magento_Webapi_Controller_Request_Rest_Interpreter_Factory(
+        $this->_interpreterFactory = new \Magento\Webapi\Controller\Request\Rest\Interpreter\Factory(
             $this->_objectManagerMock,
             $this->_applicationConfig
         );
@@ -60,7 +60,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHP
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $validInterpreterMock = $this->getMockBuilder('Magento_Webapi_Controller_Request_Rest_Interpreter_Xml')
+        $validInterpreterMock = $this->getMockBuilder('Magento\Webapi\Controller\Request\Rest\Interpreter\Xml')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManagerMock
@@ -81,9 +81,9 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHP
             ->will($this->returnValue(array($expectedMetadata)));
 
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Server cannot understand Content-Type HTTP header media type "text_xml"',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         /** Initialize SUT. */
         $this->_interpreterFactory->get('text_xml');
@@ -97,7 +97,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHP
             ->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue(array($expectedMetadata)));
-        $invalidInterpreter = $this->getMockBuilder('Magento_Webapi_Controller_Response_Rest_Renderer_Json')
+        $invalidInterpreter = $this->getMockBuilder('Magento\Webapi\Controller\Response\Rest\Renderer\Json')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManagerMock
@@ -106,7 +106,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_FactoryTest extends PHP
             ->will($this->returnValue($invalidInterpreter));
         $this->setExpectedException(
             'LogicException',
-            'The interpreter must implement "Magento_Webapi_Controller_Request_Rest_InterpreterInterface".'
+            'The interpreter must implement "\Magento\Webapi\Controller\Request\Rest\InterpreterInterface".'
         );
         /** Initialize SUT. */
         $this->_interpreterFactory->get('text/xml');

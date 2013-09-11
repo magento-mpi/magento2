@@ -15,32 +15,34 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Invoice_Items extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Sales\Block\Order\Invoice;
+
+class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     public function getPrintInvoiceUrl($invoice)
     {
-        return Mage::getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
+        return \Mage::getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
     }
 
     public function getPrintAllInvoicesUrl($order)
     {
-        return Mage::getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
     }
 
     /**
      * Get html of invoice totals block
      *
-     * @param   Magento_Sales_Model_Order_Invoice $invoice
+     * @param   \Magento\Sales\Model\Order\Invoice $invoice
      * @return  string
      */
     public function getInvoiceTotalsHtml($invoice)
@@ -57,7 +59,7 @@ class Magento_Sales_Block_Order_Invoice_Items extends Magento_Sales_Block_Items_
     /**
      * Get html of invoice comments block
      *
-     * @param   Magento_Sales_Model_Order_Invoice $invoice
+     * @param   \Magento\Sales\Model\Order\Invoice $invoice
      * @return  string
      */
     public function getInvoiceCommentsHtml($invoice)

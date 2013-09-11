@@ -11,12 +11,14 @@
 /**
  * Store Group factory
  */
-class Magento_Core_Model_Store_Group_Factory
+namespace Magento\Core\Model\Store\Group;
+
+class Factory
 {
     /**
      * Store group model class name
      */
-    const CLASS_NAME = 'Magento_Core_Model_Store_Group';
+    const CLASS_NAME = '\Magento\Core\Model\Store\Group';
 
     /**
      * Object Manager

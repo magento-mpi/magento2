@@ -12,14 +12,14 @@
 class Magento_Backend_Model_Menu_Builder_CommandAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Menu_Builder_CommandAbstract
+     * @var \Magento\Backend\Model\Menu\Builder\CommandAbstract
      */
     protected $_model;
 
     public function setUp()
     {
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Backend_Model_Menu_Builder_CommandAbstract',
+            '\Magento\Backend\Model\Menu\Builder\CommandAbstract',
             array(array('id' => 'item'))
         );
     }
@@ -29,14 +29,14 @@ class Magento_Backend_Model_Menu_Builder_CommandAbstractTest extends PHPUnit_Fra
      */
     public function testConstructorRequiresObligatoryParams()
     {
-        $this->getMockForAbstractClass('Magento_Backend_Model_Menu_Builder_CommandAbstract');
+        $this->getMockForAbstractClass('\Magento\Backend\Model\Menu\Builder\CommandAbstract');
     }
 
     public function testChainAddsNewCommandAsNextInChain()
     {
-        $command1 = $this->getMock('Magento_Backend_Model_Menu_Builder_Command_Update', array(),
+        $command1 = $this->getMock('Magento\Backend\Model\Menu\Builder\Command\Update', array(),
             array(array('id' => 1)));
-        $command2 = $this->getMock('Magento_Backend_Model_Menu_Builder_Command_Remove', array(),
+        $command2 = $this->getMock('Magento\Backend\Model\Menu\Builder\Command\Remove', array(),
             array(array('id' => 1)));
         $command1->expects($this->once())->method('chain')->with($this->equalTo($command2));
 
@@ -52,7 +52,7 @@ class Magento_Backend_Model_Menu_Builder_CommandAbstractTest extends PHPUnit_Fra
             ->with($this->equalTo($itemParams))
             ->will($this->returnValue($itemParams));
 
-        $command1 = $this->getMock('Magento_Backend_Model_Menu_Builder_Command_Update', array(),
+        $command1 = $this->getMock('Magento\Backend\Model\Menu\Builder\Command\Update', array(),
             array(array('id' => 1)));
         $command1->expects($this->once())
             ->method('execute')

@@ -12,26 +12,28 @@
  * PayPal Website Payments Pro implementation for payment method instaces
  * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
-class Magento_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Model_Pro
+namespace Magento\Pbridge\Model\Payment\Method\Paypal;
+
+class Pro extends \Magento\Paypal\Model\Pro
 {
 
     /**
      * Payment Bridge Payment Method Instance
      *
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
 
     /**
      * Paypal pbridge payment method
-     * @var Magento_Pbridge_Model_Payment_Method_Paypal
+     * @var \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     protected $_pbridgePaymentMethod = null;
 
     /**
      * Pbridge payment method setter
      *
-     * @param Magento_Pbridge_Model_Payment_Method_Paypal $pbridgePaymentMethod
+     * @param \Magento\Pbridge\Model\Payment\Method\Paypal $pbridgePaymentMethod
      */
 
     public function setPaymentMethod($pbridgePaymentMethod)
@@ -42,12 +44,12 @@ class Magento_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Mod
     /**
      * Return Payment Bridge method instance
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
         }
         return $this->_pbridgeMethodInstance;
@@ -100,7 +102,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Mod
     public function void(\Magento\Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new \Magento\Object($result), $payment);
+        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
         return $result;
     }
 
@@ -113,7 +115,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal_Pro extends Magento_Paypal_Mod
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            Mage::getModel('Magento_Paypal_Model_Info')->importToPayment(new \Magento\Object($result), $payment);
+            \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment(new \Magento\Object($result), $payment);
         }
     }
 }

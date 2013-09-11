@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Category_Api_V2 extends Magento_Catalog_Model_Category_Api
+namespace Magento\Catalog\Model\Category\Api;
+
+class V2 extends \Magento\Catalog\Model\Category\Api
 {
     /**
      * Retrieve category data
@@ -60,8 +62,8 @@ class Magento_Catalog_Model_Category_Api_V2 extends Magento_Catalog_Model_Catego
     {
         $parent_category = $this->_initCategory($parentId, $store);
 
-        /* @var $category Magento_Catalog_Model_Category */
-        $category = Mage::getModel('Magento_Catalog_Model_Category')
+        /* @var $category \Magento\Catalog\Model\Category */
+        $category = \Mage::getModel('\Magento\Catalog\Model\Category')
             ->setStoreId($this->_getStoreId($store));
 
         $category->addData(array('path'=>implode('/',$parent_category->getPathIds())));
@@ -85,17 +87,17 @@ class Magento_Catalog_Model_Category_Api_V2 extends Magento_Catalog_Model_Catego
             if ($validate !== true) {
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
-                        Mage::throwException(__('Attribute "%1" is required.', $code));
+                        \Mage::throwException(__('Attribute "%1" is required.', $code));
                     }
                     else {
-                        Mage::throwException($error);
+                        \Mage::throwException($error);
                     }
                 }
             }
 
             $category->save();
         }
-        catch (Magento_Core_Exception $e) {
+        catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -130,17 +132,17 @@ class Magento_Catalog_Model_Category_Api_V2 extends Magento_Catalog_Model_Catego
             if ($validate !== true) {
                 foreach ($validate as $code => $error) {
                     if ($error === true) {
-                        Mage::throwException(__('Attribute "%1" is required.', $code));
+                        \Mage::throwException(__('Attribute "%1" is required.', $code));
                     }
                     else {
-                        Mage::throwException($error);
+                        \Mage::throwException($error);
                     }
                 }
             }
             $category->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
-        } catch (Magento_Eav_Model_Entity_Attribute_Exception $e) {
+        } catch (\Magento\Eav\Model\Entity\Attribute\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 

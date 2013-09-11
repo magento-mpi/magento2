@@ -9,7 +9,9 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Core_Model_ObjectManager_DefinitionFactory
+namespace Magento\Core\Model\ObjectManager;
+
+class DefinitionFactory
 {
     /**
      * Format of definitions
@@ -19,14 +21,14 @@ class Magento_Core_Model_ObjectManager_DefinitionFactory
     protected $_definitionFormat;
 
     /**
-     * @var Magento_Core_Model_Config_Primary
+     * @var \Magento\Core\Model\Config\Primary
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Model_Config_Primary $config
+     * @param \Magento\Core\Model\Config\Primary $config
      */
-    public function __construct(Magento_Core_Model_Config_Primary $config)
+    public function __construct(\Magento\Core\Model\Config\Primary $config)
     {
         $this->_config = $config;
         $this->_definitionFormat = $config->getDefinitionFormat();
@@ -72,7 +74,7 @@ class Magento_Core_Model_ObjectManager_DefinitionFactory
             $definitionModel = $this->_getDefinitionModel($this->_definitionFormat);
             $output = new $definitionModel($definitions);
         } else {
-            $genDir = $this->_config->getDirectories()->getDir(Magento_Core_Model_Dir::GENERATION);
+            $genDir = $this->_config->getDirectories()->getDir(\Magento\Core\Model\Dir::GENERATION);
             $autoloader = new \Magento\Autoload\IncludePath();
             $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Io\File(), $autoloader, $genDir);
             $generator = new \Magento\Code\Generator\ClassGenerator(
@@ -103,13 +105,13 @@ class Magento_Core_Model_ObjectManager_DefinitionFactory
     /**
      * Retreive class relations list
      *
-     * @return Magento_Core_Model_ObjectManager_Relations|\Magento\ObjectManager\Relations\Runtime
+     * @return \Magento\Core\Model\ObjectManager\Relations|\Magento\ObjectManager\Relations\Runtime
      */
     public function createRelations()
     {
         $path = $this->_config->getDefinitionPath() . DIRECTORY_SEPARATOR . 'relations.php';
         if (is_readable($path)) {
-            return new Magento_Core_Model_ObjectManager_Relations($this->_unpack(file_get_contents($path)));
+            return new \Magento\Core\Model\ObjectManager\Relations($this->_unpack(file_get_contents($path)));
         } else {
             return new \Magento\ObjectManager\Relations\Runtime();
         }

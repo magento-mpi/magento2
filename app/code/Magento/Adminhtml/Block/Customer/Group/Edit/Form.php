@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Customer\Group\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare form for render
@@ -24,18 +26,18 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Adminhtml
     {
         parent::_prepareLayout();
         $form = new \Magento\Data\Form();
-        $customerGroup = Mage::registry('current_group');
+        $customerGroup = \Mage::registry('current_group');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
 
         $validateClass = sprintf('required-entry validate-length maximum-length-%d',
-            Magento_Customer_Model_Group::GROUP_CODE_MAX_LENGTH);
+            \Magento\Customer\Model\Group::GROUP_CODE_MAX_LENGTH);
         $name = $fieldset->addField('customer_group_code', 'text',
             array(
                 'name'  => 'code',
                 'label' => __('Group Name'),
                 'title' => __('Group Name'),
-                'note'  => __('Maximum length must be less then %1 symbols', Magento_Customer_Model_Group::GROUP_CODE_MAX_LENGTH),
+                'note'  => __('Maximum length must be less then %1 symbols', \Magento\Customer\Model\Group::GROUP_CODE_MAX_LENGTH),
                 'class' => $validateClass,
                 'required' => true,
             )
@@ -52,7 +54,7 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Adminhtml
                 'title' => __('Tax Class'),
                 'class' => 'required-entry',
                 'required' => true,
-                'values' => Mage::getSingleton('Magento_Tax_Model_TaxClass_Source_Customer')->toOptionArray()
+                'values' => \Mage::getSingleton('Magento\Tax\Model\TaxClass\Source\Customer')->toOptionArray()
             )
         );
 
@@ -66,9 +68,9 @@ class Magento_Adminhtml_Block_Customer_Group_Edit_Form extends Magento_Adminhtml
             );
         }
 
-        if( Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCustomerGroupData() ) {
-            $form->addValues(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCustomerGroupData());
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setCustomerGroupData(null);
+        if( \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCustomerGroupData() ) {
+            $form->addValues(\Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCustomerGroupData());
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setCustomerGroupData(null);
         } else {
             $form->addValues($customerGroup->getData());
         }

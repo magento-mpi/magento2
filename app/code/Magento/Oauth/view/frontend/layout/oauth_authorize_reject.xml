@@ -11,7 +11,7 @@
     <handle label="Reject OAuth token authorization" id="oauth_authorize_reject" type="page">
         <update handle="oauth_root_handle"/>
         <reference name="content">
-            <block class="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.reject" template="authorize/reject.phtml"/>
+            <block class="\Magento\Oauth\Block\Authorize\Button" name="oauth.authorize.reject" template="authorize/reject.phtml"/>
         </reference>
     </handle>
 </layout>

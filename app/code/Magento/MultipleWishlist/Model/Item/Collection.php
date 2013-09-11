@@ -11,17 +11,19 @@
 /**
  * Wishlist item collection filtered by customer
  */
-class Magento_MultipleWishlist_Model_Item_Collection extends Magento_MultipleWishlist_Model_Resource_Item_Collection
+namespace Magento\MultipleWishlist\Model\Item;
+
+class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collection
 {
     /**
      * Initialize db select
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addCustomerIdFilter(Mage::registry('current_customer')->getId())
+        $this->addCustomerIdFilter(\Mage::registry('current_customer')->getId())
             ->resetSortOrder()
             ->addDaysInWishlist()
             ->addStoreData();

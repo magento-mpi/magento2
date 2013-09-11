@@ -13,7 +13,9 @@
  * Assumes that one element may depend on other element values.
  * Will toggle as "enabled" only if all elements it depends from toggle as true.
  */
-class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backend_Block_Abstract
+namespace Magento\Backend\Block\Widget\Form\Element;
+
+class Dependence extends \Magento\Backend\Block\AbstractBlock
 {
     /**
      * name => id mapper
@@ -46,7 +48,7 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
      *
      * @param string $fieldId - element ID in DOM
      * @param string $fieldName - element name in their fieldset/form namespace
-     * @return Magento_Backend_Block_Widget_Form_Element_Dependence
+     * @return \Magento\Backend\Block\Widget\Form\Element\Dependence
      */
     public function addFieldMap($fieldId, $fieldName)
     {
@@ -59,13 +61,13 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
      *
      * @param string $fieldName
      * @param string $fieldNameFrom
-     * @param Magento_Backend_Model_Config_Structure_Element_Dependency_Field|string $refField
-     * @return Magento_Backend_Block_Widget_Form_Element_Dependence
+     * @param \Magento\Backend\Model\Config\Structure\Element\Dependency\Field|string $refField
+     * @return \Magento\Backend\Block\Widget\Form\Element\Dependence
      */
     public function addFieldDependence($fieldName, $fieldNameFrom, $refField)
     {
         if (!is_object($refField)) {
-            $refField = Mage::getModel('Magento_Backend_Model_Config_Structure_Element_Dependency_Field', array(
+            $refField = \Mage::getModel('\Magento\Backend\Model\Config\Structure\Element\Dependency\Field', array(
                 'fieldData' => array('value' => (string)$refField),
                 'fieldPrefix' => '',
             ));
@@ -78,7 +80,7 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
      * Add misc configuration options to the javascript dependencies controller
      *
      * @param array $options
-     * @return Magento_Backend_Block_Widget_Form_Element_Dependence
+     * @return \Magento\Backend\Block\Widget\Form\Element\Dependence
      */
     public function addConfigOptions(array $options)
     {
@@ -98,7 +100,7 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
         return '<script type="text/javascript"> new FormElementDependenceController('
             . $this->_getDependsJson()
             . ($this->_configOptions ? ', '
-            . Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_configOptions) : '')
+            . \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->_configOptions) : '')
             . '); </script>';
     }
 
@@ -111,13 +113,13 @@ class Magento_Backend_Block_Widget_Form_Element_Dependence extends Magento_Backe
         $result = array();
         foreach ($this->_depends as $to => $row) {
             foreach ($row as $from => $field) {
-                /** @var $field Magento_Backend_Model_Config_Structure_Element_Dependency_Field */
+                /** @var $field \Magento\Backend\Model\Config\Structure\Element\Dependency\Field */
                 $result[$this->_fields[$to]][$this->_fields[$from]] = array(
                     'values' => $field->getValues(),
                     'negative' => $field->isNegative(),
                 );
             }
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
     }
 }

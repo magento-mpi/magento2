@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Source_Urlrewrite_Options
+namespace Magento\Core\Model\Source\Urlrewrite;
+
+class Options
 {
     const TEMPORARY = 'R';
     const PERMANENT = 'RP';

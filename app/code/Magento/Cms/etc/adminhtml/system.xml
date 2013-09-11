@@ -15,30 +15,30 @@
             <group id="default">
                 <field id="cms_home_page" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>CMS Home Page</label>
-                    <source_model>Magento_Cms_Model_Config_Source_Page</source_model>
+                    <source_model>\Magento\Cms\Model\Config\Source\Page</source_model>
                 </field>
                 <field id="cms_no_route" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>CMS No Route Page</label>
-                    <source_model>Magento_Cms_Model_Config_Source_Page</source_model>
+                    <source_model>\Magento\Cms\Model\Config\Source\Page</source_model>
                 </field>
                 <field id="cms_no_cookies" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>CMS No Cookies Page</label>
-                    <source_model>Magento_Cms_Model_Config_Source_Page</source_model>
+                    <source_model>\Magento\Cms\Model\Config\Source\Page</source_model>
                 </field>
                 <field id="show_cms_breadcrumbs" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Breadcrumbs for CMS Pages</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
             <group id="browser_capabilities" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Browser Capabilities Detection</label>
                 <field id="cookies" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Redirect to CMS-page if Cookies are Disabled</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="javascript" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Notice if JavaScript is Disabled</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
         </section>
@@ -50,7 +50,7 @@
                 <label>WYSIWYG Options</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable WYSIWYG Editor</label>
-                    <source_model>Magento_Cms_Model_Config_Source_Wysiwyg_Enabled</source_model>
+                    <source_model>\Magento\Cms\Model\Config\Source\Wysiwyg\Enabled</source_model>
                 </field>
             </group>
         </section>

@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Customer_Wishlist_Button_Delete extends Magento_Wishlist_Block_Abstract
+namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Button;
+
+class Delete extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
      * Build block html
@@ -24,7 +26,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Button_Delete extends Mag
      */
     protected function _toHtml()
     {
-        if (Mage::helper('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled() && $this->isWishlistDeleteable()) {
+        if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled() && $this->isWishlistDeleteable()) {
             return parent::_toHtml();
         }
         return '';
@@ -37,7 +39,7 @@ class Magento_MultipleWishlist_Block_Customer_Wishlist_Button_Delete extends Mag
      */
     protected function isWishlistDeleteable()
     {
-        return !Mage::helper('Magento_MultipleWishlist_Helper_Data')->isWishlistDefault($this->getWishlistInstance());
+        return !\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isWishlistDefault($this->getWishlistInstance());
     }
 
     /**

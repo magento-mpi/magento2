@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-abstract class Magento_Backend_Model_Config_Structure_ElementAbstract
-    implements Magento_Backend_Model_Config_Structure_ElementInterface
+namespace Magento\Backend\Model\Config\Structure;
+
+abstract class ElementAbstract
+    implements \Magento\Backend\Model\Config\Structure\ElementInterface
 {
     /**
      * Element data
@@ -28,14 +30,14 @@ abstract class Magento_Backend_Model_Config_Structure_ElementAbstract
     /**
      * Application object
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Core\Model\App $application
      */
-    public function __construct(Magento_Core_Model_App $application)
+    public function __construct(\Magento\Core\Model\App $application)
     {
         $this->_application = $application;
     }
@@ -135,9 +137,9 @@ abstract class Magento_Backend_Model_Config_Structure_ElementAbstract
     public function isVisible()
     {
         $showInScope = array(
-            Magento_Backend_Model_Config_ScopeDefiner::SCOPE_STORE => $this->_hasVisibilityValue('showInStore'),
-            Magento_Backend_Model_Config_ScopeDefiner::SCOPE_WEBSITE => $this->_hasVisibilityValue('showInWebsite'),
-            Magento_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT => $this->_hasVisibilityValue('showInDefault'),
+            \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_STORE => $this->_hasVisibilityValue('showInStore'),
+            \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_WEBSITE => $this->_hasVisibilityValue('showInWebsite'),
+            \Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT => $this->_hasVisibilityValue('showInDefault'),
         );
 
         if ($this->_application->isSingleStoreMode()) {

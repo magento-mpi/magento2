@@ -11,7 +11,9 @@
 /**
  * Front end helper block to add links
  */
-class Magento_GiftRegistry_Block_Link extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block;
+
+class Link extends \Magento\Core\Block\Template
 {
     /**
      * Adding link to dashboard links block
@@ -21,12 +23,12 @@ class Magento_GiftRegistry_Block_Link extends Magento_Core_Block_Template
      * @param string $path
      * @param string $label
      * @param array $urlParams
-     * @return Magento_GiftRegistry_Block_Link
+     * @return \Magento\GiftRegistry\Block\Link
      */
     public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
     {
-        if (Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled()) {
-            /** @var $blockInstance Magento_Customer_Block_Account_Navigation */
+        if (\Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
+            /** @var $blockInstance \Magento\Customer\Block\Account\Navigation */
             $blockInstance = $this->getLayout()->getBlock($block);
             if ($blockInstance) {
                 $blockInstance->addLink($name, $path, $label, $urlParams);

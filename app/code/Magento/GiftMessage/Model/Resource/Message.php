@@ -16,7 +16,9 @@
  * @package     Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Model_Resource_Message extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GiftMessage\Model\Resource;
+
+class Message extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table

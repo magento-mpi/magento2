@@ -62,8 +62,8 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
         $this->_objectManager = Mage::getObjectManager();
         $this->_objectManager->configure(array(
             'preferences' => array(
-                'Magento_Core_Controller_Request_Http' => 'Magento_TestFramework_Request',
-                'Magento_Core_Controller_Response_Http' => 'Magento_TestFramework_Response'
+                '\Magento\Core\Controller\Request\Http' => 'Magento_TestFramework_Request',
+                '\Magento\Core\Controller\Response\Http' => 'Magento_TestFramework_Response'
             )
         ));
     }
@@ -82,7 +82,7 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     {
         if ($this->_assertSessionErrors) {
             // equalTo() is intentionally used instead of isEmpty() to provide the informative diff
-            $this->assertSessionMessages($this->equalTo(array()), Magento_Core_Model_Message::ERROR);
+            $this->assertSessionMessages($this->equalTo(array()), \Magento\Core\Model\Message::ERROR);
         }
     }
 
@@ -185,22 +185,22 @@ abstract class Magento_TestFramework_TestCase_ControllerAbstract extends PHPUnit
     /**
      * Assert that actual session messages meet expectations:
      * Usage examples:
-     * $this->assertSessionMessages($this->isEmpty(), Magento_Core_Model_Message::ERROR);
+     * $this->assertSessionMessages($this->isEmpty(), \Magento\Core\Model\Message::ERROR);
      * $this->assertSessionMessages($this->equalTo(array('Entity has been saved.')),
-     * Magento_Core_Model_Message::SUCCESS);
+     * \Magento\Core\Model\Message::SUCCESS);
      *
      * @param PHPUnit_Framework_Constraint $constraint Constraint to compare actual messages against
-     * @param string|null $messageType Message type filter, one of the constants Magento_Core_Model_Message::*
+     * @param string|null $messageType Message type filter, one of the constants \Magento\Core\Model\Message::*
      * @param string $sessionModel Class of the session model that manages messages
      */
     public function assertSessionMessages(
-        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento_Core_Model_Session'
+        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = '\Magento\Core\Model\Session'
     ) {
         $this->_assertSessionErrors = false;
-        /** @var $session Magento_Core_Model_Session_Abstract */
+        /** @var $session \Magento\Core\Model\Session\AbstractSession */
         $session = $this->_objectManager->get($sessionModel);
         $actualMessages = array();
-        /** @var $message Magento_Core_Model_Message_Abstract */
+        /** @var $message \Magento\Core\Model\Message\AbstractMessage */
         foreach ($session->getMessages()->getItems($messageType) as $message) {
             $actualMessages[] = $message->getText();
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Magento_Webapi_Model_Soap_Wsdl_Factory
+ * Test \Magento\Webapi\Model\Soap\Wsdl\Factory
  *
  * {license_notice}
  *
@@ -12,7 +12,7 @@ class Magento_Webapi_Model_Soap_Wsdl_FactoryTest extends PHPUnit_Framework_TestC
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
-    /** @var Magento_Webapi_Model_Soap_Wsdl_Factory */
+    /** @var \Magento\Webapi\Model\Soap\Wsdl\Factory */
     protected $_soapWsdlFactory;
 
     protected function setUp()
@@ -21,7 +21,7 @@ class Magento_Webapi_Model_Soap_Wsdl_FactoryTest extends PHPUnit_Framework_TestC
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
-        $this->_soapWsdlFactory = new Magento_Webapi_Model_Soap_Wsdl_Factory($this->_objectManagerMock);
+        $this->_soapWsdlFactory = new \Magento\Webapi\Model\Soap\Wsdl\Factory($this->_objectManagerMock);
         parent::setUp();
     }
 
@@ -39,7 +39,7 @@ class Magento_Webapi_Model_Soap_Wsdl_FactoryTest extends PHPUnit_Framework_TestC
         $this->_objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with('Magento_Webapi_Model_Soap_Wsdl', array('name' => $wsdlName, 'uri' => $endpointUrl));
+            ->with('Magento\Webapi\Model\Soap\Wsdl', array('name' => $wsdlName, 'uri' => $endpointUrl));
         $this->_soapWsdlFactory->create($wsdlName, $endpointUrl);
     }
 }

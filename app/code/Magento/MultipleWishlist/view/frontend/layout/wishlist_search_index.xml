@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="Wishlist Search Form" id="wishlist_search_index" type="page" parent="default">
         <reference name="content">
-            <block class="Magento_MultipleWishlist_Block_Search_Form" name="wishlist.search.form" template="search/form.phtml">
+            <block class="\Magento\MultipleWishlist\Block\Search\Form" name="wishlist.search.form" template="search/form.phtml">
             </block>
         </reference>
     </handle>

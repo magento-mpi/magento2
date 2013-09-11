@@ -13,9 +13,11 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
-    extends Magento_Backend_Block_Widget_Form
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
+
+abstract class TabAbstract
+    extends \Magento\Backend\Block\Widget\Form
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\ObjectManager
@@ -23,12 +25,12 @@ abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstrac
     protected $_objectManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\ObjectManager $objectManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Block\Template\Context $context,
         \Magento\ObjectManager $objectManager,
         array $data = array()
     ) {
@@ -39,11 +41,11 @@ abstract class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstrac
     /**
      * Get theme that is edited currently
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     protected function _getCurrentTheme()
     {
-        return Mage::registry('current_theme');
+        return \Mage::registry('current_theme');
     }
 
     /**

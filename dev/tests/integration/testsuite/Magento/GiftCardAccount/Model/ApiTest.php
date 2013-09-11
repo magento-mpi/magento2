@@ -19,8 +19,8 @@ class Magento_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        /** @var Magento_GiftCardAccount_Model_Giftcardaccount $testModel */
-        $testModel = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount');
+        /** @var \Magento\GiftCardAccount\Model\Giftcardaccount $testModel */
+        $testModel = Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount');
         $accountFixture = simplexml_load_file(
             dirname(__FILE__) . '/../_files/fixture/giftcard_account.xml'
         );
@@ -69,8 +69,8 @@ class Magento_GiftCardAccount_Model_ApiTest extends PHPUnit_Framework_TestCase
         );
         $this->assertTrue($removeResult);
 
-        /** @var $pool Magento_GiftCardAccount_Model_Pool */
-        $pool = Mage::getModel('Magento_GiftCardAccount_Model_Pool');
+        /** @var $pool \Magento\GiftCardAccount\Model\Pool */
+        $pool = Mage::getModel('\Magento\GiftCardAccount\Model\Pool');
         $pool->setCode(self::$code);
         $pool->delete();
 

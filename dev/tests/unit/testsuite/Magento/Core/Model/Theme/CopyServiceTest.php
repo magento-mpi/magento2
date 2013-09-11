@@ -12,7 +12,7 @@
 class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
-     * @var Magento_Core_Model_Theme_CopyService
+     * @var \Magento\Core\Model\Theme\CopyService
      */
     protected $_object;
 
@@ -78,14 +78,14 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $sourceFileOne = $this->getMock('Magento_Core_Model_Theme_File', array('delete'), array(), '', false);
+        $sourceFileOne = $this->getMock('Magento\Core\Model\Theme\File', array('delete'), array(), '', false);
         $sourceFileOne->setData(array(
             'file_path'     => 'fixture_file_path_one',
             'file_type'     => 'fixture_file_type_one',
             'content'       => 'fixture_content_one',
             'sort_order'    => 10,
         ));
-        $sourceFileTwo = $this->getMock('Magento_Core_Model_Theme_File', array('delete'), array(), '', false);
+        $sourceFileTwo = $this->getMock('Magento\Core\Model\Theme\File', array('delete'), array(), '', false);
         $sourceFileTwo->setData(array(
             'file_path'     => 'fixture_file_path_two',
             'file_type'     => 'fixture_file_type_two',
@@ -94,7 +94,7 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         ));
         $this->_sourceFiles = array($sourceFileOne, $sourceFileTwo);
         $this->_sourceTheme = $this->getMock(
-            'Magento_Core_Model_Theme',
+            '\Magento\Core\Model\Theme',
             array('getCustomization'),
             array(),
             '',
@@ -102,11 +102,11 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         );
 
         $this->_targetFiles = array(
-            $this->getMock('Magento_Core_Model_Theme_File', array('delete'), array(), '', false),
-            $this->getMock('Magento_Core_Model_Theme_File', array('delete'), array(), '', false),
+            $this->getMock('Magento\Core\Model\Theme\File', array('delete'), array(), '', false),
+            $this->getMock('Magento\Core\Model\Theme\File', array('delete'), array(), '', false),
         );
         $this->_targetTheme = $this->getMock(
-            'Magento_Core_Model_Theme',
+            '\Magento\Core\Model\Theme',
             array('getCustomization'),
             array(),
             '',
@@ -114,11 +114,11 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         );
         $this->_targetTheme->setId(123);
 
-        $this->_customizationPath = $this->getMock('Magento_Core_Model_Theme_Customization_Path',
+        $this->_customizationPath = $this->getMock('Magento\Core\Model\Theme\Customization\Path',
             array(), array(), '', false);
 
         $this->_fileFactory = $this->getMock(
-            'Magento_Core_Model_Theme_FileFactory',
+            '\Magento\Core\Model\Theme\FileFactory',
             array('create'),
             array(),
             '',
@@ -133,7 +133,7 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         $this->_updateFactory = $this->getMock('Magento_Core_Model_Layout_UpdateFactory', array('create'),
             array(), '', false);
         $this->_update = $this->getMock(
-            'Magento_Core_Model_Layout_Update',
+            '\Magento\Core\Model\Layout\Update',
             array('getCollection'),
             array(),
             '',
@@ -146,14 +146,14 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue($this->_updateCollection));
 
         /* Init Link an Link_Collection model */
-        $this->_link = $this->getMock('Magento_Core_Model_Layout_Link', array('getCollection'), array(), '', false);
-        $this->_linkCollection = $this->getMock('Magento_Core_Model_Resource_Layout_Link_Collection',
+        $this->_link = $this->getMock('Magento\Core\Model\Layout\Link', array('getCollection'), array(), '', false);
+        $this->_linkCollection = $this->getMock('Magento\Core\Model\Resource\Layout\Link\Collection',
             array('addThemeFilter', 'getIterator'), array(), '', false);
         $this->_link->expects($this->any())->method('getCollection')->will($this->returnValue($this->_linkCollection));
 
-        $eventManager = $this->getMock('Magento_Core_Model_Event_Manager', array('dispatch'), array(), '', false);
+        $eventManager = $this->getMock('Magento\Core\Model\Event\Manager', array('dispatch'), array(), '', false);
 
-        $this->_object = new Magento_Core_Model_Theme_CopyService(
+        $this->_object = new \Magento\Core\Model\Theme\CopyService(
             $this->_filesystem,
             $this->_fileFactory,
             $this->_link,
@@ -179,12 +179,12 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_CopyService::_copyLayoutCustomization
+     * @covers \Magento\Core\Model\Theme\CopyService::_copyLayoutCustomization
      */
     public function testCopyLayoutUpdates()
     {
         $customization = $this->getMock(
-            'Magento_Core_Model_Theme_Customization',
+            '\Magento\Core\Model\Theme\Customization',
             array('getFiles'),
             array(),
             '',
@@ -199,10 +199,10 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         $this->_updateCollection->expects($this->once())->method('delete');
         $this->_linkCollection->expects($this->once())->method('addThemeFilter');
 
-        $targetLinkOne = $this->getMock('Magento_Core_Model_Layout_Link',
+        $targetLinkOne = $this->getMock('Magento\Core\Model\Layout\Link',
             array('setId', 'setThemeId', 'save', 'setLayoutUpdateId'), array(), '', false);
         $targetLinkOne->setData(array('id' => 1, 'layout_update_id' => 1));
-        $targetLinkTwo = $this->getMock('Magento_Core_Model_Layout_Link',
+        $targetLinkTwo = $this->getMock('Magento\Core\Model\Layout\Link',
             array('setId', 'setThemeId', 'save', 'setLayoutUpdateId'), array(), '', false);
         $targetLinkTwo->setData(array('id' => 2, 'layout_update_id' => 2));
 
@@ -219,10 +219,10 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         $linkReturnValues = $this->onConsecutiveCalls(new ArrayIterator(array($targetLinkOne, $targetLinkTwo)));
         $this->_linkCollection->expects($this->any())->method('getIterator')->will($linkReturnValues);
 
-        $targetUpdateOne = $this->getMock('Magento_Core_Model_Layout_Update', array('setId', 'load', 'save'),
+        $targetUpdateOne = $this->getMock('Magento\Core\Model\Layout\Update', array('setId', 'load', 'save'),
             array(), '', false);
         $targetUpdateOne->setData(array('id' => 1));
-        $targetUpdateTwo = $this->getMock('Magento_Core_Model_Layout_Update', array('setId', 'load', 'save'),
+        $targetUpdateTwo = $this->getMock('Magento\Core\Model\Layout\Update', array('setId', 'load', 'save'),
             array(), '', false);
         $targetUpdateTwo->setData(array('id' => 2));
         $updateReturnValues = $this->onConsecutiveCalls($this->_update, $targetUpdateOne, $targetUpdateTwo);
@@ -232,12 +232,12 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_CopyService::_copyDatabaseCustomization
+     * @covers \Magento\Core\Model\Theme\CopyService::_copyDatabaseCustomization
      */
     public function testCopyDatabaseCustomization()
     {
         $sourceCustom = $this->getMock(
-            'Magento_Core_Model_Theme_Customization',
+            '\Magento\Core\Model\Theme\Customization',
             array('getFiles'),
             array(),
             '',
@@ -249,7 +249,7 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
         $this->_sourceTheme->expects($this->once())->method('getCustomization')
             ->will($this->returnValue($sourceCustom));
         $targetCustom = $this->getMock(
-            'Magento_Core_Model_Theme_Customization',
+            '\Magento\Core\Model\Theme\Customization',
             array('getFiles'),
             array(),
             '',
@@ -270,8 +270,8 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
             $targetFile->expects($this->once())->method('delete');
         }
 
-        $newFileOne = $this->getMock('Magento_Core_Model_Theme_File', array('setData', 'save'), array(), '', false);
-        $newFileTwo = $this->getMock('Magento_Core_Model_Theme_File', array('setData', 'save'), array(), '', false);
+        $newFileOne = $this->getMock('Magento\Core\Model\Theme\File', array('setData', 'save'), array(), '', false);
+        $newFileTwo = $this->getMock('Magento\Core\Model\Theme\File', array('setData', 'save'), array(), '', false);
         $newFileOne->expects($this->at(0))->method('setData')->with(array(
             'theme_id'      => 123,
             'file_path'     => 'fixture_file_path_one',
@@ -299,12 +299,12 @@ class Magento_Core_Model_Theme_CopyServiceTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_CopyService::_copyFilesystemCustomization
+     * @covers \Magento\Core\Model\Theme\CopyService::_copyFilesystemCustomization
      */
     public function testCopyFilesystemCustomization()
     {
         $customization = $this->getMock(
-            'Magento_Core_Model_Theme_Customization',
+            '\Magento\Core\Model\Theme\Customization',
             array('getFiles'),
             array(),
             '',

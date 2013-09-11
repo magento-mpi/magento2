@@ -11,7 +11,9 @@
 /**
  * Design Editor main helper
  */
-class Magento_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\DesignEditor\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**#@+
      * XML paths to VDE settings
@@ -26,7 +28,7 @@ class Magento_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
     const TRANSLATION_MODE = "translation_mode";
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_configuration;
 
@@ -41,12 +43,12 @@ class Magento_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_translationMode;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $configuration
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $configuration
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config $configuration
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config $configuration
     ) {
         parent::__construct($context);
         $this->_configuration = $configuration;
@@ -76,10 +78,10 @@ class Magento_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * This method returns an indicator of whether or not the current request is for vde
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @return bool
      */
-    public function isVdeRequest(Magento_Core_Controller_Request_Http $request = null)
+    public function isVdeRequest(\Magento\Core\Controller\Request\Http $request = null)
     {
         if (null !== $request) {
             $result = false;
@@ -101,7 +103,7 @@ class Magento_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAvailableModes()
     {
-        return array(Magento_DesignEditor_Model_State::MODE_NAVIGATION);
+        return array(\Magento\DesignEditor\Model\State::MODE_NAVIGATION);
     }
 
     /**
@@ -117,10 +119,10 @@ class Magento_DesignEditor_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Sets the translation mode for the current request (null, text, script, or alt);
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @return Magento_DesignEditor_Helper_Data
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @return \Magento\DesignEditor\Helper\Data
      */
-    public function setTranslationMode(Magento_Core_Controller_Request_Http $request)
+    public function setTranslationMode(\Magento\Core\Controller\Request\Http $request)
     {
         $this->_translationMode = $request->getParam(self::TRANSLATION_MODE, null);
         return $this;

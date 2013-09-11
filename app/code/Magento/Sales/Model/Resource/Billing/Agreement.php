@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Billing_Agreement extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Sales\Model\Resource\Billing;
+
+class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -32,7 +34,7 @@ class Magento_Sales_Model_Resource_Billing_Agreement extends Magento_Core_Model_
      *
      * @param int $agreementId
      * @param int $orderId
-     * @return Magento_Sales_Model_Resource_Billing_Agreement
+     * @return \Magento\Sales\Model\Resource\Billing\Agreement
      */
     public function addOrderRelation($agreementId, $orderId)
     {

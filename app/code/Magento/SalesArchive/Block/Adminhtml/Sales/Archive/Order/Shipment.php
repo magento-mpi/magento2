@@ -13,7 +13,9 @@
  *
  */
 
-class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment extends Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Container
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order;
+
+class Shipment extends \Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Container
 {
     protected function _construct()
     {

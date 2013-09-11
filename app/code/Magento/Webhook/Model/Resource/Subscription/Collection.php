@@ -9,12 +9,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Subscription_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Webhook\Model\Resource\Subscription;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
     implements \Magento\PubSub\Subscription\CollectionInterface
 {
     /**
-     * @var Magento_Webhook_Model_Resource_Endpoint
+     * @var \Magento\Webhook\Model\Resource\Endpoint
      */
     protected $_endpointResource;
 
@@ -22,13 +24,13 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
      * Collection constructor
      *
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Webhook_Model_Resource_Endpoint $endpointResource
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Webhook\Model\Resource\Endpoint $endpointResource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Webhook_Model_Resource_Endpoint $endpointResource,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($fetchStrategy, $resource);
         $this->_endpointResource = $endpointResource;
@@ -40,7 +42,7 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
     public function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Webhook_Model_Subscription', 'Magento_Webhook_Model_Resource_Subscription');
+        $this->_init('\Magento\Webhook\Model\Subscription', '\Magento\Webhook\Model\Resource\Subscription');
     }
 
 
@@ -63,7 +65,7 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
      * Returns all subscriptions that match a given alias
      *
      * @param string $alias
-     * @return Magento_Webhook_Model_Subscription[]
+     * @return \Magento\Webhook\Model\Subscription[]
      */
     public function getSubscriptionsByAlias($alias)
     {
@@ -76,7 +78,7 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
     /**
      * Get subscriptions whose endpoint has no api user
      *
-     * @return Magento_Webhook_Model_Subscription[]
+     * @return \Magento\Webhook\Model\Subscription[]
      */
     public function getActivatedSubscriptionsWithoutApiUser()
     {
@@ -93,7 +95,7 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
      * Get api user subscriptions
      *
      * @param int|int[] $apiUserIds
-     * @return Magento_Webhook_Model_Subscription[]
+     * @return \Magento\Webhook\Model\Subscription[]
      */
     public function getApiUserSubscriptions($apiUserIds)
     {
@@ -108,7 +110,7 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
     /**
      * Clear the select object
      *
-     * @return Magento_Webhook_Model_Resource_Subscription_Collection
+     * @return \Magento\Webhook\Model\Resource\Subscription\Collection
      */
     public function clearFilters()
     {
@@ -121,7 +123,7 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
      * Select subscriptions whose endpoint's id is in given array
      *
      * @param array $endpointIds
-     * @return Magento_Webhook_Model_Resource_Subscription_Collection
+     * @return \Magento\Webhook\Model\Resource\Subscription\Collection
      */
     public function addEndpointIdsFilter($endpointIds)
     {
@@ -134,7 +136,7 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
      * Add filter by topic field to collection
      *
      * @param string $topic
-     * @return Magento_Webhook_Model_Resource_Subscription_Collection
+     * @return \Magento\Webhook\Model\Resource\Subscription\Collection
      */
     public function addTopicFilter($topic)
     {
@@ -150,7 +152,7 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
      * Add filter by alias field to collection
      * 
      * @param string|array $alias
-     * @return Magento_Webhook_Model_Resource_Subscription_Collection
+     * @return \Magento\Webhook\Model\Resource\Subscription\Collection
      */
     public function addAliasFilter($alias)
     {
@@ -162,7 +164,7 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
      * Adds filter by status field to collection based on parameter
      *
      * @param bool $isActive
-     * @return Magento_Webhook_Model_Resource_Subscription_Collection
+     * @return \Magento\Webhook\Model\Resource\Subscription\Collection
      */
     public function addIsActiveFilter($isActive)
     {
@@ -177,13 +179,13 @@ class Magento_Webhook_Model_Resource_Subscription_Collection
     /**
      * Filter out anything in the INACTIVE state
      *
-     * @return Magento_Webhook_Model_Resource_Subscription_Collection
+     * @return \Magento\Webhook\Model\Resource\Subscription\Collection
      */
     public function addNotInactiveFilter()
     {
         $this->getSelect()->where('status IN (?)', array(
-            Magento_Webhook_Model_Subscription::STATUS_ACTIVE,
-            Magento_Webhook_Model_Subscription::STATUS_REVOKED));
+            \Magento\Webhook\Model\Subscription::STATUS_ACTIVE,
+            \Magento\Webhook\Model\Subscription::STATUS_REVOKED));
 
         return $this;
     }

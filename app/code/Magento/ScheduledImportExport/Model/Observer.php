@@ -15,7 +15,9 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_Observer
+namespace Magento\ScheduledImportExport\Model;
+
+class Observer
 {
     /**
      * Cron tab expression path
@@ -50,34 +52,34 @@ class Magento_ScheduledImportExport_Model_Observer
     /**
      * Clear old log files and folders
      *
-     * @param Magento_Cron_Model_Schedule $schedule
+     * @param \Magento\Cron\Model\Schedule $schedule
      * @param bool $forceRun
      * @return bool
      */
     public function scheduledLogClean($schedule, $forceRun = false)
     {
         $result = false;
-        if (!Mage::getStoreConfig(self::CRON_STRING_PATH)
-            && (!$forceRun || !Mage::getStoreConfig(self::LOG_CLEANING_ENABLE_PATH))
+        if (!\Mage::getStoreConfig(self::CRON_STRING_PATH)
+            && (!$forceRun || !\Mage::getStoreConfig(self::LOG_CLEANING_ENABLE_PATH))
         ) {
             return;
         }
 
         try {
-            $logPath = Mage::getBaseDir(Magento_Core_Model_Dir::LOG)
-                . DS . Magento_ScheduledImportExport_Model_Scheduled_Operation::LOG_DIRECTORY;
+            $logPath = \Mage::getBaseDir(\Magento\Core\Model\Dir::LOG)
+                . DS . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY;
 
             if (!file_exists($logPath) || !is_dir($logPath)) {
                 if (!mkdir($logPath, 0777, true)) {
-                    Mage::throwException(__("We couldn't create directory " . '"%1"', $logPath));
+                    \Mage::throwException(__("We couldn't create directory " . '"%1"', $logPath));
                 }
             }
 
             if (!is_dir($logPath) || !is_writable($logPath)) {
-                Mage::throwException(__('The directory "%1" is not writable.', $logPath));
+                \Mage::throwException(__('The directory "%1" is not writable.', $logPath));
             }
-            $saveTime = (int) Mage::getStoreConfig(self::SAVE_LOG_TIME_PATH) + 1;
-            $dateCompass = new DateTime('-' . $saveTime . ' days');
+            $saveTime = (int) \Mage::getStoreConfig(self::SAVE_LOG_TIME_PATH) + 1;
+            $dateCompass = new \DateTime('-' . $saveTime . ' days');
 
             foreach ($this->_getDirectoryList($logPath) as $directory) {
                 $separator = str_replace('\\', '\\\\', DS);
@@ -85,19 +87,19 @@ class Magento_ScheduledImportExport_Model_Observer
                     continue;
                 }
 
-                $direcotryDate = new DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3]);
+                $direcotryDate = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3]);
                 if ($forceRun || $direcotryDate < $dateCompass) {
                     $fs = new \Magento\Io\File();
                     if (!$fs->rmdirRecursive($directory, true)) {
-                        $directory = str_replace(Mage::getBaseDir() . DS, '', $directory);
-                        Mage::throwException(
+                        $directory = str_replace(\Mage::getBaseDir() . DS, '', $directory);
+                        \Mage::throwException(
                             __('We couldn\'t delete "%1" because the directory is not writable.', $directory)
                         );
                     }
                 }
             }
             $result = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_sendEmailNotification(array(
                 'warnings' => $e->getMessage()
             ));
@@ -136,13 +138,13 @@ class Magento_ScheduledImportExport_Model_Observer
     /**
      * Run operation in crontab
      *
-     * @param Magento_Cron_Model_Schedule|\Magento\Object $schedule
+     * @param \Magento\Cron\Model\Schedule|\Magento\Object $schedule
      * @param bool $forceRun
      * @return bool
      */
     public function processScheduledOperation($schedule, $forceRun = false)
     {
-        $operation = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation')
+        $operation = \Mage::getModel('\Magento\ScheduledImportExport\Model\Scheduled\Operation')
             ->loadByJobCode($schedule->getJobCode());
 
         $result = false;
@@ -157,26 +159,26 @@ class Magento_ScheduledImportExport_Model_Observer
      * Send email notification
      *
      * @param array $vars
-     * @return Magento_ScheduledImportExport_Model_Observer
+     * @return \Magento\ScheduledImportExport\Model\Observer
      */
     protected function _sendEmailNotification($vars)
     {
-        $storeId = Mage::app()->getStore()->getId();
-        $receiverEmail = Mage::getStoreConfig(self::XML_RECEIVER_EMAIL_PATH, $storeId);
+        $storeId = \Mage::app()->getStore()->getId();
+        $receiverEmail = \Mage::getStoreConfig(self::XML_RECEIVER_EMAIL_PATH, $storeId);
         if (!$receiverEmail) {
             return $this;
         }
 
-        $mailer = Mage::getSingleton('Magento_Core_Model_Email_Template_Mailer');
-        $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+        $mailer = \Mage::getSingleton('Magento\Core\Model\Email\Template\Mailer');
+        $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
         $emailInfo->addTo($receiverEmail);
 
         $mailer->addEmailInfo($emailInfo);
 
         // Set all required params and send emails
-        $mailer->setSender(Mage::getStoreConfig(self::XML_SENDER_EMAIL_PATH, $storeId));
+        $mailer->setSender(\Mage::getStoreConfig(self::XML_SENDER_EMAIL_PATH, $storeId));
         $mailer->setStoreId($storeId);
-        $mailer->setTemplateId(Mage::getStoreConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId));
+        $mailer->setTemplateId(\Mage::getStoreConfig(self::XML_TEMPLATE_EMAIL_PATH, $storeId));
         $mailer->setTemplateParams($vars);
         $mailer->send();
         return $this;

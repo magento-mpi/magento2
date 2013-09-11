@@ -15,15 +15,17 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
-    extends Magento_Backend_Block_Widget_Grid
+namespace Magento\MultipleWishlist\Block\Adminhtml\Report\Customer\Wishlist;
+
+class Grid
+    extends \Magento\Backend\Block\Widget\Grid
 {
     /**
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_MultipleWishlist_Model_Resource_Item_Report_Collection */
+        /** @var $collection \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection */
         $collection = $this->getCollection();
         $collection->filterByStoreIds($this->_getStoreIds());
         return parent::_prepareCollection();
@@ -37,7 +39,7 @@ class Magento_MultipleWishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
     protected function _getStoreIds()
     {
         $storeIdsStr = $this->getRequest()->getParam('store_ids');
-        $allowedStoreIds = array_keys(Mage::app()->getStores());
+        $allowedStoreIds = array_keys(\Mage::app()->getStores());
         if (strlen($storeIdsStr)) {
             $storeIds = explode(',', $storeIdsStr);
             $storeIds = array_intersect($allowedStoreIds, $storeIds);

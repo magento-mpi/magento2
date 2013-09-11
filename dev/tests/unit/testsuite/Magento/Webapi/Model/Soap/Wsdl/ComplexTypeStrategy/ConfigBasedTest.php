@@ -17,7 +17,7 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_wsdl;
 
-    /** @var Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased */
+    /** @var \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased */
     protected $_strategy;
 
     /**
@@ -25,17 +25,17 @@ class Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBasedTest extends
      */
     protected function setUp()
     {
-        $this->_resourceConfig = $this->getMockBuilder('Magento_Webapi_Model_Config_Soap')
+        $this->_resourceConfig = $this->getMockBuilder('Magento\Webapi\Model\Config\Soap')
             ->setMethods(array('getTypeData'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_wsdl = $this->getMockBuilder('Magento_Webapi_Model_Soap_Wsdl')
+        $this->_wsdl = $this->getMockBuilder('Magento\Webapi\Model\Soap\Wsdl')
             ->setMethods(array('toDomDocument', 'getTypes', 'getSchema'))
             ->disableOriginalConstructor()
             ->getMock();
-        $helper = $this->getMock('Magento_Webapi_Helper_Config', array(), array(), '', false, false);
+        $helper = $this->getMock('Magento\Webapi\Helper\Config', array(), array(), '', false, false);
 
-        $this->_strategy = new Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased(
+        $this->_strategy = new \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased(
             $this->_resourceConfig,
             $helper
         );

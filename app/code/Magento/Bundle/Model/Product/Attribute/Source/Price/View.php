@@ -16,7 +16,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Product_Attribute_Source_Price_View extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Bundle\Model\Product\Attribute\Source\Price;
+
+class View extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Get all options
@@ -71,7 +73,7 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View extends Magento_E
             'extra'     => null
         );
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {
@@ -91,7 +93,7 @@ class Magento_Bundle_Model_Product_Attribute_Source_Price_View extends Magento_E
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
+        return \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option')
             ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

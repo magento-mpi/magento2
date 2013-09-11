@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts;
+
+class Price extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected function _construct()
     {
@@ -35,10 +37,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price extends Mage
         $productId = $this->getRequest()->getParam('id');
         $websiteId = 0;
         if ($store = $this->getRequest()->getParam('store')) {
-            $websiteId = Mage::app()->getStore($store)->getWebsiteId();
+            $websiteId = \Mage::app()->getStore($store)->getWebsiteId();
         }
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_ProductAlert')) {
-            $collection = Mage::getModel('Magento_ProductAlert_Model_Price')
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_ProductAlert')) {
+            $collection = \Mage::getModel('\Magento\ProductAlert\Model\Price')
                 ->getCustomerCollection()
                 ->join($productId, $websiteId);
             $this->setCollection($collection);
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price extends Mage
             'index'     => 'price',
             'type'      => 'currency',
             'currency_code'
-                        => Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE)
+                        => \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
         ));
 
         $this->addColumn('add_date', array(
@@ -96,7 +98,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price extends Mage
         $productId = $this->getRequest()->getParam('id');
         $storeId   = $this->getRequest()->getParam('store', 0);
         if ($storeId) {
-            $storeId = Mage::app()->getStore($storeId)->getId();
+            $storeId = \Mage::app()->getStore($storeId)->getId();
         }
         return $this->getUrl('*/catalog_product/alertsPriceGrid', array(
             'id'    => $productId,

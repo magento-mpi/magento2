@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_rma_index">
         <reference name="content">
-            <block class="Magento_Rma_Block_Adminhtml_Rma" name="magento_rma"/>
+            <block class="\Magento\Rma\Block\Adminhtml\Rma" name="magento_rma"/>
         </reference>
     </handle>
 </layout>

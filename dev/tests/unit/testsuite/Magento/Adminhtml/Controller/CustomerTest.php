@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for Magento_Adminhtml_Controller_Customer controller
+ * Unit test for \Magento\Adminhtml\Controller\Customer controller
  *
  * {license_notice}
  *
@@ -17,42 +17,42 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
     /**
      * Request mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Controller_Request_Http
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
      * Response mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Controller_Response_Http
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Controller\Response\Http
      */
     protected $_response;
 
     /**
      * Instance of mocked tested object
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Adminhtml_Controller_Customer
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Adminhtml\Controller\Customer
      */
     protected $_testedObject;
 
     /**
      * ObjectManager mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_ObjectManager
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Session mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Backend_Model_Session
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
      * Backend helper mock instance
      *
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Backend_Helper_Data
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Backend\Helper\Data
      */
     protected $_helper;
 
@@ -61,12 +61,12 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
      */
     public function setUp()
     {
-        $this->_request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
+        $this->_request = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
             ->disableOriginalConstructor()
             ->setMethods(array('getParam'))
             ->getMock();
 
-        $this->_response = $this->getMockBuilder('Magento_Core_Controller_Response_Http')
+        $this->_response = $this->getMockBuilder('Magento\Core\Controller\Response\Http')
             ->disableOriginalConstructor()
             ->setMethods(array('setRedirect', 'getHeader'))
             ->getMock();
@@ -75,26 +75,26 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
             ->with($this->equalTo('X-Frame-Options'))
             ->will($this->returnValue(true));
 
-        $this->_objectManager = $this->getMockBuilder('Magento_Core_Model_ObjectManager')
+        $this->_objectManager = $this->getMockBuilder('Magento\Core\Model\ObjectManager')
             ->disableOriginalConstructor()
             ->setMethods(array('get', 'create'))
             ->getMock();
-        $frontControllerMock = $this->getMockBuilder('Magento_Core_Controller_Varien_Front')
+        $frontControllerMock = $this->getMockBuilder('Magento\Core\Controller\Varien\Front')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_session = $this->getMockBuilder('Magento_Backend_Model_Session')
+        $this->_session = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
             ->setMethods(array('setIsUrlNotice', 'addSuccess'))
             ->getMock();
         $this->_session->expects($this->any())->method('setIsUrlNotice');
 
-        $this->_helper = $this->getMockBuilder('Magento_Backend_Helper_Data')
+        $this->_helper = $this->getMockBuilder('Magento\Backend\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getUrl'))
             ->getMock();
 
-        $translator = $this->getMockBuilder('Magento_Core_Model_Translate')
+        $translator = $this->getMockBuilder('Magento\Core\Model\Translate')
             ->disableOriginalConstructor()
             ->setMethods(array('getTranslateInline'))
             ->getMock();
@@ -103,7 +103,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
             'getHelper', 'getSession', 'getAuthorization', 'getTranslator', 'getObjectManager', 'getFrontController',
             'getLayoutFactory', 'getEventManager', 'getRequest', 'getResponse'
         );
-        $contextMock = $this->getMockBuilder('Magento_Backend_Controller_Context')
+        $contextMock = $this->getMockBuilder('Magento\Backend\Controller\Context')
             ->disableOriginalConstructor()
             ->setMethods($contextArgs)
             ->getMock();
@@ -123,11 +123,11 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
         $args = array('context' => $contextMock);
 
         $helperObjectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_testedObject = $helperObjectManager->getObject('Magento_Adminhtml_Controller_Customer', $args);
+        $this->_testedObject = $helperObjectManager->getObject('\Magento\Adminhtml\Controller\Customer', $args);
     }
 
     /**
-     * Test Magento_Adminhtml_Controller_Customer::resetPasswordAction()
+     * Test \Magento\Adminhtml\Controller\Customer::resetPasswordAction()
      */
     public function testResetPasswordActionNoCustomer()
     {
@@ -147,7 +147,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * Test Magento_Adminhtml_Controller_Customer::resetPasswordAction()
+     * Test \Magento\Adminhtml\Controller\Customer::resetPasswordAction()
      */
     public function testResetPasswordActionNoCustomerId()
     {
@@ -164,7 +164,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
 
         $this->_objectManager->expects($this->any())
             ->method('create')
-            ->with($this->equalTo('Magento_Customer_Model_Customer'))
+            ->with($this->equalTo('Magento\Customer\Model\Customer'))
             ->will($this->returnValue($customerMock));
 
         $this->_helper->expects($this->any())
@@ -201,7 +201,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
         $customerMock->expects($this->once())
             ->method('sendPasswordReminderEmail');
 
-        $customerHelperMock = $this->getMockBuilder('Magento_Customer_Helper_Data')
+        $customerHelperMock = $this->getMockBuilder('Magento\Customer\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('generateResetPasswordLinkToken'))
             ->getMock();
@@ -209,7 +209,7 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
             ->method('generateResetPasswordLinkToken')
             ->will($this->returnValue($token));
 
-        $coreHelperMock = $this->getMockBuilder('Magento_Core_Model_Url')
+        $coreHelperMock = $this->getMockBuilder('Magento\Core\Model\Url')
             ->disableOriginalConstructor()
             ->setMethods(array('getUrl'))
             ->getMock();
@@ -217,17 +217,17 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
 
         $this->_objectManager->expects($this->at(0))
             ->method('create')
-            ->with($this->equalTo('Magento_Customer_Model_Customer'))
+            ->with($this->equalTo('Magento\Customer\Model\Customer'))
             ->will($this->returnValue($customerMock));
 
         $this->_objectManager->expects($this->at(1))
             ->method('get')
-            ->with($this->equalTo('Magento_Customer_Helper_Data'))
+            ->with($this->equalTo('Magento\Customer\Helper\Data'))
             ->will($this->returnValue($customerHelperMock));
 
         $this->_objectManager->expects($this->at(2))
             ->method('create')
-            ->with($this->equalTo('Magento_Core_Model_Url'))
+            ->with($this->equalTo('Magento\Core\Model\Url'))
             ->will($this->returnValue($coreHelperMock));
 
         $this->_session->expects($this->once())
@@ -241,11 +241,11 @@ class Magento_Adminhtml_Controller_CustomerTest extends PHPUnit_Framework_TestCa
      *
      * @param int $customerId
      * @param null|int $returnId
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Customer_Model_Customer
+     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Model\Customer
      */
     protected function _getCustomerMock($customerId, $returnId = null)
     {
-        $customerMock = $this->getMockBuilder('Magento_Customer_Model_Customer')
+        $customerMock = $this->getMockBuilder('Magento\Customer\Model\Customer')
             ->disableOriginalConstructor()
             ->setMethods(array('load', 'getId', 'changeResetPasswordLinkToken', 'setResetPasswordUrl',
                 'sendPasswordReminderEmail'))

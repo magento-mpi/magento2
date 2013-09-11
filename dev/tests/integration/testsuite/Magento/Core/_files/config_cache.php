@@ -6,6 +6,6 @@
  * @license     {license_link}
  */
 
-/** @var Magento_Core_Model_Cache_Type_Config $layoutCache */
-$layoutCache = Mage::getSingleton('Magento_Core_Model_Cache_Type_Config');
+/** @var \Magento\Core\Model\Cache\Type\Config $layoutCache */
+$layoutCache = Mage::getSingleton('Magento\Core\Model\Cache\Type\Config');
 $layoutCache->save('fixture config cache data', 'CONFIG_CACHE_FIXTURE');

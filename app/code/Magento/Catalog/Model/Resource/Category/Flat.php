@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_Resource_Abstract
+namespace Magento\Catalog\Model\Resource\Category;
+
+class Flat extends \Magento\Index\Model\Resource\AbstractResource
 {
     /**
      * Store id
@@ -103,7 +105,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Set store id
      *
      * @param integer $storeId
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function setStoreId($storeId)
     {
@@ -119,7 +121,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     public function getStoreId()
     {
         if (is_null($this->_storeId)) {
-            return (int)Mage::app()->getStore()->getId();
+            return (int)\Mage::app()->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -140,7 +142,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * @param integer $storeId
      * @return string
      */
-    public function getMainStoreTable($storeId = Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID)
+    public function getMainStoreTable($storeId = \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID)
     {
         if (is_string($storeId)) {
             $storeId = intval($storeId);
@@ -169,7 +171,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Add inactive categories ids
      *
      * @param unknown_type $ids
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function addInactiveCategoryIds($ids)
     {
@@ -183,12 +185,12 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Retreive inactive categories ids
      *
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     protected function _initInactiveCategoryIds()
     {
         $this->_inactiveCategoryIds = array();
-        Mage::dispatchEvent('catalog_category_tree_init_inactive_category_ids', array('tree' => $this));
+        \Mage::dispatchEvent('catalog_category_tree_init_inactive_category_ids', array('tree' => $this));
         return $this;
     }
 
@@ -209,17 +211,17 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Load nodes by parent id
      *
-     * @param Magento_Catalog_Model_Category|int $parentNode
+     * @param \Magento\Catalog\Model\Category|int $parentNode
      * @param integer $recursionLevel
      * @param integer $storeId
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     protected function _loadNodes($parentNode = null, $recursionLevel = 0, $storeId = 0)
     {
         $_conn = $this->_getReadAdapter();
         $startLevel = 1;
         $parentPath = '';
-        if ($parentNode instanceof Magento_Catalog_Model_Category) {
+        if ($parentNode instanceof \Magento\Catalog\Model\Category) {
             $parentPath = $parentNode->getPath();
             $startLevel = $parentNode->getLevel();
         } elseif (is_numeric($parentNode)) {
@@ -237,8 +239,8 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             ->from(
                 array('main_table' => $this->getMainStoreTable($storeId)),
                 array('entity_id',
-                    new Zend_Db_Expr('main_table.' . $_conn->quoteIdentifier('name')),
-                    new Zend_Db_Expr('main_table.' . $_conn->quoteIdentifier('path')),
+                    new \Zend_Db_Expr('main_table.' . $_conn->quoteIdentifier('name')),
+                    new \Zend_Db_Expr('main_table.' . $_conn->quoteIdentifier('path')),
                     'is_active',
                     'is_anchor'))
             ->joinLeft(
@@ -268,13 +270,13 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         }
 
         // Allow extensions to modify select (e.g. add custom category attributes to select)
-        Mage::dispatchEvent('catalog_category_flat_loadnodes_before', array('select' => $select));
+        \Mage::dispatchEvent('catalog_category_flat_loadnodes_before', array('select' => $select));
 
         $arrNodes = $_conn->fetchAll($select);
         $nodes = array();
         foreach ($arrNodes as $node) {
             $node['id'] = $node['entity_id'];
-            $nodes[$node['id']] = Mage::getModel('Magento_Catalog_Model_Category')->setData($node);
+            $nodes[$node['id']] = \Mage::getModel('\Magento\Catalog\Model\Category')->setData($node);
         }
 
         return $nodes;
@@ -331,7 +333,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                 ->where('entity_id = ?', $parentId);
             if ($parentNode = $this->_getReadAdapter()->fetchRow($selectParent)) {
                 $parentNode['id'] = $parentNode['entity_id'];
-                $parentNode = Mage::getModel('Magento_Catalog_Model_Category')->setData($parentNode);
+                $parentNode = \Mage::getModel('\Magento\Catalog\Model\Category')->setData($parentNode);
                 $this->_nodes[$parentNode->getId()] = $parentNode;
                 $nodes = $this->_loadNodes($parentNode, $recursionLevel, $storeId);
                 $childrenItems = array();
@@ -373,7 +375,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                 ->where('mt.entity_id = ?', $parent);
             $parentPath = $this->_getReadAdapter()->fetchOne($select);
 
-            $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
+            $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection()
                 ->addNameToResult()
                 ->addUrlRewriteToResult()
                 ->addParentPathFilter($parentPath)
@@ -386,7 +388,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             }
             return $collection;
         }
-        return $this->getNodes($parent, $recursionLevel, Mage::app()->getStore()->getId());
+        return $this->getNodes($parent, $recursionLevel, \Mage::app()->getStore()->getId());
     }
 
     /**
@@ -420,9 +422,9 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     public function isBuilt()
     {
         if ($this->_isBuilt === null) {
-            $defaultStoreView = Mage::app()->getDefaultStoreView();
+            $defaultStoreView = \Mage::app()->getDefaultStoreView();
             if ($defaultStoreView === null) {
-                $defaultStoreId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
+                $defaultStoreId = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
             } else {
                 $defaultStoreId = $defaultStoreView->getId();
             }
@@ -431,7 +433,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                 ->limit(1);
             try {
                 $this->_isBuilt = (bool)$this->_getReadAdapter()->fetchOne($select);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_isBuilt = false;
             }
         }
@@ -442,12 +444,12 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Rebuild flat data from eav
      *
      * @param array|null $stores
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function rebuild($stores = null)
     {
         if ($stores === null) {
-            $stores = Mage::app()->getStores();
+            $stores = \Mage::app()->getStores();
         }
 
         if (!is_array($stores)) {
@@ -464,14 +466,14 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Populate category flat tables with data
      *
      * @param array $stores
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     protected function _populateFlatTables($stores)
     {
-        $rootId = Magento_Catalog_Model_Category::TREE_ROOT_ID;
+        $rootId = \Magento\Catalog\Model\Category::TREE_ROOT_ID;
         $categories = array();
         $categoriesIds = array();
-        /* @var $store Magento_Core_Model_Store */
+        /* @var $store \Magento\Core\Model\Store */
         foreach ($stores as $store) {
 
             if (!isset($categories[$store->getRootCategoryId()])) {
@@ -529,7 +531,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Table is created only if DDL operations are allowed
      *
      * @param int $store
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function createTable($store)
     {
@@ -544,7 +546,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * This routine assumes that DDL operations are allowed
      *
      * @param int $store
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     protected function _createTable($store)
     {
@@ -614,7 +616,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      */
     protected function _getStaticColumns()
     {
-        $helper = Mage::getResourceHelper('Magento_Catalog');
+        $helper = \Mage::getResourceHelper('Magento_Catalog');
         $columns = array();
         $columnsToSkip = array('entity_type_id', 'attribute_set_id');
         $describe = $this->_getWriteAdapter()->describeTable($this->getTable('catalog_category_entity'));
@@ -761,7 +763,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                     $this->getTable('eav_attribute').'.*'
                 )
                 ->where(
-                    $this->getTable('eav_entity_type') . '.entity_type_code = ?', Magento_Catalog_Model_Category::ENTITY
+                    $this->getTable('eav_entity_type') . '.entity_type_code = ?', \Magento\Catalog\Model\Category::ENTITY
                 );
             $this->_attributeCodes = array();
             foreach ($this->_getWriteAdapter()->fetchAll($select) as $attribute) {
@@ -830,7 +832,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                 ))
             )
             ->where('def.entity_id IN (?)', $entityIds)
-            ->where('def.store_id IN (?)', array(Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID, $storeId));
+            ->where('def.store_id IN (?)', array(\Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID, $storeId));
         return $this->_getWriteAdapter()->fetchAll($select);
     }
 
@@ -838,7 +840,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Delete store table(s) of given stores;
      *
      * @param array|integer $stores
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function deleteStores($stores)
     {
@@ -850,7 +852,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Delete table(s) of given stores.
      *
      * @param array|integer $stores
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     protected function _deleteTable($stores)
     {
@@ -867,7 +869,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Synchronize flat data with eav model for category
      *
      * @param \Magento\Object $category
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     protected function _synchronize($category)
     {
@@ -880,9 +882,9 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Synchronize flat data with eav model.
      *
-     * @param Magento_Catalog_Model_Category|int $category
+     * @param \Magento\Catalog\Model\Category|int $category
      * @param array $storeIds
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function synchronize($category = null, $storeIds = array())
     {
@@ -903,10 +905,10 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             }
 
             $this->rebuild($storesObjects);
-        } else if ($category instanceof Magento_Catalog_Model_Category) {
+        } else if ($category instanceof \Magento\Catalog\Model\Category) {
             $categoryId = $category->getId();
             foreach ($category->getStoreIds() as $storeId) {
-                if ($storeId == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
+                if ($storeId == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
                     continue;
                 }
 
@@ -949,7 +951,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Remove table of given stores
      *
      * @param int|array $stores
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function removeStores($stores)
     {
@@ -961,7 +963,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Synchronize flat category data after move by affected category ids
      *
      * @param array $affectedCategoryIds
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function move(array $affectedCategoryIds)
     {
@@ -1037,7 +1039,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * @param integer $categoryId
      * @param integer $prevParentId
      * @param integer $parentId
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function moveold($categoryId, $prevParentId, $parentId)
     {
@@ -1050,8 +1052,8 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             'children_count',
             'updated_at'
         );
-        $prevParent = Mage::getModel('Magento_Catalog_Model_Category')->load($prevParentId);
-        $parent = Mage::getModel('Magento_Catalog_Model_Category')->load($parentId);
+        $prevParent = \Mage::getModel('\Magento\Catalog\Model\Category')->load($prevParentId);
+        $parent = \Mage::getModel('\Magento\Catalog\Model\Category')->load($parentId);
         if ($prevParent->getStore()->getWebsiteId() != $parent->getStore()->getWebsiteId()) {
             foreach ($prevParent->getStoreIds() as $storeId) {
                 $this->_getWriteAdapter()->delete(
@@ -1072,7 +1074,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             $_categories = $this->_getWriteAdapter()->fetchAll($select);
             foreach ($_categories as $_category) {
                 foreach ($parent->getStoreIds() as $storeId) {
-                    $_tmpCategory = Mage::getModel('Magento_Catalog_Model_Category')
+                    $_tmpCategory = \Mage::getModel('\Magento\Catalog\Model\Category')
                         ->setStoreId($storeId)
                         ->load($_category['entity_id']);
                     $this->_synchronize($_tmpCategory);
@@ -1116,7 +1118,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         $this->_getWriteAdapter()->resetDdlCache($table);
         $table = $this->_getWriteAdapter()->describeTable($table);
         $data = array();
-        $idFieldName = Mage::getSingleton('Magento_Catalog_Model_Category')->getIdFieldName();
+        $idFieldName = \Mage::getSingleton('Magento\Catalog\Model\Category')->getIdFieldName();
         foreach ($table as $column => $columnData) {
             if ($column != $idFieldName || null !== $category->getData($column)) {
                 if (key_exists($column, $replaceFields)) {
@@ -1138,18 +1140,18 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Special for non static flat table
      *
      * @param mixed $attribute
-     * @return Magento_Eav_Model_Entity_Attribute_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getAttribute($attribute)
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Config')
-            ->getAttribute(Magento_Catalog_Model_Category::ENTITY, $attribute);
+        return \Mage::getSingleton('Magento\Catalog\Model\Config')
+            ->getAttribute(\Magento\Catalog\Model\Category::ENTITY, $attribute);
     }
 
     /**
      * Get count of active/not active children categories
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @param bool $isActiveFlag
      * @return integer
      */
@@ -1166,7 +1168,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Get products count in category
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return integer
      */
     public function getProductCount($category)
@@ -1184,7 +1186,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Return parent categories of category
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @param unknown_type $isActive
      * @return array
      */
@@ -1212,7 +1214,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
-            $categories[$row['entity_id']] = Mage::getModel('Magento_Catalog_Model_Category')->setData($row);
+            $categories[$row['entity_id']] = \Mage::getModel('\Magento\Catalog\Model\Category')->setData($row);
         }
         return $categories;
     }
@@ -1220,8 +1222,8 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Return parent category of current category with own custom design settings
      *
-     * @param Magento_Catalog_Model_Category $category
-     * @return Magento_Catalog_Model_Category
+     * @param \Magento\Catalog\Model\Category $category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getParentDesignCategory($category)
     {
@@ -1235,13 +1237,13 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             ->where($levelField . ' != ?', 0)
             ->order('level ' . \Magento\DB\Select::SQL_DESC);
         $result = $adapter->fetchRow($select);
-        return Mage::getModel('Magento_Catalog_Model_Category')->setData($result);
+        return \Mage::getModel('\Magento\Catalog\Model\Category')->setData($result);
     }
 
     /**
      * Return children categories of category
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return array
      */
     public function getChildrenCategories($category)
@@ -1253,19 +1255,19 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Check is category in list of store categories
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return boolean
      */
     public function isInRootCategoryList($category)
     {
         $pathIds = $category->getParentIds();
-        return in_array(Mage::app()->getStore()->getRootCategoryId(), $pathIds);
+        return in_array(\Mage::app()->getStore()->getRootCategoryId(), $pathIds);
     }
 
     /**
      * Return children ids of category
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @param unknown_type $recursive
      * @param unknown_type $isActive
      * @return array
@@ -1292,7 +1294,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Return all children ids of category (with category id)
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return array
      */
     public function getAllChildren($category)
@@ -1321,7 +1323,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Get design update data of parent categories
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return array
      */
     public function getDesignUpdateData($category)
@@ -1329,7 +1331,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         $categories = array();
         $pathIds = array();
         foreach (array_reverse($category->getParentIds()) as $pathId) {
-            if ($pathId == Mage::app()->getStore()->getRootCategoryId()) {
+            if ($pathId == \Mage::app()->getStore()->getRootCategoryId()) {
                 $pathIds[] = $pathId;
                 break;
             }
@@ -1352,7 +1354,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         $result = $this->_getReadAdapter()->fetchAll($select);
         foreach ($result as $row) {
             $row['id'] = $row['entity_id'];
-            $categories[$row['entity_id']] = Mage::getModel('Magento_Catalog_Model_Category')->setData($row);
+            $categories[$row['entity_id']] = \Mage::getModel('\Magento\Catalog\Model\Category')->setData($row);
         }
         return $categories;
     }
@@ -1389,7 +1391,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
                     array('csg' => $this->getTable('core_store_group')),
                     'csg.group_id = cs.group_id',
                     array('root_category_id'))
-                ->where('cs.store_id <> ?', Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID);
+                ->where('cs.store_id <> ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
             $this->_storesRootCategories = $this->_getWriteAdapter()->fetchPairs($select);
         }
 
@@ -1415,7 +1417,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
      * Tables are created only if DDL operations are allowed
      *
      * @param array $stores if empty, create tables for all stores of the application
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     protected function _createTables($stores = array())
     {
@@ -1423,7 +1425,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
             return $this;
         }
         if (empty($stores)) {
-            $stores = Mage::app()->getStores();
+            $stores = \Mage::app()->getStores();
         }
         foreach ($stores as $store) {
             $this->_createTable($store->getId());
@@ -1434,7 +1436,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Transactional rebuild flat data from eav
      *
-     * @return Magento_Catalog_Model_Resource_Category_Flat
+     * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
     public function reindexAll()
     {
@@ -1443,7 +1445,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
         try {
             $this->rebuild();
             $this->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -1453,7 +1455,7 @@ class Magento_Catalog_Model_Resource_Category_Flat extends Magento_Index_Model_R
     /**
      * Check if Catalog Category Flat Data has been initialized
      *
-     * @deprecated use Magento_Catalog_Model_Resource_Category_Flat::isBuilt() instead
+     * @deprecated use \Magento\Catalog\Model\Resource\Category\Flat::isBuilt() instead
      *
      * @return bool
      */

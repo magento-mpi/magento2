@@ -17,25 +17,27 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_System_Config_Form_Field
-    extends Magento_Backend_Block_Template
+namespace Magento\Backend\Block\System\Config\Form;
+
+class Field
+    extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Application
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
         array $data = array()
     ) {
         $this->_application = $application;

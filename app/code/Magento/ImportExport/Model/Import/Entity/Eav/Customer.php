@@ -18,13 +18,15 @@
  * @todo finish moving dependencies to constructor in the scope of
  * @todo https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-class Magento_ImportExport_Model_Import_Entity_Eav_Customer
-    extends Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
+namespace Magento\ImportExport\Model\Import\Entity\Eav;
+
+class Customer
+    extends \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract
 {
     /**
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Customer_Model_Resource_Attribute_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = '\Magento\Customer\Model\Resource\Attribute\Collection';
 
     /**#@+
      * Permanent column names
@@ -90,7 +92,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     /**
      * Customer model
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customerModel;
 
@@ -104,7 +106,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     /**
      * Address attributes collection
      *
-     * @var Magento_Customer_Model_Resource_Attribute_Collection
+     * @var \Magento\Customer\Model\Resource\Attribute\Collection
      */
     protected $_attributeCollection;
 
@@ -119,7 +121,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
             $this->_attributeCollection = $data['attribute_collection'];
             unset($data['attribute_collection']);
         } else {
-            $this->_attributeCollection = Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            $this->_attributeCollection = \Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
             $this->_attributeCollection->addSystemHiddenFilterWithPasswordHash();
             $data['attribute_collection'] = $this->_attributeCollection;
         }
@@ -151,8 +153,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
         $this->_initStores(true)
             ->_initAttributes();
 
-        $this->_customerModel = Mage::getModel('Magento_Customer_Model_Customer');
-        /** @var $customerResource Magento_Customer_Model_Resource_Customer */
+        $this->_customerModel = \Mage::getModel('\Magento\Customer\Model\Customer');
+        /** @var $customerResource \Magento\Customer\Model\Resource\Customer */
         $customerResource = $this->_customerModel->getResource();
         $this->_entityTable = $customerResource->getEntityTable();
     }
@@ -162,7 +164,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
      *
      * @param array $entitiesToCreate Rows for insert
      * @param array $entitiesToUpdate Rows for update
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer
      */
     protected function _saveCustomerEntities(array $entitiesToCreate, array $entitiesToUpdate)
     {
@@ -185,7 +187,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
      * Save customer attributes.
      *
      * @param array $attributesData
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer
      */
     protected function _saveCustomerAttributes(array $attributesData)
     {
@@ -211,7 +213,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
      * Delete list of customers
      *
      * @param array $entitiesToDelete customers id list
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_Customer
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer
      */
     protected function _deleteCustomerEntities(array $entitiesToDelete)
     {
@@ -229,8 +231,8 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
     protected function _getNextEntityId()
     {
         if (!$this->_nextEntityId) {
-            /** @var $resourceHelper Magento_ImportExport_Model_Resource_Helper_Mysql4 */
-            $resourceHelper = Mage::getResourceHelper('Magento_ImportExport');
+            /** @var $resourceHelper \Magento\ImportExport\Model\Resource\Helper\Mysql4 */
+            $resourceHelper = \Mage::getResourceHelper('Magento_ImportExport');
             $this->_nextEntityId = $resourceHelper->getNextAutoincrement($this->_entityTable);
         }
         return $this->_nextEntityId++;
@@ -244,7 +246,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
      */
     protected function _prepareDataForUpdate(array $rowData)
     {
-        /** @var $passwordAttribute Magento_Customer_Model_Attribute */
+        /** @var $passwordAttribute \Magento\Customer\Model\Attribute */
         $passwordAttribute = $this->_customerModel->getAttribute('password_hash');
         $passwordAttributeId = $passwordAttribute->getId();
         $passwordStorageTable = $passwordAttribute->getBackend()->getTable();
@@ -254,11 +256,11 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
         $attributesToSave = array();
 
         // entity table data
-        $now = new DateTime('@' . time());
+        $now = new \DateTime('@' . time());
         if (empty($rowData['created_at'])) {
             $createdAt = $now;
         } else {
-            $createdAt = new DateTime('@' . strtotime($rowData['created_at']));
+            $createdAt = new \DateTime('@' . strtotime($rowData['created_at']));
         }
         $entityRow = array(
             'group_id'   => empty($rowData['group_id'])
@@ -291,7 +293,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
         // attribute values
         foreach (array_intersect_key($rowData, $this->_attributes) as $attributeCode => $value) {
             if (!$this->_attributes[$attributeCode]['is_static'] && strlen($value)) {
-                /** @var $attribute Magento_Customer_Model_Attribute */
+                /** @var $attribute \Magento\Customer\Model\Attribute */
                 $attribute = $this->_customerModel->getAttribute($attributeCode);
                 $backendModel = $attribute->getBackendModel();
                 $attributeParameters = $this->_attributes[$attributeCode];
@@ -299,7 +301,7 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
                 if ('select' == $attributeParameters['type']) {
                     $value = $attributeParameters['options'][strtolower($value)];
                 } elseif ('datetime' == $attributeParameters['type']) {
-                    $value = new DateTime('@' . strtotime($value));
+                    $value = new \DateTime('@' . strtotime($value));
                     $value = $value->format(\Magento\Date::DATETIME_PHP_FORMAT);
                 } elseif ($backendModel) {
                     $attribute->getBackend()->beforeSave($this->_customerModel->setData($attributeCode, $value));
@@ -344,12 +346,12 @@ class Magento_ImportExport_Model_Import_Entity_Eav_Customer
                     continue;
                 }
 
-                if ($this->getBehavior($rowData) == Magento_ImportExport_Model_Import::BEHAVIOR_DELETE) {
+                if ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE) {
                     $entitiesToDelete[] = $this->_getCustomerId(
                         $rowData[self::COLUMN_EMAIL],
                         $rowData[self::COLUMN_WEBSITE]
                     );
-                } elseif ($this->getBehavior($rowData) == Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE) {
+                } elseif ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE) {
                     $processedData = $this->_prepareDataForUpdate($rowData);
                     $entitiesToCreate = array_merge($entitiesToCreate, $processedData[self::ENTITIES_TO_CREATE_KEY]);
                     $entitiesToUpdate = array_merge($entitiesToUpdate, $processedData[self::ENTITIES_TO_UPDATE_KEY]);

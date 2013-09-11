@@ -16,26 +16,28 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Model_Direct
+namespace Magento\Pbridge\Model\Payment\Method;
+
+class Paypaluk extends \Magento\PaypalUk\Model\Direct
 {
     /**
      * Form block type for the frontend
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento_Pbridge_Block_Checkout_Payment_Paypaluk';
+    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Paypaluk';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal';
+    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal';
 
     /**
      * Payment Bridge Payment Method Instance
      *
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
 
@@ -44,7 +46,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      *
      * @var $_proType string
      */
-    protected $_proType = 'Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro';
+    protected $_proType = '\Magento\Pbridge\Model\Payment\Method\Paypaluk\Pro';
 
     /**
      * Constructor
@@ -70,12 +72,12 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     /**
      * Return Payment Bridge method instance
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -115,7 +117,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -135,19 +137,19 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        return \Mage::getStoreConfig($path, $storeId);
     }
 
     /**
      * Check whether payment method can be used
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
     {
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(Magento_Paypal_Model_Config::METHOD_WPP_PE_DIRECT);
+            && $this->_pro->getConfig()->isMethodAvailable(\Magento\Paypal\Model\Config::METHOD_WPP_PE_DIRECT);
     }
 
     /**
@@ -157,7 +159,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      */
     public function getFormBlockType()
     {
-        return Mage::app()->getStore()->isAdmin() ?
+        return \Mage::app()->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }
@@ -165,7 +167,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     /**
      * Prepare info instance for save
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Paypal
+     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     public function prepareSave()
     {
@@ -175,7 +177,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     /**
      * Validate payment method information object
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Paypal
+     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     public function validate()
     {
@@ -186,8 +188,8 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     /**
      * Authorize payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
-     * @return Magento_Paypal_Model_Direct
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return \Magento\Paypal\Model\Direct
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -201,8 +203,8 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     /**
      * Capture payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
-     * @return Magento_Paypal_Model_Direct
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return \Magento\Paypal\Model\Direct
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -215,8 +217,8 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     /**
      * Refund capture
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
-     * @return Magento_Paypal_Model_Direct
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return \Magento\Paypal\Model\Direct
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -227,8 +229,8 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     /**
      * Void payment
      *
-     * @param Magento_Sales_Model_Order_Payment $payment
-     * @return Magento_Paypal_Model_Direct
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return \Magento\Paypal\Model\Direct
      */
     public function void(\Magento\Object $payment)
     {
@@ -240,13 +242,13 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
      * Import direct payment results to payment
      *
      * @param \Magento\Object $api
-     * @param Magento_Sales_Model_Order_Payment $payment
+     * @param \Magento\Sales\Model\Order\Payment $payment
      */
     protected function _importResultToPayment($api, $payment)
     {
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
             ->setIsTransactionPending($api->getIsPaymentPending());
-        $payflowTrxid = $api->getData(Magento_Pbridge_Model_Payment_Method_Paypaluk_Pro::TRANSPORT_PAYFLOW_TXN_ID);
+        $payflowTrxid = $api->getData(\Magento\Pbridge\Model\Payment\Method\Paypaluk\Pro::TRANSPORT_PAYFLOW_TXN_ID);
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $payflowTrxid)
         );
@@ -267,14 +269,14 @@ class Magento_Pbridge_Model_Payment_Method_Paypaluk extends Magento_PaypalUk_Mod
     /**
      * Store id setter, also set storeId to helper
      *
-     * @param int|string|Magento_Core_Model_Store $store
+     * @param int|string|\Magento\Core\Model\Store $store
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Paypaluk
+     * @return \Magento\Pbridge\Model\Payment\Method\Paypaluk
      */
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Magento_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         parent::setStore($store);
 
         return $this;

@@ -16,7 +16,9 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Form_Attribute_Collection extends Magento_Eav_Model_Resource_Form_Attribute_Collection
+namespace Magento\Customer\Model\Resource\Form\Attribute;
+
+class Collection extends \Magento\Eav\Model\Resource\Form\Attribute\Collection
 {
     /**
      * Current module pathname
@@ -38,7 +40,7 @@ class Magento_Customer_Model_Resource_Form_Attribute_Collection extends Magento_
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Eav_Model_Attribute', 'Magento_Customer_Model_Resource_Form_Attribute');
+        $this->_init('\Magento\Eav\Model\Attribute', '\Magento\Customer\Model\Resource\Form\Attribute');
     }
 
     /**

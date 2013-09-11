@@ -17,21 +17,23 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Backend_Block_Widget_Form
+namespace Magento\Backend\Block\Widget\Grid\Massaction;
+
+class Additional extends \Magento\Backend\Block\Widget\Form
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_HandlerFactory
+     * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
      */
     protected $_handlerFactory;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Layout_Argument_HandlerFactory $handlerFactory,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -42,7 +44,7 @@ class Magento_Backend_Block_Widget_Grid_Massaction_Additional extends Magento_Ba
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {

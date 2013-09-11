@@ -15,7 +15,9 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Controller_Initiate extends Magento_Core_Controller_Front_Action
+namespace Magento\Oauth\Controller;
+
+class Initiate extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Dispatch event before action
@@ -37,8 +39,8 @@ class Magento_Oauth_Controller_Initiate extends Magento_Core_Controller_Front_Ac
      */
     public function indexAction()
     {
-        /** @var $server Magento_Oauth_Model_Server */
-        $server = Mage::getModel('Magento_Oauth_Model_Server');
+        /** @var $server \Magento\Oauth\Model\Server */
+        $server = \Mage::getModel('\Magento\Oauth\Model\Server');
 
         $server->initiateToken();
     }

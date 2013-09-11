@@ -8,11 +8,11 @@
  */
 -->
 <config>
-    <type name="config" translate="label,description" instance="Magento_Core_Model_Cache_Type_Config">
+    <type name="config" translate="label,description" instance="\Magento\Core\Model\Cache\Type\Config">
         <label>Configuration</label>
         <description>System(config.xml, local.xml) and modules configuration files(config.xml).</description>
     </type>
-    <type name="layout" translate="label,description" instance="Magento_Core_Model_Cache_Type_Layout">
+    <type name="layout" translate="label,description" instance="\Magento\Core\Model\Cache\Type\Layout">
         <label>Layouts</label>
         <description>Layout building instructions.</description>
     </type>

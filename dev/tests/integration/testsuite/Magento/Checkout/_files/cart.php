@@ -9,15 +9,15 @@
  * @license     {license_link}
  */
 
-Mage::unregister('_singleton/Magento_Checkout_Model_Session');
-Mage::unregister('_singleton/Magento_Checkout_Model_Cart');
-/** @var $cart Magento_Checkout_Model_Cart */
-$cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
+Mage::unregister('_singleton/\Magento\Checkout\Model\Session');
+Mage::unregister('_singleton/\Magento\Checkout\Model\Cart');
+/** @var $cart \Magento\Checkout\Model\Cart */
+$cart = Mage::getSingleton('Magento\Checkout\Model\Cart');
 
 $cart->addProduct($product, $requestInfo);
 $cart->save();
 
 $quoteItemId = $cart->getQuote()->getItemByProduct($product)->getId();
 Mage::register('product/quoteItemId', $quoteItemId);
-Mage::unregister('_singleton/Magento_Checkout_Model_Session');
-Mage::unregister('_singleton/Magento_Checkout_Model_Cart');
+Mage::unregister('_singleton/\Magento\Checkout\Model\Session');
+Mage::unregister('_singleton/\Magento\Checkout\Model\Cart');

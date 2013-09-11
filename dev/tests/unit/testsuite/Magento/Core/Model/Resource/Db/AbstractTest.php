@@ -10,27 +10,27 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Resource_Db_Abstract.
+ * Test class for \Magento\Core\Model\Resource\Db\AbstractDb.
  */
 class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Db_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Resource\Db\AbstractDb|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Resource|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Resource|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resource;
 
     public function setUp()
     {
-        $this->_resource = $this->getMock('Magento_Core_Model_Resource',
+        $this->_resource = $this->getMock('Magento\Core\Model\Resource',
             array('getConnection'), array(), '', false, false
         );
         $this->_model = $this->getMock(
-            'Magento_Core_Model_Resource_Db_Abstract',
+            '\Magento\Core\Model\Resource\Db\AbstractDb',
             array('_construct', '_getWriteAdapter'),
             array(
                 $this->_resource

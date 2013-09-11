@@ -15,12 +15,14 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Type_Virtual extends Magento_Catalog_Model_Product_Type_Abstract
+namespace Magento\Catalog\Model\Product\Type;
+
+class Virtual extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     /**
      * Check is virtual product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isVirtual($product)
@@ -41,9 +43,9 @@ class Magento_Catalog_Model_Product_Type_Virtual extends Magento_Catalog_Model_P
     /**
      * Delete data specific for Virtual product type
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
-    public function deleteTypeSpecificData(Magento_Catalog_Model_Product $product)
+    public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {
     }
 }

@@ -12,8 +12,10 @@
  * Currency cell renderer for customerbalance grids
  *
  */
-class Magento_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency
-extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
+namespace Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer;
+
+class Currency
+extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Currency
 {
     /**
      * @var array
@@ -34,7 +36,7 @@ extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
             return $orphanCurrency;
         }
         if (!isset(self::$_websiteBaseCurrencyCodes[$websiteId])) {
-            self::$_websiteBaseCurrencyCodes[$websiteId] = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+            self::$_websiteBaseCurrencyCodes[$websiteId] = \Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
         }
         return self::$_websiteBaseCurrencyCodes[$websiteId];
     }

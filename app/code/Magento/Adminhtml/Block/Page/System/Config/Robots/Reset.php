@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Adminhtml\Block\Page\System\Config\Robots;
+
+class Reset extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /*
      * Set template
@@ -33,7 +35,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Ba
      */
     public function getRobotsDefaultCustomInstructions()
     {
-        return Mage::helper('Magento_Page_Helper_Robots')->getRobotsDefaultCustomInstructions();
+        return \Mage::helper('Magento\Page\Helper\Robots')->getRobotsDefaultCustomInstructions();
     }
 
     /**
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Block_Page_System_Config_Robots_Reset extends Magento_Ba
      */
     public function getButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'id'      => 'reset_to_default_button',
                 'label'   => __('Reset to Default'),

@@ -9,77 +9,79 @@
  */
 
 /**
- * @method Magento_Sales_Model_Resource_Order_Creditmemo_Item _getResource()
- * @method Magento_Sales_Model_Resource_Order_Creditmemo_Item getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Creditmemo\Item _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Creditmemo\Item getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setParentId(int $value)
  * @method float getWeeeTaxAppliedRowAmount()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setWeeeTaxAppliedRowAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setWeeeTaxAppliedRowAmount(float $value)
  * @method float getBasePrice()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBasePrice(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBasePrice(float $value)
  * @method float getBaseWeeeTaxRowDisposition()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBaseWeeeTaxRowDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseWeeeTaxRowDisposition(float $value)
  * @method float getTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setTaxAmount(float $value)
  * @method float getBaseWeeeTaxAppliedAmount()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBaseWeeeTaxAppliedAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseWeeeTaxAppliedAmount(float $value)
  * @method float getWeeeTaxRowDisposition()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setWeeeTaxRowDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setWeeeTaxRowDisposition(float $value)
  * @method float getBaseRowTotal()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBaseRowTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseRowTotal(float $value)
  * @method float getDiscountAmount()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setDiscountAmount(float $value)
  * @method float getRowTotal()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setRowTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setRowTotal(float $value)
  * @method float getWeeeTaxAppliedAmount()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setWeeeTaxAppliedAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setWeeeTaxAppliedAmount(float $value)
  * @method float getBaseDiscountAmount()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBaseDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseDiscountAmount(float $value)
  * @method float getBaseWeeeTaxDisposition()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBaseWeeeTaxDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseWeeeTaxDisposition(float $value)
  * @method float getPriceInclTax()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setPriceInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setPriceInclTax(float $value)
  * @method float getBaseTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBaseTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseTaxAmount(float $value)
  * @method float getWeeeTaxDisposition()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setWeeeTaxDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setWeeeTaxDisposition(float $value)
  * @method float getBasePriceInclTax()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBasePriceInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBasePriceInclTax(float $value)
  * @method float getQty()
  * @method float getBaseCost()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBaseCost(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseCost(float $value)
  * @method float getBaseWeeeTaxAppliedRowAmnt()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBaseWeeeTaxAppliedRowAmnt(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseWeeeTaxAppliedRowAmnt(float $value)
  * @method float getPrice()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setPrice(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setPrice(float $value)
  * @method float getBaseRowTotalInclTax()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBaseRowTotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseRowTotalInclTax(float $value)
  * @method float getRowTotalInclTax()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setRowTotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setRowTotalInclTax(float $value)
  * @method int getProductId()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setProductId(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setProductId(int $value)
  * @method int getOrderItemId()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setOrderItemId(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setOrderItemId(int $value)
  * @method string getAdditionalData()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setAdditionalData(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setAdditionalData(string $value)
  * @method string getDescription()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setDescription(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setDescription(string $value)
  * @method string getWeeeTaxApplied()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setWeeeTaxApplied(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setWeeeTaxApplied(string $value)
  * @method string getSku()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setSku(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setSku(string $value)
  * @method string getName()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setName(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setName(string $value)
  * @method float getHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setHiddenTaxAmount(float $value)
  * @method float getBaseHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo_Item setBaseHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseHiddenTaxAmount(float $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstract
+namespace Magento\Sales\Model\Order\Creditmemo;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
     protected $_eventPrefix = 'sales_creditmemo_item';
     protected $_eventObject = 'creditmemo_item';
@@ -91,16 +93,16 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Creditmemo_Item');
+        $this->_init('\Magento\Sales\Model\Resource\Order\Creditmemo\Item');
     }
 
     /**
      * Declare creditmemo instance
      *
-     * @param   Magento_Sales_Model_Order_Creditmemo $creditmemo
-     * @return  Magento_Sales_Model_Order_Creditmemo_Item
+     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return  \Magento\Sales\Model\Order\Creditmemo\Item
      */
-    public function setCreditmemo(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function setCreditmemo(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $this->_creditmemo = $creditmemo;
         return $this;
@@ -109,7 +111,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
     /**
      * Retrieve creditmemo instance
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getCreditmemo()
     {
@@ -119,10 +121,10 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
     /**
      * Declare order item instance
      *
-     * @param   Magento_Sales_Model_Order_Item $item
-     * @return  Magento_Sales_Model_Order_Creditmemo_Item
+     * @param   \Magento\Sales\Model\Order\Item $item
+     * @return  \Magento\Sales\Model\Order\Creditmemo\Item
      */
-    public function setOrderItem(Magento_Sales_Model_Order_Item $item)
+    public function setOrderItem(\Magento\Sales\Model\Order\Item $item)
     {
         $this->_orderItem = $item;
         $this->setOrderItemId($item->getId());
@@ -132,7 +134,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
     /**
      * Retrieve order item instance
      *
-     * @return Magento_Sales_Model_Order_Item
+     * @return \Magento\Sales\Model\Order\Item
      */
     public function getOrderItem()
     {
@@ -141,7 +143,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
                 $this->_orderItem = $this->getCreditmemo()->getOrder()->getItemById($this->getOrderItemId());
             }
             else {
-                $this->_orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')
+                $this->_orderItem = \Mage::getModel('\Magento\Sales\Model\Order\Item')
                     ->load($this->getOrderItemId());
             }
         }
@@ -152,7 +154,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
      * Declare qty
      *
      * @param   float $qty
-     * @return  Magento_Sales_Model_Order_Creditmemo_Item
+     * @return  \Magento\Sales\Model\Order\Creditmemo\Item
      */
     public function setQty($qty)
     {
@@ -170,7 +172,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
             $this->setData('qty', $qty);
         }
         else {
-            Mage::throwException(
+            \Mage::throwException(
                 __('We found an invalid quantity to refund item "%1".', $this->getName())
             );
         }
@@ -180,7 +182,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
     /**
      * Applying qty to order item
      *
-     * @return Magento_Sales_Model_Order_Shipment_Item
+     * @return \Magento\Sales\Model\Order\Shipment\Item
      */
     public function register()
     {
@@ -218,7 +220,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
     /**
      * Invoice item row total calculation
      *
-     * @return Magento_Sales_Model_Order_Invoice_Item
+     * @return \Magento\Sales\Model\Order\Invoice\Item
      */
     public function calcRowTotal()
     {
@@ -269,7 +271,7 @@ class Magento_Sales_Model_Order_Creditmemo_Item extends Magento_Core_Model_Abstr
     /**
      * Before object save
      *
-     * @return Magento_Sales_Model_Order_Creditmemo_Item
+     * @return \Magento\Sales\Model\Order\Creditmemo\Item
      */
     protected function _beforeSave()
     {

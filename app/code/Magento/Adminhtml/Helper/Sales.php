@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
+namespace Magento\Adminhtml\Helper;
+
+class Sales extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Display price attribute value in base order currency and in place order currency
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
     public function displayPrices($dataObject, $basePrice, $price, $strong = false, $separator = '<br/>')
     {
         $order = false;
-        if ($dataObject instanceof Magento_Sales_Model_Order) {
+        if ($dataObject instanceof \Magento\Sales\Model\Order) {
             $order = $dataObject;
         } else {
             $order = $dataObject->getOrder();
@@ -60,7 +62,7 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
                 $res = '<strong>'.$res.'</strong>';
             }
         } else {
-            $res = Mage::app()->getStore()->formatPrice($price);
+            $res = \Mage::app()->getStore()->formatPrice($price);
             if ($strong) {
                 $res = '<strong>'.$res.'</strong>';
             }
@@ -71,19 +73,19 @@ class Magento_Adminhtml_Helper_Sales extends Magento_Core_Helper_Abstract
     /**
      * Filter collection by removing not available product types
      *
-     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function applySalableProductTypesFilter($collection)
     {
-        $productTypes = Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray();
+        $productTypes = \Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray();
         $productTypes = array_keys($productTypes);
         foreach($collection->getItems() as $key => $item) {
-            if ($item instanceof Magento_Catalog_Model_Product) {
+            if ($item instanceof \Magento\Catalog\Model\Product) {
                 $type = $item->getTypeId();
-            } else if ($item instanceof Magento_Sales_Model_Order_Item) {
+            } else if ($item instanceof \Magento\Sales\Model\Order\Item) {
                 $type = $item->getProductType();
-            } else if ($item instanceof Magento_Sales_Model_Quote_Item) {
+            } else if ($item instanceof \Magento\Sales\Model\Quote\Item) {
                 $type = $item->getProductType();
             } else {
                 $type = '';

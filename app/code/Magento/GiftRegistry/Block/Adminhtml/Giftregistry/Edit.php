@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Intialize form
@@ -22,7 +24,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Magento_Adm
 
         parent::_construct();
 
-        if (Mage::registry('current_giftregistry_type')) {
+        if (\Mage::registry('current_giftregistry_type')) {
             $this->_updateButton('save', 'label', __('Save'));
             $this->_updateButton('save', 'data_attribute', array(
                 'mage-init' => array(
@@ -55,7 +57,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Magento_Adm
      */
     public function getHeaderText()
     {
-        $type = Mage::registry('current_giftregistry_type');
+        $type = \Mage::registry('current_giftregistry_type');
         if ($type->getId()) {
             return __("Edit '%1' Gift Registry Type", $this->escapeHtml($type->getLabel()));
         }
@@ -71,7 +73,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Magento_Adm
      */
     public function getSaveUrl()
     {
-        $type = Mage::registry('current_giftregistry_type');
+        $type = \Mage::registry('current_giftregistry_type');
         return $this->getUrl('*/*/save', array('id' => $type->getId(), 'store' => $type->getStoreId()));
     }
 }

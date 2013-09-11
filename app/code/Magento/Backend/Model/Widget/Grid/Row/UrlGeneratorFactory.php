@@ -16,7 +16,9 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory
+namespace Magento\Backend\Model\Widget\Grid\Row;
+
+class UrlGeneratorFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -37,13 +39,13 @@ class Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory
      * @param string $generatorClassName
      * @param array $arguments
      * @return Magento_Backend_Model_Widget_Grid_Row_Row_Generator_UrlGenerator
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function createUrlGenerator($generatorClassName, array $arguments = array())
     {
         $rowUrlGenerator = $this->_objectManager->create($generatorClassName, $arguments);
-        if (false === ($rowUrlGenerator instanceof Magento_Backend_Model_Widget_Grid_Row_GeneratorInterface)) {
-            throw new InvalidArgumentException('Passed wrong parameters');
+        if (false === ($rowUrlGenerator instanceof \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface)) {
+            throw new \InvalidArgumentException('Passed wrong parameters');
         }
 
         return $rowUrlGenerator;

@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Shipping
+namespace Magento\Shipping\Model;
+
+class Shipping
 {
     /**
      * Store address
@@ -45,12 +47,12 @@ class Magento_Shipping_Model_Shipping
     /**
      * Get shipping rate result model
      *
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     public function getResult()
     {
         if (empty($this->_result)) {
-            $this->_result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+            $this->_result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
         }
         return $this->_result;
     }
@@ -69,7 +71,7 @@ class Magento_Shipping_Model_Shipping
     /**
      * Reset cached result
      *
-     * @return Magento_Shipping_Model_Shipping
+     * @return \Magento\Shipping\Model\Shipping
      */
     public function resetResult()
     {
@@ -80,11 +82,11 @@ class Magento_Shipping_Model_Shipping
     /**
      * Retrieve configuration model
      *
-     * @return Magento_Shipping_Model_Config
+     * @return \Magento\Shipping\Model\Config
      */
     public function getConfig()
     {
-        return Mage::getSingleton('Magento_Shipping_Model_Config');
+        return \Mage::getSingleton('Magento\Shipping\Model\Config');
     }
 
     /**
@@ -92,22 +94,22 @@ class Magento_Shipping_Model_Shipping
      *
      * @todo make it ordered
      * @param Magento_Shipping_Model_Shipping_Method_Request $data
-     * @return Magento_Shipping_Model_Shipping
+     * @return \Magento\Shipping\Model\Shipping
      */
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         $storeId = $request->getStoreId();
         if (!$request->getOrig()) {
             $request
-                ->setCountryId(Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $request->getStore()))
-                ->setRegionId(Mage::getStoreConfig(self::XML_PATH_STORE_REGION_ID, $request->getStore()))
-                ->setCity(Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $request->getStore()))
-                ->setPostcode(Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $request->getStore()));
+                ->setCountryId(\Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $request->getStore()))
+                ->setRegionId(\Mage::getStoreConfig(self::XML_PATH_STORE_REGION_ID, $request->getStore()))
+                ->setCity(\Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $request->getStore()))
+                ->setPostcode(\Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $request->getStore()));
         }
 
         $limitCarrier = $request->getLimitCarrier();
         if (!$limitCarrier) {
-            $carriers = Mage::getStoreConfig('carriers', $storeId);
+            $carriers = \Mage::getStoreConfig('carriers', $storeId);
 
             foreach ($carriers as $carrierCode => $carrierConfig) {
                 $this->collectCarrierRates($carrierCode, $request);
@@ -117,7 +119,7 @@ class Magento_Shipping_Model_Shipping
                 $limitCarrier = array($limitCarrier);
             }
             foreach ($limitCarrier as $carrierCode) {
-                $carrierConfig = Mage::getStoreConfig('carriers/' . $carrierCode, $storeId);
+                $carrierConfig = \Mage::getStoreConfig('carriers/' . $carrierCode, $storeId);
                 if (!$carrierConfig) {
                     continue;
                 }
@@ -132,19 +134,19 @@ class Magento_Shipping_Model_Shipping
      * Collect rates of given carrier
      *
      * @param string                           $carrierCode
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Shipping_Model_Shipping
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Shipping\Model\Shipping
      */
     public function collectCarrierRates($carrierCode, $request)
     {
-        /* @var $carrier Magento_Shipping_Model_Carrier_Abstract */
+        /* @var $carrier \Magento\Shipping\Model\Carrier\AbstractCarrier */
         $carrier = $this->getCarrierByCode($carrierCode, $request->getStoreId());
         if (!$carrier) {
             return $this;
         }
         $carrier->setActiveFlag($this->_availabilityConfigField);
         $result = $carrier->checkAvailableShipCountries($request);
-        if (false !== $result && !($result instanceof Magento_Shipping_Model_Rate_Result_Error)) {
+        if (false !== $result && !($result instanceof \Magento\Shipping\Model\Rate\Result\Error)) {
             $result = $carrier->proccessAdditionalValidation($request);
         }
         /*
@@ -152,7 +154,7 @@ class Magento_Shipping_Model_Shipping
         * if the delivery country is not within specific countries
         */
         if (false !== $result){
-            if (!$result instanceof Magento_Shipping_Model_Rate_Result_Error) {
+            if (!$result instanceof \Magento\Shipping\Model\Rate\Result\Error) {
                 if ($carrier->getConfigData('shipment_requesttype')) {
                     $packages = $this->composePackagesForCarrier($carrier, $request);
                     if (!empty($packages)) {
@@ -210,8 +212,8 @@ class Magento_Shipping_Model_Shipping
      * Compose Packages For Carrier.
      * Devides order into items and items into parts if it's necessary
      *
-     * @param Magento_Shipping_Model_Carrier_Abstract $carrier
-     * @param Magento_Shipping_Model_Rate_Request $request
+     * @param \Magento\Shipping\Model\Carrier\AbstractCarrier $carrier
+     * @param \Magento\Shipping\Model\Rate\Request $request
      * @return array [int, float]
      */
     public function composePackagesForCarrier($carrier, $request)
@@ -222,7 +224,7 @@ class Magento_Shipping_Model_Shipping
         $maxWeight  = (float) $carrier->getConfigData('max_package_weight');
 
         foreach ($allItems as $item) {
-            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
                 && $item->getProduct()->getShipmentType()
             ) {
                 continue;
@@ -243,7 +245,7 @@ class Magento_Shipping_Model_Shipping
             }
 
             $itemWeight = $item->getWeight();
-            if ($item->getIsQtyDecimal() && $item->getProductType() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            if ($item->getIsQtyDecimal() && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                 $stockItem = $item->getProduct()->getStockItem();
                 if ($stockItem->getIsDecimalDivided()) {
                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
@@ -255,7 +257,7 @@ class Magento_Shipping_Model_Shipping
                        if ($itemWeight > $maxWeight) {
                            $qtyItem = floor($itemWeight / $maxWeight);
                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = Mage::helper('Magento_Core_Helper_Data')->getExactDivision($itemWeight, $maxWeight);
+                           $weightItem = \Mage::helper('Magento\Core\Helper\Data')->getExactDivision($itemWeight, $maxWeight);
                            if ($weightItem) {
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }
@@ -274,7 +276,7 @@ class Magento_Shipping_Model_Shipping
             }
 
             if ($changeQty && !$item->getParentItem() && $item->getIsQtyDecimal()
-                && $item->getProductType() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+                && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ) {
                 $qty = 1;
             }
@@ -346,12 +348,12 @@ class Magento_Shipping_Model_Shipping
      *
      * @param \Magento\Object $address
      * @param null|bool|array $limitCarrier
-     * @return Magento_Shipping_Model_Shipping
+     * @return \Magento\Shipping\Model\Shipping
      */
     public function collectRatesByAddress(\Magento\Object $address, $limitCarrier = null)
     {
-        /** @var $request Magento_Shipping_Model_Rate_Request */
-        $request = Mage::getModel('Magento_Shipping_Model_Rate_Request');
+        /** @var $request \Magento\Shipping\Model\Rate\Request */
+        $request = \Mage::getModel('\Magento\Shipping\Model\Rate\Request');
         $request->setAllItems($address->getAllItems());
         $request->setDestCountryId($address->getCountryId());
         $request->setDestRegionId($address->getRegionId());
@@ -361,10 +363,10 @@ class Magento_Shipping_Model_Shipping
         $request->setPackageWeight($address->getWeight());
         $request->setFreeMethodWeight($address->getFreeMethodWeight());
         $request->setPackageQty($address->getItemQty());
-        $request->setStoreId(Mage::app()->getStore()->getId());
-        $request->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
-        $request->setBaseCurrency(Mage::app()->getStore()->getBaseCurrency());
-        $request->setPackageCurrency(Mage::app()->getStore()->getCurrentCurrency());
+        $request->setStoreId(\Mage::app()->getStore()->getId());
+        $request->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
+        $request->setBaseCurrency(\Mage::app()->getStore()->getBaseCurrency());
+        $request->setPackageCurrency(\Mage::app()->getStore()->getCurrentCurrency());
         $request->setLimitCarrier($limitCarrier);
 
         $request->setBaseSubtotalInclTax($address->getBaseSubtotalInclTax());
@@ -376,7 +378,7 @@ class Magento_Shipping_Model_Shipping
      * Set part of carrier xml config path
      *
      * @param string $code
-     * @return Magento_Shipping_Model_Shipping
+     * @return \Magento\Shipping\Model\Shipping
      */
     public function setCarrierAvailabilityConfigField($code = 'active')
     {
@@ -389,18 +391,18 @@ class Magento_Shipping_Model_Shipping
      *
      * @param string $carrierCode
      * @param null|int $storeId
-     * @return bool|Magento_Core_Model_Abstract
+     * @return bool|\Magento\Core\Model\AbstractModel
      */
     public function getCarrierByCode($carrierCode, $storeId = null)
     {
-        if (!Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/'.$this->_availabilityConfigField, $storeId)) {
+        if (!\Mage::getStoreConfigFlag('carriers/'.$carrierCode.'/'.$this->_availabilityConfigField, $storeId)) {
             return false;
         }
-        $className = Mage::getStoreConfig('carriers/'.$carrierCode.'/model', $storeId);
+        $className = \Mage::getStoreConfig('carriers/'.$carrierCode.'/model', $storeId);
         if (!$className) {
             return false;
         }
-        $obj = Mage::getModel($className);
+        $obj = \Mage::getModel($className);
         if ($storeId) {
             $obj->setStore($storeId);
         }
@@ -410,44 +412,44 @@ class Magento_Shipping_Model_Shipping
     /**
      * Prepare and do request to shipment
      *
-     * @param Magento_Sales_Model_Order_Shipment $orderShipment
+     * @param \Magento\Sales\Model\Order\Shipment $orderShipment
      * @return \Magento\Object
      */
-    public function requestToShipment(Magento_Sales_Model_Order_Shipment $orderShipment)
+    public function requestToShipment(\Magento\Sales\Model\Order\Shipment $orderShipment)
     {
-        $admin = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
+        $admin = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser();
         $order = $orderShipment->getOrder();
         $address = $order->getShippingAddress();
         $shippingMethod = $order->getShippingMethod(true);
         $shipmentStoreId = $orderShipment->getStoreId();
         $shipmentCarrier = $order->getShippingCarrier();
-        $baseCurrencyCode = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
+        $baseCurrencyCode = \Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
         if (!$shipmentCarrier) {
-            Mage::throwException('Invalid carrier: ' . $shippingMethod->getCarrierCode());
+            \Mage::throwException('Invalid carrier: ' . $shippingMethod->getCarrierCode());
         }
-        $shipperRegionCode = Mage::getStoreConfig(self::XML_PATH_STORE_REGION_ID, $shipmentStoreId);
+        $shipperRegionCode = \Mage::getStoreConfig(self::XML_PATH_STORE_REGION_ID, $shipmentStoreId);
         if (is_numeric($shipperRegionCode)) {
-            $shipperRegionCode = Mage::getModel('Magento_Directory_Model_Region')->load($shipperRegionCode)->getCode();
+            $shipperRegionCode = \Mage::getModel('\Magento\Directory\Model\Region')->load($shipperRegionCode)->getCode();
         }
 
-        $recipientRegionCode = Mage::getModel('Magento_Directory_Model_Region')->load($address->getRegionId())->getCode();
+        $recipientRegionCode = \Mage::getModel('\Magento\Directory\Model\Region')->load($address->getRegionId())->getCode();
 
-        $originStreet1 = Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
-        $originStreet2 = Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
-        $storeInfo = new \Magento\Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
+        $originStreet1 = \Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
+        $originStreet2 = \Mage::getStoreConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
+        $storeInfo = new \Magento\Object(\Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
         if (!$admin->getFirstname() || !$admin->getLastname() || !$storeInfo->getName() || !$storeInfo->getPhone()
-            || !$originStreet1 || !Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId)
-            || !$shipperRegionCode || !Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId)
-            || !Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
+            || !$originStreet1 || !\Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId)
+            || !$shipperRegionCode || !\Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId)
+            || !\Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
         ) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
             );
         }
 
-        /** @var $request Magento_Shipping_Model_Shipment_Request */
-        $request = Mage::getModel('Magento_Shipping_Model_Shipment_Request');
+        /** @var $request \Magento\Shipping\Model\Shipment\Request */
+        $request = \Mage::getModel('\Magento\Shipping\Model\Shipment\Request');
         $request->setOrderShipment($orderShipment);
         $request->setShipperContactPersonName($admin->getName());
         $request->setShipperContactPersonFirstName($admin->getFirstname());
@@ -458,10 +460,10 @@ class Magento_Shipping_Model_Shipping
         $request->setShipperAddressStreet(trim($originStreet1 . ' ' . $originStreet2));
         $request->setShipperAddressStreet1($originStreet1);
         $request->setShipperAddressStreet2($originStreet2);
-        $request->setShipperAddressCity(Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId));
+        $request->setShipperAddressCity(\Mage::getStoreConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId));
         $request->setShipperAddressStateOrProvinceCode($shipperRegionCode);
-        $request->setShipperAddressPostalCode(Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId));
-        $request->setShipperAddressCountryCode(Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId));
+        $request->setShipperAddressPostalCode(\Mage::getStoreConfig(self::XML_PATH_STORE_ZIP, $shipmentStoreId));
+        $request->setShipperAddressCountryCode(\Mage::getStoreConfig(self::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId));
         $request->setRecipientContactPersonName(trim($address->getFirstname() . ' ' . $address->getLastname()));
         $request->setRecipientContactPersonFirstName($address->getFirstname());
         $request->setRecipientContactPersonLastName($address->getLastname());

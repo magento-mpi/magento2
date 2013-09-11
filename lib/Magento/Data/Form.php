@@ -16,8 +16,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method \Magento\Data\Form setParent($block)
- * @method Magento_Backend_Block_Widget_Form getParent()
- * @method Magento_Backend_Block_Widget_Form setUseContainer($flag)
+ * @method \Magento\Backend\Block\Widget\Form getParent()
+ * @method \Magento\Backend\Block\Widget\Form setUseContainer($flag)
  */
 namespace Magento\Data;
 
@@ -225,7 +225,7 @@ class Form extends \Magento\Data\Form\AbstractForm
             $html .= '<form '.$this->serialize($this->getHtmlAttributes()).'>';
             $html .= '<div>';
             if (strtolower($this->getData('method')) == 'post') {
-                $html .= '<input name="form_key" type="hidden" value="'.Mage::getSingleton('\Magento_Core_Model_Session')->getFormKey().'" />';
+                $html .= '<input name="form_key" type="hidden" value="' . \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey().'" />';
             }
             $html .= '</div>';
         }

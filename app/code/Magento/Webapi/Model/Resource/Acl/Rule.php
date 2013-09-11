@@ -8,11 +8,13 @@
  * @license     {license_link}
  *
  * @method array getResources() getResources()
- * @method Magento_Webapi_Model_Resource_Acl_Rule setResources() setResources(array $resourcesList)
+ * @method \Magento\Webapi\Model\Resource\Acl\Rule setResources() setResources(array $resourcesList)
  * @method int getRoleId() getRoleId()
- * @method Magento_Webapi_Model_Resource_Acl_Rule setRoleId() setRoleId(int $roleId)
+ * @method \Magento\Webapi\Model\Resource\Acl\Rule setRoleId() setRoleId(int $roleId)
  */
-class Magento_Webapi_Model_Resource_Acl_Rule extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Webapi\Model\Resource\Acl;
+
+class Rule extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization.
@@ -52,10 +54,10 @@ class Magento_Webapi_Model_Resource_Acl_Rule extends Magento_Core_Model_Resource
     /**
      * Save resources.
      *
-     * @param Magento_Webapi_Model_Acl_Rule $rule
-     * @throws Exception
+     * @param \Magento\Webapi\Model\Acl\Rule $rule
+     * @throws \Exception
      */
-    public function saveResources(Magento_Webapi_Model_Acl_Rule $rule)
+    public function saveResources(\Magento\Webapi\Model\Acl\Rule $rule)
     {
         $roleId = $rule->getRoleId();
         if ($roleId > 0) {
@@ -82,7 +84,7 @@ class Magento_Webapi_Model_Resource_Acl_Rule extends Magento_Core_Model_Resource
                 }
 
                 $adapter->commit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $adapter->rollBack();
                 throw $e;
             }

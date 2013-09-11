@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Webapi_Model_Acl_Rule model.
+ * Test for \Magento\Webapi\Model\Acl\Rule model.
  *
  * {license_notice}
  *
@@ -16,20 +16,20 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Magento_Webapi_Model_Acl_Role_Factory
+     * @var \Magento\Webapi\Model\Acl\Role\Factory
      */
     protected $_roleFactory;
 
     /**
-     * @var Magento_Webapi_Model_Acl_Rule
+     * @var \Magento\Webapi\Model\Acl\Rule
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_roleFactory = $this->_objectManager->get('Magento_Webapi_Model_Acl_Role_Factory');
-        $this->_model = $this->_objectManager->create('Magento_Webapi_Model_Acl_Rule');
+        $this->_roleFactory = $this->_objectManager->get('Magento\Webapi\Model\Acl\Role\Factory');
+        $this->_model = $this->_objectManager->create('Magento\Webapi\Model\Acl\Rule');
     }
 
     /**
@@ -48,7 +48,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test Magento_Webapi_Model_Acl_Rule::saveResources() method.
+     * Test \Magento\Webapi\Model\Acl\Rule::saveResources() method.
      */
     public function testSaveResources()
     {
@@ -60,8 +60,8 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
             ->setResources($resources)
             ->saveResources();
 
-        /** @var $rulesSet Magento_Webapi_Model_Resource_Acl_Rule_Collection */
-        $rulesSet = $this->_objectManager->get('Magento_Webapi_Model_Resource_Acl_Rule_Collection')
+        /** @var $rulesSet \Magento\Webapi\Model\Resource\Acl\Rule\Collection */
+        $rulesSet = $this->_objectManager->get('Magento\Webapi\Model\Resource\Acl\Rule\Collection')
             ->getByRole($role->getRoleId())->load();
         $this->assertCount(2, $rulesSet);
     }

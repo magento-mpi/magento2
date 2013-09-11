@@ -12,9 +12,11 @@
  * Recursive renderer that uses several templates
  *
  * @method string getHtml()
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive setHtml($html)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive setHtml($html)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive extends Magento_Backend_Block_Template
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class Recursive extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**

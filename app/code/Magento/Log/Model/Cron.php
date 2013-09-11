@@ -16,7 +16,9 @@
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
+namespace Magento\Log\Model;
+
+class Cron extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE     = 'system/log/error_email_template';
     const XML_PATH_EMAIL_LOG_CLEAN_IDENTITY     = 'system/log/error_email_identity';
@@ -33,28 +35,28 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
     /**
      * Send Log Clean Warnings
      *
-     * @return Magento_Log_Model_Cron
+     * @return \Magento\Log\Model\Cron
      */
     protected function _sendLogCleanEmail()
     {
         if (!$this->_errors) {
             return $this;
         }
-        if (!Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT)) {
+        if (!\Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT)) {
             return $this;
         }
 
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-        /* @var $translate Magento_Core_Model_Translate */
+        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
+        /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $emailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
-        /* @var $emailTemplate Magento_Core_Model_Email_Template */
-        $emailTemplate->setDesignConfig(array('area' => 'backend', 'store' => Mage::app()->getStore()->getId()))
+        $emailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        /* @var $emailTemplate \Magento\Core\Model\Email\Template */
+        $emailTemplate->setDesignConfig(array('area' => 'backend', 'store' => \Mage::app()->getStore()->getId()))
             ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE),
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY),
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT),
+                \Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE),
+                \Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY),
+                \Mage::getStoreConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT),
                 null,
                 array('warnings' => join("\n", $this->_errors))
             );
@@ -67,20 +69,20 @@ class Magento_Log_Model_Cron extends Magento_Core_Model_Abstract
     /**
      * Clean logs
      *
-     * @return Magento_Log_Model_Cron
+     * @return \Magento\Log\Model\Cron
      */
     public function logClean()
     {
-        if (!Mage::getStoreConfigFlag(self::XML_PATH_LOG_CLEAN_ENABLED)) {
+        if (!\Mage::getStoreConfigFlag(self::XML_PATH_LOG_CLEAN_ENABLED)) {
             return $this;
         }
 
         $this->_errors = array();
 
         try {
-            Mage::getModel('Magento_Log_Model_Log')->clean();
+            \Mage::getModel('\Magento\Log\Model\Log')->clean();
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $this->_errors[] = $e->getMessage();
             $this->_errors[] = $e->getTrace();
         }

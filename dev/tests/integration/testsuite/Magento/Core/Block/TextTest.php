@@ -12,13 +12,13 @@
 class Magento_Core_Block_TextTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Block_Text
+     * @var \Magento\Core\Block\Text
      */
     protected $_block;
 
     public function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text');
     }
 
     public function testSetGetText()

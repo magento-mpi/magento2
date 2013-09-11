@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Menu_Config_Converter implements \Magento\Config\ConverterInterface
+namespace Magento\Backend\Model\Menu\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * @param mixed $dom
@@ -27,7 +29,7 @@ class Magento_Backend_Model_Menu_Config_Converter implements \Magento\Config\Con
             'dependsOnModule',
             'dependsOnConfig',
         );
-        $xpath = new DOMXPath($dom);
+        $xpath = new \DOMXPath($dom);
         $nodeList = $xpath->query('/config/menu/*');
         for ($i = 0; $i < $nodeList->length; $i++) {
             $item = array();

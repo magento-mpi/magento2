@@ -11,14 +11,14 @@
 class Magento_Adminhtml_Block_Tax_Rate_ImportExportTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+     * @var \Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Main
      */
     protected $_block = null;
 
     protected function setUp()
     {
         $this->_block = Mage::app()->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Tax_Rate_ImportExport')
+            ->createBlock('\Magento\Adminhtml\Block\Tax\Rate\ImportExport')
             ->setArea('adminhtml');
     }
 
@@ -29,7 +29,7 @@ class Magento_Adminhtml_Block_Tax_Rate_ImportExportTest extends PHPUnit_Framewor
 
     public function testCreateBlock()
     {
-        $this->assertInstanceOf('Magento_Adminhtml_Block_Tax_Rate_ImportExport', $this->_block);
+        $this->assertInstanceOf('\Magento\Adminhtml\Block\Tax\Rate\ImportExport', $this->_block);
     }
 
     public function testFormExists()

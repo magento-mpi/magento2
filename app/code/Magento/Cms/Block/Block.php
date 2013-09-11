@@ -16,7 +16,9 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Block_Block extends Magento_Core_Block_Abstract
+namespace Magento\Cms\Block;
+
+class Block extends \Magento\Core\Block\AbstractBlock
 {
     /**
      * Prepare Content HTML
@@ -28,13 +30,13 @@ class Magento_Cms_Block_Block extends Magento_Core_Block_Abstract
         $blockId = $this->getBlockId();
         $html = '';
         if ($blockId) {
-            $storeId = Mage::app()->getStore()->getId();
-            $block = Mage::getModel('Magento_Cms_Model_Block')
+            $storeId = \Mage::app()->getStore()->getId();
+            $block = \Mage::getModel('\Magento\Cms\Model\Block')
                 ->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
-                /* @var $helper Magento_Cms_Helper_Data */
-                $helper = Mage::helper('Magento_Cms_Helper_Data');
+                /* @var $helper \Magento\Cms\Helper\Data */
+                $helper = \Mage::helper('Magento\Cms\Helper\Data');
                 $processor = $helper->getBlockTemplateProcessor();
                 $html = $processor->setStoreId($storeId)
                     ->filter($block->getContent());

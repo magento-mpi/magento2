@@ -9,20 +9,22 @@
  */
 
 
-class Magento_Install_Controller_Action extends Magento_Core_Controller_Varien_Action
+namespace Magento\Install\Controller;
+
+class Action extends \Magento\Core\Controller\Varien\Action
 {
     /**
-     * @var Magento_Core_Model_Config_Scope
+     * @var \Magento\Core\Model\Config\Scope
      */
     protected $_configScope;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
-     * @param Magento_Core_Model_Config_Scope $configScope
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Core\Model\Config\Scope $configScope
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Context $context,
-        Magento_Core_Model_Config_Scope $configScope
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Core\Model\Config\Scope $configScope
     ) {
         $this->_configScope = $configScope;
         parent::__construct($context);
@@ -39,16 +41,16 @@ class Magento_Install_Controller_Action extends Magento_Core_Controller_Varien_A
     /**
      * Initialize area and design
      *
-     * @return Magento_Install_Controller_Action
+     * @return \Magento\Install\Controller\Action
      */
     protected function _initDesign()
     {
         $areaCode = $this->getLayout()->getArea();
-        $area = Mage::app()->getArea($areaCode);
-        $area->load(Magento_Core_Model_App_Area::PART_CONFIG);
+        $area = \Mage::app()->getArea($areaCode);
+        $area->load(\Magento\Core\Model\App\Area::PART_CONFIG);
         $this->_initDefaultTheme($areaCode);
         $area->detectDesign($this->getRequest());
-        $area->load(Magento_Core_Model_App_Area::PART_TRANSLATE);
+        $area->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         return $this;
     }
 
@@ -56,14 +58,14 @@ class Magento_Install_Controller_Action extends Magento_Core_Controller_Varien_A
      * Initialize theme
      *
      * @param string $areaCode
-     * @return Magento_Install_Controller_Action
+     * @return \Magento\Install\Controller\Action
      */
     protected function _initDefaultTheme($areaCode)
     {
-        /** @var $design Magento_Core_Model_View_DesignInterface */
-        $design = Mage::getObjectManager()->get('Magento_Core_Model_View_DesignInterface');
-        /** @var $themesCollection Magento_Core_Model_Theme_Collection */
-        $themesCollection = Mage::getObjectManager()->create('Magento_Core_Model_Theme_Collection');
+        /** @var $design \Magento\Core\Model\View\DesignInterface */
+        $design = \Mage::getObjectManager()->get('Magento\Core\Model\View\DesignInterface');
+        /** @var $themesCollection \Magento\Core\Model\Theme\Collection */
+        $themesCollection = \Mage::getObjectManager()->create('Magento\Core\Model\Theme\Collection');
         $themeModel = $themesCollection->addDefaultPattern($areaCode)
             ->addFilter('theme_path', $design->getConfigurationDesignTheme($areaCode))
             ->getFirstItem();

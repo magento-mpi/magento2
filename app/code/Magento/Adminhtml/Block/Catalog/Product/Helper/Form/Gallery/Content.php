@@ -18,17 +18,19 @@
  *
  * @method \Magento\Data\Form\Element\AbstractElement getElement()
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery;
+
+class Content extends \Magento\Adminhtml\Block\Widget
 {
     protected $_template = 'catalog/product/helper/gallery.phtml';
 
     protected function _prepareLayout()
     {
-        $this->addChild('uploader', 'Magento_Adminhtml_Block_Media_Uploader');
+        $this->addChild('uploader', '\Magento\Adminhtml\Block\Media\Uploader');
 
         $this->getUploader()->getConfig()
             ->setUrl(
-                Mage::getModel('Magento_Backend_Model_Url')
+                \Mage::getModel('\Magento\Backend\Model\Url')
                     ->addSessionParam()
                     ->getUrl('adminhtml/catalog_product_gallery/upload')
             )
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
                 )
             ));
 
-        Mage::dispatchEvent('catalog_product_gallery_prepare_layout', array('block' => $this));
+        \Mage::dispatchEvent('catalog_product_gallery_prepare_layout', array('block' => $this));
 
         return parent::_prepareLayout();
     }
@@ -49,7 +51,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
     /**
      * Retrive uploader block
      *
-     * @return Magento_Adminhtml_Block_Media_Uploader
+     * @return \Magento\Adminhtml\Block\Media\Uploader
      */
     public function getUploader()
     {
@@ -87,10 +89,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
             $value = $this->getElement()->getValue();
             if (is_array($value['images']) && count($value['images']) > 0) {
                 foreach ($value['images'] as &$image) {
-                    $image['url'] = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')
+                    $image['url'] = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')
                         ->getMediaUrl($image['file']);
                 }
-                return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($value['images']);
+                return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($value['images']);
             }
         }
         return '[]';
@@ -100,12 +102,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
     {
         $values = array();
         foreach ($this->getMediaAttributes() as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $values[$attribute->getAttributeCode()] = $this->getElement()->getDataObject()->getData(
                 $attribute->getAttributeCode()
             );
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($values);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($values);
     }
 
     /**
@@ -117,7 +119,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
     {
         $imageTypes = array();
         foreach ($this->getMediaAttributes() as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $imageTypes[$attribute->getAttributeCode()] = array(
                 'code' => $attribute->getAttributeCode(),
                 'value' => $this->getElement()->getDataObject()->getData($attribute->getAttributeCode()),
@@ -152,7 +154,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extend
 
     public function getImageTypesJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getImageTypes());
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getImageTypes());
     }
 
 }

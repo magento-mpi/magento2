@@ -15,16 +15,18 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Payment_Info extends Magento_Payment_Block_Info_ContainerAbstract
+namespace Magento\Checkout\Block\Multishipping\Payment;
+
+class Info extends \Magento\Payment\Block\Info\ContainerAbstract
 {
     /**
      * Retrieve payment info model
      *
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function getPaymentInfo()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping')->getQuote()->getPayment();
+        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping')->getQuote()->getPayment();
     }
 
     protected function _toHtml()

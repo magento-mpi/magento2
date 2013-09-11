@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Store_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Store;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Name prefix of events that are dispatched by model
@@ -39,14 +41,14 @@ class Magento_Core_Model_Resource_Store_Collection extends Magento_Core_Model_Re
     protected function _construct()
     {
         $this->setFlag('load_default_store', false);
-        $this->_init('Magento_Core_Model_Store', 'Magento_Core_Model_Resource_Store');
+        $this->_init('\Magento\Core\Model\Store', '\Magento\Core\Model\Resource\Store');
     }
 
     /**
      * Set flag for load default (admin) store
      *
      * @param boolean $loadDefault
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function setLoadDefault($loadDefault)
     {
@@ -67,7 +69,7 @@ class Magento_Core_Model_Resource_Store_Collection extends Magento_Core_Model_Re
     /**
      * Add disable default store filter to collection
      *
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function setWithoutDefaultFilter()
     {
@@ -80,7 +82,7 @@ class Magento_Core_Model_Resource_Store_Collection extends Magento_Core_Model_Re
      * Group id can be passed as one single value or array of values.
      *
      * @param int|array $groupId
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function addGroupFilter($groupId)
     {
@@ -91,7 +93,7 @@ class Magento_Core_Model_Resource_Store_Collection extends Magento_Core_Model_Re
      * Add store id(s) filter to collection
      *
      * @param int|array $store
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function addIdFilter($store)
     {
@@ -102,7 +104,7 @@ class Magento_Core_Model_Resource_Store_Collection extends Magento_Core_Model_Re
      * Add filter by website to collection
      *
      * @param int|array $website
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function addWebsiteFilter($website)
     {
@@ -113,7 +115,7 @@ class Magento_Core_Model_Resource_Store_Collection extends Magento_Core_Model_Re
      * Add root category id filter to store collection
      *
      * @param int|array $category
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function addCategoryFilter($category)
     {
@@ -148,7 +150,7 @@ class Magento_Core_Model_Resource_Store_Collection extends Magento_Core_Model_Re
      *
      * @param boolean $printQuery
      * @param boolean $logQuery
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -168,7 +170,7 @@ class Magento_Core_Model_Resource_Store_Collection extends Magento_Core_Model_Re
      * Add root category id filter to store collection
      *
      * @param array $categories
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function loadByCategoryIds(array $categories)
     {
@@ -181,7 +183,7 @@ class Magento_Core_Model_Resource_Store_Collection extends Magento_Core_Model_Re
     /**
      * Add store root category data to collection
      *
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function addRootCategoryIdAttribute()
     {

@@ -12,13 +12,13 @@
 class Magento_Catalog_Model_Product_Type_Configurable_AttributeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Type_Configurable_Attribute
+     * @var \Magento\Catalog\Model\Product\Type\Configurable\Attribute
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Type_Configurable_Attribute');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product\Type\Configurable\Attribute');
     }
 
     public function testAddPrice()

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Api_Grid_Role extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Api\Grid;
+
+class Role extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected function _construct()
     {
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Api_Grid_Role extends Magento_Adminhtml_Block_Widg
 
     protected function _prepareCollection()
     {
-        $collection =  Mage::getModel('Magento_Api_Model_Roles')->getCollection();
+        $collection =  \Mage::getModel('\Magento\Api\Model\Roles')->getCollection();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();

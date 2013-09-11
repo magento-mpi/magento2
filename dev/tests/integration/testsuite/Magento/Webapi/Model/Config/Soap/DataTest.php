@@ -24,7 +24,7 @@ include __DIR__ . '/../../../_files/Controller/Webapi/SubresourceB.php';
  */
 class Magento_Webapi_Model_Config_Soap_DataTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Model_Config_Soap */
+    /** @var \Magento\Webapi\Model\Config\Soap */
     protected $_config;
 
     /**
@@ -34,25 +34,25 @@ class Magento_Webapi_Model_Config_Soap_DataTest extends PHPUnit_Framework_TestCa
     {
         $fixtureDir = __DIR__ . '/../../../_files/Controller/Webapi/';
         $directoryScanner = new \Zend\Code\Scanner\DirectoryScanner($fixtureDir);
-        /** @var Magento_Core_Model_CacheInterface $cache */
-        $cache = $this->getMock('Magento_Core_Model_CacheInterface');
-        /** @var Magento_Core_Model_App $app */
-        $app = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
+        /** @var \Magento\Core\Model\CacheInterface $cache */
+        $cache = $this->getMock('Magento\Core\Model\CacheInterface');
+        /** @var \Magento\Core\Model\App $app */
+        $app = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
         $appConfig = Mage::app()->getConfig();
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Webapi_Helper_Config $helper */
-        $helper = $objectManager->get('Magento_Webapi_Helper_Config');
-        /** @var Magento_Webapi_Model_Config_Reader_Soap_ClassReflector $classReflector */
-        $classReflector = $objectManager->get('Magento_Webapi_Model_Config_Reader_Soap_ClassReflector');
-        $cacheState = $objectManager->get('Magento_Core_Model_Cache_StateInterface');
-        $moduleList = $objectManager->get('Magento_Core_Model_ModuleListInterface');
-        $reader = new Magento_Webapi_Model_Config_Reader_Soap(
+        /** @var \Magento\Webapi\Helper\Config $helper */
+        $helper = $objectManager->get('Magento\Webapi\Helper\Config');
+        /** @var \Magento\Webapi\Model\Config\Reader\Soap\ClassReflector $classReflector */
+        $classReflector = $objectManager->get('Magento\Webapi\Model\Config\Reader\Soap\ClassReflector');
+        $cacheState = $objectManager->get('Magento\Core\Model\Cache\StateInterface');
+        $moduleList = $objectManager->get('Magento\Core\Model\ModuleListInterface');
+        $reader = new \Magento\Webapi\Model\Config\Reader\Soap(
             $classReflector, $appConfig, $cache, $moduleList, $cacheState
         );
         $reader->setDirectoryScanner($directoryScanner);
 
-        $this->_config = new Magento_Webapi_Model_Config_Soap($reader, $helper, $app);
-        $objectManager->addSharedInstance($this->_config, 'Magento_Webapi_Model_Config_Soap');
+        $this->_config = new \Magento\Webapi\Model\Config\Soap($reader, $helper, $app);
+        $objectManager->addSharedInstance($this->_config, '\Magento\Webapi\Model\Config\Soap');
     }
 
 

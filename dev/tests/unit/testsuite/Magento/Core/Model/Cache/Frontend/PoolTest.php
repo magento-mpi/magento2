@@ -8,7 +8,7 @@
 class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Cache_Frontend_Pool
+     * @var \Magento\Core\Model\Cache\Frontend\Pool
      */
     protected $_model;
 
@@ -20,10 +20,10 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
     public function setUp()
     {
         // Init frontend factory
-        $frontendFactory = $this->getMock('Magento_Core_Model_Cache_Frontend_Factory', array(), array(), '', false);
+        $frontendFactory = $this->getMock('Magento\Core\Model\Cache\Frontend\Factory', array(), array(), '', false);
 
         $this->_frontendInstances = array(
-            Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID
+            \Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID
             => $this->getMock('Magento\Cache\FrontendInterface'),
             'resource1' => $this->getMock('Magento\Cache\FrontendInterface'),
             'resource2' => $this->getMock('Magento\Cache\FrontendInterface'),
@@ -34,7 +34,7 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
                 $this->returnValueMap(array(
                     array(
                         array('data1' => 'value1', 'data2' => 'value2'),
-                        $this->_frontendInstances[Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID]
+                        $this->_frontendInstances[\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID]
                     ),
                     array(array('r1d1' => 'value1', 'r1d2' => 'value2'), $this->_frontendInstances['resource1']),
                     array(array('r2d1' => 'value1', 'r2d2' => 'value2'), $this->_frontendInstances['resource2']),
@@ -51,7 +51,7 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
             'data2' => 'value2',
         );
         // Create model
-        $this->_model = new Magento_Core_Model_Cache_Frontend_Pool($frontendFactory, $defaultOptions, $advancedOptions);
+        $this->_model = new \Magento\Core\Model\Cache\Frontend\Pool($frontendFactory, $defaultOptions, $advancedOptions);
     }
 
     /**
@@ -59,18 +59,18 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
      */
     public function testConstructorNoInitialization()
     {
-        $frontendFactory = $this->getMock('Magento_Core_Model_Cache_Frontend_Factory', array(), array(), '', false);
+        $frontendFactory = $this->getMock('Magento\Core\Model\Cache\Frontend\Factory', array(), array(), '', false);
         $frontendFactory
             ->expects($this->never())
             ->method('create')
         ;
-        new Magento_Core_Model_Cache_Frontend_Pool($frontendFactory);
+        new \Magento\Core\Model\Cache\Frontend\Pool($frontendFactory);
     }
 
     public function testCurrent()
     {
         $this->assertEquals(
-            $this->_frontendInstances[Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID],
+            $this->_frontendInstances[\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID],
             $this->_model->current()
         );
     }
@@ -78,7 +78,7 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
     public function testKey()
     {
         $this->assertEquals(
-            Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID,
+            \Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID,
             $this->_model->key()
         );
     }
@@ -86,7 +86,7 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
     public function testNext()
     {
         $this->assertEquals(
-            Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID,
+            \Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID,
             $this->_model->key()
         );
 
@@ -119,13 +119,13 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
     {
         $this->_model->next();
         $this->assertNotEquals(
-            Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID,
+            \Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID,
             $this->_model->key()
         );
 
         $this->_model->rewind();
         $this->assertEquals(
-            Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID,
+            \Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID,
             $this->_model->key()
         );
     }
@@ -147,8 +147,8 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
 
     public function testGet()
     {
-        $this->assertSame($this->_frontendInstances[Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID],
-            $this->_model->get(Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID));
+        $this->assertSame($this->_frontendInstances[\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID],
+            $this->_model->get(\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID));
         $this->assertSame($this->_frontendInstances['resource1'], $this->_model->get('resource1'));
         $this->assertSame($this->_frontendInstances['resource2'], $this->_model->get('resource2'));
     }

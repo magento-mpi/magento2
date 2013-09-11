@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Viewed extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
+
+class Viewed extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
 
     protected function _construct()

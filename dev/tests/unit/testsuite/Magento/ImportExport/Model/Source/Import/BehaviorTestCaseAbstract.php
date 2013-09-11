@@ -17,7 +17,7 @@ abstract class Magento_ImportExport_Model_Source_Import_BehaviorTestCaseAbstract
     /**
      * Model for testing
      *
-     * @var Magento_ImportExport_Model_Source_Import_BehaviorAbstract
+     * @var \Magento\ImportExport\Model\Source\Import\BehaviorAbstract
      */
     protected $_model;
 

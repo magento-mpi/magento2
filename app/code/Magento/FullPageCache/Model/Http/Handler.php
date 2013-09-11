@@ -7,22 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Http_Handler implements \Magento\HTTP\HandlerInterface
+namespace Magento\FullPageCache\Model\Http;
+
+class Handler implements \Magento\HTTP\HandlerInterface
 {
     /**
      * List of available request processors
      *
-     * @var Magento_FullPageCache_Model_RequestProcessorInterface[]
+     * @var \Magento\FullPageCache\Model\RequestProcessorInterface[]
      */
     protected $_processors = array();
 
     /**
      * @param array $requestProcessors
-     * @param Magento_FullPageCache_Model_RequestProcessorFactory $factory
+     * @param \Magento\FullPageCache\Model\RequestProcessorFactory $factory
      */
     public function __construct(
         array $requestProcessors,
-        Magento_FullPageCache_Model_RequestProcessorFactory $factory
+        \Magento\FullPageCache\Model\RequestProcessorFactory $factory
     ) {
         if ($requestProcessors) {
             usort($requestProcessors, array($this, '_cmp'));
@@ -53,16 +55,16 @@ class Magento_FullPageCache_Model_Http_Handler implements \Magento\HTTP\HandlerI
     /**
      * Handle http request
      *
-     * @param Zend_Controller_Request_Http $request
-     * @param Zend_Controller_Response_Http $response
+     * @param \Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Response_Http $response
      */
-    public function handle(Zend_Controller_Request_Http $request, Zend_Controller_Response_Http $response)
+    public function handle(\Zend_Controller_Request_Http $request, \Zend_Controller_Response_Http $response)
     {
         if (empty($this->_processors)) {
             return;
         }
 
-        $response->headersSentThrowsException = Mage::$headersSentThrowsException;
+        $response->headersSentThrowsException = \Mage::$headersSentThrowsException;
 
         $content = false;
         foreach ($this->_processors as $processor) {

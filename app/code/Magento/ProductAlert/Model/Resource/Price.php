@@ -16,7 +16,9 @@
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Model_Resource_Price extends Magento_ProductAlert_Model_Resource_Abstract
+namespace Magento\ProductAlert\Model\Resource;
+
+class Price extends \Magento\ProductAlert\Model\Resource\AbstractResource
 {
     /**
      * Initialize connection
@@ -30,10 +32,10 @@ class Magento_ProductAlert_Model_Resource_Price extends Magento_ProductAlert_Mod
     /**
      * Before save process, check exists the same alert
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_ProductAlert_Model_Resource_Price
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\ProductAlert\Model\Resource\Price
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (is_null($object->getId()) && $object->getCustomerId()
                 && $object->getProductId() && $object->getWebsiteId()) {
@@ -47,7 +49,7 @@ class Magento_ProductAlert_Model_Resource_Price extends Magento_ProductAlert_Mod
             }
         }
         if (is_null($object->getAddDate())) {
-            $object->setAddDate(Mage::getModel('Magento_Core_Model_Date')->gmtDate());
+            $object->setAddDate(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate());
         }
         return parent::_beforeSave($object);
     }

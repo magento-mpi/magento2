@@ -14,7 +14,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Form_Element_Dependence extends Magento_Backend_Block_Widget_Form_Element_Dependence
+namespace Magento\Adminhtml\Block\Widget\Form\Element;
+
+class Dependence extends \Magento\Backend\Block\Widget\Form\Element\Dependence
 {
 
 }

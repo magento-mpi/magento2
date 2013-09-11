@@ -8,12 +8,12 @@
  */
 -->
 <config>
-    <type name="Magento_Theme_Model_Config">
+    <type name="Magento\Theme\Model\Config">
         <param name="configCache">
-            <instance type="Magento_Core_Model_Cache_Type_Config" />
+            <instance type="Magento\Core\Model\Cache\Type\Config" />
         </param>
         <param name="layoutCache">
-            <instance type="Magento_Core_Model_Cache_Type_Layout" />
+            <instance type="Magento\Core\Model\Cache\Type\Layout" />
         </param>
     </type>
 </config>

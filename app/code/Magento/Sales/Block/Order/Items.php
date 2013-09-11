@@ -15,15 +15,17 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Items extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Sales\Block\Order;
+
+class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 }

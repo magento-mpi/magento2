@@ -11,17 +11,19 @@
 /**
  * Customer wishlist conditions combine
  */
-class Magento_Reminder_Model_Rule_Condition_Wishlist
-    extends Magento_Reminder_Model_Condition_Combine_Abstract
+namespace Magento\Reminder\Model\Rule\Condition;
+
+class Wishlist
+    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist');
+        $this->setType('\Magento\Reminder\Model\Rule\Condition\Wishlist');
         $this->setValue(null);
     }
 
@@ -32,7 +34,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('Magento_Reminder_Model_Rule_Condition_Wishlist_Combine')->getNewChildSelectOptions();
+        return \Mage::getModel('\Magento\Reminder\Model\Rule\Condition\Wishlist\Combine')->getNewChildSelectOptions();
     }
 
     /**
@@ -48,7 +50,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist
     /**
      * Override parent method
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist
      */
     public function loadValueOptions()
     {
@@ -59,7 +61,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist
     /**
      * Prepare operator select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist
      */
     public function loadOperatorOptions()
     {
@@ -104,7 +106,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 1) {
-            Mage::throwException(__('The root wish list condition should have a days value of 1 or greater.'));
+            \Mage::throwException(__('The root wish list condition should have a days value of 1 or greater.'));
         }
 
         $wishlistTable = $this->getResource()->getTable('wishlist');
@@ -112,7 +114,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('list' => $wishlistTable),
@@ -122,9 +124,9 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
-        $currentTime = Mage::getModel('Magento_Core_Model_Date')->gmtDate();
-        /** @var Magento_Core_Model_Resource_Helper_Mysql4 $daysDiffSql */
-        $daysDiffSql = Mage::getResourceHelper('Magento_Core');
+        $currentTime = \Mage::getModel('\Magento\Core\Model\Date')->gmtDate();
+        /** @var \Magento\Core\Model\Resource\Helper\Mysql4 $daysDiffSql */
+        $daysDiffSql = \Mage::getResourceHelper('Magento_Core');
         $daysDiffSql->getDateDiff('list.updated_at', $select->getAdapter()->formatDate($currentTime));
         $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));

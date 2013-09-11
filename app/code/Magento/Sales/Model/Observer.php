@@ -16,7 +16,9 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Observer
+namespace Magento\Sales\Model;
+
+class Observer
 {
     /**
      * Expire quotes additional fields to filter
@@ -28,19 +30,19 @@ class Magento_Sales_Model_Observer
     /**
      * Clean expired quotes (cron process)
      *
-     * @param Magento_Cron_Model_Schedule $schedule
-     * @return Magento_Sales_Model_Observer
+     * @param \Magento\Cron\Model\Schedule $schedule
+     * @return \Magento\Sales\Model\Observer
      */
     public function cleanExpiredQuotes($schedule)
     {
-        Mage::dispatchEvent('clear_expired_quotes_before', array('sales_observer' => $this));
+        \Mage::dispatchEvent('clear_expired_quotes_before', array('sales_observer' => $this));
 
-        $lifetimes = Mage::getConfig()->getStoresConfigByPath('checkout/cart/delete_quote_after');
+        $lifetimes = \Mage::getConfig()->getStoresConfigByPath('checkout/cart/delete_quote_after');
         foreach ($lifetimes as $storeId=>$lifetime) {
             $lifetime *= 86400;
 
-            /** @var $quotes Magento_Sales_Model_Resource_Quote_Collection */
-            $quotes = Mage::getModel('Magento_Sales_Model_Quote')->getCollection();
+            /** @var $quotes \Magento\Sales\Model\Resource\Quote\Collection */
+            $quotes = \Mage::getModel('\Magento\Sales\Model\Quote')->getCollection();
 
             $quotes->addFieldToFilter('store_id', $storeId);
             $quotes->addFieldToFilter('updated_at', array('to'=>date("Y-m-d", time()-$lifetime)));
@@ -69,7 +71,7 @@ class Magento_Sales_Model_Observer
      * Set expire quotes additional fields to filter
      *
      * @param array $fields
-     * @return Magento_Sales_Model_Observer
+     * @return \Magento\Sales\Model\Observer
      */
     public function setExpireQuotesAdditionalFilterFields(array $fields)
     {
@@ -80,80 +82,80 @@ class Magento_Sales_Model_Observer
     /**
      * Refresh sales order report statistics for last day
      *
-     * @param Magento_Cron_Model_Schedule $schedule
-     * @return Magento_Sales_Model_Observer
+     * @param \Magento\Cron\Model\Schedule $schedule
+     * @return \Magento\Sales\Model\Observer
      */
     public function aggregateSalesReportOrderData($schedule)
     {
-        Mage::app()->getLocale()->emulate(0);
-        $currentDate = Mage::app()->getLocale()->date();
+        \Mage::app()->getLocale()->emulate(0);
+        $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Order')->aggregate($date);
-        Mage::app()->getLocale()->revert();
+        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Order')->aggregate($date);
+        \Mage::app()->getLocale()->revert();
         return $this;
     }
 
     /**
      * Refresh sales shipment report statistics for last day
      *
-     * @param Magento_Cron_Model_Schedule $schedule
-     * @return Magento_Sales_Model_Observer
+     * @param \Magento\Cron\Model\Schedule $schedule
+     * @return \Magento\Sales\Model\Observer
      */
     public function aggregateSalesReportShipmentData($schedule)
     {
-        Mage::app()->getLocale()->emulate(0);
-        $currentDate = Mage::app()->getLocale()->date();
+        \Mage::app()->getLocale()->emulate(0);
+        $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Shipping')->aggregate($date);
-        Mage::app()->getLocale()->revert();
+        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Shipping')->aggregate($date);
+        \Mage::app()->getLocale()->revert();
         return $this;
     }
 
     /**
      * Refresh sales invoiced report statistics for last day
      *
-     * @param Magento_Cron_Model_Schedule $schedule
-     * @return Magento_Sales_Model_Observer
+     * @param \Magento\Cron\Model\Schedule $schedule
+     * @return \Magento\Sales\Model\Observer
      */
     public function aggregateSalesReportInvoicedData($schedule)
     {
-        Mage::app()->getLocale()->emulate(0);
-        $currentDate = Mage::app()->getLocale()->date();
+        \Mage::app()->getLocale()->emulate(0);
+        $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Invoiced')->aggregate($date);
-        Mage::app()->getLocale()->revert();
+        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Invoiced')->aggregate($date);
+        \Mage::app()->getLocale()->revert();
         return $this;
     }
 
     /**
      * Refresh sales refunded report statistics for last day
      *
-     * @param Magento_Cron_Model_Schedule $schedule
-     * @return Magento_Sales_Model_Observer
+     * @param \Magento\Cron\Model\Schedule $schedule
+     * @return \Magento\Sales\Model\Observer
      */
     public function aggregateSalesReportRefundedData($schedule)
     {
-        Mage::app()->getLocale()->emulate(0);
-        $currentDate = Mage::app()->getLocale()->date();
+        \Mage::app()->getLocale()->emulate(0);
+        $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Refunded')->aggregate($date);
-        Mage::app()->getLocale()->revert();
+        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Refunded')->aggregate($date);
+        \Mage::app()->getLocale()->revert();
         return $this;
     }
 
     /**
      * Refresh bestsellers report statistics for last day
      *
-     * @param Magento_Cron_Model_Schedule $schedule
-     * @return Magento_Sales_Model_Observer
+     * @param \Magento\Cron\Model\Schedule $schedule
+     * @return \Magento\Sales\Model\Observer
      */
     public function aggregateSalesReportBestsellersData($schedule)
     {
-        Mage::app()->getLocale()->emulate(0);
-        $currentDate = Mage::app()->getLocale()->date();
+        \Mage::app()->getLocale()->emulate(0);
+        $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Bestsellers')->aggregate($date);
-        Mage::app()->getLocale()->revert();
+        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Bestsellers')->aggregate($date);
+        \Mage::app()->getLocale()->revert();
         return $this;
     }
 
@@ -164,11 +166,11 @@ class Magento_Sales_Model_Observer
      */
     public function setQuoteCanApplyMsrp(\Magento\Event\Observer $observer)
     {
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getQuote();
 
         $canApplyMsrp = false;
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isMsrpEnabled()) {
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isMsrpEnabled()) {
             foreach ($quote->getAllAddresses() as $adddress) {
                 if ($adddress->getCanApplyMsrp()) {
                     $canApplyMsrp = true;
@@ -188,11 +190,11 @@ class Magento_Sales_Model_Observer
      */
     public function addVatRequestParamsOrderComment(\Magento\Event\Observer $observer)
     {
-        /** @var $orderInstance Magento_Sales_Model_Order */
+        /** @var $orderInstance \Magento\Sales\Model\Order */
         $orderInstance = $observer->getOrder();
-        /** @var $orderAddress Magento_Sales_Model_Order_Address */
+        /** @var $orderAddress \Magento\Sales\Model\Order\Address */
         $orderAddress = $this->_getVatRequiredSalesAddress($orderInstance);
-        if (!($orderAddress instanceof Magento_Sales_Model_Order_Address)) {
+        if (!($orderAddress instanceof \Magento\Sales\Model\Order\Address)) {
             return;
         }
 
@@ -211,16 +213,16 @@ class Magento_Sales_Model_Observer
     /**
      * Retrieve sales address (order or quote) on which tax calculation must be based
      *
-     * @param Magento_Core_Model_Abstract $salesModel
-     * @param Magento_Core_Model_Store|string|int|null $store
-     * @return Magento_Customer_Model_Address_Abstract|null
+     * @param \Magento\Core\Model\AbstractModel $salesModel
+     * @param \Magento\Core\Model\Store|string|int|null $store
+     * @return \Magento\Customer\Model\Address\AbstractAddress|null
      */
     protected function _getVatRequiredSalesAddress($salesModel, $store = null)
     {
-        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType($store);
+        $configAddressType = \Mage::helper('Magento\Customer\Helper\Address')->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
-            case Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING:
+            case \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING:
                 $requiredAddress = $salesModel->getShippingAddress();
                 break;
             default:
@@ -232,16 +234,16 @@ class Magento_Sales_Model_Observer
     /**
      * Retrieve customer address (default billing or default shipping) ID on which tax calculation must be based
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @param Magento_Core_Model_Store|string|int|null $store
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param \Magento\Core\Model\Store|string|int|null $store
      * @return int|string
      */
-    protected function _getVatRequiredCustomerAddress(Magento_Customer_Model_Customer $customer, $store = null)
+    protected function _getVatRequiredCustomerAddress(\Magento\Customer\Model\Customer $customer, $store = null)
     {
-        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType($store);
+        $configAddressType = \Mage::helper('Magento\Customer\Helper\Address')->getTaxCalculationAddressType($store);
         $requiredAddress = null;
         switch ($configAddressType) {
-            case Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING:
+            case \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING:
                 $requiredAddress = $customer->getDefaultShipping();
                 break;
             default:
@@ -257,8 +259,8 @@ class Magento_Sales_Model_Observer
      */
     public function changeQuoteCustomerGroupId(\Magento\Event\Observer $observer)
     {
-        /** @var $addressHelper Magento_Customer_Helper_Address */
-        $addressHelper = Mage::helper('Magento_Customer_Helper_Address');
+        /** @var $addressHelper \Magento\Customer\Helper\Address */
+        $addressHelper = \Mage::helper('Magento\Customer\Helper\Address');
 
         $quoteAddress = $observer->getQuoteAddress();
         $quoteInstance = $quoteAddress->getQuote();
@@ -266,25 +268,25 @@ class Magento_Sales_Model_Observer
 
         $storeId = $customerInstance->getStore();
 
-        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType($storeId);
+        $configAddressType = \Mage::helper('Magento\Customer\Helper\Address')->getTaxCalculationAddressType($storeId);
 
         // When VAT is based on billing address then Magento have to handle only billing addresses
-        $additionalBillingAddressCondition = ($configAddressType == Magento_Customer_Model_Address_Abstract::TYPE_BILLING)
+        $additionalBillingAddressCondition = ($configAddressType == \Magento\Customer\Model\Address\AbstractAddress::TYPE_BILLING)
             ? $configAddressType != $quoteAddress->getAddressType() : false;
         // Handle only addresses that corresponds to VAT configuration
         if (!$addressHelper->isVatValidationEnabled($storeId) || $additionalBillingAddressCondition) {
             return;
         }
 
-        /** @var $customerHelper Magento_Customer_Helper_Data */
-        $customerHelper = Mage::helper('Magento_Customer_Helper_Data');
+        /** @var $customerHelper \Magento\Customer\Helper\Data */
+        $customerHelper = \Mage::helper('Magento\Customer\Helper\Data');
 
         $customerCountryCode = $quoteAddress->getCountryId();
         $customerVatNumber = $quoteAddress->getVatId();
 
-        if (empty($customerVatNumber) || !Mage::helper('Magento_Core_Helper_Data')->isCountryInEU($customerCountryCode)) {
+        if (empty($customerVatNumber) || !\Mage::helper('Magento\Core\Helper\Data')->isCountryInEU($customerCountryCode)) {
             $groupId = ($customerInstance->getId()) ? $customerHelper->getDefaultCustomerGroupId($storeId)
-                : Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
+                : \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
 
             $quoteAddress->setPrevQuoteCustomerGroupId($quoteInstance->getCustomerGroupId());
             $customerInstance->setGroupId($groupId);
@@ -293,8 +295,8 @@ class Magento_Sales_Model_Observer
             return;
         }
 
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
         $merchantCountryCode = $coreHelper->getMerchantCountryCode();
         $merchantVatNumber = $coreHelper->getMerchantVatNumber();
 
@@ -349,10 +351,10 @@ class Magento_Sales_Model_Observer
     public function restoreQuoteCustomerGroupId($observer)
     {
         $quoteAddress = $observer->getQuoteAddress();
-        $configAddressType = Mage::helper('Magento_Customer_Helper_Address')->getTaxCalculationAddressType();
+        $configAddressType = \Mage::helper('Magento\Customer\Helper\Address')->getTaxCalculationAddressType();
         // Restore initial customer group ID in quote only if VAT is calculated based on shipping address
         if ($quoteAddress->hasPrevQuoteCustomerGroupId()
-            && $configAddressType == Magento_Customer_Model_Address_Abstract::TYPE_SHIPPING
+            && $configAddressType == \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING
         ) {
             $quoteAddress->getQuote()->setCustomerGroupId($quoteAddress->getPrevQuoteCustomerGroupId());
             $quoteAddress->unsPrevQuoteCustomerGroupId();

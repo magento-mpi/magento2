@@ -16,11 +16,11 @@ class Magento_Adminhtml_Block_Widget_Grid_Massaction_ItemTest extends PHPUnit_Fr
 {
     public function testGetAdditionalActionBlock()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_Widget_Grid_Massaction_Item */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Widget_Grid_Massaction_Item', 'block');
-        $expected = $layout->addBlock('Magento_Core_Block_Template', 'additional_action', 'block');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\Widget\Grid\Massaction\Item */
+        $block = $layout->createBlock('\Magento\Adminhtml\Block\Widget\Grid\Massaction\Item', 'block');
+        $expected = $layout->addBlock('\Magento\Core\Block\Template', 'additional_action', 'block');
         $this->assertSame($expected, $block->getAdditionalActionBlock());
     }
 }

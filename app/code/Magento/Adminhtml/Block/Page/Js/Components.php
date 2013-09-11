@@ -7,21 +7,23 @@
  */
 
 
-class Magento_Adminhtml_Block_Page_Js_Components extends Magento_Core_Block_Template
+namespace Magento\Adminhtml\Block\Page\Js;
+
+class Components extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\App\State $appState
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_App_State $appState,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\App\State $appState,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -33,6 +35,6 @@ class Magento_Adminhtml_Block_Page_Js_Components extends Magento_Core_Block_Temp
      */
     public function isDeveloperMode()
     {
-        return $this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER;
+        return $this->_appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER;
     }
 }

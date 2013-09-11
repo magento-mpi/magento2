@@ -15,11 +15,13 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Packaging
+namespace Magento\Usa\Model\Shipping\Carrier\Fedex\Source;
+
+class Packaging
 {
     public function toOptionArray()
     {
-        $fedex = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Fedex');
+        $fedex = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Fedex');
         $arr = array();
         foreach ($fedex->getCode('packaging') as $k => $v) {
             $arr[] = array('value' => $k, 'label' => $v);

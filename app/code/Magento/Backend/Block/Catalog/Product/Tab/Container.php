@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_Catalog_Product_Tab_Container extends Magento_Backend_Block_Template
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\Backend\Block\Catalog\Product\Tab;
+
+class Container extends \Magento\Backend\Block\Template
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
 
     /**

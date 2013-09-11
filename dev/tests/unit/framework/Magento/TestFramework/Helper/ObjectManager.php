@@ -19,8 +19,8 @@ class Magento_TestFramework_Helper_ObjectManager
      * @var array
      */
     protected $_specialCases = array(
-        'Magento_Core_Model_Resource_Abstract' => '_getResourceModelMock',
-        'Magento_Core_Model_Translate' => '_getTranslatorMock',
+        '\Magento\Core\Model\Resource\AbstractResource' => '_getResourceModelMock',
+        '\Magento\Core\Model\Translate' => '_getTranslatorMock',
     );
 
     /**
@@ -83,11 +83,11 @@ class Magento_TestFramework_Helper_ObjectManager
     /**
      * Retrieve specific mock of core resource model
      *
-     * @return Magento_Core_Model_Resource_Resource|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Resource\Resource|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getResourceModelMock()
     {
-        $resourceMock = $this->_testObject->getMock('Magento_Core_Model_Resource_Resource', array('getIdFieldName'),
+        $resourceMock = $this->_testObject->getMock('\Magento\Core\Model\Resource\Resource', array('getIdFieldName'),
             array(), '', false
         );
         $resourceMock->expects($this->_testObject->any())
@@ -101,7 +101,7 @@ class Magento_TestFramework_Helper_ObjectManager
      * Retrieve mock of core translator model
      *
      * @param string $className
-     * @return Magento_Core_Model_Translate|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Translate|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getTranslatorMock($className)
     {

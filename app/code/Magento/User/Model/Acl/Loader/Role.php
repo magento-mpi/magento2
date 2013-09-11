@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_User_Model_Acl_Loader_Role implements \Magento\Acl\LoaderInterface
+namespace Magento\User\Model\Acl\Loader;
+
+class Role implements \Magento\Acl\LoaderInterface
 {
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resource;
 
@@ -27,12 +29,12 @@ class Magento_User_Model_Acl_Loader_Role implements \Magento\Acl\LoaderInterface
     /**
      * @param Magento_User_Model_Acl_Role_GroupFactory $groupFactory
      * @param Magento_User_Model_Acl_Role_UserFactory $roleFactory
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
         Magento_User_Model_Acl_Role_GroupFactory $groupFactory,
         Magento_User_Model_Acl_Role_UserFactory $roleFactory,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_resource = $resource;
         $this->_groupFactory = $groupFactory;
@@ -55,9 +57,9 @@ class Magento_User_Model_Acl_Loader_Role implements \Magento\Acl\LoaderInterface
 
         foreach ($adapter->fetchAll($select) as $role) {
             $parent = ($role['parent_id'] > 0) ?
-                Magento_User_Model_Acl_Role_Group::ROLE_TYPE . $role['parent_id'] : null;
+                \Magento\User\Model\Acl\Role\Group::ROLE_TYPE . $role['parent_id'] : null;
             switch ($role['role_type']) {
-                case Magento_User_Model_Acl_Role_Group::ROLE_TYPE:
+                case \Magento\User\Model\Acl\Role\Group::ROLE_TYPE:
                     $roleId = $role['role_type'] . $role['role_id'];
                     $acl->addRole(
                         $this->_groupFactory->create(array('roleId' => $roleId)),
@@ -65,7 +67,7 @@ class Magento_User_Model_Acl_Loader_Role implements \Magento\Acl\LoaderInterface
                     );
                     break;
 
-                case Magento_User_Model_Acl_Role_User::ROLE_TYPE:
+                case \Magento\User\Model\Acl\Role\User::ROLE_TYPE:
                     $roleId = $role['role_type'] . $role['user_id'];
                     if (!$acl->hasRole($roleId)) {
                         $acl->addRole(

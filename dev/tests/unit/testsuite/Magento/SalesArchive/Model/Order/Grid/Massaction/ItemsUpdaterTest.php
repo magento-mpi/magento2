@@ -21,7 +21,7 @@ class Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdaterTest extends 
     protected $_authorizationMock;
 
     /**
-     * @var Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
+     * @var \Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater
      */
     protected $_model;
 
@@ -32,14 +32,14 @@ class Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdaterTest extends 
 
     protected function setUp()
     {
-        $this->_cfgSalesArchiveMock = $this->getMockBuilder('Magento_SalesArchive_Model_Config')
+        $this->_cfgSalesArchiveMock = $this->getMockBuilder('Magento\SalesArchive\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->_authorizationMock = $this->getMockBuilder('Magento\AuthorizationInterface')
             ->getMock();
 
-        $this->_model = new Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater(
+        $this->_model = new \Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater(
             $this->_cfgSalesArchiveMock, $this->_authorizationMock
         );
 

@@ -15,14 +15,16 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Resource_Rma_Status_History_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Rma\Model\Resource\Rma\Status\History;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Model initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rma_Model_Rma_Status_History', 'Magento_Rma_Model_Resource_Rma_Status_History');
+        $this->_init('\Magento\Rma\Model\Rma\Status\History', '\Magento\Rma\Model\Resource\Rma\Status\History');
     }
 }

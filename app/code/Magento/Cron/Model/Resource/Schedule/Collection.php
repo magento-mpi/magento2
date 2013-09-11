@@ -16,7 +16,9 @@
  * @package     Magento_Cron
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cron_Model_Resource_Schedule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Cron\Model\Resource\Schedule;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource collection
@@ -24,6 +26,6 @@ class Magento_Cron_Model_Resource_Schedule_Collection extends Magento_Core_Model
      */
     public function _construct()
     {
-        $this->_init('Magento_Cron_Model_Schedule', 'Magento_Cron_Model_Resource_Schedule');
+        $this->_init('\Magento\Cron\Model\Schedule', '\Magento\Cron\Model\Resource\Schedule');
     }
 }

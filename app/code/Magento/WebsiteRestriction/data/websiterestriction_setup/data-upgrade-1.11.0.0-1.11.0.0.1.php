@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/** @var $installer Magento_WebsiteRestriction_Model_Resource_Setup */
+/** @var $installer \Magento\WebsiteRestriction\Model\Resource\Setup */
 $installer = $this;
 $connection = $installer->getConnection();
 

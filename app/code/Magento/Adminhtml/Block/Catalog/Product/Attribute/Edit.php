@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()
@@ -64,7 +66,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Magento_Adm
             ),
         ));
 
-        if (!Mage::registry('entity_attribute') || !Mage::registry('entity_attribute')->getIsUserDefined()) {
+        if (!\Mage::registry('entity_attribute') || !\Mage::registry('entity_attribute')->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
             $this->_updateButton('delete', 'label', __('Delete Attribute'));
@@ -78,8 +80,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Magento_Adm
      */
     public function getHeaderText()
     {
-        if (Mage::registry('entity_attribute')->getId()) {
-            $frontendLabel = Mage::registry('entity_attribute')->getFrontendLabel();
+        if (\Mage::registry('entity_attribute')->getId()) {
+            $frontendLabel = \Mage::registry('entity_attribute')->getFrontendLabel();
             if (is_array($frontendLabel)) {
                 $frontendLabel = $frontendLabel[0];
             }

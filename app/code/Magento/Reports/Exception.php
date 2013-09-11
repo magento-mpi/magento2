@@ -11,7 +11,9 @@
 
 
 
-class Magento_Reports_Exception extends Zend_Exception 
+namespace Magento\Reports;
+
+class Exception extends \Zend_Exception
 {
     
 }

@@ -15,14 +15,16 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\Adminhtml\Block\Catalog;
+
+class Product extends \Magento\Adminhtml\Block\Widget\Container
 {
     protected $_template = 'catalog/product.phtml';
 
     /**
      * Prepare button and grid
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product
+     * @return \Magento\Adminhtml\Block\Catalog\Product
      */
     protected function _prepareLayout()
     {
@@ -31,14 +33,14 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
             'label' => __('Add Product'),
             'class' => 'btn-add',
             'button_class' => 'btn-round',
-            'class_name' => 'Magento_Backend_Block_Widget_Button_Split',
+            'class_name' => '\Magento\Backend\Block\Widget\Button\Split',
             'options' => $this->_getAddProductButtonOptions(),
         );
         $this->_addButton('add_new', $addButtonProps);
 
         $this->setChild(
             'grid',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Grid', 'product.grid')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Grid', 'product.grid')
         );
         return parent::_prepareLayout();
     }
@@ -52,11 +54,11 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
     {
         $splitButtonOptions = array();
 
-        foreach (Mage::getModel('Magento_Catalog_Model_Product_Type')->getOptionArray() as $key => $label) {
+        foreach (\Mage::getModel('\Magento\Catalog\Model\Product\Type')->getOptionArray() as $key => $label) {
             $splitButtonOptions[$key] = array(
                 'label'     => $label,
                 'onclick'   => "setLocation('" . $this->_getProductCreateUrl($key) . "')",
-                'default'   => Magento_Catalog_Model_Product_Type::DEFAULT_TYPE == $key
+                'default'   => \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE == $key
             );
         }
 
@@ -72,7 +74,7 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
     protected function _getProductCreateUrl($type)
     {
         return $this->getUrl('*/*/new', array(
-            'set'   => Mage::getModel('Magento_Catalog_Model_Product')->getDefaultAttributeSetId(),
+            'set'   => \Mage::getModel('\Magento\Catalog\Model\Product')->getDefaultAttributeSetId(),
             'type'  => $type
         ));
     }
@@ -94,6 +96,6 @@ class Magento_Adminhtml_Block_Catalog_Product extends Magento_Adminhtml_Block_Wi
      */
     public function isSingleStoreMode()
     {
-        return Mage::app()->isSingleStoreMode();
+        return \Mage::app()->isSingleStoreMode();
     }
 }

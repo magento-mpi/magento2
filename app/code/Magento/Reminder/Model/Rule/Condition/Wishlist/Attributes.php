@@ -11,17 +11,19 @@
 /**
  * Product attribute value condition
  */
-class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
-    extends Magento_Rule_Model_Condition_Product_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+class Attributes
+    extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes');
+        $this->setType('\Magento\Reminder\Model\Rule\Condition\Wishlist\Attributes');
         $this->setValue(null);
     }
 
@@ -96,21 +98,21 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Attributes
     /**
      * Get product attribute object
      *
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', $this->getAttribute());
+        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', $this->getAttribute());
     }
 
     /**
      * Get resource
      *
-     * @return Magento_Reminder_Model_Resource_Rule
+     * @return \Magento\Reminder\Model\Resource\Rule
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('Magento_Reminder_Model_Resource_Rule');
+        return \Mage::getResourceSingleton('\Magento\Reminder\Model\Resource\Rule');
     }
 
     /**

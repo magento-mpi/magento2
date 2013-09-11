@@ -13,12 +13,14 @@
  * It's typical for "access proxies" to have a decorator-like implementation, the difference is logical -
  * controlling access rather than attaching additional responsibility to a subject.
  */
-class Magento_Core_Model_Cache_Type_AccessProxy extends \Magento\Cache\Frontend\Decorator\Bare
+namespace Magento\Core\Model\Cache\Type;
+
+class AccessProxy extends \Magento\Cache\Frontend\Decorator\Bare
 {
     /**
      * Cache types manager
      *
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     private $_cacheState;
 
@@ -31,12 +33,12 @@ class Magento_Core_Model_Cache_Type_AccessProxy extends \Magento\Cache\Frontend\
 
     /**
      * @param \Magento\Cache\FrontendInterface $frontend
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      * @param string $identifier Cache type identifier
      */
     public function __construct(
         \Magento\Cache\FrontendInterface $frontend,
-        Magento_Core_Model_Cache_StateInterface $cacheState,
+        \Magento\Core\Model\Cache\StateInterface $cacheState,
         $identifier
     ) {
         parent::__construct($frontend);
@@ -101,7 +103,7 @@ class Magento_Core_Model_Cache_Type_AccessProxy extends \Magento\Cache\Frontend\
     /**
      * {@inheritdoc}
      */
-    public function clean($mode = Zend_Cache::CLEANING_MODE_ALL, array $tags = array())
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = array())
     {
         if (!$this->_isEnabled()) {
             return true;

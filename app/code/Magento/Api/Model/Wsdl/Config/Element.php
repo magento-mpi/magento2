@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_Core
  */
-class Magento_Api_Model_Wsdl_Config_Element extends \Magento\Simplexml\Element
+namespace Magento\Api\Model\Wsdl\Config;
+
+class Element extends \Magento\Simplexml\Element
 {
     public function extend($source, $overwrite = false)
     {
@@ -74,7 +76,7 @@ class Magento_Api_Model_Wsdl_Config_Element extends \Magento\Simplexml\Element
             $targetChild->setParent($this);
             foreach ($this->getAttributes($source) as $namespace => $attributes) {
                 foreach ($attributes as $key => $value) {
-                    $_namespacesPrefix = Magento_Api_Model_Wsdl_Config::getNamespacesPrefix();
+                    $_namespacesPrefix = \Magento\Api\Model\Wsdl\Config::getNamespacesPrefix();
                     if ($namespace == '') {
                         $namespace = null;
                     } elseif (array_key_exists($namespace, $_namespacesPrefix)) {
@@ -97,7 +99,7 @@ class Magento_Api_Model_Wsdl_Config_Element extends \Magento\Simplexml\Element
             $targetChild->setParent($this);
             foreach ($this->getAttributes($source) as $namespace => $attributes) {
                 foreach ($attributes as $key => $value) {
-                    $_namespacesPrefix = Magento_Api_Model_Wsdl_Config::getNamespacesPrefix();
+                    $_namespacesPrefix = \Magento\Api\Model\Wsdl\Config::getNamespacesPrefix();
                     if ($namespace == '') {
                         $namespace = null;
                     } elseif (array_key_exists($namespace, $_namespacesPrefix)) {
@@ -158,8 +160,8 @@ class Magento_Api_Model_Wsdl_Config_Element extends \Magento\Simplexml\Element
         $children = array();
         $namespaces = $source->getNamespaces(true);
 
-        /** @var Magento_Api_Helper_Data $helper */
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        /** @var \Magento\Api\Helper\Data $helper */
+        $helper = \Mage::helper('Magento\Api\Helper\Data');
         $isWsi = $helper->isWsiCompliant();
 
         foreach ($namespaces as $key => $value) {

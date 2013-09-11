@@ -15,16 +15,18 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute;
+
+class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
      * Prepare product attributes grid collection object
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Attribute_Grid
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Attribute\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection')
             ->addVisibleFilter();
         $this->setCollection($collection);
 
@@ -34,7 +36,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Magento_Eav
     /**
      * Prepare product attributes grid columns
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Attribute_Grid
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Attribute\Grid
      */
     protected function _prepareColumns()
     {
@@ -58,9 +60,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Grid extends Magento_Eav
             'index'=>'is_global',
             'type' => 'options',
             'options' => array(
-                Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>__('Store View'),
-                Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>__('Web Site'),
-                Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>__('Global'),
+                \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE =>__('Store View'),
+                \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE =>__('Web Site'),
+                \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL =>__('Global'),
             ),
             'align' => 'center',
         ), 'is_visible');

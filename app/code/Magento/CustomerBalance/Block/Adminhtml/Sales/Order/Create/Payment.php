@@ -12,32 +12,34 @@
  * Customer balance block for order creation page
  *
  */
-class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Create_Payment
-extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
+
+class Payment
+extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_CustomerBalance_Model_Balance
+     * @var \Magento\CustomerBalance\Model\Balance
      */
     protected $_balanceInstance;
 
     /**
      * Retrieve order create model
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
     }
 
     /**
      * Return store manager instance
      *
-     * @return Magento_Core_Model_StoreManager
+     * @return \Magento\Core\Model\StoreManager
      */
     protected function _getStoreManagerModel()
     {
-        return Mage::getSingleton('Magento_Core_Model_StoreManager');
+        return \Mage::getSingleton('Magento\Core\Model\StoreManager');
     }
 
     /**
@@ -48,7 +50,7 @@ extends Magento_Core_Block_Template
      */
     public function formatPrice($value)
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getStore()->formatPrice($value);
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getStore()->formatPrice($value);
     }
 
     /**
@@ -59,7 +61,7 @@ extends Magento_Core_Block_Template
      */
     public function getBalance($convertPrice = false)
     {
-        if (!$this->_helperFactory->get('Magento_CustomerBalance_Helper_Data')->isEnabled() || !$this->_getBalanceInstance()) {
+        if (!$this->_helperFactory->get('Magento\CustomerBalance\Helper\Data')->isEnabled() || !$this->_getBalanceInstance()) {
             return 0.0;
         }
         if ($convertPrice) {
@@ -105,7 +107,7 @@ extends Magento_Core_Block_Template
     /**
      * Instantiate/load balance and return it
      *
-     * @return Magento_CustomerBalance_Model_Balance|false
+     * @return \Magento\CustomerBalance\Model\Balance|false
      */
     protected function _getBalanceInstance()
     {
@@ -115,8 +117,8 @@ extends Magento_Core_Block_Template
                 return false;
             }
 
-            $store = Mage::app()->getStore($quote->getStoreId());
-            $this->_balanceInstance = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+            $store = \Mage::app()->getStore($quote->getStoreId());
+            $this->_balanceInstance = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
                 ->setCustomerId($quote->getCustomerId())
                 ->setWebsiteId($store->getWebsiteId())
                 ->loadByCustomer();

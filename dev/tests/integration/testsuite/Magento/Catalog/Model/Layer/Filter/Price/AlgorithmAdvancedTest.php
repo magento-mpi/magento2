@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Layer_Filter_Price.
+ * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_advanced.php
  */
@@ -19,13 +19,13 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
     /**
      * Algorithm model
      *
-     * @var Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+     * @var \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
      */
     protected $_model;
 
     protected function setUp()
     {
-         $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
+         $this->_model = Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
     }
 
     /**
@@ -35,15 +35,15 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmAdvancedTest extends PHP
      */
     protected function _prepareFilter($request = null)
     {
-        /** @var $layer Magento_Catalog_Model_Layer */
-        $layer = Mage::getModel('Magento_Catalog_Model_Layer');
+        /** @var $layer \Magento\Catalog\Model\Layer */
+        $layer = Mage::getModel('\Magento\Catalog\Model\Layer');
         $layer->setCurrentCategory(4);
-        $layer->setState(Mage::getModel('Magento_Catalog_Model_Layer_State'));
-        /** @var $filter Magento_Catalog_Model_Layer_Filter_Price */
-        $filter = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price');
+        $layer->setState(Mage::getModel('\Magento\Catalog\Model\Layer\State'));
+        /** @var $filter \Magento\Catalog\Model\Layer\Filter\Price */
+        $filter = Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Price');
         $filter->setLayer($layer)->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));
         if (!is_null($request)) {
-            $filter->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
+            $filter->apply($request, Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text'));
             $interval = $filter->getInterval();
             if ($interval) {
                 $this->_model->setLimits($interval[0], $interval[1]);

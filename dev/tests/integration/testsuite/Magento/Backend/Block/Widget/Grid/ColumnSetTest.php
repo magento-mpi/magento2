@@ -15,7 +15,7 @@
 class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @var \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     protected $_block;
 
@@ -33,18 +33,18 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
     {
         parent::setUp();
 
-        $this->_columnMock = $this->getMock('Magento_Backend_Block_Widget_Grid_Column',
+        $this->_columnMock = $this->getMock('Magento\Backend\Block\Widget\Grid\Column',
             array('setSortable', 'setRendererType', 'setFilterType', 'addHeaderCssClass', 'setGrid'),
             array(), '', false
         );
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->_layoutMock->expects($this->any())->method('getChildBlocks')->will($this->returnValue(
             array($this->_columnMock)
         ));
 
-        $context = Mage::getModel('Magento_Core_Block_Template_Context', array('layout' => $this->_layoutMock));
+        $context = Mage::getModel('\Magento\Core\Block\Template\Context', array('layout' => $this->_layoutMock));
         $this->_block = Mage::app()->getLayout()->createBlock(
-            'Magento_Backend_Block_Widget_Grid_ColumnSet', '', array('context' => $context)
+            '\Magento\Backend\Block\Widget\Grid\ColumnSet', '', array('context' => $context)
         );
         $this->_block->setTemplate(null);
     }

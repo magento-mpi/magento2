@@ -13,24 +13,24 @@ class Magento_Sales_Block_Order_TotalsTest extends PHPUnit_Framework_TestCase
 {
     public function testToHtmlChildrenInitialized()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        $block = $layout->createBlock('Magento_Sales_Block_Order_Totals', 'block');
-        $block->setOrder(Mage::getModel('Magento_Sales_Model_Order'))
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $block = $layout->createBlock('\Magento\Sales\Block\Order\Totals', 'block');
+        $block->setOrder(Mage::getModel('\Magento\Sales\Model\Order'))
             ->setTemplate('order/totals.phtml');
 
-        $context = Mage::getSingleton('Magento_Core_Block_Context');
-        $childOne = $this->getMock('Magento_Core_Block_Text', array('initTotals'), array($context));
+        $context = Mage::getSingleton('Magento\Core\Block\Context');
+        $childOne = $this->getMock('Magento\Core\Block\Text', array('initTotals'), array($context));
         $childOne->expects($this->once())
             ->method('initTotals');
         $layout->addBlock($childOne, 'child1', 'block');
 
-        $childTwo = $this->getMock('Magento_Core_Block_Text', array('initTotals'), array($context));
+        $childTwo = $this->getMock('Magento\Core\Block\Text', array('initTotals'), array($context));
         $childTwo->expects($this->once())
             ->method('initTotals');
         $layout->addBlock($childTwo, 'child2', 'block');
 
-        $childThree = $this->getMock('Magento_Core_Block_Text', array('initTotals'), array($context));
+        $childThree = $this->getMock('Magento\Core\Block\Text', array('initTotals'), array($context));
         $childThree->expects($this->once())
             ->method('initTotals');
         $layout->addBlock($childThree, 'child3', 'block');

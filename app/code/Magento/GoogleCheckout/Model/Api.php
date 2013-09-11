@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleCheckout_Model_Api extends \Magento\Object
+namespace Magento\GoogleCheckout\Model;
+
+class Api extends \Magento\Object
 {
     /**
      * Fields that should be replaced in debug with '***'
@@ -19,13 +21,13 @@ class Magento_GoogleCheckout_Model_Api extends \Magento\Object
 
     protected function _getApi($area)
     {
-        $api = Mage::getModel('Magento_GoogleCheckout_Model_Api_Xml_' . uc_words($area))->setStoreId($this->getStoreId());
+        $api = \Mage::getModel('Magento_GoogleCheckout_Model_Api_Xml_' . uc_words($area))->setStoreId($this->getStoreId());
         $api->setApi($this);
         return $api;
     }
 
 // CHECKOUT
-    public function checkout(Magento_Sales_Model_Quote $quote)
+    public function checkout(\Magento\Sales\Model\Quote $quote)
     {
         $api = $this->_getApi('checkout')
             ->setQuote($quote)
@@ -79,7 +81,7 @@ class Magento_GoogleCheckout_Model_Api extends \Magento\Object
     public function deliver($gOrderId, $carrier, $trackingNo, $sendMail = true)
     {
         $this->setCarriers(array('dhl' => 'DHL', 'fedex' => 'FedEx', 'ups' => 'UPS', 'usps' => 'USPS'));
-        Mage::dispatchEvent('googlecheckout_api_deliver_carriers_array', array('api' => $this));
+        \Mage::dispatchEvent('googlecheckout_api_deliver_carriers_array', array('api' => $this));
         $gCarriers = $this->getCarriers();
         $carrier = strtolower($carrier);
         $carrier = isset($gCarriers[$carrier]) ? $gCarriers[$carrier] : 'Other';
@@ -190,7 +192,7 @@ class Magento_GoogleCheckout_Model_Api extends \Magento\Object
     public function debugData($debugData)
     {
         if ($this->getDebugFlag()) {
-            Mage::getModel('Magento_Core_Model_Log_Adapter', array('fileName' => 'payment_googlecheckout.log'))
+            \Mage::getModel('\Magento\Core\Model\Log\Adapter', array('fileName' => 'payment_googlecheckout.log'))
                ->setFilterDataKeys($this->_debugReplacePrivateDataKeys)
                ->log($debugData);
         }
@@ -204,7 +206,7 @@ class Magento_GoogleCheckout_Model_Api extends \Magento\Object
     public function getDebugFlag()
     {
         if (!$this->hasData('debug_flag')) {
-            $this->setData('debug_flag', Mage::getStoreConfig('google/checkout/debug', $this->getStoreId()));
+            $this->setData('debug_flag', \Mage::getStoreConfig('google/checkout/debug', $this->getStoreId()));
         }
         return $this->getData('debug_flag');
     }

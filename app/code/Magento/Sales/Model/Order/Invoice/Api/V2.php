@@ -15,7 +15,9 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Invoice_Api_V2 extends Magento_Sales_Model_Order_Invoice_Api
+namespace Magento\Sales\Model\Order\Invoice\Api;
+
+class V2 extends \Magento\Sales\Model\Order\Invoice\Api
 {
     /**
      * Create new invoice for order
@@ -29,9 +31,9 @@ class Magento_Sales_Model_Order_Invoice_Api_V2 extends Magento_Sales_Model_Order
      */
     public function create($orderIncrementId, $itemsQty, $comment = null, $email = false, $includeComment = false)
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
+        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
         $itemsQty = $this->_prepareItemQtyData($itemsQty);
-        /* @var $order Magento_Sales_Model_Order */
+        /* @var $order \Magento\Sales\Model\Order */
         /**
          * Check order existing
          */
@@ -61,10 +63,10 @@ class Magento_Sales_Model_Order_Invoice_Api_V2 extends Magento_Sales_Model_Order
         $invoice->getOrder()->setIsInProcess(true);
 
         try {
-            Mage::getModel('Magento_Core_Model_Resource_Transaction')->addObject($invoice)->addObject($invoice->getOrder())
+            \Mage::getModel('\Magento\Core\Model\Resource\Transaction')->addObject($invoice)->addObject($invoice->getOrder())
                 ->save();
             $invoice->sendEmail($email, ($includeComment ? $comment : ''));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 

@@ -11,12 +11,14 @@
 /**
  * Indexer strategy
  */
-class Magento_Index_Model_Indexer
+namespace Magento\Index\Model;
+
+class Indexer
 {
     /**
      * Collection of available processes
      *
-     * @var Magento_Index_Model_Resource_Process_Collection
+     * @var \Magento\Index\Model\Resource\Process\Collection
      */
     protected $_processesCollection;
 
@@ -29,17 +31,17 @@ class Magento_Index_Model_Indexer
     }
 
     /**
-     * @return Magento_Index_Model_Resource_Process_Collection
+     * @return \Magento\Index\Model\Resource\Process\Collection
      */
     private function _createCollection()
     {
-        return Mage::getResourceModel('Magento_Index_Model_Resource_Process_Collection');
+        return \Mage::getResourceModel('\Magento\Index\Model\Resource\Process\Collection');
     }
 
     /**
      * Get collection of all available processes
      *
-     * @return Magento_Index_Model_Resource_Process_Collection
+     * @return \Magento\Index\Model\Resource\Process\Collection
      */
     public function getProcessesCollection()
     {
@@ -51,7 +53,7 @@ class Magento_Index_Model_Indexer
      * Get index process by specific id
      *
      * @param int $processId
-     * @return Magento_Index_Model_Process | false
+     * @return \Magento\Index\Model\Process | false
      */
     public function getProcessById($processId)
     {
@@ -67,7 +69,7 @@ class Magento_Index_Model_Indexer
      * Get index process by specific code
      *
      * @param string $code
-     * @return Magento_Index_Model_Process | false
+     * @return \Magento\Index\Model\Process | false
      */
     public function getProcessByCode($code)
     {
@@ -85,32 +87,32 @@ class Magento_Index_Model_Indexer
      *
      * @param   null | string $entity
      * @param   null | string $type
-     * @return  Magento_Index_Model_Indexer
+     * @return  \Magento\Index\Model\Indexer
      */
     public function indexEvents($entity=null, $type=null)
     {
-        Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
-        /** @var $resourceModel Magento_Index_Model_Resource_Process */
-        $resourceModel = Mage::getResourceSingleton('Magento_Index_Model_Resource_Process');
+        \Mage::dispatchEvent('start_index_events' . $this->_getEventTypeName($entity, $type));
+        /** @var $resourceModel \Magento\Index\Model\Resource\Process */
+        $resourceModel = \Mage::getResourceSingleton('\Magento\Index\Model\Resource\Process');
         $resourceModel->beginTransaction();
         try {
             $this->_runAll('indexEvents', array($entity, $type));
             $resourceModel->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $resourceModel->rollBack();
             throw $e;
         }
-        Mage::dispatchEvent('end_index_events' . $this->_getEventTypeName($entity, $type));
+        \Mage::dispatchEvent('end_index_events' . $this->_getEventTypeName($entity, $type));
         return $this;
     }
 
     /**
      * Index one event by all processes
      *
-     * @param   Magento_Index_Model_Event $event
-     * @return  Magento_Index_Model_Indexer
+     * @param   \Magento\Index\Model\Event $event
+     * @return  \Magento\Index\Model\Indexer
      */
-    public function indexEvent(Magento_Index_Model_Event $event)
+    public function indexEvent(\Magento\Index\Model\Event $event)
     {
         $this->_runAll('safeProcessEvent', array($event));
         return $this;
@@ -119,9 +121,9 @@ class Magento_Index_Model_Indexer
     /**
      * Register event in each indexing process process
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    public function registerEvent(Magento_Index_Model_Event $event)
+    public function registerEvent(\Magento\Index\Model\Event $event)
     {
         $this->_runAll('register', array($event));
         return $this;
@@ -134,11 +136,11 @@ class Magento_Index_Model_Indexer
      * @param   string $entityType
      * @param   string $eventType
      * @param   bool $doSave
-     * @return  Magento_Index_Model_Event
+     * @return  \Magento\Index\Model\Event
      */
     public function logEvent(\Magento\Object $entity, $entityType, $eventType, $doSave=true)
     {
-        $event = Mage::getModel('Magento_Index_Model_Event')
+        $event = \Mage::getModel('\Magento\Index\Model\Event')
             ->setEntity($entityType)
             ->setType($eventType)
             ->setDataObject($entity)
@@ -158,7 +160,7 @@ class Magento_Index_Model_Indexer
      * @param   \Magento\Object $entity
      * @param   string $entityType
      * @param   string $eventType
-     * @return  Magento_Index_Model_Indexer
+     * @return  \Magento\Index\Model\Indexer
      */
     public function processEntityAction(\Magento\Object $entity, $entityType, $eventType)
     {
@@ -167,19 +169,19 @@ class Magento_Index_Model_Indexer
          * Index and save event just in case if some process matched it
          */
         if ($event->getProcessIds()) {
-            Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
-            /** @var $resourceModel Magento_Index_Model_Resource_Process */
-            $resourceModel = Mage::getResourceSingleton('Magento_Index_Model_Resource_Process');
+            \Mage::dispatchEvent('start_process_event' . $this->_getEventTypeName($entityType, $eventType));
+            /** @var $resourceModel \Magento\Index\Model\Resource\Process */
+            $resourceModel = \Mage::getResourceSingleton('\Magento\Index\Model\Resource\Process');
             $resourceModel->beginTransaction();
             try {
                 $this->indexEvent($event);
                 $resourceModel->commit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $resourceModel->rollBack();
                 throw $e;
             }
             $event->save();
-            Mage::dispatchEvent('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
+            \Mage::dispatchEvent('end_process_event' . $this->_getEventTypeName($entityType, $eventType));
         }
         return $this;
     }
@@ -198,18 +200,18 @@ class Magento_Index_Model_Indexer
     public function reindexRequired()
     {
         $collection = $this->_createCollection();
-        $collection->addFieldToFilter('status', Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        $collection->addFieldToFilter('status', \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         $this->_reindexCollection($collection);
     }
 
     /**
      * Sub-routine for iterating collection and reindexing all processes of specified collection
      *
-     * @param Magento_Index_Model_Resource_Process_Collection $collection
+     * @param \Magento\Index\Model\Resource\Process\Collection $collection
      */
-    private function _reindexCollection(Magento_Index_Model_Resource_Process_Collection $collection)
+    private function _reindexCollection(\Magento\Index\Model\Resource\Process\Collection $collection)
     {
-        /** @var $process Magento_Index_Model_Process */
+        /** @var $process \Magento\Index\Model\Process */
         foreach ($collection as $process) {
             $process->reindexEverything();
         }
@@ -222,7 +224,7 @@ class Magento_Index_Model_Indexer
      *
      * @param string $method
      * @param array $args
-     * @return Magento_Index_Model_Indexer
+     * @return \Magento\Index\Model\Indexer
      */
     protected function _runAll($method, $args)
     {
@@ -243,7 +245,7 @@ class Magento_Index_Model_Indexer
                             $hasLocks = true;
                         } else {
                             call_user_func_array(array($dependProcess, $method), $args);
-                            if ($checkLocks && $dependProcess->getMode() == Magento_Index_Model_Process::MODE_MANUAL) {
+                            if ($checkLocks && $dependProcess->getMode() == \Magento\Index\Model\Process::MODE_MANUAL) {
                                 $hasLocks = true;
                             } else {
                                 $processed[] = $processCode;

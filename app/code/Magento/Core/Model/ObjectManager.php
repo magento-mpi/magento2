@@ -8,7 +8,9 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Core_Model_ObjectManager extends \Magento\ObjectManager\ObjectManager
+namespace Magento\Core\Model;
+
+class ObjectManager extends \Magento\ObjectManager\ObjectManager
 {
     /**
      * @var \Magento\ObjectManager\Relations
@@ -16,21 +18,21 @@ class Magento_Core_Model_ObjectManager extends \Magento\ObjectManager\ObjectMana
     protected $_compiledRelations;
 
     /**
-     * @param Magento_Core_Model_Config_Primary $primaryConfig
+     * @param \Magento\Core\Model\Config\Primary $primaryConfig
      * @param \Magento\ObjectManager\Config $config
      * @param array $sharedInstances
-     * @param Magento_Core_Model_ObjectManager_ConfigLoader_Primary $primaryLoader
+     * @param \Magento\Core\Model\ObjectManager\ConfigLoader\Primary $primaryLoader
      * @throws \Magento\BootstrapException
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function __construct(
-        Magento_Core_Model_Config_Primary $primaryConfig,
+        \Magento\Core\Model\Config\Primary $primaryConfig,
         \Magento\ObjectManager\Config $config = null,
         $sharedInstances = array(),
-        Magento_Core_Model_ObjectManager_ConfigLoader_Primary $primaryLoader = null
+        \Magento\Core\Model\ObjectManager\ConfigLoader\Primary $primaryLoader = null
     ) {
-        $definitionFactory = new Magento_Core_Model_ObjectManager_DefinitionFactory($primaryConfig);
+        $definitionFactory = new \Magento\Core\Model\ObjectManager\DefinitionFactory($primaryConfig);
         $definitions = $definitionFactory->createClassDefinition($primaryConfig);
         $relations = $definitionFactory->createRelations();
         $config = $config ?: new \Magento\ObjectManager\Config\Config(
@@ -38,26 +40,26 @@ class Magento_Core_Model_ObjectManager extends \Magento\ObjectManager\ObjectMana
             $definitions
         );
 
-        $appMode = $primaryConfig->getParam(Mage::PARAM_MODE, Magento_Core_Model_App_State::MODE_DEFAULT);
+        $appMode = $primaryConfig->getParam(\Mage::PARAM_MODE, \Magento\Core\Model\App\State::MODE_DEFAULT);
         $factory = new \Magento\ObjectManager\Factory\Factory($config, $this, $definitions, $primaryConfig->getParams());
 
-        $sharedInstances['Magento_Core_Model_Config_Primary'] = $primaryConfig;
-        $sharedInstances['Magento_Core_Model_Dir'] = $primaryConfig->getDirectories();
-        $sharedInstances['Magento_Core_Model_ObjectManager'] = $this;
+        $sharedInstances['Magento\Core\Model\Config\Primary'] = $primaryConfig;
+        $sharedInstances['Magento\Core\Model\Dir'] = $primaryConfig->getDirectories();
+        $sharedInstances['Magento\Core\Model\ObjectManager'] = $this;
 
         parent::__construct($factory, $config, $sharedInstances);
         $primaryConfig->configure($this);
 
-        Mage::setObjectManager($this);
+        \Mage::setObjectManager($this);
 
         \Magento\Profiler::start('global_primary');
-        $primaryLoader = $primaryLoader ?: new Magento_Core_Model_ObjectManager_ConfigLoader_Primary(
+        $primaryLoader = $primaryLoader ?: new \Magento\Core\Model\ObjectManager\ConfigLoader\Primary(
             $primaryConfig->getDirectories(),
             $appMode
         );
         try {
             $configData = $primaryLoader->load();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new \Magento\BootstrapException($e->getMessage());
         }
 
@@ -70,7 +72,7 @@ class Magento_Core_Model_ObjectManager extends \Magento\ObjectManager\ObjectMana
             : new \Magento\Interception\CodeGenerator\CodeGenerator();
 
         \Magento\Profiler::stop('global_primary');
-        $verification = $this->get('Magento_Core_Model_Dir_Verification');
+        $verification = $this->get('Magento\Core\Model\Dir\Verification');
         $verification->createAndVerifyDirectories();
 
         $interceptionConfig = $this->create('Magento\Interception\Config\Config', array(
@@ -99,7 +101,7 @@ class Magento_Core_Model_ObjectManager extends \Magento\ObjectManager\ObjectMana
             'config' => $interceptionConfig,
             'pluginList' => $pluginList
         ));
-        $this->_config->setCache($this->get('Magento_Core_Model_ObjectManager_ConfigCache'));
-        $this->configure($this->get('Magento_Core_Model_ObjectManager_ConfigLoader')->load('global'));
+        $this->_config->setCache($this->get('Magento\Core\Model\ObjectManager\ConfigCache'));
+        $this->configure($this->get('Magento\Core\Model\ObjectManager\ConfigLoader')->load('global'));
     }
 }

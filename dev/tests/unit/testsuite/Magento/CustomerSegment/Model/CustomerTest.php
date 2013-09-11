@@ -9,7 +9,7 @@
 class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CustomerSegment_Model_Customer
+     * @var \Magento\CustomerSegment\Model\Customer
      */
     private $_model;
 
@@ -35,26 +35,26 @@ class Magento_CustomerSegment_Model_CustomerTest extends PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_registry = $this->getMock('Magento_Core_Model_Registry', array('registry'), array(), '', false);
+        $this->_registry = $this->getMock('Magento\Core\Model\Registry', array('registry'), array(), '', false);
 
         $website = new \Magento\Object(array('id' => 5));
         $storeManager = $this->getMockForAbstractClass(
-            'Magento_Core_Model_StoreManagerInterface', array('getWebsite'), '', false
+            '\Magento\Core\Model\StoreManagerInterface', array('getWebsite'), '', false
         );
         $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($website));
 
         $this->_customerSession = $this->getMock(
-            'Magento_Customer_Model_Session', array('getCustomer'), array(), '', false
+            '\Magento\Customer\Model\Session', array('getCustomer'), array(), '', false
         );
 
         $this->_resource = $this->getMock(
-            'Magento_CustomerSegment_Model_Resource_Customer',
+            '\Magento\CustomerSegment\Model\Resource\Customer',
             array('getCustomerWebsiteSegments', 'getIdFieldName'),
-            array($this->getMock('Magento_Core_Model_Resource', array(), array(), '', false))
+            array($this->getMock('Magento\Core\Model\Resource', array(), array(), '', false))
         );
 
-        $this->_model = new Magento_CustomerSegment_Model_Customer(
-            $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
+        $this->_model = new \Magento\CustomerSegment\Model\Customer(
+            $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
             $this->_registry,
             $storeManager,
             $this->_customerSession,

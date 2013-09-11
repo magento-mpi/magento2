@@ -10,24 +10,24 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Layer_Filter_Price.
+ * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
 class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Layer_Filter_Price
+     * @var \Magento\Catalog\Model\Layer\Filter\Price
      */
     protected $_model;
 
     protected function setUp()
     {
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
         $category->load(4);
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Price');
         $this->_model->setData(array(
-            'layer' => Mage::getModel('Magento_Catalog_Model_Layer', array(
+            'layer' => Mage::getModel('\Magento\Catalog\Model\Layer', array(
                 'data' => array('current_category' => $category)
             )),
         ));
@@ -80,7 +80,7 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
 
         $this->_model->apply(
             new Magento_TestFramework_Request(),
-            Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text')
+            Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text')
         );
 
         $this->assertEmpty($this->_model->getData('price_range'));
@@ -92,7 +92,7 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
 
         $request = new Magento_TestFramework_Request();
         $request->setParam('price', 'non-numeric');
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text'));
 
         $this->assertEmpty($this->_model->getData('price_range'));
     }
@@ -104,14 +104,14 @@ class Magento_Catalog_Model_Layer_Filter_PriceTest extends PHPUnit_Framework_Tes
     {
         $request = new Magento_TestFramework_Request();
         $request->setParam('price', '10-20');
-        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text'));
+        $this->_model->apply($request, Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text'));
 
         $this->assertEquals(array(10, 20), $this->_model->getData('interval'));
     }
 
     public function testGetSetCustomerGroupId()
     {
-        $this->assertEquals(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID, $this->_model->getCustomerGroupId());
+        $this->assertEquals(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID, $this->_model->getCustomerGroupId());
 
         $customerGroupId = 123;
         $this->_model->setCustomerGroupId($customerGroupId);

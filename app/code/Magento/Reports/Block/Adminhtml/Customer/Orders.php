@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Reports_Block_Adminhtml_Customer_Orders extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Reports\Block\Adminhtml\Customer;
+
+class Orders extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Define children block group

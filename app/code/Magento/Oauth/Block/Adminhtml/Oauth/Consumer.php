@@ -15,7 +15,9 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Consumer extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Oauth\Block\Adminhtml\Oauth;
+
+class Consumer extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Construct grid container

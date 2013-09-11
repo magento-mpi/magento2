@@ -16,7 +16,9 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Observer
+namespace Magento\AdminNotification\Model;
+
+class Observer
 {
     /**
      * Predispath admin action controller
@@ -26,10 +28,10 @@ class Magento_AdminNotification_Model_Observer
     public function preDispatch(\Magento\Event\Observer $observer)
     {
 
-        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->isLoggedIn()) {
+        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->isLoggedIn()) {
 
-            $feedModel  = Mage::getModel('Magento_AdminNotification_Model_Feed');
-            /* @var $feedModel Magento_AdminNotification_Model_Feed */
+            $feedModel  = \Mage::getModel('\Magento\AdminNotification\Model\Feed');
+            /* @var $feedModel \Magento\AdminNotification\Model\Feed */
 
             $feedModel->checkUpdate();
         }

@@ -11,13 +11,15 @@
 /**
  * Cybersource Payment Action Dropdown source
  */
-class Magento_Pbridge_Model_Source_Cybersource_PaymentAction
+namespace Magento\Pbridge\Model\Source\Cybersource;
+
+class PaymentAction
 {
     public function toOptionArray()
     {
         return array(
-            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE, 'label' => __('Authorization')),
-            array('value' => Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE, 'label' => __('Sale')),
+            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE, 'label' => __('Authorization')),
+            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE, 'label' => __('Sale')),
         );
     }
 }

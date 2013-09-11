@@ -9,12 +9,14 @@
  */
 
 /**
- * Directory Region Api V2
+ * \Directory Region Api V2
  *
  * @category   Magento
  * @package    Magento_Directory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Region_Api_V2 extends Magento_Directory_Model_Region_Api
+namespace Magento\Directory\Model\Region\Api;
+
+class V2 extends \Magento\Directory\Model\Region\Api
 {
 }

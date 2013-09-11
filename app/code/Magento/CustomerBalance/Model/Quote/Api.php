@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_CustomerBalance_Model_Quote_Api extends Magento_Checkout_Model_Api_Resource
+namespace Magento\CustomerBalance\Model\Quote;
+
+class Api extends \Magento\Checkout\Model\Api\Resource
 {
 
     /**
@@ -49,19 +51,19 @@ class Magento_CustomerBalance_Model_Quote_Api extends Magento_Checkout_Model_Api
      */
     protected function _setUseStoreCreditForQuote($quoteId, $store = null, $shouldUseCustomerBalance = true)
     {
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $this->_getQuote($quoteId, $store);
         if (!$quote->getCustomerId()) {
             $this->_fault('guest_quote');
         }
         $quote->setUseCustomerBalance($shouldUseCustomerBalance);
         $payment = $quote->getPayment();
-        /** @var $saveTransaction Magento_Core_Model_Resource_Transaction */
-        $saveTransaction = Mage::getModel('Magento_Core_Model_Resource_Transaction');
+        /** @var $saveTransaction \Magento\Core\Model\Resource\Transaction */
+        $saveTransaction = \Mage::getModel('\Magento\Core\Model\Resource\Transaction');
         if ($shouldUseCustomerBalance) {
-            $balance = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+            $balance = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
                     ->setCustomerId($quote->getCustomerId())
-                    ->setWebsiteId(Mage::app()->getStore($quote->getStoreId())->getWebsiteId())
+                    ->setWebsiteId(\Mage::app()->getStore($quote->getStoreId())->getWebsiteId())
                     ->loadByCustomer();
             if ($balance) {
                 $quote->setCustomerBalanceInstance($balance);
@@ -76,7 +78,7 @@ class Magento_CustomerBalance_Model_Quote_Api extends Magento_Checkout_Model_Api
         $quote->collectTotals();
         try {
             $saveTransaction->addObject($quote)->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
         return (float)$quote->getCustomerBalanceAmountUsed();

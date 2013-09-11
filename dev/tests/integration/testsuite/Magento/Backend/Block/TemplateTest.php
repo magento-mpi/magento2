@@ -10,25 +10,25 @@
  */
 
 /**
- * Test class for Magento_Backend_Block_Template.
+ * Test class for \Magento\Backend\Block\Template.
  *
  * @magentoAppArea adminhtml
  */
 class Magento_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Template
+     * @var \Magento\Backend\Block\Template
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_Template');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Backend\Block\Template');
     }
 
     /**
-     * @covers Magento_Backend_Block_Template::getFormKey
+     * @covers \Magento\Backend\Block\Template::getFormKey
      */
     public function testGetFormKey()
     {
@@ -36,7 +36,7 @@ class Magento_Backend_Block_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Backend_Block_Template::isOutputEnabled
+     * @covers \Magento\Backend\Block\Template::isOutputEnabled
      */
     public function testIsOutputEnabled()
     {

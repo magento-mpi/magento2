@@ -15,16 +15,18 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Behaviour extends Magento_Core_Block_Template
+namespace Magento\MultipleWishlist\Block;
+
+class Behaviour extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve wishlists items
      *
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getWishlists()
     {
-        return Mage::helper('Magento_MultipleWishlist_Helper_Data')->getCustomerWishlists();
+        return \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getCustomerWishlists();
     }
 
     /**
@@ -50,23 +52,23 @@ class Magento_MultipleWishlist_Block_Behaviour extends Magento_Core_Block_Templa
     /**
      * Retrieve default wishlist for current customer
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getDefaultWishlist()
     {
-        return Mage::helper('Magento_MultipleWishlist_Helper_Data')->getDefaultWishlist();
+        return \Mage::helper('Magento\MultipleWishlist\Helper\Data')->getDefaultWishlist();
     }
 
     /**
      * Check whether customer reached wishlist limit
      *
-     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection
      * @return bool
      */
     public function canCreateWishlists($wishlistList)
     {
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
-        return !Mage::helper('Magento_MultipleWishlist_Helper_Data')->isWishlistLimitReached($wishlistList) && $customerId;
+        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+        return !\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isWishlistLimitReached($wishlistList) && $customerId;
     }
 
     /**
@@ -90,7 +92,7 @@ class Magento_MultipleWishlist_Block_Behaviour extends Magento_Core_Block_Templa
      */
     protected function _toHtml()
     {
-        if (Mage::helper('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled()) {
+        if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()) {
             return parent::_toHtml();
         }
         return '';

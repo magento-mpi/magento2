@@ -11,13 +11,15 @@
 /**
  * "Serialized" attribute backend
  */
-class Magento_Eav_Model_Entity_Attribute_Backend_Serialized extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
+
+class Serialized extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Serialize before saving
      *
      * @param \Magento\Object $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Serialized
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
      */
     public function beforeSave($object)
     {
@@ -34,7 +36,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Serialized extends Magento_Eav_
      * Unserialize after saving
      *
      * @param \Magento\Object $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Serialized
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
      */
     public function afterSave($object)
     {
@@ -47,7 +49,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Serialized extends Magento_Eav_
      * Unserialize after loading
      *
      * @param \Magento\Object $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Serialized
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
      */
     public function afterLoad($object)
     {
@@ -60,7 +62,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Serialized extends Magento_Eav_
      * Try to unserialize the attribute value
      *
      * @param \Magento\Object $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Serialized
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
      */
     protected function _unserialize(\Magento\Object $object)
     {
@@ -69,7 +71,7 @@ class Magento_Eav_Model_Entity_Attribute_Backend_Serialized extends Magento_Eav_
             try {
                 $unserialized = unserialize($object->getData($attrCode));
                 $object->setData($attrCode, $unserialized);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $object->unsetData($attrCode);
             }
         }

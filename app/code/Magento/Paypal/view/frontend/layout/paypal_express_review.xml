@@ -15,29 +15,29 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_Paypal_Block_Express_Review" name="paypal.express.review" template="express/review.phtml">
-                <block class="Magento_Paypal_Block_Express_Review_Billing" name="express.review.billing" as="billing" template="express/review/address.phtml"/>
-                <block class="Magento_Paypal_Block_Express_Review_Shipping" name="express.review.shipping" as="shipping" template="express/review/address.phtml"/>
-                <block class="Magento_Paypal_Block_Express_Review" name="express.review.shipping.method" as="shipping_method" template="express/review/shipping/method.phtml"/>
-                <block class="Magento_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
+            <block class="\Magento\Paypal\Block\Express\Review" name="paypal.express.review" template="express/review.phtml">
+                <block class="\Magento\Paypal\Block\Express\Review\Billing" name="express.review.billing" as="billing" template="express/review/address.phtml"/>
+                <block class="\Magento\Paypal\Block\Express\Review\Shipping" name="express.review.shipping" as="shipping" template="express/review/address.phtml"/>
+                <block class="\Magento\Paypal\Block\Express\Review" name="express.review.shipping.method" as="shipping_method" template="express/review/shipping/method.phtml"/>
+                <block class="\Magento\Paypal\Block\Express\Review\Details" name="paypal.express.review.details" as="details" template="express/review/details.phtml">
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                        <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>
                         <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">grouped</argument>
-                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                        <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Grouped</argument>
                         <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">configurable</argument>
-                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                        <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
                         <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                     </action>
-                    <block class="Magento_Checkout_Block_Cart_Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
+                    <block class="\Magento\Checkout\Block\Cart\Totals" name="paypal.express.review.details.totals" as="totals" template="onepage/review/totals.phtml"/>
                 </block>
-                <block class="Magento_Checkout_Block_Agreements" name="paypal.express.review.details.agreements" as="agreements" template="onepage/agreements.phtml"/>
+                <block class="\Magento\Checkout\Block\Agreements" name="paypal.express.review.details.agreements" as="agreements" template="onepage/agreements.phtml"/>
             </block>
         </reference>
         <container name="additional.product.info" label="Additional Product Info"/>

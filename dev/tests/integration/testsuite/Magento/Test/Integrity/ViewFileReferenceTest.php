@@ -23,12 +23,12 @@
 class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     static protected $_fallbackRule;
 
     /**
-     * @var Magento_Core_Model_Design_FileResolution_Strategy_Fallback
+     * @var \Magento\Core\Model\Design\FileResolution\Strategy\Fallback
      */
     static protected $_fallback;
 
@@ -38,7 +38,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
     static protected $_checkThemeLocales = array();
 
     /**
-     * @var Magento_Core_Model_Theme_Collection
+     * @var \Magento\Core\Model\Theme\Collection
      */
     static protected $_themeCollection;
 
@@ -46,14 +46,14 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        /** @var $fallbackFactory Magento_Core_Model_Design_Fallback_Factory */
-        $fallbackFactory = $objectManager->get('Magento_Core_Model_Design_Fallback_Factory');
+        /** @var $fallbackFactory \Magento\Core\Model\Design\Fallback\Factory */
+        $fallbackFactory = $objectManager->get('Magento\Core\Model\Design\Fallback\Factory');
         self::$_fallbackRule = $fallbackFactory->createViewFileRule();
 
-        self::$_fallback = $objectManager->get('Magento_Core_Model_Design_FileResolution_Strategy_Fallback');
+        self::$_fallback = $objectManager->get('Magento\Core\Model\Design\FileResolution\Strategy\Fallback');
 
         // Themes to be checked
-        self::$_themeCollection = $objectManager->get('Magento_Core_Model_Theme_Collection');
+        self::$_themeCollection = $objectManager->get('Magento\Core\Model\Theme\Collection');
         self::$_themeCollection->addDefaultPattern('*');
 
         // Compose list of locales, needed to be checked for themes
@@ -68,10 +68,10 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
     /**
      * Return array of locales, supported by the theme
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return array
      */
-    static protected function _getThemeLocales(Magento_Core_Model_Theme $theme)
+    static protected function _getThemeLocales(\Magento\Core\Model\Theme $theme)
     {
         $result = array();
         $patternDir = self::_getLocalePatternDir($theme);
@@ -88,11 +88,11 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
     /**
      * Return pattern for theme locale directories, where <locale_placeholder> is placed to mark a locale's location.
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return string
      * @throws Exception
      */
-    static protected function _getLocalePatternDir(Magento_Core_Model_Theme $theme)
+    static protected function _getLocalePatternDir(\Magento\Core\Model\Theme $theme)
     {
         $localePlaceholder = '<locale_placeholder>';
         $params = array(
@@ -121,7 +121,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
      */
     public function testModularFallback($modularCall, array $usages, $area)
     {
-        list(, $file) = explode(Magento_Core_Model_View_Service::SCOPE_SEPARATOR, $modularCall);
+        list(, $file) = explode(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR, $modularCall);
 
         $wrongResolutions = array();
         foreach (self::$_themeCollection as $theme) {
@@ -148,11 +148,11 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
     /**
      * Resolves file to find its fallback'ed paths
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @param string $file
      * @return array
      */
-    protected function _getFileResolutions(Magento_Core_Model_Theme $theme, $file)
+    protected function _getFileResolutions(\Magento\Core\Model\Theme $theme, $file)
     {
         $found = array();
         $fileResolved = self::$_fallback->getFile($theme->getArea(), $theme, $file);
@@ -181,7 +181,7 @@ class Magento_Test_Integrity_ViewFileReferenceTest extends PHPUnit_Framework_Tes
             $modulePattern = '[A-Z][a-z]+_[A-Z][a-z]+';
             $filePattern = '[[:alnum:]_/-]+\\.[[:alnum:]_./-]+';
             $pattern = '#' . $modulePattern
-                . preg_quote(Magento_Core_Model_View_Service::SCOPE_SEPARATOR)
+                . preg_quote(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR)
                 . $filePattern . '#S';
             if (!preg_match_all($pattern, file_get_contents($file), $matches)) {
                 continue;

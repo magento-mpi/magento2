@@ -13,9 +13,11 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
-    extends Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Sales\Block\Adminhtml\Customer\Edit\Tab;
+
+class Agreement
+    extends \Magento\Sales\Block\Adminhtml\Billing\Agreement\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Columns, that should be removed from grid
@@ -61,7 +63,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
      */
     public function canShowTab()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = \Mage::registry('current_customer');
         return (bool)$customer->getId();
     }
 
@@ -93,21 +95,21 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Agreement
+     * @return \Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Agreement
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Billing_Agreement_Collection')
-            ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Billing\Agreement\Collection')
+            ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
             ->setOrder('created_at');
         $this->setCollection($collection);
-        return Magento_Adminhtml_Block_Widget_Grid::_prepareCollection();
+        return \Magento\Adminhtml\Block\Widget\Grid::_prepareCollection();
     }
 
     /**
      * Remove some columns and make other not sortable
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {

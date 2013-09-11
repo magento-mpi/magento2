@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Persistent_Block_Header_Additional extends Magento_Core_Block_Html_Link
+namespace Magento\Persistent\Block\Header;
+
+class Additional extends \Magento\Core\Block\Html\Link
 {
     /**
      * Render additional header html
@@ -25,7 +27,7 @@ class Magento_Persistent_Block_Header_Additional extends Magento_Core_Block_Html
      */
     protected function _toHtml()
     {
-        $text = __('(Not %1?)', $this->escapeHtml(Mage::helper('Magento_Persistent_Helper_Session')->getCustomer()->getName()));
+        $text = __('(Not %1?)', $this->escapeHtml(\Mage::helper('Magento\Persistent\Helper\Session')->getCustomer()->getName()));
 
         $this->setAnchorText($text);
         $this->setHref($this->getUrl('persistent/index/unsetCookie'));

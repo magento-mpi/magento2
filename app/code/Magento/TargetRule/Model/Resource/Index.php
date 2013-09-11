@@ -16,7 +16,9 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resource_Abstract
+namespace Magento\TargetRule\Model\Resource;
+
+class Index extends \Magento\Index\Model\Resource\AbstractResource
 {
     /**
      * Increment value for generate unique bind names
@@ -48,30 +50,30 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      * Retrieve catalog product list index by type
      *
      * @param int $type
-     * @return Magento_TargetRule_Model_Resource_Index_Abstract
+     * @return \Magento\TargetRule\Model\Resource\Index\AbstractIndex
      */
     public function getTypeIndex($type)
     {
         switch ($type) {
-            case Magento_TargetRule_Model_Rule::RELATED_PRODUCTS:
+            case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
                 $model = 'Related';
                 break;
 
-            case Magento_TargetRule_Model_Rule::UP_SELLS:
+            case \Magento\TargetRule\Model\Rule::UP_SELLS:
                 $model = 'Upsell';
                 break;
 
-            case Magento_TargetRule_Model_Rule::CROSS_SELLS:
+            case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
                 $model = 'Crosssell';
                 break;
 
             default:
-                Mage::throwException(
+                \Mage::throwException(
                     __('Undefined Catalog Product List Type')
                 );
         }
 
-        return Mage::getResourceSingleton('Magento_TargetRule_Model_Resource_Index_' . $model);
+        return \Mage::getResourceSingleton('Magento_TargetRule_Model_Resource_Index_' . $model);
     }
 
     /**
@@ -82,16 +84,16 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     public function getTypeIds()
     {
         return array(
-            Magento_TargetRule_Model_Rule::RELATED_PRODUCTS,
-            Magento_TargetRule_Model_Rule::UP_SELLS,
-            Magento_TargetRule_Model_Rule::CROSS_SELLS
+            \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS,
+            \Magento\TargetRule\Model\Rule::UP_SELLS,
+            \Magento\TargetRule\Model\Rule::CROSS_SELLS
         );
     }
 
     /**
      * Retrieve product Ids
      *
-     * @param Magento_TargetRule_Model_Index $object
+     * @param \Magento\TargetRule\Model\Index $object
      * @return array
      */
     public function getProductIds($object)
@@ -104,8 +106,8 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
             ->where('store_id = :store_id')
             ->where('customer_group_id = :customer_group_id');
 
-        $rotationMode = Mage::helper('Magento_TargetRule_Helper_Data')->getRotationMode($object->getType());
-        if ($rotationMode == Magento_TargetRule_Model_Rule::ROTATION_SHUFFLE) {
+        $rotationMode = \Mage::helper('Magento\TargetRule\Helper\Data')->getRotationMode($object->getType());
+        if ($rotationMode == \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE) {
             $this->orderRand($select);
         }
 
@@ -144,7 +146,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     /**
      * Match, save and return applicable product ids by segmentId object
      *
-     * @param Magento_TargetRule_Model_Index $object
+     * @param \Magento\TargetRule\Model\Index $object
      * @param string $segmentId
      * @return array
      */
@@ -153,11 +155,11 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         $limit = $object->getLimit() + $this->getOverfillLimit();
         $productIds = array();
         $ruleCollection = $object->getRuleCollection();
-        if (Mage::helper('Magento_CustomerSegment_Helper_Data')->isEnabled()) {
+        if (\Mage::helper('Magento\CustomerSegment\Helper\Data')->isEnabled()) {
             $ruleCollection->addSegmentFilter($segmentId);
         }
         foreach ($ruleCollection as $rule) {
-            /* @var $rule Magento_TargetRule_Model_Rule */
+            /* @var $rule \Magento\TargetRule\Model\Rule */
             if (count($productIds) >= $limit) {
                 break;
             }
@@ -174,7 +176,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     /**
      * Match, save and return applicable product ids by index object
      *
-     * @param Magento_TargetRule_Model_Index $object
+     * @param \Magento\TargetRule\Model\Index $object
      * @return array
      * @deprecated after 1.12.0.0
      */
@@ -184,7 +186,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         $productIds = $object->getExcludeProductIds();
         $ruleCollection = $object->getRuleCollection();
         foreach ($ruleCollection as $rule) {
-            /* @var $rule Magento_TargetRule_Model_Rule */
+            /* @var $rule \Magento\TargetRule\Model\Rule */
             if (count($productIds) >= $limit) {
                 break;
             }
@@ -203,8 +205,8 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      * Retrieve found product ids by Rule action conditions
      * If rule has cached select - get it
      *
-     * @param Magento_TargetRule_Model_Rule $rule
-     * @param Magento_TargetRule_Model_Index $object
+     * @param \Magento\TargetRule\Model\Rule $rule
+     * @param \Magento\TargetRule\Model\Index $object
      * @param int $limit
      * @param array $excludeProductIds
      * @return mixed
@@ -213,11 +215,11 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     {
         $rule->afterLoad();
 
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
             ->setStoreId($object->getStoreId())
             ->addPriceData($object->getCustomerGroupId())
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
 
         $actionSelect = $rule->getActionSelect();
         $actionBind   = $rule->getActionSelectBind();
@@ -238,7 +240,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
         }
 
         $select = $collection->getSelect();
-        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->reset(\Zend_Db_Select::COLUMNS);
         $select->columns('entity_id', 'e');
         $select->limit($limit);
 
@@ -251,7 +253,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     /**
      * Prepare bind array for product select
      *
-     * @param Magento_TargetRule_Model_Index $object
+     * @param \Magento\TargetRule\Model\Index $object
      * @param array $actionBind
      * @return array
      */
@@ -296,8 +298,8 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     /**
      * Save index flag by index object data
      *
-     * @param Magento_TargetRule_Model_Index $object
-     * @return Magento_TargetRule_Model_Resource_Index
+     * @param \Magento\TargetRule\Model\Index $object
+     * @return \Magento\TargetRule\Model\Resource\Index
      */
     public function saveFlag($object, $segmentId = null)
     {
@@ -407,12 +409,12 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
 
             case '()':
                 $condition = $this->getReadConnection()
-                    ->prepareSqlCondition($bindName, array('finset' => new Zend_Db_Expr($field)));
+                    ->prepareSqlCondition($bindName, array('finset' => new \Zend_Db_Expr($field)));
                 break;
 
             case '!()':
                 $condition = $this->getReadConnection()
-                    ->prepareSqlCondition($bindName, array('finset' => new Zend_Db_Expr($field)));
+                    ->prepareSqlCondition($bindName, array('finset' => new \Zend_Db_Expr($field)));
                 $condition = sprintf('NOT (%s)', $condition);
                 break;
 
@@ -476,14 +478,14 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      * Remove index data from index tables
      *
      * @param int|null $typeId
-     * @param Magento_Core_Model_Store|int|array|null $store
-     * @return Magento_TargetRule_Model_Resource_Index
+     * @param \Magento\Core\Model\Store|int|array|null $store
+     * @return \Magento\TargetRule\Model\Resource\Index
      */
     public function cleanIndex($typeId = null, $store = null)
     {
         $adapter = $this->_getWriteAdapter();
 
-        if ($store instanceof Magento_Core_Model_Store) {
+        if ($store instanceof \Magento\Core\Model\Store) {
             $store = $store->getId();
         }
 
@@ -511,7 +513,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      *
      * @param int|array|\Magento\DB\Select $productIds
      * @param int $typeId
-     * @return Magento_TargetRule_Model_Resource_Index
+     * @return \Magento\TargetRule\Model\Resource\Index
      */
     public function removeIndexByProductIds($productIds, $typeId = null)
     {
@@ -541,12 +543,12 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      * @param int $productId
      * @param int $ruleId
      *
-     * @return Magento_TargetRule_Model_Resource_Index
+     * @return \Magento\TargetRule\Model\Resource\Index
      */
     public function removeProductIndex($productId = null, $ruleId = null)
     {
-        /** @var $targetRule Magento_TargetRule_Model_Resource_Rule */
-        $targetRule = Mage::getResourceSingleton('Magento_TargetRule_Model_Resource_Rule');
+        /** @var $targetRule \Magento\TargetRule\Model\Resource\Rule */
+        $targetRule = \Mage::getResourceSingleton('\Magento\TargetRule\Model\Resource\Rule');
         $targetRule->unbindRuleFromEntity($ruleId, $productId, 'product');
 
         return $this;
@@ -559,12 +561,12 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      * @param int $productId
      * @param int $storeId
      *
-     * @return Magento_TargetRule_Model_Resource_Index
+     * @return \Magento\TargetRule\Model\Resource\Index
      */
     public function saveProductIndex($ruleId, $productId, $storeId)
     {
-        /** @var $targetRule Magento_TargetRule_Model_Resource_Rule */
-        $targetRule = Mage::getResourceSingleton('Magento_TargetRule_Model_Resource_Rule');
+        /** @var $targetRule \Magento\TargetRule\Model\Resource\Rule */
+        $targetRule = \Mage::getResourceSingleton('\Magento\TargetRule\Model\Resource\Rule');
         $targetRule->bindRuleToEntity($ruleId, $productId, 'product');
 
         return $this;
@@ -575,7 +577,7 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
      *
      * @param \Magento\DB\Select $select
      * @param null $field
-     * @return Magento_TargetRule_Model_Resource_Index
+     * @return \Magento\TargetRule\Model\Resource\Index
      */
     public function orderRand(\Magento\DB\Select $select, $field = null)
     {
@@ -591,25 +593,25 @@ class Magento_TargetRule_Model_Resource_Index extends Magento_Index_Model_Resour
     protected function _getSegmentsIdsFromCurrentCustomer()
     {
         $segmentIds = array();
-        if (Mage::helper('Magento_CustomerSegment_Helper_Data')->isEnabled()) {
-            $customer = Mage::registry('segment_customer');
+        if (\Mage::helper('Magento\CustomerSegment\Helper\Data')->isEnabled()) {
+            $customer = \Mage::registry('segment_customer');
             if (!$customer) {
-                $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+                $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
             }
-            $websiteId = Mage::app()->getWebsite()->getId();
+            $websiteId = \Mage::app()->getWebsite()->getId();
 
             if (!$customer->getId()) {
-                $allSegmentIds = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerSegmentIds();
+                $allSegmentIds = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerSegmentIds();
                 if ((is_array($allSegmentIds) && isset($allSegmentIds[$websiteId]))) {
                     $segmentIds = $allSegmentIds[$websiteId];
                 }
             } else {
-                $segmentIds = Mage::getSingleton('Magento_CustomerSegment_Model_Customer')
+                $segmentIds = \Mage::getSingleton('Magento\CustomerSegment\Model\Customer')
                     ->getCustomerSegmentIdsForWebsite($customer->getId(), $websiteId);
             }
 
             if(count($segmentIds)) {
-                $segmentIds = Mage::getResourceModel('Magento_CustomerSegment_Model_Resource_Segment')
+                $segmentIds = \Mage::getResourceModel('\Magento\CustomerSegment\Model\Resource\Segment')
                     ->getActiveSegmentsByIds($segmentIds);
             }
         }

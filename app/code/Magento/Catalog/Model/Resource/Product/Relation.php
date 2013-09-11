@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Relation extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product;
+
+class Relation extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource model and define main table
@@ -32,7 +34,7 @@ class Magento_Catalog_Model_Resource_Product_Relation extends Magento_Core_Model
      *
      * @param int $parentId
      * @param array $childIds
-     * @return Magento_Catalog_Model_Resource_Product_Relation
+     * @return \Magento\Catalog\Model\Resource\Product\Relation
      */
     public function processRelations($parentId, $childIds)
     {

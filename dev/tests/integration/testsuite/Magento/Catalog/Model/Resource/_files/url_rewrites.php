@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-/** @var $category Magento_Catalog_Model_Category */
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+/** @var $category \Magento\Catalog\Model\Category */
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(3)
     ->setName('Category 1')
     ->setParentId(2) /**/
@@ -34,8 +34,8 @@ $urlKeys = array(
 
 foreach ($urlKeys as $i => $urlKey) {
     $id = $i + 1;
-    $product = Mage::getModel('Magento_Catalog_Model_Product');
-    $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+    $product = Mage::getModel('\Magento\Catalog\Model\Product');
+    $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
         ->setId($id)
         ->setStoreId(1)
         ->setAttributeSetId(4)
@@ -44,8 +44,8 @@ foreach ($urlKeys as $i => $urlKey) {
         ->setSku('simple-' . $id)
         ->setPrice(10)
         ->setCategoryIds(array(3))
-        ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-        ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+        ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+        ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
         ->setUrlKey($urlKey)
         ->setUrlPath($urlKey . '.html')
         ->save();

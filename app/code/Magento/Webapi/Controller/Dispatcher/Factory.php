@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Dispatcher_Factory
+namespace Magento\Webapi\Controller\Dispatcher;
+
+class Factory
 {
     /**
      * List of available web API dispatchers.
@@ -15,8 +17,8 @@ class Magento_Webapi_Controller_Dispatcher_Factory
      * @var array array({api type} => {API dispatcher class})
      */
     protected $_apiDispatcherMap = array(
-        Magento_Webapi_Controller_Front::API_TYPE_REST => 'Magento_Webapi_Controller_Dispatcher_Rest',
-        Magento_Webapi_Controller_Front::API_TYPE_SOAP => 'Magento_Webapi_Controller_Dispatcher_Soap',
+        \Magento\Webapi\Controller\Front::API_TYPE_REST => '\Magento\Webapi\Controller\Dispatcher\Rest',
+        \Magento\Webapi\Controller\Front::API_TYPE_SOAP => '\Magento\Webapi\Controller\Dispatcher\Soap',
     );
 
     /**
@@ -40,13 +42,13 @@ class Magento_Webapi_Controller_Dispatcher_Factory
      * Use current API type to define proper request class.
      *
      * @param string $apiType
-     * @return Magento_Webapi_Controller_DispatcherInterface
-     * @throws LogicException If there is no corresponding dispatcher class for current API type.
+     * @return \Magento\Webapi\Controller\DispatcherInterface
+     * @throws \LogicException If there is no corresponding dispatcher class for current API type.
      */
     public function get($apiType)
     {
         if (!isset($this->_apiDispatcherMap[$apiType])) {
-            throw new LogicException(
+            throw new \LogicException(
                 sprintf('There is no corresponding dispatcher class for the "%s" API type.', $apiType)
             );
         }

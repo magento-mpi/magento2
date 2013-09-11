@@ -15,54 +15,56 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Customer\Cart\Product\Composite;
+
+class Cart extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Customer we're working with
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer = null;
 
     /**
      * Quote we're working with
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote = null;
 
     /**
      * Quote item we're working with
      *
-     * @var Magento_Sales_Model_Quote_Item
+     * @var \Magento\Sales\Model\Quote\Item
      */
     protected $_quoteItem = null;
 
     /**
      * Loads customer, quote and quote item by request params
      *
-     * @return Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart
+     * @return \Magento\Adminhtml\Controller\Customer\Cart\Product\Composite\Cart
      */
     protected function _initData()
     {
         $customerId = (int) $this->getRequest()->getParam('customer_id');
         if (!$customerId) {
-            Mage::throwException(__('No customer ID defined.'));
+            \Mage::throwException(__('No customer ID defined.'));
         }
 
-        $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')
+        $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer')
             ->load($customerId);
 
         $quoteItemId = (int) $this->getRequest()->getParam('id');
         $websiteId = (int) $this->getRequest()->getParam('website_id');
 
-        $this->_quote = Mage::getModel('Magento_Sales_Model_Quote')
-            ->setWebsite(Mage::app()->getWebsite($websiteId))
+        $this->_quote = \Mage::getModel('\Magento\Sales\Model\Quote')
+            ->setWebsite(\Mage::app()->getWebsite($websiteId))
             ->loadByCustomer($this->_customer);
 
         $this->_quoteItem = $this->_quote->getItemById($quoteItemId);
         if (!$this->_quoteItem) {
-            Mage::throwException(__('Please correct the quote items and try again.'));
+            \Mage::throwException(__('Please correct the quote items and try again.'));
         }
 
         return $this;
@@ -71,7 +73,7 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
     /**
      * Ajax handler to response configuration fieldset of composite product in customer's cart
      *
-     * @return Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart
+     * @return \Magento\Adminhtml\Controller\Customer\Cart\Product\Composite\Cart
      */
     public function configureAction()
     {
@@ -81,7 +83,7 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
 
             $quoteItem = $this->_quoteItem;
 
-            $optionCollection = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')
+            $optionCollection = \Mage::getModel('\Magento\Sales\Model\Quote\Item\Option')
                 ->getCollection()
                 ->addItemFilter($quoteItem);
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
@@ -91,13 +93,13 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setCurrentCustomer($this->_customer);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
         }
 
-        /* @var $helper Magento_Adminhtml_Helper_Catalog_Product_Composite */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Composite');
+        /* @var $helper \Magento\Adminhtml\Helper\Catalog\Product\Composite */
+        $helper = \Mage::helper('Magento\Adminhtml\Helper\Catalog\Product\Composite');
         $helper->renderConfigureResult($this, $configureResult);
 
         return $this;
@@ -106,7 +108,7 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
     /**
      * IFrame handler for submitted configuration for quote item
      *
-     * @return Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart
+     * @return \Magento\Adminhtml\Controller\Customer\Cart\Product\Composite\Cart
      */
     public function updateAction()
     {
@@ -120,13 +122,13 @@ class Magento_Adminhtml_Controller_Customer_Cart_Product_Composite_Cart extends 
                 ->save();
 
             $updateResult->setOk(true);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $updateResult->setError(true);
             $updateResult->setMessage($e->getMessage());
         }
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->setCompositeProductResult($updateResult);
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setCompositeProductResult($updateResult);
         $this->_redirect('*/catalog_product/showUpdateResult');
 
         return $this;

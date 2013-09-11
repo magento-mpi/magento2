@@ -15,7 +15,7 @@
 class Magento_Cms_Model_Page_UrlrewriteTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cms_Model_Page_Urlrewrite
+     * @var \Magento\Cms\Model\Page\Urlrewrite
      */
     protected $_model = null;
 
@@ -29,7 +29,7 @@ class Magento_Cms_Model_Page_UrlrewriteTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_model = $this->getMockBuilder('Magento_Cms_Model_Page_Urlrewrite')
+        $this->_model = $this->getMockBuilder('Magento\Cms\Model\Page\Urlrewrite')
             ->setMethods(array('getResourceModelInstance'))
             ->disableOriginalConstructor()
             ->getMock();

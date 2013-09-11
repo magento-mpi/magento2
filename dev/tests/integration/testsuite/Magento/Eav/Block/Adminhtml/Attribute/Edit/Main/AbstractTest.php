@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+ * Test class for \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
  */
 class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
     extends PHPUnit_Framework_TestCase
@@ -20,22 +20,22 @@ class Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_AbstractTest
      */
     public function testPrepareForm()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
-        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Customer_Model_Attribute');
+        $entityType = Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer');
+        $model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Customer\Model\Attribute');
         $model->setEntityTypeId($entityType->getId());
         Mage::register('entity_attribute', $model);
 
         $block = $this->getMockForAbstractClass(
-            'Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract',
-            array(Mage::getSingleton('Magento_Backend_Block_Template_Context'))
+            '\Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain',
+            array(Mage::getSingleton('Magento\Backend\Block\Template\Context'))
         )
-        ->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout'));
+        ->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout'));
 
         $method = new ReflectionMethod(
-            'Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract', '_prepareForm');
+            '\Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain', '_prepareForm');
         $method->setAccessible(true);
         $method->invoke($block);
 

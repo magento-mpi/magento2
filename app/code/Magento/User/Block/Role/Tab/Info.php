@@ -12,9 +12,11 @@
  * implementing now
  *
  */
-class Magento_User_Block_Role_Tab_Info
-    extends Magento_Backend_Block_Widget_Form
-    implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\User\Block\Role\Tab;
+
+class Info
+    extends \Magento\Backend\Block\Widget\Form
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     public function getTabLabel()
     {

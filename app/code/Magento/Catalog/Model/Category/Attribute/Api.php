@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Category_Attribute_Api extends Magento_Catalog_Model_Api_Resource
+namespace Magento\Catalog\Model\Category\Attribute;
+
+class Api extends \Magento\Catalog\Model\Api\Resource
 {
     public function __construct()
     {
@@ -29,11 +31,11 @@ class Magento_Catalog_Model_Category_Attribute_Api extends Magento_Catalog_Model
      */
     public function items()
     {
-        $attributes = Mage::getModel('Magento_Catalog_Model_Category')->getAttributes();
+        $attributes = \Mage::getModel('\Magento\Catalog\Model\Category')->getAttributes();
         $result = array();
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if ($this->_isAllowedAttribute($attribute)) {
                 if (!$attribute->getId() || $attribute->isScopeGlobal()) {
                     $scope = 'global';
@@ -65,7 +67,7 @@ class Magento_Catalog_Model_Category_Attribute_Api extends Magento_Catalog_Model
      */
     public function options($attributeId, $store = null)
     {
-        $attribute = Mage::getModel('Magento_Catalog_Model_Category')
+        $attribute = \Mage::getModel('\Magento\Catalog\Model\Category')
             ->setStoreId($this->_getStoreId($store))
             ->getResource()
             ->getAttribute($attributeId);
@@ -90,4 +92,4 @@ class Magento_Catalog_Model_Category_Attribute_Api extends Magento_Catalog_Model
 
         return $result;
     }
-} // Class Magento_Catalog_Model_Category_Attribute_Api End
+} // Class \Magento\Catalog\Model\Category\Attribute\Api End

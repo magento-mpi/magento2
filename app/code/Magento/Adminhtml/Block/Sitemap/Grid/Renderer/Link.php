@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Sitemap
  */
-class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Sitemap\Grid\Renderer;
+
+class Link extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var \Magento\Filesystem $filesystem
@@ -22,12 +24,12 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminht
     protected $_filesystem;
 
     /**
-     * @param Magento_Backend_Block_Context $context
+     * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
+        \Magento\Backend\Block\Context $context,
         \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
@@ -43,8 +45,8 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Magento_Adminht
      */
     public function render(\Magento\Object $row)
     {
-        /** @var $sitemap Magento_Sitemap_Model_Sitemap */
-        $sitemap = Mage::getModel('Magento_Sitemap_Model_Sitemap');
+        /** @var $sitemap \Magento\Sitemap\Model\Sitemap */
+        $sitemap = \Mage::getModel('\Magento\Sitemap\Model\Sitemap');
         $url = $this->escapeHtml($sitemap->getSitemapUrl($row->getSitemapPath(), $row->getSitemapFilename()));
 
         $fileName = preg_replace('/^\//', '', $row->getSitemapPath() . $row->getSitemapFilename());

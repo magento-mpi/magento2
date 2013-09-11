@@ -7,10 +7,12 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Model_Observer_Product_Save extends Magento_GoogleOptimizer_Model_Observer_SaveAbstract
+namespace Magento\GoogleOptimizer\Model\Observer\Product;
+
+class Save extends \Magento\GoogleOptimizer\Model\Observer\SaveAbstract
 {
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
@@ -40,7 +42,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_Save extends Magento_Google
     protected function _getCodeData()
     {
         return array(
-            'entity_type' => Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT,
+            'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PRODUCT,
             'entity_id' => $this->_product->getId(),
             'store_id' => $this->_product->getStoreId(),
             'experiment_script' => $this->_params['experiment_script'],

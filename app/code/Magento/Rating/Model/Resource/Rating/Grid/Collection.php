@@ -15,17 +15,19 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Resource_Rating_Grid_Collection extends Magento_Rating_Model_Resource_Rating_Collection
+namespace Magento\Rating\Model\Resource\Rating\Grid;
+
+class Collection extends \Magento\Rating\Model\Resource\Rating\Collection
 {
     /**
      * Add entity filter
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Magento_Rating_Model_Resource_Rating_Grid_Collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Rating\Model\Resource\Rating\Grid\Collection
      */
     public function _initSelect()
     {
         parent::_initSelect();
-        $this->addEntityFilter(Mage::registry('entityId'));
+        $this->addEntityFilter(\Mage::registry('entityId'));
         return $this;
     }
 }

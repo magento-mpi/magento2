@@ -15,8 +15,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset
-    extends Magento_Backend_Block_Template implements \Magento\Data\Form\Element\Renderer\RendererInterface
+namespace Magento\Backend\Block\Store\Switcher\Form\Renderer;
+
+class Fieldset
+    extends \Magento\Backend\Block\Template implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Form element which re-rendering
@@ -56,6 +58,6 @@ class Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset
      */
     public function getHintHtml()
     {
-        return Mage::getBlockSingleton('Magento_Backend_Block_Store_Switcher')->getHintHtml();
+        return \Mage::getBlockSingleton('\Magento\Backend\Block\Store\Switcher')->getHintHtml();
     }
 }

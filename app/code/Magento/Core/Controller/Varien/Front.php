@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Magento_Core_Controller_FrontInterface
+namespace Magento\Core\Controller\Varien;
+
+class Front extends \Magento\Object implements \Magento\Core\Controller\FrontInterface
 {
     /**
-     * @var Magento_Core_Model_Url_RewriteFactory
+     * @var \Magento\Core\Model\Url\RewriteFactory
      */
     protected $_rewriteFactory;
 
@@ -20,20 +22,20 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
     protected $_defaults = array();
 
     /**
-     * @var Magento_Core_Model_RouterList
+     * @var \Magento\Core\Model\RouterList
      */
     protected $_routerList;
 
     /**
-     * @param Magento_Core_Model_Url_RewriteFactory $rewriteFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_RouterList $routerList
+     * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\RouterList $routerList
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Url_RewriteFactory $rewriteFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_RouterList $routerList,
+        \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\RouterList $routerList,
         array $data = array()
     ) {
         parent::__construct($data);
@@ -66,27 +68,27 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
     /**
      * Retrieve request object
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function getRequest()
     {
-        return Mage::app()->getRequest();
+        return \Mage::app()->getRequest();
     }
 
     /**
      * Retrieve response object
      *
-     * @return Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     public function getResponse()
     {
-        return Mage::app()->getResponse();
+        return \Mage::app()->getResponse();
     }
 
     /**
      * Get routerList model
      *
-     * @return Magento_Core_Model_RouterList
+     * @return \Magento\Core\Model\RouterList
      */
     public function getRouterList()
     {
@@ -97,7 +99,7 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
      * Retrieve router by name
      *
      * @param   string $name
-     * @return  Magento_Core_Controller_Varien_Router_Abstract
+     * @return  \Magento\Core\Controller\Varien\Router\AbstractRouter
      */
     public function getRouter($name)
     {
@@ -121,7 +123,7 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
     /**
      * Dispatch user request
      *
-     * @return Magento_Core_Controller_Varien_Front
+     * @return \Magento\Core\Controller\Varien\Front
      */
     public function dispatch()
     {
@@ -140,11 +142,11 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
         \Magento\Profiler::start('routers_match');
         $routingCycleCounter = 0;
         while (!$request->isDispatched() && $routingCycleCounter++ < 100) {
-            /** @var $router Magento_Core_Controller_Varien_Router_Abstract */
+            /** @var $router \Magento\Core\Controller\Varien\Router\AbstractRouter */
             foreach ($this->_routerList->getRouters() as $router) {
                 $router->setFront($this);
 
-                /** @var $controllerInstance Magento_Core_Controller_Varien_Action */
+                /** @var $controllerInstance \Magento\Core\Controller\Varien\Action */
                 $controllerInstance = $router->match($this->getRequest());
                 if ($controllerInstance) {
                     $controllerInstance->dispatch($request->getActionName());
@@ -154,29 +156,29 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
         }
         \Magento\Profiler::stop('routers_match');
         if ($routingCycleCounter > 100) {
-            Mage::throwException('Front controller reached 100 router match iterations');
+            \Mage::throwException('Front controller reached 100 router match iterations');
         }
         // This event gives possibility to launch something before sending output (allow cookie setting)
-        Mage::dispatchEvent('controller_front_send_response_before', array('front' => $this));
+        \Mage::dispatchEvent('controller_front_send_response_before', array('front' => $this));
         \Magento\Profiler::start('send_response');
-        Mage::dispatchEvent('http_response_send_before', array('response' => $this));
+        \Mage::dispatchEvent('http_response_send_before', array('response' => $this));
         $this->getResponse()->sendResponse();
         \Magento\Profiler::stop('send_response');
-        Mage::dispatchEvent('controller_front_send_response_after', array('front' => $this));
+        \Mage::dispatchEvent('controller_front_send_response_after', array('front' => $this));
         return $this;
     }
 
     /**
      * Apply rewrites to current request
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      */
-    public function applyRewrites(Magento_Core_Controller_Request_Http $request)
+    public function applyRewrites(\Magento\Core\Controller\Request\Http $request)
     {
         // URL rewrite
         if (!$request->isStraight()) {
             \Magento\Profiler::start('db_url_rewrite');
-            /** @var $urlRewrite Magento_Core_Model_Url_Rewrite */
+            /** @var $urlRewrite \Magento\Core\Model\Url\Rewrite */
             $urlRewrite = $this->_rewriteFactory->create();
             $urlRewrite->rewrite($request);
             \Magento\Profiler::stop('db_url_rewrite');
@@ -191,15 +193,15 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
     /**
      * Apply configuration rewrites to current url
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      */
-    public function rewrite(Magento_Core_Controller_Request_Http $request = null)
+    public function rewrite(\Magento\Core\Controller\Request\Http $request = null)
     {
         if (!$request) {
             $request = $this->getRequest();
         }
 
-        $config = Mage::getConfig()->getNode('global/rewrite');
+        $config = \Mage::getConfig()->getNode('global/rewrite');
         if (!$config) {
             return;
         }
@@ -247,15 +249,15 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
      * Auto-redirect to base url (without SID) if the requested url doesn't match it.
      * By default this feature is enabled in configuration.
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      */
     protected function _checkBaseUrl($request)
     {
-        if (!Mage::isInstalled() || $request->getPost() || strtolower($request->getMethod()) == 'post') {
+        if (!\Mage::isInstalled() || $request->getPost() || strtolower($request->getMethod()) == 'post') {
             return;
         }
 
-        $redirectCode = (int)Mage::getStoreConfig('web/url/redirect_to_base');
+        $redirectCode = (int)\Mage::getStoreConfig('web/url/redirect_to_base');
         if (!$redirectCode) {
             return;
         } elseif ($redirectCode != 301) {
@@ -266,9 +268,9 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
             return;
         }
 
-        $baseUrl = Mage::getBaseUrl(
-            Magento_Core_Model_Store::URL_TYPE_WEB,
-            Mage::app()->getStore()->isCurrentlySecure()
+        $baseUrl = \Mage::getBaseUrl(
+            \Magento\Core\Model\Store::URL_TYPE_WEB,
+            \Mage::app()->getStore()->isCurrentlySecure()
         );
         if (!$baseUrl) {
             return;
@@ -280,11 +282,11 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
             || isset($uri['host']) && $uri['host'] != $request->getHttpHost()
             || isset($uri['path']) && strpos($requestUri, $uri['path']) === false
         ) {
-            $redirectUrl = Mage::getSingleton('Magento_Core_Model_Url')->getRedirectUrl(
-                Mage::getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
+            $redirectUrl = \Mage::getSingleton('Magento\Core\Model\Url')->getRedirectUrl(
+                \Mage::getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
             );
 
-            Mage::app()->getFrontController()->getResponse()
+            \Mage::app()->getFrontController()->getResponse()
                 ->setRedirect($redirectUrl, $redirectCode)
                 ->sendResponse();
             exit;
@@ -294,19 +296,19 @@ class Magento_Core_Controller_Varien_Front extends \Magento\Object implements Ma
     /**
      * Check if requested path starts with one of the admin front names
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return boolean
      */
     protected function _isAdminFrontNameMatched($request)
     {
         $pathPrefix = $this->_extractPathPrefixFromUrl($request);
-        return $pathPrefix == Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
+        return $pathPrefix == \Mage::helper('Magento\Backend\Helper\Data')->getAreaFrontName();
     }
 
     /**
      * Extract first path part from url (in most cases this is area code)
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return string
      */
     protected function _extractPathPrefixFromUrl($request)

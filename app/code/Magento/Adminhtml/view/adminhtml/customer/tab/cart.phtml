@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /* @var $this Magento_Adminhtml_Block_Customer_Edit_Tab_Cart */ ?>
+<?php /* @var $this \Magento\Adminhtml\Block\Customer\Edit\Tab\Cart */ ?>
 <?php if($this->getCartHeader()): ?>
 <div class="content-header skip-header">
     <table cellspacing="0">
@@ -49,10 +49,10 @@
 
     removeItem: function (itemId) {
         if (!itemId) {
-            alert('<?php echo $this->helper('Magento_Core_Helper_Data')->jsQuoteEscape(__('No item specified.')) ?>');
+            alert('<?php echo $this->helper('\Magento\Core\Helper\Data')->jsQuoteEscape(__('No item specified.')) ?>');
             return false;
         }
-        if(!confirm('<?php echo $this->helper('Magento_Customer_Helper_Data')->jsQuoteEscape(__('Are you sure that you want to remove this item?')) ?>')) {
+        if(!confirm('<?php echo $this->helper('\Magento\Customer\Helper\Data')->jsQuoteEscape(__('Are you sure that you want to remove this item?')) ?>')) {
             return false;
         }
 

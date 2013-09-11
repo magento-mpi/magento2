@@ -15,16 +15,18 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Attribute_Source_Store extends Magento_Eav_Model_Entity_Attribute_Source_Table
+namespace Magento\Customer\Model\Customer\Attribute\Source;
+
+class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection');
+            $collection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection');
             if ('store_id' == $this->getAttribute()->getAttributeCode()) {
                 $collection->setWithoutDefaultFilter();
             }
-            $this->_options = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm();
+            $this->_options = \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm();
             if ('created_in' == $this->getAttribute()->getAttributeCode()) {
                 array_unshift($this->_options, array('value' => '0', 'label' => __('Admin')));
             }
@@ -42,7 +44,7 @@ class Magento_Customer_Model_Customer_Attribute_Source_Store extends Magento_Eav
         }
 
         if (!$this->_options) {
-            $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection');
+            $collection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection');
             if ('store_id' == $this->getAttribute()->getAttributeCode()) {
                 $collection->setWithoutDefaultFilter();
             }

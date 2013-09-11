@@ -16,27 +16,29 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Model_Entity_Collection_Abstract
+namespace Magento\Customer\Model\Resource\Customer;
+
+class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Customer_Model_Customer', 'Magento_Customer_Model_Resource_Customer');
+        $this->_init('\Magento\Customer\Model\Customer', '\Magento\Customer\Model\Resource\Customer');
     }
 
     /**
      * Group result by customer email
      *
-     * @return Magento_Customer_Model_Resource_Customer_Collection
+     * @return \Magento\Customer\Model\Resource\Customer\Collection
      */
     public function groupByEmail()
     {
         $this->getSelect()
             ->from(
                 array('email' => $this->getEntity()->getEntityTable()),
-                array('email_count' => new Zend_Db_Expr('COUNT(email.entity_id)'))
+                array('email_count' => new \Zend_Db_Expr('COUNT(email.entity_id)'))
             )
             ->where('email.entity_id = e.entity_id')
             ->group('email.email');
@@ -47,12 +49,12 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
     /**
      * Add Name to select
      *
-     * @return Magento_Customer_Model_Resource_Customer_Collection
+     * @return \Magento\Customer\Model\Resource\Customer\Collection
      */
     public function addNameToSelect()
     {
         $fields = array();
-        $customerAccount = Mage::getConfig()->getFieldset('customer_account');
+        $customerAccount = \Mage::getConfig()->getFieldset('customer_account');
         foreach ($customerAccount as $code => $node) {
             if ($node->is('name')) {
                 $fields[$code] = $code;
@@ -108,7 +110,7 @@ class Magento_Customer_Model_Resource_Customer_Collection extends Magento_Eav_Mo
      *
      * @param int $limit
      * @param int $offset
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     protected function _getAllIdsSelect($limit = null, $offset = null)
     {

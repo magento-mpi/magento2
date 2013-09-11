@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_FullPageCache_Model_DesignPackage_Info
+ * Test class for \Magento\FullPageCache\Model\DesignPackage\Info
  *
  * {license_notice}
  *
@@ -27,10 +27,10 @@ class Magento_FullPageCache_Model_DesignPackage_InfoTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $this->_packageRulesMock = $this->getMock('Magento_FullPageCache_Model_DesignPackage_Rules', array(),
+        $this->_packageRulesMock = $this->getMock('Magento\FullPageCache\Model\DesignPackage\Rules', array(),
             array(), '', false
         );
-        $this->_fpcCacheMock = $this->getMock('Magento_FullPageCache_Model_Cache', array(), array(), '', false);
+        $this->_fpcCacheMock = $this->getMock('Magento\FullPageCache\Model\Cache', array(), array(), '', false);
     }
 
     public function testGetPackageName()
@@ -41,7 +41,7 @@ class Magento_FullPageCache_Model_DesignPackage_InfoTest extends PHPUnit_Framewo
             ->with(1)
             ->will($this->returnValue('test_package'));
 
-        $model = new Magento_FullPageCache_Model_DesignPackage_Info($this->_fpcCacheMock, $this->_packageRulesMock);
+        $model = new \Magento\FullPageCache\Model\DesignPackage\Info($this->_fpcCacheMock, $this->_packageRulesMock);
 
         $this->assertEquals('test_package', $model->getPackageName(1));
 
@@ -62,10 +62,10 @@ class Magento_FullPageCache_Model_DesignPackage_InfoTest extends PHPUnit_Framewo
         $this->_frontendMock
             ->expects($this->once())
             ->method('test')
-            ->with(Magento_FullPageCache_Model_DesignPackage_Info::DESIGN_EXCEPTION_KEY)
+            ->with(\Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY)
             ->will($this->returnValue('some_value'));
 
-        $model = new Magento_FullPageCache_Model_DesignPackage_Info($this->_fpcCacheMock, $this->_packageRulesMock);
+        $model = new \Magento\FullPageCache\Model\DesignPackage\Info($this->_fpcCacheMock, $this->_packageRulesMock);
         $this->assertEquals('some_value', $model->isDesignExceptionExistsInCache());
     }
 }

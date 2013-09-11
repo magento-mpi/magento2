@@ -16,7 +16,9 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Newsletter\Model\Resource\Queue;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * True when subscribers info joined
@@ -39,13 +41,13 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
     protected function _construct()
     {
         $this->_map['fields']['queue_id'] = 'main_table.queue_id';
-        $this->_init('Magento_Newsletter_Model_Queue', 'Magento_Newsletter_Model_Resource_Queue');
+        $this->_init('\Magento\Newsletter\Model\Queue', '\Magento\Newsletter\Model\Resource\Queue');
     }
 
     /**
      * Joines templates information
      *
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function addTemplateInfo()
     {
@@ -60,7 +62,7 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
     /**
      * Adds subscribers info to selelect
      *
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     protected function _addSubscriberInfoToSelect()
     {
@@ -68,12 +70,12 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
         $select = $this->getConnection()->select()
             ->from(array('qlt' => $this->getTable('newsletter_queue_link')), 'COUNT(qlt.queue_link_id)')
             ->where('qlt.queue_id = main_table.queue_id');
-        $totalExpr = new Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
+        $totalExpr = new \Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
         $select = $this->getConnection()->select()
             ->from(array('qls' => $this->getTable('newsletter_queue_link')), 'COUNT(qls.queue_link_id)')
             ->where('qls.queue_id = main_table.queue_id')
             ->where('qls.letter_sent_at IS NOT NULL');
-        $sentExpr  = new Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
+        $sentExpr  = new \Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
 
         $this->getSelect()->columns(array(
             'subscribers_sent'  => $sentExpr,
@@ -87,7 +89,7 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -100,7 +102,7 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
     /**
      * Joines subscribers information
      *
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function addSubscribersInfo()
     {
@@ -114,7 +116,7 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
      *
      * @param string $field
      * @param mixed $condition
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function addFieldToFilter($field, $condition = null)
     {
@@ -138,7 +140,7 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
         $select = $this->getConnection()->select()
             ->from(
                 $this->getTable('newsletter_queue_link'),
-                array('queue_id', 'total' => new Zend_Db_Expr('COUNT(queue_link_id)'))
+                array('queue_id', 'total' => new \Zend_Db_Expr('COUNT(queue_link_id)'))
             )
             ->group('queue_id')
             ->having($this->_getConditionSql('total', $condition));
@@ -160,7 +162,7 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
      * Set filter for queue by subscriber.
      *
      * @param int $subscriberId
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function addSubscriberFilter($subscriberId)
     {
@@ -176,14 +178,14 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
     /**
      * Add filter by only ready fot sending item
      *
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function addOnlyForSendingFilter()
     {
         $this->getSelect()
-            ->where('main_table.queue_status in (?)', array(Magento_Newsletter_Model_Queue::STATUS_SENDING,
-                                                            Magento_Newsletter_Model_Queue::STATUS_NEVER))
-            ->where('main_table.queue_start_at < ?', Mage::getSingleton('Magento_Core_Model_Date')->gmtdate())
+            ->where('main_table.queue_status in (?)', array(\Magento\Newsletter\Model\Queue::STATUS_SENDING,
+                                                            \Magento\Newsletter\Model\Queue::STATUS_NEVER))
+            ->where('main_table.queue_start_at < ?', \Mage::getSingleton('Magento\Core\Model\Date')->gmtdate())
             ->where('main_table.queue_start_at IS NOT NULL');
 
         return $this;
@@ -192,11 +194,11 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
     /**
      * Add filter by only not sent items
      *
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function addOnlyUnsentFilter()
     {
-        $this->addFieldToFilter('main_table.queue_status', Magento_Newsletter_Model_Queue::STATUS_NEVER);
+        $this->addFieldToFilter('main_table.queue_status', \Magento\Newsletter\Model\Queue::STATUS_NEVER);
 
            return $this;
     }
@@ -215,7 +217,7 @@ class Magento_Newsletter_Model_Resource_Queue_Collection extends Magento_Core_Mo
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return Magento_Newsletter_Model_Resource_Queue_Collection
+     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function addStoreFilter($storeIds)
     {

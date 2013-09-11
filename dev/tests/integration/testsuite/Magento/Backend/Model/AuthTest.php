@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for Magento_Backend_Model_Auth.
+ * Test class for \Magento\Backend\Model\Auth.
  *
  * @magentoAppArea adminhtml
  */
 class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_model;
 
@@ -25,12 +25,12 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        Mage::app()->loadArea(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_model = Mage::getModel('Magento_Backend_Model_Auth');
+        Mage::app()->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->_model = Mage::getModel('\Magento\Backend\Model\Auth');
     }
 
     /**
-     * @expectedException Magento_Backend_Model_Auth_Exception
+     * @expectedException \Magento\Backend\Model\Auth\Exception
      */
     public function testLoginFailed()
     {
@@ -39,18 +39,18 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
 
     public function testSetGetAuthStorage()
     {
-        // by default Magento_Backend_Model_Auth_Session class will instantiate as a Authentication Storage
-        $this->assertInstanceOf('Magento_Backend_Model_Auth_Session', $this->_model->getAuthStorage());
+        // by default \Magento\Backend\Model\Auth\Session class will instantiate as a Authentication Storage
+        $this->assertInstanceOf('\Magento\Backend\Model\Auth\Session', $this->_model->getAuthStorage());
 
-        $mockStorage = $this->getMock('Magento_Backend_Model_Auth_StorageInterface');
+        $mockStorage = $this->getMock('Magento\Backend\Model\Auth\StorageInterface');
         $this->_model->setAuthStorage($mockStorage);
-        $this->assertInstanceOf('Magento_Backend_Model_Auth_StorageInterface', $this->_model->getAuthStorage());
+        $this->assertInstanceOf('\Magento\Backend\Model\Auth\StorageInterface', $this->_model->getAuthStorage());
 
         $incorrectStorage = new StdClass();
         try {
             $this->_model->setAuthStorage($incorrectStorage);
             $this->fail('Incorrect authentication storage setted.');
-        } catch (Magento_Backend_Model_Auth_Exception $e) {
+        } catch (\Magento\Backend\Model\Auth\Exception $e) {
             // in case of exception - Auth works correct
             $this->assertNotEmpty($e->getMessage());
         }
@@ -59,7 +59,7 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     public function testGetCredentialStorageList()
     {
         $storage = $this->_model->getCredentialStorage();
-        $this->assertInstanceOf('Magento_Backend_Model_Auth_Credential_StorageInterface', $storage);
+        $this->assertInstanceOf('\Magento\Backend\Model\Auth\Credential\StorageInterface', $storage);
     }
 
     /**
@@ -69,7 +69,7 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
-        $this->assertInstanceOf('Magento_Backend_Model_Auth_Credential_StorageInterface', $this->_model->getUser());
+        $this->assertInstanceOf('\Magento\Backend\Model\Auth\Credential\StorageInterface', $this->_model->getUser());
         $this->assertGreaterThan(time() - 10, $this->_model->getAuthStorage()->getUpdatedAt());
     }
 
@@ -124,6 +124,6 @@ class Magento_Backend_Model_AuthTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotNull($this->_model->getUser());
         $this->assertGreaterThan(0, $this->_model->getUser()->getId());
-        $this->assertInstanceOf('Magento_Backend_Model_Auth_Credential_StorageInterface', $this->_model->getUser());
+        $this->assertInstanceOf('\Magento\Backend\Model\Auth\Credential\StorageInterface', $this->_model->getUser());
     }
 }

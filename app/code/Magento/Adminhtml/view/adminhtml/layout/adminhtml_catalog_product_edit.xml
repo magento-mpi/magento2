@@ -11,7 +11,7 @@
     <handle id="adminhtml_catalog_product_edit">
         <update handle="adminhtml_catalog_product_new"/>
         <reference name="page-title">
-            <block class="Magento_Backend_Block_Store_Switcher" name="store_switcher">
+            <block class="\Magento\Backend\Block\Store\Switcher" name="store_switcher">
                 <action method="setUseConfirm">
                     <argument name="params" xsi:type="string">1</argument>
                 </action>

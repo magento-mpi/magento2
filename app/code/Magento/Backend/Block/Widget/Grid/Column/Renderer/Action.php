@@ -15,8 +15,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Text
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Action
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
 
     /**
@@ -67,7 +69,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
         $actionCaption = '';
         $this->_transformActionData($action, $actionCaption, $row);
 
-        $htmlAttibutes = array('value'=>$this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($action)));
+        $htmlAttibutes = array('value'=>$this->escapeHtml(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($action)));
         $actionAttributes->setData($htmlAttibutes);
         return '<option ' . $actionAttributes->serialize() . '>' . $actionCaption . '</option>';
     }
@@ -103,7 +105,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
      * @param array $action
      * @param string $actionCaption
      * @param \Magento\Object $row
-     * @return Magento_Backend_Block_Widget_Grid_Column_Renderer_Action
+     * @return \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
      */
     protected function _transformActionData(&$action, &$actionCaption, \Magento\Object $row)
     {

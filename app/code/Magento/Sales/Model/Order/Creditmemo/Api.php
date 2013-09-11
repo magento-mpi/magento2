@@ -15,13 +15,15 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Creditmemo_Api extends Magento_Sales_Model_Api_Resource
+namespace Magento\Sales\Model\Order\Creditmemo;
+
+class Api extends \Magento\Sales\Model\Api\Resource
 {
 
     /**
      * Initialize attributes mapping
      */
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
+    public function __construct(\Magento\Api\Helper\Data $apiHelper)
     {
         parent::__construct($apiHelper);
         $this->_attributesMap = array(
@@ -40,17 +42,17 @@ class Magento_Sales_Model_Order_Creditmemo_Api extends Magento_Sales_Model_Api_R
     public function items($filters = null)
     {
         $creditmemos = array();
-        /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        /** @var $apiHelper \Magento\Api\Helper\Data */
+        $apiHelper = \Mage::helper('Magento\Api\Helper\Data');
         $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['creditmemo']);
-        /** @var $creditmemoModel Magento_Sales_Model_Order_Creditmemo */
-        $creditmemoModel = Mage::getModel('Magento_Sales_Model_Order_Creditmemo');
+        /** @var $creditmemoModel \Magento\Sales\Model\Order\Creditmemo */
+        $creditmemoModel = \Mage::getModel('\Magento\Sales\Model\Order\Creditmemo');
         try {
             $creditMemoCollection = $creditmemoModel->getFilteredCollectionItems($filters);
             foreach ($creditMemoCollection as $creditmemo) {
                 $creditmemos[] = $this->_getAttributes($creditmemo, 'creditmemo');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('invalid_filter', $e->getMessage());
         }
         return $creditmemos;
@@ -97,8 +99,8 @@ class Magento_Sales_Model_Order_Creditmemo_Api extends Magento_Sales_Model_Api_R
     public function create($orderIncrementId, $creditmemoData = null, $comment = null, $notifyCustomer = false,
         $includeComment = false, $refundToStoreCreditAmount = null)
     {
-        /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderIncrementId, 'increment_id');
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderIncrementId, 'increment_id');
         if (!$order->getId()) {
             $this->_fault('order_not_exists');
         }
@@ -107,9 +109,9 @@ class Magento_Sales_Model_Order_Creditmemo_Api extends Magento_Sales_Model_Api_R
         }
         $creditmemoData = $this->_prepareCreateData($creditmemoData);
 
-        /** @var $service Magento_Sales_Model_Service_Order */
-        $service = Mage::getModel('Magento_Sales_Model_Service_Order', array('order' => $order));
-        /** @var $creditmemo Magento_Sales_Model_Order_Creditmemo */
+        /** @var $service \Magento\Sales\Model\Service\Order */
+        $service = \Mage::getModel('\Magento\Sales\Model\Service\Order', array('order' => $order));
+        /** @var $creditmemo \Magento\Sales\Model\Order\Creditmemo */
         $creditmemo = $service->prepareCreditmemo($creditmemoData);
 
         // refund to Store Credit
@@ -140,13 +142,13 @@ class Magento_Sales_Model_Order_Creditmemo_Api extends Magento_Sales_Model_Api_R
             $creditmemo->addComment($comment, $notifyCustomer);
         }
         try {
-            Mage::getModel('Magento_Core_Model_Resource_Transaction')
+            \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
                 ->addObject($creditmemo)
                 ->addObject($order)
                 ->save();
             // send email notification
             $creditmemo->sendEmail($notifyCustomer, ($includeComment ? $comment : ''));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
         return $creditmemo->getIncrementId();
@@ -167,7 +169,7 @@ class Magento_Sales_Model_Order_Creditmemo_Api extends Magento_Sales_Model_Api_R
         try {
             $creditmemo->addComment($comment, $notifyCustomer)->save();
             $creditmemo->sendUpdateEmail($notifyCustomer, ($includeComment ? $comment : ''));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -189,7 +191,7 @@ class Magento_Sales_Model_Order_Creditmemo_Api extends Magento_Sales_Model_Api_R
         }
         try {
             $creditmemo->cancel()->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('status_not_changed', __('Something went wrong while canceling the credit memo.'));
         }
 
@@ -227,12 +229,12 @@ class Magento_Sales_Model_Order_Creditmemo_Api extends Magento_Sales_Model_Api_R
      * Load CreditMemo by IncrementId
      *
      * @param mixed $incrementId
-     * @return Magento_Core_Model_Abstract|Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Core\Model\AbstractModel|\Magento\Sales\Model\Order\Creditmemo
      */
     protected function _getCreditmemo($incrementId)
     {
-        /** @var $creditmemo Magento_Sales_Model_Order_Creditmemo */
-        $creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->load($incrementId, 'increment_id');
+        /** @var $creditmemo \Magento\Sales\Model\Order\Creditmemo */
+        $creditmemo = \Mage::getModel('\Magento\Sales\Model\Order\Creditmemo')->load($incrementId, 'increment_id');
         if (!$creditmemo->getId()) {
             $this->_fault('not_exists');
         }

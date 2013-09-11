@@ -10,18 +10,18 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Category_Attribute_Api.
+ * Test class for \Magento\Catalog\Model\Category\Attribute\Api.
  */
 class Magento_Catalog_Model_Category_Attribute_ApiTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Category_Attribute_Api
+     * @var \Magento\Catalog\Model\Category\Attribute\Api
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Category_Attribute_Api');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Category\Attribute\Api');
     }
 
     public function testItems()
@@ -74,7 +74,7 @@ class Magento_Catalog_Model_Category_Attribute_ApiTest extends PHPUnit_Framework
     }
 
     /**
-     * @expectedException Magento_Api_Exception
+     * @expectedException \Magento\Api\Exception
      */
     public function testFault()
     {

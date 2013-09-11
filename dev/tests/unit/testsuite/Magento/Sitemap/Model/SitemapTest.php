@@ -12,7 +12,7 @@
 class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sitemap_Model_Resource_Sitemap
+     * @var \Magento\Sitemap\Model\Resource\Sitemap
      */
     protected $_resourceMock;
 
@@ -21,10 +21,10 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $helperMockCore = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false);
-        Mage::register('_helper/Magento_Core_Helper_Data', $helperMockCore, true);
+        $helperMockCore = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false);
+        Mage::register('_helper/\Magento\Core\Helper\Data', $helperMockCore, true);
 
-        $helperMockSitemap = $this->getMock('Magento_Sitemap_Helper_Data', array(
+        $helperMockSitemap = $this->getMock('Magento\Sitemap\Helper\Data', array(
             'getCategoryChangefreq',
             'getProductChangefreq',
             'getPageChangefreq',
@@ -54,9 +54,9 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $helperMockSitemap->expects($this->any())
             ->method('getPagePriority')
             ->will($this->returnValue('0.25'));
-        Mage::register('_helper/Magento_Sitemap_Helper_Data', $helperMockSitemap, true);
+        Mage::register('_helper/\Magento\Sitemap\Helper\Data', $helperMockSitemap, true);
 
-        $this->_resourceMock = $this->getMockBuilder('Magento_Sitemap_Model_Resource_Sitemap')
+        $this->_resourceMock = $this->getMockBuilder('Magento\Sitemap\Model\Resource\Sitemap')
             ->setMethods(array('_construct', 'beginTransaction', 'rollBack', 'save', 'addCommitCallback', 'commit'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -70,15 +70,15 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Mage::unregister('_helper/Magento_Core_Helper_Data');
-        Mage::unregister('_helper/Magento_Sitemap_Helper_Data');
+        Mage::unregister('_helper/\Magento\Core\Helper\Data');
+        Mage::unregister('_helper/\Magento\Sitemap\Helper\Data');
         unset($this->_resourceMock);
     }
 
     /**
      * Check not allowed sitemap path validation
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Please define a correct path.
      */
     public function testNotAllowedPath()
@@ -101,7 +101,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     /**
      * Check not exists sitemap path validation
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Please create the specified folder "" before saving the sitemap.
      */
     public function testPathNotExists()
@@ -126,7 +126,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     /**
      * Check not writable sitemap path validation
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Please make sure that "/" is writable by the web-server.
      */
     public function testPathNotWritable()
@@ -147,7 +147,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->method('isWriteable')
             ->will($this->returnValue(false));
 
-        /** @var $model Magento_Sitemap_Model_Sitemap */
+        /** @var $model \Magento\Sitemap\Model\Sitemap */
         $model = $this->_getModelMock($fileMock);
         $model->save();
     }
@@ -156,7 +156,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     /**
      * Check invalid chars in sitemap filename validation
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Please use only letters (a-z or A-Z), numbers (0-9) or underscores (_) in the filename. No spaces or other characters are allowed.
      */
     //@codingStandardsIgnoreEnd
@@ -315,15 +315,15 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      * @param array $expectedFile
      * @param int $expectedWrites
      * @param array $robotsInfo
-     * @return Magento_Sitemap_Model_Sitemap|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Sitemap\Model\Sitemap|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _prepareSitemapModelMock(&$actualData, $maxLines, $maxFileSize,
         $expectedFile, $expectedWrites, $robotsInfo
     ) {
-        $dateMock = $this->getMockBuilder('Magento_Core_Model_Date')
+        $dateMock = $this->getMockBuilder('Magento\Core\Model\Date')
             ->disableOriginalConstructor()
             ->getMock();
-        Mage::register('_singleton/Magento_Core_Model_Date', $dateMock, true);
+        Mage::register('_singleton/\Magento\Core\Model\Date', $dateMock, true);
 
         $fileMock = $this->getMockBuilder('Magento\Io\File')
             ->setMethods(array('streamWrite', 'open', 'streamOpen', 'streamClose',
@@ -392,7 +392,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         if (isset($robotsInfo['pushToRobots'])) {
             $pushToRobots = (int) $robotsInfo['pushToRobots'];
         }
-        $helperMock = Mage::registry('_helper/Magento_Sitemap_Helper_Data');
+        $helperMock = Mage::registry('_helper/\Magento\Sitemap\Helper\Data');
         $helperMock->expects($this->any())
             ->method('getMaximumLinesNumber')
             ->will($this->returnValue($maxLines));
@@ -434,7 +434,7 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      *
      * @param \Magento\Io\File|PHPUnit_Framework_MockObject_MockObject $fileIoMock
      * @param bool $mockBeforeSave
-     * @return Magento_Sitemap_Model_Sitemap|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Sitemap\Model\Sitemap|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getModelMock($fileIoMock, $mockBeforeSave = false)
     {
@@ -445,8 +445,8 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             $methods[] = '_beforeSave';
         }
 
-        /** @var $model Magento_Sitemap_Model_Sitemap */
-        $model = $this->getMockBuilder('Magento_Sitemap_Model_Sitemap')
+        /** @var $model \Magento\Sitemap\Model\Sitemap */
+        $model = $this->getMockBuilder('Magento\Sitemap\Model\Sitemap')
             ->setMethods($methods)
             ->disableOriginalConstructor()
             ->getMock();
@@ -540,8 +540,8 @@ class Magento_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     public function testGetSitemapUrl($storeBaseUrl, $documentRoot, $baseDir, $sitemapPath, $sitemapFileName, $result)
     {
-        /** @var $model Magento_Sitemap_Model_Sitemap */
-        $model = $this->getMockBuilder('Magento_Sitemap_Model_Sitemap')
+        /** @var $model \Magento\Sitemap\Model\Sitemap */
+        $model = $this->getMockBuilder('Magento\Sitemap\Model\Sitemap')
             ->setMethods(array('_getStoreBaseUrl', '_getDocumentRoot', '_getBaseDir', '_getFilesystem'))
             ->disableOriginalConstructor()
             ->getMock();

@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Billing_Agreement_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Billing\Agreement;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Mapping for fields
@@ -37,13 +39,13 @@ class Magento_Sales_Model_Resource_Billing_Agreement_Collection extends Magento_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Billing_Agreement', 'Magento_Sales_Model_Resource_Billing_Agreement');
+        $this->_init('\Magento\Sales\Model\Billing\Agreement', '\Magento\Sales\Model\Resource\Billing\Agreement');
     }
 
     /**
      * Add cutomer details(email, firstname, lastname) to select
      *
-     * @return Magento_Sales_Model_Resource_Billing_Agreement_Collection
+     * @return \Magento\Sales\Model\Resource\Billing\Agreement\Collection
      */
     public function addCustomerDetails()
     {
@@ -53,7 +55,7 @@ class Magento_Sales_Model_Resource_Billing_Agreement_Collection extends Magento_
             array('customer_email' => 'email')
         );
 
-        $customer = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
+        $customer = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer');
         $adapter  = $this->getConnection();
         $attr     = $customer->getAttribute('firstname');
         $joinExpr = 'firstname.entity_id = main_table.customer_id AND '

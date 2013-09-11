@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Config
+ * \Magento\Core\Model\DataService\Config
  *
  * {license_notice}
  *
@@ -10,16 +10,16 @@
 class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_DataService_Config
+     * @var \Magento\Core\Model\DataService\Config
      */
     protected $_dataServiceConfig;
 
-    /** @var Magento_Core_Model_DataService_Config_Reader_Factory */
+    /** @var \Magento\Core\Model\DataService\Config\Reader\Factory */
     private $_readersFactoryMock;
 
     public function setUp()
     {
-        $reader = $this->getMockBuilder('Magento_Core_Model_DataService_Config_Reader')
+        $reader = $this->getMockBuilder('Magento\Core\Model\DataService\Config\Reader')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -29,7 +29,7 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
             ->method('getServiceCallConfig')
             ->will($this->returnValue($config->getDom()));
 
-        $this->_readersFactoryMock = $this->getMockBuilder('Magento_Core_Model_DataService_Config_Reader_Factory')
+        $this->_readersFactoryMock = $this->getMockBuilder('Magento\Core\Model\DataService\Config\Reader\Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -37,15 +37,15 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
             ->method('createReader')
             ->will($this->returnValue($reader));
 
-        /** @var Magento_Core_Model_Config_Modules_Reader $modulesReaderMock */
-        $modulesReaderMock = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
+        /** @var \Magento\Core\Model\Config\Modules\Reader $modulesReaderMock */
+        $modulesReaderMock = $this->getMockBuilder('Magento\Core\Model\Config\Modules\Reader')
             ->disableOriginalConstructor()
             ->getMock();
         $modulesReaderMock->expects($this->any())
             ->method('getConfigurationFiles')
             ->will($this->returnValue(array()));
 
-        $this->_dataServiceConfig = new Magento_Core_Model_DataService_Config(
+        $this->_dataServiceConfig = new \Magento\Core\Model\DataService\Config(
             $this->_readersFactoryMock, $modulesReaderMock);
     }
 

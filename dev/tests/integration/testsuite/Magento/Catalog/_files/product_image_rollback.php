@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-/** @var $config Magento_Catalog_Model_Product_Media_Config */
-$config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+/** @var $config \Magento\Catalog\Model\Product\Media\Config */
+$config = Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
 \Magento\Io\File::rmdirRecursive($config->getBaseMediaPath());
 \Magento\Io\File::rmdirRecursive($config->getBaseTmpMediaPath());

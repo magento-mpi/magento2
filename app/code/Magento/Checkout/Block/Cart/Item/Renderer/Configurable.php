@@ -15,7 +15,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Cart_Item_Renderer_Configurable extends Magento_Checkout_Block_Cart_Item_Renderer
+namespace Magento\Checkout\Block\Cart\Item\Renderer;
+
+class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
     const CONFIGURABLE_PRODUCT_IMAGE= 'checkout/cart/configurable_product_image';
     const USE_PARENT_IMAGE          = 'parent';
@@ -23,7 +25,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Configurable extends Magento_Che
     /**
      * Get item configurable product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getConfigurableProduct()
     {
@@ -36,7 +38,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Configurable extends Magento_Che
     /**
      * Get item configurable child product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getChildProduct()
     {
@@ -49,17 +51,17 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Configurable extends Magento_Che
     /**
      * Get product thumbnail image
      *
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function getProductThumbnail()
     {
         $product = $this->getChildProduct();
         if (!$product || !$product->getData('thumbnail')
             || ($product->getData('thumbnail') == 'no_selection')
-            || (Mage::getStoreConfig(self::CONFIGURABLE_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
+            || (\Mage::getStoreConfig(self::CONFIGURABLE_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
             $product = $this->getProduct();
         }
-        return $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail');
+        return $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail');
     }
 
     /**
@@ -91,8 +93,8 @@ class Magento_Checkout_Block_Cart_Item_Renderer_Configurable extends Magento_Che
      */
     public function getOptionList()
     {
-        /* @var $helper Magento_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product_Configuration');
+        /* @var $helper \Magento\Catalog\Helper\Product\Configuration */
+        $helper = \Mage::helper('Magento\Catalog\Helper\Product\Configuration');
         $options = $helper->getConfigurableOptions($this->getItem());
         return $options;
     }

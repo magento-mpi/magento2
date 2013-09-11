@@ -11,12 +11,12 @@
  */
 class Magento_User_Model_Resource_UserTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_User_Model_Resource_User */
+    /** @var \Magento\User\Model\Resource\User */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getResourceSingleton('Magento_User_Model_Resource_User');
+        $this->_model = Mage::getResourceSingleton('\Magento\User\Model\Resource\User');
     }
 
     public function testCountAll()

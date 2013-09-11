@@ -34,7 +34,7 @@
         <jobs>
             <system_backup>
                 <run>
-                    <model>Magento_Backup_Model_Observer::scheduledBackup</model>
+                    <model>\Magento\Backup\Model\Observer::scheduledBackup</model>
                 </run>
             </system_backup>
         </jobs>

@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Recurring_Profile extends Magento_Sales_Model_Resource_Abstract
+namespace Magento\Sales\Model\Resource\Recurring;
+
+class Profile extends \Magento\Sales\Model\Resource\AbstractResource
 {
     /**
      * Initialize main table and column
@@ -62,7 +64,7 @@ class Magento_Sales_Model_Resource_Recurring_Profile extends Magento_Sales_Model
      *
      * @param int $recurringProfileId
      * @param int $orderId
-     * @return Magento_Sales_Model_Resource_Recurring_Profile
+     * @return \Magento\Sales\Model\Resource\Recurring\Profile
      */
     public function addOrderRelation($recurringProfileId, $orderId)
     {

@@ -12,8 +12,10 @@
  * Event source name renderer
  *
  */
-class Magento_Logging_Block_Adminhtml_Details_Renderer_Sourcename
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Logging\Block\Adminhtml\Details\Renderer;
+
+class Sourcename
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render the grid cell value

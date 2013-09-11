@@ -7,44 +7,46 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
-    extends Magento_Backend_Block_Widget_Form implements Magento_Backend_Block_Widget_Tab_Interface
+namespace Magento\GoogleOptimizer\Block\Adminhtml;
+
+abstract class TabAbstract
+    extends \Magento\Backend\Block\Widget\Form implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_GoogleOptimizer_Helper_Data
+     * @var \Magento\GoogleOptimizer\Helper\Data
      */
     protected $_helperData;
 
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
-     * @var Magento_GoogleOptimizer_Helper_Code
+     * @var \Magento\GoogleOptimizer\Helper\Code
      */
     protected $_codeHelper;
 
     /**
-     * @var Magento_GoogleOptimizer_Helper_Form
+     * @var \Magento\GoogleOptimizer\Helper\Form
      */
     protected $_formHelper;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_GoogleOptimizer_Helper_Data $helperData
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
-     * @param Magento_GoogleOptimizer_Helper_Form $formHelper
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\GoogleOptimizer\Helper\Data $helperData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
+     * @param \Magento\GoogleOptimizer\Helper\Form $formHelper
      * @param \Magento\Data\Form $form
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_GoogleOptimizer_Helper_Data $helperData,
-        Magento_Core_Model_Registry $registry,
-        Magento_GoogleOptimizer_Helper_Code $codeHelper,
-        Magento_GoogleOptimizer_Helper_Form $formHelper,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\GoogleOptimizer\Helper\Data $helperData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleOptimizer\Helper\Code $codeHelper,
+        \Magento\GoogleOptimizer\Helper\Form $formHelper,
         \Magento\Data\Form $form,
         array $data = array()
     ) {
@@ -60,7 +62,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
@@ -71,7 +73,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
     /**
      * Get google experiment code model
      *
-     * @return Magento_GoogleOptimizer_Model_Code|null
+     * @return \Magento\GoogleOptimizer\Model\Code|null
      */
     protected function _getGoogleExperiment()
     {
@@ -85,7 +87,7 @@ abstract class Magento_GoogleOptimizer_Block_Adminhtml_TabAbstract
     /**
      * Get Entity model
      *
-     * @return Magento_Catalog_Model_Abstract
+     * @return \Magento\Catalog\Model\AbstractModel
      */
     protected abstract function _getEntity();
 

@@ -15,29 +15,29 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_Sales_Block_Order_Info" as="info" name="sales.order.info">
-                <block class="Magento_Sales_Block_Order_Info_Buttons" as="buttons" name="sales.order.info.buttons"/>
+            <block class="\Magento\Sales\Block\Order\Info" as="info" name="sales.order.info">
+                <block class="\Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons"/>
             </block>
-            <block class="Magento_Sales_Block_Order_View" name="sales.order.view" after="sales.order.info">
-                <block class="Magento_Sales_Block_Order_Items" name="order_items" template="order/items.phtml">
+            <block class="\Magento\Sales\Block\Order\View" name="sales.order.view" after="sales.order.info">
+                <block class="\Magento\Sales\Block\Order\Items" name="order_items" template="order/items.phtml">
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">Magento_Catalog_Block_Product_Price</argument>
+                        <argument name="block" xsi:type="string">\Magento\Catalog\Block\Product\Price</argument>
                         <argument name="template" xsi:type="string">Magento_Sales::order/items/renderer/default.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">grouped</argument>
-                        <argument name="block" xsi:type="string">Magento_Sales_Block_Order_Item_Renderer_Grouped</argument>
+                        <argument name="block" xsi:type="string">\Magento\Sales\Block\Order\Item\Renderer\Grouped</argument>
                         <argument name="template" xsi:type="string">order/items/renderer/default.phtml</argument>
                     </action>
-                    <block class="Magento_Sales_Block_Order_Totals" name="order_totals" template="order/totals.phtml">
+                    <block class="\Magento\Sales\Block\Order\Totals" name="order_totals" template="order/totals.phtml">
                         <action method="setLabelProperties">
                             <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>
                         </action>
                         <action method="setValueProperties">
                             <argument name="value" xsi:type="string">class="last a-right"</argument>
                         </action>
-                        <block class="Magento_Tax_Block_Sales_Order_Tax" name="tax" template="order/tax.phtml"/>
+                        <block class="\Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml"/>
                     </block>
                 </block>
             </block>

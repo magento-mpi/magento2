@@ -11,12 +11,14 @@
 /**
  * Theme editor container
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Magento_Backend_Block_Widget_Form_Container
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme;
+
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Prepare layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -28,7 +30,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Magento_Bac
             $this->getLayout()->getBlock('page-title')->setPageTitle($this->getHeaderText());
         }
 
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         $theme = $this->_getCurrentTheme();
         if ($theme) {
             if ($theme->isEditable()) {
@@ -73,7 +75,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Magento_Bac
      */
     public function getHeaderText()
     {
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         $theme = $this->_getCurrentTheme();
         if ($theme->getId()) {
             $header = __('Theme: %1', $theme->getThemeTitle());
@@ -86,10 +88,10 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit extends Magento_Bac
     /**
      * Get current theme
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     protected function _getCurrentTheme()
     {
-        return Mage::registry('current_theme');
+        return \Mage::registry('current_theme');
     }
 }

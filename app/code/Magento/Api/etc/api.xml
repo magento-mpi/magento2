@@ -13,7 +13,7 @@
     <api>
         <adapters>
             <soap_v2>
-                <model>Magento_Api_Model_Server_Adapter_Soap</model>
+                <model>\Magento\Api\Model\Server\Adapter\Soap</model>
                 <handler>soap_v2</handler>
                 <active>1</active>
                 <required>
@@ -23,7 +23,7 @@
                 </required>
             </soap_v2>
             <soap_wsi>
-                <model>Magento_Api_Model_Server_Adapter_Soap_Wsi</model>
+                <model>\Magento\Api\Model\Server\Adapter\Soap\Wsi</model>
                 <handler>soap_wsi</handler>
                 <active>1</active>
                 <required>
@@ -35,10 +35,10 @@
         </adapters>
         <handlers>
             <soap_v2>
-                <model>Magento_Api_Model_Server_Handler_Soap</model>
+                <model>\Magento\Api\Model\Server\Handler\Soap</model>
             </soap_v2>
             <soap_wsi>
-                <model>Magento_Api_Model_Server_Handler_Soap_Wsi</model>
+                <model>\Magento\Api\Model\Server\Handler\Soap\Wsi</model>
             </soap_wsi>
         </handlers>
         <resources>

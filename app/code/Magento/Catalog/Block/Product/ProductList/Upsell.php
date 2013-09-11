@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Block_Product_ProductList_Upsell extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Catalog\Block\Product\ProductList;
+
+class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Default MAP renderer type
@@ -35,23 +37,23 @@ class Magento_Catalog_Block_Product_ProductList_Upsell extends Magento_Catalog_B
 
     protected function _prepareData()
     {
-        $product = Mage::registry('product');
-        /* @var $product Magento_Catalog_Model_Product */
+        $product = \Mage::registry('product');
+        /* @var $product \Magento\Catalog\Model\Product */
         $this->_itemCollection = $product->getUpSellProductCollection()
             ->setPositionOrder()
             ->addStoreFilter()
         ;
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Checkout')) {
-            Mage::getResourceSingleton('Magento_Checkout_Model_Resource_Cart')
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Checkout')) {
+            \Mage::getResourceSingleton('\Magento\Checkout\Model\Resource\Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,
-                     Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId()
+                     \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()
             );
 
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         $this->_itemCollection->setVisibility(
-            Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds()
+            \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds()
         );
 
         if ($this->getItemLimit('upsell') > 0) {
@@ -63,7 +65,7 @@ class Magento_Catalog_Block_Product_ProductList_Upsell extends Magento_Catalog_B
         /**
          * Updating collection with desired items
          */
-        Mage::dispatchEvent('catalog_product_upsell', array(
+        \Mage::dispatchEvent('catalog_product_upsell', array(
             'product'       => $product,
             'collection'    => $this->_itemCollection,
             'limit'         => $this->getItemLimit()
@@ -132,7 +134,7 @@ class Magento_Catalog_Block_Product_ProductList_Upsell extends Magento_Catalog_B
      *
      * @param string $type
      * @param int $limit
-     * @return Magento_Catalog_Block_Product_ProductList_Upsell
+     * @return \Magento\Catalog\Block\Product\ProductList\Upsell
      */
     public function setItemLimit($type, $limit)
     {

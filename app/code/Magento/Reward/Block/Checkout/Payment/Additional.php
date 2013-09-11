@@ -16,39 +16,41 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Block_Template
+namespace Magento\Reward\Block\Checkout\Payment;
+
+class Additional extends \Magento\Core\Block\Template
 {
     /**
      * Getter
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
     }
 
     /**
      * Getter
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     /**
      * Getter
      *
-     * @return Magento_Reward_Model_Reward
+     * @return \Magento\Reward\Model\Reward
      */
     public function getReward()
     {
         if (!$this->getData('reward')) {
-            $reward = Mage::getModel('Magento_Reward_Model_Reward')
+            $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
                 ->setCustomer($this->getCustomer())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
                 ->loadByCustomer();
             $this->setData('reward', $reward);
         }
@@ -74,13 +76,13 @@ class Magento_Reward_Block_Checkout_Payment_Additional extends Magento_Core_Bloc
      */
     public function getCanUseRewardPoints()
     {
-        /** @var $helper Magento_Reward_Helper_Data */
-        $helper = Mage::helper('Magento_Reward_Helper_Data');
+        /** @var $helper \Magento\Reward\Helper\Data */
+        $helper = \Mage::helper('Magento\Reward\Helper\Data');
         if (!$helper->getHasRates() || !$helper->isEnabledOnFront()) {
             return false;
         }
 
-        $minPointsToUse = $helper->getGeneralConfig('min_points_balance', (int)Mage::app()->getWebsite()->getId());
+        $minPointsToUse = $helper->getGeneralConfig('min_points_balance', (int)\Mage::app()->getWebsite()->getId());
         return (float)$this->getCurrencyAmount() > 0 && $this->getPointsBalance() >= $minPointsToUse;
     }
 

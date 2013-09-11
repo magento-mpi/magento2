@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
+
+class Cart extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected function _construct()
     {
@@ -39,10 +41,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        $customer = Mage::registry('current_customer');
-        $storeIds = Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
+        $customer = \Mage::registry('current_customer');
+        $storeIds = \Mage::app()->getWebsite($this->getWebsiteId())->getStoreIds();
 
-        $quote = Mage::getModel('Magento_Sales_Model_Quote')
+        $quote = \Mage::getModel('\Magento\Sales\Model\Quote')
             ->setSharedStoreIds($storeIds)
             ->loadByCustomer($customer);
 
@@ -60,7 +62,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     }
 
     /**
-     * @return Magento_Backend_Block_Widget_Grid_Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
@@ -73,7 +75,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
         $this->addColumn('name', array(
             'header'    => __('Product'),
             'index'     => 'name',
-            'renderer'  => 'Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item'
+            'renderer'  => '\Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer\Item'
         ));
 
         $this->addColumn('sku', array(
@@ -93,20 +95,20 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
             'header'        => __('Price'),
             'index'         => 'price',
             'type'          => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('total', array(
             'header'        => __('Total'),
             'index'         => 'row_total',
             'type'          => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('action', array(
             'header'    => __('Action'),
             'index'     => 'quote_item_id',
-            'renderer'  => 'Magento_Adminhtml_Block_Customer_Grid_Renderer_Multiaction',
+            'renderer'  => '\Magento\Adminhtml\Block\Customer\Grid\Renderer\Multiaction',
             'filter'    => false,
             'sortable'  => false,
             'actions'   => array(
@@ -130,11 +132,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Cart extends Magento_Adminhtml_B
     /**
      * Gets customer assigned to this block
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
-        return Mage::registry('current_customer');
+        return \Mage::registry('current_customer');
     }
 
     /**

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Customer_Block_Account_Navigation extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Account;
+
+class Navigation extends \Magento\Core\Block\Template
 {
     /**
      * @var \Magento\Object[]
@@ -40,7 +42,7 @@ class Magento_Customer_Block_Account_Navigation extends Magento_Core_Block_Templ
      * Removes a link from the navigation
      *
      * @param string $name
-     * @return Magento_Customer_Block_Account_Navigation
+     * @return \Magento\Customer\Block\Account\Navigation
      */
     public function removeLink($name)
     {

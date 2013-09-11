@@ -16,6 +16,8 @@
  * @package     Magento_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleCheckout_Model_Resource_Setup extends Magento_Catalog_Model_Resource_Setup
+namespace Magento\GoogleCheckout\Model\Resource;
+
+class Setup extends \Magento\Catalog\Model\Resource\Setup
 {
 }

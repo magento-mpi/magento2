@@ -20,13 +20,13 @@
 class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product');
     }
 
     public function testGetStoreId()
@@ -39,7 +39,7 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     public function testGetLinkInstance()
     {
         $model = $this->_model->getLinkInstance();
-        $this->assertInstanceOf('Magento_Catalog_Model_Product_Link', $model);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Product\Link', $model);
         $this->assertSame($model, $this->_model->getLinkInstance());
     }
 
@@ -64,7 +64,7 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
         Mage::register('current_category', new \Magento\Object(array('id' => 3))); // fixture
         try {
             $category = $this->_model->getCategory();
-            $this->assertInstanceOf('Magento_Catalog_Model_Category', $category);
+            $this->assertInstanceOf('\Magento\Catalog\Model\Category', $category);
             $this->assertEquals(3, $category->getId());
             Mage::unregister('current_category');
         } catch (Exception $e) {
@@ -80,8 +80,8 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     public function testGetCategoryIds()
     {
         // none
-        /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $model \Magento\Catalog\Model\Product */
+        $model = Mage::getModel('\Magento\Catalog\Model\Product');
         $this->assertEquals(array(), $model->getCategoryIds());
 
         // fixture
@@ -93,12 +93,12 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     {
         // empty
         $collection = $this->_model->getCategoryCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Category_Collection', $collection);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Category\Collection', $collection);
 
         // fixture
         $this->_model->setId(1);
         $fixtureCollection = $this->_model->getCategoryCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Category_Collection', $fixtureCollection);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Category\Collection', $fixtureCollection);
         $this->assertNotSame($fixtureCollection, $collection);
         $ids = array();
         foreach ($fixtureCollection as $category) {
@@ -110,8 +110,8 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     public function testGetWebsiteIds()
     {
         // set
-        /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel('Magento_Catalog_Model_Product',
+        /** @var $model \Magento\Catalog\Model\Product */
+        $model = Mage::getModel('\Magento\Catalog\Model\Product',
             array('data' => array('website_ids' => array(1, 2)))
         );
         $this->assertEquals(array(1, 2), $model->getWebsiteIds());
@@ -124,8 +124,8 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     public function testGetStoreIds()
     {
         // set
-        /** @var $model Magento_Catalog_Model_Product */
-        $model = Mage::getModel('Magento_Catalog_Model_Product',
+        /** @var $model \Magento\Catalog\Model\Product */
+        $model = Mage::getModel('\Magento\Catalog\Model\Product',
             array('data' => array('store_ids' => array(1, 2)))
         );
         $this->assertEquals(array(1, 2), $model->getStoreIds());
@@ -136,10 +136,10 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::getRelatedProducts
-     * @covers Magento_Catalog_Model_Product::getRelatedProductIds
-     * @covers Magento_Catalog_Model_Product::getRelatedProductCollection
-     * @covers Magento_Catalog_Model_Product::getRelatedLinkCollection
+     * @covers \Magento\Catalog\Model\Product::getRelatedProducts
+     * @covers \Magento\Catalog\Model\Product::getRelatedProductIds
+     * @covers \Magento\Catalog\Model\Product::getRelatedProductCollection
+     * @covers \Magento\Catalog\Model\Product::getRelatedLinkCollection
      */
     public function testRelatedProductsApi()
     {
@@ -147,19 +147,19 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
         $this->assertEquals(array(), $this->_model->getRelatedProductIds());
 
         $collection = $this->_model->getRelatedProductCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Collection', $collection);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Collection', $collection);
         $this->assertSame($this->_model, $collection->getProduct());
 
         $linkCollection = $this->_model->getRelatedLinkCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Link_Collection', $linkCollection);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Link\Collection', $linkCollection);
         $this->assertSame($this->_model, $linkCollection->getProduct());
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::getUpSellProducts
-     * @covers Magento_Catalog_Model_Product::getUpSellProductIds
-     * @covers Magento_Catalog_Model_Product::getUpSellProductCollection
-     * @covers Magento_Catalog_Model_Product::getUpSellLinkCollection
+     * @covers \Magento\Catalog\Model\Product::getUpSellProducts
+     * @covers \Magento\Catalog\Model\Product::getUpSellProductIds
+     * @covers \Magento\Catalog\Model\Product::getUpSellProductCollection
+     * @covers \Magento\Catalog\Model\Product::getUpSellLinkCollection
      */
     public function testUpSellProductsApi()
     {
@@ -167,19 +167,19 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
         $this->assertEquals(array(), $this->_model->getUpSellProductIds());
 
         $collection = $this->_model->getUpSellProductCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Collection', $collection);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Collection', $collection);
         $this->assertSame($this->_model, $collection->getProduct());
 
         $linkCollection = $this->_model->getUpSellLinkCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Link_Collection', $linkCollection);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Link\Collection', $linkCollection);
         $this->assertSame($this->_model, $linkCollection->getProduct());
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::getCrossSellProducts
-     * @covers Magento_Catalog_Model_Product::getCrossSellProductIds
-     * @covers Magento_Catalog_Model_Product::getCrossSellProductCollection
-     * @covers Magento_Catalog_Model_Product::getCrossSellLinkCollection
+     * @covers \Magento\Catalog\Model\Product::getCrossSellProducts
+     * @covers \Magento\Catalog\Model\Product::getCrossSellProductIds
+     * @covers \Magento\Catalog\Model\Product::getCrossSellProductCollection
+     * @covers \Magento\Catalog\Model\Product::getCrossSellLinkCollection
      */
     public function testCrossSellProductsApi()
     {
@@ -187,24 +187,24 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
         $this->assertEquals(array(), $this->_model->getCrossSellProductIds());
 
         $collection = $this->_model->getCrossSellProductCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Collection', $collection);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Collection', $collection);
         $this->assertSame($this->_model, $collection->getProduct());
 
         $linkCollection = $this->_model->getCrossSellLinkCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Link_Collection', $linkCollection);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Link\Collection', $linkCollection);
         $this->assertSame($this->_model, $linkCollection->getProduct());
     }
 
     public function testGetGroupedLinkCollection()
     {
         $linkCollection = $this->_model->getGroupedLinkCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Link_Collection', $linkCollection);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Link\Collection', $linkCollection);
         $this->assertSame($this->_model, $linkCollection->getProduct());
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::getProductUrl
-     * @covers Magento_Catalog_Model_Product::getUrlInStore
+     * @covers \Magento\Catalog\Model\Product::getProductUrl
+     * @covers \Magento\Catalog\Model\Product::getUrlInStore
      */
     public function testGetProductUrl()
     {
@@ -231,23 +231,23 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
         $this->_model->setUrlPath('test');
         $this->assertEquals('test', $this->_model->getUrlPath());
 
-        /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        /** @var $category \Magento\Catalog\Model\Category */
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
         $category->setUrlPath('category');
         $this->assertEquals('category/test', $this->_model->getUrlPath($category));
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::addOption
-     * @covers Magento_Catalog_Model_Product::getOptionById
-     * @covers Magento_Catalog_Model_Product::getOptions
+     * @covers \Magento\Catalog\Model\Product::addOption
+     * @covers \Magento\Catalog\Model\Product::getOptionById
+     * @covers \Magento\Catalog\Model\Product::getOptions
      */
     public function testOptionApi()
     {
         $this->assertEquals(array(), $this->_model->getOptions());
 
         $optionId = uniqid();
-        $option = Mage::getModel('Magento_Catalog_Model_Product_Option',
+        $option = Mage::getModel('\Magento\Catalog\Model\Product\Option',
             array('data' => array('key' => 'value'))
         );
         $option->setId($optionId);
@@ -258,11 +258,11 @@ class Magento_Catalog_Model_ProductExternalTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::addCustomOption
-     * @covers Magento_Catalog_Model_Product::setCustomOptions
-     * @covers Magento_Catalog_Model_Product::getCustomOptions
-     * @covers Magento_Catalog_Model_Product::getCustomOption
-     * @covers Magento_Catalog_Model_Product::hasCustomOptions
+     * @covers \Magento\Catalog\Model\Product::addCustomOption
+     * @covers \Magento\Catalog\Model\Product::setCustomOptions
+     * @covers \Magento\Catalog\Model\Product::getCustomOptions
+     * @covers \Magento\Catalog\Model\Product::getCustomOption
+     * @covers \Magento\Catalog\Model\Product::hasCustomOptions
      */
     public function testCustomOptionsApi()
     {

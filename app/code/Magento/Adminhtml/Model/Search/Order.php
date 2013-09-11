@@ -15,12 +15,14 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Search_Order extends \Magento\Object
+namespace Magento\Adminhtml\Model\Search;
+
+class Order extends \Magento\Object
 {
     /**
      * Load search results
      *
-     * @return Magento_Adminhtml_Model_Search_Order
+     * @return \Magento\Adminhtml\Model\Search\Order
      */
     public function load()
     {
@@ -33,7 +35,7 @@ class Magento_Adminhtml_Model_Search_Order extends \Magento\Object
 
         $query = $this->getQuery();
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
             ->addAttributeToSelect('*')
             ->addAttributeToSearchFilter(array(
                 array('attribute' => 'increment_id',       'like'=>$query.'%'),
@@ -58,7 +60,7 @@ class Magento_Adminhtml_Model_Search_Order extends \Magento\Object
                 'name'              => __('Order #%1', $order->getIncrementId()),
                 'description'       => $order->getBillingFirstname().' '.$order->getBillingLastname(),
                 'form_panel_title'  => __('Order #%1 (%2)', $order->getIncrementId(), $order->getBillingFirstname().' '.$order->getBillingLastname()),
-                'url' => Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
+                'url' => \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
                     '*/sales_order/view',
                     array(
                         'order_id' => $order->getId()

@@ -9,7 +9,7 @@
 
 return array(
     'create' => array(
-        'type' => Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
+        'type' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
         'set' => 4,
         'sku' => 'simple' . uniqid(),
         'productData' => (object)array(
@@ -17,8 +17,8 @@ return array(
             'description' => 'description',
             'short_description' => 'short description',
             'weight' => 1,
-            'status' => Magento_Catalog_Model_Product_Status::STATUS_ENABLED,
-            'visibility' => Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+            'status' => \Magento\Catalog\Model\Product\Status::STATUS_ENABLED,
+            'visibility' => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
             'price' => 9.99,
             'tax_class_id' => 2,
             'stock_data' => array(
@@ -31,13 +31,13 @@ return array(
     ),
     'update' => array(
         'productData' => (object)array(
-            'status' => Magento_Catalog_Model_Product_Status::STATUS_ENABLED, //required to see product on backend
+            'status' => \Magento\Catalog\Model\Product\Status::STATUS_ENABLED, //required to see product on backend
             'name' => 'Simple Product Updated', //test update method
         )
     ),
     'update_custom_store' => array(
         'productData' => (object)array(
-            'status' => Magento_Catalog_Model_Product_Status::STATUS_ENABLED, //required to see product on backend
+            'status' => \Magento\Catalog\Model\Product\Status::STATUS_ENABLED, //required to see product on backend
             'name' => 'Simple Product Updated Custom Store', //test update method
         ),
         'store' => 'test_store'
@@ -48,16 +48,16 @@ return array(
         )
     ),
     'create_with_attributes_soapv2' => array(
-        'type' => Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
+        'type' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
         'set' => 4,
         'sku' => 'simple' . uniqid(),
         'productData' => (object)array(
-            'status' => Magento_Catalog_Model_Product_Status::STATUS_ENABLED, //required to see product on backend
+            'status' => \Magento\Catalog\Model\Product\Status::STATUS_ENABLED, //required to see product on backend
             'name' => 'Product with attributes',
             'description' => 'description',
             'short_description' => 'short description',
             'weight' => 1,
-            'visibility' => Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+            'visibility' => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
             'price' => 9.99,
             'tax_class_id' => 2,
             'additional_attributes' => (object)array(
@@ -86,7 +86,7 @@ return array(
     'create_full_fledged' => array(
         'sku' => 'simple' . uniqid(),
         'attribute_set_id' => 4,
-        'type_id' => Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
+        'type_id' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
         'name' => 'Simple Product',
         'website_ids' => array(Mage::app()->getStore()->getWebsiteId()),
         'description' => '...',
@@ -94,8 +94,8 @@ return array(
         'price' => 0.99,
         'tax_class_id' => 2,
         'weight' => 1,
-        'visibility' => Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-        'status' => Magento_Catalog_Model_Product_Status::STATUS_ENABLED,
+        'visibility' => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
+        'status' => \Magento\Catalog\Model\Product\Status::STATUS_ENABLED,
         'special_from_date' => false, // to avoid set this attr to '' which leads to unpredictable bugs
         'stock_data' => array(
             'manage_stock' => 1,
@@ -106,7 +106,7 @@ return array(
     ),
     'create_full' => array(
         'soap' => array(
-            'type' => Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
+            'type' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
             'set' => 4,
             'sku' => 'simple' . uniqid(),
             'productData' => (object)array(
@@ -116,8 +116,8 @@ return array(
                 'short_description' => '...',
                 'price' => 0.99,
                 'tax_class_id' => 2,
-                'visibility' => Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-                'status' => Magento_Catalog_Model_Product_Status::STATUS_ENABLED,
+                'visibility' => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
+                'status' => \Magento\Catalog\Model\Product\Status::STATUS_ENABLED,
                 'weight' => 1,
                 'stock_data' => array(
                     'manage_stock' => 1,

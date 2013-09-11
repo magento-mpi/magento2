@@ -17,7 +17,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Promo_Catalog extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Promo;
+
+class Catalog extends \Magento\Backend\Block\Widget\Grid\Container
 {
     protected function _construct()
     {

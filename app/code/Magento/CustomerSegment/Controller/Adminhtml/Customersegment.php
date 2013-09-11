@@ -11,26 +11,28 @@
 /**
  * Customer segments grid and edit controller
  */
-class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magento_Adminhtml_Controller_Action
+namespace Magento\CustomerSegment\Controller\Adminhtml;
+
+class Customersegment extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Initialize proper segment model
      *
      * @param string $requestParam
      * @param bool $requireValidId
-     * @return Magento_CustomerSegment_Model_Segment
+     * @return \Magento\CustomerSegment\Model\Segment
      */
     protected function _initSegment($requestParam = 'id', $requireValidId = false)
     {
         $segmentId = $this->getRequest()->getParam($requestParam, 0);
-        $segment = Mage::getModel('Magento_CustomerSegment_Model_Segment');
+        $segment = \Mage::getModel('\Magento\CustomerSegment\Model\Segment');
         if ($segmentId || $requireValidId) {
             $segment->load($segmentId);
             if (!$segment->getId()) {
-                Mage::throwException(__('You requested the wrong customer segment.'));
+                \Mage::throwException(__('You requested the wrong customer segment.'));
             }
         }
-        Mage::register('current_customer_segment', $segment);
+        \Mage::register('current_customer_segment', $segment);
         return $segment;
     }
 
@@ -67,8 +69,8 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
         try {
             $model = $this->_initSegment();
         }
-        catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+        catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
         }
@@ -76,7 +78,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
         $this->_title($model->getId() ? $model->getName() : __('New Segment'));
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPageData(true);
+        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -85,7 +87,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
 
         $this->_initAction();
 
-        $block =  $this->getLayout()->createBlock('Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit')
+        $block =  $this->getLayout()->createBlock('\Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->getLayout()->getBlock('head')
@@ -97,7 +99,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                 $model->getId() ? __('Edit Segment') : __('New Segment'))
             ->_addContent($block)
             ->_addLeft(
-                $this->getLayout()->createBlock('Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs'))
+                $this->getLayout()->createBlock('\Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs'))
             ->renderLayout();
     }
 
@@ -108,14 +110,14 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
     {
         try {
             $model = $this->_initSegment();
-            if ($model->getApplyTo() != Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
+            if ($model->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
                 $model->matchCustomers();
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addException($e,
                 __('Segment Customers matching error')
             );
@@ -128,7 +130,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
     /**
      * Init active menu and set breadcrumb
      *
-     * @return Magento_CustomerSegment_Controller_Adminhtml_Customersegment
+     * @return \Magento\CustomerSegment\Controller\Adminhtml\Customersegment
      */
     protected function _initAction()
     {
@@ -150,9 +152,9 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
-        $segment = Mage::getModel('Magento_CustomerSegment_Model_Segment');
+        $segment = \Mage::getModel('\Magento\CustomerSegment\Model\Segment');
         $segment->setApplyTo((int) $this->getRequest()->getParam('apply_to'));
-        $model = Mage::getModel($type)
+        $model = \Mage::getModel($type)
             ->setId($id)
             ->setType($type)
             ->setRule($segment)
@@ -161,7 +163,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
             $model->setAttribute($typeArr[1]);
         }
 
-        if ($model instanceof Magento_Rule_Model_Condition_Abstract) {
+        if ($model instanceof \Magento\Rule\Model\Condition\AbstractCondition) {
             $model->setJsFormObject($this->getRequest()->getParam('form'));
             $html = $model->asHtmlRecursive();
         } else {
@@ -204,14 +206,14 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                 }
 
                 $model->loadPost($data);
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($model->getData());
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setPageData($model->getData());
                 $model->save();
-                if ($model->getApplyTo() != Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
+                if ($model->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
                     $model->matchCustomers();
                 }
 
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the segment.'));
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData(false);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the segment.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setPageData(false);
 
                 if ($redirectBack) {
                     $this->_redirect('*/*/edit', array(
@@ -221,14 +223,14 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
                     return;
                 }
 
-            } catch (Magento_Core_Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setPageData($data);
+            } catch (\Magento\Core\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
                 return;
-            } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We're unable to save the segment."));
-                Mage::logException($e);
+            } catch (\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__("We're unable to save the segment."));
+                \Mage::logException($e);
             }
         }
         $this->_redirect('*/*/');
@@ -242,15 +244,15 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
         try {
             $model = $this->_initSegment('id', true);
             $model->delete();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the segment.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the segment.'));
         }
-        catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+        catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__("We're unable to delete the segement."));
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__("We're unable to delete the segement."));
+            \Mage::logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -264,7 +266,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
     {
         return $this->_authorization
             ->isAllowed('Magento_CustomerSegment::customersegment')
-            && Mage::helper('Magento_CustomerSegment_Helper_Data')->isEnabled();
+            && \Mage::helper('Magento\CustomerSegment\Helper\Data')->isEnabled();
     }
 
     /**
@@ -272,7 +274,7 @@ class Magento_CustomerSegment_Controller_Adminhtml_Customersegment extends Magen
      */
     public function chooserDaterangeAction()
     {
-        $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Promo_Widget_Chooser_Daterange');
+        $block = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Promo\Widget\Chooser\Daterange');
         if ($block) {
             // set block data from request
             $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));

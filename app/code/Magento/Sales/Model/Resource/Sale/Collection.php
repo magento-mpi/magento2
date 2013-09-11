@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collection\Db
+namespace Magento\Sales\Model\Resource\Sale;
+
+class Collection extends \Magento\Data\Collection\Db
 {
 
     /**
@@ -31,7 +33,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collect
     /**
      * Customer model
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -55,7 +57,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collect
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Sales_Model_Resource_Order $resource
+        \Magento\Sales\Model\Resource\Order $resource
     ) {
         parent::__construct($fetchStrategy, $resource->getReadConnection());
     }
@@ -63,10 +65,10 @@ class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collect
     /**
      * Set filter by customer
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Sales_Model_Resource_Sale_Collection
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Sales\Model\Resource\Sale\Collection
      */
-    public function setCustomerFilter(Magento_Customer_Model_Customer $customer)
+    public function setCustomerFilter(\Magento\Customer\Model\Customer $customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -76,7 +78,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collect
      * Add filter by stores
      *
      * @param array $storeIds
-     * @return Magento_Sales_Model_Resource_Sale_Collection
+     * @return \Magento\Sales\Model\Resource\Sale\Collection
      */
     public function addStoreFilter($storeIds)
     {
@@ -88,7 +90,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collect
      *
      * @param string|array $state
      * @param bool_type $exclude
-     * @return Magento_Sales_Model_Resource_Sale_Collection
+     * @return \Magento\Sales\Model\Resource\Sale\Collection
      */
     public function setOrderStateFilter($state, $exclude = false)
     {
@@ -107,19 +109,19 @@ class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collect
     {
         $this->getSelect()
             ->from(
-                array('sales' => Mage::getResourceSingleton('Magento_Sales_Model_Resource_Order')->getMainTable()),
+                array('sales' => \Mage::getResourceSingleton('\Magento\Sales\Model\Resource\Order')->getMainTable()),
                 array(
                     'store_id',
-                    'lifetime'      => new Zend_Db_Expr('SUM(sales.base_grand_total)'),
-                    'base_lifetime' => new Zend_Db_Expr('SUM(sales.base_grand_total * sales.base_to_global_rate)'),
-                    'avgsale'       => new Zend_Db_Expr('AVG(sales.base_grand_total)'),
-                    'base_avgsale'  => new Zend_Db_Expr('AVG(sales.base_grand_total * sales.base_to_global_rate)'),
-                    'num_orders'    => new Zend_Db_Expr('COUNT(sales.base_grand_total)')
+                    'lifetime'      => new \Zend_Db_Expr('SUM(sales.base_grand_total)'),
+                    'base_lifetime' => new \Zend_Db_Expr('SUM(sales.base_grand_total * sales.base_to_global_rate)'),
+                    'avgsale'       => new \Zend_Db_Expr('AVG(sales.base_grand_total)'),
+                    'base_avgsale'  => new \Zend_Db_Expr('AVG(sales.base_grand_total * sales.base_to_global_rate)'),
+                    'num_orders'    => new \Zend_Db_Expr('COUNT(sales.base_grand_total)')
                 )
             )
             ->group('sales.store_id');
 
-        if ($this->_customer instanceof Magento_Customer_Model_Customer) {
+        if ($this->_customer instanceof \Magento\Customer\Model\Customer) {
             $this->addFieldToFilter('sales.customer_id', $this->_customer->getId());
         }
 
@@ -136,7 +138,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collect
             $this->addFieldToFilter('state', array($condition => $this->_orderStateValue));
         }
 
-        Mage::dispatchEvent('sales_sale_collection_query_before', array('collection' => $this));
+        \Mage::dispatchEvent('sales_sale_collection_query_before', array('collection' => $this));
         return $this;
     }
 
@@ -162,7 +164,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collect
         $data = $this->getData();
         $this->resetData();
 
-        $stores = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection')
+        $stores = \Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection')
             ->setWithoutDefaultFilter()
             ->load()
             ->toOptionHash();
@@ -172,7 +174,7 @@ class Magento_Sales_Model_Resource_Sale_Collection extends \Magento\Data\Collect
             $storeId     = $v['store_id'];
             $storeName   = isset($stores[$storeId]) ? $stores[$storeId] : null;
             $storeObject->setStoreName($storeName)
-                ->setWebsiteId(Mage::app()->getStore($storeId)->getWebsiteId())
+                ->setWebsiteId(\Mage::app()->getStore($storeId)->getWebsiteId())
                 ->setAvgNormalized($v['avgsale'] * $v['num_orders']);
             $this->_items[$storeId] = $storeObject;
             foreach ($this->_totals as $key => $value) {

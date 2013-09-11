@@ -16,12 +16,14 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\User\Model\Resource;
+
+class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Root ACL resource
      *
-     * @var Magento_Core_Model_Acl_RootResource
+     * @var \Magento\Core\Model\Acl\RootResource
      */
     protected $_rootResource;
 
@@ -33,13 +35,13 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
     protected $_aclCache;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Acl_RootResource $rootResource
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\Acl\CacheInterface $aclCache
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Acl_RootResource $rootResource,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\Acl\CacheInterface $aclCache
     ) {
         parent::__construct($resource);
@@ -59,10 +61,10 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
     /**
      * Save ACL resources
      *
-     * @param Magento_User_Model_Rules $rule
-     * @throws Magento_Core_Exception
+     * @param \Magento\User\Model\Rules $rule
+     * @throws \Magento\Core\Exception
      */
-    public function saveRel(Magento_User_Model_Rules $rule)
+    public function saveRel(\Magento\User\Model\Rules $rule)
     {
         try {
             $adapter = $this->_getWriteAdapter();
@@ -91,7 +93,7 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
-                    $acl = Mage::getSingleton('Magento\Acl\Builder')->getAcl();
+                    $acl = \Mage::getSingleton('Magento\Acl\Builder')->getAcl();
                     /** @var $resource \Magento\Acl\Resource */
                     foreach ($acl->getResources() as $resourceId) {
                         $row['permission'] = in_array($resourceId, $postedResources) ? 'allow' : 'deny';
@@ -105,12 +107,12 @@ class Magento_User_Model_Resource_Rules extends Magento_Core_Model_Resource_Db_A
 
             $adapter->commit();
             $this->_aclCache->clean();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $adapter->rollBack();
             throw $e;
-        } catch (Exception $e){
+        } catch (\Exception $e){
             $adapter->rollBack();
-            Mage::logException($e);
+            \Mage::logException($e);
         }
     }
 }

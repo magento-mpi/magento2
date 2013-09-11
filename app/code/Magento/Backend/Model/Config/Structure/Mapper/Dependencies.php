@@ -11,21 +11,23 @@
 /**
  * System Configuration Dependencies Mapper
  */
-class Magento_Backend_Model_Config_Structure_Mapper_Dependencies
-    extends Magento_Backend_Model_Config_Structure_MapperAbstract
+namespace Magento\Backend\Model\Config\Structure\Mapper;
+
+class Dependencies
+    extends \Magento\Backend\Model\Config\Structure\MapperAbstract
 {
     /**
      * Class that can convert relative paths from "depends" node to absolute
      *
-     * @var Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter
+     * @var \Magento\Backend\Model\Config\Structure\Mapper\Helper\RelativePathConverter
      */
     protected $_pathConverter;
 
     /**
-     * @param Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter $pathConverted
+     * @param \Magento\Backend\Model\Config\Structure\Mapper\Helper\RelativePathConverter $pathConverted
      */
     public function __construct(
-        Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter $pathConverted
+        \Magento\Backend\Model\Config\Structure\Mapper\Helper\RelativePathConverter $pathConverted
     ) {
         $this->_pathConverter = $pathConverted;
     }
@@ -88,7 +90,7 @@ class Magento_Backend_Model_Config_Structure_Mapper_Dependencies
      * @param array $field
      * @param array $config
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _getDependPath($field, $config)
     {

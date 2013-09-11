@@ -16,14 +16,16 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
-    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
+
+class Main
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Preparing global layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -38,7 +40,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     /**
      * Adding customer form elements for edit form
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab\Main
      */
     protected function _prepareForm()
     {
@@ -47,8 +49,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         $attribute  = $this->getAttributeObject();
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
-        /* @var $helper Magento_Rma_Helper_Eav */
-        $helper     = Mage::helper('Magento_Rma_Helper_Eav');
+        /* @var $helper \Magento\Rma\Helper\Eav */
+        $helper     = \Mage::helper('Magento\Rma\Helper\Eav');
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');
@@ -63,7 +65,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
         // customer attribute code can have prefix "rma_item_" and its length must be max length minus prefix length
         $element      = $form->getElement('attribute_code');
         $element->setNote(
-            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
+            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH)
         );
 
         $fieldset->addField('multiline_count', 'text', array(
@@ -131,7 +133,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
             'values'    => array('' => __('None')),
         ));
 
-        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => __('Frontend Properties')
@@ -215,7 +217,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Tab_Main
     /**
      * Initialize form fileds values
      *
-     * @return Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+     * @return \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
      */
     protected function _initFormValues()
     {

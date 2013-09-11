@@ -16,7 +16,9 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\User\Model\Resource;
+
+class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Users table
@@ -47,10 +49,10 @@ class Magento_User_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Process role before saving
      *
-     * @param Magento_Core_Model_Abstract $role
-     * @return Magento_User_Model_Resource_Role
+     * @param \Magento\Core\Model\AbstractModel $role
+     * @return \Magento\User\Model\Resource\Role
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $role)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $role)
     {
         if (!$role->getId()) {
             $role->setCreated($this->formatDate(true));
@@ -93,24 +95,24 @@ class Magento_User_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Process role after saving
      *
-     * @param Magento_Core_Model_Abstract $role
-     * @return Magento_User_Model_Resource_Role
+     * @param \Magento\Core\Model\AbstractModel $role
+     * @return \Magento\User\Model\Resource\Role
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $role)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $role)
     {
         $this->_updateRoleUsersAcl($role);
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,
-            array(Magento_Backend_Block_Menu::CACHE_TAGS));
+        \Mage::app()->getCache()->clean(\Zend_Cache::CLEANING_MODE_MATCHING_TAG,
+            array(\Magento\Backend\Block\Menu::CACHE_TAGS));
         return $this;
     }
 
     /**
      * Process role after deleting
      *
-     * @param Magento_Core_Model_Abstract $role
-     * @return Magento_User_Model_Resource_Role
+     * @param \Magento\Core\Model\AbstractModel $role
+     * @return \Magento\User\Model\Resource\Role
      */
-    protected function _afterDelete(Magento_Core_Model_Abstract $role)
+    protected function _afterDelete(\Magento\Core\Model\AbstractModel $role)
     {
         $adapter = $this->_getWriteAdapter();
 
@@ -130,10 +132,10 @@ class Magento_User_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Get role users
      *
-     * @param Magento_User_Model_Role $role
+     * @param \Magento\User\Model\Role $role
      * @return array
      */
-    public function getRoleUsers(Magento_User_Model_Role $role)
+    public function getRoleUsers(\Magento\User\Model\Role $role)
     {
         $read = $this->_getReadAdapter();
 
@@ -154,10 +156,10 @@ class Magento_User_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Update role users ACL
      *
-     * @param Magento_User_Model_Role $role
+     * @param \Magento\User\Model\Role $role
      * @return bool
      */
-    private function _updateRoleUsersAcl(Magento_User_Model_Role $role)
+    private function _updateRoleUsersAcl(\Magento\User\Model\Role $role)
     {
         $write  = $this->_getWriteAdapter();
         $users  = $this->getRoleUsers($role);

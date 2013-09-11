@@ -15,7 +15,9 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Adminhtml_Settlement_Details extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Paypal\Block\Adminhtml\Settlement;
+
+class Details extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Block construction
@@ -33,12 +35,12 @@ class Magento_Paypal_Block_Adminhtml_Settlement_Details extends Magento_Adminhtm
 
     /**
      * Initialize form
-     * @return Magento_Paypal_Block_Adminhtml_Settlement_Details
+     * @return \Magento\Paypal\Block\Adminhtml\Settlement\Details
      */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->addChild('form', 'Magento_Paypal_Block_Adminhtml_Settlement_Details_Form');
+        $this->addChild('form', '\Magento\Paypal\Block\Adminhtml\Settlement\Details\Form');
         return $this;
     }
 }

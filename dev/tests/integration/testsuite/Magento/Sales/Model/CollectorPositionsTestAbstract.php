@@ -56,15 +56,15 @@ abstract class Magento_Sales_Model_CollectorPositionsTestAbstract extends PHPUni
     {
         switch ($configType) {
             case 'quote':
-                $configClass = 'Magento_Sales_Model_Quote_Address_Total_Collector';
+                $configClass = '\Magento\Sales\Model\Quote\Address\Total\Collector';
                 $methodGetCollectors = 'getCollectors';
                 break;
             case 'invoice':
-                $configClass = 'Magento_Sales_Model_Order_Invoice_Config';
+                $configClass = '\Magento\Sales\Model\Order\Invoice\Config';
                 $methodGetCollectors = 'getTotalModels';
                 break;
             case 'creditmemo':
-                $configClass = 'Magento_Sales_Model_Order_Creditmemo_Config';
+                $configClass = '\Magento\Sales\Model\Order\Creditmemo\Config';
                 $methodGetCollectors = 'getTotalModels';
                 break;
             default:

@@ -8,9 +8,9 @@
  */
 -->
 <config>
-    <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_UpdaterOne" />
+    <preference for="Magento\Core\Model\Db\UpdaterInterface" type="Magento_Core_Model_Db_UpdaterOne" />
     <preference for="Magento_Core_Model_Db_UpdaterInterfaceTwo" type="Magento_Core_Model_Db_UpdaterTwo"/>
-    <type name="Magento_Core_Model_Config_Loader_Local" shared="false">
+    <type name="Magento\Core\Model\Config\Loader\Local" shared="false">
         <param name="customFile">
             <value type="argument">Mage::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
@@ -34,7 +34,7 @@
         </param>
         <plugin name="three" type="somePluginThree"/>
     </type>
-    <virtualType name="Magento_Core_Model_Config_Loader_LocalVirtual" type="Magento_Core_Model_Config_Loader_Local" shared="true">
+    <virtualType name="Magento_Core_Model_Config_Loader_LocalVirtual" type="Magento\Core\Model\Config\Loader\Local" shared="true">
         <param name="customFile">
             <value type="argument">Mage::PARAM_CUSTOM_LOCAL_FILE</value>
         </param>
@@ -59,7 +59,7 @@
         <param name="cacheLifetime"><value>86400</value></param>
         <param name="cacheTags">
             <value>
-                <const type='const'>Magento_Core_Model_Website::CACHE_TAG</const>
+                <const type='const'>\Magento\Core\Model\Website::CACHE_TAG</const>
                 <boolFalse type='bool'>1</boolFalse>
                 <boolTrue type='int'>10</boolTrue>
                 <boolOne type='string' pattern="[0-9]*">1</boolOne>
@@ -70,7 +70,7 @@
             </value>
         </param>
         <param name="constParam">
-            <value type='const'>Magento_Core_Model_Website::CACHE_TAG</value>
+            <value type='const'>\Magento\Core\Model\Website::CACHE_TAG</value>
         </param>
         <param name="boolFalseParam">
             <value type='int'>100</value>

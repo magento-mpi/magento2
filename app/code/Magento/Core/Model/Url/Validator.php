@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Url_Validator extends Zend_Validate_Abstract
+namespace Magento\Core\Model\Url;
+
+class Validator extends \Zend_Validate_Abstract
 {
     /**#@+
      * Error keys

@@ -15,9 +15,11 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
-    extends Magento_Adminhtml_Block_Widget_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Sales\Order\View\Tab;
+
+class Shipments
+    extends \Magento\Adminhtml\Block\Widget\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected function _construct()
     {
@@ -33,12 +35,12 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_Sales_Model_Resource_Order_Shipment_Grid_Collection';
+        return '\Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection';
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel($this->_getCollectionClass())
+        $collection = \Mage::getResourceModel($this->_getCollectionClass())
             ->addFieldToSelect('entity_id')
             ->addFieldToSelect('created_at')
             ->addFieldToSelect('increment_id')
@@ -88,11 +90,11 @@ class Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments
     /**
      * Retrieve order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     public function getRowUrl($row)

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Report\Product;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Adminhtml_Bloc
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Collection');
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Product\Collection');
         $collection->getEntity()->setStore(0);
 
         $this->setCollection($collection);
@@ -39,7 +41,7 @@ class Magento_Adminhtml_Block_Report_Product_Grid extends Magento_Adminhtml_Bloc
 
     protected function _afterLoadCollection()
     {
-        $totalObj = new Magento_Reports_Model_Totals();
+        $totalObj = new \Magento\Reports\Model\Totals();
         $this->setTotals($totalObj->countTotals($this));
     }
 

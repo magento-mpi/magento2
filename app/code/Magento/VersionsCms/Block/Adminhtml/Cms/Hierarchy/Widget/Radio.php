@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Magento_Adminhtml_Block_Template
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
+
+class Radio extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Unique Hash Id
@@ -53,7 +55,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
     public function getAllStoreViews()
     {
         if (empty($this->_allStoreViews)) {
-            $storeValues = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true);
+            $storeValues = \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true);
             foreach ($storeValues as $view) {
                 if (is_array($view['value']) && empty($view['value'])) {
                     continue;
@@ -82,7 +84,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
         $storeViews[] = current($allStoreViews);
         unset($allStoreViews);
 
-        $storeValues = Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreCollection();
+        $storeValues = \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreCollection();
 
         foreach ($storeValues as $store) {
             $storeViews[] = array(
@@ -133,7 +135,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
     public function getParameters()
     {
         if (empty($this->_params)) {
-            $widget = Mage::registry('current_widget_instance');
+            $widget = \Mage::registry('current_widget_instance');
             $this->_params = $widget ? $widget->getWidgetParameters() : array();
         }
         return $this->_params;
@@ -161,7 +163,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
     public function getLabelByNodeId($nodeId)
     {
         if ($nodeId) {
-            $node = Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Node')->load($nodeId);
+            $node = \Mage::getSingleton('Magento\VersionsCms\Model\Hierarchy\Node')->load($nodeId);
             if ($node->getId()) {
                 return $node->getLabel();
             }
@@ -176,6 +178,6 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mag
      */
     protected function _toHtml()
     {
-        return Mage::app()->isSingleStoreMode() == false ? parent::_toHtml() : '';
+        return \Mage::app()->isSingleStoreMode() == false ? parent::_toHtml() : '';
     }
 }

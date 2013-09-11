@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Resource_Grid extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Rma\Model\Resource;
+
+class Grid extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     protected $_isPkAutoIncrement    = false;
     /**

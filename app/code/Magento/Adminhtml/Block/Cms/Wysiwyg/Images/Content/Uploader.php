@@ -15,14 +15,16 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Magento_Adminhtml_Block_Media_Uploader
+namespace Magento\Adminhtml\Block\Cms\Wysiwyg\Images\Content;
+
+class Uploader extends \Magento\Adminhtml\Block\Media\Uploader
 {
     protected function _construct()
     {
         parent::_construct();
         $params = $this->getConfig()->getParams();
         $type = $this->_getMediaType();
-        $allowed = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')->getAllowedExtensions($type);
+        $allowed = \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Images\Storage')->getAllowedExtensions($type);
         $labels = array();
         $files = array();
         foreach ($allowed as $ext) {
@@ -31,7 +33,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Magent
         }
         $this->getConfig()
             ->setUrl(
-                Mage::getModel('Magento_Backend_Model_Url')
+                \Mage::getModel('\Magento\Backend\Model\Url')
                     ->addSessionParam()
                     ->getUrl('*/*/upload', array('type' => $type)
                 )

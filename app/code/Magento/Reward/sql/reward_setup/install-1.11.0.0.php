@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Reward_Model_Resource_Setup */
+/** @var $installer \Magento\Reward\Model\Resource\Setup */
 $installer = $this;
 
 $installer->startSetup();

@@ -16,7 +16,7 @@
                 <label>External Full Page Cache Settings</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable External Cache</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="cookie_lifetime" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Cookie Lifetime (seconds)</label>
@@ -27,7 +27,7 @@
                 </field>
                 <field id="control" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>External Cache Control</label>
-                    <source_model>Magento_PageCache_Model_System_Config_Source_Controls</source_model>
+                    <source_model>\Magento\PageCache\Model\System\Config\Source\Controls</source_model>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>

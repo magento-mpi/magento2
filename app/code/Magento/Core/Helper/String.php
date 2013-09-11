@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_String extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class String extends \Magento\Core\Helper\AbstractHelper
 {
     const ICONV_CHARSET = 'UTF-8';
 
@@ -278,7 +280,7 @@ class Magento_Core_Helper_String extends Magento_Core_Helper_Abstract
             return false;
         }
         $oldLocale = setlocale(LC_COLLATE, "0");
-        $localeCode = Mage::app()->getLocale()->getLocaleCode();
+        $localeCode = \Mage::app()->getLocale()->getLocaleCode();
         // use fallback locale if $localeCode is not available
         setlocale(LC_COLLATE,  $localeCode . '.UTF8', 'C.UTF-8', 'en_US.utf8');
         ksort($sort, SORT_LOCALE_STRING);

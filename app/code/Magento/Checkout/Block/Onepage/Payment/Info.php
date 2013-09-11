@@ -15,16 +15,18 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Payment_Info extends Magento_Payment_Block_Info_ContainerAbstract
+namespace Magento\Checkout\Block\Onepage\Payment;
+
+class Info extends \Magento\Payment\Block\Info\ContainerAbstract
 {
     /**
      * Retrieve payment info model
      *
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function getPaymentInfo()
     {
-        $info = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment();
+        $info = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment();
         if ($info->getMethod()) {
             return $info;
         }

@@ -12,12 +12,14 @@
  * Customer balance block for order
  *
  */
-class Magento_CustomerBalance_Block_Sales_Order_Customerbalance extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block\Sales\Order;
+
+class Customerbalance extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -32,7 +34,7 @@ class Magento_CustomerBalance_Block_Sales_Order_Customerbalance extends Magento_
     /**
      * Initialize customer balance order total
      *
-     * @return Magento_CustomerBalance_Block_Sales_Order_Customerbalance
+     * @return \Magento\CustomerBalance\Block\Sales\Order\Customerbalance
      */
     public function initTotals()
     {

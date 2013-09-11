@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Maximum SKU string length
@@ -28,13 +30,13 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
     /**
      * Validate SKU
      *
-     * @param Magento_Catalog_Model_Product $object
-     * @throws Magento_Core_Exception
+     * @param \Magento\Catalog\Model\Product $object
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     public function validate($object)
     {
-        $helper = Mage::helper('Magento_Core_Helper_String');
+        $helper = \Mage::helper('Magento\Core\Helper\String');
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if ($this->getAttribute()->getIsRequired() && $this->getAttribute()->isValueEmpty($value)) {
@@ -42,7 +44,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
         }
 
         if ($helper->strlen($object->getSku()) > self::SKU_MAX_LENGTH) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH)
             );
         }
@@ -52,7 +54,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
     /**
      * Generate and set unique SKU to product
      *
-     * @param $object Magento_Catalog_Model_Product
+     * @param $object \Magento\Catalog\Model\Product
      */
     protected function _generateUniqueSku($object)
     {
@@ -74,7 +76,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
      * Make SKU unique before save
      *
      * @param \Magento\Object $object
-     * @return Magento_Catalog_Model_Product_Attribute_Backend_Sku
+     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Sku
      */
     public function beforeSave($object)
     {
@@ -85,8 +87,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Sku extends Magento_Eav_Mo
     /**
      * Return increment needed for SKU uniqueness
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param Magento_Catalog_Model_Product $object
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @param \Magento\Catalog\Model\Product $object
      * @return int
      */
     protected function _getLastSimilarAttributeValueIncrement($attribute, $object)

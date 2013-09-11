@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Config_Structure_Element_CompositeAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_CompositeAbstract
+     * @var \Magento\Backend\Model\Config\Structure\Element\CompositeAbstract
      */
     protected $_model;
 
@@ -43,12 +43,12 @@ class Magento_Backend_Model_Config_Structure_Element_CompositeAbstractTest exten
     public function setUp()
     {
         $this->_iteratorMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Iterator', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Element\Iterator', array(), array(), '', false
         );
-        $this->_applicationMock = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
+        $this->_applicationMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Backend_Model_Config_Structure_Element_CompositeAbstract',
+            '\Magento\Backend\Model\Config\Structure\Element\CompositeAbstract',
             array($this->_applicationMock, $this->_iteratorMock)
         );
     }

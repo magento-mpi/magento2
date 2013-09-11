@@ -11,12 +11,14 @@
 /**
  * Navigation mode design editor url model
  */
-class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_Url
+namespace Magento\DesignEditor\Model\Url;
+
+class NavigationMode extends \Magento\Core\Model\Url
 {
     /**
      * VDE helper
      *
-     * @var Magento_DesignEditor_Helper_Data
+     * @var \Magento\DesignEditor\Helper\Data
      */
     protected $_helper;
 
@@ -37,10 +39,10 @@ class Magento_DesignEditor_Model_Url_NavigationMode extends Magento_Core_Model_U
     /**
      * Constructor
      *
-     * @param Magento_DesignEditor_Helper_Data $helper
+     * @param \Magento\DesignEditor\Helper\Data $helper
      * @param array $data
      */
-    public function __construct(Magento_DesignEditor_Helper_Data $helper, array $data = array())
+    public function __construct(\Magento\DesignEditor\Helper\Data $helper, array $data = array())
     {
         $this->_helper = $helper;
         if (isset($data['mode'])) {

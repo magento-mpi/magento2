@@ -16,7 +16,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
     protected $_schemaFile;
 
     /**
-     * @var  Magento_Core_Model_DataService_Config_Reader
+     * @var  \Magento\Core\Model\DataService\Config\Reader
      */
     protected $_reader;
 
@@ -30,7 +30,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $serviceCallsFiles = $this->getServiceCallsConfigFiles();
         if (!empty($serviceCallsFiles)) {
-            $this->_reader = $this->_objectManager->create('Magento_Core_Model_DataService_Config_Reader', array(
+            $this->_reader = $this->_objectManager->create('Magento\Core\Model\DataService\Config\Reader', array(
                 'configFiles' => $serviceCallsFiles));
             $this->_schemaFile = $this->_reader->getSchemaFile();
         }
@@ -38,7 +38,7 @@ class Magento_Test_Integrity_Modular_ServiceCallsConfigFilesTest extends PHPUnit
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento_Core_Model_DataService_Config_Reader');
+        $this->_objectManager->removeSharedInstance('\Magento\Core\Model\DataService\Config\Reader');
     }
 
     public function getServiceCallsConfigFiles()

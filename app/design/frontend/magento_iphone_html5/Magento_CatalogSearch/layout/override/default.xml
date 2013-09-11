@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="header">
-            <block class="Magento_Core_Block_Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
+            <block class="\Magento\Core\Block\Template" name="top.search" as="topSearch" template="Magento_CatalogSearch::form.mini.phtml"/>
         </reference>
     </handle>
 </layout>

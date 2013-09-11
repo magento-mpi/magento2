@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Core_Model_Resource_Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 /*
  * Prepare database for tables install
@@ -16,9 +16,9 @@ $installer = $this;
 $installer->startSetup();
 
 $aggregationTables = array(
-    Magento_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_DAILY,
-    Magento_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_MONTHLY,
-    Magento_Reports_Model_Resource_Report_Product_Viewed::AGGREGATION_YEARLY,
+    \Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_DAILY,
+    \Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_MONTHLY,
+    \Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_YEARLY,
 );
 $aggregationTableComments = array(
     'Most Viewed Products Aggregated Daily',

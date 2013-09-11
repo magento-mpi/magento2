@@ -11,7 +11,7 @@
     <handle label="Customer My Account My OAuth Applications" id="oauth_customer_token_index" type="page" parent="default">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block class="Magento_Oauth_Block_Customer_Token_List" name="oauth_customer_token_list" template="customer/token/list.phtml"/>
+            <block class="\Magento\Oauth\Block\Customer\Token\ListToken" name="oauth_customer_token_list" template="customer/token/list.phtml"/>
         </reference>
     </handle>
 </layout>

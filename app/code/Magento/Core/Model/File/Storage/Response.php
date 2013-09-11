@@ -5,12 +5,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_File_Storage_Response
+namespace Magento\Core\Model\File\Storage;
+
+class Response
 {
     /**
      * Application object manager
      *
-     * @var Magento_Core_Model_ObjectManager
+     * @var \Magento\Core\Model\ObjectManager
      */
     protected $_objectManager;
 

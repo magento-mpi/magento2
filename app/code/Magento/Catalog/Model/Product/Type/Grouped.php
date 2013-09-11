@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_Product_Type_Abstract
+namespace Magento\Catalog\Model\Product\Type;
+
+class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     const TYPE_CODE = 'grouped';
 
@@ -65,7 +67,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
         $info->setTable('catalog_product_link')
             ->setParentFieldName('product_id')
             ->setChildFieldName('linked_product_id')
-            ->setWhere('link_type_id=' . Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
+            ->setWhere('link_type_id=' . \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED);
         return $info;
     }
 
@@ -81,9 +83,9 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Link')
+        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Link')
             ->getChildrenIds($parentId,
-                Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
+                \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED);
     }
 
     /**
@@ -94,15 +96,15 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
      */
     public function getParentIdsByChild($childId)
     {
-        return Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Link')
+        return \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Link')
             ->getParentIdsByChild($childId,
-                Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
+                \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED);
     }
 
     /**
      * Retrieve array of associated products
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getAssociatedProducts($product)
@@ -110,7 +112,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
         if (!$product->hasData($this->_keyAssociatedProducts)) {
             $associatedProducts = array();
 
-            if (!Mage::app()->getStore()->isAdmin()) {
+            if (!\Mage::app()->getStore()->isAdmin()) {
                 $this->setSaleableStatus($product);
             }
 
@@ -134,8 +136,8 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
      * Add status filter to collection
      *
      * @param  int $status
-     * @param  Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Product_Type_Grouped
+     * @param  \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Product\Type\Grouped
      */
     public function addStatusFilter($status, $product)
     {
@@ -153,28 +155,28 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     /**
      * Set only saleable filter
      *
-     * @param  Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Product_Type_Grouped
+     * @param  \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Product\Type\Grouped
      */
     public function setSaleableStatus($product)
     {
         $product->setData($this->_keyStatusFilters,
-            Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getSaleableStatusIds());
+            \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getSaleableStatusIds());
         return $this;
     }
 
     /**
      * Return all assigned status filters
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getStatusFilters($product)
     {
         if (!$product->hasData($this->_keyStatusFilters)) {
             return array(
-                Magento_Catalog_Model_Product_Status::STATUS_ENABLED,
-                Magento_Catalog_Model_Product_Status::STATUS_DISABLED
+                \Magento\Catalog\Model\Product\Status::STATUS_ENABLED,
+                \Magento\Catalog\Model\Product\Status::STATUS_DISABLED
             );
         }
         return $product->getData($this->_keyStatusFilters);
@@ -183,7 +185,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     /**
      * Retrieve related products identifiers
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getAssociatedProductIds($product)
@@ -201,8 +203,8 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     /**
      * Retrieve collection of associated products
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Product_Link_Product_Collection
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
      */
     public function getAssociatedProductCollection($product)
     {
@@ -218,7 +220,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     /**
      * Check is product available for sale
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isSalable($product)
@@ -238,8 +240,8 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     /**
      * Save type related data
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Product_Type_Grouped
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Product\Type\Grouped
      */
     public function save($product)
     {
@@ -253,7 +255,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
      * Perform standard preparation process and add logic specific to Grouped product type.
      *
      * @param \Magento\Object $buyRequest
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
      * @return array|string
      */
@@ -323,7 +325,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
      * Retrieve products divided into groups required to purchase
      * At least one product in each group has to be purchased
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     public function getProductsToPurchaseByReqGroups($product)
@@ -334,7 +336,7 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     /**
      * Prepare selected qty for grouped product's options
      *
-     * @param  Magento_Catalog_Model_Product $product
+     * @param  \Magento\Catalog\Model\Product $product
      * @param  \Magento\Object $buyRequest
      * @return array
      */
@@ -361,9 +363,9 @@ class Magento_Catalog_Model_Product_Type_Grouped extends Magento_Catalog_Model_P
     /**
      * Delete data specific for Grouped product type
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
-    public function deleteTypeSpecificData(Magento_Catalog_Model_Product $product)
+    public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {
     }
 }

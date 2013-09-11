@@ -15,7 +15,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Cart_Customer_Api_V2 extends Magento_Checkout_Model_Cart_Customer_Api
+namespace Magento\Checkout\Model\Cart\Customer\Api;
+
+class V2 extends \Magento\Checkout\Model\Cart\Customer\Api
 {
     /**
      * Prepare customer entered data for implementing

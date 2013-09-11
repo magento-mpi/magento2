@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Persistent_Block_Form_Remember extends Magento_Core_Block_Template
+namespace Magento\Persistent\Block\Form;
+
+class Remember extends \Magento\Core\Block\Template
 {
     /**
      * Prevent rendering if Persistent disabled
@@ -25,8 +27,8 @@ class Magento_Persistent_Block_Form_Remember extends Magento_Core_Block_Template
      */
     protected function _toHtml()
     {
-        /** @var $helper Magento_Persistent_Helper_Data */
-        $helper = Mage::helper('Magento_Persistent_Helper_Data');
+        /** @var $helper \Magento\Persistent\Helper\Data */
+        $helper = \Mage::helper('Magento\Persistent\Helper\Data');
         return ($helper->isEnabled() && $helper->isRememberMeEnabled()) ? parent::_toHtml() : '';
     }
 
@@ -37,8 +39,8 @@ class Magento_Persistent_Block_Form_Remember extends Magento_Core_Block_Template
      */
     public function isRememberMeChecked()
     {
-        /** @var $helper Magento_Persistent_Helper_Data */
-        $helper = Mage::helper('Magento_Persistent_Helper_Data');
+        /** @var $helper \Magento\Persistent\Helper\Data */
+        $helper = \Mage::helper('Magento\Persistent\Helper\Data');
         return $helper->isEnabled() && $helper->isRememberMeEnabled() && $helper->isRememberMeCheckedDefault();
     }
 }

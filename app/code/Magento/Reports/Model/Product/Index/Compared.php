@@ -12,21 +12,23 @@
 /**
  * Catalog Compared Product Index Model
  *
- * @method Magento_Reports_Model_Resource_Product_Index_Compared _getResource()
- * @method Magento_Reports_Model_Resource_Product_Index_Compared getResource()
- * @method Magento_Reports_Model_Product_Index_Compared setVisitorId(int $value)
- * @method Magento_Reports_Model_Product_Index_Compared setCustomerId(int $value)
+ * @method \Magento\Reports\Model\Resource\Product\Index\Compared _getResource()
+ * @method \Magento\Reports\Model\Resource\Product\Index\Compared getResource()
+ * @method \Magento\Reports\Model\Product\Index\Compared setVisitorId(int $value)
+ * @method \Magento\Reports\Model\Product\Index\Compared setCustomerId(int $value)
  * @method int getProductId()
- * @method Magento_Reports_Model_Product_Index_Compared setProductId(int $value)
- * @method Magento_Reports_Model_Product_Index_Compared setStoreId(int $value)
+ * @method \Magento\Reports\Model\Product\Index\Compared setProductId(int $value)
+ * @method \Magento\Reports\Model\Product\Index\Compared setStoreId(int $value)
  * @method string getAddedAt()
- * @method Magento_Reports_Model_Product_Index_Compared setAddedAt(string $value)
+ * @method \Magento\Reports\Model\Product\Index\Compared setAddedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model_Product_Index_Abstract
+namespace Magento\Reports\Model\Product\Index;
+
+class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
 {
     /**
      * Cache key name for Count of product index
@@ -41,7 +43,7 @@ class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reports_Model_Resource_Product_Index_Compared');
+        $this->_init('\Magento\Reports\Model\Resource\Product\Index\Compared');
     }
 
     /**
@@ -53,8 +55,8 @@ class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model
     {
         $productIds = array();
 
-        /* @var $helper Magento_Catalog_Helper_Product_Compare */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product_Compare');
+        /* @var $helper \Magento\Catalog\Helper\Product\Compare */
+        $helper = \Mage::helper('Magento\Catalog\Helper\Product\Compare');
 
         if ($helper->hasItems()) {
             foreach ($helper->getItemCollection() as $_item) {
@@ -62,8 +64,8 @@ class Magento_Reports_Model_Product_Index_Compared extends Magento_Reports_Model
             }
         }
 
-        if (Mage::registry('current_product')) {
-            $productIds[] = Mage::registry('current_product')->getId();
+        if (\Mage::registry('current_product')) {
+            $productIds[] = \Mage::registry('current_product')->getId();
         }
 
         return array_unique($productIds);

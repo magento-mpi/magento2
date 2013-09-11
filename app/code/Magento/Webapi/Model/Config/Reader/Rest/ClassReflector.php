@@ -1,5 +1,5 @@
 <?php
-use Zend\Server\Reflection\ReflectionMethod;
+use \Zend\Server\Reflection\ReflectionMethod;
 
 /**
  * REST API specific class reflector.
@@ -9,23 +9,25 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Config_Reader_Rest_ClassReflector
-    extends Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
+namespace Magento\Webapi\Model\Config\Reader\Rest;
+
+class ClassReflector
+    extends \Magento\Webapi\Model\Config\Reader\ClassReflectorAbstract
 {
-    /** @var Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator */
+    /** @var \Magento\Webapi\Model\Config\Reader\Rest\RouteGenerator */
     protected $_routeGenerator;
 
     /**
      * Construct reflector with route generator.
      *
-     * @param Magento_Webapi_Helper_Config $helper
-     * @param Magento_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor
-     * @param Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator $routeGenerator
+     * @param \Magento\Webapi\Helper\Config $helper
+     * @param \Magento\Webapi\Model\Config\Reader\TypeProcessor $typeProcessor
+     * @param \Magento\Webapi\Model\Config\Reader\Rest\RouteGenerator $routeGenerator
      */
     public function __construct(
-        Magento_Webapi_Helper_Config $helper,
-        Magento_Webapi_Model_Config_Reader_TypeProcessor $typeProcessor,
-        Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator $routeGenerator
+        \Magento\Webapi\Helper\Config $helper,
+        \Magento\Webapi\Model\Config\Reader\TypeProcessor $typeProcessor,
+        \Magento\Webapi\Model\Config\Reader\Rest\RouteGenerator $routeGenerator
     ) {
         parent::__construct($helper, $typeProcessor);
         $this->_routeGenerator = $routeGenerator;
@@ -48,10 +50,10 @@ class Magento_Webapi_Model_Config_Reader_Rest_ClassReflector
     /**
      * Add REST routes to method data.
      *
-     * @param Zend\Server\Reflection\ReflectionMethod $method
+     * @param \Zend\Server\Reflection\ReflectionMethod $method
      * @return array
      */
-    public function extractMethodData(ReflectionMethod $method)
+    public function extractMethodData(\ReflectionMethod $method)
     {
         $methodData = parent::extractMethodData($method);
         $restRoutes = $this->_routeGenerator->generateRestRoutes($method);

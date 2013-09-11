@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\System\Store\Edit;
+
+abstract class FormAbstract extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
@@ -31,7 +33,7 @@ abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Ma
     /**
      * Prepare form data
      *
-     * return Magento_Adminhtml_Block_Widget_Form
+     * return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
@@ -46,20 +48,20 @@ abstract class Magento_Adminhtml_Block_System_Store_Edit_FormAbstract extends Ma
         $form->addField('store_type', 'hidden', array(
             'name'      => 'store_type',
             'no_span'   => true,
-            'value'     => Mage::registry('store_type')
+            'value'     => \Mage::registry('store_type')
         ));
 
         $form->addField('store_action', 'hidden', array(
             'name'      => 'store_action',
             'no_span'   => true,
-            'value'     => Mage::registry('store_action')
+            'value'     => \Mage::registry('store_action')
         ));
 
         $form->setAction($this->getUrl('*/*/save'));
         $form->setUseContainer(true);
         $this->setForm($form);
 
-        Mage::dispatchEvent('adminhtml_store_edit_form_prepare_form', array('block' => $this));
+        \Mage::dispatchEvent('adminhtml_store_edit_form_prepare_form', array('block' => $this));
 
         return parent::_prepareForm();
     }

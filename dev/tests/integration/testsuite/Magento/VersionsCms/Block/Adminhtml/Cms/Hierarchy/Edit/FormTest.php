@@ -14,30 +14,30 @@
  */
 class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_Layout */
+    /** @var \Magento\Core\Model\Layout */
     protected $_layout = null;
 
-    /** @var Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form */
+    /** @var \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form */
     protected $_block = null;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form');
+        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form');
     }
 
     public function testGetGridJsObject()
     {
         $parentName = 'parent';
-        $mockClass = $this->getMockClass('Magento_Catalog_Block_Product_Abstract', array('_prepareLayout'),
-            array(Mage::getModel('Magento_Core_Block_Template_Context'))
+        $mockClass = $this->getMockClass('\Magento\Catalog\Block\Product\AbstractProduct', array('_prepareLayout'),
+            array(Mage::getModel('\Magento\Core\Block\Template\Context'))
         );
         $this->_layout->createBlock($mockClass, $parentName);
         $this->_layout->setChild($parentName, $this->_block->getNameInLayout(), '');
 
         $pageGrid = $this->_layout->addBlock(
-            'Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid',
+            '\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form\Grid',
             'cms_page_grid',
             $parentName
         );

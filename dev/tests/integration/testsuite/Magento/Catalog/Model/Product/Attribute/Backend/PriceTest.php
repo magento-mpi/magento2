@@ -10,22 +10,22 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Product_Attribute_Backend_Price.
+ * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Price.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
 class Magento_Catalog_Model_Product_Attribute_Backend_PriceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Attribute_Backend_Price
+     * @var \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Backend_Price');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Backend\Price');
         $this->_model->setAttribute(
-            Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('catalog_product', 'price')
+            Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('catalog_product', 'price')
         );
     }
 
@@ -33,12 +33,12 @@ class Magento_Catalog_Model_Product_Attribute_Backend_PriceTest extends PHPUnit_
     {
         /* validate result of setAttribute */
         $this->assertEquals(
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
             $this->_model->getAttribute()->getIsGlobal()
         );
         $this->_model->setScope($this->_model->getAttribute());
         $this->assertEquals(
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
             $this->_model->getAttribute()->getIsGlobal()
         );
     }
@@ -50,7 +50,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_PriceTest extends PHPUnit_
     {
         $this->_model->setScope($this->_model->getAttribute());
         $this->assertEquals(
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
             $this->_model->getAttribute()->getIsGlobal()
         );
     }
@@ -61,8 +61,8 @@ class Magento_Catalog_Model_Product_Attribute_Backend_PriceTest extends PHPUnit_
      */
     public function testAfterSave()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1);
         $product->setOrigData();
         $product->setPrice(9.99);

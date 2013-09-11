@@ -11,7 +11,7 @@
     <handle id="adminhtml_oauth_authorize_reject">
         <update handle="oauth_root_handle"/>
         <reference name="content">
-            <block class="Magento_Core_Block_Template" name="oauth.authorize.reject" template="Magento_Oauth::authorize/reject.phtml"/>
+            <block class="\Magento\Core\Block\Template" name="oauth.authorize.reject" template="Magento_Oauth::authorize/reject.phtml"/>
         </reference>
     </handle>
 </layout>

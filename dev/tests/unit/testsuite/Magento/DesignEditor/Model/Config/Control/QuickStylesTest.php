@@ -13,8 +13,8 @@ class Magento_DesignEditor_Model_Config_Control_QuickStylesTest extends PHPUnit_
 {
     public function testGetSchemaFile()
     {
-        /** @var $moduleReader Magento_Core_Model_Config_Modules_Reader|PHPUnit_Framework_MockObject_MockObject */
-        $moduleReader = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
+        /** @var $moduleReader \Magento\Core\Model\Config\Modules\Reader|PHPUnit_Framework_MockObject_MockObject */
+        $moduleReader = $this->getMockBuilder('Magento\Core\Model\Config\Modules\Reader')
             ->setMethods(array('getModuleDir'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -23,8 +23,8 @@ class Magento_DesignEditor_Model_Config_Control_QuickStylesTest extends PHPUnit_
             ->method('getModuleDir')
             ->will($this->returnValue('/base_path/etc'));
 
-        /** @var $quickStyle Magento_DesignEditor_Model_Config_Control_QuickStyles */
-        $quickStyle = $this->getMock('Magento_DesignEditor_Model_Config_Control_QuickStyles', null, array(
+        /** @var $quickStyle \Magento\DesignEditor\Model\Config\Control\QuickStyles */
+        $quickStyle = $this->getMock('Magento\DesignEditor\Model\Config\Control\QuickStyles', null, array(
             'moduleReader' => $moduleReader, 'configFiles' => array('sample')
         ), '', false);
 

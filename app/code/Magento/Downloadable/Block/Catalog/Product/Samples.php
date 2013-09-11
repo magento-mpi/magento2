@@ -15,7 +15,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Catalog_Product_Samples extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Downloadable\Block\Catalog\Product;
+
+class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
 {
 
     /**
@@ -55,7 +57,7 @@ class Magento_Downloadable_Block_Catalog_Product_Samples extends Magento_Catalog
         if ($this->getProduct()->getSamplesTitle()) {
             return $this->getProduct()->getSamplesTitle();
         }
-        return Mage::getStoreConfig(Magento_Downloadable_Model_Sample::XML_PATH_SAMPLES_TITLE);
+        return \Mage::getStoreConfig(\Magento\Downloadable\Model\Sample::XML_PATH_SAMPLES_TITLE);
     }
 
     /**
@@ -65,6 +67,6 @@ class Magento_Downloadable_Block_Catalog_Product_Samples extends Magento_Catalog
      */
     public function getIsOpenInNewWindow()
     {
-        return Mage::getStoreConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
+        return \Mage::getStoreConfigFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 }

@@ -12,7 +12,9 @@
  * Recurring profile editing form
  * Can work in scope of product edit form
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_Backend_Block_Abstract
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit;
+
+class Form extends \Magento\Backend\Block\AbstractBlock
 {
     /**
      * Reference to the parent element (optional)
@@ -31,13 +33,13 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
     /**
      * Recurring profile instance used for getting labels and options
      *
-     * @var Magento_Sales_Model_Recurring_Profile
+     * @var \Magento\Sales\Model\Recurring\Profile
      */
     protected $_profile = null;
 
     /**
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product = null;
 
@@ -55,9 +57,9 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
     /**
      * Setter for current product
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
-    public function setProductEntity(Magento_Catalog_Model_Product $product)
+    public function setProductEntity(\Magento\Catalog\Model\Product $product)
     {
         $this->_product = $product;
         return $this;
@@ -68,7 +70,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
      */
     protected function _construct()
     {
-        $this->_profile = Mage::getSingleton('Magento_Sales_Model_Recurring_Profile');
+        $this->_profile = \Mage::getSingleton('Magento\Sales\Model\Recurring\Profile');
         return parent::_construct();
     }
 
@@ -97,10 +99,10 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
         $form = new \Magento\Data\Form();
 
         $form->setFieldsetRenderer(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
         );
         $form->setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element')
         );
 
         /**
@@ -206,7 +208,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form extends Magento_
      * Set readonly flag
      *
      * @param boolean $isReadonly
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form
      */
     public function setIsReadonly($isReadonly)
     {

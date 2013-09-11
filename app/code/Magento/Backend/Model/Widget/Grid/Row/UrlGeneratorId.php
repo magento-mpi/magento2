@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorId
-    implements Magento_Backend_Model_Widget_Grid_Row_GeneratorInterface
+namespace Magento\Backend\Model\Widget\Grid\Row;
+
+class UrlGeneratorId
+    implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface
 {
     /**
      * Create url for passed item using passed url model

@@ -11,7 +11,9 @@
 /**
  * Generate options for media database selection
  */
-class Magento_Backend_Model_Config_Source_Storage_Media_Database implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Storage\Media;
+
+class Database implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Store all detected connections
@@ -53,7 +55,7 @@ class Magento_Backend_Model_Config_Source_Storage_Media_Database implements Mage
     {
         $mediaStorages = array();
 
-        $this->_connections = (array) Mage::app()->getConfig()->getNode('global/resources')->children();
+        $this->_connections = (array) \Mage::app()->getConfig()->getNode('global/resources')->children();
         foreach (array_keys($this->_connections) as $connectionName) {
             $connection = $this->_collectConnectionConfig($connectionName);
             if (!isset($connection['active']) || $connection['active'] != 1) {

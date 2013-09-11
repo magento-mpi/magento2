@@ -42,13 +42,13 @@ class Magento_GiftRegistry_Controller_Adminhtml_GiftregistryTest extends Magento
             'is_listed'  => 1,
         ));
         $this->dispatch('backend/admin/giftregistry/save/store/0');
-        /** @var $type Magento_GiftRegistry_Model_Type */
-        $type = Mage::getModel('Magento_GiftRegistry_Model_Type');
+        /** @var $type \Magento\GiftRegistry\Model\Type */
+        $type = Mage::getModel('\Magento\GiftRegistry\Model\Type');
         $type->setStoreId(0);
 
         $type = $type->load('test_registry', 'code');
 
-        $this->assertInstanceOf('Magento_GiftRegistry_Model_Type', $type);
+        $this->assertInstanceOf('\Magento\GiftRegistry\Model\Type', $type);
         $this->assertNotEmpty($type->getId());
     }
 }

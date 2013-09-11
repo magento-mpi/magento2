@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <magento_banner type="Magento_Banner_Block_Widget_Banner" translate="name description">
+    <magento_banner type="Magento\Banner\Block\Widget\Banner" translate="name description">
         <name>Banner Rotator</name>
         <description>Displays Specified or Promotion Banners</description>
         <placeholder_image>Magento_Banner::widget_banner.gif</placeholder_image>
@@ -40,7 +40,7 @@
                 <visible>1</visible>
                 <label>Restrict by Banner Types</label>
                 <type>multiselect</type>
-                <source_model>Magento_Banner_Model_Config</source_model>
+                <source_model>\Magento\Banner\Model\Config</source_model>
             </types>
             <rotate translate="label">
                 <visible>1</visible>
@@ -70,7 +70,7 @@
                 <label>Specify Banners</label>
                 <type>label</type>
                 <helper_block>
-                    <type>Magento_Banner_Block_Adminhtml_Widget_Chooser</type>
+                    <type>\Magento\Banner\Block\Adminhtml\Widget\Chooser</type>
                 </helper_block>
                 <depends>
                     <display_mode>

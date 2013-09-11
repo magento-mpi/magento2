@@ -15,7 +15,9 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Shipment extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order;
+
+class Shipment extends \Magento\Core\Block\Template
 {
 
     protected $_template = 'order/shipment.phtml';
@@ -27,7 +29,7 @@ class Magento_Sales_Block_Order_Shipment extends Magento_Core_Block_Template
         }
         $this->setChild(
             'payment_info',
-            $this->helper('Magento_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('\Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 
@@ -39,11 +41,11 @@ class Magento_Sales_Block_Order_Shipment extends Magento_Core_Block_Template
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     /**
@@ -53,10 +55,10 @@ class Magento_Sales_Block_Order_Shipment extends Magento_Core_Block_Template
      */
     public function getBackUrl()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::getUrl('*/*/history');
+        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            return \Mage::getUrl('*/*/history');
         }
-        return Mage::getUrl('*/*/form');
+        return \Mage::getUrl('*/*/form');
     }
 
     /**
@@ -66,7 +68,7 @@ class Magento_Sales_Block_Order_Shipment extends Magento_Core_Block_Template
      */
     public function getBackTitle()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
             return __('Back to My Orders');
         }
         return __('View Another Order');
@@ -74,25 +76,25 @@ class Magento_Sales_Block_Order_Shipment extends Magento_Core_Block_Template
 
     public function getInvoiceUrl($order)
     {
-        return Mage::getUrl('*/*/invoice', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/invoice', array('order_id' => $order->getId()));
     }
 
     public function getViewUrl($order)
     {
-        return Mage::getUrl('*/*/view', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/view', array('order_id' => $order->getId()));
     }
 
     public function getCreditmemoUrl($order)
     {
-        return Mage::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
     }
 
 
     public function getPrintShipmentUrl($shipment){
-        return Mage::getUrl('*/*/printShipment', array('shipment_id' => $shipment->getId()));
+        return \Mage::getUrl('*/*/printShipment', array('shipment_id' => $shipment->getId()));
     }
 
     public function getPrintAllShipmentsUrl($order){
-        return Mage::getUrl('*/*/printShipment', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/printShipment', array('order_id' => $order->getId()));
     }
 }

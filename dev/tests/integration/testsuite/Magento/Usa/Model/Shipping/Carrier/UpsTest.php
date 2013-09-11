@@ -9,7 +9,7 @@
 class Magento_Usa_Model_Shipping_Carrier_UpsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Usa_Model_Shipping_Carrier_Ups
+     * @var \Magento\Usa\Model\Shipping\Carrier\Ups
      */
     private $_object;
 
@@ -17,7 +17,7 @@ class Magento_Usa_Model_Shipping_Carrier_UpsTest extends PHPUnit_Framework_TestC
     {
         $simplexmlFactory = $this->getMock('Magento_Usa_Model_Simplexml_ElementFactory', array(), array(), '', false);
         /** @var $simplexmlFactory Magento_Usa_Model_Simplexml_ElementFactory */
-        $this->_object = new Magento_Usa_Model_Shipping_Carrier_Ups($simplexmlFactory);
+        $this->_object = new \Magento\Usa\Model\Shipping\Carrier\Ups($simplexmlFactory);
     }
 
     public function testGetShipAcceptUrl()

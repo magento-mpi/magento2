@@ -15,7 +15,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Suggestions extends Magento_Core_Block_Template
+namespace Magento\Search\Block;
+
+class Suggestions extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve search suggestions
@@ -24,14 +26,14 @@ class Magento_Search_Block_Suggestions extends Magento_Core_Block_Template
      */
     public function getSuggestions()
     {
-        $helper = Mage::helper('Magento_Search_Helper_Data');
+        $helper = \Mage::helper('Magento\Search\Helper\Data');
 
         $searchSuggestionsEnabled = (bool)$helper->getSolrConfigData('server_suggestion_enabled');
         if (!($helper->isThirdPartSearchEngine() && $helper->isActiveEngine()) || !$searchSuggestionsEnabled) {
             return array();
         }
 
-        $suggestionsModel = Mage::getSingleton('Magento_Search_Model_Suggestions');
+        $suggestionsModel = \Mage::getSingleton('Magento\Search\Model\Suggestions');
         $suggestions = $suggestionsModel->getSearchSuggestions();
 
         foreach ($suggestions as $key => $suggestion) {
@@ -48,7 +50,7 @@ class Magento_Search_Block_Suggestions extends Magento_Core_Block_Template
      */
     public function isCountResultsEnabled()
     {
-        return (bool)Mage::helper('Magento_Search_Helper_Data')
+        return (bool)\Mage::helper('Magento\Search\Helper\Data')
             ->getSolrConfigData('server_suggestion_count_results_enabled');
     }
 }

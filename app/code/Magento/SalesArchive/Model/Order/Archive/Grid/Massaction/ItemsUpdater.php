@@ -15,9 +15,11 @@
  * @package     Magento_SalesArchive
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Model_Order_Archive_Grid_Massaction_ItemsUpdater
-    extends Magento_SalesArchive_Model_Order_Grid_Massaction_ItemsUpdater
-    implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\SalesArchive\Model\Order\Archive\Grid\Massaction;
+
+class ItemsUpdater
+    extends \Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater
+    implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * Remove massaction items in case they disallowed for user

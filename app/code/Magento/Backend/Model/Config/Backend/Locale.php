@@ -16,17 +16,19 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend;
+
+class Locale extends \Magento\Core\Model\Config\Value
 {
 
     /**
      * Enter description here...
      *
-     * @return Magento_Backend_Model_Config_Backend_Locale
+     * @return \Magento\Backend\Model\Config\Backend\Locale
      */
     protected function _afterSave()
     {
-        $collection = Mage::getModel('Magento_Core_Model_Config_Value')
+        $collection = \Mage::getModel('\Magento\Core\Model\Config\Value')
             ->getCollection()
             ->addPathFilter('currency/options');
 
@@ -39,7 +41,7 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
 
             if (preg_match('/(base|default)$/', $data->getPath(), $match)) {
                 if (!in_array($data->getValue(), $values)) {
-                    $currencyName = Mage::app()->getLocale()->currency($data->getValue())->getName();
+                    $currencyName = \Mage::app()->getLocale()->currency($data->getValue())->getName();
                     if ($match[1] == 'base') {
                         $fieldName = __('Base currency');
                     } else {
@@ -52,13 +54,13 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
                             break;
 
                         case 'website':
-                            $websiteName = Mage::getModel('Magento_Core_Model_Website')
+                            $websiteName = \Mage::getModel('\Magento\Core\Model\Website')
                                 ->load($data->getScopeId())->getName();
                             $scopeName = __('website(%1) scope', $websiteName);
                             break;
 
                         case 'store':
-                            $storeName = Mage::getModel('Magento_Core_Model_Store')->load($data->getScopeId())
+                            $storeName = \Mage::getModel('\Magento\Core\Model\Store')->load($data->getScopeId())
                                 ->getName();
                             $scopeName = __('store(%1) scope', $storeName);
                             break;
@@ -69,7 +71,7 @@ class Magento_Backend_Model_Config_Backend_Locale extends Magento_Core_Model_Con
             }
         }
         if ($exceptions) {
-            Mage::throwException(join("\n", $exceptions));
+            \Mage::throwException(join("\n", $exceptions));
         }
 
         return $this;

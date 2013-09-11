@@ -15,36 +15,36 @@
 class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_designPackage;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_Collection
+     * @var \Magento\Core\Model\Resource\Theme\Collection
      */
     protected $_themeCollection;
 
     /**
-     * @var Magento_Theme_Model_Config_Customization
+     * @var \Magento\Theme\Model\Config\Customization
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_storeManager = $this->getMockForAbstractClass(
-            'Magento_Core_Model_StoreManagerInterface', array(), '', true, true, true, array('getStores')
+            '\Magento\Core\Model\StoreManagerInterface', array(), '', true, true, true, array('getStores')
         );
         $this->_designPackage = $this->getMockForAbstractClass(
-            'Magento_Core_Model_View_DesignInterface', array(), '', true, true, true,
+            '\Magento\Core\Model\View\DesignInterface', array(), '', true, true, true,
             array('getConfigurationDesignTheme')
         );
         $this->_themeCollection = $this->getMock(
-            'Magento_Core_Model_Resource_Theme_Collection',
+            '\Magento\Core\Model\Resource\Theme\Collection',
             array('filterThemeCustomizations', 'load'), array(), '', false
         );
 
@@ -66,7 +66,7 @@ class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_Tes
             ->method('getConfigurationDesignTheme')
             ->will($this->returnValue($this->_getAssignedTheme()->getId()));
 
-        $this->_model = new Magento_Theme_Model_Config_Customization(
+        $this->_model = new \Magento\Theme\Model\Config\Customization(
             $this->_storeManager,
             $this->_designPackage,
             $collectionFactory
@@ -82,7 +82,7 @@ class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Theme_Model_Config_Customization::getAssignedThemeCustomizations
+     * @covers \Magento\Theme\Model\Config\Customization::getAssignedThemeCustomizations
      */
     public function testGetAssignedThemeCustomizations()
     {
@@ -99,7 +99,7 @@ class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Theme_Model_Config_Customization::getUnassignedThemeCustomizations
+     * @covers \Magento\Theme\Model\Config\Customization::getUnassignedThemeCustomizations
      */
     public function testGetUnassignedThemeCustomizations()
     {
@@ -116,7 +116,7 @@ class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Theme_Model_Config_Customization::getStoresByThemes
+     * @covers \Magento\Theme\Model\Config\Customization::getStoresByThemes
      */
     public function testGetStoresByThemes()
     {
@@ -129,7 +129,7 @@ class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Theme_Model_Config_Customization::isThemeAssignedToStore
+     * @covers \Magento\Theme\Model\Config\Customization::isThemeAssignedToStore
      */
     public function testIsThemeAssignedToDefaultStore()
     {
@@ -146,7 +146,7 @@ class Magento_Theme_Model_Config_CustomizationTest extends PHPUnit_Framework_Tes
     }
 
     /**
-     * @covers Magento_Theme_Model_Config_Customization::isThemeAssignedToStore
+     * @covers \Magento\Theme\Model\Config\Customization::isThemeAssignedToStore
      */
     public function testIsThemeAssignedToConcreteStore()
     {

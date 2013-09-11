@@ -8,9 +8,9 @@
  */
 -->
 <config>
-    <type name="Magento_GiftCardAccount_Model_History">
+    <type name="Magento\GiftCardAccount\Model\History">
         <param name="adminSession">
-            <instance type="Magento_Backend_Model_Auth_Session_Proxy" />
+            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
         </param>
     </type>
 </config>

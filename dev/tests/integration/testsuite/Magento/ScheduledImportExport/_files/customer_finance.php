@@ -10,16 +10,16 @@
  */
 
 // add new website
-/** @var $website Magento_Core_Model_Website */
-$website = Mage::getModel('Magento_Core_Model_Website');
+/** @var $website \Magento\Core\Model\Website */
+$website = Mage::getModel('\Magento\Core\Model\Website');
 $website->setCode('finance_website')
     ->setName('Finance Website');
 $website->save();
 Mage::app()->reinitStores();
 
 // create test customer
-/** @var $customer Magento_Customer_Model_Customer */
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+/** @var $customer \Magento\Customer\Model\Customer */
+$customer = Mage::getModel('\Magento\Customer\Model\Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
@@ -33,17 +33,17 @@ $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();
 
 // create store credit and reward points
-/** @var $helper Magento_ScheduledImportExport_Helper_Data */
-$helper = Mage::helper('Magento_ScheduledImportExport_Helper_Data');
+/** @var $helper \Magento\ScheduledImportExport\Helper\Data */
+$helper = Mage::helper('Magento\ScheduledImportExport\Helper\Data');
 
 // increment to modify balance values
 $increment = 0;
-/** @var $website Magento_Core_Model_Website */
+/** @var $website \Magento\Core\Model\Website */
 foreach (Mage::app()->getWebsites() as $website) {
     $increment += 10;
 
-    /** @var $customerBalance Magento_CustomerBalance_Model_Balance */
-    $customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
+    /** @var $customerBalance \Magento\CustomerBalance\Model\Balance */
+    $customerBalance = Mage::getModel('\Magento\CustomerBalance\Model\Balance');
     $customerBalance->setCustomerId($customer->getId());
     $customerBalanceAmount = 50 + $increment;
     $registerKey = 'customer_balance_' . $website->getCode();
@@ -53,8 +53,8 @@ foreach (Mage::app()->getWebsites() as $website) {
     $customerBalance->setWebsiteId($website->getId());
     $customerBalance->save();
 
-    /** @var $rewardPoints Magento_Reward_Model_Reward */
-    $rewardPoints = Mage::getModel('Magento_Reward_Model_Reward');
+    /** @var $rewardPoints \Magento\Reward\Model\Reward */
+    $rewardPoints = Mage::getModel('\Magento\Reward\Model\Reward');
     $rewardPoints->setCustomerId($customer->getId());
     $rewardPointsBalance = 100 + $increment;
     $registerKey = 'reward_point_balance_' . $website->getCode();

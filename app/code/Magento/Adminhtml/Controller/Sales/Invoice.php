@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Invoice extends Magento_Adminhtml_Controller_Sales_Invoice_InvoiceAbstract
+namespace Magento\Adminhtml\Controller\Sales;
+
+class Invoice extends \Magento\Adminhtml\Controller\Sales\Invoice\InvoiceAbstract
 {
     /**
      * Export invoice grid to CSV format
@@ -21,7 +23,7 @@ class Magento_Adminhtml_Controller_Sales_Invoice extends Magento_Adminhtml_Contr
     public function exportCsvAction()
     {
         $fileName   = 'invoices.csv';
-        $grid       = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Invoice_Grid');
+        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Invoice\Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
     }
 
@@ -31,7 +33,7 @@ class Magento_Adminhtml_Controller_Sales_Invoice extends Magento_Adminhtml_Contr
     public function exportExcelAction()
     {
         $fileName   = 'invoices.xml';
-        $grid       = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Invoice_Grid');
+        $grid       = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Invoice\Grid');
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 }

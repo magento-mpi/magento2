@@ -13,7 +13,7 @@ class Magento_Webapi_Controller_Request_FactoryTest extends PHPUnit_Framework_Te
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_apiFrontMock;
 
-    /** @var Magento_Webapi_Controller_Request_Factory */
+    /** @var \Magento\Webapi\Controller\Request\Factory */
     protected $_requestFactory;
 
     protected function setUp()
@@ -23,12 +23,12 @@ class Magento_Webapi_Controller_Request_FactoryTest extends PHPUnit_Framework_Te
             ->setMethods(array('get'))
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $this->_apiFrontMock = $this->getMockBuilder('Magento_Webapi_Controller_Front')
+        $this->_apiFrontMock = $this->getMockBuilder('Magento\Webapi\Controller\Front')
             ->setMethods(array('determineApiType'))
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_requestFactory = new Magento_Webapi_Controller_Request_Factory(
+        $this->_requestFactory = new \Magento\Webapi\Controller\Request\Factory(
             $this->_apiFrontMock,
             $this->_objectManager
         );
@@ -59,8 +59,8 @@ class Magento_Webapi_Controller_Request_FactoryTest extends PHPUnit_Framework_Te
     {
         $this->_apiFrontMock->expects($this->once())
             ->method('determineApiType')
-            ->will($this->returnValue(Magento_Webapi_Controller_Front::API_TYPE_REST));
-        $expectedController = $this->getMockBuilder('Magento_Webapi_Controller_Request_Rest')
+            ->will($this->returnValue(\Magento\Webapi\Controller\Front::API_TYPE_REST));
+        $expectedController = $this->getMockBuilder('Magento\Webapi\Controller\Request\Rest')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManager->expects($this->once())->method('get')->will($this->returnValue($expectedController));

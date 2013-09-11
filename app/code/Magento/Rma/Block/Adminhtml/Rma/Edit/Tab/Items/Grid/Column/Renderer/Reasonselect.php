@@ -15,8 +15,10 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reasonselect
-    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
+
+class Reasonselect
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders column as select when it is editable
@@ -26,8 +28,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reason
      */
     protected function _getEditableView(\Magento\Object $row)
     {
-        /** @var $rmaItemAttribute Magento_Rma_Model_Item_Attribute */
-        $rmaItemAttribute = Mage::getModel('Magento_Rma_Model_Item_Form')
+        /** @var $rmaItemAttribute \Magento\Rma\Model\Item\Attribute */
+        $rmaItemAttribute = \Mage::getModel('\Magento\Rma\Model\Item\Form')
             ->setFormCode('default')
             ->getAttribute('reason_other');
 
@@ -65,8 +67,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Reason
      */
     protected function _getNonEditableView(\Magento\Object $row)
     {
-        /** @var $rmaItemAttribute Magento_Rma_Model_Item_Attribute */
-        $rmaItemAttribute = Mage::getModel('Magento_Rma_Model_Item_Form')
+        /** @var $rmaItemAttribute \Magento\Rma\Model\Item\Attribute */
+        $rmaItemAttribute = \Mage::getModel('\Magento\Rma\Model\Item\Form')
             ->setFormCode('default')
             ->getAttribute('reason_other');
         $value = $row->getData($this->getColumn()->getIndex());

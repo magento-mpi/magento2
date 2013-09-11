@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleCheckout_Model_Api_Xml_Calculate extends Magento_GoogleCheckout_Model_Api_Xml_Abstract
+namespace Magento\GoogleCheckout\Model\Api\Xml;
+
+class Calculate extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
 {
     /**
      * Abstract method implementation

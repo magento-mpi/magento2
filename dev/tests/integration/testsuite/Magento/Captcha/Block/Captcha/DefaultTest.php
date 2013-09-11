@@ -11,14 +11,14 @@
 class Magento_Captcha_Block_Captcha_DefaultTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Captcha_Block_Captcha_Default
+     * @var \Magento\Captcha\Block\Captcha\DefaultCaptcha
      */
     protected $_block;
 
     public function setUp()
     {
          $this->_block = Mage::app()->getLayout()
-            ->createBlock('Magento_Captcha_Block_Captcha_Default');
+            ->createBlock('\Magento\Captcha\Block\Captcha\DefaultCaptcha');
     }
 
     /**
@@ -36,7 +36,7 @@ class Magento_Captcha_Block_Captcha_DefaultTest extends PHPUnit_Framework_TestCa
      */
     public function testGetRefreshUrlWhenIsAdminStore()
     {
-        Mage::app()->getStore('admin')->setUrlModel(Mage::getModel('Magento_Backend_Model_Url'));
+        Mage::app()->getStore('admin')->setUrlModel(Mage::getModel('\Magento\Backend\Model\Url'));
         Mage::app()->setCurrentStore(Mage::app()->getStore('admin'));
 
         $this->assertContains('backend/admin/refresh/refresh', $this->_block->getRefreshUrl());

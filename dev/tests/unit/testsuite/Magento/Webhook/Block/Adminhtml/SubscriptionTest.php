@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Subscription
+ * \Magento\Webhook\Block\Adminhtml\Subscription
  *
  * {license_notice}
  *
@@ -13,7 +13,7 @@ class Magento_Webhook_Block_Adminhtml_SubscriptionTest extends Magento_Test_Bloc
 {
     public function testConstruct()
     {
-        $block = new Magento_Webhook_Block_Adminhtml_Subscription($this->_context);
+        $block = new \Magento\Webhook\Block\Adminhtml\Subscription($this->_context);
         $this->assertEquals('Subscriptions', $block->getHeaderText());
         $this->assertEquals('Add Subscription', $block->getAddButtonLabel());
     }

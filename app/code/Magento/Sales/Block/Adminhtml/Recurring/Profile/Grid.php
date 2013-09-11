@@ -11,7 +11,9 @@
 /**
  * Recurring profiles grid
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Set ajax/session parameters
@@ -27,11 +29,11 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Admin
     /**
      * Prepare grid collection object
      *
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Recurring_Profile_Collection');
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Recurring\Profile\Collection');
         $this->setCollection($collection);
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
@@ -42,11 +44,11 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Admin
     /**
      * Prepare grid columns
      *
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid
      */
     protected function _prepareColumns()
     {
-        $profile = Mage::getModel('Magento_Sales_Model_Recurring_Profile');
+        $profile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile');
 
         $this->addColumn('reference_id', array(
             'header' => $profile->getFieldLabel('reference_id'),
@@ -55,7 +57,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Admin
             'width' => 1,
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'     => __('Store'),
                 'index'      => 'store_id',
@@ -91,7 +93,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid extends Magento_Admin
         ));
 
         $methods = array();
-        foreach (Mage::helper('Magento_Payment_Helper_Data')->getRecurringProfileMethods() as $method) {
+        foreach (\Mage::helper('Magento\Payment\Helper\Data')->getRecurringProfileMethods() as $method) {
             $methods[$method->getCode()] = $method->getTitle();
         }
         $this->addColumn('method_code', array(

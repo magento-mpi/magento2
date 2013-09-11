@@ -12,12 +12,12 @@
 /**
  * Customer login form template
  *
- * @see Magento_Customer_Block_Form_Login
+ * @see \Magento\Customer\Block\Form\Login
  */
 ?>
-<div class="account-login<?php if (!$this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()) echo ' login-only' ?>">
+<div class="account-login<?php if (!$this->helper('\Magento\Customer\Helper\Data')->isRegistrationAllowed()) echo ' login-only' ?>">
     <div class="page-title">
-        <h1><?php if ($this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()): ?>
+        <h1><?php if ($this->helper('\Magento\Customer\Helper\Data')->isRegistrationAllowed()): ?>
             <?php echo __('Login or Create an Account') ?>
             <?php else: ?>
             <?php echo __('Login'); ?>
@@ -55,7 +55,7 @@
                     </ul>
                     <p class="required"><?php echo __('* Required Fields') ?></p>
                 </div>
-                <?php if ($this->helper('Magento_Customer_Helper_Data')->isRegistrationAllowed()): ?>
+                <?php if ($this->helper('\Magento\Customer\Helper\Data')->isRegistrationAllowed()): ?>
                 <div class="col-2 new-users">
                     <h2 class="legend"><?php echo __('New Customers') ?></h2>
                     <p><?php echo __('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>

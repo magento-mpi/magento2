@@ -13,13 +13,15 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Sales_Order_Tax_Item extends Magento_Core_Model_Abstract
+namespace Magento\Tax\Model\Sales\Order\Tax;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Tax_Model_Resource_Sales_Order_Tax_Item');
+        $this->_init('\Magento\Tax\Model\Resource\Sales\Order\Tax\Item');
     }
 }

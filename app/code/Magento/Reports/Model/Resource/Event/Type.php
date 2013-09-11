@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Event_Type extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Reports\Model\Resource\Event;
+
+class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Main table initialization 

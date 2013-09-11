@@ -15,8 +15,10 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Coupons_Grid_Column_Renderer_Used
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
+namespace Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Coupons\Grid\Column\Renderer;
+
+class Used
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Text
 {
     public function render(\Magento\Object $row)
     {

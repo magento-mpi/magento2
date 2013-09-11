@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 
 $installer->startSetup();
 /**
@@ -72,35 +72,35 @@ $select = $setup->select()
     ->from($installer->getTable('core_config_data'), 'COUNT(*)')
     ->where('path=?', 'customer/address/prefix_show')
     ->where('value NOT LIKE ?', '0');
-$showPrefix = (bool)Mage::helper('Magento_Customer_Helper_Address')->getConfig('prefix_show')
+$showPrefix = (bool)\Mage::helper('Magento\Customer\Helper\Address')->getConfig('prefix_show')
     || ($setup->fetchOne($select) > 0);
 
 $select = $setup->select()
     ->from($installer->getTable('core_config_data'), 'COUNT(*)')
     ->where('path=?', 'customer/address/middlename_show')
     ->where('value NOT LIKE ?', '0');
-$showMiddlename = (bool)Mage::helper('Magento_Customer_Helper_Address')->getConfig('middlename_show')
+$showMiddlename = (bool)\Mage::helper('Magento\Customer\Helper\Address')->getConfig('middlename_show')
     || ($setup->fetchOne($select) > 0);
 
 $select = $setup->select()
     ->from($installer->getTable('core_config_data'), 'COUNT(*)')
     ->where('path=?', 'customer/address/suffix_show')
     ->where('value NOT LIKE ?', '0');
-$showSuffix = (bool)Mage::helper('Magento_Customer_Helper_Address')->getConfig('suffix_show')
+$showSuffix = (bool)\Mage::helper('Magento\Customer\Helper\Address')->getConfig('suffix_show')
     || ($setup->fetchOne($select) > 0);
 
 $select = $setup->select()
     ->from($installer->getTable('core_config_data'), 'COUNT(*)')
     ->where('path=?', 'customer/address/dob_show')
     ->where('value NOT LIKE ?', '0');
-$showDob = (bool)Mage::helper('Magento_Customer_Helper_Address')->getConfig('dob_show')
+$showDob = (bool)\Mage::helper('Magento\Customer\Helper\Address')->getConfig('dob_show')
     || ($setup->fetchOne($select) > 0);
 
 $select = $setup->select()
     ->from($installer->getTable('core_config_data'), 'COUNT(*)')
     ->where('path=?', 'customer/address/taxvat_show')
     ->where('value NOT LIKE ?', '0');
-$showTaxVat = (bool)Mage::helper('Magento_Customer_Helper_Address')->getConfig('taxvat_show')
+$showTaxVat = (bool)\Mage::helper('Magento\Customer\Helper\Address')->getConfig('taxvat_show')
     || ($setup->fetchOne($select) > 0);
 
 $customerEntityTypeId = $installer->getEntityTypeId('customer');
@@ -758,7 +758,7 @@ if ($data) {
         }
 
         $setup->commit();
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
         $setup->rollback();
         throw $e;
     }

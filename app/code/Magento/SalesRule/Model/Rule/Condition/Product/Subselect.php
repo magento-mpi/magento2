@@ -9,17 +9,19 @@
  */
 
 
-class Magento_SalesRule_Model_Rule_Condition_Product_Subselect
-    extends Magento_SalesRule_Model_Rule_Condition_Product_Combine
+namespace Magento\SalesRule\Model\Rule\Condition\Product;
+
+class Subselect
+    extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_SalesRule_Model_Rule_Condition_Product_Subselect')
+        $this->setType('\Magento\SalesRule\Model\Rule\Condition\Product\Subselect')
             ->setValue(null);
     }
 

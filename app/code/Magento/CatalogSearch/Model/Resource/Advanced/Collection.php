@@ -16,13 +16,15 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Advanced_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\CatalogSearch\Model\Resource\Advanced;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Add not indexable fields to search
      *
      * @param array $fields
-     * @return Magento_CatalogSearch_Model_Resource_Advanced_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Advanced\Collection
      */
     public function addFieldsToFilter($fields)
     {
@@ -78,26 +80,26 @@ class Magento_CatalogSearch_Model_Resource_Advanced_Collection extends Magento_C
                             $invalidDateMessage = __('Please specify correct data.');
                             if ($conditionValue['from']) {
                                 if (!Zend_Date::isDate($conditionValue['from'])) {
-                                    Mage::throwException($invalidDateMessage);
+                                    \Mage::throwException($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['from'])){
-                                    $conditionValue['from'] = Mage::getSingleton('Magento_Core_Model_Date')
+                                    $conditionValue['from'] = \Mage::getSingleton('Magento\Core\Model\Date')
                                         ->gmtDate(null, $conditionValue['from']);
                                     if (!$conditionValue['from']) {
-                                        $conditionValue['from'] = Mage::getSingleton('Magento_Core_Model_Date')->gmtDate();
+                                        $conditionValue['from'] = \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate();
                                     }
                                 }
                                 $conditionData[] = array('gteq' => $conditionValue['from']);
                             }
                             if ($conditionValue['to']) {
                                 if (!Zend_Date::isDate($conditionValue['to'])) {
-                                    Mage::throwException($invalidDateMessage);
+                                    \Mage::throwException($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['to'])){
-                                    $conditionValue['to'] = Mage::getSingleton('Magento_Core_Model_Date')
+                                    $conditionValue['to'] = \Mage::getSingleton('Magento\Core\Model\Date')
                                         ->gmtDate(null, $conditionValue['to']);
                                     if (!$conditionValue['to']) {
-                                        $conditionValue['to'] = Mage::getSingleton('Magento_Core_Model_Date')->gmtDate();
+                                        $conditionValue['to'] = \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate();
                                     }
                                 }
                                 $conditionData[] = array('lteq' => $conditionValue['to']);
@@ -114,12 +116,12 @@ class Magento_CatalogSearch_Model_Resource_Advanced_Collection extends Magento_C
                     }
 
                     if (!is_null($previousSelect)) {
-                        $select->where('t1.entity_id IN (?)', new Zend_Db_Expr($previousSelect));
+                        $select->where('t1.entity_id IN (?)', new \Zend_Db_Expr($previousSelect));
                     }
                     $previousSelect = $select;
                 }
             }
-            $this->addFieldToFilter('entity_id', array('in' => new Zend_Db_Expr($select)));
+            $this->addFieldToFilter('entity_id', array('in' => new \Zend_Db_Expr($select)));
         }
 
         return $this;

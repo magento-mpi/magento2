@@ -16,7 +16,9 @@
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Model_Config extends \Magento\Simplexml\Config
+namespace Magento\Install\Model;
+
+class Config extends \Magento\Simplexml\Config
 {
     /**
      * Wizard steps path
@@ -29,9 +31,9 @@ class Magento_Install_Model_Config extends \Magento\Simplexml\Config
     const XML_PATH_CHECK_WRITEABLE  = 'check/filesystem/writeable';
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
      */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $configReader)
+    public function __construct(\Magento\Core\Model\Config\Modules\Reader $configReader)
     {
         parent::__construct();
         $this->loadString('<?xml version="1.0"?><config></config>');
@@ -96,7 +98,7 @@ class Magento_Install_Model_Config extends \Magento\Simplexml\Config
         $items = (array)$this->getNode(self::XML_PATH_CHECK_WRITEABLE);
         foreach ($items as $nodeKey => $item) {
             $value = (array)$item;
-            $value['path'] = Mage::getBaseDir($nodeKey);
+            $value['path'] = \Mage::getBaseDir($nodeKey);
             $paths[$nodeKey] = $value;
         }
 

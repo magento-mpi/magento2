@@ -12,13 +12,13 @@
 class Magento_Rma_Model_Item_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Rma_Model_Item_Form
+     * @var \Magento\Rma\Model\Item\Form
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento_Rma_Model_Item_Form');
+        $this->_model= Mage::getModel('\Magento\Rma\Model\Item\Form');
         $this->_model->setFormCode('default');
     }
 

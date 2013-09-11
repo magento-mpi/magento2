@@ -9,7 +9,7 @@
 class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_GiftRegistry_Block_Product_View|null
+     * @var \Magento\GiftRegistry\Block\Product\View|null
      */
     protected $_block = null;
 
@@ -21,9 +21,9 @@ class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_Test
     protected function setUp()
     {
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_urlBuilder = $this->getMockForAbstractClass('Magento_Core_Model_UrlInterface');
+        $this->_urlBuilder = $this->getMockForAbstractClass('\Magento\Core\Model\UrlInterface');
         $args = array('urlBuilder' => $this->_urlBuilder);
-        $this->_block = $helper->getObject('Magento_GiftRegistry_Block_Product_View', $args);
+        $this->_block = $helper->getObject('\Magento\GiftRegistry\Block\Product\View', $args);
     }
 
     /**
@@ -38,8 +38,8 @@ class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_Test
             ->method('getParam')
             ->with('options')
             ->will($this->returnValue($options));
-        $childBlock = $this->getMockForAbstractClass('Magento_Core_Block_Abstract', array(), '', false);
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $childBlock = $this->getMockForAbstractClass('\Magento\Core\Block\AbstractBlock', array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())
             ->method('getBlock')
@@ -60,7 +60,7 @@ class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_Test
                 'some other option', null
             ),
             'with options' => array(
-                Magento_GiftRegistry_Block_Product_View::FLAG, 'template.phtml'
+                \Magento\GiftRegistry\Block\Product\View::FLAG, 'template.phtml'
             ),
         );
     }
@@ -81,14 +81,14 @@ class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_Test
             ->will($this->returnValue('some_url'));
         $request = $this->_block->getRequest();
         $valueMap = array(
-            array('options', null, Magento_GiftRegistry_Block_Product_View::FLAG),
+            array('options', null, \Magento\GiftRegistry\Block\Product\View::FLAG),
             array('entity', null, 'any'),
         );
         $request->expects($this->any())
             ->method('getParam')
             ->will($this->returnValueMap($valueMap));
-        $childBlock = $this->getMockForAbstractClass('Magento_Core_Block_Abstract', array(), '', false);
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $childBlock = $this->getMockForAbstractClass('\Magento\Core\Block\AbstractBlock', array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())
             ->method('getBlock')
@@ -101,8 +101,8 @@ class Magento_GiftRegistry_Block_Product_ViewTest extends PHPUnit_Framework_Test
 
     public function testSetGiftRegistryUrlNoOptions()
     {
-        $childBlock = $this->getMockForAbstractClass('Magento_Core_Block_Abstract', array(), '', false);
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $childBlock = $this->getMockForAbstractClass('\Magento\Core\Block\AbstractBlock', array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())
             ->method('getBlock')

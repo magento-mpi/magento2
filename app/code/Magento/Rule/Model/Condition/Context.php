@@ -10,23 +10,25 @@
  * Abstract block context object. Will be used as rule condition constructor modification point after release.
  * Important: Should not be modified by extension developers.
  */
-class Magento_Rule_Model_Condition_Context implements \Magento\ObjectManager\ContextInterface
+namespace Magento\Rule\Model\Condition;
+
+class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl)
+    public function __construct(\Magento\Core\Model\View\Url $viewUrl)
     {
         $this->_viewUrl = $viewUrl;
     }
 
     /**
-     * @return Magento_Core_Model_View_Url
+     * @return \Magento\Core\Model\View\Url
      */
     public function getViewUrl()
     {

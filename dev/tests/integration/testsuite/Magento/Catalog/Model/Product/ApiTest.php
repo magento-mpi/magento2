@@ -24,8 +24,8 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         /** Assert returned product data. */
         $this->assertNotEmpty($actualProductData, 'Missing special price response data.');
 
-        /** @var Magento_Catalog_Model_Product $expectedProduct */
-        $expectedProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $expectedProduct */
+        $expectedProduct = Mage::getModel('\Magento\Catalog\Model\Product');
         $expectedProduct->load($productId);
         $fieldsToCompare = array(
             'special_price',
@@ -54,7 +54,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertCount(3, $actualProductsData, 'Products quantity is invalid.');
 
         /** Loading expected product from fixture. */
-        $expectedProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        $expectedProduct = Mage::getModel('\Magento\Catalog\Model\Product');
         $expectedProduct->load(10);
         $fieldsToCompare = array(
             'entity_id' => 'product_id',
@@ -122,8 +122,8 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertTrue($result, 'Failed updating products.');
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
 
         foreach ($productIds as $index => $productId) {
             $description = $product->load($productId)->getDescription();
@@ -168,7 +168,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             (object)array('description' => 'Successfully updated'),
             (object)array(
                 'description' => 'Failed to update',
-                'sku' => str_repeat('a', Magento_Catalog_Model_Product_Attribute_Backend_Sku::SKU_MAX_LENGTH + 1)
+                'sku' => str_repeat('a', \Magento\Catalog\Model\Product\Attribute\Backend\Sku::SKU_MAX_LENGTH + 1)
             )
         );
 
@@ -178,8 +178,8 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             array($productIds, $productData)
         );
         $this->assertEquals(108, (int)$exception->faultcode);
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load(10);
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product')->load(10);
         $this->assertEquals($productData[0]->description, $product->getDescription());
         $product->load(11);
         $this->assertNotEquals($productData[1]->description, $product->getDescription());
@@ -192,8 +192,8 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfoAlphaIdTypeNotSet()
     {
-        /** @var Magento_Catalog_Model_Product $alphaProduct */
-        $alphaProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $alphaProduct */
+        $alphaProduct = Mage::getModel('\Magento\Catalog\Model\Product');
         $alphaProduct->load(1);
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -217,8 +217,8 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
     public function testInfoNumericIdTypeNotSetError()
     {
 
-        /** @var Magento_Catalog_Model_Product $numericalProduct */
-        $numericalProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $numericalProduct */
+        $numericalProduct = Mage::getModel('\Magento\Catalog\Model\Product');
         $numericalProduct->load(2);
 
         $exception = Magento_TestFramework_Helper_Api::callWithException(
@@ -243,8 +243,8 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfoNumericIdTypeNotSet()
     {
-        /** @var Magento_Catalog_Model_Product $numericalProduct */
-        $numericalProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $numericalProduct */
+        $numericalProduct = Mage::getModel('\Magento\Catalog\Model\Product');
         $numericalProduct->load(2);
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -266,8 +266,8 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfoAlphaIdTypeSku()
     {
-        /** @var Magento_Catalog_Model_Product $alphaProduct */
-        $alphaProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $alphaProduct */
+        $alphaProduct = Mage::getModel('\Magento\Catalog\Model\Product');
         $alphaProduct->load(1);
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -292,8 +292,8 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfoNumericIdTypeSku()
     {
-        /** @var Magento_Catalog_Model_Product $numericalProduct */
-        $numericalProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $numericalProduct */
+        $numericalProduct = Mage::getModel('\Magento\Catalog\Model\Product');
         $numericalProduct->load(2);
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -369,7 +369,7 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
         /*
          * Some product attributes (e.g. tier_price) rely on _origData to determine whether attributes are new (thus,
          * should be inserted into the DB) or updated. Real-world requests works fine because same code contained in
-         * Magento_Api_Controller_Action::preDispatch().
+         * \Magento\Api\Controller\Action::preDispatch().
          */
         Mage::app()->setCurrentStore('admin');
         $newData = (object)array(
@@ -380,8 +380,8 @@ class Magento_Catalog_Model_Product_ApiTest extends PHPUnit_Framework_TestCase
             'price'             => 13.13,
         );
 
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1);
 
         $updatedProduct = Magento_TestFramework_Helper_Api::call(

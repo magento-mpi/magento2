@@ -11,8 +11,10 @@
 /**
  * Total model for recurring profiles
  */
-abstract class Magento_Sales_Model_Quote_Address_Total_Nominal_RecurringAbstract
-    extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
+
+abstract class RecurringAbstract
+    extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Don't add amounts to address
@@ -38,10 +40,10 @@ abstract class Magento_Sales_Model_Quote_Address_Total_Nominal_RecurringAbstract
     /**
      * Collect recurring item parameters and copy to the address items
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Sales_Model_Quote_Address_Total_Nominal_RecurringAbstract
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Quote\Address\Total\Nominal\RecurringAbstract
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
         $items = $this->_getAddressItems($address);
@@ -63,21 +65,21 @@ abstract class Magento_Sales_Model_Quote_Address_Total_Nominal_RecurringAbstract
     /**
      * Don't fetch anything
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        return Magento_Sales_Model_Quote_Address_Total_Abstract::fetch($address);
+        return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal::fetch($address);
     }
 
     /**
      * Get nominal items only
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return array
      */
-    protected function _getAddressItems(Magento_Sales_Model_Quote_Address $address)
+    protected function _getAddressItems(\Magento\Sales\Model\Quote\Address $address)
     {
         return $address->getAllNominalItems();
     }
@@ -85,8 +87,8 @@ abstract class Magento_Sales_Model_Quote_Address_Total_Nominal_RecurringAbstract
     /**
      * Hook for successful collecting of a recurring amount
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @param Magento_Sales_Model_Quote_Item_Abstract $item
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      */
     protected function _afterCollectSuccess($address, $item)
     {

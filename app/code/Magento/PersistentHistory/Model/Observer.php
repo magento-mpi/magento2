@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_PersistentHistory_Model_Observer
+namespace Magento\PersistentHistory\Model;
+
+class Observer
 {
     /**
      * Whether set quote to be persistent in workflow
@@ -21,29 +23,29 @@ class Magento_PersistentHistory_Model_Observer
      * Set persistent data to customer session
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_PersistentHistory_Model_Observer
+     * @return \Magento\PersistentHistory\Model\Observer
      */
     public function emulateCustomer($observer)
     {
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->canProcess($observer)
-            || !Mage::helper('Magento_PersistentHistory_Helper_Data')->isCustomerAndSegmentsPersist()
+        if (!\Mage::helper('Magento\Persistent\Helper\Data')->canProcess($observer)
+            || !\Mage::helper('Magento\PersistentHistory\Helper\Data')->isCustomerAndSegmentsPersist()
         ) {
             return $this;
         }
 
         if ($this->_isLoggedOut()) {
-            /** @var $customer Magento_Customer_Model_Customer */
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load(
+            /** @var $customer \Magento\Customer\Model\Customer */
+            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
-            Mage::getSingleton('Magento_Customer_Model_Session')
+            \Mage::getSingleton('Magento\Customer\Model\Session')
                 ->setCustomerId($customer->getId())
                 ->setCustomerGroupId($customer->getGroupId());
 
             // apply persistent data to segments
-            Mage::register('segment_customer', $customer, true);
+            \Mage::register('segment_customer', $customer, true);
             if ($this->_isWishlistPersist()) {
-                Mage::helper('Magento_Wishlist_Helper_Data')->setCustomer($customer);
+                \Mage::helper('Magento\Wishlist\Helper\Data')->setCustomer($customer);
             }
         }
         return $this;
@@ -56,7 +58,7 @@ class Magento_PersistentHistory_Model_Observer
      */
     public function modifyExpiredQuotesCleanup($observer)
     {
-        /** @var $salesObserver Magento_Sales_Model_Observer */
+        /** @var $salesObserver \Magento\Sales\Model\Observer */
         $salesObserver = $observer->getEvent()->getSalesObserver();
         $salesObserver->setExpireQuotesAdditionalFilterFields(array(
             'is_persistent' => 0
@@ -71,29 +73,29 @@ class Magento_PersistentHistory_Model_Observer
      */
     public function applyPersistentData($observer)
     {
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->canProcess($observer)
-            || !$this->_isPersistent() || Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
+        if (!\Mage::helper('Magento\Persistent\Helper\Data')->canProcess($observer)
+            || !$this->_isPersistent() || \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
         ) {
             return;
         }
-        Mage::getModel('Magento_Persistent_Model_Persistent_Config')
-            ->setConfigFilePath(Mage::helper('Magento_PersistentHistory_Helper_Data')->getPersistentConfigFilePath())
+        \Mage::getModel('\Magento\Persistent\Model\Persistent\Config')
+            ->setConfigFilePath(\Mage::helper('Magento\PersistentHistory\Helper\Data')->getPersistentConfigFilePath())
             ->fire();
     }
 
     public function applyBlockPersistentData($observer)
     {
         $observer->getEvent()->setConfigFilePath(
-            Mage::helper('Magento_PersistentHistory_Helper_Data')->getPersistentConfigFilePath()
+            \Mage::helper('Magento\PersistentHistory\Helper\Data')->getPersistentConfigFilePath()
         );
-        return Mage::getSingleton('Magento_Persistent_Model_Observer')->applyBlockPersistentData($observer);
+        return \Mage::getSingleton('Magento\Persistent\Model\Observer')->applyBlockPersistentData($observer);
     }
 
     /**
      * Set whislist items count in top wishlist link block
      *
      * @deprecated after 1.11.2.0
-     * @param Magento_Core_Block_Abstract $block
+     * @param \Magento\Core\Block\AbstractBlock $block
      * @return null
      */
     public function initWishlist($block)
@@ -108,7 +110,7 @@ class Magento_PersistentHistory_Model_Observer
      * Set persistent wishlist to wishlist sidebar block
      *
      * @deprecated after 1.11.2.0
-     * @param Magento_Core_Block_Abstract $block
+     * @param \Magento\Core\Block\AbstractBlock $block
      * @return null
      */
     public function initWishlistSidebar($block)
@@ -122,12 +124,12 @@ class Magento_PersistentHistory_Model_Observer
     /**
      * Set persistent orders to recently orders block
      *
-     * @param Magento_Core_Block_Abstract $block
+     * @param \Magento\Core\Block\AbstractBlock $block
      * @return null
      */
     public function initReorderSidebar($block)
     {
-        if (!Mage::helper('Magento_PersistentHistory_Helper_Data')->isOrderedItemsPersist()) {
+        if (!\Mage::helper('Magento\PersistentHistory\Helper\Data')->isOrderedItemsPersist()) {
             return;
         }
         $block->setCustomerId($this->_getCustomerId());
@@ -137,12 +139,12 @@ class Magento_PersistentHistory_Model_Observer
     /**
      * Emulate 'viewed products' block with persistent data
      *
-     * @param Magento_Reports_Block_Product_Viewed $block
+     * @param \Magento\Reports\Block\Product\Viewed $block
      * @return null
      */
-    public function emulateViewedProductsBlock(Magento_Reports_Block_Product_Viewed $block)
+    public function emulateViewedProductsBlock(\Magento\Reports\Block\Product\Viewed $block)
     {
-        if (!Mage::helper('Magento_PersistentHistory_Helper_Data')->isViewedProductsPersist()) {
+        if (!\Mage::helper('Magento\PersistentHistory\Helper\Data')->isViewedProductsPersist()) {
             return;
         }
         $customerId = $this->_getCustomerId();
@@ -159,19 +161,19 @@ class Magento_PersistentHistory_Model_Observer
      */
     public function removeCartLink($observer)
     {
-        $block =  Mage::app()->getLayout()->getBlock('checkout.links');
+        $block =  \Mage::app()->getLayout()->getBlock('checkout.links');
         if ($block) {
-            $block->removeLinkByUrl(Mage::getUrl('checkout/cart'));
+            $block->removeLinkByUrl(\Mage::getUrl('checkout/cart'));
         }
     }
 
     /**
      * Emulate 'compared products' block with persistent data
      *
-     * @param Magento_Reports_Block_Product_Compared $block
+     * @param \Magento\Reports\Block\Product\Compared $block
      * @return null
      */
-    public function emulateComparedProductsBlock(Magento_Reports_Block_Product_Compared $block)
+    public function emulateComparedProductsBlock(\Magento\Reports\Block\Product\Compared $block)
     {
         if (!$this->_isComparedProductsPersist()) {
             return;
@@ -186,10 +188,10 @@ class Magento_PersistentHistory_Model_Observer
     /**
      * Emulate 'compare products' block with persistent data
      *
-     * @param Magento_Catalog_Block_Product_Compare_Sidebar $block
+     * @param \Magento\Catalog\Block\Product\Compare\Sidebar $block
      * @return null
      */
-    public function emulateCompareProductsBlock(Magento_Catalog_Block_Product_Compare_Sidebar $block)
+    public function emulateCompareProductsBlock(\Magento\Catalog\Block\Product\Compare\Sidebar $block)
     {
         if (!$this->_isCompareProductsPersist()) {
             return;
@@ -203,10 +205,10 @@ class Magento_PersistentHistory_Model_Observer
     /**
      * Emulate 'compare products list' block with persistent data
      *
-     * @param Magento_Catalog_Block_Product_Compare_List $block
+     * @param \Magento\Catalog\Block\Product\Compare\ListCompare $block
      * @return null
      */
-    public function emulateCompareProductsListBlock(Magento_Catalog_Block_Product_Compare_List $block)
+    public function emulateCompareProductsListBlock(\Magento\Catalog\Block\Product\Compare\ListCompare $block)
     {
         if (!$this->_isCompareProductsPersist()) {
             return;
@@ -222,7 +224,7 @@ class Magento_PersistentHistory_Model_Observer
      */
     public function applyCustomerId($observer)
     {
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->canProcess($observer) || !$this->_isCompareProductsPersist()) {
+        if (!\Mage::helper('Magento\Persistent\Helper\Data')->canProcess($observer) || !$this->_isCompareProductsPersist()) {
             return;
         }
         $instance = $observer->getEvent()->getControllerAction();
@@ -237,14 +239,14 @@ class Magento_PersistentHistory_Model_Observer
      */
     public function emulateWishlist($observer)
     {
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->canProcess($observer)
+        if (!\Mage::helper('Magento\Persistent\Helper\Data')->canProcess($observer)
             || !$this->_isPersistent() || !$this->_isWishlistPersist()
         ) {
             return;
         }
 
         $controller = $observer->getEvent()->getControllerAction();
-        if ($controller instanceof Magento_Wishlist_Controller_Index) {
+        if ($controller instanceof \Magento\Wishlist\Controller\Index) {
             $controller->skipAuthentication();
         }
     }
@@ -257,20 +259,20 @@ class Magento_PersistentHistory_Model_Observer
      */
     public function setQuotePersistentData($observer)
     {
-        if (!Mage::helper('Magento_Persistent_Helper_Data')->canProcess($observer) || !$this->_isPersistent()) {
+        if (!\Mage::helper('Magento\Persistent\Helper\Data')->canProcess($observer) || !$this->_isPersistent()) {
             return;
         }
 
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getQuote();
         if (!$quote) {
             return;
         }
 
-        /** @var $customerSession Magento_Customer_Model_Session */
-        $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+        /** @var $customerSession \Magento\Customer\Model\Session */
+        $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
 
-        $helper = Mage::helper('Magento_PersistentHistory_Helper_Data');
+        $helper = \Mage::helper('Magento\PersistentHistory\Helper\Data');
         if ($helper->isCustomerAndSegmentsPersist() && $this->_setQuotePersistent) {
             $customerId = $customerSession->getCustomerId();
             if ($customerId) {
@@ -287,7 +289,7 @@ class Magento_PersistentHistory_Model_Observer
      * Prevent setting persistent data into quote
      *
      * @param  $observer
-     * @see Magento_PersistentHistory_Model_Observer::setQuotePersistentData
+     * @see \Magento\PersistentHistory\Model\Observer::setQuotePersistentData
      */
     public function preventSettingQuotePersistent($observer)
     {
@@ -298,7 +300,7 @@ class Magento_PersistentHistory_Model_Observer
      * Update Option "Persist Customer Group Membership and Segmentation"
      * set value "Yes" if option "Persist Shopping Cart" equals "Yes"
      *
-     * @param  $observer Magento_PersistentHistory_Model_Observer
+     * @param  $observer \Magento\PersistentHistory\Model\Observer
      * @return void
      */
     public function updateOptionCustomerSegmentation($observer)
@@ -306,10 +308,10 @@ class Magento_PersistentHistory_Model_Observer
         $eventDataObject = $observer->getEvent()->getDataObject();
 
         if ($eventDataObject->getValue()) {
-            $optionCustomerSegm = Mage::getModel('Magento_Core_Model_Config_Value')
+            $optionCustomerSegm = \Mage::getModel('\Magento\Core\Model\Config\Value')
                 ->setScope($eventDataObject->getScope())
                 ->setScopeId($eventDataObject->getScopeId())
-                ->setPath(Magento_PersistentHistory_Helper_Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)
+                ->setPath(\Magento\PersistentHistory\Helper\Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)
                 ->setValue(true)
                 ->save();
         }
@@ -336,7 +338,7 @@ class Magento_PersistentHistory_Model_Observer
         if (!$this->_isCompareProductsPersist()) {
             return;
         }
-        Mage::getSingleton('Magento_Catalog_Model_Product_Compare_Item')->bindCustomerLogout();
+        \Mage::getSingleton('Magento\Catalog\Model\Product\Compare\Item')->bindCustomerLogout();
     }
 
     /**
@@ -348,7 +350,7 @@ class Magento_PersistentHistory_Model_Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        Mage::getModel('Magento_Reports_Model_Product_Index_Compared')
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Compared')
             ->purgeVisitorByCustomer()
             ->calculate();
     }
@@ -362,7 +364,7 @@ class Magento_PersistentHistory_Model_Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        Mage::getModel('Magento_Reports_Model_Product_Index_Viewed')
+        \Mage::getModel('\Magento\Reports\Model\Product\Index\Viewed')
             ->purgeVisitorByCustomer()
             ->calculate();
     }
@@ -380,21 +382,21 @@ class Magento_PersistentHistory_Model_Observer
     /**
      * Retrieve persistent helper
      *
-     * @return Magento_Persistent_Helper_Session
+     * @return \Magento\Persistent\Helper\Session
      */
     protected function _getPersistentHelper()
     {
-        return Mage::helper('Magento_Persistent_Helper_Session');
+        return \Mage::helper('Magento\Persistent\Helper\Session');
     }
 
     /**
      * Init persistent wishlist
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     protected function _initWishlist()
     {
-        return Mage::getModel('Magento_Wishlist_Model_Wishlist')->loadByCustomer($this->_getCustomerId() ,true);
+        return \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->loadByCustomer($this->_getCustomerId() ,true);
     }
 
     /**
@@ -404,7 +406,7 @@ class Magento_PersistentHistory_Model_Observer
      */
     protected function _isWishlistPersist()
     {
-        return Mage::helper('Magento_PersistentHistory_Helper_Data')->isWishlistPersist();
+        return \Mage::helper('Magento\PersistentHistory\Helper\Data')->isWishlistPersist();
     }
 
     /**
@@ -414,7 +416,7 @@ class Magento_PersistentHistory_Model_Observer
      */
     protected function _isCompareProductsPersist()
     {
-        return Mage::helper('Magento_PersistentHistory_Helper_Data')->isCompareProductsPersist();
+        return \Mage::helper('Magento\PersistentHistory\Helper\Data')->isCompareProductsPersist();
     }
 
     /**
@@ -424,7 +426,7 @@ class Magento_PersistentHistory_Model_Observer
      */
     protected function _isComparedProductsPersist()
     {
-        return Mage::helper('Magento_PersistentHistory_Helper_Data')->isComparedProductsPersist();
+        return \Mage::helper('Magento\PersistentHistory\Helper\Data')->isComparedProductsPersist();
     }
 
     /**
@@ -444,7 +446,7 @@ class Magento_PersistentHistory_Model_Observer
      */
     protected function _isLoggedOut()
     {
-        return $this->_isPersistent() && !Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
+        return $this->_isPersistent() && !\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
     }
 
     /**
@@ -454,7 +456,7 @@ class Magento_PersistentHistory_Model_Observer
      */
     protected function _isGuestShoppingCart()
     {
-        return $this->_isLoggedOut() && !Mage::helper('Magento_Persistent_Helper_Data')->isShoppingCartPersist();
+        return $this->_isLoggedOut() && !\Mage::helper('Magento\Persistent\Helper\Data')->isShoppingCartPersist();
     }
 
     /**

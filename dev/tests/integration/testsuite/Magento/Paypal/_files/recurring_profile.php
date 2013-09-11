@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-$recurringProfile = Mage::getModel('Magento_Sales_Model_Recurring_Profile');
+$recurringProfile = Mage::getModel('\Magento\Sales\Model\Recurring\Profile');
 $recurringProfile->addData(array(
     'store_id'                => 1,
-    'method_code'             => Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS,
+    'method_code'             => \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS,
     'reference_id'            => 'I-C76MC3FM2HBX',
     'internal_reference_id'   => '5-33949e201adc4b03fbbceafccba893ce',
     'schedule_description'    => 'Recurring Profile',

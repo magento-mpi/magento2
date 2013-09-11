@@ -10,7 +10,7 @@
 
 
 /**
- * Custom Zend_Controller_Action class (formally)
+ * Custom \Zend_Controller_Action class (formally)
  *
  * Allows dispatching before and after events for each controller action
  *
@@ -18,7 +18,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Controller_Varien_ActionAbstract
+namespace Magento\Core\Controller\Varien;
+
+abstract class Action extends \Magento\Core\Controller\Varien\ActionAbstract
 {
     const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
@@ -97,24 +99,24 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     protected $_removeDefaultTitle = false;
 
     /**
-     * @var Magento_Core_Controller_Varien_Front
+     * @var \Magento\Core\Controller\Varien\Front
      */
     protected $_frontController = null;
 
     /**
-     * @var Magento_Core_Model_Layout_Factory
+     * @var \Magento\Core\Model\Layout\Factory
      */
     protected $_layout;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Context $context
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
      */
-    public function __construct(Magento_Core_Controller_Varien_Action_Context $context)
+    public function __construct(\Magento\Core\Controller\Varien\Action\Context $context)
     {
         parent::__construct($context->getRequest(), $context->getResponse());
 
@@ -169,7 +171,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      * @param   string $action
      * @param   string $flag
      * @param   string $value
-     * @return  Magento_Core_Controller_Varien_Action
+     * @return  \Magento\Core\Controller\Varien\Action
      */
     public function setFlag($action, $flag, $value)
     {
@@ -183,7 +185,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     /**
      * Retrieve current layout object
      *
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function getLayout()
     {
@@ -199,7 +201,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      * @param   string|null|bool $handles
      * @param   bool $generateBlocks
      * @param   bool $generateXml
-     * @return  Magento_Core_Controller_Varien_Action
+     * @return  \Magento\Core\Controller\Varien\Action
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
     {
@@ -240,11 +242,11 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     /**
      * Add layout handle by full controller action name
      *
-     * @return Magento_Core_Controller_Varien_Action
+     * @return \Magento\Core\Controller\Varien\Action
      */
     public function addActionLayoutHandles()
     {
-        $renderInherited = (string)$this->_objectManager->get('Magento_Core_Model_Config')
+        $renderInherited = (string)$this->_objectManager->get('Magento\Core\Model\Config')
             ->getNode(self::XML_PAGE_TYPE_RENDER_INHERITED);
         if (!$renderInherited || !$this->addPageLayoutHandles()) {
             $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
@@ -355,7 +357,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      * Rendering layout
      *
      * @param   string $output
-     * @return  Magento_Core_Controller_Varien_Action
+     * @return  \Magento\Core\Controller\Varien\Action
      */
     public function renderLayout($output = '')
     {
@@ -383,7 +385,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         $this->getLayout()->setDirectOutput(false);
 
         $output = $this->getLayout()->getOutput();
-        $this->_objectManager->get('Magento_Core_Model_Translate')->processResponseBody($output);
+        $this->_objectManager->get('Magento\Core\Model\Translate')->processResponseBody($output);
         $this->getResponse()->appendBody($output);
         \Magento\Profiler::stop('layout_render');
 
@@ -428,7 +430,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
             }
 
             \Magento\Profiler::stop($profilerKey);
-        } catch (Magento_Core_Controller_Varien_Exception $e) {
+        } catch (\Magento\Core\Controller\Varien\Exception $e) {
             // set prepared flags
             foreach ($e->getResultFlags() as $flagData) {
                 list($action, $flag, $value) = $flagData;
@@ -437,11 +439,11 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
             // call forward, redirect or an action
             list($method, $parameters) = $e->getResultCallback();
             switch ($method) {
-                case Magento_Core_Controller_Varien_Exception::RESULT_REDIRECT:
+                case \Magento\Core\Controller\Varien\Exception::RESULT_REDIRECT:
                     list($path, $arguments) = $parameters;
                     $this->_redirect($path, $arguments);
                     break;
-                case Magento_Core_Controller_Varien_Exception::RESULT_FORWARD:
+                case \Magento\Core\Controller\Varien\Exception::RESULT_FORWARD:
                     list($action, $controller, $module, $params) = $parameters;
                     $this->_forward($action, $controller, $module, $params);
                     break;
@@ -468,16 +470,16 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     /**
      * Start session if it is not restricted
      *
-     * @return Magento_Core_Controller_Varien_Action
+     * @return \Magento\Core\Controller\Varien\Action
      */
     protected function _startSession()
     {
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
             $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
                 && !$this->getRequest()->getParam('nocookie', false);
-            $cookies = Mage::getSingleton('Magento_Core_Model_Cookie')->get();
-            /** @var $session Magento_Core_Model_Session */
-            $session = Mage::getSingleton('Magento_Core_Model_Session')->start();
+            $cookies = \Mage::getSingleton('Magento\Core\Model\Cookie')->get();
+            /** @var $session \Magento\Core\Model\Session */
+            $session = \Mage::getSingleton('Magento\Core\Model\Session')->start();
 
             if (empty($cookies)) {
                 if ($session->getCookieShouldBeReceived()) {
@@ -485,8 +487,8 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
                     $session->unsCookieShouldBeReceived();
                     $session->setSkipSessionIdFlag(true);
                 } elseif ($checkCookie) {
-                    if (isset($_GET[$session->getSessionIdQueryParam()]) && Mage::app()->getUseSessionInUrl()
-                        && $this->_sessionNamespace != Magento_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
+                    if (isset($_GET[$session->getSessionIdQueryParam()]) && \Mage::app()->getUseSessionInUrl()
+                        && $this->_sessionNamespace != \Magento\Backend\Controller\ActionAbstract::SESSION_NAMESPACE
                     ) {
                         $session->setCookieShouldBeReceived(true);
                     } else {
@@ -501,11 +503,11 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     /**
      * Initialize area and design
      *
-     * @return Magento_Core_Controller_Varien_Action
+     * @return \Magento\Core\Controller\Varien\Action
      */
     protected function _initDesign()
     {
-        $area = Mage::app()->getArea($this->getLayout()->getArea());
+        $area = \Mage::app()->getArea($this->getLayout()->getArea());
         $area->load();
         $area->detectDesign($this->getRequest());
         return $this;
@@ -519,7 +521,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     public function preDispatch()
     {
         if (!$this->getFlag('', self::FLAG_NO_CHECK_INSTALLATION)) {
-            if (!Mage::isInstalled()) {
+            if (!\Mage::isInstalled()) {
                 $this->setFlag('', self::FLAG_NO_DISPATCH, true);
                 $this->_redirect('install');
                 return;
@@ -527,9 +529,9 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         }
 
         // Prohibit disabled store actions
-        $storeManager = $this->_objectManager->get('Magento_Core_Model_StoreManager');
-        if (Mage::isInstalled() && !$storeManager->getStore()->getIsActive()) {
-            Mage::app()->throwStoreException();
+        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
+        if (\Mage::isInstalled() && !$storeManager->getStore()->getIsActive()) {
+            \Mage::app()->throwStoreException();
         }
 
         if ($this->_rewrite()) {
@@ -543,7 +545,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         $this->_initDesign();
 
         if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)
-            && Mage::getStoreConfig('web/browser_capabilities/cookies')
+            && \Mage::getStoreConfig('web/browser_capabilities/cookies')
         ) {
             $this->_forward('noCookies', 'index', 'core');
             return;
@@ -677,7 +679,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      * Initializing layout messages by message storage(s), loading and adding messages to layout messages block
      *
      * @param string|array $messagesStorage
-     * @return Magento_Core_Controller_Varien_Action
+     * @return \Magento\Core\Controller\Varien\Action
      */
     protected function _initLayoutMessages($messagesStorage)
     {
@@ -692,7 +694,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
                 $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
                 $block->addStorageType($storageName);
             } else {
-                Mage::throwException(
+                \Mage::throwException(
                      __('Invalid messages storage "%1" for layout messages initialization', (string)$storageName)
                 );
             }
@@ -704,7 +706,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      * Initializing layout messages by message storage(s), loading and adding messages to layout messages block
      *
      * @param string|array $messagesStorage
-     * @return Magento_Core_Controller_Varien_Action
+     * @return \Magento\Core\Controller\Varien\Action
      */
     public function initLayoutMessages($messagesStorage)
     {
@@ -715,7 +717,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      * Set redirect url into response
      *
      * @param   string $url
-     * @return  Magento_Core_Controller_Varien_Action
+     * @return  \Magento\Core\Controller\Varien\Action
      */
     protected function _redirectUrl($url)
     {
@@ -728,7 +730,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      *
      * @param   string $path
      * @param   array $arguments
-     * @return  Magento_Core_Controller_Varien_Action
+     * @return  \Magento\Core\Controller\Varien\Action
      */
     protected function _redirect($path, $arguments = array())
     {
@@ -741,21 +743,21 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      *
      * @param   string $path
      * @param   array $arguments
-     * @return  Magento_Core_Controller_Varien_Action
+     * @return  \Magento\Core\Controller\Varien\Action
      */
     public function setRedirectWithCookieCheck($path, array $arguments = array())
     {
-        /** @var $session Magento_Core_Model_Session */
-        $session = $this->_objectManager->get('Magento_Core_Model_Session');
-        if ($session->getCookieShouldBeReceived() && Mage::app()->getUseSessionInUrl()
-            && $this->_sessionNamespace != Magento_Backend_Controller_ActionAbstract::SESSION_NAMESPACE
+        /** @var $session \Magento\Core\Model\Session */
+        $session = $this->_objectManager->get('Magento\Core\Model\Session');
+        if ($session->getCookieShouldBeReceived() && \Mage::app()->getUseSessionInUrl()
+            && $this->_sessionNamespace != \Magento\Backend\Controller\ActionAbstract::SESSION_NAMESPACE
         ) {
             $arguments += array('_query' => array(
                 $session->getSessionIdQueryParam() => $session->getSessionId()
             ));
         }
         $this->getResponse()->setRedirect(
-            $this->_objectManager->create('Magento_Core_Model_Url')->getUrl($path, $arguments)
+            $this->_objectManager->create('Magento\Core\Model\Url')->getUrl($path, $arguments)
         );
         return $this;
     }
@@ -765,7 +767,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      * Redirect to success page
      *
      * @param string $defaultUrl
-     * @return Magento_Core_Controller_Varien_Action
+     * @return \Magento\Core\Controller\Varien\Action
      */
     protected function _redirectSuccess($defaultUrl)
     {
@@ -774,7 +776,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
             $successUrl = $defaultUrl;
         }
         if (!$this->_isUrlInternal($successUrl)) {
-            $successUrl = $this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore()->getBaseUrl();
+            $successUrl = $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getBaseUrl();
         }
         $this->getResponse()->setRedirect($successUrl);
         return $this;
@@ -784,7 +786,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      * Redirect to error page
      *
      * @param string $defaultUrl
-     * @return  Magento_Core_Controller_Varien_Action
+     * @return  \Magento\Core\Controller\Varien\Action
      */
     protected function _redirectError($defaultUrl)
     {
@@ -793,7 +795,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
             $errorUrl = $defaultUrl;
         }
         if (!$this->_isUrlInternal($errorUrl)) {
-            $errorUrl = $this->_objectManager->get('Magento_Core_Model_StoreManager')->getStore()->getBaseUrl();
+            $errorUrl = $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getBaseUrl();
         }
         $this->getResponse()->setRedirect($errorUrl);
         return $this;
@@ -803,14 +805,14 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      * Set referer url for redirect in response
      *
      * @param   string $defaultUrl
-     * @return  Magento_Core_Controller_Varien_Action
+     * @return  \Magento\Core\Controller\Varien\Action
      */
     protected function _redirectReferer($defaultUrl=null)
     {
 
         $refererUrl = $this->_getRefererUrl();
         if (empty($refererUrl)) {
-            $refererUrl = empty($defaultUrl) ? Mage::getBaseUrl() : $defaultUrl;
+            $refererUrl = empty($defaultUrl) ? \Mage::getBaseUrl() : $defaultUrl;
         }
 
         $this->getResponse()->setRedirect($refererUrl);
@@ -831,15 +833,15 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         }
         $url = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL);
         if ($url) {
-            $refererUrl = Mage::helper('Magento_Core_Helper_Data')->urlDecode($url);
+            $refererUrl = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($url);
         }
         $url = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED);
         if ($url) {
-            $refererUrl = Mage::helper('Magento_Core_Helper_Data')->urlDecode($url);
+            $refererUrl = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($url);
         }
 
         if (!$this->_isUrlInternal($refererUrl)) {
-            $refererUrl = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore()->getBaseUrl();
+            $refererUrl = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getBaseUrl();
         }
         return $refererUrl;
     }
@@ -856,10 +858,10 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
             /**
              * Url must start from base secure or base unsecure url
              */
-            /** @var $store Magento_Core_Model_StoreManagerInterface */
-            $store = $this->_objectManager->get('Magento_Core_Model_StoreManagerInterface')->getStore();
+            /** @var $store \Magento\Core\Model\StoreManagerInterface */
+            $store = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore();
             if ((strpos($url, $store->getBaseUrl()) === 0)
-                || (strpos($url, $store->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_LINK, true)) === 0)
+                || (strpos($url, $store->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, true)) === 0)
             ) {
                 return true;
             }
@@ -899,7 +901,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         $controller = $this->getRequest()->getControllerName();
         $action = $this->getRequest()->getActionName();
 
-        $rewrite = Mage::getConfig()->getNode('global/routers/' . $route . '/rewrite/' . $controller);
+        $rewrite = \Mage::getConfig()->getNode('global/routers/' . $route . '/rewrite/' . $controller);
         if (!$rewrite) {
             return false;
         }
@@ -934,7 +936,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
     protected function _validateFormKey()
     {
         if (!($formKey = $this->getRequest()->getParam('form_key', null))
-            || $formKey != Mage::getSingleton('Magento_Core_Model_Session')->getFormKey()
+            || $formKey != \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey()
         ) {
             return false;
         }
@@ -950,7 +952,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      *
      * @see self::_renderTitles()
      * @param string $text
-     * @return Magento_Core_Controller_Varien_Action
+     * @return \Magento\Core\Controller\Varien\Action
      */
     protected function _title($text)
     {
@@ -994,10 +996,10 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         if (empty($dateFields)) {
             return $array;
         }
-        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
+        $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
+            'date_format' => \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
-        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
+        $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
             'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
         ));
 
@@ -1022,11 +1024,11 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
         if (empty($dateFields)) {
             return $array;
         }
-        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-            'date_format' => Mage::app()->getLocale()
-                ->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT)
+        $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
+            'date_format' => \Mage::app()->getLocale()
+                ->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
-        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
+        $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
             'date_format' => \Magento\Date::DATETIME_INTERNAL_FORMAT
         ));
 
@@ -1047,7 +1049,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
      *                              that case
      * @param string $contentType
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
-     * @return Magento_Core_Controller_Varien_Action
+     * @return \Magento\Core\Controller\Varien\Action
      */
     protected function _prepareDownloadResponse(
         $fileName,
@@ -1085,7 +1087,7 @@ abstract class Magento_Core_Controller_Varien_Action extends Magento_Core_Contro
                 $this->getResponse()->sendHeaders();
 
                 if (!$filesystem->isFile($file)) {
-                    Mage::throwException(__('File not found'));
+                    \Mage::throwException(__('File not found'));
                 }
                 $stream = $filesystem->createAndOpenStream($file, 'r');
                 while ($buffer = $stream->read(1024)) {

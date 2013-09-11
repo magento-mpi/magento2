@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Rule_Model_Renderer_Actions implements \Magento\Data\Form\Element\Renderer\RendererInterface
+namespace Magento\Rule\Model\Renderer;
+
+class Actions implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {

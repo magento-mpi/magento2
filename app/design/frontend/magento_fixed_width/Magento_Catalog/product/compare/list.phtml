@@ -30,7 +30,7 @@
                 <?php if($_i++%10==0): ?>
                     <th>&nbsp;</th>
                 <?php endif; ?>
-                <td class="a-right"><a href="#" title="<?php echo __('Remove Product') ?>"><img class="btn-remove" data-url='<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getRemoveUrl($_item) ?>' src="<?php echo $this->getViewFileUrl('images/list_remove_btn.gif') ?>" alt="<?php echo __('Remove Product') ?>" /></a></td>
+                <td class="a-right"><a href="#" title="<?php echo __('Remove Product') ?>"><img class="btn-remove" data-url='<?php echo $this->helper('\Magento\Catalog\Helper\Product\Compare')->getRemoveUrl($_item) ?>' src="<?php echo $this->getViewFileUrl('images/list_remove_btn.gif') ?>" alt="<?php echo __('Remove Product') ?>" /></a></td>
             <?php endforeach; ?>
             </tr>
         </thead>
@@ -38,7 +38,7 @@
         <tbody>
             <tr>
             <?php $_i = 0; ?>
-            <?php $_helper = $this->helper('Magento_Catalog_Helper_Output'); ?>
+            <?php $_helper = $this->helper('\Magento\Catalog\Helper\Output'); ?>
             <?php foreach($this->getItems() as $_item): ?>
                 <?php if($_i++%10==0): ?>
                     <th class="label">&nbsp;</th>
@@ -49,7 +49,7 @@
                     <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
                     <?php echo $this->getPriceHtml($_item, true, '-compare-list-top') ?>
                     <?php if($_item->isSaleable()): ?>
-                        <p><button type="button" class="button btn-cart" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>"><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
+                        <p><button type="button" class="button btn-cart" data-url="<?php echo $this->helper('\Magento\Catalog\Helper\Product\Compare')->getAddToCartUrl($_item) ?>"><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
                     <?php else: ?>
                         <?php if ($_item->getIsSalable()): ?>
                             <p class="availability in-stock"><span><?php echo __('In stock') ?></span></p>
@@ -57,8 +57,8 @@
                             <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
                         <?php endif; ?>
                     <?php endif; ?>
-                    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
-                        <p><a href="#" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></p>
+                    <?php if ($this->helper('\Magento\Wishlist\Helper\Data')->isAllow()) : ?>
+                        <p><a href="#" data-url="<?php echo $this->helper('\Magento\Catalog\Helper\Product\Compare')->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></p>
                     <?php endif; ?>
                 </td>
             <?php endforeach; ?>
@@ -101,7 +101,7 @@
                 <td class="data">
                     <?php echo $this->getPriceHtml($_item, true, '-compare-list-bottom') ?>
                     <?php if($_item->isSaleable()): ?>
-                        <p><button type="button" class="button btn-cart" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>"><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
+                        <p><button type="button" class="button btn-cart" data-url="<?php echo $this->helper('\Magento\Catalog\Helper\Product\Compare')->getAddToCartUrl($_item) ?>"><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
                     <?php else: ?>
                         <?php if ($_item->getIsSalable()): ?>
                             <p class="availability in-stock"><span><?php echo __('In stock') ?></span></p>
@@ -109,8 +109,8 @@
                             <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
                         <?php endif; ?>
                     <?php endif; ?>
-                    <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
-                        <p><a href="#" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></p>
+                    <?php if ($this->helper('\Magento\Wishlist\Helper\Data')->isAllow()) : ?>
+                        <p><a href="#" data-url="<?php echo $this->helper('\Magento\Catalog\Helper\Product\Compare')->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></p>
                     <?php endif; ?>
                 </td>
                 <?php endforeach; ?>

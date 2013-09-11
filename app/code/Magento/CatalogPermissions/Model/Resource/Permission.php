@@ -16,7 +16,9 @@
  * @package     Magento_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogPermissions_Model_Resource_Permission extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogPermissions\Model\Resource;
+
+class Permission extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource

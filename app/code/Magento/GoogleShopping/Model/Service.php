@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Service extends \Magento\Object
+namespace Magento\GoogleShopping\Model;
+
+class Service extends \Magento\Object
 {
     /**
      * Client instance identifier in registry
@@ -30,7 +32,7 @@ class Magento_GoogleShopping_Model_Service extends \Magento\Object
      * @param int $storeId
      * @param string $loginToken
      * @param string $loginCaptcha
-     * @return Zend_Http_Client
+     * @return \Zend_Http_Client
      */
     public function getClient($storeId = null, $loginToken = null, $loginCaptcha = null)
     {
@@ -41,36 +43,36 @@ class Magento_GoogleShopping_Model_Service extends \Magento\Object
         // Create an authenticated HTTP client
         $errorMsg = __('Sorry, but we can\'t connect to Google Content. Please check the account settings in your store configuration.');
         try {
-            if (!Mage::registry($this->_clientRegistryId)) {
-                $client = Zend_Gdata_ClientLogin::getHttpClient($user, $pass,
+            if (!\Mage::registry($this->_clientRegistryId)) {
+                $client = \Zend_Gdata_ClientLogin::getHttpClient($user, $pass,
                     \Magento\Gdata\Gshopping\Content::AUTH_SERVICE_NAME, null, '', $loginToken, $loginCaptcha,
-                    Zend_Gdata_ClientLogin::CLIENTLOGIN_URI, $type
+                    \Zend_Gdata_ClientLogin::CLIENTLOGIN_URI, $type
                 );
                 $configTimeout = array('timeout' => 60);
                 $client->setConfig($configTimeout);
-                Mage::register($this->_clientRegistryId, $client);
+                \Mage::register($this->_clientRegistryId, $client);
             }
-        } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+        } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
             throw $e;
-        } catch (Zend_Gdata_App_HttpException $e) {
-            Mage::throwException($errorMsg . __('Error: %1', $e->getMessage()));
-        } catch (Zend_Gdata_App_AuthException $e) {
-            Mage::throwException($errorMsg . __('Error: %1', $e->getMessage()));
+        } catch (\Zend_Gdata_App_HttpException $e) {
+            \Mage::throwException($errorMsg . __('Error: %1', $e->getMessage()));
+        } catch (\Zend_Gdata_App_AuthException $e) {
+            \Mage::throwException($errorMsg . __('Error: %1', $e->getMessage()));
         }
 
-        return Mage::registry($this->_clientRegistryId);
+        return \Mage::registry($this->_clientRegistryId);
     }
 
     /**
      * Set Google Content Client Instance
      *
-     * @param Zend_Http_Client $client
-     * @return Magento_GoogleShopping_Model_Service
+     * @param \Zend_Http_Client $client
+     * @return \Magento\GoogleShopping\Model\Service
      */
     public function setClient($client)
     {
-        Mage::unregister($this->_clientRegistryId);
-        Mage::register($this->_clientRegistryId, $client);
+        \Mage::unregister($this->_clientRegistryId);
+        \Mage::register($this->_clientRegistryId, $client);
         return $this;
     }
 
@@ -87,7 +89,7 @@ class Magento_GoogleShopping_Model_Service extends \Magento\Object
 
             if ($this->getConfig()->getIsDebug($storeId)) {
                 $this->_service
-                    ->setLogAdapter(Mage::getModel('Magento_Core_Model_Log_Adapter',
+                    ->setLogAdapter(\Mage::getModel('\Magento\Core\Model\Log\Adapter',
                     array('fileName' => 'googleshopping.log')), 'log')
                     ->setDebug(true);
             }
@@ -99,7 +101,7 @@ class Magento_GoogleShopping_Model_Service extends \Magento\Object
      * Set Google Content Service Instance
      *
      * @param \Magento\Gdata\Gshopping\Content $service
-     * @return Magento_GoogleShopping_Model_Service
+     * @return \Magento\GoogleShopping\Model\Service
      */
     public function setService($service)
     {
@@ -110,11 +112,11 @@ class Magento_GoogleShopping_Model_Service extends \Magento\Object
     /**
      * Google Content Config
      *
-     * @return Magento_GoogleShopping_Model_Config
+     * @return \Magento\GoogleShopping\Model\Config
      */
     public function getConfig()
     {
-        return Mage::getSingleton('Magento_GoogleShopping_Model_Config');
+        return \Mage::getSingleton('Magento\GoogleShopping\Model\Config');
     }
 
     /**

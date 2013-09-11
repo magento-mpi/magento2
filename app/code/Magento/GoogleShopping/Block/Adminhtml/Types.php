@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Types extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\GoogleShopping\Block\Adminhtml;
+
+class Types extends \Magento\Backend\Block\Widget\Grid\Container
 {
     protected function _construct()
     {

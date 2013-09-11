@@ -27,31 +27,31 @@ class Magento_Search_Model_Catalog_Layer_Filter_AttributeTest extends PHPUnit_Fr
             );
         }
 
-        $source = $this->getMock('Magento_Eav_Model_Entity_Attribute_Source_Config', array(), array(),
+        $source = $this->getMock('Magento\Eav\Model\Entity\Attribute\Source\Config', array(), array(),
             '', false, false);
         $source->expects($this->any())
             ->method('getAllOptions')
             ->will($this->returnValue($options));
-        $attribute = $this->getMock('Magento_Catalog_Model_Resource_Eav_Attribute', array(), array(), '', false, false);
+        $attribute = $this->getMock('Magento\Catalog\Model\Resource\Eav\Attribute', array(), array(), '', false, false);
         $attribute->expects($this->any())
             ->method('getSource')
             ->will($this->returnValue($source));
 
-        $productCollection = Mage::getResourceModel('Magento_Search_Model_Resource_Collection');
-        $layer = $this->getMock('Magento_Search_Model_Catalog_Layer');
+        $productCollection = Mage::getResourceModel('\Magento\Search\Model\Resource\Collection');
+        $layer = $this->getMock('Magento\Search\Model\Catalog\Layer');
         $layer->expects($this->any())
             ->method('getProductCollection')
             ->will($this->returnValue($productCollection));
 
         /**
-         * @var Magento_Search_Model_Catalog_Layer_Filter_Attribute
+         * @var \Magento\Search\Model\Catalog\Layer\Filter\Attribute
          */
-        $selectModel = Mage::getModel('Magento_Search_Model_Catalog_Layer_Filter_Attribute');
+        $selectModel = Mage::getModel('\Magento\Search\Model\Catalog\Layer\Filter\Attribute');
         $selectModel->setAttributeModel($attribute)->setLayer($layer);
 
         $selectModel->applyFilterToCollection($selectModel, $givenValue);
         $filterParams = $selectModel->getLayer()->getProductCollection()->getExtendedSearchParams();
-        $fieldName = Mage::getResourceSingleton('Magento_Search_Model_Resource_Engine')
+        $fieldName = Mage::getResourceSingleton('\Magento\Search\Model\Resource\Engine')
             ->getSearchEngineFieldName($selectModel->getAttributeModel(), 'nav');
         $resultFilter = $filterParams[$fieldName];
 

@@ -39,7 +39,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
     /**
      * Model under test
      *
-     * @var Magento_Core_Model_Resource_Session
+     * @var \Magento\Core\Model\Resource\Session
      */
     protected $_model;
 
@@ -80,7 +80,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareResourceMock($connection)
     {
-        $resource = $this->getMock('Magento_Core_Model_Resource', array('getTableName', 'getConnection'),
+        $resource = $this->getMock('Magento\Core\Model\Resource', array('getTableName', 'getConnection'),
             array(), '', false, false);
         $resource->expects($this->once())
             ->method('getTableName')
@@ -89,7 +89,7 @@ class Magento_Core_Model_Resource_SessionTest extends PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($connection));
 
-        $this->_model = new Magento_Core_Model_Resource_Session($resource);
+        $this->_model = new \Magento\Core\Model\Resource\Session($resource);
     }
 
     /**

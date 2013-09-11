@@ -13,10 +13,12 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Source_Locale implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source;
+
+class Locale implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {
-        return Mage::app()->getLocale()->getOptionLocales();
+        return \Mage::app()->getLocale()->getOptionLocales();
     }
 }

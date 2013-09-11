@@ -11,7 +11,9 @@
 /**
  * Layout structure model
  */
-class Magento_Core_Model_Layout_ScheduledStructure
+namespace Magento\Core\Model\Layout;
+
+class ScheduledStructure
 {
     /**
      * Information about structural elements, scheduled for creation

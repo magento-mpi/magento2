@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract
+ * Test class for \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm
  */
 class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
     extends PHPUnit_Framework_TestCase
@@ -21,16 +21,16 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
     public function testAddAttributesToForm()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $arguments = array($objectManager->get('Magento_Backend_Block_Template_Context'));
-        /** @var $block Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract */
-        $block = $this->getMockForAbstractClass('Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', $arguments);
-        $block->setLayout($objectManager->create('Magento_Core_Model_Layout'));
+        $arguments = array($objectManager->get('Magento\Backend\Block\Template\Context'));
+        /** @var $block \Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm */
+        $block = $this->getMockForAbstractClass('\Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', $arguments);
+        $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
 
         $method = new ReflectionMethod(
-            'Magento_Adminhtml_Block_Sales_Order_Create_Form_Abstract', '_addAttributesToForm');
+            '\Magento\Adminhtml\Block\Sales\Order\Create\Form\AbstractForm', '_addAttributesToForm');
         $method->setAccessible(true);
 
         $form = new \Magento\Data\Form();
@@ -43,7 +43,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form_AbstractTest
                 'frontend_label' => 'Date',
             )
         );
-        $dateAttribute = $objectManager->create('Magento_Customer_Model_Attribute', $arguments);
+        $dateAttribute = $objectManager->create('Magento\Customer\Model\Attribute', $arguments);
         $attributes = array('date' => $dateAttribute);
         $method->invoke($block, $attributes, $fieldset);
 

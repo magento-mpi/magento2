@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Job_Factory
+ * \Magento\Webhook\Model\Job\Factory
  *
  * @magentoDbIsolation enabled
  *
@@ -14,16 +14,16 @@ class Magento_Webhook_Model_Job_FactoryTest extends PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Job_Factory');
-        $event = Mage::getModel('Magento_Webhook_Model_Event')
+            ->create('Magento\Webhook\Model\Job\Factory');
+        $event = Mage::getModel('\Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription')
+        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
         $job = $factory->create($subscription, $event);
 
-        $this->assertInstanceOf('Magento_Webhook_Model_Job', $job);
+        $this->assertInstanceOf('\Magento\Webhook\Model\Job', $job);
         $this->assertEquals($event->getId(), $job->getEventId());
         $this->assertEquals($subscription->getId(), $job->getSubscriptionId());
     }

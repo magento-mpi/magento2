@@ -9,11 +9,13 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Ups_Source_DestType
+namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
+
+class DestType
 {
     public function toOptionArray()
     {
-        $ups = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Ups');
+        $ups = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Ups');
         $arr = array();
         foreach ($ups->getCode('dest_type_description') as $k=>$v) {
             $arr[] = array('value'=>$k, 'label'=>__($v));

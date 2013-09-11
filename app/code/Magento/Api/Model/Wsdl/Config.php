@@ -15,28 +15,30 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Wsdl_Config extends Magento_Api_Model_Wsdl_Config_Base
+namespace Magento\Api\Model\Wsdl;
+
+class Config extends \Magento\Api\Model\Wsdl\Config\Base
 {
     protected static $_namespacesPrefix = null;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_configReader;
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param \Magento\Simplexml\Element|null $sourceData
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        \Magento\Core\Model\Config\Modules\Reader $configReader,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
         $sourceData = null
     ) {
         parent::__construct($sourceData);
@@ -63,7 +65,7 @@ class Magento_Api_Model_Wsdl_Config extends Magento_Api_Model_Wsdl_Config_Base
     {
         if (is_null(self::$_namespacesPrefix)) {
             self::$_namespacesPrefix = array();
-            $config = Mage::getSingleton('Magento_Api_Model_Config')->getNode('v2/wsdl/prefix')->children();
+            $config = \Mage::getSingleton('Magento\Api\Model\Config')->getNode('v2/wsdl/prefix')->children();
             foreach ($config as $prefix => $namespace) {
                 self::$_namespacesPrefix[$namespace->asArray()] = $prefix;
             }
@@ -92,11 +94,11 @@ class Magento_Api_Model_Wsdl_Config extends Magento_Api_Model_Wsdl_Config_Base
         if ($cachedXml) {
             $this->loadString($cachedXml);
         } else {
-            $mergeWsdl = new Magento_Api_Model_Wsdl_Config_Base();
+            $mergeWsdl = new \Magento\Api\Model\Wsdl\Config\Base();
             $mergeWsdl->setHandler($this->getHandler());
 
-            /** @var Magento_Api_Helper_Data $helper */
-            $helper = Mage::helper('Magento_Api_Helper_Data');
+            /** @var \Magento\Api\Helper\Data $helper */
+            $helper = \Mage::helper('Magento\Api\Helper\Data');
             if ($helper->isWsiCompliant()) {
                 /**
                  * Exclude Magento_Api wsdl xml file because it used for previous version

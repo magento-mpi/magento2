@@ -11,7 +11,9 @@
 /**
  * Ogone template Action Dropdown source
  */
-class Magento_Ogone_Model_Source_Pmlist
+namespace Magento\Ogone\Model\Source;
+
+class Pmlist
 {
     /**
      * Prepare ogone payment block layout as option array
@@ -21,9 +23,9 @@ class Magento_Ogone_Model_Source_Pmlist
     public function toOptionArray()
     {
         return array(
-            array('value' => Magento_Ogone_Model_Api::PMLIST_HORISONTAL_LEFT, 'label' => __('Horizontally grouped logo with group name on left')),
-            array('value' => Magento_Ogone_Model_Api::PMLIST_HORISONTAL, 'label' => __('Horizontally grouped logo with no group name')),
-            array('value' => Magento_Ogone_Model_Api::PMLIST_VERTICAL, 'label' => __('Verical list')),
+            array('value' => \Magento\Ogone\Model\Api::PMLIST_HORISONTAL_LEFT, 'label' => __('Horizontally grouped logo with group name on left')),
+            array('value' => \Magento\Ogone\Model\Api::PMLIST_HORISONTAL, 'label' => __('Horizontally grouped logo with no group name')),
+            array('value' => \Magento\Ogone\Model\Api::PMLIST_VERTICAL, 'label' => __('Verical list')),
         );
     }
 }

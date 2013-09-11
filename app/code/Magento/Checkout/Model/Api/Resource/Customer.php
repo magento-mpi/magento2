@@ -15,20 +15,22 @@
  * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Model_Api_Resource
+namespace Magento\Checkout\Model\Api\Resource;
+
+class Customer extends \Magento\Checkout\Model\Api\Resource
 {
     /**
      * Customer address types
      */
-    const ADDRESS_BILLING    = Magento_Sales_Model_Quote_Address::TYPE_BILLING;
-    const ADDRESS_SHIPPING   = Magento_Sales_Model_Quote_Address::TYPE_SHIPPING;
+    const ADDRESS_BILLING    = \Magento\Sales\Model\Quote\Address::TYPE_BILLING;
+    const ADDRESS_SHIPPING   = \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING;
 
     /**
      * Customer checkout types
      */
-     const MODE_CUSTOMER = Magento_Checkout_Model_Type_Onepage::METHOD_CUSTOMER;
-     const MODE_REGISTER = Magento_Checkout_Model_Type_Onepage::METHOD_REGISTER;
-     const MODE_GUEST    = Magento_Checkout_Model_Type_Onepage::METHOD_GUEST;
+     const MODE_CUSTOMER = \Magento\Checkout\Model\Type\Onepage::METHOD_CUSTOMER;
+     const MODE_REGISTER = \Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER;
+     const MODE_GUEST    = \Magento\Checkout\Model\Type\Onepage::METHOD_GUEST;
 
 
     /**
@@ -36,8 +38,8 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
      */
     protected function _getCustomer($customerId)
     {
-        /** @var $customer Magento_Customer_Model_Customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')
+        /** @var $customer \Magento\Customer\Model\Customer */
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
             ->load($customerId);
         if (!$customer->getId()) {
             $this->_fault('customer_not_exists');
@@ -50,11 +52,11 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
      * Get customer address by identifier
      *
      * @param   int $addressId
-     * @return  Magento_Customer_Model_Address
+     * @return  \Magento\Customer\Model\Address
      */
     protected function _getCustomerAddress($addressId)
     {
-        $address = Mage::getModel('Magento_Customer_Model_Address')->load((int)$addressId);
+        $address = \Mage::getModel('\Magento\Customer\Model\Address')->load((int)$addressId);
         if (is_null($address->getId())) {
             $this->_fault('invalid_address_id');
         }
@@ -67,10 +69,10 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
     }
 
     /**
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return bool
      */
-    public function prepareCustomerForQuote(Magento_Sales_Model_Quote $quote)
+    public function prepareCustomerForQuote(\Magento\Sales\Model\Quote $quote)
     {
         $isNewCustomer = false;
         switch ($quote->getCheckoutMethod()) {
@@ -92,32 +94,32 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
     /**
      * Prepare quote for guest checkout order submit
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Checkout_Model_Api_Resource_Customer
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Checkout\Model\Api\Resource\Customer
      */
-    protected function _prepareGuestQuote(Magento_Sales_Model_Quote $quote)
+    protected function _prepareGuestQuote(\Magento\Sales\Model\Quote $quote)
     {
         $quote->setCustomerId(null)
             ->setCustomerEmail($quote->getBillingAddress()->getEmail())
             ->setCustomerIsGuest(true)
-            ->setCustomerGroupId(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID);
+            ->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
         return $this;
     }
 
     /**
      * Prepare quote for customer registration and customer order submit
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Checkout_Model_Api_Resource_Customer
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Checkout\Model\Api\Resource\Customer
      */
-    protected function _prepareNewCustomerQuote(Magento_Sales_Model_Quote $quote)
+    protected function _prepareNewCustomerQuote(\Magento\Sales\Model\Quote $quote)
     {
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        //$customer = Mage::getModel('Magento_Customer_Model_Customer');
+        //$customer = \Mage::getModel('\Magento\Customer\Model\Customer');
         $customer = $quote->getCustomer();
-        /* @var $customer Magento_Customer_Model_Customer */
+        /* @var $customer \Magento\Customer\Model\Customer */
         $customerBilling = $billing->exportCustomerAddress();
         $customer->addAddress($customerBilling);
         $billing->setCustomerAddress($customerBilling);
@@ -131,7 +133,7 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
             $customerBilling->setIsDefaultShipping(true);
         }
 
-        Mage::helper('Magento_Core_Helper_Data')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        \Mage::helper('Magento\Core\Helper\Data')->copyFieldset('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
         $quote->setCustomer($customer)
@@ -143,10 +145,10 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
     /**
      * Prepare quote for customer order submit
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Checkout_Model_Api_Resource_Customer
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Checkout\Model\Api\Resource\Customer
      */
-    protected function _prepareCustomerQuote(Magento_Sales_Model_Quote $quote)
+    protected function _prepareCustomerQuote(\Magento\Sales\Model\Quote $quote)
     {
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
@@ -180,10 +182,10 @@ class Magento_Checkout_Model_Api_Resource_Customer extends Magento_Checkout_Mode
     /**
      * Involve new customer to system
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Checkout_Model_Api_Resource_Customer
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Checkout\Model\Api\Resource\Customer
      */
-    public function involveNewCustomer(Magento_Sales_Model_Quote $quote)
+    public function involveNewCustomer(\Magento\Sales\Model\Quote $quote)
     {
         $customer = $quote->getCustomer();
         if ($customer->isConfirmationRequired()) {

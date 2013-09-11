@@ -11,7 +11,7 @@
     <handle id="adminhtml_reminder_index">
         <update handle="adminhtml_reminder_grid_block"/>
         <reference name="content">
-            <block class="Magento_Reminder_Block_Adminhtml_Reminder" name="adminhtml.reminder.grid.container"/>
+            <block class="\Magento\Reminder\Block\Adminhtml\Reminder" name="adminhtml.reminder.grid.container"/>
         </reference>
     </handle>
 </layout>

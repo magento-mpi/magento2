@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-/** @var $address Magento_Sales_Model_Order_Address */
-$address = Mage::getModel('Magento_Sales_Model_Order_Address');
+/** @var $address \Magento\Sales\Model\Order\Address */
+$address = Mage::getModel('\Magento\Sales\Model\Order\Address');
 $address->load('admin@example.com', 'email');
 $address->delete();
 
-/** @var $attribute Magento_Customer_Model_Attribute */
-$attribute = Mage::getModel('Magento_Customer_Model_Attribute');
+/** @var $attribute \Magento\Customer\Model\Attribute */
+$attribute = Mage::getModel('\Magento\Customer\Model\Attribute');
 $attribute->loadByCode('customer_address', 'fixture_address_attribute');
 $attribute->delete();

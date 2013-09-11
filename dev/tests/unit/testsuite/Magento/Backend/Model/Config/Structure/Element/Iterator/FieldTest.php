@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Config_Structure_Element_Iterator_FieldTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_Iterator_Field
+     * @var \Magento\Backend\Model\Config\Structure\Element\Iterator\Field
      */
     protected $_model;
 
@@ -29,12 +29,12 @@ class Magento_Backend_Model_Config_Structure_Element_Iterator_FieldTest extends 
     public function setUp()
     {
         $this->_fieldMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Element\Field', array(), array(), '', false
         );
         $this->_groupMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Group', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Element\Group', array(), array(), '', false
         );
-        $this->_model = new Magento_Backend_Model_Config_Structure_Element_Iterator_Field(
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Iterator\Field(
             $this->_groupMock, $this->_fieldMock
         );
         $this->_model->setElements(array(

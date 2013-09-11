@@ -15,8 +15,10 @@
  * @package    Magento_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCard_Helper_Catalog_Product_Configuration extends Magento_Core_Helper_Abstract
-    implements Magento_Catalog_Helper_Product_Configuration_Interface
+namespace Magento\GiftCard\Helper\Catalog\Product;
+
+class Configuration extends \Magento\Core\Helper\AbstractHelper
+    implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
      * Prepare custom option for display, returns false if there's no value
@@ -24,7 +26,7 @@ class Magento_GiftCard_Helper_Catalog_Product_Configuration extends Magento_Core
      * @param string $code
      * @return mixed
      */
-    public function prepareCustomOption(Magento_Catalog_Model_Product_Configuration_Item_Interface $item, $code)
+    public function prepareCustomOption(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item, $code)
     {
         $option = $item->getOptionByCode($code);
         if ($option) {
@@ -41,7 +43,7 @@ class Magento_GiftCard_Helper_Catalog_Product_Configuration extends Magento_Core
      *
      * @return array
      */
-    public function getGiftcardOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getGiftcardOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $result = array();
         $value = $this->prepareCustomOption($item, 'giftcard_sender_name');
@@ -82,14 +84,14 @@ class Magento_GiftCard_Helper_Catalog_Product_Configuration extends Magento_Core
     /**
      * Retrieves product options list
      *
-     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return array
      */
-    public function getOptions(Magento_Catalog_Model_Product_Configuration_Item_Interface $item)
+    public function getOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         return array_merge(
             $this->getGiftcardOptions($item),
-            Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getCustomOptions($item)
+            \Mage::helper('Magento\Catalog\Helper\Product\Configuration')->getCustomOptions($item)
         );
     }
 }

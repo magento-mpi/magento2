@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Variable extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource;
+
+class Variable extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Constructor
@@ -30,11 +32,11 @@ class Magento_Core_Model_Resource_Variable extends Magento_Core_Model_Resource_D
     /**
      * Load variable by code
      *
-     * @param Magento_Core_Model_Variable $object
+     * @param \Magento\Core\Model\Variable $object
      * @param string $code
-     * @return Magento_Core_Model_Resource_Variable
+     * @return \Magento\Core\Model\Resource\Variable
      */
-    public function loadByCode(Magento_Core_Model_Variable $object, $code)
+    public function loadByCode(\Magento\Core\Model\Variable $object, $code)
     {
         if ($result = $this->getVariableByCode($code, true, $object->getStoreId())) {
             $object->setData($result);
@@ -64,10 +66,10 @@ class Magento_Core_Model_Resource_Variable extends Magento_Core_Model_Resource_D
     /**
      * Perform actions after object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Variable
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Variable
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
         if ($object->getUseDefaultValue()) {
@@ -101,8 +103,8 @@ class Magento_Core_Model_Resource_Variable extends Magento_Core_Model_Resource_D
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Core_Model_Abstract $object
-     * @return Zend_Db_Select
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -114,11 +116,11 @@ class Magento_Core_Model_Resource_Variable extends Magento_Core_Model_Resource_D
     /**
      * Add variable store and default value to select
      *
-     * @param Zend_Db_Select $select
+     * @param \Zend_Db_Select $select
      * @param integer $storeId
-     * @return Magento_Core_Model_Resource_Variable
+     * @return \Magento\Core\Model\Resource\Variable
      */
-    protected function _addValueToSelect(Zend_Db_Select $select, $storeId = Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+    protected function _addValueToSelect(\Zend_Db_Select $select, $storeId = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
     {
         $adapter = $this->_getReadAdapter();
         $ifNullPlainValue = $adapter->getCheckSql('store.plain_value IS NULL', 'def.plain_value', 'store.plain_value');

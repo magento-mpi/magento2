@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Form_Type extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Eav\Model\Resource\Form;
+
+class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table
@@ -34,12 +36,12 @@ class Magento_Eav_Model_Resource_Form_Type extends Magento_Core_Model_Resource_D
     /**
      * Load an object
      *
-     * @param Magento_Eav_Model_Form_Type $object
+     * @param \Magento\Eav\Model\Form\Type $object
      * @param mixed $value
      * @param string $field field to load by (defaults to model id)
-     * @return Magento_Eav_Model_Resource_Form_Type
+     * @return \Magento\Eav\Model\Resource\Form\Type
      */
-    public function load(Magento_Core_Model_Abstract $object, $value, $field = null)
+    public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
     {
         if (is_null($field) && !is_numeric($value)) {
             $field = 'code';
@@ -50,7 +52,7 @@ class Magento_Eav_Model_Resource_Form_Type extends Magento_Core_Model_Resource_D
     /**
      * Retrieve form type entity types
      *
-     * @param Magento_Eav_Model_Form_Type $object
+     * @param \Magento\Eav\Model\Form\Type $object
      * @return array
      */
     public function getEntityTypes($object)
@@ -71,12 +73,12 @@ class Magento_Eav_Model_Resource_Form_Type extends Magento_Core_Model_Resource_D
     /**
      * Save entity types after save form type
      *
-     * @see Magento_Core_Model_Resource_Db_Abstract#_afterSave($object)
+     * @see \Magento\Core\Model\Resource\Db\AbstractDb#_afterSave($object)
      *
-     * @param Magento_Eav_Model_Form_Type $object
-     * @return Magento_Eav_Model_Resource_Form_Type
+     * @param \Magento\Eav\Model\Form\Type $object
+     * @return \Magento\Eav\Model\Resource\Form\Type
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->hasEntityTypes()) {
             $new = $object->getEntityTypes();
@@ -118,12 +120,12 @@ class Magento_Eav_Model_Resource_Form_Type extends Magento_Core_Model_Resource_D
     /**
      * Retrieve form type filtered by given attribute
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract|int $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|int $attribute
      * @return array
      */
     public function getFormTypesByAttribute($attribute)
     {
-        if ($attribute instanceof Magento_Eav_Model_Entity_Attribute_Abstract) {
+        if ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute) {
             $attribute = $attribute->getId();
         }
         if (!$attribute) {

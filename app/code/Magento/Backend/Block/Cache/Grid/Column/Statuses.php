@@ -7,21 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Block_Cache_Grid_Column_Statuses extends Magento_Backend_Block_Widget_Grid_Column
+namespace Magento\Backend\Block\Cache\Grid\Column;
+
+class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
 {
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Cache_TypeListInterface $cacheTypeList,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
         array $data = array()
     ) {
         parent::__construct ($context, $data);
@@ -42,8 +44,8 @@ class Magento_Backend_Block_Cache_Grid_Column_Statuses extends Magento_Backend_B
      * Decorate status column values
      *
      * @param string $value
-     * @param  Magento_Core_Model_Abstract $row
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
+     * @param  \Magento\Core\Model\AbstractModel $row
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
      * @param bool $isExport
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)

@@ -14,8 +14,10 @@
  * @category   Magento
  * @package    Magento_CustomAttribute
  */
-class Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\CustomAttribute\Block\Adminhtml\Form\Renderer\Fieldset;
+
+class Element
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * Retrieve data object related with form
@@ -62,7 +64,7 @@ class Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
     /**
      * Disable field in default value using case
      *
-     * @return Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
+     * @return \Magento\CustomAttribute\Block\Adminhtml\Form\Renderer\Fieldset\Element
      */
     public function checkFieldDisable()
     {
@@ -83,7 +85,7 @@ class Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
     {
         $html = '';
         $element = $this->getElement();
-        if (Mage::app()->isSingleStoreMode()) {
+        if (\Mage::app()->isSingleStoreMode()) {
             return $html;
         }
 

@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\GoogleShopping\Block\Adminhtml\Items;
+
+class Item extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected function _construct()
     {
@@ -27,11 +29,11 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtm
     /**
      * Prepare grid collection object
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Item
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Item
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_GoogleShopping_Model_Resource_Item_Collection');
+        $collection = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Item\Collection');
         $store = $this->_getStore();
         $collection->addStoreFilter($store->getId());
         $this->setCollection($collection);
@@ -42,7 +44,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtm
     /**
      * Prepare grid columns
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Item
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Item
      */
     protected function _prepareColumns()
     {
@@ -67,7 +69,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtm
     /**
      * Prepare grid massaction actions
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Item
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Item
      */
     protected function _prepareMassaction()
     {
@@ -102,10 +104,10 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Item extends Magento_Adminhtm
     /**
      * Get store model by request param
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {
-        return Mage::app()->getStore($this->getRequest()->getParam('store'));
+        return \Mage::app()->getStore($this->getRequest()->getParam('store'));
     }
 }

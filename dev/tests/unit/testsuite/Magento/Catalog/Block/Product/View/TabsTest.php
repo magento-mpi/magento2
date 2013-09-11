@@ -10,24 +10,24 @@ class Magento_Catalog_Block_Product_View_TabsTest extends PHPUnit_Framework_Test
 {
     public function testAddTab()
     {
-        $tabBlock = $this->getMock('Magento_Core_Block_Template', array(), array(), '', false);
+        $tabBlock = $this->getMock('Magento\Core\Block\Template', array(), array(), '', false);
         $tabBlock->expects($this->once())
             ->method('setTemplate')
             ->with('template')
             ->will($this->returnSelf());
 
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $layout->expects($this->once())
             ->method('createBlock')
             ->with('block')
             ->will($this->returnValue($tabBlock));
 
-        $context = $this->getMock('Magento_Core_Block_Template_Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
         $context->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layout));
 
-        $block = new Magento_Catalog_Block_Product_View_Tabs($context);
+        $block = new \Magento\Catalog\Block\Product\View\Tabs($context);
         $block->addTab('alias', 'title', 'block', 'template', 'header');
 
         $expectedTabs = array(

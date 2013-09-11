@@ -15,9 +15,11 @@
  * @package  Magento_Usa
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl_International
-    extends Magento_Usa_Model_Shipping_Carrier_Abstract
-    implements Magento_Shipping_Model_Carrier_Interface
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl;
+
+class International
+    extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+    implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
     /**
      * Carrier Product indicator
@@ -46,7 +48,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Rate request data
      *
-     * @var Magento_Shipping_Model_Rate_Request|null
+     * @var \Magento\Shipping\Model\Rate\Request|null
      */
     protected $_request = null;
 
@@ -60,14 +62,14 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Rate result data
      *
-     * @var Magento_Shipping_Model_Rate_Result|null
+     * @var \Magento\Shipping\Model\Rate\Result|null
      */
     protected $_result = null;
 
     /**
      * Countries parameters data
      *
-     * @var Magento_Usa_Model_Simplexml_Element|null
+     * @var \Magento\Usa\Model\Simplexml\Element|null
      */
     protected $_countryParams = null;
 
@@ -138,7 +140,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     protected $_isDomestic = false;
 
     /**
-     * Factory for Magento_Usa_Model_Simplexml_Element
+     * Factory for \Magento\Usa\Model\Simplexml\Element
      *
      * @var Magento_Usa_Model_Simplexml_ElementFactory
      */
@@ -168,7 +170,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     protected function _getDefaultValue($origValue, $pathToValue)
     {
         if (!$origValue) {
-            $origValue = Mage::getStoreConfig(
+            $origValue = \Mage::getStoreConfig(
                 $pathToValue,
                 $this->getStore()
             );
@@ -180,10 +182,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Collect and get rates
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return bool|Magento_Shipping_Model_Rate_Result|null
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return bool|\Magento\Shipping\Model\Rate\Result|null
      */
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
@@ -194,23 +196,23 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
 
         $origCompanyName = $this->_getDefaultValue(
             $requestDhl->getOrigCompanyName(),
-            Magento_Core_Model_Store::XML_PATH_STORE_STORE_NAME
+            \Magento\Core\Model\Store::XML_PATH_STORE_STORE_NAME
         );
         $origCountryId = $this->_getDefaultValue(
             $requestDhl->getOrigCountryId(),
-            Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID
+            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID
         );
         $origState = $this->_getDefaultValue(
             $requestDhl->getOrigState(),
-            Magento_Shipping_Model_Shipping::XML_PATH_STORE_REGION_ID
+            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_REGION_ID
         );
         $origCity = $this->_getDefaultValue(
             $requestDhl->getOrigCity(),
-            Magento_Shipping_Model_Shipping::XML_PATH_STORE_CITY
+            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_CITY
         );
         $origPostcode = $this->_getDefaultValue(
             $requestDhl->getOrigPostcode(),
-            Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP
+            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP
         );
 
         $requestDhl->setOrigCompanyName($origCompanyName)
@@ -246,7 +248,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Returns request result
      *
-     * @return Magento_Shipping_Model_Rate_Result|null
+     * @return \Magento\Shipping\Model\Rate\Result|null
      */
     public function getResult()
     {
@@ -271,7 +273,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
      * Prepare and set request in property of current instance
      *
      * @param \Magento\Object $request
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl
      */
     public function setRequest(\Magento\Object $request)
     {
@@ -296,11 +298,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
 
         $requestObject->setOrigCountry(
                 $this->_getDefaultValue(
-                    $request->getOrigCountry(), Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID)
+                    $request->getOrigCountry(), \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID)
             )
             ->setOrigCountryId(
                 $this->_getDefaultValue(
-                    $request->getOrigCountryId(), Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID)
+                    $request->getOrigCountryId(), \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID)
             );
 
         $shippingWeight = $request->getPackageWeight();
@@ -309,14 +311,14 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             ->setValueWithDiscount($request->getPackageValueWithDiscount())
             ->setCustomsValue($request->getPackageCustomsValue())
             ->setDestStreet(
-                Mage::helper('Magento_Core_Helper_String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
+                \Mage::helper('Magento\Core\Helper\String')->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
             ->setDestStreetLine2($request->getDestStreetLine2())
             ->setDestCity($request->getDestCity())
             ->setOrigCompanyName($request->getOrigCompanyName())
             ->setOrigCity($request->getOrigCity())
             ->setOrigPhoneNumber($request->getOrigPhoneNumber())
             ->setOrigPersonName($request->getOrigPersonName())
-            ->setOrigEmail(Mage::getStoreConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
+            ->setOrigEmail(\Mage::getStoreConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
             ->setOrigCity($request->getOrigCity())
             ->setOrigPostal($request->getOrigPostal())
             ->setOrigStreetLine2($request->getOrigStreetLine2())
@@ -324,13 +326,13 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             ->setDestPersonName($request->getDestPersonName())
             ->setDestCompanyName($request->getDestCompanyName());
 
-        $originStreet2 = Mage::getStoreConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
+        $originStreet2 = \Mage::getStoreConfig(
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
 
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
 
         if (is_numeric($request->getOrigState())) {
-            $requestObject->setOrigState(Mage::getModel('Magento_Directory_Model_Region')->load($request->getOrigState())->getCode());
+            $requestObject->setOrigState(\Mage::getModel('\Magento\Directory\Model\Region')->load($request->getOrigState())->getCode());
         } else {
             $requestObject->setOrigState($request->getOrigState());
         }
@@ -387,7 +389,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                     $allowedMethods = explode(',', $this->getConfigData('nondoc_methods'));
                     break;
                 default:
-                    Mage::throwException(__('Wrong Content Type'));
+                    \Mage::throwException(__('Wrong Content Type'));
             }
         }
         $methods = array();
@@ -429,18 +431,18 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                 '1' => __('Specific'),
             ),
             'dimensions_variables'  => array(
-                'L'         => Zend_Measure_Weight::POUND,
-                'LB'        => Zend_Measure_Weight::POUND,
-                'POUND'     => Zend_Measure_Weight::POUND,
-                'K'         => Zend_Measure_Weight::KILOGRAM,
-                'KG'        => Zend_Measure_Weight::KILOGRAM,
-                'KILOGRAM'  => Zend_Measure_Weight::KILOGRAM,
-                'I'         => Zend_Measure_Length::INCH,
-                'IN'        => Zend_Measure_Length::INCH,
-                'INCH'      => Zend_Measure_Length::INCH,
-                'C'         => Zend_Measure_Length::CENTIMETER,
-                'CM'        => Zend_Measure_Length::CENTIMETER,
-                'CENTIMETER'=> Zend_Measure_Length::CENTIMETER,
+                'L'         => \Zend_Measure_Weight::POUND,
+                'LB'        => \Zend_Measure_Weight::POUND,
+                'POUND'     => \Zend_Measure_Weight::POUND,
+                'K'         => \Zend_Measure_Weight::KILOGRAM,
+                'KG'        => \Zend_Measure_Weight::KILOGRAM,
+                'KILOGRAM'  => \Zend_Measure_Weight::KILOGRAM,
+                'I'         => \Zend_Measure_Length::INCH,
+                'IN'        => \Zend_Measure_Length::INCH,
+                'INCH'      => \Zend_Measure_Length::INCH,
+                'C'         => \Zend_Measure_Length::CENTIMETER,
+                'CM'        => \Zend_Measure_Length::CENTIMETER,
+                'CENTIMETER'=> \Zend_Measure_Length::CENTIMETER,
 
             )
         );
@@ -542,7 +544,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     protected function _getWeight($weight, $maxWeight = false, $configWeightUnit = false)
     {
         if ($maxWeight) {
-            $configWeightUnit = Zend_Measure_Weight::KILOGRAM;
+            $configWeightUnit = \Zend_Measure_Weight::KILOGRAM;
         } elseif ($configWeightUnit) {
             $configWeightUnit = $this->getCode('dimensions_variables', $configWeightUnit);
         } else {
@@ -552,7 +554,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $countryWeightUnit = $this->getCode('dimensions_variables', $this->_getWeightUnit());
 
         if ($configWeightUnit != $countryWeightUnit) {
-            $weight = Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+            $weight = \Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
                 round($weight,3),
                 $configWeightUnit,
                 $countryWeightUnit
@@ -573,7 +575,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $fullItems  = array();
 
         foreach ($allItems as $item) {
-            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
                 && $item->getProduct()->getShipmentType()
             ) {
                 continue;
@@ -594,7 +596,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             }
 
             $itemWeight = $item->getWeight();
-            if ($item->getIsQtyDecimal() && $item->getProductType() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            if ($item->getIsQtyDecimal() && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                 $stockItem = $item->getProduct()->getStockItem();
                 if ($stockItem->getIsDecimalDivided()) {
                    if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
@@ -607,7 +609,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                        if ($itemWeight > $maxWeight) {
                            $qtyItem = floor($itemWeight / $maxWeight);
                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
-                           $weightItem = Mage::helper('Magento_Core_Helper_Data')->getExactDivision($itemWeight, $maxWeight);
+                           $weightItem = \Mage::helper('Magento\Core\Helper\Data')->getExactDivision($itemWeight, $maxWeight);
                            if ($weightItem) {
                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
                            }
@@ -624,7 +626,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             }
 
             if ($changeQty && !$item->getParentItem() && $item->getIsQtyDecimal()
-                && $item->getProductType() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+                && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ) {
                 $qty = 1;
             }
@@ -647,10 +649,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Make pieces
      *
-     * @param Magento_Usa_Model_Simplexml_Element $nodeBkgDetails
+     * @param \Magento\Usa\Model\Simplexml\Element $nodeBkgDetails
      * @return void
      */
-    protected function _makePieces(Magento_Usa_Model_Simplexml_Element $nodeBkgDetails)
+    protected function _makePieces(\Magento\Usa\Model\Simplexml\Element $nodeBkgDetails)
     {
         $divideOrderWeight = (string)$this->getConfigData('divide_order_weight');
         $nodePieces = $nodeBkgDetails->addChild('Pieces', '', '');
@@ -709,7 +711,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         }
 
         $handlingAction = $this->getConfigData('handling_action');
-        if ($handlingAction == Magento_Shipping_Model_Carrier_Abstract::HANDLING_ACTION_PERORDER || !$numberOfPieces) {
+        if ($handlingAction == \Magento\Shipping\Model\Carrier\AbstractCarrier::HANDLING_ACTION_PERORDER || !$numberOfPieces) {
             $numberOfPieces = 1;
         }
         $this->_numBoxes = $numberOfPieces;
@@ -730,16 +732,16 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             $configWeightUnit = $this->getCode('dimensions_variables', $configWeightUnit);
         }
 
-        if ($configWeightUnit == Zend_Measure_Weight::POUND) {
-            $configDimensionUnit = Zend_Measure_Length::INCH;
+        if ($configWeightUnit == \Zend_Measure_Weight::POUND) {
+            $configDimensionUnit = \Zend_Measure_Length::INCH;
         } else {
-            $configDimensionUnit = Zend_Measure_Length::CENTIMETER;
+            $configDimensionUnit = \Zend_Measure_Length::CENTIMETER;
         }
 
         $countryDimensionUnit = $this->getCode('dimensions_variables', $this->_getDimensionUnit());
 
         if ($configDimensionUnit != $countryDimensionUnit) {
-            $dimension = Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+            $dimension = \Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
                 round($dimension, 3),
                 $configDimensionUnit,
                 $countryDimensionUnit
@@ -752,7 +754,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Add dimension to piece
      *
-     * @param Magento_Usa_Model_Simplexml_Element $nodePiece
+     * @param \Magento\Usa\Model\Simplexml\Element $nodePiece
      * @return void
      */
     protected function _addDimension($nodePiece)
@@ -773,7 +775,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Get shipping quotes
      *
-     * @return Magento_Core_Model_Abstract|Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Core\Model\AbstractModel|\Magento\Shipping\Model\Rate\Result
      */
     protected function _getQuotes()
     {
@@ -819,7 +821,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             // IsDutiable flag and Dutiable node indicates that cargo is not a documentation
             $nodeBkgDetails->addChild('IsDutiable', 'Y');
             $nodeDutiable = $nodeGetQuote->addChild('Dutiable');
-            $baseCurrencyCode = Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode();
+            $baseCurrencyCode = \Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode();
             $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
             $nodeDutiable->addChild('DeclaredValue', sprintf("%.2F", $rawRequest->getValue()));
         }
@@ -837,7 +839,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                 $responseBody = $client->request(\Magento\HTTP\ZendClient::POST)->getBody();
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_errors[$e->getCode()] = $e->getMessage();
                 $responseBody = '';
             }
@@ -851,7 +853,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
      * Parse response from DHL web service
      *
      * @param string $response
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _parseResponse($response)
     {
@@ -884,7 +886,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                                     break;
                                 }
                             }
-                            Mage::throwException(__('Error #%1 : %2', trim($code), trim($data)));
+                            \Mage::throwException(__('Error #%1 : %2', trim($code), trim($data)));
                         }
 
                         $code = isset($nodeCondition->ConditionCode) ? (string)$nodeCondition->ConditionCode : 0;
@@ -899,14 +901,14 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                             $result = new \Magento\Object();
                             $result->setTrackingNumber((string)$xml->AirwayBillNumber);
                             try {
-                                /* @var $pdf Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf */
-                                $pdf = Mage::getModel(
-                                    'Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf',
+                                /* @var $pdf \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf */
+                                $pdf = \Mage::getModel(
+                                    '\Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf',
                                     array('arguments' => array('info' => $xml, 'request' => $this->_request))
                                 );
                                 $result->setShippingLabelContent($pdf->render());
-                            } catch (Exception $e) {
-                                Mage::throwException(__($e->getMessage()));
+                            } catch (\Exception $e) {
+                                \Mage::throwException(__($e->getMessage()));
                             }
                             return $result;
                         } else {
@@ -921,14 +923,14 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             $this->_errors[] = $responseError;
         }
 
-        /* @var $result Magento_Shipping_Model_Rate_Result */
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        /* @var $result \Magento\Shipping\Model\Rate\Result */
+        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
         if ($this->_rates) {
             foreach ($this->_rates as $rate) {
                 $method = $rate['service'];
                 $data = $rate['data'];
-                /* @var $rate Magento_Shipping_Model_Rate_Result_Method */
-                $rate = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+                /* @var $rate \Magento\Shipping\Model\Rate\Result\Method */
+                $rate = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
                 $rate->setCarrier(self::CODE);
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -939,7 +941,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             }
         } else if (!empty($this->_errors)) {
             if ($this->_isShippingLabelFlag) {
-                Mage::throwException($responseError);
+                \Mage::throwException($responseError);
             }
             return $this->_showError();
         }
@@ -949,10 +951,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Add rate to DHL rates array
      *
-     * @param Magento_Usa_Model_Simplexml_Element $shipmentDetails
-     * @return Magento_Usa_Model_Shipping_Carrier_Dhl_International
+     * @param \Magento\Usa\Model\Simplexml\Element $shipmentDetails
+     * @return \Magento\Usa\Model\Shipping\Carrier\Dhl\International
      */
-    protected function _addRate(Magento_Usa_Model_Simplexml_Element $shipmentDetails)
+    protected function _addRate(\Magento\Usa\Model\Simplexml\Element $shipmentDetails)
     {
         if (isset($shipmentDetails->ProductShortName)
             && isset($shipmentDetails->ShippingCharge)
@@ -964,12 +966,12 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             $dhlProduct             = (string)$shipmentDetails->GlobalProductCode;
             $totalEstimate          = (float)(string)$shipmentDetails->ShippingCharge;
             $currencyCode           = (string)$shipmentDetails->CurrencyCode;
-            $baseCurrencyCode       = Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode();
+            $baseCurrencyCode       = \Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode();
             $dhlProductDescription  = $this->getDhlProductTitle($dhlProduct);
 
             if ($currencyCode != $baseCurrencyCode) {
-                /* @var $currency Magento_Directory_Model_Currency */
-                $currency = Mage::getModel('Magento_Directory_Model_Currency');
+                /* @var $currency \Magento\Directory\Model\Currency */
+                $currency = \Mage::getModel('\Magento\Directory\Model\Currency');
                 $rates = $currency->getCurrencyRates($currencyCode, array($baseCurrencyCode));
                 if (!empty($rates) && isset($rates[$baseCurrencyCode])) {
                     // Convert to store display currency using store exchange rate
@@ -1022,7 +1024,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $measureUnit = $this->getCountryParams($countryId)->getMeasureUnit();
         if (empty($measureUnit)) {
-            Mage::throwException(__("Cannot identify measure unit for %1", $countryId));
+            \Mage::throwException(__("Cannot identify measure unit for %1", $countryId));
         }
         return $measureUnit;
     }
@@ -1037,7 +1039,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $countryId = $this->_rawRequest->getOrigCountryId();
         $weightUnit = $this->getCountryParams($countryId)->getWeightUnit();
         if (empty($weightUnit)) {
-            Mage::throwException(__("Cannot identify weight unit for %1", $countryId));
+            \Mage::throwException(__("Cannot identify weight unit for %1", $countryId));
         }
         return $weightUnit;
     }
@@ -1053,7 +1055,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     protected function getCountryParams($countryCode)
     {
         if (empty($this->_countryParams)) {
-            $dhlConfigPath = Mage::getModuleDir('etc', 'Magento_Usa')  . DS . 'dhl' . DS;
+            $dhlConfigPath = \Mage::getModuleDir('etc', 'Magento_Usa')  . DS . 'dhl' . DS;
             $countriesXml = file_get_contents($dhlConfigPath . 'international' . DS . 'countries.xml');
             $this->_countryParams = new \Magento\Simplexml\Element($countriesXml);
         }
@@ -1081,10 +1083,10 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Processing additional validation to check is carrier applicable.
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Shipping_Model_Carrier_Abstract|Magento_Shipping_Model_Rate_Result_Error|boolean
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier|\Magento\Shipping\Model\Rate\Result\Error|boolean
      */
-    public function proccessAdditionalValidation(Magento_Shipping_Model_Rate_Request $request)
+    public function proccessAdditionalValidation(\Magento\Shipping\Model\Rate\Request $request)
     {
         //Skip by item validation if there is no items in request
         if (!count($this->getAllItems($request))) {
@@ -1092,7 +1094,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         }
 
         $countryParams = $this->getCountryParams(
-            Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
+            \Mage::getStoreConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
         );
         if (!$countryParams->getData()) {
             $this->_errors[] = __('Please, specify origin country');
@@ -1108,15 +1110,15 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Show default error
      *
-     * @return bool|Magento_Shipping_Model_Rate_Result_Error
+     * @return bool|\Magento\Shipping\Model\Rate\Result\Error
      */
     protected function _showError()
     {
         $showMethod = $this->getConfigData('showmethod');
 
         if ($showMethod) {
-            /* @var $error Magento_Shipping_Model_Rate_Result_Error */
-            $error = Mage::getModel('Magento_Shipping_Model_Rate_Result_Error');
+            /* @var $error \Magento\Shipping\Model\Rate\Result\Error */
+            $error = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Error');
             $error->setCarrier(self::CODE);
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
@@ -1161,7 +1163,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                 $minValue = $this->_getMinDimension($params['dimension_units']);
                 if ($params['width'] < $minValue || $params['length'] < $minValue || $params['height'] < $minValue) {
                     $message = __('Height, width and length should be equal or greater than %1', $minValue);
-                    Mage::throwException($message);
+                    \Mage::throwException($message);
                 }
             }
 
@@ -1199,18 +1201,18 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Do rate request and handle errors
      *
-     * @return Magento_Shipping_Model_Rate_Result|\Magento\Object
+     * @return \Magento\Shipping\Model\Rate\Result|\Magento\Object
      */
     protected function _doRequest()
     {
         $rawRequest = $this->_request;
 
         $originRegion = $this->getCountryParams(
-            Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
+            \Mage::getStoreConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
         )->getRegion();
 
         if (!$originRegion) {
-            Mage::throwException(__('Wrong Region'));
+            \Mage::throwException(__('Wrong Region'));
         }
 
         if ($originRegion == 'AM') {
@@ -1265,7 +1267,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeConsignee->addChild('CompanyName', substr($companyName, 0, 35));
 
         $address = $rawRequest->getRecipientAddressStreet1(). ' ' . $rawRequest->getRecipientAddressStreet2();
-        $address = Mage::helper('Magento_Core_Helper_String')->str_split($address, 35, false, true);
+        $address = \Mage::helper('Magento\Core\Helper\String')->str_split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
                 $nodeConsignee->addChild('AddressLine', $addressLine);
@@ -1302,7 +1304,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             $nodeDutiable->addChild('DeclaredValue',
                 sprintf("%.2F", $rawRequest->getOrderShipment()->getOrder()->getSubtotal())
             );
-            $baseCurrencyCode = Mage::app()->getWebsite($rawRequest->getWebsiteId())->getBaseCurrencyCode();
+            $baseCurrencyCode = \Mage::app()->getWebsite($rawRequest->getWebsiteId())->getBaseCurrencyCode();
             $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
         }
 
@@ -1324,7 +1326,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         $nodeShipper->addChild('RegisteredAccount', (string)$this->getConfigData('account'));
 
         $address = $rawRequest->getShipperAddressStreet1(). ' ' . $rawRequest->getShipperAddressStreet2();
-        $address = Mage::helper('Magento_Core_Helper_String')->str_split($address, 35, false, true);
+        $address = \Mage::helper('Magento\Core\Helper\String')->str_split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
                 $nodeShipper->addChild('AddressLine', $addressLine);
@@ -1358,7 +1360,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                 $responseBody = $client->request(\Magento\HTTP\ZendClient::POST)->getBody();
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_errors[$e->getCode()] = $e->getMessage();
                 $responseBody = '';
             }
@@ -1371,8 +1373,8 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Generation Shipment Details Node according to origin region
      *
-     * @param Magento_Usa_Model_Simplexml_Element $xml
-     * @param Magento_Shipping_Model_Rate_Request $rawRequest
+     * @param \Magento\Usa\Model\Simplexml\Element $xml
+     * @param \Magento\Shipping\Model\Rate\Request $rawRequest
      * @param string $originRegion
      * @return void
      */
@@ -1383,7 +1385,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
 
         if ($originRegion) {
             $nodeShipmentDetails->addChild('CurrencyCode',
-                Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
+                \Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
             );
         }
 
@@ -1433,7 +1435,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             $nodeShipmentDetails->addChild('GlobalProductCode', $rawRequest->getShippingMethod());
             $nodeShipmentDetails->addChild('LocalProductCode', $rawRequest->getShippingMethod());
 
-            $nodeShipmentDetails->addChild('Date', Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Date', \Mage::getModel('\Magento\Core\Model\Date')->date('Y-m-d'));
             $nodeShipmentDetails->addChild('Contents', 'DHL Parcel');
             /*
              * The DoorTo Element defines the type of delivery service that applies to the shipment.
@@ -1450,7 +1452,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                 $nodeShipmentDetails->addChild('IsDutiable', 'Y');
             }
             $nodeShipmentDetails->addChild('CurrencyCode',
-                Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
+                \Mage::app()->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
             );
         } else {
             if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
@@ -1471,7 +1473,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
              * Door non-compliant)
              */
             $nodeShipmentDetails->addChild('DoorTo', 'DD');
-            $nodeShipmentDetails->addChild('Date', Mage::getModel('Magento_Core_Model_Date')->date('Y-m-d'));
+            $nodeShipmentDetails->addChild('Date', \Mage::getModel('\Magento\Core\Model\Date')->date('Y-m-d'));
             $nodeShipmentDetails->addChild('Contents', 'DHL Parcel TEST');
         }
     }
@@ -1550,7 +1552,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
                 $responseBody = $client->request(\Magento\HTTP\ZendClient::POST)->getBody();
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_errors[$e->getCode()] = $e->getMessage();
                 $responseBody = '';
             }
@@ -1627,11 +1629,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
             }
         }
 
-        $result = Mage::getModel('Magento_Shipping_Model_Tracking_Result');
+        $result = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result');
 
         if (!empty($resultArr)) {
             foreach ($resultArr as $trackNum => $data) {
-                $tracking = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Status');
+                $tracking = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Status');
                 $tracking->setCarrier($this->_code);
                 $tracking->setCarrierTitle($this->getConfigData('title'));
                 $tracking->setTracking($trackNum);
@@ -1643,7 +1645,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
         if (!empty($this->_errors) || empty($resultArr)) {
             $resultArr = !empty($this->_errors) ? $this->_errors : $trackings;
             foreach ($resultArr as $trackNum => $err) {
-                $error = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Error');
+                $error = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Error');
                 $error->setCarrier($this->_code);
                 $error->setCarrierTitle($this->getConfigData('title'));
                 $error->setTracking(!empty($this->_errors) ? $trackNum : $err);
@@ -1665,7 +1667,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
      */
     protected function _getPerpackagePrice($cost, $handlingType, $handlingFee)
     {
-        if ($handlingType == Magento_Shipping_Model_Carrier_Abstract::HANDLING_TYPE_PERCENT) {
+        if ($handlingType == \Magento\Shipping\Model\Carrier\AbstractCarrier::HANDLING_TYPE_PERCENT) {
             return $cost + ($cost * $this->_numBoxes * $handlingFee / 100);
         }
 
@@ -1675,14 +1677,14 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International
     /**
      * Do request to shipment
      *
-     * @param Magento_Shipping_Model_Shipment_Request $request
+     * @param \Magento\Shipping\Model\Shipment\Request $request
      * @return \Magento\Object
      */
-    public function requestToShipment(Magento_Shipping_Model_Shipment_Request $request)
+    public function requestToShipment(\Magento\Shipping\Model\Shipment\Request $request)
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
-            Mage::throwException(__('No packages for request'));
+            \Mage::throwException(__('No packages for request'));
         }
         $result = $this->_doShipmentRequest($request);
 

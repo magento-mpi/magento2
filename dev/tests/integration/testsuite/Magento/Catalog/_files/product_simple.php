@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->isObjectNew(true);
-$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(1))
@@ -26,13 +26,13 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
         array(
             array(
                 'website_id' => 0,
-                'cust_group' => Magento_Customer_Model_Group::CUST_GROUP_ALL,
+                'cust_group' => \Magento\Customer\Model\Group::CUST_GROUP_ALL,
                 'price_qty'  => 2,
                 'price'      => 8,
             ),
             array(
                 'website_id' => 0,
-                'cust_group' => Magento_Customer_Model_Group::CUST_GROUP_ALL,
+                'cust_group' => \Magento\Customer\Model\Group::CUST_GROUP_ALL,
                 'price_qty'  => 5,
                 'price'      => 5,
             ),
@@ -44,8 +44,8 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
 
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
 
     ->setCategoryIds(array(2))
 

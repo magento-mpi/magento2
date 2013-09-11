@@ -15,9 +15,11 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab;
+
+class General
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Initialize Edit Form
@@ -33,12 +35,12 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Tab_General
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Tab\General
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_Eav_Model_Form_Type */
-        $model      = Mage::registry('current_form_type');
+        /* @var $model \Magento\Eav\Model\Form\Type */
+        $model      = \Mage::registry('current_form_type');
 
         $form       = new \Magento\Data\Form();
         $fieldset   = $form->addFieldset('general_fieldset', array(
@@ -76,8 +78,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
             'value'     => $model->getLabel()
         ));
 
-        /** @var $label Magento_Core_Model_Theme_Label */
-        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+        /** @var $label \Magento\Core\Model\Theme\Label */
+        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
         $options = $label->getLabelsCollection();
         array_unshift($options, array(
             'label' => __('All Themes'),
@@ -96,7 +98,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Ta
             'name'      => 'store_id',
             'label'     => __('Store View'),
             'title'     => __('Store View'),
-            'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true),
+            'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true),
             'value'     => $model->getStoreId(),
             'disabled'  => true
         ));

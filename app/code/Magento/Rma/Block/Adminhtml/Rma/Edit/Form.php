@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
@@ -26,7 +28,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Form extends Magento_Adminhtml_Block_
             )
         );
 
-        $model = Mage::registry('current_rma');
+        $model = \Mage::registry('current_rma');
 
         if ($model) {
             if ($model->getId()) {

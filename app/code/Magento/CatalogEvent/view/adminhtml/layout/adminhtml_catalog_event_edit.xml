@@ -10,10 +10,10 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_catalog_event_edit">
         <reference name="content">
-            <block class="Magento_CatalogEvent_Block_Adminhtml_Event_Edit" name="event_edit_page"/>
+            <block class="\Magento\CatalogEvent\Block\Adminhtml\Event\Edit" name="event_edit_page"/>
         </reference>
         <reference name="left">
-            <block class="Magento_Backend_Block_Store_Switcher" before="-" name="store_switcher" template="store/switcher.phtml"/>
+            <block class="\Magento\Backend\Block\Store\Switcher" before="-" name="store_switcher" template="store/switcher.phtml"/>
         </reference>
     </handle>
 </layout>

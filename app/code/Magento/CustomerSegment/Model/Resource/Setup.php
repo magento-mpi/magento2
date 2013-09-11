@@ -16,6 +16,8 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
+namespace Magento\CustomerSegment\Model\Resource;
+
+class Setup extends \Magento\Eav\Model\Entity\Setup
 {
 }

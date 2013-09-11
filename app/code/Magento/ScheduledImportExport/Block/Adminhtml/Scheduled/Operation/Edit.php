@@ -15,8 +15,10 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
-    extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation;
+
+class Edit
+    extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Initialize operation form container.
@@ -31,14 +33,14 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         $this->_controller = 'adminhtml_scheduled_operation';
 
         $operationId = (int)$this->getRequest()->getParam($this->_objectId);
-        $operation = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+        $operation = \Mage::getModel('\Magento\ScheduledImportExport\Model\Scheduled\Operation');
         if ($operationId) {
             $operation->load($operationId);
         } else {
             $operation->setOperationType($this->getRequest()->getParam('type'))
                 ->setStatus(true);
         }
-        Mage::register('current_operation', $operation);
+        \Mage::register('current_operation', $operation);
 
         parent::_construct();
     }
@@ -47,11 +49,11 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
      * Prepare page layout.
      * Set form object to container.
      *
-     * @return Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
+     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit
      */
     protected function _prepareLayout()
     {
-        $operation = Mage::registry('current_operation');
+        $operation = \Mage::registry('current_operation');
         $blockName = 'Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_'
             . ucfirst($operation->getOperationType());
         $formBlock = $this->getLayout()
@@ -59,11 +61,11 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
         if ($formBlock) {
             $this->setChild('form', $formBlock);
         } else {
-            Mage::throwException(__('Please correct the scheduled operation type.'));
+            \Mage::throwException(__('Please correct the scheduled operation type.'));
         }
 
         $this->_updateButton('delete', 'onclick', 'deleteConfirm(\''
-            . Mage::helper('Magento_ScheduledImportExport_Helper_Data')->getConfirmationDeleteMessage($operation->getOperationType())
+            . \Mage::helper('Magento\ScheduledImportExport\Helper\Data')->getConfirmationDeleteMessage($operation->getOperationType())
             .'\', \'' . $this->getDeleteUrl() . '\')'
         );
 
@@ -79,7 +81,7 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
     {
         return $this->getUrl('*/*/delete', array(
             $this->_objectId => $this->getRequest()->getParam($this->_objectId),
-            'type' => Mage::registry('current_operation')->getOperationType()
+            'type' => \Mage::registry('current_operation')->getOperationType()
         ));
     }
 
@@ -90,13 +92,13 @@ class Magento_ScheduledImportExport_Block_Adminhtml_Scheduled_Operation_Edit
      */
     public function getHeaderText()
     {
-        $operation = Mage::registry('current_operation');
+        $operation = \Mage::registry('current_operation');
         if ($operation->getId()) {
             $action = 'edit';
         } else {
             $action = 'new';
         }
-        return Mage::helper('Magento_ScheduledImportExport_Helper_Data')->getOperationHeaderText(
+        return \Mage::helper('Magento\ScheduledImportExport\Helper\Data')->getOperationHeaderText(
             $operation->getOperationType(),
             $action
         );

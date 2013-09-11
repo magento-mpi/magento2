@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
@@ -34,7 +36,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
 
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element',
+                '\Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element_gift_wrapping'
             )
         );
@@ -43,11 +45,11 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
     /**
      * Prepare edit form
      *
-     * @return Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form
+     * @return \Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit\Form
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_giftwrapping_model');
+        $model = \Mage::registry('current_giftwrapping_model');
 
         $actionParams = array('store' => $model->getStoreId());
         if ($model->getId()) {
@@ -73,16 +75,16 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
             'scope'    => 'store'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('website_ids', 'multiselect', array(
                 'name'     => 'website_ids',
                 'required' => true,
                 'label'    => __('Websites'),
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds(),
             ));
             $renderer = $this->getLayout()->createBlock(
-                'Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element'
+                '\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
             );
             $field->setRenderer($renderer);
         }
@@ -97,16 +99,16 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
             )
         ));
 
-        $fieldset->addType('price', 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price');
+        $fieldset->addType('price', '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price');
         $fieldset->addField('base_price', 'price', array(
             'label'    => __('Price'),
             'name'     => 'base_price',
             'required' => true,
             'class'    => 'validate-not-negative-number',
-            'after_element_html' => '<strong>[' .  Mage::app()->getBaseCurrencyCode() . ']</strong>'
+            'after_element_html' => '<strong>[' .  \Mage::app()->getBaseCurrencyCode() . ']</strong>'
         ));
 
-        $uploadButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $uploadButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label' => __('Upload File'),
                 'id' => 'upload_image_button',
@@ -143,6 +145,6 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Magent
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('image' => 'Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image');
+        return array('image' => '\Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper\Image');
     }
 }

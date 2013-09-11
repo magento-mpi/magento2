@@ -15,7 +15,9 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Initialize form
@@ -31,8 +33,8 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Magen
 
         parent::_construct();
 
-        /** @var $segment Magento_CustomerSegment_Model_Segment */
-        $segment = Mage::registry('current_customer_segment');
+        /** @var $segment \Magento\CustomerSegment\Model\Segment */
+        $segment = \Mage::registry('current_customer_segment');
         if ($segment && $segment->getId()) {
             $this->_addButton('match_customers', array(
                 'label'     => __('Refresh Segment Data'),
@@ -58,7 +60,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Magen
      */
     public function getMatchUrl()
     {
-        $segment = Mage::registry('current_customer_segment');
+        $segment = \Mage::registry('current_customer_segment');
         return $this->getUrl('*/*/match', array('id'=>$segment->getId()));
     }
 
@@ -69,7 +71,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Magen
      */
     public function getHeaderText()
     {
-        $segment = Mage::registry('current_customer_segment');
+        $segment = \Mage::registry('current_customer_segment');
         if ($segment->getSegmentId()) {
             return __("Edit Segment '%1'", $this->escapeHtml($segment->getName()));
         }

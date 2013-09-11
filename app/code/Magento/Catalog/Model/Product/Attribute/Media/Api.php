@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_Model_Api_Resource
+namespace Magento\Catalog\Model\Product\Attribute\Media;
+
+class Api extends \Magento\Catalog\Model\Api\Resource
 {
     /**
      * Attribute code for media gallery
@@ -39,24 +41,24 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
     private $_filesystem;
 
     /**
-     * @var Magento_Catalog_Model_Product_Media_Config
+     * @var \Magento\Catalog\Model\Product\Media\Config
      */
     protected $_mediaConfig;
 
     /**
-     * @var Magento_Core_Model_Image_Factory
+     * @var \Magento\Core\Model\Image\Factory
      */
     protected $_imageFactory;
 
     /**
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Catalog_Model_Product_Media_Config $mediaConfig
-     * @param Magento_Core_Model_Image_Factory $imageFactory
+     * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
+     * @param \Magento\Core\Model\Image\Factory $imageFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        Magento_Catalog_Model_Product_Media_Config $mediaConfig,
-        Magento_Core_Model_Image_Factory $imageFactory
+        \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
+        \Magento\Core\Model\Image\Factory $imageFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
@@ -117,7 +119,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
     /**
      * Create new image for product and return image filename
      *
-     * @throws Magento_Api_Exception
+     * @throws \Magento\Api\Exception
      * @param int|string $productId
      * @param array $data
      * @param string|int $store
@@ -157,13 +159,13 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
             $this->_filesystem->write($fileName, $fileContent);
             unset($fileContent);
 
-            // try to create Image object - it fails with Exception if image is not supported
+            // try to create Image object - it fails with \Exception if image is not supported
             try {
                 $this->_imageFactory->create($fileName);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Remove temporary directory
                 $this->_filesystem->delete($tmpDirectory);
-                throw new Magento_Core_Exception($e->getMessage());
+                throw new \Magento\Core\Exception($e->getMessage());
             }
 
             // Adding image to gallery
@@ -179,9 +181,9 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
             }
 
             $product->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('not_created', $e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('not_created', __('We can\'t create the image.'));
         }
 
@@ -224,7 +226,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
             try {
                 $fileName = $this->_mediaConfig->getMediaPath($file);
                 $this->_filesystem->write($fileName, $fileContent);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_fault('not_created', __('We can\'t create the image.'));
             }
         }
@@ -250,7 +252,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
 
         try {
             $product->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('not_updated', $e->getMessage());
         }
 
@@ -278,7 +280,7 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
 
         try {
             $product->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('not_removed', $e->getMessage());
         }
 
@@ -294,14 +296,14 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
      */
     public function types($setId)
     {
-        $attributes = Mage::getModel('Magento_Catalog_Model_Product')->getResource()
+        $attributes = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
 
         $result = array();
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if ($attribute->isInSet($setId)
                 && $attribute->getFrontendInput() == 'media_image') {
                 if ($attribute->isScopeGlobal()) {
@@ -336,8 +338,8 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
     /**
      * Retrieve gallery attribute from product
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Catalog_Model_Resource_Attribute|boolean
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Resource\Attribute|boolean
      */
     protected function _getGalleryAttribute($product)
     {
@@ -355,18 +357,18 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
      * Retrie
      * ve media config
      *
-     * @return Magento_Catalog_Model_Product_Media_Config
+     * @return \Magento\Catalog\Model\Product\Media\Config
      */
     protected function _getMediaConfig()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+        return \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
     }
 
     /**
      * Converts image to api array data
      *
      * @param array $image
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
     protected function _imageToArray(&$image, $product)
@@ -396,15 +398,15 @@ class Magento_Catalog_Model_Product_Attribute_Media_Api extends Magento_Catalog_
      * @param int|string $productId
      * @param string|int $store
      * @param  string $identifierType
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _initProduct($productId, $store = null, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct($productId, $this->_getStoreId($store), $identifierType);
+        $product = \Mage::helper('Magento\Catalog\Helper\Product')->getProduct($productId, $this->_getStoreId($store), $identifierType);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }
 
         return $product;
     }
-} // Class Magento_Catalog_Model_Product_Attribute_Media_Api End
+} // Class \Magento\Catalog\Model\Product\Attribute\Media\Api End

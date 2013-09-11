@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Resource_CollectionByPagesIterator
+namespace Magento\ImportExport\Model\Resource;
+
+class CollectionByPagesIterator
 {
     /**
      * Load collection page by page and apply callbacks to each collection item

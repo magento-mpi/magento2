@@ -15,18 +15,20 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Attribute_Destinations extends Magento_GoogleShopping_Model_Attribute_Default
+namespace Magento\GoogleShopping\Model\Attribute;
+
+class Destinations extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Gdata\Gshopping\Entry $entry
      * @return \Magento\Gdata\Gshopping\Entry
      */
     public function convertAttribute($product, $entry)
     {
-        $destInfo = Mage::getSingleton('Magento_GoogleShopping_Model_Config')
+        $destInfo = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')
             ->getDestinationsInfo($product->getStoreId());
         $entry->setDestinationsMode($destInfo);
 

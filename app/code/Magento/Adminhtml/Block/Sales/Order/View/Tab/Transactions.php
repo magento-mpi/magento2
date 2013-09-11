@@ -15,9 +15,11 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Tab_Transactions
-    extends Magento_Adminhtml_Block_Sales_Transactions_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Sales\Order\View\Tab;
+
+class Transactions
+    extends \Magento\Adminhtml\Block\Sales\Transactions\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
 
     /**

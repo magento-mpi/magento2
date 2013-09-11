@@ -16,7 +16,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Form_Element_Image extends Magento_Adminhtml_Block_Customer_Form_Element_File
+namespace Magento\Adminhtml\Block\Customer\Form\Element;
+
+class Image extends \Magento\Adminhtml\Block\Customer\Form\Element\File
 {
     /**
      * Return Delete CheckBox Label
@@ -81,8 +83,8 @@ class Magento_Adminhtml_Block_Customer_Form_Element_Image extends Magento_Adminh
         if (is_array($this->getValue())) {
             return false;
         }
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/customer/viewfile', array(
-            'image'      => Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()),
+        return \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/customer/viewfile', array(
+            'image'      => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($this->getValue()),
         ));
     }
 }

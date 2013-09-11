@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 Mage::app()->loadArea('frontend');
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId(4)
@@ -28,20 +28,20 @@ $product->setTypeId('simple')
     ->setMetaTitle('meta title')
     ->setMetaKeyword('meta keyword')
     ->setMetaDescription('meta description')
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->save();
 $product->load(1);
 
 $addressData = include(__DIR__ . '/address_data.php');
-$billingAddress = Mage::getModel('Magento_Sales_Model_Quote_Address', array('data' => $addressData));
+$billingAddress = Mage::getModel('\Magento\Sales\Model\Quote\Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
-$quote = Mage::getModel('Magento_Sales_Model_Quote');
+$quote = Mage::getModel('\Magento\Sales\Model\Quote');
 $quote->setCustomerIsGuest(true)
     ->setStoreId(Mage::app()->getStore()->getId())
     ->setReservedOrderId('test01')

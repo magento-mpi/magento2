@@ -9,15 +9,15 @@
 -->
 <config>
     <event name="adminhtml_catalog_product_edit_prepare_form">
-        <observer name="weee" instance="Magento_Weee_Model_Observer" method="setWeeeRendererInForm" />
+        <observer name="weee" instance="\Magento\Weee\Model\Observer" method="setWeeeRendererInForm" />
     </event>
     <event name="adminhtml_catalog_product_form_prepare_excluded_field_list">
-        <observer name="weee" instance="Magento_Weee_Model_Observer" method="updateExcludedFieldList" />
+        <observer name="weee" instance="\Magento\Weee\Model\Observer" method="updateExcludedFieldList" />
     </event>
     <event name="adminhtml_product_attribute_types">
-        <observer name="weee" instance="Magento_Weee_Model_Observer" method="addWeeeTaxAttributeType" shared="false" />
+        <observer name="weee" instance="\Magento\Weee\Model\Observer" method="addWeeeTaxAttributeType" shared="false" />
     </event>
     <event name="adminhtml_catalog_product_edit_element_types">
-        <observer name="weee" instance="Magento_Weee_Model_Observer" method="updateElementTypes" />
+        <observer name="weee" instance="\Magento\Weee\Model\Observer" method="updateElementTypes" />
     </event>
 </config>

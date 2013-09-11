@@ -12,7 +12,9 @@
  * Customer balance history block
  *
  */
-class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block\Account;
+
+class History extends \Magento\Core\Block\Template
 {
     /**
      * Balance history action names
@@ -28,7 +30,7 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
      */
     public function canShow()
     {
-        return Mage::getStoreConfigFlag('customer/magento_customerbalance/show_history');
+        return \Mage::getStoreConfigFlag('customer/magento_customerbalance/show_history');
     }
 
     /**
@@ -38,15 +40,15 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
      */
     public function getEvents()
     {
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
         if (!$customerId) {
             return false;
         }
 
-        $collection = Mage::getModel('Magento_CustomerBalance_Model_Balance_History')
+        $collection = \Mage::getModel('\Magento\CustomerBalance\Model\Balance\History')
                 ->getCollection()
                 ->addFieldToFilter('customer_id', $customerId)
-                ->addFieldToFilter('website_id', Mage::app()->getStore()->getWebsiteId())
+                ->addFieldToFilter('website_id', \Mage::app()->getStore()->getWebsiteId())
                 ->addOrder('updated_at', 'DESC')
                 ->addOrder('history_id', 'DESC');
 
@@ -61,7 +63,7 @@ class Magento_CustomerBalance_Block_Account_History extends Magento_Core_Block_T
     public function getActionNames()
     {
         if (is_null($this->_actionNames)) {
-            $this->_actionNames = Mage::getSingleton('Magento_CustomerBalance_Model_Balance_History')->getActionNamesArray();
+            $this->_actionNames = \Mage::getSingleton('Magento\CustomerBalance\Model\Balance\History')->getActionNamesArray();
         }
         return $this->_actionNames;
     }

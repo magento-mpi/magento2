@@ -11,17 +11,19 @@
 /**
  * Customer group model
  *
- * @method Magento_Customer_Model_Resource_Group _getResource()
- * @method Magento_Customer_Model_Resource_Group getResource()
+ * @method \Magento\Customer\Model\Resource\Group _getResource()
+ * @method \Magento\Customer\Model\Resource\Group getResource()
  * @method string getCustomerGroupCode()
- * @method Magento_Customer_Model_Group setCustomerGroupCode(string $value)
- * @method Magento_Customer_Model_Group setTaxClassId(int $value)
+ * @method \Magento\Customer\Model\Group setCustomerGroupCode(string $value)
+ * @method \Magento\Customer\Model\Group setTaxClassId(int $value)
  *
  * @category    Magento
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
+namespace Magento\Customer\Model;
+
+class Group extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Xml config path for create account default group
@@ -55,7 +57,7 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Customer_Model_Resource_Group');
+        $this->_init('\Magento\Customer\Model\Resource\Group');
     }
 
     /**
@@ -93,7 +95,7 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
 
     public function usesAsDefault()
     {
-        $data = Mage::getConfig()->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
+        $data = \Mage::getConfig()->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
         if (in_array($this->getId(), $data)) {
             return true;
         }
@@ -103,13 +105,13 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
     /**
      * Run reindex process after data save
      *
-     * @return Magento_Customer_Model_Group
+     * @return \Magento\Customer\Model\Group
      */
     protected function _afterSave()
     {
         parent::_afterSave();
-        Mage::getSingleton('Magento_Index_Model_Indexer')->processEntityAction(
-            $this, self::ENTITY, Magento_Index_Model_Event::TYPE_SAVE
+        \Mage::getSingleton('Magento\Index\Model\Indexer')->processEntityAction(
+            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
         );
         return $this;
     }
@@ -117,7 +119,7 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
     /**
      * Prepare data before save
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -128,7 +130,7 @@ class Magento_Customer_Model_Group extends Magento_Core_Model_Abstract
     /**
      * Prepare customer group data
      *
-     * @return Magento_Customer_Model_Group
+     * @return \Magento\Customer\Model\Group
      */
     protected function _prepareData()
     {

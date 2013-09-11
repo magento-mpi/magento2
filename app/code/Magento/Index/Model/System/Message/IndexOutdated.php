@@ -5,15 +5,17 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Index_Model_System_Message_IndexOutdated implements Magento_AdminNotification_Model_System_MessageInterface
+namespace Magento\Index\Model\System\Message;
+
+class IndexOutdated implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
-     * @var Magento_Index_Model_Indexer
+     * @var \Magento\Index\Model\Indexer
      */
     protected $_indexer;
 
     /**
-     * @var Magento_Core_Model_UrlInterface
+     * @var \Magento\Core\Model\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -28,13 +30,13 @@ class Magento_Index_Model_System_Message_IndexOutdated implements Magento_AdminN
     protected $_indexes = null;
 
     /**
-     * @param Magento_Index_Model_Indexer $indexer
-     * @param Magento_Core_Model_UrlInterface $urlBuilder
+     * @param \Magento\Index\Model\Indexer $indexer
+     * @param \Magento\Core\Model\UrlInterface $urlBuilder
      * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
-        Magento_Index_Model_Indexer $indexer,
-        Magento_Core_Model_UrlInterface $urlBuilder,
+        \Magento\Index\Model\Indexer $indexer,
+        \Magento\Core\Model\UrlInterface $urlBuilder,
         \Magento\AuthorizationInterface $authorization
     ) {
         $this->_indexer = $indexer;
@@ -50,9 +52,9 @@ class Magento_Index_Model_System_Message_IndexOutdated implements Magento_AdminN
         if ($this->_indexes === null) {
             $this->_indexes = array();
             $processes = $this->_indexer->getProcessesCollection()->addEventsStats();
-            /** @var $process Magento_Index_Model_Process */
+            /** @var $process \Magento\Index\Model\Process */
             foreach ($processes as $process) {
-                if (($process->getStatus() == Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX
+                if (($process->getStatus() == \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
                     || $process->getEvents() > 0) && $process->getIndexer()->isVisible()
                 ) {
                     $this->_indexes[] = $process->getIndexer()->getName();

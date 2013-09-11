@@ -15,19 +15,21 @@
  * @package  Magento_Usa
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Label;
+
+class Pdf
 {
     /**
      * Label Information
      *
-     * @var SimpleXMLElement
+     * @var \SimpleXMLElement
      */
     protected $_info;
 
     /**
      * Shipment Request
      *
-     * @var Magento_Shipping_Model_Shipment_Request
+     * @var \Magento\Shipping\Model\Shipment\Request
      */
     protected $_request;
 
@@ -49,11 +51,11 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf
      */
     public function render()
     {
-        $pdf = new Zend_Pdf();
+        $pdf = new \Zend_Pdf();
 
-        $pdfBuilder = new Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_PageBuilder();
+        $pdfBuilder = new \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\PageBuilder();
 
-        $template = new Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page(Zend_Pdf_Page::SIZE_A4_LANDSCAPE);
+        $template = new \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page(\Zend_Pdf_Page::SIZE_A4_LANDSCAPE);
         $pdfBuilder->setPage($template)
             ->addProductName((string)$this->_info->ProductShortName)
             ->addProductContentCode((string)$this->_info->ProductContentCode)
@@ -83,7 +85,7 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf
         $packages = array_values($this->_request->getPackages());
         $i = 0;
         foreach ($this->_info->Pieces->Piece as $piece) {
-            $page = new Magento_Usa_Model_Shipping_Carrier_Dhl_Label_Pdf_Page($template);
+            $page = new \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf\Page($template);
             $pdfBuilder->setPage($page)
                 ->addPieceNumber((int)$piece->PieceNumber, (int)$this->_info->Piece)
                 ->addContentInfo($packages[$i])

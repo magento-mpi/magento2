@@ -12,33 +12,35 @@
 /**
  * Catalog Product Eav Indexer Model
  *
- * @method Magento_Catalog_Model_Resource_Product_Indexer_Eav _getResource()
- * @method Magento_Catalog_Model_Resource_Product_Indexer_Eav getResource()
- * @method Magento_Catalog_Model_Product_Indexer_Eav setEntityId(int $value)
+ * @method \Magento\Catalog\Model\Resource\Product\Indexer\Eav _getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Indexer\Eav getResource()
+ * @method \Magento\Catalog\Model\Product\Indexer\Eav setEntityId(int $value)
  * @method int getAttributeId()
- * @method Magento_Catalog_Model_Product_Indexer_Eav setAttributeId(int $value)
+ * @method \Magento\Catalog\Model\Product\Indexer\Eav setAttributeId(int $value)
  * @method int getStoreId()
- * @method Magento_Catalog_Model_Product_Indexer_Eav setStoreId(int $value)
+ * @method \Magento\Catalog\Model\Product\Indexer\Eav setStoreId(int $value)
  * @method int getValue()
- * @method Magento_Catalog_Model_Product_Indexer_Eav setValue(int $value)
+ * @method \Magento\Catalog\Model\Product\Indexer\Eav setValue(int $value)
  *
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Indexer_Abstract
+namespace Magento\Catalog\Model\Product\Indexer;
+
+class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
 {
     /**
      * @var array
      */
     protected $_matchedEntities = array(
-        Magento_Catalog_Model_Product::ENTITY => array(
-            Magento_Index_Model_Event::TYPE_SAVE,
-            Magento_Index_Model_Event::TYPE_DELETE,
-            Magento_Index_Model_Event::TYPE_MASS_ACTION,
+        \Magento\Catalog\Model\Product::ENTITY => array(
+            \Magento\Index\Model\Event::TYPE_SAVE,
+            \Magento\Index\Model\Event::TYPE_DELETE,
+            \Magento\Index\Model\Event::TYPE_MASS_ACTION,
         ),
-        Magento_Catalog_Model_Resource_Eav_Attribute::ENTITY => array(
-            Magento_Index_Model_Event::TYPE_SAVE,
+        \Magento\Catalog\Model\Resource\Eav\Attribute::ENTITY => array(
+            \Magento\Index\Model\Event::TYPE_SAVE,
         ),
     );
 
@@ -68,35 +70,35 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Product_Indexer_Eav');
+        $this->_init('\Magento\Catalog\Model\Resource\Product\Indexer\Eav');
     }
 
     /**
      * Register data required by process in event object
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    protected function _registerEvent(Magento_Index_Model_Event $event)
+    protected function _registerEvent(\Magento\Index\Model\Event $event)
     {
         $entity = $event->getEntity();
 
-        if ($entity == Magento_Catalog_Model_Product::ENTITY) {
+        if ($entity == \Magento\Catalog\Model\Product::ENTITY) {
             switch ($event->getType()) {
-                case Magento_Index_Model_Event::TYPE_DELETE:
+                case \Magento\Index\Model\Event::TYPE_DELETE:
                     $this->_registerCatalogProductDeleteEvent($event);
                     break;
 
-                case Magento_Index_Model_Event::TYPE_SAVE:
+                case \Magento\Index\Model\Event::TYPE_SAVE:
                     $this->_registerCatalogProductSaveEvent($event);
                     break;
 
-                case Magento_Index_Model_Event::TYPE_MASS_ACTION:
+                case \Magento\Index\Model\Event::TYPE_MASS_ACTION:
                     $this->_registerCatalogProductMassActionEvent($event);
                     break;
             }
-        } else if ($entity == Magento_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
+        } else if ($entity == \Magento\Catalog\Model\Resource\Eav\Attribute::ENTITY) {
             switch ($event->getType()) {
-                case Magento_Index_Model_Event::TYPE_SAVE:
+                case \Magento\Index\Model\Event::TYPE_SAVE:
                     $this->_registerCatalogAttributeSaveEvent($event);
                     break;
             }
@@ -106,14 +108,14 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
     /**
      * Check is attribute indexable in EAV
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
      * @return bool
      */
     protected function _attributeIsIndexable($attribute)
     {
-        if (!$attribute instanceof Magento_Catalog_Model_Resource_Eav_Attribute) {
-            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')
-                ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attribute);
+        if (!$attribute instanceof \Magento\Catalog\Model\Resource\Eav\Attribute) {
+            $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')
+                ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attribute);
         }
 
         return $attribute->isIndexable();
@@ -122,12 +124,12 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
     /**
      * Register data required by process in event object
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Product\Indexer\Eav
      */
-    protected function _registerCatalogProductSaveEvent(Magento_Index_Model_Event $event)
+    protected function _registerCatalogProductSaveEvent(\Magento\Index\Model\Event $event)
     {
-        /* @var $product Magento_Catalog_Model_Product */
+        /* @var $product \Magento\Catalog\Model\Product */
         $product    = $event->getDataObject();
         $attributes = $product->getAttributes();
         $reindexEav = $product->getForceReindexRequired();
@@ -149,12 +151,12 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
     /**
      * Register data required by process in event object
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Product\Indexer\Eav
      */
-    protected function _registerCatalogProductDeleteEvent(Magento_Index_Model_Event $event)
+    protected function _registerCatalogProductDeleteEvent(\Magento\Index\Model\Event $event)
     {
-        /* @var $product Magento_Catalog_Model_Product */
+        /* @var $product \Magento\Catalog\Model\Product */
         $product    = $event->getDataObject();
 
         $parentIds  = $this->_getResource()->getRelationsByChild($product->getId());
@@ -168,10 +170,10 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
     /**
      * Register data required by process in event object
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Product\Indexer\Eav
      */
-    protected function _registerCatalogProductMassActionEvent(Magento_Index_Model_Event $event)
+    protected function _registerCatalogProductMassActionEvent(\Magento\Index\Model\Event $event)
     {
         $reindexEav = false;
 
@@ -204,12 +206,12 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
     /**
      * Register data required by process attribute save in event object
      *
-     * @param Magento_Index_Model_Event $event
-     * @return Magento_Catalog_Model_Product_Indexer_Eav
+     * @param \Magento\Index\Model\Event $event
+     * @return \Magento\Catalog\Model\Product\Indexer\Eav
      */
-    protected function _registerCatalogAttributeSaveEvent(Magento_Index_Model_Event $event)
+    protected function _registerCatalogAttributeSaveEvent(\Magento\Index\Model\Event $event)
     {
-        /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+        /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
         $attribute = $event->getDataObject();
         if ($attribute->isIndexable()) {
             $before = $attribute->getOrigData('is_filterable')
@@ -232,9 +234,9 @@ class Magento_Catalog_Model_Product_Indexer_Eav extends Magento_Index_Model_Inde
     /**
      * Process event
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    protected function _processEvent(Magento_Index_Model_Event $event)
+    protected function _processEvent(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
         if (!empty($data['catalog_product_eav_reindex_all'])) {

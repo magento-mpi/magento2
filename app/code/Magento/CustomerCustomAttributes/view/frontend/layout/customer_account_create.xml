@@ -10,20 +10,20 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="customer_account_create">
         <reference name="customer_form_register">
-            <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+            <block class="\Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
                 <action method="setFormCode">
                     <argument name="code" xsi:type="string">customer_account_create</argument>
                 </action>
                 <action method="setEntityModelClass">
-                    <argument name="code" xsi:type="string">Magento_Customer_Model_Customer</argument>
+                    <argument name="code" xsi:type="string">\Magento\Customer\Model\Customer</argument>
                 </action>
             </block>
-            <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
+            <block class="\Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
                 <action method="setFormCode">
                     <argument name="code" xsi:type="string">customer_register_address</argument>
                 </action>
                 <action method="setEntityModelClass">
-                    <argument name="code" xsi:type="string">Magento_Customer_Model_Address</argument>
+                    <argument name="code" xsi:type="string">\Magento\Customer\Model\Address</argument>
                 </action>
             </block>
         </reference>

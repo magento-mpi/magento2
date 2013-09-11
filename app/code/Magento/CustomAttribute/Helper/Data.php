@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_CustomAttribute
  */
-class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\CustomAttribute\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Array of User Defined attribute codes per entity type code
@@ -27,11 +29,11 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Default attribute entity type code
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(__('Use helper with defined EAV entity.'));
+        \Mage::throwException(__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -166,7 +168,7 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
                 'filter_types'      => array(
                     'date'
                 ),
-                'backend_model'     => 'Magento_Eav_Model_Entity_Attribute_Backend_Datetime',
+                'backend_model'     => '\Magento\Eav\Model\Entity\Attribute\Backend\Datetime',
                 'backend_type'      => 'datetime',
                 'default_value'     => 'date',
             ),
@@ -177,7 +179,7 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                'source_model'      => '\Magento\Eav\Model\Entity\Attribute\Source\Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),
@@ -188,8 +190,8 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
                 'validate_types'    => array(),
                 'filter_types'      => array(),
                 'validate_filters'  => array(),
-                'backend_model'     => 'Magento_Eav_Model_Entity_Attribute_Backend_Array',
-                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                'backend_model'     => '\Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend',
+                'source_model'      => '\Magento\Eav\Model\Entity\Attribute\Source\Table',
                 'backend_type'      => 'varchar',
                 'default_value'     => false,
             ),
@@ -199,7 +201,7 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean',
+                'source_model'      => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean',
                 'backend_type'      => 'int',
                 'default_value'     => 'yesno',
             ),
@@ -347,7 +349,7 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
             if ($inputType === 'date') {
                 foreach(array('date_range_min', 'date_range_max') as $dateRangeBorder) {
                     if (isset($rules[$dateRangeBorder])) {
-                        $date = new Zend_Date($rules[$dateRangeBorder], $this->getDateFormat());
+                        $date = new \Zend_Date($rules[$dateRangeBorder], $this->getDateFormat());
                         $rules[$dateRangeBorder] = $date->getTimestamp();
                     }
                 }
@@ -417,8 +419,8 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if (empty($this->_userDefinedAttributeCodes[$entityTypeCode])) {
             $this->_userDefinedAttributeCodes[$entityTypeCode] = array();
-            /* @var $config Magento_Eav_Model_Config */
-            $config = Mage::getSingleton('Magento_Eav_Model_Config');
+            /* @var $config \Magento\Eav\Model\Config */
+            $config = \Mage::getSingleton('Magento\Eav\Model\Config');
             foreach ($config->getEntityAttributeCodes($entityTypeCode) as $attributeCode) {
                 $attribute = $config->getAttribute($entityTypeCode, $attributeCode);
                 if ($attribute && $attribute->getIsUserDefined()) {
@@ -446,14 +448,14 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDateFormat()
     {
-        return Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
      * Filter post data
      *
      * @param array $data
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return array
      */
     public function filterPostData($data)
@@ -468,9 +470,9 @@ class Magento_CustomAttribute_Helper_Data extends Magento_Core_Helper_Abstract
 
             //validate attribute_code
             if (isset($data['attribute_code'])) {
-                $validatorAttrCode = new Zend_Validate_Regex(array('pattern' => '/^[a-z_0-9]{1,255}$/'));
+                $validatorAttrCode = new \Zend_Validate_Regex(array('pattern' => '/^[a-z_0-9]{1,255}$/'));
                 if (!$validatorAttrCode->isValid($data['attribute_code'])) {
-                    Mage::throwException(__('The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.'));
+                    \Mage::throwException(__('The attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_) in this field. The first character should be a letter.'));
                 }
             }
         }

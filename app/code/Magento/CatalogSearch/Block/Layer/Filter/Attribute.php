@@ -12,7 +12,9 @@
  * CatalogSearch attribute layer filter
  *
  */
-class Magento_CatalogSearch_Block_Layer_Filter_Attribute extends Magento_Catalog_Block_Layer_Filter_Attribute
+namespace Magento\CatalogSearch\Block\Layer\Filter;
+
+class Attribute extends \Magento\Catalog\Block\Layer\Filter\Attribute
 {
     /**
      * Set filter model name
@@ -21,6 +23,6 @@ class Magento_CatalogSearch_Block_Layer_Filter_Attribute extends Magento_Catalog
     public function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = 'Magento_CatalogSearch_Model_Layer_Filter_Attribute';
+        $this->_filterModelName = '\Magento\CatalogSearch\Model\Layer\Filter\Attribute';
     }
 }

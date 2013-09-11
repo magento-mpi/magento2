@@ -15,9 +15,11 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
-    extends Magento_Rma_Block_Adminhtml_Rma_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Rma\Block\Adminhtml\Customer\Edit\Tab;
+
+class Rma
+    extends \Magento\Rma\Block\Adminhtml\Rma\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     public function _construct()
     {
@@ -29,7 +31,7 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
     /**
      * Prepare massaction
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _prepareMassaction()
     {
@@ -39,20 +41,20 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
     /**
      * Configuring and setting collection
      *
-     * @return Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
+     * @return \Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma
      */
     protected function _beforePrepareCollection()
     {
         $customerId = null;
 
-        if (Mage::registry('current_customer') && Mage::registry('current_customer')->getId()) {
-            $customerId = Mage::registry('current_customer')->getId();
+        if (\Mage::registry('current_customer') && \Mage::registry('current_customer')->getId()) {
+            $customerId = \Mage::registry('current_customer')->getId();
         } elseif ($this->getCustomerId())  {
             $customerId = $this->getCustomerId();
         }
         if ($customerId) {
-            /** @var $collection Magento_Rma_Model_Resource_Rma_Grid_Collection */
-            $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
+            /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
+            $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection')
                 ->addFieldToFilter('customer_id', $customerId);
 
             $this->setCollection($collection);
@@ -63,7 +65,7 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
     /**
      * Prepare grid columns
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _prepareColumns()
     {
@@ -94,11 +96,11 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
     /**
      * Retrieve order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     /**
@@ -131,7 +133,7 @@ class Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma
      */
     public function canShowTab()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = \Mage::registry('current_customer');
         return (bool)$customer->getId();
     }
 

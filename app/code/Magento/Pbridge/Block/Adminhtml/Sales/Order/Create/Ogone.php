@@ -16,8 +16,10 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Ogone
-    extends Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
+namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
+
+class Ogone
+    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Payment code

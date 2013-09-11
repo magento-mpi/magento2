@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Api_Tab_Roleinfo extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Api\Tab;
+
+class Roleinfo extends \Magento\Adminhtml\Block\Widget\Form
 {
     public function _beforeToHtml() {
         $this->_initForm();

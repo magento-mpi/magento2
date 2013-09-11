@@ -12,9 +12,11 @@
  * Customer account Store Credit tab
  *
  */
-class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance
-    extends Magento_Adminhtml_Block_Widget
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab;
+
+class Customerbalance
+    extends \Magento\Adminhtml\Block\Widget
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Set identifier and title
@@ -53,7 +55,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance
      */
     public function canShowTab()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = \Mage::registry('current_customer');
         return (bool)$customer->getId();
     }
 

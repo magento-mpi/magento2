@@ -238,10 +238,9 @@ $privacyPageData = array(
     'stores'          => array(0),
     'sort_order'      => 0
 );
+ \Mage::getModel('\Magento\Cms\Model\Page')->setData($privacyPageData)->save();
 
-Mage::getModel('Magento_Cms_Model_Page')->setData($privacyPageData)->save();
-
-$footerLinksBlock = Mage::getModel('Magento_Cms_Model_Block')->load('footer_links','identifier');
+$footerLinksBlock = \Mage::getModel('\Magento\Cms\Model\Block')->load('footer_links','identifier');
 
 if ($footerLinksBlock->getId()) {
     $content = $footerLinksBlock->getContent();

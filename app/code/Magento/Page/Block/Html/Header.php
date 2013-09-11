@@ -15,7 +15,9 @@
  * @package    Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Header extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Header extends \Magento\Core\Block\Template
 {
     public function _construct()
     {
@@ -55,7 +57,7 @@ class Magento_Page_Block_Html_Header extends Magento_Core_Block_Template
     public function getLogoAlt()
     {
         if (empty($this->_data['logo_alt'])) {
-            $this->_data['logo_alt'] = Mage::getStoreConfig('design/header/logo_alt');
+            $this->_data['logo_alt'] = \Mage::getStoreConfig('design/header/logo_alt');
         }
         return $this->_data['logo_alt'];
     }
@@ -63,10 +65,10 @@ class Magento_Page_Block_Html_Header extends Magento_Core_Block_Template
     public function getWelcome()
     {
         if (empty($this->_data['welcome'])) {
-            if (Mage::isInstalled() && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-                $this->_data['welcome'] = __('Welcome, %1!', $this->escapeHtml(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getName()));
+            if (\Mage::isInstalled() && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+                $this->_data['welcome'] = __('Welcome, %1!', $this->escapeHtml(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getName()));
             } else {
-                $this->_data['welcome'] = Mage::getStoreConfig('design/header/welcome');
+                $this->_data['welcome'] = \Mage::getStoreConfig('design/header/welcome');
             }
         }
 
@@ -80,11 +82,11 @@ class Magento_Page_Block_Html_Header extends Magento_Core_Block_Template
      */
     protected function _getLogoUrl()
     {
-        $folderName = Magento_Backend_Model_Config_Backend_Image_Logo::UPLOAD_DIR;
+        $folderName = \Magento\Backend\Model\Config\Backend\Image\Logo::UPLOAD_DIR;
         $storeLogoPath = $this->_storeConfig->getConfig('design/header/logo_src');
-        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => Magento_Core_Model_Store::URL_TYPE_MEDIA))
+        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\Core\Model\Store::URL_TYPE_MEDIA))
             . $folderName . '/' . $storeLogoPath;
-        $absolutePath = $this->_dirs->getDir(Magento_Core_Model_Dir::MEDIA) . DIRECTORY_SEPARATOR
+        $absolutePath = $this->_dirs->getDir(\Magento\Core\Model\Dir::MEDIA) . DIRECTORY_SEPARATOR
             . $folderName . DIRECTORY_SEPARATOR . $storeLogoPath;
 
         if (!is_null($storeLogoPath) && $this->_isFile($absolutePath)) {
@@ -104,7 +106,7 @@ class Magento_Page_Block_Html_Header extends Magento_Core_Block_Template
      */
     protected function _isFile($filename)
     {
-        $helper = $this->_helperFactory->get('Magento_Core_Helper_File_Storage_Database');
+        $helper = $this->_helperFactory->get('Magento\Core\Helper\File\Storage\Database');
 
         if ($helper->checkDbUsage() && !is_file($filename)) {
             $helper->saveFileToFilesystem($filename);

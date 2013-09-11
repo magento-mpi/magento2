@@ -12,7 +12,9 @@
  * Backend for serialized array data
  *
  */
-class Magento_CatalogInventory_Model_System_Config_Backend_Minsaleqty extends Magento_Core_Model_Config_Value
+namespace Magento\CatalogInventory\Model\System\Config\Backend;
+
+class Minsaleqty extends \Magento\Core\Model\Config\Value
 {
     /**
      * Process data after load
@@ -20,7 +22,7 @@ class Magento_CatalogInventory_Model_System_Config_Backend_Minsaleqty extends Ma
     protected function _afterLoad()
     {
         $value = $this->getValue();
-        $value = Mage::helper('Magento_CatalogInventory_Helper_Minsaleqty')->makeArrayFieldValue($value);
+        $value = \Mage::helper('Magento\CatalogInventory\Helper\Minsaleqty')->makeArrayFieldValue($value);
         $this->setValue($value);
     }
 
@@ -30,7 +32,7 @@ class Magento_CatalogInventory_Model_System_Config_Backend_Minsaleqty extends Ma
     protected function _beforeSave()
     {
         $value = $this->getValue();
-        $value = Mage::helper('Magento_CatalogInventory_Helper_Minsaleqty')->makeStorableArrayFieldValue($value);
+        $value = \Mage::helper('Magento\CatalogInventory\Helper\Minsaleqty')->makeStorableArrayFieldValue($value);
         $this->setValue($value);
     }
 }

@@ -12,7 +12,7 @@
         <update handle="oauth_root_handle_simple"/>
         <remove name="header"/>
         <reference name="content">
-            <block class="Magento_Oauth_Block_Authorize_Button" name="oauth.authorize.confirm" template="authorize/confirm-simple.phtml"/>
+            <block class="\Magento\Oauth\Block\Authorize\Button" name="oauth.authorize.confirm" template="authorize/confirm-simple.phtml"/>
         </reference>
     </handle>
 </layout>

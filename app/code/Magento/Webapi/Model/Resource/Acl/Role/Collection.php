@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Resource_Acl_Role_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Webapi\Model\Resource\Acl\Role;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization.
      */
     protected function _construct()
     {
-        $this->_init('Magento_Webapi_Model_Acl_Role', 'Magento_Webapi_Model_Resource_Acl_Role');
+        $this->_init('\Magento\Webapi\Model\Acl\Role', '\Magento\Webapi\Model\Resource\Acl\Role');
     }
 }

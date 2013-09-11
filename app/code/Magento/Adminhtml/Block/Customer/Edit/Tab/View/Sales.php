@@ -15,13 +15,15 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
+
+class Sales extends \Magento\Adminhtml\Block\Template
 {
 
     /**
      * Sales entity collection
      *
-     * @var Magento_Sales_Model_Resource_Sale_Collection
+     * @var \Magento\Sales\Model\Resource\Sale\Collection
      */
     protected $_collection;
 
@@ -31,23 +33,23 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Admin
     /**
      * Currency model
      *
-     * @var Magento_Directory_Model_Currency
+     * @var \Magento\Directory\Model\Currency
      */
     protected $_currency;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -62,13 +64,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Admin
 
     public function _beforeToHtml()
     {
-        $this->_currency = Mage::getModel('Magento_Directory_Model_Currency')
-            ->load(Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE))
+        $this->_currency = \Mage::getModel('\Magento\Directory\Model\Currency')
+            ->load(\Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE))
         ;
 
-        $this->_collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Sale_Collection')
-            ->setCustomerFilter(Mage::registry('current_customer'))
-            ->setOrderStateFilter(Magento_Sales_Model_Order::STATE_CANCELED, true)
+        $this->_collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Sale\Collection')
+            ->setCustomerFilter(\Mage::registry('current_customer'))
+            ->setOrderStateFilter(\Magento\Sales\Model\Order::STATE_CANCELED, true)
             ->load()
         ;
 
@@ -76,7 +78,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Admin
 
         foreach ($this->_collection as $sale) {
             if (!is_null($sale->getStoreId())) {
-                $store      = Mage::app()->getStore($sale->getStoreId());
+                $store      = \Mage::app()->getStore($sale->getStoreId());
                 $websiteId  = $store->getWebsiteId();
                 $groupId    = $store->getGroupId();
                 $storeId    = $store->getId();
@@ -125,7 +127,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Sales extends Magento_Admin
      */
     public function formatCurrency($price, $websiteId = null)
     {
-        return Mage::app()->getWebsite($websiteId)->getBaseCurrency()->format($price);
+        return \Mage::app()->getWebsite($websiteId)->getBaseCurrency()->format($price);
     }
 
     /**

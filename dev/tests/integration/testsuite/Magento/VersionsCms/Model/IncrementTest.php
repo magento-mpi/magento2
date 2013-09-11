@@ -12,13 +12,13 @@
 class Magento_VersionsCms_Model_IncrementTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_VersionsCms_Model_Increment
+     * @var \Magento\VersionsCms\Model\Increment
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_VersionsCms_Model_Increment');
+        $this->_model = Mage::getModel('\Magento\VersionsCms\Model\Increment');
     }
 
     /**
@@ -30,8 +30,8 @@ class Magento_VersionsCms_Model_IncrementTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getIncrementType());
         $this->assertEmpty($this->_model->getIncrementNode());
         $this->assertEmpty($this->_model->getIncrementLevel());
-        $this->_model->getNewIncrementId(Magento_VersionsCms_Model_Increment::TYPE_PAGE, 1, 1);
-        $this->assertEquals(Magento_VersionsCms_Model_Increment::TYPE_PAGE, $this->_model->getIncrementType());
+        $this->_model->getNewIncrementId(\Magento\VersionsCms\Model\Increment::TYPE_PAGE, 1, 1);
+        $this->assertEquals(\Magento\VersionsCms\Model\Increment::TYPE_PAGE, $this->_model->getIncrementType());
         $this->assertEquals(1, $this->_model->getIncrementNode());
         $this->assertEquals(1, $this->_model->getIncrementLevel());
         $this->assertNotEmpty($this->_model->getId());

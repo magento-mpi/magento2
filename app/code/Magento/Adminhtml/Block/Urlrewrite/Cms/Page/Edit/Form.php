@@ -11,26 +11,28 @@
 /**
  * Edit form for CMS page URL rewrites
  *
- * @method Magento_Cms_Model_Page getCmsPage()
- * @method Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form setCmsPage(Magento_Cms_Model_Page $model)
+ * @method \Magento\Cms\Model\Page getCmsPage()
+ * @method \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form setCmsPage(\Magento\Cms\Model\Page $model)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Adminhtml_Block_Urlrewrite_Edit_Form
+namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
 {
     /**
      * Form post init
      *
      * @param \Magento\Data\Form $form
-     * @return Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form
      */
     protected function _formPostInit($form)
     {
         $cmsPage = $this->_getCmsPage();
         $form->setAction(
-            Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('*/*/save', array(
+            \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('*/*/save', array(
                 'id'       => $this->_getModel()->getId(),
                 'cms_page' => $cmsPage->getId()
             ))
@@ -45,8 +47,8 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
         $targetPath = $this->getForm()->getElement('target_path');
 
         $model = $this->_getModel();
-        /** @var $cmsPageUrlrewrite Magento_Cms_Model_Page_Urlrewrite */
-        $cmsPageUrlrewrite = Mage::getModel('Magento_Cms_Model_Page_Urlrewrite');
+        /** @var $cmsPageUrlrewrite \Magento\Cms\Model\Page\Urlrewrite */
+        $cmsPageUrlrewrite = \Mage::getModel('\Magento\Cms\Model\Page\Urlrewrite');
         if (!$model->getId()) {
             $idPath->setValue($cmsPageUrlrewrite->generateIdPath($cmsPage));
 
@@ -72,7 +74,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
      * Get catalog entity associated stores
      *
      * @return array
-     * @throws Magento_Core_Model_Store_Exception
+     * @throws \Magento\Core\Model\Store\Exception
      */
     protected function _getEntityStores()
     {
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
             $this->_requireStoresFilter = !in_array(0, $entityStores);
 
             if (!$entityStores) {
-                throw new Magento_Core_Model_Store_Exception(
+                throw new \Magento\Core\Model\Store\Exception(
                     __('Chosen cms page does not associated with any website.')
                 );
             }
@@ -97,12 +99,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Magento_Admi
     /**
      * Get CMS page model instance
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     protected function _getCmsPage()
     {
         if (!$this->hasData('cms_page')) {
-            $this->setCmsPage(Mage::getModel('Magento_Cms_Model_Page'));
+            $this->setCmsPage(\Mage::getModel('\Magento\Cms\Model\Page'));
         }
         return $this->getCmsPage();
     }

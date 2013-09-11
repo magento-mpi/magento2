@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for Magento_Index_Model_Lock_Storage
+ * Test for \Magento\Index\Model\Lock\Storage
  */
 
 /**
@@ -21,24 +21,24 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_CouponTest extends PHPUni
     /**
      * Application object
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_application = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_App');
+        $this->_application = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
     }
 
     /**
-     * @covers Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon::_afterToHtml
+     * @covers \Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon::_afterToHtml
      */
     public function testAfterToHtml()
     {
-        /** @var $block Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon */
+        /** @var $block \Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon */
         $block = $this->_application->getLayout()
-            ->createBlock('Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon');
+            ->createBlock('\Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon');
         $block->setFilterData(new \Magento\Object());
         $html = $block->toHtml();
 

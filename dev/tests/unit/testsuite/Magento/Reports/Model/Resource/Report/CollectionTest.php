@@ -8,7 +8,7 @@
 class Magento_Reports_Model_Resource_Report_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Reports_Model_Resource_Report_Collection
+     * @var \Magento\Reports\Model\Resource\Report\Collection
      */
     protected $_model;
 
@@ -24,7 +24,7 @@ class Magento_Reports_Model_Resource_Report_CollectionTest extends PHPUnit_Frame
         $arguments = array(
             'dateFactory' => $this->_factoryMock,
         );
-        $this->_model = $helper->getObject('Magento_Reports_Model_Resource_Report_Collection', $arguments);
+        $this->_model = $helper->getObject('\Magento\Reports\Model\Resource\Report\Collection', $arguments);
     }
 
     public function testGetIntervalsWithoutSpecifiedPeriod()

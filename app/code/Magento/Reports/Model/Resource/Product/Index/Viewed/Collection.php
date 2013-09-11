@@ -16,8 +16,10 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Product_Index_Viewed_Collection
-    extends Magento_Reports_Model_Resource_Product_Index_Collection_Abstract
+namespace Magento\Reports\Model\Resource\Product\Index\Viewed;
+
+class Collection
+    extends \Magento\Reports\Model\Resource\Product\Index\Collection\AbstractCollection
 {
     /**
      * Retrieve Product Index table name

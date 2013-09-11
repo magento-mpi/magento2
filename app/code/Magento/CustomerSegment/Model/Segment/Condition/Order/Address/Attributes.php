@@ -11,8 +11,10 @@
 /**
  * Order address attribute condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
+
+class Attributes
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * Array of Customer Address attributes used for customer segment
@@ -22,13 +24,13 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
     protected $_attributes;
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Attributes');
         $this->setValue(null);
     }
 
@@ -67,15 +69,15 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
     /**
      * Load attribute options
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Attributes
      */
     public function loadAttributeOptions()
     {
         if (is_null($this->_attributes)) {
             $this->_attributes  = array();
 
-            /* @var $config Magento_Eav_Model_Config */
-            $config     = Mage::getSingleton('Magento_Eav_Model_Config');
+            /* @var $config \Magento\Eav\Model\Config */
+            $config     = \Mage::getSingleton('Magento\Eav\Model\Config');
             $attributes = array();
 
             foreach ($config->getEntityAttributeCodes('customer_address') as $attributeCode) {
@@ -107,12 +109,12 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Country')
+                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Country')
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Allregion')
+                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Allregion')
                         ->toOptionArray();
                     break;
 

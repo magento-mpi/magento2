@@ -35,7 +35,7 @@ class Magento_Core_Model_Store_ApiTest extends PHPUnit_Framework_TestCase
     {
         $actualStores = Magento_TestFramework_Helper_Api::call($this, 'storeList');
         $expectedStores = Mage::app()->getStores();
-        /** @var Magento_Core_Model_Store $expectedStore */
+        /** @var \Magento\Core\Model\Store $expectedStore */
         foreach ($expectedStores as $expectedStore) {
             $expectedStoreFound = false;
             foreach ($actualStores as $actualStore) {

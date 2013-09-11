@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_Setup
+namespace Magento\Reward\Model\Resource;
+
+class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
      * Current entity type id
@@ -32,7 +34,7 @@ class Magento_Reward_Model_Resource_Setup extends Magento_Sales_Model_Resource_S
      * @param string|integer $entityTypeId
      * @param string $code
      * @param array $attr
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function addAttribute($entityTypeId, $code, array $attr)
     {

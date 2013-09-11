@@ -9,13 +9,15 @@
  */
 
 /**
- * Directory Country Api
+ * \Directory Country Api
  *
  * @category   Magento
  * @package    Magento_Directory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Country_Api extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Directory\Model\Country;
+
+class Api extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Retrieve countries list
@@ -24,15 +26,15 @@ class Magento_Directory_Model_Country_Api extends Magento_Api_Model_Resource_Abs
      */
     public function items()
     {
-        $collection = Mage::getModel('Magento_Directory_Model_Country')->getCollection();
+        $collection = \Mage::getModel('\Magento\Directory\Model\Country')->getCollection();
 
         $result = array();
         foreach ($collection as $country) {
-            /* @var $country Magento_Directory_Model_Country */
+            /* @var $country \Magento\Directory\Model\Country */
             $country->getName(); // Loading name in default locale
             $result[] = $country->toArray(array('country_id', 'iso2_code', 'iso3_code', 'name'));
         }
 
         return $result;
     }
-} // Class Magento_Directory_Model_Country_Api End
+} // Class \Magento\Directory\Model\Country\Api End

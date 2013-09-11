@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Endpoint
+ * \Magento\Webhook\Model\Endpoint
  *
  * {license_notice}
  *
@@ -20,7 +20,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockContext;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Webhook_Model_Endpoint */
+    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Endpoint */
     protected $_endpoint;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -28,13 +28,13 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_mockResourceEndpnt = $this->getMockBuilder('Magento_Webhook_Model_Resource_Endpoint')
+        $this->_mockResourceEndpnt = $this->getMockBuilder('Magento\Webhook\Model\Resource\Endpoint')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockUserFactory = $this->getMockBuilder('Magento_Webhook_Model_User_Factory')
+        $this->_mockUserFactory = $this->getMockBuilder('Magento\Webhook\Model\User\Factory')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockContext = $this->getMockBuilder('Magento_Core_Model_Context')
+        $this->_mockContext = $this->getMockBuilder('Magento\Core\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -47,7 +47,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
         $authenticationType = 'hmac';
         $apiUsedId = '747';
 
-        $mockWebhookUser = $this->getMockBuilder('Magento_Webhook_Model_User')
+        $mockWebhookUser = $this->getMockBuilder('Magento\Webhook\Model\User')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -57,7 +57,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockWebhookUser));
 
         // we have to use a mock because ancestor code utilizes deprecated static methods
-        $this->_endpoint = $this->getMockBuilder('Magento_Webhook_Model_Endpoint')
+        $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
             ->setConstructorArgs(
                 array($this->_mockUserFactory,
                       $this->_mockContext,
@@ -103,7 +103,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
      */
     public function testBeforeSave($hasAuthType, $hasDataChanges)
     {
-        $mockEventManager = $this->getMockBuilder('Magento_Core_Model_Event_Manager')
+        $mockEventManager = $this->getMockBuilder('Magento\Core\Model\Event\Manager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -112,7 +112,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockEventManager));
 
         // we have to use a mock because ancestor code utilizes deprecated static methods
-        $this->_endpoint = $this->getMockBuilder('Magento_Webhook_Model_Endpoint')
+        $this->_endpoint = $this->getMockBuilder('Magento\Webhook\Model\Endpoint')
             ->setConstructorArgs(array($this->_mockUserFactory, $this->_mockContext))
             ->setMethods(
                 array('_init', '_getResource', 'hasAuthenticationType', 'setAuthenticationType', 'setUpdatedAt',
@@ -157,7 +157,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
     /**
      * This mocks the methods called in the save() method such that beforeSave()
      * will be called and no errors will be produced during the save() call
-     * See Magento_Core_Model_Abstract::save() for details
+     * See \Magento\Core\Model\AbstractModel::save() for details
      */
     private function _mockMethodsForSaveCall()
     {

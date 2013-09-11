@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $installer Magento_Tax_Model_Resource_Setup */
+/** @var $installer \Magento\Tax\Model\Resource\Setup */
 $installer = $this;
 /**
  * install tax classes
@@ -16,12 +16,12 @@ $data = array(
     array(
         'class_id'     => 2,
         'class_name'   => 'Taxable Goods',
-        'class_type'   => Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT
+        'class_type'   => \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT
     ),
     array(
         'class_id'     => 3,
         'class_name'   => 'Retail Customer',
-        'class_type'   => Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER
+        'class_type'   => \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER
     )
 );
 foreach ($data as $row) {

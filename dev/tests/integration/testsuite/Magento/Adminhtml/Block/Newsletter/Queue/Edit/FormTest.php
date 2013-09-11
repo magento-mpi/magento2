@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form
+ * Test class for \Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form
  * @magentoAppArea adminhtml
  */
 class Magento_Adminhtml_Block_Newsletter_Queue_Edit_FormTest extends PHPUnit_Framework_TestCase
@@ -20,20 +20,20 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_FormTest extends PHPUnit_Fra
      */
     public function testPrepareForm()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
+            ->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form');
+            ->create('Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form');
         $prepareFormMethod = new ReflectionMethod(
-            'Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form', '_prepareForm');
+            '\Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
 
-        $queue = Mage::getSingleton('Magento_Newsletter_Model_Queue');
-        $statuses = array(Magento_Newsletter_Model_Queue::STATUS_NEVER, Magento_Newsletter_Model_Queue::STATUS_PAUSE);
+        $queue = Mage::getSingleton('Magento\Newsletter\Model\Queue');
+        $statuses = array(\Magento\Newsletter\Model\Queue::STATUS_NEVER, \Magento\Newsletter\Model\Queue::STATUS_PAUSE);
         foreach ($statuses as $status) {
             $queue->setQueueStatus($status);
             $prepareFormMethod->invoke($block);

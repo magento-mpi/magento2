@@ -15,12 +15,14 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype extends Magento_Adminhtml_Controller_Action
+namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
+
+class Formtype extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Load layout, set active menu and breadcrumbs
      *
-     * @return Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype
+     * @return \Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer\Formtype
      */
     protected function _initAction()
     {
@@ -46,11 +48,11 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
     /**
      * Initialize and return current form type instance
      *
-     * @return Magento_Eav_Model_Form_Type
+     * @return \Magento\Eav\Model\Form\Type
      */
     protected function _initFormType()
     {
-        $model  = Mage::getModel('Magento_Eav_Model_Form_Type');
+        $model  = \Mage::getModel('\Magento\Eav\Model\Form\Type');
         $typeId = $this->getRequest()->getParam('type_id');
         if (is_numeric($typeId)) {
             $model->load($typeId);
@@ -59,7 +61,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
         if (!empty($data)) {
             $model->addData($data);
         }
-        Mage::register('current_form_type', $model);
+        \Mage::register('current_form_type', $model);
         return $model;
     }
 
@@ -69,7 +71,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
      */
     public function newAction()
     {
-        Mage::register('edit_mode', 'new');
+        \Mage::register('edit_mode', 'new');
         $this->_initFormType();
         $this->_initAction()
             ->renderLayout();
@@ -86,7 +88,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
         if ($skeleton->getId()) {
             try {
                 $hasError = false;
-                $formType = Mage::getModel('Magento_Eav_Model_Form_Type');
+                $formType = \Mage::getModel('\Magento\Eav\Model\Form\Type');
                 $formType->addData(array(
                     'code'          => $skeleton->getCode(),
                     'label'         => $this->getRequest()->getPost('label'),
@@ -98,11 +100,11 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
                 $formType->save();
                 $formType->createFromSkeleton($skeleton);
             }
-            catch(Magento_Core_Exception $e) {
+            catch(\Magento\Core\Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addError($e->getMessage());
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addException($e,
                     __("We can't save the form type right now."));
@@ -124,7 +126,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
      */
     public function editAction()
     {
-        Mage::register('edit_mode', 'edit');
+        \Mage::register('edit_mode', 'edit');
         $this->_initFormType();
         $this->_initAction()
             ->renderLayout();
@@ -133,15 +135,15 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
     /**
      * Save Form Type Tree data
      *
-     * @param Magento_Eav_Model_Form_Type $formType
+     * @param \Magento\Eav\Model\Form\Type $formType
      * @param array $data
      */
     protected function _saveTreeData($formType, array $data)
     {
-        $fieldsetCollection = Mage::getModel('Magento_Eav_Model_Form_Fieldset')->getCollection()
+        $fieldsetCollection = \Mage::getModel('\Magento\Eav\Model\Form\Fieldset')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
-        $elementCollection = Mage::getModel('Magento_Eav_Model_Form_Element')->getCollection()
+        $elementCollection = \Mage::getModel('\Magento\Eav\Model\Form\Element')->getCollection()
             ->addTypeFilter($formType)
             ->setSortOrder();
 
@@ -163,7 +165,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
         }
 
         foreach ($fieldsetCollection as $fieldset) {
-            /* @var $fieldset Magento_Eav_Model_Form_Fieldset */
+            /* @var $fieldset \Magento\Eav\Model\Form\Fieldset */
             if (!isset($fsUpdate[$fieldset->getId()])) {
                 // collect deleted fieldsets
                 $fsDelete[$fieldset->getId()] = $fieldset;
@@ -180,7 +182,7 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
         // insert new fieldsets
         $fsMap = array();
         foreach ($fsInsert as $fsData) {
-            $fieldset = Mage::getModel('Magento_Eav_Model_Form_Fieldset');
+            $fieldset = \Mage::getModel('\Magento\Eav\Model\Form\Fieldset');
             $fieldset->setTypeId($formType->getId())
                 ->setCode($fsData['code'])
                 ->setLabels($fsData['labels'])
@@ -231,16 +233,16 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
                 $formType->setLabel($request->getPost('label'));
                 $formType->save();
 
-                $treeData = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($request->getPost('form_type_data'));
+                $treeData = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($request->getPost('form_type_data'));
                 if (!empty($treeData) && is_array($treeData)) {
                     $this->_saveTreeData($formType, $treeData);
                 }
             }
-            catch (Magento_Core_Exception $e) {
+            catch (\Magento\Core\Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addError($e->getMessage());
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $hasError = true;
                 $this->_getSession()->addException($e,
                     __("We can't save the form type right now."));
@@ -273,10 +275,10 @@ class Magento_CustomerCustomAttributes_Controller_Adminhtml_Customer_Formtype ex
                     $message = __('The form type has been deleted.');
                     $this->_getSession()->addSuccess($message);
                 }
-                catch (Magento_Core_Exception $e) {
+                catch (\Magento\Core\Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 }
-                catch (Exception $e) {
+                catch (\Exception $e) {
                     $message = __('Something went wrong deleting the form type.');
                     $this->_getSession()->addException($e, $message);
                 }

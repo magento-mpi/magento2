@@ -15,8 +15,10 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Product_New
-    implements Magento_Widget_Block_Interface
+namespace Magento\Catalog\Block\Product\Widget;
+
+class New extends \Magento\Catalog\Block\Product\New
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Display products type
@@ -42,7 +44,7 @@ class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Pro
     /**
      * Instance of pager block
      *
-     * @var Magento_Catalog_Block_Product_Widget_Html_Pager
+     * @var \Magento\Catalog\Block\Product\Widget\Html\Pager
      */
     protected $_pager;
 
@@ -54,7 +56,7 @@ class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Pro
         parent::_construct();
         $this->addPriceBlockType(
             'bundle',
-            'Magento_Bundle_Block_Catalog_Product_Price',
+            '\Magento\Bundle\Block\Catalog\Product\Price',
             'bundle/catalog/product/price.phtml'
         );
     }
@@ -62,7 +64,7 @@ class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Pro
     /**
      * Product collection initialize process
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
      */
     protected function _getProductCollection()
     {
@@ -80,13 +82,13 @@ class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Pro
     /**
      * Prepare collection for recent product list
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
      */
     protected function _getRecentlyAddedProductsCollection()
     {
-        /** @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
-        $collection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+        /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+        $collection->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
 
         $collection = $this->_addProductAttributesAndPrices($collection)
             ->addStoreFilter()
@@ -173,7 +175,7 @@ class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Pro
         if ($this->showPager()) {
             if (!$this->_pager) {
                 $this->_pager = $this->getLayout()
-                    ->createBlock('Magento_Catalog_Block_Product_Widget_Html_Pager', 'widget.new.product.list.pager');
+                    ->createBlock('\Magento\Catalog\Block\Product\Widget\Html\Pager', 'widget.new.product.list.pager');
 
                 $this->_pager->setUseContainer(true)
                     ->setShowAmounts(true)
@@ -183,7 +185,7 @@ class Magento_Catalog_Block_Product_Widget_New extends Magento_Catalog_Block_Pro
                     ->setTotalLimit($this->getProductsCount())
                     ->setCollection($this->getProductCollection());
             }
-            if ($this->_pager instanceof Magento_Core_Block_Abstract) {
+            if ($this->_pager instanceof \Magento\Core\Block\AbstractBlock) {
                 return $this->_pager->toHtml();
             }
         }

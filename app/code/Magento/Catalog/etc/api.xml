@@ -13,7 +13,7 @@
     <api>
         <resources>
             <catalog_category translate="title" module="Magento_Catalog">
-                <model>Magento_Catalog_Model_Category_Api</model>
+                <model>\Magento\Catalog\Model\Category\Api</model>
                 <title>Category API</title>
                 <acl>catalog/category</acl>
                 <methods>
@@ -97,7 +97,7 @@
             </catalog_category>
             <catalog_category_attribute translate="title" module="Magento_Catalog">
                 <title>Category attributes API</title>
-                <model>Magento_Catalog_Model_Category_Attribute_Api</model>
+                <model>\Magento\Catalog\Model\Category\Attribute\Api</model>
                 <acl>catalog/category</acl>
                 <methods>
                     <currentStore translate="title" module="Magento_Catalog">
@@ -124,7 +124,7 @@
             </catalog_category_attribute>
             <catalog_product translate="title" module="Magento_Catalog">
                 <title>Product API</title>
-                <model>Magento_Catalog_Model_Product_Api</model>
+                <model>\Magento\Catalog\Model\Product\Api</model>
                 <acl>catalog/product</acl>
                 <methods>
                     <currentStore translate="title" module="Magento_Catalog">
@@ -209,7 +209,7 @@
             </catalog_product>
             <catalog_product_attribute translate="title" module="Magento_Catalog">
                 <title>Product attributes API</title>
-                <model>Magento_Catalog_Model_Product_Attribute_Api</model>
+                <model>\Magento\Catalog\Model\Product\Attribute\Api</model>
                 <acl>catalog/product</acl>
                 <methods>
                     <currentStore translate="title" module="Magento_Catalog">
@@ -299,7 +299,7 @@
             </catalog_product_attribute>
             <catalog_product_attribute_set translate="title" module="Magento_Catalog">
                 <title>Product attribute sets API</title>
-                <model>Magento_Catalog_Model_Product_Attribute_Set_Api</model>
+                <model>\Magento\Catalog\Model\Product\Attribute\Set\Api</model>
                 <acl>catalog/product/attribute/set</acl>
                 <methods>
                     <create translate="title" module="Magento_Catalog">
@@ -413,7 +413,7 @@
             </catalog_product_attribute_set>
             <catalog_product_type translate="title" module="Magento_Catalog">
                 <title>Product types API</title>
-                <model>Magento_Catalog_Model_Product_Type_Api</model>
+                <model>\Magento\Catalog\Model\Product\Type\Api</model>
                 <acl>catalog/product</acl>
                 <methods>
                     <list translate="title" module="Magento_Catalog">
@@ -426,7 +426,7 @@
             </catalog_product_type>
             <catalog_product_attribute_media translate="title" module="Magento_Catalog">
                 <title>Product Images API</title>
-                <model>Magento_Catalog_Model_Product_Attribute_Media_Api</model>
+                <model>\Magento\Catalog\Model\Product\Attribute\Media\Api</model>
                 <acl>catalog/product/media</acl>
                 <methods>
                     <currentStore translate="title" module="Magento_Catalog">
@@ -492,7 +492,7 @@
             </catalog_product_attribute_media>
             <catalog_product_attribute_tier_price translate="title" module="Magento_Catalog">
                 <title>Product Tier Price API</title>
-                <model>Magento_Catalog_Model_Product_Attribute_Tierprice_Api</model>
+                <model>\Magento\Catalog\Model\Product\Attribute\Tierprice\Api</model>
                 <acl>catalog/product</acl>
                 <methods>
                     <info translate="title" module="Magento_Catalog">
@@ -520,7 +520,7 @@
             </catalog_product_attribute_tier_price>
             <catalog_product_link translate="title" module="Magento_Catalog">
                 <title>Product links API (related, cross sells, up sells)</title>
-                <model>Magento_Catalog_Model_Product_Link_Api</model>
+                <model>\Magento\Catalog\Model\Product\Link\Api</model>
                 <acl>catalog/product/link</acl>
                 <methods>
                     <list translate="title" module="Magento_Catalog">
@@ -567,7 +567,7 @@
             </catalog_product_link>
             <catalog_product_custom_option translate="title" module="Magento_Catalog">
                 <title>Catalog product custom options API</title>
-                <model>Magento_Catalog_Model_Product_Option_Api</model>
+                <model>\Magento\Catalog\Model\Product\Option\Api</model>
                 <acl>catalog/product/option</acl>
                 <methods>
                     <add translate="title" module="Magento_Catalog">
@@ -629,7 +629,7 @@
             </catalog_product_custom_option>
             <catalog_product_custom_option_value translate="title" module="Magento_Catalog">
                 <title>Catalog product custom option values API</title>
-                <model>Magento_Catalog_Model_Product_Option_Value_Api</model>
+                <model>\Magento\Catalog\Model\Product\Option\Value\Api</model>
                 <acl>catalog/product/option/value</acl>
                 <methods>
                     <list translate="title" module="Magento_Catalog">

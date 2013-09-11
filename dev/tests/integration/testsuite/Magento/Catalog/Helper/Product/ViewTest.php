@@ -14,20 +14,20 @@ require Mage::getBaseDir() . '/app/code/Magento/Catalog/Controller/Product.php';
 class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Product_View
+     * @var \Magento\Catalog\Helper\Product\View
      */
     protected $_helper;
 
     /**
-     * @var Magento_Catalog_Controller_Product
+     * @var \Magento\Catalog\Controller\Product
      */
     protected $_controller;
 
     protected function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme();
-        $this->_helper = Mage::helper('Magento_Catalog_Helper_Product_View');
+        $this->_helper = Mage::helper('Magento\Catalog\Helper\Product\View');
         $request = new Magento_TestFramework_Request();
         $request->setRouteName('catalog')
             ->setControllerName('product')
@@ -37,9 +37,9 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
             'response' => new Magento_TestFramework_Response(),
         );
         $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Controller_Varien_Action_Context', $arguments);
+            ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
         $this->_controller = Mage::getModel(
-            'Magento_Catalog_Controller_Product',
+            '\Magento\Catalog\Controller\Product',
             array(
                 'context'  => $context,
             )
@@ -51,7 +51,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Mage::getSingleton('Magento_Catalog_Model_Session')->unsLastViewedProductId();
+        Mage::getSingleton('Magento\Catalog\Model\Session')->unsLastViewedProductId();
         $this->_controller = null;
         $this->_helper = null;
     }
@@ -62,14 +62,14 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     public function testInitProductLayout()
     {
         $uniqid = uniqid();
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
-        $product->setTypeId(Magento_Catalog_Model_Product_Type::DEFAULT_TYPE)->setId(99)->setUrlKey($uniqid);
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
+        $product->setTypeId(\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE)->setId(99)->setUrlKey($uniqid);
         Mage::register('product', $product);
 
         $this->_helper->initProductLayout($product, $this->_controller);
         $rootBlock = $this->_controller->getLayout()->getBlock('root');
-        $this->assertInstanceOf('Magento_Page_Block_Html', $rootBlock);
+        $this->assertInstanceOf('\Magento\Page\Block\Html', $rootBlock);
         $this->assertContains("product-{$uniqid}", $rootBlock->getBodyClass());
         $handles = $this->_controller->getLayout()->getUpdate()->getHandles();
         $this->assertContains('catalog_product_view_type_simple', $handles);
@@ -84,17 +84,17 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
     {
         $this->_helper->prepareAndRender(10, $this->_controller);
         $this->assertNotEmpty($this->_controller->getResponse()->getBody());
-        $this->assertEquals(10, Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId());
+        $this->assertEquals(10, Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId());
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @magentoAppIsolation enabled
      */
     public function testPrepareAndRenderWrongController()
     {
         $controller = Mage::getModel(
-            'Magento_Core_Controller_Front_Action',
+            '\Magento\Core\Controller\Front\Action',
             array(
                 'request'  => new Magento_TestFramework_Request,
                 'response' => new Magento_TestFramework_Response,
@@ -105,7 +105,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testPrepareAndRenderWrongProduct()
     {
@@ -117,19 +117,19 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
      * @magentoAppIsolation enabled
-     * @covers Magento_Catalog_Helper_Product_View::_getSessionMessageModels
+     * @covers \Magento\Catalog\Helper\Product\View::_getSessionMessageModels
      * @magentoAppArea frontend
      */
     public function testGetSessionMessageModels()
     {
         $expectedMessages = array(
-            'Magento_Catalog_Model_Session'  => 'catalog message',
-            'Magento_Checkout_Model_Session' => 'checkout message',
+            '\Magento\Catalog\Model\Session'  => 'catalog message',
+            '\Magento\Checkout\Model\Session' => 'checkout message',
         );
 
         // add messages
         foreach ($expectedMessages as $sessionModel => $messageText) {
-            /** @var $session Magento_Core_Model_Session_Abstract */
+            /** @var $session \Magento\Core\Model\Session\AbstractSession */
             $session = Mage::getSingleton($sessionModel);
             $session->addNotice($messageText);
         }
@@ -145,7 +145,7 @@ class Magento_Catalog_Helper_Product_ViewTest extends PHPUnit_Framework_TestCase
 
         sort($expectedMessages);
 
-        /** @var $message Magento_Core_Model_Message_Notice */
+        /** @var $message \Magento\Core\Model\Message\Notice */
         foreach ($actualMessages as $key => $message) {
             $actualMessages[$key] = $message->getText();
         }

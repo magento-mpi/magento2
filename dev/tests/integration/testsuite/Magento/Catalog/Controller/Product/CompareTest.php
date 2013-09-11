@@ -20,9 +20,9 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
 
         $this->dispatch('catalog/product_compare/add/product/1?nocookie=1');
 
-        /** @var $session Magento_Catalog_Model_Session */
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
-        $this->assertInstanceOf('Magento_Core_Model_Message_Success', $session->getMessages()->getLastAddedMessage());
+        /** @var $session \Magento\Catalog\Model\Session */
+        $session = Mage::getSingleton('Magento\Catalog\Model\Session');
+        $this->assertInstanceOf('\Magento\Core\Model\Message\Success', $session->getMessages()->getLastAddedMessage());
         $this->assertContains('Simple Product 1 Name',
             (string)$session->getMessages()->getLastAddedMessage()->getText());
 
@@ -48,9 +48,9 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
 
         $this->dispatch('catalog/product_compare/remove/product/2');
 
-        /** @var $session Magento_Catalog_Model_Session */
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
-        $this->assertInstanceOf('Magento_Core_Model_Message_Success', $session->getMessages()->getLastAddedMessage());
+        /** @var $session \Magento\Catalog\Model\Session */
+        $session = Mage::getSingleton('Magento\Catalog\Model\Session');
+        $this->assertInstanceOf('\Magento\Core\Model\Message\Success', $session->getMessages()->getLastAddedMessage());
         $this->assertContains('Simple Product 2 Name',
             (string)$session->getMessages()->getLastAddedMessage()->getText());
 
@@ -88,9 +88,9 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
 
         $this->dispatch('catalog/product_compare/clear');
 
-        /** @var $session Magento_Catalog_Model_Session */
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
-        $this->assertInstanceOf('Magento_Core_Model_Message_Success', $session->getMessages()->getLastAddedMessage());
+        /** @var $session \Magento\Catalog\Model\Session */
+        $session = Mage::getSingleton('Magento\Catalog\Model\Session');
+        $this->assertInstanceOf('\Magento\Core\Model\Message\Success', $session->getMessages()->getLastAddedMessage());
 
         $this->assertRedirect();
 
@@ -104,7 +104,7 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
     {
         $this->_prepareCompareListWithProductNameXss();
         $this->dispatch('catalog/product_compare/remove/product/1?nocookie=1');
-        $messages = Mage::getSingleton('Magento_Catalog_Model_Session')->getMessages()->getItems();
+        $messages = Mage::getSingleton('Magento\Catalog\Model\Session')->getMessages()->getItems();
         $isProductNamePresent = false;
         foreach ($messages as $message) {
             if (strpos($message->getCode(), '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;') !== false) {
@@ -117,53 +117,53 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
 
     protected function _prepareCompareListWithProductNameXss()
     {
-        /** @var $visitor Magento_Log_Model_Visitor */
-        $visitor = Mage::getModel('Magento_Log_Model_Visitor');
+        /** @var $visitor \Magento\Log\Model\Visitor */
+        $visitor = Mage::getModel('\Magento\Log\Model\Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
             ->setLastVisitAt(now())
             ->save();
-        /** @var $item Magento_Catalog_Model_Product_Compare_Item */
-        $item = Mage::getModel('Magento_Catalog_Model_Product_Compare_Item');
+        /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
+        $item = Mage::getModel('\Magento\Catalog\Model\Product\Compare\Item');
         $item->setVisitorId($visitor->getId())
             ->setProductId(1)
             ->save();
-        Mage::getSingleton('Magento_Log_Model_Visitor')->load($visitor->getId());
+        Mage::getSingleton('Magento\Log\Model\Visitor')->load($visitor->getId());
     }
 
     protected function _requireVisitorWithNoProducts()
     {
-        /** @var $visitor Magento_Log_Model_Visitor */
-        $visitor = Mage::getModel('Magento_Log_Model_Visitor');
+        /** @var $visitor \Magento\Log\Model\Visitor */
+        $visitor = Mage::getModel('\Magento\Log\Model\Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
             ->setLastVisitAt(now())
             ->save();
 
-        Mage::getSingleton('Magento_Log_Model_Visitor')->load($visitor->getId());
+        Mage::getSingleton('Magento\Log\Model\Visitor')->load($visitor->getId());
 
         $this->_assertCompareListEquals(array());
     }
 
     protected function _requireVisitorWithTwoProducts()
     {
-        /** @var $visitor Magento_Log_Model_Visitor */
-        $visitor = Mage::getModel('Magento_Log_Model_Visitor');
+        /** @var $visitor \Magento\Log\Model\Visitor */
+        $visitor = Mage::getModel('\Magento\Log\Model\Visitor');
         $visitor->setSessionId(md5(time()) . md5(microtime()))
             ->setLastVisitAt(now())
             ->save();
 
-        /** @var $item Magento_Catalog_Model_Product_Compare_Item */
-        $item = Mage::getModel('Magento_Catalog_Model_Product_Compare_Item');
+        /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
+        $item = Mage::getModel('\Magento\Catalog\Model\Product\Compare\Item');
         $item->setVisitorId($visitor->getId())
             ->setProductId(1)
             ->save();
 
-        /** @var $item Magento_Catalog_Model_Product_Compare_Item */
-        $item = Mage::getModel('Magento_Catalog_Model_Product_Compare_Item');
+        /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
+        $item = Mage::getModel('\Magento\Catalog\Model\Product\Compare\Item');
         $item->setVisitorId($visitor->getId())
             ->setProductId(2)
             ->save();
 
-        Mage::getSingleton('Magento_Log_Model_Visitor')->load($visitor->getId());
+        Mage::getSingleton('Magento\Log\Model\Visitor')->load($visitor->getId());
 
         $this->_assertCompareListEquals(array(1, 2));
     }
@@ -175,15 +175,15 @@ class Magento_Catalog_Controller_Product_CompareTest extends Magento_TestFramewo
      */
     protected function _assertCompareListEquals(array $expectedProductIds)
     {
-        /** @var $compareItems Magento_Catalog_Model_Resource_Product_Compare_Item_Collection */
-        $compareItems = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Compare_Item_Collection');
+        /** @var $compareItems \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection */
+        $compareItems = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection');
         $compareItems->useProductItem(true); // important
         $compareItems->setVisitorId(
-            Mage::getSingleton('Magento_Log_Model_Visitor')->getId()
+            Mage::getSingleton('Magento\Log\Model\Visitor')->getId()
         );
         $actualProductIds = array();
         foreach ($compareItems as $compareItem) {
-            /** @var $compareItem Magento_Catalog_Model_Product_Compare_Item */
+            /** @var $compareItem \Magento\Catalog\Model\Product\Compare\Item */
             $actualProductIds[] = $compareItem->getProductId();
         }
         $this->assertEquals($expectedProductIds, $actualProductIds, "Products in current visitor's compare list.");

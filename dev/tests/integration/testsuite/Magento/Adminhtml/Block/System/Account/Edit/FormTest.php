@@ -16,17 +16,17 @@ class Magento_Adminhtml_Block_System_Account_Edit_FormTest extends PHPUnit_Frame
 {
     public function testPrepareForm()
     {
-        $user = Mage::getModel('Magento_User_Model_User')->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
+        $user = Mage::getModel('\Magento\User\Model\User')->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
 
-        /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        /** @var $session \Magento\Backend\Model\Auth\Session */
+        $session = Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
 
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
 
-        /** @var Magento_Adminhtml_Block_System_Account_Edit_Form */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_System_Account_Edit_Form');
+        /** @var \Magento\Adminhtml\Block\System\Account\Edit\Form */
+        $block = $layout->createBlock('\Magento\Adminhtml\Block\System\Account\Edit\Form');
         $block->toHtml();
 
         $form = $block->getForm();

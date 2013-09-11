@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Action_Factory
+namespace Magento\Webapi\Controller\Action;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -26,15 +28,15 @@ class Magento_Webapi_Controller_Action_Factory
      * Create front controller instance.
      *
      * @param string $className
-     * @param Magento_Webapi_Controller_Request $request
-     * @return Magento_Webapi_Controller_ActionAbstract
-     * @throws InvalidArgumentException
+     * @param \Magento\Webapi\Controller\Request $request
+     * @return \Magento\Webapi\Controller\ActionAbstract
+     * @throws \InvalidArgumentException
      */
     public function createActionController($className, $request)
     {
         $actionController = $this->_objectManager->create($className, array('request' => $request));
-        if (!$actionController instanceof Magento_Webapi_Controller_ActionAbstract) {
-            throw new InvalidArgumentException(
+        if (!$actionController instanceof \Magento\Webapi\Controller\ActionAbstract) {
+            throw new \InvalidArgumentException(
                 'The specified class is not a valid API action controller.');
         }
         return $actionController;

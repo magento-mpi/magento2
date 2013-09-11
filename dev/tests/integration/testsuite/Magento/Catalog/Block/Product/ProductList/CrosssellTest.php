@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Catalog_Block_Product_ProductList_Crosssell.
+ * Test class for \Magento\Catalog\Block\Product\ProductList\Crosssell.
  *
  * @magentoDataFixture Magento/Catalog/_files/products_crosssell.php
  */
@@ -18,13 +18,13 @@ class Magento_Catalog_Block_Product_ProductList_CrosssellTest extends PHPUnit_Fr
 {
     public function testAll()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(2);
         Mage::register('product', $product);
-        /** @var $block Magento_Catalog_Block_Product_ProductList_Crosssell */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_ProductList_Crosssell');
-        $block->setLayout(Mage::getModel('Magento_Core_Model_Layout'));
+        /** @var $block \Magento\Catalog\Block\Product\ProductList\Crosssell */
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Catalog\Block\Product\ProductList\Crosssell');
+        $block->setLayout(Mage::getModel('\Magento\Core\Model\Layout'));
         $block->setTemplate('Magento_Checkout::cart/crosssell.phtml');
         $block->setItemCount(1);
 
@@ -32,6 +32,6 @@ class Magento_Catalog_Block_Product_ProductList_CrosssellTest extends PHPUnit_Fr
         $this->assertNotEmpty($html);
         $this->assertContains('Simple Cross Sell', $html); /* name */
         $this->assertContains('product/1/', $html);  /* part of url */
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Link_Product_Collection', $block->getItems());
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Link\Product\Collection', $block->getItems());
     }
 }

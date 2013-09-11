@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_Backend_Block_Widget_Form
+namespace Magento\Webhook\Block\Adminhtml\Registration\Create;
+
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     /** Constants for API user details */
     const API_KEY_LENGTH = 32;
@@ -25,23 +27,23 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
     /** @var \Magento\Data\Form\Factory */
     private $_formFactory;
 
-    /** @var Magento_Core_Helper_Data  */
+    /** @var \Magento\Core\Helper\Data  */
     private $_coreHelper;
 
-    /** @var Magento_Core_Model_Registry  */
+    /** @var \Magento\Core\Model\Registry  */
     private $_registry;
 
     /**
-     * @param Magento_Core_Helper_Data $coreHelper
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Data\Form\Factory $formFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Helper_Data $coreHelper,
-        Magento_Core_Model_Registry $registry,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Helper\Data $coreHelper,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Block\Template\Context $context,
         \Magento\Data\Form\Factory $formFactory,
         array $data = array()
     ) {
@@ -55,7 +57,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
     /**
      * Prepares registration form
      *
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
@@ -121,6 +123,6 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form extends Magento_B
     private function _generateRandomString($length)
     {
         return $this->_coreHelper
-            ->getRandomString($length, Magento_Core_Helper_Data::CHARS_DIGITS . Magento_Core_Helper_Data::CHARS_LOWERS);
+            ->getRandomString($length, \Magento\Core\Helper\Data::CHARS_DIGITS . \Magento\Core\Helper\Data::CHARS_LOWERS);
     }
 }

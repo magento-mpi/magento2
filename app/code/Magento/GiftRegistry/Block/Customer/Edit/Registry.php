@@ -11,7 +11,9 @@
 /**
  * Customer giftregistry edit block
  */
-class Magento_GiftRegistry_Block_Customer_Edit_Registry extends  Magento_GiftRegistry_Block_Customer_Edit_Abstract
+namespace Magento\GiftRegistry\Block\Customer\Edit;
+
+class Registry extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
 {
     /**
      * Scope Selector 'registry/registrant'

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Main extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Review;
+
+class Main extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     protected function _construct()
     {
@@ -29,18 +31,18 @@ class Magento_Adminhtml_Block_Review_Main extends Magento_Adminhtml_Block_Widget
         $customerId = $this->getRequest()->getParam('customerId', false);
         $customerName = '';
         if ($customerId) {
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
             $customerName = $customer->getFirstname() . ' ' . $customer->getLastname();
             $customerName = $this->escapeHtml($customerName);
         }
         $productId = $this->getRequest()->getParam('productId', false);
         $productName = null;
         if ($productId) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
             $productName =  $this->escapeHtml($product->getName());
         }
 
-        if( Mage::registry('usePendingFilter') === true ) {
+        if( \Mage::registry('usePendingFilter') === true ) {
             if ($customerName) {
                 $this->_headerText = __('Pending Reviews of Customer `%1`', $customerName);
             } else {

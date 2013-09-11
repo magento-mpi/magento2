@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Payment_Block_Info_Purchaseorder extends Magento_Payment_Block_Info
+namespace Magento\Payment\Block\Info;
+
+class Purchaseorder extends \Magento\Payment\Block\Info
 {
     protected $_template = 'Magento_Payment::info/purchaseorder.phtml';
 

@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\Webapi\Controller\Adminhtml\Webapi;
+
+class User extends \Magento\Backend\Controller\ActionAbstract
 {
     /**
      * Initialize breadcrumbs.
      *
-     * @return Magento_Webapi_Controller_Adminhtml_Webapi_User
+     * @return \Magento\Webapi\Controller\Adminhtml\Webapi\User
      */
     protected function _initAction()
     {
@@ -66,7 +68,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
 
         // Update title and breadcrumb record.
         $actionTitle = $user->getId()
-            ? $this->_objectManager->get('Magento_Webapi_Helper_Data')->escapeHtml($user->getApiKey())
+            ? $this->_objectManager->get('Magento\Webapi\Helper\Data')->escapeHtml($user->getApiKey())
             : __('New API User');
         $this->_title($actionTitle);
         $this->_addBreadcrumb($actionTitle, $actionTitle);
@@ -77,12 +79,12 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
             $user->setData($data);
         }
 
-        /** @var Magento_Webapi_Block_Adminhtml_User_Edit $editBlock */
+        /** @var \Magento\Webapi\Block\Adminhtml\User\Edit $editBlock */
         $editBlock = $this->getLayout()->getBlock('webapi.user.edit');
         if ($editBlock) {
             $editBlock->setApiUser($user);
         }
-        /** @var Magento_Webapi_Block_Adminhtml_User_Edit_Tabs $tabsBlock */
+        /** @var \Magento\Webapi\Block\Adminhtml\User\Edit\Tabs $tabsBlock */
         $tabsBlock = $this->getLayout()->getBlock('webapi.user.edit.tabs');
         if ($tabsBlock) {
             $tabsBlock->setApiUser($user);
@@ -115,13 +117,13 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
                     ->setWebapiUserData(null)
                     ->addSuccess(__('The API user has been saved.'));
                 $redirectBack = $this->getRequest()->has('back');
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()
                     ->setWebapiUserData($data)
                     ->addError($e->getMessage());
                 $redirectBack = true;
-            } catch (Exception $e) {
-                $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
+            } catch (\Exception $e) {
+                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
                 $this->_getSession()
                     ->setWebapiUserData($data)
                     ->addError($e->getMessage());
@@ -154,7 +156,7 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
                 );
                 $this->_redirect('*/*/');
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('user_id' => $userId));
                 return;
@@ -197,13 +199,13 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
     /**
      * Validate Web API user data.
      *
-     * @param Magento_Webapi_Model_Acl_User $user
+     * @param \Magento\Webapi\Model\Acl\User $user
      * @throws \Magento\Validator\ValidatorException
      */
     protected function _validateUserData($user)
     {
         $group = $user->isObjectNew() ? 'create' : 'update';
-        $validator = $this->_objectManager->get('Magento_Core_Model_Validator_Factory')
+        $validator = $this->_objectManager->get('Magento\Core\Model\Validator\Factory')
             ->createValidator('api_user', $group);
         if (!$validator->isValid($user)) {
             throw new \Magento\Validator\ValidatorException($validator->getMessages());
@@ -214,12 +216,12 @@ class Magento_Webapi_Controller_Adminhtml_Webapi_User extends Magento_Backend_Co
      * Load Web API user.
      *
      * @param int $userId
-     * @return bool|Magento_Webapi_Model_Acl_User
+     * @return bool|\Magento\Webapi\Model\Acl\User
      */
     protected function _loadApiUser($userId)
     {
-        /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = $this->_objectManager->create('Magento_Webapi_Model_Acl_User')->load($userId);
+        /** @var \Magento\Webapi\Model\Acl\User $user */
+        $user = $this->_objectManager->create('Magento\Webapi\Model\Acl\User')->load($userId);
         if (!$user->getId() && $userId) {
             $this->_getSession()->addError(
                 __('This user no longer exists.')

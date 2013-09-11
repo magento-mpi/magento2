@@ -16,19 +16,21 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Grid_Status
-        implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Grid;
+
+class Status
+        implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     /**
-     * @var Magento_GiftCardAccount_Model_Giftcardaccount
+     * @var \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     protected $_model;
 
     /**
-     * @param Magento_GiftCardAccount_Model_Giftcardaccount $model
+     * @param \Magento\GiftCardAccount\Model\Giftcardaccount $model
      */
-    public function __construct(Magento_GiftCardAccount_Model_Giftcardaccount $model)
+    public function __construct(\Magento\GiftCardAccount\Model\Giftcardaccount $model)
     {
         $this->_model = $model;
     }

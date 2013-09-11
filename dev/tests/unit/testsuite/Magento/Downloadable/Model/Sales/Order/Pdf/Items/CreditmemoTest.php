@@ -12,41 +12,41 @@
 class Magento_Downloadable_Model_Sales_Order_Pdf_Items_CreditmemoTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
+     * @var \Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo
      */
     protected $_model;
 
     /**
-     * @var Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_order;
 
     /**
-     * @var Magento_Sales_Model_Order_Pdf_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Sales\Model\Order\Pdf\AbstractPdf|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_pdf;
 
     protected function setUp()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $modelConstructorArgs = $objectManager->getConstructArguments('Magento_Sales_Model_Order');
+        $modelConstructorArgs = $objectManager->getConstructArguments('\Magento\Sales\Model\Order');
 
-        $this->_order = $this->getMock('Magento_Sales_Model_Order', array('formatPriceTxt'), $modelConstructorArgs);
+        $this->_order = $this->getMock('Magento\Sales\Model\Order', array('formatPriceTxt'), $modelConstructorArgs);
         $this->_order
             ->expects($this->any())
             ->method('formatPriceTxt')
             ->will($this->returnCallback(array($this, 'formatPrice')))
         ;
 
-        $this->_pdf = $this->getMock('Magento_Sales_Model_Order_Pdf_Abstract', array('drawLineBlocks', 'getPdf'));
+        $this->_pdf = $this->getMock('Magento\Sales\Model\Order\Pdf\AbstractPdf', array('drawLineBlocks', 'getPdf'));
 
         $this->_model = $this->getMock(
-            'Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo',
+            '\Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo',
             array('getLinks', 'getLinksTitle'),
             $modelConstructorArgs
         );
-        $context = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false);
-        $this->_model->setStringHelper(new Magento_Core_Helper_String($context));
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
+        $this->_model->setStringHelper(new \Magento\Core\Helper\String($context));
         $this->_model->setOrder($this->_order);
         $this->_model->setPdf($this->_pdf);
         $this->_model->setPage(new Zend_Pdf_Page('a4'));

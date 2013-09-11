@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Review_Product_Grid extends Magento_Adminhtml_Block_Catalog_Product_Grid
+namespace Magento\Adminhtml\Block\Review\Product;
+
+class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
 {
 
     protected function _construct()
@@ -69,14 +71,14 @@ class Magento_Adminhtml_Block_Review_Product_Grid extends Magento_Adminhtml_Bloc
                 'width'     => '90px',
                 'index'     => 'status',
                 'type'      => 'options',
-                'source'    => 'Magento_Catalog_Model_Product_Status',
-                'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
+                'source'    => '\Magento\Catalog\Model\Product\Status',
+                'options'   => \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getOptionArray(),
         ));
 
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('websites',
                 array(
                     'header'=> __('Websites'),
@@ -84,7 +86,7 @@ class Magento_Adminhtml_Block_Review_Product_Grid extends Magento_Adminhtml_Bloc
                     'sortable'  => false,
                     'index'     => 'websites',
                     'type'      => 'options',
-                    'options'   => Mage::getModel('Magento_Core_Model_Website')->getCollection()->toOptionHash(),
+                    'options'   => \Mage::getModel('\Magento\Core\Model\Website')->getCollection()->toOptionHash(),
             ));
         }
     }

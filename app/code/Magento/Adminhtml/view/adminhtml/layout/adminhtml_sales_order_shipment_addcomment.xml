@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_shipment_addcomment">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_View_Comments" name="shipment_comments">
-            <block class="Magento_Adminhtml_Block_Sales_Order_Comments_View" name="order_comments" template="sales/order/comments/view.phtml"/>
+        <block class="\Magento\Adminhtml\Block\Sales\Order\Shipment\View\Comments" name="shipment_comments">
+            <block class="\Magento\Adminhtml\Block\Sales\Order\Comments\View" name="order_comments" template="sales/order/comments/view.phtml"/>
         </block>
     </handle>
 </layout>

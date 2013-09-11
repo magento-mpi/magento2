@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for Magento_Backend_Controller_Adminhtml_Index.
+ * Test class for \Magento\Backend\Controller\Adminhtml\Index.
  *
  * @magentoAppArea adminhtml
  */
 class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
-     * @var Magento_Backend_Model_Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
 
@@ -26,8 +26,8 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramewo
      */
     protected  function _login()
     {
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
-        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
+        $this->_auth = Mage::getSingleton('Magento\Backend\Model\Auth');
         $this->_auth->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
     }
@@ -38,12 +38,12 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramewo
     protected function _logout()
     {
         $this->_auth->logout();
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
+        Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
     }
 
     /**
      * Check not logged state
-     * @covers Magento_Backend_Controller_Adminhtml_Index::indexAction
+     * @covers \Magento\Backend\Controller\Adminhtml\Index::indexAction
      */
     public function testNotLoggedIndexAction()
     {
@@ -57,7 +57,7 @@ class Magento_Backend_Controller_Adminhtml_IndexTest extends Magento_TestFramewo
 
     /**
      * Check logged state
-     * @covers Magento_Backend_Controller_Adminhtml_Index::indexAction
+     * @covers \Magento\Backend\Controller\Adminhtml\Index::indexAction
      * @magentoDbIsolation enabled
      */
     public function testLoggedIndexAction()

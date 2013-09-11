@@ -15,21 +15,23 @@
  * @package    Magento_User
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Block_User extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\User\Block;
+
+class User extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
-     * @var Magento_User_Model_Resource_User
+     * @var \Magento\User\Model\Resource\User
      */
     protected $_resourceModel;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_User_Model_Resource_User $resourceModel
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\User\Model\Resource\User $resourceModel
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_User_Model_Resource_User $resourceModel,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\User\Model\Resource\User $resourceModel,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -39,10 +41,10 @@ class Magento_User_Block_User extends Magento_Backend_Block_Widget_Grid_Containe
     protected function _construct()
     {
         $this->addData(array(
-            Magento_Backend_Block_Widget_Container::PARAM_CONTROLLER => 'user',
-            Magento_Backend_Block_Widget_Grid_Container::PARAM_BLOCK_GROUP => 'Magento_User',
-            Magento_Backend_Block_Widget_Grid_Container::PARAM_BUTTON_NEW => __('Add New User'),
-            Magento_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => __('Users'),
+            \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'user',
+            \Magento\Backend\Block\Widget\Grid\Container::PARAM_BLOCK_GROUP => 'Magento_User',
+            \Magento\Backend\Block\Widget\Grid\Container::PARAM_BUTTON_NEW => __('Add New User'),
+            \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => __('Users'),
         ));
         parent::_construct();
         $this->_addNewButton();

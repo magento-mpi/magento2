@@ -14,20 +14,20 @@ class Magento_Catalog_Model_Product_Attribute_Backend_StockTest extends PHPUnit_
     const ATTRIBUTE_NAME = 'quantity_and_stock_status';
 
     /**
-     * @var Magento_Catalog_Model_Product_Attribute_Backend_Stock
+     * @var \Magento\Catalog\Model\Product\Attribute\Backend\Stock
      */
     protected $_model;
 
     /**
-     * @var Magento_CatalogInventory_Model_Stock_Item
+     * @var \Magento\CatalogInventory\Model\Stock\Item
      */
     protected $_inventory;
 
     protected function setUp()
     {
-        $this->_inventory = $this->getMock('Magento_CatalogInventory_Model_Stock_Item',
+        $this->_inventory = $this->getMock('Magento\CatalogInventory\Model\Stock\Item',
             array('getIsInStock', 'getQty', 'loadByProduct'), array(), '', false);
-        $this->_model = $this->getMock('Magento_Catalog_Model_Product_Attribute_Backend_Stock', array('getAttribute'),
+        $this->_model = $this->getMock('Magento\Catalog\Model\Product\Attribute\Backend\Stock', array('getAttribute'),
             array(array('inventory' => $this->_inventory))
         );
         $attribute = $this->getMock('Magento\Object', array('getAttributeCode'));

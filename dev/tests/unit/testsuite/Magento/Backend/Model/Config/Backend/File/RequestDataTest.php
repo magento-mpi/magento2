@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Config_Backend_File_RequestDataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Backend_File_RequestData
+     * @var \Magento\Backend\Model\Config\Backend\File\RequestData
      */
     protected $_model;
 
@@ -63,7 +63,7 @@ class Magento_Backend_Model_Config_Backend_File_RequestDataTest extends PHPUnit_
             )
         );
 
-        $this->_model = new Magento_Backend_Model_Config_Backend_File_RequestData();
+        $this->_model = new \Magento\Backend\Model\Config\Backend\File\RequestData();
     }
 
     protected function tearDown()

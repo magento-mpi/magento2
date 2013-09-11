@@ -15,8 +15,10 @@
  * @package    Magento_Backend
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Country
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Country
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render country grid column
@@ -27,7 +29,7 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Country
     public function render(\Magento\Object $row)
     {
         if ($data = $row->getData($this->getColumn()->getIndex())) {
-            $name = Mage::app()->getLocale()->getCountryTranslation($data);
+            $name = \Mage::app()->getLocale()->getCountryTranslation($data);
             if (empty($name)) {
                 $name = $this->escapeHtml($data);
             }

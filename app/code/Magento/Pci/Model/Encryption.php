@@ -13,7 +13,9 @@
  * - generate/check hashes of different versions
  * - use different encryption ciphers
  */
-class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
+namespace Magento\Pci\Model;
+
+class Encryption extends \Magento\Core\Model\Encryption
 {
     const HASH_VERSION_MD5    = 0;
     const HASH_VERSION_SHA256 = 1;
@@ -36,7 +38,7 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
     {
         parent::__construct($objectManager);
         // load all possible keys
-        $this->_keys = preg_split('/\s+/s', trim((string)Mage::getConfig()->getNode('global/crypt/key')));
+        $this->_keys = preg_split('/\s+/s', trim((string)\Mage::getConfig()->getNode('global/crypt/key')));
         $this->_keyVersion = count($this->_keys) - 1;
     }
 
@@ -47,13 +49,13 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
      *
      * @param int $version
      * @return int
-     * @throws Exception
+     * @throws \Exception
      */
     public function validateCipher($version)
     {
         $version = (int)$version;
         if (!in_array($version, array(self::CIPHER_BLOWFISH, self::CIPHER_RIJNDAEL_128, self::CIPHER_RIJNDAEL_256), true)) {
-            Mage::throwException('Not supported cipher version');
+            \Mage::throwException('Not supported cipher version');
         }
         return $version;
     }
@@ -111,7 +113,7 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
      * Set cipher to be used for encryption/decryption
      *
      * @param int $version
-     * @return Magento_Pci_Model_Encryption
+     * @return \Magento\Pci\Model\Encryption
      */
 //    public function setCipher($version = self::CIPHER_LATEST)
 //    {
@@ -123,7 +125,7 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
      * Attempt to append new key & version
      *
      * @param  $key
-     * @return Magento_Pci_Model_Encryption
+     * @return \Magento\Pci\Model\Encryption
      */
     public function setNewKey($key)
     {
@@ -257,7 +259,7 @@ class Magento_Pci_Model_Encryption extends Magento_Core_Model_Encryption
     public function validateKey($key)
     {
         if ((false !== strpos($key, '<![CDATA[')) || (false !== strpos($key, ']]>')) || preg_match('/\s/s', $key)) {
-            throw new Exception(__('The encryption key format is invalid.'));
+            throw new \Exception(__('The encryption key format is invalid.'));
         }
         return parent::validateKey($key);
     }

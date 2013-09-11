@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Router_Route_Rest extends Magento_Webapi_Controller_Router_Route
+namespace Magento\Webapi\Controller\Router\Route;
+
+class Rest extends \Magento\Webapi\Controller\Router\Route
 {
     /**#@+
      * Names of special parameters in routes.
@@ -27,7 +29,7 @@ class Magento_Webapi_Controller_Router_Route_Rest extends Magento_Webapi_Control
      * Set route resource.
      *
      * @param string $resourceName
-     * @return Magento_Webapi_Controller_Router_Route_Rest
+     * @return \Magento\Webapi\Controller\Router\Route\Rest
      */
     public function setResourceName($resourceName)
     {
@@ -49,7 +51,7 @@ class Magento_Webapi_Controller_Router_Route_Rest extends Magento_Webapi_Control
      * Set route resource type.
      *
      * @param string $resourceType
-     * @return Magento_Webapi_Controller_Router_Route_Rest
+     * @return \Magento\Webapi\Controller\Router\Route\Rest
      */
     public function setResourceType($resourceType)
     {

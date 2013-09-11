@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option */
+/** @var $this \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option */
 ?>
 <script id="bundle-option-template" type="text/x-jquery-tmpl">
     <div id="<?php echo $this->getFieldId() ?>_{{index}}" class="option-box">
@@ -144,7 +144,7 @@ Bundle.Option.prototype = {
 
     add : function(data) {
         if (!data) {
-            data = <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode(array('default_title' => __('New Option')))?>;
+            data = <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode(array('default_title' => __('New Option')))?>;
         } else {
             data.title = data.title.replace(/</g, "&lt;");
             data.title = data.title.replace(/"/g, "&quot;");
@@ -268,11 +268,11 @@ var optionIndex = 0;
 bOption = new Bundle.Option(optionTemplate);
 <?php
     foreach ($this->getOptions() as $_option) {
-        /** @var $_option Magento_Bundle_Model_Option */
+        /** @var $_option \Magento\Bundle\Model\Option */
         echo 'optionIndex = bOption.add(', $_option->toJson(), ');', PHP_EOL;
         if ($_option->getSelections()) {
             foreach ($_option->getSelections() as $_selection) {
-                /** @var $_selection Magento_Catalog_Model_Product */
+                /** @var $_selection \Magento\Catalog\Model\Product */
                 $_selection->setName($this->escapeHtml($_selection->getName()));
                 echo 'bSelection.addRow(optionIndex,', $_selection->toJson(), ');', PHP_EOL;
             }

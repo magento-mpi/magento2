@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Promo extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller;
+
+class Promo extends \Magento\Adminhtml\Controller\Action
 {
 
     public function indexAction()

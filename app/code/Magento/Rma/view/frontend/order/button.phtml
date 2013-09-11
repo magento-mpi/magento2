@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $this Magento_Rma_Block_Order_Button */
+/** @var $this \Magento\Rma\Block\Order\Button */
 ?>
-<?php if($this->helper('Magento_Rma_Helper_Data')->canCreateRma($this->getOrder())): ?>
+<?php if($this->helper('\Magento\Rma\Helper\Data')->canCreateRma($this->getOrder())): ?>
     <span class="separator">|</span>
-    <a href="<?php echo $this->helper('Magento_Rma_Helper_Data')->getReturnCreateUrl($this->getOrder()) ?>"><?php echo __('Return') ?></a>
+    <a href="<?php echo $this->helper('\Magento\Rma\Helper\Data')->getReturnCreateUrl($this->getOrder()) ?>"><?php echo __('Return') ?></a>
 <?php endif;?>

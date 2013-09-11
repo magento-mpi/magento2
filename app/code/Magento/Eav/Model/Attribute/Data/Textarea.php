@@ -16,6 +16,8 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data_Textarea extends Magento_Eav_Model_Attribute_Data_Text
+namespace Magento\Eav\Model\Attribute\Data;
+
+class Textarea extends \Magento\Eav\Model\Attribute\Data\Text
 {
 }

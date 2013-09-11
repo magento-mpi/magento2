@@ -15,7 +15,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Cart_Api_V2 extends Magento_Checkout_Model_Cart_Api
+namespace Magento\Checkout\Model\Cart\Api;
+
+class V2 extends \Magento\Checkout\Model\Cart\Api
 {
     /**
      * Prepare payment data for further usage

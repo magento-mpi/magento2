@@ -14,13 +14,13 @@ class Magento_CatalogPermissions_Model_Resource_Permission_IndexTest extends PHP
     /**
      * CatalogPermissions Index model
      *
-     * @var Magento_CatalogPermissions_Model_Permission_Index
+     * @var \Magento\CatalogPermissions\Model\Permission\Index
      */
     protected $_indexModel;
 
     protected function setUp()
     {
-        $this->_indexModel = Mage::getModel('Magento_CatalogPermissions_Model_Permission_Index');
+        $this->_indexModel = Mage::getModel('\Magento\CatalogPermissions\Model\Permission\Index');
     }
 
     /**
@@ -33,9 +33,9 @@ class Magento_CatalogPermissions_Model_Resource_Permission_IndexTest extends PHP
             'category_id'                 => 6,
             'website_id'                  => Mage::app()->getWebsite()->getId(),
             'customer_group_id'           => 1,
-            'grant_catalog_category_view' => Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY,
-            'grant_catalog_product_price' => Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY,
-            'grant_checkout_items'        => Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY,
+            'grant_catalog_category_view' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
+            'grant_catalog_product_price' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
+            'grant_checkout_items'        => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
         );
 
         $permissions = $this->_indexModel->getIndexForCategory(6, 1, 1);

@@ -11,7 +11,9 @@
 /**
  * In-memory readonly pool of cache front-ends with enforced access control, specific to cache types
  */
-class Magento_Core_Model_Cache_Type_FrontendPool
+namespace Magento\Core\Model\Cache\Type;
+
+class FrontendPool
 {
     /**
      * @var \Magento\ObjectManager
@@ -19,7 +21,7 @@ class Magento_Core_Model_Cache_Type_FrontendPool
     private $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Cache_Frontend_Pool
+     * @var \Magento\Core\Model\Cache\Frontend\Pool
      */
     private $_frontendPool;
 
@@ -30,11 +32,11 @@ class Magento_Core_Model_Cache_Type_FrontendPool
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_Cache_Frontend_Pool $frontendPool
+     * @param \Magento\Core\Model\Cache\Frontend\Pool $frontendPool
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Model_Cache_Frontend_Pool $frontendPool
+        \Magento\Core\Model\Cache\Frontend\Pool $frontendPool
     ) {
         $this->_objectManager = $objectManager;
         $this->_frontendPool = $frontendPool;
@@ -52,12 +54,12 @@ class Magento_Core_Model_Cache_Type_FrontendPool
             $frontendInstance = $this->_frontendPool->get($identifier);
             if (!$frontendInstance) {
                 $frontendInstance = $this->_frontendPool->get(
-                    Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID
+                    \Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID
                 );
             }
-            /** @var $frontendInstance Magento_Core_Model_Cache_Type_AccessProxy */
+            /** @var $frontendInstance \Magento\Core\Model\Cache\Type\AccessProxy */
             $frontendInstance = $this->_objectManager->create(
-                'Magento_Core_Model_Cache_Type_AccessProxy', array(
+                '\Magento\Core\Model\Cache\Type\AccessProxy', array(
                     'frontend' => $frontendInstance,
                     'identifier' => $identifier,
                 )

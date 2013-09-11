@@ -15,12 +15,14 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Search_Catalog extends \Magento\Object
+namespace Magento\Adminhtml\Model\Search;
+
+class Catalog extends \Magento\Object
 {
     /**
      * Load search results
      *
-     * @return Magento_Adminhtml_Model_Search_Catalog
+     * @return \Magento\Adminhtml\Model\Search\Catalog
      */
     public function load()
     {
@@ -31,7 +33,7 @@ class Magento_Adminhtml_Model_Search_Catalog extends \Magento\Object
             return $this;
         }
 
-        $collection = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery()->getSearchCollection()
+        $collection = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery()->getSearchCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('description')
             ->addSearchFilter($this->getQuery())
@@ -45,8 +47,8 @@ class Magento_Adminhtml_Model_Search_Catalog extends \Magento\Object
                 'id'            => 'product/1/'.$product->getId(),
                 'type'          => __('Product'),
                 'name'          => $product->getName(),
-                'description'   => Mage::helper('Magento_Core_Helper_String')->substr($description, 0, 30),
-                'url' => Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
+                'description'   => \Mage::helper('Magento\Core\Helper\String')->substr($description, 0, 30),
+                'url' => \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
                     '*/catalog_product/edit',
                     array(
                         'id' => $product->getId()

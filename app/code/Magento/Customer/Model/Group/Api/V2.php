@@ -15,6 +15,8 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Group_Api_V2 extends Magento_Customer_Model_Group_Api
+namespace Magento\Customer\Model\Group\Api;
+
+class V2 extends \Magento\Customer\Model\Group\Api
 {
 }

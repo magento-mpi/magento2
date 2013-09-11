@@ -15,12 +15,14 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Magento_Payment_Block_Form_Container
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Billing\Method;
+
+class Form extends \Magento\Payment\Block\Form\Container
 {
     /**
      * Check payment method model
      *
-     * @param Magento_Payment_Model_Method_Abstract|null $method
+     * @param \Magento\Payment\Model\Method\AbstractMethod|null $method
      * @return bool
      */
     protected function _canUseMethod($method)
@@ -70,11 +72,11 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mag
     /**
      * Enter description here...
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote();
     }
 
     /*

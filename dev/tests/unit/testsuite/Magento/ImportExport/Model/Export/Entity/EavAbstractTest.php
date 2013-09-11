@@ -14,7 +14,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     /**
      * Abstract eav export model
      *
-     * @var Magento_ImportExport_Model_Export_Entity_EavAbstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ImportExport\Model\Export\Entity\EavAbstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
 
     public function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Entity_EavAbstract', array(),
+        $this->_model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\Entity\EavAbstract', array(),
             '', false, true, true, array('_getExportAttributeCodes', 'getAttributeCollection', 'getAttributeOptions'));
 
         $this->_model->expects($this->once())
@@ -43,14 +43,14 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     /**
      * Test for method _addAttributesToCollection()
      *
-     * @covers Magento_ImportExport_Model_Export_Entity_EavAbstract::_addAttributesToCollection
+     * @covers \Magento\ImportExport\Model\Export\Entity\EavAbstract::_addAttributesToCollection
      */
     public function testAddAttributesToCollection()
     {
         $method = new ReflectionMethod($this->_model, '_addAttributesToCollection');
         $method->setAccessible(true);
         $stubCollection = $this->getMock(
-            'Magento_Eav_Model_Entity_Collection_Abstract', array('addAttributeToSelect'), array(), '', false
+            '\Magento\Eav\Model\Entity\Collection\AbstractCollection', array('addAttributeToSelect'), array(), '', false
         );
         $stubCollection->expects($this->once())->method('addAttributeToSelect')->with($this->_expectedAttributes);
         $method->invoke($this->_model, $stubCollection);
@@ -59,16 +59,16 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
     /**
      * Test for methods _addAttributeValuesToRow()
      *
-     * @covers Magento_ImportExport_Model_Export_Entity_EavAbstract::_initAttrValues
-     * @covers Magento_ImportExport_Model_Export_Entity_EavAbstract::_addAttributeValuesToRow
+     * @covers \Magento\ImportExport\Model\Export\Entity\EavAbstract::_initAttrValues
+     * @covers \Magento\ImportExport\Model\Export\Entity\EavAbstract::_addAttributeValuesToRow
      */
     public function testAddAttributeValuesToRow()
     {
         $testAttributeCode = 'lastname';
         $testAttributeValue = 'value';
         $testAttributeOptions = array('value' => 'option');
-        /** @var $testAttribute Magento_Eav_Model_Entity_Attribute */
-        $testAttribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract', array(), '',
+        /** @var $testAttribute \Magento\Eav\Model\Entity\Attribute */
+        $testAttribute = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute', array(), '',
             false);
         $testAttribute->setAttributeCode($testAttributeCode);
 
@@ -80,8 +80,8 @@ class Magento_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_F
             ->method('getAttributeOptions')
             ->will($this->returnValue($testAttributeOptions));
 
-        /** @var $item Magento_Core_Model_Abstract|PHPUnit_Framework_MockObject_MockObject */
-        $item = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', array(), '', false, true, true,
+        /** @var $item \Magento\Core\Model\AbstractModel|PHPUnit_Framework_MockObject_MockObject */
+        $item = $this->getMockForAbstractClass('\Magento\Core\Model\AbstractModel', array(), '', false, true, true,
             array('getData'));
         $item->expects($this->any())
             ->method('getData')

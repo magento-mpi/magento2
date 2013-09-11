@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Dependency_Field
+namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
+
+class Field
 {
     /**
      * Values for dependence

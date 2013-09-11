@@ -15,19 +15,21 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Backend_Msrp extends Magento_Catalog_Model_Product_Attribute_Backend_Boolean
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
+
+class Msrp extends \Magento\Catalog\Model\Product\Attribute\Backend\Boolean
 {
     /**
      * Disable MAP if it's bundle with dynamic price type
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function beforeSave($product)
     {
-        if (!($product instanceof Magento_Catalog_Model_Product)
-            || $product->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
-            || $product->getPriceType() != Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC
+        if (!($product instanceof \Magento\Catalog\Model\Product)
+            || $product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+            || $product->getPriceType() != \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
         ) {
             return parent::beforeSave($product);
         }
@@ -36,7 +38,7 @@ class Magento_Catalog_Model_Product_Attribute_Backend_Msrp extends Magento_Catal
         $attributeCode = $this->getAttribute()->getName();
         $value = $product->getData($attributeCode);
         if (empty($value)) {
-            $value = Mage::helper('Magento_Catalog_Helper_Data')->isMsrpApplyToAll();
+            $value = \Mage::helper('Magento\Catalog\Helper\Data')->isMsrpApplyToAll();
         }
         if ($value) {
             $product->setData($attributeCode, 0);

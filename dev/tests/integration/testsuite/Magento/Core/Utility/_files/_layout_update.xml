@@ -12,7 +12,7 @@
 -->
 <layouts>
     <handle id="handle_one">
-        <block type="Magento_Core_Block_Text" name="some_text_block">
+        <block type="Magento\Core\Block\Text" name="some_text_block">
             <action method="setText"><text>Some Default Text</text></action>
         </block>
     </handle>

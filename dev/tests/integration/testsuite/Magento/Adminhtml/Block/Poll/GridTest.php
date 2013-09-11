@@ -10,18 +10,18 @@
  */
 
 /**
- * Test class for Magento_Adminhtml_Block_Poll_Grid
+ * Test class for \Magento\Adminhtml\Block\Poll\Grid
  * @magentoAppArea adminhtml
  */
 class Magento_Adminhtml_Block_Poll_GridTest extends PHPUnit_Framework_TestCase
 {
     public function testPrepareColumns()
     {
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout');
-        $block = $layout->addBlock('Magento_Adminhtml_Block_Poll_Grid');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
+        $block = $layout->addBlock('\Magento\Adminhtml\Block\Poll\Grid');
 
         $prepareColumnsMethod = new ReflectionMethod(
-            'Magento_Adminhtml_Block_Poll_Grid', '_prepareColumns');
+            '\Magento\Adminhtml\Block\Poll\Grid', '_prepareColumns');
         $prepareColumnsMethod->setAccessible(true);
         $prepareColumnsMethod->invoke($block);
 

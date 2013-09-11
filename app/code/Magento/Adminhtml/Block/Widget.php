@@ -14,7 +14,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget extends Magento_Backend_Block_Widget
+namespace Magento\Adminhtml\Block;
+
+class Widget extends \Magento\Backend\Block\Widget
 {
 
 }

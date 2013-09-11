@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Api_User_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Api\User\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     protected function _prepareForm()

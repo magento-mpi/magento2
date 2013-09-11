@@ -9,5 +9,5 @@
  */
 ?>
 <?php if (!$this->getQuote()->isVirtual()): ?>
-    <?php echo $this->helper('Magento_GiftMessage_Helper_Message')->getInline('onepage_checkout', $this->getQuote(), $this->getDontDisplayContainer()) ?>
+    <?php echo $this->helper('\Magento\GiftMessage\Helper\Message')->getInline('onepage_checkout', $this->getQuote(), $this->getDontDisplayContainer()) ?>
 <?php endif; ?>

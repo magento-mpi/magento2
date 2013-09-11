@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Model_Resource_Report_Abstract
+namespace Magento\Sales\Model\Resource\Report;
+
+class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
 {
     const AGGREGATION_DAILY   = 'daily';
     const AGGREGATION_MONTHLY = 'monthly';
@@ -36,8 +38,8 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Sales_Model_Resource_Report_Bestsellers
-     * @throws Exception
+     * @return \Magento\Sales\Model\Resource\Report\Bestsellers
+     * @throws \Exception
      */
     public function aggregate($from = null, $to = null)
     {
@@ -79,23 +81,23 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
                 'period'                 => $periodExpr,
                 'store_id'               => 'source_table.store_id',
                 'product_id'             => 'order_item.product_id',
-                'product_name'           => new Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
+                'product_name'           => new \Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
                     'product_name.value',
                     'product_default_name.value'
                 ))),
-                'product_price'          => new Zend_Db_Expr(
+                'product_price'          => new \Zend_Db_Expr(
                     sprintf(
                         '%s * %s',
-                        new Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
+                        new \Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
                             $adapter->getIfNullSql('product_price.value', 'product_default_price.value'), 0
                         ))),
-                        new Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
+                        new \Zend_Db_Expr(sprintf('MIN(%s)', $adapter->getIfNullSql(
                             'source_table.base_to_global_rate',
                             '0'
                         )))
                     )
                 ),
-                'qty_ordered' => new Zend_Db_Expr('SUM(order_item.qty_ordered)')
+                'qty_ordered' => new \Zend_Db_Expr('SUM(order_item.qty_ordered)')
             );
 
             $select->from(array('source_table' => $this->getTable('sales_flat_order')), $columns)
@@ -104,15 +106,15 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
                     'order_item.order_id = source_table.entity_id',
                     array()
                 )
-                ->where('source_table.state != ?', Magento_Sales_Model_Order::STATE_CANCELED);
+                ->where('source_table.state != ?', \Magento\Sales\Model\Order::STATE_CANCELED);
 
-            /** @var Magento_Catalog_Model_Resource_Product $product */
-            $product  = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product');
+            /** @var \Magento\Catalog\Model\Resource\Product $product */
+            $product  = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product');
 
             $productTypes = array(
-                Magento_Catalog_Model_Product_Type::TYPE_GROUPED,
-                Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
-                Magento_Catalog_Model_Product_Type::TYPE_BUNDLE,
+                \Magento\Catalog\Model\Product\Type::TYPE_GROUPED,
+                \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
+                \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
             );
 
             $joinExpr = array(
@@ -192,11 +194,11 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
 
             $columns = array(
                 'period'        => 'period',
-                'store_id'      => new Zend_Db_Expr(Magento_Core_Model_AppInterface::ADMIN_STORE_ID),
+                'store_id'      => new \Zend_Db_Expr(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID),
                 'product_id'    => 'product_id',
-                'product_name'  => new Zend_Db_Expr('MIN(product_name)'),
-                'product_price' => new Zend_Db_Expr('MIN(product_price)'),
-                'qty_ordered'   => new Zend_Db_Expr('SUM(qty_ordered)'),
+                'product_name'  => new \Zend_Db_Expr('MIN(product_name)'),
+                'product_price' => new \Zend_Db_Expr('MIN(product_price)'),
+                'qty_ordered'   => new \Zend_Db_Expr('SUM(qty_ordered)'),
             );
 
             $select->reset();
@@ -215,8 +217,8 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
             $this->_updateRatingPos(self::AGGREGATION_DAILY);
             $this->_updateRatingPos(self::AGGREGATION_MONTHLY);
             $this->_updateRatingPos(self::AGGREGATION_YEARLY);
-            $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_BESTSELLERS_FLAG_CODE);
-        } catch (Exception $e) {
+            $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_BESTSELLERS_FLAG_CODE);
+        } catch (\Exception $e) {
             throw $e;
         }
 
@@ -226,8 +228,8 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
     /**
      * Update rating position
      *
-     * @param string $aggregation One of Magento_Sales_Model_Resource_Report_Bestsellers::AGGREGATION_XXX constants
-     * @return Magento_Sales_Model_Resource_Report_Bestsellers
+     * @param string $aggregation One of \Magento\Sales\Model\Resource\Report\Bestsellers::AGGREGATION_XXX constants
+     * @return \Magento\Sales\Model\Resource\Report\Bestsellers
      */
     protected function _updateRatingPos($aggregation)
     {
@@ -238,7 +240,7 @@ class Magento_Sales_Model_Resource_Report_Bestsellers extends Magento_Sales_Mode
             'monthly' => self::AGGREGATION_MONTHLY,
             'yearly'  => self::AGGREGATION_YEARLY
         );
-        Mage::getResourceHelper('Magento_Sales')->getBestsellersReportUpdateRatingPos(
+        \Mage::getResourceHelper('Magento_Sales')->getBestsellersReportUpdateRatingPos(
             $aggregation,
             $aggregationAliases,
             $this->getMainTable(),

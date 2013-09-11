@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
+namespace Magento\Weee\Model;
+
+class Observer extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Assign custom renderer for product create/edit form weee attribute element
      *
      * @param \Magento\Event\Observer $observer
-     * @return  Magento_Weee_Model_Observer
+     * @return  \Magento\Weee\Model\Observer
      */
     public function setWeeeRendererInForm(\Magento\Event\Observer $observer)
     {
@@ -23,11 +25,11 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
         $form = $observer->getEvent()->getForm();
 //        $product = $observer->getEvent()->getProduct();
 
-        $attributes = Mage::getSingleton('Magento_Weee_Model_Tax')->getWeeeAttributeCodes(true);
+        $attributes = \Mage::getSingleton('Magento\Weee\Model\Tax')->getWeeeAttributeCodes(true);
         foreach ($attributes as $code) {
             if ($weeeTax = $form->getElement($code)) {
                 $weeeTax->setRenderer(
-                    Mage::app()->getLayout()->createBlock('Magento_Weee_Block_Renderer_Weee_Tax')
+                    \Mage::app()->getLayout()->createBlock('\Magento\Weee\Block\Renderer\Weee\Tax')
                 );
             }
         }
@@ -39,7 +41,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
      * Exclude WEEE attributes from standard form generation
      *
      * @param \Magento\Event\Observer $observer
-     * @return  Magento_Weee_Model_Observer
+     * @return  \Magento\Weee\Model\Observer
      */
     public function updateExcludedFieldList(\Magento\Event\Observer $observer)
     {
@@ -47,7 +49,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
 
         $block      = $observer->getEvent()->getObject();
         $list       = $block->getFormExcludedFieldList();
-        $attributes = Mage::getSingleton('Magento_Weee_Model_Tax')->getWeeeAttributeCodes(true);
+        $attributes = \Mage::getSingleton('Magento\Weee\Model\Tax')->getWeeeAttributeCodes(true);
         $list       = array_merge($list, array_values($attributes));
 
         $block->setFormExcludedFieldList($list);
@@ -62,14 +64,14 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
      */
     protected function _getSelect()
     {
-        return Mage::getSingleton('Magento_Weee_Model_Tax')->getResource()->getReadConnection()->select();
+        return \Mage::getSingleton('Magento\Weee\Model\Tax')->getResource()->getReadConnection()->select();
     }
 
     /**
      * Add new attribute type to manage attributes interface
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Weee_Model_Observer
+     * @return  \Magento\Weee\Model\Observer
      */
     public function addWeeeTaxAttributeType(\Magento\Event\Observer $observer)
     {
@@ -91,7 +93,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
                 '_front_fieldset',
             ),
             'disabled_types' => array(
-                Magento_Catalog_Model_Product_Type::TYPE_GROUPED,
+                \Magento\Catalog\Model\Product\Type::TYPE_GROUPED,
             )
         );
 
@@ -104,19 +106,19 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
      * Automaticaly assign backend model to weee attributes
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Weee_Model_Observer
+     * @return  \Magento\Weee\Model\Observer
      */
     public function assignBackendModelToAttribute(\Magento\Event\Observer $observer)
     {
-        $backendModel = Magento_Weee_Model_Attribute_Backend_Weee_Tax::getBackendModelName();
-        /** @var $object Magento_Eav_Model_Entity_Attribute_Abstract */
+        $backendModel = \Magento\Weee\Model\Attribute\Backend\Weee\Tax::getBackendModelName();
+        /** @var $object \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
         $object = $observer->getEvent()->getAttribute();
         if ($object->getFrontendInput() == 'weee') {
             $object->setBackendModel($backendModel);
             if (!$object->getApplyTo()) {
                 $applyTo = array();
-                foreach (Magento_Catalog_Model_Product_Type::getOptions() as $option) {
-                    if ($option['value'] == Magento_Catalog_Model_Product_Type::TYPE_GROUPED) {
+                foreach (\Magento\Catalog\Model\Product\Type::getOptions() as $option) {
+                    if ($option['value'] == \Magento\Catalog\Model\Product\Type::TYPE_GROUPED) {
                         continue;
                     }
                     $applyTo[] = $option['value'];
@@ -137,7 +139,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
     {
         $response = $observer->getEvent()->getResponse();
         $types    = $response->getTypes();
-        $types['weee'] = 'Magento_Weee_Block_Element_Weee_Tax';
+        $types['weee'] = '\Magento\Weee\Block\Element\Weee\Tax';
         $response->setTypes($types);
         return $this;
     }
@@ -146,11 +148,11 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
      * Update WEEE amounts discount percents
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Weee_Model_Observer
+     * @return  \Magento\Weee\Model\Observer
      */
     public function updateDiscountPercents(\Magento\Event\Observer $observer)
     {
-        if (!Mage::helper('Magento_Weee_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\Weee\Helper\Data')->isEnabled()) {
             return $this;
         }
 
@@ -160,7 +162,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
         } else {
             $eventProduct = $observer->getEvent()->getProduct();
         }
-        Mage::getModel('Magento_Weee_Model_Tax')->updateProductsDiscountPercent($eventProduct);
+        \Mage::getModel('\Magento\Weee\Model\Tax')->updateProductsDiscountPercent($eventProduct);
 
         return $this;
     }
@@ -169,12 +171,12 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
      * Update configurable options of the product view page
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Weee_Model_Observer
+     * @return  \Magento\Weee\Model\Observer
      */
     public function updateConfigurableProductOptions(\Magento\Event\Observer $observer)
     {
-        /* @var $helper Magento_Weee_Helper_Data */
-        $helper = Mage::helper('Magento_Weee_Helper_Data');
+        /* @var $helper \Magento\Weee\Helper\Data */
+        $helper = \Mage::helper('Magento\Weee\Helper\Data');
         if (!$helper->isEnabled()) {
             return $this;
         }
@@ -182,7 +184,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
         $response = $observer->getEvent()->getResponseObject();
         $options  = $response->getAdditionalOptions();
 
-        $_product = Mage::registry('current_product');
+        $_product = \Mage::registry('current_product');
         if (!$_product) {
             return $this;
         }
@@ -192,7 +194,7 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
 
         // Exclude Weee amount from excluding tax amount
         if (!$helper->typeOfDisplay($_product, array(
-            Magento_Weee_Model_Tax::DISPLAY_INCL, Magento_Weee_Model_Tax::DISPLAY_INCL_DESCR,
+            \Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
         ))) {
             $options['exclDisposition'] = true;
         }
@@ -206,12 +208,12 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
      * Process bundle options selection for prepare view json
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Weee_Model_Observer
+     * @return  \Magento\Weee\Model\Observer
      */
     public function updateBundleProductOptions(\Magento\Event\Observer $observer)
     {
-        /* @var $weeeHelper Magento_Weee_Helper_Data */
-        $weeeHelper = Mage::helper('Magento_Weee_Helper_Data');
+        /* @var $weeeHelper \Magento\Weee\Helper\Data */
+        $weeeHelper = \Mage::helper('Magento\Weee\Helper\Data');
         if (!$weeeHelper->isEnabled()) {
             return $this;
         }
@@ -220,9 +222,9 @@ class Magento_Weee_Model_Observer extends Magento_Core_Model_Abstract
         $selection = $observer->getEvent()->getSelection();
         $options = $response->getAdditionalOptions();
 
-        $_product = Mage::registry('current_product');
+        $_product = \Mage::registry('current_product');
 
-        $typeDynamic = Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend::DYNAMIC;
+        $typeDynamic = \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend::DYNAMIC;
         if (!$_product || $_product->getPriceType() != $typeDynamic) {
             return $this;
         }

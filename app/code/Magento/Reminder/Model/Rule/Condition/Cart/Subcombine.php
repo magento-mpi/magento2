@@ -11,19 +11,21 @@
 /**
  * Rule conditions cart items subselection container
  */
-class Magento_Reminder_Model_Rule_Condition_Cart_Subcombine
-    extends Magento_Reminder_Model_Condition_Combine_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+class Subcombine
+    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Initialize model
      *
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Subcombine');
+        $this->setType('\Magento\Reminder\Model\Rule\Condition\Cart\Subcombine');
     }
 
     /**
@@ -36,9 +38,9 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Subcombine
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Cart_Storeview")->getNewChildSelectOptions(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Cart_Sku")->getNewChildSelectOptions(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Cart_Attributes")->getNewChildSelectOptions()
+                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Storeview")->getNewChildSelectOptions(),
+                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Sku")->getNewChildSelectOptions(),
+                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Attributes")->getNewChildSelectOptions()
             )
         );
     }

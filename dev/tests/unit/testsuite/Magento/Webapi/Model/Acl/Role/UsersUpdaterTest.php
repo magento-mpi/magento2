@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Acl_Role_UsersUpdater
+ * Test class for \Magento\Webapi\Model\Acl\Role\UsersUpdater
  *
  * {license_notice}
  *
@@ -15,17 +15,17 @@ class Magento_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_T
     protected $_helper;
 
     /**
-     * @var Magento_Backend_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Helper\Data|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_backendHelper;
 
     /**
-     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_User_Collection|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Webapi\Model\Resource\Acl\User\Collection|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_collection;
 
@@ -33,16 +33,16 @@ class Magento_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_T
     {
         $this->_helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $this->_backendHelper = $this->getMockBuilder('Magento_Backend_Helper_Data')
+        $this->_backendHelper = $this->getMockBuilder('Magento\Backend\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('prepareFilterString'))
             ->getMock();
         $this->_backendHelper->expects($this->any())->method('prepareFilterString')->will($this->returnArgument(0));
 
-        $this->_request = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
+        $this->_request = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_collection = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_User_Collection')
+        $this->_collection = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\User\Collection')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -68,8 +68,8 @@ class Magento_Webapi_Model_Acl_Role_UsersUpdaterTest extends PHPUnit_Framework_T
             $this->_collection->expects($this->never())->method('addFieldToFilter');
         }
 
-        /** @var Magento_Webapi_Model_Acl_Role_UsersUpdater $model */
-        $model = $this->_helper->getObject('Magento_Webapi_Model_Acl_Role_UsersUpdater', array(
+        /** @var \Magento\Webapi\Model\Acl\Role\UsersUpdater $model */
+        $model = $this->_helper->getObject('\Magento\Webapi\Model\Acl\Role\UsersUpdater', array(
             'request' => $this->_request,
             'backendHelper' => $this->_backendHelper
         ));

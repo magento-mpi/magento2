@@ -11,7 +11,9 @@
 /**
  * Compare list sidebar container
  */
-class Magento_FullPageCache_Model_Container_Sidebar_Comparelist extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container\Sidebar;
+
+class Comparelist extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
      * Get identifier from cookies
@@ -20,7 +22,7 @@ class Magento_FullPageCache_Model_Container_Sidebar_Comparelist extends Magento_
      */
     protected function _getIdentifier()
     {
-        return $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_COMPARE_LIST, '');
+        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST, '');
     }
 
     /**

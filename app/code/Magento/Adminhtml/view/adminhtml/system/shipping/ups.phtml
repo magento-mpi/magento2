@@ -8,19 +8,19 @@
  * @license     {license_link}
  */
 
-/** @var $upsModel Magento_Usa_Model_Shipping_Carrier_Ups */
-/** @var $this Magento_Adminhtml_Block_System_Shipping_Ups */
+/** @var $upsModel \Magento\Usa\Model\Shipping\Carrier\Ups */
+/** @var $this \Magento\Adminhtml\Block\System\Shipping\Ups */
 $upsModel = $this->getShippingModel();
 $orShipArr = $upsModel->getCode('originShipment');
 $defShipArr = $upsModel->getCode('method');
 
-/** @var $this Magento_Adminhtml_Block_Template */
+/** @var $this \Magento\Adminhtml\Block\Template */
 $sectionCode = $this->getRequest()->getParam('section');
 $websiteCode = $this->getRequest()->getParam('website');
 $storeCode = $this->getRequest()->getParam('store');
 
 if (!$storeCode && $websiteCode) {
-    /** @var $web Magento_Core_Model_Website */
+    /** @var $web \Magento\Core\Model\Website */
     $web = $this->getWebsiteModel()->load($websiteCode);
     $storedAllowedMethods = explode(',', $web->getConfig('carriers/ups/allowed_methods'));
     $storedOriginShipment = $web->getConfig('carriers/ups/origin_shipment');
@@ -88,7 +88,7 @@ if (!$storeCode && $websiteCode) {
             this.storedOriginShipment = '<?php echo $storedOriginShipment ?>';
             this.storedFreeShipment = '<?php echo $storedFreeShipment ?>';
             this.storedUpsType = '<?php echo $storedUpsType ?>';
-            <?php /** @var $_coreHelper Magento_Core_Helper_Data */ $_coreHelper = $this->helper('Magento_Core_Helper_Data'); ?>
+            <?php /** @var $_coreHelper \Magento\Core\Helper\Data */ $_coreHelper = $this->helper('\Magento\Core\Helper\Data'); ?>
             this.storedAllowedMethods = <?php echo $_coreHelper->jsonEncode($storedAllowedMethods) ?>;
             this.originShipmentObj = <?php echo $_coreHelper->jsonEncode($orShipArr) ?>;
             this.originShipmentObj['default'] = <?php echo $_coreHelper->jsonEncode($defShipArr) ?>;

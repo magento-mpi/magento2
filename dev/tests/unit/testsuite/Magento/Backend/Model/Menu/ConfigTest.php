@@ -53,46 +53,46 @@ class Magento_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_logger;
 
     /**
-     * @var Magento_Backend_Model_Menu_Config
+     * @var \Magento\Backend\Model\Menu\Config
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_cacheInstanceMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(),
+        $this->_cacheInstanceMock = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(),
             '', false);
 
-        $this->_directorMock = $this->getMock('Magento_Backend_Model_Menu_DirectorAbstract', array(), array(),
+        $this->_directorMock = $this->getMock('Magento\Backend\Model\Menu\DirectorAbstract', array(), array(),
             '', false);
 
-        $this->_menuFactoryMock = $this->getMock('Magento_Backend_Model_MenuFactory', array('create'), array(),
+        $this->_menuFactoryMock = $this->getMock('Magento\Backend\Model\MenuFactory', array('create'), array(),
             '', false);
 
-        $this->_configReaderMock = $this->getMock('Magento_Backend_Model_Menu_Config_Reader', array(), array(),
+        $this->_configReaderMock = $this->getMock('Magento\Backend\Model\Menu\Config\Reader', array(), array(),
             '', false);
 
-        $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '',
+        $this->_eventManagerMock = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '',
             false, false);
 
         $this->_logger = $this->getMock(
-            'Magento_Core_Model_Logger', array('addStoreLog', 'log', 'logException'), array(), '', false
+            '\Magento\Core\Model\Logger', array('addStoreLog', 'log', 'logException'), array(), '', false
         );
 
-        $this->_menuMock = $this->getMock('Magento_Backend_Model_Menu', array(), array(), '', false);
+        $this->_menuMock = $this->getMock('Magento\Backend\Model\Menu', array(), array(), '', false);
 
-        $this->_menuBuilderMock = $this->getMock('Magento_Backend_Model_Menu_Builder', array(), array(), '', false);
+        $this->_menuBuilderMock = $this->getMock('Magento\Backend\Model\Menu\Builder', array(), array(), '', false);
 
         $this->_menuFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_menuMock));
 
-        $storeManagerMock = $this->getMock('Magento_Core_Model_StoreManager', array(), array(), '', false);
+        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
-        $storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
 
         $storeManagerMock->expects($this->atLeastOnce())->method('getStore')->will($this->returnValue($storeMock));
 
         $this->_configReaderMock->expects($this->any())->method('read')->will($this->returnValue(array()));
 
-        $this->_model = new Magento_Backend_Model_Menu_Config(
+        $this->_model = new \Magento\Backend\Model\Menu\Config(
             $this->_menuBuilderMock,
             $this->_directorMock,
             $this->_menuFactoryMock,
@@ -108,7 +108,7 @@ class Magento_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_cacheInstanceMock->expects($this->once())
             ->method('load')
-            ->with($this->equalTo(Magento_Backend_Model_Menu_Config::CACHE_MENU_OBJECT))
+            ->with($this->equalTo(\Magento\Backend\Model\Menu\Config::CACHE_MENU_OBJECT))
             ->will($this->returnValue('menu_cache'));
 
         $this->_menuMock->expects($this->once())
@@ -122,7 +122,7 @@ class Magento_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->_cacheInstanceMock->expects($this->at(0))
             ->method('load')
-            ->with($this->equalTo(Magento_Backend_Model_Menu_Config::CACHE_MENU_OBJECT))
+            ->with($this->equalTo(\Magento\Backend\Model\Menu\Config::CACHE_MENU_OBJECT))
             ->will($this->returnValue(false));
 
         $this->_configReaderMock->expects($this->once())->method('read')->will($this->returnValue(array()));

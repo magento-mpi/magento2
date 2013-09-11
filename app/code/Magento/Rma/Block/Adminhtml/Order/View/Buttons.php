@@ -15,14 +15,16 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Order_View_Buttons extends Magento_Adminhtml_Block_Sales_Order_View
+namespace Magento\Rma\Block\Adminhtml\Order\View;
+
+class Buttons extends \Magento\Adminhtml\Block\Sales\Order\View
 {
     const CREATE_RMA_BUTTON_DEFAULT_SORT_ORDER = 35;
 
     /**
      * Add button to Shopping Cart Management etc.
      *
-     * @return Magento_Rma_Block_Adminhtml_Order_View_Buttons
+     * @return \Magento\Rma\Block\Adminhtml\Order\View\Buttons
      */
     public function addButtons()
     {
@@ -45,9 +47,9 @@ class Magento_Rma_Block_Adminhtml_Order_View_Buttons extends Magento_Adminhtml_B
     protected function _isCreateRmaButtonRequired()
     {
         $parentBlock = $this->getParentBlock();
-        return $parentBlock instanceof Magento_Backend_Block_Template
+        return $parentBlock instanceof \Magento\Backend\Block\Template
             && $parentBlock->getOrderId()
-            && Mage::helper('Magento_Rma_Helper_Data')->canCreateRma($parentBlock->getOrder(), true);
+            && \Mage::helper('Magento\Rma\Helper\Data')->canCreateRma($parentBlock->getOrder(), true);
     }
 
     /**

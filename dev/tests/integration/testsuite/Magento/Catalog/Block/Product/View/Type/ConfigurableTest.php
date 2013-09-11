@@ -10,27 +10,27 @@
  */
 
 /**
- * Test class for Magento_Catalog_Block_Product_View_Type_Configurable.
+ * Test class for \Magento\Catalog\Block\Product\View\Type\Configurable.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
  */
 class Magento_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Block_Product_View_Type_Configurable
+     * @var \Magento\Catalog\Block\Product\View\Type\Configurable
      */
     protected $_block;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
     protected function setUp()
     {
-        $this->_product = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_product = Mage::getModel('\Magento\Catalog\Model\Product');
         $this->_product->load(1);
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_View_Type_Configurable');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Catalog\Block\Product\View\Type\Configurable');
         $this->_block->setProduct($this->_product);
     }
 
@@ -38,7 +38,7 @@ class Magento_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_F
     {
         $attributes = $this->_block->getAllowAttributes();
         $this->assertInstanceOf(
-            'Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute_Collection',
+            '\Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection',
             $attributes
         );
         $this->assertGreaterThanOrEqual(1, $attributes->getSize());
@@ -54,7 +54,7 @@ class Magento_Catalog_Block_Product_View_Type_ConfigurableTest extends PHPUnit_F
         $products = $this->_block->getAllowProducts();
         $this->assertGreaterThanOrEqual(2, count($products));
         foreach ($products as $product) {
-            $this->assertInstanceOf('Magento_Catalog_Model_Product', $product);
+            $this->assertInstanceOf('\Magento\Catalog\Model\Product', $product);
         }
     }
 

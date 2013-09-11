@@ -16,13 +16,15 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
+
+class Form
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit_Form
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Form
      */
     protected function _prepareForm()
     {

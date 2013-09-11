@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_Url extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Url extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Retrieve current url
@@ -28,8 +30,8 @@ class Magento_Core_Helper_Url extends Magento_Core_Helper_Abstract
         $port = $this->_getRequest()->getServer('SERVER_PORT');
         if ($port) {
             $defaultPorts = array(
-                Magento_Core_Controller_Request_Http::DEFAULT_HTTP_PORT,
-                Magento_Core_Controller_Request_Http::DEFAULT_HTTPS_PORT
+                \Magento\Core\Controller\Request\Http::DEFAULT_HTTP_PORT,
+                \Magento\Core\Controller\Request\Http::DEFAULT_HTTPS_PORT
             );
             $port = (in_array($port, $defaultPorts)) ? '' : ':' . $port;
         }
@@ -62,7 +64,7 @@ class Magento_Core_Helper_Url extends Magento_Core_Helper_Abstract
      */
     public function getHomeUrl()
     {
-        return Mage::getBaseUrl();
+        return \Mage::getBaseUrl();
     }
 
     protected function _prepareString($string)

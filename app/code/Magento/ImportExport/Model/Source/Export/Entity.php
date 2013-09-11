@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Source_Export_Entity
+namespace Magento\ImportExport\Model\Source\Export;
+
+class Entity
 {
     /**
      * Prepare and return array of export entities ids and their names
@@ -24,8 +26,8 @@ class Magento_ImportExport_Model_Source_Export_Entity
      */
     public function toOptionArray()
     {
-        return Magento_ImportExport_Model_Config::getModelsComboOptions(
-            Magento_ImportExport_Model_Export::CONFIG_KEY_ENTITIES, true
+        return \Magento\ImportExport\Model\Config::getModelsComboOptions(
+            \Magento\ImportExport\Model\Export::CONFIG_KEY_ENTITIES, true
         );
     }
 }

@@ -9,12 +9,14 @@
  */
 
 
-class Magento_PaypalUk_Block_Express_Form extends Magento_Paypal_Block_Express_Form
+namespace Magento\PaypalUk\Block\Express;
+
+class Form extends \Magento\Paypal\Block\Express\Form
 {
     /**
      * Payment method code
      * @var string
      */
-    protected $_methodCode = Magento_Paypal_Model_Config::METHOD_WPP_PE_EXPRESS;
+    protected $_methodCode = \Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS;
 
 }

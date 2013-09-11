@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Widget\Block\Adminhtml\Widget;
+
+class Options extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Element type used by default if configuration is omitted
@@ -71,7 +73,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
         $this->setData('main_fieldset', $fieldset);
 
         // add dependence javascript block
-        $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence');
+        $block = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence');
         $this->setChild('form_after', $block);
 
         return $fieldset;
@@ -80,15 +82,15 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
     /**
      * Add fields to main fieldset based on specified widget type
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     public function addFields()
     {
         // get configuration node and translation helper
         if (!$this->getWidgetType()) {
-            Mage::throwException(__('Please specify a Widget Type.'));
+            \Mage::throwException(__('Please specify a Widget Type.'));
         }
-        $config = Mage::getSingleton('Magento_Widget_Model_Widget')->getConfigAsObject($this->getWidgetType());
+        $config = \Mage::getSingleton('Magento\Widget\Model\Widget')->getConfigAsObject($this->getWidgetType());
         if (!$config->getParameters()) {
             return $this;
         }
@@ -144,7 +146,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Options extends Magento_Adminhtml_Bl
         }
         // otherwise, a source model is specified
         elseif ($sourceModel = $parameter->getSourceModel()) {
-            $data['values'] = Mage::getModel($sourceModel)->toOptionArray();
+            $data['values'] = \Mage::getModel($sourceModel)->toOptionArray();
         }
 
         // prepare field type or renderer

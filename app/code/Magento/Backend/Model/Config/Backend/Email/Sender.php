@@ -16,24 +16,26 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Email_Sender extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Email;
+
+class Sender extends \Magento\Core\Model\Config\Value
 {
     /**
      * Check sender name validity
      *
-     * @return Magento_Backend_Model_Config_Backend_Email_Sender
+     * @return \Magento\Backend\Model\Config\Backend\Email\Sender
      */
     protected function _beforeSave()
     {
         $value = $this->getValue();
         if (!preg_match("/^[\S ]+$/", $value)) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('The sender name "%1" is not valid. Please use only visible characters and spaces.', $value)
             );
         }
 
         if (strlen($value) > 255) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Maximum sender name length is 255. Please correct your settings.')
             );
         }

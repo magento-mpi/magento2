@@ -15,18 +15,20 @@
  * @package    Magento_CatalogEvent
  */
 
-class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
-    extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+namespace Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit;
+
+class Buttons
+    extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
     /**
      * Retrieve category event
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function getEvent()
     {
         if (!$this->hasData('event')) {
-            $collection = Mage::getModel('Magento_CatalogEvent_Model_Event')->getCollection()
+            $collection = \Mage::getModel('\Magento\CatalogEvent\Model\Event')->getCollection()
                 ->addFieldToFilter('category_id', $this->getCategoryId());
 
             $event = $collection->getFirstItem();
@@ -39,15 +41,15 @@ class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
     /**
      * Add buttons on category edit page
      *
-     * @return Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
+     * @return \Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons
      */
     public function addButtons()
     {
-        if ($this->helper('Magento_CatalogEvent_Helper_Data')->isEnabled()
+        if ($this->helper('\Magento\CatalogEvent\Helper\Data')->isEnabled()
             && $this->_authorization->isAllowed('Magento_CatalogEvent::events')
             && $this->getCategoryId() && $this->getCategory()->getLevel() > 1) {
             if ($this->getEvent() && $this->getEvent()->getId()) {
-                $url = $this->helper('Magento_Adminhtml_Helper_Data')->getUrl('*/catalog_event/edit', array(
+                $url = $this->helper('\Magento\Adminhtml\Helper\Data')->getUrl('*/catalog_event/edit', array(
                             'id' => $this->getEvent()->getId(),
                             'category' => 1
                 ));
@@ -58,7 +60,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons
                         'onclick'   => 'setLocation(\''. $url .'\')'
                     ));
             } else {
-                $url = $this->helper('Magento_Adminhtml_Helper_Data')->getUrl('*/catalog_event/new', array(
+                $url = $this->helper('\Magento\Adminhtml\Helper\Data')->getUrl('*/catalog_event/new', array(
                         'category_id' => $this->getCategoryId(),
                         'category' => 1
                 ));

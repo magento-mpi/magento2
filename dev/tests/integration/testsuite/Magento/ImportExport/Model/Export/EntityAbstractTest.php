@@ -15,14 +15,14 @@
 class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Export_EntityAbstract
+     * @var \Magento\ImportExport\Model\Export\EntityAbstract
      */
     protected $_model;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_EntityAbstract');
+        $this->_model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\EntityAbstract');
     }
 
     /**
@@ -46,14 +46,14 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testGetWriter()
     {
-        $this->_model->setWriter(Mage::getModel('Magento_ImportExport_Model_Export_Adapter_Csv'));
-        $this->assertInstanceOf('Magento_ImportExport_Model_Export_Adapter_Csv', $this->_model->getWriter());
+        $this->_model->setWriter(Mage::getModel('\Magento\ImportExport\Model\Export\Adapter\Csv'));
+        $this->assertInstanceOf('\Magento\ImportExport\Model\Export\Adapter\Csv', $this->_model->getWriter());
     }
 
     /**
      * Check that method throw exception when writer was not defined
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetWriterThrowsException()
     {
@@ -67,13 +67,13 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
     {
         /** @var $model Stub_Magento_ImportExport_Model_Export_EntityAbstract */
         $model = $this->getMockForAbstractClass('Stub_Magento_ImportExport_Model_Export_EntityAbstract');
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection');
+        $collection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Attribute\Collection');
         $collection = $model->filterAttributeCollection($collection);
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
         $existedAttributes = array();
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
         }
@@ -92,7 +92,7 @@ class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Frame
  * Stub abstract class which provide to change protected property "$_disabledAttrs" and test methods depended on it
  */
 abstract class Stub_Magento_ImportExport_Model_Export_EntityAbstract
-    extends Magento_ImportExport_Model_Export_EntityAbstract
+    extends \Magento\ImportExport\Model\Export\EntityAbstract
 {
     public function __construct()
     {

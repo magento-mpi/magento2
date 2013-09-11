@@ -8,12 +8,12 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Config_Storage_Writer_Db
+ * Test class for \Magento\Core\Model\Config\Storage\Writer\Db
  */
 class Magento_Core_Model_Config_Storage_Writer_DbTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Storage_Writer_Db
+     * @var \Magento\Core\Model\Config\Storage\Writer\Db
      */
     protected $_model;
 
@@ -25,8 +25,8 @@ class Magento_Core_Model_Config_Storage_Writer_DbTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_resourceMock = $this->getMock('Magento_Core_Model_Resource_Config', array(), array(), '', false, false);
-        $this->_model = new Magento_Core_Model_Config_Storage_Writer_Db($this->_resourceMock);
+        $this->_resourceMock = $this->getMock('Magento\Core\Model\Resource\Config', array(), array(), '', false, false);
+        $this->_model = new \Magento\Core\Model\Config\Storage\Writer\Db($this->_resourceMock);
     }
 
     protected function tearDown()
@@ -47,7 +47,7 @@ class Magento_Core_Model_Config_Storage_Writer_DbTest extends PHPUnit_Framework_
     {
         $this->_resourceMock->expects($this->once())
             ->method('deleteConfig')
-            ->with('test/path', Magento_Core_Model_Store::DEFAULT_CODE, 0);
+            ->with('test/path', \Magento\Core\Model\Store::DEFAULT_CODE, 0);
         $this->_model->delete('test/path');
     }
 
@@ -63,7 +63,7 @@ class Magento_Core_Model_Config_Storage_Writer_DbTest extends PHPUnit_Framework_
     {
         $this->_resourceMock->expects($this->once())
             ->method('saveConfig')
-            ->with('test/path', 'test_value', Magento_Core_Model_Store::DEFAULT_CODE, 0);
+            ->with('test/path', 'test_value', \Magento\Core\Model\Store::DEFAULT_CODE, 0);
         $this->_model->save('test/path', 'test_value');
     }
 }

@@ -17,12 +17,14 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Front_Action
+namespace Magento\Oauth\Controller\Customer;
+
+class Token extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Customer session model
      *
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_session;
 
@@ -31,7 +33,7 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
      *
      * @var string
      */
-    protected $_sessionName = 'Magento_Customer_Model_Session';
+    protected $_sessionName = '\Magento\Customer\Model\Session';
 
     /**
      * Check authentication
@@ -41,7 +43,7 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->_session = Mage::getSingleton($this->_sessionName);
+        $this->_session = \Mage::getSingleton($this->_sessionName);
         if (!$this->_session->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
@@ -61,13 +63,13 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
     /**
      * Redirect to referrer URL or otherwise to index page without params
      *
-     * @return Magento_Oauth_Controller_Customer_Token
+     * @return \Magento\Oauth\Controller\Customer\Token
      */
     protected function _redirectBack()
     {
         $url = $this->_getRefererUrl();
-        if (Mage::app()->getStore()->getBaseUrl() == $url) {
-            $url = Mage::getUrl('*/*/index');
+        if (\Mage::app()->getStore()->getBaseUrl() == $url) {
+            $url = \Mage::getUrl('*/*/index');
         }
         $this->_redirectUrl($url);
         return $this;
@@ -96,16 +98,16 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
         }
 
         try {
-            /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+            /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
+            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
                     ->addFilterById($id)
-                    ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
+                    ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                     ->addFilterByRevoked(!$status);
             //here is can be load from model, but used from collection for get consumer name
 
-            /** @var $model Magento_Oauth_Model_Token */
+            /** @var $model \Magento\Oauth\Model\Token */
             $model = $collection->getFirstItem();
             if ($model->getId()) {
                 $name = $model->getName();
@@ -120,11 +122,11 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
             } else {
                 $this->_session->addError(__('Application not found.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_session->addError(__('An error occurred on update revoke status.'));
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         $this->_redirectBack();
     }
@@ -144,14 +146,14 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
         }
 
         try {
-            /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-            $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+            /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
+            $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
             $collection->joinConsumerAsApplication()
                     ->addFilterByCustomerId($this->_session->getCustomerId())
-                    ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS)
+                    ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS)
                     ->addFilterById($id);
 
-            /** @var $model Magento_Oauth_Model_Token */
+            /** @var $model \Magento\Oauth\Model\Token */
             $model = $collection->getFirstItem();
             if ($model->getId()) {
                 $name = $model->getName();
@@ -161,11 +163,11 @@ class Magento_Oauth_Controller_Customer_Token extends Magento_Core_Controller_Fr
             } else {
                 $this->_session->addError(__('Application not found.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_session->addError(__('An error occurred on delete application.'));
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         $this->_redirectBack();
     }

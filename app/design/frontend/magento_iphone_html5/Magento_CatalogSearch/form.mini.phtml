@@ -9,9 +9,9 @@
  */
 ?>
 <?php
-/** @var $this Magento_Core_Block_Template */
-/** @var $helper Magento_CatalogSearch_Helper_Data */
-$helper = $this->helper('Magento_CatalogSearch_Helper_Data');
+/** @var $this \Magento\Core\Block\Template */
+/** @var $helper \Magento\CatalogSearch\Helper\Data */
+$helper = $this->helper('\Magento\CatalogSearch\Helper\Data');
 ?>
 <form data-search-mini-form="search_mini_form" id="search_mini_form" action="<?php echo $helper->getResultUrl() ?>" method="get">
     <input  data-mage-init = "{catalogSearch:{ formSelector:'[data-search-mini-form=search_mini_form]', placeholder: '<?php echo __('Search entire store here...') ?>', url: '<?php echo $helper->getSuggestUrl() ?>',destinationSelector: '[data-search-autocomplete=search_autocomplete]'}}"

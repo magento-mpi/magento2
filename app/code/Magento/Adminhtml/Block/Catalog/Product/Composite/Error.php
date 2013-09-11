@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author    Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Error extends Magento_Core_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite;
+
+class Error extends \Magento\Core\Block\Template
 {
     /**
      * Returns error message to show what kind of error happened during retrieving of product
@@ -25,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Error extends Magento_Co
      */
     public function _toHtml()
     {
-        $message = Mage::registry('composite_configure_result_error_message');
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array('error' => true, 'message' => $message));
+        $message = \Mage::registry('composite_configure_result_error_message');
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array('error' => true, 'message' => $message));
     }
 }

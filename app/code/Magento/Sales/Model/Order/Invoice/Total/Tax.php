@@ -9,15 +9,17 @@
  */
 
 
-class Magento_Sales_Model_Order_Invoice_Total_Tax extends Magento_Sales_Model_Order_Invoice_Total_Abstract
+namespace Magento\Sales\Model\Order\Invoice\Total;
+
+class Tax extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
     /**
      * Collect invoice tax amount
      *
-     * @param Magento_Sales_Model_Order_Invoice $invoice
-     * @return Magento_Sales_Model_Order_Invoice_Total_Tax
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return \Magento\Sales\Model\Order\Invoice\Total\Tax
      */
-    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
+    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $totalTax       = 0;
         $baseTotalTax   = 0;
@@ -26,7 +28,7 @@ class Magento_Sales_Model_Order_Invoice_Total_Tax extends Magento_Sales_Model_Or
 
         $order = $invoice->getOrder();
 
-        /** @var $item Magento_Sales_Model_Order_Invoice_Item */
+        /** @var $item \Magento\Sales\Model\Order\Invoice\Item */
         foreach ($invoice->getAllItems() as $item) {
             $orderItem = $item->getOrderItem();
             $orderItemQty = $orderItem->getQtyOrdered();
@@ -105,7 +107,7 @@ class Magento_Sales_Model_Order_Invoice_Total_Tax extends Magento_Sales_Model_Or
 
     /**
      * Check if shipping tax calculation can be included to current invoice
-     * @param Magento_Sales_Model_Order_Invoice $invoice
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
      * @return boolean
      */
     protected function _canIncludeShipping($invoice)

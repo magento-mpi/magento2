@@ -16,12 +16,14 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
+
+class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
 {
     /**
      * Adding product form elements for editing attribute
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Main
      */
     protected function _prepareForm()
     {
@@ -67,7 +69,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Ma
 
         $response = new \Magento\Object();
         $response->setTypes(array());
-        Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
+        \Mage::dispatchEvent('adminhtml_product_attribute_types', array('response'=>$response));
         $_disabledTypes = array();
         $_hiddenFields = array();
         foreach ($response->getTypes() as $type) {
@@ -79,14 +81,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Ma
                 $_disabledTypes[$type['value']] = $type['disabled_types'];
             }
         }
-        Mage::register('attribute_type_hidden_fields', $_hiddenFields);
-        Mage::register('attribute_type_disabled_types', $_disabledTypes);
+        \Mage::register('attribute_type_hidden_fields', $_hiddenFields);
+        \Mage::register('attribute_type_disabled_types', $_disabledTypes);
 
         $frontendInputValues = array_merge($frontendInputElm->getValues(), $additionalTypes);
         $frontendInputElm->setValues($frontendInputValues);
 
 
-        Mage::dispatchEvent('adminhtml_catalog_product_attribute_edit_prepare_form', array(
+        \Mage::dispatchEvent('adminhtml_catalog_product_attribute_edit_prepare_form', array(
             'form'      => $form,
             'attribute' => $attributeObject
         ));
@@ -101,6 +103,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Ma
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('apply' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Apply');
+        return array('apply' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Apply');
     }
 }

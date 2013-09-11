@@ -12,8 +12,10 @@
  * Column renderer for Invitee in invitations grid
  *
  */
-class Magento_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Invitation\Block\Adminhtml\Invitation\Grid\Column;
+
+class Invitee
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render invitee email linked to its account edit page
@@ -27,7 +29,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Grid_Column_Invitee
             if (!$row->getReferralId()) {
                 return '';
             }
-            return '<a href="' . Mage::getSingleton('Magento_Backend_Model_Url')
+            return '<a href="' . \Mage::getSingleton('Magento\Backend\Model\Url')
                 ->getUrl('*/customer/edit', array('id' => $row->getReferralId())) . '">'
                    . $this->escapeHtml($row->getData($this->getColumn()->getIndex())) . '</a>';
         } else {

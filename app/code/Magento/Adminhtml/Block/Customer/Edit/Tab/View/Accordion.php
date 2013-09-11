@@ -15,11 +15,13 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_Adminhtml_Block_Widget_Accordion
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
+
+class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
 {
     protected function _prepareLayout()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = \Mage::registry('current_customer');
 
         $this->setId('customerViewAccordion');
 
@@ -30,11 +32,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
         ));
 
         // add shopping cart block of each website
-        foreach (Mage::registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
-            $website = Mage::app()->getWebsite($websiteId);
+        foreach (\Mage::registry('current_customer')->getSharedWebsiteIds() as $websiteId) {
+            $website = \Mage::app()->getWebsite($websiteId);
 
             // count cart items
-            $cartItemsCount = Mage::getModel('Magento_Sales_Model_Quote')
+            $cartItemsCount = \Mage::getModel('\Magento\Sales\Model\Quote')
                 ->setWebsite($website)->loadByCustomer($customer)
                 ->getItemsCollection(false)
                 ->addFieldToFilter('parent_item_id', array('null' => true))
@@ -54,7 +56,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Magento_A
         }
 
         // count wishlist items
-        $wishlistCount = Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
+        $wishlistCount = \Mage::getModel('\Magento\Wishlist\Model\Item')->getCollection()
             ->addCustomerIdFilter($customer->getId())
             ->addStoreData()
             ->getSize();

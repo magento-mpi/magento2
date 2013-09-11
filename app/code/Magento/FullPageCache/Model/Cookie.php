@@ -15,7 +15,9 @@
  * @package    Magento_FullPageCache
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
+namespace Magento\FullPageCache\Model;
+
+class Cookie extends \Magento\Core\Model\Cookie
 {
     /**
      * Cookie names
@@ -63,14 +65,14 @@ class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
     /**
      * FPC cache model
      *
-     * @var Magento_FullPageCache_Model_Cache
+     * @var \Magento\FullPageCache\Model\Cache
      */
     protected $_fpcCache;
 
     /**
-     * @param Magento_FullPageCache_Model_Cache $_fpcCache
+     * @param \Magento\FullPageCache\Model\Cache $_fpcCache
      */
-    public function __construct(Magento_FullPageCache_Model_Cache $_fpcCache)
+    public function __construct(\Magento\FullPageCache\Model\Cache $_fpcCache)
     {
         $this->_fpcCache = $_fpcCache;
     }
@@ -88,7 +90,7 @@ class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
             if (!$this->_salt) {
                 $this->_salt = md5(microtime() . rand());
                 $this->_fpcCache->save($this->_salt, $saltCacheId,
-                    array(Magento_FullPageCache_Model_Processor::CACHE_TAG));
+                    array(\Magento\FullPageCache\Model\Processor::CACHE_TAG));
             }
         }
         return $this->_salt;
@@ -104,7 +106,7 @@ class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
      * @param string $domain
      * @param int|bool $secure
      * @param bool $httponly
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function setObscure(
         $name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null
@@ -116,17 +118,17 @@ class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
     /**
      * Keep customer cookies synchronized with customer session
      *
-     * @return Magento_FullPageCache_Model_Cookie
+     * @return \Magento\FullPageCache\Model\Cookie
      */
     public function updateCustomerCookies()
     {
-        /** @var Magento_Customer_Model_Session $session */
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        /** @var \Magento\Customer\Model\Session $session */
+        $session = \Mage::getSingleton('Magento\Customer\Model\Session');
         $customerId = $session->getCustomerId();
         $customerGroupId = $session->getCustomerGroupId();
         if (!$customerId || is_null($customerGroupId)) {
             $customerCookies = new \Magento\Object();
-            Mage::dispatchEvent('update_customer_cookies', array('customer_cookies' => $customerCookies));
+            \Mage::dispatchEvent('update_customer_cookies', array('customer_cookies' => $customerCookies));
             if (!$customerId) {
                 $customerId = $customerCookies->getCustomerId();
             }
@@ -163,8 +165,8 @@ class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
             $productIds = array($productIds);
         }
         if ($append) {
-            if (!empty($_COOKIE[Magento_FullPageCache_Model_Container_Viewedproducts::COOKIE_NAME])) {
-                $cookieIds = $_COOKIE[Magento_FullPageCache_Model_Container_Viewedproducts::COOKIE_NAME];
+            if (!empty($_COOKIE[\Magento\FullPageCache\Model\Container\Viewedproducts::COOKIE_NAME])) {
+                $cookieIds = $_COOKIE[\Magento\FullPageCache\Model\Container\Viewedproducts::COOKIE_NAME];
                 $cookieIds = explode(',', $cookieIds);
             } else {
                 $cookieIds = array();
@@ -176,7 +178,7 @@ class Magento_FullPageCache_Model_Cookie extends Magento_Core_Model_Cookie
         $cookieIds = array_unique($cookieIds);
         $cookieIds = array_slice($cookieIds, 0, $countLimit);
         $cookieIds = implode(',', $cookieIds);
-        setcookie(Magento_FullPageCache_Model_Container_Viewedproducts::COOKIE_NAME, $cookieIds, 0, '/');
+        setcookie(\Magento\FullPageCache\Model\Container\Viewedproducts::COOKIE_NAME, $cookieIds, 0, '/');
     }
 
     /**

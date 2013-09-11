@@ -15,7 +15,9 @@
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Model_Source_Layout
+namespace Magento\Page\Model\Source;
+
+class Layout
 {
 
     /**
@@ -40,7 +42,7 @@ class Magento_Page_Model_Source_Layout
     {
         if ($this->_options === null) {
             $this->_options = array();
-            foreach (Mage::getSingleton('Magento_Page_Model_Config')->getPageLayouts() as $layout) {
+            foreach (\Mage::getSingleton('Magento\Page\Model\Config')->getPageLayouts() as $layout) {
                 $this->_options[$layout->getCode()] = $layout->getLabel();
                 if ($layout->getIsDefault()) {
                     $this->_defaultValue = $layout->getCode();

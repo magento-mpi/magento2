@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Eav\Model\Resource\Form\Attribute;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Current module pathname
@@ -35,29 +37,29 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Current store instance
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
      * Eav Entity Type instance
      *
-     * @var Magento_Eav_Model_Entity_Type
+     * @var \Magento\Eav\Model\Entity\Type
      */
     protected $_entityType;
 
     /**
      * Resource initialization
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _construct()
     {
         if (empty($this->_moduleName)) {
-            Mage::throwException(__('Current module pathname is undefined'));
+            \Mage::throwException(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            Mage::throwException(__('Current module EAV entity is undefined'));
+            \Mage::throwException(__('Current module EAV entity is undefined'));
         }
     }
 
@@ -77,24 +79,24 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Set current store to collection
      *
-     * @param Magento_Core_Model_Store|string|int $store
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection
+     * @param \Magento\Core\Model\Store|string|int $store
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     public function setStore($store)
     {
-        $this->_store = Mage::app()->getStore($store);
+        $this->_store = \Mage::app()->getStore($store);
         return $this;
     }
 
     /**
      * Return current store instance
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
         if ($this->_store === null) {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = \Mage::app()->getStore();
         }
         return $this->_store;
     }
@@ -102,19 +104,19 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Set entity type instance to collection
      *
-     * @param Magento_Eav_Model_Entity_Type|string|int $entityType
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection
+     * @param \Magento\Eav\Model\Entity\Type|string|int $entityType
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($entityType);
+        $this->_entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType($entityType);
         return $this;
     }
 
     /**
      * Return current entity type instance
      *
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     public function getEntityType()
     {
@@ -128,7 +130,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
      * Add Form Code filter to collection
      *
      * @param string $code
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     public function addFormCodeFilter($code)
     {
@@ -139,7 +141,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
      * Set order by attribute sort order
      *
      * @param string $direction
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     public function setSortOrder($direction = self::SORT_ORDER_ASC)
     {
@@ -150,7 +152,7 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
     /**
      * Add joins to select
      *
-     * @return Magento_Eav_Model_Resource_Form_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     protected function _beforeLoad()
     {
@@ -202,12 +204,12 @@ class Magento_Eav_Model_Resource_Form_Attribute_Collection extends Magento_Core_
                     if (isset($eaColumns[$columnName])) {
                         $code = sprintf('scope_%s', $columnName);
                         $expression = $connection->getCheckSql('sa.%s IS NULL', 'ea.%s', 'sa.%s');
-                        $saColumns[$code] = new Zend_Db_Expr(sprintf($expression,
+                        $saColumns[$code] = new \Zend_Db_Expr(sprintf($expression,
                             $columnName, $columnName, $columnName));
                     } elseif (isset($caColumns[$columnName])) {
                         $code = sprintf('scope_%s', $columnName);
                         $expression = $connection->getCheckSql('sa.%s IS NULL', 'ca.%s', 'sa.%s');
-                        $saColumns[$code] = new Zend_Db_Expr(sprintf($expression,
+                        $saColumns[$code] = new \Zend_Db_Expr(sprintf($expression,
                             $columnName, $columnName, $columnName));
                     }
                 }

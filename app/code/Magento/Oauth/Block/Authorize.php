@@ -15,7 +15,9 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Authorize extends Magento_Oauth_Block_AuthorizeBaseAbstract
+namespace Magento\Oauth\Block;
+
+class Authorize extends \Magento\Oauth\Block\AuthorizeBaseAbstract
 {
     /**
      * Retrieve customer form posting url
@@ -24,8 +26,8 @@ class Magento_Oauth_Block_Authorize extends Magento_Oauth_Block_AuthorizeBaseAbs
      */
     public function getPostActionUrl()
     {
-        /** @var $helper Magento_Customer_Helper_Data */
-        $helper = $this->helper('Magento_Customer_Helper_Data');
+        /** @var $helper \Magento\Customer\Helper\Data */
+        $helper = $this->helper('\Magento\Customer\Helper\Data');
         $url = $helper->getLoginPostUrl();
         if ($this->getIsSimple()) {
             if (strstr($url, '?')) {

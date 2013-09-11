@@ -13,7 +13,9 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backend_Block_Widget_Container
+namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files;
+
+class Content extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * Block construction
@@ -63,7 +65,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
     public function getContentsUrl()
     {
         return $this->getUrl('*/*/contents', array('type' => $this->getRequest()->getParam('type'))
-            + $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+            + $this->helper('\Magento\Theme\Helper\Storage')->getRequestParams());
     }
 
     /**
@@ -89,7 +91,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
             'showBreadcrumbs' => true
         ));
 
-        return $this->helper('Magento_Core_Helper_Data')->jsonEncode($setupObject);
+        return $this->helper('\Magento\Core\Helper\Data')->jsonEncode($setupObject);
     }
 
     /**
@@ -99,7 +101,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
      */
     public function getNewfolderUrl()
     {
-        return $this->getUrl('*/*/newFolder', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+        return $this->getUrl('*/*/newFolder', $this->helper('\Magento\Theme\Helper\Storage')->getRequestParams());
     }
 
     /**
@@ -109,7 +111,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
      */
     protected function getDeletefolderUrl()
     {
-        return $this->getUrl('*/*/deleteFolder', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+        return $this->getUrl('*/*/deleteFolder', $this->helper('\Magento\Theme\Helper\Storage')->getRequestParams());
     }
 
     /**
@@ -119,7 +121,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
      */
     public function getDeleteFilesUrl()
     {
-        return $this->getUrl('*/*/deleteFiles', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+        return $this->getUrl('*/*/deleteFiles', $this->helper('\Magento\Theme\Helper\Storage')->getRequestParams());
     }
 
     /**
@@ -129,7 +131,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Content extends Magento_Backen
      */
     public function getOnInsertUrl()
     {
-        return $this->getUrl('*/*/onInsert', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+        return $this->getUrl('*/*/onInsert', $this->helper('\Magento\Theme\Helper\Storage')->getRequestParams());
     }
 
     /**

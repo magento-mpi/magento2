@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_Download extends Magento_Install_Block_Abstract
+namespace Magento\Install\Block;
+
+class Download extends \Magento\Install\Block\AbstractBlock
 {
     /**
      * @var string
@@ -35,7 +37,7 @@ class Magento_Install_Block_Download extends Magento_Install_Block_Abstract
      */
     public function getNextUrl()
     {
-        return Mage::getModel('Magento_Install_Model_Wizard')
+        return \Mage::getModel('\Magento\Install\Model\Wizard')
             ->getStepByName('download')
             ->getNextUrl();
     }
@@ -45,7 +47,7 @@ class Magento_Install_Block_Download extends Magento_Install_Block_Abstract
      */
     public function hasLocalCopy()
     {
-        $dir = Mage::getConfig()->getModuleDir('etc', 'Magento_Adminhtml');
+        $dir = \Mage::getConfig()->getModuleDir('etc', 'Magento_Adminhtml');
         if ($dir && $this->_filesystem->isDirectory($dir)) {
             return true;
         }

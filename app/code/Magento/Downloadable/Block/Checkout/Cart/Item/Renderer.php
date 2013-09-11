@@ -15,7 +15,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Checkout_Cart_Item_Renderer extends Magento_Checkout_Block_Cart_Item_Renderer
+namespace Magento\Downloadable\Block\Checkout\Cart\Item;
+
+class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
 
     /**
@@ -25,7 +27,7 @@ class Magento_Downloadable_Block_Checkout_Cart_Item_Renderer extends Magento_Che
      */
     public function getLinks()
     {
-        return Mage::helper('Magento_Downloadable_Helper_Catalog_Product_Configuration')->getLinks($this->getItem());
+        return \Mage::helper('Magento\Downloadable\Helper\Catalog\Product\Configuration')->getLinks($this->getItem());
     }
 
     /**
@@ -35,6 +37,6 @@ class Magento_Downloadable_Block_Checkout_Cart_Item_Renderer extends Magento_Che
      */
     public function getLinksTitle()
     {
-        return Mage::helper('Magento_Downloadable_Helper_Catalog_Product_Configuration')->getLinksTitle($this->getProduct());
+        return \Mage::helper('Magento\Downloadable\Helper\Catalog\Product\Configuration')->getLinksTitle($this->getProduct());
     }
 }

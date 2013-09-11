@@ -20,19 +20,19 @@
 class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product');
     }
 
     public static function tearDownAfterClass()
     {
-        /** @var Magento_Catalog_Model_Product_Media_Config $config */
-        $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+        /** @var \Magento\Catalog\Model\Product\Media\Config $config */
+        $config = Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
 
         $filesystem = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Filesystem');
         $filesystem->delete($config->getBaseMediaPath());
@@ -52,12 +52,12 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     public function testCRUD()
     {
-        Mage::app()->setCurrentStore(Mage::app()->getStore(Magento_Core_Model_AppInterface::ADMIN_STORE_ID));
+        Mage::app()->setCurrentStore(Mage::app()->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID));
         $this->_model->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
-            ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-            ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
         ;
         $crud = new Magento_TestFramework_Entity($this->_model, array('sku' => uniqid()));
         $crud->testCrud();
@@ -94,8 +94,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
      */
     protected function _copyFileToBaseTmpMediaPath($sourceFile)
     {
-        /** @var Magento_Catalog_Model_Product_Media_Config $config */
-        $config = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config');
+        /** @var \Magento\Catalog\Model\Product\Media\Config $config */
+        $config = Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config');
         $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 
         $targetFile = $baseTmpMediaPath . DS . basename($sourceFile);
@@ -119,7 +119,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
             $this->assertNotEmpty($duplicate->getId());
             $this->assertNotEquals($duplicate->getId(), $this->_model->getId());
             $this->assertNotEquals($duplicate->getSku(), $this->_model->getSku());
-            $this->assertEquals(Magento_Catalog_Model_Product_Status::STATUS_DISABLED, $duplicate->getStatus());
+            $this->assertEquals(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED, $duplicate->getStatus());
             $this->_undo($duplicate);
         } catch (Exception $e) {
             $this->_undo($duplicate);
@@ -138,87 +138,87 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     /**
      * Delete model
      *
-     * @param Magento_Core_Model_Abstract $duplicate
+     * @param \Magento\Core\Model\AbstractModel $duplicate
      */
     protected function _undo($duplicate)
     {
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $duplicate->delete();
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::isGrouped
-     * @covers Magento_Catalog_Model_Product::isSuperGroup
-     * @covers Magento_Catalog_Model_Product::isSuper
+     * @covers \Magento\Catalog\Model\Product::isGrouped
+     * @covers \Magento\Catalog\Model\Product::isSuperGroup
+     * @covers \Magento\Catalog\Model\Product::isSuper
      */
     public function testIsGrouped()
     {
         $this->assertFalse($this->_model->isGrouped());
         $this->assertFalse($this->_model->isSuperGroup());
         $this->assertFalse($this->_model->isSuper());
-        $this->_model->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_GROUPED);
+        $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED);
         $this->assertTrue($this->_model->isGrouped());
         $this->assertTrue($this->_model->isSuperGroup());
         $this->assertTrue($this->_model->isSuper());
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::isConfigurable
-     * @covers Magento_Catalog_Model_Product::isSuperConfig
-     * @covers Magento_Catalog_Model_Product::isSuper
+     * @covers \Magento\Catalog\Model\Product::isConfigurable
+     * @covers \Magento\Catalog\Model\Product::isSuperConfig
+     * @covers \Magento\Catalog\Model\Product::isSuper
      */
     public function testIsConfigurable()
     {
         $this->assertFalse($this->_model->isConfigurable());
         $this->assertFalse($this->_model->isSuperConfig());
         $this->assertFalse($this->_model->isSuper());
-        $this->_model->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE);
+        $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE);
         $this->assertTrue($this->_model->isConfigurable());
         $this->assertTrue($this->_model->isSuperConfig());
         $this->assertTrue($this->_model->isSuper());
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::getVisibleInCatalogStatuses
-     * @covers Magento_Catalog_Model_Product::getVisibleStatuses
-     * @covers Magento_Catalog_Model_Product::isVisibleInCatalog
-     * @covers Magento_Catalog_Model_Product::getVisibleInSiteVisibilities
-     * @covers Magento_Catalog_Model_Product::isVisibleInSiteVisibility
+     * @covers \Magento\Catalog\Model\Product::getVisibleInCatalogStatuses
+     * @covers \Magento\Catalog\Model\Product::getVisibleStatuses
+     * @covers \Magento\Catalog\Model\Product::isVisibleInCatalog
+     * @covers \Magento\Catalog\Model\Product::getVisibleInSiteVisibilities
+     * @covers \Magento\Catalog\Model\Product::isVisibleInSiteVisibility
      */
     public function testVisibilityApi()
     {
         $this->assertEquals(
-            array(Magento_Catalog_Model_Product_Status::STATUS_ENABLED), $this->_model->getVisibleInCatalogStatuses()
+            array(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED), $this->_model->getVisibleInCatalogStatuses()
         );
         $this->assertEquals(
-            array(Magento_Catalog_Model_Product_Status::STATUS_ENABLED), $this->_model->getVisibleStatuses()
+            array(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED), $this->_model->getVisibleStatuses()
         );
 
-        $this->_model->setStatus(Magento_Catalog_Model_Product_Status::STATUS_DISABLED);
+        $this->_model->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
         $this->assertFalse($this->_model->isVisibleInCatalog());
 
-        $this->_model->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $this->_model->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
         $this->assertTrue($this->_model->isVisibleInCatalog());
 
         $this->assertEquals(array(
-                Magento_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH,
-                Magento_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG,
-                Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH
+                \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
+                \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
+                \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
             ), $this->_model->getVisibleInSiteVisibilities()
         );
 
         $this->assertFalse($this->_model->isVisibleInSiteVisibility());
-        $this->_model->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_IN_SEARCH);
+        $this->_model->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH);
         $this->assertTrue($this->_model->isVisibleInSiteVisibility());
-        $this->_model->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_IN_CATALOG);
+        $this->_model->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG);
         $this->assertTrue($this->_model->isVisibleInSiteVisibility());
-        $this->_model->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
+        $this->_model->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
         $this->assertTrue($this->_model->isVisibleInSiteVisibility());
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::isDuplicable
-     * @covers Magento_Catalog_Model_Product::setIsDuplicable
+     * @covers \Magento\Catalog\Model\Product::isDuplicable
+     * @covers \Magento\Catalog\Model\Product::setIsDuplicable
      */
     public function testIsDuplicable()
     {
@@ -228,10 +228,10 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::isSalable
-     * @covers Magento_Catalog_Model_Product::isSaleable
-     * @covers Magento_Catalog_Model_Product::isAvailable
-     * @covers Magento_Catalog_Model_Product::isInStock
+     * @covers \Magento\Catalog\Model\Product::isSalable
+     * @covers \Magento\Catalog\Model\Product::isSaleable
+     * @covers \Magento\Catalog\Model\Product::isAvailable
+     * @covers \Magento\Catalog\Model\Product::isInStock
      */
     public function testIsSalable()
     {
@@ -248,18 +248,18 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Catalog_Model_Product::isVirtual
-     * @covers Magento_Catalog_Model_Product::getIsVirtual
+     * @covers \Magento\Catalog\Model\Product::isVirtual
+     * @covers \Magento\Catalog\Model\Product::getIsVirtual
      */
     public function testIsVirtual()
     {
         $this->assertFalse($this->_model->isVirtual());
         $this->assertFalse($this->_model->getIsVirtual());
 
-        /** @var $model Magento_Catalog_Model_Product */
+        /** @var $model \Magento\Catalog\Model\Product */
         $model = Mage::getModel(
-            'Magento_Catalog_Model_Product',
-            array('data' => array('type_id' => Magento_Catalog_Model_Product_Type::TYPE_VIRTUAL))
+            '\Magento\Catalog\Model\Product',
+            array('data' => array('type_id' => \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL))
         );
         $this->assertTrue($model->isVirtual());
         $this->assertTrue($model->getIsVirtual());
@@ -289,10 +289,10 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_model->isComposite());
 
-        /** @var $model Magento_Catalog_Model_Product */
+        /** @var $model \Magento\Catalog\Model\Product */
         $model = Mage::getModel(
-            'Magento_Catalog_Model_Product',
-            array('data' => array('type_id' => Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE))
+            '\Magento\Catalog\Model\Product',
+            array('data' => array('type_id' => \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE))
         );
         $this->assertTrue($model->isComposite());
     }
@@ -325,7 +325,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getOrigData());
 
         $storeId = Mage::app()->getStore()->getId();
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         try {
             $this->_model->setOrigData('key', 'value');
             $this->assertEquals('value', $this->_model->getOrigData('key'));
@@ -354,7 +354,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->reset();
         $this->_assertEmpty($model);
 
-        $this->_model->addOption(Mage::getModel('Magento_Catalog_Model_Product_Option'));
+        $this->_model->addOption(Mage::getModel('\Magento\Catalog\Model\Product\Option'));
         $this->_model->reset();
         $this->_assertEmpty($model);
 
@@ -366,7 +366,7 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
     /**
      * Check is model empty or not
      *
-     * @param Magento_Core_Model_Abstract $model
+     * @param \Magento\Core\Model\AbstractModel $model
      */
     protected function _assertEmpty($model)
     {
@@ -400,8 +400,8 @@ class Magento_Catalog_Model_ProductTest extends PHPUnit_Framework_TestCase
         $this->_model->setTypeId('simple')->setAttributeSetId(4)->setName('Simple Product')
             ->setSku(uniqid('', true) . uniqid('', true) . uniqid('', true))->setPrice(10)->setMetaTitle('meta title')
             ->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
-            ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-            ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+            ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
             ->setCollectExceptionMessages(true)
         ;
         $validationResult = $this->_model->validate();

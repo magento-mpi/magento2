@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_App_State
+namespace Magento\Core\Model\App;
+
+class State
 {
     /**
      * Application mode
@@ -27,7 +29,7 @@ class Magento_Core_Model_App_State
 
     /**
      * @param string $mode
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function __construct($mode = self::MODE_DEFAULT)
     {
@@ -38,7 +40,7 @@ class Magento_Core_Model_App_State
                 $this->_appMode = $mode;
                 break;
             default:
-                throw new Magento_Core_Exception("Unknown application mode: {$mode}");
+                throw new \Magento\Core\Exception("Unknown application mode: {$mode}");
         }
     }
 
@@ -49,7 +51,7 @@ class Magento_Core_Model_App_State
      */
     public function isInstalled()
     {
-        return Mage::isInstalled();
+        return \Mage::isInstalled();
     }
 
     /**
@@ -69,7 +71,7 @@ class Magento_Core_Model_App_State
      */
     public function setUpdateMode($value)
     {
-        Mage::setUpdateMode($value);
+        \Mage::setUpdateMode($value);
     }
 
     /**
@@ -79,7 +81,7 @@ class Magento_Core_Model_App_State
      */
     public function getUpdateMode()
     {
-        return Mage::getUpdateMode();
+        return \Mage::getUpdateMode();
     }
 
     /**
@@ -89,7 +91,7 @@ class Magento_Core_Model_App_State
      */
     public function setIsDownloader($flag = true)
     {
-        Mage::setIsDownloader($flag);
+        \Mage::setIsDownloader($flag);
     }
 
     /**
@@ -99,7 +101,7 @@ class Magento_Core_Model_App_State
      */
     public function setIsSerializable($value = true)
     {
-        Mage::setIsSerializable($value);
+        \Mage::setIsSerializable($value);
     }
 
     /**
@@ -109,6 +111,6 @@ class Magento_Core_Model_App_State
      */
     public function getIsSerializable()
     {
-        return Mage::getIsSerializable();
+        return \Mage::getIsSerializable();
     }
 }

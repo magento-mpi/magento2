@@ -11,10 +11,12 @@
 /**
  * List of page asset instances associated with unique identifiers
  */
-class Magento_Core_Model_Page_Asset_Collection
+namespace Magento\Core\Model\Page\Asset;
+
+class Collection
 {
     /**
-     * @var Magento_Core_Model_Page_Asset_AssetInterface[]
+     * @var \Magento\Core\Model\Page\Asset\AssetInterface[]
      */
     private $_assets = array();
 
@@ -22,9 +24,9 @@ class Magento_Core_Model_Page_Asset_Collection
      * Add an instance, identified by a unique identifier, to the list
      *
      * @param string $identifier
-     * @param Magento_Core_Model_Page_Asset_AssetInterface $asset
+     * @param \Magento\Core\Model\Page\Asset\AssetInterface $asset
      */
-    public function add($identifier, Magento_Core_Model_Page_Asset_AssetInterface $asset)
+    public function add($identifier, \Magento\Core\Model\Page\Asset\AssetInterface $asset)
     {
         $this->_assets[$identifier] = $asset;
     }
@@ -53,7 +55,7 @@ class Magento_Core_Model_Page_Asset_Collection
     /**
      * Retrieve all items in the collection
      *
-     * @return Magento_Core_Model_Page_Asset_AssetInterface[]
+     * @return \Magento\Core\Model\Page\Asset\AssetInterface[]
      */
     public function getAll()
     {

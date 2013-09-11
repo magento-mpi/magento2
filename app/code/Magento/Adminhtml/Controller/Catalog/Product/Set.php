@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Catalog\Product;
+
+class Set extends \Magento\Adminhtml\Controller\Action
 {
     public function indexAction()
     {
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         $this->_title(__('Product Templates'));
 
         $this->_setTypeId();
-        $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
             ->load($this->getRequest()->getParam('id'));
 
         if (!$attributeSet->getId()) {
@@ -50,7 +52,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
 
         $this->_title($attributeSet->getId() ? $attributeSet->getAttributeSetName() : __('New Set'));
 
-        Mage::register('current_attribute_set', $attributeSet);
+        \Mage::register('current_attribute_set', $attributeSet);
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
@@ -61,7 +63,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
             __('Manage Product Sets'),
             __('Manage Product Sets'));
 
-        $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main'));
+        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main'));
 
         $this->renderLayout();
     }
@@ -88,12 +90,12 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         $attributeSetId = $this->getRequest()->getParam('id', false);
         $isNewSet       = $this->getRequest()->getParam('gotoEdit', false) == '1';
 
-        /* @var $model Magento_Eav_Model_Entity_Attribute_Set */
-        $model  = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+        /* @var $model \Magento\Eav\Model\Entity\Attribute\Set */
+        $model  = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
             ->setEntityTypeId($entityTypeId);
 
-        /** @var $helper Magento_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Data');
+        /** @var $helper \Magento\Adminhtml\Helper\Data */
+        $helper = \Mage::helper('Magento\Adminhtml\Helper\Data');
 
         try {
             if ($isNewSet) {
@@ -105,9 +107,9 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
                     $model->load($attributeSetId);
                 }
                 if (!$model->getId()) {
-                    Mage::throwException(__('This attribute set no longer exists.'));
+                    \Mage::throwException(__('This attribute set no longer exists.'));
                 }
-                $data = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('data'));
+                $data = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($this->getRequest()->getPost('data'));
 
                 //filter html tags
                 $data['attribute_set_name'] = $helper->stripTags($data['attribute_set_name']);
@@ -122,10 +124,10 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
             }
             $model->save();
             $this->_getSession()->addSuccess(__('You saved the attribute set.'));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addException($e,
                 __('An error occurred while saving the attribute set.'));
             $hasError = true;
@@ -133,10 +135,10 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
 
         if ($isNewSet) {
             if ($this->getRequest()->getPost('return_session_messages_only')) {
-                /** @var $block Magento_Core_Block_Messages */
-                $block = $this->_objectManager->get('Magento_Core_Block_Messages');
+                /** @var $block \Magento\Core\Block\Messages */
+                $block = $this->_objectManager->get('Magento\Core\Block\Messages');
                 $block->setMessages($this->_getSession()->getMessages(true));
-                $body = $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array(
+                $body = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                     'messages' => $block->getGroupedHtml(),
                     'error'    => $hasError,
                     'id'       => $model->getId(),
@@ -152,14 +154,14 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
         } else {
             $response = array();
             if ($hasError) {
-                $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+                $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
                 $response['error']   = 1;
                 $response['message'] = $this->getLayout()->getMessagesBlock()->getGroupedHtml();
             } else {
                 $response['error']   = 0;
                 $response['url']     = $this->getUrl('*/*/');
             }
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response));
+            $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response));
         }
     }
 
@@ -174,7 +176,7 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
 
 
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Add')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar\Add')
         );
 
         $this->renderLayout();
@@ -184,13 +186,13 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
     {
         $setId = $this->getRequest()->getParam('id');
         try {
-            Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+            \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
                 ->setId($setId)
                 ->delete();
 
             $this->_getSession()->addSuccess(__('The attribute set has been removed.'));
             $this->getResponse()->setRedirect($this->getUrl('*/*/'));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('An error occurred while deleting this set.'));
             $this->_redirectReferer();
         }
@@ -202,8 +204,8 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
      */
     protected function _setTypeId()
     {
-        Mage::register('entityType',
-            Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId());
+        \Mage::register('entityType',
+            \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId());
     }
 
     protected function _isAllowed()
@@ -218,9 +220,9 @@ class Magento_Adminhtml_Controller_Catalog_Product_Set extends Magento_Adminhtml
      */
     protected function _getEntityTypeId()
     {
-        if (is_null(Mage::registry('entityType'))) {
+        if (is_null(\Mage::registry('entityType'))) {
             $this->_setTypeId();
         }
-        return Mage::registry('entityType');
+        return \Mage::registry('entityType');
     }
 }

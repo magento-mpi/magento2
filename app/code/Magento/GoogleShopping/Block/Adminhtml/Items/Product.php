@@ -15,7 +15,9 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\GoogleShopping\Block\Adminhtml\Items;
+
+class Product extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected function _construct()
     {
@@ -28,7 +30,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
     /**
      * Before rendering html, but after trying to load cache
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Product
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
      */
     protected function _beforeToHtml()
     {
@@ -41,11 +43,11 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
     /**
      * Prepare grid collection object
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Product
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
             ->setStore($this->_getStore())
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
@@ -69,7 +71,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
     /**
      * Prepare grid columns
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Product
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
      */
     protected function _prepareColumns()
     {
@@ -85,8 +87,8 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
             'column_css_class'=> 'name'
         ));
 
-        $sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
+        $sets = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+            ->setEntityTypeFilter(\Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -96,7 +98,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
                 'width' => '60px',
                 'index' => 'type_id',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
+                'options' => \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getOptionArray(),
         ));
 
         $this->addColumn('set_name',
@@ -129,7 +131,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
     /**
      * Prepare grid massaction actions
      *
-     * @return Magento_GoogleShopping_Block_Adminhtml_Items_Product
+     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
      */
     protected function _prepareMassaction()
     {
@@ -160,7 +162,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
      */
     protected function _getGoogleShoppingProductIds()
     {
-        $collection = Mage::getResourceModel('Magento_GoogleShopping_Model_Resource_Item_Collection')
+        $collection = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Item\Collection')
             ->addStoreFilter($this->_getStore()->getId())
             ->load();
         $productIds = array();
@@ -173,10 +175,10 @@ class Magento_GoogleShopping_Block_Adminhtml_Items_Product extends Magento_Admin
     /**
      * Get store model by request param
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {
-        return Mage::app()->getStore($this->getRequest()->getParam('store'));
+        return \Mage::app()->getStore($this->getRequest()->getParam('store'));
     }
 }

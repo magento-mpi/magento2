@@ -11,15 +11,17 @@
 /**
  * Lock file storage for index processes
  */
-class Magento_Index_Model_Lock_Storage
+namespace Magento\Index\Model\Lock;
+
+class Storage
 {
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     /**
-     * @var Magento_Index_Model_Process_FileFactory
+     * @var \Magento\Index\Model\Process\FileFactory
      */
     protected $_fileFactory;
 
@@ -31,12 +33,12 @@ class Magento_Index_Model_Lock_Storage
     protected $_fileHandlers = array();
 
     /**
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Index_Model_Process_FileFactory $fileFactory
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Index\Model\Process\FileFactory $fileFactory
      */
     public function __construct(
-        Magento_Core_Model_Dir $dirs,
-        Magento_Index_Model_Process_FileFactory $fileFactory
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Index\Model\Process\FileFactory $fileFactory
     ) {
         $this->_dirs = $dirs;
         $this->_fileFactory   = $fileFactory;
@@ -46,13 +48,13 @@ class Magento_Index_Model_Lock_Storage
      * Get file handler by process ID
      *
      * @param $processId
-     * @return Magento_Index_Model_Process_File
+     * @return \Magento\Index\Model\Process\File
      */
     public function getFile($processId)
     {
         if (!isset($this->_fileHandlers[$processId])) {
             $file = $this->_fileFactory->create();
-            $varDirectory = $this->_dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'locks';
+            $varDirectory = $this->_dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'locks';
             $file->setAllowCreateFolders(true);
 
             $file->open(array('path' => $varDirectory));

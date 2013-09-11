@@ -15,7 +15,9 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Controller_Action
+namespace Magento\Widget\Controller\Adminhtml;
+
+class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Wisywyg widget plugin main page
@@ -24,9 +26,9 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
     {
         // save extra params for widgets insertion form
         $skipped = $this->getRequest()->getParam('skip_widgets');
-        $skipped = Mage::getSingleton('Magento_Widget_Model_Widget_Config')->decodeWidgetsFromQuery($skipped);
+        $skipped = \Mage::getSingleton('Magento\Widget\Model\Widget\Config')->decodeWidgetsFromQuery($skipped);
 
-        Mage::register('skip_widgets', $skipped);
+        \Mage::register('skip_widgets', $skipped);
 
         $this->loadLayout('empty')->renderLayout();
     }
@@ -39,7 +41,7 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
         try {
             $this->loadLayout('empty');
             if ($paramsJson = $this->getRequest()->getParam('widget')) {
-                $request = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($paramsJson);
+                $request = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($paramsJson);
                 if (is_array($request)) {
                     $optionsBlock = $this->getLayout()->getBlock('wysiwyg_widget.options');
                     if (isset($request['widget_type'])) {
@@ -51,9 +53,9 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
                 }
                 $this->renderLayout();
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
 
@@ -65,7 +67,7 @@ class Magento_Widget_Controller_Adminhtml_Widget extends Magento_Adminhtml_Contr
         $type = $this->getRequest()->getPost('widget_type');
         $params = $this->getRequest()->getPost('parameters', array());
         $asIs = $this->getRequest()->getPost('as_is');
-        $html = Mage::getSingleton('Magento_Widget_Model_Widget')->getWidgetDeclaration($type, $params, $asIs);
+        $html = \Mage::getSingleton('Magento\Widget\Model\Widget')->getWidgetDeclaration($type, $params, $asIs);
         $this->getResponse()->setBody($html);
     }
 }

@@ -15,13 +15,15 @@
  * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
+
+class Properties extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Set form id prefix, declare fields for banner properties
      *
-     * @return Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
+     * @return \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Properties
      */
     protected function _prepareForm()
     {
@@ -29,7 +31,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
         $htmlIdPrefix = 'banner_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
-        $model = Mage::registry('current_banner');
+        $model = \Mage::registry('current_banner');
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend'=>__('Banner Properties'))
@@ -54,14 +56,14 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
             'required'  => true,
             'disabled'  => (bool)$model->getIsReadonly(),
             'options'   => array(
-                Magento_Banner_Model_Banner::STATUS_ENABLED  =>
+                \Magento\Banner\Model\Banner::STATUS_ENABLED  =>
                     __('Yes'),
-                Magento_Banner_Model_Banner::STATUS_DISABLED =>
+                \Magento\Banner\Model\Banner::STATUS_DISABLED =>
                     __('No'),
             ),
         ));
         if (!$model->getId()) {
-            $model->setData('is_enabled', Magento_Banner_Model_Banner::STATUS_ENABLED);
+            $model->setData('is_enabled', \Magento\Banner\Model\Banner::STATUS_ENABLED);
         }
 
         // whether to specify banner types - for UI design purposes only
@@ -79,16 +81,16 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Magento_
             'label'     => __('Specify Types'),
             'name'      => 'types',
             'disabled'  => (bool)$model->getIsReadonly(),
-            'values'    => Mage::getSingleton('Magento_Banner_Model_Config')->toOptionArray(false, false),
+            'values'    => \Mage::getSingleton('Magento\Banner\Model\Config')->toOptionArray(false, false),
             'can_be_empty' => true,
         ));
 
-        $afterFormBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence')
+        $afterFormBlock = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence')
             ->addFieldMap("{$htmlIdPrefix}is_types", 'is_types')
             ->addFieldMap("{$htmlIdPrefix}types", 'types')
             ->addFieldDependence('types', 'is_types', '1');
 
-        Mage::dispatchEvent('banner_edit_tab_properties_after_prepare_form', array('model' => $model, 'form' => $form,
+        \Mage::dispatchEvent('banner_edit_tab_properties_after_prepare_form', array('model' => $model, 'form' => $form,
             'block' => $this, 'after_form_block' => $afterFormBlock));
 
         $this->setChild('form_after', $afterFormBlock);

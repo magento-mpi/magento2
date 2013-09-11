@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Acl_Rule
+ * Test class for \Magento\Webapi\Model\Acl\Rule
  *
  * {license_notice}
  *
@@ -20,7 +20,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_Rule|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Webapi\Model\Resource\Acl\Rule|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_ruleResource;
 
@@ -33,7 +33,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
 
-        $this->_ruleResource = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_Rule')
+        $this->_ruleResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Rule')
             ->disableOriginalConstructor()
             ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection'))
             ->getMock();
@@ -52,15 +52,15 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     /**
      * Create Rule model.
      *
-     * @param Magento_Webapi_Model_Resource_Acl_Rule|PHPUnit_Framework_MockObject_MockObject $ruleResource
-     * @param Magento_Webapi_Model_Resource_Acl_User_Collection $resourceCollection
-     * @return Magento_Webapi_Model_Acl_Rule
+     * @param \Magento\Webapi\Model\Resource\Acl\Rule|PHPUnit_Framework_MockObject_MockObject $ruleResource
+     * @param \Magento\Webapi\Model\Resource\Acl\User\Collection $resourceCollection
+     * @return \Magento\Webapi\Model\Acl\Rule
      */
     protected function _createModel($ruleResource, $resourceCollection = null)
     {
-        return $this->_helper->getObject('Magento_Webapi_Model_Acl_Rule', array(
-            'eventDispatcher' => $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
-            'cacheManager' => $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false),
+        return $this->_helper->getObject('\Magento\Webapi\Model\Acl\Rule', array(
+            'eventDispatcher' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            'cacheManager' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false),
             'resource' => $ruleResource,
             'resourceCollection' => $resourceCollection
         ));
@@ -73,7 +73,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel($this->_ruleResource);
 
-        $this->assertAttributeEquals('Magento_Webapi_Model_Resource_Acl_Rule', '_resourceName', $model);
+        $this->assertAttributeEquals('\Magento\Webapi\Model\Resource\Acl\Rule', '_resourceName', $model);
         $this->assertAttributeEquals('id', '_idFieldName', $model);
     }
 
@@ -89,7 +89,7 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
         $model = $this->_createModel($this->_ruleResource);
         $result = $model->saveResources();
-        $this->assertInstanceOf('Magento_Webapi_Model_Acl_Rule', $result);
+        $this->assertInstanceOf('\Magento\Webapi\Model\Acl\Rule', $result);
     }
 
     /**
@@ -101,11 +101,11 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
-            'Magento_Webapi_Model_Resource_Acl_Rule_Collection',
+            '\Magento\Webapi\Model\Resource\Acl\Rule\Collection',
             array('_initSelect', 'setModel', 'getSelect'),
             array($fetchStrategy, $this->_ruleResource)
         );
-        $collection->expects($this->any())->method('setModel')->with('Magento_Webapi_Model_Resource_Acl_Role');
+        $collection->expects($this->any())->method('setModel')->with('Magento\Webapi\Model\Resource\Acl\Role');
         $collection->expects($this->any())
             ->method('getSelect')
             ->withAnyParameters()
@@ -116,10 +116,10 @@ class Magento_Webapi_Model_Acl_RuleTest extends PHPUnit_Framework_TestCase
         // Test _construct
         $result = $model->getCollection();
 
-        $this->assertAttributeEquals('Magento_Webapi_Model_Resource_Acl_Rule', '_resourceModel', $result);
+        $this->assertAttributeEquals('\Magento\Webapi\Model\Resource\Acl\Rule', '_resourceModel', $result);
 
         // Test getByRole
         $resultColl = $result->getByRole(1);
-        $this->assertInstanceOf('Magento_Webapi_Model_Resource_Acl_Rule_Collection', $resultColl);
+        $this->assertInstanceOf('\Magento\Webapi\Model\Resource\Acl\Rule\Collection', $resultColl);
     }
 }

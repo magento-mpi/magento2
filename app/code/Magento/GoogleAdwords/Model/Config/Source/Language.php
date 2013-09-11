@@ -8,34 +8,36 @@
  * @license {license_link}
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Magento_GoogleAdwords_Model_Config_Source_Language implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\GoogleAdwords\Model\Config\Source;
+
+class Language implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Zend_Locale
+     * @var \Zend_Locale
      */
     protected $_locale;
 
     /**
-     * @var Magento_GoogleAdwords_Helper_Data
+     * @var \Magento\GoogleAdwords\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_GoogleAdwords_Model_Filter_UppercaseTitle
+     * @var \Magento\GoogleAdwords\Model\Filter\UppercaseTitle
      */
     protected $_uppercaseFilter;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @param Magento_GoogleAdwords_Helper_Data $helper
-     * @param Magento_GoogleAdwords_Model_Filter_UppercaseTitle $uppercaseFilter
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\GoogleAdwords\Helper\Data $helper
+     * @param \Magento\GoogleAdwords\Model\Filter\UppercaseTitle $uppercaseFilter
      */
     public function __construct(
-        Magento_Core_Model_LocaleInterface $locale,
-        Magento_GoogleAdwords_Helper_Data $helper,
-        Magento_GoogleAdwords_Model_Filter_UppercaseTitle $uppercaseFilter
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\GoogleAdwords\Helper\Data $helper,
+        \Magento\GoogleAdwords\Model\Filter\UppercaseTitle $uppercaseFilter
     ) {
         $this->_helper = $helper;
         $this->_locale = $locale->getLocale();

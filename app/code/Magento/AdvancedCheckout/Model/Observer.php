@@ -14,23 +14,25 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Model_Observer
+namespace Magento\AdvancedCheckout\Model;
+
+class Observer
 {
     /**
      * Get cart model instance
      *
-     * @return Magento_AdvancedCheckout_Model_Cart
+     * @return \Magento\AdvancedCheckout\Model\Cart
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart');
+        return \Mage::getSingleton('Magento\AdvancedCheckout\Model\Cart');
     }
 
     /**
      * Returns cart model for backend
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_AdvancedCheckout_Model_Cart
+     * @return \Magento\AdvancedCheckout\Model\Cart
      */
     protected function _getBackendCart(\Magento\Event\Observer $observer)
     {
@@ -40,7 +42,7 @@ class Magento_AdvancedCheckout_Model_Observer
         }
         return $this->_getCart()
             ->setSession($observer->getSession())
-            ->setContext(Magento_AdvancedCheckout_Model_Cart::CONTEXT_ADMIN_ORDER)
+            ->setContext(\Magento\AdvancedCheckout\Model\Cart::CONTEXT_ADMIN_ORDER)
             ->setCurrentStore((int)$storeId);
     }
 
@@ -52,7 +54,7 @@ class Magento_AdvancedCheckout_Model_Observer
      */
     public function addBySku(\Magento\Event\Observer $observer)
     {
-        /* @var $request Magento_Core_Controller_Request_Http */
+        /* @var $request \Magento\Core\Controller\Request\Http */
         $request = $observer->getRequestModel();
         $cart = $this->_getBackendCart($observer);
 
@@ -76,7 +78,7 @@ class Magento_AdvancedCheckout_Model_Observer
             return;
         }
 
-        $addBySkuItems = $request->getPost(Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract::LIST_TYPE, array());
+        $addBySkuItems = $request->getPost(\Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE, array());
         $items = $request->getPost('item', array());
         if (!$addBySkuItems) {
             return;
@@ -85,7 +87,7 @@ class Magento_AdvancedCheckout_Model_Observer
             $sku = isset($params['sku']) ? $params['sku'] : $id;
             $cart->prepareAddProductBySku($sku, $params['qty'], isset($items[$id]) ? $items[$id] : array());
         }
-        /* @var $orderCreateModel Magento_Adminhtml_Model_Sales_Order_Create */
+        /* @var $orderCreateModel \Magento\Adminhtml\Model\Sales\Order\Create */
         $orderCreateModel = $observer->getOrderCreateModel();
         $cart->saveAffectedProducts($orderCreateModel, false);
         // We have already saved succeeded add by SKU items in saveAffectedItems(). This prevents from duplicate saving.
@@ -100,8 +102,8 @@ class Magento_AdvancedCheckout_Model_Observer
      */
     public function uploadSkuCsv(\Magento\Event\Observer $observer)
     {
-        /** @var $helper Magento_AdvancedCheckout_Helper_Data */
-        $helper = Mage::helper('Magento_AdvancedCheckout_Helper_Data');
+        /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
+        $helper = \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
         $rows = $helper->isSkuFileUploaded($observer->getRequestModel())
             ? $helper->processSkuFileUploading($observer->getSession())
             : array();
@@ -109,7 +111,7 @@ class Magento_AdvancedCheckout_Model_Observer
             return;
         }
 
-        /* @var $orderCreateModel Magento_Adminhtml_Model_Sales_Order_Create */
+        /* @var $orderCreateModel \Magento\Adminhtml\Model\Sales\Order\Create */
         $orderCreateModel = $observer->getOrderCreateModel();
         $cart = $this->_getBackendCart($observer);
         $cart->prepareAddProductsBySku($rows);
@@ -119,13 +121,13 @@ class Magento_AdvancedCheckout_Model_Observer
     /**
      * Copy real address to the quote
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @param Magento_Sales_Model_Quote_Address $realAddress
-     * @return Magento_Sales_Model_Quote_Address
+     * @param \Magento\Sales\Model\Quote $quote
+     * @param \Magento\Sales\Model\Quote\Address $realAddress
+     * @return \Magento\Sales\Model\Quote\Address
      */
     protected function _copyAddress($quote, $realAddress)
     {
-        $address = Mage::getModel('Magento_Sales_Model_Quote_Address');
+        $address = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
         $address->setData($realAddress->getData());
         $address
             ->setId(null)
@@ -149,19 +151,19 @@ class Magento_AdvancedCheckout_Model_Observer
             return;
         }
 
-        /** @var $realQuote Magento_Sales_Model_Quote */
-        $realQuote = Mage::getSingleton('Magento_Sales_Model_Quote');
+        /** @var $realQuote \Magento\Sales\Model\Quote */
+        $realQuote = \Mage::getSingleton('Magento\Sales\Model\Quote');
         $affectedItems = $this->_getCart()->getFailedItems();
         if (empty($affectedItems)) {
             return;
         }
 
-        /** @var $quote Magento_Sales_Model_Quote */
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
+        /** @var $quote \Magento\Sales\Model\Quote */
+        $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
         $collection = new \Magento\Data\Collection();
 
-        foreach (Mage::helper('Magento_AdvancedCheckout_Helper_Data')->getFailedItems(false) as $item) {
-            /** @var $item Magento_Sales_Model_Quote_Item */
+        foreach (\Mage::helper('Magento\AdvancedCheckout\Helper\Data')->getFailedItems(false) as $item) {
+            /** @var $item \Magento\Sales\Model\Quote\Item */
             if ((float)$item->getQty() <= 0) {
                 $item->setSkuRequestedQty($item->getQty());
                 $item->setData('qty', 1);
@@ -177,7 +179,7 @@ class Magento_AdvancedCheckout_Model_Observer
         $quote->setTotalsCollectedFlag(false)->collectTotals();
 
         foreach ($quote->getAllItems() as $item) {
-            /** @var $item Magento_Sales_Model_Quote_Item */
+            /** @var $item \Magento\Sales\Model\Quote\Item */
             if ($item->hasSkuRequestedQty()) {
                 $item->setData('qty', $item->getSkuRequestedQty());
             }
@@ -193,11 +195,11 @@ class Magento_AdvancedCheckout_Model_Observer
     public function addCartLink($observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!$block instanceof Magento_Checkout_Block_Cart_Sidebar) {
+        if (!$block instanceof \Magento\Checkout\Block\Cart\Sidebar) {
             return;
         }
 
-        $failedItemsCount = count(Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart')->getFailedItems());
+        $failedItemsCount = count(\Mage::getSingleton('Magento\AdvancedCheckout\Model\Cart')->getFailedItems());
         if ($failedItemsCount > 0) {
             $block->setAllowCartLink(true);
             $block->setCartEmptyMessage(__('%1 item(s) need your attention.', $failedItemsCount));

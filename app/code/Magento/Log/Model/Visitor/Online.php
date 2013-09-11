@@ -12,26 +12,28 @@
 /**
  * Prepare Log Online Visitors Model
  *
- * @method Magento_Log_Model_Resource_Visitor_Online _getResource()
- * @method Magento_Log_Model_Resource_Visitor_Online getResource()
+ * @method \Magento\Log\Model\Resource\Visitor\Online _getResource()
+ * @method \Magento\Log\Model\Resource\Visitor\Online getResource()
  * @method string getVisitorType()
- * @method Magento_Log_Model_Visitor_Online setVisitorType(string $value)
+ * @method \Magento\Log\Model\Visitor\Online setVisitorType(string $value)
  * @method int getRemoteAddr()
- * @method Magento_Log_Model_Visitor_Online setRemoteAddr(int $value)
+ * @method \Magento\Log\Model\Visitor\Online setRemoteAddr(int $value)
  * @method string getFirstVisitAt()
- * @method Magento_Log_Model_Visitor_Online setFirstVisitAt(string $value)
+ * @method \Magento\Log\Model\Visitor\Online setFirstVisitAt(string $value)
  * @method string getLastVisitAt()
- * @method Magento_Log_Model_Visitor_Online setLastVisitAt(string $value)
+ * @method \Magento\Log\Model\Visitor\Online setLastVisitAt(string $value)
  * @method int getCustomerId()
- * @method Magento_Log_Model_Visitor_Online setCustomerId(int $value)
+ * @method \Magento\Log\Model\Visitor\Online setCustomerId(int $value)
  * @method string getLastUrl()
- * @method Magento_Log_Model_Visitor_Online setLastUrl(string $value)
+ * @method \Magento\Log\Model\Visitor\Online setLastUrl(string $value)
  *
  * @category    Magento
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
+namespace Magento\Log\Model\Visitor;
+
+class Online extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_ONLINE_INTERVAL      = 'customer/online_customers/online_minutes_interval';
     const XML_PATH_UPDATE_FREQUENCY     = 'log/visitor/online_update_frequency';
@@ -42,13 +44,13 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Log_Model_Resource_Visitor_Online');
+        $this->_init('\Magento\Log\Model\Resource\Visitor\Online');
     }
 
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Magento_Log_Model_Resource_Visitor_Online
+     * @return \Magento\Log\Model\Resource\Visitor\Online
      */
     protected function _getResource()
     {
@@ -58,7 +60,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
     /**
      * Prepare Online visitors collection
      *
-     * @return Magento_Log_Model_Visitor_Online
+     * @return \Magento\Log\Model\Visitor\Online
      */
     public function prepare()
     {
@@ -73,21 +75,21 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      */
     public function getPrepareAt()
     {
-        return Mage::app()->loadCache('log_visitor_online_prepare_at');
+        return \Mage::app()->loadCache('log_visitor_online_prepare_at');
     }
 
     /**
      * Set Prepare at timestamp (if time is null, set current timestamp)
      *
      * @param int $time
-     * @return Magento_Log_Model_Resource_Visitor_Online
+     * @return \Magento\Log\Model\Resource\Visitor\Online
      */
     public function setPrepareAt($time = null)
     {
         if (is_null($time)) {
             $time = time();
         }
-        Mage::app()->saveCache($time, 'log_visitor_online_prepare_at');
+        \Mage::app()->saveCache($time, 'log_visitor_online_prepare_at');
         return $this;
     }
 
@@ -98,7 +100,7 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      */
     public function getUpdateFrequency()
     {
-        return Mage::getStoreConfig(self::XML_PATH_UPDATE_FREQUENCY);
+        return \Mage::getStoreConfig(self::XML_PATH_UPDATE_FREQUENCY);
     }
 
     /**
@@ -108,9 +110,9 @@ class Magento_Log_Model_Visitor_Online extends Magento_Core_Model_Abstract
      */
     public function getOnlineInterval()
     {
-        $value = intval(Mage::getStoreConfig(self::XML_PATH_ONLINE_INTERVAL));
+        $value = intval(\Mage::getStoreConfig(self::XML_PATH_ONLINE_INTERVAL));
         if (!$value) {
-            $value = Magento_Log_Model_Visitor::DEFAULT_ONLINE_MINUTES_INTERVAL;
+            $value = \Magento\Log\Model\Visitor::DEFAULT_ONLINE_MINUTES_INTERVAL;
         }
         return $value;
     }

@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <preference for="Magento_Reward_Model_Observer_PlaceOrder_RestrictionInterface" type="Magento_Reward_Model_Observer_PlaceOrder_Restriction_Backend" />
+    <preference for="Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface" type="Magento\Reward\Model\Observer\PlaceOrder\Restriction\Backend" />
 </config>

@@ -15,9 +15,11 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Creditmemo_Total_Shipping extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\Sales\Model\Order\Creditmemo\Total;
+
+class Shipping extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $order = $creditmemo->getOrder();
         $allowedAmount          = $order->getShippingAmount()-$order->getShippingRefunded();
@@ -28,26 +30,26 @@ class Magento_Sales_Model_Order_Creditmemo_Total_Shipping extends Magento_Sales_
         $shippingInclTax        = $order->getShippingInclTax();
         $baseShippingInclTax    = $order->getBaseShippingInclTax();
 
-        $isShippingInclTax = Mage::getSingleton('Magento_Tax_Model_Config')->displaySalesShippingInclTax($order->getStoreId());
+        $isShippingInclTax = \Mage::getSingleton('Magento\Tax\Model\Config')->displaySalesShippingInclTax($order->getStoreId());
 
         /**
          * Check if shipping amount was specified (from invoice or another source).
          * Using has magic method to allow setting 0 as shipping amount.
          */
         if ($creditmemo->hasBaseShippingAmount()) {
-            $baseShippingAmount = Mage::app()->getStore()->roundPrice($creditmemo->getBaseShippingAmount());
+            $baseShippingAmount = \Mage::app()->getStore()->roundPrice($creditmemo->getBaseShippingAmount());
             if ($isShippingInclTax && $baseShippingInclTax != 0) {
                 $part = $baseShippingAmount/$baseShippingInclTax;
-                $shippingInclTax    = Mage::app()->getStore()->roundPrice($shippingInclTax*$part);
+                $shippingInclTax    = \Mage::app()->getStore()->roundPrice($shippingInclTax*$part);
                 $baseShippingInclTax= $baseShippingAmount;
-                $baseShippingAmount = Mage::app()->getStore()->roundPrice($baseShipping*$part);
+                $baseShippingAmount = \Mage::app()->getStore()->roundPrice($baseShipping*$part);
             }
             /*
              * Rounded allowed shipping refund amount is the highest acceptable shipping refund amount.
              * Shipping refund amount shouldn't cause errors, if it doesn't exceed that limit.
              * Note: ($x < $y + 0.0001) means ($x <= $y) for floats
              */
-            if ($baseShippingAmount < Mage::app()->getStore()->roundPrice($baseAllowedAmount) + 0.0001) {
+            if ($baseShippingAmount < \Mage::app()->getStore()->roundPrice($baseAllowedAmount) + 0.0001) {
                 /*
                  * Shipping refund amount should be equated to allowed refund amount,
                  * if it exceeds that limit.
@@ -60,12 +62,12 @@ class Magento_Sales_Model_Order_Creditmemo_Total_Shipping extends Magento_Sales_
                     if ($baseShipping != 0) {
                         $shipping = $shipping * $baseShippingAmount / $baseShipping;
                     }
-                    $shipping     = Mage::app()->getStore()->roundPrice($shipping);
+                    $shipping     = \Mage::app()->getStore()->roundPrice($shipping);
                     $baseShipping = $baseShippingAmount;
                 }
             } else {
                 $baseAllowedAmount = $order->getBaseCurrency()->format($baseAllowedAmount,null,false);
-                Mage::throwException(
+                \Mage::throwException(
                     __('Maximum shipping amount allowed to refund is: %1', $baseAllowedAmount)
                 );
             }
@@ -74,8 +76,8 @@ class Magento_Sales_Model_Order_Creditmemo_Total_Shipping extends Magento_Sales_
                 $allowedTaxAmount = $order->getShippingTaxAmount() - $order->getShippingTaxRefunded();
                 $baseAllowedTaxAmount = $order->getBaseShippingTaxAmount() - $order->getBaseShippingTaxRefunded();
 
-                $shippingInclTax = Mage::app()->getStore()->roundPrice($allowedAmount + $allowedTaxAmount);
-                $baseShippingInclTax = Mage::app()->getStore()->roundPrice($baseAllowedAmount + $baseAllowedTaxAmount);
+                $shippingInclTax = \Mage::app()->getStore()->roundPrice($allowedAmount + $allowedTaxAmount);
+                $baseShippingInclTax = \Mage::app()->getStore()->roundPrice($baseAllowedAmount + $baseAllowedTaxAmount);
             }
             $shipping           = $allowedAmount;
             $baseShipping       = $baseAllowedAmount;

@@ -15,8 +15,10 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress
-    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
+
+class Returnaddress
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
 
     /**
@@ -24,10 +26,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress
      */
     public function _construct()
     {
-        if (Mage::registry('current_order') && Mage::registry('current_order')->getId()) {
-            $this->setStoreId(Mage::registry('current_order')->getStoreId());
-        } elseif (Mage::registry('current_rma') && Mage::registry('current_rma')->getId()) {
-            $this->setStoreId(Mage::registry('current_rma')->getStoreId());
+        if (\Mage::registry('current_order') && \Mage::registry('current_order')->getId()) {
+            $this->setStoreId(\Mage::registry('current_order')->getStoreId());
+        } elseif (\Mage::registry('current_rma') && \Mage::registry('current_rma')->getId()) {
+            $this->setStoreId(\Mage::registry('current_rma')->getStoreId());
         }
     }
 
@@ -38,7 +40,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Returnaddress
      */
     public function getReturnAddress()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->getReturnAddress('html', array(), $this->getStoreId());
+        return \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddress('html', array(), $this->getStoreId());
     }
 
 }

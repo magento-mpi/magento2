@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_Block_Form_Register
+namespace Magento\Invitation\Block\Customer\Form;
+
+class Register extends \Magento\Customer\Block\Form\Register
 {
     /**
      * Retrieve form data
@@ -26,7 +28,7 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $customerFormData = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerFormData(true);
+            $customerFormData = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerFormData(true);
             $data = new \Magento\Object($customerFormData);
             if (empty($customerFormData)) {
                 $invitation = $this->getCustomerInvitation();
@@ -55,10 +57,10 @@ class Magento_Invitation_Block_Customer_Form_Register extends Magento_Customer_B
     /**
      * Retrieve customer invitation
      *
-     * @return Magento_Invitation_Model_Invitation
+     * @return \Magento\Invitation\Model\Invitation
      */
     public function getCustomerInvitation()
     {
-        return Mage::registry('current_invitation');
+        return \Mage::registry('current_invitation');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Subscription_Grid_Collection
+ * \Magento\Webhook\Model\Resource\Subscription\Grid\Collection
  *
  * We need DB isolation to avoid confusing interactions with the other Webhook tests.
  *
@@ -29,23 +29,23 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
     /** @var int */
     private static $_apiUserId;
 
-    /** @var Magento_Webhook_Model_Subscription[]  */
+    /** @var \Magento\Webhook\Model\Subscription[]  */
     private $_subscriptions;
 
-    /** @var Magento_Webhook_Model_Subscription_Config */
+    /** @var \Magento\Webhook\Model\Subscription\Config */
     private $_config;
 
     public static function setUpBeforeClass()
     {
-        /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webapi_Model_Acl_User');
+        /** @var \Magento\Webapi\Model\Acl\User $user */
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Webapi\Model\Acl\User');
         $user->loadByKey(self::API_KEY);
         if ($user->getId()) {
             self::$_apiUserId = $user->getId();
         } else {
-            /** @var Magento_Webhook_Model_Webapi_User_Factory $webapiUserFactory */
+            /** @var \Magento\Webhook\Model\Webapi\User\Factory $webapiUserFactory */
             $webapiUserFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Webhook_Model_Webapi_User_Factory');
+                ->create('Magento\Webhook\Model\Webapi\User\Factory');
             self::$_apiUserId = $webapiUserFactory->createUser(
                 array(
                     'email'      => 'email@localhost.com',
@@ -74,7 +74,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
     public function testGetSubscriptions()
     {
         $gridCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Resource_Subscription_Grid_Collection',
+            ->create('Magento\Webhook\Model\Resource\Subscription\Grid\Collection',
                 array('subscriptionConfig' => $this->_config));
 
         $subscriptions   = $gridCollection->getItems();
@@ -84,27 +84,27 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
     /**
      * Create subscription configure
      *
-     * @return Magento_Webhook_Model_Subscription_Config
+     * @return \Magento\Webhook\Model\Subscription\Config
      */
     protected function _createSubscriptionConfig()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         $dirs = $objectManager->create(
-            'Magento_Core_Model_Dir',
+            '\Magento\Core\Model\Dir',
             array(
                 'baseDir' => BP,
                 'dirs' => array(
-                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/_files',
-                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/_files',
+                    \Magento\Core\Model\Dir::MODULES => __DIR__ . '/_files',
+                    \Magento\Core\Model\Dir::CONFIG => __DIR__ . '/_files',
                 ),
             )
         );
 
-        $moduleList = $objectManager->create('Magento_Core_Model_ModuleList', array(
-            'reader' => $objectManager->create('Magento_Core_Model_Module_Declaration_Reader_Filesystem',
+        $moduleList = $objectManager->create('Magento\Core\Model\ModuleList', array(
+            'reader' => $objectManager->create('Magento\Core\Model\Module\Declaration\Reader\Filesystem',
                 array(
                     'fileResolver' => $objectManager->create(
-                        'Magento_Core_Model_Module_Declaration_FileResolver',
+                        '\Magento\Core\Model\Module\Declaration\FileResolver',
                         array(
                             'applicationDirs' => $dirs
                         )
@@ -114,19 +114,19 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
             'cache' => $this->getMock('Magento\Config\CacheInterface')
         ));
 
-        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
-        $moduleReader = $objectManager->create('Magento_Core_Model_Config_Modules_Reader', array(
+        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
+        $moduleReader = $objectManager->create('Magento\Core\Model\Config\Modules\Reader', array(
             'dirs' => $dirs,
             'moduleList' => $moduleList
         ));
 
-        /** @var Magento_Core_Model_Config_Loader $modulesLoader */
+        /** @var \Magento\Core\Model\Config\Loader $modulesLoader */
         $modulesLoader = $objectManager->create(
-            'Magento_Core_Model_Config_Loader', array(
+            '\Magento\Core\Model\Config\Loader', array(
                 'fileReader' => $moduleReader
         ));
 
-        $config = new Magento_Core_Model_Config_Base('<config />');
+        $config = new \Magento\Core\Model\Config\Base('<config />');
         $modulesLoader->load($config);
 
         /**
@@ -135,7 +135,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
          *
          * @var PHPUnit_Framework_MockObject_MockObject $cache
          */
-        $cache = $this->getMock('Magento_Core_Model_Config_Cache',
+        $cache = $this->getMock('Magento\Core\Model\Config\Cache',
             array('load', 'save', 'clean', 'getSection'),
             array(), '', false);
 
@@ -143,23 +143,23 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
             ->method('load')
             ->will($this->returnValue(false));
 
-        /** @var Magento_Core_Model_Config_Storage $storage */
+        /** @var \Magento\Core\Model\Config\Storage $storage */
         $storage = $objectManager->create(
-            'Magento_Core_Model_Config_Storage', array(
+            '\Magento\Core\Model\Config\Storage', array(
                 'loader' => $modulesLoader,
                 'cache' => $cache
             )
         );
 
-        /** @var Magento_Core_Model_Config $mageConfig */
-        $mageConfig = $objectManager->create('Magento_Core_Model_Config', array(
+        /** @var \Magento\Core\Model\Config $mageConfig */
+        $mageConfig = $objectManager->create('Magento\Core\Model\Config', array(
             'storage' => $storage,
             'moduleReader' => $moduleReader,
             'moduleList' => $moduleList
         ));
 
-        /** @var Magento_Webhook_Model_Subscription_Config $config */
-        return $objectManager->create('Magento_Webhook_Model_Subscription_Config', array(
+        /** @var \Magento\Webhook\Model\Subscription\Config $config */
+        return $objectManager->create('Magento\Webhook\Model\Subscription\Config', array(
             'mageConfig' => $mageConfig
         ));
     }
@@ -173,42 +173,42 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
         Mage::getConfig()->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
         Mage::getConfig()->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $objectManager->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('inactive')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/endpoint')
             ->setFormat('json')
             ->setName('Inactive Subscription')
             ->setTopics(array(self::TOPIC_LISTENERS_THREE))
-            ->setStatus(Magento_Webhook_Model_Subscription::STATUS_INACTIVE)
+            ->setStatus(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE)
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
-        $subscription = $objectManager->create('Magento_Webhook_Model_Subscription');
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
+        $subscription = $objectManager->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('first')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/endpoint')
             ->setFormat('json')
             ->setName('First Subscription')
             ->setTopics(array(self::TOPIC_LISTENERS_THREE))
-            ->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
+            ->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $subscription = $objectManager->create('Magento_Webhook_Model_Subscription');
+        $subscription = $objectManager->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('second')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/unique_endpoint')
             ->setFormat('json')
             ->setName('Second Subscription')
             ->setTopics(array(self::TOPIC_LISTENERS_TWO, self::TOPIC_LISTENERS_THREE))
-            ->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
+            ->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        $subscription = $objectManager->create('Magento_Webhook_Model_Subscription');
+        $subscription = $objectManager->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('third')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/unique_endpoint')
@@ -218,7 +218,7 @@ class Magento_Webhook_Model_Resource_Subscription_Grid_CollectionTest extends PH
                 self::TOPIC_LISTENERS_ONE,
                 self::TOPIC_LISTENERS_TWO,
                 self::TOPIC_LISTENERS_THREE))
-            ->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
+            ->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->setApiUserId(self::$_apiUserId)
             ->save();
         $this->_subscriptions[] = $subscription;

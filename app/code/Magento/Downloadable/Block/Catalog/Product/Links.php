@@ -15,7 +15,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Downloadable\Block\Catalog\Product;
+
+class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Enter description here...
@@ -63,7 +65,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     /**
      * Enter description here...
      *
-     * @param Magento_Downloadable_Model_Link $link
+     * @param \Magento\Downloadable\Model\Link $link
      * @return string
      */
     public function getFormattedLinkPrice($link)
@@ -75,13 +77,13 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
             return '';
         }
 
-        $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
-            $taxCalculation->setCustomer(Mage::registry('current_customer'));
+        $taxCalculation = \Mage::getSingleton('Magento\Tax\Model\Calculation');
+        if (!$taxCalculation->getCustomer() && \Mage::registry('current_customer')) {
+            $taxCalculation->setCustomer(\Mage::registry('current_customer'));
         }
 
-        $taxHelper = Mage::helper('Magento_Tax_Helper_Data');
-        $coreHelper = $this->helper('Magento_Core_Helper_Data');
+        $taxHelper = \Mage::helper('Magento\Tax\Helper\Data');
+        $coreHelper = $this->helper('\Magento\Core\Helper\Data');
         $_priceInclTax = $taxHelper->getPrice($link->getProduct(), $price, true);
         $_priceExclTax = $taxHelper->getPrice($link->getProduct(), $price);
 
@@ -111,7 +113,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     public function getCurrencyPrice($price)
     {
         $store = $this->getProduct()->getStore();
-        return $this->helper('Magento_Core_Helper_Data')->currencyByStore($price, $store, false);
+        return $this->helper('\Magento\Core\Helper\Data')->currencyByStore($price, $store, false);
     }
 
     /**
@@ -122,7 +124,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     public function getJsonConfig()
     {
         $config = array();
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
+        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
 
         foreach ($this->getLinks() as $link) {
             $config[$link->getId()] = $coreHelper->currency($link->getPrice(), false, false);
@@ -146,7 +148,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
         if ($this->getProduct()->getLinksTitle()) {
             return $this->getProduct()->getLinksTitle();
         }
-        return Mage::getStoreConfig(Magento_Downloadable_Model_Link::XML_PATH_LINKS_TITLE);
+        return \Mage::getStoreConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
     }
 
     /**
@@ -156,13 +158,13 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
      */
     public function getIsOpenInNewWindow()
     {
-        return Mage::getStoreConfigFlag(Magento_Downloadable_Model_Link::XML_PATH_TARGET_NEW_WINDOW);
+        return \Mage::getStoreConfigFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW);
     }
 
     /**
      * Returns whether link checked by default or not
      *
-     * @param Magento_Downloadable_Model_Link $link
+     * @param \Magento\Downloadable\Model\Link $link
      * @return bool
      */
     public function getIsLinkChecked($link)
@@ -178,7 +180,7 @@ class Magento_Downloadable_Block_Catalog_Product_Links extends Magento_Catalog_B
     /**
      * Returns value for link's input checkbox - either 'checked' or ''
      *
-     * @param Magento_Downloadable_Model_Link $link
+     * @param \Magento\Downloadable\Model\Link $link
      * @return string
      */
     public function getLinkCheckedValue($link)

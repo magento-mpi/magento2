@@ -15,8 +15,10 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Adminhtml_Order_View_Items
-    extends Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
+
+class Items
+    extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
 {
     /**
      * Prepare and return order items info

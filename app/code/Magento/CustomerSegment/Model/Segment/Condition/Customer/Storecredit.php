@@ -11,8 +11,10 @@
 /**
  * Customer store credit condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+class Storecredit
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -20,13 +22,13 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
     protected $_inputType = 'numeric';
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Storecredit');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Customer\Storecredit');
         $this->setValue(null);
     }
 
@@ -70,7 +72,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
      * Get condition query for customer balance on specific website
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
+     * @param int | \Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
@@ -79,7 +81,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from($table, array(new Zend_Db_Expr(1)));
+        $select->from($table, array(new \Zend_Db_Expr(1)));
         $select->where($this->_createCustomerFilter($customer, 'customer_id'));
         $select->where('website_id=?', $website);
         $select->where("amount {$operator} ?", $this->getValue());

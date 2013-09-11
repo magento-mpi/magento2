@@ -16,7 +16,9 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\AdminNotification\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_POPUP_URL    = 'system/adminnotification/popup_url';
 
@@ -37,7 +39,7 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Last Notice object
      *
-     * @var Magento_AdminNotification_Model_Inbox
+     * @var \Magento\AdminNotification\Model\Inbox
      */
     protected $_latestNotice;
 
@@ -51,12 +53,12 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve latest notice model
      *
-     * @return Magento_AdminNotification_Model_Inbox
+     * @return \Magento\AdminNotification\Model\Inbox
      */
     public function getLatestNotice()
     {
         if (is_null($this->_latestNotice)) {
-            $this->_latestNotice = Mage::getModel('Magento_AdminNotification_Model_Inbox')->loadLatestNotice();
+            $this->_latestNotice = \Mage::getModel('\Magento\AdminNotification\Model\Inbox')->loadLatestNotice();
         }
         return $this->_latestNotice;
     }
@@ -70,7 +72,7 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     public function getUnreadNoticeCount($severity)
     {
         if (is_null($this->_unreadNoticeCounts)) {
-            $this->_unreadNoticeCounts = Mage::getModel('Magento_AdminNotification_Model_Inbox')->getNoticeStatus();
+            $this->_unreadNoticeCounts = \Mage::getModel('\Magento\AdminNotification\Model\Inbox')->getNoticeStatus();
         }
         return isset($this->_unreadNoticeCounts[$severity]) ? $this->_unreadNoticeCounts[$severity] : 0;
     }
@@ -84,11 +86,11 @@ class Magento_AdminNotification_Helper_Data extends Magento_Core_Helper_Abstract
     public function getPopupObjectUrl($withExt = false)
     {
         if (is_null($this->_popupUrl)) {
-            $scheme = Mage::app()->getFrontController()->getRequest()->isSecure()
+            $scheme = \Mage::app()->getFrontController()->getRequest()->isSecure()
                 ? 'https://'
                 : 'http://';
 
-            $this->_popupUrl = $scheme . Mage::getStoreConfig(self::XML_PATH_POPUP_URL);
+            $this->_popupUrl = $scheme . \Mage::getStoreConfig(self::XML_PATH_POPUP_URL);
         }
         return $this->_popupUrl . ($withExt ? '.swf' : '');
     }

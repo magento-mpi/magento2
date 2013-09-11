@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_ImportExport_Model_Resource_Setup */
+/** @var $installer \Magento\ImportExport\Model\Resource\Setup */
 $installer = $this;
 
 /**
@@ -57,7 +57,7 @@ $table = $installer->getConnection()
         ), 'Status')
     ->addColumn('is_success', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
-        'default'   => Magento_ScheduledImportExport_Model_Scheduled_Operation_Data::STATUS_PENDING
+        'default'   => \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data::STATUS_PENDING
         ), 'Is Success')
     ->addColumn('last_run_date', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => true,

@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Config extends \Magento\Object
+namespace Magento\GoogleShopping\Model;
+
+class Config extends \Magento\Object
 {
     /**
      * Config values cache
@@ -34,7 +36,7 @@ class Magento_GoogleShopping_Model_Config extends \Magento\Object
     public function getConfigData($key, $storeId = null)
     {
         if (!isset($this->_config[$key][$storeId])) {
-            $value = Mage::getStoreConfig('google/googleshopping/' . $key, $storeId);
+            $value = \Mage::getStoreConfig('google/googleshopping/' . $key, $storeId);
             $this->_config[$key][$storeId] = $value;
         }
         return $this->_config[$key][$storeId];
@@ -70,7 +72,7 @@ class Magento_GoogleShopping_Model_Config extends \Magento\Object
      */
     public function getAccountPassword($storeId = null)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->getConfigData('password', $storeId));
+        return \Mage::helper('Magento\Core\Helper\Data')->decrypt($this->getConfigData('password', $storeId));
     }
 
     /**
@@ -143,7 +145,7 @@ class Magento_GoogleShopping_Model_Config extends \Magento\Object
      */
     public function isValidDefaultCurrencyCode($storeId = null)
     {
-        return Mage::app()->getStore($storeId)->getDefaultCurrencyCode() == $this->getTargetCurrency($storeId);
+        return \Mage::app()->getStore($storeId)->getDefaultCurrencyCode() == $this->getTargetCurrency($storeId);
     }
 
     /**

@@ -9,8 +9,8 @@
 -->
 <config>
     <preference for="Magento_Core_Model_Db_UpdaterInterfaceTwo" type="Magento_Core_Model_Db_UpdaterTwo" />
-    <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_UpdaterOne" />
-    <type name="Magento_Core_Model_Config_Loader_Local" shared="false">
+    <preference for="Magento\Core\Model\Db\UpdaterInterface" type="Magento_Core_Model_Db_UpdaterOne" />
+    <type name="Magento\Core\Model\Config\Loader\Local" shared="false">
         <param name="customFile">
             <value type="argument">Mage::PARAM_CUSTOM_LOCAL_CONFIG</value>
         </param>
@@ -40,7 +40,7 @@
     <type name="Varien_Data_Collection_Db_FetchStrategy_Cache">
         <param name="cacheTags">
             <value>
-                <const type='const'>Magento_Core_Model_Website::CACHE_TAG</const>
+                <const type='const'>\Magento\Core\Model\Website::CACHE_TAG</const>
                 <boolFalse type='bool'>1</boolFalse>
                 <boolTrue type='int'>10</boolTrue>
                 <boolOne type='string' pattern="[0-9]*">1</boolOne>
@@ -49,7 +49,7 @@
             </value>
         </param>
         <param name="constParam">
-            <value type='const'>Magento_Core_Model_Website::CACHE_TAG</value>
+            <value type='const'>\Magento\Core\Model\Website::CACHE_TAG</value>
         </param>
         <param name="boolFalseParam">
             <value type='int'>100</value>

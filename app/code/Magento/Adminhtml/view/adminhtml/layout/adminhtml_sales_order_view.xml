@@ -18,55 +18,55 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_Adminhtml_Block_Sales_Order_View" name="sales_order_edit"/>
+            <block class="\Magento\Adminhtml\Block\Sales\Order\View" name="sales_order_edit"/>
         </reference>
         <reference name="left">
-            <block class="Magento_Adminhtml_Block_Sales_Order_View_Tabs" name="sales_order_tabs">
-                <block class="Magento_Adminhtml_Block_Sales_Order_View_Tab_Info" name="order_tab_info" template="sales/order/view/tab/info.phtml">
-                    <block class="Magento_Adminhtml_Block_Sales_Order_View_Messages" name="order_messages"/>
-                    <block class="Magento_Adminhtml_Block_Sales_Order_View_Info" name="order_info" template="sales/order/view/info.phtml"/>
-                    <block class="Magento_Adminhtml_Block_Sales_Order_View_Items" name="order_items" template="sales/order/view/items.phtml">
+            <block class="\Magento\Adminhtml\Block\Sales\Order\View\Tabs" name="sales_order_tabs">
+                <block class="\Magento\Adminhtml\Block\Sales\Order\View\Tab\Info" name="order_tab_info" template="sales/order/view/tab/info.phtml">
+                    <block class="\Magento\Adminhtml\Block\Sales\Order\View\Messages" name="order_messages"/>
+                    <block class="\Magento\Adminhtml\Block\Sales\Order\View\Info" name="order_info" template="sales/order/view/info.phtml"/>
+                    <block class="\Magento\Adminhtml\Block\Sales\Order\View\Items" name="order_items" template="sales/order/view/items.phtml">
                         <action method="addItemRender">
                             <argument name="type" xsi:type="string">default</argument>
-                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Order_View_Items_Renderer_Default</argument>
+                            <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Order\View\Items\Renderer\DefaultRenderer</argument>
                             <argument name="template" xsi:type="string">sales/order/view/items/renderer/default.phtml</argument>
                         </action>
                         <action method="addColumnRender">
                             <argument name="column" xsi:type="string">qty</argument>
-                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Qty</argument>
+                            <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Items\Column\Qty</argument>
                             <argument name="template" xsi:type="string">sales/items/column/qty.phtml</argument>
                         </action>
                         <action method="addColumnRender">
                             <argument name="column" xsi:type="string">name</argument>
-                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Name</argument>
+                            <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Items\Column\Name</argument>
                             <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
                         </action>
                         <action method="addColumnRender">
                             <argument name="column" xsi:type="string">name</argument>
-                            <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Items_Column_Name_Grouped</argument>
+                            <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Items\Column\Name\Grouped</argument>
                             <argument name="template" xsi:type="string">sales/items/column/name.phtml</argument>
                             <argument name="type" xsi:type="string">grouped</argument>
                         </action>
-                        <block class="Magento_Core_Block_Text_List" name="order_item_extra_info"/>
+                        <block class="\Magento\Core\Block\Text\ListText" name="order_item_extra_info"/>
                     </block>
-                    <block class="Magento_Adminhtml_Block_Sales_Order_Payment" name="order_payment"/>
-                    <block class="Magento_Adminhtml_Block_Sales_Order_View_History" name="order_history" template="sales/order/view/history.phtml"/>
-                    <block class="Magento_Adminhtml_Block_Template" name="gift_options" template="sales/order/giftoptions.phtml">
-                        <block class="Magento_Adminhtml_Block_Sales_Order_View_Giftmessage" name="order_giftmessage" template="sales/order/view/giftmessage.phtml"/>
+                    <block class="\Magento\Adminhtml\Block\Sales\Order\Payment" name="order_payment"/>
+                    <block class="\Magento\Adminhtml\Block\Sales\Order\View\History" name="order_history" template="sales/order/view/history.phtml"/>
+                    <block class="\Magento\Adminhtml\Block\Template" name="gift_options" template="sales/order/giftoptions.phtml">
+                        <block class="\Magento\Adminhtml\Block\Sales\Order\View\Giftmessage" name="order_giftmessage" template="sales/order/view/giftmessage.phtml"/>
                     </block>
-                    <block class="Magento_Adminhtml_Block_Sales_Order_Totals" name="order_totals" template="sales/order/totals.phtml">
-                        <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml"/>
-                        <!--<block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="footer" template="sales/order/totals/footer.phtml">
-                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="grand" template="sales/order/totals/grand.phtml"/>
-                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="paid" template="sales/order/totals/paid.phtml"/>
-                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="refunded" template="sales/order/totals/refunded.phtml"/>
-                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="due" template="sales/order/totals/due.phtml"/>
+                    <block class="\Magento\Adminhtml\Block\Sales\Order\Totals" name="order_totals" template="sales/order/totals.phtml">
+                        <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Tax" name="tax" template="sales/order/totals/tax.phtml"/>
+                        <!--<block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="footer" template="sales/order/totals/footer.phtml">
+                            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="grand" template="sales/order/totals/grand.phtml"/>
+                            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="paid" template="sales/order/totals/paid.phtml"/>
+                            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="refunded" template="sales/order/totals/refunded.phtml"/>
+                            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="due" template="sales/order/totals/due.phtml"/>
                         </block>
-                        <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Tax" name="tax" template="sales/order/totals/tax.phtml"/>
-                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="shipping" template="sales/order/totals/shipping.phtml"/>
-                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="discount" template="sales/order/totals/discount.phtml"/>
-                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="giftcert" template="sales/order/totals/item.phtml">
+                        <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
+                            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Tax" name="tax" template="sales/order/totals/tax.phtml"/>
+                            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="shipping" template="sales/order/totals/shipping.phtml"/>
+                            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="discount" template="sales/order/totals/discount.phtml"/>
+                            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="giftcert" template="sales/order/totals/item.phtml">
                                 <action method="setSourceField">
                                     <argument name="value" xsi:type="string">giftcert_amount</argument>
                                 </action>
@@ -74,7 +74,7 @@
                                     <argument name="value" xsi:type="string">Gift Certificate</argument>
                                 </action>
                             </block>
-                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="adjustment_positive" template="sales/order/totals/item.phtml">
+                            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="adjustment_positive" template="sales/order/totals/item.phtml">
                                 <action method="setSourceField">
                                     <argument name="value" xsi:type="string">adjustment_positive</argument>
                                 </action>
@@ -82,7 +82,7 @@
                                     <argument name="value" xsi:type="string">Adjustment Refund</argument>
                                 </action>
                             </block>
-                            <block class="Magento_Adminhtml_Block_Sales_Order_Totals_Item" name="adjustment_negative" template="sales/order/totals/item.phtml">
+                            <block class="\Magento\Adminhtml\Block\Sales\Order\Totals\Item" name="adjustment_negative" template="sales/order/totals/item.phtml">
                                 <action method="setSourceField">
                                     <argument name="value" xsi:type="string">adjustment_negative</argument>
                                 </action>
@@ -99,23 +99,23 @@
                 </action>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">order_invoices</argument>
-                    <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Order_View_Tab_Invoices</argument>
+                    <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Order\View\Tab\Invoices</argument>
                 </action>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">order_creditmemos</argument>
-                    <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos</argument>
+                    <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Order\View\Tab\Creditmemos</argument>
                 </action>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">order_shipments</argument>
-                    <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Order_View_Tab_Shipments</argument>
+                    <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Order\View\Tab\Shipments</argument>
                 </action>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">order_history</argument>
-                    <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Order_View_Tab_History</argument>
+                    <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Order\View\Tab\History</argument>
                 </action>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">order_transactions</argument>
-                    <argument name="block" xsi:type="string">Magento_Adminhtml_Block_Sales_Order_View_Tab_Transactions</argument>
+                    <argument name="block" xsi:type="string">\Magento\Adminhtml\Block\Sales\Order\View\Tab\Transactions</argument>
                 </action>
             </block>
         </reference>

@@ -15,20 +15,22 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Wishlist
+namespace Magento\MultipleWishlist\Block\Adminhtml\Sales\Order\Create\Sidebar;
+
+class Wishlist
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\Wishlist
 {
     /**
      * Retrieve item collection
      *
-     * @return Magento_MultipleWishlist_Model_Resource_Item_Collection
+     * @return \Magento\MultipleWishlist\Model\Resource\Item\Collection
      */
     public function getItemCollection()
     {
         $collection = $this->getData('item_collection');
         $storeIds = $this->getCreateOrderModel()->getSession()->getStore()->getWebsite()->getStoreIds();
         if (is_null($collection)) {
-            $collection = Mage::getModel('Magento_MultipleWishlist_Model_Item')->getCollection()
+            $collection = \Mage::getModel('\Magento\MultipleWishlist\Model\Item')->getCollection()
                 ->addCustomerIdFilter($this->getCustomerId())
                 ->addStoreFilter($storeIds)
                 ->setVisibilityFilter();
@@ -48,7 +50,7 @@ class Magento_MultipleWishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishli
     public function getWishlists()
     {
         $wishlists = array();
-        /* @var $item Magento_Wishlist_Model_Item */
+        /* @var $item \Magento\Wishlist\Model\Item */
         foreach ($this->getItemCollection() as $item) {
             $wishlists[$item->getWishlistId()] = $item->getWishlistName();
         }

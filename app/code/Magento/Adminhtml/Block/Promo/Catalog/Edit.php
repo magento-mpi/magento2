@@ -12,7 +12,9 @@
  * Catalog rule edit form block
  */
 
-class Magento_Adminhtml_Block_Promo_Catalog_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Promo\Catalog;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Initialize form
@@ -63,7 +65,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit extends Magento_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        $rule = Mage::registry('current_promo_catalog_rule');
+        $rule = \Mage::registry('current_promo_catalog_rule');
         if ($rule->getRuleId()) {
             return __("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
         }

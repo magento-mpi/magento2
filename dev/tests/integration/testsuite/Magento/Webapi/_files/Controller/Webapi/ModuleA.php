@@ -8,7 +8,7 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class NamespaceA_ModuleA_Controller_Webapi_ModuleA extends Magento_Webapi_Controller_ActionAbstract
+class NamespaceA_ModuleA_Controller_Webapi_ModuleA extends \Magento\Webapi\Controller\ActionAbstract
 {
     /**
      * Get resource v2.

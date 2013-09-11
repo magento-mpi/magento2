@@ -15,7 +15,9 @@
  * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Captcha_Model_Config_Mode
+namespace Magento\Captcha\Model\Config;
+
+class Mode
 {
     /**
      * Get options for captcha mode selection field
@@ -27,11 +29,11 @@ class Magento_Captcha_Model_Config_Mode
         return array(
             array(
                 'label' => __('Always'),
-                'value' => Magento_Captcha_Helper_Data::MODE_ALWAYS
+                'value' => \Magento\Captcha\Helper\Data::MODE_ALWAYS
             ),
             array(
                 'label' => __('After number of attempts to login'),
-                'value' => Magento_Captcha_Helper_Data::MODE_AFTER_FAIL
+                'value' => \Magento\Captcha\Helper\Data::MODE_AFTER_FAIL
             ),
         );
     }

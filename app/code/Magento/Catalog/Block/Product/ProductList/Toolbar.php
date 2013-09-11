@@ -16,12 +16,14 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product\ProductList;
+
+class Toolbar extends \Magento\Core\Block\Template
 {
     /**
      * Products collection
      *
-     * @var Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_collection = null;
 
@@ -135,11 +137,11 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
     /**
      * Retrieve Catalog Config object
      *
-     * @return Magento_Catalog_Model_Config
+     * @return \Magento\Catalog\Model\Config
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Config');
+        return \Mage::getSingleton('Magento\Catalog\Model\Config');
     }
 
     /**
@@ -149,13 +151,13 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
     protected function _construct()
     {
         parent::_construct();
-        $this->_orderField  = Mage::getStoreConfig(
-            Magento_Catalog_Model_Config::XML_PATH_LIST_DEFAULT_SORT_BY
+        $this->_orderField  = \Mage::getStoreConfig(
+            \Magento\Catalog\Model\Config::XML_PATH_LIST_DEFAULT_SORT_BY
         );
 
         $this->_availableOrder = $this->_getConfig()->getAttributeUsedForSortByArray();
 
-        switch (Mage::getStoreConfig('catalog/frontend/list_mode')) {
+        switch (\Mage::getStoreConfig('catalog/frontend/list_mode')) {
             case 'grid':
                 $this->_availableMode = array('grid' => __('Grid'));
                 break;
@@ -189,11 +191,11 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
      *
      * @param string $param parameter name
      * @param mixed $value parameter value
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     protected function _memorizeParam($param, $value)
     {
-        $session = Mage::getSingleton('Magento_Catalog_Model_Session');
+        $session = \Mage::getSingleton('Magento\Catalog\Model\Session');
         if ($this->_paramsMemorizeAllowed && !$session->getParamsMemorizeDisabled()) {
             $session->setData($param, $value);
         }
@@ -204,7 +206,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
      * Set collection to pager
      *
      * @param \Magento\Data\Collection $collection
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function setCollection($collection)
     {
@@ -226,7 +228,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
     /**
      * Return products collection instance
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getCollection()
     {
@@ -319,12 +321,12 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
         $order = $this->getRequest()->getParam($this->getOrderVarName());
         if ($order && isset($orders[$order])) {
             if ($order == $defaultOrder) {
-                Mage::getSingleton('Magento_Catalog_Model_Session')->unsSortOrder();
+                \Mage::getSingleton('Magento\Catalog\Model\Session')->unsSortOrder();
             } else {
                 $this->_memorizeParam('sort_order', $order);
             }
         } else {
-            $order = Mage::getSingleton('Magento_Catalog_Model_Session')->getSortOrder();
+            $order = \Mage::getSingleton('Magento\Catalog\Model\Session')->getSortOrder();
         }
         // validate session value
         if (!$order || !isset($orders[$order])) {
@@ -350,12 +352,12 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
         $dir = strtolower($this->getRequest()->getParam($this->getDirectionVarName()));
         if ($dir && in_array($dir, $directions)) {
             if ($dir == $this->_direction) {
-                Mage::getSingleton('Magento_Catalog_Model_Session')->unsSortDirection();
+                \Mage::getSingleton('Magento\Catalog\Model\Session')->unsSortDirection();
             } else {
                 $this->_memorizeParam('sort_direction', $dir);
             }
         } else {
-            $dir = Mage::getSingleton('Magento_Catalog_Model_Session')->getSortDirection();
+            $dir = \Mage::getSingleton('Magento\Catalog\Model\Session')->getSortDirection();
         }
         // validate direction
         if (!$dir || !in_array($dir, $directions)) {
@@ -369,7 +371,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
      * Set default Order field
      *
      * @param string $field
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function setDefaultOrder($field)
     {
@@ -383,7 +385,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
      * Set default sort direction
      *
      * @param string $dir
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function setDefaultDirection($dir)
     {
@@ -407,7 +409,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
      * Set Available order fields list
      *
      * @param array $orders
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function setAvailableOrders($orders)
     {
@@ -420,7 +422,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
      *
      * @param string $order
      * @param string $value
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function addOrderToAvailableOrders($order, $value)
     {
@@ -431,7 +433,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
      * Remove order from available orders if exists
      *
      * @param string $order
-     * @param Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @param \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function removeOrderFromAvailableOrders($order)
     {
@@ -503,12 +505,12 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
         $mode = $this->getRequest()->getParam($this->getModeVarName());
         if ($mode) {
             if ($mode == $defaultMode) {
-                Mage::getSingleton('Magento_Catalog_Model_Session')->unsDisplayMode();
+                \Mage::getSingleton('Magento\Catalog\Model\Session')->unsDisplayMode();
             } else {
                 $this->_memorizeParam('display_mode', $mode);
             }
         } else {
-            $mode = Mage::getSingleton('Magento_Catalog_Model_Session')->getDisplayMode();
+            $mode = \Mage::getSingleton('Magento\Catalog\Model\Session')->getDisplayMode();
         }
 
         if (!$mode || !isset($this->_availableMode[$mode])) {
@@ -543,7 +545,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
      * Set available view modes list
      *
      * @param array $modes
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function setModes($modes)
     {
@@ -567,7 +569,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
     /**
      * Disable view switcher
      *
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function disableViewSwitcher()
     {
@@ -578,7 +580,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
     /**
      * Enable view switcher
      *
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function enableViewSwitcher()
     {
@@ -599,7 +601,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
     /**
      * Disable Expanded
      *
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function disableExpanded()
     {
@@ -610,7 +612,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
     /**
      * Enable Expanded
      *
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function enableExpanded()
     {
@@ -639,13 +641,13 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
             if ($default = $this->getDefaultListPerPage()) {
                 return $default;
             }
-            return Mage::getStoreConfig('catalog/frontend/list_per_page');
+            return \Mage::getStoreConfig('catalog/frontend/list_per_page');
         }
         elseif ($this->getCurrentMode() == 'grid') {
             if ($default = $this->getDefaultGridPerPage()) {
                 return $default;
             }
-            return Mage::getStoreConfig('catalog/frontend/grid_per_page');
+            return \Mage::getStoreConfig('catalog/frontend/grid_per_page');
         }
         return 0;
     }
@@ -656,7 +658,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
      * @param string $mode
      * @param string $value
      * @param string $label
-     * @return Magento_Catalog_Block_Product_ProductList_Toolbar
+     * @return \Magento\Catalog\Block\Product\ProductList\Toolbar
      */
     public function addPagerLimit($mode, $value, $label='')
     {
@@ -693,10 +695,10 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
             return $this->_availableLimit[$mode];
         }
         $perPageConfigKey = 'catalog/frontend/' . $mode . '_per_page_values';
-        $perPageValues = (string)Mage::getStoreConfig($perPageConfigKey);
+        $perPageValues = (string)\Mage::getStoreConfig($perPageConfigKey);
         $perPageValues = explode(',', $perPageValues);
         $perPageValues = array_combine($perPageValues, $perPageValues);
-        if (Mage::getStoreConfigFlag('catalog/frontend/list_allow_all')) {
+        if (\Mage::getStoreConfigFlag('catalog/frontend/list_allow_all')) {
             return ($perPageValues + array('all'=>__('All')));
         } else {
             return $perPageValues;
@@ -725,12 +727,12 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
         $limit = $this->getRequest()->getParam($this->getLimitVarName());
         if ($limit && isset($limits[$limit])) {
             if ($limit == $defaultLimit) {
-                Mage::getSingleton('Magento_Catalog_Model_Session')->unsLimitPage();
+                \Mage::getSingleton('Magento\Catalog\Model\Session')->unsLimitPage();
             } else {
                 $this->_memorizeParam('limit_page', $limit);
             }
         } else {
-            $limit = Mage::getSingleton('Magento_Catalog_Model_Session')->getLimitPage();
+            $limit = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLimitPage();
         }
         if (!$limit || !isset($limits[$limit])) {
             $limit = $defaultLimit;
@@ -797,7 +799,7 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
 
         if ($pagerBlock instanceof \Magento\Object) {
 
-            /* @var $pagerBlock Magento_Page_Block_Html_Pager */
+            /* @var $pagerBlock \Magento\Page\Block\Html\Pager */
             $pagerBlock->setAvailableLimit($this->getAvailableLimit());
 
             $pagerBlock->setUseContainer(false)
@@ -806,8 +808,8 @@ class Magento_Catalog_Block_Product_ProductList_Toolbar extends Magento_Core_Blo
                 ->setLimitVarName($this->getLimitVarName())
                 ->setPageVarName($this->getPageVarName())
                 ->setLimit($this->getLimit())
-                ->setFrameLength(Mage::getStoreConfig('design/pagination/pagination_frame'))
-                ->setJump(Mage::getStoreConfig('design/pagination/pagination_frame_skip'))
+                ->setFrameLength(\Mage::getStoreConfig('design/pagination/pagination_frame'))
+                ->setJump(\Mage::getStoreConfig('design/pagination/pagination_frame_skip'))
                 ->setCollection($this->getCollection());
 
             return $pagerBlock->toHtml();

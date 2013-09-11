@@ -15,9 +15,11 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
-    extends Magento_Adminhtml_Block_Template
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
+
+class Hierarchy
+    extends \Magento\Adminhtml\Block\Template
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Array of nodes for tree
@@ -27,11 +29,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     /**
      * Retrieve current page instance
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {
-        return Mage::registry('cms_page');
+        return \Mage::registry('cms_page');
     }
 
     /**
@@ -41,7 +43,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function getNodesJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->getNodes());
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->getNodes());
     }
 
     /**
@@ -53,12 +55,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             try{
-                $data = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getPage()->getNodesData());
-            }catch (Zend_Json_Exception $e){
+                $data = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($this->getPage()->getNodesData());
+            }catch (\Zend_Json_Exception $e){
                 $data = null;
             }
 
-            $collection = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node')->getCollection()
+            $collection = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node')->getCollection()
                 ->joinCmsPage()
                 ->setOrderByLevel()
                 ->joinPageExistsNodeInfo($this->getPage());
@@ -89,10 +91,10 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
             } else {
 
                 foreach ($collection as $item) {
-                    if ($item->getLevel() == Magento_VersionsCms_Model_Hierarchy_Node::NODE_LEVEL_FAKE) {
+                    if ($item->getLevel() == \Magento\VersionsCms\Model\Hierarchy\Node::NODE_LEVEL_FAKE) {
                         continue;
                     }
-                    /* @var $item Magento_VersionsCms_Model_Hierarchy_Node */
+                    /* @var $item \Magento\VersionsCms\Model\Hierarchy\Node */
                     $node = array(
                         'node_id'               => $item->getId(),
                         'parent_node_id'        => $item->getParentNodeId(),
@@ -122,7 +124,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      * Forced nodes setter
      *
      * @param array $nodes New nodes array
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Hierarchy
      */
     public function setNodes($nodes)
     {
@@ -168,7 +170,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
             'id' => $this->getPage()->getId()
         );
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($data);
     }
 
     /**
@@ -199,7 +201,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     public function canShowTab()
     {
         if (!$this->getPage()->getId()
-            || !Mage::helper('Magento_VersionsCms_Helper_Hierarchy')->isEnabled()
+            || !\Mage::helper('Magento\VersionsCms\Helper\Hierarchy')->isEnabled()
             || !$this->_authorization->isAllowed('Magento_VersionsCms::hierarchy'))
         {
             return false;

@@ -11,24 +11,26 @@
 /**
  * Assigned theme list
  */
-class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Assigned
-    extends Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
+
+class Assigned
+    extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList
 {
     /**
      * Store manager model
      *
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -48,8 +50,8 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Assigned
     /**
      * Add theme buttons
      *
-     * @param Magento_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Assigned
+     * @param \Magento\DesignEditor\Block\Adminhtml\Theme $themeBlock
+     * @return \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Assigned
      */
     protected function _addThemeButtons($themeBlock)
     {

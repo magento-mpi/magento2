@@ -12,37 +12,39 @@
 /**
  * TargetRule Rule Model
  *
- * @method Magento_TargetRule_Model_Resource_Rule _getResource()
- * @method Magento_TargetRule_Model_Resource_Rule getResource()
+ * @method \Magento\TargetRule\Model\Resource\Rule _getResource()
+ * @method \Magento\TargetRule\Model\Resource\Rule getResource()
  * @method string getName()
- * @method Magento_TargetRule_Model_Rule setName(string $value)
+ * @method \Magento\TargetRule\Model\Rule setName(string $value)
  * @method string getFromDate()
- * @method Magento_TargetRule_Model_Rule setFromDate(string $value)
+ * @method \Magento\TargetRule\Model\Rule setFromDate(string $value)
  * @method string getToDate()
- * @method Magento_TargetRule_Model_Rule setToDate(string $value)
+ * @method \Magento\TargetRule\Model\Rule setToDate(string $value)
  * @method int getIsActive()
- * @method Magento_TargetRule_Model_Rule setIsActive(int $value)
+ * @method \Magento\TargetRule\Model\Rule setIsActive(int $value)
  * @method string getConditionsSerialized()
- * @method Magento_TargetRule_Model_Rule setConditionsSerialized(string $value)
+ * @method \Magento\TargetRule\Model\Rule setConditionsSerialized(string $value)
  * @method string getActionsSerialized()
- * @method Magento_TargetRule_Model_Rule setActionsSerialized(string $value)
- * @method Magento_TargetRule_Model_Rule setPositionsLimit(int $value)
+ * @method \Magento\TargetRule\Model\Rule setActionsSerialized(string $value)
+ * @method \Magento\TargetRule\Model\Rule setPositionsLimit(int $value)
  * @method int getApplyTo()
- * @method Magento_TargetRule_Model_Rule setApplyTo(int $value)
+ * @method \Magento\TargetRule\Model\Rule setApplyTo(int $value)
  * @method int getSortOrder()
- * @method Magento_TargetRule_Model_Rule setSortOrder(int $value)
+ * @method \Magento\TargetRule\Model\Rule setSortOrder(int $value)
  * @method int getUseCustomerSegment()
- * @method Magento_TargetRule_Model_Rule setUseCustomerSegment(int $value)
+ * @method \Magento\TargetRule\Model\Rule setUseCustomerSegment(int $value)
  * @method string getActionSelect()
- * @method Magento_TargetRule_Model_Rule setActionSelect(string $value)
+ * @method \Magento\TargetRule\Model\Rule setActionSelect(string $value)
  * @method array getCustomerSegmentIds()
- * @method Magento_TargetRule_Model_Rule setCustomerSegmentIds(array $ids)
+ * @method \Magento\TargetRule\Model\Rule setCustomerSegmentIds(array $ids)
  *
  * @category    Magento
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
+namespace Magento\TargetRule\Model;
+
+class Rule extends \Magento\Rule\Model\AbstractModel
 {
     /**
      * Position behavior selectors
@@ -102,13 +104,13 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_TargetRule_Model_Resource_Rule');
+        $this->_init('\Magento\TargetRule\Model\Resource\Rule');
     }
 
     /**
      * Reset action cached select if actions conditions has changed
      *
-     * @return Magento_TargetRule_Model_Rule
+     * @return \Magento\TargetRule\Model\Rule
      */
     protected function _beforeSave()
     {
@@ -125,21 +127,21 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     /**
      * Getter for rule combine conditions instance
      *
-     * @return Magento_TargetRule_Model_Rule_Condition_Combine
+     * @return \Magento\TargetRule\Model\Rule\Condition\Combine
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Magento_TargetRule_Model_Rule_Condition_Combine');
+        return \Mage::getModel('\Magento\TargetRule\Model\Rule\Condition\Combine');
     }
 
     /**
      * Getter for rule actions collection instance
      *
-     * @return Magento_TargetRule_Model_Actions_Condition_Combine
+     * @return \Magento\TargetRule\Model\Actions\Condition\Combine
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Magento_TargetRule_Model_Actions_Condition_Combine');
+        return \Mage::getModel('\Magento\TargetRule\Model\Actions\Condition\Combine');
     }
 
     /**
@@ -155,11 +157,11 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
         if ($withEmpty) {
             $result[''] = __('-- Please Select --');
         }
-        $result[Magento_TargetRule_Model_Rule::RELATED_PRODUCTS]
+        $result[\Magento\TargetRule\Model\Rule::RELATED_PRODUCTS]
             = __('Related Products');
-        $result[Magento_TargetRule_Model_Rule::UP_SELLS]
+        $result[\Magento\TargetRule\Model\Rule::UP_SELLS]
             = __('Up-sells');
-        $result[Magento_TargetRule_Model_Rule::CROSS_SELLS]
+        $result[\Magento\TargetRule\Model\Rule::CROSS_SELLS]
             = __('Cross-sells');
 
         return $result;
@@ -170,11 +172,11 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @param $onlyId bool
      *
-     * @return Magento_TargetRule_Model_Rule
+     * @return \Magento\TargetRule\Model\Rule
      */
     public function prepareMatchingProducts($onlyId = false)
     {
-        $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+        $productCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
 
         if (!$onlyId && !is_null($this->_productIds)) {
             $productCollection->addIdFilter($this->_productIds);
@@ -185,14 +187,14 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
 
             $this->_productIds = array();
             $this->_products   = array();
-            Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+            \Mage::getSingleton('Magento\Core\Model\Resource\Iterator')->walk(
                 $productCollection->getSelect(),
                 array(
                     array($this, 'callbackValidateProduct')
                 ),
                 array(
                     'attributes'    => $this->getCollectedAttributes(),
-                    'product'       => Mage::getModel('Magento_Catalog_Model_Product'),
+                    'product'       => \Mage::getModel('\Magento\Catalog\Model\Product'),
                     'onlyId'        => (bool) $onlyId
                 )
             );
@@ -259,7 +261,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
     public function checkDateForStore($storeId)
     {
         if (!isset($this->_checkDateForStore[$storeId])) {
-            $this->_checkDateForStore[$storeId] = Mage::app()->getLocale()
+            $this->_checkDateForStore[$storeId] = \Mage::app()->getLocale()
                 ->isStoreDateInInterval(null, $this->getFromDate(), $this->getToDate());
         }
         return $this->_checkDateForStore[$storeId];
@@ -300,7 +302,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @param array|string $bind
      *
-     * @return Magento_TargetRule_Model_Rule
+     * @return \Magento\TargetRule\Model\Rule
      */
     public function setActionSelectBind($bind)
     {
@@ -325,7 +327,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
             $result = array();
         }
 
-        $validator = new Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z0-9_\/]{1,255}$/'));
+        $validator = new \Zend_Validate_Regex(array('pattern' => '/^[a-z][a-z0-9_\/]{1,255}$/'));
         $actionArgsList = $object->getData('rule');
         if (is_array($actionArgsList) && isset($actionArgsList['actions'])) {
             foreach ($actionArgsList['actions'] as $actionArgsIndex => $actionArgs) {
@@ -333,7 +335,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
                     continue;
                 }
                 if (!class_exists($actionArgs['type'])) {
-                    Mage::throwException(
+                    \Mage::throwException(
                         __('Model class name for attribute is invalid')
                     );
                 }
@@ -365,7 +367,7 @@ class Magento_TargetRule_Model_Rule extends Magento_Rule_Model_Abstract
      *
      * @param array|string $relations
      *
-     * @return Magento_TargetRule_Model_Rule
+     * @return \Magento\TargetRule\Model\Rule
      */
     public function setCustomerSegmentRelations($relations)
     {

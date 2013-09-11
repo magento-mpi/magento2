@@ -9,11 +9,13 @@
  */
 
 
-class Magento_Shipping_Model_Config_Source_Tablerate implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Shipping\Model\Config\Source;
+
+class Tablerate implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {
-        $tableRate = Mage::getSingleton('Magento_Shipping_Model_Carrier_Tablerate');
+        $tableRate = \Mage::getSingleton('Magento\Shipping\Model\Carrier\Tablerate');
         $arr = array();
         foreach ($tableRate->getCode('condition_name') as $k=>$v) {
             $arr[] = array('value'=>$k, 'label'=>$v);

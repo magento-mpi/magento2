@@ -15,7 +15,9 @@
  * @package    Magento_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
+namespace Magento\Rss\Block\Catalog;
+
+class NotifyStock extends \Magento\Core\Block\AbstractBlock
 {
     /**
      * Render RSS
@@ -24,10 +26,10 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
      */
     protected function _toHtml()
     {
-        $newUrl = Mage::getUrl('rss/catalog/notifystock');
+        $newUrl = \Mage::getUrl('rss/catalog/notifystock');
         $title = __('Low Stock Products');
 
-        $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
+        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
         $data = array(
             'title'       => $title,
             'description' => $title,
@@ -36,14 +38,14 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
         );
         $rssObj->_addHeader($data);
 
-        $globalNotifyStockQty = (float) Mage::getStoreConfig(
-            Magento_CatalogInventory_Model_Stock_Item::XML_PATH_NOTIFY_STOCK_QTY);
-        Mage::helper('Magento_Rss_Helper_Data')->disableFlat();
-        /* @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
+        $globalNotifyStockQty = (float) \Mage::getStoreConfig(
+            \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY);
+        \Mage::helper('Magento\Rss\Helper\Data')->disableFlat();
+        /* @var $product \Magento\Catalog\Model\Product */
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
         $collection = $product->getCollection();
-        Mage::getResourceModel('Magento_CatalogInventory_Model_Resource_Stock')->addLowStockFilter($collection, array(
+        \Mage::getResourceModel('\Magento\CatalogInventory\Model\Resource\Stock')->addLowStockFilter($collection, array(
             'qty',
             'notify_stock_qty',
             'low_stock_date',
@@ -52,16 +54,16 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
         $collection
             ->addAttributeToSelect('name', true)
             ->addAttributeToFilter('status',
-                array('in' => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds())
+                array('in' => \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getVisibleStatusIds())
             )
             ->setOrder('low_stock_date');
-        Mage::dispatchEvent('rss_catalog_notify_stock_collection_select', array('collection' => $collection));
+        \Mage::dispatchEvent('rss_catalog_notify_stock_collection_select', array('collection' => $collection));
 
         /*
         using resource iterator to load the data one by one
         instead of loading all at the same time. loading all data at the same time can cause the big memory allocation.
         */
-        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+        \Mage::getSingleton('Magento\Core\Model\Resource\Iterator')->walk(
             $collection->getSelect(),
             array(array($this, 'addNotifyItemXmlCallback')),
             array('rssObj'=> $rssObj, 'product'=>$product, 'globalQty' => $globalNotifyStockQty)
@@ -80,7 +82,7 @@ class Magento_Rss_Block_Catalog_NotifyStock extends Magento_Core_Block_Abstract
     {
         $product = $args['product'];
         $product->setData($args['row']);
-        $url = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_product/edit/',
+        $url = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/catalog_product/edit/',
             array('id' => $product->getId(), '_secure' => true, '_nosecret' => true));
         $qty = 1 * $product->getQty();
         $description = __('%1 has reached a quantity of %2.', $product->getName(), $qty);

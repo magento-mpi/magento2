@@ -1,5 +1,5 @@
 <?php
-use Zend\Soap\Wsdl;
+use \Zend\Soap\Wsdl;
 
 /**
  * Auto discovery tool for WSDL generation from Magento web API configuration.
@@ -9,7 +9,9 @@ use Zend\Soap\Wsdl;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_AutoDiscover
+namespace Magento\Webapi\Model\Soap;
+
+class AutoDiscover
 {
     const WSDL_NAME = 'MagentoWSDL';
 
@@ -22,47 +24,47 @@ class Magento_Webapi_Model_Soap_AutoDiscover
      * API Resource config instance.
      * Used to retrieve complex types data.
      *
-     * @var Magento_Webapi_Model_Config_Soap
+     * @var \Magento\Webapi\Model\Config\Soap
      */
     protected $_apiConfig;
 
     /**
      * WSDL factory instance.
      *
-     * @var Magento_Webapi_Model_Soap_Wsdl_Factory
+     * @var \Magento\Webapi\Model\Soap\Wsdl\Factory
      */
     protected $_wsdlFactory;
 
     /**
-     * @var Magento_Webapi_Helper_Config
+     * @var \Magento\Webapi\Helper\Config
      */
     protected $_helper;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_cacheState;
 
     /**
      * Construct auto discover with resource config and list of requested resources.
      *
-     * @param Magento_Webapi_Model_Config_Soap $apiConfig
-     * @param Magento_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory
-     * @param Magento_Webapi_Helper_Config $helper
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @param \Magento\Webapi\Model\Config\Soap $apiConfig
+     * @param \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory
+     * @param \Magento\Webapi\Helper\Config $helper
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      */
     public function __construct(
-        Magento_Webapi_Model_Config_Soap $apiConfig,
-        Magento_Webapi_Model_Soap_Wsdl_Factory $wsdlFactory,
-        Magento_Webapi_Helper_Config $helper,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Cache_StateInterface $cacheState
+        \Magento\Webapi\Model\Config\Soap $apiConfig,
+        \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory,
+        \Magento\Webapi\Helper\Config $helper,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Cache\StateInterface $cacheState
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
@@ -77,14 +79,14 @@ class Magento_Webapi_Model_Soap_AutoDiscover
      * @param array $requestedResources
      * @param string $endpointUrl
      * @return string
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function handle($requestedResources, $endpointUrl)
     {
         /** Sort requested resources by names to prevent caching of the same wsdl file more than once. */
         ksort($requestedResources);
         $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedResources));
-        if ($this->_cacheState->isEnabled(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cacheState->isEnabled(\Magento\Webapi\Model\ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $cachedWsdlContent = $this->_cache->load($cacheId);
             if ($cachedWsdlContent !== false) {
                 return $cachedWsdlContent;
@@ -96,15 +98,15 @@ class Magento_Webapi_Model_Soap_AutoDiscover
             foreach ($requestedResources as $resourceName => $resourceVersion) {
                 $resources[$resourceName] = $this->_apiConfig->getResourceDataMerged($resourceName, $resourceVersion);
             }
-        } catch (Exception $e) {
-            throw new Magento_Webapi_Exception($e->getMessage(), Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+        } catch (\Exception $e) {
+            throw new \Magento\Webapi\Exception($e->getMessage(), \Magento\Webapi\Exception::HTTP_BAD_REQUEST);
         }
 
         $wsdlContent = $this->generate($resources, $endpointUrl);
 
-        if ($this->_cacheState->isEnabled(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cacheState->isEnabled(\Magento\Webapi\Model\ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $this->_cache
-                 ->save($wsdlContent, $cacheId, array(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG));
+                 ->save($wsdlContent, $cacheId, array(\Magento\Webapi\Model\ConfigAbstract::WEBSERVICE_CACHE_TAG));
         }
 
         return $wsdlContent;
@@ -165,12 +167,12 @@ class Magento_Webapi_Model_Soap_AutoDiscover
     /**
      * Create input message and corresponding element and complex types in WSDL.
      *
-     * @param Magento_Webapi_Model_Soap_Wsdl $wsdl
+     * @param \Magento\Webapi\Model\Soap\Wsdl $wsdl
      * @param string $operationName
      * @param array $methodData
      * @return string input message name
      */
-    protected function _createOperationInput(Magento_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
+    protected function _createOperationInput(\Magento\Webapi\Model\Soap\Wsdl $wsdl, $operationName, $methodData)
     {
         $inputMessageName = $this->getInputMessageName($operationName);
         $complexTypeName = $this->getElementComplexTypeName($inputMessageName);
@@ -209,12 +211,12 @@ class Magento_Webapi_Model_Soap_AutoDiscover
     /**
      * Create output message and corresponding element and complex types in WSDL.
      *
-     * @param Magento_Webapi_Model_Soap_Wsdl $wsdl
+     * @param \Magento\Webapi\Model\Soap\Wsdl $wsdl
      * @param string $operationName
      * @param array $methodData
      * @return string output message name
      */
-    protected function _createOperationOutput(Magento_Webapi_Model_Soap_Wsdl $wsdl, $operationName, $methodData)
+    protected function _createOperationOutput(\Magento\Webapi\Model\Soap\Wsdl $wsdl, $operationName, $methodData)
     {
         $outputMessageName = $this->getOutputMessageName($operationName);
         $complexTypeName = $this->getElementComplexTypeName($outputMessageName);

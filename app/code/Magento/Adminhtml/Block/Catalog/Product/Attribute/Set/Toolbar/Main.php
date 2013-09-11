@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Toolbar;
+
+class Main extends \Magento\Adminhtml\Block\Template
 {
     /**
      * @var string
@@ -25,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends
 
     protected function _prepareLayout()
     {
-        $this->addChild('addButton', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('addButton', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add New Set'),
             'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/add') . '\')',
             'class' => 'add',
@@ -45,7 +47,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Toolbar_Main extends
 
     protected function _toHtml()
     {
-        Mage::dispatchEvent('adminhtml_catalog_product_attribute_set_toolbar_main_html_before', array('block' => $this));
+        \Mage::dispatchEvent('adminhtml_catalog_product_attribute_set_toolbar_main_html_before', array('block' => $this));
         return parent::_toHtml();
     }
 }

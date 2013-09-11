@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/* @var $installer Magento_Eav_Model_Entity_Setup */
+/* @var $installer \Magento\Eav\Model\Entity\Setup */
 
 $installer->startSetup();
 

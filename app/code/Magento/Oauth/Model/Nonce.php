@@ -16,13 +16,15 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method string getNonce()
- * @method Magento_Oauth_Model_Nonce setNonce() setNonce(string $nonce)
+ * @method \Magento\Oauth\Model\Nonce setNonce() setNonce(string $nonce)
  * @method string getTimestamp()
- * @method Magento_Oauth_Model_Nonce setTimestamp() setTimestamp(string $timestamp)
- * @method Magento_Oauth_Model_Resource_Nonce getResource()
- * @method Magento_Oauth_Model_Resource_Nonce _getResource()
+ * @method \Magento\Oauth\Model\Nonce setTimestamp() setTimestamp(string $timestamp)
+ * @method \Magento\Oauth\Model\Resource\Nonce getResource()
+ * @method \Magento\Oauth\Model\Resource\Nonce _getResource()
  */
-class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
+namespace Magento\Oauth\Model;
+
+class Nonce extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Initialize resource model
@@ -31,21 +33,21 @@ class Magento_Oauth_Model_Nonce extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Oauth_Model_Resource_Nonce');
+        $this->_init('\Magento\Oauth\Model\Resource\Nonce');
     }
 
     /**
      * "After save" actions
      *
-     * @return Magento_Oauth_Model_Nonce
+     * @return \Magento\Oauth\Model\Nonce
      */
     protected function _afterSave()
     {
         parent::_afterSave();
 
         //Cleanup old entries
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = Mage::helper('Magento_Oauth_Helper_Data');
+        /** @var $helper \Magento\Oauth\Helper\Data */
+        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
         if ($helper->isCleanupProbability()) {
             $this->_getResource()->deleteOldEntries($helper->getCleanupExpirationPeriod());
         }

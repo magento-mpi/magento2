@@ -7,18 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Locale_Hierarchy_Config_FileResolver implements \Magento\Config\FileResolverInterface
+namespace Magento\Core\Model\Locale\Hierarchy\Config;
+
+class FileResolver implements \Magento\Config\FileResolverInterface
 {
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_applicationDirs;
 
     /**
-     * @param Magento_Core_Model_Dir $applicationDirs
+     * @param \Magento\Core\Model\Dir $applicationDirs
      */
-    public function __construct(Magento_Core_Model_Dir $applicationDirs)
+    public function __construct(\Magento\Core\Model\Dir $applicationDirs)
     {
         $this->_applicationDirs = $applicationDirs;
     }
@@ -28,7 +30,7 @@ class Magento_Core_Model_Locale_Hierarchy_Config_FileResolver implements \Magent
      */
     public function get($filename, $scope)
     {
-        $appLocaleDir = $this->_applicationDirs->getDir(Magento_Core_Model_Dir::LOCALE);
+        $appLocaleDir = $this->_applicationDirs->getDir(\Magento\Core\Model\Dir::LOCALE);
         // Create pattern similar to app/locale/*/config.xml
         $filePattern = $appLocaleDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . $filename;
         $fileList = glob($filePattern, GLOB_BRACE);

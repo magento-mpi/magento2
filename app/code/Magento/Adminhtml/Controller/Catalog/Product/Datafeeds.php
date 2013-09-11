@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Adminhtml_Controller_Catalog_Product_Datafeeds extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Catalog\Product;
+
+class Datafeeds extends \Magento\Adminhtml\Controller\Action
 {
 
     public function indexAction()

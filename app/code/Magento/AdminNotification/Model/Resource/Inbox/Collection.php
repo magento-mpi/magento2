@@ -16,7 +16,9 @@
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Resource_Inbox_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\AdminNotification\Model\Resource\Inbox;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization
@@ -24,13 +26,13 @@ class Magento_AdminNotification_Model_Resource_Inbox_Collection extends Magento_
      */
     protected function _construct()
     {
-        $this->_init('Magento_AdminNotification_Model_Inbox', 'Magento_AdminNotification_Model_Resource_Inbox');
+        $this->_init('\Magento\AdminNotification\Model\Inbox', '\Magento\AdminNotification\Model\Resource\Inbox');
     }
 
     /**
      * Add remove filter
      *
-     * @return Magento_AdminNotification_Model_Resource_Inbox_Collection
+     * @return \Magento\AdminNotification\Model\Resource\Inbox\Collection
      */
     public function addRemoveFilter()
     {

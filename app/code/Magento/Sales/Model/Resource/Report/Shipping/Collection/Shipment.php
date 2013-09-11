@@ -16,8 +16,10 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Report_Shipping_Collection_Shipment
-    extends Magento_Sales_Model_Resource_Report_Shipping_Collection_Order
+namespace Magento\Sales\Model\Resource\Report\Shipping\Collection;
+
+class Shipment
+    extends \Magento\Sales\Model\Resource\Report\Shipping\Collection\Order
 {
     /**
      * Initialize custom resource model
@@ -25,7 +27,7 @@ class Magento_Sales_Model_Resource_Report_Shipping_Collection_Shipment
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Sales_Model_Resource_Report $resource
+        \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init('sales_shipping_aggregated');
         parent::__construct($fetchStrategy, $resource);

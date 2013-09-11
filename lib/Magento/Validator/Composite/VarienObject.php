@@ -59,7 +59,7 @@ class VarienObject implements \Zend_Validate_Interface
      * @param \Magento\Object $entity
      * @return bool
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function isValid($entity)
     {

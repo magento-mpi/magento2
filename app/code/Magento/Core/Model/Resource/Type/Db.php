@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-abstract class Magento_Core_Model_Resource_Type_Db extends Magento_Core_Model_Resource_Type_Abstract 
+namespace Magento\Core\Model\Resource\Type;
+
+abstract class Db extends \Magento\Core\Model\Resource\Type\AbstractType
 {
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->_entityClass = 'Magento_Core_Model_Resource_Entity_Table';
+        $this->_entityClass = '\Magento\Core\Model\Resource\Entity\Table';
     }
 }

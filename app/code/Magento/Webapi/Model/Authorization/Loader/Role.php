@@ -7,29 +7,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Loader_Role implements \Magento\Acl\LoaderInterface
+namespace Magento\Webapi\Model\Authorization\Loader;
+
+class Role implements \Magento\Acl\LoaderInterface
 {
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_Role
+     * @var \Magento\Webapi\Model\Resource\Acl\Role
      */
     protected $_roleResource;
 
     /**
-     * @var Magento_Webapi_Model_Authorization_Role_Factory
+     * @var \Magento\Webapi\Model\Authorization\Role\Factory
      */
     protected $_roleFactory;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Webapi_Model_Resource_Acl_Role $roleResource
-     * @param Magento_Webapi_Model_Authorization_Role_Factory $roleFactory
+     * @param \Magento\Webapi\Model\Resource\Acl\Role $roleResource
+     * @param \Magento\Webapi\Model\Authorization\Role\Factory $roleFactory
      */
-    public function __construct(Magento_Webapi_Model_Resource_Acl_Role $roleResource,
-        Magento_Webapi_Model_Authorization_Role_Factory $roleFactory
+    public function __construct(\Magento\Webapi\Model\Resource\Acl\Role $roleResource,
+        \Magento\Webapi\Model\Authorization\Role\Factory $roleFactory
     ) {
         $this->_roleResource = $roleResource;
         $this->_roleFactory = $roleFactory;
@@ -44,7 +46,7 @@ class Magento_Webapi_Model_Authorization_Loader_Role implements \Magento\Acl\Loa
     {
         $roleList = $this->_roleResource->getRolesIds();
         foreach ($roleList as $roleId) {
-            /** @var $aclRole Magento_Webapi_Model_Authorization_Role */
+            /** @var $aclRole \Magento\Webapi\Model\Authorization\Role */
             $aclRole = $this->_roleFactory->createRole(array('roleId' => $roleId));
             $acl->addRole($aclRole);
             //Deny all privileges to Role. Some of them could be allowed later by whitelist

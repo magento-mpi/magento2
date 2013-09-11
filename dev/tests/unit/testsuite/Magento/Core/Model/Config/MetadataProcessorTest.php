@@ -8,7 +8,7 @@
 class Magento_Core_Model_Config_MetadataProcessorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_MetadataProcessor
+     * @var \Magento\Core\Model\Config\MetadataProcessor
      */
     protected $_model;
 
@@ -30,15 +30,15 @@ class Magento_Core_Model_Config_MetadataProcessorTest extends PHPUnit_Framework_
     protected function setUp()
     {
         $this->_modelPoolMock = $this->getMock(
-            'Magento_Core_Model_Config_Data_BackendModelPool', array(), array(), '', false);
-        $this->_initialConfigMock = $this->getMock('Magento_Core_Model_Config_Initial', array(), array(), '', false);
-        $this->_backendModelMock = $this->getMock('Magento_Core_Model_Config_Data_BackendModelInterface');
+            '\Magento\Core\Model\Config\Data\BackendModelPool', array(), array(), '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\Core\Model\Config\Initial', array(), array(), '', false);
+        $this->_backendModelMock = $this->getMock('Magento\Core\Model\Config\Data\BackendModelInterface');
         $this->_initialConfigMock->expects($this->any())
             ->method('getMetadata')
             ->will($this->returnValue(array(
                 'some/config/path' => array('backendModel' => 'Custom_Backend_Model'),
             )));
-        $this->_model = new Magento_Core_Model_Config_MetadataProcessor(
+        $this->_model = new \Magento\Core\Model\Config\MetadataProcessor(
             $this->_modelPoolMock,
             $this->_initialConfigMock
         );

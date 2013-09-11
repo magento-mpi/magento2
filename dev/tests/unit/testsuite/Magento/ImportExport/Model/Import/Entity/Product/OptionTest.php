@@ -46,14 +46,14 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     /**
      * Test entity
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Product_Option
+     * @var \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected $_model;
 
     /**
      * Parent product entity
      *
-     * @var Magento_ImportExport_Model_Import_Entity_Product
+     * @var \Magento\ImportExport\Model\Import\Entity\Product
      */
     protected $_productEntity;
 
@@ -299,7 +299,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             $doubleOptions = true;
         }
 
-        $this->_model = new Magento_ImportExport_Model_Import_Entity_Product_Option(
+        $this->_model = new \Magento\ImportExport\Model\Import\Entity\Product\Option(
             $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
@@ -392,14 +392,14 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
                     'id'         => $elementIndex,
                     'entity_id'  => $elementIndex,
                     'product_id' => $elementIndex,
-                    'type'       => $csvDataRow[Magento_ImportExport_Model_Import_Entity_Product_Option::COLUMN_TYPE],
-                    'title'      => $csvDataRow[Magento_ImportExport_Model_Import_Entity_Product_Option::COLUMN_TITLE],
+                    'type'       => $csvDataRow[\Magento\ImportExport\Model\Import\Entity\Product\Option::COLUMN_TYPE],
+                    'title'      => $csvDataRow[\Magento\ImportExport\Model\Import\Entity\Product\Option::COLUMN_TITLE],
                 );
             }
         }
 
         $this->_productEntity = $this->getMock(
-            'Magento_ImportExport_Model_Import_Entity_Product', null, array(), '', false
+            '\Magento\ImportExport\Model\Import\Entity\Product', null, array(), '', false
         );
 
         $productModelMock = $this->getMock('stdClass', array('getProductEntitiesInfo'), array(), '', false);
@@ -486,13 +486,13 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     }
 
     /**
-     * Get new object mock for Magento_Catalog_Model_Product_Option
+     * Get new object mock for \Magento\Catalog\Model\Product\Option
      *
-     * @return Magento_Catalog_Model_Product_Option|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Catalog\Model\Product\Option|PHPUnit_Framework_MockObject_MockObject
      */
     public function getNewOptionMock()
     {
-        return $this->getMock('Magento_Catalog_Model_Product_Option', null, array(), '', false);
+        return $this->getMock('Magento\Catalog\Model\Product\Option', null, array(), '', false);
     }
 
     /**
@@ -588,7 +588,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::getEntityTypeCode
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::getEntityTypeCode
      */
     public function testGetEntityTypeCode()
     {
@@ -596,15 +596,15 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::importData
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_importData
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_saveOptions
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_saveTitles
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_savePrices
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_saveSpecificTypeValues
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_saveSpecificTypePrices
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_saveSpecificTypeTitles
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_updateProducts
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveOptions
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveTitles
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_savePrices
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveSpecificTypeValues
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveSpecificTypePrices
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveSpecificTypeTitles
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_updateProducts
      */
     public function testImportDataAppendBehavior()
     {
@@ -612,12 +612,12 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_importData
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_deleteEntities
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_importData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_deleteEntities
      */
     public function testImportDataDeleteBehavior()
     {
-        $this->_model->setParameters(array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE));
+        $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE));
         $this->_model->importData();
     }
 
@@ -665,7 +665,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
     /**
      * Test for validation of row without custom option
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_isRowWithCustomOption
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_isRowWithCustomOption
      */
     public function testValidateRowNoCustomOption()
     {
@@ -679,15 +679,15 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
      * @param array $rowData
      * @param array $errors
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::validateRow
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_isRowWithCustomOption
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_isMainOptionRow
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_isSecondaryOptionRow
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_validateMainRow
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_validateMainRowAdditionalData
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_validateSecondaryRow
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificTypeParameters
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificParameterData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::validateRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_isRowWithCustomOption
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_isMainOptionRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_isSecondaryOptionRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_validateMainRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_validateMainRowAdditionalData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_validateSecondaryRow
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_validateSpecificTypeParameters
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_validateSpecificParameterData
      * @dataProvider validateRowDataProvider
      */
     public function testValidateRow(array $rowData, array $errors)
@@ -708,17 +708,17 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
      * @param string|null $behavior
      * @param int $numberOfValidations
      *
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::validateAmbiguousData
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_findNewOptionsWithTheSameTitles
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_findOldOptionsWithTheSameTitles
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_findNewOldOptionsTypeMismatch
-     * @covers Magento_ImportExport_Model_Import_Entity_Product_Option::_saveNewOptionData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::validateAmbiguousData
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_findNewOptionsWithTheSameTitles
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_findOldOptionsWithTheSameTitles
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_findNewOldOptionsTypeMismatch
+     * @covers \Magento\ImportExport\Model\Import\Entity\Product\Option::_saveNewOptionData
      * @dataProvider validateAmbiguousDataDataProvider
      */
     public function testValidateAmbiguousData(array $rowData, array $errors, $behavior = null, $numberOfValidations = 1)
     {
         if ($behavior) {
-            $this->_model->setParameters(array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND));
+            $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND));
         }
         for ($i = 0; $i < $numberOfValidations; $i++) {
             $this->_model->validateRow($rowData, $i);
@@ -748,61 +748,61 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'main_invalid_store' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_store.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_STORE
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_STORE
                     => array(array(1, null))
                 )
             ),
             'main_incorrect_type' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_incorrect_type.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_TYPE
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_TYPE
                     => array(array(1, null))
                 )
             ),
             'main_no_title' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_no_title.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_EMPTY_TITLE => array(array(1, null))
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_EMPTY_TITLE => array(array(1, null))
                 )
             ),
             'main_empty_title' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_empty_title.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_EMPTY_TITLE => array(array(1, null))
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_EMPTY_TITLE => array(array(1, null))
                 )
             ),
             'main_invalid_price' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_price.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_PRICE
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_PRICE
                     => array(array(1, null))
                 )
             ),
             'main_invalid_max_characters' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_max_characters.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_MAX_CHARACTERS
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_MAX_CHARACTERS
                     => array(array(1, null))
                 )
             ),
             'main_max_characters_less_zero' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_max_characters_less_zero.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_MAX_CHARACTERS
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_MAX_CHARACTERS
                     => array(array(1, null))
                 )
             ),
             'main_invalid_sort_order' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_sort_order.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_SORT_ORDER
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_SORT_ORDER
                     => array(array(1, null))
                 )
             ),
             'main_sort_order_less_zero' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_sort_order_less_zero.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_SORT_ORDER
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_SORT_ORDER
                     => array(array(1, null))
                 )
             ),
@@ -813,28 +813,28 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'secondary_invalid_store' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_invalid_store.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_STORE
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_STORE
                     => array(array(1, null))
                 )
             ),
             'secondary_incorrect_price' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_incorrect_price.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_ROW_PRICE
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_ROW_PRICE
                     => array(array(1, null))
                 )
             ),
             'secondary_incorrect_row_sort' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_incorrect_row_sort.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_ROW_SORT
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_ROW_SORT
                     => array(array(1, null))
                 )
             ),
             'secondary_row_sort_less_zero' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_row_sort_less_zero.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_ROW_SORT
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_INVALID_ROW_SORT
                     => array(array(1, null))
                 )
             ),
@@ -852,7 +852,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'ambiguity_several_input_rows' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_valid.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_NEW_NAMES => array(
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_AMBIGUOUS_NEW_NAMES => array(
                         array(1, null),
                         array(2, null),
                     )
@@ -863,18 +863,18 @@ class Magento_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUni
             'ambiguity_different_type' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_ambiguity_different_type.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_TYPES
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_AMBIGUOUS_TYPES
                     => array(array(1, null))
                 ),
-                '$behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND,
+                '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND,
             ),
             'ambiguity_several_db_rows' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_ambiguity_several_db_rows.php',
                 '$errors' => array(
-                    Magento_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_OLD_NAMES
+                    \Magento\ImportExport\Model\Import\Entity\Product\Option::ERROR_AMBIGUOUS_OLD_NAMES
                     => array(array(1, null))
                 ),
-                '$behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND,
+                '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND,
             ),
         );
     }

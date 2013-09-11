@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Authorization_RoleLocator implements \Magento\Authorization\RoleLocator
+namespace Magento\Backend\Model\Authorization;
+
+class RoleLocator implements \Magento\Authorization\RoleLocator
 {
     /**
      * Authentication service
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_Backend_Model_Auth_Session $session
+     * @param \Magento\Backend\Model\Auth\Session $session
      */
-    public function __construct(Magento_Backend_Model_Auth_Session $session)
+    public function __construct(\Magento\Backend\Model\Auth\Session $session)
     {
         $this->_session = $session;
     }

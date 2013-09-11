@@ -11,7 +11,7 @@
 
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
-$review = Mage::getModel('Magento_Review_Model_Review', array(
+$review = Mage::getModel('\Magento\Review\Model\Review', array(
     'data' => array(
         'nickname' => 'Nickname',
         'title'    => 'Review Summary',
@@ -19,14 +19,14 @@ $review = Mage::getModel('Magento_Review_Model_Review', array(
     )
 ));
 $review
-    ->setEntityId($review->getEntityIdByCode(Magento_Review_Model_Review::ENTITY_PRODUCT_CODE))
+    ->setEntityId($review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE))
     ->setEntityPkValue(1) // the last product from the fixture file included above
-    ->setStatusId(Magento_Review_Model_Review::STATUS_PENDING)
+    ->setStatusId(\Magento\Review\Model\Review::STATUS_PENDING)
     ->setStoreId(Mage::app()->getStore()->getId())
     ->setStores(array(Mage::app()->getStore()->getId()))
     ->save();
 
-$review = Mage::getModel('Magento_Review_Model_Review', array(
+$review = Mage::getModel('\Magento\Review\Model\Review', array(
     'data' => array(
         'nickname' => 'Nickname',
         'title'    => '2 filter first review',
@@ -34,14 +34,14 @@ $review = Mage::getModel('Magento_Review_Model_Review', array(
     )
 ));
 $review
-    ->setEntityId($review->getEntityIdByCode(Magento_Review_Model_Review::ENTITY_PRODUCT_CODE))
+    ->setEntityId($review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE))
     ->setEntityPkValue(1) // the last product from the fixture file included above
-    ->setStatusId(Magento_Review_Model_Review::STATUS_APPROVED)
+    ->setStatusId(\Magento\Review\Model\Review::STATUS_APPROVED)
     ->setStoreId(Mage::app()->getStore()->getId())
     ->setStores(array(Mage::app()->getStore()->getId()))
     ->save();
 
-$review = Mage::getModel('Magento_Review_Model_Review', array(
+$review = Mage::getModel('\Magento\Review\Model\Review', array(
     'data' => array(
         'nickname' => 'Nickname',
         'title'    => '1 filter second review',
@@ -49,9 +49,9 @@ $review = Mage::getModel('Magento_Review_Model_Review', array(
     )
 ));
 $review
-    ->setEntityId($review->getEntityIdByCode(Magento_Review_Model_Review::ENTITY_PRODUCT_CODE))
+    ->setEntityId($review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE))
     ->setEntityPkValue(1) // the last product from the fixture file included above
-    ->setStatusId(Magento_Review_Model_Review::STATUS_APPROVED)
+    ->setStatusId(\Magento\Review\Model\Review::STATUS_APPROVED)
     ->setStoreId(Mage::app()->getStore()->getId())
     ->setStores(array(Mage::app()->getStore()->getId()))
     ->save();

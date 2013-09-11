@@ -15,7 +15,9 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Block_Adminhtml_Sales_Order_Create_Form extends Magento_Adminhtml_Block_Template
+namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create;
+
+class Form extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Indicates that block can display gift message form
@@ -24,7 +26,7 @@ class Magento_GiftMessage_Block_Adminhtml_Sales_Order_Create_Form extends Magent
      */
     public function canDisplayGiftmessageForm()
     {
-        $quote = Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getQuote();
-        return $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('items', $quote, $quote->getStore());
+        $quote = \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getQuote();
+        return $this->helper('\Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('items', $quote, $quote->getStore());
     }
 }

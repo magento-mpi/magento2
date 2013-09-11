@@ -13,7 +13,7 @@
     <global>
         <helpers>
             <core>
-                <encryption_model>Magento_Core_Model_Encryption</encryption_model>
+                <encryption_model>\Magento\Core\Model\Encryption</encryption_model>
             </core>
         </helpers>
         <template>
@@ -253,8 +253,8 @@
         </general>
         <theme>
             <customization>
-                <css>Magento_Core_Model_Theme_Customization_File_Css</css>
-                <js>Magento_Core_Model_Theme_Customization_File_Js</js>
+                <css>\Magento\Core\Model\Theme\Customization\File\Css</css>
+                <js>\Magento\Core\Model\Theme\Customization\File\Js</js>
             </customization>
         </theme>
     </default>
@@ -265,7 +265,7 @@
                     <cron_expr>30 2 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_Core_Model_Observer::cleanCache</model>
+                    <model>\Magento\Core\Model\Observer::cleanCache</model>
                 </run>
             </core_clean_cache>
         </jobs>

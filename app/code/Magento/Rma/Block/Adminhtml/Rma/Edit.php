@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Rma\Block\Adminhtml\Rma;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     /**
      * Variable to store RMA instance
      *
-     * @var null|Magento_Rma_Model_Rma
+     * @var null|\Magento\Rma\Model\Rma
      */
     protected $_rma = null;
 
@@ -36,8 +38,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit extends Magento_Adminhtml_Block_Widge
         $statusIsClosed = in_array(
             $this->getRma()->getStatus(),
             array(
-                Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED,
-                Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED
+                \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED,
+                \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED
             )
         );
 
@@ -106,12 +108,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit extends Magento_Adminhtml_Block_Widge
     /**
      * Declare rma instance
      *
-     * @return  Magento_Rma_Model_Item
+     * @return  \Magento\Rma\Model\Item
      */
     public function getRma()
     {
         if (is_null($this->_rma)) {
-            $this->_rma = Mage::registry('current_rma');
+            $this->_rma = \Mage::registry('current_rma');
         }
         return $this->_rma;
     }

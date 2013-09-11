@@ -15,7 +15,9 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sales_Block_Adminhtml_Report_Filter_Form
+namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
+
+class Coupon extends \Magento\Sales\Block\Adminhtml\Report\Filter\Form
 {
     /**
      * Flag that keep info should we render specific dependent element or not
@@ -27,7 +29,7 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sa
     /**
      * Prepare form
      *
-     * @return Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon
+     * @return \Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon
      */
     protected function _prepareForm()
     {
@@ -47,7 +49,7 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sa
                 'label'   => __('Shopping Cart Price Rule'),
             ));
 
-            $rulesList = Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule')->getUniqRulesNamesList();
+            $rulesList = \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Report\Rule')->getUniqRulesNamesList();
 
             $rulesListOptions = array();
 
@@ -88,8 +90,8 @@ class Magento_Sales_Block_Adminhtml_Report_Filter_Form_Coupon extends Magento_Sa
              * form creates appropriate child block and uses this alias. In this case we can't use the same alias
              * without core logic changes, that's why the code below was moved inside method '_afterToHtml'.
              */
-            /** @var $formAfterBlock Magento_Adminhtml_Block_Widget_Form_Element_Dependence */
-            $formAfterBlock = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Element_Dependence',
+            /** @var $formAfterBlock \Magento\Adminhtml\Block\Widget\Form\Element\Dependence */
+            $formAfterBlock = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Element\Dependence',
                 'adminhtml.block.widget.form.element.dependence'
             );
             $formAfterBlock->addFieldMap($htmlIdPrefix . 'price_rule_type', 'price_rule_type')

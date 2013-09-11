@@ -15,10 +15,12 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_MassOperations
+namespace Magento\GoogleShopping\Model;
+
+class MassOperations
 {
     /**
-     * Zend_Db_Statement_Exception code for "Duplicate unique index" error
+     * \Zend_Db_Statement_Exception code for "Duplicate unique index" error
      *
      * @var int
      */
@@ -34,17 +36,17 @@ class Magento_GoogleShopping_Model_MassOperations
     /**
      * Process locking flag
      *
-     * @var Magento_GoogleShopping_Model_Flag
+     * @var \Magento\GoogleShopping\Model\Flag
      */
     protected $_flag;
 
     /**
      * Set process locking flag.
      *
-     * @param Magento_GoogleShopping_Model_Flag $flag
-     * @return Magento_GoogleShopping_Model_MassOperations
+     * @param \Magento\GoogleShopping\Model\Flag $flag
+     * @return \Magento\GoogleShopping\Model\MassOperations
      */
-    public function setFlag(Magento_GoogleShopping_Model_Flag $flag)
+    public function setFlag(\Magento\GoogleShopping\Model\Flag $flag)
     {
         $this->_flag = $flag;
         return $this;
@@ -55,9 +57,9 @@ class Magento_GoogleShopping_Model_MassOperations
      *
      * @param array $productIds
      * @param int $storeId
-     * @throws Zend_Gdata_App_CaptchaRequiredException
-     * @throws Magento_Core_Exception
-     * @return Magento_GoogleShopping_Model_MassOperations
+     * @throws \Zend_Gdata_App_CaptchaRequiredException
+     * @throws \Magento\Core\Exception
+     * @return \Magento\GoogleShopping\Model\MassOperations
      */
     public function addProducts($productIds, $storeId)
     {
@@ -69,31 +71,31 @@ class Magento_GoogleShopping_Model_MassOperations
                     break;
                 }
                 try {
-                    $product = Mage::getModel('Magento_Catalog_Model_Product')
+                    $product = \Mage::getModel('\Magento\Catalog\Model\Product')
                         ->setStoreId($storeId)
                         ->load($productId);
 
                     if ($product->getId()) {
-                        Mage::getModel('Magento_GoogleShopping_Model_Item')
+                        \Mage::getModel('\Magento\GoogleShopping\Model\Item')
                             ->insertItem($product)
                             ->save();
                         // The product was added successfully
                         $totalAdded++;
                     }
-                } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+                } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
                     throw $e;
-                } catch (Zend_Gdata_App_Exception $e) {
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')->parseGdataExceptionMessage($e->getMessage(), $product);
-                } catch (Zend_Db_Statement_Exception $e) {
+                } catch (\Zend_Gdata_App_Exception $e) {
+                    $errors[] = \Mage::helper('Magento\GoogleShopping\Helper\Data')->parseGdataExceptionMessage($e->getMessage(), $product);
+                } catch (\Zend_Db_Statement_Exception $e) {
                     $message = $e->getMessage();
                     if ($e->getCode() == self::ERROR_CODE_SQL_UNIQUE_INDEX) {
-                        $message = __("The Google Content item for product '%1' (in '%2' store) already exists.", $product->getName(), Mage::app()->getStore($product->getStoreId())->getName());
+                        $message = __("The Google Content item for product '%1' (in '%2' store) already exists.", $product->getName(), \Mage::app()->getStore($product->getStoreId())->getName());
                     }
                     $errors[] = $message;
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     $errors[] = __('The product "%1" cannot be added to Google Content. %2', $product->getName(), $e->getMessage());
-                } catch (Exception $e) {
-                    Mage::logException($e);
+                } catch (\Exception $e) {
+                    \Mage::logException($e);
                     $errors[] = __('The product "%1" hasn\'t been added to Google Content.', $product->getName());
                 }
             }
@@ -129,10 +131,10 @@ class Magento_GoogleShopping_Model_MassOperations
     /**
      * Update Google Content items.
      *
-     * @param array|Magento_GoogleShopping_Model_Resource_Item_Collection $items
-     * @throws Zend_Gdata_App_CaptchaRequiredException
-     * @throws Magento_Core_Exception
-     * @return Magento_GoogleShopping_Model_MassOperations
+     * @param array|\Magento\GoogleShopping\Model\Resource\Item\Collection $items
+     * @throws \Zend_Gdata_App_CaptchaRequiredException
+     * @throws \Magento\Core\Exception
+     * @return \Magento\GoogleShopping\Model\MassOperations
      */
     public function synchronizeItems($items)
     {
@@ -162,22 +164,22 @@ class Magento_GoogleShopping_Model_MassOperations
                         $totalDeleted++;
                     } else {
                         $this->_addGeneralError();
-                        $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')
+                        $errors[] = \Mage::helper('Magento\GoogleShopping\Helper\Data')
                             ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                         $totalFailed++;
                     }
-                } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+                } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
                     throw $e;
-                } catch (Zend_Gdata_App_Exception $e) {
+                } catch (\Zend_Gdata_App_Exception $e) {
                     $this->_addGeneralError();
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')
+                    $errors[] = \Mage::helper('Magento\GoogleShopping\Helper\Data')
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
                     $totalFailed++;
-                } catch (Magento_Core_Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     $errors[] = __('The item "%1" cannot be updated at Google Content. %2', $item->getProduct()->getName(), $e->getMessage());
                     $totalFailed++;
-                } catch (Exception $e) {
-                    Mage::logException($e);
+                } catch (\Exception $e) {
+                    \Mage::logException($e);
                     $errors[] = __('The item "%1" hasn\'t been updated.', $item->getProduct()->getName());
                     $totalFailed++;
                 }
@@ -204,9 +206,9 @@ class Magento_GoogleShopping_Model_MassOperations
     /**
      * Remove Google Content items.
      *
-     * @param array|Magento_GoogleShopping_Model_Resource_Item_Collection $items
-     * @throws Zend_Gdata_App_CaptchaRequiredException
-     * @return Magento_GoogleShopping_Model_MassOperations
+     * @param array|\Magento\GoogleShopping\Model\Resource\Item\Collection $items
+     * @throws \Zend_Gdata_App_CaptchaRequiredException
+     * @return \Magento\GoogleShopping\Model\MassOperations
      */
     public function deleteItems($items)
     {
@@ -225,14 +227,14 @@ class Magento_GoogleShopping_Model_MassOperations
                     $item->deleteItem()->delete();
                     // The item was removed successfully
                     $totalDeleted++;
-                } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
+                } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
                     throw $e;
-                } catch (Zend_Gdata_App_Exception $e) {
+                } catch (\Zend_Gdata_App_Exception $e) {
                     $this->_addGeneralError();
-                    $errors[] = Mage::helper('Magento_GoogleShopping_Helper_Data')
+                    $errors[] = \Mage::helper('Magento\GoogleShopping\Helper\Data')
                         ->parseGdataExceptionMessage($e->getMessage(), $item->getProduct());
-                } catch (Exception $e) {
-                    Mage::logException($e);
+                } catch (\Exception $e) {
+                    \Mage::logException($e);
                     $errors[] = __('The item "%1" hasn\'t been deleted.', $item->getProduct()->getName());
                 }
             }
@@ -259,17 +261,17 @@ class Magento_GoogleShopping_Model_MassOperations
     /**
      * Return items collection by IDs
      *
-     * @param array|Magento_GoogleShopping_Model_Resource_Item_Collection $items
-     * @throws Magento_Core_Exception
-     * @return null|Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @param array|\Magento\GoogleShopping\Model\Resource\Item\Collection $items
+     * @throws \Magento\Core\Exception
+     * @return null|\Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     protected function _getItemsCollection($items)
     {
         $itemsCollection = null;
-        if ($items instanceof Magento_GoogleShopping_Model_Resource_Item_Collection) {
+        if ($items instanceof \Magento\GoogleShopping\Model\Resource\Item\Collection) {
             $itemsCollection = $items;
         } else if (is_array($items)) {
-            $itemsCollection = Mage::getResourceModel('Magento_GoogleShopping_Model_Resource_Item_Collection')
+            $itemsCollection = \Mage::getResourceModel('\Magento\GoogleShopping\Model\Resource\Item\Collection')
                 ->addFieldToFilter('item_id', $items);
         }
 
@@ -279,11 +281,11 @@ class Magento_GoogleShopping_Model_MassOperations
     /**
      * Retrieve adminhtml session model object
      *
-     * @return Magento_Adminhtml_Model_Session
+     * @return \Magento\Adminhtml\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Session');
     }
 
     /**
@@ -293,7 +295,7 @@ class Magento_GoogleShopping_Model_MassOperations
      */
     protected function _getNotifier()
     {
-        return Mage::getModel('Magento_AdminNotification_Model_Inbox');
+        return \Mage::getModel('\Magento\AdminNotification\Model\Inbox');
     }
 
     /**
@@ -304,7 +306,7 @@ class Magento_GoogleShopping_Model_MassOperations
         if (!$this->_hasError) {
             $this->_getNotifier()->addMajor(
                 __('Google Shopping Error'),
-                Mage::helper('Magento_GoogleShopping_Helper_Category')->getMessage()
+                \Mage::helper('Magento\GoogleShopping\Helper\Category')->getMessage()
             );
             $this->_hasError = true;
         }

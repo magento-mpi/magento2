@@ -11,8 +11,10 @@
 /**
  * Reminder rules edit form block
  */
-class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Form
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
+
+class Form
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
@@ -30,7 +32,7 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Form
     /**
      * Prepare edit form
      *
-     * @return Magento_Reminder_Block_Adminhtml_Reminder_Edit_Form
+     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Form
      */
     protected function _prepareForm()
     {

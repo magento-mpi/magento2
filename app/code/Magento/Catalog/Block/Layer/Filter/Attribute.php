@@ -15,12 +15,14 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Layer_Filter_Attribute extends Magento_Catalog_Block_Layer_Filter_Abstract
+namespace Magento\Catalog\Block\Layer\Filter;
+
+class Attribute extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = 'Magento_Catalog_Model_Layer_Filter_Attribute';
+        $this->_filterModelName = '\Magento\Catalog\Model\Layer\Filter\Attribute';
     }
 
     protected function _prepareFilter()

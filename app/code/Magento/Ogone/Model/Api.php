@@ -11,7 +11,9 @@
 /**
  * Ogone payment method model
  */
-class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
+namespace Magento\Ogone\Model;
+
+class Api extends \Magento\Payment\Model\Method\AbstractMethod
 {
     /**
      * Ogone payment method code
@@ -21,8 +23,8 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     const PAYMENT_CODE = 'ogone';
 
     protected $_code  = self::PAYMENT_CODE;
-    protected $_formBlockType = 'Magento_Ogone_Block_Form';
-    protected $_infoBlockType = 'Magento_Ogone_Block_Info';
+    protected $_formBlockType = '\Magento\Ogone\Block\Form';
+    protected $_infoBlockType = '\Magento\Ogone\Block\Info';
     protected $_config = null;
 
      /**
@@ -166,10 +168,10 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Init Ogone Api instance, detup default values
      *
-     * @var Magento_Ogone_Model_Config $config
-     * @return Magento_Ogone_Model_Api
+     * @var \Magento\Ogone\Model\Config $config
+     * @return \Magento\Ogone\Model\Api
      */
-    public function __construct(Magento_Ogone_Model_Config $config)
+    public function __construct(\Magento\Ogone\Model\Config $config)
     {
         $this->_config = $config;
         return $this;
@@ -178,7 +180,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Return ogone config instance
      *
-     * @return Magento_Ogone_Model_Config
+     * @return \Magento\Ogone\Model\Config
      */
     public function getConfig()
     {
@@ -202,7 +204,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      */
     public function getOrderPlaceRedirectUrl()
     {
-          return Mage::getUrl('ogone/api/placeform', array('_secure' => true));
+          return \Mage::getUrl('ogone/api/placeform', array('_secure' => true));
     }
 
     /**
@@ -218,7 +220,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Rrepare params array to send it to gateway page via POST
      *
-     * @param Magento_Sales_Model_Order
+     * @param \Magento\Sales\Model\Order
      * @return array
      */
     public function getFormFields($order)
@@ -228,14 +230,14 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
                 return array();
             }
         }
-        /** @var Magento_Sales_Model_Quote_Address $billingAddress */
+        /** @var \Magento\Sales\Model\Quote\Address $billingAddress */
         $billingAddress = $order->getBillingAddress();
         $formFields = array();
         $formFields['PSPID']    = $this->getConfig()->getPSPID();
         $formFields['orderID']  = $order->getIncrementId();
         $formFields['amount']   = round($order->getBaseGrandTotal()*100);
-        $formFields['currency'] = Mage::app()->getStore()->getBaseCurrencyCode();
-        $formFields['language'] = Mage::app()->getLocale()->getLocaleCode();
+        $formFields['currency'] = \Mage::app()->getStore()->getBaseCurrencyCode();
+        $formFields['language'] = \Mage::app()->getLocale()->getLocaleCode();
 
         $formFields['CN']       = $this->_translate($billingAddress->getFirstname().' '.$billingAddress->getLastname());
         $formFields['EMAIL']    = $order->getCustomerEmail();
@@ -284,9 +286,9 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * Debug specified order fields if needed
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      */
-    public function debugOrder(Magento_Sales_Model_Order $order)
+    public function debugOrder(\Magento\Sales\Model\Order $order)
     {
         if ($this->getDebugFlag()) {
             $this->debugData(array('request' => $this->getFormFields($order)));
@@ -302,7 +304,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
      * @param bool|int $mapAllParams
      * @param string $algorithm
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public function getHash($data, $passPhrase, $direction, $mapAllParams = false, $algorithm = null)
     {
@@ -312,7 +314,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
         } elseif (self::HASH_DIR_IN === $direction) {
             $hashMap = $mapAllParams ? '_inAllMap' : '_inShortMap';
         } else {
-            throw new Exception(sprintf('Unknown hashing context "%s".', $direction));
+            throw new \Exception(sprintf('Unknown hashing context "%s".', $direction));
         }
 
         // collect non-empty data that maps and sort it alphabetically by key (uppercase)
@@ -375,10 +377,10 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     protected function _getOgonePaymentOperation()
     {
         $value = $this->getPaymentAction();
-        if ($value==Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE) {
-            $value = Magento_Ogone_Model_Api::OGONE_AUTHORIZE_ACTION;
-        } elseif ($value==Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE) {
-            $value = Magento_Ogone_Model_Api::OGONE_AUTHORIZE_CAPTURE_ACTION;
+        if ($value==\Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE) {
+            $value = \Magento\Ogone\Model\Api::OGONE_AUTHORIZE_ACTION;
+        } elseif ($value==\Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE) {
+            $value = \Magento\Ogone\Model\Api::OGONE_AUTHORIZE_CAPTURE_ACTION;
         }
         return $value;
     }
@@ -386,7 +388,7 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
     /**
      * get formated order description
      *
-     * @param Magento_Sales_Model_Order
+     * @param \Magento\Sales\Model\Order
      * @return string
      */
     protected function _getOrderDescription($order)
@@ -398,12 +400,12 @@ class Magento_Ogone_Model_Api extends Magento_Payment_Model_Method_Abstract
                 continue;
             }
             //COM filed can only handle max 100
-            if (Mage::helper('Magento_Core_Helper_String')->strlen($invoiceDesc.$item->getName()) > 100) {
+            if (\Mage::helper('Magento\Core\Helper\String')->strlen($invoiceDesc.$item->getName()) > 100) {
                 break;
             }
             $invoiceDesc .= $item->getName() . ', ';
         }
-        return Mage::helper('Magento_Core_Helper_String')->substr($invoiceDesc, 0, -2);
+        return \Mage::helper('Magento\Core\Helper\String')->substr($invoiceDesc, 0, -2);
     }
 
     /**

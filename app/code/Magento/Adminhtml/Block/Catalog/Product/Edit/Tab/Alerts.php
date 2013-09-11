@@ -17,24 +17,26 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
+
+class Alerts extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'catalog/product/tab/alert.phtml';
 
     protected function _prepareLayout()
     {
-        $accordion = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Accordion')
+        $accordion = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Accordion')
             ->setId('productAlerts');
-        /* @var $accordion Magento_Adminhtml_Block_Widget_Accordion */
+        /* @var $accordion \Magento\Adminhtml\Block\Widget\Accordion */
 
-        $alertPriceAllow = Mage::getStoreConfig('catalog/productalert/allow_price');
-        $alertStockAllow = Mage::getStoreConfig('catalog/productalert/allow_stock');
+        $alertPriceAllow = \Mage::getStoreConfig('catalog/productalert/allow_price');
+        $alertStockAllow = \Mage::getStoreConfig('catalog/productalert/allow_stock');
 
         if ($alertPriceAllow) {
             $accordion->addItem('price', array(
                 'title'     => __('We saved the price alert subscription.'),
                 'content'   => $this->getLayout()
-                    ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Price')
+                    ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts\Price')
                     ->toHtml() . '<br />',
                 'open'      => true
             ));
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts extends Magento_Ad
             $accordion->addItem('stock', array(
                 'title'     => __('We saved the stock notification.'),
                 'content'   => $this->getLayout()
-                    ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Alerts_Stock'),
+                    ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Alerts\Stock'),
                 'open'      => true
             ));
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Authorization_Loader_Resource
+ * Test class for \Magento\Webapi\Model\Authorization\Loader\Resource
  *
  * {license_notice}
  *
@@ -10,7 +10,7 @@
 class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Webapi_Model_Authorization_Loader_Resource
+     * @var \Magento\Webapi\Model\Authorization\Loader\Resource
      */
     protected $_model;
 
@@ -46,12 +46,12 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
             ->method('createResource')
             ->will($this->returnValue($resource));
 
-        $this->_resourceProvider = $this->getMock('Magento_Webapi_Model_Acl_Resource_ProviderInterface');
+        $this->_resourceProvider = $this->getMock('Magento\Webapi\Model\Acl\Resource\ProviderInterface');
         $this->_resourceProvider->expects($this->once())
             ->method('getAclResources')
             ->will($this->returnValue(include $fixturePath . 'acl.php'));
 
-        $this->_model = $this->_helper->getObject('Magento_Webapi_Model_Authorization_Loader_Resource', array(
+        $this->_model = $this->_helper->getObject('\Magento\Webapi\Model\Authorization\Loader\Resource', array(
             'resourceFactory' => $resourceFactory,
             'resourceProvider' => $this->_resourceProvider,
         ));
@@ -62,7 +62,7 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
     }
 
     /**
-     * Test for Magento_Webapi_Model_Authorization_Loader_Resource::populateAcl.
+     * Test for \Magento\Webapi\Model\Authorization\Loader\Resource::populateAcl.
      */
     public function testPopulateAcl()
     {
@@ -70,7 +70,7 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
             . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml';
         $aclDom = new DOMDocument();
         $aclDom->loadXML(file_get_contents($aclFilePath));
-        $domConverter = new Magento_Webapi_Model_Acl_Resource_Config_Converter_Dom();
+        $domConverter = new \Magento\Webapi\Model\Acl\Resource\Config\Converter\Dom();
         $aclResourceConfig = $domConverter->convert($aclDom);
 
         $this->_resourceProvider->expects($this->once())
@@ -97,7 +97,7 @@ class Magento_Webapi_Model_Authorization_Loader_ResourceTest extends PHPUnit_Fra
     }
 
     /**
-     * Test for Magento_Webapi_Model_Authorization_Loader_Resource::populateAcl with invalid Virtual resources DOM.
+     * Test for \Magento\Webapi\Model\Authorization\Loader\Resource::populateAcl with invalid Virtual resources DOM.
      */
     public function testPopulateAclWithInvalidDOM()
     {

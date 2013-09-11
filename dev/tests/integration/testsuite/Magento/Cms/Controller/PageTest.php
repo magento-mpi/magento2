@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Cms_Controller_Page.
+ * Test class for \Magento\Cms\Controller\Page.
  */
 class Magento_Cms_Controller_PageTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {

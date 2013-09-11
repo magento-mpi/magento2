@@ -11,12 +11,14 @@
 /**
  * Source model for available logo types
  */
-class Magento_Paypal_Model_System_Config_Source_Logo
+namespace Magento\Paypal\Model\System\Config\Source;
+
+class Logo
 {
     public function toOptionArray()
     {
         $result = array('' => __('No Logo'));
-        $result += Mage::getModel('Magento_Paypal_Model_Config')->getAdditionalOptionsLogoTypes();
+        $result += \Mage::getModel('\Magento\Paypal\Model\Config')->getAdditionalOptionsLogoTypes();
         return $result;
     }
 }

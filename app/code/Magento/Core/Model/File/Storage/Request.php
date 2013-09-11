@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_File_Storage_Request
+namespace Magento\Core\Model\File\Storage;
+
+class Request
 {
     /**
      * Path info
@@ -23,11 +25,11 @@ class Magento_Core_Model_File_Storage_Request
 
     /**
      * @param string $workingDir
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      */
-    public function __construct($workingDir, Zend_Controller_Request_Http $request = null)
+    public function __construct($workingDir, \Zend_Controller_Request_Http $request = null)
     {
-        $request = $request ? : new Zend_Controller_Request_Http();
+        $request = $request ? : new \Zend_Controller_Request_Http();
         $this->_pathInfo = str_replace('..', '', ltrim($request->getPathInfo(), '/'));
         $this->_filePath = str_replace('/', DS, $workingDir . DS . $this->_pathInfo);
     }

@@ -16,21 +16,23 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method string getOperationType() getOperationType()
- * @method Magento_ScheduledImportExport_Model_Scheduled_Operation setOperationType() setOperationType(string $value)
+ * @method \Magento\ScheduledImportExport\Model\Scheduled\Operation setOperationType() setOperationType(string $value)
  * @method string getEntityType() getEntityType()
  * @method string getEntitySubtype() getEntitySubtype()
- * @method Magento_ScheduledImportExport_Model_Scheduled_Operation setEntityType() setEntityType(string $value)
- * @method Magento_ScheduledImportExport_Model_Scheduled_Operation setEntitySubtype() setEntitySubtype(string $value)
+ * @method \Magento\ScheduledImportExport\Model\Scheduled\Operation setEntityType() setEntityType(string $value)
+ * @method \Magento\ScheduledImportExport\Model\Scheduled\Operation setEntitySubtype() setEntitySubtype(string $value)
  * @method string|array getStartTime() getStartTime()
- * @method Magento_ScheduledImportExport_Model_Scheduled_Operation setStartTime() setStartTime(string $value)
+ * @method \Magento\ScheduledImportExport\Model\Scheduled\Operation setStartTime() setStartTime(string $value)
  * @method string|array getFileInfo() getFileInfo()
  * @method string|array getEntityAttributes() getEntityAttributes()
  * @method string getBehavior() getBehavior()
  * @method string getForceImport() getForceImport()
- * @method Magento_ScheduledImportExport_Model_Scheduled_Operation setLastRunDate() setLastRunDate(int $value)
+ * @method \Magento\ScheduledImportExport\Model\Scheduled\Operation setLastRunDate() setLastRunDate(int $value)
  * @method int getLastRunDate() getLastRunDate()
  */
-class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Core_Model_Abstract
+namespace Magento\ScheduledImportExport\Model\Scheduled;
+
+class Operation extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Log directory
@@ -57,7 +59,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Cron callback config
      */
-    const CRON_MODEL = 'Magento_ScheduledImportExport_Model_Observer::processScheduledOperation';
+    const CRON_MODEL = '\Magento\ScheduledImportExport\Model\Observer::processScheduledOperation';
 
     /**
      * Cron job name prefix
@@ -67,36 +69,36 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Date model
      *
-     * @var Magento_Core_Model_Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_dateModel;
 
     /**
      * Initialize operation model
      *
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Date $dateModel
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Date $dateModel,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
-        $this->_init('Magento_ScheduledImportExport_Model_Resource_Scheduled_Operation');
+        $this->_init('\Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation');
         $this->_dateModel = $dateModel;
     }
 
     /**
      * Date model getter
      *
-     * @return Magento_Core_Model_Date
+     * @return \Magento\Core\Model\Date
      */
     public function getDateModel()
     {
@@ -107,22 +109,22 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * Send email notification
      *
      * @param array $vars
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     public function sendEmailNotification($vars = array())
     {
-        $storeId = Mage::app()->getStore()->getId();
+        $storeId = \Mage::app()->getStore()->getId();
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
-        $mailer = Mage::getSingleton('Magento_Core_Model_Email_Template_Mailer');
-        $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+        $mailer = \Mage::getSingleton('Magento\Core\Model\Email\Template\Mailer');
+        $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
 
-        $receiverEmail = Mage::getStoreConfig(
+        $receiverEmail = \Mage::getStoreConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
             $storeId
         );
-        $receiverName  = Mage::getStoreConfig(
+        $receiverName  = \Mage::getStoreConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/name',
             $storeId
         );
@@ -140,7 +142,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+                $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
@@ -158,7 +160,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Unserialize file_info and entity_attributes after load
      *
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     protected function _afterLoad()
     {
@@ -178,7 +180,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Serialize file_info and entity_attributes arrays before save
      *
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     protected function _beforeSave()
     {
@@ -198,7 +200,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Add task to cron after save
      *
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     protected function _afterSave()
     {
@@ -213,7 +215,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Delete cron task
      *
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     protected function _afterDelete()
     {
@@ -224,8 +226,8 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Add operation to cron
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @throws \Magento\Core\Exception
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     protected function _addCronTask()
     {
@@ -237,29 +239,29 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $cronExprArray = array(
             intval($time[1]),
             intval($time[0]),
-            ($frequency == Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY) ? '1' : '*',
+            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY) ? '1' : '*',
             '*',
-            ($frequency == Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY) ? '1' : '*'
+            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY) ? '1' : '*'
         );
 
         $cronExprString = join(' ', $cronExprArray);
         $exprPath  = $this->getExprConfigPath();
         $modelPath = $this->getModelConfigPath();
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('\Magento\Core\Model\Config\Value')
                 ->load($exprPath, 'path')
                 ->setValue($cronExprString)
                 ->setPath($exprPath)
                 ->save();
 
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('\Magento\Core\Model\Config\Value')
                 ->load($modelPath, 'path')
                 ->setValue(self::CRON_MODEL)
                 ->setPath($modelPath)
                 ->save();
-        } catch (Exception $e) {
-            Mage::throwException(__('We were unable to save the cron expression.'));
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::throwException(__('We were unable to save the cron expression.'));
+            \Mage::logException($e);
         }
         return $this;
     }
@@ -267,21 +269,21 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Remove cron task
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @throws \Magento\Core\Exception
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     protected function _dropCronTask()
     {
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('\Magento\Core\Model\Config\Value')
                 ->load($this->getExprConfigPath(), 'path')
                 ->delete();
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('\Magento\Core\Model\Config\Value')
                 ->load($this->getModelConfigPath(), 'path')
                 ->delete();
-        } catch (Exception $e) {
-            Mage::throwException(__('Unable to delete the cron task.'));
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::throwException(__('Unable to delete the cron task.'));
+            \Mage::logException($e);
         }
         return $this;
     }
@@ -310,9 +312,9 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * Load operation by cron job code.
      * Operation id must present in job code.
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param string $jobCode
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     public function loadByJobCode($jobCode)
     {
@@ -321,7 +323,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
             $operationId = (int)substr($jobCode, $idPos + 1);
         }
         if (!isset($operationId) || !$operationId) {
-            Mage::throwException(__('Please correct the cron job task'));
+            \Mage::throwException(__('Please correct the cron job task'));
         }
 
         return $this->load($operationId);
@@ -345,7 +347,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $result = false;
         try {
             $result = $operation->runSchedule($this);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $operation->addLogComment($e->getMessage());
         }
 
@@ -376,15 +378,15 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Get file based on "file_info" from server (ftp, local) and put to tmp directory
      *
-     * throws Magento_Core_Exception
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface $operation
+     * throws \Magento\Core\Exception
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
      * @return string full file path
      */
-    public function getFileSource(Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface $operation)
+    public function getFileSource(\Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation)
     {
         $fileInfo = $this->getFileInfo();
         if (empty($fileInfo['file_name'])) {
-            Mage::throwException(__("We couldn't read the file source because the file name is empty."));
+            \Mage::throwException(__("We couldn't read the file source because the file name is empty."));
         }
         $operation->addLogComment(__('Connecting to server'));
         $fs = $this->getServerIoDriver();
@@ -394,7 +396,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $filePath  = $fileInfo['file_name'];
         $tmpFilePath = sys_get_temp_dir() . DS . uniqid(time(), true) . '.' . $extension;
         if (!$fs->read($filePath, $tmpFilePath)) {
-            Mage::throwException(__("We couldn't read the import file."));
+            \Mage::throwException(__("We couldn't read the import file."));
         }
         $fs->close();
         $operation->addLogComment(__('Save history file content "%1"', $this->getHistoryFilePath()));
@@ -405,12 +407,12 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Save/upload file to server (ftp, local)
      *
-     * @throws Magento_Core_Exception
-     * @param Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface $operation
+     * @throws \Magento\Core\Exception
+     * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
      * @param string $fileContent
      * @return bool
      */
-    public function saveFileSource(Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface $operation, $fileContent)
+    public function saveFileSource(\Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation, $fileContent)
     {
         $result = false;
 
@@ -422,7 +424,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         $fileName = $operation->getScheduledFileName() . '.' . $fileInfo['file_format'];
         $result   = $fs->write($fileName, $fileContent);
         if (!$result) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('We couldn\'t write file "%1" to "%2" with the "%3" driver.', $fileName, $fileInfo['file_path'], $fileInfo['server_type'])
             );
         }
@@ -437,14 +439,14 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      * Get operation instance by operation type and set specific data to it
      * Supported import, export
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_ScheduledImportExport_Model_Export|Magento_ScheduledImportExport_Model_Import
+     * @throws \Magento\Core\Exception
+     * @return \Magento\ScheduledImportExport\Model\Export|\Magento\ScheduledImportExport\Model\Import
      */
     public function getInstance()
     {
-        $operation = Mage::getModel('Magento_ScheduledImportExport_Model_' . uc_words($this->getOperationType()));
-        if (!$operation || !($operation instanceof Magento_ScheduledImportExport_Model_Scheduled_Operation_Interface)) {
-            Mage::throwException(
+        $operation = \Mage::getModel('Magento_ScheduledImportExport_Model_' . uc_words($this->getOperationType()));
+        if (!$operation || !($operation instanceof \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface)) {
+            \Mage::throwException(
                 __('Please correct the scheduled operation.')
             );
         }
@@ -456,24 +458,24 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Get and initialize file system driver by operation file section configuration
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return \Magento\Io\AbstractIo
      */
     public function getServerIoDriver()
     {
         $fileInfo = $this->getFileInfo();
-        $availableTypes = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation_Data')
+        $availableTypes = \Mage::getModel('\Magento\ScheduledImportExport\Model\Scheduled\Operation\Data')
             ->getServerTypesOptionArray();
         if (!isset($fileInfo['server_type'])
             || !$fileInfo['server_type']
             || !isset($availableTypes[$fileInfo['server_type']])
         ) {
-            Mage::throwException(__('Please correct the server type.'));
+            \Mage::throwException(__('Please correct the server type.'));
         }
 
         $class = 'Magento_Io_' . ucfirst(strtolower($fileInfo['server_type']));
         if (!class_exists($class)) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Please correct the server communication class "%1".', $class)
             );
         }
@@ -512,9 +514,9 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Save operation file history.
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param string $source
-     * @return Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     protected function _saveOperationHistory($source)
     {
@@ -525,7 +527,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
             'path' => dirname($filePath)
         ));
         if (!$fs->write(basename($filePath), $source)) {
-            Mage::throwException(__("We couldn't save the file history file."));
+            \Mage::throwException(__("We couldn't save the file history file."));
         }
         return $this;
     }
@@ -537,7 +539,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
      */
     protected function _getHistoryDirPath()
     {
-        $dirPath = Mage::getBaseDir(Magento_Core_Model_Dir::LOG) . DS . self::LOG_DIRECTORY
+        $dirPath = \Mage::getBaseDir(\Magento\Core\Model\Dir::LOG) . DS . self::LOG_DIRECTORY
             . date('Y' . DS . 'm' . DS . 'd') . DS . self::FILE_HISTORY_DIRECTORY . DS;
 
         if (!is_dir($dirPath)) {
@@ -550,7 +552,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
     /**
      * Get file path of history operation files
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return string
      */
     public function getHistoryFilePath()
@@ -569,7 +571,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation extends Magento_Co
         } elseif (isset($fileInfo['file_name'])) {
             $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         } else {
-            Mage::throwException(__('Unknown file format'));
+            \Mage::throwException(__('Unknown file format'));
         }
 
         return $dirPath . $fileName . '.' . $extension;

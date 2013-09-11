@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="catalog_product_view_type_configurable">
         <reference name="product.composite.fieldset">
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable" name="product.composite.fieldset.configurable" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/configurable.phtml"/>
+            <block class="\Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset\Configurable" name="product.composite.fieldset.configurable" before="product.composite.fieldset.options" template="catalog/product/composite/fieldset/configurable.phtml"/>
         </reference>
     </handle>
 </layout>

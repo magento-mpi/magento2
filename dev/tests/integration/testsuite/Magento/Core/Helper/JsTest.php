@@ -14,13 +14,13 @@ class Magento_Core_Helper_JsTest extends PHPUnit_Framework_TestCase
     const FILE = 'blank.html';
 
     /**
-     * @var Magento_Core_Helper_Js
+     * @var \Magento\Core\Helper\Js
      */
     protected $_helper;
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Core_Helper_Js');
+        $this->_helper = Mage::helper('Magento\Core\Helper\Js');
     }
 
     public function testGetTranslateJson()

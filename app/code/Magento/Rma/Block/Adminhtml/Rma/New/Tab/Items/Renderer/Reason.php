@@ -15,8 +15,10 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Renderer_Reason
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Renderer;
+
+class Reason
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
     protected $_template = 'new/items/renderer/reason.phtml';
 }

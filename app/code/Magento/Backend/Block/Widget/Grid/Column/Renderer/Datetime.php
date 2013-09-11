@@ -16,8 +16,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Datetime
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Datetime
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Date format string
@@ -35,12 +37,12 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Datetime
         if (!$format) {
             if (is_null(self::$_format)) {
                 try {
-                    self::$_format = Mage::app()->getLocale()->getDateTimeFormat(
-                        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
+                    self::$_format = \Mage::app()->getLocale()->getDateTimeFormat(
+                        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
                     );
                 }
-                catch (Exception $e) {
-                    Mage::logException($e);
+                catch (\Exception $e) {
+                    \Mage::logException($e);
                 }
             }
             $format = self::$_format;
@@ -59,12 +61,12 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Datetime
         if ($data = $this->_getValue($row)) {
             $format = $this->_getFormat();
             try {
-                $data = Mage::app()->getLocale()
+                $data = \Mage::app()->getLocale()
                     ->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
             }
-            catch (Exception $e)
+            catch (\Exception $e)
             {
-                $data = Mage::app()->getLocale()
+                $data = \Mage::app()->getLocale()
                     ->date($data, \Magento\Date::DATETIME_INTERNAL_FORMAT)->toString($format);
             }
             return $data;

@@ -15,7 +15,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Link_Api_Validator //extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Downloadable\Model\Link\Api;
+
+class Validator //extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Acceptable resourceTypes array
@@ -79,7 +81,7 @@ class Magento_Downloadable_Model_Link_Api_Validator //extends Magento_Api_Model_
     public function validateType($type)
     {
         if (!in_array($type, $this->getResourceTypes())) {
-            throw new Exception('unknown_resource_type');
+            throw new \Exception('unknown_resource_type');
         }
         return true;
     }
@@ -111,14 +113,14 @@ class Magento_Downloadable_Model_Link_Api_Validator //extends Magento_Api_Model_
                 $this->validateFileDetails($resource['file']);
             }
             if ($resource['type'] == 'url' && empty($resource['link_url'])) {
-                throw new Exception('empty_url');
+                throw new \Exception('empty_url');
             }
             // sample
             if ($resource['sample']['type'] == 'file') {
                 $this->validateFileDetails($resource['sample']['file']);
             }
             if ($resource['sample']['type'] == 'url' && empty($resource['sample']['url'])) {
-                throw new Exception('empty_url');
+                throw new \Exception('empty_url');
             }
         }
         if ($resourceType == 'sample') {
@@ -126,7 +128,7 @@ class Magento_Downloadable_Model_Link_Api_Validator //extends Magento_Api_Model_
                 $this->validateFileDetails($resource['file']);
             }
             if ($resource['type'] == 'url' && empty($resource['sample_url'])) {
-                throw new Exception('empty_url');
+                throw new \Exception('empty_url');
             }
         }
     }
@@ -139,13 +141,13 @@ class Magento_Downloadable_Model_Link_Api_Validator //extends Magento_Api_Model_
     public function validateFileDetails(&$var)
     {
         if (!isset ($var['name']) || !is_string($var['name']) || strlen($var['name']) === 0) {
-            throw new Exception('no_filename');
+            throw new \Exception('no_filename');
         }
         if (!isset ($var['base64_content'])
             || !is_string($var['base64_content'])
             || strlen($var['base64_content']) === 0
         ) {
-            throw new Exception('no_file_base64_content');
+            throw new \Exception('no_file_base64_content');
         }
     }
 
@@ -176,7 +178,7 @@ class Magento_Downloadable_Model_Link_Api_Validator //extends Magento_Api_Model_
     public function validateTitle(&$var)
     {
         if (!is_string($var) || strlen($var) === 0) {
-           throw new Exception('no_title');
+           throw new \Exception('no_title');
         }
     }
 
@@ -241,7 +243,7 @@ class Magento_Downloadable_Model_Link_Api_Validator //extends Magento_Api_Model_
         if (is_string($var) && strlen($var) > 0) {
             $urlregex = "/^(https?|ftp)\:\/\/([a-z0-9+\!\*\(\)\,\;\?\&\=\$\_\.\-]+(\:[a-z0-9+\!\*\(\)\,\;\?\&\=\$\_\.\-]+)?@)?[a-z0-9\+\$\_\-]+(\.[a-z0-9+\$\_\-]+)*(\:[0-9]{2,5})?(\/([a-z0-9+\$\_\-]\.?)+)*\/?(\?[a-z\+\&\$\_\.\-][a-z0-9\;\:\@\/\&\%\=\+\$\_\.\-]*)?(#[a-z\_\.\-][a-z0-9\+\$\_\.\-]*)?$/i";
             if (!preg_match($urlregex, $var)) {
-                throw new Exception('url_not_valid');
+                throw new \Exception('url_not_valid');
             }
         } else {
             $var = '';

@@ -15,7 +15,9 @@
  * @package    Magento_ScheduledImportExport
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_System_Config_Backend_Logclean_Cron extends Magento_Core_Model_Config_Value
+namespace Magento\ScheduledImportExport\Model\System\Config\Backend\Logclean;
+
+class Cron extends \Magento\Core\Model\Config\Value
 {
     /**
      * Cron expression configuration path
@@ -32,9 +34,9 @@ class Magento_ScheduledImportExport_Model_System_Config_Backend_Logclean_Cron ex
         $time = $this->getData('groups/magento_scheduled_import_export_log/fields/time/value');
         $frequency = $this->getData('groups/magento_scheduled_import_export_log/fields/frequency/value');
 
-        $frequencyDaily   = Magento_Cron_Model_Config_Source_Frequency::CRON_DAILY;
-        $frequencyWeekly  = Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY;
-        $frequencyMonthly = Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY;
+        $frequencyDaily   = \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY;
+        $frequencyWeekly  = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
+        $frequencyMonthly = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
 
         $cronExprArray = array(
             intval($time[1]),                                   # Minute
@@ -47,13 +49,13 @@ class Magento_ScheduledImportExport_Model_System_Config_Backend_Logclean_Cron ex
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            Mage::getModel('Magento_Core_Model_Config_Value')
+            \Mage::getModel('\Magento\Core\Model\Config\Value')
                 ->load(self::CRON_STRING_PATH, 'path')
                 ->setValue($cronExprString)
                 ->setPath(self::CRON_STRING_PATH)
                 ->save();
-        } catch (Exception $e) {
-            throw new Exception(__('We were unable to save the cron expression.'));
+        } catch (\Exception $e) {
+            throw new \Exception(__('We were unable to save the cron expression.'));
         }
     }
 

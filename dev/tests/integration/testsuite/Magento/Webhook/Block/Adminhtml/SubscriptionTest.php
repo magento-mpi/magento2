@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Subscription
+ * \Magento\Webhook\Block\Adminhtml\Subscription
  *
  * @magentoAppArea adminhtml
  *
@@ -20,7 +20,7 @@ class Magento_Webhook_Block_Adminhtml_SubscriptionTest extends PHPUnit_Framework
     public function testConstruct()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $block = $this->_objectManager->create('Magento_Webhook_Block_Adminhtml_Subscription');
+        $block = $this->_objectManager->create('Magento\Webhook\Block\Adminhtml\Subscription');
         $this->assertEquals('Subscriptions', $block->getHeaderText());
         $this->assertEquals('Add Subscription', $block->getAddButtonLabel());
     }

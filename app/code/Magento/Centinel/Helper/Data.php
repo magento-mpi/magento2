@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Centinel_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Centinel\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Return label for cmpi field
@@ -24,15 +26,15 @@ class Magento_Centinel_Helper_Data extends Magento_Core_Helper_Abstract
     public function getCmpiLabel($fieldName)
     {
         switch ($fieldName) {
-            case Magento_Centinel_Model_Service::CMPI_PARES:
+            case \Magento\Centinel\Model\Service::CMPI_PARES:
                return __('3D Secure Verification Result');
-            case Magento_Centinel_Model_Service::CMPI_ENROLLED:
+            case \Magento\Centinel\Model\Service::CMPI_ENROLLED:
                return __('3D Secure Cardholder Validation');
-            case Magento_Centinel_Model_Service::CMPI_ECI:
+            case \Magento\Centinel\Model\Service::CMPI_ECI:
                return __('3D Secure Electronic Commerce Indicator');
-            case Magento_Centinel_Model_Service::CMPI_CAVV:
+            case \Magento\Centinel\Model\Service::CMPI_CAVV:
                return __('3D Secure CAVV');
-            case Magento_Centinel_Model_Service::CMPI_XID:
+            case \Magento\Centinel\Model\Service::CMPI_XID:
                return __('3D Secure XID');
         }
         return '';
@@ -48,14 +50,14 @@ class Magento_Centinel_Helper_Data extends Magento_Core_Helper_Abstract
     public function getCmpiValue($fieldName, $value)
     {
         switch ($fieldName) {
-            case Magento_Centinel_Model_Service::CMPI_PARES:
+            case \Magento\Centinel\Model\Service::CMPI_PARES:
                return $this->_getCmpiParesValue($value);
-            case Magento_Centinel_Model_Service::CMPI_ENROLLED:
+            case \Magento\Centinel\Model\Service::CMPI_ENROLLED:
                return $this->_getCmpiEnrolledValue($value);
-            case Magento_Centinel_Model_Service::CMPI_ECI:
+            case \Magento\Centinel\Model\Service::CMPI_ECI:
                return $this->_getCmpiEciValue($value);
-            case Magento_Centinel_Model_Service::CMPI_CAVV: // break intentionally omitted
-            case Magento_Centinel_Model_Service::CMPI_XID:
+            case \Magento\Centinel\Model\Service::CMPI_CAVV: // break intentionally omitted
+            case \Magento\Centinel\Model\Service::CMPI_XID:
                return $value;
         }
         return '';
@@ -126,13 +128,13 @@ class Magento_Centinel_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return centinel block for payment form with logos
      *
-     * @param Magento_Payment_Model_Method_Abstract $method
-     * @return Magento_Centinel_Block_Logo
+     * @param \Magento\Payment\Model\Method\AbstractMethod $method
+     * @return \Magento\Centinel\Block\Logo
      */
     public function getMethodFormBlock($method)
     {
-        $blockType = 'Magento_Centinel_Block_Logo';
-        $layout = $this->getLayout() ?: Mage::app()->getLayout();
+        $blockType = '\Magento\Centinel\Block\Logo';
+        $layout = $this->getLayout() ?: \Mage::app()->getLayout();
         $block = $layout->createBlock($blockType);
         $block->setMethod($method);
         return $block;

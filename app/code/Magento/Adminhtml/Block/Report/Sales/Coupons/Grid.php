@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtml_Block_Report_Grid_Abstract
+namespace Magento\Adminhtml\Block\Report\Sales\Coupons;
+
+class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
 {
     protected $_columnGroupBy = 'period';
 
@@ -29,9 +31,9 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
     public function getResourceCollectionName()
     {
         if (($this->getFilterData()->getData('report_type') == 'updated_at_order')) {
-            return 'Magento_SalesRule_Model_Resource_Report_Updatedat_Collection';
+            return '\Magento\SalesRule\Model\Resource\Report\Updatedat\Collection';
         } else {
-            return 'Magento_SalesRule_Model_Resource_Report_Collection';
+            return '\Magento\SalesRule\Model\Resource\Report\Collection';
         }
     }
 
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
             'index'             => 'period',
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
-            'renderer'          => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
+            'renderer'          => '\Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
             'totals_label'      => __('Total'),
             'subtotals_label'   => __('Subtotal'),
             'html_decorators' => array('nobr'),
@@ -163,9 +165,9 @@ class Magento_Adminhtml_Block_Report_Sales_Coupons_Grid extends Magento_Adminhtm
     /**
      * Add price rule filter
      *
-     * @param Magento_Reports_Model_Resource_Report_Collection_Abstract $collection
+     * @param \Magento\Reports\Model\Resource\Report\Collection\AbstractCollection $collection
      * @param \Magento\Object $filterData
-     * @return Magento_Adminhtml_Block_Report_Grid_Abstract
+     * @return \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
      */
     protected function _addCustomFilter($collection, $filterData)
     {

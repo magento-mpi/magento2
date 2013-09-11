@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-$payment = Mage::getModel('Magento_Sales_Model_Order_Payment');
+$payment = Mage::getModel('\Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
-$order = Mage::getModel('Magento_Sales_Model_Order');
+$order = Mage::getModel('\Magento\Sales\Model\Order');
 $order->setIncrementId('100000001')
     ->setSubtotal(100)
     ->setBaseSubtotal(100)
@@ -20,6 +20,6 @@ $order->setIncrementId('100000001')
     ->setPayment($payment);
 
 $payment->setTransactionId('trx1');
-$payment->addTransaction(Magento_Sales_Model_Order_Payment_Transaction::TYPE_AUTH);
+$payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH);
 
 $order->save();

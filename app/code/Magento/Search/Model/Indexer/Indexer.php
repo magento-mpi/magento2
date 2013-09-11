@@ -16,7 +16,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Indexer_Indexer
+namespace Magento\Search\Model\Indexer;
+
+class Indexer
 {
     /**
      * Indexation mode that provide commit after all documents are added to index.
@@ -29,7 +31,7 @@ class Magento_Search_Model_Indexer_Indexer
      * Products become visible after products bunch is indexed.
      * This is not auto commit using search engine feature.
      *
-     * @see Magento_CatalogSearch_Model_Resource_Fulltext::_getSearchableProducts() limitation
+     * @see \Magento\CatalogSearch\Model\Resource\Fulltext::_getSearchableProducts() limitation
      */
     const SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL = 1;
 
@@ -54,14 +56,14 @@ class Magento_Search_Model_Indexer_Indexer
     /**
      * Reindex of catalog search fulltext index using search engine
      *
-     * @return Magento_Search_Model_Indexer_Indexer
+     * @return \Magento\Search\Model\Indexer\Indexer
      */
     public function reindexAll()
     {
-        $helper = Mage::helper('Magento_Search_Helper_Data');
+        $helper = \Mage::helper('Magento\Search\Helper\Data');
         if ($helper->isThirdPartyEngineAvailable()) {
             /* Change index status to running */
-            $indexProcess = Mage::getSingleton('Magento_Index_Model_Indexer')->getProcessByCode('catalogsearch_fulltext');
+            $indexProcess = \Mage::getSingleton('Magento\Index\Model\Indexer')->getProcessByCode('catalogsearch_fulltext');
             if ($indexProcess) {
                 $indexProcess->reindexAll();
             }

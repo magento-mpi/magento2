@@ -11,7 +11,9 @@
 /**
  * Product type model
  */
-class Magento_Catalog_Model_Product_Type
+namespace Magento\Catalog\Model\Product;
+
+class Type
 {
     /**#@+
      * Available product types
@@ -31,12 +33,12 @@ class Magento_Catalog_Model_Product_Type
     /**
      * Default product type model
      */
-    const DEFAULT_TYPE_MODEL    = 'Magento_Catalog_Model_Product_Type_Simple';
+    const DEFAULT_TYPE_MODEL    = '\Magento\Catalog\Model\Product\Type\Simple';
 
     /**
      * Default price model
      */
-    const DEFAULT_PRICE_MODEL   = 'Magento_Catalog_Model_Product_Type_Price';
+    const DEFAULT_PRICE_MODEL   = '\Magento\Catalog\Model\Product\Type\Price';
 
     /**
      * Product types
@@ -69,8 +71,8 @@ class Magento_Catalog_Model_Product_Type
     /**
      * Factory to product singleton product type instances
      *
-     * @param   Magento_Catalog_Model_Product $product
-     * @return  Magento_Catalog_Model_Product_Type_Abstract
+     * @param   \Magento\Catalog\Model\Product $product
+     * @return  \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public static function factory($product)
     {
@@ -84,8 +86,8 @@ class Magento_Catalog_Model_Product_Type
             $typeId = self::DEFAULT_TYPE;
         }
 
-        /** @var $typeModel Magento_Catalog_Model_Product_Type_Abstract */
-        $typeModel = Mage::getSingleton($typeModelName);
+        /** @var $typeModel \Magento\Catalog\Model\Product\Type\AbstractType */
+        $typeModel = \Mage::getSingleton($typeModelName);
         $typeModel->setConfig($types[$typeId]);
         return $typeModel;
     }
@@ -94,7 +96,7 @@ class Magento_Catalog_Model_Product_Type
      * Product type price model factory
      *
      * @param   string $productType
-     * @return  Magento_Catalog_Model_Product_Type_Price
+     * @return  \Magento\Catalog\Model\Product\Type\Price
      */
     public static function priceFactory($productType)
     {
@@ -110,7 +112,7 @@ class Magento_Catalog_Model_Product_Type
             $priceModelName = self::DEFAULT_PRICE_MODEL;
         }
 
-        self::$_priceModels[$productType] = Mage::getModel($priceModelName);
+        self::$_priceModels[$productType] = \Mage::getModel($priceModelName);
         return self::$_priceModels[$productType];
     }
 
@@ -196,7 +198,7 @@ class Magento_Catalog_Model_Product_Type
     static public function getTypes()
     {
         if (is_null(self::$_types)) {
-            $config = Mage::getObjectManager()->get('Magento_Core_Model_Config');
+            $config = \Mage::getObjectManager()->get('Magento\Core\Model\Config');
             $productTypes = $config->getNode('global/catalog/product/type')->asArray();
             foreach ($productTypes as $productKey => $productConfig) {
                 $productTypes[$productKey]['label'] = __($productConfig['label']);

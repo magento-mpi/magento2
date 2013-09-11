@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="config_api" translate="label,description" instance="Magento_Api_Model_Cache_Type">
+    <type name="config_api" translate="label,description" instance="\Magento\Api\Model\Cache\Type">
         <label>Legacy API Configuration</label>
         <description>Web Services definition files (api.xml).</description>
     </type>

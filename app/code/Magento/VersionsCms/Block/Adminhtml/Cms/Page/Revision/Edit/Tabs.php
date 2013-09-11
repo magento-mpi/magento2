@@ -16,7 +16,9 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     protected function _construct()
     {

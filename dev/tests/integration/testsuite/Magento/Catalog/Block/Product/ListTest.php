@@ -10,25 +10,25 @@
  */
 
 /**
- * Test class for Magento_Catalog_Block_Product_List.
+ * Test class for \Magento\Catalog\Block\Product\ListProduct.
  *
  * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
 class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Block_Product_List
+     * @var \Magento\Catalog\Block\Product\ListProduct
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_List');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Catalog\Block\Product\ListProduct');
     }
 
     public function testGetLayer()
     {
-        $this->assertInstanceOf('Magento_Catalog_Model_Layer', $this->_block->getLayer());
+        $this->assertInstanceOf('\Magento\Catalog\Model\Layer', $this->_block->getLayer());
     }
 
     public function testGetLoadedProductCollection()
@@ -36,7 +36,7 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
         $this->_block->setShowRootCategory(true);
         $collection = $this->_block->getLoadedProductCollection();
         $this->assertInstanceOf(
-            'Magento_Catalog_Model_Resource_Product_Collection',
+            '\Magento\Catalog\Model\Resource\Product\Collection',
             $collection
         );
         /* Check that root category was defined for Layer as current */
@@ -44,19 +44,19 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Catalog_Block_Product_List::getToolbarBlock
-     * @covers Magento_Catalog_Block_Product_List::getMode
-     * @covers Magento_Catalog_Block_Product_List::getToolbarHtml
-     * @covers Magento_Catalog_Block_Product_List::toHtml
+     * @covers \Magento\Catalog\Block\Product\ListProduct::getToolbarBlock
+     * @covers \Magento\Catalog\Block\Product\ListProduct::getMode
+     * @covers \Magento\Catalog\Block\Product\ListProduct::getToolbarHtml
+     * @covers \Magento\Catalog\Block\Product\ListProduct::toHtml
      */
     public function testToolbarCoverage()
     {
-        /** @var $parent Magento_Catalog_Block_Product_List */
-        $parent = $this->_getLayout()->createBlock('Magento_Catalog_Block_Product_List', 'parent');
+        /** @var $parent \Magento\Catalog\Block\Product\ListProduct */
+        $parent = $this->_getLayout()->createBlock('\Magento\Catalog\Block\Product\ListProduct', 'parent');
 
         /* Prepare toolbar block */
         $toolbar = $parent->getToolbarBlock();
-        $this->assertInstanceOf('Magento_Catalog_Block_Product_ProductList_Toolbar', $toolbar, 'Default Toolbar');
+        $this->assertInstanceOf('\Magento\Catalog\Block\Product\ProductList\Toolbar', $toolbar, 'Default Toolbar');
 
         $parent->setChild('toolbar', $toolbar);
         /* In order to initialize toolbar collection block toHtml should be called before toolbar toHtml */
@@ -75,9 +75,9 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
     public function testGetAdditionalHtml()
     {
         $layout = $this->_getLayout();
-        /** @var $parent Magento_Catalog_Block_Product_List */
-        $parent = $layout->createBlock('Magento_Catalog_Block_Product_List');
-        $childBlock = $layout->createBlock('Magento_Core_Block_Text', 'test', array('data' => array('text' => 'test')));
+        /** @var $parent \Magento\Catalog\Block\Product\ListProduct */
+        $parent = $layout->createBlock('\Magento\Catalog\Block\Product\ListProduct');
+        $childBlock = $layout->createBlock('\Magento\Core\Block\Text', 'test', array('data' => array('text' => 'test')));
         $layout->setChild($parent->getNameInLayout(), $childBlock->getNameInLayout(), 'additional');
         $this->assertEquals('test', $parent->getAdditionalHtml());
     }
@@ -97,8 +97,8 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
 
     public function testPrepareSortableFieldsByCategory()
     {
-        /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        /** @var $category \Magento\Catalog\Model\Category */
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
         $category->setDefaultSortBy('name');
         $this->_block->prepareSortableFieldsByCategory($category);
         $this->assertEquals('name', $this->_block->getSortBy());

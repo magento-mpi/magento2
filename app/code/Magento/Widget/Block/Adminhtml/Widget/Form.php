@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Widget\Block\Adminhtml\Widget;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Form with widget to select
@@ -83,7 +85,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Adminhtml_Block
     {
         if (!$this->hasData('available_widgets')) {
             $result = array();
-            $allWidgets = Mage::getModel('Magento_Widget_Model_Widget')->getWidgetsArray();
+            $allWidgets = \Mage::getModel('\Magento\Widget\Model\Widget')->getWidgetsArray();
             $skipped = $this->_getSkippedWidgets();
             foreach ($allWidgets as $widget) {
                 if (is_array($skipped) && in_array($widget['type'], $skipped)) {
@@ -111,6 +113,6 @@ class Magento_Widget_Block_Adminhtml_Widget_Form extends Magento_Adminhtml_Block
      */
     protected function _getSkippedWidgets()
     {
-        return Mage::registry('skip_widgets');
+        return \Mage::registry('skip_widgets');
     }
 }

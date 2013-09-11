@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Initial_Reader
+namespace Magento\Core\Model\Config\Initial;
+
+class Reader
 {
     /**
      * File locator
@@ -19,7 +21,7 @@ class Magento_Core_Model_Config_Initial_Reader
     /**
      * Config converter
      *
-     * @var Magento_Core_Model_Config_Initial_Converter
+     * @var \Magento\Core\Model\Config\Initial\Converter
      */
     protected $_converter;
 
@@ -46,13 +48,13 @@ class Magento_Core_Model_Config_Initial_Reader
 
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
-     * @param Magento_Core_Model_Config_Initial_Converter $converter
+     * @param \Magento\Core\Model\Config\Initial\Converter $converter
      * @param string $fileName
      * @param string $domDocumentClass
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
-        Magento_Core_Model_Config_Initial_Converter $converter,
+        \Magento\Core\Model\Config\Initial\Converter $converter,
         $fileName = 'config.xml',
         $domDocumentClass = '\Magento\Config\Dom'
     ) {

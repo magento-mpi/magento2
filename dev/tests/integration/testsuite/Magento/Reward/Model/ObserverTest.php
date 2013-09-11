@@ -24,8 +24,8 @@ class Magento_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
         $this->_saveRewardPoints($customer, $pointsDelta);
 
-        /** @var $reward Magento_Reward_Model_Reward */
-        $reward = Mage::getModel('Magento_Reward_Model_Reward');
+        /** @var $reward \Magento\Reward\Model\Reward */
+        $reward = Mage::getModel('\Magento\Reward\Model\Reward');
         $reward->setCustomer($customer)
             ->loadByCustomer();
 
@@ -47,10 +47,10 @@ class Magento_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Magento_Customer_Model_Customer $customer
+     * @param \Magento\Customer\Model\Customer $customer
      * @param mixed $pointsDelta
      */
-    protected function _saveRewardPoints(Magento_Customer_Model_Customer $customer, $pointsDelta = '')
+    protected function _saveRewardPoints(\Magento\Customer\Model\Customer $customer, $pointsDelta = '')
     {
         $reward = array(
             'points_delta' => $pointsDelta
@@ -72,7 +72,7 @@ class Magento_Reward_Model_ObserverTest extends PHPUnit_Framework_TestCase
             array('event' => $event)
         );
 
-        $rewardObserver = Mage::getModel('Magento_Reward_Model_Observer');
+        $rewardObserver = Mage::getModel('\Magento\Reward\Model\Observer');
         $rewardObserver->saveRewardPoints($eventObserver);
     }
 }

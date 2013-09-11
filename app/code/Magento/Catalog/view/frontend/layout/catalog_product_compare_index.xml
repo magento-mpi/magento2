@@ -20,7 +20,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_Catalog_Block_Product_Compare_List" name="catalog.compare.list" template="product/compare/list.phtml"/>
+            <block class="\Magento\Catalog\Block\Product\Compare\ListCompare" name="catalog.compare.list" template="product/compare/list.phtml"/>
         </reference>
         <update handle="MAP_popup"/>
     </handle>

@@ -16,7 +16,9 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogSearch\Model\Resource;
+
+class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Searchable attributes cache
@@ -33,7 +35,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     protected $_separator                = '|';
 
     /**
-     * Array of Zend_Date objects per store
+     * Array of \Zend_Date objects per store
      *
      * @var array
      */
@@ -67,7 +69,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     protected function _construct()
     {
         $this->_init('catalogsearch_fulltext', 'product_id');
-        $this->_engine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine();
+        $this->_engine = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getEngine();
     }
 
     /**
@@ -85,12 +87,12 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      *
      * @param  int|null $storeId
      * @param  int|array|null $productIds
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
      */
     public function rebuildIndex($storeId = null, $productIds = null)
     {
         if (is_null($storeId)) {
-            $storeIds = array_keys(Mage::app()->getStores());
+            $storeIds = array_keys(\Mage::app()->getStores());
             foreach ($storeIds as $storeId) {
                 $this->_rebuildStoreIndex($storeId, $productIds);
             }
@@ -106,7 +108,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      *
      * @param int $storeId Store View Id
      * @param int|array $productIds Product Entity Id
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
      */
     protected function _rebuildStoreIndex($storeId, $productIds = null)
     {
@@ -128,7 +130,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
         // status and visibility filter
         $visibility     = $this->_getSearchableAttribute('visibility');
         $status         = $this->_getSearchableAttribute('status');
-        $statusVals     = Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getVisibleStatusIds();
+        $statusVals     = \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getVisibleStatusIds();
         $allowedVisibility = $this->_engine->getAllowedVisibility();
 
         $lastProductId = 0;
@@ -209,7 +211,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     protected function _getSearchableProducts($storeId, array $staticFields, $productIds = null, $lastProductId = 0,
         $limit = 100
     ) {
-        $websiteId      = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId      = \Mage::app()->getStore($storeId)->getWebsiteId();
         $writeAdapter   = $this->_getWriteAdapter();
 
         $select = $writeAdapter->select()
@@ -253,7 +255,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      *
      * @param null|int $storeId
      * @param null|array $productIds
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
      */
     public function resetSearchResults($storeId = null, $productIds = null)
     {
@@ -264,7 +266,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             // Keeping public interface
             $adapter->update($this->getTable('catalogsearch_query'), array('is_processed' => 0));
             $adapter->truncateTable($this->getTable('catalogsearch_result'));
-            Mage::dispatchEvent('catalogsearch_reset_search_result');
+            \Mage::dispatchEvent('catalogsearch_reset_search_result');
         } else {
             // Optimized deletion only product-related records
             /** @var $select \Magento\DB\Select */
@@ -297,7 +299,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             $adapter->update(
                 $this->getTable('catalogsearch_query'),
                 array('is_processed' => 0),
-                $select->getPart(Zend_Db_Select::WHERE)
+                $select->getPart(\Zend_Db_Select::WHERE)
             );
         }
 
@@ -309,7 +311,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      *
      * @param int $storeId Store View Id
      * @param int $productId Product Entity Id
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
      */
     public function cleanIndex($storeId = null, $productId = null)
     {
@@ -323,10 +325,10 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     /**
      * Prepare results for query
      *
-     * @param Magento_CatalogSearch_Model_Fulltext $object
+     * @param \Magento\CatalogSearch\Model\Fulltext $object
      * @param string $queryText
-     * @param Magento_CatalogSearch_Model_Query $query
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext
+     * @param \Magento\CatalogSearch\Model\Query $query
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
      */
     public function prepareResult($object, $queryText, $query)
     {
@@ -334,17 +336,17 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
         if (!$query->getIsProcessed()) {
             $searchType = $object->getSearchType($query->getStoreId());
 
-            $preparedTerms = Mage::getResourceHelper('Magento_CatalogSearch')
+            $preparedTerms = \Mage::getResourceHelper('Magento_CatalogSearch')
                 ->prepareTerms($queryText, $query->getMaxQueryWords());
 
             $bind = array();
             $like = array();
             $likeCond  = '';
-            if ($searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE
-                || $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
+            if ($searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE
+                || $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE
             ) {
-                $helper = Mage::getResourceHelper('Magento_Core');
-                $words = Mage::helper('Magento_Core_Helper_String')
+                $helper = \Mage::getResourceHelper('Magento_Core');
+                $words = \Mage::helper('Magento\Core\Helper\String')
                     ->splitWords($queryText, true, $query->getMaxQueryWords());
                 foreach ($words as $word) {
                     $like[] = $helper->getCILike('s.data_index', $word, array('position' => 'any'));
@@ -355,7 +357,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             }
             $mainTableAlias = 's';
             $fields = array(
-                'query_id' => new Zend_Db_Expr($query->getId()),
+                'query_id' => new \Zend_Db_Expr($query->getId()),
                 'product_id',
             );
             $select = $adapter->select()
@@ -365,18 +367,18 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
                     array())
                 ->where($mainTableAlias.'.store_id = ?', (int)$query->getStoreId());
 
-            if ($searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT
-                || $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE
+            if ($searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_FULLTEXT
+                || $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE
             ) {
                 $bind[':query'] = implode(' ', $preparedTerms[0]);
-                $where = Mage::getResourceHelper('Magento_CatalogSearch')
+                $where = \Mage::getResourceHelper('Magento_CatalogSearch')
                     ->chooseFulltext($this->getMainTable(), $mainTableAlias, $select);
             }
 
-            if ($likeCond != '' && $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
+            if ($likeCond != '' && $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_COMBINE) {
                     $where .= ($where ? ' OR ' : '') . $likeCond;
-            } elseif ($likeCond != '' && $searchType == Magento_CatalogSearch_Model_Fulltext::SEARCH_TYPE_LIKE) {
-                $select->columns(array('relevance'  => new Zend_Db_Expr(0)));
+            } elseif ($likeCond != '' && $searchType == \Magento\CatalogSearch\Model\Fulltext::SEARCH_TYPE_LIKE) {
+                $select->columns(array('relevance'  => new \Zend_Db_Expr(0)));
                 $where = $likeCond;
             }
 
@@ -399,11 +401,11 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     /**
      * Retrieve EAV Config Singleton
      *
-     * @return Magento_Eav_Model_Config
+     * @return \Magento\Eav\Model\Config
      */
     public function getEavConfig()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config');
+        return \Mage::getSingleton('Magento\Eav\Model\Config');
     }
 
     /**
@@ -417,8 +419,8 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
         if (null === $this->_searchableAttributes) {
             $this->_searchableAttributes = array();
 
-            $productAttributes = Mage::getResourceModel(
-                'Magento_Catalog_Model_Resource_Product_Attribute_Collection'
+            $productAttributes = \Mage::getResourceModel(
+                '\Magento\Catalog\Model\Resource\Product\Attribute\Collection'
             );
 
             if ($this->_engine && $this->_engine->allowAdvancedIndex()) {
@@ -428,13 +430,13 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             }
             $attributes = $productAttributes->getItems();
 
-            Mage::dispatchEvent('catelogsearch_searchable_attributes_load_after', array(
+            \Mage::dispatchEvent('catelogsearch_searchable_attributes_load_after', array(
                 'engine' => $this->_engine,
                 'attributes' => $attributes
             ));
 
             $entity = $this->getEavConfig()
-                ->getEntityType(Magento_Catalog_Model_Product::ENTITY)
+                ->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
                 ->getEntity();
 
             foreach ($attributes as $attribute) {
@@ -462,7 +464,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      * Retrieve searchable attribute by Id or code
      *
      * @param int|string $attribute
-     * @return Magento_Eav_Model_Entity_Attribute
+     * @return \Magento\Eav\Model\Entity\Attribute
      */
     protected function _getSearchableAttribute($attribute)
     {
@@ -479,7 +481,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             }
         }
 
-        return $this->getEavConfig()->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attribute);
+        return $this->getEavConfig()->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attribute);
     }
 
     /**
@@ -487,7 +489,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      *
      * @param string $field
      * @param string $backendType
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      */
     protected function _unifyField($field, $backendType = 'varchar')
     {
@@ -535,7 +537,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
         }
 
         if ($selects) {
-            $select = $adapter->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
+            $select = $adapter->select()->union($selects, \Zend_Db_Select::SQL_UNION_ALL);
             $query = $adapter->query($select);
             while ($row = $query->fetch()) {
                 $result[$row['entity_id']][$row['attribute_id']] = $row['value'];
@@ -549,14 +551,14 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      * Retrieve Product Type Instance
      *
      * @param string $typeId
-     * @return Magento_Catalog_Model_Product_Type_Abstract
+     * @return \Magento\Catalog\Model\Product\Type\AbstractType
      */
     protected function _getProductTypeInstance($typeId)
     {
         if (!isset($this->_productTypes[$typeId])) {
             $productEmulator = $this->_getProductEmulator($typeId);
 
-            $this->_productTypes[$typeId] = Mage::getSingleton('Magento_Catalog_Model_Product_Type')
+            $this->_productTypes[$typeId] = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')
                 ->factory($productEmulator);
         }
         return $this->_productTypes[$typeId];
@@ -674,7 +676,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
             return $this->_engine->prepareEntityIndex($index, $this->_separator);
         }
 
-        return Mage::helper('Magento_CatalogSearch_Helper_Data')->prepareIndexdata($index, $this->_separator);
+        return \Mage::helper('Magento\CatalogSearch\Helper\Data')->prepareIndexdata($index, $this->_separator);
     }
 
     /**
@@ -725,7 +727,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
         } else {
             $inputType = $attribute->getFrontend()->getInputType();
             if ($inputType == 'price') {
-                $value = Mage::app()->getStore($storeId)->roundPrice($value);
+                $value = \Mage::app()->getStore($storeId)->roundPrice($value);
             }
         }
 
@@ -740,7 +742,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      * @param int $productId
      * @param int $storeId
      * @param string $index
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
      */
     protected function _saveProductIndex($productId, $storeId, $index)
     {
@@ -756,7 +758,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      *
      * @param int $storeId
      * @param array $productIndexes
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
      */
     protected function _saveProductIndexes($storeId, $productIndexes)
     {
@@ -777,11 +779,11 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
     protected function _getStoreDate($storeId, $date = null)
     {
         if (!isset($this->_dates[$storeId])) {
-            $timezone = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
-            $locale   = Mage::getStoreConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
-            $locale   = new Zend_Locale($locale);
+            $timezone = \Mage::getStoreConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId);
+            $locale   = \Mage::getStoreConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId);
+            $locale   = new \Zend_Locale($locale);
 
-            $dateObj = new Zend_Date(null, null, $locale);
+            $dateObj = new \Zend_Date(null, null, $locale);
             $dateObj->setTimezone($timezone);
             $this->_dates[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
         }
@@ -804,7 +806,7 @@ class Magento_CatalogSearch_Model_Resource_Fulltext extends Magento_Core_Model_R
      *
      * @param array $productIds
      * @param array $categoryIds
-     * @return Magento_CatalogSearch_Model_Resource_Fulltext
+     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
      */
     public function updateCategoryIndex($productIds, $categoryIds)
     {

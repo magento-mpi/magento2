@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Config_Backend_Category extends Magento_Core_Model_Config_Value
+namespace Magento\Catalog\Model\Config\Backend;
+
+class Category extends \Magento\Core\Model\Config\Value
 {
     protected function _afterSave()
     {
@@ -23,7 +25,7 @@ class Magento_Catalog_Model_Config_Backend_Category extends Magento_Core_Model_C
             $rootId     = $this->getValue();
             $storeId    = $this->getScopeId();
 
-            $category   = Mage::getSingleton('Magento_Catalog_Model_Category');
+            $category   = \Mage::getSingleton('Magento\Catalog\Model\Category');
             $tree       = $category->getTreeModel();
 
             // Create copy of categories attributes for choosed store

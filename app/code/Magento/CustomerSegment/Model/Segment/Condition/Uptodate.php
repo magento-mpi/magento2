@@ -11,21 +11,23 @@
 /**
  * Period "Last N Days" condition class
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Uptodate
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+class Uptodate
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     protected $_inputType = 'numeric';
 
     /**
      * Initialize model
      *
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Uptodate');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Uptodate');
         $this->setValue(null);
     }
 

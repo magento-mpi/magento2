@@ -5,8 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_AdminNotification_Model_System_Message_Security
-    implements Magento_AdminNotification_Model_System_MessageInterface
+namespace Magento\AdminNotification\Model\System\Message;
+
+class Security
+    implements \Magento\AdminNotification\Model\System\MessageInterface
 {
     /**
      * Cache kay for saving verification result
@@ -27,17 +29,17 @@ class Magento_AdminNotification_Model_System_Message_Security
     private $_verificationTimeOut  = 2;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
@@ -47,15 +49,15 @@ class Magento_AdminNotification_Model_System_Message_Security
     protected $_curlFactory;
 
     /**
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_Store_Config $storeConfig
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Model\Config $config
      * @param Magento\HTTP\Adapter\CurlFactory $curlFactory
      */
     public function __construct(
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_Store_Config $storeConfig,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Core\Model\Config $config,
         Magento\HTTP\Adapter\CurlFactory $curlFactory
     ) {
         $this->_cache = $cache;
@@ -92,16 +94,16 @@ class Magento_AdminNotification_Model_System_Message_Security
     private function _isFileAccessible()
     {
         $unsecureBaseURL = $this->_config->getValue(
-            Magento_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL,
+            \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL,
             'default'
         );
 
         /** @var $http Magento\HTTP\Adapter\Curl */
         $http = $this->_curlFactory->create();
         $http->setConfig(array('timeout' => $this->_verificationTimeOut));
-        $http->write(Zend_Http_Client::POST, $unsecureBaseURL . $this->_filePath);
+        $http->write(\Zend_Http_Client::POST, $unsecureBaseURL . $this->_filePath);
         $responseBody = $http->read();
-        $responseCode = Zend_Http_Response::extractCode($responseBody);
+        $responseCode = \Zend_Http_Response::extractCode($responseBody);
         $http->close();
 
         return $responseCode == 200;
@@ -144,6 +146,6 @@ class Magento_AdminNotification_Model_System_Message_Security
      */
     public function getSeverity()
     {
-        return Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_CRITICAL;
+        return \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_CRITICAL;
     }
 }

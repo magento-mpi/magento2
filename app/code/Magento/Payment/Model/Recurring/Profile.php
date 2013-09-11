@@ -12,7 +12,9 @@
  * Recurring payment profile
  * Extends from Magento_Core_Abstract for a reason: to make descendants have its own resource
  */
-class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstract
+namespace Magento\Payment\Model\Recurring;
+
+class Profile extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Constants for passing data through catalog
@@ -42,21 +44,21 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
 
     /**
      *
-     * @var Magento_Payment_Model_Method_Abstract
+     * @var \Magento\Payment\Model\Method\AbstractMethod
      */
     protected $_methodInstance = null;
 
     /**
      * Locale instance used for importing/exporting data
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale = null;
 
     /**
      * Store instance used by locale or method instance
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store = null;
 
@@ -134,7 +136,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
         if ($this->_methodInstance) {
             try {
                 $this->_methodInstance->validateRecurringProfile($this);
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_errors['payment_method'][] = $e->getMessage();
             }
         }
@@ -156,7 +158,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
                 $result[] = implode(' ', $row);
             }
             if ($asMessage) {
-                return Mage::throwException(
+                return \Mage::throwException(
                     __("The payment profile is invalid:\n%1.", implode("\n", $result))
                 );
             }
@@ -168,16 +170,16 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     /**
      * Setter for payment method instance
      *
-     * @param Magento_Payment_Model_Method_Abstract $object
-     * @return Magento_Payment_Model_Recurring_Profile
-     * @throws Exception
+     * @param \Magento\Payment\Model\Method\AbstractMethod $object
+     * @return \Magento\Payment\Model\Recurring\Profile
+     * @throws \Exception
      */
-    public function setMethodInstance(Magento_Payment_Model_Method_Abstract $object)
+    public function setMethodInstance(\Magento\Payment\Model\Method\AbstractMethod $object)
     {
-        if ($object instanceof Magento_Payment_Model_Recurring_Profile_MethodInterface) {
+        if ($object instanceof \Magento\Payment\Model\Recurring\Profile\MethodInterface) {
             $this->_methodInstance = $object;
         } else {
-            throw new Exception('Invalid payment method instance for use in recurring profile.');
+            throw new \Exception('Invalid payment method instance for use in recurring profile.');
         }
         return $this;
     }
@@ -187,18 +189,18 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
      * Then filter data
      *
      * @param \Magento\Object $buyRequest
-     * @return Magento_Payment_Model_Recurring_Profile
-     * @throws Magento_Core_Exception
+     * @return \Magento\Payment\Model\Recurring\Profile
+     * @throws \Magento\Core\Exception
      */
     public function importBuyRequest(\Magento\Object $buyRequest)
     {
         $startDate = $buyRequest->getData(self::BUY_REQUEST_START_DATETIME);
         if ($startDate) {
             $this->_ensureLocaleAndStore();
-            $dateFormat = $this->_locale->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+            $dateFormat = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             $localeCode = $this->_locale->getLocaleCode();
             if (!Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
-                Mage::throwException(__('The recurring profile start date has invalid format.'));
+                \Mage::throwException(__('The recurring profile start date has invalid format.'));
             }
             $utcTime = $this->_locale->utcDate($this->_store, $startDate, true, $dateFormat)
                 ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
@@ -211,10 +213,10 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
      * Import product recurring profile information
      * Returns false if it cannot be imported
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Payment_Model_Recurring_Profile|false
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Payment\Model\Recurring\Profile|false
      */
-    public function importProduct(Magento_Catalog_Model_Product $product)
+    public function importProduct(\Magento\Catalog\Model\Product $product)
     {
         if ($product->isRecurring() && is_array($product->getRecurringProfile())) {
             // import recurring profile data
@@ -231,7 +233,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
                 $options = unserialize($options->getValue());
                 if (is_array($options)) {
                     if (isset($options['start_datetime'])) {
-                        $startDatetime = new Zend_Date($options['start_datetime'], \Magento\Date::DATETIME_INTERNAL_FORMAT);
+                        $startDatetime = new \Zend_Date($options['start_datetime'], \Magento\Date::DATETIME_INTERNAL_FORMAT);
                         $this->setNearestStartDatetime($startDatetime);
                     }
                 }
@@ -268,15 +270,15 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     /**
      * Determine nearest possible profile start date
      *
-     * @param Zend_Date $minAllowed
-     * @return Magento_Payment_Model_Recurring_Profile
+     * @param \Zend_Date $minAllowed
+     * @return \Magento\Payment\Model\Recurring\Profile
      */
-    public function setNearestStartDatetime(Zend_Date $minAllowed = null)
+    public function setNearestStartDatetime(\Zend_Date $minAllowed = null)
     {
         // TODO: implement proper logic with invoking payment method instance
         $date = $minAllowed;
         if (!$date || $date->getTimestamp() < time()) {
-            $date = new Zend_Date(time());
+            $date = new \Zend_Date(time());
         }
         $this->setStartDatetime($date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
         return $this;
@@ -286,7 +288,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
      * Convert the start datetime (if set) to proper locale/timezone and return
      *
      * @param bool $asString
-     * @return Zend_Date|string
+     * @return \Zend_Date|string
      */
     public function exportStartDatetime($asString = true)
     {
@@ -296,7 +298,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
         }
         $date = $this->_locale->storeDate($this->_store, strtotime($datetime), true);
         if ($asString) {
-            return $date->toString($this->_locale->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
+            return $date->toString($this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT));
         }
         return $date;
     }
@@ -304,10 +306,10 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     /**
      * Locale instance setter
      *
-     * @param Magento_Core_Model_LocaleInterface $locale
-     * @return Magento_Payment_Model_Recurring_Profile
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @return \Magento\Payment\Model\Recurring\Profile
      */
-    public function setLocale(Magento_Core_Model_LocaleInterface $locale)
+    public function setLocale(\Magento\Core\Model\LocaleInterface $locale)
     {
         $this->_locale = $locale;
         return $this;
@@ -316,10 +318,10 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     /**
      * Store instance setter
      *
-     * @param Magento_Core_Model_Store $store
-     * @return Magento_Payment_Model_Recurring_Profile
+     * @param \Magento\Core\Model\Store $store
+     * @return \Magento\Payment\Model\Recurring\Profile
      */
-    public function setStore(Magento_Core_Model_Store $store)
+    public function setStore(\Magento\Core\Model\Store $store)
     {
         $this->_store = $store;
         return $this;
@@ -468,7 +470,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
                 return $this->getPeriodUnitLabel($value);
             case 'method_code':
                 if (!$this->_paymentMethods) {
-                    $this->_paymentMethods = Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(false);
+                    $this->_paymentMethods = \Mage::helper('Magento\Payment\Helper\Data')->getPaymentMethodList(false);
                 }
                 if (isset($this->_paymentMethods[$value])) {
                     return $this->_paymentMethods[$value];
@@ -483,7 +485,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     /**
      * Filter self data to make sure it can be validated properly
      *
-     * @return Magento_Payment_Model_Recurring_Profile
+     * @return \Magento\Payment\Model\Recurring\Profile
      */
     protected function _filterValues()
     {
@@ -518,7 +520,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
 
         // automatically determine start date, if not set
         if ($this->getStartDatetime()) {
-            $date = new Zend_Date($this->getStartDatetime(), \Magento\Date::DATETIME_INTERNAL_FORMAT);
+            $date = new \Zend_Date($this->getStartDatetime(), \Magento\Date::DATETIME_INTERNAL_FORMAT);
             $this->setNearestStartDatetime($date);
         } else {
             $this->setNearestStartDatetime();
@@ -530,24 +532,24 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     /**
      * Check that locale and store instances are set
      *
-     * @throws Exception
+     * @throws \Exception
      */
     protected function _ensureLocaleAndStore()
     {
         if (!$this->_locale || !$this->_store) {
-            throw new Exception('Locale and store instances must be set for this operation.');
+            throw new \Exception('Locale and store instances must be set for this operation.');
         }
     }
 
     /**
      * Return payment method instance
      *
-     * @return Magento_Payment_Model_Method_Abstract
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     protected function getMethodInstance()
     {
         if (!$this->_methodInstance) {
-            $this->setMethodInstance(Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($this->getMethodCode()));
+            $this->setMethodInstance(\Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($this->getMethodCode()));
         }
         $this->_methodInstance->setStore($this->getStoreId());
         return $this->_methodInstance;
@@ -571,15 +573,15 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     /**
      * Perform full validation before saving
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _validateBeforeSave()
     {
         if (!$this->isValid()) {
-            Mage::throwException($this->getValidationErrors(true, true));
+            \Mage::throwException($this->getValidationErrors(true, true));
         }
         if (!$this->getInternalReferenceId()) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('An internal reference ID is required to save the payment profile.')
             );
         }
@@ -588,7 +590,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     /**
      * Validate before saving
      *
-     * @return Magento_Payment_Model_Recurring_Profile
+     * @return \Magento\Payment\Model\Recurring\Profile
      */
     protected function _beforeSave()
     {
@@ -599,7 +601,7 @@ class Magento_Payment_Model_Recurring_Profile extends Magento_Core_Model_Abstrac
     /**
      * Generate explanations for specified schedule parameters
      *
-     * TODO: utilize Zend_Translate_Plural or similar stuff to render proper declensions with numerals.
+     * TODO: utilize \Zend_Translate_Plural or similar stuff to render proper declensions with numerals.
      *
      * @param string $periodKey
      * @param string $frequencyKey

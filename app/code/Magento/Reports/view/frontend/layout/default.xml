@@ -15,8 +15,8 @@
             </action>
         </reference>
         <reference name="right">
-            <block class="Magento_Reports_Block_Product_Viewed" before="right.permanent.callout" name="right.reports.product.viewed" template="product_viewed.phtml"/>
-            <block class="Magento_Reports_Block_Product_Compared" before="right.permanent.callout" name="right.reports.product.compared" template="product_compared.phtml"/>
+            <block class="\Magento\Reports\Block\Product\Viewed" before="right.permanent.callout" name="right.reports.product.viewed" template="product_viewed.phtml"/>
+            <block class="\Magento\Reports\Block\Product\Compared" before="right.permanent.callout" name="right.reports.product.compared" template="product_compared.phtml"/>
         </reference>
     </handle>
 </layout>

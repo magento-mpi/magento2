@@ -16,11 +16,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_ContentTest ex
 {
     public function testGetUploader()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
-        $block = $layout->createBlock('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content', 'block');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content */
+        $block = $layout->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content', 'block');
 
-        $this->assertInstanceOf('Magento_Adminhtml_Block_Media_Uploader', $block->getUploader());
+        $this->assertInstanceOf('\Magento\Adminhtml\Block\Media\Uploader', $block->getUploader());
     }
 }

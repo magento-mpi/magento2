@@ -16,10 +16,12 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Adminhtml_System_Config_Source_Engine
+namespace Magento\Search\Model\Adminhtml\System\Config\Source;
+
+class Engine
 {
-    const FULLTEXT = 'Magento_CatalogSearch_Model_Resource_Fulltext_Engine';
-    const SOLR = 'Magento_Search_Model_Resource_Engine';
+    const FULLTEXT = '\Magento\CatalogSearch\Model\Resource\Fulltext\Engine';
+    const SOLR = '\Magento\Search\Model\Resource\Engine';
 
     public function toOptionArray()
     {

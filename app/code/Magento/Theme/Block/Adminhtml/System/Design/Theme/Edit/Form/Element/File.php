@@ -11,7 +11,9 @@
 /**
  * Form element renderer to display file element
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File extends \Magento\Data\Form\Element\File
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
+
+class File extends \Magento\Data\Form\Element\File
 {
     /**
      * Additional html attributes

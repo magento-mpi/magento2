@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Registration_Create_Form
+ * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form
  *
  * {license_notice}
  *
@@ -23,7 +23,7 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
     /** @var  PHPUnit_Framework_MockObject_MockObject */
     private $_dataFormMock;
 
-    /** @var  Magento_Core_Model_Registry */
+    /** @var  \Magento\Core\Model\Registry */
     private $_registry;
 
     /** @var  string[] */
@@ -32,8 +32,8 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
     public function setUp()
     {
         parent::setUp();
-        $this->_registry = new Magento_Core_Model_Registry();
-        $this->_coreHelperMock = $this->_makeMock('Magento_Core_Helper_Data');
+        $this->_registry = new \Magento\Core\Model\Registry();
+        $this->_coreHelperMock = $this->_makeMock('\Magento\Core\Helper\Data');
         $this->_formFactoryMock = $this->_makeMock('\Magento\Data\Form\Factory');
 
         $this->_dataFormMock = $this->_makeMock('\Magento\Data\Form');
@@ -64,14 +64,14 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_FormTest extends Magen
         );
 
         $this->_formMock = $this->getMock(
-            'Magento_Webhook_Block_Adminhtml_Registration_Create_Form',
+            '\Magento\Webhook\Block\Adminhtml\Registration\Create\Form',
             $methods,
             $arguments);
     }
 
     public function testPrepareColumns()
     {
-        $columnsSetMock = $this->_makeMock('Magento_Backend_Block_Widget_Grid_ColumnSet');
+        $columnsSetMock = $this->_makeMock('\Magento\Backend\Block\Widget\Grid\ColumnSet');
         $this->_setStub($this->_formMock, 'getChildBlock', $columnsSetMock);
 
         $this->_dataFormMock->expects($this->exactly(4))

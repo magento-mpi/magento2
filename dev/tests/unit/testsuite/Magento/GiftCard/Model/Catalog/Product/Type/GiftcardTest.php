@@ -12,7 +12,7 @@
 class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_GiftCard_Model_Catalog_Product_Type_Giftcard
+     * @var \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard
      */
     protected $_model;
 
@@ -22,27 +22,27 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
     protected $_customOptions;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product
+     * @var \Magento\Catalog\Model\Resource\Product
      */
     protected $_productResource;
 
     /**
-     * @var Magento_Catalog_Model_Resource_Product_Option
+     * @var \Magento\Catalog\Model\Resource\Product\Option
      */
     protected $_optionResource;
 
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
     /**
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
-     * @var Magento_Sales_Model_Quote_Item_Option
+     * @var \Magento\Sales\Model\Quote\Item\Option
      */
     protected $_quoteItemOption;
 
@@ -51,7 +51,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
      */
     protected function setUp()
     {
-        $this->_store = $this->getMock('Magento_Core_Model_Store', array('getCurrentCurrencyRate'), array(), '', false);
+        $this->_store = $this->getMock('Magento\Core\Model\Store', array('getCurrentCurrencyRate'), array(), '', false);
         $this->_mockModel(array('_isStrictProcessMode'));
     }
 
@@ -63,25 +63,25 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
     protected function _mockModel($mockedMethods)
     {
         $helpers = array(
-            'Magento_GiftCard_Helper_Data'        => $this->getMock(
-                'Magento_GiftCard_Helper_Data', array(), array(), '', false, false
+            '\Magento\GiftCard\Helper\Data'        => $this->getMock(
+                '\Magento\GiftCard\Helper\Data', array(), array(), '', false, false
             ),
-            'Magento_Core_Helper_Data'                  => $this->getMock(
-                'Magento_Core_Helper_Data', array(), array(), '', false, false
+            '\Magento\Core\Helper\Data'                  => $this->getMock(
+                '\Magento\Core\Helper\Data', array(), array(), '', false, false
             ),
-            'Magento_Catalog_Helper_Data'               => $this->getMock(
-                'Magento_Catalog_Helper_Data', array(), array(), '', false, false
+            '\Magento\Catalog\Helper\Data'               => $this->getMock(
+                '\Magento\Catalog\Helper\Data', array(), array(), '', false, false
             ),
-            'Magento_Core_Helper_File_Storage_Database' => $this->getMock(
-                'Magento_Core_Helper_File_Storage_Database', array(), array(), '', false, false
+            '\Magento\Core\Helper\File\Storage\Database' => $this->getMock(
+                '\Magento\Core\Helper\File\Storage\Database', array(), array(), '', false, false
             )
         );
 
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
-        $locale = $this->getMock('Magento_Core_Model_Locale', array('getNumber'), array(), '', false);
+        $locale = $this->getMock('Magento\Core\Model\Locale', array('getNumber'), array(), '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
         $this->_model = $this->getMock(
-            'Magento_GiftCard_Model_Catalog_Product_Type_Giftcard',
+            '\Magento\GiftCard\Model\Catalog\Product\Type\Giftcard',
             $mockedMethods,
             array(
                 $filesystem,
@@ -97,20 +97,20 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
     protected function _preConditions()
     {
         $this->_store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue(1));
-        $this->_productResource = $this->getMock('Magento_Catalog_Model_Resource_Product', array(), array(), '', false);
-        $this->_optionResource = $this->getMock('Magento_Catalog_Model_Resource_Product_Option', array(), array(),
+        $this->_productResource = $this->getMock('Magento\Catalog\Model\Resource\Product', array(), array(), '', false);
+        $this->_optionResource = $this->getMock('Magento\Catalog\Model\Resource\Product\Option', array(), array(),
             '', false);
 
-        $productCollection = $this->getMock('Magento_Catalog_Model_Resource_Product_Collection', array(), array(), '',
+        $productCollection = $this->getMock('Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '',
             false
         );
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Magento_Catalog_Model_Product',
+        $arguments = $objectManagerHelper->getConstructArguments('\Magento\Catalog\Model\Product',
             array('resource' => $this->_productResource, 'resourceCollection' => $productCollection)
         );
         $this->_product = $this->getMock(
-            'Magento_Catalog_Model_Product',
+            '\Magento\Catalog\Model\Product',
             array('getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin'),
             $arguments
         );
@@ -118,19 +118,19 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
         $this->_customOptions = array();
 
         for ($i = 1; $i <= 3; $i++) {
-            $option = $objectManagerHelper->getObject('Magento_Catalog_Model_Product_Option',
+            $option = $objectManagerHelper->getObject('\Magento\Catalog\Model\Product\Option',
                 array('resource' => $this->_optionResource)
             );
             $option->setIdFieldName('id');
             $option->setId($i);
             $option->setIsRequire(true);
-            $this->_customOptions[Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX . $i] = new \Magento\Object(
+            $this->_customOptions[\Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX . $i] = new \Magento\Object(
                 array('value' => 'value')
             );
             $this->_product->addOption($option);
         }
 
-        $this->_quoteItemOption = $this->getMock('Magento_Sales_Model_Quote_Item_Option', array(), array(), '', false);
+        $this->_quoteItemOption = $this->getMock('Magento\Sales\Model\Quote\Item\Option', array(), array(), '', false);
 
         $this->_customOptions['info_buyRequest'] = $this->_quoteItemOption;
 
@@ -148,7 +148,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
         $this->_setGetGiftcardAmountsReturnEmpty();
 
         $this->_setStrictProcessMode(true);
-        $this->setExpectedException('Magento_Core_Exception', 'Please specify all the required information.');
+        $this->setExpectedException('\Magento\Core\Exception', 'Please specify all the required information.');
         $this->_model->checkProductBuyState($this->_product);
     }
 
@@ -357,7 +357,7 @@ class Magento_GiftCard_Model_Catalog_Product_Type_GiftcardTest extends PHPUnit_F
 
         $this->_product->setCustomOptions($this->_customOptions);
 
-        $this->setExpectedException('Magento_Core_Exception', $exceptionMessage);
+        $this->setExpectedException('\Magento\Core\Exception', $exceptionMessage);
         $this->_model->checkProductBuyState($this->_product);
     }
 

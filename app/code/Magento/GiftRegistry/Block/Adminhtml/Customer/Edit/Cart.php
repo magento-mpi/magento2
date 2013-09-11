@@ -11,8 +11,10 @@
 /**
  * Adminhtml customer cart items grid block
  */
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
-    extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
+
+class Cart
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected function _construct()
     {
@@ -25,9 +27,9 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
 
     protected function _prepareCollection()
     {
-        $quote = Mage::getModel('Magento_Sales_Model_Quote');
-        $quote->setWebsite(Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
-        $quote->loadByCustomer(Mage::getModel('Magento_Customer_Model_Customer')->load($this->getEntity()->getCustomerId()));
+        $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
+        $quote->setWebsite(\Mage::app()->getWebsite($this->getEntity()->getWebsiteId()));
+        $quote->loadByCustomer(\Mage::getModel('\Magento\Customer\Model\Customer')->load($this->getEntity()->getCustomerId()));
 
         $collection = ($quote) ? $quote->getItemsCollection(false) : new \Magento\Data\Collection();
         $collection->addFieldToFilter('parent_item_id', array('null' => true));
@@ -61,7 +63,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
             'index' => 'price',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('qty', array(
@@ -76,7 +78,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
             'index' => 'row_total',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         return parent::_prepareColumns();
@@ -85,7 +87,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     /**
      * Prepare mass action options for this grid
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Cart
      */
     protected function _prepareMassaction()
     {
@@ -113,10 +115,10 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Cart
     /**
      * Return gift registry entity object
      *
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getEntity()
     {
-        return Mage::registry('current_giftregistry_entity');
+        return \Mage::registry('current_giftregistry_entity');
     }
 }

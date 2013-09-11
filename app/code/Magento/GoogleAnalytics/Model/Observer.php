@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_GoogleAnalytics
  */
-class Magento_GoogleAnalytics_Model_Observer
+namespace Magento\GoogleAnalytics\Model;
+
+class Observer
 {
     /**
      * Whether the google checkout inclusion link was rendered by this observer instance
@@ -34,7 +36,7 @@ class Magento_GoogleAnalytics_Model_Observer
         if (empty($orderIds) || !is_array($orderIds)) {
             return;
         }
-        $block = Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('google_analytics');
+        $block = \Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('google_analytics');
         if ($block) {
             $block->setOrderIds($orderIds);
         }
@@ -46,14 +48,14 @@ class Magento_GoogleAnalytics_Model_Observer
      * If there is at least one GC button on the page, there should be the script for GA/GC integration included
      * a each shortcut should track submits to GA
      * There should be no tracking if there is no GA available
-     * This method assumes that the observer instance is run as a "singleton" (through Mage::getSingleton())
+     * This method assumes that the observer instance is run as a "singleton" (through \Mage::getSingleton())
      *
      * @param \Magento\Event\Observer $observer
      */
     public function injectAnalyticsInGoogleCheckoutLink(\Magento\Event\Observer $observer)
     {
         $block = $observer->getEvent()->getBlock();
-        if (!$block || !Mage::helper('Magento_GoogleAnalytics_Helper_Data')->isGoogleAnalyticsAvailable()) {
+        if (!$block || !\Mage::helper('Magento\GoogleAnalytics\Helper\Data')->isGoogleAnalyticsAvailable()) {
             return;
         }
 
@@ -66,7 +68,7 @@ class Magento_GoogleAnalytics_Model_Observer
             return;
         }
         $beforeHtml = $block->getBeforeHtml();
-        $protocol = Mage::app()->getStore()->isCurrentlySecure() ? 'https' : 'http';
+        $protocol = \Mage::app()->getStore()->isCurrentlySecure() ? 'https' : 'http';
         $block->setBeforeHtml($beforeHtml . '<script src="' . $protocol
             . '://checkout.google.com/files/digital/ga_post.js" type="text/javascript"></script>'
         );

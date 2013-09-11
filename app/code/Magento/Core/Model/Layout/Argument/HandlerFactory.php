@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_HandlerFactory
+namespace Magento\Core\Model\Layout\Argument;
+
+class HandlerFactory
 {
     const LAYOUT_ARGUMENT_TYPE_OBJECT  = 'object';
     const LAYOUT_ARGUMENT_TYPE_OPTIONS = 'options';
@@ -26,9 +28,9 @@ class Magento_Core_Model_Layout_Argument_HandlerFactory
      * @var array
      */
     protected $_handlerFactories = array(
-        self::LAYOUT_ARGUMENT_TYPE_OBJECT  => 'Magento_Core_Model_Layout_Argument_Handler_Object',
-        self::LAYOUT_ARGUMENT_TYPE_OPTIONS => 'Magento_Core_Model_Layout_Argument_Handler_Options',
-        self::LAYOUT_ARGUMENT_TYPE_URL     => 'Magento_Core_Model_Layout_Argument_Handler_Url'
+        self::LAYOUT_ARGUMENT_TYPE_OBJECT  => '\Magento\Core\Model\Layout\Argument\Handler\Object',
+        self::LAYOUT_ARGUMENT_TYPE_OPTIONS => '\Magento\Core\Model\Layout\Argument\Handler\Options',
+        self::LAYOUT_ARGUMENT_TYPE_URL     => '\Magento\Core\Model\Layout\Argument\Handler\Url'
     );
 
     /**
@@ -47,17 +49,17 @@ class Magento_Core_Model_Layout_Argument_HandlerFactory
     /**
      * Get argument handler factory by given type
      * @param string $type
-     * @return Magento_Core_Model_Layout_Argument_HandlerInterface
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\Layout\Argument\HandlerInterface
+     * @throws \InvalidArgumentException
      */
     public function getArgumentHandlerByType($type)
     {
         if (false == is_string($type)) {
-            throw new InvalidArgumentException('Passed invalid argument handler type');
+            throw new \InvalidArgumentException('Passed invalid argument handler type');
         }
 
         if (!isset($this->_handlerFactories[$type])) {
-            throw new InvalidArgumentException('Argument handler ' . $type . ' is not exists');
+            throw new \InvalidArgumentException('Argument handler ' . $type . ' is not exists');
         }
 
         return $this->_objectManager->create($this->_handlerFactories[$type], array());

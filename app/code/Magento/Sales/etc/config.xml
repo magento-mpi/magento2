@@ -99,7 +99,7 @@
             <sales_setup>
                 <setup>
                     <module>Magento_Sales</module>
-                    <class>Magento_Sales_Model_Resource_Setup</class>
+                    <class>Magento\Sales\Model\Resource\Setup</class>
                 </setup>
             </sales_setup>
         </resources>
@@ -116,42 +116,42 @@
             <quote>
                 <totals>
                     <nominal>
-                        <class>Magento_Sales_Model_Quote_Address_Total_Nominal</class>
+                        <class>Magento\Sales\Model\Quote\Address\Total\Nominal</class>
                         <before>subtotal</before>
                     </nominal>
                     <subtotal>
-                        <class>Magento_Sales_Model_Quote_Address_Total_Subtotal</class>
+                        <class>Magento\Sales\Model\Quote\Address\Total\Subtotal</class>
                         <after>nominal</after>
                         <before>grand_total</before>
                     </subtotal>
                     <shipping>
-                        <class>Magento_Sales_Model_Quote_Address_Total_Shipping</class>
+                        <class>Magento\Sales\Model\Quote\Address\Total\Shipping</class>
                         <after>subtotal,freeshipping,tax_subtotal</after>
                         <before>grand_total</before>
                     </shipping>
                     <grand_total>
-                        <class>Magento_Sales_Model_Quote_Address_Total_Grand</class>
+                        <class>Magento\Sales\Model\Quote\Address\Total\Grand</class>
                         <after>subtotal</after>
                     </grand_total>
                     <msrp>
-                        <class>Magento_Sales_Model_Quote_Address_Total_Msrp</class>
+                        <class>Magento\Sales\Model\Quote\Address\Total\Msrp</class>
                     </msrp>
                 </totals>
                 <nominal_totals>
                     <recurring_initial_fee>
-                        <class>Magento_Sales_Model_Quote_Address_Total_Nominal_Recurring_Initial</class>
+                        <class>Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring\Initial</class>
                         <sort_order>10</sort_order>
                     </recurring_initial_fee>
                     <recurring_trial_payment>
-                        <class>Magento_Sales_Model_Quote_Address_Total_Nominal_Recurring_Trial</class>
+                        <class>Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring\Trial</class>
                         <sort_order>50</sort_order>
                     </recurring_trial_payment>
                     <nominal_subtotal>
-                        <class>Magento_Sales_Model_Quote_Address_Total_Nominal_Subtotal</class>
+                        <class>Magento\Sales\Model\Quote\Address\Total\Nominal\Subtotal</class>
                         <sort_order>250</sort_order>
                     </nominal_subtotal>
                     <nominal_shipping>
-                        <class>Magento_Sales_Model_Quote_Address_Total_Nominal_Shipping</class>
+                        <class>Magento\Sales\Model\Quote\Address\Total\Nominal\Shipping</class>
                         <sort_order>1250</sort_order>
                     </nominal_shipping>
                 </nominal_totals>
@@ -278,27 +278,27 @@
             <order_invoice>
                 <totals>
                     <subtotal>
-                        <class>Magento_Sales_Model_Order_Invoice_Total_Subtotal</class>
+                        <class>Magento\Sales\Model\Order\Invoice\Total\Subtotal</class>
                     </subtotal>
                     <discount>
-                        <class>Magento_Sales_Model_Order_Invoice_Total_Discount</class>
+                        <class>Magento\Sales\Model\Order\Invoice\Total\Discount</class>
                         <after>subtotal</after>
                     </discount>
                     <shipping>
-                        <class>Magento_Sales_Model_Order_Invoice_Total_Shipping</class>
+                        <class>Magento\Sales\Model\Order\Invoice\Total\Shipping</class>
                         <after>subtotal,discount</after>
                         <before>grand_total,tax</before>
                     </shipping>
                     <tax>
-                        <class>Magento_Sales_Model_Order_Invoice_Total_Tax</class>
+                        <class>Magento\Sales\Model\Order\Invoice\Total\Tax</class>
                         <after>subtotal</after>
                     </tax>
                     <grand_total>
-                        <class>Magento_Sales_Model_Order_Invoice_Total_Grand</class>
+                        <class>Magento\Sales\Model\Order\Invoice\Total\Grand</class>
                         <after>shipping</after>
                     </grand_total>
                     <cost_total>
-                        <class>Magento_Sales_Model_Order_Invoice_Total_Cost</class>
+                        <class>Magento\Sales\Model\Order\Invoice\Total\Cost</class>
                         <after>discount</after>
                         <before>grand_total</before>
                     </cost_total>
@@ -307,27 +307,27 @@
             <order_creditmemo>
                 <totals>
                     <subtotal>
-                        <class>Magento_Sales_Model_Order_Creditmemo_Total_Subtotal</class>
+                        <class>Magento\Sales\Model\Order\Creditmemo\Total\Subtotal</class>
                     </subtotal>
                     <shipping>
-                        <class>Magento_Sales_Model_Order_Creditmemo_Total_Shipping</class>
+                        <class>Magento\Sales\Model\Order\Creditmemo\Total\Shipping</class>
                         <after>subtotal,discount</after>
                         <before>grand_total,tax</before>
                     </shipping>
                     <tax>
-                        <class>Magento_Sales_Model_Order_Creditmemo_Total_Tax</class>
+                        <class>Magento\Sales\Model\Order\Creditmemo\Total\Tax</class>
                         <after>subtotal</after>
                     </tax>
                     <discount>
-                        <class>Magento_Sales_Model_Order_Creditmemo_Total_Discount</class>
+                        <class>Magento\Sales\Model\Order\Creditmemo\Total\Discount</class>
                         <after>subtotal</after>
                     </discount>
                     <grand_total>
-                        <class>Magento_Sales_Model_Order_Creditmemo_Total_Grand</class>
+                        <class>Magento\Sales\Model\Order\Creditmemo\Total\Grand</class>
                         <after>shipping,subtotal</after>
                     </grand_total>
                     <cost_total>
-                        <class>Magento_Sales_Model_Order_Creditmemo_Total_Cost</class>
+                        <class>Magento\Sales\Model\Order\Creditmemo\Total\Cost</class>
                         <after>discount</after>
                         <before>grand_total</before>
                     </cost_total>
@@ -336,15 +336,15 @@
         </sales>
         <pdf>
             <invoice>
-                <default>Magento_Sales_Model_Order_Pdf_Items_Invoice_Default</default>
-                <grouped>Magento_Sales_Model_Order_Pdf_Items_Invoice_Grouped</grouped>
+                <default>\Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice</default>
+                <grouped>\Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped</grouped>
             </invoice>
             <shipment>
-                <default>Magento_Sales_Model_Order_Pdf_Items_Shipment_Default</default>
+                <default>\Magento\Sales\Model\Order\Pdf\Items\Shipment\DefaultShipment</default>
             </shipment>
             <creditmemo>
-                <default>Magento_Sales_Model_Order_Pdf_Items_Creditmemo_Default</default>
-                <grouped>Magento_Sales_Model_Order_Pdf_Items_Creditmemo_Grouped</grouped>
+                <default>\Magento\Sales\Model\Order\Pdf\Items\Creditmemo\DefaultCreditmemo</default>
+                <grouped>\Magento\Sales\Model\Order\Pdf\Items\Creditmemo\Grouped</grouped>
             </creditmemo>
             <totals>
                 <subtotal translate="title">
@@ -512,7 +512,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_Sales_Model_Observer::cleanExpiredQuotes</model>
+                    <model>\Magento\Sales\Model\Observer::cleanExpiredQuotes</model>
                 </run>
             </sales_clean_quotes>
             <aggregate_sales_report_order_data>
@@ -520,7 +520,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportOrderData</model>
+                    <model>\Magento\Sales\Model\Observer::aggregateSalesReportOrderData</model>
                 </run>
             </aggregate_sales_report_order_data>
             <aggregate_sales_report_shipment_data>
@@ -528,7 +528,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportShipmentData</model>
+                    <model>\Magento\Sales\Model\Observer::aggregateSalesReportShipmentData</model>
                 </run>
             </aggregate_sales_report_shipment_data>
             <aggregate_sales_report_invoiced_data>
@@ -536,7 +536,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportInvoicedData</model>
+                    <model>\Magento\Sales\Model\Observer::aggregateSalesReportInvoicedData</model>
                 </run>
             </aggregate_sales_report_invoiced_data>
             <aggregate_sales_report_refunded_data>
@@ -544,7 +544,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportRefundedData</model>
+                    <model>\Magento\Sales\Model\Observer::aggregateSalesReportRefundedData</model>
                 </run>
             </aggregate_sales_report_refunded_data>
             <aggregate_sales_report_bestsellers_data>
@@ -552,7 +552,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_Sales_Model_Observer::aggregateSalesReportBestsellersData</model>
+                    <model>\Magento\Sales\Model\Observer::aggregateSalesReportBestsellersData</model>
                 </run>
             </aggregate_sales_report_bestsellers_data>
         </jobs>

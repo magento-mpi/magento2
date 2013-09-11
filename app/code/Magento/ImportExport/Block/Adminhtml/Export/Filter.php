@@ -15,12 +15,14 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\ImportExport\Block\Adminhtml\Export;
+
+class Filter extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Helper object.
      *
-     * @var Magento_Core_Helper_Abstract
+     * @var \Magento\Core\Helper\AbstractHelper
      */
     protected $_helper;
 
@@ -31,7 +33,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     {
         parent::_construct();
 
-        $this->_helper = Mage::helper('Magento_ImportExport_Helper_Data');
+        $this->_helper = \Mage::helper('Magento\ImportExport\Helper\Data');
 
         $this->setRowClickCallback(null);
         $this->setId('export_filter_grid');
@@ -45,22 +47,22 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     /**
      * Date 'from-to' filter HTML with values
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @param mixed $value
      * @return string
      */
-    protected function _getDateFromToHtmlWithValue(Magento_Eav_Model_Entity_Attribute $attribute, $value)
+    protected function _getDateFromToHtmlWithValue(\Magento\Eav\Model\Entity\Attribute $attribute, $value)
     {
         $arguments = array(
             'name'         => $this->getFilterElementName($attribute->getAttributeCode()) . '[]',
             'id'           => $this->getFilterElementId($attribute->getAttributeCode()),
             'class'        => 'input-text input-text-range-date',
-            'date_format'  => Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT),
+            'date_format'  => \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif')
         );
-        /** @var $selectBlock Magento_Core_Block_Html_Date */
+        /** @var $selectBlock \Magento\Core\Block\Html\Date */
         $dateBlock = $this->_layout->getBlockFactory()->createBlock(
-            'Magento_Core_Block_Html_Date', array('data' => $arguments)
+            '\Magento\Core\Block\Html\Date', array('data' => $arguments)
         );
         $fromValue = null;
         $toValue   = null;
@@ -79,11 +81,11 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     /**
      * Input text filter HTML with value
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @param mixed $value
      * @return string
      */
-    protected function _getInputHtmlWithValue(Magento_Eav_Model_Entity_Attribute $attribute, $value)
+    protected function _getInputHtmlWithValue(\Magento\Eav\Model\Entity\Attribute $attribute, $value)
     {
         $html = '<input type="text" name="' . $this->getFilterElementName($attribute->getAttributeCode())
              . '" class="input-text input-text-export-filter"';
@@ -97,11 +99,11 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     /**
      * Multiselect field filter HTML with selected values
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @param mixed $value
      * @return string
      */
-    protected function _getMultiSelectHtmlWithValue(Magento_Eav_Model_Entity_Attribute $attribute, $value)
+    protected function _getMultiSelectHtmlWithValue(\Magento\Eav\Model\Entity\Attribute $attribute, $value)
     {
         if ($attribute->getFilterOptions()) {
             $options = $attribute->getFilterOptions();
@@ -122,9 +124,9 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
                 'class'        => 'multiselect multiselect-export-filter',
                 'extra_params' => 'multiple="multiple" size="' . ($size > 5 ? 5 : ($size < 2 ? 2 : $size))
             );
-            /** @var $selectBlock Magento_Core_Block_Html_Select */
+            /** @var $selectBlock \Magento\Core\Block\Html\Select */
             $selectBlock = $this->_layout->getBlockFactory()->createBlock(
-                'Magento_Core_Block_Html_Select', array('data' => $arguments)
+                '\Magento\Core\Block\Html\Select', array('data' => $arguments)
             );
             return $selectBlock->setOptions($options)
                 ->setValue($value)
@@ -137,11 +139,11 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     /**
      * Number 'from-to' field filter HTML with selected value.
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @param mixed $value
      * @return string
      */
-    protected function _getNumberFromToHtmlWithValue(Magento_Eav_Model_Entity_Attribute $attribute, $value)
+    protected function _getNumberFromToHtmlWithValue(\Magento\Eav\Model\Entity\Attribute $attribute, $value)
     {
         $fromValue = null;
         $toValue = null;
@@ -162,11 +164,11 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     /**
      * Select field filter HTML with selected value.
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @param mixed $value
      * @return string
      */
-    protected function _getSelectHtmlWithValue(Magento_Eav_Model_Entity_Attribute $attribute, $value)
+    protected function _getSelectHtmlWithValue(\Magento\Eav\Model\Entity\Attribute $attribute, $value)
     {
         if ($attribute->getFilterOptions()) {
             $options = array();
@@ -191,9 +193,9 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
                 'id'           => $this->getFilterElementId($attribute->getAttributeCode()),
                 'class'        => 'select select-export-filter'
             );
-            /** @var $selectBlock Magento_Core_Block_Html_Select */
+            /** @var $selectBlock \Magento\Core\Block\Html\Select */
             $selectBlock = $this->_layout->getBlockFactory()->createBlock(
-                'Magento_Core_Block_Html_Select', array('data' => $arguments)
+                '\Magento\Core\Block\Html\Select', array('data' => $arguments)
             );
             return $selectBlock->setOptions($options)
                 ->setValue($value)
@@ -206,7 +208,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
     /**
      * Add columns to grid
      *
-     * @return Magento_ImportExport_Block_Adminhtml_Export_Filter
+     * @return \Magento\ImportExport\Block\Adminhtml\Export\Filter
      */
     protected function _prepareColumns()
     {
@@ -216,7 +218,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
             'header'     => __('Exclude'),
             'type'       => 'checkbox',
             'name'       => 'skip',
-            'field_name' => Magento_ImportExport_Model_Export::FILTER_ELEMENT_SKIP . '[]',
+            'field_name' => \Magento\ImportExport\Model\Export::FILTER_ELEMENT_SKIP . '[]',
             'filter'     => false,
             'sortable'   => false,
             'align'      => 'center',
@@ -259,29 +261,29 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
      * Create filter fields for 'Filter' column.
      *
      * @param mixed $value
-     * @param Magento_Eav_Model_Entity_Attribute $row
+     * @param \Magento\Eav\Model\Entity\Attribute $row
      * @param \Magento\Object $column
      * @param boolean $isExport
      * @return string
      */
-    public function decorateFilter($value, Magento_Eav_Model_Entity_Attribute $row, \Magento\Object $column, $isExport)
+    public function decorateFilter($value, \Magento\Eav\Model\Entity\Attribute $row, \Magento\Object $column, $isExport)
     {
         $value  = null;
         $values = $column->getValues();
         if (is_array($values) && isset($values[$row->getAttributeCode()])) {
             $value = $values[$row->getAttributeCode()];
         }
-        switch (Magento_ImportExport_Model_Export::getAttributeFilterType($row)) {
-            case Magento_ImportExport_Model_Export::FILTER_TYPE_SELECT:
+        switch (\Magento\ImportExport\Model\Export::getAttributeFilterType($row)) {
+            case \Magento\ImportExport\Model\Export::FILTER_TYPE_SELECT:
                 $cell = $this->_getSelectHtmlWithValue($row, $value);
                 break;
-            case Magento_ImportExport_Model_Export::FILTER_TYPE_INPUT:
+            case \Magento\ImportExport\Model\Export::FILTER_TYPE_INPUT:
                 $cell = $this->_getInputHtmlWithValue($row, $value);
                 break;
-            case Magento_ImportExport_Model_Export::FILTER_TYPE_DATE:
+            case \Magento\ImportExport\Model\Export::FILTER_TYPE_DATE:
                 $cell = $this->_getDateFromToHtmlWithValue($row, $value);
                 break;
-            case Magento_ImportExport_Model_Export::FILTER_TYPE_NUMBER:
+            case \Magento\ImportExport\Model\Export::FILTER_TYPE_NUMBER:
                 $cell = $this->_getNumberFromToHtmlWithValue($row, $value);
                 break;
             default:
@@ -298,7 +300,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
      */
     public function getFilterElementId($attributeCode)
     {
-        return Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP . "_{$attributeCode}";
+        return \Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP . "_{$attributeCode}";
     }
 
     /**
@@ -309,7 +311,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
      */
     public function getFilterElementName($attributeCode)
     {
-        return Magento_ImportExport_Model_Export::FILTER_ELEMENT_GROUP . "[{$attributeCode}]";
+        return \Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP . "[{$attributeCode}]";
     }
 
     /**
@@ -326,7 +328,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Filter extends Magento_Adminht
      * Prepare collection by setting page number, sorting etc..
      *
      * @param \Magento\Data\Collection $collection
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     public function prepareCollection(\Magento\Data\Collection $collection)
     {

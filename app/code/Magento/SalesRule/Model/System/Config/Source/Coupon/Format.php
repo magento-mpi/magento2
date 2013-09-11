@@ -15,7 +15,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_System_Config_Source_Coupon_Format
+namespace Magento\SalesRule\Model\System\Config\Source\Coupon;
+
+class Format
 {
     /**
      * Options getter
@@ -24,7 +26,7 @@ class Magento_SalesRule_Model_System_Config_Source_Coupon_Format
      */
     public function toOptionArray()
     {
-        $formatsList = Mage::helper('Magento_SalesRule_Helper_Coupon')->getFormatsList();
+        $formatsList = \Mage::helper('Magento\SalesRule\Helper\Coupon')->getFormatsList();
         $result = array();
         foreach ($formatsList as $formatId => $formatTitle) {
             $result[] = array(

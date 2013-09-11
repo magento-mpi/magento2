@@ -16,15 +16,17 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data_Select extends Magento_Eav_Model_Attribute_Data_Abstract
+namespace Magento\Eav\Model\Attribute\Data;
+
+class Select extends \Magento\Eav\Model\Attribute\Data\AbstractData
 {
     /**
      * Extract data from request and return value
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return array|string
      */
-    public function extractValue(Zend_Controller_Request_Http $request)
+    public function extractValue(\Zend_Controller_Request_Http $request)
     {
         return $this->_getRequestValue($request);
     }
@@ -66,7 +68,7 @@ class Magento_Eav_Model_Attribute_Data_Select extends Magento_Eav_Model_Attribut
      * Export attribute value to entity model
      *
      * @param array|string $value
-     * @return Magento_Eav_Model_Attribute_Data_Select
+     * @return \Magento\Eav\Model\Attribute\Data\Select
      */
     public function compactValue($value)
     {
@@ -80,7 +82,7 @@ class Magento_Eav_Model_Attribute_Data_Select extends Magento_Eav_Model_Attribut
      * Restore attribute value from SESSION to entity model
      *
      * @param array|string $value
-     * @return Magento_Eav_Model_Attribute_Data_Select
+     * @return \Magento\Eav\Model\Attribute\Data\Select
      */
     public function restoreValue($value)
     {
@@ -103,11 +105,11 @@ class Magento_Eav_Model_Attribute_Data_Select extends Magento_Eav_Model_Attribut
      *
      * @return string|array
      */
-    public function outputValue($format = Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->getEntity()->getData($this->getAttribute()->getAttributeCode());
         switch ($format) {
-            case Magento_Eav_Model_Attribute_Data::OUTPUT_FORMAT_JSON:
+            case \Magento\Eav\Model\Attribute\Data::OUTPUT_FORMAT_JSON:
                 $output = $value;
                 break;
             default:

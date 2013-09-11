@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Job_QueueReader
+ * \Magento\Webhook\Model\Job\QueueReader
  *
  * @magentoDbIsolation enabled
  *
@@ -14,24 +14,24 @@ class Magento_Webhook_Model_Job_QueueReaderTest extends PHPUnit_Framework_TestCa
     public function testPoll()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $event = Mage::getModel('Magento_Webhook_Model_Event')
+        $event = Mage::getModel('\Magento\Webhook\Model\Event')
             ->setDataChanges(true)
             ->save();
 
-        $subscription = Mage::getModel('Magento_Webhook_Model_Subscription')
+        $subscription = Mage::getModel('\Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save();
 
-        /** @var Magento_Webhook_Model_Job $job */
-        $job = $objectManager->create('Magento_Webhook_Model_Job');
+        /** @var \Magento\Webhook\Model\Job $job */
+        $job = $objectManager->create('Magento\Webhook\Model\Job');
         $job->setEventId($event->getId());
         $job->setSubscriptionId($subscription->getId());
 
-        $queueWriter = $objectManager->create('Magento_Webhook_Model_Job_QueueWriter');
+        $queueWriter = $objectManager->create('Magento\Webhook\Model\Job\QueueWriter');
         $queueWriter->offer($job);
 
-        /** @var Magento_Webhook_Model_Job_QueueReader $queueReader */
-        $queueReader = $objectManager->create('Magento_Webhook_Model_Job_QueueReader');
+        /** @var \Magento\Webhook\Model\Job\QueueReader $queueReader */
+        $queueReader = $objectManager->create('Magento\Webhook\Model\Job\QueueReader');
         $this->assertEquals($job->getId(), $queueReader->poll()->getId());
 
         $this->assertNull($queueReader->poll());

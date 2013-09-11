@@ -28,7 +28,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
      */
     public function testIsValid($value, $isValid, $expectedResult)
     {
-        $modulesReader = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
+        $modulesReader = $this->getMockBuilder('Magento\Core\Model\Config\Modules\Reader')
             ->disableOriginalConstructor()
             ->getMock();
         $modulesReader->expects($this->any())
@@ -56,7 +56,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_ValidatorTest extends PHPUnit_Framewo
                 : $this->throwException(new \Magento\Config\Dom\ValidationException)
             );
 
-        $model = $this->_objectHelper->getObject('Magento_Adminhtml_Model_LayoutUpdate_Validator', array(
+        $model = $this->_objectHelper->getObject('\Magento\Adminhtml\Model\LayoutUpdate\Validator', array(
             'modulesReader' => $modulesReader,
             'domConfigFactory' => $domConfigFactory,
         ));

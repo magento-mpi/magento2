@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit
  * @magentoAppArea adminhtml
  */
 class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framework_TestCase
@@ -25,15 +25,15 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
      */
     public function testPrepareLayout($blockAttributes, $expected)
     {
-        /** @var $layout Magento_Core_Model_Layout */
+        /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            '\Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
 
-        /** @var $block Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit */
+        /** @var $block \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit */
         $block = $layout->createBlock(
-            'Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit', '', array('data' => $blockAttributes)
+            '\Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit', '', array('data' => $blockAttributes)
         );
 
         $this->_checkSelector($block, $expected);
@@ -46,7 +46,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
     /**
      * Check selector
      *
-     * @param Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkSelector($block, $expected)
@@ -54,11 +54,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $selectorBlock Magento_Adminhtml_Block_Urlrewrite_Selector|bool */
+        /** @var $selectorBlock \Magento\Adminhtml\Block\Urlrewrite\Selector|bool */
         $selectorBlock = $layout->getChildBlock($blockName, 'selector');
 
         if ($expected['selector']) {
-            $this->assertInstanceOf('Magento_Adminhtml_Block_Urlrewrite_Selector', $selectorBlock,
+            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Selector', $selectorBlock,
                 'Child block with entity selector is invalid');
         } else {
             $this->assertFalse($selectorBlock, 'Child block with entity selector should not present in block');
@@ -68,7 +68,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
     /**
      * Check links
      *
-     * @param Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkLinks($block, $expected)
@@ -76,11 +76,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $cmsPageLinkBlock Magento_Adminhtml_Block_Urlrewrite_Link|bool */
+        /** @var $cmsPageLinkBlock \Magento\Adminhtml\Block\Urlrewrite\Link|bool */
         $cmsPageLinkBlock = $layout->getChildBlock($blockName, 'cms_page_link');
 
         if ($expected['cms_page_link']) {
-            $this->assertInstanceOf('Magento_Adminhtml_Block_Urlrewrite_Link', $cmsPageLinkBlock,
+            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Link', $cmsPageLinkBlock,
                 'Child block with CMS page link is invalid');
 
             $this->assertEquals('CMS page:', $cmsPageLinkBlock->getLabel(),
@@ -99,7 +99,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
     /**
      * Check buttons
      *
-     * @param Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkButtons($block, $expected)
@@ -147,7 +147,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
     /**
      * Check form
      *
-     * @param Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkForm($block, $expected)
@@ -155,11 +155,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $formBlock Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form|bool */
+        /** @var $formBlock \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form|bool */
         $formBlock = $layout->getChildBlock($blockName, 'form');
 
         if ($expected['form']) {
-            $this->assertInstanceOf('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', $formBlock,
+            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit\Form', $formBlock,
                 'Child block with form is invalid');
 
             $this->assertSame($expected['form']['cms_page'], $formBlock->getCmsPage(),
@@ -175,7 +175,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
     /**
      * Check grid
      *
-     * @param Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
+     * @param \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit $block
      * @param array $expected
      */
     private function _checkGrid($block, $expected)
@@ -183,11 +183,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        /** @var $gridBlock Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid|bool */
+        /** @var $gridBlock \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid|bool */
         $gridBlock = $layout->getChildBlock($blockName, 'cms_pages_grid');
 
         if ($expected['cms_pages_grid']) {
-            $this->assertInstanceOf('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid', $gridBlock,
+            $this->assertInstanceOf('\Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid', $gridBlock,
                 'Child block with CMS pages grid is invalid');
         } else {
             $this->assertFalse($gridBlock, 'Child block with CMS pages grid should not present in block');
@@ -201,14 +201,14 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Frame
      */
     public function prepareLayoutDataProvider()
     {
-        /** @var $urlRewrite Magento_Core_Model_Url_Rewrite */
-        $urlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
-        /** @var $cmsPage Magento_Cms_Model_Page */
-        $cmsPage = Mage::getModel('Magento_Cms_Model_Page',
+        /** @var $urlRewrite \Magento\Core\Model\Url\Rewrite */
+        $urlRewrite = Mage::getModel('\Magento\Core\Model\Url\Rewrite');
+        /** @var $cmsPage \Magento\Cms\Model\Page */
+        $cmsPage = Mage::getModel('\Magento\Cms\Model\Page',
             array('data' => array('page_id' => 1, 'title' => 'Test CMS Page'))
         );
-        /** @var $existingUrlRewrite Magento_Core_Model_Url_Rewrite */
-        $existingUrlRewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite',
+        /** @var $existingUrlRewrite \Magento\Core\Model\Url\Rewrite */
+        $existingUrlRewrite = Mage::getModel('\Magento\Core\Model\Url\Rewrite',
             array('data' => array('url_rewrite_id' => 1))
         );
 

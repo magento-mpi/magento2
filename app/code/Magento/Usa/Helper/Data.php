@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Usa\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Convert weight in different measure types
@@ -26,8 +28,8 @@ class Magento_Usa_Helper_Data extends Magento_Core_Helper_Abstract
     public function convertMeasureWeight($value, $sourceWeightMeasure, $toWeightMeasure)
     {
         if ($value) {
-            $locale = Mage::app()->getLocale()->getLocale();
-            $unitWeight = new Zend_Measure_Weight($value, $sourceWeightMeasure, $locale);
+            $locale = \Mage::app()->getLocale()->getLocale();
+            $unitWeight = new \Zend_Measure_Weight($value, $sourceWeightMeasure, $locale);
             $unitWeight->setType($toWeightMeasure);
             return $unitWeight->getValue();
         }
@@ -45,8 +47,8 @@ class Magento_Usa_Helper_Data extends Magento_Core_Helper_Abstract
     public function convertMeasureDimension($value, $sourceDimensionMeasure, $toDimensionMeasure)
     {
         if ($value) {
-            $locale = Mage::app()->getLocale()->getLocale();
-            $unitDimension = new Zend_Measure_Length($value, $sourceDimensionMeasure, $locale);
+            $locale = \Mage::app()->getLocale()->getLocale();
+            $unitDimension = new \Zend_Measure_Length($value, $sourceDimensionMeasure, $locale);
             $unitDimension->setType($toDimensionMeasure);
             return $unitDimension->getValue();
         }
@@ -61,7 +63,7 @@ class Magento_Usa_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMeasureWeightName($key)
     {
-        $weight = new Zend_Measure_Weight(0);
+        $weight = new \Zend_Measure_Weight(0);
         $conversionList = $weight->getConversionList();
         if (!empty($conversionList[$key]) && !empty($conversionList[$key][1])) {
             return $conversionList[$key][1];
@@ -77,7 +79,7 @@ class Magento_Usa_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMeasureDimensionName($key)
     {
-        $weight = new Zend_Measure_Length(0);
+        $weight = new \Zend_Measure_Length(0);
         $conversionList = $weight->getConversionList();
         if (!empty($conversionList[$key]) && !empty($conversionList[$key][1])) {
             return $conversionList[$key][1];

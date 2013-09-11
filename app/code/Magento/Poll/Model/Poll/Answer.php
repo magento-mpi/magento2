@@ -11,27 +11,29 @@
 /**
  * Poll answers model
  *
- * @method Magento_Poll_Model_Resource_Poll_Answer _getResource()
- * @method Magento_Poll_Model_Resource_Poll_Answer getResource()
+ * @method \Magento\Poll\Model\Resource\Poll\Answer _getResource()
+ * @method \Magento\Poll\Model\Resource\Poll\Answer getResource()
  * @method int getPollId()
- * @method Magento_Poll_Model_Poll_Answer setPollId(int $value)
+ * @method \Magento\Poll\Model\Poll\Answer setPollId(int $value)
  * @method string getAnswerTitle()
- * @method Magento_Poll_Model_Poll_Answer setAnswerTitle(string $value)
+ * @method \Magento\Poll\Model\Poll\Answer setAnswerTitle(string $value)
  * @method int getVotesCount()
- * @method Magento_Poll_Model_Poll_Answer setVotesCount(int $value)
+ * @method \Magento\Poll\Model\Poll\Answer setVotesCount(int $value)
  * @method int getAnswerOrder()
- * @method Magento_Poll_Model_Poll_Answer setAnswerOrder(int $value)
+ * @method \Magento\Poll\Model\Poll\Answer setAnswerOrder(int $value)
  *
  * @category    Magento
  * @package     Magento_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Poll_Model_Poll_Answer extends Magento_Core_Model_Abstract
+namespace Magento\Poll\Model\Poll;
+
+class Answer extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Poll_Model_Resource_Poll_Answer');
+        $this->_init('\Magento\Poll\Model\Resource\Poll\Answer');
     }
 
     public function countPercent($poll)
@@ -44,7 +46,7 @@ class Magento_Poll_Model_Poll_Answer extends Magento_Core_Model_Abstract
 
     protected function _afterSave()
     {
-        Mage::getModel('Magento_Poll_Model_Poll')
+        \Mage::getModel('\Magento\Poll\Model\Poll')
             ->setId($this->getPollId())
             ->resetVotesCount();
     }
@@ -56,7 +58,7 @@ class Magento_Poll_Model_Poll_Answer extends Magento_Core_Model_Abstract
 
     protected function _afterDelete()
     {
-        Mage::getModel('Magento_Poll_Model_Poll')
+        \Mage::getModel('\Magento\Poll\Model\Poll')
             ->setId($this->getPollId())
             ->resetVotesCount();
     }

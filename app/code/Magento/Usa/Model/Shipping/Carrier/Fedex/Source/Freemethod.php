@@ -15,8 +15,10 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Freemethod
-    extends Magento_Usa_Model_Shipping_Carrier_Fedex_Source_Method
+namespace Magento\Usa\Model\Shipping\Carrier\Fedex\Source;
+
+class Freemethod
+    extends \Magento\Usa\Model\Shipping\Carrier\Fedex\Source\Method
 {
     public function toOptionArray()
     {

@@ -11,17 +11,19 @@
 /**
  * Theme grid collection
  */
-class Magento_Core_Model_Resource_Theme_Grid_Collection extends Magento_Core_Model_Resource_Theme_Collection
+namespace Magento\Core\Model\Resource\Theme\Grid;
+
+class Collection extends \Magento\Core\Model\Resource\Theme\Collection
 {
     /**
      * Add area filter
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Magento_Core_Model_Resource_Theme_Grid_Collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Core\Model\Resource\Theme\Grid\Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->filterVisibleThemes()->addAreaFilter(Magento_Core_Model_App_Area::AREA_FRONTEND)->addParentTitle();
+        $this->filterVisibleThemes()->addAreaFilter(\Magento\Core\Model\App\Area::AREA_FRONTEND)->addParentTitle();
         return $this;
     }
 }

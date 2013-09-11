@@ -12,7 +12,7 @@
 /**
  * Create dummy user
  */
-$user = Mage::getModel('Magento_User_Model_User');
+$user = Mage::getModel('\Magento\User\Model\User');
 $user->setFirstname('Dummy')
     ->setLastname('Dummy')
     ->setEmail('dummy@dummy.com')

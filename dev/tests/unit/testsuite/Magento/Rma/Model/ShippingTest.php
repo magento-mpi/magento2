@@ -12,14 +12,14 @@
 class Magento_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Rma_Model_Shipping
+     * @var \Magento\Rma\Model\Shipping
      */
     protected $_model;
 
     protected function setUp()
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_Rma_Model_Shipping');
+        $this->_model = $objectManagerHelper->getObject('\Magento\Rma\Model\Shipping');
     }
 
     /**
@@ -39,7 +39,7 @@ class Magento_Rma_Model_ShippingTest extends PHPUnit_Framework_TestCase
     public static function isCustomDataProvider()
     {
         return array(
-            array(true, Magento_Sales_Model_Order_Shipment_Track::CUSTOM_CARRIER_CODE),
+            array(true, \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE),
             array(false, 'ups'),
         );
     }

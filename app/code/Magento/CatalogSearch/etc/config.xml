@@ -21,7 +21,7 @@
         <index>
             <indexer>
                 <catalogsearch_fulltext>
-                    <model>Magento_CatalogSearch_Model_Indexer_Fulltext</model>
+                    <model>\Magento\CatalogSearch\Model\Indexer\Fulltext</model>
                 </catalogsearch_fulltext>
             </indexer>
         </index>

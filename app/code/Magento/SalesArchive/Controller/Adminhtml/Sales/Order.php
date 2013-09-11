@@ -15,7 +15,9 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Controller_Adminhtml_Sales_Order extends Magento_Adminhtml_Controller_Sales_Order
+namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
+
+class Order extends \Magento\Adminhtml\Controller\Sales\Order
 {
     /**
      * Owerwrited for archive permissions validation
@@ -24,8 +26,8 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Order extends Magento_Admi
     {
         if ($this->getRequest()->getActionName() == 'view') {
             $id = $this->getRequest()->getParam('order_id');
-            $archive = Mage::getModel('Magento_SalesArchive_Model_Archive');
-            $ids = $archive->getIdsInArchive(Magento_SalesArchive_Model_Archive::ORDER, $id);
+            $archive = \Mage::getModel('\Magento\SalesArchive\Model\Archive');
+            $ids = $archive->getIdsInArchive(\Magento\SalesArchive\Model\Archive::ORDER, $id);
             if ($ids) {
                 return $this->_authorization->isAllowed('Magento_SalesArchive::orders');
             }

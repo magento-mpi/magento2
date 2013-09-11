@@ -1,5 +1,5 @@
 <?php
-use Zend\Server\Reflection\ReflectionMethod;
+use \Zend\Server\Reflection\ReflectionMethod;
 
 /**
  * Webapi module helper.
@@ -9,16 +9,18 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Webapi\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
-    /** @var Magento_Webapi_Helper_Config */
+    /** @var \Magento\Webapi\Helper\Config */
     protected $_configHelper;
 
     /**
-     * @param Magento_Webapi_Helper_Config $configHelper
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Webapi\Helper\Config $configHelper
+     * @param \Magento\Core\Helper\Context $context
      */
-    public function __construct(Magento_Webapi_Helper_Config $configHelper, Magento_Core_Helper_Context $context)
+    public function __construct(\Magento\Webapi\Helper\Config $configHelper, \Magento\Core\Helper\Context $context)
     {
         parent::__construct($context);
         $this->_configHelper = $configHelper;
@@ -38,15 +40,15 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
      * @param string|object $classOrObject Resource class name
      * @param string $methodName Resource method name
      * @param array $requestData Data to be passed to method
-     * @param Magento_Webapi_Model_ConfigAbstract $apiConfig
+     * @param \Magento\Webapi\Model\ConfigAbstract $apiConfig
      * @return array Array of prepared method arguments
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function prepareMethodParams(
         $classOrObject,
         $methodName,
         $requestData,
-        Magento_Webapi_Model_ConfigAbstract $apiConfig
+        \Magento\Webapi\Model\ConfigAbstract $apiConfig
     ) {
         $methodReflection = self::createMethodReflection($classOrObject, $methodName);
         $methodData = $apiConfig->getMethodMetadata($methodReflection);
@@ -64,8 +66,8 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
                 } elseif (!$paramData['required']) {
                     $methodArguments[$paramName] = $paramData['default'];
                 } else {
-                    throw new Magento_Webapi_Exception(__('Required parameter "%1" is missing.', $paramName),
-                        Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+                    throw new \Magento\Webapi\Exception(__('Required parameter "%1" is missing.', $paramName),
+                        \Magento\Webapi\Exception::HTTP_BAD_REQUEST);
                 }
             }
         }
@@ -79,12 +81,12 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param mixed $data
      * @param string $dataType
-     * @param Magento_Webapi_Model_ConfigAbstract $apiConfig
+     * @param \Magento\Webapi\Model\ConfigAbstract $apiConfig
      * @return mixed
-     * @throws LogicException If specified $dataType is invalid
-     * @throws Magento_Webapi_Exception If required fields do not have values specified in $data
+     * @throws \LogicException If specified $dataType is invalid
+     * @throws \Magento\Webapi\Exception If required fields do not have values specified in $data
      */
-    protected function _formatParamData($data, $dataType, Magento_Webapi_Model_ConfigAbstract $apiConfig)
+    protected function _formatParamData($data, $dataType, \Magento\Webapi\Model\ConfigAbstract $apiConfig)
     {
         if ($this->_configHelper->isTypeSimple($dataType) || is_null($data)) {
             $formattedData = $data;
@@ -101,18 +103,18 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param array $data
      * @param string $dataType
-     * @param Magento_Webapi_Model_ConfigAbstract $apiConfig
+     * @param \Magento\Webapi\Model\ConfigAbstract $apiConfig
      * @return array
-     * @throws Magento_Webapi_Exception If passed data is not an array
+     * @throws \Magento\Webapi\Exception If passed data is not an array
      */
     protected function _formatArrayData($data, $dataType, $apiConfig)
     {
         $itemDataType = $this->_configHelper->getArrayItemType($dataType);
         $formattedData = array();
         if (!is_array($data)) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __('Data corresponding to "%1" type is expected to be an array.', $dataType),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
         foreach ($data as $itemData) {
@@ -126,17 +128,17 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param array|object $data
      * @param string $dataType
-     * @param Magento_Webapi_Model_ConfigAbstract $apiConfig
+     * @param \Magento\Webapi\Model\ConfigAbstract $apiConfig
      * @return object Object of required data type
-     * @throws LogicException If specified $dataType is invalid
-     * @throws Magento_Webapi_Exception If required fields does not have values specified in $data
+     * @throws \LogicException If specified $dataType is invalid
+     * @throws \Magento\Webapi\Exception If required fields does not have values specified in $data
      */
     protected function _formatComplexObjectData($data, $dataType, $apiConfig)
     {
         $dataTypeMetadata = $apiConfig->getTypeData($dataType);
         $typeToClassMap = $apiConfig->getTypeToClassMap();
         if (!isset($typeToClassMap[$dataType])) {
-            throw new LogicException(sprintf('Specified data type "%s" does not match any class.', $dataType));
+            throw new \LogicException(sprintf('Specified data type "%s" does not match any class.', $dataType));
         }
         $complexTypeClass = $typeToClassMap[$dataType];
         if (is_object($data) && (get_class($data) == $complexTypeClass)) {
@@ -145,9 +147,9 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
         }
         $complexDataObject = new $complexTypeClass();
         if (!is_array($data)) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __('Data corresponding to "%1" type is expected to be an array.', $dataType),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
         foreach ($dataTypeMetadata['parameters'] as $fieldName => $fieldMetadata) {
@@ -156,8 +158,8 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
             } elseif (($fieldMetadata['required'] == false)) {
                 $fieldValue = $fieldMetadata['default'];
             } else {
-                throw new Magento_Webapi_Exception(__('Value of "%1" attribute is required.', $fieldName),
-                    Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+                throw new \Magento\Webapi\Exception(__('Value of "%1" attribute is required.', $fieldName),
+                    \Magento\Webapi\Exception::HTTP_BAD_REQUEST);
             }
             $complexDataObject->$fieldName = $this->_formatParamData(
                 $fieldValue,
@@ -173,14 +175,14 @@ class Magento_Webapi_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param string|object $classOrObject
      * @param string $methodName
-     * @return Zend\Server\Reflection\ReflectionMethod
+     * @return \Zend\Server\Reflection\ReflectionMethod
      */
     public static function createMethodReflection($classOrObject, $methodName)
     {
         $methodReflection = new \ReflectionMethod($classOrObject, $methodName);
         $classReflection = new \ReflectionClass($classOrObject);
-        $zendClassReflection = new Zend\Server\Reflection\ReflectionClass($classReflection);
-        $zendMethodReflection = new Zend\Server\Reflection\ReflectionMethod($zendClassReflection, $methodReflection);
+        $zendClassReflection = new \Zend\Server\Reflection\ReflectionClass($classReflection);
+        $zendMethodReflection = new \Zend\Server\Reflection\ReflectionMethod($zendClassReflection, $methodReflection);
         return $zendMethodReflection;
     }
 }

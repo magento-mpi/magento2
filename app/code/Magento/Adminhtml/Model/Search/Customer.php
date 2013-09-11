@@ -15,12 +15,14 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Search_Customer extends \Magento\Object
+namespace Magento\Adminhtml\Model\Search;
+
+class Customer extends \Magento\Object
 {
     /**
      * Load search results
      *
-     * @return Magento_Adminhtml_Model_Search_Customer
+     * @return \Magento\Adminhtml\Model\Search\Customer
      */
     public function load()
     {
@@ -30,7 +32,7 @@ class Magento_Adminhtml_Model_Search_Customer extends \Magento\Object
             $this->setResults($arr);
             return $this;
         }
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection')
             ->addNameToSelect()
             ->joinAttribute('company', 'customer_address/company', 'default_billing', null, 'left')
             ->addAttributeToFilter(array(
@@ -47,7 +49,7 @@ class Magento_Adminhtml_Model_Search_Customer extends \Magento\Object
                 'type'          => __('Customer'),
                 'name'          => $customer->getName(),
                 'description'   => $customer->getCompany(),
-                'url' => Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
+                'url' => \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
                     '*/customer/edit',
                     array(
                         'id' => $customer->getId()

@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Model_Import extends \Magento\Object
+namespace Magento\AdvancedCheckout\Model;
+
+class Import extends \Magento\Object
 {
     /**
      * Form field name
@@ -54,19 +56,19 @@ class Magento_AdvancedCheckout_Model_Import extends \Magento\Object
      */
     public function uploadFile()
     {
-        /** @var $uploader Magento_Core_Model_File_Uploader */
-        $uploader  = Mage::getModel('Magento_Core_Model_File_Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        /** @var $uploader \Magento\Core\Model\File\Uploader */
+        $uploader  = \Mage::getModel('\Magento\Core\Model\File\Uploader', array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->skipDbProcessing(true);
         if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
-            Mage::throwException($this->_getFileTypeMessageText());
+            \Mage::throwException($this->_getFileTypeMessageText());
         }
 
         try {
             $result = $uploader->save($this->_getWorkingDir());
             $this->_uploadedFile = $result['path'] . $result['file'];
-        } catch (Exception $e) {
-            Mage::throwException(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->getFileGeneralErrorText());
+        } catch (\Exception $e) {
+            \Mage::throwException(\Mage::helper('Magento\AdvancedCheckout\Helper\Data')->getFileGeneralErrorText());
         }
     }
 
@@ -83,7 +85,7 @@ class Magento_AdvancedCheckout_Model_Import extends \Magento\Object
             return $this->$method();
         }
 
-        Mage::throwException($this->_getFileTypeMessageText());
+        \Mage::throwException($this->_getFileTypeMessageText());
     }
 
     /**
@@ -94,7 +96,7 @@ class Magento_AdvancedCheckout_Model_Import extends \Magento\Object
     public function getDataFromCsv()
     {
         if (!$this->_uploadedFile || !file_exists($this->_uploadedFile)) {
-            Mage::throwException(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->getFileGeneralErrorText());
+            \Mage::throwException(\Mage::helper('Magento\AdvancedCheckout\Helper\Data')->getFileGeneralErrorText());
         }
 
         $csvData = array();
@@ -116,7 +118,7 @@ class Magento_AdvancedCheckout_Model_Import extends \Magento\Object
                     if (false !== $found) {
                         $requiredColumnsPositions[] = $found;
                     } else {
-                        Mage::throwException(Mage::helper('Magento_AdvancedCheckout_Helper_Data')->getSkuEmptyDataMessageText());
+                        \Mage::throwException(\Mage::helper('Magento\AdvancedCheckout\Helper\Data')->getSkuEmptyDataMessageText());
                     }
                 }
 
@@ -133,8 +135,8 @@ class Magento_AdvancedCheckout_Model_Import extends \Magento\Object
                 }
                 fclose($fileHandler);
             }
-        } catch (Exception $e) {
-            Mage::throwException(__('The file is corrupt.'));
+        } catch (\Exception $e) {
+            \Mage::throwException(__('The file is corrupt.'));
         }
         return $csvData;
     }
@@ -146,7 +148,7 @@ class Magento_AdvancedCheckout_Model_Import extends \Magento\Object
      */
     protected function _getWorkingDir()
     {
-        return Mage::getBaseDir('var') . DS . 'import_sku' . DS;
+        return \Mage::getBaseDir('var') . DS . 'import_sku' . DS;
     }
 
     /**
@@ -163,7 +165,7 @@ class Magento_AdvancedCheckout_Model_Import extends \Magento\Object
             }
         }
 
-        Mage::throwException($this->_getFileTypeMessageText());
+        \Mage::throwException($this->_getFileTypeMessageText());
         return false;
     }
 

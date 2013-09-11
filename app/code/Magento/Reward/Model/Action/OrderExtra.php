@@ -15,12 +15,14 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_OrderExtra extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Quote instance, required for estimating checkout reward (order subtotal - discount)
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote = null;
 
@@ -40,7 +42,7 @@ class Magento_Reward_Model_Action_OrderExtra extends Magento_Reward_Model_Action
      * Setter for $_entity and add some extra data to history
      *
      * @param \Magento\Object $entity
-     * @return Magento_Reward_Model_Action_Abstract
+     * @return \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)
     {
@@ -54,10 +56,10 @@ class Magento_Reward_Model_Action_OrderExtra extends Magento_Reward_Model_Action
     /**
      * Quote setter
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Reward_Model_Action_OrderExtra
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Reward\Model\Action\OrderExtra
      */
-    public function setQuote(Magento_Sales_Model_Quote $quote)
+    public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -71,7 +73,7 @@ class Magento_Reward_Model_Action_OrderExtra extends Magento_Reward_Model_Action
      */
     public function getPoints($websiteId)
     {
-        if (!Mage::helper('Magento_Reward_Helper_Data')->isOrderAllowed($this->getReward()->getWebsiteId())) {
+        if (!\Mage::helper('Magento\Reward\Helper\Data')->isOrderAllowed($this->getReward()->getWebsiteId())) {
             return 0;
         }
         if ($this->_quote) {
@@ -102,6 +104,6 @@ class Magento_Reward_Model_Action_OrderExtra extends Magento_Reward_Model_Action
     public function canAddRewardPoints()
     {
         return parent::canAddRewardPoints()
-            && Mage::helper('Magento_Reward_Helper_Data')->isOrderAllowed($this->getReward()->getWebsiteId());
+            && \Mage::helper('Magento\Reward\Helper\Data')->isOrderAllowed($this->getReward()->getWebsiteId());
     }
 }

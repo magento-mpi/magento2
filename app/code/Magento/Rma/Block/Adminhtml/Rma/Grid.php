@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Rma\Block\Adminhtml\Rma;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Initialize grid
@@ -32,7 +34,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Adminhtml_Block_Widge
     /**
      * Prepare related item collection
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _prepareCollection()
     {
@@ -43,12 +45,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Adminhtml_Block_Widge
     /**
      * Configuring and setting collection
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _beforePrepareCollection()
     {
         if (!$this->getCollection()) {
-            $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection');
+            $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection');
             $this->setCollection($collection);
         }
         return $this;
@@ -57,7 +59,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Adminhtml_Block_Widge
     /**
      * Prepare grid columns
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _prepareColumns()
     {
@@ -106,7 +108,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Adminhtml_Block_Widge
             'header'  => __('Status'),
             'index'   => 'status',
             'type'    => 'options',
-            'options' => Mage::getModel('Magento_Rma_Model_Rma')->getAllStatuses(),
+            'options' => \Mage::getModel('\Magento\Rma\Model\Rma')->getAllStatuses(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
@@ -137,7 +139,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Grid extends Magento_Adminhtml_Block_Widge
     /**
      * Prepare massaction
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
      */
     protected function _prepareMassaction()
     {

@@ -15,8 +15,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Filter_Theme
-    extends Magento_Backend_Block_Widget_Grid_Column_Filter_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
+
+class Theme
+    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
     /**
      * Retrieve filter HTML
@@ -52,8 +54,8 @@ class Magento_Backend_Block_Widget_Grid_Column_Filter_Theme
     {
         $options = $this->getColumn()->getOptions();
         if (empty($options) || !is_array($options)) {
-            /** @var $label Magento_Core_Model_Theme_Label */
-            $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+            /** @var $label \Magento\Core\Model\Theme\Label */
+            $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
             $options = $label->getLabelsCollection();
         }
         return $options;

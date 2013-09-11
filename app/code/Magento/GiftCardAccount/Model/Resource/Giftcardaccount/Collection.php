@@ -16,8 +16,10 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GiftCardAccount\Model\Resource\Giftcardaccount;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource constructor
@@ -26,8 +28,8 @@ class Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Collection
     protected function _construct()
     {
         $this->_init(
-            'Magento_GiftCardAccount_Model_Giftcardaccount',
-            'Magento_GiftCardAccount_Model_Resource_Giftcardaccount'
+            '\Magento\GiftCardAccount\Model\Giftcardaccount',
+            '\Magento\GiftCardAccount\Model\Resource\Giftcardaccount'
         );
     }
 
@@ -35,7 +37,7 @@ class Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Collection
      * Filter collection by specified websites
      *
      * @param array|int $websiteIds
-     * @return Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Collection
+     * @return \Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection
      */
     public function addWebsiteFilter($websiteIds)
     {

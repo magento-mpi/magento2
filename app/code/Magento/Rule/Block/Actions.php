@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Rule_Block_Actions implements \Magento\Data\Form\Element\Renderer\RendererInterface
+namespace Magento\Rule\Block;
+
+class Actions implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {

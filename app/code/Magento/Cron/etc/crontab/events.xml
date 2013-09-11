@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="default">
-        <observer name="cron_observer" instance="Magento_Cron_Model_Observer" method="dispatch" />
+        <observer name="cron_observer" instance="\Magento\Cron\Model\Observer" method="dispatch" />
     </event>
 </config>

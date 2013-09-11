@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Image_Factory
+namespace Magento\Core\Model\Image;
+
+class Factory
 {
     /**
-     * @var Magento_Core_Model_Image_AdapterFactory
+     * @var \Magento\Core\Model\Image\AdapterFactory
      */
     protected $_adapterFactory;
 
     /**
-     * @param Magento_Core_Model_Image_AdapterFactory $adapterFactory
+     * @param \Magento\Core\Model\Image\AdapterFactory $adapterFactory
      */
-    public function __construct(Magento_Core_Model_Image_AdapterFactory $adapterFactory)
+    public function __construct(\Magento\Core\Model\Image\AdapterFactory $adapterFactory)
     {
         $this->_adapterFactory = $adapterFactory;
     }

@@ -15,12 +15,14 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Resource_Grid_Collection extends Magento_GoogleShopping_Model_Resource_Type_Collection
+namespace Magento\GoogleShopping\Model\Resource\Grid;
+
+class Collection extends \Magento\GoogleShopping\Model\Resource\Type\Collection
 {
     /**
      *  Add total count of Items for each type
      *
-     * @return Magento_GoogleShopping_Model_Resource_Grid_Collection|Magento_GoogleShopping_Model_Resource_Type_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Grid\Collection|\Magento\GoogleShopping\Model\Resource\Type\Collection
      */
     protected function _initSelect()
     {

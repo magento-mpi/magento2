@@ -15,17 +15,19 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab;
+
+class General
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare general properties form
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\General
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_customer_segment');
+        $model = \Mage::registry('current_customer_segment');
 
         $form = new \Magento\Data\Form();
 
@@ -53,8 +55,8 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
             'style' => 'height: 100px;'
         ));
 
-        if (Mage::app()->isSingleStoreMode()) {
-            $websiteId = Mage::app()->getStore(true)->getWebsiteId();
+        if (\Mage::app()->isSingleStoreMode()) {
+            $websiteId = \Mage::app()->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
                 'name'     => 'website_ids[]',
                 'value'    => $websiteId
@@ -66,7 +68,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
                 'label'    => __('Assigned to Website'),
                 'title'    => __('Assigned to Website'),
                 'required' => true,
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(),
                 'value'    => $model->getWebsiteIds()
             ));
         }
@@ -87,9 +89,9 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
             'required' => false,
             'disabled' => (boolean)$model->getId(),
             'options' => array(
-                Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED => __('Visitors and Registered Customers'),
-                Magento_CustomerSegment_Model_Segment::APPLY_TO_REGISTERED => __('Registered Customers'),
-                Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS => __('Visitors')
+                \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS_AND_REGISTERED => __('Visitors and Registered Customers'),
+                \Magento\CustomerSegment\Model\Segment::APPLY_TO_REGISTERED => __('Registered Customers'),
+                \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS => __('Visitors')
             )
         );
         if (!$model->getId()) {

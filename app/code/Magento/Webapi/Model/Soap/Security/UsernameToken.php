@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Security_UsernameToken
+namespace Magento\Webapi\Model\Soap\Security;
+
+class UsernameToken
 {
     /**#@+
      * Available password types.
@@ -27,32 +29,32 @@ class Magento_Webapi_Model_Soap_Security_UsernameToken
     /**
      * Nonce storage.
      *
-     * @var Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
+     * @var \Magento\Webapi\Model\Soap\Security\UsernameToken\NonceStorage
      */
     protected $_nonceStorage;
 
     /**
      * Webapi users factory.
      *
-     * @var Magento_Webapi_Model_Acl_User_Factory
+     * @var \Magento\Webapi\Model\Acl\User\Factory
      */
     protected $_userFactory;
 
     /**
      * Constructor.
      *
-     * @param Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage $nonceStorage
-     * @param Magento_Webapi_Model_Acl_User_Factory $userFactory
+     * @param \Magento\Webapi\Model\Soap\Security\UsernameToken\NonceStorage $nonceStorage
+     * @param \Magento\Webapi\Model\Acl\User\Factory $userFactory
      * @param string $passwordType
-     * @throws Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException
+     * @throws \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidPasswordTypeException
      */
     public function __construct(
-        Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage $nonceStorage,
-        Magento_Webapi_Model_Acl_User_Factory $userFactory,
+        \Magento\Webapi\Model\Soap\Security\UsernameToken\NonceStorage $nonceStorage,
+        \Magento\Webapi\Model\Acl\User\Factory $userFactory,
         $passwordType = self::PASSWORD_TYPE_DIGEST
     ) {
         if (!in_array($passwordType, array(self::PASSWORD_TYPE_DIGEST, self::PASSWORD_TYPE_TEXT))) {
-            throw new Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException;
+            throw new \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidPasswordTypeException;
         }
         $this->_passwordType = $passwordType;
         $this->_nonceStorage = $nonceStorage;
@@ -66,21 +68,21 @@ class Magento_Webapi_Model_Soap_Security_UsernameToken
      * @param string $password password value from token.
      * @param string $created timestamp created value (must be in ISO-8601 format).
      * @param string $nonce timestamp nonce.
-     * @return Magento_Webapi_Model_Acl_User
-     * @throws Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException
-     * @throws Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException
+     * @return \Magento\Webapi\Model\Acl\User
+     * @throws \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidCredentialException
+     * @throws \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidDateException
      */
     public function authenticate($username, $password, $created, $nonce)
     {
         $createdTimestamp = $this->_getTimestampFromDate($created);
         if (!$createdTimestamp) {
-            throw new Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException;
+            throw new \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidDateException;
         }
         $this->_nonceStorage->validateNonce($nonce, $createdTimestamp);
 
         $user = $this->_userFactory->create();
         if (!$user->load($username, 'api_key')->getId()) {
-            throw new Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException;
+            throw new \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidCredentialException;
         }
 
         $localPassword = $user->getSecret();
@@ -90,7 +92,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameToken
         }
 
         if ($localPassword != $password) {
-            throw new Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException;
+            throw new \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidCredentialException;
         }
 
         return $user;
@@ -106,10 +108,10 @@ class Magento_Webapi_Model_Soap_Security_UsernameToken
     protected function _getTimestampFromDate($date)
     {
         $timestamp = 0;
-        $dateTime = DateTime::createFromFormat(DateTime::ISO8601, $date);
+        $dateTime = \DateTime::createFromFormat(\DateTime::ISO8601, $date);
         if (!$dateTime) {
             // Format with microseconds
-            $dateTime = DateTime::createFromFormat('Y-m-d\TH:i:s.uO', $date);
+            $dateTime = \DateTime::createFromFormat('Y-m-d\TH:i:s.uO', $date);
         }
 
         if ($dateTime) {

@@ -12,19 +12,19 @@
 class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Resource');
+        $this->_model = Mage::getModel('\Magento\Core\Model\Resource');
     }
 
     public function testGetConnectionTypeInstance()
     {
         $this->assertInstanceOf(
-            'Magento_Core_Model_Resource_Type_Db_Pdo_Mysql',
+            '\Magento\Core\Model\Resource\Type\Db\Pdo\Mysql',
             $this->_model->getConnectionTypeInstance('pdo_mysql')
         );
     }
@@ -32,7 +32,7 @@ class Magento_Core_Model_ResourceMysqlTest extends PHPUnit_Framework_TestCase
     public function testResourceTypeDb()
     {
         $resource = $this->_model->getConnectionTypeInstance('pdo_mysql');
-        $this->assertEquals('Magento_Core_Model_Resource_Entity_Table', $resource->getEntityClass(), 'Entity class');
+        $this->assertEquals('\Magento\Core\Model\Resource\Entity\Table', $resource->getEntityClass(), 'Entity class');
 
         $resource->setName('test');
         $this->assertEquals('test', $resource->getName(), 'Set/Get name');

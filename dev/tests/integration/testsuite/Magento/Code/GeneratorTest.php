@@ -38,9 +38,9 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $this->_includePath = get_include_path();
 
-        /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
-        $generationDirectory = $dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . '/generation';
+        /** @var $dirs \Magento\Core\Model\Dir */
+        $dirs = Mage::getObjectManager()->get('Magento\Core\Model\Dir');
+        $generationDirectory = $dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . '/generation';
 
         \Magento\Autoload\IncludePath::addIncludePath($generationDirectory);
 
@@ -57,9 +57,9 @@ class Magento_Code_GeneratorTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        /** @var $dirs Magento_Core_Model_Dir */
-        $dirs = Mage::getObjectManager()->get('Magento_Core_Model_Dir');
-        $generationDirectory = $dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . '/generation';
+        /** @var $dirs \Magento\Core\Model\Dir */
+        $dirs = Mage::getObjectManager()->get('Magento\Core\Model\Dir');
+        $generationDirectory = $dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . '/generation';
         \Magento\Io\File::rmdirRecursive($generationDirectory);
 
         set_include_path($this->_includePath);

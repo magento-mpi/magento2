@@ -11,7 +11,9 @@
 /**
  * Source model for Require Billing Address
  */
-class Magento_Paypal_Model_System_Config_Source_RequireBillingAddress
+namespace Magento\Paypal\Model\System\Config\Source;
+
+class RequireBillingAddress
 {
     /**
      * Options getter
@@ -20,8 +22,8 @@ class Magento_Paypal_Model_System_Config_Source_RequireBillingAddress
      */
     public function toOptionArray()
     {
-        /** @var $configModel Magento_Paypal_Model_Config */
-        $configModel = Mage::getModel('Magento_Paypal_Model_Config');
+        /** @var $configModel \Magento\Paypal\Model\Config */
+        $configModel = \Mage::getModel('\Magento\Paypal\Model\Config');
         return $configModel->getRequireBillingAddressOptions();
     }
 }

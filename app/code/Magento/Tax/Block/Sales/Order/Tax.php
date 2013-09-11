@@ -9,14 +9,16 @@
  */
 
 /**
- * Tax totals modification block. Can be used just as subblock of Magento_Sales_Block_Order_Totals
+ * Tax totals modification block. Can be used just as subblock of \Magento\Sales\Block\Order\Totals
  */
-class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
+namespace Magento\Tax\Block\Sales\Order;
+
+class Tax extends \Magento\Core\Block\Template
 {
     /**
      * Tax configuration model
      *
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_config;
     protected $_order;
@@ -26,8 +28,8 @@ class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
      * Initialize configuration object
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Tax_Model_Config $taxConfig,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Tax\Model\Config $taxConfig,
         array $data = array()
     ) {
         $this->_config = $taxConfig;
@@ -57,11 +59,11 @@ class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
     /**
      * Initialize all order totals relates with tax
      *
-     * @return Magento_Tax_Block_Sales_Order_Tax
+     * @return \Magento\Tax\Block\Sales\Order\Tax
      */
     public function initTotals()
     {
-        /** @var $parent Magento_Adminhtml_Block_Sales_Order_Invoice_Totals */
+        /** @var $parent \Magento\Adminhtml\Block\Sales\Order\Invoice\Totals */
         $parent = $this->getParentBlock();
         $this->_order   = $parent->getOrder();
         $this->_source  = $parent->getSource();
@@ -84,7 +86,7 @@ class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
      * Add tax total string
      *
      * @param string $after
-     * @return Magento_Tax_Block_Sales_Order_Tax
+     * @return \Magento\Tax\Block\Sales\Order\Tax
      */
     protected function _addTax($after='discount')
     {
@@ -99,7 +101,7 @@ class Magento_Tax_Block_Sales_Order_Tax extends Magento_Core_Block_Template
     /**
      * Get order store object
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {

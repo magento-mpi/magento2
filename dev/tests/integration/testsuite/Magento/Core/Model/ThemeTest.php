@@ -19,8 +19,8 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     public function testCrud()
     {
         Mage::getConfig();
-        /** @var $themeModel Magento_Core_Model_Theme */
-        $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Theme');
+        /** @var $themeModel \Magento\Core\Model\Theme */
+        $themeModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Theme');
         $themeModel->setData($this->_getThemeValidData());
 
         $crud = new Magento_TestFramework_Entity($themeModel, array('theme_version' => '2.0.0.1'));
@@ -42,7 +42,7 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
             'is_featured'          => false,
             'theme_path'           => 'default/space',
             'preview_image'        => 'images/preview.png',
-            'type'                 => Magento_Core_Model_Theme::TYPE_VIRTUAL
+            'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL
         );
     }
 
@@ -51,10 +51,10 @@ class Magento_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testChildRelation()
     {
-        /** @var $theme Magento_Core_Model_Theme */
-        /** @var $currentTheme Magento_Core_Model_Theme */
-        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Theme');
-        $collection = $theme->getCollection()->addTypeFilter(Magento_Core_Model_Theme::TYPE_VIRTUAL);
+        /** @var $theme \Magento\Core\Model\Theme */
+        /** @var $currentTheme \Magento\Core\Model\Theme */
+        $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Theme');
+        $collection = $theme->getCollection()->addTypeFilter(\Magento\Core\Model\Theme::TYPE_VIRTUAL);
         foreach ($collection as $currentTheme) {
             $parentTheme = $currentTheme->getParentTheme();
             if (!empty($parentTheme)) {

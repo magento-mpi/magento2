@@ -15,8 +15,10 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Resource_Item_Option_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GiftRegistry\Model\Resource\Item\Option;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * List of option ids grouped by item id
@@ -38,14 +40,14 @@ class Magento_GiftRegistry_Model_Resource_Item_Option_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Item_Option', 'Magento_GiftRegistry_Model_Resource_Item_Option');
+        $this->_init('\Magento\GiftRegistry\Model\Item\Option', '\Magento\GiftRegistry\Model\Resource\Item\Option');
     }
 
     /**
      * After load processing
      * Fills the lists of options grouped by item and product
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Option_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Option\Collection
      */
     protected function _afterLoad()
     {
@@ -74,7 +76,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Option_Collection
      * Apply gift registry item(s) filter to collection
      *
      * @param  int|array $item
-     * @return Magento_GiftRegistry_Model_Resource_Item_Option_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Option\Collection
      */
     public function addItemFilter($item)
     {
@@ -83,7 +85,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Option_Collection
             $this->_setIsLoaded(true);
         } else if (is_array($item)) {
             $this->addFieldToFilter('item_id', array('in' => $item));
-        } else if ($item instanceof Magento_GiftRegistry_Model_Item) {
+        } else if ($item instanceof \Magento\GiftRegistry\Model\Item) {
             $this->addFieldToFilter('item_id', $item->getId());
         } else {
             $this->addFieldToFilter('item_id', $item);
@@ -95,14 +97,14 @@ class Magento_GiftRegistry_Model_Resource_Item_Option_Collection
     /**
      * Apply product(s) filter to collection
      *
-     * @param  int|Magento_Catalog_Model_Product|array $product
-     * @return Magento_GiftRegistry_Model_Resource_Item_Option_Collection
+     * @param  int|\Magento\Catalog\Model\Product|array $product
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Option\Collection
      */
     public function addProductFilter($product)
     {
         if (is_array($product)) {
             $this->addFieldToFilter('product_id', array('in' => $product));
-        } else if ($product instanceof Magento_Catalog_Model_Product) {
+        } else if ($product instanceof \Magento\Catalog\Model\Product) {
             $this->addFieldToFilter('product_id', $product->getId());
         } elseif ((int)$product > 0) {
             $this->addFieldToFilter('product_id', (int)$product);
@@ -134,7 +136,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Option_Collection
      */
     public function getOptionsByItem($item)
     {
-        if ($item instanceof Magento_GiftRegistry_Model_Item) {
+        if ($item instanceof \Magento\GiftRegistry\Model\Item) {
             $itemId = $item->getId();
         } else {
             $itemId = $item;
@@ -160,7 +162,7 @@ class Magento_GiftRegistry_Model_Resource_Item_Option_Collection
      */
     public function getOptionsByProduct($product)
     {
-        if ($product instanceof Magento_Catalog_Model_Product) {
+        if ($product instanceof \Magento\Catalog\Model\Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;

@@ -9,23 +9,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Subscription_Grid_Collection
-    extends Magento_Webhook_Model_Resource_Subscription_Collection
+namespace Magento\Webhook\Model\Resource\Subscription\Grid;
+
+class Collection
+    extends \Magento\Webhook\Model\Resource\Subscription\Collection
 {
 
     /**
      * Collection constructor
      *
-     * @param Magento_Webhook_Model_Subscription_Config $subscriptionConfig
+     * @param \Magento\Webhook\Model\Subscription\Config $subscriptionConfig
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Webhook_Model_Resource_Endpoint $endpointResource
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Webhook\Model\Resource\Endpoint $endpointResource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Webhook_Model_Subscription_Config $subscriptionConfig,
+        \Magento\Webhook\Model\Subscription\Config $subscriptionConfig,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Webhook_Model_Resource_Endpoint $endpointResource,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null
+        \Magento\Webhook\Model\Resource\Endpoint $endpointResource,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($fetchStrategy, $endpointResource, $resource);
         $subscriptionConfig->updateSubscriptionCollection();

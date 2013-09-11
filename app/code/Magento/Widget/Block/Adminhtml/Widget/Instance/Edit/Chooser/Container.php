@@ -13,10 +13,12 @@
  *
  * @method getTheme()
  * @method getArea()
- * @method Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container setTheme($theme)
- * @method Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container setArea($area)
+ * @method \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container setTheme($theme)
+ * @method \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container setArea($area)
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container extends Magento_Core_Block_Html_Select
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
+class Container extends \Magento\Core\Block\Html\Select
 {
     /**
      * Assign attributes for the HTML select element
@@ -32,7 +34,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
     /**
      * Add necessary options
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
@@ -40,8 +42,8 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
             $layoutMergeParams = array(
                 'theme' => $this->_getThemeInstance($this->getTheme()),
             );
-            /** @var $layoutMerge Magento_Core_Model_Layout_Merge */
-            $layoutMerge = Mage::getModel('Magento_Core_Model_Layout_Merge', $layoutMergeParams);
+            /** @var $layoutMerge \Magento\Core\Model\Layout\Merge */
+            $layoutMerge = \Mage::getModel('\Magento\Core\Model\Layout\Merge', $layoutMergeParams);
             $layoutMerge->addPageHandles(array($this->getLayoutHandle()));
             $layoutMerge->load();
 
@@ -67,12 +69,12 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container exte
      * Retrieve theme instance by its identifier
      *
      * @param int $themeId
-     * @return Magento_Core_Model_Theme|null
+     * @return \Magento\Core\Model\Theme|null
      */
     protected function _getThemeInstance($themeId)
     {
-        /** @var Magento_Core_Model_Resource_Theme_Collection $themeCollection */
-        $themeCollection = Mage::getResourceModel('Magento_Core_Model_Resource_Theme_Collection');
+        /** @var \Magento\Core\Model\Resource\Theme\Collection $themeCollection */
+        $themeCollection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Theme\Collection');
         return $themeCollection->getItemById($themeId);
     }
 }

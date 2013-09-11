@@ -15,7 +15,9 @@
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_NotificationService
+namespace Magento\AdminNotification\Model;
+
+class NotificationService
 {
     /**
      * @var Magento_AdminNotification_Model_InboxFactory $notificationFactory
@@ -35,14 +37,14 @@ class Magento_AdminNotification_Model_NotificationService
      * Mark notification as read
      *
      * @param int $notificationId
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function markAsRead($notificationId)
     {
         $notification = $this->_notificationFactory->create();
         $notification->load($notificationId);
         if (!$notification->getId()) {
-            throw new Magento_Core_Exception('Wrong notification ID specified.');
+            throw new \Magento\Core\Exception('Wrong notification ID specified.');
         }
         $notification->setIsRead(1);
         $notification->save();

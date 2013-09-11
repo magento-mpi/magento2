@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+$customer = Mage::getModel('\Magento\Customer\Model\Customer');
 $customer->setStoreId(1)
     ->setCreatedIn('Default Store View')
     ->setDefaultBilling(1)
@@ -18,7 +18,7 @@ $customer->setStoreId(1)
     ->save();
 Mage::register('customer', $customer);
 
-$customerAddress = Mage::getModel('Magento_Customer_Model_Address');
+$customerAddress = Mage::getModel('\Magento\Customer\Model\Address');
 $customerAddress->setData(
     array(
         'city' => 'New York',

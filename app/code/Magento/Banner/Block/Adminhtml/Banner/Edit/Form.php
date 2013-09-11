@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Block_Adminhtml_Banner_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Banner\Block\Adminhtml\Banner\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
@@ -22,7 +24,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit_Form extends Magento_Adminhtml_
             array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post')
         );
 
-        $banner = Mage::registry('current_banner');
+        $banner = \Mage::registry('current_banner');
 
         if ($banner->getId()) {
             $form->addField('banner_id', 'hidden', array(

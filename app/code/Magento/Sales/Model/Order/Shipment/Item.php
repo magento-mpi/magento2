@@ -9,35 +9,37 @@
  */
 
 /**
- * @method Magento_Sales_Model_Resource_Order_Shipment_Item _getResource()
- * @method Magento_Sales_Model_Resource_Order_Shipment_Item getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Shipment\Item _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Shipment\Item getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Shipment_Item setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Item setParentId(int $value)
  * @method float getRowTotal()
- * @method Magento_Sales_Model_Order_Shipment_Item setRowTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Item setRowTotal(float $value)
  * @method float getPrice()
- * @method Magento_Sales_Model_Order_Shipment_Item setPrice(float $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Item setPrice(float $value)
  * @method float getWeight()
- * @method Magento_Sales_Model_Order_Shipment_Item setWeight(float $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Item setWeight(float $value)
  * @method float getQty()
  * @method int getProductId()
- * @method Magento_Sales_Model_Order_Shipment_Item setProductId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Item setProductId(int $value)
  * @method int getOrderItemId()
- * @method Magento_Sales_Model_Order_Shipment_Item setOrderItemId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Item setOrderItemId(int $value)
  * @method string getAdditionalData()
- * @method Magento_Sales_Model_Order_Shipment_Item setAdditionalData(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Item setAdditionalData(string $value)
  * @method string getDescription()
- * @method Magento_Sales_Model_Order_Shipment_Item setDescription(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Item setDescription(string $value)
  * @method string getName()
- * @method Magento_Sales_Model_Order_Shipment_Item setName(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Item setName(string $value)
  * @method string getSku()
- * @method Magento_Sales_Model_Order_Shipment_Item setSku(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Item setSku(string $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstract
+namespace Magento\Sales\Model\Order\Shipment;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
     protected $_eventPrefix = 'sales_shipment_item';
     protected $_eventObject = 'shipment_item';
@@ -50,16 +52,16 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Shipment_Item');
+        $this->_init('\Magento\Sales\Model\Resource\Order\Shipment\Item');
     }
 
     /**
      * Declare Shipment instance
      *
-     * @param   Magento_Sales_Model_Order_Shipment $shipment
-     * @return  Magento_Sales_Model_Order_Shipment_Item
+     * @param   \Magento\Sales\Model\Order\Shipment $shipment
+     * @return  \Magento\Sales\Model\Order\Shipment\Item
      */
-    public function setShipment(Magento_Sales_Model_Order_Shipment $shipment)
+    public function setShipment(\Magento\Sales\Model\Order\Shipment $shipment)
     {
         $this->_shipment = $shipment;
         return $this;
@@ -68,7 +70,7 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
     /**
      * Retrieve Shipment instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
@@ -78,10 +80,10 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
     /**
      * Declare order item instance
      *
-     * @param   Magento_Sales_Model_Order_Item $item
-     * @return  Magento_Sales_Model_Order_Shipment_Item
+     * @param   \Magento\Sales\Model\Order\Item $item
+     * @return  \Magento\Sales\Model\Order\Shipment\Item
      */
-    public function setOrderItem(Magento_Sales_Model_Order_Item $item)
+    public function setOrderItem(\Magento\Sales\Model\Order\Item $item)
     {
         $this->_orderItem = $item;
         $this->setOrderItemId($item->getId());
@@ -91,7 +93,7 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
     /**
      * Retrieve order item instance
      *
-     * @return Magento_Sales_Model_Order_Item
+     * @return \Magento\Sales\Model\Order\Item
      */
     public function getOrderItem()
     {
@@ -99,7 +101,7 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
             if ($this->getShipment()) {
                 $this->_orderItem = $this->getShipment()->getOrder()->getItemById($this->getOrderItemId());
             } else {
-                $this->_orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')
+                $this->_orderItem = \Mage::getModel('\Magento\Sales\Model\Order\Item')
                     ->load($this->getOrderItemId());
             }
         }
@@ -110,7 +112,7 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
      * Declare qty
      *
      * @param   float $qty
-     * @return  Magento_Sales_Model_Order_Invoice_Item
+     * @return  \Magento\Sales\Model\Order\Invoice\Item
      */
     public function setQty($qty)
     {
@@ -126,7 +128,7 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
         if ($qty <= $this->getOrderItem()->getQtyToShip() || $this->getOrderItem()->isDummy(true)) {
             $this->setData('qty', $qty);
         } else {
-            Mage::throwException(
+            \Mage::throwException(
                 __('We found an invalid qty to ship for item "%1".', $this->getName())
             );
         }
@@ -136,7 +138,7 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
     /**
      * Applying qty to order item
      *
-     * @return Magento_Sales_Model_Order_Shipment_Item
+     * @return \Magento\Sales\Model\Order\Shipment\Item
      */
     public function register()
     {
@@ -149,7 +151,7 @@ class Magento_Sales_Model_Order_Shipment_Item extends Magento_Core_Model_Abstrac
     /**
      * Before object save
      *
-     * @return Magento_Sales_Model_Order_Shipment_Item
+     * @return \Magento\Sales\Model\Order\Shipment\Item
      */
     protected function _beforeSave()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstract
+namespace Magento\GiftCardAccount\Model;
+
+class Api extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Attributes, allowed for update
@@ -38,16 +40,16 @@ class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstr
      */
     public function items($filters)
     {
-        /** @var $collection Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Collection */
-        $collection = Mage::getResourceModel('Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Collection');
-        /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        /** @var $collection \Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection */
+        $collection = \Mage::getResourceModel('\Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection');
+        /** @var $apiHelper \Magento\Api\Helper\Data */
+        $apiHelper = \Mage::helper('Magento\Api\Helper\Data');
         $filters = $apiHelper->parseFilters($filters, $this->_mapAttributes);
         try {
             foreach ($filters as $field => $value) {
                 $collection->addFieldToFilter($field, $value);
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('filters_invalid', $e->getMessage());
         }
         $result = array();
@@ -72,8 +74,8 @@ class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstr
         $result['is_redeemable'] = $model->getIsRedeemable();
         $result['history']       = array();
 
-        /** @var $historyCollection Magento_GiftCardAccount_Model_Resource_History_Collection */
-        $historyCollection = Mage::getModel('Magento_GiftCardAccount_Model_History')
+        /** @var $historyCollection \Magento\GiftCardAccount\Model\Resource\History\Collection */
+        $historyCollection = \Mage::getModel('\Magento\GiftCardAccount\Model\History')
             ->getCollection()
             ->addFieldToFilter('giftcardaccount_id', $model->getId());
 
@@ -103,12 +105,12 @@ class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstr
     {
         $giftcardAccountData = $this->_prepareCreateGiftcardAccountData($giftcardAccountData);
         $notificationData = $this->_prepareCreateNotificationData($notificationData);
-        /** @var $giftcardAccount Magento_GiftCardAccount_Model_Giftcardaccount */
-        $giftcardAccount = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount');
+        /** @var $giftcardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
+        $giftcardAccount = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount');
         try {
             $giftcardAccount->setData($giftcardAccountData);
             $giftcardAccount->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('invalid_giftcardaccount_data', $e->getMessage());
         }
         // send email notification if recipient parameters are set
@@ -118,7 +120,7 @@ class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstr
                     $giftcardAccount->addData($notificationData);
                     $giftcardAccount->sendEmail();
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_fault('invalid_notification_data', $e->getMessage());
             }
         }
@@ -147,7 +149,7 @@ class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstr
 
         try{
             $model->addData($updateData)->save();
-        }catch (Exception $e){
+        }catch (\Exception $e){
             $this->_fault('unable_to_save');
             return false;
         }
@@ -163,14 +165,14 @@ class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstr
      */
     public function remove($giftcardAccountId)
     {
-        /** @var $giftcardAccount Magento_GiftCardAccount_Model_Giftcardaccount */
-        $giftcardAccount = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')->load($giftcardAccountId);
+        /** @var $giftcardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
+        $giftcardAccount = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')->load($giftcardAccountId);
         if (!$giftcardAccount->getId()) {
             $this->_fault('giftcard_account_not_found_by_id');
         }
         try {
             $giftcardAccount->delete();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('delete_error', $e->getMessage());
         }
         return true;
@@ -180,11 +182,11 @@ class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstr
      * Load model and check existence of GiftCard
      *
      * @param integer $giftcardId
-     * @return Magento_GiftCardAccount_Model_Giftcardaccount
+     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
      */
     protected function _init($giftcardId)
     {
-        $model = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount')
+        $model = \Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount')
             ->load($giftcardId);
 
         if (!$model->getId()) {
@@ -197,7 +199,7 @@ class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstr
     /**
      * Retrieve GiftCard model data to set into API response
      *
-     * @param Magento_GiftCardAccount_Model_Giftcardaccount
+     * @param \Magento\GiftCardAccount\Model\Giftcardaccount
      * @return array
      */
     protected function _getEntityInfo($model)
@@ -218,7 +220,7 @@ class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstr
      * Checks giftcard account data
      *
      * @param  array $giftcardAccountData
-     * @throws Magento_Api_Exception
+     * @throws \Magento\Api\Exception
      * @return array
      */
     protected function _prepareCreateGiftcardAccountData($giftcardAccountData)
@@ -237,7 +239,7 @@ class Magento_GiftCardAccount_Model_Api extends Magento_Api_Model_Resource_Abstr
      * Checks email notification data
      *
      * @param  null|array $notificationData
-     * @throws Magento_Api_Exception
+     * @throws \Magento\Api\Exception
      * @return array
      */
     protected function _prepareCreateNotificationData($notificationData = null)

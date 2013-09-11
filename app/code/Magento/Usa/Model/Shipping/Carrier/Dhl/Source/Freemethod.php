@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Freemethod extends Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Method
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source;
+
+class Freemethod extends \Magento\Usa\Model\Shipping\Carrier\Dhl\Source\Method
 {
     public function toOptionArray()
     {

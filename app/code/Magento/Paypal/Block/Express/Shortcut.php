@@ -11,7 +11,9 @@
 /**
  * Paypal expess checkout shortcut link
  */
-class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
+namespace Magento\Paypal\Block\Express;
+
+class Shortcut extends \Magento\Core\Block\Template
 {
     /**
      * Position of "OR" label against shortcut
@@ -31,7 +33,7 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
      *
      * @var string
      */
-    protected $_paymentMethodCode = Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS;
+    protected $_paymentMethodCode = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
 
     /**
      * Start express action
@@ -45,16 +47,16 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
      *
      * @var string
      */
-    protected $_checkoutType = 'Magento_Paypal_Model_Express_Checkout';
+    protected $_checkoutType = '\Magento\Paypal\Model\Express\Checkout';
 
     protected function _beforeToHtml()
     {
         $result = parent::_beforeToHtml();
         $params = array($this->_paymentMethodCode);
-        $config = Mage::getModel('Magento_Paypal_Model_Config', array('params' => $params));
+        $config = \Mage::getModel('\Magento\Paypal\Model\Config', array('params' => $params));
         $isInCatalog = $this->getIsInCatalogProduct();
         $quote = ($isInCatalog || '' == $this->getIsQuoteAllowed())
-            ? null : Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+            ? null : \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
 
         // check visibility on cart or product page
         $context = $isInCatalog ? 'visible_on_product' : 'visible_on_cart';
@@ -65,8 +67,8 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
 
         if ($isInCatalog) {
             // Show PayPal shortcut on a product view page only if product has nonzero price
-            /** @var $currentProduct Magento_Catalog_Model_Product */
-            $currentProduct = Mage::registry('current_product');
+            /** @var $currentProduct \Magento\Catalog\Model\Product */
+            $currentProduct = \Mage::registry('current_product');
             if (!is_null($currentProduct)) {
                 $productPrice = (float)$currentProduct->getFinalPrice();
                 if (empty($productPrice) && !$currentProduct->isGrouped()) {
@@ -83,20 +85,20 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
         }
 
         // check payment method availability
-        $methodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($this->_paymentMethodCode);
+        $methodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($this->_paymentMethodCode);
         if (!$methodInstance || !$methodInstance->isAvailable($quote)) {
             $this->_shouldRender = false;
             return $result;
         }
 
         // set misc data
-        $this->setShortcutHtmlId($this->helper('Magento_Core_Helper_Data')->uniqHash('ec_shortcut_'))
+        $this->setShortcutHtmlId($this->helper('\Magento\Core\Helper\Data')->uniqHash('ec_shortcut_'))
             ->setCheckoutUrl($this->getUrl($this->_startAction))
         ;
 
         // use static image if in catalog
         if ($isInCatalog || null === $quote) {
-            $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl(Mage::app()->getLocale()->getLocaleCode()));
+            $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl(\Mage::app()->getLocale()->getLocaleCode()));
         } else {
             $parameters = array(
                 'params' => array(
@@ -104,15 +106,15 @@ class Magento_Paypal_Block_Express_Shortcut extends Magento_Core_Block_Template
                     'config' => $config,
                 ),
             );
-            $checkoutModel = Mage::getModel($this->_checkoutType, $parameters);
+            $checkoutModel = \Mage::getModel($this->_checkoutType, $parameters);
             $this->setImageUrl($checkoutModel->getCheckoutShortcutImageUrl());
         }
 
         // ask whether to create a billing agreement
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId(); // potential issue for caching
-        if (Mage::helper('Magento_Paypal_Helper_Data')->shouldAskToCreateBillingAgreement($config, $customerId)) {
+        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId(); // potential issue for caching
+        if (\Mage::helper('Magento\Paypal\Helper\Data')->shouldAskToCreateBillingAgreement($config, $customerId)) {
             $this->setConfirmationUrl($this->getUrl($this->_startAction,
-                array(Magento_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
+                array(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
             ));
             $this->setConfirmationMessage(__('Would you like to sign a billing agreement to streamline further purchases with PayPal?'));
         }

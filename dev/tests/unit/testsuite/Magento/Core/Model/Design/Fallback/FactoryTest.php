@@ -9,7 +9,7 @@
 class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Design_Fallback_Factory
+     * @var \Magento\Core\Model\Design\Fallback\Factory
      */
     protected $_model;
 
@@ -20,17 +20,17 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
 
     public function setUp()
     {
-        $dirs = new Magento_Core_Model_Dir(__DIR__, array(), array(
-            Magento_Core_Model_Dir::THEMES => 'themes',
-            Magento_Core_Model_Dir::MODULES => 'modules',
-            Magento_Core_Model_Dir::PUB_LIB => 'pub_lib',
+        $dirs = new \Magento\Core\Model\Dir(__DIR__, array(), array(
+            \Magento\Core\Model\Dir::THEMES => 'themes',
+            \Magento\Core\Model\Dir::MODULES => 'modules',
+            \Magento\Core\Model\Dir::PUB_LIB => 'pub_lib',
         ));
-        $this->_model = new Magento_Core_Model_Design_Fallback_Factory($dirs);
+        $this->_model = new \Magento\Core\Model\Design\Fallback\Factory($dirs);
 
-        $parentTheme = $this->getMockForAbstractClass('Magento_Core_Model_ThemeInterface');
+        $parentTheme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
         $parentTheme->expects($this->any())->method('getThemePath')->will($this->returnValue('parent_theme_path'));
 
-        $theme = $this->getMockForAbstractClass('Magento_Core_Model_ThemeInterface');
+        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
         $theme->expects($this->any())->method('getThemePath')->will($this->returnValue('current_theme_path'));
         $theme->expects($this->any())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
@@ -52,7 +52,7 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
     public function testCreateLocaleFileRule()
     {
         $actualResult = $this->_model->createLocaleFileRule();
-        $this->assertInstanceOf('Magento_Core_Model_Design_Fallback_Rule_RuleInterface', $actualResult);
+        $this->assertInstanceOf('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface', $actualResult);
         $this->assertNotSame($actualResult, $this->_model->createLocaleFileRule());
     }
 
@@ -99,7 +99,7 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
     public function testCreateFileRule()
     {
         $actualResult = $this->_model->createFileRule();
-        $this->assertInstanceOf('Magento_Core_Model_Design_Fallback_Rule_RuleInterface', $actualResult);
+        $this->assertInstanceOf('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface', $actualResult);
         $this->assertNotSame($actualResult, $this->_model->createFileRule());
     }
 
@@ -149,7 +149,7 @@ class Magento_Core_Model_Design_Fallback_FactoryTest extends PHPUnit_Framework_T
     public function testCreateViewFileRule()
     {
         $actualResult = $this->_model->createViewFileRule();
-        $this->assertInstanceOf('Magento_Core_Model_Design_Fallback_Rule_RuleInterface', $actualResult);
+        $this->assertInstanceOf('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface', $actualResult);
         $this->assertNotSame($actualResult, $this->_model->createViewFileRule());
     }
 

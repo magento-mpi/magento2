@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Catalog_Model_Config_Source_Price_Scope implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Catalog\Model\Config\Source\Price;
+
+class Scope implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

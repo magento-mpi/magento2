@@ -11,7 +11,9 @@
 /**
  * Generic frontend controller
  */
-class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varien_Action
+namespace Magento\Core\Controller\Front;
+
+class Action extends \Magento\Core\Controller\Varien\Action
 {
     /**
      * Session namespace to refer in other places
@@ -28,13 +30,13 @@ class Magento_Core_Controller_Front_Action extends Magento_Core_Controller_Varie
     /**
      * Remember the last visited url in the session
      *
-     * @return Magento_Core_Controller_Front_Action
+     * @return \Magento\Core\Controller\Front\Action
      */
     public function postDispatch()
     {
         parent::postDispatch();
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION )) {
-            Mage::getSingleton('Magento_Core_Model_Session')->setLastUrl(Mage::getUrl('*/*/*', array('_current' => true)));
+            \Mage::getSingleton('Magento\Core\Model\Session')->setLastUrl(\Mage::getUrl('*/*/*', array('_current' => true)));
         }
         return $this;
     }

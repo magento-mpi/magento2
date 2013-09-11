@@ -11,16 +11,16 @@ use Zend\Soap\Wsdl;
  */
 class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Model_Soap_Wsdl */
+    /** @var \Magento\Webapi\Model\Soap\Wsdl */
     protected $_wsdlMock;
 
-    /** @var Magento_Webapi_Model_Soap_AutoDiscover */
+    /** @var \Magento\Webapi\Model\Soap\AutoDiscover */
     protected $_autoDiscover;
 
-    /** @var Magento_Core_Model_CacheInterface */
+    /** @var \Magento\Core\Model\CacheInterface */
     protected $_cacheMock;
 
-    /** @var Magento_Webapi_Model_Config_Soap */
+    /** @var \Magento\Webapi\Model\Config\Soap */
     protected $_resourceConfigMock;
 
     /**
@@ -31,10 +31,10 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         /** Prepare arguments for SUT constructor. */
-        $this->_resourceConfigMock = $this->getMockBuilder('Magento_Webapi_Model_Config_Soap')
+        $this->_resourceConfigMock = $this->getMockBuilder('Magento\Webapi\Model\Config\Soap')
             ->disableOriginalConstructor()->getMock();
 
-        $this->_wsdlMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Wsdl')
+        $this->_wsdlMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Wsdl')
             ->disableOriginalConstructor()
             ->setMethods(
             array(
@@ -54,16 +54,16 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
         )
             ->getMock();
         $wsdlFactory = $this->getMock(
-            'Magento_Webapi_Model_Soap_Wsdl_Factory',
+            '\Magento\Webapi\Model\Soap\Wsdl\Factory',
             array('create'),
             array(new \Magento\ObjectManager\ObjectManager())
         );
         $wsdlFactory->expects($this->any())->method('create')->will($this->returnValue($this->_wsdlMock));
-        $helper = $this->getMock('Magento_Webapi_Helper_Config', array(), array(), '', false, false);
-        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface');
-        $this->_cacheStateMock = $this->getMock('Magento_Core_Model_Cache_StateInterface');
+        $helper = $this->getMock('Magento\Webapi\Helper\Config', array(), array(), '', false, false);
+        $this->_cacheMock = $this->getMock('Magento\Core\Model\CacheInterface');
+        $this->_cacheStateMock = $this->getMock('Magento\Core\Model\Cache\StateInterface');
         /** Initialize SUT. */
-        $this->_autoDiscover = new Magento_Webapi_Model_Soap_AutoDiscover(
+        $this->_autoDiscover = new \Magento\Webapi\Model\Soap\AutoDiscover(
             $this->_resourceConfigMock,
             $wsdlFactory,
             $helper,
@@ -165,7 +165,7 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
         $result = $this->_autoDiscover->handle($requestedResources, 'http://magento.host');
         /** Assert that handle method will return string that starts with WSDL. */
         $this->assertStringStartsWith(
-            Magento_Webapi_Model_Soap_AutoDiscover::WSDL_CACHE_ID,
+            \Magento\Webapi\Model\Soap\AutoDiscover::WSDL_CACHE_ID,
             $result,
             'Wsdl is not loaded from cache.'
         );
@@ -184,9 +184,9 @@ class Magento_Webapi_Model_Soap_AutoDiscoverTest extends PHPUnit_Framework_TestC
             $this->throwException($exception)
         );
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'getResourceDataMerged Exception',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         $this->_autoDiscover->handle($requestedResources, 'http://magento.host');
     }

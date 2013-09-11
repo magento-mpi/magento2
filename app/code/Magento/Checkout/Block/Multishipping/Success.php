@@ -15,12 +15,14 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Success extends Magento_Checkout_Block_Multishipping_Abstract
+namespace Magento\Checkout\Block\Multishipping;
+
+class Success extends \Magento\Checkout\Block\Multishipping\AbstractMultishipping
 {
     public function getOrderIds()
     {
-        $ids = Mage::getSingleton('Magento_Core_Model_Session')->getOrderIds(true);
-//        Zend_Debug::dump(Mage::getSingleton('Magento_Core_Model_Session')->getOrderIds());
+        $ids = \Mage::getSingleton('Magento\Core\Model\Session')->getOrderIds(true);
+//        \Zend_Debug::dump(\Mage::getSingleton('Magento\Core\Model\Session')->getOrderIds());
         if ($ids && is_array($ids)) {
             return $ids;
             return implode(', ', $ids);
@@ -35,6 +37,6 @@ class Magento_Checkout_Block_Multishipping_Success extends Magento_Checkout_Bloc
 
     public function getContinueUrl()
     {
-        return Mage::getBaseUrl();
+        return \Mage::getBaseUrl();
     }
 }

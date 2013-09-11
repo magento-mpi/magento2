@@ -15,7 +15,7 @@
             <giftwrapping_setup>
                 <setup>
                     <module>Magento_GiftWrapping</module>
-                    <class>Magento_GiftWrapping_Model_Resource_Setup</class>
+                    <class>Magento\GiftWrapping\Model\Resource\Setup</class>
                 </setup>
             </giftwrapping_setup>
         </resources>
@@ -29,12 +29,12 @@
                 </item>
                 <totals>
                     <giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Quote_Giftwrapping</class>
+                        <class>Magento\GiftWrapping\Model\Total\Quote\Giftwrapping</class>
                         <after>subtotal</after>
-                        <renderer>Magento_GiftWrapping_Block_Checkout_Totals</renderer>
+                        <renderer>\Magento\GiftWrapping\Block\Checkout\Totals</renderer>
                     </giftwrapping>
                     <tax_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Quote_Tax_Giftwrapping</class>
+                        <class>Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping</class>
                         <after>tax</after>
                         <before>grand_total</before>
                     </tax_giftwrapping>
@@ -43,12 +43,12 @@
             <order_invoice>
                 <totals>
                     <giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Invoice_Giftwrapping</class>
+                        <class>Magento\GiftWrapping\Model\Total\Invoice\Giftwrapping</class>
                         <after>cost_total</after>
                         <before>giftcardaccount</before>
                     </giftwrapping>
                     <tax_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Invoice_Tax_Giftwrapping</class>
+                        <class>Magento\GiftWrapping\Model\Total\Invoice\Tax\Giftwrapping</class>
                         <after>tax</after>
                         <before>grand_total</before>
                     </tax_giftwrapping>
@@ -57,12 +57,12 @@
             <order_creditmemo>
                 <totals>
                     <giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Creditmemo_Giftwrapping</class>
+                        <class>Magento\GiftWrapping\Model\Total\Creditmemo\Giftwrapping</class>
                         <after>subtotal</after>
                         <before>giftcardaccount</before>
                     </giftwrapping>
                     <tax_giftwrapping>
-                        <class>Magento_GiftWrapping_Model_Total_Creditmemo_Tax_Giftwrapping</class>
+                        <class>Magento\GiftWrapping\Model\Total\Creditmemo\Tax\Giftwrapping</class>
                         <after>tax</after>
                         <before>grand_total</before>
                     </tax_giftwrapping>
@@ -119,4 +119,4 @@
             </sales_display>
         </tax>
     </default>
-</config>
+</config>

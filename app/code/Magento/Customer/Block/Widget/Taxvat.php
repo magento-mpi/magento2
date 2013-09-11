@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Block_Widget_Taxvat extends Magento_Customer_Block_Widget_Abstract
+namespace Magento\Customer\Block\Widget;
+
+class Taxvat extends \Magento\Customer\Block\Widget\AbstractWidget
 {
     public function _construct()
     {
@@ -28,6 +30,6 @@ class Magento_Customer_Block_Widget_Taxvat extends Magento_Customer_Block_Widget
 
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
     }
 }

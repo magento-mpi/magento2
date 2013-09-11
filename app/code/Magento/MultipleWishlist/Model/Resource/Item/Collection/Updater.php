@@ -15,8 +15,10 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Resource_Item_Collection_Updater
-    implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\MultipleWishlist\Model\Resource\Item\Collection;
+
+class Updater
+    implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * Add filtration by customer id
@@ -27,7 +29,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Collection_Updater
     public function update($argument)
     {
         $adapter = $argument->getConnection();
-        $defaultWishlistName = Mage::helper('Magento_Wishlist_Helper_Data')->getDefaultWishlistName();
+        $defaultWishlistName = \Mage::helper('Magento\Wishlist\Helper\Data')->getDefaultWishlistName();
         $argument->getSelect()->columns(
             array('wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName)))
         );

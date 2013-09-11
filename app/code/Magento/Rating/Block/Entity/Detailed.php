@@ -15,18 +15,20 @@
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Block_Entity_Detailed extends Magento_Core_Block_Template
+namespace Magento\Rating\Block\Entity;
+
+class Detailed extends \Magento\Core\Block\Template
 {
     protected $_template = 'detailed.phtml';
 
     protected function _toHtml()
     {
-        $entityId = Mage::app()->getRequest()->getParam('id');
+        $entityId = \Mage::app()->getRequest()->getParam('id');
         if (intval($entityId) <= 0) {
             return '';
         }
 
-        $reviewsCount = Mage::getModel('Magento_Review_Model_Review')
+        $reviewsCount = \Mage::getModel('\Magento\Review\Model\Review')
             ->getTotalReviews($entityId, true);
         if ($reviewsCount == 0) {
             #return __('Be the first to review this product');
@@ -34,16 +36,16 @@ class Magento_Rating_Block_Entity_Detailed extends Magento_Core_Block_Template
             return parent::_toHtml();
         }
 
-        $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating')
+        $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating')
             ->getResourceCollection()
             ->addEntityFilter('product') # TOFIX
             ->setPositionOrder()
-            ->setStoreFilter(Mage::app()->getStore()->getId())
-            ->addRatingPerStoreName(Mage::app()->getStore()->getId())
+            ->setStoreFilter(\Mage::app()->getStore()->getId())
+            ->addRatingPerStoreName(\Mage::app()->getStore()->getId())
             ->load();
 
         if ($entityId) {
-            $ratingCollection->addEntitySummaryToItem($entityId, Mage::app()->getStore()->getId());
+            $ratingCollection->addEntitySummaryToItem($entityId, \Mage::app()->getStore()->getId());
         }
 
         $this->assign('collection', $ratingCollection);

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Event
+ * \Magento\Webhook\Model\Event
  *
  * {license_notice}
  *
@@ -22,17 +22,17 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
     protected $_mockContext;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Webhook_Model_Event
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Webhook\Model\Event
      */
     protected $_event;
 
     public function setUp()
     {
-        $this->_mockContext = $this->getMockBuilder('Magento_Core_Model_Context')
+        $this->_mockContext = $this->getMockBuilder('Magento\Core\Model\Context')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockEventManager = $this->getMockBuilder('Magento_Core_Model_Event_Manager')
+        $mockEventManager = $this->getMockBuilder('Magento\Core\Model\Event\Manager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -40,7 +40,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->method('getEventDispatcher')
             ->will($this->returnValue($mockEventManager));
 
-        $this->_event = $this->getMockBuilder('Magento_Webhook_Model_Event')
+        $this->_event = $this->getMockBuilder('Magento\Webhook\Model\Event')
             ->setConstructorArgs(array($this->_mockContext))
             ->setMethods(
                 array('_init', 'isDeleted', 'isObjectNew', 'getId', '_hasModelChanged', '_getResource')
@@ -57,7 +57,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue(true));
 
-        $mockResource = $this->getMockBuilder('Magento_Webhook_Model_Resource_Event')
+        $mockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Event')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -114,7 +114,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will($this->returnValue(true));
 
-        $mockResource = $this->getMockBuilder('Magento_Webhook_Model_Resource_Event')
+        $mockResource = $this->getMockBuilder('Magento\Webhook\Model\Resource\Event')
             ->disableOriginalConstructor()
             ->getMock();
         $mockResource->expects($this->any())

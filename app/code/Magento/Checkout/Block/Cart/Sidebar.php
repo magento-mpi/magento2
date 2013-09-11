@@ -16,7 +16,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Abstract
+namespace Magento\Checkout\Block\Cart;
+
+class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     const XML_PATH_CHECKOUT_SIDEBAR_COUNT   = 'checkout/sidebar/count';
 
@@ -28,7 +30,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
         parent::_construct();
         $this->addItemRender(
             'default',
-            'Magento_Checkout_Block_Cart_Item_Renderer',
+            '\Magento\Checkout\Block\Cart\Item\Renderer',
             'cart/sidebar/default.phtml'
         );
     }
@@ -42,7 +44,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
     {
         $count = $this->getData('item_count');
         if (is_null($count)) {
-            $count = Mage::getStoreConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
+            $count = \Mage::getStoreConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
             $this->setData('item_count', $count);
         }
         return $count;
@@ -67,10 +69,10 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
         $i = 0;
         $allItems = array_reverse($this->getItems());
         foreach ($allItems as $item) {
-            /* @var $item Magento_Sales_Model_Quote_Item */
+            /* @var $item \Magento\Sales\Model\Quote\Item */
             if (!$item->getProduct()->isVisibleInSiteVisibility()) {
                 $productId = $item->getProduct()->getId();
-                $products  = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
+                $products  = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Url')
                     ->getRewriteByProductStore(array($productId => $item->getStoreId()));
                 if (!isset($products[$productId])) {
                     continue;
@@ -100,7 +102,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
     {
         $subtotal = 0;
         $totals = $this->getTotals();
-        $config = Mage::getSingleton('Magento_Tax_Model_Config');
+        $config = \Mage::getSingleton('Magento\Tax\Model\Config');
         if (isset($totals['subtotal'])) {
             if ($config->displayCartSubtotalBoth()) {
                 if ($skipTax) {
@@ -128,7 +130,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function getSubtotalInclTax()
     {
-        if (!Mage::getSingleton('Magento_Tax_Model_Config')->displayCartSubtotalBoth()) {
+        if (!\Mage::getSingleton('Magento\Tax\Model\Config')->displayCartSubtotalBoth()) {
             return 0;
         }
         return $this->getSubtotal(false);
@@ -174,7 +176,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
         if ($this->getData('summary_qty')) {
             return $this->getData('summary_qty');
         }
-        return Mage::getSingleton('Magento_Checkout_Model_Cart')->getSummaryQty();
+        return \Mage::getSingleton('Magento\Checkout\Model\Cart')->getSummaryQty();
     }
 
     /**
@@ -185,7 +187,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function getIncExcTax($flag)
     {
-        $text = Mage::helper('Magento_Tax_Helper_Data')->getIncExcText($flag);
+        $text = \Mage::helper('Magento\Tax\Helper\Data')->getIncExcText($flag);
         return $text ? ' ('.$text.')' : '';
     }
 
@@ -196,7 +198,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function isPossibleOnepageCheckout()
     {
-        return $this->helper('Magento_Checkout_Helper_Data')->canOnepageCheckout() && !$this->getQuote()->getHasError();
+        return $this->helper('\Magento\Checkout\Helper\Data')->canOnepageCheckout() && !$this->getQuote()->getHasError();
     }
 
     /**
@@ -206,7 +208,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function getCheckoutUrl()
     {
-        return $this->helper('Magento_Checkout_Helper_Url')->getCheckoutUrl();
+        return $this->helper('\Magento\Checkout\Helper\Url')->getCheckoutUrl();
     }
 
     /**
@@ -216,7 +218,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      */
     public function getIsNeedToDisplaySideBar()
     {
-        return (bool) Mage::app()->getStore()->getConfig('checkout/sidebar/display');
+        return (bool) \Mage::app()->getStore()->getConfig('checkout/sidebar/display');
     }
 
     /**
@@ -277,7 +279,7 @@ class Magento_Checkout_Block_Cart_Sidebar extends Magento_Checkout_Block_Cart_Ab
      * Deserialize renders from string
      *
      * @param string $renders
-     * @return Magento_Checkout_Block_Cart_Sidebar
+     * @return \Magento\Checkout\Block\Cart\Sidebar
      */
     public function deserializeRenders($renders)
     {

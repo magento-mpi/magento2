@@ -16,8 +16,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Store
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Store
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     protected $_skipAllStoresLabel = false;
     protected $_skipEmptyStoresLabel = false;
@@ -25,11 +27,11 @@ class Magento_Backend_Block_Widget_Grid_Column_Renderer_Store
     /**
      * Retrieve System Store model
      *
-     * @return Magento_Core_Model_System_Store
+     * @return \Magento\Core\Model\System\Store
      */
     protected function _getStoreModel()
     {
-        return Mage::getSingleton('Magento_Core_Model_System_Store');
+        return \Mage::getSingleton('Magento\Core\Model\System\Store');
     }
 
     /**

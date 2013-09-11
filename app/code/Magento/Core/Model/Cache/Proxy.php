@@ -11,7 +11,9 @@
 /**
  * System cache proxy model
  */
-class Magento_Core_Model_Cache_Proxy implements Magento_Core_Model_CacheInterface
+namespace Magento\Core\Model\Cache;
+
+class Proxy implements \Magento\Core\Model\CacheInterface
 {
     /**
      * @var \Magento\ObjectManager
@@ -19,7 +21,7 @@ class Magento_Core_Model_Cache_Proxy implements Magento_Core_Model_CacheInterfac
     protected  $_objectManager;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected  $_cache;
 
@@ -34,12 +36,12 @@ class Magento_Core_Model_Cache_Proxy implements Magento_Core_Model_CacheInterfac
     /**
      * Create cache model
      *
-     * @return Magento_Core_Model_CacheInterface|mixed
+     * @return \Magento\Core\Model\CacheInterface|mixed
      */
     protected function _getCache()
     {
         if (null == $this->_cache) {
-            $this->_cache = $this->_objectManager->get('Magento_Core_Model_Cache');
+            $this->_cache = $this->_objectManager->get('Magento\Core\Model\Cache');
         }
         return $this->_cache;
     }
@@ -47,7 +49,7 @@ class Magento_Core_Model_Cache_Proxy implements Magento_Core_Model_CacheInterfac
     /**
      * Get cache frontend API object
      *
-     * @return Zend_Cache_Core
+     * @return \Zend_Cache_Core
      */
     public function getFrontend()
     {

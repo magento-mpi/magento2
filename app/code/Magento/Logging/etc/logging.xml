@@ -97,7 +97,7 @@
     <catalog_products translate="label">
         <label>Catalog Products</label>
         <expected_models>
-            <Magento_Catalog_Model_Product/>
+            <Magento\Catalog\Model\Product/>
         </expected_models>
         <actions>
             <adminhtml_catalog_product_edit>
@@ -134,7 +134,7 @@
     <catalog_categories translate="label">
         <label>Catalog Categories</label>
         <expected_models>
-            <Magento_Catalog_Model_Category/>
+            <Magento\Catalog\Model\Category/>
         </expected_models>
         <actions>
             <adminhtml_catalog_category_edit>
@@ -159,7 +159,7 @@
     <core_urlrewrites translate="label">
         <label>URL Redirects</label>
         <expected_models>
-            <Magento_Core_Model_Url_Rewrite/>
+            <Magento\Core\Model\Url\Rewrite/>
         </expected_models>
         <actions>
             <adminhtml_urlrewrite_edit>
@@ -179,7 +179,7 @@
     <catalogsearch translate="label">
         <label>Catalog Search</label>
         <expected_models>
-            <Magento_CatalogSearch_Model_Query/>
+            <Magento\CatalogSearch\Model\Query/>
         </expected_models>
         <actions>
             <adminhtml_catalog_search_edit>
@@ -208,7 +208,7 @@
     <rating translate="label">
         <label>Catalog Ratings</label>
         <expected_models>
-            <Magento_Rating_Model_Rating/>
+            <Magento\Rating\Model\Rating/>
         </expected_models>
         <actions>
             <adminhtml_rating_edit>
@@ -228,7 +228,7 @@
     <review translate="label">
         <label>Catalog Reviews</label>
         <expected_models>
-            <Magento_Review_Model_Review/>
+            <Magento\Review\Model\Review/>
         </expected_models>
         <actions>
             <adminhtml_catalog_product_review_edit>
@@ -260,7 +260,7 @@
     <catalog_attributes translate="label">
         <label>Catalog Attributes</label>
         <expected_models>
-            <Magento_Catalog_Model_Resource_Eav_Attribute/>
+            <Magento\Catalog\Model\Resource\Eav\Attribute/>
         </expected_models>
         <actions>
             <adminhtml_catalog_product_attribute_edit>
@@ -283,7 +283,7 @@
     <catalog_attributesets translate="label">
         <label>Catalog Product Templates</label>
         <expected_models>
-            <Magento_Eav_Model_Entity_Attribute_Set/>
+            <Magento\Eav\Model\Entity\Attribute\Set/>
         </expected_models>
         <actions>
             <adminhtml_catalog_product_set_edit>
@@ -309,7 +309,7 @@
             <adminhtml_auth_forgotpassword>
                 <action>forgotpassword</action>
                 <expected_models>
-                    <Magento_User_Model_User/>
+                    <Magento\User\Model\User/>
                 </expected_models>
                 <post_dispatch>postDispatchForgotPassword</post_dispatch>
             </adminhtml_auth_forgotpassword>
@@ -319,7 +319,7 @@
     <cms_pages translate="label">
         <label>CMS Pages</label>
         <expected_models>
-            <Magento_Cms_Model_Page/>
+            <Magento\Cms\Model\Page/>
         </expected_models>
         <actions>
             <adminhtml_cms_page_edit>
@@ -342,7 +342,7 @@
     <cms_blocks translate="label">
         <label>CMS Blocks</label>
         <expected_models>
-            <Magento_Cms_Model_Block/>
+            <Magento\Cms\Model\Block/>
         </expected_models>
         <actions>
             <adminhtml_cms_block_edit>
@@ -362,7 +362,7 @@
     <poll translate="label">
         <label>CMS Polls</label>
         <expected_models>
-            <Magento_Poll_Model_Poll/>
+            <Magento\Poll\Model\Poll/>
         </expected_models>
         <actions>
             <adminhtml_poll_edit>
@@ -383,13 +383,13 @@
     <customer translate="label">
         <label>Customers</label>
         <expected_models>
-            <Magento_Customer_Model_Customer>
+            <Magento\Customer\Model\Customer>
                 <skip_data>
                     <new_password/>
                     <password/>
                     <password_hash/>
                 </skip_data>
-            </Magento_Customer_Model_Customer>
+            </Magento\Customer\Model\Customer>
         </expected_models>
         <actions>
             <adminhtml_customer_edit>
@@ -443,7 +443,7 @@
     <customer_groups translate="label">
         <label>Customer Groups</label>
         <expected_models>
-            <Magento_Customer_Model_Group/>
+            <Magento\Customer\Model\Group/>
         </expected_models>
         <actions>
             <adminhtml_customer_group_edit>
@@ -779,7 +779,7 @@
     <catalogrule translate="label">
         <label>Catalog Price Rules</label>
         <expected_models>
-            <Magento_CatalogRule_Model_Rule/>
+            <Magento\CatalogRule\Model\Rule/>
         </expected_models>
         <actions>
             <adminhtml_promo_catalog_edit>
@@ -808,7 +808,7 @@
     <salesrule translate="label">
         <label>Cart Price Rules</label>
         <expected_models>
-            <Magento_SalesRule_Model_Rule/>
+            <Magento\SalesRule\Model\Rule/>
         </expected_models>
         <actions>
             <adminhtml_promo_quote_edit>
@@ -831,13 +831,13 @@
     <adminhtml_system_account translate="label">
         <label>Admin My Account</label>
         <expected_models>
-            <Magento_User_Model_User>
+            <Magento\User\Model\User>
                 <skip_data>
                     <password/>
                     <new_password/>
                     <password_confirmation/>
                 </skip_data>
-            </Magento_User_Model_User>
+            </Magento\User\Model\User>
         </expected_models>
         <actions>
             <adminhtml_system_account_index>
@@ -853,7 +853,7 @@
     <newsletter_queue translate="label">
         <label>Newsletter Queue</label>
         <expected_models>
-            <Magento_Newsletter_Model_Queue/>
+            <Magento\Newsletter\Model\Queue/>
         </expected_models>
         <actions>
             <adminhtml_newsletter_queue_edit>
@@ -869,7 +869,7 @@
     <newsletter_templates translate="label">
         <label>Newsletter Templates</label>
         <expected_models>
-            <Magento_Newsletter_Model_Template/>
+            <Magento\Newsletter\Model\Template/>
         </expected_models>
         <actions>
             <adminhtml_newsletter_template_save>
@@ -893,7 +893,7 @@
     <newsletter_subscribers translate="label">
         <label>Newsletter Subscribers</label>
         <expected_models>
-            <Magento_Newsletter_Model_Subscriber/>
+            <Magento\Newsletter\Model\Subscriber/>
         </expected_models>
         <actions>
             <adminhtml_newsletter_subscriber_massUnsubscribe>
@@ -919,11 +919,11 @@
     <sales_orders translate="label">
         <label>Sales Orders</label>
         <expected_models>
-            <Magento_Sales_Model_Order>
+            <Magento\Sales\Model\Order>
                 <additional_data>
                     <increment_id />
                 </additional_data>
-            </Magento_Sales_Model_Order>
+            </Magento\Sales\Model\Order>
         </expected_models>
         <actions>
 
@@ -946,67 +946,67 @@
             <adminhtml_sales_order_massHold>
                 <action>massUpdate</action>
                 <expected_models extends="merge">
-                    <Magento_Sales_Model_Order_Status_History/>
+                    <Magento\Sales\Model\Order\Status\History/>
                 </expected_models>
             </adminhtml_sales_order_massHold>
 
             <adminhtml_sales_order_massUnhold>
                 <action>massUpdate</action>
                 <expected_models extends="merge">
-                    <Magento_Sales_Model_Order_Status_History/>
+                    <Magento\Sales\Model\Order\Status\History/>
                 </expected_models>
             </adminhtml_sales_order_massUnhold>
 
             <adminhtml_sales_order_massCancel>
                 <action>massUpdate</action>
                 <expected_models extends="merge">
-                    <Magento_Sales_Model_Order_Status_History/>
+                    <Magento\Sales\Model\Order\Status\History/>
                 </expected_models>
             </adminhtml_sales_order_massCancel>
 
             <adminhtml_sales_order_hold>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Magento_Sales_Model_Order_Status_History/>
+                    <Magento\Sales\Model\Order\Status\History/>
                 </expected_models>
             </adminhtml_sales_order_hold>
 
             <adminhtml_sales_order_unhold>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Magento_Sales_Model_Order_Status_History/>
+                    <Magento\Sales\Model\Order\Status\History/>
                 </expected_models>
             </adminhtml_sales_order_unhold>
 
             <adminhtml_sales_order_cancel>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Magento_Sales_Model_Order_Status_History/>
+                    <Magento\Sales\Model\Order\Status\History/>
                 </expected_models>
             </adminhtml_sales_order_cancel>
 
             <adminhtml_sales_order_create_save>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Magento_Customer_Model_Customer/>
-                    <Magento_Customer_Model_Address/>
-                    <Magento_Sales_Model_Order_Status_History/>
+                    <Magento\Customer\Model\Customer/>
+                    <Magento\Customer\Model\Address/>
+                    <Magento\Sales\Model\Order\Status\History/>
                 </expected_models>
             </adminhtml_sales_order_create_save>
 
             <adminhtml_sales_order_edit_save>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Magento_Customer_Model_Customer/>
-                    <Magento_Customer_Model_Address/>
-                    <Magento_Sales_Model_Order_Status_History/>
+                    <Magento\Customer\Model\Customer/>
+                    <Magento\Customer\Model\Address/>
+                    <Magento\Sales\Model\Order\Status\History/>
                 </expected_models>
             </adminhtml_sales_order_edit_save>
 
             <adminhtml_sales_order_email>
                 <action>send</action>
                 <expected_models extends="merge">
-                    <Magento_Sales_Model_Order_Status_History/>
+                    <Magento\Sales\Model\Order\Status\History/>
                 </expected_models>
             </adminhtml_sales_order_email>
 
@@ -1031,7 +1031,7 @@
             <adminhtml_sales_order_addComment>
                 <action>save</action>
                 <expected_models>
-                    <Magento_Sales_Model_Order_Status_History/>
+                    <Magento\Sales\Model\Order\Status\History/>
                 </expected_models>
             </adminhtml_sales_order_addComment>
         </actions>
@@ -1040,11 +1040,11 @@
     <sales_invoices translate="label">
         <label>Sales Invoices</label>
         <expected_models>
-            <Magento_Sales_Model_Order_Invoice>
+            <Magento\Sales\Model\Order\Invoice>
                 <additional_data>
                     <increment_id />
                 </additional_data>
-            </Magento_Sales_Model_Order_Invoice>
+            </Magento\Sales\Model\Order\Invoice>
         </expected_models>
         <actions>
             <adminhtml_sales_invoice_view>
@@ -1058,7 +1058,7 @@
             <adminhtml_sales_order_invoice_save>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Magento_Sales_Model_Order_Invoice_Comment />
+                    <Magento\Sales\Model\Order\Invoice\Comment />
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_system_config_edit/>
@@ -1069,7 +1069,7 @@
             <adminhtml_sales_order_invoice_addComment>
                 <action>save</action>
                 <expected_models>
-                    <Magento_Sales_Model_Order_Invoice_Comment/>
+                    <Magento\Sales\Model\Order\Invoice\Comment/>
                 </expected_models>
             </adminhtml_sales_order_invoice_addComment>
 
@@ -1092,11 +1092,11 @@
     <sales_shipments translate="label">
         <label>Sales Shipments</label>
         <expected_models>
-            <Magento_Sales_Model_Order_Shipment>
+            <Magento\Sales\Model\Order\Shipment>
                 <additional_data>
                     <increment_id />
                 </additional_data>
-            </Magento_Sales_Model_Order_Shipment>
+            </Magento\Sales\Model\Order\Shipment>
         </expected_models>
         <actions>
             <adminhtml_sales_shipment_view>
@@ -1110,7 +1110,7 @@
             <adminhtml_sales_order_shipment_save>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Magento_Sales_Model_Order_Shipment_Comment />
+                    <Magento\Sales\Model\Order\Shipment\Comment />
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_sales_order_view/>
@@ -1120,7 +1120,7 @@
             <adminhtml_sales_order_shipment_addComment>
                 <action>save</action>
                 <expected_models>
-                    <Magento_Sales_Model_Order_Shipment_Comment/>
+                    <Magento\Sales\Model\Order\Shipment\Comment/>
                 </expected_models>
             </adminhtml_sales_order_shipment_addComment>
 
@@ -1141,7 +1141,7 @@
             <adminhtml_sales_order_shipment_addTrack>
                 <action>save</action>
                 <expected_models>
-                    <Magento_Sales_Model_Order_Shipment_Track/>
+                    <Magento\Sales\Model\Order\Shipment\Track/>
                 </expected_models>
             </adminhtml_sales_order_shipment_addTrack>
         </actions>
@@ -1150,11 +1150,11 @@
     <sales_creditmemos translate="label">
         <label>Sales Credit Memos</label>
         <expected_models>
-            <Magento_Sales_Model_Order_Creditmemo>
+            <Magento\Sales\Model\Order\Creditmemo>
                 <additional_data>
                     <increment_id />
                 </additional_data>
-            </Magento_Sales_Model_Order_Creditmemo>
+            </Magento\Sales\Model\Order\Creditmemo>
         </expected_models>
         <actions>
             <adminhtml_sales_creditmemo_view>
@@ -1168,7 +1168,7 @@
             <adminhtml_sales_order_creditmemo_save>
                 <action>save</action>
                 <expected_models extends="merge">
-                    <Magento_Sales_Model_Order_Creditmemo_Comment />
+                    <Magento\Sales\Model\Order\Creditmemo\Comment />
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_sales_order_view/>
@@ -1178,7 +1178,7 @@
             <adminhtml_sales_order_creditmemo_addComment>
                 <action>save</action>
                 <expected_models>
-                    <Magento_Sales_Model_Order_Creditmemo_Comment/>
+                    <Magento\Sales\Model\Order\Creditmemo\Comment/>
                 </expected_models>
             </adminhtml_sales_order_creditmemo_addComment>
 
@@ -1201,7 +1201,7 @@
     <sales_agreement translate="label">
         <label>Checkout Terms and Conditions</label>
         <expected_models>
-            <Magento_Checkout_Model_Agreement/>
+            <Magento\Checkout\Model\Agreement/>
         </expected_models>
         <actions>
             <adminhtml_checkout_agreement_edit>
@@ -1224,7 +1224,7 @@
     <webapi_acl_role translate="label">
         <label>Web Services API Roles</label>
         <expected_models>
-            <Magento_Webapi_Model_Acl_Role/>
+            <Magento\Webapi\Model\Acl\Role/>
         </expected_models>
         <actions>
             <adminhtml_webapi_role_save>
@@ -1245,7 +1245,7 @@
     <webapi_acl_user translate="label">
         <label>Web Services API Users</label>
         <expected_models>
-            <Magento_Webapi_Model_Acl_User/>
+            <Magento\Webapi\Model\Acl\User/>
         </expected_models>
         <actions>
             <adminhtml_webapi_user_save>
@@ -1266,7 +1266,7 @@
     <adminhtml_permission_roles translate="label">
         <label>Admin Permission Roles</label>
         <expected_models>
-            <Magento_User_Model_Role/>
+            <Magento\User\Model\Role/>
         </expected_models>
         <actions>
             <adminhtml_user_role_editrole>
@@ -1289,13 +1289,13 @@
     <adminhtml_permission_users translate="label">
         <label>Admin Permission Users</label>
         <expected_models>
-            <Magento_User_Model_User>
+            <Magento\User\Model\User>
                 <skip_data>
                     <password/>
                     <new_password/>
                     <password_confirmation/>
                 </skip_data>
-            </Magento_User_Model_User>
+            </Magento\User\Model\User>
         </expected_models>
         <actions>
             <adminhtml_user_edit>
@@ -1315,7 +1315,7 @@
     <adminhtml_system_websites translate="label">
         <label>Manage Websites</label>
         <expected_models>
-            <Magento_Core_Model_Website/>
+            <Magento\Core\Model\Website/>
         </expected_models>
         <actions>
             <adminhtml_system_store_editWebsite>
@@ -1324,8 +1324,8 @@
 
             <adminhtml_system_store_save>
                 <expected_models extends="merge">
-                    <Magento_Core_Model_Store_Group/>
-                    <Magento_Core_Model_Store/>
+                    <Magento\Core\Model\Store\Group/>
+                    <Magento\Core\Model\Store/>
                 </expected_models>
                 <action>save</action>
             </adminhtml_system_store_save>
@@ -1339,7 +1339,7 @@
     <adminhtml_system_store_groups translate="label">
         <label>Manage Stores</label>
         <expected_models>
-            <Magento_Core_Model_Store/>
+            <Magento\Core\Model\Store/>
         </expected_models>
         <actions>
             <adminhtml_system_store_editStore>
@@ -1355,7 +1355,7 @@
     <adminhtml_system_stores translate="label">
         <label>Manage Store Views</label>
         <expected_models>
-            <Magento_Core_Model_Store_Group/>
+            <Magento\Core\Model\Store\Group/>
         </expected_models>
         <actions>
             <adminhtml_system_store_deleteGroupPost>
@@ -1371,7 +1371,7 @@
     <adminhtml_system_design translate="label">
         <label>Manage Design</label>
         <expected_models>
-            <Magento_Core_Model_Design/>
+            <Magento\Core\Model\Design/>
         </expected_models>
         <actions>
             <adminhtml_system_design_save>
@@ -1398,7 +1398,7 @@
         <label>Transactional Emails</label>
 
         <expected_models>
-            <Magento_Core_Model_Email_Template/>
+            <Magento\Core\Model\Email\Template/>
         </expected_models>
 
         <actions>
@@ -1419,7 +1419,7 @@
     <adminhtml_system_variable translate="label">
         <label>Custom Variables</label>
         <expected_models>
-            <Magento_Core_Model_Variable/>
+            <Magento\Core\Model\Variable/>
         </expected_models>
         <actions>
             <adminhtml_system_variable_save>
@@ -1465,7 +1465,7 @@
     <tax_customer_tax_classes translate="label">
         <label>Customer Tax Classes</label>
         <expected_models>
-            <Magento_Tax_Model_Class/>
+            <Magento\Tax\Model\ClassModel/>
         </expected_models>
         <actions>
             <adminhtml_tax_class_ajaxDelete>
@@ -1483,14 +1483,14 @@
     <tax_product_tax_classes translate="label">
         <label>Catalog Product Tax Classes</label>
         <expected_models>
-            <Magento_Tax_Model_Class/>
+            <Magento\Tax\Model\ClassModel/>
         </expected_models>
     </tax_product_tax_classes>
 
     <tax_rules translate="label">
         <label>Tax Rules</label>
         <expected_models>
-            <Magento_Tax_Model_Calculation_Rule/>
+            <Magento\Tax\Model\Calculation\Rule/>
         </expected_models>
         <actions>
             <adminhtml_tax_rule_edit>
@@ -1513,7 +1513,7 @@
     <tax_rates translate="label">
         <label>Tax Rates</label>
         <expected_models>
-            <Magento_Tax_Model_Calculation_Rate/>
+            <Magento\Tax\Model\Calculation\Rate/>
         </expected_models>
         <actions>
             <adminhtml_tax_rate_edit>
@@ -1543,7 +1543,7 @@
     <google_sitemap translate="label">
         <label>XML Sitemap</label>
         <expected_models>
-            <Magento_Sitemap_Model_Sitemap/>
+            <Magento\Sitemap\Model\Sitemap/>
         </expected_models>
         <actions>
             <adminhtml_sitemap_edit>
@@ -1567,7 +1567,7 @@
     <googleshopping_types translate="label">
         <label>Google Shopping</label>
         <expected_models>
-            <Magento_GoogleShopping_Model_Type/>
+            <Magento\GoogleShopping\Model\Type/>
         </expected_models>
         <actions>
             <googleshopping_types_edit translate="label">
@@ -1588,7 +1588,7 @@
     <widget_instance translate="label">
         <label>Frontend App Instance</label>
         <expected_models>
-            <Magento_Widget_Model_Widget_Instance/>
+            <Magento\Widget\Model\Widget\Instance/>
         </expected_models>
         <actions>
             <adminhtml_widget_instance_edit>
@@ -1609,7 +1609,7 @@
     <index_management translate="label">
         <label>Index Management</label>
         <expected_models>
-            <Magento_Index_Model_Process/>
+            <Magento\Index\Model\Process/>
         </expected_models>
         <actions>
             <adminhtml_process_edit>
@@ -1672,13 +1672,13 @@
             <adminhtml_paypal_reports_details>
                 <action>view</action>
                 <expected_models>
-                    <Magento_Paypal_Model_Report_Settlement_Row/>
+                    <Magento\Paypal\Model\Report\Settlement\Row/>
                 </expected_models>
             </adminhtml_paypal_reports_details>
             <adminhtml_paypal_reports_fetch>
                 <action>fetch</action>
                 <expected_models>
-                    <Magento_Paypal_Model_Report_Settlement/>
+                    <Magento\Paypal\Model\Report\Settlement/>
                 </expected_models>
             </adminhtml_paypal_reports_fetch>
         </actions>
@@ -1687,7 +1687,7 @@
     <adminhtml_sales_recurring_profile translate="label">
         <label>Recurring Billing Profiles</label>
         <expected_models>
-            <Magento_Sales_Model_Recurring_Profile/>
+            <Magento\Sales\Model\Recurring\Profile/>
         </expected_models>
         <actions>
             <adminhtml_sales_recurring_profile_updateProfile>

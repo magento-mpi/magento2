@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="catalog_entity_attribute_delete_after">
-        <observer name="salesrule" instance="Magento_SalesRule_Model_Observer" method="catalogAttributeDeleteAfter" />
+        <observer name="salesrule" instance="\Magento\SalesRule\Model\Observer" method="catalogAttributeDeleteAfter" />
     </event>
     <event name="catalog_entity_attribute_save_after">
-        <observer name="salesrule" instance="Magento_SalesRule_Model_Observer" method="catalogAttributeSaveAfter" />
+        <observer name="salesrule" instance="\Magento\SalesRule\Model\Observer" method="catalogAttributeSaveAfter" />
     </event>
 </config>

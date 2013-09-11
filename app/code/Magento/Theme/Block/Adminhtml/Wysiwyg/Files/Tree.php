@@ -13,7 +13,9 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree extends Magento_Backend_Block_Template
+namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files;
+
+class Tree extends \Magento\Backend\Block\Template
 {
     /**
      * Json source URL
@@ -22,7 +24,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree extends Magento_Backend_B
      */
     public function getTreeLoaderUrl()
     {
-        return $this->getUrl('*/*/treeJson', $this->helper('Magento_Theme_Helper_Storage')->getRequestParams());
+        return $this->getUrl('*/*/treeJson', $this->helper('\Magento\Theme\Helper\Storage')->getRequestParams());
     }
 
     /**
@@ -33,7 +35,7 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree extends Magento_Backend_B
      */
     public function getTreeJson($data)
     {
-        return Zend_Json::encode($data);
+        return \Zend_Json::encode($data);
     }
 
     /**
@@ -54,14 +56,14 @@ class Magento_Theme_Block_Adminhtml_Wysiwyg_Files_Tree extends Magento_Backend_B
     public function getTreeCurrentPath()
     {
         $treePath = '/root';
-        $path = $this->helper('Magento_Theme_Helper_Storage')->getSession()->getCurrentPath();
+        $path = $this->helper('\Magento\Theme\Helper\Storage')->getSession()->getCurrentPath();
         if ($path) {
-            $path = str_replace($this->helper('Magento_Theme_Helper_Storage')->getStorageRoot(), '', $path);
+            $path = str_replace($this->helper('\Magento\Theme\Helper\Storage')->getStorageRoot(), '', $path);
             $relative = '';
             foreach (explode(DIRECTORY_SEPARATOR, $path) as $dirName) {
                 if ($dirName) {
                     $relative .= DIRECTORY_SEPARATOR . $dirName;
-                    $treePath .= '/' . $this->helper('Magento_Theme_Helper_Storage')->urlEncode($relative);
+                    $treePath .= '/' . $this->helper('\Magento\Theme\Helper\Storage')->urlEncode($relative);
                 }
             }
         }

@@ -9,12 +9,12 @@
 -->
 <config>
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\Acl" />
-    <preference for="Magento\Authorization\RoleLocator" type="Magento_Backend_Model_Authorization_RoleLocator" />
-    <preference for="Magento_Core_Model_LocaleInterface" type="Magento_Backend_Model_Locale" />
-    <preference for="Magento_Core_Model_UrlInterface" type="Magento_Backend_Model_Url" />
-    <preference for="Magento_Backend_Model_Auth_StorageInterface" type="Magento_Backend_Model_Auth_Session" />
-    <preference for="Magento_Backend_Model_Config_Structure_SearchInterface" type="Magento_Backend_Model_Config_Structure" />
-    <preference for="Magento_Backend_Model_Config_Backend_File_RequestData_Interface" type="Magento_Backend_Model_Config_Backend_File_RequestData" />
+    <preference for="Magento\Authorization\RoleLocator" type="Magento\Backend\Model\Authorization\RoleLocator" />
+    <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Backend\Model\Locale" />
+    <preference for="Magento\Core\Model\UrlInterface" type="Magento\Backend\Model\Url" />
+    <preference for="Magento\Backend\Model\Auth\StorageInterface" type="Magento\Backend\Model\Auth\Session" />
+    <preference for="Magento\Backend\Model\Config\Structure\SearchInterface" type="Magento\Backend\Model\Config\Structure" />
+    <preference for="Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface" type="Magento\Backend\Model\Config\Backend\File\RequestData" />
     <preference for="Magento\Acl\Resource\ProviderInterface" type="Magento\Acl\Resource\Provider"/>
     <type name="Magento\Acl\Resource\Config\Reader\Filesystem">
         <param name="converter">
@@ -31,56 +31,56 @@
             <instance type="Magento\Acl\Loader\Resource" />
         </param>
     </type>
-    <type name="Magento_Core_Model_Acl_Cache">
+    <type name="Magento\Core\Model\Acl\Cache">
         <param name="cacheKey">
             <value>backend_acl_resources</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Acl_RootResource">
+    <type name="Magento\Core\Model\Acl\RootResource">
         <param name="identifier">
             <value>Magento_Adminhtml::all</value>
         </param>
     </type>
-    <type name="Magento_Core_Model_Session">
+    <type name="Magento\Core\Model\Session">
         <param name="sessionName">
             <value>adminhtml</value>
         </param>
     </type>
-    <type name="Magento_Backend_Model_Config_Structure_Data">
+    <type name="Magento\Backend\Model\Config\Structure\Data">
         <param name="cacheId">
             <value>backend_system_configuration_structure</value>
         </param>
     </type>
-    <type name="Magento_Backend_Model_Config_Structure_Element_Iterator_Tab" shared="false" />
-    <type name="Magento_Backend_Model_Config_Structure_Element_Iterator_Section" shared="false" />
-    <type name="Magento_Backend_Model_Config_Structure_Element_Iterator_Group" shared="false" />
-    <type name="Magento_Backend_Model_Config_Structure_Element_Iterator_Field" shared="false">
+    <type name="Magento\Backend\Model\Config\Structure\Element\Iterator\Tab" shared="false" />
+    <type name="Magento\Backend\Model\Config\Structure\Element\Iterator\Section" shared="false" />
+    <type name="Magento\Backend\Model\Config\Structure\Element\Iterator\Group" shared="false" />
+    <type name="Magento\Backend\Model\Config\Structure\Element\Iterator\Field" shared="false">
         <param name="groupFlyweight">
-            <instance type="Magento_Backend_Model_Config_Structure_Element_Group_Proxy" />
+            <instance type="Magento\Backend\Model\Config\Structure\Element\Group\Proxy" />
         </param>
     </type>
-    <type name="Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper" shared="false">
+    <type name="Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper" shared="false">
         <param name="fieldLocator">
-            <instance type="Magento_Backend_Model_Config_Structure_Search_Proxy" />
+            <instance type="Magento\Backend\Model\Config\Structure\Search\Proxy" />
         </param>
     </type>
-    <type name="Magento_Backend_Model_Config_Structure_Element_Tab" shared="false">
+    <type name="Magento\Backend\Model\Config\Structure\Element\Tab" shared="false">
         <param name="childrenIterator">
-            <instance type="Magento_Backend_Model_Config_Structure_Element_Iterator_Section" />
+            <instance type="Magento\Backend\Model\Config\Structure\Element\Iterator\Section" />
         </param>
     </type>
-    <type name="Magento_Backend_Model_Config_Structure_Element_Section" shared="false">
+    <type name="Magento\Backend\Model\Config\Structure\Element\Section" shared="false">
         <param name="childrenIterator">
-            <instance type="Magento_Backend_Model_Config_Structure_Element_Iterator_Group" />
+            <instance type="Magento\Backend\Model\Config\Structure\Element\Iterator\Group" />
         </param>
     </type>
-    <type name="Magento_Backend_Model_Config_Structure_Element_Group" shared="false">
+    <type name="Magento\Backend\Model\Config\Structure\Element\Group" shared="false">
         <param name="childrenIterator">
-            <instance type="Magento_Backend_Model_Config_Structure_Element_Iterator_Field" />
+            <instance type="Magento\Backend\Model\Config\Structure\Element\Iterator\Field" />
         </param>
     </type>
-    <type name="Magento_Backend_Model_Config_Structure_Element_Group_Proxy" shared="false" />
-    <type name="Magento_Core_Model_Layout">
+    <type name="Magento\Backend\Model\Config\Structure\Element\Group\Proxy" shared="false" />
+    <type name="Magento\Core\Model\Layout">
         <param name="area">
             <value>adminhtml</value>
         </param>

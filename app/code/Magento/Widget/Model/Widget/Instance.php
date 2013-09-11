@@ -11,22 +11,24 @@
 /**
  * Widget Instance Model
  *
- * @method Magento_Widget_Model_Resource_Widget_Instance _getResource()
- * @method Magento_Widget_Model_Resource_Widget_Instance getResource()
+ * @method \Magento\Widget\Model\Resource\Widget\Instance _getResource()
+ * @method \Magento\Widget\Model\Resource\Widget\Instance getResource()
  * @method string getTitle()
- * @method Magento_Widget_Model_Widget_Instance setTitle(string $value)
- * @method Magento_Widget_Model_Widget_Instance setStoreIds(string $value)
- * @method Magento_Widget_Model_Widget_Instance setWidgetParameters(string $value)
+ * @method \Magento\Widget\Model\Widget\Instance setTitle(string $value)
+ * @method \Magento\Widget\Model\Widget\Instance setStoreIds(string $value)
+ * @method \Magento\Widget\Model\Widget\Instance setWidgetParameters(string $value)
  * @method int getSortOrder()
- * @method Magento_Widget_Model_Widget_Instance setSortOrder(int $value)
- * @method Magento_Widget_Model_Widget_Instance setThemeId(int $value)
+ * @method \Magento\Widget\Model\Widget\Instance setSortOrder(int $value)
+ * @method \Magento\Widget\Model\Widget\Instance setThemeId(int $value)
  * @method int getThemeId()
  *
  * @category    Magento
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
+namespace Magento\Widget\Model\Widget;
+
+class Instance extends \Magento\Core\Model\AbstractModel
 {
     const SPECIFIC_ENTITIES = 'specific';
     const ALL_ENTITIES      = 'all';
@@ -58,21 +60,21 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected $_eventPrefix = 'widget_widget_instance';
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -86,7 +88,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Widget_Model_Resource_Widget_Instance');
+        $this->_init('\Magento\Widget\Model\Resource\Widget\Instance');
         $this->_layoutHandles = array(
             'anchor_categories' => self::ANCHOR_CATEGORY_LAYOUT_HANDLE,
             'notanchor_categories' => self::NOTANCHOR_CATEGORY_LAYOUT_HANDLE,
@@ -98,7 +100,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             'notanchor_categories' => self::SINGLE_CATEGORY_LAYOUT_HANDLE,
             'all_products' => self::SINGLE_PRODUCT_LAYOUT_HANLDE,
         );
-        foreach (array_keys(Magento_Catalog_Model_Product_Type::getTypes()) as $typeId) {
+        foreach (array_keys(\Magento\Catalog\Model\Product\Type::getTypes()) as $typeId) {
             $layoutHandle = str_replace('{{TYPE}}', $typeId, self::PRODUCT_TYPE_LAYOUT_HANDLE);
             $this->_layoutHandles[$typeId . '_products'] = $layoutHandle;
             $this->_specificEntitiesLayoutHandles[$typeId . '_products'] = self::SINGLE_PRODUCT_LAYOUT_HANLDE;
@@ -108,7 +110,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     /**
      * Processing object before save data
      *
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     protected function _beforeSave()
     {
@@ -193,7 +195,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
      * Prepare widget type
      *
      * @param string $type
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function setType($type)
     {
@@ -222,7 +224,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     {
         //TODO Shouldn't we get "area" from theme model which we can load using "theme_id"?
         if (!$this->_getData('area')) {
-            return Magento_Core_Model_View_DesignInterface::DEFAULT_AREA;
+            return \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA;
         }
         return $this->_getData('area');
     }
@@ -265,7 +267,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     public function getWidgetsOptionArray()
     {
         $widgets = array();
-        $widgetsArr = Mage::getSingleton('Magento_Widget_Model_Widget')->getWidgetsArray();
+        $widgetsArr = \Mage::getSingleton('Magento\Widget\Model\Widget')->getWidgetsArray();
         foreach ($widgetsArr as $widget) {
             $widgets[] = array(
                 'value' => $widget['type'],
@@ -283,13 +285,13 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     public function getWidgetConfig()
     {
         if ($this->_widgetConfigXml === null) {
-            $this->_widgetConfigXml = Mage::getSingleton('Magento_Widget_Model_Widget')
+            $this->_widgetConfigXml = \Mage::getSingleton('Magento\Widget\Model\Widget')
                 ->getXmlElementByType($this->getType());
             if ($this->_widgetConfigXml) {
                 $configFile = $this->_viewFileSystem->getFilename('widget.xml', array(
                     'area'   => $this->getArea(),
                     'theme'  => $this->getThemeId(),
-                    'module' => Mage::getConfig()->determineOmittedNamespace(
+                    'module' => \Mage::getConfig()->determineOmittedNamespace(
                         preg_replace('/^(.+?)\/.+$/', '\\1', $this->getType()), true
                     ),
                 ));
@@ -394,7 +396,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
         $templateFilename = $this->_viewFileSystem->getFilename($templatePath, array(
             'area'    => $this->getArea(),
             'themeId' => $this->getThemeId(),
-            'module'  => Magento_Core_Block_Abstract::extractModuleName($this->getType()),
+            'module'  => \Magento\Core\Block\AbstractBlock::extractModuleName($this->getType()),
         ));
         if (!$this->getId() && !$this->isCompleteToCreate() || ($templatePath && !is_readable($templateFilename))) {
             return '';
@@ -409,7 +411,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
             $template = ' template="' . $templatePath . '"';
         }
 
-        $hash = Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        $hash = \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
         $xml .= '<block class="' . $this->getType() . '" name="' . $hash . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
             if (is_array($value)) {
@@ -419,7 +421,7 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
                 $xml .= '<action method="setData">'
                     . '<argument name="name" xsi:type="string">' . $name . '</argument>'
                     . '<argument name="value" xsi:type="string">'
-                    . Mage::helper('Magento_Widget_Helper_Data')->escapeHtml($value) . '</argument>'
+                    . \Mage::helper('Magento\Widget\Helper\Data')->escapeHtml($value) . '</argument>'
                     . '</action>';
             }
         }
@@ -431,15 +433,15 @@ class Magento_Widget_Model_Widget_Instance extends Magento_Core_Model_Abstract
     /**
      * Invalidate related cache types
      *
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     protected function _invalidateCache()
     {
-        $types = Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
+        $types = \Mage::getConfig()->getNode(self::XML_NODE_RELATED_CACHE);
         if ($types) {
             $types = $types->asArray();
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+            /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+            $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
             $cacheTypeList->invalidate($types);
         }
         return $this;

@@ -16,7 +16,9 @@
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Head extends \Magento\Core\Block\Template
 {
     /**
      * Block template
@@ -45,26 +47,26 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_MergeService
+     * @var \Magento\Core\Model\Page\Asset\MergeService
      */
     private $_assetMergeService;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_MinifyService
+     * @var \Magento\Core\Model\Page\Asset\MinifyService
      */
     private $_assetMinifyService;
 
     /**
-     * @var Magento_Page_Model_Asset_GroupedCollection
+     * @var \Magento\Page\Model\Asset\GroupedCollection
      */
     private $_pageAssets;
 
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
+        \Magento\Core\Block\Template\Context $context,
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Model_Page $page,
-        Magento_Core_Model_Page_Asset_MergeService $assetMergeService,
-        Magento_Core_Model_Page_Asset_MinifyService $assetMinifyService,
+        \Magento\Core\Model\Page $page,
+        \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
+        \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -81,13 +83,13 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      * @param string $attributes
      * @param string|null $ieCondition
      * @param string|null $flagName
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function addCss($file, $attributes = '', $ieCondition = null, $flagName = null)
     {
-        $contentType = Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS;
+        $contentType = \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS;
         $asset = $this->_objectManager->create(
-            'Magento_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
+            '\Magento\Core\Model\Page\Asset\ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
         $this->_pageAssets->add("$contentType/$file", $asset, array(
             'attributes'    => (string)$attributes,
@@ -104,13 +106,13 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      * @param string $attributes
      * @param string|null $ieCondition
      * @param string|null $flagName
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function addJs($file, $attributes = '', $ieCondition = null, $flagName = null)
     {
-        $contentType = Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS;
+        $contentType = \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS;
         $asset = $this->_objectManager->create(
-            'Magento_Core_Model_Page_Asset_ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
+            '\Magento\Core\Model\Page\Asset\ViewFile', array('file' => (string)$file, 'contentType' => $contentType)
         );
         $this->_pageAssets->add("$contentType/$file", $asset, array(
             'attributes'    => (string)$attributes,
@@ -126,7 +128,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      * @param string $file
      * @param string $attributes
      * @param string|null $flagName
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function addCssIe($file, $attributes = '', $flagName = null)
     {
@@ -139,7 +141,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      * @param string $file
      * @param string $attributes
      * @param string|null $flagName
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function addJsIe($file, $attributes = '', $flagName = null)
     {
@@ -151,13 +153,13 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      *
      * @param string $title
      * @param string $href
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function addRss($title, $href)
     {
         $attributes = 'rel="alternate" type="application/rss+xml" title="' . $title . '"';
         $asset = $this->_objectManager->create(
-            'Magento_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
+            '\Magento\Core\Model\Page\Asset\Remote', array('url' => (string)$href)
         );
         $this->_pageAssets->add("link/$href", $asset, array('attributes' => $attributes));
         return $this;
@@ -168,12 +170,12 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      *
      * @param string $rel forward link types
      * @param string $href URI for linked resource
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function addLinkRel($rel, $href)
     {
         $asset = $this->_objectManager->create(
-            'Magento_Core_Model_Page_Asset_Remote', array('url' => (string)$href)
+            '\Magento\Core\Model\Page\Asset\Remote', array('url' => (string)$href)
         );
         $this->_pageAssets->add("link/$href", $asset, array('attributes' => 'rel="' . $rel . '"'));
         return $this;
@@ -184,7 +186,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      *
      * @param string|array $metaData
      * @param string $content
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function addMetaTag($metaData, $content = null)
     {
@@ -259,7 +261,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      *
      * @param string $type
      * @param string $name
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function removeItem($type, $name)
     {
@@ -275,10 +277,10 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getCssJsHtml()
     {
         $result = '';
-        /** @var $group Magento_Page_Model_Asset_PropertyGroup */
+        /** @var $group \Magento\Page\Model\Asset\PropertyGroup */
         foreach ($this->_pageAssets->getGroups() as $group) {
-            $contentType = $group->getProperty(Magento_Page_Model_Asset_GroupedCollection::PROPERTY_CONTENT_TYPE);
-            $canMerge = $group->getProperty(Magento_Page_Model_Asset_GroupedCollection::PROPERTY_CAN_MERGE);
+            $contentType = $group->getProperty(\Magento\Page\Model\Asset\GroupedCollection::PROPERTY_CONTENT_TYPE);
+            $canMerge = $group->getProperty(\Magento\Page\Model\Asset\GroupedCollection::PROPERTY_CAN_MERGE);
             $attributes = $group->getProperty('attributes');
             $ieCondition = $group->getProperty('ie_condition');
             $flagName = $group->getProperty('flag_name');
@@ -296,10 +298,10 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
             if (!empty($attributes)) {
                 $attributes = ' ' . $attributes;
             }
-            if ($contentType == Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS ) {
+            if ($contentType == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS ) {
                 $groupTemplate = '<script' . $attributes . ' type="text/javascript" src="%s"></script>' . "\n";
             } else {
-                if ($contentType == Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS) {
+                if ($contentType == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS) {
                     $attributes = ' rel="stylesheet" type="text/css"' . ($attributes ?: ' media="all"');
                 }
                 $groupTemplate = '<link' . $attributes . ' href="%s" />' . "\n";
@@ -327,7 +329,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     {
         $result = '';
         try {
-            /** @var $asset Magento_Core_Model_Page_Asset_AssetInterface */
+            /** @var $asset \Magento\Core\Model\Page\Asset\AssetInterface */
             foreach ($assets as $asset) {
                 $result .= sprintf($template, $asset->getUrl());
             }
@@ -358,7 +360,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getMediaType()
     {
         if (empty($this->_data['media_type'])) {
-            $this->_data['media_type'] = Mage::getStoreConfig('design/head/default_media_type');
+            $this->_data['media_type'] = \Mage::getStoreConfig('design/head/default_media_type');
         }
         return $this->_data['media_type'];
     }
@@ -371,7 +373,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getCharset()
     {
         if (empty($this->_data['charset'])) {
-            $this->_data['charset'] = Mage::getStoreConfig('design/head/default_charset');
+            $this->_data['charset'] = \Mage::getStoreConfig('design/head/default_charset');
         }
         return $this->_data['charset'];
     }
@@ -380,7 +382,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      * Set title element text
      *
      * @param string|array $title
-     * @return Magento_Page_Block_Html_Head
+     * @return \Magento\Page\Block\Html\Head
      */
     public function setTitle($title)
     {
@@ -390,8 +392,8 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
         } else {
             $this->_pureTitle = $title;
         }
-        $this->_data['title'] = Mage::getStoreConfig('design/head/title_prefix') . ' ' . $title
-            . ' ' . Mage::getStoreConfig('design/head/title_suffix');
+        $this->_data['title'] = \Mage::getStoreConfig('design/head/title_prefix') . ' ' . $title
+            . ' ' . \Mage::getStoreConfig('design/head/title_suffix');
         return $this;
     }
 
@@ -429,7 +431,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     public function getDefaultTitle()
     {
-        return Mage::getStoreConfig('design/head/default_title');
+        return \Mage::getStoreConfig('design/head/default_title');
     }
 
     /**
@@ -440,7 +442,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getDescription()
     {
         if (empty($this->_data['description'])) {
-            $this->_data['description'] = Mage::getStoreConfig('design/head/default_description');
+            $this->_data['description'] = \Mage::getStoreConfig('design/head/default_description');
         }
         return $this->_data['description'];
     }
@@ -453,7 +455,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getKeywords()
     {
         if (empty($this->_data['keywords'])) {
-            $this->_data['keywords'] = Mage::getStoreConfig('design/head/default_keywords');
+            $this->_data['keywords'] = \Mage::getStoreConfig('design/head/default_keywords');
         }
         return $this->_data['keywords'];
     }
@@ -466,7 +468,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getRobots()
     {
         if (empty($this->_data['robots'])) {
-            $this->_data['robots'] = Mage::getStoreConfig('design/search_engine_robots/default_robots');
+            $this->_data['robots'] = \Mage::getStoreConfig('design/search_engine_robots/default_robots');
         }
         return $this->_data['robots'];
     }
@@ -479,7 +481,7 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
     public function getIncludes()
     {
         if (empty($this->_data['includes'])) {
-            $this->_data['includes'] = Mage::getStoreConfig('design/head/includes');
+            $this->_data['includes'] = \Mage::getStoreConfig('design/head/includes');
         }
         return $this->_data['includes'];
     }
@@ -504,10 +506,10 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     protected function _getFaviconFile()
     {
-        $folderName = Magento_Backend_Model_Config_Backend_Image_Favicon::UPLOAD_DIR;
-        $storeConfig = Mage::getStoreConfig('design/head/shortcut_icon');
-        $faviconFile = Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
-        $absolutePath = Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
+        $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
+        $storeConfig = \Mage::getStoreConfig('design/head/shortcut_icon');
+        $faviconFile = \Mage::getBaseUrl('media') . $folderName . '/' . $storeConfig;
+        $absolutePath = \Mage::getBaseDir('media') . '/' . $folderName . '/' . $storeConfig;
 
         if (!is_null($storeConfig) && $this->_isFile($absolutePath)) {
             $url = $faviconFile;
@@ -525,8 +527,8 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     protected function _isFile($filename)
     {
-        if (Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage() && !is_file($filename)) {
-            Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
+        if (\Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage() && !is_file($filename)) {
+            \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($filename);
         }
         return is_file($filename);
     }
@@ -538,6 +540,6 @@ class Magento_Page_Block_Html_Head extends Magento_Core_Block_Template
      */
     public function getLocale()
     {
-        return substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2);
+        return substr(\Mage::app()->getLocale()->getLocaleCode(), 0, 2);
     }
 }

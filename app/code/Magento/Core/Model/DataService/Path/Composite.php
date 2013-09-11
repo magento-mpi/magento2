@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Path_Composite implements Magento_Core_Model_DataService_Path_NodeInterface
+namespace Magento\Core\Model\DataService\Path;
+
+class Composite implements \Magento\Core\Model\DataService\Path\NodeInterface
 {
     /**
      * @var array
@@ -30,7 +32,7 @@ class Magento_Core_Model_DataService_Path_Composite implements Magento_Core_Mode
      * data service tree.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
      *
      * @param string $pathElement the path element name of the child node
-     * @return Magento_Core_Model_DataService_Path_NodeInterface|mixed|null the child node,
+     * @return \Magento\Core\Model\DataService\Path\NodeInterface|mixed|null the child node,
      *   or mixed if this is a leaf node
      */
     public function getChildNode($pathElement)

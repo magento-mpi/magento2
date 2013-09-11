@@ -33,7 +33,7 @@ class Magento_Test_Integrity_Modular_ViewConfigFilesTest extends PHPUnit_Framewo
     {
         $result = array();
         $files = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Modules_Reader')
+            ->get('Magento\Core\Model\Config\Modules\Reader')
             ->getConfigurationFiles('view.xml');
         foreach ($files as $file) {
             $result[] = array($file);

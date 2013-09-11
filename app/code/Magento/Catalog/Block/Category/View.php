@@ -15,13 +15,15 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Category;
+
+class View extends \Magento\Core\Block\Template
 {
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
 
-        $this->getLayout()->createBlock('Magento_Catalog_Block_Breadcrumbs');
+        $this->getLayout()->createBlock('\Magento\Catalog\Block\Breadcrumbs');
 
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $category = $this->getCurrentCategory();
@@ -34,7 +36,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
             if ($keywords = $category->getMetaKeywords()) {
                 $headBlock->setKeywords($keywords);
             }
-            if ($this->helper('Magento_Catalog_Helper_Category')->canUseCanonicalTag()) {
+            if ($this->helper('\Magento\Catalog\Helper\Category')->canUseCanonicalTag()) {
                 $headBlock->addLinkRel('canonical', $category->getUrl());
             }
             /*
@@ -55,7 +57,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
 
     public function IsRssCatalogEnable()
     {
-        return Mage::getStoreConfig('rss/catalog/category');
+        return \Mage::getStoreConfig('rss/catalog/category');
     }
 
     public function IsTopCategory()
@@ -65,7 +67,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
 
     public function getRssLink()
     {
-        return Mage::getUrl('rss/catalog/category',array('cid' => $this->getCurrentCategory()->getId(), 'store_id' => Mage::app()->getStore()->getId()));
+        return \Mage::getUrl('rss/catalog/category',array('cid' => $this->getCurrentCategory()->getId(), 'store_id' => \Mage::app()->getStore()->getId()));
     }
 
     public function getProductListHtml()
@@ -76,12 +78,12 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
     /**
      * Retrieve current category model object
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCurrentCategory()
     {
         if (!$this->hasData('current_category')) {
-            $this->setData('current_category', Mage::registry('current_category'));
+            $this->setData('current_category', \Mage::registry('current_category'));
         }
         return $this->getData('current_category');
     }
@@ -89,7 +91,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
     public function getCmsBlockHtml()
     {
         if (!$this->getData('cms_block_html')) {
-            $html = $this->getLayout()->createBlock('Magento_Cms_Block_Block')
+            $html = $this->getLayout()->createBlock('\Magento\Cms\Block\Block')
                 ->setBlockId($this->getCurrentCategory()->getLandingPage())
                 ->toHtml();
             $this->setData('cms_block_html', $html);
@@ -103,7 +105,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
      */
     public function isProductMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode()==Magento_Catalog_Model_Category::DM_PRODUCT;
+        return $this->getCurrentCategory()->getDisplayMode()==\Magento\Catalog\Model\Category::DM_PRODUCT;
     }
 
     /**
@@ -112,7 +114,7 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
      */
     public function isMixedMode()
     {
-        return $this->getCurrentCategory()->getDisplayMode()==Magento_Catalog_Model_Category::DM_MIXED;
+        return $this->getCurrentCategory()->getDisplayMode()==\Magento\Catalog\Model\Category::DM_MIXED;
     }
 
     /**
@@ -125,10 +127,10 @@ class Magento_Catalog_Block_Category_View extends Magento_Core_Block_Template
     {
         $category = $this->getCurrentCategory();
         $res = false;
-        if ($category->getDisplayMode()==Magento_Catalog_Model_Category::DM_PAGE) {
+        if ($category->getDisplayMode()==\Magento\Catalog\Model\Category::DM_PAGE) {
             $res = true;
             if ($category->getIsAnchor()) {
-                $state = Mage::getSingleton('Magento_Catalog_Model_Layer')->getState();
+                $state = \Mage::getSingleton('Magento\Catalog\Model\Layer')->getState();
                 if ($state && $state->getFilters()) {
                     $res = false;
                 }

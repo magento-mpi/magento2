@@ -8,9 +8,9 @@
  */
 -->
 <config>
-    <type name="Magento_BannerCustomerSegment_Model_Observer">
+    <type name="Magento\BannerCustomerSegment\Model\Observer">
         <param name="segmentCustomer">
-            <instance type="Magento_CustomerSegment_Model_Customer_Proxy" />
+            <instance type="Magento\CustomerSegment\Model\Customer\Proxy" />
         </param>
     </type>
 </config>

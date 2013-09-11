@@ -16,21 +16,23 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_TaxClass_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Tax\Model\Resource\TaxClass;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      */
     public function _construct()
     {
-        $this->_init('Magento_Tax_Model_Class', 'Magento_Tax_Model_Resource_TaxClass');
+        $this->_init('\Magento\Tax\Model\ClassModel', '\Magento\Tax\Model\Resource\TaxClass');
     }
 
     /**
      * Add class type filter to result
      *
      * @param int $classTypeId
-     * @return Magento_Tax_Model_Resource_TaxClass_Collection
+     * @return \Magento\Tax\Model\Resource\TaxClass\Collection
      */
     public function setClassTypeFilter($classTypeId)
     {

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Shopcart_Product extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Report\Shopcart;
+
+class Product extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
 
     protected function _construct()

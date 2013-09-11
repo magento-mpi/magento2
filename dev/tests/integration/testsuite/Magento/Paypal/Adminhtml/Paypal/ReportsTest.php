@@ -25,7 +25,7 @@ class Magento_Paypal_Adminhtml_Paypal_ReportsTest extends Magento_Backend_Utilit
         $this->dispatch('backend/admin/paypal_reports/fetch');
         $this->assertSessionMessages(
             $this->equalTo(array("We couldn't fetch reports from 'login@127.0.0.1'.")),
-            Magento_Core_Model_Message::ERROR
+            \Magento\Core\Model\Message::ERROR
         );
     }
 }

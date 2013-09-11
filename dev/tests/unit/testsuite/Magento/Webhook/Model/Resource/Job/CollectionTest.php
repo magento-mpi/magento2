@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Job_Collection
+ * \Magento\Webhook\Model\Resource\Job\Collection
  *
  * {license_notice}
  *
@@ -17,7 +17,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
             ->disableOriginalConstructor()
             ->setMethods(array('_connect', '_quote'))
             ->getMockForAbstractClass();
-        $mockResourceEvent = $this->getMockBuilder('Magento_Webhook_Model_Resource_Job')
+        $mockResourceEvent = $this->getMockBuilder('Magento\Webhook\Model\Resource\Job')
             ->disableOriginalConstructor()
             ->getMock();
         $mockResourceEvent->expects($this->once())
@@ -27,7 +27,7 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
         $mockObjectManager = $this->_setMageObjectManager();
         $mockObjectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento_Webhook_Model_Resource_Job'))
+            ->with($this->equalTo('Magento\Webhook\Model\Resource\Job'))
             ->will($this->returnValue($mockResourceEvent));
     }
 
@@ -42,9 +42,9 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
         $mockFetchStrategy = $this->getMockBuilder('Magento\Data\Collection\Db\FetchStrategyInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $collection = new Magento_Webhook_Model_Resource_Job_Collection($mockFetchStrategy);
-        $this->assertInstanceOf('Magento_Webhook_Model_Resource_Job_Collection', $collection);
-        $this->assertEquals('Magento_Webhook_Model_Resource_Job', $collection->getResourceModelName());
+        $collection = new \Magento\Webhook\Model\Resource\Job\Collection($mockFetchStrategy);
+        $this->assertInstanceOf('\Magento\Webhook\Model\Resource\Job\Collection', $collection);
+        $this->assertEquals('\Magento\Webhook\Model\Resource\Job', $collection->getResourceModelName());
     }
 
     /**

@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+ * Test class for \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
  */
 class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_CollectionTest
     extends PHPUnit_Framework_TestCase
@@ -18,12 +18,12 @@ class Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Co
     /**
      * Returns mock for finance collection
      *
-     * @return Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
      */
     protected function _getFinanceCollectionMock()
     {
         return $this->getMock(
-            'Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection',
+            '\Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection',
             null,
             array(),
             '',

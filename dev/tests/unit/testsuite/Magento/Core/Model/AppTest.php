@@ -8,12 +8,12 @@
  */
 
 /**
- * Test class for Magento_Core_Model_App
+ * Test class for \Magento\Core\Model\App
  */
 class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_model;
 
@@ -59,18 +59,18 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false);
-        $this->_frontControllerMock = $this->getMock('Magento_Core_Controller_Varien_Front',
+        $this->_configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false);
+        $this->_frontControllerMock = $this->getMock('Magento\Core\Controller\Varien\Front',
             array(), array(), '', false, false);
-        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false, false);
+        $this->_cacheMock = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false, false);
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false, false);
-        $this->_dbUpdaterMock = $this->getMock('Magento_Core_Model_Db_UpdaterInterface',
+        $this->_dbUpdaterMock = $this->getMock('Magento\Core\Model\Db\UpdaterInterface',
             array(), array(), '', false, false);
-        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface');
-        $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager',
+        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->_eventManagerMock = $this->getMock('Magento\Core\Model\Event\Manager',
             array(), array(), '', false, false);
-        $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false, false);
-        $this->_model = new Magento_Core_Model_App(
+        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false, false);
+        $this->_model = new \Magento\Core\Model\App(
             $this->_configMock,
             $this->_frontControllerMock,
             $this->_cacheMock,
@@ -79,7 +79,7 @@ class Magento_Core_Model_AppTest extends PHPUnit_Framework_TestCase
             $this->_storeManagerMock,
             $this->_eventManagerMock,
             $this->_appStateMock,
-            $this->getMock('Magento_Core_Model_Config_Scope', array(), array(), '', false)
+            $this->getMock('Magento\Core\Model\Config\Scope', array(), array(), '', false)
         );
     }
 

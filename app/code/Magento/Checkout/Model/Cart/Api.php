@@ -16,20 +16,22 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resource
+namespace Magento\Checkout\Model\Cart;
+
+class Api extends \Magento\Checkout\Model\Api\Resource
 {
     /**
-     * @var Magento_Core_Model_Config_Scope
+     * @var \Magento\Core\Model\Config\Scope
      */
     protected $_configScope;
 
     /**
-     * @param Magento_Api_Helper_Data $apiHelper
-     * @param Magento_Core_Model_Config_Scope $configScope
+     * @param \Magento\Api\Helper\Data $apiHelper
+     * @param \Magento\Core\Model\Config\Scope $configScope
      */
     public function __construct(
-        Magento_Api_Helper_Data $apiHelper,
-        Magento_Core_Model_Config_Scope $configScope
+        \Magento\Api\Helper\Data $apiHelper,
+        \Magento\Core\Model\Config\Scope $configScope
     ) {
         $this->_configScope = $configScope;
         parent::__construct($apiHelper);
@@ -66,13 +68,13 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
         $storeId = $this->_getStoreId($store);
 
         try {
-            /*@var $quote Magento_Sales_Model_Quote*/
-            $quote = Mage::getModel('Magento_Sales_Model_Quote');
+            /*@var $quote \Magento\Sales\Model\Quote*/
+            $quote = \Mage::getModel('\Magento\Sales\Model\Quote');
             $quote->setStoreId($storeId)
                     ->setIsActive(false)
                     ->setIsMultiShipping(false)
                     ->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('create_quote_fault', $e->getMessage());
         }
         return (int) $quote->getId();
@@ -91,7 +93,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
 
         if ($quote->getGiftMessageId() > 0) {
             $quote->setGiftMessage(
-                Mage::getSingleton('Magento_GiftMessage_Model_Message')->load($quote->getGiftMessageId())->getMessage()
+                \Mage::getSingleton('Magento\GiftMessage\Model\Message')->load($quote->getGiftMessageId())->getMessage()
             );
         }
 
@@ -103,7 +105,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
         foreach ($quote->getAllItems() as $item) {
             if ($item->getGiftMessageId() > 0) {
                 $item->setGiftMessage(
-                    Mage::getSingleton('Magento_GiftMessage_Model_Message')->load($item->getGiftMessageId())->getMessage()
+                    \Mage::getSingleton('Magento\GiftMessage\Model\Message')->load($item->getGiftMessageId())->getMessage()
                 );
             }
 
@@ -139,8 +141,8 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
     /**
      * Check whether we can use this payment method with current quote
      *
-     * @param Magento_Payment_Model_Method_Abstract $method
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Payment\Model\Method\AbstractMethod $method
+     * @param \Magento\Sales\Model\Quote $quote
      * @return bool
      */
     protected function _canUsePaymentMethod($method, $quote)
@@ -153,7 +155,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
             return false;
         }
 
-        if (!$method->canUseForCurrency(Mage::app()->getStore($quote->getStoreId())->getBaseCurrencyCode())) {
+        if (!$method->canUseForCurrency(\Mage::app()->getStore($quote->getStoreId())->getBaseCurrencyCode())) {
             return false;
         }
 
@@ -208,7 +210,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
     /**
      * Convert quote to order and return order increment id
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return string
      */
     protected function _placeOrder($quote)
@@ -216,47 +218,47 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
         if ($quote->getIsMultiShipping()) {
             $this->_fault('invalid_checkout_type');
         }
-        if ($quote->getCheckoutMethod() == Magento_Checkout_Model_Api_Resource_Customer::MODE_GUEST
-            && !Mage::helper('Magento_Checkout_Helper_Data')->isAllowedGuestCheckout($quote, $quote->getStoreId())
+        if ($quote->getCheckoutMethod() == \Magento\Checkout\Model\Api\Resource\Customer::MODE_GUEST
+            && !\Mage::helper('Magento\Checkout\Helper\Data')->isAllowedGuestCheckout($quote, $quote->getStoreId())
         ) {
             $this->_fault('guest_checkout_is_not_enabled');
         }
 
-        $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        /** @var $customerResource Magento_Checkout_Model_Api_Resource_Customer */
-        $customerResource = Mage::getModel("Magento_Checkout_Model_Api_Resource_Customer");
+        $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        /** @var $customerResource \Magento\Checkout\Model\Api\Resource\Customer */
+        $customerResource = \Mage::getModel("\Magento\Checkout\Model\Api\Resource\Customer");
         $isNewCustomer = $customerResource->prepareCustomerForQuote($quote);
 
         try {
             $quote->collectTotals();
-            /** @var $service Magento_Sales_Model_Service_Quote */
-            $service = Mage::getModel('Magento_Sales_Model_Service_Quote', array('quote' => $quote));
+            /** @var $service \Magento\Sales\Model\Service\Quote */
+            $service = \Mage::getModel('\Magento\Sales\Model\Service\Quote', array('quote' => $quote));
             $service->submitAll();
 
             if ($isNewCustomer) {
                 try {
                     $customerResource->involveNewCustomer($quote);
-                } catch (Exception $e) {
-                    Mage::logException($e);
+                } catch (\Exception $e) {
+                    \Mage::logException($e);
                 }
             }
 
             $order = $service->getOrder();
             if ($order) {
-                Mage::dispatchEvent(
+                \Mage::dispatchEvent(
                     'checkout_type_onepage_save_order_after',
                     array('order' => $order, 'quote' => $quote)
                 );
 
                 try {
                     $order->sendNewOrderEmail();
-                } catch (Exception $e) {
-                    Mage::logException($e);
+                } catch (\Exception $e) {
+                    \Mage::logException($e);
                 }
             }
 
-            Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
-        } catch (Magento_Core_Exception $e) {
+            \Mage::dispatchEvent('checkout_submit_all_after', array('order' => $order, 'quote' => $quote));
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('create_order_fault', $e->getMessage());
         }
 
@@ -266,7 +268,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
     /**
      * Set payment data
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @param string|int $store
      * @param array $paymentData
      */
@@ -299,10 +301,10 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
             }
 
             $total = $quote->getBaseSubtotal();
-            $methods = Mage::helper('Magento_Payment_Helper_Data')->getStoreMethods($store, $quote);
+            $methods = \Mage::helper('Magento\Payment\Helper\Data')->getStoreMethods($store, $quote);
             foreach ($methods as $key => $method) {
                 if ($method->getCode() == $paymentData['method']) {
-                    /** @var $method Magento_Payment_Model_Method_Abstract */
+                    /** @var $method \Magento\Payment\Model\Method\AbstractMethod */
                     if (!($this->_canUsePaymentMethod($method, $quote) && ($total != 0 || $method->getCode() == 'free'
                         || ($quote->hasRecurringItems() && $method->canManageRecurringProfiles())))
                     ) {
@@ -313,7 +315,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
             try {
                 $quote->getPayment()->importData($paymentData);
                 $quote->setTotalsCollectedFlag(false)->collectTotals();
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_fault('payment_method_is_not_set', $e->getMessage());
             }
         }
@@ -326,7 +328,7 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
      */
     protected function _checkAgreement($agreements = null)
     {
-        $requiredAgreements = Mage::helper('Magento_Checkout_Helper_Data')->getRequiredAgreementIds();
+        $requiredAgreements = \Mage::helper('Magento\Checkout\Helper\Data')->getRequiredAgreementIds();
         if (!empty($requiredAgreements)) {
             $diff = array_diff($agreements, $requiredAgreements);
             if (!empty($diff)) {
@@ -346,13 +348,13 @@ class Magento_Checkout_Model_Cart_Api extends Magento_Checkout_Model_Api_Resourc
         $storeId = $quote->getStoreId();
 
         $agreements = array();
-        if (Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
-            $agreementsCollection = Mage::getModel('Magento_Checkout_Model_Agreement')->getCollection()
+        if (\Mage::getStoreConfigFlag('checkout/options/enable_agreements')) {
+            $agreementsCollection = \Mage::getModel('\Magento\Checkout\Model\Agreement')->getCollection()
                     ->addStoreFilter($storeId)
                     ->addFieldToFilter('is_active', 1);
 
             foreach ($agreementsCollection as $_a) {
-                /** @var $_a  Magento_Checkout_Model_Agreement */
+                /** @var $_a  \Magento\Checkout\Model\Agreement */
                 $agreements[] = $this->_getAttributes($_a, "quote_agreement");
             }
         }

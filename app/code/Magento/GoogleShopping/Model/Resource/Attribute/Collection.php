@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Resource_Attribute_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GoogleShopping\Model\Resource\Attribute;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Whether to join attribute_set_id to attributes or not
@@ -26,7 +28,7 @@ class Magento_GoogleShopping_Model_Resource_Attribute_Collection extends Magento
 
     protected function _construct()
     {
-        $this->_init('Magento_GoogleShopping_Model_Attribute', 'Magento_GoogleShopping_Model_Resource_Attribute');
+        $this->_init('\Magento\GoogleShopping\Model\Attribute', '\Magento\GoogleShopping\Model\Resource\Attribute');
     }
 
     /**
@@ -34,7 +36,7 @@ class Magento_GoogleShopping_Model_Resource_Attribute_Collection extends Magento
      *
      * @param int $attributeSetId
      * @param string $targetCountry two words ISO format
-     * @return Magento_GoogleShopping_Model_Resource_Attribute_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Attribute\Collection
      */
     public function addAttributeSetFilter($attributeSetId, $targetCountry)
     {
@@ -50,7 +52,7 @@ class Magento_GoogleShopping_Model_Resource_Attribute_Collection extends Magento
      * Add type filter
      *
      * @param int $type_id
-     * @return Magento_GoogleShopping_Model_Resource_Attribute_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Attribute\Collection
      */
     public function addTypeFilter($type_id)
     {
@@ -63,7 +65,7 @@ class Magento_GoogleShopping_Model_Resource_Attribute_Collection extends Magento
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return  Magento_GoogleShopping_Model_Resource_Attribute_Collection
+     * @return  \Magento\GoogleShopping\Model\Resource\Attribute\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
@@ -80,7 +82,7 @@ class Magento_GoogleShopping_Model_Resource_Attribute_Collection extends Magento
     /**
      * Join attribute sets data to select
      *
-     * @return  Magento_GoogleShopping_Model_Resource_Attribute_Collection
+     * @return  \Magento\GoogleShopping\Model\Resource\Attribute\Collection
      */
     protected function _joinAttributeSet()
     {

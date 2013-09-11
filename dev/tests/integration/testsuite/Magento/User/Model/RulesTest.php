@@ -15,13 +15,13 @@
 class Magento_User_Model_RulesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Model_Rules
+     * @var \Magento\User\Model\Rules
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_User_Model_Rules');
+        $this->_model = Mage::getModel('\Magento\User\Model\Rules');
     }
 
     /**
@@ -57,7 +57,7 @@ class Magento_User_Model_RulesTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_User_Model_Rules::saveRel
+     * @covers \Magento\User\Model\Rules::saveRel
      * @magentoDbIsolation enabled
      */
     public function testSetAllowForAllResources()

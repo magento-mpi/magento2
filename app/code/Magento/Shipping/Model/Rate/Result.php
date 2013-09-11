@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Rate_Result
+namespace Magento\Shipping\Model\Rate;
+
+class Result
 {
     /**
      * Shippin method rates
@@ -28,7 +30,7 @@ class Magento_Shipping_Model_Rate_Result
     /**
      * Reset result
      *
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     public function reset()
     {
@@ -60,18 +62,18 @@ class Magento_Shipping_Model_Rate_Result
     /**
      * Add a rate to the result
      *
-     * @param Magento_Shipping_Model_Rate_Result_Abstract|Magento_Shipping_Model_Rate_Result $result
-     * @return Magento_Shipping_Model_Rate_Result
+     * @param \Magento\Shipping\Model\Rate\Result\AbstractResult|\Magento\Shipping\Model\Rate\Result $result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     public function append($result)
     {
-        if ($result instanceof Magento_Shipping_Model_Rate_Result_Error) {
+        if ($result instanceof \Magento\Shipping\Model\Rate\Result\Error) {
             $this->setError(true);
         }
-        if ($result instanceof Magento_Shipping_Model_Rate_Result_Abstract) {
+        if ($result instanceof \Magento\Shipping\Model\Rate\Result\AbstractResult) {
             $this->_rates[] = $result;
         }
-        elseif ($result instanceof Magento_Shipping_Model_Rate_Result) {
+        elseif ($result instanceof \Magento\Shipping\Model\Rate\Result) {
             $rates = $result->getAllRates();
             foreach ($rates as $rate) {
                 $this->append($rate);
@@ -94,7 +96,7 @@ class Magento_Shipping_Model_Rate_Result
      * Return rate by id in array
      *
      * @param int $id
-     * @return Magento_Shipping_Model_Rate_Result_Method|null
+     * @return \Magento\Shipping\Model\Rate\Result\Method|null
      */
     public function getRateById($id)
     {
@@ -125,7 +127,7 @@ class Magento_Shipping_Model_Rate_Result
      */
     public function asArray()
     {
-        $currencyFilter = Mage::app()->getStore()->getPriceFilter();
+        $currencyFilter = \Mage::app()->getStore()->getPriceFilter();
         $rates = array();
         $allRates = $this->getAllRates();
         foreach ($allRates as $rate) {
@@ -142,7 +144,7 @@ class Magento_Shipping_Model_Rate_Result
     /**
      * Get cheapest rate
      *
-     * @return null|Magento_Shipping_Model_Rate_Result_Method
+     * @return null|\Magento\Shipping\Model\Rate\Result\Method
      */
     public function getCheapestRate()
     {
@@ -160,14 +162,14 @@ class Magento_Shipping_Model_Rate_Result
     /**
      * Sort rates by price from min to max
      *
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     public function sortRatesByPrice()
     {
         if (!is_array($this->_rates) || !count($this->_rates)) {
             return $this;
         }
-        /* @var $rate Magento_Shipping_Model_Rate_Result_Method */
+        /* @var $rate \Magento\Shipping\Model\Rate\Result\Method */
         foreach ($this->_rates as $i => $rate) {
             $tmp[$i] = $rate->getPrice();
         }
@@ -187,7 +189,7 @@ class Magento_Shipping_Model_Rate_Result
      * Set price for each rate according to count of packages
      *
      * @param int $packageCount
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     public function updateRatePrice($packageCount)
     {

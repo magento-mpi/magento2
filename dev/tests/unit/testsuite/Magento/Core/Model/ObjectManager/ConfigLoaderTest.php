@@ -8,7 +8,7 @@
 class Magento_Core_Model_ObjectManager_ConfigLoaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_ObjectManager_ConfigLoader
+     * @var \Magento\Core\Model\ObjectManager\ConfigLoader
      */
     protected $_model;
 
@@ -18,7 +18,7 @@ class Magento_Core_Model_ObjectManager_ConfigLoaderTest extends PHPUnit_Framewor
     protected $_readerMock;
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_cacheMock;
 
@@ -28,8 +28,8 @@ class Magento_Core_Model_ObjectManager_ConfigLoaderTest extends PHPUnit_Framewor
             array(), array(), '', false
         );
 
-        $this->_cacheMock = $this->getMock('Magento_Core_Model_Cache_Type_Config', array(), array(), '', false);
-        $this->_model = new Magento_Core_Model_ObjectManager_ConfigLoader($this->_cacheMock, $this->_readerMock);
+        $this->_cacheMock = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(), '', false);
+        $this->_model = new \Magento\Core\Model\ObjectManager\ConfigLoader($this->_cacheMock, $this->_readerMock);
     }
 
     /**

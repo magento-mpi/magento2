@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Template extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Newsletter;
+
+class Template extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'newsletter/template/list.phtml';
 
@@ -24,7 +26,7 @@ class Magento_Adminhtml_Block_Newsletter_Template extends Magento_Adminhtml_Bloc
     {
         $this->setChild(
             'grid',
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Newsletter_Template_Grid', 'newsletter.template.grid')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Newsletter\Template\Grid', 'newsletter.template.grid')
         );
         return parent::_prepareLayout();
     }

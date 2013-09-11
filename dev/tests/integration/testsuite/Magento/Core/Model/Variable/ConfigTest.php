@@ -12,13 +12,13 @@
 class Magento_Core_Model_Variable_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Variable_Config
+     * @var \Magento\Core\Model\Variable\Config
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Variable_Config');
+        $this->_model = Mage::getModel('\Magento\Core\Model\Variable\Config');
     }
 
     public function testGetWysiwygJsPluginSrc()

@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block_Cart
+namespace Magento\AdvancedCheckout\Block\Sku;
+
+class Products extends \Magento\Checkout\Block\Cart
 {
     /**
      * Return list of product items
@@ -30,11 +32,11 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
     /**
      * Retrieve helper instance
      *
-     * @return Magento_AdvancedCheckout_Helper_Data
+     * @return \Magento\AdvancedCheckout\Helper\Data
      */
     protected function _getHelper()
     {
-        return Mage::helper('Magento_AdvancedCheckout_Helper_Data');
+        return \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
     }
 
     /**
@@ -63,7 +65,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
     public function prepareItemUrls()
     {
         $products = array();
-        /* @var $item Magento_Sales_Model_Quote_Item */
+        /* @var $item \Magento\Sales\Model\Quote\Item */
         foreach ($this->getItems() as $item) {
             if ($item->getProductType() == 'undefined') {
                 continue;
@@ -74,7 +76,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
                 $product = $option->getProduct();
             }
 
-            if ($item->getStoreId() != Mage::app()->getStore()->getId()
+            if ($item->getStoreId() != \Mage::app()->getStore()->getId()
                 && !$item->getRedirectUrl()
                 && !$product->isVisibleInSiteVisibility())
             {
@@ -83,7 +85,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
         }
 
         if ($products) {
-            $products = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Url')
+            $products = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Url')
                 ->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 if ($item->getProductType() == 'undefined') {
@@ -106,20 +108,20 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
     /**
      * Get item row html
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return string
      */
-    public function getItemHtml(Magento_Sales_Model_Quote_Item $item)
+    public function getItemHtml(\Magento\Sales\Model\Quote\Item $item)
     {
-        /** @var $renderer Magento_Checkout_Block_Cart_Item_Renderer */
+        /** @var $renderer \Magento\Checkout\Block\Cart\Item\Renderer */
         $renderer = $this->getItemRenderer($item->getProductType())->setQtyMode(false);
         if ($item->getProductType() == 'undefined') {
-            $renderer->overrideProductThumbnail($this->helper('Magento_Catalog_Helper_Image')->init($item, 'thumbnail'));
+            $renderer->overrideProductThumbnail($this->helper('\Magento\Catalog\Helper\Image')->init($item, 'thumbnail'));
             $renderer->setProductName('');
         }
         $renderer->setDeleteUrl(
             $this->getUrl('checkout/cart/removeFailed', array(
-                'sku' => Mage::helper('Magento_Core_Helper_Url')->urlEncode($item->getSku())
+                'sku' => \Mage::helper('Magento\Core\Helper\Url')->urlEncode($item->getSku())
             ))
         );
         $renderer->setIgnoreProductUrl(!$this->showItemLink($item));
@@ -132,10 +134,10 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
     /**
      * Check whether item link should be rendered
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return bool
      */
-    public function showItemLink(Magento_Sales_Model_Quote_Item $item)
+    public function showItemLink(\Magento\Sales\Model\Quote\Item $item)
     {
         $product = $item->getProduct();
         if ($product->isComposite()) {
@@ -161,7 +163,7 @@ class Magento_AdvancedCheckout_Block_Sku_Products extends Magento_Checkout_Block
      */
     protected function _toHtml()
     {
-        if (Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart')->getFailedItems()) {
+        if (\Mage::getSingleton('Magento\AdvancedCheckout\Model\Cart')->getFailedItems()) {
             $html = parent::_toHtml();
         } else {
             $html = '';

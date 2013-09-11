@@ -16,15 +16,17 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Model_Resource_Sales_Quote_Address
-    extends Magento_CustomerCustomAttributes_Model_Resource_Sales_Address_Abstract
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote;
+
+class Address
+    extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
 {
     /**
      * Main entity resource model name
      *
      * @var string
      */
-    protected $_parentResourceModelName = 'Magento_Sales_Model_Resource_Quote_Address';
+    protected $_parentResourceModelName = '\Magento\Sales\Model\Resource\Quote\Address';
 
     /**
      * Initialize resource

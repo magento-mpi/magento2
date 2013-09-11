@@ -17,14 +17,16 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected $_template = 'page/version/form.phtml';
 
     /**
      * Preparing from for version page
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Form
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Form
      */
     protected function _prepareForm()
     {
@@ -36,11 +38,11 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mag
 
         $form->setUseContainer(true);
 
-        /* @var $model Magento_Cms_Model_Page */
-        $version = Mage::registry('cms_page_version');
+        /* @var $model \Magento\Cms\Model\Page */
+        $version = \Mage::registry('cms_page_version');
 
-        $config = Mage::getSingleton('Magento_VersionsCms_Model_Config');
-        /* @var $config Magento_VersionsCms_Model_Config */
+        $config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
+        /* @var $config \Magento\VersionsCms\Model\Config */
 
         $isOwner = $config->isCurrentUserOwner($version->getUserId());
         $isPublisher = $config->canCurrentUserPublishRevision();
@@ -68,7 +70,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mag
             'label'     => __('Access Level'),
             'title'     => __('Access Level'),
             'name'      => 'access_level',
-            'options'   => Mage::helper('Magento_VersionsCms_Helper_Data')->getVersionAccessLevels(),
+            'options'   => \Mage::helper('Magento\VersionsCms\Helper\Data')->getVersionAccessLevels(),
             'disabled'  => !$isOwner && !$isPublisher
         ));
 
@@ -77,7 +79,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mag
                 'label'     => __('Owner'),
                 'title'     => __('Owner'),
                 'name'      => 'user_id',
-                'options'   => Mage::helper('Magento_VersionsCms_Helper_Data')->getUsersArray(!$version->getUserId()),
+                'options'   => \Mage::helper('Magento\VersionsCms\Helper\Data')->getUsersArray(!$version->getUserId()),
                 'required'  => !$version->getUserId()
             ));
         }

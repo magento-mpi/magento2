@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Report\Filter;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Report type options
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
      *
      * @param string $key
      * @param string $value
-     * @return Magento_Adminhtml_Block_Report_Filter_Form
+     * @return \Magento\Adminhtml\Block\Report\Filter\Form
      */
     public function addReportTypeOption($key, $value)
     {
@@ -96,7 +98,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
     /**
      * Add fieldset with general report fields
      *
-     * @return Magento_Adminhtml_Block_Report_Filter_Form
+     * @return \Magento\Adminhtml\Block\Report\Filter\Form
      */
     protected function _prepareForm()
     {
@@ -108,7 +110,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
         $form->setHtmlIdPrefix($htmlIdPrefix);
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Filter')));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('store_ids', 'hidden', array(
             'name'  => 'store_ids'
@@ -169,7 +171,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
      * Initialize form fileds values
      * Method will be called after prepareForm and can be used for field values initialization
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _initFormValues()
     {
@@ -186,7 +188,7 @@ class Magento_Adminhtml_Block_Report_Filter_Form extends Magento_Adminhtml_Block
     /**
      * This method is called before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _beforeToHtml()
     {

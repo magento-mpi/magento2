@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="sales_convert_quote_to_order">
-        <observer name="centinel" instance="Magento_Centinel_Model_Observer" method="salesEventConvertQuoteToOrder" />
+        <observer name="centinel" instance="\Magento\Centinel\Model\Observer" method="salesEventConvertQuoteToOrder" />
     </event>
     <event name="checkout_submit_all_after">
-        <observer name="centinel" instance="Magento_Centinel_Model_Observer" method="checkoutSubmitAllAfter" />
+        <observer name="centinel" instance="\Magento\Centinel\Model\Observer" method="checkoutSubmitAllAfter" />
     </event>
 </config>

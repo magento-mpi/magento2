@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype
+namespace Magento\Eav\Model\Adminhtml\System\Config\Source;
+
+class Inputtype
 {
     public function toOptionArray()
     {

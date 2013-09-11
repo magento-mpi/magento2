@@ -11,7 +11,9 @@
 /**
  * Catalog category helper
  */
-class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
+namespace Magento\Catalog\Helper;
+
+class Product extends \Magento\Core\Helper\Url
 {
     const XML_PATH_PRODUCT_URL_SUFFIX                = 'catalog/seo/product_url_suffix';
     const XML_PATH_PRODUCT_URL_USE_CATEGORY          = 'catalog/seo/product_use_categories';
@@ -43,15 +45,15 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     protected $_priceBlock;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\View\Url $viewUrl
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_View_Url $viewUrl)
+    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\View\Url $viewUrl)
     {
         parent::__construct($context);
         $this->_viewUrl = $viewUrl;
@@ -65,10 +67,10 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getProductUrl($product)
     {
-        if ($product instanceof Magento_Catalog_Model_Product) {
+        if ($product instanceof \Magento\Catalog\Model\Product) {
             return $product->getProductUrl();
         } elseif (is_numeric($product)) {
-            return Mage::getModel('Magento_Catalog_Model_Product')->load($product)->getProductUrl();
+            return \Mage::getModel('\Magento\Catalog\Model\Product')->load($product)->getProductUrl();
         }
         return false;
     }
@@ -76,7 +78,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     /**
      * Retrieve product price
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  float
      */
     public function getPrice($product)
@@ -87,7 +89,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     /**
      * Retrieve product final price
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @return  float
      */
     public function getFinalPrice($product)
@@ -98,7 +100,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     /**
      * Retrieve base image url
      *
-     * @param Magento_Catalog_Model_Product|\Magento\Object $product
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $product
      * @return string|bool
      */
     public function getImageUrl($product)
@@ -116,7 +118,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     /**
      * Retrieve small image url
      *
-     * @param Magento_Catalog_Model_Product|\Magento\Object $product
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $product
      * @return string|bool
      */
     public function getSmallImageUrl($product)
@@ -134,7 +136,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     /**
      * Retrieve thumbnail image url
      *
-     * @param Magento_Catalog_Model_Product|\Magento\Object $product
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $product
      * @return string
      */
     public function getThumbnailUrl($product)
@@ -143,13 +145,13 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     }
 
     /**
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getEmailToFriendUrl($product)
     {
         $categoryId = null;
-        $category = Mage::registry('current_category');
+        $category = \Mage::registry('current_category');
         if ($category) {
             $categoryId = $category->getId();
         }
@@ -166,7 +168,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     {
         if (null === $this->_statuses) {
             $this->_statuses = array();
-            // Mage::getModel('Magento_Catalog_Model_Product_Status')->getResourceCollection()->load();
+            // \Mage::getModel('\Magento\Catalog\Model\Product\Status')->getResourceCollection()->load();
         }
 
         return $this->_statuses;
@@ -175,17 +177,17 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     /**
      * Check if a product can be shown
      *
-     * @param Magento_Catalog_Model_Product|int $product
+     * @param \Magento\Catalog\Model\Product|int $product
      * @param string $where
      * @return boolean
      */
     public function canShow($product, $where = 'catalog')
     {
         if (is_int($product)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($product);
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($product);
         }
 
-        /* @var $product Magento_Catalog_Model_Product */
+        /* @var $product \Magento\Catalog\Model\Product */
 
         if (!$product->getId()) {
             return false;
@@ -203,11 +205,11 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
     public function getProductUrlSuffix($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = \Mage::app()->getStore()->getId();
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
-            $this->_productUrlSuffix[$storeId] = Mage::getStoreConfig(self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId);
+            $this->_productUrlSuffix[$storeId] = \Mage::getStoreConfig(self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId);
         }
         return $this->_productUrlSuffix[$storeId];
     }
@@ -220,7 +222,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function canUseCanonicalTag($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
     }
 
     /**
@@ -238,10 +240,10 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         */
         $inputTypes = array(
             'multiselect'   => array(
-                'backend_model'     => 'Magento_Eav_Model_Entity_Attribute_Backend_Array'
+                'backend_model'     => '\Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'
             ),
             'boolean'       => array(
-                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean'
+                'source_model'      => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean'
             )
         );
 
@@ -290,10 +292,10 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      *     If empty (except FALSE) - will be guessed (e.g. from last visited) to load as current.
      *
      * @param int $productId
-     * @param Magento_Core_Controller_Front_Action $controller
+     * @param \Magento\Core\Controller\Front\Action $controller
      * @param \Magento\Object $params
      *
-     * @return false|Magento_Catalog_Model_Product
+     * @return false|\Magento\Catalog\Model\Product
      */
     public function initProduct($productId, $controller, $params = null)
     {
@@ -303,7 +305,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         }
 
         // Init and load product
-        Mage::dispatchEvent('catalog_controller_product_init_before', array(
+        \Mage::dispatchEvent('catalog_controller_product_init_before', array(
             'controller_action' => $controller,
             'params' => $params,
         ));
@@ -312,21 +314,21 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
             return false;
         }
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product')
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+            ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($productId);
 
         if (!$this->canShow($product)) {
             return false;
         }
-        if (!in_array(Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
+        if (!in_array(\Mage::app()->getStore()->getWebsiteId(), $product->getWebsiteIds())) {
             return false;
         }
 
         // Load product current category
         $categoryId = $params->getCategoryId();
         if (!$categoryId && ($categoryId !== false)) {
-            $lastId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastVisitedCategoryId();
+            $lastId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastVisitedCategoryId();
             if ($product->canBeShowInCategory($lastId)) {
                 $categoryId = $lastId;
             }
@@ -335,24 +337,24 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
         }
 
         if ($categoryId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
             $product->setCategory($category);
-            Mage::register('current_category', $category);
+            \Mage::register('current_category', $category);
         }
 
         // Register current data and dispatch final events
-        Mage::register('current_product', $product);
-        Mage::register('product', $product);
+        \Mage::register('current_product', $product);
+        \Mage::register('product', $product);
 
         try {
-            Mage::dispatchEvent('catalog_controller_product_init', array('product' => $product));
-            Mage::dispatchEvent('catalog_controller_product_init_after',
+            \Mage::dispatchEvent('catalog_controller_product_init', array('product' => $product));
+            \Mage::dispatchEvent('catalog_controller_product_init_after',
                             array('product' => $product,
                                 'controller_action' => $controller
                             )
             );
-        } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::logException($e);
             return false;
         }
 
@@ -363,9 +365,9 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      * Prepares product options by buyRequest: retrieves values and assigns them as default.
      * Also parses and adds product management related values - e.g. qty
      *
-     * @param  Magento_Catalog_Model_Product $product
+     * @param  \Magento\Catalog\Model\Product $product
      * @param  \Magento\Object $buyRequest
-     * @return Magento_Catalog_Helper_Product
+     * @return \Magento\Catalog\Helper\Product
      */
     public function prepareProductOptions($product, $buyRequest)
     {
@@ -430,12 +432,12 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      * @param  int|string $productId (SKU or ID)
      * @param  int $store
      * @param  string $identifierType
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct($productId, $store, $identifierType = null)
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->setStoreId(Mage::app()->getStore($store)->getId());
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->setStoreId(\Mage::app()->getStore($store)->getId());
 
         $expectedIdType = false;
         if ($identifierType === null) {
@@ -467,7 +469,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      * For instance, during order creation in the backend admin has ability to add any products to order
      *
      * @param bool $skipSaleableCheck
-     * @return Magento_Catalog_Helper_Product
+     * @return \Magento\Catalog\Helper\Product
      */
     public function setSkipSaleableCheck($skipSaleableCheck = false)
     {
@@ -492,8 +494,8 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getFieldsAutogenerationMasks()
     {
-        return Mage::getConfig()
-            ->getValue(Magento_Catalog_Helper_Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
+        return \Mage::getConfig()
+            ->getValue(\Magento\Catalog\Helper\Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
     }
 
     /**
@@ -503,7 +505,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getUnassignableAttributes()
     {
-        $data = Mage::getConfig()->getNode(self::XML_PATH_UNASSIGNABLE_ATTRIBUTES);
+        $data = \Mage::getConfig()->getNode(self::XML_PATH_UNASSIGNABLE_ATTRIBUTES);
         return false === $data || is_string($data->asArray()) ? array() : array_keys($data->asArray());
     }
 
@@ -514,7 +516,7 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getAttributesAllowedForAutogeneration()
     {
-        return array_keys(Mage::getConfig()->getNode(self::XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION)->asArray());
+        return array_keys(\Mage::getConfig()->getNode(self::XML_PATH_ATTRIBUTES_USED_IN_AUTOGENERATION)->asArray());
     }
 
     /**
@@ -524,6 +526,6 @@ class Magento_Catalog_Helper_Product extends Magento_Core_Helper_Url
      */
     public function getTypeSwitcherControlLabel()
     {
-        return __((string)Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
+        return __((string)\Mage::getConfig()->getNode(self::XML_PATH_PRODUCT_TYPE_SWITCHER_LABEL));
     }
 }

@@ -7,11 +7,11 @@
  */
 return array(
     'preferences' => array(
-        'Magento_Core_Model_Db_UpdaterInterface' => 'Magento_Core_Model_Db_Updater',
-        'Magento_Core_Model_AppInterface' => 'Magento_Core_Model_App_Proxy',
+        '\Magento\Core\Model\Db\UpdaterInterface' => '\Magento\Core\Model\Db\Updater',
+        '\Magento\Core\Model\AppInterface' => '\Magento\Core\Model\App\Proxy',
     ),
 
-    'Magento_Core_Model_App_State' => array(
+    '\Magento\Core\Model\App\State' => array(
         'parameters' => array(
             'mode' => array(
                 'argument' => 'MAGE_MODE',
@@ -67,7 +67,7 @@ return array(
             'cacheIdPrefix' => 'collection_',
             'cacheLifetime' => '86400',
             'cacheTags' => array(
-                'const' => Magento_Core_Model_Website::CACHE_TAG,
+                'const' => \Magento\Core\Model\Website::CACHE_TAG,
                 'boolFalse' => false, 
                 'boolTrue' => true,
                 'boolOne' => true,
@@ -89,7 +89,7 @@ return array(
 
     'customCacheInstance' => array(
         'shared' => true,
-        'type' => 'Magento_Core_Model_Cache',
+        'type' => '\Magento\Core\Model\Cache',
         'parameters' => array(),
     ),
 

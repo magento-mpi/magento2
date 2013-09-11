@@ -20,21 +20,21 @@
                 </field>
                 <field id="multicurrency" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Cache for Not Default Currencies</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="max_cache_size" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Max. Cache Size (Mb)</label>
                 </field>
                 <field id="debug" translate="label" type="select" sortOrder="50" showInDefault="0" showInWebsite="1" showInStore="0">
                     <label>Enable Highlight on Dynamic Blocks While Generating</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
             <group id="page_crawl" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="700">
                 <label>Full Page Cache Auto Generation</label>
                 <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Page Cache Auto Generation</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="threads" translate="label,comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Crawler Thread Number</label>
@@ -42,7 +42,7 @@
                 </field>
                 <field id="multicurrency" translate="label,comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Generate Page Cache for Not Default Currencies</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
                     <comment>Require enable cache for not default currencies.</comment>
                 </field>
             </group>

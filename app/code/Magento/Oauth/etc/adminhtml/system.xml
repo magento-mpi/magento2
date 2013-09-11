@@ -30,7 +30,7 @@
                 <label>Email</label>
                 <field id="template" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Token Status Change Email Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
             </group>
         </section>

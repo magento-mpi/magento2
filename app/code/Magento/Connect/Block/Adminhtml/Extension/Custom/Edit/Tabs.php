@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
     * Constructor
@@ -31,7 +33,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs extends Magento
     /**
     * Set tabs
     *
-    * @return Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tabs
+    * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tabs
     */
     protected function _beforeToHtml()
     {

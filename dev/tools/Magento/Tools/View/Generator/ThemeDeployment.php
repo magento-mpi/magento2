@@ -18,7 +18,7 @@ class ThemeDeployment
     /**
      * Helper to process CSS content and fix urls
      *
-     * @var \Magento_Core_Helper_Css
+     * @var \Magento\Core\Helper\Css
      */
     private $_cssHelper;
 
@@ -55,7 +55,7 @@ class ThemeDeployment
     /**
      * Constructor
      *
-     * @param \Magento_Core_Helper_Css $cssHelper
+     * @param \Magento\Core\Helper\Css $cssHelper
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
@@ -63,7 +63,7 @@ class ThemeDeployment
      * @throws \Magento\Exception
      */
     public function __construct(
-        \Magento_Core_Helper_Css $cssHelper,
+        \Magento\Core\Helper\Css $cssHelper,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,
@@ -117,7 +117,7 @@ class ThemeDeployment
                 'destinationContext' => $destinationContext,
             );
 
-            $destDir = \Magento_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
+            $destDir = \Magento\Core\Model\View\DeployedFilesManager::buildDeployedFilePath(
                 $destinationContext['area'],
                 $destinationContext['themePath'],
                 $destinationContext['locale'],
@@ -193,13 +193,13 @@ class ThemeDeployment
             $destContext = $context['destinationContext'];
             $destHomeDir = $this->_destinationHomeDir;
             $callback = function ($relativeUrl) use ($destContext, $destFileDir, $destHomeDir) {
-                $parts = explode(\Magento_Core_Model_View_Service::SCOPE_SEPARATOR, $relativeUrl);
+                $parts = explode(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR, $relativeUrl);
                 if (count($parts) == 2) {
                     list($module, $file) = $parts;
                     if (!strlen($module) || !strlen($file)) {
                         throw new \Magento\Exception("Wrong module url: {$relativeUrl}");
                     }
-                    $relPath = \Magento_Core_Model_View_DeployedFilesManager::buildDeployedFilePath(
+                    $relPath = \Magento\Core\Model\View\DeployedFilesManager::buildDeployedFilePath(
                         $destContext['area'], $destContext['themePath'], $destContext['locale'],
                         $file, $module
                     );

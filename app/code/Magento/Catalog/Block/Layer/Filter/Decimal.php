@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Layer_Filter_Decimal extends Magento_Catalog_Block_Layer_Filter_Abstract
+namespace Magento\Catalog\Block\Layer\Filter;
+
+class Decimal extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     /**
      * Initialize Decimal Filter Model
@@ -25,13 +27,13 @@ class Magento_Catalog_Block_Layer_Filter_Decimal extends Magento_Catalog_Block_L
     protected function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = 'Magento_Catalog_Model_Layer_Filter_Decimal';
+        $this->_filterModelName = '\Magento\Catalog\Model\Layer\Filter\Decimal';
     }
 
     /**
      * Prepare filter process
      *
-     * @return Magento_Catalog_Block_Layer_Filter_Decimal
+     * @return \Magento\Catalog\Block\Layer\Filter\Decimal
      */
     protected function _prepareFilter()
     {

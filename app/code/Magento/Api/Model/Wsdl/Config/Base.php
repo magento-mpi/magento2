@@ -15,7 +15,9 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Wsdl_Config_Base extends \Magento\Simplexml\Config
+namespace Magento\Api\Model\Wsdl\Config;
+
+class Base extends \Magento\Simplexml\Config
 {
     protected $_handler = '';
 
@@ -28,17 +30,17 @@ class Magento_Api_Model_Wsdl_Config_Base extends \Magento\Simplexml\Config
 
     public function __construct($sourceData=null)
     {
-        $this->_elementClass = 'Magento_Api_Model_Wsdl_Config_Element';
+        $this->_elementClass = '\Magento\Api\Model\Wsdl\Config\Element';
 
         // remove wsdl parameter from query
-        $queryParams = Mage::app()->getRequest()->getQuery();
+        $queryParams = \Mage::app()->getRequest()->getQuery();
         unset($queryParams['wsdl']);
 
         // set up default WSDL template variables
         $this->_wsdlVariables = new \Magento\Object(
             array(
                 'name' => 'Magento',
-                'url'  => htmlspecialchars(Mage::getUrl('*/*/*', array('_query' => $queryParams)))
+                'url'  => htmlspecialchars(\Mage::getUrl('*/*/*', array('_query' => $queryParams)))
             )
         );
         parent::__construct($sourceData);
@@ -48,7 +50,7 @@ class Magento_Api_Model_Wsdl_Config_Base extends \Magento\Simplexml\Config
      * Set handler
      *
      * @param string $handler
-     * @return Magento_Api_Model_Wsdl_Config_Base
+     * @return \Magento\Api\Model\Wsdl\Config\Base
      */
     public function setHandler($handler)
     {
@@ -74,8 +76,8 @@ class Magento_Api_Model_Wsdl_Config_Base extends \Magento\Simplexml\Config
      */
     public function processFileData($text)
     {
-        /** @var $template Magento_Core_Model_Email_Template_Filter */
-        $template = Mage::getModel('Magento_Core_Model_Email_Template_Filter');
+        /** @var $template \Magento\Core\Model\Email\Template\Filter */
+        $template = \Mage::getModel('\Magento\Core\Model\Email\Template\Filter');
 
         $this->_wsdlVariables->setHandler($this->getHandler());
 
@@ -109,7 +111,7 @@ class Magento_Api_Model_Wsdl_Config_Base extends \Magento\Simplexml\Config
      *
      * @param string $key Varible key
      * @param string $value Variable value
-     * @return Magento_Api_Model_Wsdl_Config_Base
+     * @return \Magento\Api\Model\Wsdl\Config\Base
      */
     public function setWsdlVariable($key, $value)
     {

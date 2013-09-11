@@ -15,31 +15,33 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Option_Observer
+namespace Magento\Catalog\Model\Product\Option;
+
+class Observer
 {
     /**
      * Copy quote custom option files to order custom option files
      *
      * @param \Magento\Object $observer
-     * @return Magento_Catalog_Model_Product_Option_Observer
+     * @return \Magento\Catalog\Model\Product\Option\Observer
      */
     public function copyQuoteFilesToOrderFiles($observer)
     {
-        /* @var $quoteItem Magento_Sales_Model_Quote_Item */
+        /* @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = $observer->getEvent()->getItem();
 
         if (is_array($quoteItem->getOptions())) {
             foreach ($quoteItem->getOptions() as $itemOption) {
                 $code = explode('_', $itemOption->getCode());
                 if (isset($code[1]) && is_numeric($code[1]) && ($option = $quoteItem->getProduct()->getOptionById($code[1]))) {
-                    if ($option->getType() == Magento_Catalog_Model_Product_Option::OPTION_TYPE_FILE) {
-                        /* @var $_option Magento_Catalog_Model_Product_Option */
+                    if ($option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_FILE) {
+                        /* @var $_option \Magento\Catalog\Model\Product\Option */
                         try {
                             $group = $option->groupFactory($option->getType())
                                 ->setQuoteItemOption($itemOption)
                                 ->copyQuoteToOrder();
 
-                        } catch (Exception $e) {
+                        } catch (\Exception $e) {
                             continue;
                         }
                     }

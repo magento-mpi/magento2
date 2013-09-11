@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Controller_Index extends Magento_Core_Controller_Front_Action
+namespace Magento\Catalog\Controller;
+
+class Index extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Index action

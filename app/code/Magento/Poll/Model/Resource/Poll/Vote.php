@@ -16,7 +16,9 @@
  * @package     Magento_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Poll_Model_Resource_Poll_Vote extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Poll\Model\Resource\Poll;
+
+class Vote extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize vote resource
@@ -31,15 +33,15 @@ class Magento_Poll_Model_Resource_Poll_Vote extends Magento_Core_Model_Resource_
      * Perform actions after object save
      *
      * @param \Magento\Object $object
-     * @return Magento_Poll_Model_Resource_Poll_Vote
+     * @return \Magento\Poll\Model\Resource\Poll\Vote
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         /**
          * Increase answer votes
          */
         $answerTable = $this->getTable('poll_answer');
-        $pollAnswerData = array('votes_count' => new Zend_Db_Expr('votes_count+1'));
+        $pollAnswerData = array('votes_count' => new \Zend_Db_Expr('votes_count+1'));
         $condition = array("{$answerTable}.answer_id=?" => $object->getPollAnswerId());
         $this->_getWriteAdapter()->update($answerTable, $pollAnswerData, $condition);
 
@@ -47,7 +49,7 @@ class Magento_Poll_Model_Resource_Poll_Vote extends Magento_Core_Model_Resource_
          * Increase poll votes
          */
         $pollTable = $this->getTable('poll');
-        $pollData = array('votes_count' => new Zend_Db_Expr('votes_count+1'));
+        $pollData = array('votes_count' => new \Zend_Db_Expr('votes_count+1'));
         $condition = array("{$pollTable}.poll_id=?" => $object->getPollId());
         $this->_getWriteAdapter()->update($pollTable, $pollData, $condition);
         return $this;

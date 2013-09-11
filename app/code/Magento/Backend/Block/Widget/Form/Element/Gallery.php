@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Form_Element_Gallery extends Magento_Backend_Block_Template
+namespace Magento\Backend\Block\Widget\Form\Element;
+
+class Gallery extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
 
@@ -47,13 +49,13 @@ class Magento_Backend_Block_Widget_Form_Element_Gallery extends Magento_Backend_
 
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('delete_button', '\Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Delete'),
             'onclick'   => "deleteImage(#image#)",
             'class' => 'delete'
         ));
 
-        $this->addChild('add_button', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('add_button', '\Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Add New Image'),
             'onclick'   => 'addNewImage()',
             'class' => 'add'

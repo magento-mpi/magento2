@@ -8,24 +8,26 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminhtml_Controller_Action
+namespace Magento\Rma\Controller\Adminhtml\Rma\Item;
+
+class Attribute extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * RMA Item Entity Type instance
      *
-     * @var Magento_Eav_Model_Entity_Type
+     * @var \Magento\Eav\Model\Entity\Type
      */
     protected $_entityType;
 
     /**
      * Return RMA Item Entity Type instance
      *
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     protected function _getEntityType()
     {
         if (is_null($this->_entityType)) {
-            $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('rma_item');
+            $this->_entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('rma_item');
         }
         return $this->_entityType;
     }
@@ -33,7 +35,7 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
     /**
      * Load layout, set breadcrumbs
      *
-     * @return Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute
+     * @return \Magento\Rma\Controller\Adminhtml\Rma\Item\Attribute
      */
     protected function _initAction()
     {
@@ -51,11 +53,11 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
     /**
      * Retrieve RMA item attribute object
      *
-     * @return Magento_Rma_Model_Item_Attribute
+     * @return \Magento\Rma\Model\Item\Attribute
      */
     protected function _initAttribute()
     {
-        $attribute = Mage::getModel('Magento_Rma_Model_Item_Attribute');
+        $attribute = \Mage::getModel('\Magento\Rma\Model\Item\Attribute');
         $websiteId = $this->getRequest()->getParam('website');
         if ($websiteId) {
             $attribute->setWebsite($websiteId);
@@ -90,7 +92,7 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
      */
     public function editAction()
     {
-        /* @var $attributeObject Magento_Rma_Model_Item_Attribute */
+        /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
         $attributeId = $this->getRequest()->getParam('attribute_id');
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
@@ -121,7 +123,7 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
             $attributeObject->setData($attributeData);
         }
         $attributeObject->setCanManageOptionLabels(true);
-        Mage::register('entity_attribute', $attributeObject);
+        \Mage::register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
             ? __('Edit Return Item Attribute')
@@ -151,7 +153,7 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
                     __('An attribute with the same code already exists.')
                 );
 
-                $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+                $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
                 $response->setError(true);
                 $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
@@ -167,14 +169,14 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
     {
         $data = $this->getRequest()->getPost();
         if ($this->getRequest()->isPost() && $data) {
-            /* @var $attributeObject Magento_Rma_Model_Item_Attribute */
+            /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
             $attributeObject = $this->_initAttribute();
-            /* @var $helper Magento_Rma_Helper_Eav */
-            $helper = Mage::helper('Magento_Rma_Helper_Eav');
+            /* @var $helper \Magento\Rma\Helper\Eav */
+            $helper = \Mage::helper('Magento\Rma\Helper\Eav');
 
             try {
-                $data = Mage::helper('Magento_Rma_Helper_Eav')->filterPostData($data);
-            } catch (Magento_Core_Exception $e) {
+                $data = \Mage::helper('Magento\Rma\Helper\Eav')->filterPostData($data);
+            } catch (\Magento\Core\Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                     if (isset($data['attribute_id'])) {
                         $this->_redirect('*/*/edit', array('_current' => true));
@@ -210,7 +212,7 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
 
                 // add set and group info
                 $data['attribute_set_id']   = $this->_getEntityType()->getDefaultAttributeSetId();
-                $data['attribute_group_id'] = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+                $data['attribute_group_id'] = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
                     ->getDefaultGroupId($data['attribute_set_id']);
             }
 
@@ -261,12 +263,12 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
                     $this->_redirect('*/*/');
                 }
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('*/*/edit', array('_current' => true));
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong saving the RMA item attribute.')
                 );
@@ -306,11 +308,11 @@ class Magento_Rma_Controller_Adminhtml_Rma_Item_Attribute extends Magento_Adminh
                 );
                 $this->_redirect('*/*/');
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong deleting the RMA item attribute.')
                 );

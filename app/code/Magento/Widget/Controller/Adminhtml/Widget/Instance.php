@@ -11,12 +11,14 @@
 /**
  * Adminhtml Manage Widgets Instance Controller
  */
-class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminhtml_Controller_Action
+namespace Magento\Widget\Controller\Adminhtml\Widget;
+
+class Instance extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Load layout, set active menu and breadcrumbs
      *
-     * @return Magento_Widget_Controller_Adminhtml_Widget_Instance
+     * @return \Magento\Widget\Controller\Adminhtml\Widget\Instance
      */
     protected function _initAction()
     {
@@ -32,14 +34,14 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
     /**
      * Init widget instance object and set it to registry
      *
-     * @return Magento_Widget_Model_Widget_Instance|boolean
+     * @return \Magento\Widget\Model\Widget\Instance|boolean
      */
     protected function _initWidgetInstance()
     {
         $this->_title(__('Frontend Apps'));
 
-        /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
-        $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+        /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
+        $widgetInstance = \Mage::getModel('\Magento\Widget\Model\Widget\Instance');
 
         $instanceId = $this->getRequest()->getParam('instance_id', null);
         $type = $this->getRequest()->getParam('type', null);
@@ -56,7 +58,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
         } else {
             $widgetInstance->setType($type)->setThemeId($themeId);
         }
-        Mage::register('current_widget_instance', $widgetInstance);
+        \Mage::register('current_widget_instance', $widgetInstance);
         return $widgetInstance;
     }
 
@@ -124,7 +126,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
         $result = $widgetInstance->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->_initLayoutMessages('Magento_Adminhtml_Model_Session');
+            $this->_initLayoutMessages('\Magento\Adminhtml\Model\Session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
@@ -160,9 +162,9 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
                 $this->_redirect('*/*/');
             }
             return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            Mage::logException($e);
+            \Mage::logException($e);
             $this->_redirect('*/*/edit', array('_current' => true));
             return;
         }
@@ -183,7 +185,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
                 $this->_getSession()->addSuccess(
                     __('The widget instance has been deleted.')
                 );
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
         }
@@ -200,9 +202,9 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
         $selected = $this->getRequest()->getParam('selected', '');
         $isAnchorOnly = $this->getRequest()->getParam('is_anchor_only', 0);
         $chooser = $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser')
+            ->createBlock('\Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser')
             ->setUseMassaction(true)
-            ->setId(Mage::helper('Magento_Core_Helper_Data')->uniqHash('categories'))
+            ->setId(\Mage::helper('Magento\Core\Helper\Data')->uniqHash('categories'))
             ->setIsAnchorOnly($isAnchorOnly)
             ->setSelectedCategories(explode(',', $selected));
         $this->setBody($chooser->toHtml());
@@ -217,13 +219,13 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
         $selected = $this->getRequest()->getParam('selected', '');
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser')
-            ->setName(Mage::helper('Magento_Core_Helper_Data')->uniqHash('products_grid_'))
+            ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser')
+            ->setName(\Mage::helper('Magento\Core\Helper\Data')->uniqHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
-        /* @var $serializer Magento_Adminhtml_Block_Widget_Grid_Serializer */
-        $serializer = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Grid_Serializer');
+        /* @var $serializer \Magento\Adminhtml\Block\Widget\Grid\Serializer */
+        $serializer = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Grid\Serializer');
         $serializer->initSerializerBlock($chooser, 'getSelectedProducts', 'selected_products', 'selected_products');
         $this->setBody($chooser->toHtml() . $serializer->toHtml());
     }
@@ -239,7 +241,7 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
         $layout = $this->getRequest()->getParam('layout');
         $selected = $this->getRequest()->getParam('selected', null);
         $blocksChooser = $this->getLayout()
-            ->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container')
+            ->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container')
             ->setValue($selected)
             ->setArea($widgetInstance->getArea())
             ->setTheme($widgetInstance->getThemeId())
@@ -254,12 +256,12 @@ class Magento_Widget_Controller_Adminhtml_Widget_Instance extends Magento_Adminh
      */
     public function templateAction()
     {
-        /* @var $widgetInstance Magento_Widget_Model_Widget_Instance */
+        /* @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
         $widgetInstance = $this->_initWidgetInstance();
         $block = $this->getRequest()->getParam('block');
         $selected = $this->getRequest()->getParam('selected', null);
         $templateChooser = $this->getLayout()
-            ->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Template')
+            ->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Template')
             ->setSelected($selected)
             ->setWidgetTemplates($widgetInstance->getWidgetSupportedTemplatesByContainer($block));
         $this->setBody($templateChooser->toHtml());

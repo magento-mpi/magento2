@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Email_Template extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\System\Email;
+
+class Template extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'system/email/template/list.phtml';
@@ -24,11 +26,11 @@ class Magento_Adminhtml_Block_System_Email_Template extends Magento_Adminhtml_Bl
     /**
      * Create add button and grid blocks
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Add New Template'),
             'onclick'   => "window.location='" . $this->getCreateUrl() . "'",
             'class'     => 'add'

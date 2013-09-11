@@ -16,7 +16,9 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_Resource_Cert extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Paypal\Model\Resource;
+
+class Cert extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection
@@ -29,21 +31,21 @@ class Magento_Paypal_Model_Resource_Cert extends Magento_Core_Model_Resource_Db_
     /**
      * Set date of last update
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
-        $object->setUpdatedAt($this->formatDate(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()));
+        $object->setUpdatedAt($this->formatDate(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate()));
         return parent::_beforeSave($object);
     }
 
     /**
      * Load model by website id
      *
-     * @param Magento_Paypal_Model_Cert $object
+     * @param \Magento\Paypal\Model\Cert $object
      * @param bool $strictLoad
-     * @return Magento_Paypal_Model_Cert
+     * @return \Magento\Paypal\Model\Cert
      */
     public function loadByWebsite($object, $strictLoad = true)
     {

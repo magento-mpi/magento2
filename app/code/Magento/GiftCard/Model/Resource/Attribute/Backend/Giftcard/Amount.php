@@ -16,7 +16,9 @@
  * @package     Magento_GiftCard
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard;
+
+class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table and primary key
@@ -30,8 +32,8 @@ class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends 
     /**
      * Load product data by product and attribute_id
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @return array
      */
     public function loadProductData($product, $attribute)
@@ -53,7 +55,7 @@ class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends 
         } else {
             if ($storeId = $product->getStoreId()) {
                 $select->where('website_id IN (0, :website_id)');
-                $bind['website_id'] = Mage::app()->getStore($storeId)->getWebsiteId();
+                $bind['website_id'] = \Mage::app()->getStore($storeId)->getWebsiteId();
             }
         }
         return $read->fetchAll($select, $bind);
@@ -62,9 +64,9 @@ class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends 
     /**
      * Delete product data
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
-     * @return Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @return \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount
      */
     public function deleteProductData($product, $attribute)
     {
@@ -72,7 +74,7 @@ class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends 
 
         if (!$attribute->isScopeGlobal()) {
             if ($storeId = $product->getStoreId()) {
-                $condition['website_id IN (?)'] = array(0, Mage::app()->getStore($storeId)->getWebsiteId());
+                $condition['website_id IN (?)'] = array(0, \Mage::app()->getStore($storeId)->getWebsiteId());
             }
         }
 
@@ -86,9 +88,9 @@ class Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount extends 
     /**
      * Insert product data
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $data
-     * @return Magento_GiftCard_Model_Resource_Attribute_Backend_Giftcard_Amount
+     * @return \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount
      */
     public function insertProductData($product, $data)
     {

@@ -11,8 +11,10 @@
 /**
  * Total model for recurring profile trial payment
  */
-class Magento_Sales_Model_Quote_Address_Total_Nominal_Recurring_Trial
-    extends Magento_Sales_Model_Quote_Address_Total_Nominal_RecurringAbstract
+namespace Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring;
+
+class Trial
+    extends \Magento\Sales\Model\Quote\Address\Total\Nominal\RecurringAbstract
 {
     /**
      * Custom row total/profile keys
@@ -35,9 +37,9 @@ class Magento_Sales_Model_Quote_Address_Total_Nominal_Recurring_Trial
     /**
      * Prevent compounding nominal subtotal in case if the trial payment exists
      *
-     * @see Magento_Sales_Model_Quote_Address_Total_Nominal_Subtotal
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @param Magento_Sales_Model_Quote_Item_Abstract $item
+     * @see \Magento\Sales\Model\Quote\Address\Total\Nominal\Subtotal
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      */
     protected function _afterCollectSuccess($address, $item)
     {

@@ -6,8 +6,8 @@
  * @license {license_link}
  */
 
-/** @var Magento_Catalog_Model_Product_Attribute_Set_Api $attrSetApi */
-$attrSetApi = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Set_Api');
+/** @var \Magento\Catalog\Model\Product\Attribute\Set\Api $attrSetApi */
+$attrSetApi = Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Set\Api');
 Mage::register(
     'testAttributeSetId',
     $attrSetApi->create('Test Attribute Set Fixture ' . mt_rand(1000, 9999), 4)
@@ -19,6 +19,6 @@ $data['attribute_code'] = $data['attribute_code'] . '_' . mt_rand(1000, 9999);
 
 $testAttributeSetAttrIdsArray = array();
 
-$attrApi = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Api');
+$attrApi = Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Api');
 $testAttributeSetAttrIdsArray[0] = $attrApi->create($data);
 Mage::register('testAttributeSetAttrIdsArray', $testAttributeSetAttrIdsArray);

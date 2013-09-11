@@ -11,17 +11,19 @@
 /**
  * Order numbers condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
-    extends Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
+namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
+
+class Ordersnumber
+    extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber');
         $this->setValue(null);
     }
 
@@ -30,7 +32,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
      *
      * @param mixed $key
      * @param mixed $value
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber
      */
     public function setData($key, $value = null)
     {
@@ -57,7 +59,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     /**
      * Redeclare value options. We use empty because value is text input
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber
      */
     public function loadValueOptions()
     {
@@ -81,7 +83,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
      * Build query for matching orders count
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
+     * @param int | \Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -95,7 +97,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
 
         $select->from(
             array('sales_order' => $this->getResource()->getTable('sales_flat_order')),
-            array(new Zend_Db_Expr($result))
+            array(new \Zend_Db_Expr($result))
         );
         $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');
         $select->where($this->_createCustomerFilter($customer, 'sales_order.customer_id'));

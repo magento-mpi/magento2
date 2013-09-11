@@ -16,8 +16,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
-    extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Order;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -50,15 +52,15 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     /**
      * Prepare grid collection object
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid
      */
     protected function _prepareCollection()
     {
-        $orderId = Mage::registry('current_order')->getId();
+        $orderId = \Mage::registry('current_order')->getId();
 
-        /** @var $collection Magento_Rma_Model_Resource_Item */
+        /** @var $collection \Magento\Rma\Model\Resource\Item */
 
-        $orderItemsCollection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+        $orderItemsCollection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')
             ->getOrderItemsCollection($orderId);
 
         $this->setCollection($orderItemsCollection);
@@ -72,15 +74,15 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
      * Filter items collection due to RMA needs. Remove forbidden items, non-applicable
      * bundles (and their children) and configurables
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Order\Grid
      */
     protected function _afterLoadCollection()
     {
-        $orderId = Mage::registry('current_order')->getId();
-        $itemsInActiveRmaArray = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+        $orderId = \Mage::registry('current_order')->getId();
+        $itemsInActiveRmaArray = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')
             ->getItemsIdsByOrder($orderId);
 
-        $fullItemsCollection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')
+        $fullItemsCollection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')
             ->getOrderItemsCollection($orderId);
         /**
          * contains data that defines possibility of return for an order item
@@ -89,8 +91,8 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
          */
         $parent = array();
 
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
 
         foreach ($fullItemsCollection as $item) {
             $allowed = true;
@@ -103,7 +105,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
                 $product->setStoreId($item->getStoreId());
                 $product->load($item->getProductId());
 
-                if (!Mage::helper('Magento_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
+                if (!\Mage::helper('Magento\Rma\Helper\Data')->canReturnProduct($product, $item->getStoreId())) {
                     $allowed = false;
                 }
             }
@@ -128,24 +130,24 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
                 $this->getCollection()->removeItemByKey($item->getId());
                 continue;
             }
-            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
                 && !isset($parent[$item->getId()]['child'])
             ) {
                 $this->getCollection()->removeItemByKey($item->getId());
                 continue;
             }
 
-            if ($item->getProductType() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
                 $productOptions     = $item->getProductOptions();
                 $product->reset();
                 $product->load($product->getIdBySku($productOptions['simple_sku']));
-                if (!Mage::helper('Magento_Rma_Helper_Data')->canReturnProduct($product, $item->getStoreId())) {
+                if (!\Mage::helper('Magento\Rma\Helper\Data')->canReturnProduct($product, $item->getStoreId())) {
                     $this->getCollection()->removeItemByKey($item->getId());
                     continue;
                 }
             }
 
-            $item->setName(Mage::helper('Magento_Rma_Helper_Data')->getAdminProductName($item));
+            $item->setName(\Mage::helper('Magento\Rma\Helper\Data')->getAdminProductName($item));
         }
 
         return $this;
@@ -154,7 +156,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     /**
      * Prepare columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -172,7 +174,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
 
         $this->addColumn('product_name', array(
             'header'   => __('Product'),
-            'renderer' => 'Magento_Rma_Block_Adminhtml_Product_Bundle_Product',
+            'renderer' => '\Magento\Rma\Block\Adminhtml\Product\Bundle\Product',
             'index'    => 'name',
             'escape'   => true,
             'header_css_class'  => 'col-product',
@@ -200,7 +202,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
             'header'=> __('Remaining'),
             'type'  => 'text',
             'index' => 'available_qty',
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
+            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
             'filter' => false,
             'sortable' => false,
             'header_css_class'  => 'col-qty',
@@ -273,8 +275,8 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
     /**
      * Setting column filters to collection
      *
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
-     * @return Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Order_Grid
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @return \Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Order\Grid
      */
     protected function _addColumnFilterToCollection($column)
     {

@@ -15,7 +15,9 @@
  * @package    Magento_License
  */
 
-class Magento_License_Block_Adminhtml_Checker extends Magento_Adminhtml_Block_Template
+namespace Magento\License\Block\Adminhtml;
+
+class Checker extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Number of days until the expiration of license.
@@ -32,7 +34,7 @@ class Magento_License_Block_Adminhtml_Checker extends Magento_Adminhtml_Block_Te
     public function _construct()
     {
         parent::_construct();
-        $data = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getDaysLeftBeforeExpired();
+        $data = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getDaysLeftBeforeExpired();
         $this->_daysLeftBeforeExpired = $data['daysLeftBeforeExpired'];
     }
 
@@ -43,7 +45,7 @@ class Magento_License_Block_Adminhtml_Checker extends Magento_Adminhtml_Block_Te
      */
     public function shouldDispalyNotification()
     {
-        $magento_license=Mage::helper('Magento_License_Helper_Data');
+        $magento_license=Mage::helper('Magento\License\Helper\Data');
         if($magento_license->isIoncubeLoaded() && $magento_license->isIoncubeEncoded()) {
             return ($this->_daysLeftBeforeExpired < 31);
         } else {

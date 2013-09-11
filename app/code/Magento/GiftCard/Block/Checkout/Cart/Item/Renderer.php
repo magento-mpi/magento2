@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Checkout_Block_Cart_Item_Renderer
+namespace Magento\GiftCard\Block\Checkout\Cart\Item;
+
+class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
     /**
      * Prepare custom option for display, returns false if there's no value
@@ -18,7 +20,7 @@ class Magento_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Checkou
      */
     protected function _prepareCustomOption($code)
     {
-        return Mage::helper('Magento_GiftCard_Helper_Catalog_Product_Configuration')
+        return \Mage::helper('Magento\GiftCard\Helper\Catalog\Product\Configuration')
             ->prepareCustomOption($this->getItem(), $code);
     }
 
@@ -29,7 +31,7 @@ class Magento_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Checkou
      */
     protected function _getGiftcardOptions()
     {
-        return Mage::helper('Magento_GiftCard_Helper_Catalog_Product_Configuration')
+        return \Mage::helper('Magento\GiftCard\Helper\Catalog\Product\Configuration')
             ->getGiftcardOptions($this->getItem());
     }
 
@@ -40,7 +42,7 @@ class Magento_GiftCard_Block_Checkout_Cart_Item_Renderer extends Magento_Checkou
      */
     public function getOptionList()
     {
-        return Mage::helper('Magento_GiftCard_Helper_Catalog_Product_Configuration')
+        return \Mage::helper('Magento\GiftCard\Helper\Catalog\Product\Configuration')
             ->getOptions($this->getItem());
     }
 }

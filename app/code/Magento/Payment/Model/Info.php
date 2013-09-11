@@ -15,7 +15,9 @@
  * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
+namespace Magento\Payment\Model;
+
+class Info extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Additional information container
@@ -49,21 +51,21 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
     /**
      * Retrieve payment method model object
      *
-     * @return Magento_Payment_Model_Method_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @throws \Magento\Core\Exception
      */
     public function getMethodInstance()
     {
         if (!$this->hasMethodInstance()) {
             if ($this->getMethod()) {
-                $instance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($this->getMethod());
+                $instance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($this->getMethod());
                 if ($instance) {
                     $instance->setInfoInstance($this);
                     $this->setMethodInstance($instance);
                     return $instance;
                 }
             }
-            Mage::throwException(__('The payment method you requested is not available.'));
+            \Mage::throwException(__('The payment method you requested is not available.'));
         }
 
         return $this->_getData('method_instance');
@@ -78,7 +80,7 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
     public function encrypt($data)
     {
         if ($data) {
-            return Mage::helper('Magento_Core_Helper_Data')->encrypt($data);
+            return \Mage::helper('Magento\Core\Helper\Data')->encrypt($data);
         }
         return $data;
     }
@@ -92,7 +94,7 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
     public function decrypt($data)
     {
         if ($data) {
-            return Mage::helper('Magento_Core_Helper_Data')->decrypt($data);
+            return \Mage::helper('Magento\Core\Helper\Data')->decrypt($data);
         }
         return $data;
     }
@@ -104,13 +106,13 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
      *
      * @param string|array $key
      * @param mixed $value
-     * @return Magento_Payment_Model_Info
-     * @throws Magento_Core_Exception
+     * @return \Magento\Payment\Model\Info
+     * @throws \Magento\Core\Exception
      */
     public function setAdditionalInformation($key, $value = null)
     {
         if (is_object($value)) {
-            Mage::throwException(__('The payment disallows storing objects.'));
+            \Mage::throwException(__('The payment disallows storing objects.'));
         }
         $this->_initAdditionalInformation();
         if (is_array($key) && is_null($value)) {
@@ -140,7 +142,7 @@ class Magento_Payment_Model_Info extends Magento_Core_Model_Abstract
      * Unsetter for entire additional_information value or one of its element by key
      *
      * @param string $key
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function unsAdditionalInformation($key = null)
     {

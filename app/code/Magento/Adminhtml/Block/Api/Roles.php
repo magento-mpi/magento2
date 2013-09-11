@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Api_Roles extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Api;
+
+class Roles extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'api/roles.phtml';
@@ -27,6 +29,6 @@ class Magento_Adminhtml_Block_Api_Roles extends Magento_Adminhtml_Block_Template
 
     public function getGridHtml()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_Grid_Role')->toHtml();
+        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\Grid\Role')->toHtml();
     }
 }

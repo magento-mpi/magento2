@@ -15,7 +15,9 @@
  * @package    Magento_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block_Adminhtml_Banner_Grid
+namespace Magento\Banner\Block\Adminhtml\Widget;
+
+class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
      * Store selected banner Ids
@@ -333,7 +335,7 @@ class Magento_Banner_Block_Adminhtml_Widget_Chooser extends Magento_Banner_Block
     /**
      * Set banners' positions of saved banners
      *
-     * @return Magento_Banner_Block_Adminhtml_Widget_Chooser
+     * @return \Magento\Banner\Block\Adminhtml\Widget\Chooser
      */
     protected function _prepareCollection()
     {

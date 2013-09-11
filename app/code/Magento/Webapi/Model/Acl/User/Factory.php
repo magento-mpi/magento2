@@ -7,9 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_User_Factory extends Magento_Oauth_Model_Consumer_Factory
+namespace Magento\Webapi\Model\Acl\User;
+
+class Factory extends \Magento\Oauth\Model\Consumer\Factory
 {
-    const CLASS_NAME = 'Magento_Webapi_Model_Acl_User';
+    const CLASS_NAME = '\Magento\Webapi\Model\Acl\User';
 
     /**
      * @var \Magento\ObjectManager
@@ -28,7 +30,7 @@ class Magento_Webapi_Model_Acl_User_Factory extends Magento_Oauth_Model_Consumer
      * Create ACL user model.
      *
      * @param array $arguments
-     * @return Magento_Webapi_Model_Acl_User
+     * @return \Magento\Webapi\Model\Acl\User
      */
     public function create(array $arguments = array())
     {

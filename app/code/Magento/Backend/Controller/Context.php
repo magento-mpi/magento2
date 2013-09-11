@@ -12,15 +12,17 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_Action_Context
+namespace Magento\Backend\Controller;
+
+class Context extends \Magento\Core\Controller\Varien\Action\Context
 {
     /**
-     * @var Magento_Backend_Model_Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_helper;
 
@@ -30,35 +32,35 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     protected $_authorization;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Controller_Response_Http $response
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Controller\Response\Http $response
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Controller_Varien_Front $frontController
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Backend_Model_Session $session
-     * @param Magento_Backend_Helper_Data $helper
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Backend\Model\Session $session
+     * @param \Magento\Backend\Helper\Data $helper
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param \Magento\AuthorizationInterface $authorization
-     * @param Magento_Core_Model_Translate $translator
+     * @param \Magento\Core\Model\Translate $translator
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Controller_Response_Http $response,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Controller\Response\Http $response,
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Controller_Varien_Front $frontController,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Backend_Model_Session $session,
-        Magento_Backend_Helper_Data $helper,
+        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Backend\Model\Session $session,
+        \Magento\Backend\Helper\Data $helper,
         \Magento\AuthorizationInterface $authorization,
-        Magento_Core_Model_Translate $translator
+        \Magento\Core\Model\Translate $translator
     ) {
         parent::__construct($request, $response, $objectManager, $frontController, $layout, $eventManager);
         $this->_session = $session;
@@ -68,7 +70,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_Backend_Helper_Data
+     * @return \Magento\Backend\Helper\Data
      */
     public function getHelper()
     {
@@ -76,7 +78,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_Backend_Model_Session
+     * @return \Magento\Backend\Model\Session
      */
     public function getSession()
     {
@@ -92,7 +94,7 @@ class Magento_Backend_Controller_Context extends Magento_Core_Controller_Varien_
     }
 
     /**
-     * @return \Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function getTranslator()
     {

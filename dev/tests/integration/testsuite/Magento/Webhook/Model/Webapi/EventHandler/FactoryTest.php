@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Webapi_EventHandler_Factory
+ * \Magento\Webhook\Model\Webapi\EventHandler\Factory
  *
  * @magentoDbIsolation enabled
  *
@@ -14,8 +14,8 @@ class Magento_Webhook_Model_Webapi_EventHandler_FactoryTest extends PHPUnit_Fram
     public function testCreate()
     {
         $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Webapi_EventHandler_Factory');
+            ->create('Magento\Webhook\Model\Webapi\EventHandler\Factory');
         $eventHandler = $factory->create();
-        $this->assertInstanceOf('Magento_Webhook_Model_Webapi_EventHandler', $eventHandler);
+        $this->assertInstanceOf('\Magento\Webhook\Model\Webapi\EventHandler', $eventHandler);
     }
 }

@@ -8,23 +8,25 @@
  * @license     {license_link}
  */
 
-class Magento_User_Block_Buttons extends Magento_Backend_Block_Template
+namespace Magento\User\Block;
+
+class Buttons extends \Magento\Backend\Block\Template
 {
 
     protected function _prepareLayout()
     {
-        $this->addChild('backButton', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('backButton', '\Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'window.location.href=\''.$this->getUrl('*/*/').'\'',
             'class' => 'back'
         ));
 
-        $this->addChild('resetButton', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('resetButton', '\Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Reset'),
             'onclick'   => 'window.location.reload()'
         ));
 
-        $this->addChild('saveButton', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('saveButton', '\Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Save Role'),
             'class' => 'save',
             'data_attribute'  => array(
@@ -34,7 +36,7 @@ class Magento_User_Block_Buttons extends Magento_Backend_Block_Template
             ),
         ));
 
-        $this->addChild('deleteButton', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('deleteButton', '\Magento\Backend\Block\Widget\Button', array(
             'label'     => __('Delete Role'),
             'onclick'   => 'deleteConfirm(\''
                 . __('Are you sure you want to do this?')
@@ -71,6 +73,6 @@ class Magento_User_Block_Buttons extends Magento_Backend_Block_Template
 
     public function getUser()
     {
-        return Mage::registry('user_data');
+        return \Mage::registry('user_data');
     }
 }

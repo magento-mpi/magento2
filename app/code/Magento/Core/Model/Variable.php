@@ -11,18 +11,20 @@
 /**
  * Custom variable model
  *
- * @method Magento_Core_Model_Resource_Variable _getResource()
- * @method Magento_Core_Model_Resource_Variable getResource()
+ * @method \Magento\Core\Model\Resource\Variable _getResource()
+ * @method \Magento\Core\Model\Resource\Variable getResource()
  * @method string getCode()
- * @method Magento_Core_Model_Variable setCode(string $value)
+ * @method \Magento\Core\Model\Variable setCode(string $value)
  * @method string getName()
- * @method Magento_Core_Model_Variable setName(string $value)
+ * @method \Magento\Core\Model\Variable setName(string $value)
  *
  * @category    Magento
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Variable extends Magento_Core_Model_Abstract
+namespace Magento\Core\Model;
+
+class Variable extends \Magento\Core\Model\AbstractModel
 {
     const TYPE_TEXT = 'text';
     const TYPE_HTML = 'html';
@@ -35,14 +37,14 @@ class Magento_Core_Model_Variable extends Magento_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Core_Model_Resource_Variable');
+        $this->_init('\Magento\Core\Model\Resource\Variable');
     }
 
     /**
      * Setter
      *
      * @param integer $storeId
-     * @return Magento_Core_Model_Variable
+     * @return \Magento\Core\Model\Variable
      */
     public function setStoreId($storeId)
     {
@@ -64,7 +66,7 @@ class Magento_Core_Model_Variable extends Magento_Core_Model_Abstract
      * Load variable by code
      *
      * @param string $code
-     * @return Magento_Core_Model_Variable
+     * @return \Magento\Core\Model\Variable
      */
     public function loadByCode($code)
     {
@@ -87,7 +89,7 @@ class Magento_Core_Model_Variable extends Magento_Core_Model_Abstract
             $value = $this->getData('plain_value');
             //escape html if type is html, but html value is not defined
             if ($type == self::TYPE_HTML) {
-                $value = nl2br(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($value));
+                $value = nl2br(\Mage::helper('Magento\Core\Helper\Data')->escapeHtml($value));
             }
             return $value;
         }
@@ -119,7 +121,7 @@ class Magento_Core_Model_Variable extends Magento_Core_Model_Abstract
      */
     public function getVariablesOptionArray($withGroup = false)
     {
-        /* @var $collection Magento_Core_Model_Resource_Variable_Collection */
+        /* @var $collection \Magento\Core\Model\Resource\Variable\Collection */
         $collection = $this->getCollection();
         $variables = array();
         foreach ($collection->toOptionArray() as $variable) {

@@ -15,13 +15,15 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
-    extends Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config;
+
+class Simple
+    extends \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Attributes
 {
     /**
      * Link to currently editing product
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product = null;
 
@@ -43,8 +45,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
 
         $availableTypes = array('text', 'select', 'multiselect', 'textarea', 'price', 'weight');
 
-        $attributes = Mage::getModel('Magento_Catalog_Model_Product')
-            ->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+        $attributes = \Mage::getModel('\Magento\Catalog\Model\Product')
+            ->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
             ->setAttributeSetId($this->getProduct()->getAttributeSetId())
             ->getAttributes();
 
@@ -53,7 +55,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
             if (($attribute->getIsRequired()
                 && $attribute->getApplyTo()
                 // If not applied to configurable
-                && !in_array(Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE, $attribute->getApplyTo())
+                && !in_array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $attribute->getApplyTo())
                 // If not used in configurable
                 && !in_array($attribute->getId(),
                     $this->getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->getProduct()))
@@ -161,13 +163,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple
     /**
      * Retrieve currently edited product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         if (!$this->_product) {
-            $this->_product = Mage::registry('current_product');
+            $this->_product = \Mage::registry('current_product');
         }
         return $this->_product;
     }
-} // Class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Simple End
+} // Class \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Simple End

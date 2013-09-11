@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reward_Model_Observer_PlaceOrder
+namespace Magento\Reward\Model\Observer;
+
+class PlaceOrder
 {
     /**
-     * @var Magento_Reward_Model_Observer_PlaceOrder_RestrictionInterface
+     * @var \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface
      */
     protected $_restriction;
 
@@ -23,28 +25,28 @@ class Magento_Reward_Model_Observer_PlaceOrder
     protected $_resourceFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Reward_Model_Reward_Balance_Validator
+     * @var \Magento\Reward\Model\Reward\Balance\Validator
      */
     protected $_validator;
 
     /**
-     * @param Magento_Reward_Model_Observer_PlaceOrder_RestrictionInterface $restriction
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface $restriction
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param Magento_Reward_Model_RewardFactory $modelFactory
      * @param Magento_Reward_Model_Resource_RewardFactory $resourceFactory
-     * @param Magento_Reward_Model_Reward_Balance_Validator $validator
+     * @param \Magento\Reward\Model\Reward\Balance\Validator $validator
      */
     public function __construct(
-        Magento_Reward_Model_Observer_PlaceOrder_RestrictionInterface $restriction,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface $restriction,
+        \Magento\Core\Model\StoreManager $storeManager,
         Magento_Reward_Model_RewardFactory $modelFactory,
         Magento_Reward_Model_Resource_RewardFactory $resourceFactory,
-        Magento_Reward_Model_Reward_Balance_Validator $validator
+        \Magento\Reward\Model\Reward\Balance\Validator $validator
     ) {
         $this->_restriction = $restriction;
         $this->_storeManager = $storeManager;
@@ -64,24 +66,24 @@ class Magento_Reward_Model_Observer_PlaceOrder
             return;
         }
 
-        /* @var $order Magento_Sales_Model_Order */
+        /* @var $order \Magento\Sales\Model\Order */
         $order = $observer->getEvent()->getOrder();
 
         if ($order->getBaseRewardCurrencyAmount() > 0) {
             $this->_validator->validate($order);
 
-            /** @var $model Magento_Reward_Model_Reward */
+            /** @var $model \Magento\Reward\Model\Reward */
             $model = $this->_modelFactory->create();
             $model->setCustomerId($order->getCustomerId());
             $model->setWebsiteId($this->_storeManager->getStore($order->getStoreId())->getWebsiteId());
             $model->setPointsDelta(-$order->getRewardPointsBalance());
-            $model->setAction(Magento_Reward_Model_Reward::REWARD_ACTION_ORDER);
+            $model->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_ORDER);
             $model->setActionEntity($order);
             $model->updateRewardPoints();
         }
         $ruleIds = explode(',', $order->getAppliedRuleIds());
         $ruleIds = array_unique($ruleIds);
-        /** @var $resource Magento_Reward_Model_Resource_Reward */
+        /** @var $resource \Magento\Reward\Model\Resource\Reward */
         $resource = $this->_resourceFactory->create();
         $data = $resource->getRewardSalesrule($ruleIds);
         $pointsDelta = 0;

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Event_QueueReader
+ * \Magento\Webhook\Model\Event\QueueReader
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@
  */
 class Magento_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webhook_Model_Event_QueueReader */
+    /** @var \Magento\Webhook\Model\Event\QueueReader */
     protected $_eventQueue;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -22,7 +22,7 @@ class Magento_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_Test
 
     public function setUp()
     {
-        $this->_mockCollection = $this->getMockBuilder('Magento_Webhook_Model_Resource_Event_Collection')
+        $this->_mockCollection = $this->getMockBuilder('Magento\Webhook\Model\Resource\Event\Collection')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockIterator = $this->getMockBuilder('Iterator')
@@ -31,7 +31,7 @@ class Magento_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_Test
         $this->_mockCollection->expects($this->once())
             ->method('getIterator')
             ->will($this->returnValue($this->_mockIterator));
-        $this->_eventQueue = new Magento_Webhook_Model_Event_QueueReader($this->_mockCollection);
+        $this->_eventQueue = new \Magento\Webhook\Model\Event\QueueReader($this->_mockCollection);
     }
 
     public function testPollEvent()
@@ -40,7 +40,7 @@ class Magento_Webhook_Model_Event_QueueReaderTest extends PHPUnit_Framework_Test
             ->method('valid')
             ->will($this->returnValue(true));
 
-        $event = $this->getMockBuilder('Magento_Webhook_Model_Event')
+        $event = $this->getMockBuilder('Magento\Webhook\Model\Event')
             ->disableOriginalConstructor()
             ->getMock();
 

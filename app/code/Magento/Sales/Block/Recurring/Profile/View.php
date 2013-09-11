@@ -11,10 +11,12 @@
 /**
  * Recurring profile view
  */
-class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Recurring\Profile;
+
+class View extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Sales_Model_Recurring_Profile
+     * @var \Magento\Sales\Model\Recurring\Profile
      */
     protected $_profile = null;
 
@@ -35,7 +37,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
     /**
      * Related orders collection
      *
-     * @var Magento_Sales_Model_Resource_Order_Collection
+     * @var \Magento\Sales\Model\Resource\Order\Collection
      */
     protected $_relatedOrders = null;
 
@@ -143,13 +145,13 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
             return;
         }
 
-        $options = Mage::getModel('Magento_Catalog_Model_Product_Option')->getCollection()
+        $options = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->getCollection()
             ->addIdsToFilter(array_keys($request['options']))
             ->addTitleToResult($this->_profile->getInfoValue($key, 'store_id'))
             ->addValuesToResult();
 
-        $productMock = Mage::getModel('Magento_Catalog_Model_Product');
-        $quoteItemOptionMock = Mage::getModel('Magento_Sales_Model_Quote_Item_Option');
+        $productMock = \Mage::getModel('\Magento\Catalog\Model\Product');
+        $quoteItemOptionMock = \Mage::getModel('\Magento\Sales\Model\Quote\Item\Option');
         foreach ($options as $option) {
             $quoteItemOptionMock->setId($option->getId());
 
@@ -223,7 +225,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
             if ($value) {
                 $this->_addInfo(array(
                     'label' => $this->_profile->getFieldLabel($key),
-                    'value' => Mage::helper('Magento_Core_Helper_Data')->formatCurrency($value, false),
+                    'value' => \Mage::helper('Magento\Core\Helper\Data')->formatCurrency($value, false),
                     'is_amount' => true,
                 ));
             }
@@ -247,7 +249,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
             $key = 'billing_address_info';
         }
         $this->setIsAddress(true);
-        $address = Mage::getModel('Magento_Sales_Model_Order_Address', array('data' => $this->_profile->getData($key)));
+        $address = \Mage::getModel('\Magento\Sales\Model\Order\Address', array('data' => $this->_profile->getData($key)));
         $this->_addInfo(array(
             'value' => preg_replace('/\\n{2,}/', "\n", $address->format('text')),
         ));
@@ -262,10 +264,10 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
             'increment_id', 'created_at', 'customer_firstname', 'customer_lastname', 'base_grand_total', 'status'
         ));
         $this->_relatedOrders->addFieldToFilter('state', array(
-            'in' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getVisibleOnFrontStates()
+            'in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates()
         ));
 
-        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager')
+        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager')
             ->setCollection($this->_relatedOrders)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
 
@@ -307,7 +309,7 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
                 'increment_id' => $order->getIncrementId(),
                 'created_at' => $this->formatDate($order->getCreatedAt()),
                 'customer_name' => $order->getCustomerName(),
-                'base_grand_total' => Mage::helper('Magento_Core_Helper_Data')->formatCurrency(
+                'base_grand_total' => \Mage::helper('Magento\Core\Helper\Data')->formatCurrency(
                     $order->getBaseGrandTotal(), false
                 ),
                 'status' => $order->getStatusLabel(),
@@ -345,9 +347,9 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
     protected function _prepareRelatedOrders($fieldsToSelect = '*')
     {
         if (null === $this->_relatedOrders) {
-            $this->_relatedOrders = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+            $this->_relatedOrders = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
                 ->addFieldToSelect($fieldsToSelect)
-                ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
+                ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
                 ->addRecurringProfilesFilter($this->_profile->getId())
                 ->setOrder('entity_id', 'desc');
         }
@@ -374,9 +376,9 @@ class Magento_Sales_Block_Recurring_Profile_View extends Magento_Core_Block_Temp
      */
     protected function _prepareLayout()
     {
-        $this->_profile = Mage::registry('current_recurring_profile')
-            ->setStore(Mage::app()->getStore())
-            ->setLocale(Mage::app()->getLocale())
+        $this->_profile = \Mage::registry('current_recurring_profile')
+            ->setStore(\Mage::app()->getStore())
+            ->setLocale(\Mage::app()->getLocale())
         ;
         return parent::_prepareLayout();
     }

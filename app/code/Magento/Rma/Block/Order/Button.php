@@ -7,16 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Rma_Block_Order_Button extends Magento_Core_Block_Template
+namespace Magento\Rma\Block\Order;
+
+class Button extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
 }

@@ -10,7 +10,7 @@
 <config>
     <virtualType name="Magento_Api_Model_Resource_User_Options_Statuses" type="Magento_Backend_Model_Config_Source_Activity_Options">
         <param name="helper">
-            <instance type="Magento_Backend_Helper_Data" />
+            <instance type="Magento\Backend\Helper\Data" />
         </param>
     </virtualType>
 </config>

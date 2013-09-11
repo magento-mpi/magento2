@@ -15,7 +15,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_Review extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class Review extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Retrieve points delta for action
@@ -25,7 +27,7 @@ class Magento_Reward_Model_Action_Review extends Magento_Reward_Model_Action_Abs
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig('review', $websiteId);
+        return (int)\Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig('review', $websiteId);
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_Reward_Model_Action_Review extends Magento_Reward_Model_Action_Abs
      */
     public function getRewardLimit()
     {
-        return Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig(
+        return \Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig(
             'review_limit',
             $this->getReward()->getWebsiteId()
         );

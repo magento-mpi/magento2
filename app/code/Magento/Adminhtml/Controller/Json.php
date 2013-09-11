@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Json extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller;
+
+class Json extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Return JSON-encoded array of country regions
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Controller_Json extends Magento_Adminhtml_Controller_Act
 
         $countryId = $this->getRequest()->getParam('parent');
         if (!empty($countryId)) {
-            $arrRegions = Mage::getResourceModel('Magento_Directory_Model_Resource_Region_Collection')
+            $arrRegions = \Mage::getResourceModel('\Magento\Directory\Model\Resource\Region\Collection')
                 ->addCountryFilter($countryId)
                 ->load()
                 ->toOptionArray();
@@ -39,6 +41,6 @@ class Magento_Adminhtml_Controller_Json extends Magento_Adminhtml_Controller_Act
                 }
             }
         }
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($arrRes));
+        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($arrRes));
     }
 }

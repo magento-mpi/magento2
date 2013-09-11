@@ -16,6 +16,8 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomAttribute_Block_Form_Renderer_Textarea extends Magento_CustomAttribute_Block_Form_Renderer_Text
+namespace Magento\CustomAttribute\Block\Form\Renderer;
+
+class Textarea extends \Magento\CustomAttribute\Block\Form\Renderer\Text
 {
 }

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Validator_Factory
+namespace Magento\Core\Model\Validator;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -15,7 +17,7 @@ class Magento_Core_Model_Validator_Factory
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
 
@@ -30,13 +32,13 @@ class Magento_Core_Model_Validator_Factory
      * Initialize dependencies
      *
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
-     * @param Magento_Core_Model_Translate $translator
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
+     * @param \Magento\Core\Model\Translate $translator
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
-        Magento_Core_Model_Translate $translator
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
+        \Magento\Core\Model\Translate $translator
     ) {
         $this->_objectManager = $objectManager;
         $this->_translator = $translator;
@@ -52,9 +54,9 @@ class Magento_Core_Model_Validator_Factory
     {
         $translateAdapter = $this->_translator;
         $objectManager = $this->_objectManager;
-        // Pass translations to Magento_Core_Model_Translate from validators
+        // Pass translations to \Magento\Core\Model\Translate from validators
         $translatorCallback = function () use ($translateAdapter, $objectManager) {
-            /** @var Magento_Core_Model_Translate $translateAdapter */
+            /** @var \Magento\Core\Model\Translate $translateAdapter */
             return $translateAdapter->translate(func_get_args());
         };
         /** @var \Magento\Translate\Adapter $translator */

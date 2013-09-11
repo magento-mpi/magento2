@@ -15,17 +15,19 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Widget_Model_Resource_Widget_Instance_Options_ThemeId implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Widget\Model\Resource\Widget\Instance\Options;
+
+class ThemeId implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Widget_Model_Widget_Instance
+     * @var \Magento\Widget\Model\Widget\Instance
      */
     protected $_resourceModel;
 
     /**
-     * @param Magento_Core_Model_Resource_Theme_Collection $widgetResourceModel
+     * @param \Magento\Core\Model\Resource\Theme\Collection $widgetResourceModel
      */
-    public function __construct(Magento_Core_Model_Resource_Theme_Collection $widgetResourceModel)
+    public function __construct(\Magento\Core\Model\Resource\Theme\Collection $widgetResourceModel)
     {
         $this->_resourceModel = $widgetResourceModel;
     }

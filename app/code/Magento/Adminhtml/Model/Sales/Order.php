@@ -15,24 +15,26 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Sales_Order
+namespace Magento\Adminhtml\Model\Sales;
+
+class Order
 {
     /**
      * Retrieve adminhtml session singleton
      *
-     * @return Magento_Adminhtml_Model_Session
+     * @return \Magento\Adminhtml\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Session');
     }
 
-    public function checkRelation(Magento_Sales_Model_Order $order)
+    public function checkRelation(\Magento\Sales\Model\Order $order)
     {
         /**
          * Check customer existing
          */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($order->getCustomerId());
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($order->getCustomerId());
         if (!$customer->getId()) {
             $this->_getSession()->addNotice(
                 __(' The customer does not exist in the system anymore.')
@@ -47,7 +49,7 @@ class Magento_Adminhtml_Model_Sales_Order
             $productIds[] = $item->getProductId();
         }
 
-        $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
             ->addIdFilter($productIds)
             ->load();
 

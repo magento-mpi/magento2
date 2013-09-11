@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Poll_Answer_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Poll\Answer;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()
@@ -25,11 +27,11 @@ class Magento_Adminhtml_Block_Poll_Answer_Edit extends Magento_Adminhtml_Block_W
 
         $this->_objectId = 'id';
         $this->_controller = 'poll_answer';
-        $answerData = Mage::getModel('Magento_Poll_Model_Poll_Answer');
+        $answerData = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
         if( $this->getRequest()->getParam($this->_objectId) ) {
-            $answerData = Mage::getModel('Magento_Poll_Model_Poll_Answer')
+            $answerData = \Mage::getModel('\Magento\Poll\Model\Poll\Answer')
                 ->load($this->getRequest()->getParam($this->_objectId));
-            Mage::register('answer_data', $answerData);
+            \Mage::register('answer_data', $answerData);
         }
 
         $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('*/poll/edit', array('id' => $answerData->getPollId(), 'tab' => 'answers_section')) . '\');');
@@ -39,7 +41,7 @@ class Magento_Adminhtml_Block_Poll_Answer_Edit extends Magento_Adminhtml_Block_W
 
     public function getHeaderText()
     {
-        return __("Edit Answer '%1'", $this->escapeHtml(Mage::registry('answer_data')->getAnswerTitle()));
+        return __("Edit Answer '%1'", $this->escapeHtml(\Mage::registry('answer_data')->getAnswerTitle()));
     }
 
 }

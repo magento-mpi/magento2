@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="left">
-            <block class="Magento_Newsletter_Block_Subscribe" name="newsletter_subscription" template="subscribe.phtml"/>
+            <block class="\Magento\Newsletter\Block\Subscribe" name="newsletter_subscription" template="subscribe.phtml"/>
         </reference>
     </handle>
 </layout>

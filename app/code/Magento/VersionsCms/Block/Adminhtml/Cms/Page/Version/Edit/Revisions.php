@@ -16,8 +16,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
-    extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
+
+class Revisions
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected function _construct()
     {
@@ -31,12 +33,12 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     /**
      * Prepares collection of revisions
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions
      */
     protected function _prepareCollection()
     {
         /* var $collection Magento_VersionsCms_Model_Resource_Revision_Collection */
-        $collection = Mage::getModel('Magento_VersionsCms_Model_Page_Revision')->getCollection()
+        $collection = \Mage::getModel('\Magento\VersionsCms\Model\Page\Revision')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVersionFilter($this->getVersion())
             ->addUserColumn()
@@ -45,8 +47,8 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
             // Commented this bc now revision are shown in scope of version and not page.
             // So if user has permission to load this version he
             // has permission to see all its versions
-            //->addVisibilityFilter(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId(),
-            //    Mage::getSingleton('Magento_VersionsCms_Model_Config')->getAllowedAccessLevel());
+            //->addVisibilityFilter(\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId(),
+            //    \Mage::getSingleton('Magento\VersionsCms\Model\Config')->getAllowedAccessLevel());
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -55,7 +57,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     /**
      * Retrieve collection for grid if there is not collection call _prepareCollection
      *
-     * @return Magento_VersionsCms_Model_Resource_Page_Version_Collection
+     * @return \Magento\VersionsCms\Model\Resource\Page\Version\Collection
      */
     public function getCollection()
     {
@@ -69,7 +71,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     /**
      * Prepare event grid columns
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions
      */
     protected function _prepareColumns()
     {
@@ -79,14 +81,14 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
             'width' => 100,
             'index' => 'version_number',
             'type' => 'options',
-            'options' => Mage::helper('Magento_VersionsCms_Helper_Data')->getVersionsArray($this->getPage())
+            'options' => \Mage::helper('Magento\VersionsCms\Helper\Data')->getVersionsArray($this->getPage())
         ));
 
         $this->addColumn('label', array(
             'header' => __('Version Label'),
             'index' => 'label',
             'type' => 'options',
-            'options' => Mage::helper('Magento_VersionsCms_Helper_Data')
+            'options' => \Mage::helper('Magento\VersionsCms\Helper\Data')
                                 ->getVersionsArray('label', 'label', $this->getPage())
         ));
 
@@ -95,7 +97,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
-            'options' => Mage::helper('Magento_VersionsCms_Helper_Data')->getVersionAccessLevels()
+            'options' => \Mage::helper('Magento\VersionsCms\Helper\Data')->getVersionAccessLevels()
         ));
 */
         $this->addColumn('revision_number', array(
@@ -146,32 +148,32 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     /**
      * Returns cms page object from registry
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {
-        return Mage::registry('cms_page');
+        return \Mage::registry('cms_page');
     }
 
     /**
      * Returns cms page version object from registry
      *
-     * @return Magento_VersionsCms_Model_Page_Version
+     * @return \Magento\VersionsCms\Model\Page\Version
      */
     public function getVersion()
     {
-        return Mage::registry('cms_page_version');
+        return \Mage::registry('cms_page_version');
     }
 
     /**
      * Prepare massactions for this grid.
      * For now it is only ability to remove revisions
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit\Revisions
      */
     protected function _prepareMassaction()
     {
-        if (Mage::getSingleton('Magento_VersionsCms_Model_Config')->canCurrentUserDeleteRevision()) {
+        if (\Mage::getSingleton('Magento\VersionsCms\Model\Config')->canCurrentUserDeleteRevision()) {
             $this->setMassactionIdField('revision_id');
             $this->getMassactionBlock()->setFormFieldName('revision');
 

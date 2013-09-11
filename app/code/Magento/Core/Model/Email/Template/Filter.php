@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
+namespace Magento\Core\Model\Email\Template;
+
+class Filter extends \Magento\Filter\Template
 {
     /**
      * Use absolute links flag
@@ -44,16 +46,16 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
     protected $_plainTemplateMode = false;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
      * Setup callbacks for filters
      *
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl)
+    public function __construct(\Magento\Core\Model\View\Url $viewUrl)
     {
         $this->_viewUrl = $viewUrl;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
@@ -63,7 +65,7 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
      * Set use absolute links flag
      *
      * @param bool $flag
-     * @return Magento_Core_Model_Email_Template_Filter
+     * @return \Magento\Core\Model\Email\Template\Filter
      */
     public function setUseAbsoluteLinks($flag)
     {
@@ -76,7 +78,7 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
      * Doesn't set anything intentionally, since SID is not allowed in any kind of emails
      *
      * @param bool $flag
-     * @return Magento_Core_Model_Email_Template_Filter
+     * @return \Magento\Core\Model\Email\Template\Filter
      */
     public function setUseSessionInUrl($flag)
     {
@@ -88,7 +90,7 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
      * Setter
      *
      * @param boolean $plainTemplateMode
-     * @return Magento_Core_Model_Email_Template_Filter
+     * @return \Magento\Core\Model\Email\Template\Filter
      */
     public function setPlainTemplateMode($plainTemplateMode)
     {
@@ -110,7 +112,7 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
      * Setter
      *
      * @param integer $storeId
-     * @return Magento_Core_Model_Email_Template_Filter
+     * @return \Magento\Core\Model\Email\Template\Filter
      */
     public function setStoreId($storeId)
     {
@@ -127,7 +129,7 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
     public function getStoreId()
     {
         if (null === $this->_storeId) {
-            $this->_storeId = Mage::app()->getStore()->getId();
+            $this->_storeId = \Mage::app()->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -142,13 +144,13 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
     {
         $skipParams = array('type', 'id', 'output');
         $blockParameters = $this->_getIncludeParameters($construction[2]);
-        $layout = Mage::app()->getLayout();
+        $layout = \Mage::app()->getLayout();
 
         if (isset($blockParameters['type'])) {
             $type = $blockParameters['type'];
             $block = $layout->createBlock($type, null, array('data' => $blockParameters));
         } elseif (isset($blockParameters['id'])) {
-            $block = $layout->createBlock('Magento_Cms_Block_Block');
+            $block = $layout->createBlock('\Magento\Cms\Block\Block');
             if ($block) {
                 $block->setBlockId($blockParameters['id']);
             }
@@ -191,8 +193,8 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
         if (isset($params['area'])) {
             $layoutParams['area'] = $params['area'];
         }
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout', $layoutParams);
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Mage::getModel('\Magento\Core\Model\Layout', $layoutParams);
 
         $layout->getUpdate()->addHandle($params['handle']);
         $layout->getUpdate()->load();
@@ -201,7 +203,7 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
         $layout->generateElements();
 
         foreach ($layout->getAllBlocks() as $block) {
-            /* @var $block Magento_Core_Block_Abstract */
+            /* @var $block \Magento\Core\Block\AbstractBlock */
             foreach ($params as $k => $v) {
                 if (in_array($k, $skipParams)) {
                     continue;
@@ -262,7 +264,7 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
     public function mediaDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        return Mage::getBaseUrl('media') . $params['url'];
+        return \Mage::getBaseUrl('media') . $params['url'];
     }
 
     /**
@@ -299,7 +301,7 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
             unset($params['url']);
         }
 
-        return Mage::app()->getStore($this->getStoreId())->getUrl($path, $params);
+        return \Mage::app()->getStore($this->getStoreId())->getUrl($path, $params);
     }
 
     /**
@@ -322,7 +324,7 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
             $allowedTags = preg_split('/\s*\,\s*/', $params['allowed_tags'], 0, PREG_SPLIT_NO_EMPTY);
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->escapeHtml($params['var'], $allowedTags);
+        return \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($params['var'], $allowedTags);
     }
 
     /**
@@ -414,9 +416,9 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $store = null;
         if (isset($params['store'])) {
-            $store = Mage::app()->getSafeStore($params['store']);
+            $store = \Mage::app()->getSafeStore($params['store']);
         }
-        $isSecure = Mage::app()->getStore($store)->isCurrentlySecure();
+        $isSecure = \Mage::app()->getStore($store)->isCurrentlySecure();
         $protocol = $isSecure ? 'https' : 'http';
         if (isset($params['url'])) {
             return $protocol . '://' . $params['url'];
@@ -442,7 +444,7 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = Mage::getStoreConfig($params['path'], $storeId);
+            $configValue = \Mage::getStoreConfig($params['path'], $storeId);
         }
         return $configValue;
     }
@@ -458,12 +460,12 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
         $customVarValue = '';
         $params = $this->_getIncludeParameters($construction[2]);
         if (isset($params['code'])) {
-            $variable = Mage::getModel('Magento_Core_Model_Variable')
+            $variable = \Mage::getModel('\Magento\Core\Model\Variable')
                 ->setStoreId($this->getStoreId())
                 ->loadByCode($params['code']);
             $mode = $this->getPlainTemplateMode()
-                ? Magento_Core_Model_Variable::TYPE_TEXT
-                : Magento_Core_Model_Variable::TYPE_HTML;
+                ? \Magento\Core\Model\Variable::TYPE_TEXT
+                : \Magento\Core\Model\Variable::TYPE_HTML;
             $value = $variable->getValue($mode);
             if ($value) {
                 $customVarValue = $value;
@@ -483,9 +485,9 @@ class Magento_Core_Model_Email_Template_Filter extends \Magento\Filter\Template
     {
         try {
             $value = parent::filter($value);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $value = '';
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         return $value;
     }

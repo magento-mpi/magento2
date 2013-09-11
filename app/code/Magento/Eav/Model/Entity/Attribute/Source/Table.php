@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Source;
+
+class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Default values for option cache
@@ -35,7 +37,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
             $this->_optionsDefault = array();
         }
         if (!isset($this->_options[$storeId])) {
-            $collection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $collection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
                 ->setPositionOrder('asc')
                 ->setAttributeFilter($this->getAttribute()->getId())
                 ->setStoreFilter($this->getAttribute()->getStoreId())
@@ -88,10 +90,10 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
     /**
      * Add Value Sort To Collection Select
      *
-     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
+     * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
      * @param string $dir
      *
-     * @return Magento_Eav_Model_Entity_Attribute_Source_Table
+     * @return \Magento\Eav\Model\Entity\Attribute\Source\Table
      */
     public function addValueSortToCollection($collection, $dir = \Magento\DB\Select::SQL_ASC)
     {
@@ -114,7 +116,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
         $valueExpr = $collection->getSelect()->getAdapter()
             ->getCheckSql("{$valueTable2}.value_id > 0", "{$valueTable2}.value", "{$valueTable1}.value");
 
-        Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
+        \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option')
             ->addOptionValueToCollection($collection, $this->getAttribute(), $valueExpr);
 
         $collection->getSelect()
@@ -134,7 +136,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
         $attributeCode = $this->getAttribute()->getAttributeCode();
         $isMulti = $this->getAttribute()->getFrontend()->getInputType() == 'multiselect';
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
             $columns[$attributeCode] = array(
                 'type'      => $isMulti ? 'varchar(255)' : 'int',
                 'unsigned'  => false,
@@ -214,7 +216,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Table extends Magento_Eav_Model_
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
+        return \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

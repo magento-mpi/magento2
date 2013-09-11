@@ -15,20 +15,22 @@
  * @package    Magento_TargetRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Rule_Options_Applies implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\TargetRule\Model\Rule\Options;
+
+class Applies implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     /**
      * Target Rule model
      *
-     * @var Magento_TargetRule_Model_Rule
+     * @var \Magento\TargetRule\Model\Rule
      */
     protected $_targetRuleModel;
 
     /**
-     * @param Magento_TargetRule_Model_Rule
+     * @param \Magento\TargetRule\Model\Rule
      */
-    public function __construct(Magento_TargetRule_Model_Rule $targetRuleModel)
+    public function __construct(\Magento\TargetRule\Model\Rule $targetRuleModel)
     {
         $this->_targetRuleModel = $targetRuleModel;
     }

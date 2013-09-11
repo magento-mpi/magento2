@@ -73,7 +73,7 @@
         <jobs>
             <log_clean>
                 <run>
-                    <model>Magento_Log_Model_Cron::logClean</model>
+                    <model>\Magento\Log\Model\Cron::logClean</model>
                 </run>
             </log_clean>
         </jobs>

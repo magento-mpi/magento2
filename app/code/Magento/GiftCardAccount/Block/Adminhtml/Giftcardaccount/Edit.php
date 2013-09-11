@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()
@@ -50,13 +52,13 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Magen
 
     public function getGiftcardaccountId()
     {
-        return Mage::registry('current_giftcardaccount')->getId();
+        return \Mage::registry('current_giftcardaccount')->getId();
     }
 
     public function getHeaderText()
     {
-        if (Mage::registry('current_giftcardaccount')->getId()) {
-            return __('Edit Gift Card Account: %1', $this->escapeHtml(Mage::registry('current_giftcardaccount')->getCode()));
+        if (\Mage::registry('current_giftcardaccount')->getId()) {
+            return __('Edit Gift Card Account: %1', $this->escapeHtml(\Mage::registry('current_giftcardaccount')->getCode()));
         }
         else {
             return __('New Gift Card Account');

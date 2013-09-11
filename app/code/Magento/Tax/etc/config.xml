@@ -15,7 +15,7 @@
             <tax_setup>
                 <setup>
                     <module>Magento_Tax</module>
-                    <class>Magento_Tax_Model_Resource_Setup</class>
+                    <class>Magento\Tax\Model\Resource\Setup</class>
                 </setup>
             </tax_setup>
         </resources>
@@ -23,46 +23,46 @@
             <quote>
                 <totals>
                     <tax_subtotal>
-                        <class>Magento_Tax_Model_Sales_Total_Quote_Subtotal</class>
+                        <class>Magento\Tax\Model\Sales\Total\Quote\Subtotal</class>
                         <after>freeshipping</after>
                         <before>tax,discount</before>
                     </tax_subtotal>
                     <tax_shipping>
-                        <class>Magento_Tax_Model_Sales_Total_Quote_Shipping</class>
+                        <class>Magento\Tax\Model\Sales\Total\Quote\Shipping</class>
                         <after>shipping</after>
                         <before>tax,discount</before>
                     </tax_shipping>
                     <tax>
-                        <class>Magento_Tax_Model_Sales_Total_Quote_Tax</class>
+                        <class>Magento\Tax\Model\Sales\Total\Quote\Tax</class>
                         <after>subtotal,shipping</after>
                         <before>grand_total</before>
-                        <renderer>Magento_Tax_Block_Checkout_Tax</renderer>
-                        <admin_renderer>Magento_Adminhtml_Block_Sales_Order_Create_Totals_Tax</admin_renderer>
+                        <renderer>\Magento\Tax\Block\Checkout\Tax</renderer>
+                        <admin_renderer>\Magento\Adminhtml\Block\Sales\Order\Create\Totals\Tax</admin_renderer>
                     </tax>
                     <subtotal>
-                        <renderer>Magento_Tax_Block_Checkout_Subtotal</renderer>
-                        <admin_renderer>Magento_Adminhtml_Block_Sales_Order_Create_Totals_Subtotal</admin_renderer>
+                        <renderer>\Magento\Tax\Block\Checkout\Subtotal</renderer>
+                        <admin_renderer>\Magento\Adminhtml\Block\Sales\Order\Create\Totals\Subtotal</admin_renderer>
                     </subtotal>
                     <shipping>
-                        <renderer>Magento_Tax_Block_Checkout_Shipping</renderer>
-                        <admin_renderer>Magento_Adminhtml_Block_Sales_Order_Create_Totals_Shipping</admin_renderer>
+                        <renderer>\Magento\Tax\Block\Checkout\Shipping</renderer>
+                        <admin_renderer>\Magento\Adminhtml\Block\Sales\Order\Create\Totals\Shipping</admin_renderer>
                     </shipping>
                     <discount>
-                        <renderer>Magento_Tax_Block_Checkout_Discount</renderer>
-                        <admin_renderer>Magento_Adminhtml_Block_Sales_Order_Create_Totals_Discount</admin_renderer>
+                        <renderer>\Magento\Tax\Block\Checkout\Discount</renderer>
+                        <admin_renderer>\Magento\Adminhtml\Block\Sales\Order\Create\Totals\Discount</admin_renderer>
                     </discount>
                     <grand_total>
-                        <renderer>Magento_Tax_Block_Checkout_Grandtotal</renderer>
-                        <admin_renderer>Magento_Adminhtml_Block_Sales_Order_Create_Totals_Grandtotal</admin_renderer>
+                        <renderer>\Magento\Tax\Block\Checkout\Grandtotal</renderer>
+                        <admin_renderer>\Magento\Adminhtml\Block\Sales\Order\Create\Totals\Grandtotal</admin_renderer>
                     </grand_total>
                 </totals>
                 <nominal_totals>
                     <nominal_tax_subtotal>
-                        <class>Magento_Tax_Model_Sales_Total_Quote_Nominal_Subtotal</class>
+                        <class>Magento\Tax\Model\Sales\Total\Quote\Nominal\Subtotal</class>
                         <sort_order>500</sort_order>
                     </nominal_tax_subtotal>
                     <nominal_tax>
-                        <class>Magento_Tax_Model_Sales_Total_Quote_Nominal_Tax</class>
+                        <class>Magento\Tax\Model\Sales\Total\Quote\Nominal\Tax</class>
                         <sort_order>750</sort_order>
                     </nominal_tax>
                 </nominal_totals>
@@ -71,18 +71,18 @@
         <pdf>
             <totals>
                 <subtotal>
-                    <model>Magento_Tax_Model_Sales_Pdf_Subtotal</model>
+                    <model>\Magento\Tax\Model\Sales\Pdf\Subtotal</model>
                 </subtotal>
                 <shipping>
-                    <model>Magento_Tax_Model_Sales_Pdf_Shipping</model>
+                    <model>\Magento\Tax\Model\Sales\Pdf\Shipping</model>
                 </shipping>
                 <grand_total>
-                    <model>Magento_Tax_Model_Sales_Pdf_Grandtotal</model>
+                    <model>\Magento\Tax\Model\Sales\Pdf\Grandtotal</model>
                 </grand_total>
                 <tax translate="title">
                     <title>Tax</title>
                     <source_field>tax_amount</source_field>
-                    <model>Magento_Tax_Model_Sales_Pdf_Tax</model>
+                    <model>\Magento\Tax\Model\Sales\Pdf\Tax</model>
                     <font_size>7</font_size>
                     <display_zero>0</display_zero>
                     <sort_order>300</sort_order>
@@ -172,7 +172,7 @@
                     <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>Magento_Tax_Model_Observer::aggregateSalesReportTaxData</model>
+                    <model>\Magento\Tax\Model\Observer::aggregateSalesReportTaxData</model>
                 </run>
             </aggregate_sales_report_tax_data>
         </jobs>

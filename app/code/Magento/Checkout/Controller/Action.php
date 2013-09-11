@@ -12,7 +12,9 @@
 /**
  * Controller for onepage and multishipping checkouts
  */
-abstract class Magento_Checkout_Controller_Action extends Magento_Core_Controller_Front_Action
+namespace Magento\Checkout\Controller;
+
+abstract class Action extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Make sure customer is valid, if logged in
@@ -24,13 +26,13 @@ abstract class Magento_Checkout_Controller_Action extends Magento_Core_Controlle
      */
     protected function _preDispatchValidateCustomer($redirect = true, $addErrors = true)
     {
-        $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
         if ($customer && $customer->getId()) {
             $validationResult = $customer->validate();
             if ((true !== $validationResult) && is_array($validationResult)) {
                 if ($addErrors) {
                     foreach ($validationResult as $error) {
-                        Mage::getSingleton('Magento_Customer_Model_Session')->addError($error);
+                        \Mage::getSingleton('Magento\Customer\Model\Session')->addError($error);
                     }
                 }
                 if ($redirect) {

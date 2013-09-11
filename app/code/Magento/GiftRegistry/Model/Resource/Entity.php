@@ -16,7 +16,9 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Resource_Entity extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GiftRegistry\Model\Resource;
+
+class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Event table name
@@ -38,10 +40,10 @@ class Magento_GiftRegistry_Model_Resource_Entity extends Magento_Core_Model_Reso
     /**
      * Converting some data to internal database format
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         $customValues = $object->getCustomValues();
         $object->setCustomValues(serialize($customValues));
@@ -53,8 +55,8 @@ class Magento_GiftRegistry_Model_Resource_Entity extends Magento_Core_Model_Reso
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Core_Model_Abstract $object
-     * @return Zend_Db_Select
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -80,10 +82,10 @@ class Magento_GiftRegistry_Model_Resource_Entity extends Magento_Core_Model_Reso
     /**
      * Perform actions after object is loaded
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->getId()) {
             $object->setTypeById($object->getData('type_id'));
@@ -95,10 +97,10 @@ class Magento_GiftRegistry_Model_Resource_Entity extends Magento_Core_Model_Reso
     /**
      * Perform action after object is saved - saving data to the eventTable
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $data = array();
         foreach ($object->getStaticTypeIds() as $code) {
@@ -148,17 +150,17 @@ class Magento_GiftRegistry_Model_Resource_Entity extends Magento_Core_Model_Reso
      *
      * @param int $customerId
      * @param int $entityId
-     * @return Magento_GiftRegistry_Model_Resource_Entity
+     * @return \Magento\GiftRegistry\Model\Resource\Entity
      */
     public function setActiveEntity($customerId, $entityId)
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->update($this->getMainTable(),
-            array('is_active'      => new Zend_Db_Expr('0')),
+            array('is_active'      => new \Zend_Db_Expr('0')),
             array('customer_id =?' => (int)$customerId)
         );
         $adapter->update($this->getMainTable(),
-            array('is_active' => new Zend_Db_Expr('1')),
+            array('is_active' => new \Zend_Db_Expr('1')),
             array('customer_id =?' => (int)$customerId, 'entity_id = ?' => (int)$entityId)
         );
         return $this;
@@ -167,9 +169,9 @@ class Magento_GiftRegistry_Model_Resource_Entity extends Magento_Core_Model_Reso
     /**
      * Load entity by gift registry item id
      *
-     * @param Magento_GiftRegistry_Model_Entity $object
+     * @param \Magento\GiftRegistry\Model\Entity $object
      * @param int $itemId
-     * @return Magento_GiftRegistry_Model_Resource_Entity
+     * @return \Magento\GiftRegistry\Model\Resource\Entity
      */
     public function loadByEntityItem($object, $itemId)
     {
@@ -192,9 +194,9 @@ class Magento_GiftRegistry_Model_Resource_Entity extends Magento_Core_Model_Reso
     /**
      * Load entity by url key
      *
-     * @param Magento_GiftRegistry_Model_Entity $object
+     * @param \Magento\GiftRegistry\Model\Entity $object
      * @param string $urlKey
-     * @return Magento_GiftRegistry_Model_Resource_Entity
+     * @return \Magento\GiftRegistry\Model\Resource\Entity
      */
     public function loadByUrlKey($object, $urlKey)
     {

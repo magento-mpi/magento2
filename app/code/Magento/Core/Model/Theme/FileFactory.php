@@ -9,9 +9,11 @@
  */
 
 /**
- * Factory for Magento_Core_Model_Theme_File
+ * Factory for \Magento\Core\Model\Theme\File
  */
-class Magento_Core_Model_Theme_FileFactory
+namespace Magento\Core\Model\Theme;
+
+class FileFactory
 {
     /**
      * Object Manager instance
@@ -34,10 +36,10 @@ class Magento_Core_Model_Theme_FileFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento_Core_Model_Theme_File
+     * @return \Magento\Core\Model\Theme\File
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento_Core_Model_Theme_File', $data);
+        return $this->_objectManager->create('Magento\Core\Model\Theme\File', $data);
     }
 }

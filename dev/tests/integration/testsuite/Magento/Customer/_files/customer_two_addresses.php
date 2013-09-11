@@ -10,8 +10,8 @@
 
 require 'customer_address.php';
 
-/** @var Magento_Customer_Model_Address $customerAddress */
-$customerAddress = Mage::getModel('Magento_Customer_Model_Address');
+/** @var \Magento\Customer\Model\Address $customerAddress */
+$customerAddress = Mage::getModel('\Magento\Customer\Model\Address');
 $customerAddress->isObjectNew(true);
 $customerAddress->setCustomerId(1)
     ->setData(array(

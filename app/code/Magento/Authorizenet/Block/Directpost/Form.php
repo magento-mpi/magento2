@@ -15,7 +15,9 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Block_Directpost_Form extends Magento_Payment_Block_Form_Cc
+namespace Magento\Authorizenet\Block\Directpost;
+
+class Form extends \Magento\Payment\Block\Form\Cc
 {
     protected $_template = 'directpost/info.phtml';
 
@@ -27,7 +29,7 @@ class Magento_Authorizenet_Block_Directpost_Form extends Magento_Payment_Block_F
      */
     protected function _toHtml()
     {
-        if ($this->getMethod()->getCode() != Mage::getSingleton('Magento_Authorizenet_Model_Directpost')->getCode()) {
+        if ($this->getMethod()->getCode() != \Mage::getSingleton('Magento\Authorizenet\Model\Directpost')->getCode()) {
             return null;
         }
 
@@ -37,11 +39,11 @@ class Magento_Authorizenet_Block_Directpost_Form extends Magento_Payment_Block_F
     /**
      * Set method info
      *
-     * @return Magento_Authorizenet_Block_Directpost_Form
+     * @return \Magento\Authorizenet\Block\Directpost\Form
      */
     public function setMethodInfo()
     {
-        $payment = Mage::getSingleton('Magento_Checkout_Model_Type_Onepage')
+        $payment = \Mage::getSingleton('Magento\Checkout\Model\Type\Onepage')
             ->getQuote()
             ->getPayment();
         $this->setMethod($payment->getMethodInstance());

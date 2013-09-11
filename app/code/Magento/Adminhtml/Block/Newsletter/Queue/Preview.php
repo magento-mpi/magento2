@@ -15,16 +15,18 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Queue_Preview extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Newsletter\Queue;
+
+class Preview extends \Magento\Adminhtml\Block\Widget
 {
 
     protected function _toHtml()
     {
-        /* @var $template Magento_Newsletter_Model_Template */
-        $template = Mage::getModel('Magento_Newsletter_Model_Template');
+        /* @var $template \Magento\Newsletter\Model\Template */
+        $template = \Mage::getModel('\Magento\Newsletter\Model\Template');
 
         if($id = (int)$this->getRequest()->getParam('id')) {
-            $queue = Mage::getModel('Magento_Newsletter_Model_Queue');
+            $queue = \Mage::getModel('\Magento\Newsletter\Model\Queue');
             $queue->load($id);
             $template->setTemplateType($queue->getNewsletterType());
             $template->setTemplateText($queue->getNewsletterText());
@@ -38,13 +40,13 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Preview extends Magento_Adminhtml
 
         $storeId = (int)$this->getRequest()->getParam('store_id');
         if(!$storeId) {
-            $storeId = Mage::app()->getDefaultStoreView()->getId();
+            $storeId = \Mage::app()->getDefaultStoreView()->getId();
         }
 
         \Magento\Profiler::start("newsletter_queue_proccessing");
         $vars = array();
 
-        $vars['subscriber'] = Mage::getModel('Magento_Newsletter_Model_Subscriber');
+        $vars['subscriber'] = \Mage::getModel('\Magento\Newsletter\Model\Subscriber');
 
         $template->emulateDesign($storeId);
         $templateProcessed = $template->getProcessedTemplate($vars, true);

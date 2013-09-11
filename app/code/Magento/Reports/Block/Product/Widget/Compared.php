@@ -15,9 +15,11 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Block_Product_Widget_Compared
-    extends Magento_Reports_Block_Product_Compared
-    implements Magento_Widget_Block_Interface
+namespace Magento\Reports\Block\Product\Widget;
+
+class Compared
+    extends \Magento\Reports\Block\Product\Compared
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Internal constructor
@@ -32,7 +34,7 @@ class Magento_Reports_Block_Product_Widget_Compared
             ->addColumnCountLayoutDepend('three_columns', 3);
         $this->addPriceBlockType(
             'bundle',
-            'Magento_Bundle_Block_Catalog_Product_Price',
+            '\Magento\Bundle\Block\Catalog\Product\Price',
             'catalog/product/price.phtml'
         );
     }

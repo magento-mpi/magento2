@@ -96,7 +96,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
      */
     public function testNegativeRefundException()
     {
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         $order = Mage::registry('order');
         $overRefundAmount = $order->getGrandTotal() + 10;
         Magento_TestFramework_Helper_Api::callWithException(
@@ -199,7 +199,7 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         $orderItems = $order->getAllItems();
         $qtys = array();
 
-        /** @var $orderItem Magento_Sales_Model_Order_Item */
+        /** @var $orderItem \Magento\Sales\Model\Order\Item */
         foreach ($orderItems as $orderItem) {
             $qtys[] = array('order_item_id' => $orderItem->getId(), 'qty' => 1);
         }
@@ -244,8 +244,8 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         $creditmemoInfo = $this->_createCreditmemo();
         $creditMemoIncrement = end($creditmemoInfo);
 
-        /** @var $creditmemo Magento_Sales_Model_Order_Creditmemo */
-        $creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo')
+        /** @var $creditmemo \Magento\Sales\Model\Order\Creditmemo */
+        $creditmemo = Mage::getModel('\Magento\Sales\Model\Order\Creditmemo')
             ->load($creditMemoIncrement, 'increment_id');
 
         $filters = array(
@@ -286,16 +286,16 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
      */
     protected function _createCreditmemo()
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = Mage::registry('product_virtual');
 
-        /** @var $order Magento_Sales_Model_Order */
+        /** @var $order \Magento\Sales\Model\Order */
         $order = Mage::registry('order');
 
         $orderItems = $order->getAllItems();
         $qtys = array();
 
-        /** @var $orderItem Magento_Sales_Model_Order_Item */
+        /** @var $orderItem \Magento\Sales\Model\Order\Item */
         foreach ($orderItems as $orderItem) {
             $qtys[] = array('order_item_id' => $orderItem->getId(), 'qty' => 1);
         }
@@ -320,8 +320,8 @@ class Magento_Sales_Model_Order_Creditmemo_ApiTest extends PHPUnit_Framework_Tes
         );
 
         /** Add creditmemo to fixtures to ensure that it is removed in teardown. */
-        /** @var Magento_Sales_Model_Order_Creditmemo $createdCreditmemo */
-        $createdCreditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo');
+        /** @var \Magento\Sales\Model\Order\Creditmemo $createdCreditmemo */
+        $createdCreditmemo = Mage::getModel('\Magento\Sales\Model\Order\Creditmemo');
         $createdCreditmemo->load($creditMemoIncrement, 'increment_id');
         Mage::register('creditmemo', $createdCreditmemo);
 

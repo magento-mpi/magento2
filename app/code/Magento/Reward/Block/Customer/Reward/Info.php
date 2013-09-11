@@ -15,12 +15,14 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Customer_Reward_Info extends Magento_Core_Block_Template
+namespace Magento\Reward\Block\Customer\Reward;
+
+class Info extends \Magento\Core\Block\Template
 {
     /**
      * Reward pts model instance
      *
-     * @var Magento_Reward_Model_Reward
+     * @var \Magento\Reward\Model\Reward
      */
     protected $_rewardInstance = null;
 
@@ -31,11 +33,11 @@ class Magento_Reward_Block_Customer_Reward_Info extends Magento_Core_Block_Templ
      */
     protected function _toHtml()
     {
-        $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
         if ($customer && $customer->getId()) {
-            $this->_rewardInstance = Mage::getModel('Magento_Reward_Model_Reward')
+            $this->_rewardInstance = \Mage::getModel('\Magento\Reward\Model\Reward')
                 ->setCustomer($customer)
-                ->setWebsiteId(Mage::app()->getWebsite()->getId())
+                ->setWebsiteId(\Mage::app()->getWebsite()->getId())
                 ->loadByCustomer();
             if ($this->_rewardInstance->getId()) {
                 $this->_prepareTemplateData();
@@ -50,7 +52,7 @@ class Magento_Reward_Block_Customer_Reward_Info extends Magento_Core_Block_Templ
      */
     protected function _prepareTemplateData()
     {
-        $helper = Mage::helper('Magento_Reward_Helper_Data');
+        $helper = \Mage::helper('Magento\Reward\Helper\Data');
         $maxBalance = (int)$helper->getGeneralConfig('max_points_balance');
         $minBalance = (int)$helper->getGeneralConfig('min_points_balance');
         $balance = $this->_rewardInstance->getPointsBalance();

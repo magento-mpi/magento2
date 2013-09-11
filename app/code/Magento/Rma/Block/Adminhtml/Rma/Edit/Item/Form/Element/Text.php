@@ -15,7 +15,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Text extends \Magento\Data\Form\Element\Text
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
+
+class Text extends \Magento\Data\Form\Element\Text
 {
     /**
      * Return Form Element HTML
@@ -24,7 +26,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Form_Element_Text extends \Magen
      */
     public function getElementHtml()
     {
-        $additionalClasses = Mage::helper('Magento_Rma_Helper_Eav')
+        $additionalClasses = \Mage::helper('Magento\Rma\Helper\Eav')
             ->getAdditionalTextElementClasses($this->getEntityAttribute());
         foreach ($additionalClasses as $additionalClass) {
             $this->addClass($additionalClass);

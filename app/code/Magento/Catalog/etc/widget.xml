@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <new_products type="Magento_Catalog_Block_Product_Widget_New" translate="name description">
+    <new_products type="Magento\Catalog\Block\Product\Widget\New" translate="name description">
         <name>Catalog New Products List</name>
         <description>List of Products that are set as New</description>
         <is_email_compatible>1</is_email_compatible>
@@ -38,7 +38,7 @@
                 <visible>1</visible>
                 <label>Display Page Control</label>
                 <type>select</type>
-                <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
             </show_pager>
             <products_per_page translate="label">
                 <required>1</required>
@@ -118,7 +118,7 @@
         </supported_containers>
     </new_products>
 
-    <catalog_product_link type="Magento_Catalog_Block_Product_Widget_Link" translate="name description">
+    <catalog_product_link type="Magento\Catalog\Block\Product\Widget\Link" translate="name description">
         <name>Catalog Product Link</name>
         <description>Link to a Specified Product</description>
         <is_email_compatible>1</is_email_compatible>
@@ -130,7 +130,7 @@
                 <label>Product</label>
                 <type>label</type>
                 <helper_block>
-                    <type>Magento_Adminhtml_Block_Catalog_Product_Widget_Chooser</type>
+                    <type>\Magento\Adminhtml\Block\Catalog\Product\Widget\Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Product...</open>
@@ -169,7 +169,7 @@
         </parameters>
     </catalog_product_link>
 
-    <catalog_category_link type="Magento_Catalog_Block_Category_Widget_Link" translate="name description">
+    <catalog_category_link type="Magento\Catalog\Block\Category\Widget\Link" translate="name description">
         <name>Catalog Category Link</name>
         <description>Link to a Specified Category</description>
         <is_email_compatible>1</is_email_compatible>
@@ -181,7 +181,7 @@
                 <label>Category</label>
                 <type>label</type>
                 <helper_block>
-                    <type>Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser</type>
+                    <type>\Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser</type>
                     <data>
                         <button translate="open">
                             <open>Select Category...</open>

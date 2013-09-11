@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Sitemap_Model_Resource_Catalog_Product.
+ * Test class for \Magento\Sitemap\Model\Resource\Catalog\Product.
  * - test products collection generation for sitemap
  *
  * @magentoDataFixture Magento/Sitemap/_files/sitemap_products.php
@@ -26,8 +26,8 @@ class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framewo
      */
     public function testGetCollectionNone()
     {
-        $model = Mage::getResourceModel('Magento_Sitemap_Model_Resource_Catalog_Product');
-        $products = $model->getCollection(Magento_Core_Model_AppInterface::DISTRO_STORE_ID);
+        $model = Mage::getResourceModel('\Magento\Sitemap\Model\Resource\Catalog\Product');
+        $products = $model->getCollection(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
 
@@ -51,8 +51,8 @@ class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framewo
      */
     public function testGetCollectionAll()
     {
-        $model = Mage::getResourceModel('Magento_Sitemap_Model_Resource_Catalog_Product');
-        $products = $model->getCollection(Magento_Core_Model_AppInterface::DISTRO_STORE_ID);
+        $model = Mage::getResourceModel('\Magento\Sitemap\Model\Resource\Catalog\Product');
+        $products = $model->getCollection(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
 
@@ -102,8 +102,8 @@ class Magento_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framewo
      */
     public function testGetCollectionBase()
     {
-        $model = Mage::getResourceModel('Magento_Sitemap_Model_Resource_Catalog_Product');
-        $products = $model->getCollection(Magento_Core_Model_AppInterface::DISTRO_STORE_ID);
+        $model = Mage::getResourceModel('\Magento\Sitemap\Model\Resource\Catalog\Product');
+        $products = $model->getCollection(\Magento\Core\Model\AppInterface::DISTRO_STORE_ID);
 
         $this->_checkProductCollection($products, 3, array(1, 4, 5));
 

@@ -19,12 +19,12 @@ class Magento_Sales_Model_Order_Invoice_Total_ShippingTest extends PHPUnit_Frame
      */
     protected function _getInvoiceCollection(array $invoicesData)
     {
-        $className = 'Magento_Sales_Model_Order_Invoice';
+        $className = '\Magento\Sales\Model\Order\Invoice';
         $result = new \Magento\Data\Collection();
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         foreach ($invoicesData as $oneInvoiceData) {
             $arguments = $objectManagerHelper->getConstructArguments($className, array('data' => $oneInvoiceData));
-            /** @var $prevInvoice Magento_Sales_Model_Order_Invoice */
+            /** @var $prevInvoice \Magento\Sales\Model\Order\Invoice */
             $prevInvoice = $this->getMock($className, array('_init'), $arguments);
             $result->addItem($prevInvoice);
         }
@@ -40,20 +40,20 @@ class Magento_Sales_Model_Order_Invoice_Total_ShippingTest extends PHPUnit_Frame
      */
     public function testCollect(array $prevInvoicesData, $orderShipping, $invoiceShipping, $expectedShipping)
     {
-        /** @var $order Magento_Sales_Model_Order|PHPUnit_Framework_MockObject_MockObject */
-        $order = $this->getMock('Magento_Sales_Model_Order', array('_init', 'getInvoiceCollection'), array(), '',
+        /** @var $order \Magento\Sales\Model\Order|PHPUnit_Framework_MockObject_MockObject */
+        $order = $this->getMock('Magento\Sales\Model\Order', array('_init', 'getInvoiceCollection'), array(), '',
             false);
         $order->setData('shipping_amount', $orderShipping);
         $order->expects($this->any())
             ->method('getInvoiceCollection')
             ->will($this->returnValue($this->_getInvoiceCollection($prevInvoicesData)))
         ;
-        /** @var $invoice Magento_Sales_Model_Order_Invoice|PHPUnit_Framework_MockObject_MockObject */
-        $invoice = $this->getMock('Magento_Sales_Model_Order_Invoice', array('_init'), array(), '', false);
+        /** @var $invoice \Magento\Sales\Model\Order\Invoice|PHPUnit_Framework_MockObject_MockObject */
+        $invoice = $this->getMock('Magento\Sales\Model\Order\Invoice', array('_init'), array(), '', false);
         $invoice->setData('shipping_amount', $invoiceShipping);
         $invoice->setOrder($order);
 
-        $total = new Magento_Sales_Model_Order_Invoice_Total_Shipping();
+        $total = new \Magento\Sales\Model\Order\Invoice\Total\Shipping();
         $total->collect($invoice);
 
         $this->assertEquals($expectedShipping, $invoice->getShippingAmount());

@@ -9,6 +9,8 @@
  */
 
 
-class Magento_GiftCardAccount_Block_Checkout_Cart_Giftcardaccount extends Magento_Checkout_Block_Cart_Abstract
+namespace Magento\GiftCardAccount\Block\Checkout\Cart;
+
+class Giftcardaccount extends \Magento\Checkout\Block\Cart\AbstractCart
 {
 }

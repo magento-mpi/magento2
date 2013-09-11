@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$billingAddress = Mage::getModel('Magento_Sales_Model_Order_Address',
+$billingAddress = Mage::getModel('\Magento\Sales\Model\Order\Address',
     array(
         'data' => array(
             'firstname'  => 'guest',
@@ -26,16 +26,16 @@ $billingAddress = Mage::getModel('Magento_Sales_Model_Order_Address',
 );
 $billingAddress->setAddressType('billing');
 
-$payment = Mage::getModel('Magento_Sales_Model_Order_Payment');
+$payment = Mage::getModel('\Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
-$orderItem = Mage::getModel('Magento_Sales_Model_Order_Item');
+$orderItem = Mage::getModel('\Magento\Sales\Model\Order\Item');
 $orderItem->setProductId(1)
-    ->setProductType(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
+    ->setProductType(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
     ->setBasePrice(100)
     ->setQtyOrdered(1);
 
-$order = Mage::getModel('Magento_Sales_Model_Order');
+$order = Mage::getModel('\Magento\Sales\Model\Order');
 $order->addItem($orderItem)
     ->setIncrementId('100000001')
     ->setCustomerIsGuest(true)

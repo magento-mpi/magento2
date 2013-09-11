@@ -10,7 +10,7 @@
  */
 
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid
  * @magentoAppArea adminhtml
  */
 class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Framework_TestCase
@@ -20,12 +20,12 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Frame
      */
     public function testPrepareGrid()
     {
-        /** @var Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid $gridBlock */
-        $gridBlock = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
+        /** @var \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
+        $gridBlock = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
         $gridBlock->toHtml();
 
         foreach (array('title', 'identifier', 'is_active') as $key) {
-            $this->assertInstanceOf('Magento_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn($key),
+            $this->assertInstanceOf('\Magento\Backend\Block\Widget\Grid\Column', $gridBlock->getColumn($key),
                 'Column with key "' . $key . '" is invalid');
         }
 
@@ -47,10 +47,10 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Frame
      */
     public function testPrepareGridForMultipleStores()
     {
-        /** @var Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid $gridBlock */
-        $gridBlock = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid');
+        /** @var \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid $gridBlock */
+        $gridBlock = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid');
         $gridBlock->toHtml();
-        $this->assertInstanceOf('Magento_Backend_Block_Widget_Grid_Column', $gridBlock->getColumn('store_id'),
+        $this->assertInstanceOf('\Magento\Backend\Block\Widget\Grid\Column', $gridBlock->getColumn('store_id'),
             'When there is more than one store column with key "store_id" should be present');
     }
 }

@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Admin;
+
+class Page implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Menu model
      *
-     * @var Magento_Backend_Model_Menu
+     * @var \Magento\Backend\Model\Menu
      */
     protected $_menu;
 
     /**
      * Object factory
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_objectFactory;
 
@@ -30,11 +32,11 @@ class Magento_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Mod
 
     /**
      * @param Magento_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory
-     * @param Magento_Backend_Model_Menu_Config $menuConfig
+     * @param \Magento\Backend\Model\Menu\Config $menuConfig
      */
     public function __construct(
         Magento_Backend_Model_Menu_Filter_IteratorFactory $iteratorFactory,
-        Magento_Backend_Model_Menu_Config $menuConfig
+        \Magento\Backend\Model\Menu\Config $menuConfig
     ) {
         $this->_menu = $menuConfig->getMenu();
         $this->_iteratorFactory = $iteratorFactory;
@@ -50,10 +52,10 @@ class Magento_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Mod
     /**
      * Get menu filter iterator
      *
-     * @param Magento_Backend_Model_Menu $menu menu model
-     * @return Magento_Backend_Model_Menu_Filter_Iterator
+     * @param \Magento\Backend\Model\Menu $menu menu model
+     * @return \Magento\Backend\Model\Menu\Filter\Iterator
      */
-    protected function _getMenuIterator(Magento_Backend_Model_Menu $menu)
+    protected function _getMenuIterator(\Magento\Backend\Model\Menu $menu)
     {
         return $this->_iteratorFactory->create(
             array('iterator' => $menu->getIterator())
@@ -64,17 +66,17 @@ class Magento_Backend_Model_Config_Source_Admin_Page implements Magento_Core_Mod
      * Create options array
      *
      * @param array $optionArray
-     * @param Magento_Backend_Model_Menu $menu
+     * @param \Magento\Backend\Model\Menu $menu
      * @param int $level
      */
-    protected function _createOptions(&$optionArray, Magento_Backend_Model_Menu $menu, $level = 0)
+    protected function _createOptions(&$optionArray, \Magento\Backend\Model\Menu $menu, $level = 0)
     {
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
         $paddingString = str_repeat($nonEscapableNbspChar, ($level * 4));
 
         foreach ($this->_getMenuIterator($menu) as $menuItem) {
 
-            /**@var  $menuItem Magento_Backend_Model_Menu_Item */
+            /**@var  $menuItem \Magento\Backend\Model\Menu\Item */
             if ($menuItem->getAction()) {
                 $optionArray[] = array(
                     'label' =>  $paddingString . $menuItem->getTitle(),

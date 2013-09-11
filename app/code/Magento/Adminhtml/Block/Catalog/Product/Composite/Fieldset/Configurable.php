@@ -15,21 +15,23 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable extends Magento_Catalog_Block_Product_View_Type_Configurable
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
+
+class Configurable extends \Magento\Catalog\Block\Product\View\Type\Configurable
 {
     /**
      * Retrieve product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         if (!$this->hasData('product')) {
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', \Mage::registry('product'));
         }
         $product = $this->getData('product');
         if (is_null($product->getTypeInstance()->getStoreFilter($product))) {
-            $product->getTypeInstance()->setStoreFilter(Mage::app()->getStore($product->getStoreId()), $product);
+            $product->getTypeInstance()->setStoreFilter(\Mage::app()->getStore($product->getStoreId()), $product);
         }
 
         return $product;
@@ -38,11 +40,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Configurable ex
     /**
      * Retrieve current store
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getCurrentStore()
     {
-        return Mage::app()->getStore($this->getProduct()->getStoreId());
+        return \Mage::app()->getStore($this->getProduct()->getStoreId());
     }
 
     /**

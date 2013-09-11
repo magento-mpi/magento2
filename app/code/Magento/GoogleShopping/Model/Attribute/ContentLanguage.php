@@ -15,18 +15,20 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Attribute_ContentLanguage extends Magento_GoogleShopping_Model_Attribute_Default
+namespace Magento\GoogleShopping\Model\Attribute;
+
+class ContentLanguage extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Gdata\Gshopping\Entry $entry
      * @return \Magento\Gdata\Gshopping\Entry
      */
     public function convertAttribute($product, $entry)
     {
-        $config = Mage::getSingleton('Magento_GoogleShopping_Model_Config');
+        $config = \Mage::getSingleton('Magento\GoogleShopping\Model\Config');
         $targetCountry = $config->getTargetCountry($product->getStoreId());
         $value = $config->getCountryInfo($targetCountry, 'language', $product->getStoreId());
 

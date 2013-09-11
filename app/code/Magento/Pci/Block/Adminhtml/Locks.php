@@ -12,7 +12,9 @@
  * Locked administrators page
  *
  */
-class Magento_Pci_Block_Adminhtml_Locks extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Pci\Block\Adminhtml;
+
+class Locks extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Header text getter

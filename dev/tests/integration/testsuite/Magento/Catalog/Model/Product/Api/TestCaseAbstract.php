@@ -147,10 +147,10 @@ abstract class Magento_Catalog_Model_Product_Api_TestCaseAbstract extends PHPUni
     /**
      * Assert that two products are equal.
      *
-     * @param Magento_Catalog_Model_Product $expected
-     * @param Magento_Catalog_Model_Product $actual
+     * @param \Magento\Catalog\Model\Product $expected
+     * @param \Magento\Catalog\Model\Product $actual
      */
-    public function assertProductEquals(Magento_Catalog_Model_Product $expected, Magento_Catalog_Model_Product $actual)
+    public function assertProductEquals(\Magento\Catalog\Model\Product $expected, \Magento\Catalog\Model\Product $actual)
     {
         foreach ($expected->getData() as $attribute => $value) {
             $this->assertEquals(

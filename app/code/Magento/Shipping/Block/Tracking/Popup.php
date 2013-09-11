@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
+namespace Magento\Shipping\Block\Tracking;
+
+class Popup extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve array of tracking info
@@ -17,8 +19,8 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
      */
     public function getTrackingInfo()
     {
-        /* @var $info Magento_Shipping_Model_Info */
-        $info = Mage::registry('current_shipping_info');
+        /* @var $info \Magento\Shipping\Model\Info */
+        $info = \Mage::registry('current_shipping_info');
 
         return $info->getTrackingInfo();
     }
@@ -43,10 +45,10 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
      */
     public function formatDeliveryDate($date)
     {
-        /* @var $locale Magento_Core_Model_LocaleInterface */
-        $locale = Mage::app()->getLocale();
-        $format = $locale->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
-        return $locale->date(strtotime($date), Zend_Date::TIMESTAMP, null, false)
+        /* @var $locale \Magento\Core\Model\LocaleInterface */
+        $locale = \Mage::app()->getLocale();
+        $format = $locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $locale->date(strtotime($date), \Zend_Date::TIMESTAMP, null, false)
             ->toString($format);
     }
 
@@ -63,11 +65,11 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
             $time = $date . ' ' . $time;
         }
 
-        /* @var $locale Magento_Core_Model_LocaleInterface */
-        $locale = Mage::app()->getLocale();
+        /* @var $locale \Magento\Core\Model\LocaleInterface */
+        $locale = \Mage::app()->getLocale();
 
-        $format = $locale->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
-        return $locale->date(strtotime($time), Zend_Date::TIMESTAMP, null, false)
+        $format = $locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $locale->date(strtotime($time), \Zend_Date::TIMESTAMP, null, false)
             ->toString($format);
     }
 
@@ -78,12 +80,12 @@ class Magento_Shipping_Block_Tracking_Popup extends Magento_Core_Block_Template
      */
     public function getContactUsEnabled()
     {
-        return (bool) Mage::getStoreConfig('contacts/contacts/enabled');
+        return (bool) \Mage::getStoreConfig('contacts/contacts/enabled');
     }
 
     public function getStoreSupportEmail()
     {
-        return Mage::getStoreConfig('trans_email/ident_support/email');
+        return \Mage::getStoreConfig('trans_email/ident_support/email');
     }
 
     public function getContactUs()

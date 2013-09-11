@@ -11,24 +11,26 @@
 /**
  * Logging event changes model
  *
- * @method Magento_Logging_Model_Resource_Event_Changes _getResource()
- * @method Magento_Logging_Model_Resource_Event_Changes getResource()
+ * @method \Magento\Logging\Model\Resource\Event\Changes _getResource()
+ * @method \Magento\Logging\Model\Resource\Event\Changes getResource()
  * @method string getSourceName()
- * @method Magento_Logging_Model_Event_Changes setSourceName(string $value)
+ * @method \Magento\Logging\Model\Event\Changes setSourceName(string $value)
  * @method int getEventId()
- * @method Magento_Logging_Model_Event_Changes setEventId(int $value)
+ * @method \Magento\Logging\Model\Event\Changes setEventId(int $value)
  * @method int getSourceId()
- * @method Magento_Logging_Model_Event_Changes setSourceId(int $value)
+ * @method \Magento\Logging\Model\Event\Changes setSourceId(int $value)
  * @method string getOriginalData()
- * @method Magento_Logging_Model_Event_Changes setOriginalData(string $value)
+ * @method \Magento\Logging\Model\Event\Changes setOriginalData(string $value)
  * @method string getResultData()
- * @method Magento_Logging_Model_Event_Changes setResultData(string $value)
+ * @method \Magento\Logging\Model\Event\Changes setResultData(string $value)
  *
  * @category    Magento
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Logging_Model_Event_Changes extends Magento_Core_Model_Abstract
+namespace Magento\Logging\Model\Event;
+
+class Changes extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Config path to fields that must be not be logged for all models
@@ -65,15 +67,15 @@ class Magento_Logging_Model_Event_Changes extends Magento_Core_Model_Abstract
     protected function _construct()
     {
         $this->_globalSkipFields = array_map('trim', array_filter(explode(',',
-            (string)Mage::getConfig()->getNode(self::XML_PATH_SKIP_GLOBAL_FIELDS))));
+            (string)\Mage::getConfig()->getNode(self::XML_PATH_SKIP_GLOBAL_FIELDS))));
 
-        $this->_init('Magento_Logging_Model_Resource_Event_Changes');
+        $this->_init('\Magento\Logging\Model\Resource\Event\Changes');
     }
 
     /**
      * Set some data automatically before saving model
      *
-     * @return Magento_Logging_Model_Event
+     * @return \Magento\Logging\Model\Event
      */
     protected function _beforeSave()
     {

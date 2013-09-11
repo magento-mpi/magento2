@@ -17,7 +17,9 @@
  * @deprecated is not used in code
  */
 
-class Magento_Backend_Block_Widget_View_Container extends Magento_Backend_Block_Widget_Container
+namespace Magento\Backend\Block\Widget\View;
+
+class Container extends \Magento\Backend\Block\Widget\Container
 {
     protected $_objectId = 'id';
 

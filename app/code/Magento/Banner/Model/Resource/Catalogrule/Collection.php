@@ -9,7 +9,9 @@
 /**
  * Collection of banner <-> catalog rule associations
  */
-class Magento_Banner_Model_Resource_Catalogrule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Banner\Model\Resource\Catalogrule;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var string
@@ -26,14 +28,14 @@ class Magento_Banner_Model_Resource_Catalogrule_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Object', 'Magento_CatalogRule_Model_Resource_Rule');
+        $this->_init('\Magento\Object', '\Magento\CatalogRule\Model\Resource\Rule');
         $this->setMainTable('magento_banner_catalogrule');
     }
 
     /**
      * Filter out disabled banners
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {
@@ -54,7 +56,7 @@ class Magento_Banner_Model_Resource_Catalogrule_Collection extends Magento_Core_
      *
      * @param int $websiteId
      * @param int $customerGroupId
-     * @return Magento_Banner_Model_Resource_Catalogrule_Collection
+     * @return \Magento\Banner\Model\Resource\Catalogrule\Collection
      */
     public function addWebsiteCustomerGroupFilter($websiteId, $customerGroupId)
     {

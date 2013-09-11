@@ -15,12 +15,14 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Block_Cart_Item_Configure extends Magento_Core_Block_Template
+namespace Magento\AdvancedCheckout\Block\Cart\Item;
+
+class Configure extends \Magento\Core\Block\Template
 {
     /**
      * Configure product view blocks
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

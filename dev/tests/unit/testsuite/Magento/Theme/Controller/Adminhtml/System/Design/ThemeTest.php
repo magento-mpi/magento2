@@ -15,7 +15,7 @@
 class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Theme_Controller_Adminhtml_System_Design_Theme
+     * @var \Magento\Theme\Controller\Adminhtml\System\Design\Theme
      */
     protected $_model;
 
@@ -34,7 +34,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
         $this->_request = $this->getMock(
-            'Magento_Core_Controller_Request_Http', array('getParam', 'getPost'), array(), '', false
+            '\Magento\Core\Controller\Request\Http', array('getParam', 'getPost'), array(), '', false
         );
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
@@ -43,9 +43,9 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
             'objectManager' => $this->_objectManagerMock,
 
         );
-        $context = $helper->getObject('Magento_Backend_Controller_Context', $arguments);
+        $context = $helper->getObject('\Magento\Backend\Controller\Context', $arguments);
 
-        $this->_model = $this->getMock('Magento_Theme_Controller_Adminhtml_System_Design_Theme',
+        $this->_model = $this->getMock('Magento\Theme\Controller\Adminhtml\System\Design\Theme',
             array('_forward', '_title', 'loadLayout', 'renderLayout', '_redirect'),
             array($context, null)
         );
@@ -55,7 +55,7 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
     }
 
     /**
-     * @covers Magento_Theme_Controller_Adminhtml_System_Design_Theme::saveAction
+     * @covers \Magento\Theme\Controller\Adminhtml\System\Design\Theme::saveAction
      */
     public function testSaveAction()
     {
@@ -77,32 +77,32 @@ class Magento_Theme_Controller_Adminhtml_System_Design_ThemeTest extends PHPUnit
             ->will($this->returnValue($jsOrder));
         $this->_request->expects($this->once(5))->method('getPost')->will($this->returnValue(true));
 
-        $themeMock = $this->getMock('Magento_Core_Model_Theme',
+        $themeMock = $this->getMock('Magento\Core\Model\Theme',
             array('save', 'load', 'setCustomization', 'getThemeImage'), array(), '', false);
 
-        $themeImage = $this->getMock('Magento_Core_Model_Theme_Image', array(), array(), '', false);
+        $themeImage = $this->getMock('Magento\Core\Model\Theme\Image', array(), array(), '', false);
         $themeMock->expects($this->any())->method('getThemeImage')->will($this->returnValue($themeImage));
 
-        $themeFactory = $this->getMock('Magento_Core_Model_Theme_FlyweightFactory', array('create'), array(), '',
+        $themeFactory = $this->getMock('Magento\Core\Model\Theme\FlyweightFactory', array('create'), array(), '',
             false);
         $themeFactory->expects($this->once())->method('create')->will($this->returnValue($themeMock));
 
         $this->_objectManagerMock
             ->expects($this->at(0))
             ->method('get')
-            ->with('Magento_Core_Model_Theme_FlyweightFactory')
+            ->with('Magento\Core\Model\Theme\FlyweightFactory')
             ->will($this->returnValue($themeFactory));
 
         $this->_objectManagerMock
             ->expects($this->at(1))
             ->method('get')
-            ->with('Magento_Theme_Model_Theme_Customization_File_CustomCss')
+            ->with('Magento\Theme\Model\Theme\Customization\File\CustomCss')
             ->will($this->returnValue(null));
 
         $this->_objectManagerMock
             ->expects($this->at(2))
             ->method('create')
-            ->with('Magento_Theme_Model_Theme_SingleFile')
+            ->with('Magento\Theme\Model\Theme\SingleFile')
             ->will($this->returnValue(null));
 
         $this->_model->saveAction();

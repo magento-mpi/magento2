@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
+namespace Magento\Rma\Model\Item;
+
+class Form extends \Magento\Eav\Model\Form
 {
     /**
      * Current module pathname
@@ -38,7 +40,7 @@ class Magento_Rma_Model_Item_Form extends Magento_Eav_Model_Form
      */
     protected function _getFormAttributeCollection()
     {
-        return Mage::getResourceModel($this->_moduleName . '_Model_Resource_Item_Form_Attribute_Collection');
+        return \Mage::getResourceModel($this->_moduleName . '_Model_Resource_Item_Form_Attribute_Collection');
     }
 
     /**

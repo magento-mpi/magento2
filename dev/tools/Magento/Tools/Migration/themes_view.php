@@ -10,8 +10,8 @@
 require_once __DIR__ . '/../../../../../app/bootstrap.php';
 $rootDir = realpath(__DIR__ . '/../../../../..');
 try {
-    $config = new Magento_Core_Model_Config_Primary($rootDir, array());
-    $entryPoint = new Magento_Core_Model_EntryPoint_Cron($config);
+    $config = new \Magento\Core\Model\Config\Primary($rootDir, array());
+    $entryPoint = new \Magento\Core\Model\EntryPoint\Cron($config);
 
     Mage::getConfig()->removeCache();
     Mage::getConfig()->reinit();

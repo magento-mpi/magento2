@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <type name="Magento_Core_Model_ModuleManager">
+    <type name="Magento\Core\Model\ModuleManager">
         <param name="outputConfigPaths">
             <value>
-                <Magento_CustomerBalance>Magento_CustomerBalance_Helper_Data::XML_PATH_ENABLED</Magento_CustomerBalance>
+                <Magento_CustomerBalance>\Magento\CustomerBalance\Helper\Data::XML_PATH_ENABLED</Magento_CustomerBalance>
             </value>
         </param>
     </type>

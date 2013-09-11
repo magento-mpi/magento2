@@ -9,7 +9,7 @@
 class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CustomerSegment_Helper_Data
+     * @var \Magento\CustomerSegment\Helper\Data
      */
     private $_helper;
 
@@ -28,15 +28,15 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $translate = function (array $args) {
             return reset($args);
         };
-        $translator = $this->getMock('Magento_Core_Model_Translate', array('translate'), array(), '', false);
+        $translator = $this->getMock('Magento\Core\Model\Translate', array('translate'), array(), '', false);
         $translator->expects($this->any())->method('translate')->will($this->returnCallback($translate));
-        $this->_storeConfig = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
         $this->_segmentCollection = $this->getMock(
-            'Magento_CustomerSegment_Model_Resource_Segment_Collection', array('toOptionArray'), array(), '', false
+            '\Magento\CustomerSegment\Model\Resource\Segment\Collection', array('toOptionArray'), array(), '', false
         );
-        $helperContext = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
+        $helperContext = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
         $helperContext->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
-        $this->_helper = new Magento_CustomerSegment_Helper_Data(
+        $this->_helper = new \Magento\CustomerSegment\Helper\Data(
             $helperContext,
             $this->_storeConfig,
             $this->_segmentCollection
@@ -61,7 +61,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_storeConfig
             ->expects($this->once())
             ->method('getConfig')
-            ->with(Magento_CustomerSegment_Helper_Data::XML_PATH_CUSTOMER_SEGMENT_ENABLER)
+            ->with(\Magento\CustomerSegment\Helper\Data::XML_PATH_CUSTOMER_SEGMENT_ENABLER)
             ->will($this->returnValue('1'))
         ;
 
@@ -74,7 +74,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $form = new \Magento\Data\Form(array('html_id_prefix' => 'pfx_'));
         $data = new \Magento\Object($fixtureFormData);
         $dependencies = $this->getMock(
-            'Magento_Backend_Block_Widget_Form_Element_Dependence',
+            '\Magento\Backend\Block\Widget\Form\Element\Dependence',
             array('addFieldMap', 'addFieldDependence'),
             array(), '', false
         );
@@ -140,7 +140,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_storeConfig
             ->expects($this->once())
             ->method('getConfig')
-            ->with(Magento_CustomerSegment_Helper_Data::XML_PATH_CUSTOMER_SEGMENT_ENABLER)
+            ->with(\Magento\CustomerSegment\Helper\Data::XML_PATH_CUSTOMER_SEGMENT_ENABLER)
             ->will($this->returnValue('0'))
         ;
 
@@ -149,7 +149,7 @@ class Magento_CustomerSegment_Helper_DataTest extends PHPUnit_Framework_TestCase
         $form = new \Magento\Data\Form(array('html_id_prefix' => 'pfx_'));
         $data = new \Magento\Object();
         $dependencies = $this->getMock(
-            'Magento_Backend_Block_Widget_Form_Element_Dependence',
+            '\Magento\Backend\Block\Widget\Form\Element\Dependence',
             array('addFieldMap', 'addFieldDependence'),
             array(), '', false
         );

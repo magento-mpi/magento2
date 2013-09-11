@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Eav_Model_Entity_Attribute_Frontend_Datetime extends Magento_Eav_Model_Entity_Attribute_Frontend_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Frontend;
+
+class Datetime extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
 {
     /**
      * Retreive attribute value
@@ -21,15 +23,15 @@ class Magento_Eav_Model_Entity_Attribute_Frontend_Datetime extends Magento_Eav_M
     {
         $data = '';
         $value = parent::getValue($object);
-        $format = Mage::app()->getLocale()->getDateFormat(
-            Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM
+        $format = \Mage::app()->getLocale()->getDateFormat(
+            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
         );
 
         if ($value) {
             try {
-                $data = Mage::getSingleton('Magento_Core_Model_LocaleInterface')->date($value, Zend_Date::ISO_8601, null, false)->toString($format);
-            } catch (Exception $e) {
-                $data = Mage::getSingleton('Magento_Core_Model_LocaleInterface')->date($value, null, null, false)->toString($format);
+                $data = \Mage::getSingleton('Magento\Core\Model\LocaleInterface')->date($value, \Zend_Date::ISO_8601, null, false)->toString($format);
+            } catch (\Exception $e) {
+                $data = \Mage::getSingleton('Magento\Core\Model\LocaleInterface')->date($value, null, null, false)->toString($format);
             }
         }
 

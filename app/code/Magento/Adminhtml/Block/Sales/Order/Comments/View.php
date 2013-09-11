@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order\Comments;
+
+class View extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Retrieve required options from parent
@@ -23,7 +25,7 @@ class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtm
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(__('Please correct the parent block for this block.'));
+            \Mage::throwException(__('Please correct the parent block for this block.'));
         }
         $this->setEntity($this->getParentBlock()->getSource());
         parent::_beforeToHtml();
@@ -32,11 +34,11 @@ class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtm
     /**
      * Prepare child blocks
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items
+     * @return \Magento\Adminhtml\Block\Sales\Order\Invoice\Create\Items
      */
     protected function _prepareLayout()
     {
-        $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('submit_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'id'      => 'submit_comment_button',
             'label'   => __('Submit Comment'),
             'class'   => 'save'
@@ -53,7 +55,7 @@ class Magento_Adminhtml_Block_Sales_Order_Comments_View extends Magento_Adminhtm
 
     public function canSendCommentEmail()
     {
-        $helper = Mage::helper('Magento_Sales_Helper_Data');
+        $helper = \Mage::helper('Magento\Sales\Helper\Data');
         switch ($this->getParentType()) {
             case 'invoice':
                 return $helper->canSendInvoiceCommentEmail($this->getEntity()->getOrder()->getStore()->getId());

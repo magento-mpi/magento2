@@ -15,26 +15,28 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribute_Helper_Data
+namespace Magento\CustomerCustomAttributes\Helper;
+
+class Data extends \Magento\CustomAttribute\Helper\Data
 {
     /**
      * Return available customer attribute form as select options
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function getAttributeFormOptions()
     {
-        Mage::throwException(__('Use helper with defined EAV entity.'));
+        \Mage::throwException(__('Use helper with defined EAV entity.'));
     }
 
     /**
      * Default attribute entity type code
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _getEntityTypeCode()
     {
-        Mage::throwException(__('Use helper with defined EAV entity.'));
+        \Mage::throwException(__('Use helper with defined EAV entity.'));
     }
 
     /**
@@ -44,7 +46,7 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
      */
     public function getCustomerAttributeFormOptions()
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Customer')->getAttributeFormOptions();
+        return \Mage::helper('Magento\CustomerCustomAttributes\Helper\Customer')->getAttributeFormOptions();
     }
 
     /**
@@ -54,7 +56,7 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
      */
     public function getCustomerAddressAttributeFormOptions()
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Address')->getAttributeFormOptions();
+        return \Mage::helper('Magento\CustomerCustomAttributes\Helper\Address')->getAttributeFormOptions();
     }
 
     /**
@@ -64,7 +66,7 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
      */
     public function getCustomerUserDefinedAttributeCodes()
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Customer')->getUserDefinedAttributeCodes();
+        return \Mage::helper('Magento\CustomerCustomAttributes\Helper\Customer')->getUserDefinedAttributeCodes();
     }
 
     /**
@@ -74,6 +76,6 @@ class Magento_CustomerCustomAttributes_Helper_Data extends Magento_CustomAttribu
      */
     public function getCustomerAddressUserDefinedAttributeCodes()
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Address')->getUserDefinedAttributeCodes();
+        return \Mage::helper('Magento\CustomerCustomAttributes\Helper\Address')->getUserDefinedAttributeCodes();
     }
 }

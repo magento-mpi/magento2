@@ -16,16 +16,16 @@
                 <label>Automated Email Reminder Rules</label>
                 <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Reminder Emails</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Yesno</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="frequency" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Frequency</label>
-                    <source_model>Magento_Reminder_Model_Observer::getCronFrequencyTypes</source_model>
-                    <backend_model>Magento_Reminder_Model_System_Config_Backend_Cron</backend_model>
+                    <source_model>\Magento\Reminder\Model\Observer::getCronFrequencyTypes</source_model>
+                    <backend_model>\Magento\Reminder\Model\System\Config\Backend\Cron</backend_model>
                 </field>
                 <field id="interval" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Interval</label>
-                    <source_model>Magento_Reminder_Model_Observer::getCronMinutes</source_model>
+                    <source_model>\Magento\Reminder\Model\Observer::getCronMinutes</source_model>
                     <comment>Set this value equal or greater to your cron.php launch period.</comment>
                     <depends>
                         <field id="frequency">I</field>
@@ -50,7 +50,7 @@
                 </field>
                 <field id="identity" translate="label" type="select" sortOrder="7" showInDefault="1" showInWebsite="0" showInStore="1">
                     <label>Reminder Email Sender</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Identity</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Email\Identity</source_model>
                 </field>
             </group>
         </section>

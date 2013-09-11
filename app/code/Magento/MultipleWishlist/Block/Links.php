@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Links extends Magento_Wishlist_Block_Links
+namespace Magento\MultipleWishlist\Block;
+
+class Links extends \Magento\Wishlist\Block\Links
 {
     /**
      * Count items in wishlist
@@ -24,7 +26,7 @@ class Magento_MultipleWishlist_Block_Links extends Magento_Wishlist_Block_Links
      */
     protected function _getItemCount()
     {
-        return $this->helper('Magento_MultipleWishlist_Helper_Data')->getItemCount();
+        return $this->helper('\Magento\MultipleWishlist\Helper\Data')->getItemCount();
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_MultipleWishlist_Block_Links extends Magento_Wishlist_Block_Links
      */
     protected function _createLabel($count)
     {
-        if (Mage::helper('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled()) {
+        if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()) {
             if ($count > 1) {
                 return __('My Wish Lists (%1 items)', $count);
             } else if ($count == 1) {

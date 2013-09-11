@@ -12,18 +12,20 @@
  * Custom handlers for models logging
  *
  */
-class Magento_Logging_Model_Handler_Models
+namespace Magento\Logging\Model\Handler;
+
+class Models
 {
     /**
      * SaveAfter handler
      *
-     * @param object Magento_Core_Model_Abstract $model
+     * @param object \Magento\Core\Model\AbstractModel $model
      * @return object Magento_Logging_Event_Changes or false if model wasn't modified
      */
     public function modelSaveAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = Mage::getModel('Magento_Logging_Model_Event_Changes')
+        $changes = \Mage::getModel('\Magento\Logging\Model\Event\Changes')
             ->setOriginalData($model->getOrigData())
             ->setResultData($model->getData());
         return $changes;
@@ -32,13 +34,13 @@ class Magento_Logging_Model_Handler_Models
     /**
      * Delete after handler
      *
-     * @param object Magento_Core_Model_Abstract $model
+     * @param object \Magento\Core\Model\AbstractModel $model
      * @return object Magento_Logging_Event_Changes
      */
     public function modelDeleteAfter($model, $processor)
     {
         $processor->collectId($model);
-        $changes = Mage::getModel('Magento_Logging_Model_Event_Changes')
+        $changes = \Mage::getModel('\Magento\Logging\Model\Event\Changes')
             ->setOriginalData($model->getOrigData())
             ->setResultData(null);
         return $changes;
@@ -47,7 +49,7 @@ class Magento_Logging_Model_Handler_Models
     /**
      * MassUpdate after handler
      *
-     * @param object Magento_Core_Model_Abstract $model
+     * @param object \Magento\Core\Model\AbstractModel $model
      * @return object Magento_Logging_Event_Changes
      */
     public function modelMassUpdateAfter($model, $processor)
@@ -58,7 +60,7 @@ class Magento_Logging_Model_Handler_Models
     /**
      * MassDelete after handler
      *
-     * @param object Magento_Core_Model_Abstract $model
+     * @param object \Magento\Core\Model\AbstractModel $model
      * @return object Magento_Logging_Event_Changes
      */
     public function modelMassDeleteAfter($model, $processor)
@@ -69,8 +71,8 @@ class Magento_Logging_Model_Handler_Models
     /**
      * Load after handler
      *
-     * @param object Magento_Core_Model_Abstract $model
-     * @return Magento_Logging_Model_Event_Changes
+     * @param object \Magento\Core\Model\AbstractModel $model
+     * @return \Magento\Logging\Model\Event\Changes
      */
     public function modelViewAfter($model, $processor)
     {

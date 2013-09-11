@@ -11,7 +11,9 @@
 /**
  * PayPal Standard checkout request API
  */
-class Magento_Paypal_Model_Api_Standard extends Magento_Paypal_Model_Api_Abstract
+namespace Magento\Paypal\Model\Api;
+
+class Standard extends \Magento\Paypal\Model\Api\AbstractApi
 {
     /**
      * Global interface map and export filters
@@ -72,10 +74,10 @@ class Magento_Paypal_Model_Api_Standard extends Magento_Paypal_Model_Api_Abstrac
      * @var array
      */
     protected $_lineItemTotalExportMap = array(
-        Magento_Paypal_Model_Cart::TOTAL_SUBTOTAL => 'amount',
-        Magento_Paypal_Model_Cart::TOTAL_DISCOUNT => 'discount_amount',
-        Magento_Paypal_Model_Cart::TOTAL_TAX      => 'tax',
-        Magento_Paypal_Model_Cart::TOTAL_SHIPPING => 'shipping',
+        \Magento\Paypal\Model\Cart::TOTAL_SUBTOTAL => 'amount',
+        \Magento\Paypal\Model\Cart::TOTAL_DISCOUNT => 'discount_amount',
+        \Magento\Paypal\Model\Cart::TOTAL_TAX      => 'tax',
+        \Magento\Paypal\Model\Cart::TOTAL_SHIPPING => 'shipping',
     );
     protected $_lineItemExportItemsFormat = array(
         'id'     => 'item_number_%d',

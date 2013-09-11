@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Block_Widget_Dob extends Magento_Customer_Block_Widget_Abstract
+namespace Magento\Customer\Block\Widget;
+
+class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
 {
     /**
      * Date inputs
@@ -70,7 +72,7 @@ class Magento_Customer_Block_Widget_Dob extends Magento_Customer_Block_Widget_Ab
      */
     public function getDateFormat()
     {
-        return Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        return \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
     }
 
     /**

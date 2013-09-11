@@ -9,24 +9,24 @@
 -->
 <config>
     <event name="store_save_commit_after">
-        <observer name="index" instance="Magento_Index_Model_Observer" method="processStoreSave" />
+        <observer name="index" instance="\Magento\Index\Model\Observer" method="processStoreSave" />
     </event>
     <event name="store_group_save_commit_after">
-        <observer name="index" instance="Magento_Index_Model_Observer" method="processStoreGroupSave" />
+        <observer name="index" instance="\Magento\Index\Model\Observer" method="processStoreGroupSave" />
     </event>
     <event name="website_save_commit_after">
-        <observer name="index" instance="Magento_Index_Model_Observer" method="processWebsiteSave" />
+        <observer name="index" instance="\Magento\Index\Model\Observer" method="processWebsiteSave" />
     </event>
     <event name="store_delete_commit_after">
-        <observer name="index" instance="Magento_Index_Model_Observer" method="processStoreDelete" />
+        <observer name="index" instance="\Magento\Index\Model\Observer" method="processStoreDelete" />
     </event>
     <event name="store_group_delete_commit_after">
-        <observer name="index" instance="Magento_Index_Model_Observer" method="processStoreGroupDelete" />
+        <observer name="index" instance="\Magento\Index\Model\Observer" method="processStoreGroupDelete" />
     </event>
     <event name="website_delete_commit_after">
-        <observer name="index" instance="Magento_Index_Model_Observer" method="processWebsiteDelete" />
+        <observer name="index" instance="\Magento\Index\Model\Observer" method="processWebsiteDelete" />
     </event>
     <event name="core_config_data_save_commit_after">
-        <observer name="index" instance="Magento_Index_Model_Observer" method="processConfigDataSave" />
+        <observer name="index" instance="\Magento\Index\Model\Observer" method="processConfigDataSave" />
     </event>
 </config>

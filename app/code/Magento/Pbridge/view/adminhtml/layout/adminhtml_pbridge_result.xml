@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_pbridge_result">
-        <block class="Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Result" name="pbridge.sales.order.create.result" template="sales/order/create/result.phtml" output="1"/>
+        <block class="\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Result" name="pbridge.sales.order.create.result" template="sales/order/create/result.phtml" output="1"/>
     </handle>
 </layout>

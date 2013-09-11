@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs setApiRole() setApiRole(Magento_Webapi_Model_Acl_Role $role)
- * @method Magento_Webapi_Model_Acl_Role getApiRole() getApiRole()
+ * @method \Magento\Webapi\Block\Adminhtml\Role\Edit\Tabs setApiRole() setApiRole(\Magento\Webapi\Model\Acl\Role $role)
+ * @method \Magento\Webapi\Model\Acl\Role getApiRole() getApiRole()
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit;
+
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Internal Constructor.
@@ -27,11 +29,11 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Magento_Backend_Bloc
     /**
      * Prepare child blocks.
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
-        /** @var Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main $mainBlock */
+        /** @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main $mainBlock */
         $mainBlock = $this->getLayout()->getBlock('webapi.role.edit.tab.main');
         $mainBlock->setApiRole($this->getApiRole());
         $this->addTab('main_section', array(
@@ -41,7 +43,7 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tabs extends Magento_Backend_Bloc
             'active' => true
         ));
 
-        /** @var Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource $resourceBlock */
+        /** @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource $resourceBlock */
         $resourceBlock = $this->getLayout()->getBlock('webapi.role.edit.tab.resource');
         $resourceBlock->setApiRole($this->getApiRole());
         $this->addTab('resource_section', array(

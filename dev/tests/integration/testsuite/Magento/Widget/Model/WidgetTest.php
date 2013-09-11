@@ -12,13 +12,13 @@
 class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Model_Widget
+     * @var \Magento\Widget\Model\Widget
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Widget_Model_Widget');
+        $this->_model = Mage::getModel('\Magento\Widget\Model\Widget');
     }
 
     public function testGetWidgetsArray()
@@ -44,9 +44,9 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPlaceholderImageUrl($type, $expectedFile)
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
-        $expectedPubFile = Mage::getBaseDir(Magento_Core_Model_Dir::STATIC_VIEW)
+        $expectedPubFile = Mage::getBaseDir(\Magento\Core\Model\Dir::STATIC_VIEW)
             . "/adminhtml/magento_basic/en_US/{$expectedFile}";
         if (file_exists($expectedPubFile)) {
             unlink($expectedPubFile);
@@ -65,7 +65,7 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'custom image'  => array(
-                'Magento_Catalog_Block_Product_Widget_New',
+                '\Magento\Catalog\Block\Product\Widget\New',
                 'Magento_Catalog/images/product_widget_new.gif'
             ),
             'default image' => array(
@@ -85,11 +85,11 @@ class Magento_Widget_Model_WidgetTest extends PHPUnit_Framework_TestCase
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
+                \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
         $actualFile = $this->testGetPlaceholderImageUrl(
-            'Magento_Catalog_Block_Product_Widget_New',
+            '\Magento\Catalog\Block\Product\Widget\New',
             'Magento_Catalog/images/product_widget_new.gif'
         );
 

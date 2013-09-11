@@ -15,7 +15,7 @@
             <group id="emails">
                 <field id="reset_password_template" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Reset Password Template</label>
-                    <source_model>Magento_Backend_Model_Config_Source_Email_Template</source_model>
+                    <source_model>\Magento\Backend\Model\Config\Source\Email\Template</source_model>
                 </field>
             </group>
         </section>

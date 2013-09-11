@@ -15,12 +15,14 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare Extension Package Form
      *
-     * @return Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Form
+     * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Form
      */
     protected function _prepareForm()
     {

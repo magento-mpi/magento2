@@ -8,21 +8,23 @@
  * @license     {license_link}
  */
 
-class Magento_Poll_Model_Resource_Poll_Answer_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Poll\Model\Resource\Poll\Answer;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection
      */
     public function _construct()
     {
-        $this->_init('Magento_Poll_Model_Poll_Answer', 'Magento_Poll_Model_Resource_Poll_Answer');
+        $this->_init('\Magento\Poll\Model\Poll\Answer', '\Magento\Poll\Model\Resource\Poll\Answer');
     }
 
     /**
      * Add poll filter
      *
      * @param int $pollId
-     * @return Magento_Poll_Model_Resource_Poll_Answer_Collection
+     * @return \Magento\Poll\Model\Resource\Poll\Answer\Collection
      */
     public function addPollFilter($pollId)
     {
@@ -33,8 +35,8 @@ class Magento_Poll_Model_Resource_Poll_Answer_Collection extends Magento_Core_Mo
     /**
      * Count percent
      *
-     * @param Magento_Poll_Model_Poll $pollObject
-     * @return Magento_Poll_Model_Resource_Poll_Answer_Collection
+     * @param \Magento\Poll\Model\Poll $pollObject
+     * @return \Magento\Poll\Model\Resource\Poll\Answer\Collection
      */
     public function countPercent($pollObject)
     {

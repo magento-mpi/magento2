@@ -11,7 +11,9 @@
 /**
  * Paygate data helper
  */
-class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Paygate\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Converts a lot of messages to message
@@ -27,7 +29,7 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return message for gateway transaction request
      *
-     * @param  Magento_Payment_Model_Info $payment
+     * @param  \Magento\Payment\Model\Info $payment
      * @param  string $requestType
      * @param  string $lastTransactionId
      * @param  \Magento\Object $card
@@ -46,7 +48,7 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return message for gateway transaction request
      *
-     * @param  Magento_Payment_Model_Info $payment
+     * @param  \Magento\Payment\Model\Info $payment
      * @param  string $requestType
      * @param  string $lastTransactionId
      * @param  \Magento\Object $card
@@ -103,15 +105,15 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
     protected function _getOperation($requestType)
     {
         switch ($requestType) {
-            case Magento_Paygate_Model_Authorizenet::REQUEST_TYPE_AUTH_ONLY:
+            case \Magento\Paygate\Model\Authorizenet::REQUEST_TYPE_AUTH_ONLY:
                 return __('authorize');
-            case Magento_Paygate_Model_Authorizenet::REQUEST_TYPE_AUTH_CAPTURE:
+            case \Magento\Paygate\Model\Authorizenet::REQUEST_TYPE_AUTH_CAPTURE:
                 return __('authorize and capture');
-            case Magento_Paygate_Model_Authorizenet::REQUEST_TYPE_PRIOR_AUTH_CAPTURE:
+            case \Magento\Paygate\Model\Authorizenet::REQUEST_TYPE_PRIOR_AUTH_CAPTURE:
                 return __('capture');
-            case Magento_Paygate_Model_Authorizenet::REQUEST_TYPE_CREDIT:
+            case \Magento\Paygate\Model\Authorizenet::REQUEST_TYPE_CREDIT:
                 return __('refund');
-            case Magento_Paygate_Model_Authorizenet::REQUEST_TYPE_VOID:
+            case \Magento\Paygate\Model\Authorizenet::REQUEST_TYPE_VOID:
                 return __('void');
             default:
                 return false;
@@ -120,7 +122,7 @@ class Magento_Paygate_Helper_Data extends Magento_Core_Helper_Abstract
 
     /**
      * Format price with currency sign
-     * @param  Magento_Payment_Model_Info $payment
+     * @param  \Magento\Payment\Model\Info $payment
      * @param float $amount
      * @return string
      */

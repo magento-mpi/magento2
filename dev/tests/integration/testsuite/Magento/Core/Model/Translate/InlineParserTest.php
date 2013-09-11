@@ -12,7 +12,7 @@
 class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Translate_InlineParser
+     * @var \Magento\Core\Model\Translate\InlineParser
      */
     protected $_inlineParser;
 
@@ -21,13 +21,13 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
 
     public static function setUpBeforeClass()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo');
     }
 
     public function setUp()
     {
-        $this->_inlineParser = Mage::getModel('Magento_Core_Model_Translate_InlineParser');
+        $this->_inlineParser = Mage::getModel('\Magento\Core\Model\Translate\InlineParser');
         /* Called getConfig as workaround for setConfig bug */
         Mage::app()->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
         Mage::app()->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
@@ -42,11 +42,11 @@ class Magento_Core_Model_Translate_InlineParserTest extends PHPUnit_Framework_Te
         if ($isPerStore !== null) {
             $inputArray[0]['perstore'] = $isPerStore;
         }
-        /** @var $inline Magento_Core_Model_Translate_Inline */
-        $inline = Mage::getModel('Magento_Core_Model_Translate_Inline');
+        /** @var $inline \Magento\Core\Model\Translate\Inline */
+        $inline = Mage::getModel('\Magento\Core\Model\Translate\Inline');
         $this->_inlineParser->processAjaxPost($inputArray, $inline);
 
-        $model = Mage::getModel('Magento_Core_Model_Translate_String');
+        $model = Mage::getModel('\Magento\Core\Model\Translate\String');
         $model->load($originalText);
         try {
             $this->assertEquals($translatedText, $model->getTranslate());

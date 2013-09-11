@@ -10,21 +10,21 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Export_EntityAbstract
+ * Test class for \Magento\ImportExport\Model\Export\EntityAbstract
  */
 class Magento_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test for setter and getter of file name property
      *
-     * @covers Magento_ImportExport_Model_Export_EntityAbstract::getFileName
-     * @covers Magento_ImportExport_Model_Export_EntityAbstract::setFileName
+     * @covers \Magento\ImportExport\Model\Export\EntityAbstract::getFileName
+     * @covers \Magento\ImportExport\Model\Export\EntityAbstract::setFileName
      */
     public function testGetFileNameAndSetFileName()
     {
-        /** @var $model Magento_ImportExport_Model_Export_EntityAbstract */
+        /** @var $model \Magento\ImportExport\Model\Export\EntityAbstract */
         $model = $this->getMockForAbstractClass(
-            'Magento_ImportExport_Model_Export_EntityAbstract',
+            '\Magento\ImportExport\Model\Export\EntityAbstract',
             array(),
             'Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_TestSetAndGet',
             false

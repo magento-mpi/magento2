@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Store_Group extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource\Store;
+
+class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
@@ -30,10 +32,10 @@ class Magento_Core_Model_Resource_Store_Group extends Magento_Core_Model_Resourc
     /**
      * Update default store group for website
      *
-     * @param Magento_Core_Model_Abstract $model
-     * @return Magento_Core_Model_Resource_Store_Group
+     * @param \Magento\Core\Model\AbstractModel $model
+     * @return \Magento\Core\Model\Resource\Store\Group
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $model)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $model)
     {
         $this->_updateStoreWebsite($model->getId(), $model->getWebsiteId());
         $this->_updateWebsiteDefaultGroup($model->getWebsiteId(), $model->getId());
@@ -47,7 +49,7 @@ class Magento_Core_Model_Resource_Store_Group extends Magento_Core_Model_Resourc
      *
      * @param int $websiteId
      * @param int $groupId
-     * @return Magento_Core_Model_Resource_Store_Group
+     * @return \Magento\Core\Model\Resource\Store\Group
      */
     protected function _updateWebsiteDefaultGroup($websiteId, $groupId)
     {
@@ -67,10 +69,10 @@ class Magento_Core_Model_Resource_Store_Group extends Magento_Core_Model_Resourc
     /**
      * Change store group website
      *
-     * @param Magento_Core_Model_Abstract $model
-     * @return Magento_Core_Model_Resource_Store_Group
+     * @param \Magento\Core\Model\AbstractModel $model
+     * @return \Magento\Core\Model\Resource\Store\Group
      */
-    protected function _changeWebsite(Magento_Core_Model_Abstract $model)
+    protected function _changeWebsite(\Magento\Core\Model\AbstractModel $model)
     {
         if ($model->getOriginalWebsiteId() && $model->getWebsiteId() != $model->getOriginalWebsiteId()) {
             $select = $this->_getWriteAdapter()->select()
@@ -92,7 +94,7 @@ class Magento_Core_Model_Resource_Store_Group extends Magento_Core_Model_Resourc
      *
      * @param int $groupId
      * @param int $websiteId
-     * @return Magento_Core_Model_Resource_Store_Group
+     * @return \Magento\Core\Model\Resource\Store\Group
      */
     protected function _updateStoreWebsite($groupId, $websiteId)
     {
@@ -107,7 +109,7 @@ class Magento_Core_Model_Resource_Store_Group extends Magento_Core_Model_Resourc
      *
      * @param int $groupId
      * @param int $storeId
-     * @return Magento_Core_Model_Resource_Store_Group
+     * @return \Magento\Core\Model\Resource\Store\Group
      */
     protected function _saveDefaultStore($groupId, $storeId)
     {

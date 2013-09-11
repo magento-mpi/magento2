@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="customer_address_form">
         <reference name="customer_address_edit">
-            <block class="Magento_CustomerCustomAttributes_Block_Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+            <block class="\Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
                 <action method="setFormCode">
                     <argument name="code" xsi:type="string">customer_address_edit</argument>
                 </action>

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Grid_StatusesArray implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Sales\Model\Resource\Order\Grid;
+
+class StatusesArray implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return option array
@@ -23,7 +25,7 @@ class Magento_Sales_Model_Resource_Order_Grid_StatusesArray implements Magento_C
      */
     public function toOptionArray()
     {
-        $statuses = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_Collection')
+        $statuses = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\Collection')
             ->toOptionHash();
         return $statuses;
     }

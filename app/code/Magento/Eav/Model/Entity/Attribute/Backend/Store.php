@@ -9,18 +9,20 @@
  */
 
 
-class Magento_Eav_Model_Entity_Attribute_Backend_Store extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
+
+class Store extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Prepare data before save
      *
      * @param \Magento\Object $object
-     * @return Magento_Eav_Model_Entity_Attribute_Backend_Store
+     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Store
      */
     protected function _beforeSave($object)
     {
         if (!$object->getData($this->getAttribute()->getAttributeCode())) {
-            $object->setData($this->getAttribute()->getAttributeCode(), Mage::app()->getStore()->getId());
+            $object->setData($this->getAttribute()->getAttributeCode(), \Mage::app()->getStore()->getId());
         }
 
         return $this;

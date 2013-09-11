@@ -8,7 +8,7 @@
  * $params['MAGE_RUN_CODE'] = 'website2';
  * $params['MAGE_RUN_TYPE'] = 'website';
  * ...
- * $entryPoint = new Magento_Core_Model_EntryPoint_Http(new Magento_Core_Model_Config_Primary(BP, $params));
+ * $entryPoint = new \Magento\Core\Model\EntryPoint\Http(new \Magento\Core\Model\Config\Primary(BP, $params));
  * --------------------------------------------
  *
  * {license_notice}
@@ -19,6 +19,6 @@
 require dirname(__FILE__) . '/app/bootstrap.php';
 
 \Magento\Profiler::start('mage');
-$entryPoint = new Magento_Core_Model_EntryPoint_Http(new Magento_Core_Model_Config_Primary(BP, $_SERVER));
+$entryPoint = new \Magento\Core\Model\EntryPoint\Http(new \Magento\Core\Model\Config\Primary(BP, $_SERVER));
 $entryPoint->processRequest();
 \Magento\Profiler::stop('mage');

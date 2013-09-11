@@ -14,7 +14,7 @@
         <rules>
             <rule name="check_eav">
                 <entity_constraints>
-                    <constraint alias="eav_data_validator" class="Magento_Eav_Model_Validator_Attribute_Data" />
+                    <constraint alias="eav_data_validator" class="\Magento\Eav\Model\Validator\Attribute\Data" />
                 </entity_constraints>
             </rule>
         </rules>
@@ -31,8 +31,8 @@
         <rules>
             <rule name="check_eav">
                 <entity_constraints>
-                    <constraint alias="eav_data_validator" class="Magento_Eav_Model_Validator_Attribute_Data" />
-                    <constraint alias="eav_backend_validator" class="Magento_Eav_Model_Validator_Attribute_Backend" />
+                    <constraint alias="eav_data_validator" class="\Magento\Eav\Model\Validator\Attribute\Data" />
+                    <constraint alias="eav_backend_validator" class="\Magento\Eav\Model\Validator\Attribute\Backend" />
                 </entity_constraints>
             </rule>
         </rules>

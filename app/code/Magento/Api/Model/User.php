@@ -9,34 +9,36 @@
  */
 
 /**
- * @method Magento_Api_Model_Resource_User _getResource()
- * @method Magento_Api_Model_Resource_User getResource()
+ * @method \Magento\Api\Model\Resource\User _getResource()
+ * @method \Magento\Api\Model\Resource\User getResource()
  * @method string getFirstname()
- * @method Magento_Api_Model_User setFirstname(string $value)
+ * @method \Magento\Api\Model\User setFirstname(string $value)
  * @method string getLastname()
- * @method Magento_Api_Model_User setLastname(string $value)
+ * @method \Magento\Api\Model\User setLastname(string $value)
  * @method string getEmail()
- * @method Magento_Api_Model_User setEmail(string $value)
+ * @method \Magento\Api\Model\User setEmail(string $value)
  * @method string getUsername()
- * @method Magento_Api_Model_User setUsername(string $value)
+ * @method \Magento\Api\Model\User setUsername(string $value)
  * @method string getApiKey()
- * @method Magento_Api_Model_User setApiKey(string $value)
+ * @method \Magento\Api\Model\User setApiKey(string $value)
  * @method string getCreated()
- * @method Magento_Api_Model_User setCreated(string $value)
+ * @method \Magento\Api\Model\User setCreated(string $value)
  * @method string getModified()
- * @method Magento_Api_Model_User setModified(string $value)
+ * @method \Magento\Api\Model\User setModified(string $value)
  * @method int getLognum()
- * @method Magento_Api_Model_User setLognum(int $value)
+ * @method \Magento\Api\Model\User setLognum(int $value)
  * @method int getReloadAclFlag()
- * @method Magento_Api_Model_User setReloadAclFlag(int $value)
+ * @method \Magento\Api\Model\User setReloadAclFlag(int $value)
  * @method int getIsActive()
- * @method Magento_Api_Model_User setIsActive(int $value)
+ * @method \Magento\Api\Model\User setIsActive(int $value)
  *
  * @category    Magento
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_User extends Magento_Core_Model_Abstract
+namespace Magento\Api\Model;
+
+class User extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Prefix of model events names
@@ -47,11 +49,11 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Api_Model_Resource_User');
+        $this->_init('\Magento\Api\Model\Resource\User');
     }
 
     /**
-     * @return $this|Magento_Core_Model_Abstract
+     * @return $this|\Magento\Core\Model\AbstractModel
      */
     public function save()
     {
@@ -60,7 +62,7 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
                 'firstname' => $this->getFirstname(),
                 'lastname'  => $this->getLastname(),
                 'email'     => $this->getEmail(),
-                'modified'  => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate()
+                'modified'  => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate()
             );
 
         if ($this->getId() > 0) {
@@ -90,7 +92,7 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return $this|Magento_Core_Model_Abstract
+     * @return $this|\Magento\Core\Model\AbstractModel
      */
     public function delete()
     {
@@ -154,11 +156,11 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract|Magento_Api_Model_Resource_User_Collection
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Api\Model\Resource\User\Collection
      */
     public function getCollection()
     {
-        return Mage::getResourceModel('Magento_Api_Model_Resource_User_Collection');
+        return \Mage::getResourceModel('\Magento\Api\Model\Resource\User\Collection');
     }
 
     /**
@@ -201,7 +203,7 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-        $auth = Mage::helper('Magento_Core_Helper_Data')->validateHash($apiKey, $this->getApiKey());
+        $auth = \Mage::helper('Magento\Core\Helper\Data')->validateHash($apiKey, $this->getApiKey());
         if ($auth) {
             return true;
         } else {
@@ -215,7 +217,7 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
      *
      * @param   string $username
      * @param   string $apiKey
-     * @return  Magento_Api_Model_User
+     * @return  \Magento\Api\Model\User
      */
     public function login($username, $apiKey)
     {
@@ -225,7 +227,7 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
             $this->getResource()->cleanOldSessions($this)
                 ->recordLogin($this)
                 ->recordSession($this);
-            Mage::dispatchEvent('api_user_authenticated', array(
+            \Mage::dispatchEvent('api_user_authenticated', array(
                'model'    => $this,
                'api_key'  => $apiKey,
             ));
@@ -274,7 +276,7 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @param int|Magento_Api_Model_User $user
+     * @param int|\Magento\Api\Model\User $user
      * @return array|null
      */
     public function hasAssigned2Role($user)
@@ -288,7 +290,7 @@ class Magento_Api_Model_User extends Magento_Core_Model_Abstract
      */
     protected function _getEncodedApiKey($apiKey)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->getHash($apiKey, 2);
+        return \Mage::helper('Magento\Core\Helper\Data')->getHash($apiKey, 2);
     }
 
 }

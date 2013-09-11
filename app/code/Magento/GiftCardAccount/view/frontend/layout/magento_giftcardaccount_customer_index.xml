@@ -11,7 +11,7 @@
     <handle label="Customer My Account Gift Card Check Form" id="magento_giftcardaccount_customer_index" type="page" parent="customer_account_index">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block class="Magento_GiftCardAccount_Block_Account_Redeem" name="redeem" template="account/redeem.phtml"/>
+            <block class="\Magento\GiftCardAccount\Block\Account\Redeem" name="redeem" template="account/redeem.phtml"/>
         </reference>
     </handle>
 </layout>

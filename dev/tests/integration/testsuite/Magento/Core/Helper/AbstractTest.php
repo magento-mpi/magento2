@@ -12,14 +12,14 @@
 class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\AbstractHelper|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helper = null;
 
     protected function setUp()
     {
-        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Helper_Context');
-        $this->_helper = $this->getMock('Magento_Core_Helper_Abstract', array('_getModuleName'), array($context));
+        $context = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Helper\Context');
+        $this->_helper = $this->getMock('Magento\Core\Helper\AbstractHelper', array('_getModuleName'), array($context));
         $this->_helper
             ->expects($this->any())
             ->method('_getModuleName')
@@ -28,8 +28,8 @@ class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Helper_Abstract::isModuleEnabled
-     * @covers Magento_Core_Helper_Abstract::isModuleOutputEnabled
+     * @covers \Magento\Core\Helper\AbstractHelper::isModuleEnabled
+     * @covers \Magento\Core\Helper\AbstractHelper::isModuleOutputEnabled
      */
     public function testIsModuleEnabled()
     {
@@ -79,7 +79,7 @@ class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Helper_Abstract::escapeUrl
+     * @covers \Magento\Core\Helper\AbstractHelper::escapeUrl
      */
     public function testEscapeUrl()
     {
@@ -97,7 +97,7 @@ class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Helper_Abstract::quoteEscape
+     * @covers \Magento\Core\Helper\AbstractHelper::quoteEscape
      */
     public function testQuoteEscape()
     {
@@ -114,7 +114,7 @@ class Magento_Core_Helper_AbstractTest extends PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->_helper->getLayout());
         $this->assertInstanceof(get_class($this->_helper), $this->_helper->setLayout(Mage::app()->getLayout()));
-        $this->assertInstanceOf('Magento_Core_Model_Layout', $this->_helper->getLayout());
+        $this->assertInstanceOf('\Magento\Core\Model\Layout', $this->_helper->getLayout());
     }
 
     public function testUrlEncodeDecode()

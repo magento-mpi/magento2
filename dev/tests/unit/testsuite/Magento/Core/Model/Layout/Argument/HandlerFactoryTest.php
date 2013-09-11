@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_HandlerFactory
+ * Test class for \Magento\Core\Model\Layout\Argument\HandlerFactory
  */
 class Magento_Core_Model_Layout_Argument_HandlerFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_HandlerFactory
+     * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class Magento_Core_Model_Layout_Argument_HandlerFactoryTest extends PHPUnit_Fram
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_model = new Magento_Core_Model_Layout_Argument_HandlerFactory($this->_objectManagerMock);
+        $this->_model = new \Magento\Core\Model\Layout\Argument\HandlerFactory($this->_objectManagerMock);
     }
 
     protected function tearDown()
@@ -83,9 +83,9 @@ class Magento_Core_Model_Layout_Argument_HandlerFactoryTest extends PHPUnit_Fram
     public function getArgumentHandlerFactoryByTypeWithValidTypeDataProvider()
     {
         return array(
-            'object'  => array('object', 'Magento_Core_Model_Layout_Argument_Handler_Object'),
-            'options' => array('options', 'Magento_Core_Model_Layout_Argument_Handler_Options'),
-            'url'     => array('url', 'Magento_Core_Model_Layout_Argument_Handler_Url')
+            'object'  => array('object', '\Magento\Core\Model\Layout\Argument\Handler\Object'),
+            'options' => array('options', '\Magento\Core\Model\Layout\Argument\Handler\Options'),
+            'url'     => array('url', '\Magento\Core\Model\Layout\Argument\Handler\Url')
         );
     }
 }

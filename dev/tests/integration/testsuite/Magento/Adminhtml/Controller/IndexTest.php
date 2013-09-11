@@ -15,7 +15,7 @@
 class Magento_Adminhtml_Controller_IndexTest extends Magento_Backend_Utility_Controller
 {
     /**
-     * @covers Magento_Adminhtml_Controller_Index::globalSearchAction
+     * @covers \Magento\Adminhtml\Controller\Index::globalSearchAction
      */
     public function testGlobalSearchAction()
     {

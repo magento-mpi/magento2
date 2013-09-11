@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Invoker
+ * \Magento\Core\Model\DataService\Invoker
  *
  * {license_notice}
  *
@@ -21,7 +21,7 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
     const TEST_NAMESPACE_ALIAS = 'TEST_NAMESPACE_ALIAS';
 
     /**
-     * @var Magento_Core_Model_DataService_Graph
+     * @var \Magento\Core\Model\DataService\Graph
      */
     protected $_graph;
 
@@ -42,11 +42,11 @@ class Magento_Core_Model_DataService_GraphTest extends PHPUnit_Framework_TestCas
 
     public function setUp()
     {
-        $this->_invokerMock = $this->getMock('Magento_Core_Model_DataService_Invoker', array(), array(), "", false);
+        $this->_invokerMock = $this->getMock('Magento\Core\Model\DataService\Invoker', array(), array(), "", false);
         $this->_repositoryMock = $this->getMock(
-            'Magento_Core_Model_DataService_Repository', array(), array(), "", false
+            '\Magento\Core\Model\DataService\Repository', array(), array(), "", false
         );
-        $this->_graph = new Magento_Core_Model_DataService_Graph($this->_invokerMock, $this->_repositoryMock);
+        $this->_graph = new \Magento\Core\Model\DataService\Graph($this->_invokerMock, $this->_repositoryMock);
         $this->_dataServiceMock = (object)array();
     }
 

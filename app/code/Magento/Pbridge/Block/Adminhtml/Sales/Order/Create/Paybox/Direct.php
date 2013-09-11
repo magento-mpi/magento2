@@ -16,8 +16,10 @@
  * @package     Magento_Pbridge
  * @author      Magento
  */
-class Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Paybox_Direct
-    extends Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Abstract
+namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paybox;
+
+class Direct
+    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Payone payment code

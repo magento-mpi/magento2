@@ -17,9 +17,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extend
     public function testGetOptionValuesCaching()
     {
         $block = Mage::app()->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option');
-        /** @var $productWithOptions Magento_Catalog_Model_Product */
-        $productWithOptions = Mage::getModel('Magento_Catalog_Model_Product');
+            ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Option');
+        /** @var $productWithOptions \Magento\Catalog\Model\Product */
+        $productWithOptions = Mage::getModel('\Magento\Catalog\Model\Product');
         $productWithOptions->setTypeId('simple')
             ->setId(1)
             ->setAttributeSetId(4)
@@ -32,13 +32,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_OptionTest extend
             ->setMetaKeyword('meta keyword')
             ->setMetaDescription('meta description')
 
-            ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-            ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+            ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
 
         $product = clone $productWithOptions;
-        /** @var $option Magento_Catalog_Model_Product_Option */
+        /** @var $option \Magento\Catalog\Model\Product\Option */
         $option = Mage::getModel(
-            'Magento_Catalog_Model_Product_Option',
+            '\Magento\Catalog\Model\Product\Option',
             array('data' => array('id' => 1, 'title' => 'some_title'))
         );
         $productWithOptions->addOption($option);

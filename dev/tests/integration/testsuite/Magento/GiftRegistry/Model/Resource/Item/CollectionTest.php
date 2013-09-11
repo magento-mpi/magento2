@@ -8,13 +8,13 @@
 class Magento_GiftRegistry_Model_Resource_Item_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @var \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     protected $_collection = null;
 
     protected function setUp()
     {
-        $this->_collection = Mage::getModel('Magento_GiftRegistry_Model_Resource_Item_Collection');
+        $this->_collection = Mage::getModel('\Magento\GiftRegistry\Model\Resource\Item\Collection');
     }
 
     public function testAddProductFilter()

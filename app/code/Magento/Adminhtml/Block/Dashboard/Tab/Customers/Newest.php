@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Magento_Adminhtml_Block_Dashboard_Grid
+namespace Magento\Adminhtml\Block\Dashboard\Tab\Customers;
+
+class Newest extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
 
     protected function _construct()
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Magento_Adm
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Customer_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Customer\Collection')
             ->addCustomerName();
 
         $storeFilter = 0;
@@ -35,10 +37,10 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Magento_Adm
             $collection->addAttributeToFilter('store_id', $this->getParam('store'));
             $storeFilter = 1;
         } else if ($this->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
+            $storeIds = \Mage::app()->getWebsite($this->getParam('website'))->getStoreIds();
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         } else if ($this->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
+            $storeIds = \Mage::app()->getGroup($this->getParam('group'))->getStoreIds();
             $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
         }
 
@@ -65,7 +67,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Magento_Adm
             'type'      => 'number'
         ));
 
-        $baseCurrencyCode = (string) Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
+        $baseCurrencyCode = (string) \Mage::app()->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
 
         $this->addColumn('orders_avg_amount', array(
             'header'    => __('Average'),
@@ -74,7 +76,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Magento_Adm
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_avg_amount',
-            'renderer'  =>'Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Currency'
+            'renderer'  =>'\Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency'
         ));
 
         $this->addColumn('orders_sum_amount', array(
@@ -84,7 +86,7 @@ class Magento_Adminhtml_Block_Dashboard_Tab_Customers_Newest extends Magento_Adm
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_sum_amount',
-            'renderer'  =>'Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Currency'
+            'renderer'  =>'\Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency'
         ));
 
         $this->setFilterVisibility(false);

@@ -30,7 +30,9 @@
  * -carrier: usps
  * -tracksummary: Your item was delivered at 6:50 am on February 6 in Los Angeles CA 90064
  */
-class Magento_Shipping_Model_Tracking_Result_Status extends Magento_Shipping_Model_Tracking_Result_Abstract
+namespace Magento\Shipping\Model\Tracking\Result;
+
+class Status extends \Magento\Shipping\Model\Tracking\Result\AbstractResult
 {
     public function getAllData(){
         return $this->_data;

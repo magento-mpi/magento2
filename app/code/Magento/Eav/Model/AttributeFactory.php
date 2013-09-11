@@ -15,7 +15,9 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_AttributeFactory
+namespace Magento\Eav\Model;
+
+class AttributeFactory
 {
     /**
      * @var \Magento\ObjectManager

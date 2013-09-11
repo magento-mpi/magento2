@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Catalog_Controller_Product.
+ * Test class for \Magento\Catalog\Controller\Product.
  */
 class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
@@ -22,8 +22,8 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
 
     protected function _getProductImageFile()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1);
         $images = $product->getMediaGalleryImages()->getItems();
         $image = reset($images);
@@ -36,12 +36,12 @@ class Magento_Catalog_Controller_ProductTest extends Magento_TestFramework_TestC
     public function testViewAction()
     {
         $this->dispatch('catalog/product/view/id/1');
-        /** @var $currentProduct Magento_Catalog_Model_Product */
+        /** @var $currentProduct \Magento\Catalog\Model\Product */
         $currentProduct = Mage::registry('current_product');
-        $this->assertInstanceOf('Magento_Catalog_Model_Product', $currentProduct);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Product', $currentProduct);
         $this->assertEquals(1, $currentProduct->getId());
 
-        $lastViewedProductId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId();
+        $lastViewedProductId = Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId();
         $this->assertEquals(1, $lastViewedProductId);
 
         /* Layout updates */

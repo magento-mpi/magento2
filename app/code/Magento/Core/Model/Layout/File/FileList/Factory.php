@@ -9,7 +9,9 @@
 /**
  * Factory that produces layout file list instances
  */
-class Magento_Core_Model_Layout_File_FileList_Factory
+namespace Magento\Core\Model\Layout\File\FileList;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -27,10 +29,10 @@ class Magento_Core_Model_Layout_File_FileList_Factory
     /**
      * Return newly created instance of a layout file list
      *
-     * @return Magento_Core_Model_Layout_File_List
+     * @return \Magento\Core\Model\Layout\File\ListFile
      */
     public function create()
     {
-        return $this->_objectManager->create('Magento_Core_Model_Layout_File_List');
+        return $this->_objectManager->create('Magento\Core\Model\Layout\File\ListFile');
     }
 }

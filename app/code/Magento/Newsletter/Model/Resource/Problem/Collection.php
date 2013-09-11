@@ -16,7 +16,9 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Newsletter\Model\Resource\Problem;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * True when subscribers info joined
@@ -38,13 +40,13 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Newsletter_Model_Problem', 'Magento_Newsletter_Model_Resource_Problem');
+        $this->_init('\Magento\Newsletter\Model\Problem', '\Magento\Newsletter\Model\Resource\Problem');
     }
 
     /**
      * Adds subscribers info
      *
-     * @return Magento_Newsletter_Model_Resource_Problem_Collection
+     * @return \Magento\Newsletter\Model\Resource\Problem\Collection
      */
     public function addSubscriberInfo()
     {
@@ -61,7 +63,7 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
     /**
      * Adds queue info
      *
-     * @return Magento_Newsletter_Model_Resource_Problem_Collection
+     * @return \Magento\Newsletter\Model\Resource\Problem\Collection
      */
     public function addQueueInfo()
     {
@@ -93,7 +95,7 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
             return;
         }
 
-        $customers = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
+        $customers = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection')
             ->addNameToSelect()
             ->addAttributeToFilter('entity_id', array("in"=>$customersIds));
 
@@ -114,7 +116,7 @@ class Magento_Newsletter_Model_Resource_Problem_Collection extends Magento_Core_
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Magento_Newsletter_Model_Resource_Problem_Collection
+     * @return \Magento\Newsletter\Model\Resource\Problem\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {

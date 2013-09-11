@@ -10,19 +10,19 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Category_Api_V2.
+ * Test class for \Magento\Catalog\Model\Category\Api\V2.
  */
 class Magento_Catalog_Model_Category_Api_V2Test extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Category_Api_V2
+     * @var \Magento\Catalog\Model\Category\Api\V2
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Category_Api_V2');
-        Mage::app()->setCurrentStore(Magento_Core_Model_App::ADMIN_STORE_ID);
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Category\Api\V2');
+        Mage::app()->setCurrentStore(\Magento\Core\Model\App::ADMIN_STORE_ID);
     }
 
     public function testCRUD()

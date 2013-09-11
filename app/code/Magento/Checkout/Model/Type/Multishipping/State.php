@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Type_Multishipping_State extends \Magento\Object
+namespace Magento\Checkout\Model\Type\Multishipping;
+
+class State extends \Magento\Object
 {
     const STEP_SELECT_ADDRESSES = 'multishipping_addresses';
     const STEP_SHIPPING         = 'multishipping_shipping';
@@ -33,7 +35,7 @@ class Magento_Checkout_Model_Type_Multishipping_State extends \Magento\Object
     /**
      * Checkout model
      *
-     * @var Magento_Checkout_Model_Type_Multishipping
+     * @var \Magento\Checkout\Model\Type\Multishipping
      */
     protected $_checkout;
 
@@ -66,14 +68,14 @@ class Magento_Checkout_Model_Type_Multishipping_State extends \Magento\Object
             $step->setIsComplete(false);
         }
 
-        $this->_checkout = Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        $this->_checkout = \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
         $this->_steps[$this->getActiveStep()]->setIsActive(true);
     }
 
     /**
      * Retrieve checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
@@ -127,7 +129,7 @@ class Magento_Checkout_Model_Type_Multishipping_State extends \Magento\Object
      * Mark step as completed
      *
      * @param string $step
-     * @return Magento_Checkout_Model_Type_Multishipping_State
+     * @return \Magento\Checkout\Model\Type\Multishipping\State
      */
     public function setCompleteStep($step)
     {
@@ -155,7 +157,7 @@ class Magento_Checkout_Model_Type_Multishipping_State extends \Magento\Object
      * Unset complete status from step
      *
      * @param string $step
-     * @return Magento_Checkout_Model_Type_Multishipping_State
+     * @return \Magento\Checkout\Model\Type\Multishipping\State
      */
     public function unsCompleteStep($step)
     {
@@ -188,10 +190,10 @@ class Magento_Checkout_Model_Type_Multishipping_State extends \Magento\Object
     /**
      * Retrieve checkout session
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getCheckoutSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return \Mage::getSingleton('Magento\Checkout\Model\Session');
     }
 }

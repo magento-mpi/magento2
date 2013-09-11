@@ -15,12 +15,14 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_Object extends Magento_Core_Model_Layout_Argument_HandlerAbstract
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class Object extends \Magento\Core\Model\Layout\Argument\HandlerAbstract
 {
     /**
      * Instantiate model object
      * @param string $value
-     * @return Magento_Core_Model_Abstract|boolean
+     * @return \Magento\Core\Model\AbstractModel|boolean
      */
     public function process($value)
     {

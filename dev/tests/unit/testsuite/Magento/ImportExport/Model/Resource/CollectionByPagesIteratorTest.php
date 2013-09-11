@@ -10,18 +10,18 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Resource_CollectionByPagesIterator
+ * Test class for \Magento\ImportExport\Model\Resource\CollectionByPagesIterator
  */
 class Magento_ImportExport_Model_Resource_CollectionByPagesIteratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Resource_CollectionByPagesIterator
+     * @var \Magento\ImportExport\Model\Resource\CollectionByPagesIterator
      */
     protected $_resourceModel;
 
     protected function setUp()
     {
-        $this->_resourceModel = new Magento_ImportExport_Model_Resource_CollectionByPagesIterator();
+        $this->_resourceModel = new \Magento\ImportExport\Model\Resource\CollectionByPagesIterator();
     }
 
     protected function tearDown()
@@ -30,7 +30,7 @@ class Magento_ImportExport_Model_Resource_CollectionByPagesIteratorTest extends 
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Resource_CollectionByPagesIterator::iterate
+     * @covers \Magento\ImportExport\Model\Resource\CollectionByPagesIterator::iterate
      */
     public function testIterate()
     {

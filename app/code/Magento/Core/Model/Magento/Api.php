@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Magento_Api extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Core\Model\Magento;
+
+class Api extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Retrieve information about current Magento installation
@@ -25,8 +27,8 @@ class Magento_Core_Model_Magento_Api extends Magento_Api_Model_Resource_Abstract
     public function info()
     {
         $result = array();
-        $result['magento_edition'] = Mage::getEdition();
-        $result['magento_version'] = Mage::getVersion();
+        $result['magento_edition'] = \Mage::getEdition();
+        $result['magento_version'] = \Mage::getVersion();
 
         return $result;
     }

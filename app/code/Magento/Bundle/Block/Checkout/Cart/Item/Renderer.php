@@ -15,14 +15,16 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Checkout_Cart_Item_Renderer extends Magento_Checkout_Block_Cart_Item_Renderer
+namespace Magento\Bundle\Block\Checkout\Cart\Item;
+
+class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
     protected $_configurationHelper = null;
 
     protected function _construct()
     {
         parent::_construct();
-        $this->_configurationHelper = Mage::helper('Magento_Bundle_Helper_Catalog_Product_Configuration');
+        $this->_configurationHelper = \Mage::helper('Magento\Bundle\Helper\Catalog\Product\Configuration');
     }
 
     /**
@@ -41,12 +43,12 @@ class Magento_Bundle_Block_Checkout_Cart_Item_Renderer extends Magento_Checkout_
     /**
      * Obtain final price of selection in a bundle product
      *
-     * @param Magento_Catalog_Model_Product $selectionProduct
+     * @param \Magento\Catalog\Model\Product $selectionProduct
      * @return decimal
      */
     protected function _getSelectionFinalPrice($selectionProduct)
     {
-        $helper = Mage::helper('Magento_Bundle_Helper_Catalog_Product_Configuration');
+        $helper = \Mage::helper('Magento\Bundle\Helper\Catalog\Product\Configuration');
         $result = $helper->getSelectionFinalPrice($this->getItem(), $selectionProduct);
         return $result;
     }

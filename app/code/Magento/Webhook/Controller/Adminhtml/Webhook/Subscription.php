@@ -10,7 +10,9 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\Webhook\Controller\Adminhtml\Webhook;
+
+class Subscription extends \Magento\Backend\Controller\ActionAbstract
 {
     /** Param Key for extracting subscription id from Request */
     const PARAM_SUBSCRIPTION_ID = 'id';
@@ -29,24 +31,24 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_
     /** Value stored under the key REGISTRY_KEY_WEBHOOK_ACTION to indicate that this is a new subscription */
     const ACTION_NEW = 'new';
 
-    /** @var Magento_Core_Model_Registry  */
+    /** @var \Magento\Core\Model\Registry  */
     private $_registry;
 
-    /** @var Magento_Webhook_Service_SubscriptionV1Interface */
+    /** @var \Magento\Webhook\Service\SubscriptionV1Interface */
     private $_subscriptionService;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Webhook_Service_SubscriptionV1Interface $subscriptionService
-     * @param Magento_Backend_Controller_Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
+     * @param \Magento\Backend\Controller\Context $context
      * @param string $areaCode
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Webhook_Service_SubscriptionV1Interface $subscriptionService,
-        Magento_Backend_Controller_Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
+        \Magento\Backend\Controller\Context $context,
         $areaCode = null
     ) {
         parent::__construct($context, $areaCode);
@@ -106,7 +108,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_
             }
 
             $this->renderLayout();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -148,7 +150,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_
                     array(self::PARAM_SUBSCRIPTION_ID => $this->getRequest()->getParam(self::PARAM_SUBSCRIPTION_ID))
                 );
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
@@ -169,7 +171,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_
                         $subscriptionData[self::DATA_NAME])
                     );
                 }
-                catch (Magento_Core_Exception $e) {
+                catch (\Magento\Core\Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 }
             } else {
@@ -178,7 +180,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_
                     $subscriptionData[self::DATA_NAME])
                 );
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
@@ -200,7 +202,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_
             } else {
                 $this->_getSession()->addError(__('No Subscription ID was provided with the request.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
 
@@ -223,7 +225,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_
             } else {
                 $this->_getSession()->addError(__('No Subscription ID was provided with the request.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
 
@@ -234,7 +236,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_Subscription extends Magento_
      * Initialize general settings for subscription
      *
      * @return array
-     * @throws Magento_Webhook_Exception
+     * @throws \Magento\Webhook\Exception
      */
     protected function _initSubscriptionData()
     {

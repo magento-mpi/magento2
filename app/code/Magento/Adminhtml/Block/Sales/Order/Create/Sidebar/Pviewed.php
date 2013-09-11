@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Sidebar;
+
+class Pviewed extends \Magento\Adminhtml\Block\Sales\Order\Create\Sidebar\AbstractSidebar
 {
     protected function _construct()
     {
@@ -40,15 +42,15 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento
         $productCollection = $this->getData('item_collection');
         if (is_null($productCollection)) {
             $stores = array();
-            $website = Mage::app()->getStore($this->getStoreId())->getWebsite();
+            $website = \Mage::app()->getStore($this->getStoreId())->getWebsite();
             foreach ($website->getStores() as $store) {
                 $stores[] = $store->getId();
             }
 
-            $collection = Mage::getModel('Magento_Reports_Model_Event')
+            $collection = \Mage::getModel('\Magento\Reports\Model\Event')
                 ->getCollection()
                 ->addStoreFilter($stores)
-                ->addRecentlyFiler(Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
+                ->addRecentlyFiler(\Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, $this->getCustomerId(), 0);
             $productIds = array();
             foreach ($collection as $event) {
                 $productIds[] = $event->getObjectId();
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar_Pviewed extends Magento
 
             $productCollection = null;
             if ($productIds) {
-                $productCollection = Mage::getModel('Magento_Catalog_Model_Product')
+                $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')
                     ->getCollection()
                     ->setStoreId($this->getQuote()->getStoreId())
                     ->addStoreFilter($this->getQuote()->getStoreId())

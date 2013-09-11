@@ -12,19 +12,19 @@
 class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Session_Abstract
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Session_Abstract');
+        $this->_model = $this->getMockForAbstractClass('\Magento\Core\Model\Session\AbstractSession');
     }
 
     public function testGetCookie()
     {
         $cookie = $this->_model->getCookie();
-        $this->assertInstanceOf('Magento_Core_Model_Cookie', $cookie);
+        $this->assertInstanceOf('\Magento\Core\Model\Cookie', $cookie);
         $this->assertSame($cookie, $this->_model->getCookie());
     }
 
@@ -73,7 +73,7 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
 
     public function testValidate()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Session_Abstract', $this->_model->validate());
+        $this->assertInstanceOf('\Magento\Core\Model\Session\AbstractSession', $this->_model->validate());
     }
 
     public function testGetValidateHttpUserAgentSkip()
@@ -120,7 +120,7 @@ class Magento_Core_Model_Session_AbstractTest extends PHPUnit_Framework_TestCase
     public function testGetSessionIdQueryParam()
     {
         $this->assertEquals(
-            Magento_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM,
+            \Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM,
             $this->_model->getSessionIdQueryParam()
         );
     }

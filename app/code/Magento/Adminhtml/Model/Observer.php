@@ -17,6 +17,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Model_Observer extends Magento_Backend_Model_Observer
+namespace Magento\Adminhtml\Model;
+
+class Observer extends \Magento\Backend\Model\Observer
 {
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_User
+ * \Magento\Webhook\Model\User
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@
  */
 class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webhook_Model_User */
+    /** @var \Magento\Webhook\Model\User */
     protected $_user;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -24,12 +24,12 @@ class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
     {
         $webApiId = 'web api id';
 
-        $this->_mockAclUser = $this->getMockBuilder('Magento_Webapi_Model_Acl_User_Factory')
+        $this->_mockAclUser = $this->getMockBuilder('Magento\Webapi\Model\Acl\User\Factory')
             ->setMethods(array('load', 'getRoleId', 'getSecret'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockUserFactory = $this->getMockBuilder('Magento_Webapi_Model_Acl_User_Factory')
+        $mockUserFactory = $this->getMockBuilder('Magento\Webapi\Model\Acl\User\Factory')
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -42,7 +42,7 @@ class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
             ->method('load')
             ->with($this->equalTo($webApiId));
 
-        $mockRLocatorFactory = $this->getMockBuilder('Magento_Webapi_Model_Authorization_Role_Locator_Factory')
+        $mockRLocatorFactory = $this->getMockBuilder('Magento\Webapi\Model\Authorization\Role\Locator\Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -60,7 +60,7 @@ class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $mockAclPolicy = $this->getMockBuilder('Magento_Webapi_Model_Authorization_Policy_Acl')
+        $mockAclPolicy = $this->getMockBuilder('Magento\Webapi\Model\Authorization\Policy\Acl')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -72,7 +72,7 @@ class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_mockAuthorization));
 
-        $this->_user = new Magento_Webhook_Model_User(
+        $this->_user = new \Magento\Webhook\Model\User(
             $mockUserFactory,
             $mockRLocatorFactory,
             $mockAclPolicy,

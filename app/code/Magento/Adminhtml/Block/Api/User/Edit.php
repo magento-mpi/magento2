@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Api_User_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Api\User;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()
@@ -31,8 +33,8 @@ class Magento_Adminhtml_Block_Api_User_Edit extends Magento_Adminhtml_Block_Widg
 
     public function getHeaderText()
     {
-        if (Mage::registry('api_user')->getId()) {
-            return __("Edit User '%1'", $this->escapeHtml(Mage::registry('api_user')->getUsername()));
+        if (\Mage::registry('api_user')->getId()) {
+            return __("Edit User '%1'", $this->escapeHtml(\Mage::registry('api_user')->getUsername()));
         }
         else {
             return __('New User');

@@ -20,10 +20,10 @@
         </resources>
         <cms>
             <page>
-                <tempate_filter>Magento_Widget_Model_Template_Filter</tempate_filter>
+                <tempate_filter>\Magento\Widget\Model\Template\Filter</tempate_filter>
             </page>
             <block>
-                <tempate_filter>Magento_Widget_Model_Template_Filter</tempate_filter>
+                <tempate_filter>\Magento\Widget\Model\Template\Filter</tempate_filter>
             </block>
         </cms>
         <widget>

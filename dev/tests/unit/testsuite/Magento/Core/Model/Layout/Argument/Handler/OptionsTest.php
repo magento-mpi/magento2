@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Options
+ * Test class for \Magento\Core\Model\Layout\Argument\Handler\Options
  */
 class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Options
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Options
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_model = new Magento_Core_Model_Layout_Argument_Handler_Options($this->_objectManagerMock);
+        $this->_model = new \Magento\Core\Model\Layout\Argument\Handler\Options($this->_objectManagerMock);
     }
 
     protected function tearDown()
@@ -56,7 +56,7 @@ class Magento_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Fra
                        'label' => 'LABEL',
             ));
         $optionsModel = $this->getMock(
-            'Magento_Core_Model_Option_ArrayInterface',
+            '\Magento\Core\Model\Option\ArrayInterface',
             array(),
             array(),
             'Option_Array_Model',

@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
-    extends Magento_Backend_Block_System_Config_Form_Fieldset
+namespace Magento\Sales\Block\Adminhtml\System\Config\Form\Fieldset\Order;
+
+class Statuses
+    extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
      * @var \Magento\Object
@@ -17,7 +19,7 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     protected $_dummyElement;
 
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field
+     * @var \Magento\Backend\Block\System\Config\Form\Field
      */
     protected $_fieldRenderer;
 
@@ -34,7 +36,7 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     {
         $html = '';
 
-        $statuses = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_Collection')->load()->toOptionHash();
+        $statuses = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\Collection')->load()->toOptionHash();
 
         foreach ($statuses as $id => $status) {
             $html.= $this->_getFieldHtml($element, $id, $status);
@@ -54,12 +56,12 @@ class Magento_Sales_Block_Adminhtml_System_Config_Form_Fieldset_Order_Statuses
     }
 
     /**
-     * @return Magento_Backend_Block_System_Config_Form_Field
+     * @return \Magento\Backend\Block\System\Config\Form\Field
      */
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = Mage::getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
+            $this->_fieldRenderer = \Mage::getBlockSingleton('\Magento\Backend\Block\System\Config\Form\Field');
         }
         return $this->_fieldRenderer;
     }

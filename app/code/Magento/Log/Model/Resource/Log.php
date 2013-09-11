@@ -16,7 +16,9 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Log\Model\Resource;
+
+class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Init Resource model and connection
@@ -30,14 +32,14 @@ class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abst
     /**
      * Clean logs
      *
-     * @param Magento_Log_Model_Log $object
-     * @return Magento_Log_Model_Resource_Log
+     * @param \Magento\Log\Model\Log $object
+     * @return \Magento\Log\Model\Resource\Log
      */
-    public function clean(Magento_Log_Model_Log $object)
+    public function clean(\Magento\Log\Model\Log $object)
     {
         $cleanTime = $object->getLogCleanTime();
 
-        Mage::dispatchEvent('log_log_clean_before', array(
+        \Mage::dispatchEvent('log_log_clean_before', array(
             'log'   => $object
         ));
 
@@ -45,7 +47,7 @@ class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abst
         $this->_cleanCustomers($cleanTime);
         $this->_cleanUrls();
 
-        Mage::dispatchEvent('log_log_clean_after', array(
+        \Mage::dispatchEvent('log_log_clean_after', array(
             'log'   => $object
         ));
 
@@ -56,14 +58,14 @@ class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abst
      * Clean visitors table
      *
      * @param int $time
-     * @return Magento_Log_Model_Resource_Log
+     * @return \Magento\Log\Model\Resource\Log
      */
     protected function _cleanVisitors($time)
     {
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
 
-        $timeLimit = $this->formatDate(Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp() - $time);
+        $timeLimit = $this->formatDate(\Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp() - $time);
 
         while (true) {
             $select = $readAdapter->select()
@@ -105,14 +107,14 @@ class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abst
      * Clean customer table
      *
      * @param int $time
-     * @return Magento_Log_Model_Resource_Log
+     * @return \Magento\Log\Model\Resource\Log
      */
     protected function _cleanCustomers($time)
     {
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
 
-        $timeLimit = $this->formatDate(Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp() - $time);
+        $timeLimit = $this->formatDate(\Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp() - $time);
 
         // retrieve last active customer log id
         $lastLogId = $readAdapter->fetchOne(
@@ -202,7 +204,7 @@ class Magento_Log_Model_Resource_Log extends Magento_Core_Model_Resource_Db_Abst
     /**
      * Clean url table
      *
-     * @return Magento_Log_Model_Resource_Log
+     * @return \Magento\Log\Model\Resource\Log
      */
     protected function _cleanUrls()
     {

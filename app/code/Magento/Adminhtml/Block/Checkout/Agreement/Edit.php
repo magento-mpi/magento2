@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Checkout_Agreement_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Checkout\Agreement;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Init class
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Checkout_Agreement_Edit extends Magento_Adminhtml_
      */
     public function getHeaderText()
     {
-        if (Mage::registry('checkout_agreement')->getId()) {
+        if (\Mage::registry('checkout_agreement')->getId()) {
             return __('Edit Terms and Conditions');
         }
         else {

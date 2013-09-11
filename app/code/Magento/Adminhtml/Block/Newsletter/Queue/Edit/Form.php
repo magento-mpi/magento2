@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Newsletter\Queue\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare form for newsletter queue editing.
@@ -24,12 +26,12 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
      * or from  newsletter queue grid by edit option.
      *
      * @param void
-     * @return Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form
+     * @return \Magento\Adminhtml\Block\Newsletter\Queue\Edit\Form
      */
     protected function _prepareForm()
     {
-        /* @var $queue Magento_Newsletter_Model_Queue */
-        $queue = Mage::getSingleton('Magento_Newsletter_Model_Queue');
+        /* @var $queue \Magento\Newsletter\Model\Queue */
+        $queue = \Mage::getSingleton('Magento\Newsletter\Model\Queue');
 
         $form = new \Magento\Data\Form();
 
@@ -38,10 +40,10 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
             'class'    =>  'fieldset-wide'
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
-        $timeFormat = Mage::app()->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $timeFormat = \Mage::app()->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
 
-        if($queue->getQueueStatus() == Magento_Newsletter_Model_Queue::STATUS_NEVER) {
+        if($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_NEVER) {
             $fieldset->addField('date', 'date',array(
                 'name'      =>    'start_at',
                 'date_format' => $dateFormat,
@@ -50,19 +52,19 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
                 'image'     =>    $this->getViewFileUrl('images/grid-cal.gif')
             ));
 
-            if (!Mage::app()->hasSingleStore()) {
+            if (!\Mage::app()->hasSingleStore()) {
                 $fieldset->addField('stores','multiselect',array(
                     'name'          => 'stores[]',
                     'label'         => __('Subscribers From'),
                     'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
-                    'values'        => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                    'values'        => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             }
             else {
                 $fieldset->addField('stores', 'hidden', array(
                     'name'      => 'stores[]',
-                    'value'     => Mage::app()->getStore(true)->getId()
+                    'value'     => \Mage::app()->getStore(true)->getId()
                 ));
             }
         } else {
@@ -76,27 +78,27 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
                 'image'     => $this->getViewFileUrl('images/grid-cal.gif')
             ));
 
-            if (!Mage::app()->hasSingleStore()) {
+            if (!\Mage::app()->hasSingleStore()) {
                 $fieldset->addField('stores','multiselect',array(
                     'name'          => 'stores[]',
                     'label'         => __('Subscribers From'),
                     'image'         => $this->getViewFileUrl('images/grid-cal.gif'),
                     'required'      => true,
-                    'values'        => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                    'values'        => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
                     'value'         => $queue->getStores()
                 ));
             }
             else {
                 $fieldset->addField('stores', 'hidden', array(
                     'name'      => 'stores[]',
-                    'value'     => Mage::app()->getStore(true)->getId()
+                    'value'     => \Mage::app()->getStore(true)->getId()
                 ));
             }
         }
 
         if ($queue->getQueueStartAt()) {
             $form->getElement('date')->setValue(
-                Mage::app()->getLocale()->date($queue->getQueueStartAt(), \Magento\Date::DATETIME_INTERNAL_FORMAT)
+                \Mage::app()->getLocale()->date($queue->getQueueStartAt(), \Magento\Date::DATETIME_INTERNAL_FORMAT)
             );
         }
 
@@ -131,7 +133,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
         ));
 
         $widgetFilters = array('is_email_compatible' => 1);
-        $wysiwygConfig = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')
+        $wysiwygConfig = \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')
             ->getConfig(array('widget_filters' => $widgetFilters));
 
         if ($queue->isNew()) {
@@ -151,7 +153,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Magento_Adminht
                 'container_id'  => 'field_newsletter_styles',
                 'value'         => $queue->getTemplate()->getTemplateStyles()
             ));
-        } elseif (Magento_Newsletter_Model_Queue::STATUS_NEVER != $queue->getQueueStatus()) {
+        } elseif (\Magento\Newsletter\Model\Queue::STATUS_NEVER != $queue->getQueueStatus()) {
             $fieldset->addField('text','textarea', array(
                 'name'      =>    'text',
                 'label'     =>    __('Message'),

@@ -9,16 +9,18 @@
  */
 
 
-class Magento_SalesRule_Model_Rule_Condition_Product_Combine extends Magento_Rule_Model_Condition_Combine
+namespace Magento\SalesRule\Model\Rule\Condition\Product;
+
+class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_SalesRule_Model_Rule_Condition_Product_Combine');
+        $this->setType('\Magento\SalesRule\Model\Rule\Condition\Product\Combine');
     }
 
     /**
@@ -26,24 +28,24 @@ class Magento_SalesRule_Model_Rule_Condition_Product_Combine extends Magento_Rul
      */
     public function getNewChildSelectOptions()
     {
-        $productCondition = Mage::getModel('Magento_SalesRule_Model_Rule_Condition_Product');
+        $productCondition = \Mage::getModel('\Magento\SalesRule\Model\Rule\Condition\Product');
         $productAttributes = $productCondition->loadAttributeOptions()->getAttributeOption();
         $pAttributes = array();
         $iAttributes = array();
         foreach ($productAttributes as $code=>$label) {
             if (strpos($code, 'quote_item_') === 0) {
                 $iAttributes[] = array(
-                    'value' => 'Magento_SalesRule_Model_Rule_Condition_Product|' . $code, 'label' => $label
+                    'value' => '\Magento\SalesRule\Model\Rule\Condition\Product|' . $code, 'label' => $label
                 );
             } else {
                 $pAttributes[] =
-                    array('value' => 'Magento_SalesRule_Model_Rule_Condition_Product|' . $code, 'label' => $label);
+                    array('value' => '\Magento\SalesRule\Model\Rule\Condition\Product|' . $code, 'label' => $label);
             }
         }
 
         $conditions = parent::getNewChildSelectOptions();
         $conditions = array_merge_recursive($conditions, array(
-            array('value' => 'Magento_SalesRule_Model_Rule_Condition_Product_Combine',
+            array('value' => '\Magento\SalesRule\Model\Rule\Condition\Product\Combine',
                 'label' => __('Conditions Combination')
             ),
             array('label' => __('Cart Item Attribute'),

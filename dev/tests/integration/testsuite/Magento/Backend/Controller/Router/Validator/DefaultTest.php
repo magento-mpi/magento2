@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class Magento_Backend_Controller_Router_Default
+ * Test class \Magento\Backend\Controller\Router\DefaultRouter
  * @magentoAppArea adminhtml
  */
 class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Framework_TestCase
@@ -22,15 +22,15 @@ class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Fr
      */
     public function testConstructWithEmptyAreaFrontName()
     {
-        $dataHelperMock = $this->getMock('Magento_Backend_Helper_Data', array(), array(), '', false);
+        $dataHelperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $dataHelperMock->expects($this->once())->method('getAreaFrontName')->will($this->returnValue(null));
 
         $options = array(
-            'areaCode' => Magento_Core_Model_App_Area::AREA_ADMINHTML,
-            'baseController' => 'Magento_Backend_Controller_ActionAbstract',
+            'areaCode' => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            'baseController' => '\Magento\Backend\Controller\ActionAbstract',
             'dataHelper' => $dataHelperMock,
         );
-        Mage::getModel('Magento_Backend_Controller_Router_Default', $options);
+        Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
     }
 
     /**
@@ -40,9 +40,9 @@ class Magento_Backend_Controller_Router_Validator_DefaultTest extends PHPUnit_Fr
     public function testConstructWithNotEmptyAreaFrontName()
     {
         $options = array(
-            'areaCode'       => Magento_Core_Model_App_Area::AREA_ADMINHTML,
-            'baseController' => 'Magento_Backend_Controller_ActionAbstract',
+            'areaCode'       => \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+            'baseController' => '\Magento\Backend\Controller\ActionAbstract',
         );
-        Mage::getModel('Magento_Backend_Controller_Router_Default', $options);
+        Mage::getModel('Magento\Backend\Controller\Router\DefaultRouter', $options);
     }
 }

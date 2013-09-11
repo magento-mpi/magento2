@@ -16,17 +16,19 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Sales_Order_Creditmemo_Reward
-    extends Magento_Adminhtml_Block_Template
+namespace Magento\Reward\Block\Adminhtml\Sales\Order\Creditmemo;
+
+class Reward
+    extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Getter
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return \Mage::registry('current_creditmemo');
     }
 
     /**

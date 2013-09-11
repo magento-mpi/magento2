@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <type name="Magento_SalesRule_Model_Resource_Rule_Collection" shared="false" />
+    <type name="Magento\SalesRule\Model\Resource\Rule\Collection" shared="false" />
 </config>

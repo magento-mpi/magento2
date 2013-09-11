@@ -15,7 +15,7 @@
             <banner_setup>
                 <setup>
                     <module>Magento_Banner</module>
-                    <class>Magento_Banner_Model_Resource_Setup</class>
+                    <class>Magento\Banner\Model\Resource\Setup</class>
                 </setup>
             </banner_setup>
         </resources>
@@ -42,4 +42,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

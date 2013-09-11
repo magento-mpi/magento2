@@ -16,18 +16,20 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Review_Model_Review_Summary extends Magento_Core_Model_Abstract
+namespace Magento\Review\Model\Review;
+
+class Summary extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Review_Model_Resource_Review_Summary $resource
-     * @param Magento_Review_Model_Resource_Review_Summary_Collection $resourceCollection
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Review\Model\Resource\Review\Summary $resource
+     * @param \Magento\Review\Model\Resource\Review\Summary\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Review_Model_Resource_Review_Summary $resource,
-        Magento_Review_Model_Resource_Review_Summary_Collection $resourceCollection,
+        \Magento\Core\Model\Context $context,
+        \Magento\Review\Model\Resource\Review\Summary $resource,
+        \Magento\Review\Model\Resource\Review\Summary\Collection $resourceCollection,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);

@@ -16,7 +16,9 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Model_Resource_User_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\User\Model\Resource\User;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
@@ -24,6 +26,6 @@ class Magento_User_Model_Resource_User_Collection extends Magento_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('Magento_User_Model_User', 'Magento_User_Model_Resource_User');
+        $this->_init('\Magento\User\Model\User', '\Magento\User\Model\Resource\User');
     }
 }

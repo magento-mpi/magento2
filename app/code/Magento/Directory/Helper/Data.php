@@ -9,11 +9,13 @@
  */
 
 /**
- * Directory data helper
+ * \Directory data helper
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Directory\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Config value that lists ISO2 country codes which have optional Zip/Postal pre-configured
@@ -33,14 +35,14 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Country collection
      *
-     * @var Magento_Directory_Model_Resource_Country_Collection
+     * @var \Magento\Directory\Model\Resource\Country\Collection
      */
     protected $_countryCollection;
 
     /**
      * Region collection
      *
-     * @var Magento_Directory_Model_Resource_Region_Collection
+     * @var \Magento\Directory\Model\Resource\Region\Collection
      */
     protected $_regionCollection;
 
@@ -66,15 +68,15 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_optionalZipCountries = null;
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Cache_Type_Config $configCacheType)
+    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\Cache\Type\Config $configCacheType)
     {
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;
@@ -83,12 +85,12 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve region collection
      *
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = Mage::getModel('Magento_Directory_Model_Region')->getResourceCollection()
+            $this->_regionCollection = \Mage::getModel('\Magento\Directory\Model\Region')->getResourceCollection()
                 ->addCountryFilter($this->getAddress()->getCountryId())
                 ->load();
         }
@@ -98,12 +100,12 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve country collection
      *
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function getCountryCollection()
     {
         if (!$this->_countryCollection) {
-            $this->_countryCollection = Mage::getModel('Magento_Directory_Model_Country')->getResourceCollection()
+            $this->_countryCollection = \Mage::getModel('\Magento\Directory\Model\Country')->getResourceCollection()
                 ->loadByStore();
         }
         return $this->_countryCollection;
@@ -119,14 +121,14 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
 
         \Magento\Profiler::start('TEST: '.__METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
         if (!$this->_regionJson) {
-            $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . Mage::app()->getStore()->getId();
+            $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . \Mage::app()->getStore()->getId();
             $json = $this->_configCacheType->load($cacheKey);
             if (empty($json)) {
                 $countryIds = array();
                 foreach ($this->getCountryCollection() as $country) {
                     $countryIds[] = $country->getCountryId();
                 }
-                $collection = Mage::getModel('Magento_Directory_Model_Region')->getResourceCollection()
+                $collection = \Mage::getModel('\Magento\Directory\Model\Region')->getResourceCollection()
                     ->addCountryFilter($countryIds)
                     ->load();
                 $regions = array(
@@ -144,7 +146,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
                         'name' => __($region->getName())
                     );
                 }
-                $json = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($regions);
+                $json = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($regions);
 
                 $this->_configCacheType->save($json, $cacheKey);
             }
@@ -166,10 +168,10 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     public function currencyConvert($amount, $from, $to = null)
     {
         if (empty($this->_currencyCache[$from])) {
-            $this->_currencyCache[$from] = Mage::getModel('Magento_Directory_Model_Currency')->load($from);
+            $this->_currencyCache[$from] = \Mage::getModel('\Magento\Directory\Model\Currency')->load($from);
         }
         if (is_null($to)) {
-            $to = Mage::app()->getStore()->getCurrentCurrencyCode();
+            $to = \Mage::app()->getStore()->getCurrentCurrencyCode();
         }
         $converted = $this->_currencyCache[$from]->convert($amount, $to);
         return $converted;
@@ -185,10 +187,10 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if (null === $this->_optionalZipCountries) {
             $this->_optionalZipCountries = preg_split('/\,/',
-                Mage::getStoreConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH), 0, PREG_SPLIT_NO_EMPTY);
+                \Mage::getStoreConfig(self::OPTIONAL_ZIP_COUNTRIES_CONFIG_PATH), 0, PREG_SPLIT_NO_EMPTY);
         }
         if ($asJson) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_optionalZipCountries);
+            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->_optionalZipCountries);
         }
         return $this->_optionalZipCountries;
     }
@@ -213,9 +215,9 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCountriesWithStatesRequired($asJson = false)
     {
-        $countryList = explode(',', Mage::getStoreConfig(self::XML_PATH_STATES_REQUIRED));
+        $countryList = explode(',', \Mage::getStoreConfig(self::XML_PATH_STATES_REQUIRED));
         if ($asJson) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($countryList);
+            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($countryList);
         }
         return $countryList;
     }
@@ -227,7 +229,7 @@ class Magento_Directory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getShowNonRequiredState()
     {
-        return (boolean)Mage::getStoreConfig(self::XML_PATH_DISPLAY_ALL_STATES);
+        return (boolean)\Mage::getStoreConfig(self::XML_PATH_DISPLAY_ALL_STATES);
     }
 
     /**

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Sales_Block_Order_History extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order;
+
+class History extends \Magento\Core\Block\Template
 {
 
     protected $_template = 'order/history.phtml';
@@ -27,17 +29,17 @@ class Magento_Sales_Block_Order_History extends Magento_Core_Block_Template
         parent::_construct();
 
 
-        $orders = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+        $orders = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
             ->addFieldToSelect('*')
-            ->addFieldToFilter('customer_id', Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getId())
-            ->addFieldToFilter('state', array('in' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getVisibleOnFrontStates()))
+            ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
+            ->addFieldToFilter('state', array('in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates()))
             ->setOrder('created_at', 'desc')
         ;
 
         $this->setOrders($orders);
 
-        if (Mage::app()->getFrontController()->getAction()) {
-            Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(
+        if (\Mage::app()->getFrontController()->getAction()) {
+            \Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(
                 __('My Orders')
             );
         }
@@ -47,7 +49,7 @@ class Magento_Sales_Block_Order_History extends Magento_Core_Block_Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('Magento_Page_Block_Html_Pager', 'sales.order.history.pager')
+        $pager = $this->getLayout()->createBlock('\Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
             ->setCollection($this->getOrders());
         $this->setChild('pager', $pager);
         $this->getOrders()->load();

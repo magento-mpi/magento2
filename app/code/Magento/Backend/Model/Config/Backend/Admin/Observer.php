@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Backend_Admin_Observer
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
+class Observer
 {
     /**
      * Log out user and redirect him to new admin custom url
@@ -17,19 +19,19 @@ class Magento_Backend_Model_Config_Backend_Admin_Observer
      */
     public function afterCustomUrlChanged()
     {
-        if (is_null(Mage::registry('custom_admin_path_redirect'))) {
+        if (is_null(\Mage::registry('custom_admin_path_redirect'))) {
             return;
         }
 
-        /** @var $adminSession Magento_Backend_Model_Auth_Session */
-        $adminSession = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        /** @var $adminSession \Magento\Backend\Model\Auth\Session */
+        $adminSession = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         $adminSession->unsetAll();
         $adminSession->getCookie()->delete($adminSession->getSessionName());
 
-        $route = Mage::helper('Magento_Backend_Helper_Data')->getAreaFrontName();
+        $route = \Mage::helper('Magento\Backend\Helper\Data')->getAreaFrontName();
 
-        Mage::app()->getResponse()
-            ->setRedirect(Mage::getBaseUrl() . $route)
+        \Mage::app()->getResponse()
+            ->setRedirect(\Mage::getBaseUrl() . $route)
             ->sendResponse();
         exit(0);
     }

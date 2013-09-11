@@ -15,32 +15,34 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Creditmemo_Items extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Sales\Block\Order\Creditmemo;
+
+class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     public function getPrintCreditmemoUrl($creditmemo)
     {
-        return Mage::getUrl('*/*/printCreditmemo', array('creditmemo_id' => $creditmemo->getId()));
+        return \Mage::getUrl('*/*/printCreditmemo', array('creditmemo_id' => $creditmemo->getId()));
     }
 
     public function getPrintAllCreditmemosUrl($order)
     {
-        return Mage::getUrl('*/*/printCreditmemo', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/printCreditmemo', array('order_id' => $order->getId()));
     }
 
     /**
      * Get creditmemo totals block html
      *
-     * @param   Magento_Sales_Model_Order_Creditmemo $creditmemo
+     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
      * @return  string
      */
     public function getTotalsHtml($creditmemo)
@@ -57,7 +59,7 @@ class Magento_Sales_Block_Order_Creditmemo_Items extends Magento_Sales_Block_Ite
     /**
      * Get html of creditmemo comments block
      *
-     * @param   Magento_Sales_Model_Order_Creditmemo $creditmemo
+     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
      * @return  string
      */
     public function getCommentsHtml($creditmemo)

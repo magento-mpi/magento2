@@ -16,7 +16,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Form extends Magento_CustomAttribute_Block_Form
+namespace Magento\Rma\Block;
+
+class Form extends \Magento\CustomAttribute\Block\Form
 {
     /**
      * Name of the block in layout update xml file
@@ -30,5 +32,5 @@ class Magento_Rma_Block_Form extends Magento_CustomAttribute_Block_Form
      *
      * @var string
      */
-    protected $_formModelPath = 'Magento_Rma_Model_Item_Form';
+    protected $_formModelPath = '\Magento\Rma\Model\Item\Form';
 }

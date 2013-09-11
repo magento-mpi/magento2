@@ -16,7 +16,9 @@
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Review\Model\Resource\Review;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Review table
@@ -65,7 +67,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Review_Model_Review', 'Magento_Review_Model_Resource_Review');
+        $this->_init('\Magento\Review\Model\Review', '\Magento\Review\Model\Resource\Review');
         $this->_reviewTable         = $this->getTable('review');
         $this->_reviewDetailTable   = $this->getTable('review_detail');
         $this->_reviewStatusTable   = $this->getTable('review_status');
@@ -77,7 +79,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     /**
      * init select
      *
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     protected function _initSelect()
     {
@@ -91,7 +93,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
 
     /**
      * @param int|string $customerId
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addCustomerFilter($customerId)
     {
@@ -105,7 +107,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      * Add store filter
      *
      * @param int|array $storeId
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addStoreFilter($storeId)
     {
@@ -120,7 +122,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     /**
      * Add stores data
      *
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addStoreData()
     {
@@ -133,7 +135,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      *
      * @param int|string $entity
      * @param int $pkValue
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addEntityFilter($entity, $pkValue)
     {
@@ -162,12 +164,12 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      * Add status filter
      *
      * @param int|string $status
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addStatusFilter($status)
     {
         if (is_string($status)) {
-            $statuses = array_flip(Mage::helper('Magento_Review_Helper_Data')->getReviewStatuses());
+            $statuses = array_flip(\Mage::helper('Magento\Review\Helper\Data')->getReviewStatuses());
             $status = isset($statuses[$status]) ? $statuses[$status] : 0;
         }
         if (is_numeric($status)) {
@@ -182,7 +184,7 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      * Set date order
      *
      * @param string $dir
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function setDateOrder($dir = 'DESC')
     {
@@ -193,16 +195,16 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     /**
      * Add rate votes
      *
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
+            $votesCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
                 ->getResourceCollection()
                 ->setReviewFilter($item->getId())
-                ->setStoreFilter(Mage::app()->getStore()->getId())
-                ->addRatingInfo(Mage::app()->getStore()->getId())
+                ->setStoreFilter(\Mage::app()->getStore()->getId())
+                ->addRatingInfo(\Mage::app()->getStore()->getId())
                 ->load();
             $item->setRatingVotes($votesCollection);
         }
@@ -213,14 +215,14 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
     /**
      * Add reviews total count
      *
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function addReviewsTotalCount()
     {
         $this->_select->joinLeft(
             array('r' => $this->_reviewTable),
             'main_table.entity_pk_value = r.entity_pk_value',
-            array('total_reviews' => new Zend_Db_Expr('COUNT(r.review_id)'))
+            array('total_reviews' => new \Zend_Db_Expr('COUNT(r.review_id)'))
         )
         ->group('main_table.review_id');
 
@@ -232,14 +234,14 @@ class Magento_Review_Model_Resource_Review_Collection extends Magento_Core_Model
      *
      * @param boolean $printQuery
      * @param boolean $logQuery
-     * @return Magento_Review_Model_Resource_Review_Collection
+     * @return \Magento\Review\Model\Resource\Review\Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
         if ($this->isLoaded()) {
             return $this;
         }
-        Mage::dispatchEvent('review_review_collection_load_before', array('collection' => $this));
+        \Mage::dispatchEvent('review_review_collection_load_before', array('collection' => $this));
         parent::load($printQuery, $logQuery);
         if ($this->_addStoreDataFlag) {
             $this->_addStoreData();

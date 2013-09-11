@@ -12,13 +12,13 @@
 class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Catalog_Helper_Data');
+        $this->_helper = Mage::helper('Magento\Catalog\Helper\Data');
     }
 
     /**
@@ -26,7 +26,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetBreadcrumbPath()
     {
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
         $category->load(5);
         Mage::register('current_category', $category);
 
@@ -45,7 +45,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetCategory()
     {
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
+        $category = Mage::getModel('\Magento\Catalog\Model\Category');
         Mage::register('current_category', $category);
         try {
             $this->assertSame($category, $this->_helper->getCategory());
@@ -58,7 +58,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetProduct()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         Mage::register('current_product', $product);
         try {
             $this->assertSame($product, $this->_helper->getProduct());
@@ -103,7 +103,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
 
     public function testGetPriceScopeDefault()
     {
-        // $this->assertEquals(Magento_Core_Model_Store::PRICE_SCOPE_GLOBAL, $this->_helper->getPriceScope());
+        // $this->assertEquals(\Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL, $this->_helper->getPriceScope());
         $this->assertNull($this->_helper->getPriceScope());
     }
 
@@ -112,7 +112,7 @@ class Magento_Catalog_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPriceScope()
     {
-        $this->assertEquals(Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE, $this->_helper->getPriceScope());
+        $this->assertEquals(\Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE, $this->_helper->getPriceScope());
     }
 
     public function testIsPriceGlobalDefault()

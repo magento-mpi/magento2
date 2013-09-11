@@ -11,7 +11,9 @@
 /**
  * Column renderer
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column
-    extends Magento_Backend_Block_Widget_Form_Renderer_Fieldset
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class Column
+    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset
 {
 }

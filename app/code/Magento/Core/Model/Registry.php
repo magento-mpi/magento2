@@ -11,7 +11,9 @@
 /**
  * Registry model. Used to manage values in registry
  */
-class Magento_Core_Model_Registry
+namespace Magento\Core\Model;
+
+class Registry
 {
     /**
      * Retrieve a value from registry by a key
@@ -21,7 +23,7 @@ class Magento_Core_Model_Registry
      */
     public function registry($key)
     {
-        return Mage::registry($key);
+        return \Mage::registry($key);
     }
 
     /**
@@ -30,11 +32,11 @@ class Magento_Core_Model_Registry
      * @param string $key
      * @param mixed $value
      * @param bool $graceful
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function register($key, $value, $graceful = false)
     {
-        Mage::register($key, $value, $graceful);
+        \Mage::register($key, $value, $graceful);
     }
 
     /**
@@ -44,6 +46,6 @@ class Magento_Core_Model_Registry
      */
     public function unregister($key)
     {
-        Mage::unregister($key);
+        \Mage::unregister($key);
     }
 }

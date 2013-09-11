@@ -16,15 +16,17 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Address_Attribute_Backend extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute;
+
+class Backend extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Collect totals
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_Sales_Model_Resource_Quote_Address_Attribute_Backend
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend
      */
-    public function collectTotals(Magento_Sales_Model_Quote_Address $address)
+    public function collectTotals(\Magento\Sales\Model\Quote\Address $address)
     {
         return $this;
     }

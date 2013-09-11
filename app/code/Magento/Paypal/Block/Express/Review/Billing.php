@@ -15,12 +15,14 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Express_Review_Billing extends Magento_Checkout_Block_Onepage_Billing
+namespace Magento\Paypal\Block\Express\Review;
+
+class Billing extends \Magento\Checkout\Block\Onepage\Billing
 {
     /**
      * Return Sales Quote Address model
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
@@ -34,7 +36,7 @@ class Magento_Paypal_Block_Express_Review_Billing extends Magento_Checkout_Block
                     $this->_address->setLastname($this->getQuote()->getCustomer()->getLastname());
                 }
             } else {
-                $this->_address = Mage::getModel('Magento_Sales_Model_Quote_Address');
+                $this->_address = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
             }
         }
 

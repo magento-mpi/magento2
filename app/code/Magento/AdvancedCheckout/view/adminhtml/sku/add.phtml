@@ -43,13 +43,13 @@
         <div class="field add-sku-csv">
             <label class="label" for="sku_upload"><?php echo __('File') ?></label>
             <div class="control">
-                <input type="file" id="sku_upload" name="<?php echo Magento_AdvancedCheckout_Model_Import::FIELD_NAME_SOURCE_FILE ?>" value=""/>
+                <input type="file" id="sku_upload" name="<?php echo \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE ?>" value=""/>
                 <div class="note"><span><?php echo __('Your csv file must include "sku" and "qty" columns.') ?></span></div>
                 <button type="button" onclick="resetUploadField()" class="button btn-reset"><span><span><span><?php echo __('Reset')?></span></span></span></button>
             </div>
             <script type="text/javascript">
                 function resetUploadField() {
-                    $('sku_upload').replace('<input type="file" id="sku_upload" name="<?php echo Magento_AdvancedCheckout_Model_Import::FIELD_NAME_SOURCE_FILE ?>" value=""/>')
+                    $('sku_upload').replace('<input type="file" id="sku_upload" name="<?php echo \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE ?>" value=""/>')
                 }
             </script>
         </div>

@@ -21,7 +21,7 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
     protected $_formClass = '';
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_User_Edit_Form
+     * @var \Magento\Webapi\Block\Adminhtml\User\Edit\Form
      */
     protected $_block;
 
@@ -31,17 +31,17 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
     protected $_objectManager;
 
     /**
-     * @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Model\Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilder;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Core_Model_BlockFactory
+     * @var \Magento\Core\Model\BlockFactory
      */
     protected $_blockFactory;
 
@@ -49,14 +49,14 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
     {
         parent::setUp();
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_urlBuilder = $this->getMockBuilder('Magento_Backend_Model_Url')
+        $this->_urlBuilder = $this->getMockBuilder('Magento\Backend\Model\Url')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
-        $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
+        $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
+        $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
         $this->_block = $this->_blockFactory->createBlock($this->_formClass, array(
             'context' => Mage::getModel(
-                'Magento_Backend_Block_Template_Context',
+                '\Magento\Backend\Block\Template\Context',
                 array('urlBuilder' => $this->_urlBuilder)
             )
         ));
@@ -65,7 +65,7 @@ class Magento_Webapi_Block_Adminhtml_FormTestAbstract extends PHPUnit_Framework_
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
+        $this->_objectManager->removeSharedInstance('\Magento\Core\Model\Layout');
         unset($this->_objectManager, $this->_urlBuilder, $this->_layout, $this->_blockFactory, $this->_block);
     }
 

@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional */
+/* @var $this \Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional */
 ?>
 <?php
 /**
- * @see Magento_CustomerBalance_Block_Checkout_Onepage_Payment_Additional
+ * @see \Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional
  */
 ?>
 <?php if ($this->isDisplayContainer()): ?>
@@ -20,7 +20,7 @@
     <input type="checkbox" class="checkbox" name="payment[use_customer_balance]" value="1"
            id="use-customer-balance" <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
 
-    <?php $balance = $this->helper('Magento_Core_Helper_Data')->currency($this->getBalance()); ?>
+    <?php $balance = $this->helper('\Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
     <label for="use-customer-balance">
         <strong>
             <?php echo __('Use Store Credit'); ?>

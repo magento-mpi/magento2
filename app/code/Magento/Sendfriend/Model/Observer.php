@@ -16,17 +16,19 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sendfriend_Model_Observer
+namespace Magento\Sendfriend\Model;
+
+class Observer
 {
     /**
      * Register Sendfriend Model in global registry
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Sendfriend_Model_Observer
+     * @return \Magento\Sendfriend\Model\Observer
      */
     public function register(\Magento\Event\Observer $observer)
     {
-        Mage::getModel('Magento_Sendfriend_Model_Sendfriend')->register();
+        \Mage::getModel('\Magento\Sendfriend\Model\Sendfriend')->register();
         return $this;
     }
 }

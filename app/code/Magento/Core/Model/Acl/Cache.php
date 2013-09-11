@@ -7,12 +7,14 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Acl_Cache implements \Magento\Acl\CacheInterface
+namespace Magento\Core\Model\Acl;
+
+class Cache implements \Magento\Acl\CacheInterface
 {
     /**
      * Cache
      *
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_cache;
 
@@ -29,10 +31,10 @@ class Magento_Core_Model_Acl_Cache implements \Magento\Acl\CacheInterface
     protected $_acl = null;
 
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $cache
+     * @param \Magento\Core\Model\Cache\Type\Config $cache
      * @param string $cacheKey
      */
-    function __construct(Magento_Core_Model_Cache_Type_Config $cache, $cacheKey)
+    function __construct(\Magento\Core\Model\Cache\Type\Config $cache, $cacheKey)
     {
         $this->_cache = $cache;
         $this->_cacheKey = $cacheKey;

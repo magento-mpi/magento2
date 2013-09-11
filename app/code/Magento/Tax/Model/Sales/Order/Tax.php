@@ -9,39 +9,41 @@
  */
 
 /**
- * @method Magento_Tax_Model_Resource_Sales_Order_Tax _getResource()
- * @method Magento_Tax_Model_Resource_Sales_Order_Tax getResource()
+ * @method \Magento\Tax\Model\Resource\Sales\Order\Tax _getResource()
+ * @method \Magento\Tax\Model\Resource\Sales\Order\Tax getResource()
  * @method int getOrderId()
- * @method Magento_Tax_Model_Sales_Order_Tax setOrderId(int $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setOrderId(int $value)
  * @method string getCode()
- * @method Magento_Tax_Model_Sales_Order_Tax setCode(string $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setCode(string $value)
  * @method string getTitle()
- * @method Magento_Tax_Model_Sales_Order_Tax setTitle(string $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setTitle(string $value)
  * @method float getPercent()
- * @method Magento_Tax_Model_Sales_Order_Tax setPercent(float $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setPercent(float $value)
  * @method float getAmount()
- * @method Magento_Tax_Model_Sales_Order_Tax setAmount(float $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setAmount(float $value)
  * @method int getPriority()
- * @method Magento_Tax_Model_Sales_Order_Tax setPriority(int $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setPriority(int $value)
  * @method int getPosition()
- * @method Magento_Tax_Model_Sales_Order_Tax setPosition(int $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setPosition(int $value)
  * @method float getBaseAmount()
- * @method Magento_Tax_Model_Sales_Order_Tax setBaseAmount(float $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setBaseAmount(float $value)
  * @method int getProcess()
- * @method Magento_Tax_Model_Sales_Order_Tax setProcess(int $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setProcess(int $value)
  * @method float getBaseRealAmount()
- * @method Magento_Tax_Model_Sales_Order_Tax setBaseRealAmount(float $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setBaseRealAmount(float $value)
  * @method int getHidden()
- * @method Magento_Tax_Model_Sales_Order_Tax setHidden(int $value)
+ * @method \Magento\Tax\Model\Sales\Order\Tax setHidden(int $value)
  *
  * @category    Magento
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Sales_Order_Tax extends Magento_Core_Model_Abstract
+namespace Magento\Tax\Model\Sales\Order;
+
+class Tax extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Tax_Model_Resource_Sales_Order_Tax');
+        $this->_init('\Magento\Tax\Model\Resource\Sales\Order\Tax');
     }
 }

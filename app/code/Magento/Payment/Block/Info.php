@@ -12,7 +12,9 @@
  * Base payment iformation block
  *
  */
-class Magento_Payment_Block_Info extends Magento_Core_Block_Template
+namespace Magento\Payment\Block;
+
+class Info extends \Magento\Core\Block\Template
 {
     /**
      * Payment rendered specific information
@@ -26,13 +28,13 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
     /**
      * Retrieve info model
      *
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function getInfo()
     {
         $info = $this->getData('info');
-        if (!($info instanceof Magento_Payment_Model_Info)) {
-            Mage::throwException(__('We cannot retrieve the payment info model object.'));
+        if (!($info instanceof \Magento\Payment\Model\Info)) {
+            \Mage::throwException(__('We cannot retrieve the payment info model object.'));
         }
         return $info;
     }
@@ -40,7 +42,7 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
     /**
      * Retrieve payment method model
      *
-     * @return Magento_Payment_Model_Method_Abstract
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getMethod()
     {
@@ -126,7 +128,7 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
         if (!$method = $payment->getMethodInstance()) {
             return true;
         }
-        return !Mage::app()->getStore($method->getStore())->isAdmin();
+        return !\Mage::app()->getStore($method->getStore())->isAdmin();
     }
 
     /**
@@ -143,7 +145,7 @@ class Magento_Payment_Block_Info extends Magento_Core_Block_Template
             } elseif (is_array($transport)) {
                 $transport = new \Magento\Object($transport);
             }
-            Mage::dispatchEvent('payment_info_block_prepare_specific_information', array(
+            \Mage::dispatchEvent('payment_info_block_prepare_specific_information', array(
                 'transport' => $transport,
                 'payment'   => $this->getInfo(),
                 'block'     => $this,

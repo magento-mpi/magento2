@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Request extends Zend_Controller_Request_Http
+namespace Magento\Webapi\Controller;
+
+class Request extends \Zend_Controller_Request_Http
 {
     const PARAM_API_TYPE = 'api_type';
 

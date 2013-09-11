@@ -15,7 +15,7 @@
 class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container
+     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container
      */
     protected $_block = null;
 
@@ -24,7 +24,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_ContainerTest 
         parent::setUp();
 
         $this->_block = Mage::app()->getLayout()->createBlock(
-            'Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Container'
+            '\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container'
         );
     }
 

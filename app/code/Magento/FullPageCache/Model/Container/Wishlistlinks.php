@@ -11,7 +11,9 @@
 /**
  * Wishlist sidebar links container
  */
-class Magento_FullPageCache_Model_Container_Wishlistlinks extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Wishlistlinks extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
      * Get identifier from cookies
@@ -20,8 +22,8 @@ class Magento_FullPageCache_Model_Container_Wishlistlinks extends Magento_FullPa
      */
     protected function _getIdentifier()
     {
-        return $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_WISHLIST_ITEMS, '')
-            . $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER, '');
+        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST_ITEMS, '')
+            . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER, '');
     }
 
     /**
@@ -43,10 +45,10 @@ class Magento_FullPageCache_Model_Container_Wishlistlinks extends Magento_FullPa
     {
         $block = $this->_placeholder->getAttribute('block');
 
-        /** @var $block Magento_Core_Block_Template */
-        $block = Mage::app()->getLayout()->createBlock($block);
+        /** @var $block \Magento\Core\Block\Template */
+        $block = \Mage::app()->getLayout()->createBlock($block);
 
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        \Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->toHtml();
     }
 }

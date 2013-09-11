@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Tax_Model_TaxClass_Source_Product extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Tax\Model\TaxClass\Source;
+
+class Product extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Get all options
@@ -19,8 +21,8 @@ class Magento_Tax_Model_TaxClass_Source_Product extends Magento_Eav_Model_Entity
     public function getAllOptions()
     {
         if (is_null($this->_options)) {
-            $this->_options = Mage::getResourceModel('Magento_Tax_Model_Resource_TaxClass_Collection')
-                ->addFieldToFilter('class_type', Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
+            $this->_options = \Mage::getResourceModel('\Magento\Tax\Model\Resource\TaxClass\Collection')
+                ->addFieldToFilter('class_type', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
                 ->load()
                 ->toOptionArray();
         }
@@ -72,7 +74,7 @@ class Magento_Tax_Model_TaxClass_Source_Product extends Magento_Eav_Model_Entity
             'extra'     => null
         );
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
             $column['type']     = 'int';
             $column['is_null']  = true;
         } else {
@@ -92,7 +94,7 @@ class Magento_Tax_Model_TaxClass_Source_Product extends Magento_Eav_Model_Entity
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option')
+        return \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option')
             ->getFlatUpdateSelect($this->getAttribute(), $store, false);
     }
 }

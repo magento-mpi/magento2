@@ -16,7 +16,9 @@
  * @package    Magento_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Model_Rss
+namespace Magento\Rss\Model;
+
+class Rss
 {
     protected $_feedArray = array();
 
@@ -46,9 +48,9 @@ class Magento_Rss_Model_Rss
     public function createRssXml()
     {
         try {
-            $rssFeedFromArray = Zend_Feed::importArray($this->getFeedArray(), 'rss');
+            $rssFeedFromArray = \Zend_Feed::importArray($this->getFeedArray(), 'rss');
             return $rssFeedFromArray->saveXML();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return __('Error in processing xml. %1',$e->getMessage());
         }
     }

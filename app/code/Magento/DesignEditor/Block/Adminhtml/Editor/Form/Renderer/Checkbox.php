@@ -11,8 +11,10 @@
 /**
  * Checkbox form element renderer
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Checkbox
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Recursive
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
+
+class Checkbox
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive
 {
     /**
      * Set of templates to render

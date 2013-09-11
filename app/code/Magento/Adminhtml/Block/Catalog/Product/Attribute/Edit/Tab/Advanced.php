@@ -16,12 +16,14 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extends Magento_Backend_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
+
+class Advanced extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Adding product form elements for editing attribute
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Advanced
      */
     protected function _prepareForm()
     {
@@ -41,11 +43,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             )
         );
 
-        $yesno = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesno = \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
 
         $validateClass = sprintf(
             'validate-code validate-length maximum-length-%d',
-            Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH
+            \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH
         );
         $fieldset->addField(
             'attribute_code',
@@ -56,7 +58,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
                 'title' => __('Attribute Code'),
                 'note' => __(
                     'For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols',
-                    Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH
+                    \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH
                 ),
                 'class' => $validateClass,
             )
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             )
         );
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField(
             'default_value_date',
             'date',
@@ -129,7 +131,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
                 'name' => 'frontend_class',
                 'label' => __('Input Validation for Store Owner'),
                 'title' => __('Input Validation for Store Owner'),
-                'values' => Mage::helper('Magento_Eav_Helper_Data')->getFrontendClasses(
+                'values' => \Mage::helper('Magento\Eav\Helper\Data')->getFrontendClasses(
                     $attributeObject->getEntityType()->getEntityTypeCode()
                 )
             )
@@ -142,16 +144,16 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
             }
         }
 
-        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
 
         $scopes = array(
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE =>__('Store View'),
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE =>__('Website'),
-            Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL =>__('Global'),
+            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE =>__('Store View'),
+            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE =>__('Website'),
+            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL =>__('Global'),
         );
 
         if ($attributeObject->getAttributeCode() == 'status' || $attributeObject->getAttributeCode() == 'tax_class_id') {
-            unset($scopes[Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE]);
+            unset($scopes[\Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE]);
         }
 
         $fieldset->addField('is_global', 'select', array(
@@ -175,7 +177,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
     /**
      * Initialize form fileds values
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab\Advanced
      */
     protected function _initFormValues()
     {
@@ -186,10 +188,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Advanced extend
     /**
      * Retrieve attribute object from registry
      *
-     * @return Magento_Eav_Model_Entity_Attribute_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     private function getAttributeObject()
     {
-        return Mage::registry('entity_attribute');
+        return \Mage::registry('entity_attribute');
     }
 }

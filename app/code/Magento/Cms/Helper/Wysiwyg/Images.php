@@ -11,7 +11,9 @@
 /**
  * Wysiwyg Images Helper
  */
-class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
+namespace Magento\Cms\Helper\Wysiwyg;
+
+class Images extends \Magento\Core\Helper\AbstractHelper
 {
 
     /**
@@ -39,10 +41,10 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(Magento_Core_Helper_Context $context, \Magento\Filesystem $filesystem)
+    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Filesystem $filesystem)
     {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
@@ -70,7 +72,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      */
     public function getStorageRoot()
     {
-        return Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA) . DS . Magento_Cms_Model_Wysiwyg_Config::IMAGE_DIRECTORY
+        return \Mage::getBaseDir(\Magento\Core\Model\Dir::MEDIA) . DS . \Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY
             . DS;
     }
 
@@ -81,7 +83,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      */
     public function getBaseUrl()
     {
-        return Mage::getBaseUrl('media') . '/';
+        return \Mage::getBaseUrl('media') . '/';
     }
 
     /**
@@ -157,7 +159,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     {
         $checkResult = new StdClass;
         $checkResult->isAllowed = false;
-        Mage::dispatchEvent('cms_wysiwyg_images_static_urls_allowed', array(
+        \Mage::dispatchEvent('cms_wysiwyg_images_static_urls_allowed', array(
             'result'   => $checkResult,
             'store_id' => $this->_storeId
         ));
@@ -174,7 +176,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     public function getImageHtmlDeclaration($filename, $renderAsTag = false)
     {
         $fileurl = $this->getCurrentUrl() . $filename;
-        $mediaPath = str_replace(Mage::getBaseUrl('media'), '', $fileurl);
+        $mediaPath = str_replace(\Mage::getBaseUrl('media'), '', $fileurl);
         $directive = sprintf('{{media url="%s"}}', $mediaPath);
         if ($renderAsTag) {
             $html = sprintf('<img src="%s" alt="" />', $this->isUsingStaticUrlsAllowed() ? $fileurl : $directive);
@@ -182,8 +184,8 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
             if ($this->isUsingStaticUrlsAllowed()) {
                 $html = $fileurl; // $mediaPath;
             } else {
-                $directive = Mage::helper('Magento_Core_Helper_Data')->urlEncode($directive);
-                $html = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
+                $directive = \Mage::helper('Magento\Core\Helper\Data')->urlEncode($directive);
+                $html = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
                     '*/cms_wysiwyg/directive',
                     array('___directive' => $directive)
                 );
@@ -196,7 +198,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      * Return path of the current selected directory or root directory for startup
      * Try to create target directory if it doesn't exist
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return string
      */
     public function getCurrentPath()
@@ -216,7 +218,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
                 }
             } catch (\Magento\Filesystem\FilesystemException $e) {
                 $message = __('The directory %1 is not writable by server.', $currentPath);
-                Mage::throwException($message);
+                \Mage::throwException($message);
             }
             $this->_currentPath = $currentPath;
         }
@@ -231,9 +233,9 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
     public function getCurrentUrl()
     {
         if (!$this->_currentUrl) {
-            $path = str_replace(Mage::getBaseDir(Magento_Core_Model_Dir::MEDIA), '', $this->getCurrentPath());
+            $path = str_replace(\Mage::getBaseDir(\Magento\Core\Model\Dir::MEDIA), '', $this->getCurrentPath());
             $path = trim($path, DS);
-            $this->_currentUrl = Mage::app()->getStore($this->_storeId)->getBaseUrl('media') .
+            $this->_currentUrl = \Mage::app()->getStore($this->_storeId)->getBaseUrl('media') .
                                  $this->convertPathToUrl($path) . '/';
         }
         return $this->_currentUrl;
@@ -246,7 +248,7 @@ class Magento_Cms_Helper_Wysiwyg_Images extends Magento_Core_Helper_Abstract
      */
     public function getStorage()
     {
-        return Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage');
+        return \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Images\Storage');
     }
 
     /**

@@ -17,16 +17,16 @@ class Magento_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
      */
     public function testSendEmail()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $order = Mage::getModel('\Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $order->setCustomerEmail('customer@example.com');
 
-        $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice');
+        $invoice = Mage::getModel('\Magento\Sales\Model\Order\Invoice');
         $invoice->setOrder($order);
 
         $payment = $order->getPayment();
-        $paymentInfoBlock = Mage::helper('Magento_Payment_Helper_Data')->getInfoBlock($payment);
+        $paymentInfoBlock = Mage::helper('Magento\Payment\Helper\Data')->getInfoBlock($payment);
         $paymentInfoBlock->setArea('invalid-area');
         $payment->setBlockMock($paymentInfoBlock);
 

@@ -15,7 +15,9 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Model_Resource_Nonce_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Oauth\Model\Resource\Nonce;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection model
@@ -24,6 +26,6 @@ class Magento_Oauth_Model_Resource_Nonce_Collection extends Magento_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('Magento_Oauth_Model_Nonce', 'Magento_Oauth_Model_Resource_Nonce');
+        $this->_init('\Magento\Oauth\Model\Nonce', '\Magento\Oauth\Model\Resource\Nonce');
     }
 }

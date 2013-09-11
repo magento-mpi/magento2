@@ -9,7 +9,9 @@
 /**
  * Service model responsible for making a decision of whether to use the merged asset in place of original ones
  */
-class Magento_Core_Model_Page_Asset_MergeService
+namespace Magento\Core\Model\Page\Asset;
+
+class MergeService
 {
     /**#@+
      * XPaths where merging configuration resides
@@ -24,7 +26,7 @@ class Magento_Core_Model_Page_Asset_MergeService
     private $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Store_Config
+     * @var \Magento\Core\Model\Store\Config
      */
     private $_storeConfig;
 
@@ -34,28 +36,28 @@ class Magento_Core_Model_Page_Asset_MergeService
     private $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     private $_dirs;
 
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     private $_state;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_Store_Config $storeConfig
+     * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Filesystem $filesystem,
-     * @param Magento_Core_Model_Dir $dirs
-     * @param Magento_Core_Model_App_State $state
+     * @param \Magento\Core\Model\Dir $dirs
+     * @param \Magento\Core\Model\App\State $state
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Model_Store_Config $storeConfig,
+        \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Core_Model_App_State $state
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Model\App\State $state
     ) {
         $this->_objectManager = $objectManager;
         $this->_storeConfig = $storeConfig;
@@ -70,28 +72,28 @@ class Magento_Core_Model_Page_Asset_MergeService
      * @param array $assets
      * @param string $contentType
      * @return array|Iterator
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getMergedAssets(array $assets, $contentType)
     {
-        $isCss = $contentType == Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS;
-        $isJs = $contentType == Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS;
+        $isCss = $contentType == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS;
+        $isJs = $contentType == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS;
         if (!$isCss && !$isJs) {
-            throw new InvalidArgumentException("Merge for content type '$contentType' is not supported.");
+            throw new \InvalidArgumentException("Merge for content type '$contentType' is not supported.");
         }
 
         $isCssMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_CSS_FILES);
         $isJsMergeEnabled = $this->_storeConfig->getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
         if (($isCss && $isCssMergeEnabled) || ($isJs && $isJsMergeEnabled)) {
-            if ($this->_state->getMode() == Magento_Core_Model_App_State::MODE_PRODUCTION) {
-                $mergeStrategyClass = 'Magento_Core_Model_Page_Asset_MergeStrategy_FileExists';
+            if ($this->_state->getMode() == \Magento\Core\Model\App\State::MODE_PRODUCTION) {
+                $mergeStrategyClass = '\Magento\Core\Model\Page\Asset\MergeStrategy\FileExists';
             } else {
-                $mergeStrategyClass = 'Magento_Core_Model_Page_Asset_MergeStrategy_Checksum';
+                $mergeStrategyClass = '\Magento\Core\Model\Page\Asset\MergeStrategy\Checksum';
             }
             $mergeStrategy = $this->_objectManager->get($mergeStrategyClass);
 
             $assets = $this->_objectManager->create(
-                'Magento_Core_Model_Page_Asset_Merged', array('assets' => $assets, 'mergeStrategy' => $mergeStrategy)
+                '\Magento\Core\Model\Page\Asset\Merged', array('assets' => $assets, 'mergeStrategy' => $mergeStrategy)
             );
         }
 
@@ -103,11 +105,11 @@ class Magento_Core_Model_Page_Asset_MergeService
      */
     public function cleanMergedJsCss()
     {
-        $mergedDir = $this->_dirs->getDir(Magento_Core_Model_Dir::PUB_VIEW_CACHE) . '/'
-            . Magento_Core_Model_Page_Asset_Merged::PUBLIC_MERGE_DIR;
+        $mergedDir = $this->_dirs->getDir(\Magento\Core\Model\Dir::PUB_VIEW_CACHE) . '/'
+            . \Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR;
         $this->_filesystem->delete($mergedDir);
 
-        $this->_objectManager->get('Magento_Core_Helper_File_Storage_Database')
+        $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')
             ->deleteFolder($mergedDir);
     }
 }

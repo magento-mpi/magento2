@@ -8,16 +8,16 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
-/** @var $eavResource Magento_Catalog_Model_Resource_Eav_Attribute */
-$eavResource = Mage::getResourceModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+/** @var $eavResource \Magento\Catalog\Model\Resource\Eav\Attribute */
+$eavResource = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
 
 $multiSelectAttributeCodes = $eavResource->getAttributeCodesByFrontendType('multiselect');
 
 foreach($multiSelectAttributeCodes as $attributeCode) {
-    /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+    /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
     $attribute = $installer->getAttribute('catalog_product', $attributeCode);
     if ($attribute) {
         $attributeTable = $installer->getAttributeTable('catalog_product', $attributeCode);

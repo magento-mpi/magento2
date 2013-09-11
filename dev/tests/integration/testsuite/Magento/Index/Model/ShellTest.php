@@ -15,17 +15,17 @@ class Magento_Index_Model_ShellTest extends PHPUnit_Framework_TestCase
      * Returns prepared model
      *
      * @param string $entryPoint
-     * @return Magento_Index_Model_Shell
+     * @return \Magento\Index\Model\Shell
      */
     protected function _getModel($entryPoint = 'fake.php')
     {
-        return Mage::getModel('Magento_Index_Model_Shell', array('entryPoint' => $entryPoint));
+        return Mage::getModel('\Magento\Index\Model\Shell', array('entryPoint' => $entryPoint));
     }
 
     /**
      * Returns result of running model - can be real model or mocked one
      *
-     * @param Magento_Index_Model_Shell $model Can be mock
+     * @param \Magento\Index\Model\Shell $model Can be mock
      * @return string
      */
     protected function _run($model)

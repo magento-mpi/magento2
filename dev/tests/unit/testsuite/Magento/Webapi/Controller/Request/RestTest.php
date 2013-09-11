@@ -23,14 +23,14 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
     {
         parent::setUp();
         /** Prepare mocks for request constructor arguments. */
-        $this->_interpreterFactory = $this->getMockBuilder('Magento_Webapi_Controller_Request_Rest_Interpreter_Factory')
+        $this->_interpreterFactory = $this->getMockBuilder('Magento\Webapi\Controller\Request\Rest\Interpreter\Factory')
             ->setMethods(array('interpret', 'get'))
             ->disableOriginalConstructor()
             ->getMock();
         /** Instantiate request. */
         // TODO: Get rid of SUT mocks.
         $this->_request = $this->getMock(
-            'Magento_Webapi_Controller_Request_Rest',
+            '\Magento\Webapi\Controller\Request\Rest',
             array('getHeader', 'getMethod', 'isGet', 'isPost', 'isPut', 'isDelete', 'getRawBody'),
             array($this->_interpreterFactory)
         );
@@ -56,7 +56,7 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
             ->method('getHeader')
             ->with('Accept')
             ->will($this->returnValue($acceptHeader));
-        /** @var Magento_Webapi_Controller_Request_Rest _requestMock */
+        /** @var \Magento\Webapi\Controller\Request\Rest _requestMock */
         $this->assertSame($expectedResult, $this->_request->getAcceptTypes());
     }
 
@@ -91,7 +91,7 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
             ->method('getHeader')
             ->with('Content-Type')
             ->will($this->returnValue($contentType));
-        $interpreter = $this->getMockBuilder('Magento_Webapi_Controller_Request_Rest_Interpreter_Json')
+        $interpreter = $this->getMockBuilder('Magento\Webapi\Controller\Request\Rest\Interpreter\Json')
             ->disableOriginalConstructor()
             ->setMethods(array('interpret'))
             ->getMock();
@@ -123,7 +123,7 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
 
         try {
             $this->assertEquals($contentType, $this->_request->getContentType());
-        } catch (Magento_Webapi_Exception $e) {
+        } catch (\Magento\Webapi\Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
                     $exceptionMessage,
@@ -174,7 +174,7 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
 
         try {
             $this->assertEquals($crudOperation, $this->_request->getHttpMethod());
-        } catch (Magento_Webapi_Exception $e) {
+        } catch (\Magento\Webapi\Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
                     $exceptionMessage,
@@ -270,10 +270,10 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
         return array(
             // Each element is: array(Request method, CRUD operation name[, expected exception message])
             array('INVALID_METHOD', null, 'Request method is invalid.'),
-            array('GET', Magento_Webapi_Controller_Request_Rest::HTTP_METHOD_GET),
-            array('POST', Magento_Webapi_Controller_Request_Rest::HTTP_METHOD_CREATE),
-            array('PUT', Magento_Webapi_Controller_Request_Rest::HTTP_METHOD_UPDATE),
-            array('DELETE', Magento_Webapi_Controller_Request_Rest::HTTP_METHOD_DELETE)
+            array('GET', \Magento\Webapi\Controller\Request\Rest::HTTP_METHOD_GET),
+            array('POST', \Magento\Webapi\Controller\Request\Rest::HTTP_METHOD_CREATE),
+            array('PUT', \Magento\Webapi\Controller\Request\Rest::HTTP_METHOD_UPDATE),
+            array('DELETE', \Magento\Webapi\Controller\Request\Rest::HTTP_METHOD_DELETE)
         );
     }
 
@@ -286,7 +286,7 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
     {
         $this->assertEquals(
             $expectedActionType,
-            Magento_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName),
+            \Magento\Webapi\Controller\Request\Rest::getActionTypeByOperation($methodName),
             "Action type was identified incorrectly by method name."
         );
     }
@@ -295,12 +295,12 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
     {
         return array(
             array(
-                Magento_Webapi_Controller_ActionAbstract::METHOD_CREATE,
-                Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_CREATE,
+                \Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_COLLECTION
             ),
             array(
-                Magento_Webapi_Controller_ActionAbstract::METHOD_DELETE,
-                Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_DELETE,
+                \Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_ITEM
             ),
         );
     }
@@ -312,7 +312,7 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
             'InvalidArgumentException',
             sprintf('The "%s" method is not a valid resource method.', $methodName)
         );
-        Magento_Webapi_Controller_Request_Rest::getActionTypeByOperation($methodName);
+        \Magento\Webapi\Controller\Request\Rest::getActionTypeByOperation($methodName);
     }
 
     public function testGetResourceVersion()
@@ -324,9 +324,9 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
     public function testGetResourceVersionVersionIsNotSpecifiedException()
     {
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Resource version is not specified or invalid one is specified',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         $this->_request->getResourceVersion();
     }
@@ -342,13 +342,13 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
     {
         /** Prepare mocks for SUT constructor. */
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Requested method does not exist.',
-            Magento_Webapi_Exception::HTTP_NOT_FOUND
+            \Magento\Webapi\Exception::HTTP_NOT_FOUND
         );
         $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
         $this->_request->expects($this->once())->method('getMethod')->will($this->returnValue('POST'));
-        $this->_request->setResourceType(Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM);
+        $this->_request->setResourceType(\Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_ITEM);
         /** Initialize SUT. */
         $this->_request->getOperationName();
     }
@@ -381,32 +381,32 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
     {
         return array(
             'GET request with action type: item.' => array(
-                Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
+                \Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_ITEM,
                 'GET',
                 'resourceNameGet',
             ),
             'PUT request with action type: item.' => array(
-                Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
+                \Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_ITEM,
                 'PUT',
                 'resourceNameUpdate',
             ),
             'DELETE request with action type: item.' => array(
-                Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_ITEM,
+                \Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_ITEM,
                 'DELETE',
                 'resourceNameDelete',
             ),
             'GET request with action type: collection.' => array(
-                Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
+                \Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_COLLECTION,
                 'GET',
                 'resourceNameList',
             ),
             'PUT request with action type: collection.' => array(
-                Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
+                \Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_COLLECTION,
                 'PUT',
                 'resourceNameMultiUpdate',
             ),
             'DELETE request with action type: collection.' => array(
-                Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION,
+                \Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_COLLECTION,
                 'DELETE',
                 'resourceNameMultiDelete',
             ),
@@ -450,7 +450,7 @@ class Magento_Webapi_Controller_Request_RestTest extends PHPUnit_Framework_TestC
      */
     protected function _prepareSutForGetOperationNameWithCreateMethod()
     {
-        $this->_request->setResourceType(Magento_Webapi_Controller_Request_Rest::ACTION_TYPE_COLLECTION);
+        $this->_request->setResourceType(\Magento\Webapi\Controller\Request\Rest::ACTION_TYPE_COLLECTION);
         $this->_request->expects($this->once())->method('isPost')->will($this->returnValue(true));
         $this->_request->expects($this->once())
             ->method('getMethod')

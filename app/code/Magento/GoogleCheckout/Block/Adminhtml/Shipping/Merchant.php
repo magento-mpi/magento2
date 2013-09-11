@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\GoogleCheckout\Block\Adminhtml\Shipping;
+
+class Merchant
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
     protected $_addRowButtonHtml = array();
     protected $_removeRowButtonHtml = array();
@@ -84,18 +86,18 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
 
             $storeId = null;
             if (!is_null($website)) {
-                $storeId = Mage::getModel('Magento_Core_Model_Website')
+                $storeId = \Mage::getModel('\Magento\Core\Model\Website')
                     ->load($website, 'code')
                     ->getDefaultGroup()
                     ->getDefaultStoreId();
             } elseif (!is_null($store)) {
-                $storeId = Mage::getModel('Magento_Core_Model_Store')
+                $storeId = \Mage::getModel('\Magento\Core\Model\Store')
                     ->load($store, 'code')
                     ->getId();
             }
 
             $methods = array();
-            $carriers = Mage::getSingleton('Magento_Shipping_Model_Config')->getActiveCarriers($storeId);
+            $carriers = \Mage::getSingleton('Magento\Shipping\Model\Config')->getActiveCarriers($storeId);
             foreach ($carriers as $carrierCode=>$carrierModel) {
                 if (!$carrierModel->isActive()) {
                     continue;
@@ -104,7 +106,7 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
                 if (!$carrierMethods) {
                     continue;
                 }
-                $carrierTitle = Mage::getStoreConfig('carriers/' . $carrierCode . '/title', $storeId);
+                $carrierTitle = \Mage::getStoreConfig('carriers/' . $carrierCode . '/title', $storeId);
                 $methods[$carrierCode] = array(
                     'title'   => $carrierTitle,
                     'methods' => array(),
@@ -138,7 +140,7 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
     protected function _getAddRowButtonHtml($container, $template, $title='Add')
     {
         if (!isset($this->_addRowButtonHtml[$container])) {
-            $this->_addRowButtonHtml[$container] = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->_addRowButtonHtml[$container] = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
                     ->setType('button')
                     ->setClass('add ' . $this->_getDisabled())
                     ->setLabel(__($title))
@@ -152,7 +154,7 @@ class Magento_GoogleCheckout_Block_Adminhtml_Shipping_Merchant
     protected function _getRemoveRowButtonHtml($selector = 'li', $title = 'Remove')
     {
         if (!$this->_removeRowButtonHtml) {
-            $this->_removeRowButtonHtml = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $this->_removeRowButtonHtml = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
                     ->setType('button')
                     ->setClass('delete v-middle ' . $this->_getDisabled())
                     ->setLabel(__($title))

@@ -16,7 +16,9 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Form extends Magento_Eav_Model_Form
+namespace Magento\Customer\Model;
+
+class Form extends \Magento\Eav\Model\Form
 {
     /**
      * Current module pathname
@@ -36,7 +38,7 @@ class Magento_Customer_Model_Form extends Magento_Eav_Model_Form
      * Get EAV Entity Form Attribute Collection for Customer
      * exclude 'created_at'
      *
-     * @return Magento_Customer_Model_Resource_Form_Attribute_Collection
+     * @return \Magento\Customer\Model\Resource\Form\Attribute\Collection
      */
     protected function _getFormAttributeCollection()
     {

@@ -15,12 +15,14 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
+namespace Magento\Api\Model\Server\Adapter;
+
+class Soap extends \Magento\Object
 {
     /**
      * Soap server
      *
-     * @var SoapServer
+     * @var \SoapServer
      */
     protected $_soap = null;
 
@@ -28,7 +30,7 @@ class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
      * Set handler class name for webservice
      *
      * @param string $handler
-     * @return Magento_Api_Model_Server_Adapter_Soap
+     * @return \Magento\Api\Model\Server\Adapter\Soap
      */
     public function setHandler($handler)
     {
@@ -49,10 +51,10 @@ class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
     /**
      * Set webservice api controller
      *
-     * @param Magento_Api_Controller_Action $controller
-     * @return Magento_Api_Model_Server_Adapter_Soap
+     * @param \Magento\Api\Controller\Action $controller
+     * @return \Magento\Api\Model\Server\Adapter\Soap
      */
-    public function setController(Magento_Api_Controller_Action $controller)
+    public function setController(\Magento\Api\Controller\Action $controller)
     {
         $this->setData('controller', $controller);
         return $this;
@@ -61,7 +63,7 @@ class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
     /**
      * Retrive webservice api controller. If no controller have been set - emulate it by the use of \Magento\Object
      *
-     * @return Magento_Api_Controller_Action|\Magento\Object
+     * @return \Magento\Api\Controller\Action|\Magento\Object
      */
     public function getController()
     {
@@ -69,7 +71,7 @@ class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
 
         if (null === $controller) {
             $controller = new \Magento\Object(
-                array('request' => Mage::app()->getRequest(), 'response' => Mage::app()->getResponse())
+                array('request' => \Mage::app()->getRequest(), 'response' => \Mage::app()->getResponse())
             );
 
             $this->setData('controller', $controller);
@@ -79,11 +81,11 @@ class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
 
     public function run()
     {
-        $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
+        $apiConfigCharset = \Mage::getStoreConfig("api/config/charset");
 
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
-            /** @var $wsdlConfig Magento_Api_Model_Wsdl_Config */
-            $wsdlConfig = Mage::getModel('Magento_Api_Model_Wsdl_Config');
+            /** @var $wsdlConfig \Magento\Api\Model\Wsdl\Config */
+            $wsdlConfig = \Mage::getModel('\Magento\Api\Model\Wsdl\Config');
             $wsdlConfig->setHandler($this->getHandler())
                 ->setCacheId('wsdl_config_global_soap')
                 ->init();
@@ -114,9 +116,9 @@ class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
                     ->setHeader('Content-Type', 'text/xml; charset=' . $apiConfigCharset)
                     ->setHeader('Content-Length', strlen($content), true)
                     ->setBody($content);
-            } catch (Zend_Soap_Server_Exception $e) {
+            } catch (\Zend_Soap_Server_Exception $e) {
                 $this->fault($e->getCode(), $e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->fault($e->getCode(), $e->getMessage());
             }
         }
@@ -133,7 +135,7 @@ class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
     public function fault($code, $message)
     {
         if ($this->_extensionLoaded()) {
-            throw new SoapFault($code, $message);
+            throw new \SoapFault($code, $message);
         } else {
             die('<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
                 <SOAP-ENV:Body>
@@ -165,7 +167,7 @@ class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
      */
     protected function getWsdlUrl($params = null, $withAuth = true)
     {
-        $urlModel = Mage::getModel('Magento_Core_Model_Url')
+        $urlModel = \Mage::getModel('\Magento\Core\Model\Url')
             ->setUseSession(false);
 
         $wsdlUrl = $params !== null
@@ -185,15 +187,15 @@ class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
     }
 
     /**
-     * Try to instantiate Zend_Soap_Server
+     * Try to instantiate \Zend_Soap_Server
      * If schema import error is caught, it will retry in 1 second.
      *
-     * @throws Zend_Soap_Server_Exception
+     * @throws \Zend_Soap_Server_Exception
      */
     protected function _instantiateServer()
     {
-        $apiConfigCharset = Mage::getStoreConfig('api/config/charset');
-        $wsdlCacheEnabled = (bool)Mage::getStoreConfig('api/config/wsdl_cache_enabled');
+        $apiConfigCharset = \Mage::getStoreConfig('api/config/charset');
+        $wsdlCacheEnabled = (bool)\Mage::getStoreConfig('api/config/wsdl_cache_enabled');
 
         if ($wsdlCacheEnabled) {
             ini_set('soap.wsdl_cache_enabled', '1');
@@ -207,7 +209,7 @@ class Magento_Api_Model_Server_Adapter_Soap extends \Magento\Object
             try {
                 $this->_soap = new \Zend\Soap\Server($this->getWsdlUrl(array("wsdl" => 1)),
                     array('encoding' => $apiConfigCharset));
-            } catch (SoapFault $e) {
+            } catch (\SoapFault $e) {
                 if (false !== strpos(
                     $e->getMessage(),
                     "can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'"

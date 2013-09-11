@@ -15,7 +15,9 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Rating\Model\Resource\Rating;
+
+class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Review table
@@ -92,8 +94,8 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
     /**
      * Add vote
      *
-     * @param Magento_Rating_Model_Rating_Option $option
-     * @return Magento_Rating_Model_Resource_Rating_Option
+     * @param \Magento\Rating\Model\Rating\Option $option
+     * @return \Magento\Rating\Model\Resource\Rating\Option
      */
     public function addVote($option)
     {
@@ -107,9 +109,9 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
         );
 
         if (!$option->getDoUpdate()) {
-            $data['remote_ip']       = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
-            $data['remote_ip_long']  = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(true);
-            $data['customer_id']     = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+            $data['remote_ip']       = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
+            $data['remote_ip_long']  = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(true);
+            $data['customer_id']     = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
             $data['entity_pk_value'] = $option->getEntityPkValue();
             $data['rating_id']       = $option->getRatingId();
         }
@@ -129,9 +131,9 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
                 $this->aggregate($option);
             }
             $adapter->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollback();
-            throw new Exception($e->getMessage());
+            throw new \Exception($e->getMessage());
         }
         return $this;
     }
@@ -139,11 +141,11 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
     /**
      * Aggregate options
      *
-     * @param Magento_Rating_Model_Rating_Option $option
+     * @param \Magento\Rating\Model\Rating\Option $option
      */
     public function aggregate($option)
     {
-        $vote = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')->load($option->getVoteId());
+        $vote = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')->load($option->getVoteId());
         $this->aggregateEntityByRatingId($vote->getRatingId(), $vote->getEntityPkValue());
     }
 
@@ -171,10 +173,10 @@ class Magento_Rating_Model_Resource_Rating_Option extends Magento_Core_Model_Res
         $select = $readAdapter->select()
             ->from(array('vote'=>$this->_ratingVoteTable),
                 array(
-                    'vote_count'         => new Zend_Db_Expr('COUNT(vote.vote_id)'),
-                    'vote_value_sum'     => new Zend_Db_Expr('SUM(vote.value)'),
-                    'app_vote_count'     => new Zend_Db_Expr("COUNT({$appVoteCountCond})"),
-                    'app_vote_value_sum' => new Zend_Db_Expr("SUM({$appVoteValueSumCond})") ))
+                    'vote_count'         => new \Zend_Db_Expr('COUNT(vote.vote_id)'),
+                    'vote_value_sum'     => new \Zend_Db_Expr('SUM(vote.value)'),
+                    'app_vote_count'     => new \Zend_Db_Expr("COUNT({$appVoteCountCond})"),
+                    'app_vote_value_sum' => new \Zend_Db_Expr("SUM({$appVoteValueSumCond})") ))
             ->join(array('review'   =>$this->_reviewTable),
                 'vote.review_id=review.review_id',
                 array())

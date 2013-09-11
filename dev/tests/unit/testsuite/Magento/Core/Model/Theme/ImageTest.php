@@ -15,7 +15,7 @@
 class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Theme_Image
+     * @var \Magento\Core\Model\Theme\Image
      */
     protected $_model;
 
@@ -30,28 +30,28 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     protected $_imageMock;
 
     /**
-     * @var Magento_Core_Model_Theme_Image_Uploader|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Theme\Image\Uploader|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_uploaderMock;
 
     /**
-     * @var Magento_Core_Model_Theme|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Theme|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeMock;
 
     protected function setUp()
     {
         $this->_filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false, false);
-        $imageFactory = $this->getMock('Magento_Core_Model_Image_Factory', array(), array(), '', false, false);
+        $imageFactory = $this->getMock('Magento\Core\Model\Image\Factory', array(), array(), '', false, false);
         $this->_imageMock = $this->getMock('Magento\Image', array(), array(), '', false, false);
         $imageFactory->expects($this->any())->method('create')->will($this->returnValue($this->_imageMock));
 
-        $this->_themeMock = $this->getMock('Magento_Core_Model_Theme', null, array(), '', false, false);
-        $this->_uploaderMock = $this->getMock('Magento_Core_Model_Theme_Image_Uploader',
+        $this->_themeMock = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false, false);
+        $this->_uploaderMock = $this->getMock('Magento\Core\Model\Theme\Image\Uploader',
             array(), array(), 'Magento_Core_Model_Theme_Image_UploaderProxy', false, false);
-        $logger = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false, false);
+        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false, false);
 
-        $this->_model = new Magento_Core_Model_Theme_Image(
+        $this->_model = new \Magento\Core\Model\Theme\Image(
             $this->_filesystemMock,
             $imageFactory,
             $this->_uploaderMock,
@@ -71,11 +71,11 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Theme_Image_Path
+     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Theme\Image\Path
      */
     protected function _getImagePathMock()
     {
-        $imagePathMock = $this->getMock('Magento_Core_Model_Theme_Image_Path', array(), array(), '', false);
+        $imagePathMock = $this->getMock('Magento\Core\Model\Theme\Image\Path', array(), array(), '', false);
         $testBaseUrl = 'http://localhost/media_path/';
         $imagePathMock->expects($this->any())->method('getPreviewImageDirectoryUrl')
             ->will($this->returnValue($testBaseUrl));
@@ -101,29 +101,29 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
             'theme_id'             => 1,
             'theme_title'          => 'Sample theme',
             'preview_image'        => 'images/preview.png',
-            'area'                 => Magento_Core_Model_App_Area::AREA_FRONTEND,
-            'type'                 => Magento_Core_Model_Theme::TYPE_VIRTUAL
+            'area'                 => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            'type'                 => \Magento\Core\Model\Theme::TYPE_VIRTUAL
         );
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Image::__construct
+     * @covers \Magento\Core\Model\Theme\Image::__construct
      */
     public function testConstructor()
     {
-        $themeImage = new Magento_Core_Model_Theme_Image(
+        $themeImage = new \Magento\Core\Model\Theme\Image(
             $this->_filesystemMock,
-            $this->getMock('Magento_Core_Model_Image_Factory', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\Image\Factory', array(), array(), '', false, false),
             $this->_uploaderMock,
             $this->_getImagePathMock(),
-            $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false, false),
             $this->_themeMock
         );
         $this->assertNotEmpty($themeImage);
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Image::createPreviewImage
+     * @covers \Magento\Core\Model\Theme\Image::createPreviewImage
      */
     public function testCreatePreviewImage()
     {
@@ -135,7 +135,7 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Image::createPreviewImageCopy
+     * @covers \Magento\Core\Model\Theme\Image::createPreviewImageCopy
      */
     public function testCreatePreviewImageCopy()
     {
@@ -150,7 +150,7 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Image::removePreviewImage
+     * @covers \Magento\Core\Model\Theme\Image::removePreviewImage
      */
     public function testRemovePreviewImage()
     {
@@ -162,7 +162,7 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Image::removePreviewImage
+     * @covers \Magento\Core\Model\Theme\Image::removePreviewImage
      */
     public function testRemoveEmptyPreviewImage()
     {
@@ -174,7 +174,7 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Image::uploadPreviewImage
+     * @covers \Magento\Core\Model\Theme\Image::uploadPreviewImage
      */
     public function testUploadPreviewImage()
     {
@@ -190,7 +190,7 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Image::getPreviewImageUrl
+     * @covers \Magento\Core\Model\Theme\Image::getPreviewImageUrl
      */
     public function testGetPreviewImageUrl()
     {
@@ -200,7 +200,7 @@ class Magento_Core_Model_Theme_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Image::getPreviewImageUrl
+     * @covers \Magento\Core\Model\Theme\Image::getPreviewImageUrl
      */
     public function testGetDefaultPreviewImageUrl()
     {

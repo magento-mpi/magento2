@@ -9,46 +9,48 @@
 /**
  * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions
  */
-class Magento_Core_Model_Layout_File_Source_Aggregated implements Magento_Core_Model_Layout_File_SourceInterface
+namespace Magento\Core\Model\Layout\File\Source;
+
+class Aggregated implements \Magento\Core\Model\Layout\File\SourceInterface
 {
     /**
-     * @var Magento_Core_Model_Layout_File_FileList_Factory
+     * @var \Magento\Core\Model\Layout\File\FileList\Factory
      */
     private $_fileListFactory;
 
     /**
-     * @var Magento_Core_Model_Layout_File_SourceInterface
+     * @var \Magento\Core\Model\Layout\File\SourceInterface
      */
     private $_baseFiles;
 
     /**
-     * @var Magento_Core_Model_Layout_File_SourceInterface
+     * @var \Magento\Core\Model\Layout\File\SourceInterface
      */
     private $_themeFiles;
 
     /**
-     * @var Magento_Core_Model_Layout_File_SourceInterface
+     * @var \Magento\Core\Model\Layout\File\SourceInterface
      */
     private $_overridingBaseFiles;
 
     /**
-     * @var Magento_Core_Model_Layout_File_SourceInterface
+     * @var \Magento\Core\Model\Layout\File\SourceInterface
      */
     private $_overridingThemeFiles;
 
     /**
-     * @param Magento_Core_Model_Layout_File_FileList_Factory $fileListFactory
-     * @param Magento_Core_Model_Layout_File_SourceInterface $baseFiles
-     * @param Magento_Core_Model_Layout_File_SourceInterface $themeFiles
-     * @param Magento_Core_Model_Layout_File_SourceInterface $overridingBaseFiles
-     * @param Magento_Core_Model_Layout_File_SourceInterface $overridingThemeFiles
+     * @param \Magento\Core\Model\Layout\File\FileList\Factory $fileListFactory
+     * @param \Magento\Core\Model\Layout\File\SourceInterface $baseFiles
+     * @param \Magento\Core\Model\Layout\File\SourceInterface $themeFiles
+     * @param \Magento\Core\Model\Layout\File\SourceInterface $overridingBaseFiles
+     * @param \Magento\Core\Model\Layout\File\SourceInterface $overridingThemeFiles
      */
     public function __construct(
-        Magento_Core_Model_Layout_File_FileList_Factory $fileListFactory,
-        Magento_Core_Model_Layout_File_SourceInterface $baseFiles,
-        Magento_Core_Model_Layout_File_SourceInterface $themeFiles,
-        Magento_Core_Model_Layout_File_SourceInterface $overridingBaseFiles,
-        Magento_Core_Model_Layout_File_SourceInterface $overridingThemeFiles
+        \Magento\Core\Model\Layout\File\FileList\Factory $fileListFactory,
+        \Magento\Core\Model\Layout\File\SourceInterface $baseFiles,
+        \Magento\Core\Model\Layout\File\SourceInterface $themeFiles,
+        \Magento\Core\Model\Layout\File\SourceInterface $overridingBaseFiles,
+        \Magento\Core\Model\Layout\File\SourceInterface $overridingThemeFiles
     ) {
         $this->_fileListFactory = $fileListFactory;
         $this->_baseFiles = $baseFiles;
@@ -62,7 +64,7 @@ class Magento_Core_Model_Layout_File_Source_Aggregated implements Magento_Core_M
      *
      * {@inheritdoc}
      */
-    public function getFiles(Magento_Core_Model_ThemeInterface $theme)
+    public function getFiles(\Magento\Core\Model\ThemeInterface $theme)
     {
         $list = $this->_fileListFactory->create();
         $list->add($this->_baseFiles->getFiles($theme));
@@ -77,10 +79,10 @@ class Magento_Core_Model_Layout_File_Source_Aggregated implements Magento_Core_M
     /**
      * Return the full theme inheritance sequence, from the root theme till a specified one
      *
-     * @param Magento_Core_Model_ThemeInterface $theme
-     * @return Magento_Core_Model_ThemeInterface[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
+     * @param \Magento\Core\Model\ThemeInterface $theme
+     * @return \Magento\Core\Model\ThemeInterface[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
      */
-    protected function _getInheritedThemes(Magento_Core_Model_ThemeInterface $theme)
+    protected function _getInheritedThemes(\Magento\Core\Model\ThemeInterface $theme)
     {
         $result = array();
         while ($theme) {

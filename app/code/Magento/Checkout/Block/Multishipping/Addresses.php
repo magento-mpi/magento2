@@ -15,16 +15,18 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Checkout\Block\Multishipping;
+
+class Addresses extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Retrieve multishipping checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
     }
 
     protected function _prepareLayout()
@@ -51,7 +53,7 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
      */
     public function getAddressesHtmlSelect($item, $index)
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
             ->setName('ship['.$index.']['.$item->getQuoteItemId().'][address]')
             ->setId('ship_'.$index.'_'.$item->getQuoteItemId().'_address')
             ->setValue($item->getCustomerAddressId())
@@ -104,12 +106,12 @@ class Magento_Checkout_Block_Multishipping_Addresses extends Magento_Sales_Block
 
     public function getNewAddressUrl()
     {
-        return Mage::getUrl('*/multishipping_address/newShipping');
+        return \Mage::getUrl('*/multishipping_address/newShipping');
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('*/cart/');
+        return \Mage::getUrl('*/cart/');
     }
 
     public function isContinueDisabled()

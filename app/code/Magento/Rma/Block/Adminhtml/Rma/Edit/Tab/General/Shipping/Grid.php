@@ -15,7 +15,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Magento_Adminhtml_Block_Template
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
+class Grid extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Return collection of shipment items
@@ -24,7 +26,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Mag
      */
     public function getCollection()
     {
-        return Mage::registry('current_rma')->getShippingMethods(true);
+        return \Mage::registry('current_rma')->getShippingMethods(true);
     }
 
     /**
@@ -34,12 +36,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Mag
      */
     public function displayCustomsValue()
     {
-        $storeId = Mage::registry('current_rma')->getStoreId();
-        $order = Mage::registry('current_rma')->getOrder();
+        $storeId = \Mage::registry('current_rma')->getStoreId();
+        $order = \Mage::registry('current_rma')->getOrder();
         $address = $order->getShippingAddress();
         $shippingSourceCountryCode = $address->getCountryId();
 
-        $shippingDestinationInfo = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($storeId);
+        $shippingDestinationInfo = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($storeId);
         $shippingDestinationCountryCode = $shippingDestinationInfo->getCountryId();
 
         if ($shippingSourceCountryCode != $shippingDestinationCountryCode) {

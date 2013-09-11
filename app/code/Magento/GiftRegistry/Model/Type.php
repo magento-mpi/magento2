@@ -11,18 +11,20 @@
 /**
  * Gift registry types processing model
  *
- * @method Magento_GiftRegistry_Model_Resource_Type _getResource()
- * @method Magento_GiftRegistry_Model_Resource_Type getResource()
+ * @method \Magento\GiftRegistry\Model\Resource\Type _getResource()
+ * @method \Magento\GiftRegistry\Model\Resource\Type getResource()
  * @method string getCode()
- * @method Magento_GiftRegistry_Model_Type setCode(string $value)
+ * @method \Magento\GiftRegistry\Model\Type setCode(string $value)
  * @method string getMetaXml()
- * @method Magento_GiftRegistry_Model_Type setMetaXml(string $value)
+ * @method \Magento\GiftRegistry\Model\Type setMetaXml(string $value)
  *
  * @category    Magento
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
+namespace Magento\GiftRegistry\Model;
+
+class Type extends \Magento\Core\Model\AbstractModel
 {
     protected $_store = null;
     protected $_storeData = null;
@@ -32,7 +34,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_GiftRegistry_Model_Resource_Type');
+        $this->_init('\Magento\GiftRegistry\Model\Resource\Type');
     }
 
     /**
@@ -42,7 +44,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     {
         if (!$this->hasStoreId() && !$this->getStoreId()) {
             $this->_cleanupData();
-            $xmlModel = Mage::getModel('Magento_GiftRegistry_Model_Attribute_Processor');
+            $xmlModel = \Mage::getModel('\Magento\GiftRegistry\Model\Attribute\Processor');
             $this->setMetaXml($xmlModel->processData($this));
         }
 
@@ -63,7 +65,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Perform actions after object load
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     protected function _afterLoad()
     {
@@ -90,18 +92,18 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Set store id
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function setStoreId($storeId = null)
     {
-        $this->_store = Mage::app()->getStore($storeId);
+        $this->_store = \Mage::app()->getStore($storeId);
         return $this;
     }
 
     /**
      * Retrieve store
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -125,7 +127,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Save registry type attribute data per store view
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      */
     protected function _saveAttributeStoreData()
     {
@@ -149,13 +151,13 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Clear object model from data that should be deleted
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     protected function _cleanupData()
     {
         if ($groups = $this->getAttributes()) {
             $attributesToSave = array();
-            $config = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
+            $config = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config');
             foreach ((array)$groups as $group => $attributes) {
                 foreach ((array)$attributes as $attribute) {
                     if ($attribute['is_deleted']) {
@@ -193,11 +195,11 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Assign attributes store data
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function assignAttributesStoreData()
     {
-        $xmlModel = Mage::getModel('Magento_GiftRegistry_Model_Attribute_Processor');
+        $xmlModel = \Mage::getModel('\Magento\GiftRegistry\Model\Attribute\Processor');
         $groups = $xmlModel->processXml($this->getMetaXml());
         $storeData = array();
 
@@ -215,7 +217,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     /**
      * Assign attributes store data
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function getAttributesStoreData($attributes)
     {
@@ -331,7 +333,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
     {
         $listedAttributes = array();
         if ($this->getAttributes()) {
-            $staticCodes = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config')
+            $staticCodes = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config')
                 ->getStaticTypesCodes();
             foreach ($this->getAttributes() as $group) {
                 foreach ($group as $code => $attribute) {
@@ -348,12 +350,12 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      * Custom handler for giftregistry type save action
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)
     {
-        $typeData = Mage::app()->getRequest()->getParam('type');
+        $typeData = \Mage::app()->getRequest()->getParam('type');
         $typeId = isset($typeData['type_id']) ? $typeData['type_id'] : __('New');
         return $eventModel->setInfo($typeId);
     }
@@ -362,7 +364,7 @@ class Magento_GiftRegistry_Model_Type extends Magento_Core_Model_Abstract
      * Filter and load post data to object
      *
      * @param array $data
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function loadPost(array $data)
     {

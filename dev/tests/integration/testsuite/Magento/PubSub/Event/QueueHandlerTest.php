@@ -23,22 +23,22 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        /** @var Magento_Webhook_Model_Resource_Event_Collection $eventCollection */
+        /** @var \Magento\Webhook\Model\Resource\Event\Collection $eventCollection */
         $eventCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Resource_Event_Collection');
+            ->create('Magento\Webhook\Model\Resource\Event\Collection');
         /** @var array $event */
         $events = $eventCollection->getItems();
-        /** @var Magento_Webhook_Model_Event $event */
+        /** @var \Magento\Webhook\Model\Event $event */
         foreach ($events as $event) {
             $event->complete();
             $event->save();
         }
 
-        /** @var $factory Magento_Webhook_Model_Event_Factory */
+        /** @var $factory \Magento\Webhook\Model\Event\Factory */
         $factory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
             ->create('Magento\PubSub\Event\FactoryInterface');
 
-        /** @var $event Magento_Webhook_Model_Event */
+        /** @var $event \Magento\Webhook\Model\Event */
         $factory->create('testinstance/created', array(
             'testKey1' => 'testValue1'
         ))->save();
@@ -47,7 +47,7 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
             'testKey2' => 'testValue2'
         ))->save();
 
-        $endpoint = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webhook_Model_Endpoint')
+        $endpoint = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Webhook\Model\Endpoint')
             ->setEndpointUrl(self::ENDPOINT_URL)
             ->setFormat('json')
             ->setAuthenticationType('hmac')
@@ -55,25 +55,25 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->save();
 
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()->configure(array(
-            'Magento_Core_Model_Config_Base' => array(
+            '\Magento\Core\Model\Config\Base' => array(
                 'parameters' => array(
                     'sourceData' => __DIR__ . '/../_files/config.xml',
                 ),
             ),
-            'Magento_Webhook_Model_Resource_Subscription' => array(
+            '\Magento\Webhook\Model\Resource\Subscription' => array(
                 'parameters' => array(
-                    'config' => array('instance' => 'Magento_Core_Model_Config_Base'),
+                    'config' => array('instance' => '\Magento\Core\Model\Config\Base'),
                 ),
             )
         ));
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setData(
             array(
                 'name' => 'test',
-                'status' => Magento_Webhook_Model_Subscription::STATUS_INACTIVE,
+                'status' => \Magento\Webhook\Model\Subscription::STATUS_INACTIVE,
                 'version' => 1,
                 'alias' => 'test',
                 'topics' => array(
@@ -84,14 +84,14 @@ class Magento_PubSub_Event_QueueHandlerTest extends PHPUnit_Framework_TestCase
 
         // Simulate activating of the subscription
         $webApiUser = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Acl_User')
+            ->create('Magento\Webapi\Model\Acl\User')
             ->setData('api_key', 'test')
             ->setData('secret', 'secret')
             ->save();
         $endpoint->setApiUserId($webApiUser->getId())
             ->save();
         $subscription->setEndpointId($endpoint->getId())
-            ->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
+            ->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();;
 
         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()

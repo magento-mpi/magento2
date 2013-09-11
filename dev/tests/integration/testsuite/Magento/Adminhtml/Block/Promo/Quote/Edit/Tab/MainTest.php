@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
+ * Test class for \Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
@@ -22,15 +22,15 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_MainTest extends PHPUnit_Fram
     public function testPrepareForm()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        Mage::register('current_promo_quote_rule', $objectManager->create('Magento_SalesRule_Model_Rule'));
+        Mage::register('current_promo_quote_rule', $objectManager->create('Magento\SalesRule\Model\Rule'));
 
-        $layout = $objectManager->create('Magento_Core_Model_Layout');
-        $block = $layout->addBlock('Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main');
+        $layout = $objectManager->create('Magento\Core\Model\Layout');
+        $block = $layout->addBlock('\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main');
         $prepareFormMethod = new ReflectionMethod(
-            'Magento_Adminhtml_Block_Promo_Quote_Edit_Tab_Main', '_prepareForm'
+            '\Magento\Adminhtml\Block\Promo\Quote\Edit\Tab\Main', '_prepareForm'
         );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

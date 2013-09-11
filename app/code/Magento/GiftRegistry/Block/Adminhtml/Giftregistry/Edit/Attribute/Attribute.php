@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute;
+
+class Attribute
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Instance of gift registry type model
@@ -21,17 +23,17 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     /**
      * Preparing block layout
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\Registry
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add Attribute'),
             'class' => 'action-add',
             'id'    => $this->getFieldPrefix() . '_add_new_attribute'
         ));
 
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Delete Attribute'),
             'class' => 'action-delete delete-attribute-option'
         ));
@@ -75,25 +77,25 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
     /**
      * Get gift registry attribute config model
      *
-     * @return Magento_GiftRegistry_Model_Attribute_Config
+     * @return \Magento\GiftRegistry\Model\Attribute\Config
      */
     public function getConfig()
     {
-        return Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
+        return \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config');
     }
 
     /**
      * Get gift registry attribute type model
      *
-     * @return Magento_GiftRegistry_Model_Type
+     * @return \Magento\GiftRegistry\Model\Type
      */
     public function getType()
     {
         if (!$this->_typeInstance) {
-            if ($type = Mage::registry('current_giftregistry_type')) {
+            if ($type = \Mage::registry('current_giftregistry_type')) {
                 $this->_typeInstance = $type;
             } else {
-                $this->_typeInstance = Mage::getSingleton('Magento_GiftRegistry_Model_Type');
+                $this->_typeInstance = \Mage::getSingleton('Magento\GiftRegistry\Model\Type');
             }
         }
         return $this->_typeInstance;
@@ -116,7 +118,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_type',
                 'class' => 'select required-entry attribute-type global-scope'
@@ -134,7 +136,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getGroupSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_group',
                 'class' => 'select required-entry global-scope'
@@ -152,13 +154,13 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getSearcheableSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_searcheable',
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_searcheable]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -170,13 +172,13 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getListedSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_listed',
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_listed]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -188,13 +190,13 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
      */
     public function getRequiredSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_required',
                  'class' => 'select required-entry global-scope'
             ))
             ->setName('attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_required]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
 
         return $select->getHtml();
     }

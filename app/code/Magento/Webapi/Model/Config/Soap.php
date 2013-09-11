@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Config_Soap extends Magento_Webapi_Model_ConfigAbstract
+namespace Magento\Webapi\Model\Config;
+
+class Soap extends \Magento\Webapi\Model\ConfigAbstract
 {
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Model_Config_Reader_Soap $reader
-     * @param Magento_Webapi_Helper_Config $helper
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Webapi\Model\Config\Reader\Soap $reader
+     * @param \Magento\Webapi\Helper\Config $helper
+     * @param \Magento\Core\Model\App $application
      */
     public function __construct(
-        Magento_Webapi_Model_Config_Reader_Soap $reader,
-        Magento_Webapi_Helper_Config $helper,
-        Magento_Core_Model_App $application
+        \Magento\Webapi\Model\Config\Reader\Soap $reader,
+        \Magento\Webapi\Helper\Config $helper,
+        \Magento\Core\Model\App $application
     ) {
         parent::__construct($reader, $helper, $application);
     }
@@ -32,7 +34,7 @@ class Magento_Webapi_Model_Config_Soap extends Magento_Webapi_Model_ConfigAbstra
      * @param string $resourceName
      * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
      * @return array
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function getResourceDataMerged($resourceName, $resourceVersion)
     {

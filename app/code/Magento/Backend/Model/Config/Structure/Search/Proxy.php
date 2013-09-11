@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Search_Proxy
-    implements Magento_Backend_Model_Config_Structure_SearchInterface
+namespace Magento\Backend\Model\Config\Structure\Search;
+
+class Proxy
+    implements \Magento\Backend\Model\Config\Structure\SearchInterface
 {
     /**
      * Object manager
@@ -18,7 +20,7 @@ class Magento_Backend_Model_Config_Structure_Search_Proxy
     protected $_objectManager;
 
     /**
-     * @var Magento_Backend_Model_Config_Structure
+     * @var \Magento\Backend\Model\Config\Structure
      */
     protected $_subject;
 
@@ -33,12 +35,12 @@ class Magento_Backend_Model_Config_Structure_Search_Proxy
     /**
      * Retrieve subject
      *
-     * @return Magento_Backend_Model_Config_Structure_SearchInterface
+     * @return \Magento\Backend\Model\Config\Structure\SearchInterface
      */
     protected function _getSubject()
     {
         if (!$this->_subject) {
-            $this->_subject = $this->_objectManager->get('Magento_Backend_Model_Config_Structure');
+            $this->_subject = $this->_objectManager->get('Magento\Backend\Model\Config\Structure');
         }
         return $this->_subject;
     }
@@ -47,7 +49,7 @@ class Magento_Backend_Model_Config_Structure_Search_Proxy
      * Find element by path
      *
      * @param string $path
-     * @return Magento_Backend_Model_Config_Structure_ElementInterface|null
+     * @return \Magento\Backend\Model\Config\Structure\ElementInterface|null
      */
     public function getElement($path)
     {

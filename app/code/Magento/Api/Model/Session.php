@@ -15,7 +15,9 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Api\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     public $sessionIds = array();
     protected $_currentSessId = null;
@@ -57,8 +59,8 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
     public function clear() {
         if ($sessId = $this->getSessionId()) {
             try {
-                Mage::getModel('Magento_Api_Model_User')->logoutBySessId($sessId);
-            } catch (Exception $e) {
+                \Mage::getModel('\Magento\Api\Model\User')->logoutBySessId($sessId);
+            } catch (\Exception $e) {
                 return false;
             }
         }
@@ -67,20 +69,20 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
 
     public function login($username, $apiKey)
     {
-        $user = Mage::getModel('Magento_Api_Model_User')
+        $user = \Mage::getModel('\Magento\Api\Model\User')
             ->setSessid($this->getSessionId())
             ->login($username, $apiKey);
 
         if ( $user->getId() && $user->getIsActive() != '1' ) {
-            Mage::throwException(__('Your account has been deactivated.'));
-        } elseif (!Mage::getModel('Magento_Api_Model_User')->hasAssigned2Role($user->getId())) {
-            Mage::throwException(__('Access denied'));
+            \Mage::throwException(__('Your account has been deactivated.'));
+        } elseif (!\Mage::getModel('\Magento\Api\Model\User')->hasAssigned2Role($user->getId())) {
+            \Mage::throwException(__('Access denied'));
         } else {
             if ($user->getId()) {
                 $this->setUser($user);
-                $this->setAcl(Mage::getResourceModel('Magento_Api_Model_Resource_Acl')->loadAcl());
+                $this->setAcl(\Mage::getResourceModel('\Magento\Api\Model\Resource\Acl')->loadAcl());
             } else {
-                Mage::throwException(__('Unable to login'));
+                \Mage::throwException(__('Unable to login'));
             }
         }
 
@@ -96,7 +98,7 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
             return $this;
         }
         if (!$this->getAcl() || $user->getReloadAclFlag()) {
-            $this->setAcl(Mage::getResourceModel('Magento_Api_Model_Resource_Acl')->loadAcl());
+            $this->setAcl(\Mage::getResourceModel('\Magento\Api\Model\Resource\Acl')->loadAcl());
         }
         if ($user->getReloadAclFlag()) {
             $user->unsetData('api_key');
@@ -123,11 +125,11 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
                 if ($acl->isAllowed($user->getAclRole(), 'all', null)){
                     return true;
                 }
-            } catch (Exception $e) {}
+            } catch (\Exception $e) {}
 
             try {
                 return $acl->isAllowed($user->getAclRole(), $resource, $privilege);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 return false;
             }
         }
@@ -145,7 +147,7 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
             return true;
         }
         $timeout = strtotime( now() ) - strtotime( $user->getLogdate() );
-        return $timeout > Mage::getStoreConfig('api/config/session_timeout');
+        return $timeout > \Mage::getStoreConfig('api/config/session_timeout');
     }
 
 
@@ -158,7 +160,7 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
         }
 
         if ($userExists) {
-            Mage::register('isSecureArea', true, true);
+            \Mage::register('isSecureArea', true, true);
         }
         return $userExists;
     }
@@ -171,14 +173,14 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
      */
     protected function _renewBySessId ($sessId)
     {
-        $user = Mage::getModel('Magento_Api_Model_User')->loadBySessId($sessId);
+        $user = \Mage::getModel('\Magento\Api\Model\User')->loadBySessId($sessId);
         if (!$user->getId() || !$user->getSessid()) {
             return false;
         }
 
         if ($user->getSessid() == $sessId && !$this->isSessionExpired($user)) {
             $this->setUser($user);
-            $this->setAcl(Mage::getResourceModel('Magento_Api_Model_Resource_Acl')->loadAcl());
+            $this->setAcl(\Mage::getResourceModel('\Magento\Api\Model\Resource\Acl')->loadAcl());
 
             $user->getResource()->recordLogin($user)
                 ->recordSession($user);
@@ -188,4 +190,4 @@ class Magento_Api_Model_Session extends Magento_Core_Model_Session_Abstract
         return false;
     }
 
-} // Class Magento_Api_Model_Session End
+} // Class \Magento\Api\Model\Session End

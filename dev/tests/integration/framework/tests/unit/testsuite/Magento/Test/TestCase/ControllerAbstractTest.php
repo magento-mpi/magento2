@@ -18,10 +18,10 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
 
     protected function setUp()
     {
-        if (!Mage::getObjectManager()) {
+        if (!\Mage::getObjectManager()) {
             $instanceConfig = new Magento_TestFramework_ObjectManager_Config();
-            $primaryConfig = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
-            $dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+            $primaryConfig = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
+            $dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
             $primaryConfig->expects($this->any())->method('getDirectories')->will($this->returnValue($dirs));
 
             Mage::setObjectManager(
@@ -34,15 +34,15 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
         parent::setUp();
 
         // emulate session messages
-        $messagesCollection = new Magento_Core_Model_Message_Collection();
+        $messagesCollection = new \Magento\Core\Model\Message\Collection();
         $messagesCollection
-            ->add(new Magento_Core_Model_Message_Warning('some_warning'))
-            ->add(new Magento_Core_Model_Message_Error('error_one'))
-            ->add(new Magento_Core_Model_Message_Error('error_two'))
-            ->add(new Magento_Core_Model_Message_Notice('some_notice'))
+            ->add(new \Magento\Core\Model\Message\Warning('some_warning'))
+            ->add(new \Magento\Core\Model\Message\Error('error_one'))
+            ->add(new \Magento\Core\Model\Message\Error('error_two'))
+            ->add(new \Magento\Core\Model\Message\Notice('some_notice'))
         ;
         $sessionModelFixture = new \Magento\Object(array('messages' => $messagesCollection));
-        $this->_objectManager->addSharedInstance($sessionModelFixture, 'Magento_Core_Model_Session');
+        $this->_objectManager->addSharedInstance($sessionModelFixture, '\Magento\Core\Model\Session');
     }
 
     /**
@@ -113,7 +113,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
     {
         $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array(), array(), '', false);
         /*
-         * Prevent calling Magento_Core_Controller_Response_Http::setRedirect() because it executes
+         * Prevent calling \Magento\Core\Controller\Response\Http::setRedirect() because it executes
          * Mage::dispatchEvent(), which requires fully initialized application environment intentionally not available
          * for unit tests
          */
@@ -144,7 +144,7 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
     {
         return array(
             'no message type filtering' => array(array('some_warning', 'error_one', 'error_two', 'some_notice'), null),
-            'message type filtering'    => array(array('error_one', 'error_two'), Magento_Core_Model_Message::ERROR),
+            'message type filtering'    => array(array('error_one', 'error_two'), \Magento\Core\Model\Message::ERROR),
         );
     }
 

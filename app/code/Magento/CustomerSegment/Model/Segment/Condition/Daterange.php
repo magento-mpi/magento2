@@ -11,11 +11,13 @@
 /**
  * Date range combo
  *
- * @method Magento_CustomerSegment_Model_Segment_Condition_Daterange setType(string $type)
- * @method Magento_CustomerSegment_Model_Segment_Condition_Daterange setValue(string $value)
+ * @method \Magento\CustomerSegment\Model\Segment\Condition\Daterange setType(string $type)
+ * @method \Magento\CustomerSegment\Model\Segment\Condition\Daterange setValue(string $value)
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Daterange
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+class Daterange
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * Input type for operator options
@@ -34,14 +36,14 @@ class Magento_CustomerSegment_Model_Segment_Condition_Daterange
     /**
      * Initialize model
      *
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
 
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Daterange');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Daterange');
         $this->setValue(null);
     }
 
@@ -108,7 +110,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Daterange
      */
     public function getValueElementChooserUrl()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/customersegment/chooserDaterange', array(
+        return \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/customersegment/chooserDaterange', array(
             'value_element_id' => $this->_valueElement->getId(),
         ));
     }

@@ -11,7 +11,9 @@
 /**
  * In-memory readonly pool of cache front-end instances, specified in the configuration
  */
-class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
+namespace Magento\Core\Model\Cache\Frontend;
+
+class Pool implements \Iterator
 {
     /**
      * Frontend identifier associated with the default settings
@@ -19,7 +21,7 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
     const DEFAULT_FRONTEND_ID = 'generic';
 
     /**
-     * @var Magento_Core_Model_Cache_Frontend_Factory
+     * @var \Magento\Core\Model\Cache\Frontend\Factory
      */
     private $_factory;
 
@@ -43,12 +45,12 @@ class Magento_Core_Model_Cache_Frontend_Pool implements Iterator
     private $_defaultSettings;
 
     /**
-     * @param Magento_Core_Model_Cache_Frontend_Factory $frontendFactory
+     * @param \Magento\Core\Model\Cache\Frontend\Factory $frontendFactory
      * @param array $defaultSettings
      * @param array $advancedSettings
      */
     public function __construct(
-        Magento_Core_Model_Cache_Frontend_Factory $frontendFactory,
+        \Magento\Core\Model\Cache\Frontend\Factory $frontendFactory,
         array $defaultSettings = array(),
         array $advancedSettings = array()
     ) {

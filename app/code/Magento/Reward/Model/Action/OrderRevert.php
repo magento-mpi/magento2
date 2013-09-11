@@ -15,7 +15,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_OrderRevert extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class OrderRevert extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Check whether rewards can be added for action
@@ -44,7 +46,7 @@ class Magento_Reward_Model_Action_OrderRevert extends Magento_Reward_Model_Actio
      * Setter for $_entity and add some extra data to history
      *
      * @param   \Magento\Object $entity
-     * @return  Magento_Reward_Model_Action_Abstract
+     * @return  \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)
     {

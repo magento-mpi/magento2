@@ -13,33 +13,35 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-interface Magento_Payment_Model_Billing_Agreement_MethodInterface
+namespace Magento\Payment\Model\Billing\Agreement;
+
+interface MethodInterface
 {
     /**
      * Init billing agreement
      *
-     * @param Magento_Payment_Model_Billing_AgreementAbstract $agreement
+     * @param \Magento\Payment\Model\Billing\AgreementAbstract $agreement
      */
-    public function initBillingAgreementToken(Magento_Payment_Model_Billing_AgreementAbstract $agreement);
+    public function initBillingAgreementToken(\Magento\Payment\Model\Billing\AgreementAbstract $agreement);
 
     /**
      * Retrieve billing agreement details
      *
-     * @param Magento_Payment_Model_Billing_AgreementAbstract $agreement
+     * @param \Magento\Payment\Model\Billing\AgreementAbstract $agreement
      */
-    public function getBillingAgreementTokenInfo(Magento_Payment_Model_Billing_AgreementAbstract $agreement);
+    public function getBillingAgreementTokenInfo(\Magento\Payment\Model\Billing\AgreementAbstract $agreement);
 
     /**
      * Create billing agreement
      *
-     * @param Magento_Payment_Model_Billing_AgreementAbstract $agreement
+     * @param \Magento\Payment\Model\Billing\AgreementAbstract $agreement
      */
-    public function placeBillingAgreement(Magento_Payment_Model_Billing_AgreementAbstract $agreement);
+    public function placeBillingAgreement(\Magento\Payment\Model\Billing\AgreementAbstract $agreement);
 
     /**
      * Update billing agreement status
      *
-     * @param Magento_Payment_Model_Billing_AgreementAbstract $agreement
+     * @param \Magento\Payment\Model\Billing\AgreementAbstract $agreement
      */
-    public function updateBillingAgreementStatus(Magento_Payment_Model_Billing_AgreementAbstract $agreement);
+    public function updateBillingAgreementStatus(\Magento\Payment\Model\Billing\AgreementAbstract $agreement);
 }

@@ -15,11 +15,13 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
+
+class Price extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected function _prepareForm()
     {
-        $product = Mage::registry('product');
+        $product = \Mage::registry('product');
 
         $form = new \Magento\Data\Form();
         $fieldset = $form->addFieldset('tiered_price', array('legend' => __('Tier Pricing')));
@@ -39,9 +41,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price extends Magento_Adm
         ));
 
         $form->getElement('tier_price')->setRenderer(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price\Tier')
         );
 
         $this->setForm($form);
     }
-}// Class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Price END
+}// Class \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Price END

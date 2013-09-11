@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Config extends \Magento\Simplexml\Config
+namespace Magento\FullPageCache\Model;
+
+class Config extends \Magento\Simplexml\Config
 {
     protected $_placeholders = null;
 
@@ -16,13 +18,13 @@ class Magento_FullPageCache_Model_Config extends \Magento\Simplexml\Config
      * Class constructor
      * load cache configuration
      *
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      * @param $data
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
+        \Magento\Core\Model\Config\Modules\Reader $configReader,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
         $data = null
     ) {
         parent::__construct($data);
@@ -40,7 +42,7 @@ class Magento_FullPageCache_Model_Config extends \Magento\Simplexml\Config
 
     /**
      * Initialize all declared placeholders as array
-     * @return Magento_FullPageCache_Model_Config
+     * @return \Magento\FullPageCache\Model\Config
      */
     protected function _initPlaceholders()
     {
@@ -61,8 +63,8 @@ class Magento_FullPageCache_Model_Config extends \Magento\Simplexml\Config
     /**
      * Create placeholder object based on block information
      *
-     * @param Magento_Core_Block_Abstract $block
-     * @return Magento_FullPageCache_Model_Container_Placeholder
+     * @param \Magento\Core\Block\AbstractBlock $block
+     * @return \Magento\FullPageCache\Model\Container\Placeholder
      */
     public function getBlockPlaceholder($block)
     {
@@ -94,7 +96,7 @@ class Magento_FullPageCache_Model_Config extends \Magento\Simplexml\Config
                     $placeholder .= ' ' . $k . '="' . $v . '"';
                 }
             }
-            $placeholder = Mage::getModel('Magento_FullPageCache_Model_Container_Placeholder',
+            $placeholder = \Mage::getModel('\Magento\FullPageCache\Model\Container\Placeholder',
                 array('definition' => $placeholder));
             return $placeholder;
         }

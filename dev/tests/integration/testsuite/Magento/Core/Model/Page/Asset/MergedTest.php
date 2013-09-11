@@ -28,24 +28,24 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     public static function setUpBeforeClass()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $service Magento_Core_Model_View_Service */
-        $service = $objectManager->get('Magento_Core_Model_View_Service');
+        /** @var $service \Magento\Core\Model\View\Service */
+        $service = $objectManager->get('Magento\Core\Model\View\Service');
         self::$_themePublicDir = $service->getPublicDir();
 
-        /** @var Magento_Core_Model_Dir $dirs */
-        $dirs = $objectManager->get('Magento_Core_Model_Dir');
-        self::$_viewPublicMergedDir = $dirs->getDir(Magento_Core_Model_Dir::PUB_VIEW_CACHE)
-            . DIRECTORY_SEPARATOR . Magento_Core_Model_Page_Asset_Merged::PUBLIC_MERGE_DIR;
+        /** @var \Magento\Core\Model\Dir $dirs */
+        $dirs = $objectManager->get('Magento\Core\Model\Dir');
+        self::$_viewPublicMergedDir = $dirs->getDir(\Magento\Core\Model\Dir::PUB_VIEW_CACHE)
+            . DIRECTORY_SEPARATOR . \Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR;
     }
 
     public function setUp()
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => realpath(__DIR__ . '/../../_files/design')
+                \Magento\Core\Model\Dir::THEMES => realpath(__DIR__ . '/../../_files/design')
             )
         ));
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('vendor_default');
     }
 
@@ -61,16 +61,16 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
      *
      * @param array $files
      * @param string $contentType
-     * @return Magento_Core_Model_Page_Asset_Merged
+     * @return \Magento\Core\Model\Page\Asset\Merged
      */
     protected function _buildModel(array $files, $contentType)
     {
         $assets = array();
         foreach ($files as $file) {
-            $assets[] = Mage::getModel('Magento_Core_Model_Page_Asset_ViewFile',
+            $assets[] = Mage::getModel('\Magento\Core\Model\Page\Asset\ViewFile',
                 array('file' => $file, 'contentType' => $contentType));
         }
-        $model = Mage::getModel('Magento_Core_Model_Page_Asset_Merged', array('assets' => $assets));
+        $model = Mage::getModel('\Magento\Core\Model\Page\Asset\Merged', array('assets' => $assets));
         return $model;
     }
 
@@ -140,7 +140,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
     {
         return array(
             array(
-                Magento_Core_Model_View_Publisher::CONTENT_TYPE_CSS,
+                \Magento\Core\Model\View\Publisher::CONTENT_TYPE_CSS,
                 array(
                     'mage/calendar.css',
                     'css/file.css',
@@ -161,7 +161,7 @@ class Magento_Core_Model_Page_Asset_MergedTest extends PHPUnit_Framework_TestCas
                 ),
             ),
             array(
-                Magento_Core_Model_View_Publisher::CONTENT_TYPE_JS,
+                \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS,
                 array(
                     'mage/calendar.js',
                     'scripts.js',

@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_Db_Type_Mysql4 extends Magento_Install_Block_Db_Type
+namespace Magento\Install\Block\Db\Type;
+
+class Mysql4 extends \Magento\Install\Block\Db\Type
 {
     /**
      * Db title

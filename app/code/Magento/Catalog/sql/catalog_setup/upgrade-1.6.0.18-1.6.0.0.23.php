@@ -9,10 +9,10 @@
  */
 
 $installer = $this;
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 
 $installer->updateAttribute(
-    Magento_Catalog_Model_Product::ENTITY,
+    \Magento\Catalog\Model\Product::ENTITY,
     'image',
     'used_in_product_listing',
     '1'

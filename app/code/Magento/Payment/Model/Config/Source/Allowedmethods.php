@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
-class Magento_Payment_Model_Config_Source_Allowedmethods
-    extends Magento_Payment_Model_Config_Source_Allmethods
+namespace Magento\Payment\Model\Config\Source;
+
+class Allowedmethods
+    extends \Magento\Payment\Model\Config\Source\Allmethods
 {
     protected function _getPaymentMethods()
     {
-        return Mage::getSingleton('Magento_Payment_Model_Config')->getActiveMethods();
+        return \Mage::getSingleton('Magento\Payment\Model\Config')->getActiveMethods();
     }
 }

@@ -16,7 +16,9 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\CatalogSearch\Model\Resource\Search;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Attribute collection
@@ -36,12 +38,12 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
      * Add search query filter
      *
      * @param string $query
-     * @return Magento_CatalogSearch_Model_Resource_Search_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Search\Collection
      */
     public function addSearchFilter($query)
     {
         $this->_searchQuery = $query;
-        $this->addFieldToFilter('entity_id', array('in'=>new Zend_Db_Expr($this->_getSearchEntityIdsSql($query))));
+        $this->addFieldToFilter('entity_id', array('in'=>new \Zend_Db_Expr($this->_getSearchEntityIdsSql($query))));
         return $this;
     }
 
@@ -53,8 +55,8 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     protected function _getAttributesCollection()
     {
         if (!$this->_attributesCollection) {
-            $this->_attributesCollection = Mage::getResourceModel(
-                    'Magento_Catalog_Model_Resource_Product_Attribute_Collection'
+            $this->_attributesCollection = \Mage::getResourceModel(
+                    '\Magento\Catalog\Model\Resource\Product\Attribute\Collection'
                 )
                 ->load();
 
@@ -68,7 +70,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     /**
      * Check attribute is Text and is Searchable
      *
-     * @param Magento_Catalog_Model_Entity_Attribute $attribute
+     * @param \Magento\Catalog\Model\Entity\Attribute $attribute
      * @return boolean
      */
     protected function _isAttributeTextAndSearchable($attribute)
@@ -85,7 +87,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
     /**
      * Check attributes has options and searchable
      *
-     * @param Magento_Catalog_Model_Entity_Attribute $attribute
+     * @param \Magento\Catalog\Model\Entity\Attribute $attribute
      * @return boolean
      */
     protected function _hasAttributeOptionsAndSearchable($attribute)
@@ -109,15 +111,15 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
         $tables = array();
         $selects = array();
 
-        /* @var $resHelper Magento_Core_Model_Resource_Helper_Abstract */
-        $resHelper = Mage::getResourceHelper('Magento_Core');
+        /* @var $resHelper \Magento\Core\Model\Resource\Helper\AbstractHelper */
+        $resHelper = \Mage::getResourceHelper('Magento_Core');
         $likeOptions = array('position' => 'any');
 
         /**
          * Collect tables and attribute ids of attributes with string values
          */
         foreach ($this->_getAttributesCollection() as $attribute) {
-            /** @var Magento_Catalog_Model_Entity_Attribute $attribute */
+            /** @var \Magento\Catalog\Model\Entity\Attribute $attribute */
             $attributeCode = $attribute->getAttributeCode();
             if ($this->_isAttributeTextAndSearchable($attribute)) {
                 $table = $attribute->getBackendTable();
@@ -156,7 +158,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
             $selects[] = "SELECT * FROM ({$sql}) AS inoptionsql"; // inheritant unions may be inside
         }
 
-        $sql = $this->getConnection()->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
+        $sql = $this->getConnection()->select()->union($selects, \Zend_Db_Select::SQL_UNION_ALL);
         return $sql;
     }
 
@@ -185,7 +187,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
             return false;
         }
 
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         $optionTable      = $resource->getTableName('eav_attribute_option');
         $optionValueTable = $resource->getTableName('eav_attribute_option_value');
         $attributesTable  = $resource->getTableName('eav_attribute');
@@ -193,7 +195,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
         /**
          * Select option Ids
          */
-        $resHelper = Mage::getResourceHelper('Magento_Core');
+        $resHelper = \Mage::getResourceHelper('Magento_Core');
         $ifStoreId = $this->getConnection()->getIfNullSql('s.store_id', 'd.store_id');
         $ifValue   = $this->getConnection()->getCheckSql('s.value_id > 0', 's.value', 'd.value');
         $select = $this->getConnection()->select()
@@ -242,7 +244,7 @@ class Magento_CatalogSearch_Model_Resource_Search_Collection extends Magento_Cat
             }
         }
 
-        $sql = $this->getConnection()->select()->union($selects, Zend_Db_Select::SQL_UNION_ALL);
+        $sql = $this->getConnection()->select()->union($selects, \Zend_Db_Select::SQL_UNION_ALL);
         return $sql;
     }
 }

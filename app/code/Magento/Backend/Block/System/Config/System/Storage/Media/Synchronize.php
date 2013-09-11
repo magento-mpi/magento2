@@ -16,8 +16,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_System_Storage_Media_Synchronize
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Backend\Block\System\Config\System\Storage\Media;
+
+class Synchronize
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
 
     protected $_template = 'system/config/system/storage/media/synchronize.phtml';
@@ -72,7 +74,7 @@ class Magento_Backend_Block_System_Config_System_Storage_Media_Synchronize
      */
     public function getButtonHtml()
     {
-        $button = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'id'        => 'synchronize_button',
                 'label'     => __('Synchronize'),
@@ -95,10 +97,10 @@ class Magento_Backend_Block_System_Config_System_Storage_Media_Synchronize
      */
     public function getSyncStorageParams()
     {
-        $flag = Mage::getSingleton('Magento_Core_Model_File_Storage')->getSyncFlag();
+        $flag = \Mage::getSingleton('Magento\Core\Model\File\Storage')->getSyncFlag();
         $flagData = $flag->getFlagData();
 
-        if ($flag->getState() == Magento_Core_Model_File_Storage_Flag::STATE_NOTIFIED
+        if ($flag->getState() == \Magento\Core\Model\File\Storage\Flag::STATE_NOTIFIED
                 && is_array($flagData)
             && isset($flagData['destination_storage_type']) && $flagData['destination_storage_type'] != ''
             && isset($flagData['destination_connection_name'])
@@ -106,7 +108,7 @@ class Magento_Backend_Block_System_Config_System_Storage_Media_Synchronize
             $storageType    = $flagData['destination_storage_type'];
             $connectionName = $flagData['destination_connection_name'];
         } else {
-            $storageType    = Magento_Core_Model_File_Storage::STORAGE_MEDIA_FILE_SYSTEM;
+            $storageType    = \Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM;
             $connectionName = '';
         }
 

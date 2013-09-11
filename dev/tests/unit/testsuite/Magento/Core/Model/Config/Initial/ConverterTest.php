@@ -8,13 +8,13 @@
 class Magento_Core_Model_Config_Initial_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Initial_Converter
+     * @var \Magento\Core\Model\Config\Initial\Converter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Core_Model_Config_Initial_Converter();
+        $this->_model = new \Magento\Core\Model\Config\Initial\Converter();
     }
 
     public function testConvert()

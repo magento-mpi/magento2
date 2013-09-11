@@ -11,7 +11,9 @@
 /**
  * Reminder rules data helper
  */
-class Magento_Reminder_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Reminder\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'promo/magento_reminder/enabled';
     const XML_PATH_SEND_LIMIT = 'promo/magento_reminder/limit';
@@ -25,7 +27,7 @@ class Magento_Reminder_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_ENABLED);
+        return (bool)\Mage::getStoreConfig(self::XML_PATH_ENABLED);
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_Reminder_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getOneRunLimit()
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_SEND_LIMIT);
+        return (int)\Mage::getStoreConfig(self::XML_PATH_SEND_LIMIT);
     }
 
     /**
@@ -45,7 +47,7 @@ class Magento_Reminder_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getEmailIdentity()
     {
-        return (string)Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY);
+        return (string)\Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY);
     }
 
     /**
@@ -55,6 +57,6 @@ class Magento_Reminder_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getSendFailureThreshold()
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_EMAIL_THRESHOLD);
+        return (int)\Mage::getStoreConfig(self::XML_PATH_EMAIL_THRESHOLD);
     }
 }

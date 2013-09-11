@@ -9,20 +9,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Job_QueueReader implements \Magento\PubSub\Job\QueueReaderInterface
+namespace Magento\Webhook\Model\Job;
+
+class QueueReader implements \Magento\PubSub\Job\QueueReaderInterface
 {
-    /** @var Magento_Webhook_Model_Resource_Job_Collection */
+    /** @var \Magento\Webhook\Model\Resource\Job\Collection */
     protected $_collection;
 
-    /** @var ArrayIterator */
+    /** @var \ArrayIterator */
     protected $_iterator;
 
     /**
      * Initialize model
      *
-     * @param Magento_Webhook_Model_Resource_Job_Collection $collection
+     * @param \Magento\Webhook\Model\Resource\Job\Collection $collection
      */
-    public function __construct(Magento_Webhook_Model_Resource_Job_Collection $collection)
+    public function __construct(\Magento\Webhook\Model\Resource\Job\Collection $collection)
     {
         $this->_collection = $collection;
         $this->_iterator = $this->_collection->getIterator();

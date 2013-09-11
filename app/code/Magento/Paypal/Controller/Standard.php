@@ -13,7 +13,9 @@
  * @package    Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_Action
+namespace Magento\Paypal\Controller;
+
+class Standard extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Order instance
@@ -23,7 +25,7 @@ class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_A
     /**
      *  Get order
      *
-     *  @return	Magento_Sales_Model_Order
+     *  @return	\Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -37,7 +39,7 @@ class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_A
      */
     protected function _expireAjax()
     {
-        if (!$this->_objectManager->get('Magento_Checkout_Model_Session')->getQuote()->hasItems()) {
+        if (!$this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote()->hasItems()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Session Expired');
             exit;
         }
@@ -46,11 +48,11 @@ class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_A
     /**
      * Get singleton with paypal strandard order transaction information
      *
-     * @return Magento_Paypal_Model_Standard
+     * @return \Magento\Paypal\Model\Standard
      */
     public function getStandard()
     {
-        return $this->_objectManager->get('Magento_Paypal_Model_Standard');
+        return $this->_objectManager->get('Magento\Paypal\Model\Standard');
     }
 
     /**
@@ -58,7 +60,7 @@ class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_A
      */
     public function redirectAction()
     {
-        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         $session->setPaypalStandardQuoteId($session->getQuoteId());
         $this->loadLayout(false)->renderLayout();
         $session->unsQuoteId();
@@ -70,14 +72,14 @@ class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_A
      */
     public function cancelAction()
     {
-        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         $session->setQuoteId($session->getPaypalStandardQuoteId(true));
 
         if ($session->getLastRealOrderId()) {
-            $order = $this->_objectManager->create('Magento_Sales_Model_Order')
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')
                 ->loadByIncrementId($session->getLastRealOrderId());
             if ($order->getId()) {
-                $this->_objectManager->get('Magento_Core_Model_Event_Manager')->dispatch(
+                $this->_objectManager->get('Magento\Core\Model\Event\Manager')->dispatch(
                     'paypal_payment_cancel',
                     array(
                         'order' => $order,
@@ -85,7 +87,7 @@ class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_A
                 ));
                 $order->cancel()->save();
             }
-            $this->_objectManager->get('Magento_Paypal_Helper_Checkout')->restoreQuote();
+            $this->_objectManager->get('Magento\Paypal\Helper\Checkout')->restoreQuote();
         }
         $this->_redirect('checkout/cart');
     }
@@ -98,7 +100,7 @@ class Magento_Paypal_Controller_Standard extends Magento_Core_Controller_Front_A
      */
     public function successAction()
     {
-        $session = $this->_objectManager->get('Magento_Checkout_Model_Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         $session->setQuoteId($session->getPaypalStandardQuoteId(true));
         $session->getQuote()->setIsActive(false)->save();
         $this->_redirect('checkout/onepage/success', array('_secure'=>true));

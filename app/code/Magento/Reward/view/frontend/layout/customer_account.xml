@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="customer_account">
-        <block class="Magento_Reward_Block_Customer_Account" name="enterprise.reward.customer.account"/>
+        <block class="\Magento\Reward\Block\Customer\Account" name="enterprise.reward.customer.account"/>
     </handle>
 </layout>

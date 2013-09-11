@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
         <reference name="top.links">
-            <block class="Magento_Customer_Block_Account_Link" name="account_links">
+            <block class="\Magento\Customer\Block\Account\Link" name="account_links">
                 <action method="addAccountLink">
                     <argument name="target" xsi:type="string">top.links</argument>
                     <argument name="position" xsi:type="string">10</argument>

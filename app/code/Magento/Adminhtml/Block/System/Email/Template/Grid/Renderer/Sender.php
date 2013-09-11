@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
  
-class Magento_Adminhtml_Block_System_Email_Template_Grid_Renderer_Sender extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\System\Email\Template\Grid\Renderer;
+
+class Sender extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     public function render(\Magento\Object $row)
     {

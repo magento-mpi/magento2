@@ -16,12 +16,14 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_System_Cache_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\System\Cache;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Initialize cache management form
      *
-     * @return Magento_Adminhtml_Block_System_Cache_Form
+     * @return \Magento\Adminhtml\Block\System\Cache\Form
      */
     public function initForm()
     {
@@ -43,10 +45,10 @@ class Magento_Adminhtml_Block_System_Cache_Form extends Magento_Adminhtml_Block_
             ),
         ));
 
-        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
+        $cacheState = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\StateInterface');
 
-        foreach (Mage::helper('Magento_Core_Helper_Data')->getCacheTypes() as $type=>$label) {
+        foreach (\Mage::helper('Magento\Core\Helper\Data')->getCacheTypes() as $type=>$label) {
             $fieldset->addField('enable_'.$type, 'checkbox', array(
                 'name'=>'enable['.$type.']',
                 'label'=>__($label),

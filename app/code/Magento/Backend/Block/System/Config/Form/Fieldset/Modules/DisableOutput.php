@@ -9,10 +9,12 @@
  */
 
 /**
- * @method Magento_Backend_Block_System_Config_Form getForm()
+ * @method \Magento\Backend\Block\System\Config\Form getForm()
  */
-class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
-    extends Magento_Backend_Block_System_Config_Form_Fieldset
+namespace Magento\Backend\Block\System\Config\Form\Fieldset\Modules;
+
+class DisableOutput
+    extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
      * @var \Magento\Object
@@ -21,7 +23,7 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
 
 
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field
+     * @var \Magento\Backend\Block\System\Config\Form\Field
      */
     protected $_fieldRenderer;
 
@@ -31,18 +33,18 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     protected $_values;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Core_Model_ModuleListInterface $moduleList,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -90,12 +92,12 @@ class Magento_Backend_Block_System_Config_Form_Fieldset_Modules_DisableOutput
     }
 
     /**
-     * @return Magento_Backend_Block_System_Config_Form_Field
+     * @return \Magento\Backend\Block\System\Config\Form\Field
      */
     protected function _getFieldRenderer()
     {
         if (empty($this->_fieldRenderer)) {
-            $this->_fieldRenderer = Mage::getBlockSingleton('Magento_Backend_Block_System_Config_Form_Field');
+            $this->_fieldRenderer = \Mage::getBlockSingleton('\Magento\Backend\Block\System\Config\Form\Field');
         }
         return $this->_fieldRenderer;
     }

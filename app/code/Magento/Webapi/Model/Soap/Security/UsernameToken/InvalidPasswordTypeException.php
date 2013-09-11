@@ -1,6 +1,6 @@
 <?php
 /**
- * Exception for case of invalid password type (SOAP WS-Security).
+ * \Exception for case of invalid password type (SOAP WS-Security).
  *
  * {license_notice}
  *
@@ -8,6 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException extends RuntimeException
+namespace Magento\Webapi\Model\Soap\Security\UsernameToken;
+
+class InvalidPasswordTypeException extends \RuntimeException
 {
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Magento_Catalog_Block_Product_Compare_List */
+/* @var $this \Magento\Catalog\Block\Product\Compare\ListCompare */
 ?>
 <div class="page-title title-buttons">
     <h1><?php echo __('Compare Products') ?></h1>
@@ -31,7 +31,7 @@
         <?php if($_i++%10==0): ?>
             <th>&nbsp;</th>
             <?php endif; ?>
-        <td class="a-right"><a href="#" data-url='<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getRemoveUrl($_item) ?>' class="btn-remove"  title="<?php echo __('Remove This Item') ?>"><?php echo __('Remove This Item') ?></a></td>
+        <td class="a-right"><a href="#" data-url='<?php echo $this->helper('\Magento\Catalog\Helper\Product\Compare')->getRemoveUrl($_item) ?>' class="btn-remove"  title="<?php echo __('Remove This Item') ?>"><?php echo __('Remove This Item') ?></a></td>
         <?php endforeach; ?>
     </tr>
     </thead>
@@ -45,15 +45,15 @@
             <?php endif; ?>
         <td>
             <a class="product-image" href="#" data-url="<?php echo $this->getProductUrl($_item) ?>" title="<?php echo $this->stripTags($_item->getName(), null, true) ?>"><img src="<?php echo $this->getSmallImageUrl($_item) ?>" width="<?php echo $this->getSmallImageSize()?>" height="<?php echo $this->getSmallImageSize()?>" alt="<?php echo $this->stripTags($_item->getName(), null, true) ?>" /></a>
-            <h2 class="product-name"><a href="#" data-url="<?php echo $this->getProductUrl($_item) ?>" title="<?php echo $this->stripTags($_item->getName(), null, true) ?>"><?php echo $this->helper('Magento_Catalog_Helper_Output')->productAttribute($_item, $_item->getName(), 'name') ?></a></h2>
+            <h2 class="product-name"><a href="#" data-url="<?php echo $this->getProductUrl($_item) ?>" title="<?php echo $this->stripTags($_item->getName(), null, true) ?>"><?php echo $this->helper('\Magento\Catalog\Helper\Output')->productAttribute($_item, $_item->getName(), 'name') ?></a></h2>
             <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
             <?php echo $this->getPriceHtml($_item, true, '-compare-list-top') ?>
             <?php if($_item->isSaleable()): ?>
-            <p><button type="button" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>" title="<?php echo __('Add to Cart') ?>" class="button btn-cart" ><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
+            <p><button type="button" data-url="<?php echo $this->helper('\Magento\Catalog\Helper\Product\Compare')->getAddToCartUrl($_item) ?>" title="<?php echo __('Add to Cart') ?>" class="button btn-cart" ><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
             <?php else: ?>
             <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
             <?php endif; ?>
-            <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
+            <?php if ($this->helper('\Magento\Wishlist\Helper\Data')->isAllow()) : ?>
             <ul class="add-to-links" data-role="add-to-links">
                 <li><a href="#" data-url="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-wishlist" data-action="add-to-wishlist" ><?php echo __('Add to Wishlist') ?></a></li>
             </ul>
@@ -83,7 +83,7 @@
                 break;
             default: ?>
                 <div class="std">
-                    <?php echo $this->helper('Magento_Catalog_Helper_Output')->productAttribute($_item, $this->getProductAttributeValue($_item, $_attribute), $_attribute->getAttributeCode()) ?>
+                    <?php echo $this->helper('\Magento\Catalog\Helper\Output')->productAttribute($_item, $this->getProductAttributeValue($_item, $_attribute), $_attribute->getAttributeCode()) ?>
                 </div>
                 <?php break;
         } ?>
@@ -102,11 +102,11 @@
         <td>
             <?php echo $this->getPriceHtml($_item, true, '-compare-list-bottom') ?>
             <?php if($_item->isSaleable()): ?>
-            <p><button type="button" data-url="<?php echo $this->helper('Magento_Catalog_Helper_Product_Compare')->getAddToCartUrl($_item) ?>" title="<?php echo __('Add to Cart') ?>" class="button btn-cart" ><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
+            <p><button type="button" data-url="<?php echo $this->helper('\Magento\Catalog\Helper\Product\Compare')->getAddToCartUrl($_item) ?>" title="<?php echo __('Add to Cart') ?>" class="button btn-cart" ><span><span><?php echo __('Add to Cart') ?></span></span></button></p>
             <?php else: ?>
             <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
             <?php endif; ?>
-            <?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
+            <?php if ($this->helper('\Magento\Wishlist\Helper\Data')->isAllow()) : ?>
             <ul class="add-to-links" data-role="add-to-links">
                 <li><a href="#" data-url="<?php echo $this->getAddToWishlistUrl($_item);?>" class="link-wishlist" data-action="add-to-wishlist"><?php echo __('Add to Wishlist') ?></a></li>
             </ul>

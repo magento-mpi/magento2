@@ -12,19 +12,19 @@
 class Magento_Customer_Block_Account_Dashboard_InfoTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Customer_Block_Account_Dashboard_Info
+     * @var \Magento\Customer\Block\Account\Dashboard\Info
      */
     protected $_block;
 
     public function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Customer_Block_Account_Dashboard_Info');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Customer\Block\Account\Dashboard\Info');
     }
 
     public function testGetSubscriptionObject()
     {
         $object = $this->_block->getSubscriptionObject();
-        $this->assertInstanceOf('Magento_Newsletter_Model_Subscriber', $object);
+        $this->assertInstanceOf('\Magento\Newsletter\Model\Subscriber', $object);
 
         $object2 = $this->_block->getSubscriptionObject();
         $this->assertSame($object, $object2);

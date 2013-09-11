@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <event_lister type="Magento_CatalogEvent_Block_Widget_Lister" translate="name description">
+    <event_lister type="Magento\CatalogEvent\Block\Widget\Lister" translate="name description">
         <name>Catalog Events Carousel</name>
         <description>List all open Catalog Events as a Paginated Carousel</description>
         <placeholder_image>Magento_CatalogEvent::widget_lister.gif</placeholder_image>

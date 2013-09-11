@@ -15,7 +15,9 @@
  * @package    Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
+namespace Magento\Directory\Model;
+
+class Currency extends \Magento\Core\Model\AbstractModel
 {
     /**
      * CONFIG path constants
@@ -36,7 +38,7 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Directory_Model_Resource_Currency');
+        $this->_init('\Magento\Directory\Model\Resource\Currency');
     }
 
     /**
@@ -68,7 +70,7 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
      * Currency Rates setter
      *
      * @param array Currency Rates
-     * @return Magento_Directory_Model_Currency
+     * @return \Magento\Directory\Model\Currency
      */
     public function setRates(array $rates)
     {
@@ -81,7 +83,7 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
      *
      * @param   string $id
      * @param   string $field
-     * @return  Magento_Directory_Model_Currency
+     * @return  \Magento\Directory\Model\Currency
      */
     public function load($id, $field=null)
     {
@@ -100,10 +102,10 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
     {
         if (is_string($toCurrency)) {
             $code = $toCurrency;
-        } elseif ($toCurrency instanceof Magento_Directory_Model_Currency) {
+        } elseif ($toCurrency instanceof \Magento\Directory\Model\Currency) {
             $code = $toCurrency->getCurrencyCode();
         } else {
-            throw Mage::exception('Magento_Directory', __('Please correct the target currency.'));
+            throw \Mage::exception('Magento_Directory', __('Please correct the target currency.'));
         }
         $rates = $this->getRates();
         if (!isset($rates[$code])) {
@@ -123,10 +125,10 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
     {
         if (is_string($toCurrency)) {
             $code = $toCurrency;
-        } elseif ($toCurrency instanceof Magento_Directory_Model_Currency) {
+        } elseif ($toCurrency instanceof \Magento\Directory\Model\Currency) {
             $code = $toCurrency->getCurrencyCode();
         } else {
-            throw Mage::exception('Magento_Directory', __('Please correct the target currency.'));
+            throw \Mage::exception('Magento_Directory', __('Please correct the target currency.'));
         }
         $rates = $this->getRates();
         if (!isset($rates[$code])) {
@@ -152,18 +154,18 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
             return $price*$rate;
         }
 
-        throw new Exception(__('Undefined rate from "%1-%2".', $this->getCode(), $toCurrency->getCode()));
+        throw new \Exception(__('Undefined rate from "%1-%2".', $this->getCode(), $toCurrency->getCode()));
     }
 
     /**
      * Get currency filter
      *
-     * @return Magento_Directory_Model_Currency_Filter
+     * @return \Magento\Directory\Model\Currency\Filter
      */
     public function getFilter()
     {
         if (!$this->_filter) {
-            $this->_filter = new Magento_Directory_Model_Currency_Filter($this->getCode());
+            $this->_filter = new \Magento\Directory\Model\Currency\Filter($this->getCode());
         }
 
         return $this->_filter;
@@ -205,7 +207,7 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
     public function formatTxt($price, $options=array())
     {
         if (!is_numeric($price)) {
-            $price = Mage::app()->getLocale()->getNumber($price);
+            $price = \Mage::app()->getLocale()->getNumber($price);
         }
         /**
          * Fix problem with 12 000 000, 1 200 000
@@ -214,7 +216,7 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
          * %F - the argument is treated as a float, and presented as a floating-point number (non-locale aware).
          */
         $price = sprintf("%F", $price);
-        return Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price, $options);
+        return \Mage::app()->getLocale()->currency($this->getCode())->toCurrency($price, $options);
     }
 
     public function getOutputFormat()
@@ -231,11 +233,11 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
     public function getConfigAllowCurrencies()
     {
         $allowedCurrencies = $this->_getResource()->getConfigCurrencies($this, self::XML_PATH_CURRENCY_ALLOW);
-        $appBaseCurrencyCode = Mage::app()->getBaseCurrencyCode();
+        $appBaseCurrencyCode = \Mage::app()->getBaseCurrencyCode();
         if (!in_array($appBaseCurrencyCode, $allowedCurrencies)) {
             $allowedCurrencies[] = $appBaseCurrencyCode;
         }
-        foreach (Mage::app()->getStores() as $store) {
+        foreach (\Mage::app()->getStores() as $store) {
             $code = $store->getBaseCurrencyCode();
             if (!in_array($code, $allowedCurrencies)) {
                 $allowedCurrencies[] = $code;
@@ -271,7 +273,7 @@ class Magento_Directory_Model_Currency extends Magento_Core_Model_Abstract
      */
     public function getCurrencyRates($currency, $toCurrencies=null)
     {
-        if ($currency instanceof Magento_Directory_Model_Currency) {
+        if ($currency instanceof \Magento\Directory\Model\Currency) {
             $currency = $currency->getCode();
         }
         $data = $this->_getResource()->getCurrencyRates($currency, $toCurrencies);

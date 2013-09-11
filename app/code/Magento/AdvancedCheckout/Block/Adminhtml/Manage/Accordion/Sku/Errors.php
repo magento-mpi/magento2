@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Sku_Errors_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku;
+
+class Errors
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
      * Returns url to configure item
@@ -25,8 +27,8 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors
      */
     public function getConfigureUrl()
     {
-        $customer = Mage::registry('checkout_current_customer');
-        $store = Mage::registry('checkout_current_store');
+        $customer = \Mage::registry('checkout_current_customer');
+        $store = \Mage::registry('checkout_current_store');
         $params = array(
             'customer'   => $customer->getId(),
             'store'    => $store->getId()
@@ -47,11 +49,11 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku_Errors
     /**
      * Returns current store model
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
-        return Mage::registry('checkout_current_store');
+        return \Mage::registry('checkout_current_store');
     }
 
     /**

@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
+namespace Magento\Catalog\Helper;
+
+class Category extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_CATEGORY_URL_SUFFIX          = 'catalog/seo/category_url_suffix';
     const XML_PATH_USE_CATEGORY_CANONICAL_TAG   = 'catalog/seo/category_canonical_tag';
@@ -40,11 +42,11 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
      *
      * @param   boolean|string $sorted
      * @param   boolean $asCollection
-     * @return  \Magento\Data\Tree\Node\Collection|Magento_Catalog_Model_Resource_Category_Collection|array
+     * @return  \Magento\Data\Tree\Node\Collection|\Magento\Catalog\Model\Resource\Category\Collection|array
      */
     public function getStoreCategories($sorted=false, $asCollection=false, $toLoad=true)
     {
-        $parent     = Mage::app()->getStore()->getRootCategoryId();
+        $parent     = \Mage::app()->getStore()->getRootCategoryId();
         $cacheKey   = sprintf('%d-%d-%d-%d', $parent, $sorted, $asCollection, $toLoad);
         if (isset($this->_storeCategories[$cacheKey])) {
             return $this->_storeCategories[$cacheKey];
@@ -53,8 +55,8 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
         /**
          * Check if parent node of the store still exists
          */
-        $category = Mage::getModel('Magento_Catalog_Model_Category');
-        /* @var $category Magento_Catalog_Model_Category */
+        $category = \Mage::getModel('\Magento\Catalog\Model\Category');
+        /* @var $category \Magento\Catalog\Model\Category */
         if (!$category->checkId($parent)) {
             if ($asCollection) {
                 return new \Magento\Data\Collection();
@@ -62,7 +64,7 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
             return array();
         }
 
-        $recursionLevel  = max(0, (int) Mage::app()->getStore()->getConfig('catalog/navigation/max_depth'));
+        $recursionLevel  = max(0, (int) \Mage::app()->getStore()->getConfig('catalog/navigation/max_depth'));
         $storeCategories = $category->getCategories($parent, $recursionLevel, $sorted, $asCollection, $toLoad);
 
         $this->_storeCategories[$cacheKey] = $storeCategories;
@@ -72,15 +74,15 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
     /**
      * Retrieve category url
      *
-     * @param   Magento_Catalog_Model_Category $category
+     * @param   \Magento\Catalog\Model\Category $category
      * @return  string
      */
     public function getCategoryUrl($category)
     {
-        if ($category instanceof Magento_Catalog_Model_Category) {
+        if ($category instanceof \Magento\Catalog\Model\Category) {
             return $category->getUrl();
         }
-        return Mage::getModel('Magento_Catalog_Model_Category')
+        return \Mage::getModel('\Magento\Catalog\Model\Category')
             ->setData($category->getData())
             ->getUrl();
     }
@@ -88,13 +90,13 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
     /**
      * Check if a category can be shown
      *
-     * @param  Magento_Catalog_Model_Category|int $category
+     * @param  \Magento\Catalog\Model\Category|int $category
      * @return boolean
      */
     public function canShow($category)
     {
         if (is_int($category)) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($category);
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($category);
         }
 
         if (!$category->getId()) {
@@ -120,11 +122,11 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
     public function getCategoryUrlSuffix($storeId = null)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
+            $storeId = \Mage::app()->getStore()->getId();
         }
 
         if (!isset($this->_categoryUrlSuffix[$storeId])) {
-            $this->_categoryUrlSuffix[$storeId] = Mage::getStoreConfig(self::XML_PATH_CATEGORY_URL_SUFFIX, $storeId);
+            $this->_categoryUrlSuffix[$storeId] = \Mage::getStoreConfig(self::XML_PATH_CATEGORY_URL_SUFFIX, $storeId);
         }
         return $this->_categoryUrlSuffix[$storeId];
     }
@@ -164,6 +166,6 @@ class Magento_Catalog_Helper_Category extends Magento_Core_Helper_Abstract
      */
     public function canUseCanonicalTag($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, $store);
     }
 }

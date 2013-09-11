@@ -51,14 +51,14 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Object mocks
-        $this->_subscriptionMockA = $this->_makeMock('Magento_Webhook_Model_Subscription');
-        $this->_subscriptionMockB =  $this->_makeMock('Magento_Webhook_Model_Subscription');
-        $this->_eventMockA = $this->_makeMock('Magento_Webhook_Model_Event');
-        $this->_eventMockB = $this->_makeMock('Magento_Webhook_Model_Event');
+        $this->_subscriptionMockA = $this->_makeMock('\Magento\Webhook\Model\Subscription');
+        $this->_subscriptionMockB =  $this->_makeMock('\Magento\Webhook\Model\Subscription');
+        $this->_eventMockA = $this->_makeMock('\Magento\Webhook\Model\Event');
+        $this->_eventMockB = $this->_makeMock('\Magento\Webhook\Model\Event');
         $this->_msgFactoryMock = $this->_makeMock('\Magento\Outbound\Message\Factory');
         $this->_transportMock = $this->_makeMock('\Magento\Outbound\Transport\Http');
-        $this->_queueReaderMock = $this->_makeMock('Magento_Webhook_Model_Job_QueueReader');
-        $this->_queueWriterMock = $this->_makeMock('Magento_Webhook_Model_Job_QueueWriter');
+        $this->_queueReaderMock = $this->_makeMock('\Magento\Webhook\Model\Job\QueueReader');
+        $this->_queueWriterMock = $this->_makeMock('\Magento\Webhook\Model\Job\QueueWriter');
         $this->_messageMockA = $this->_makeMock('\Magento\Outbound\Message');
         $this->_messageMockB = $this->_makeMock('\Magento\Outbound\Message');
         $this->_endpointMockA = $this->_makeMock('\Magento\Outbound\EndpointInterface');
@@ -124,8 +124,8 @@ class Magento_PubSub_Job_QueueHandlerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($msgResponseMap));
 
         // Job stubs
-        $jobMockA = $this->_makeMock('Magento_Webhook_Model_Job');
-        $jobMockB = $this->_makeMock('Magento_Webhook_Model_Job');
+        $jobMockA = $this->_makeMock('\Magento\Webhook\Model\Job');
+        $jobMockB = $this->_makeMock('\Magento\Webhook\Model\Job');
 
         $jobMockA->expects($this->once())
             ->method('complete');

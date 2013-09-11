@@ -6,18 +6,20 @@
  *
  * @copyright {copyright}
  * @license {license_link}
- * @method Magento_GoogleOptimizer_Model_Resource_Code _getResource()
- * @method Magento_GoogleOptimizer_Model_Resource_Code getResource()
- * @method Magento_GoogleOptimizer_Model_Code setEntityId(int $value)
+ * @method \Magento\GoogleOptimizer\Model\Resource\Code _getResource()
+ * @method \Magento\GoogleOptimizer\Model\Resource\Code getResource()
+ * @method \Magento\GoogleOptimizer\Model\Code setEntityId(int $value)
  * @method string getEntityId()
- * @method Magento_GoogleOptimizer_Model_Code setEntityType(string $value)
+ * @method \Magento\GoogleOptimizer\Model\Code setEntityType(string $value)
  * @method string getEntityType()
- * @method Magento_GoogleOptimizer_Model_Code setStoreId(int $value)
+ * @method \Magento\GoogleOptimizer\Model\Code setStoreId(int $value)
  * @method int getStoreId()
- * @method Magento_GoogleOptimizer_Model_Code setExperimentScript(int $value)
+ * @method \Magento\GoogleOptimizer\Model\Code setExperimentScript(int $value)
  * @method string getExperimentScript()
  */
-class Magento_GoogleOptimizer_Model_Code extends Magento_Core_Model_Abstract
+namespace Magento\GoogleOptimizer\Model;
+
+class Code extends \Magento\Core\Model\AbstractModel
 {
     /**#@+
      * Entity types
@@ -38,7 +40,7 @@ class Magento_GoogleOptimizer_Model_Code extends Magento_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_GoogleOptimizer_Model_Resource_Code');
+        $this->_init('\Magento\GoogleOptimizer\Model\Resource\Code');
     }
 
     /**
@@ -47,7 +49,7 @@ class Magento_GoogleOptimizer_Model_Code extends Magento_Core_Model_Abstract
      * @param int $entityId
      * @param string $entityType One of self::CODE_ENTITY_TYPE_
      * @param int $storeId
-     * @return Magento_GoogleOptimizer_Model_Code
+     * @return \Magento\GoogleOptimizer\Model\Code
      */
     public function loadByEntityIdAndType($entityId, $entityType, $storeId = 0)
     {

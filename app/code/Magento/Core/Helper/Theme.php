@@ -11,13 +11,15 @@
 /**
  * Theme data helper
  */
-class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Theme extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * XPath selector to get CSS files from layout added for HEAD block directly
      */
     const XPATH_SELECTOR_BLOCKS =
-        '//block[@class="Magento_Page_Block_Html_Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
+        '//block[@class="\Magento\Page\Block\Html\Head"]/action[@method="addCss" or @method="addCssIe"]/*[1]';
 
     /**
      * XPath selector to get CSS files from layout added for HEAD block using reference
@@ -28,7 +30,7 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
     /**
      * Directories
      *
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
@@ -42,28 +44,28 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
     /**
      * Theme collection model
      *
-     * @var Magento_Core_Model_Resource_Theme_Collection
+     * @var \Magento\Core\Model\Resource\Theme\Collection
      */
     protected $_themeCollection;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Dir $dirs
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Dir $dirs
      * @param Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory
-     * @param Magento_Core_Model_Resource_Theme_Collection $themeCollection
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Dir $dirs,
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Dir $dirs,
         Magento_Core_Model_Layout_MergeFactory $layoutMergeFactory,
-        Magento_Core_Model_Resource_Theme_Collection $themeCollection,
-        Magento_Core_Model_View_FileSystem $viewFileSystem
+        \Magento\Core\Model\Resource\Theme\Collection $themeCollection,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem
     ) {
         $this->_dirs = $dirs;
         $this->_layoutMergeFactory = $layoutMergeFactory;
@@ -80,12 +82,12 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
      *   'Magento_Catalog::widgets.css' => 'http://mage2.com/pub/static/frontend/_theme15/en_US/Magento_Cms/widgets.css'
      * )
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return array
      */
     public function getCssFiles($theme)
     {
-        /** @var $layoutMerge Magento_Core_Model_Layout_Merge */
+        /** @var $layoutMerge \Magento\Core\Model\Layout\Merge */
         $layoutMerge = $this->_layoutMergeFactory->create(array('theme' => $theme));
         $layoutElement = $layoutMerge->getFileLayoutUpdatesXml();
 
@@ -100,7 +102,7 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
             'skipProxy'  => true
         );
 
-        $basePath = $this->_dirs->getDir(Magento_Core_Model_Dir::ROOT);
+        $basePath = $this->_dirs->getDir(\Magento\Core\Model\Dir::ROOT);
         $files = array();
         foreach ($elements as $fileId) {
             $fileId = (string)$fileId;
@@ -121,15 +123,15 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
     /**
      * Get CSS files by group
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return array
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function getGroupedCssFiles($theme)
     {
-        $jsDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::PUB_LIB));
-        $codeDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::MODULES));
-        $designDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::THEMES));
+        $jsDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\Core\Model\Dir::PUB_LIB));
+        $codeDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\Core\Model\Dir::MODULES));
+        $designDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES));
 
         $groups = array();
         $themes = array();
@@ -142,7 +144,7 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
             }
 
             if (!isset($file['group'])) {
-                throw new LogicException(__('Group is missed for file "%1"', $file['safePath']));
+                throw new \LogicException(__('Group is missed for file "%1"', $file['safePath']));
             }
             $group = $file['group'];
             unset($file['theme']);
@@ -159,7 +161,7 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
         }
 
         $order = array_merge(array($codeDir, $jsDir), array_map(function ($fileTheme) {
-            /** @var $fileTheme Magento_Core_Model_Theme */
+            /** @var $fileTheme \Magento\Core\Model\Theme */
             return $fileTheme->getThemeId();
         }, $themes));
         $groups = $this->_sortArrayByArray($groups, $order);
@@ -178,8 +180,8 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
      *
      * @param array $file
      * @param string $designDir
-     * @return Magento_Core_Helper_Theme
-     * @throws LogicException
+     * @return \Magento\Core\Helper\Theme
+     * @throws \LogicException
      */
     protected function _detectTheme(&$file, $designDir)
     {
@@ -196,14 +198,14 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
         $theme = strtok(\Magento\Filesystem::DIRECTORY_SEPARATOR);
 
         if ($area === false || $theme === false) {
-            throw new LogicException(__('Theme path "%1/%2" is incorrect', $area, $theme));
+            throw new \LogicException(__('Theme path "%1/%2" is incorrect', $area, $theme));
         }
         $themeModel = $this->_themeCollection->getThemeByFullPath(
-            $area . Magento_Core_Model_Theme::PATH_SEPARATOR . $theme
+            $area . \Magento\Core\Model\Theme::PATH_SEPARATOR . $theme
         );
 
         if (!$themeModel || !$themeModel->getThemeId()) {
-            throw new LogicException(
+            throw new \LogicException(
                 __('Invalid theme loaded by theme path "%1/%2"', $area, $theme)
             );
         }
@@ -220,15 +222,15 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
      * @param string $designDir
      * @param string $jsDir
      * @param string $codeDir
-     * @return Magento_Core_Helper_Theme
-     * @throws LogicException
+     * @return \Magento\Core\Helper\Theme
+     * @throws \LogicException
      */
     protected function _detectGroup(&$file, $designDir, $jsDir, $codeDir)
     {
         $group = null;
         if (substr($file['path'], 0, strlen($designDir)) == $designDir) {
             if (!isset($file['theme']) || !$file['theme']->getThemeId()) {
-                throw new LogicException(__('Theme is missed for file "%1"', $file['safePath']));
+                throw new \LogicException(__('Theme is missed for file "%1"', $file['safePath']));
             }
             $group = $file['theme']->getThemeId();
         } elseif (substr($file['path'], 0, strlen($jsDir)) == $jsDir) {
@@ -236,7 +238,7 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
         } elseif (substr($file['path'], 0, strlen($codeDir)) == $codeDir) {
             $group = $codeDir;
         } else {
-            throw new LogicException(__('Invalid view file directory "%1"', $file['safePath']));
+            throw new \LogicException(__('Invalid view file directory "%1"', $file['safePath']));
         }
         $file['group'] = $group;
 
@@ -301,7 +303,7 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
             $codeDir => (string)__('Framework files')
         );
         foreach ($themes as $theme) {
-            /** @var $theme Magento_Core_Model_Theme */
+            /** @var $theme \Magento\Core\Model\Theme */
             $labels[$theme->getThemeId()] = (string)__('"%1" Theme files', $theme->getThemeTitle());
         }
         return $labels;
@@ -338,8 +340,8 @@ class Magento_Core_Helper_Theme extends Magento_Core_Helper_Abstract
     /**
      * Sort themes by hierarchy callback
      *
-     * @param Magento_Core_Model_Theme $firstTheme
-     * @param Magento_Core_Model_Theme $secondTheme
+     * @param \Magento\Core\Model\Theme $firstTheme
+     * @param \Magento\Core\Model\Theme $secondTheme
      * @return int
      */
     protected function _sortThemesByHierarchyCallback($firstTheme, $secondTheme)

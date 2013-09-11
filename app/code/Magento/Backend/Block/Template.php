@@ -17,7 +17,9 @@
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Magento_Backend_Block_Template extends Magento_Core_Block_Template
+namespace Magento\Backend\Block;
+
+class Template extends \Magento\Core\Block\Template
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -25,10 +27,10 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
     protected $_authorization;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Backend_Block_Template_Context $context, array $data = array())
+    public function __construct(\Magento\Backend\Block\Template\Context $context, array $data = array())
     {
         $this->_authorization = $context->getAuthorization();
         parent::__construct($context, $data);
@@ -41,7 +43,7 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
      */
     public function getFormKey()
     {
-        return Mage::getSingleton('Magento_Core_Model_Session')->getFormKey();
+        return \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey();
     }
 
     /**
@@ -58,7 +60,7 @@ class Magento_Backend_Block_Template extends Magento_Core_Block_Template
         if ($moduleName === null) {
             $moduleName = $this->getModuleName();
         }
-        return !Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $moduleName);
+        return !\Mage::getStoreConfigFlag('advanced/modules_disable_output/' . $moduleName);
     }
     
     /**

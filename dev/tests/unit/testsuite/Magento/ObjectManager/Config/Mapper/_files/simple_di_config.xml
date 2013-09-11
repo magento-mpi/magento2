@@ -9,9 +9,9 @@
 -->
 <config>
     <!-- Comment within root node -->
-    <preference for="Magento_Core_Model_Db_UpdaterInterface" type="Magento_Core_Model_Db_Updater" />
-    <preference for="Magento_Core_Model_AppInterface" type="Magento_Core_Model_App_Proxy" />
-    <type name="Magento_Core_Model_App_State">
+    <preference for="Magento\Core\Model\Db\UpdaterInterface" type="Magento\Core\Model\Db\Updater" />
+    <preference for="Magento\Core\Model\AppInterface" type="Magento\Core\Model\App\Proxy" />
+    <type name="Magento\Core\Model\App\State">
         <param name="mode">
             <value type="argument">Mage::PARAM_MODE</value>
         </param>
@@ -50,7 +50,7 @@
         <param name="cacheLifetime"><value>86400</value></param>
         <param name="cacheTags">
             <value>
-                <const type='const'>Magento_Core_Model_Website::CACHE_TAG</const>
+                <const type='const'>\Magento\Core\Model\Website::CACHE_TAG</const>
                 <boolFalse type='bool'>false</boolFalse>
                 <boolTrue type='bool'>true</boolTrue>
                 <boolOne type='bool'>1</boolOne>
@@ -61,7 +61,7 @@
             </value>
         </param>
         <param name="constParam">
-            <value type='const'>Magento_Core_Model_Website::CACHE_TAG</value>
+            <value type='const'>\Magento\Core\Model\Website::CACHE_TAG</value>
         </param>
         <param name="boolFalseParam">
             <value type='bool'>false</value>
@@ -85,6 +85,6 @@
             <value type='string' pattern="[a-z\-]*">az-value</value>
         </param>
     </type>
-    <virtualType name="customCacheInstance" type="Magento_Core_Model_Cache" shared="true" />
+    <virtualType name="customCacheInstance" type="Magento\Core\Model\Cache" shared="true" />
     <virtualType name="customOverriddenInstance" shared="false" />
 </config>

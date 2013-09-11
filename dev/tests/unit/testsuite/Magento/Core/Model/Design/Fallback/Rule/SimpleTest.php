@@ -14,7 +14,7 @@ class Magento_Core_Model_Design_Fallback_Rule_SimpleTest extends PHPUnit_Framewo
      */
     public function testGetPatternDirsException()
     {
-        $model = new Magento_Core_Model_Design_Fallback_Rule_Simple('<required_parameter> other text');
+        $model = new \Magento\Core\Model\Design\Fallback\Rule\Simple('<required_parameter> other text');
         $model->getPatternDirs(array());
     }
 
@@ -27,7 +27,7 @@ class Magento_Core_Model_Design_Fallback_Rule_SimpleTest extends PHPUnit_Framewo
             'optional_parameter' => $optionalParameter,
             'required_parameter' => 'required_parameter',
         );
-        $model = new Magento_Core_Model_Design_Fallback_Rule_Simple($pattern, array('optional_parameter'));
+        $model = new \Magento\Core\Model\Design\Fallback\Rule\Simple($pattern, array('optional_parameter'));
 
         $this->assertEquals(
             $expectedResult,

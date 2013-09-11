@@ -22,7 +22,7 @@ abstract class Magento_Core_Model_Resource_Layout_AbstractTestCase extends PHPUn
     const TEST_DAYS_BEFORE = 3;
 
     /**
-     * @var Magento_Core_Model_Resource_Layout_Update_Collection
+     * @var \Magento\Core\Model\Resource\Layout\Update\Collection
      */
     protected $_collection;
 
@@ -69,7 +69,7 @@ abstract class Magento_Core_Model_Resource_Layout_AbstractTestCase extends PHPUn
             ->method('quoteIdentifier')
             ->will($this->returnArgument(0));
 
-        $resource = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract', array(), '', false, true,
+        $resource = $this->getMockForAbstractClass('\Magento\Core\Model\Resource\Db\AbstractDb', array(), '', false, true,
             true, array('getReadConnection', 'getMainTable', 'getTable'));
         $resource->expects($this->any())
             ->method('getReadConnection')
@@ -84,7 +84,7 @@ abstract class Magento_Core_Model_Resource_Layout_AbstractTestCase extends PHPUn
     /**
      * @abstract
      * @param Zend_Db_Select $select
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     abstract protected function _getCollection(Zend_Db_Select $select);
 

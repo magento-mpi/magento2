@@ -27,7 +27,7 @@
                 </field>
                 <field id="password_is_forced" translate="label" sortOrder="130" type="select" showInDefault="1">
                     <label>Password Change</label>
-                    <source_model>Magento_Pci_Model_System_Config_Source_Password</source_model>
+                    <source_model>\Magento\Pci\Model\System\Config\Source\Password</source_model>
                 </field>
             </group>
         </section>

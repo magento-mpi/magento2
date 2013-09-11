@@ -15,7 +15,7 @@
             <oauth_setup>
                 <setup>
                     <module>Magento_Oauth</module>
-                    <class>Magento_Oauth_Model_Resource_Setup</class>
+                    <class>Magento\Oauth\Model\Resource\Setup</class>
                 </setup>
             </oauth_setup>
         </resources>
@@ -63,4 +63,4 @@
             </email>
         </oauth>
     </default>
-</config>
+</config>

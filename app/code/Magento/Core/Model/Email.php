@@ -20,7 +20,9 @@
  * - module (for template)
  *
  */
-class Magento_Core_Model_Email extends \Magento\Object
+namespace Magento\Core\Model;
+
+class Email extends \Magento\Object
 {
     protected $_tplVars = array();
     protected $_block;
@@ -55,8 +57,8 @@ class Magento_Core_Model_Email extends \Magento\Object
     {
         $body = $this->getData('body');
         if (empty($body) && $this->getTemplate()) {
-            $this->_block = Mage::getModel('Magento_Core_Model_Layout')->createBlock('Magento_Core_Block_Template', 'email')
-                ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+            $this->_block = \Mage::getModel('\Magento\Core\Model\Layout')->createBlock('\Magento\Core\Block\Template', 'email')
+                ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
                 ->setTemplate($this->getTemplate());
             foreach ($this->getTemplateVars() as $var=>$value) {
                 $this->_block->assign($var, $value);
@@ -80,11 +82,11 @@ class Magento_Core_Model_Email extends \Magento\Object
 
     public function send()
     {
-        if (Mage::getStoreConfigFlag('system/smtp/disable')) {
+        if (\Mage::getStoreConfigFlag('system/smtp/disable')) {
             return $this;
         }
 
-        $mail = new Zend_Mail();
+        $mail = new \Zend_Mail();
 
         if (strtolower($this->getType()) == 'html') {
             $mail->setBodyHtml($this->getBody());

@@ -16,8 +16,10 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Shipment_Track_Collection
-    extends Magento_Sales_Model_Resource_Order_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Shipment\Track;
+
+class Collection
+    extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -46,14 +48,14 @@ class Magento_Sales_Model_Resource_Order_Shipment_Track_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Shipment_Track', 'Magento_Sales_Model_Resource_Order_Shipment_Track');
+        $this->_init('\Magento\Sales\Model\Order\Shipment\Track', '\Magento\Sales\Model\Resource\Order\Shipment\Track');
     }
 
     /**
      * Set shipment filter
      *
      * @param int $shipmentId
-     * @return Magento_Sales_Model_Resource_Order_Shipment_Track_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Shipment\Track\Collection
      */
     public function setShipmentFilter($shipmentId)
     {

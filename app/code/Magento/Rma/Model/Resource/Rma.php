@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Resource_Rma extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Rma\Model\Resource;
+
+class Rma extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor

@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Store extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource;
+
+class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table and primary key
@@ -48,7 +50,7 @@ class Magento_Core_Model_Resource_Store extends Magento_Core_Model_Resource_Db_A
     /**
      * Initialize unique fields
      *
-     * @return Magento_Core_Model_Resource_Store
+     * @return \Magento\Core\Model\Resource\Store
      */
     protected function _initUniqueFields()
     {
@@ -62,10 +64,10 @@ class Magento_Core_Model_Resource_Store extends Magento_Core_Model_Resource_Db_A
     /**
      * Update Store Group data after save store
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Store
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Store
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
         $this->_updateGroupDefaultStore($object->getGroupId(), $object->getId());
@@ -77,13 +79,13 @@ class Magento_Core_Model_Resource_Store extends Magento_Core_Model_Resource_Db_A
     /**
      * Remove core configuration data after delete store
      *
-     * @param Magento_Core_Model_Abstract $model
-     * @return Magento_Core_Model_Resource_Store
+     * @param \Magento\Core\Model\AbstractModel $model
+     * @return \Magento\Core\Model\Resource\Store
      */
-    protected function _afterDelete(Magento_Core_Model_Abstract $model)
+    protected function _afterDelete(\Magento\Core\Model\AbstractModel $model)
     {
         $where = array(
-            'scope = ?'    => Magento_Core_Model_Config::SCOPE_STORES,
+            'scope = ?'    => \Magento\Core\Model\Config::SCOPE_STORES,
             'scope_id = ?' => $model->getStoreId()
         );
 
@@ -99,7 +101,7 @@ class Magento_Core_Model_Resource_Store extends Magento_Core_Model_Resource_Db_A
      *
      * @param int $groupId
      * @param int $storeId
-     * @return Magento_Core_Model_Resource_Store
+     * @return \Magento\Core\Model\Resource\Store
      */
     protected function _updateGroupDefaultStore($groupId, $storeId)
     {
@@ -123,10 +125,10 @@ class Magento_Core_Model_Resource_Store extends Magento_Core_Model_Resource_Db_A
     /**
      * Change store group for store
      *
-     * @param Magento_Core_Model_Abstract $model
-     * @return Magento_Core_Model_Resource_Store
+     * @param \Magento\Core\Model\AbstractModel $model
+     * @return \Magento\Core\Model\Resource\Store
      */
-    protected function _changeGroup(Magento_Core_Model_Abstract $model)
+    protected function _changeGroup(\Magento\Core\Model\AbstractModel $model)
     {
         if ($model->getOriginalGroupId() && $model->getGroupId() != $model->getOriginalGroupId()) {
             $adapter = $this->_getReadAdapter();
@@ -136,7 +138,7 @@ class Magento_Core_Model_Resource_Store extends Magento_Core_Model_Resource_Db_A
             $storeId = $adapter->fetchOne($select, 'default_store_id');
 
             if ($storeId == $model->getId()) {
-                $bind = array('default_store_id' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+                $bind = array('default_store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
                 $where = array('group_id = ?' => $model->getOriginalGroupId());
                 $this->_getWriteAdapter()->update($this->getTable('core_store_group'), $bind, $where);
             }
@@ -149,7 +151,7 @@ class Magento_Core_Model_Resource_Store extends Magento_Core_Model_Resource_Db_A
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)

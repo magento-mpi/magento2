@@ -13,12 +13,12 @@ class Magento_Catalog_Block_Product_ProductList_ToolbarTest extends PHPUnit_Fram
 {
     public function testGetPagerHtml()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        /** @var $block Magento_Catalog_Block_Product_ProductList_Toolbar */
-        $block = $layout->createBlock('Magento_Catalog_Block_Product_ProductList_Toolbar', 'block');
-        /** @var $childBlock Magento_Core_Block_Text */
-        $childBlock = $layout->addBlock('Magento_Core_Block_Text', 'product_list_toolbar_pager', 'block');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        /** @var $block \Magento\Catalog\Block\Product\ProductList\Toolbar */
+        $block = $layout->createBlock('\Magento\Catalog\Block\Product\ProductList\Toolbar', 'block');
+        /** @var $childBlock \Magento\Core\Block\Text */
+        $childBlock = $layout->addBlock('\Magento\Core\Block\Text', 'product_list_toolbar_pager', 'block');
 
         $expectedHtml = '<b>Any text there</b>';
         $this->assertNotEquals($expectedHtml, $block->getPagerHtml());

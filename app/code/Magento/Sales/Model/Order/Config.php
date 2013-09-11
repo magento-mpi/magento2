@@ -15,7 +15,9 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
+namespace Magento\Sales\Model\Order;
+
+class Config extends \Magento\Core\Model\Config\Base
 {
     /**
      * Statuses per state array
@@ -30,9 +32,9 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
     private $_states;
 
     /**
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Config $config
      */
-    public function __construct(Magento_Core_Model_Config $config)
+    public function __construct(\Magento\Core\Model\Config $config)
     {
         parent::__construct($config->getNode('global/sales/order'));
     }
@@ -57,7 +59,7 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
     {
         $status = false;
         if ($stateNode = $this->_getState($state)) {
-            $status = Mage::getModel('Magento_Sales_Model_Order_Status')
+            $status = \Mage::getModel('\Magento\Sales\Model\Order\Status')
                 ->loadDefaultByState($state);
             $status = $status->getStatus();
         }
@@ -72,7 +74,7 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
      */
     public function getStatusLabel($code)
     {
-        $status = Mage::getModel('Magento_Sales_Model_Order_Status')
+        $status = \Mage::getModel('\Magento\Sales\Model\Order\Status')
             ->load($code);
         return $status->getStoreLabel();
     }
@@ -100,7 +102,7 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
      */
     public function getStatuses()
     {
-        $statuses = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_Collection')
+        $statuses = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\Collection')
             ->toOptionHash();
         return $statuses;
     }
@@ -146,7 +148,7 @@ class Magento_Sales_Model_Order_Config extends Magento_Core_Model_Config_Base
         }
         foreach ($state as $_state) {
             if ($stateNode = $this->_getState($_state)) {
-                $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_Collection')
+                $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\Collection')
                     ->addStateFilter($_state)
                     ->orderByLabel();
                 foreach ($collection as $status) {

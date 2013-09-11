@@ -8,7 +8,7 @@
 class Magento_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_GoogleOptimizer_Helper_Form
+     * @var \Magento\GoogleOptimizer\Helper\Form
      */
     protected $_helper;
 
@@ -32,11 +32,11 @@ class Magento_GoogleOptimizer_Helper_FormTest extends PHPUnit_Framework_TestCase
         $this->_formMock = $this->getMock('Magento\Data\Form', array('setFieldNameSuffix', 'addFieldset'), array(), '',
             false);
         $this->_fieldsetMock = $this->getMock('Magento\Data\Form\Element\Fieldset', array(), array(), '', false);
-        $this->_experimentCodeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code',
+        $this->_experimentCodeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code',
             array('getExperimentScript', 'getCodeId'), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_helper = $objectManagerHelper->getObject('Magento_GoogleOptimizer_Helper_Form');
+        $this->_helper = $objectManagerHelper->getObject('\Magento\GoogleOptimizer\Helper\Form');
     }
 
     public function testAddFieldsWithExperimentCode()

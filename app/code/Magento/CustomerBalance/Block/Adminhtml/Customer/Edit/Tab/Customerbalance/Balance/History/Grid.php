@@ -11,11 +11,13 @@
 /**
  * Customer balance history grid
  */
-class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
-    extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @var Magento_CustomerBalance_Model_Resource_Balance_Collection
+     * @var \Magento\CustomerBalance\Model\Resource\Balance\Collection
      */
     protected $_collection;
 
@@ -34,11 +36,11 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     /**
      * Prepare grid collection
      *
-     * @return Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
+     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_CustomerBalance_Model_Balance_History')
+        $collection = \Mage::getModel('\Magento\CustomerBalance\Model\Balance\History')
             ->getCollection()
             ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
         $this->setCollection($collection);
@@ -49,7 +51,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     /**
      * Prepare grid columns
      *
-     * @return Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
+     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid
      */
     protected function _prepareColumns()
     {
@@ -61,12 +63,12 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             'width'     => 200,
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header'    => __('Website'),
                 'index'     => 'website_id',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(),
+                'options'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash(),
                 'sortable'  => false,
                 'width'     => 200,
             ));
@@ -78,7 +80,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             'index'     => 'action',
             'sortable'  => false,
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_CustomerBalance_Model_Balance_History')->getActionNamesArray()
+            'options'   => \Mage::getSingleton('Magento\CustomerBalance\Model\Balance\History')->getActionNamesArray()
         ));
 
         $this->addColumn('balance_delta', array(
@@ -88,7 +90,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             'type'      => 'price',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'Magento_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency',
+            'renderer'  => '\Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency',
         ));
 
         $this->addColumn('balance_amount', array(
@@ -97,7 +99,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             'index'     => 'balance_amount',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'Magento_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency',
+            'renderer'  => '\Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency',
         ));
 
         $this->addColumn('is_customer_notified', array(

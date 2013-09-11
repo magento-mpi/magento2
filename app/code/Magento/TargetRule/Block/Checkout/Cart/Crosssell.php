@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRule_Block_Product_Abstract
+namespace Magento\TargetRule\Block\Checkout\Cart;
+
+class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
 {
     /**
      * Default MAP renderer type
@@ -34,7 +36,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * object of just added product to cart
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_lastAddedProduct;
 
@@ -46,7 +48,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     protected $_byLastAddedProduct = false;
 
     /**
-     * @var Magento_TargetRule_Model_Index
+     * @var \Magento\TargetRule\Model\Index
      */
     protected $_index;
 
@@ -57,7 +59,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getProductListType()
     {
-        return Magento_TargetRule_Model_Rule::CROSS_SELLS;
+        return \Magento\TargetRule\Model\Rule::CROSS_SELLS;
     }
 
     /**
@@ -67,20 +69,20 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getLastAddedProductId()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getLastAddedProductId(true);
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getLastAddedProductId(true);
     }
 
     /**
      * Retrieve just added to cart product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getLastAddedProduct()
     {
         if (is_null($this->_lastAddedProduct)) {
             $productId = $this->getLastAddedProductId();
             if ($productId) {
-                $this->_lastAddedProduct = Mage::getModel('Magento_Catalog_Model_Product')
+                $this->_lastAddedProduct = \Mage::getModel('\Magento\Catalog\Model\Product')
                     ->load($productId);
             } else {
                 $this->_lastAddedProduct = false;
@@ -92,11 +94,11 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * Retrieve quote instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     /**
@@ -109,7 +111,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         if (is_null($this->_products)) {
             $this->_products = array();
             foreach ($this->getQuote()->getAllItems() as $quoteItem) {
-                /* @var $quoteItem Magento_Sales_Model_Quote_Item */
+                /* @var $quoteItem \Magento\Sales\Model\Quote\Item */
                 $product = $quoteItem->getProduct();
                 $this->_products[$product->getEntityId()] = $product;
             }
@@ -140,8 +142,8 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
         $productIds = array();
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
-            if ($productTypeOpt instanceof Magento_Sales_Model_Quote_Item_Option
-                && $productTypeOpt->getValue() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE
+            if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option
+                && $productTypeOpt->getValue() == \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE
                 && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
@@ -154,22 +156,22 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * Retrieve TargetRule data helper
      *
-     * @return Magento_TargetRule_Helper_Data
+     * @return \Magento\TargetRule\Helper\Data
      */
     public function getTargetRuleHelper()
     {
-        return Mage::helper('Magento_TargetRule_Helper_Data');
+        return \Mage::helper('Magento\TargetRule\Helper\Data');
     }
 
     /**
      * Retrieve Target Rule Index instance
      *
-     * @return Magento_TargetRule_Model_Index
+     * @return \Magento\TargetRule\Model\Index
      */
     protected function _getTargetRuleIndex()
     {
         if (is_null($this->_index)) {
-            $this->_index = Mage::getModel('Magento_TargetRule_Model_Index');
+            $this->_index = \Mage::getModel('\Magento\TargetRule\Model\Index');
         }
         return $this->_index;
     }
@@ -181,7 +183,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getPositionLimit()
     {
-        return $this->getTargetRuleHelper()->getMaximumNumberOfProduct(Magento_TargetRule_Model_Rule::CROSS_SELLS);
+        return $this->getTargetRuleHelper()->getMaximumNumberOfProduct(\Magento\TargetRule\Model\Rule::CROSS_SELLS);
     }
 
     /**
@@ -191,28 +193,28 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      */
     public function getPositionBehavior()
     {
-        return $this->getTargetRuleHelper()->getShowProducts(Magento_TargetRule_Model_Rule::CROSS_SELLS);
+        return $this->getTargetRuleHelper()->getShowProducts(\Magento\TargetRule\Model\Rule::CROSS_SELLS);
     }
 
     /**
      * Get link collection for cross-sell
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Catalog_Model_Resource_Product_Link_Product_Collection|null
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection|null
      */
     protected function _getTargetLinkCollection()
     {
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Link_Product_Collection */
-        $collection = Mage::getModel('Magento_Catalog_Model_Product_Link')
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
+        $collection = \Mage::getModel('\Magento\Catalog\Model\Product\Link')
             ->useCrossSellLinks()
             ->getProductCollection()
-            ->setStoreId(Mage::app()->getStore()->getId())
+            ->setStoreId(\Mage::app()->getStore()->getId())
             ->setGroupBy();
         $this->_addProductAttributesAndPrices($collection);
 
-        $collection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSiteIds());
+        $collection->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSiteIds());
 
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
+        \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')
             ->addIsInStockFilterToCollection($collection);
 
         return $collection;
@@ -239,7 +241,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * Retrieve Product Ids from Cross-sell rules based products index by product object
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $limit
      * @param array $excludeProductIds
      * @return array
@@ -247,7 +249,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     protected function _getProductIdsFromIndexByProduct($product, $count, $excludeProductIds = array())
     {
         return $this->_getTargetRuleIndex()
-            ->setType(Magento_TargetRule_Model_Rule::CROSS_SELLS)
+            ->setType(\Magento\TargetRule\Model\Rule::CROSS_SELLS)
             ->setLimit($count)
             ->setProduct($product)
             ->setExcludeProductIds($excludeProductIds)
@@ -258,20 +260,20 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
      * Retrieve Product Collection by Product Ids
      *
      * @param array $productIds
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _getProductCollectionByIds($productIds)
     {
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
         $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         $this->_addProductAttributesAndPrices($collection);
 
         $collection->setVisibility(
-            Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds()
+            \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds()
         );
 
-        Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
+        \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')
             ->addIsInStockFilterToCollection($collection);
 
         return $collection;
@@ -280,7 +282,7 @@ class Magento_TargetRule_Block_Checkout_Cart_Crosssell extends Magento_TargetRul
     /**
      * Retrieve Product Ids from Cross-sell rules based products index by products in shopping cart
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param int $limit
      * @param array $excludeProductIds
      * @return array

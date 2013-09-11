@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main setApiRole(Magento_Webapi_Model_Acl_Role $role)
- * @method Magento_Webapi_Model_Acl_Role getApiRole()
+ * @method \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main setApiRole(\Magento\Webapi\Model\Acl\Role $role)
+ * @method \Magento\Webapi\Model\Acl\Role getApiRole()
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form
+namespace Magento\Webapi\Block\Adminhtml\Role\Edit\Tab;
+
+class Main extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Prepare Form.
      *
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {

@@ -12,19 +12,19 @@
 class Magento_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Update
+     * @var \Magento\Core\Model\Layout\Update
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Layout_Update');
+        $this->_model = Mage::getModel('\Magento\Core\Model\Layout\Update');
     }
 
     public function testConstructor()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Layout_Update');
-        $this->assertInstanceOf('Magento_Core_Model_Resource_Layout_Update', $this->_model->getResource());
+        $this->_model = Mage::getModel('\Magento\Core\Model\Layout\Update');
+        $this->assertInstanceOf('\Magento\Core\Model\Resource\Layout\Update', $this->_model->getResource());
     }
 
     /**

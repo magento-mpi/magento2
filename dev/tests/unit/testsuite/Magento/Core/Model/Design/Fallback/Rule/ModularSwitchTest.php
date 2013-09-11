@@ -9,7 +9,7 @@
 class Magento_Core_Model_Design_Fallback_Rule_ModularSwitchTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_ModularSwitch
+     * @var \Magento\Core\Model\Design\Fallback\Rule\ModularSwitch
      */
     protected $_object;
 
@@ -26,12 +26,12 @@ class Magento_Core_Model_Design_Fallback_Rule_ModularSwitchTest extends PHPUnit_
     protected function setUp()
     {
         $this->_ruleNonModular = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Design_Fallback_Rule_RuleInterface'
+            '\Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
         );
         $this->_ruleModular = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Design_Fallback_Rule_RuleInterface'
+            '\Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
         );
-        $this->_object = new Magento_Core_Model_Design_Fallback_Rule_ModularSwitch(
+        $this->_object = new \Magento\Core\Model\Design\Fallback\Rule\ModularSwitch(
             $this->_ruleNonModular, $this->_ruleModular
         );
     }

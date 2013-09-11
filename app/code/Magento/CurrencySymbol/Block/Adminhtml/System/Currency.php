@@ -16,13 +16,15 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Block_Adminhtml_System_Currency extends Magento_Backend_Block_Template
+namespace Magento\CurrencySymbol\Block\Adminhtml\System;
+
+class Currency extends \Magento\Backend\Block\Template
 {
     protected $_template = 'system/currency/rates.phtml';
 
     protected function _prepareLayout()
     {
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', '\Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Save Currency Rates'),
                 'class' => 'save',
                 'data_attribute' => array(
@@ -30,21 +32,21 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currency extends Magento_Bac
                         'button' => array('event' => 'save', 'target' => '#rate-form'),
         ))));
 
-        $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('reset_button', '\Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Reset'),
                 'onclick' => 'document.location.reload()',
                 'class' => 'reset'
         ));
 
-        $this->addChild('import_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('import_button', '\Magento\Adminhtml\Block\Widget\Button', array(
                 'label' => __('Import'),
                 'class' => 'add',
                 'type' => 'submit',
         ));
 
-        $this->addChild('rates_matrix', 'Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Matrix');
+        $this->addChild('rates_matrix', '\Magento\CurrencySymbol\Block\Adminhtml\System\Currency\Rate\Matrix');
 
-        $this->addChild('import_services', 'Magento_CurrencySymbol_Block_Adminhtml_System_Currency_Rate_Services');
+        $this->addChild('import_services', '\Magento\CurrencySymbol\Block\Adminhtml\System\Currency\Rate\Services');
 
         return parent::_prepareLayout();
     }

@@ -57,8 +57,8 @@ class Magento_Checkout_Model_Cart_Shipping_ApiTest extends PHPUnit_Framework_Tes
     {
         /** Prepare data. */
         $this->_getQuoteFixture()->getShippingAddress()->setShippingMethod(null)->save();
-        /** @var Magento_Sales_Model_Quote $quoteBefore */
-        $quoteBefore = Mage::getModel('Magento_Sales_Model_Quote')->load($this->_getQuoteFixture()->getId());
+        /** @var \Magento\Sales\Model\Quote $quoteBefore */
+        $quoteBefore = Mage::getModel('\Magento\Sales\Model\Quote')->load($this->_getQuoteFixture()->getId());
         $this->assertNull(
             $quoteBefore->getShippingAddress()->getShippingMethod(),
             "There should be no shipping method assigned to quote before assigning via API."
@@ -77,8 +77,8 @@ class Magento_Checkout_Model_Cart_Shipping_ApiTest extends PHPUnit_Framework_Tes
         $this->assertTrue($isAdded, "Shipping method was not assigned to the quote.");
 
         /** Ensure that data was saved to DB. */
-        /** @var Magento_Sales_Model_Quote $quoteAfter */
-        $quoteAfter = Mage::getModel('Magento_Sales_Model_Quote')->load($this->_getQuoteFixture()->getId());
+        /** @var \Magento\Sales\Model\Quote $quoteAfter */
+        $quoteAfter = Mage::getModel('\Magento\Sales\Model\Quote')->load($this->_getQuoteFixture()->getId());
         $this->assertEquals(
             $shippingMethod,
             $quoteAfter->getShippingAddress()->getShippingMethod(),
@@ -89,13 +89,13 @@ class Magento_Checkout_Model_Cart_Shipping_ApiTest extends PHPUnit_Framework_Tes
     /**
      * Retrieve the quote object created in fixture.
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _getQuoteFixture()
     {
-        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
-        /** @var Magento_Sales_Model_Quote $quote */
+        /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('\Magento\Sales\Model\Resource\Quote\Collection');
+        /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $quoteCollection->getFirstItem();
         return $quote;
     }

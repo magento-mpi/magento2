@@ -16,7 +16,9 @@
  * @package    Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Acl extends Zend_Acl
+namespace Magento\Api\Model;
+
+class Acl extends \Zend_Acl
 {
     /**
      * All the group roles are prepended by G
@@ -62,12 +64,12 @@ class Magento_Api_Model_Acl extends Zend_Acl
     /**
      * Get role registry object or create one
      *
-     * @return Magento_Api_Model_Acl_Role_Registry
+     * @return \Magento\Api\Model\Acl\Role\Registry
      */
     protected function _getRoleRegistry()
     {
         if (null === $this->_roleRegistry) {
-            $this->_roleRegistry = Mage::getModel('Magento_Api_Model_Acl_Role_Registry');
+            $this->_roleRegistry = \Mage::getModel('\Magento\Api\Model\Acl\Role\Registry');
         }
         return $this->_roleRegistry;
     }
@@ -75,9 +77,9 @@ class Magento_Api_Model_Acl extends Zend_Acl
     /**
      * Add parent to role object
      *
-     * @param Zend_Acl_Role $role
-     * @param Zend_Acl_Role $parent
-     * @return Magento_Api_Model_Acl
+     * @param \Zend_Acl_Role $role
+     * @param \Zend_Acl_Role $parent
+     * @return \Magento\Api\Model\Acl
      */
     public function addRoleParent($role, $parent)
     {

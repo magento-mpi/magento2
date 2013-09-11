@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Catalog\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const PRICE_SCOPE_GLOBAL               = 0;
     const PRICE_SCOPE_WEBSITE              = 1;
@@ -62,7 +64,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      * Set a specified store ID value
      *
      * @param int $store
-     * @return Magento_Catalog_Helper_Data
+     * @return \Magento\Catalog\Helper\Data
      */
     public function setStoreId($store)
     {
@@ -127,21 +129,21 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return current category object
      *
-     * @return Magento_Catalog_Model_Category|null
+     * @return \Magento\Catalog\Model\Category|null
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return \Mage::registry('current_category');
     }
 
     /**
      * Retrieve current Product object
      *
-     * @return Magento_Catalog_Model_Product|null
+     * @return \Magento\Catalog\Model\Product|null
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return \Mage::registry('current_product');
     }
 
     /**
@@ -151,17 +153,17 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getLastViewedUrl()
     {
-        if ($productId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedProductId()) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
-            /* @var $product Magento_Catalog_Model_Product */
-            if (Mage::helper('Magento_Catalog_Helper_Product')->canShow($product, 'catalog')) {
+        if ($productId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedProductId()) {
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
+            /* @var $product \Magento\Catalog\Model\Product */
+            if (\Mage::helper('Magento\Catalog\Helper\Product')->canShow($product, 'catalog')) {
                 return $product->getProductUrl();
             }
         }
-        if ($categoryId = Mage::getSingleton('Magento_Catalog_Model_Session')->getLastViewedCategoryId()) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
-            /* @var $category Magento_Catalog_Model_Category */
-            if (!Mage::helper('Magento_Catalog_Helper_Category')->canShow($category)) {
+        if ($categoryId = \Mage::getSingleton('Magento\Catalog\Model\Session')->getLastViewedCategoryId()) {
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
+            /* @var $category \Magento\Catalog\Model\Category */
+            if (!\Mage::helper('Magento\Catalog\Helper\Category')->canShow($category)) {
                 return '';
             }
             return $category->getCategoryUrl();
@@ -179,7 +181,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function splitSku($sku, $length = 30)
     {
-        return Mage::helper('Magento_Core_Helper_String')->str_split($sku, $length, true, false, '[\-\s]');
+        return \Mage::helper('Magento\Core\Helper\String')->str_split($sku, $length, true, false, '[\-\s]');
     }
 
     /**
@@ -189,8 +191,8 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAttributeHiddenFields()
     {
-        if (Mage::registry('attribute_type_hidden_fields')) {
-            return Mage::registry('attribute_type_hidden_fields');
+        if (\Mage::registry('attribute_type_hidden_fields')) {
+            return \Mage::registry('attribute_type_hidden_fields');
         } else {
             return array();
         }
@@ -203,8 +205,8 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAttributeDisabledTypes()
     {
-        if (Mage::registry('attribute_type_disabled_types')) {
-            return Mage::registry('attribute_type_disabled_types');
+        if (\Mage::registry('attribute_type_disabled_types')) {
+            return \Mage::registry('attribute_type_disabled_types');
         } else {
             return array();
         }
@@ -217,7 +219,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPriceScope()
     {
-        return Mage::getStoreConfig(self::XML_PATH_PRICE_SCOPE);
+        return \Mage::getStoreConfig(self::XML_PATH_PRICE_SCOPE);
     }
 
     /**
@@ -238,7 +240,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function shouldSaveUrlRewritesHistory($storeId = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_SEO_SAVE_HISTORY, $storeId);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_SEO_SAVE_HISTORY, $storeId);
     }
 
     /**
@@ -248,7 +250,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isUsingStaticUrlsAllowed()
     {
-        return Mage::getStoreConfigFlag(self::CONFIG_USE_STATIC_URLS, $this->_storeId);
+        return \Mage::getStoreConfigFlag(self::CONFIG_USE_STATIC_URLS, $this->_storeId);
     }
 
     /**
@@ -258,7 +260,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isUrlDirectivesParsingAllowed()
     {
-        return Mage::getStoreConfigFlag(self::CONFIG_PARSE_URL_DIRECTIVES, $this->_storeId);
+        return \Mage::getStoreConfigFlag(self::CONFIG_PARSE_URL_DIRECTIVES, $this->_storeId);
     }
 
     /**
@@ -268,8 +270,8 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getPageTemplateProcessor()
     {
-        $model = (string)Mage::getConfig()->getNode(self::XML_PATH_CONTENT_TEMPLATE_FILTER);
-        return Mage::getModel($model);
+        $model = (string)\Mage::getConfig()->getNode(self::XML_PATH_CONTENT_TEMPLATE_FILTER);
+        return \Mage::getModel($model);
     }
 
     /**
@@ -279,7 +281,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isMsrpEnabled()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_ENABLED, $this->_storeId);
+        return (bool)\Mage::getStoreConfig(self::XML_PATH_MSRP_ENABLED, $this->_storeId);
     }
 
     /**
@@ -289,7 +291,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMsrpDisplayActualPriceType()
     {
-        return Mage::getStoreConfig(self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE, $this->_storeId);
+        return \Mage::getStoreConfig(self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE, $this->_storeId);
     }
 
     /**
@@ -299,7 +301,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isMsrpApplyToAll()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_MSRP_APPLY_TO_ALL, $this->_storeId);
+        return (bool)\Mage::getStoreConfig(self::XML_PATH_MSRP_APPLY_TO_ALL, $this->_storeId);
     }
 
     /**
@@ -310,7 +312,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     public function getMsrpExplanationMessage()
     {
         return $this->escapeHtml(
-            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE, $this->_storeId),
+            \Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE, $this->_storeId),
             array('b','br','strong','i','u', 'p', 'span')
         );
     }
@@ -323,7 +325,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     public function getMsrpExplanationMessageWhatsThis()
     {
         return $this->escapeHtml(
-            Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS, $this->_storeId),
+            \Mage::getStoreConfig(self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS, $this->_storeId),
             array('b','br','strong','i','u', 'p', 'span')
         );
     }
@@ -332,7 +334,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      * Check if can apply Minimum Advertise price to product
      * in specific visibility
      *
-     * @param int|Magento_Catalog_Model_Product $product
+     * @param int|\Magento\Catalog\Model\Product $product
      * @param int $visibility Check displaying price in concrete place (by default generally)
      * @param bool $checkAssociatedItems
      * @return bool
@@ -344,8 +346,8 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         if (is_numeric($product)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($product);
         }
 
@@ -354,7 +356,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         $result = $product->getMsrpEnabled();
-        if ($result == Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_USE_CONFIG) {
+        if ($result == \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG) {
             $result = $this->isMsrpApplyToAll();
         }
 
@@ -364,7 +366,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
 
         if ($result && $visibility !== null) {
             $productVisibility = $product->getMsrpDisplayActualPriceType();
-            if ($productVisibility == Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG) {
+            if ($productVisibility == \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG) {
                 $productVisibility = $this->getMsrpDisplayActualPriceType();
             }
             $result = ($productVisibility == $visibility);
@@ -386,15 +388,15 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether MAP applied to product Product Type
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function canApplyMsrpToProductType($product)
     {
         if($this->_mapApplyToProductType === null) {
-            /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-            $attribute = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute')
-                ->loadByCode(Magento_Catalog_Model_Product::ENTITY, 'msrp_enabled');
+            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
+            $attribute = \Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute')
+                ->loadByCode(\Magento\Catalog\Model\Product::ENTITY, 'msrp_enabled');
             $this->_mapApplyToProductType = $attribute->getApplyTo();
         }
         return empty($this->_mapApplyToProductType) || in_array($product->getTypeId(), $this->_mapApplyToProductType);
@@ -403,7 +405,7 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get MAP message for price
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getMsrpPriceMessage($product)
@@ -411,12 +413,12 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
         $message = "";
         if ($this->canApplyMsrp(
             $product,
-            Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_IN_CART
+            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_IN_CART
         )) {
             $message = __('To see product price, add this item to your cart. You can always remove it later.');
         } elseif ($this->canApplyMsrp(
             $product,
-            Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_BEFORE_ORDER_CONFIRM
+            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM
         )) {
             $message = __('See price before order confirmation.');
         }
@@ -426,14 +428,14 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check is product need gesture to show price
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return bool
      */
     public function isShowPriceOnGesture($product)
     {
         return $this->canApplyMsrp(
             $product,
-            Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type::TYPE_ON_GESTURE
+            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_ON_GESTURE
         );
     }
 
@@ -444,6 +446,6 @@ class Magento_Catalog_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function shouldDisplayProductCountOnLayer($storeId = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_COUNT, $storeId);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_COUNT, $storeId);
     }
 }

@@ -11,12 +11,14 @@
 /**
  * Process file entity
  */
-class Magento_Index_Model_Process_FileFactory
+namespace Magento\Index\Model\Process;
+
+class FileFactory
 {
     /**
      * Entity class name
      */
-    const CLASS_NAME = 'Magento_Index_Model_Process_File';
+    const CLASS_NAME = '\Magento\Index\Model\Process\File';
 
     /**
      * @var \Magento\ObjectManager
@@ -33,7 +35,7 @@ class Magento_Index_Model_Process_FileFactory
 
     /**
      * @param array $arguments
-     * @return Magento_Index_Model_Process_File
+     * @return \Magento\Index\Model\Process\File
      */
     public function create(array $arguments = array())
     {

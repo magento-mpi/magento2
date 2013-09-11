@@ -14,12 +14,12 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PH
     /**
      * VDE toolbar buttons block
      *
-     * @var Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons
+     * @var \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons
      */
     protected $_block;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_urlBuilder;
 
@@ -27,13 +27,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_ButtonsTest extends PH
     {
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array('getUrl'), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array('getUrl'), array(), '', false);
 
         $arguments = array(
             'urlBuilder' => $this->_urlBuilder
         );
 
-        $this->_block = $helper->getObject('Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_Buttons', $arguments);
+        $this->_block = $helper->getObject('\Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons', $arguments);
     }
 
     public function testGetThemeId()

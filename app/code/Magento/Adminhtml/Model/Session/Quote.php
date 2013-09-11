@@ -15,62 +15,64 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_Abstract
+namespace Magento\Adminhtml\Model\Session;
+
+class Quote extends \Magento\Core\Model\Session\AbstractSession
 {
     const XML_PATH_DEFAULT_CREATEACCOUNT_GROUP = 'customer/create_account/default_group';
 
     /**
      * Quote model object
      *
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote   = null;
 
     /**
      * Customer mofrl object
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer= null;
 
     /**
      * Store model object
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store   = null;
 
     /**
      * Order model object
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order   = null;
 
     public function __construct()
     {
         $this->init('adminhtml_quote');
-        if (Mage::app()->hasSingleStore()) {
-            $this->setStoreId(Mage::app()->getStore(true)->getId());
+        if (\Mage::app()->hasSingleStore()) {
+            $this->setStoreId(\Mage::app()->getStore(true)->getId());
         }
     }
 
     /**
      * Retrieve quote model object
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
         if (is_null($this->_quote)) {
-            $this->_quote = Mage::getModel('Magento_Sales_Model_Quote');
+            $this->_quote = \Mage::getModel('\Magento\Sales\Model\Quote');
             if ($this->getStoreId() && $this->getQuoteId()) {
                 $this->_quote->setStoreId($this->getStoreId())
                     ->load($this->getQuoteId());
             }
             elseif($this->getStoreId() && $this->hasCustomerId()) {
                 $this->_quote->setStoreId($this->getStoreId())
-                    ->setCustomerGroupId(Mage::getStoreConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
+                    ->setCustomerGroupId(\Mage::getStoreConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
                     ->assignCustomer($this->getCustomer())
                     ->setIsActive(false)
                     ->save();
@@ -85,10 +87,10 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Set customer model object
      * To enable quick switch of preconfigured customer
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Adminhtml_Model_Session_Quote
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Adminhtml\Model\Session\Quote
      */
-    public function setCustomer(Magento_Customer_Model_Customer $customer)
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $this->_customer = $customer;
         return $this;
@@ -98,12 +100,12 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
      * Retrieve customer model object
      * @param bool $forceReload
      * @param bool $useSetStore
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer($forceReload=false, $useSetStore=false)
     {
         if (is_null($this->_customer) || $forceReload) {
-            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer');
+            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer');
             if ($useSetStore && $this->getStore()->getId()) {
                 $this->_customer->setStore($this->getStore());
             }
@@ -117,12 +119,12 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Retrieve store model object
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = Mage::app()->getStore($this->getStoreId());
+            $this->_store = \Mage::app()->getStore($this->getStoreId());
             if ($currencyId = $this->getCurrencyId()) {
                 $this->_store->setCurrentCurrencyCode($currencyId);
             }
@@ -133,12 +135,12 @@ class Magento_Adminhtml_Model_Session_Quote extends Magento_Core_Model_Session_A
     /**
      * Retrieve order model object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = Mage::getModel('Magento_Sales_Model_Order');
+            $this->_order = \Mage::getModel('\Magento\Sales\Model\Order');
             if ($this->getOrderId()) {
                 $this->_order->load($this->getOrderId());
             }

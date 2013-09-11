@@ -12,7 +12,9 @@
  * Layered Navigation block for search
  *
  */
-class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
+namespace Magento\CatalogSearch\Block;
+
+class Layer extends \Magento\Catalog\Block\Layer\View
 {
     /**
      * Internal constructor
@@ -20,7 +22,7 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
     protected function _construct()
     {
         parent::_construct();
-        Mage::register('current_layer', $this->getLayer(), true);
+        \Mage::register('current_layer', $this->getLayer(), true);
     }
 
     /**
@@ -30,17 +32,17 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
     {
         parent::_initBlocks();
 
-        $this->_attributeFilterBlockName = 'Magento_CatalogSearch_Block_Layer_Filter_Attribute';
+        $this->_attributeFilterBlockName = '\Magento\CatalogSearch\Block\Layer\Filter\Attribute';
     }
 
     /**
      * Get layer object
      *
-     * @return Magento_Catalog_Model_Layer
+     * @return \Magento\Catalog\Model\Layer
      */
     public function getLayer()
     {
-        return Mage::getSingleton('Magento_CatalogSearch_Model_Layer');
+        return \Mage::getSingleton('Magento\CatalogSearch\Model\Layer');
     }
 
     /**
@@ -50,12 +52,12 @@ class Magento_CatalogSearch_Block_Layer extends Magento_Catalog_Block_Layer_View
      */
     public function canShowBlock()
     {
-        $_isLNAllowedByEngine = Mage::helper('Magento_CatalogSearch_Helper_Data')->getEngine()->isLayeredNavigationAllowed();
+        $_isLNAllowedByEngine = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getEngine()->isLayeredNavigationAllowed();
         if (!$_isLNAllowedByEngine) {
             return false;
         }
-        $availableResCount = (int) Mage::app()->getStore()
-            ->getConfig(Magento_CatalogSearch_Model_Layer::XML_PATH_DISPLAY_LAYER_COUNT);
+        $availableResCount = (int) \Mage::app()->getStore()
+            ->getConfig(\Magento\CatalogSearch\Model\Layer::XML_PATH_DISPLAY_LAYER_COUNT);
 
         if (!$availableResCount
             || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())) {

@@ -15,14 +15,16 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Block_Widget_Node
-    extends Magento_Core_Block_Html_Link
-    implements Magento_Widget_Block_Interface
+namespace Magento\VersionsCms\Block\Widget;
+
+class Node
+    extends \Magento\Core\Block\Html\Link
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Current Hierarchy Node Page Instance
      *
-     * @var Magento_VersionsCms_Model_Hierarchy_Node
+     * @var \Magento\VersionsCms\Model\Hierarchy\Node
      */
     protected $_node;
 
@@ -85,10 +87,10 @@ class Magento_VersionsCms_Block_Widget_Node
     protected function _toHtml()
     {
         if ($this->getNodeId()) {
-            $this->_node = Mage::getModel('Magento_VersionsCms_Model_Hierarchy_Node')
+            $this->_node = \Mage::getModel('\Magento\VersionsCms\Model\Hierarchy\Node')
                 ->load($this->getNodeId());
         } else {
-            $this->_node = Mage::registry('current_cms_hierarchy_node');
+            $this->_node = \Mage::registry('current_cms_hierarchy_node');
         }
 
         if (!$this->_node) {
@@ -106,7 +108,7 @@ class Magento_VersionsCms_Block_Widget_Node
     protected function _getStoreId()
     {
         if (null === $this->_storeId) {
-            $this->_storeId = Mage::app()->getStore()->getId();
+            $this->_storeId = \Mage::app()->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -121,7 +123,7 @@ class Magento_VersionsCms_Block_Widget_Node
     {
         $dataKeys = array(
             $key . '_' . $this->_getStoreId(),
-            $key . '_' . Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+            $key . '_' . \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
             $key,
         );
         foreach($dataKeys as $value) {

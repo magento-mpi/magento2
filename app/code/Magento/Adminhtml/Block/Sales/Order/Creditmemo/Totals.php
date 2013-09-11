@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Totals extends Magento_Adminhtml_Block_Sales_Totals
+namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo;
+
+class Totals extends \Magento\Adminhtml\Block\Sales\Totals
 {
     protected $_creditmemo;
 
@@ -24,8 +26,8 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Totals extends Magento_Admi
         if ($this->_creditmemo === null) {
             if ($this->hasData('creditmemo')) {
                 $this->_creditmemo = $this->_getData('creditmemo');
-            } elseif (Mage::registry('current_creditmemo')) {
-                $this->_creditmemo = Mage::registry('current_creditmemo');
+            } elseif (\Mage::registry('current_creditmemo')) {
+                $this->_creditmemo = \Mage::registry('current_creditmemo');
             } elseif ($this->getParentBlock() && $this->getParentBlock()->getCreditmemo()) {
                 $this->_creditmemo = $this->getParentBlock()->getCreditmemo();
             }
@@ -41,7 +43,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_Totals extends Magento_Admi
     /**
      * Initialize creditmemo totals array
      *
-     * @return Magento_Sales_Block_Order_Totals
+     * @return \Magento\Sales\Block\Order\Totals
      */
     protected function _initTotals()
     {

@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/* @var $installer Magento_Catalog_Model_Resource_Setup */
+/* @var $installer \Magento\Catalog\Model\Resource\Setup */
 
 $installer->startSetup();
 
@@ -36,7 +36,7 @@ $table = $installer->getConnection()
         ), 'Attribute Set ID')
     ->addColumn('type_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
-        'default'   => Magento_Catalog_Model_Product_Type::DEFAULT_TYPE,
+        'default'   => \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE,
         ), 'Type ID')
     ->addColumn('sku', \Magento\DB\Ddl\Table::TYPE_TEXT, 64, array(
         ), 'SKU')

@@ -9,7 +9,7 @@
  */
 ?>
 <?php
-/* @var $this Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form */
+/* @var $this \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form */
 ?>
 
 <?php $treeNodes = $this->getNodesJson(); ?>
@@ -25,7 +25,7 @@
     <?php echo $this->getParentBlock()->getChildHtml('hierarchy_manage') ?>
 
     <div class="cms-hierarchy-tree">
-        <?php if ($this->getData('current_scope') != Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT): ?>
+        <?php if ($this->getData('current_scope') != \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT): ?>
         <div class="cms-scope">
             <input type="checkbox" name="use_default_scope" id="use_default_scope" <?php echo $this->getData('use_default_scope') ? 'checked="checked"' : '' ?> onchange="hierarchyNodes.useDefaultScope()" />
             <label for="use_default_scope"><?php echo __('Use the parent node hierarchy.') ?></label>
@@ -255,7 +255,7 @@
 
             var isTreeNode = node.parentNode.id == '_root';
 
-            <?php if ($this->helper('Magento_VersionsCms_Helper_Hierarchy')->isMetadataEnabled()) : ?>
+            <?php if ($this->helper('\Magento\VersionsCms\Helper\Hierarchy')->isMetadataEnabled()) : ?>
             if (isTreeNode) {
                 $('field_meta_first_last').show();
                 $('field_meta_next_previous').show();
@@ -490,7 +490,7 @@
             this._changeNodePropShow(false);
             this.saveButton(true, false, true);
 
-            <?php if ($this->helper('Magento_VersionsCms_Helper_Hierarchy')->isMetadataEnabled()): ?>
+            <?php if ($this->helper('\Magento\VersionsCms\Helper\Hierarchy')->isMetadataEnabled()): ?>
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
             if (selectedNode.id == '_root') {
                 $('field_meta_first_last').show();

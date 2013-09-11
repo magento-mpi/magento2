@@ -16,7 +16,9 @@
  * @package     Magento_Weee
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Weee\Model\Resource\Attribute\Backend\Weee;
+
+class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Defines main resource table and table identifier field
@@ -30,8 +32,8 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
     /**
      * Load product data
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @return array
      */
     public function loadProductData($product, $attribute)
@@ -50,7 +52,7 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
         } else {
             $storeId = $product->getStoreId();
             if ($storeId) {
-                $select->where('website_id IN (?)', array(0, Mage::app()->getStore($storeId)->getWebsiteId()));
+                $select->where('website_id IN (?)', array(0, \Mage::app()->getStore($storeId)->getWebsiteId()));
             }
         }
         return $this->_getReadAdapter()->fetchAll($select);
@@ -59,9 +61,9 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
     /**
      * Delete product data
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @return Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @return \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax
      */
     public function deleteProductData($product, $attribute)
     {
@@ -74,7 +76,7 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
         if (!$attribute->isScopeGlobal()) {
             $storeId = $product->getStoreId();
             if ($storeId) {
-                $where['website_id IN(?)'] =  array(0, Mage::app()->getStore($storeId)->getWebsiteId());
+                $where['website_id IN(?)'] =  array(0, \Mage::app()->getStore($storeId)->getWebsiteId());
             }
         }
         $adapter->delete($this->getMainTable(), $where);
@@ -84,9 +86,9 @@ class Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax extends Magento_Cor
     /**
      * Insert product data
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $data
-     * @return Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax
+     * @return \Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax
      */
     public function insertProductData($product, $data)
     {

@@ -15,26 +15,28 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Retrieve current form type instance
      *
-     * @return Magento_Eav_Model_Form_Type
+     * @return \Magento\Eav\Model\Form\Type
      */
     protected function _getFormType()
     {
-        return Mage::registry('current_form_type');
+        return \Mage::registry('current_form_type');
     }
 
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Form
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit\Form
      */
     protected function _prepareForm()
     {
-        $editMode = Mage::registry('edit_mode');
+        $editMode = \Mage::registry('edit_mode');
         if ($editMode == 'edit') {
             $saveUrl = $this->getUrl('*/*/save');
             $showNew = false;
@@ -74,8 +76,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Fo
                 'required'  => true,
             ));
 
-            /** @var $label Magento_Core_Model_Theme_Label */
-            $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+            /** @var $label \Magento\Core\Model\Theme\Label */
+            $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
             $options = $label->getLabelsCollection();
             array_unshift($options, array(
                 'label' => __('All Themes'),
@@ -93,7 +95,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Edit_Fo
                 'label'     => __('Store View'),
                 'title'     => __('Store View'),
                 'required'  => true,
-                'values'    => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(false, true)
+                'values'    => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(false, true)
             ));
 
             $form->setValues($this->_getFormType()->getData());

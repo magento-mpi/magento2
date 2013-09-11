@@ -12,13 +12,13 @@
 class Magento_Reports_Model_Resource_Report_Product_Viewed_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Reports_Model_Resource_Report_Product_Viewed_Collection
+     * @var \Magento\Reports\Model\Resource\Report\Product\Viewed\Collection
      */
     private $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Report_Product_Viewed_Collection');
+        $this->_collection = Mage::getResourceModel('\Magento\Reports\Model\Resource\Report\Product\Viewed\Collection');
         $this->_collection
             ->setPeriod('day')
             ->setDateRange(null, null)
@@ -33,7 +33,7 @@ class Magento_Reports_Model_Resource_Report_Product_Viewed_CollectionTest extend
     {
         $expectedResult = array(1 => 3, 2 => 1, 21 => 2);
         $actualResult = array();
-        /** @var Magento_Adminhtml_Model_Report_Item $reportItem */
+        /** @var \Magento\Adminhtml\Model\Report\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[$reportItem->getData('product_id')] = $reportItem->getData('views_num');
         }

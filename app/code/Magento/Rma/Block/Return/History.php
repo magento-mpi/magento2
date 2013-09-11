@@ -8,16 +8,18 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Return_History extends Magento_Core_Block_Template
+namespace Magento\Rma\Block\Return;
+
+class History extends \Magento\Core\Block\Template
 {
     public function _construct()
     {
         parent::_construct();
         $this->setTemplate('return/history.phtml');
 
-        $returns = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
+        $returns = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection')
             ->addFieldToSelect('*')
-            ->addFieldToFilter('customer_id', Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getId())
+            ->addFieldToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
             ->setOrder('date_requested', 'desc')
         ;
 
@@ -30,7 +32,7 @@ class Magento_Rma_Block_Return_History extends Magento_Core_Block_Template
         parent::_prepareLayout();
 
         $pager = $this->getLayout()
-            ->createBlock('Magento_Page_Block_Html_Pager', 'sales.order.history.pager')
+            ->createBlock('\Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
             ->setCollection($this->getReturns());
         $this->setChild('pager', $pager);
         $this->getReturns()->load();

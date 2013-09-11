@@ -15,7 +15,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Recommendations
+namespace Magento\Search\Model;
+
+class Recommendations
 {
     /**
      * Retrieve search recommendations
@@ -24,23 +26,23 @@ class Magento_Search_Model_Recommendations
      */
     public function getSearchRecommendations()
     {
-        $productCollection = Mage::getSingleton('Magento_Search_Model_Search_Layer')->getProductCollection();
-        $searchQueryText = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery()->getQueryText();
+        $productCollection = \Mage::getSingleton('Magento\Search\Model\Search\Layer')->getProductCollection();
+        $searchQueryText = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery()->getQueryText();
 
         $params = array(
             'store_id' => $productCollection->getStoreId(),
         );
 
-        $searchRecommendationsEnabled = (boolean)Mage::helper('Magento_Search_Helper_Data')
+        $searchRecommendationsEnabled = (boolean)\Mage::helper('Magento\Search\Helper\Data')
             ->getSearchConfigData('search_recommendations_enabled');
-        $searchRecommendationsCount   = (int)Mage::helper('Magento_Search_Helper_Data')
+        $searchRecommendationsCount   = (int)\Mage::helper('Magento\Search\Helper\Data')
             ->getSearchConfigData('search_recommendations_count');
 
         if ($searchRecommendationsCount < 1) {
             $searchRecommendationsCount = 1;
         }
         if ($searchRecommendationsEnabled) {
-            $model = Mage::getResourceModel('Magento_Search_Model_Resource_Recommendations');
+            $model = \Mage::getResourceModel('\Magento\Search\Model\Resource\Recommendations');
             return $model->getRecommendationsByQuery($searchQueryText, $params, $searchRecommendationsCount);
         } else {
             return array();

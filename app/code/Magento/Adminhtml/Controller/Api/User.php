@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Api;
+
+class User extends \Magento\Adminhtml\Controller\Action
 {
 
     protected function _initAction()
@@ -39,12 +41,12 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
         $this->_title(__('Users'));
 
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('Magento_Api_Model_User');
+        $model = \Mage::getModel('\Magento\Api\Model\User');
 
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This user no longer exists.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('This user no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -53,22 +55,22 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
         $this->_title($model->getId() ? $model->getName() : __('New User'));
 
         // Restore previously entered form data from session
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getUserData(true);
+        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getUserData(true);
         if (!empty($data)) {
             $model->setData($data);
         }
 
-        Mage::register('api_user', $model);
+        \Mage::register('api_user', $model);
 
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit User') : __('New User'), $id ? __('Edit User') : __('New User'))
             ->_addContent($this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Api_User_Edit')
+                ->createBlock('\Magento\Adminhtml\Block\Api\User\Edit')
                 ->setData('action', $this->getUrl('*/api_user/save')))
-            ->_addLeft($this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_User_Edit_Tabs'));
+            ->_addLeft($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\User\Edit\Tabs'));
 
         $this->_addJs($this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Template')
+            ->createBlock('\Magento\Adminhtml\Block\Template')
             ->setTemplate('api/user_roles_grid_js.phtml')
         );
         $this->renderLayout();
@@ -78,9 +80,9 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
     {
         if ($data = $this->getRequest()->getPost()) {
             $id = $this->getRequest()->getPost('user_id', false);
-            $model = Mage::getModel('Magento_Api_Model_User')->load($id);
+            $model = \Mage::getModel('\Magento\Api\Model\User')->load($id);
             if (!$model->getId() && $id) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This user no longer exists.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('This user no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -102,13 +104,13 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
                         $model->setRoleIds( $rs )->setRoleUserId( $model->getUserId() )->saveRelations();
                     }
                 }
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the user.'));
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setUserData(false);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the user.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setUserData(false);
                 $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
                 return;
-            } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setUserData($data);
+            } catch (\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setUserData($data);
                 $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
                 return;
             }
@@ -121,34 +123,34 @@ class Magento_Adminhtml_Controller_Api_User extends Magento_Adminhtml_Controller
         if ($id = $this->getRequest()->getParam('user_id')) {
 
             try {
-                $model = Mage::getModel('Magento_Api_Model_User')->load($id);
+                $model = \Mage::getModel('\Magento\Api\Model\User')->load($id);
                 $model->delete();
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You deleted the user.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the user.'));
                 $this->_redirect('*/*/');
                 return;
             }
-            catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            catch (\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
                 return;
             }
         }
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We can\'t find a user to delete.'));
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a user to delete.'));
         $this->_redirect('*/*/');
     }
 
     public function rolesGridAction()
     {
         $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('Magento_Api_Model_User');
+        $model = \Mage::getModel('\Magento\Api\Model\User');
 
         if ($id) {
             $model->load($id);
         }
 
-        Mage::register('api_user', $model);
+        \Mage::register('api_user', $model);
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles')->toHtml()
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\User\Edit\Tab\Roles')->toHtml()
         );
     }
 

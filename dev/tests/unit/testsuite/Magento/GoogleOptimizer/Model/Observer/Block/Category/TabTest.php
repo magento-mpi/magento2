@@ -30,25 +30,25 @@ class Magento_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPU
     protected $_eventObserverMock;
 
     /**
-     * @var Magento_GoogleOptimizer_Model_Observer_Block_Category_Tab
+     * @var \Magento\GoogleOptimizer\Model\Observer\Block\Category\Tab
      */
     protected $_modelObserver;
 
     /**
-     * @var Magento_GoogleOptimizer_Model_Observer_Block_Category_Tab
+     * @var \Magento\GoogleOptimizer\Model\Observer\Block\Category\Tab
      */
     protected $_observer;
 
     public function setUp()
     {
-        $this->_helperMock = $this->getMock('Magento_GoogleOptimizer_Helper_Data', array(), array(), '', false);
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
-        $this->_tabsMock = $this->getMock('Magento_Adminhtml_Block_Catalog_Category_Tabs', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\GoogleOptimizer\Helper\Data', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
+        $this->_tabsMock = $this->getMock('Magento\Adminhtml\Block\Catalog\Category\Tabs', array(), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
-            'Magento_GoogleOptimizer_Model_Observer_Block_Category_Tab',
+            '\Magento\GoogleOptimizer\Model\Observer\Block\Category\Tab',
             array(
                 'helper' => $this->_helperMock,
                 'layout' => $this->_layoutMock,
@@ -60,11 +60,11 @@ class Magento_GoogleOptimizer_Model_Observer_Block_Category_TabTest extends PHPU
     {
         $this->_helperMock->expects($this->once())->method('isGoogleExperimentActive')->will($this->returnValue(true));
 
-        $block = $this->getMock('Magento_Core_Block', array(), array(), '', false);
+        $block = $this->getMock('Magento\Core\Block', array(), array(), '', false);
         $block->expects($this->once())->method('toHtml')->will($this->returnValue('generated html'));
 
         $this->_layoutMock->expects($this->once())->method('createBlock')->with(
-            'Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer',
+            '\Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Category\Edit\Tab\Googleoptimizer',
             'google-experiment-form'
         )->will($this->returnValue($block));
 

@@ -12,13 +12,13 @@
 class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Website
+     * @var \Magento\Core\Model\Website
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Website');
+        $this->_model = Mage::getModel('\Magento\Core\Model\Website');
         $this->_model->load(1);
     }
 
@@ -37,14 +37,14 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Website::setGroups
-     * @covers Magento_Core_Model_Website::setStores
-     * @covers Magento_Core_Model_Website::getStores
+     * @covers \Magento\Core\Model\Website::setGroups
+     * @covers \Magento\Core\Model\Website::setStores
+     * @covers \Magento\Core\Model\Website::getStores
      */
     public function testSetGroupsAndStores()
     {
         /* Groups */
-        $expectedGroup = Mage::getModel('Magento_Core_Model_Store_Group');
+        $expectedGroup = Mage::getModel('\Magento\Core\Model\Store\Group');
         $expectedGroup->setId(123);
         $this->_model->setDefaultGroupId($expectedGroup->getId());
         $this->_model->setGroups(array($expectedGroup));
@@ -53,7 +53,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
         $this->assertSame($expectedGroup, reset($groups));
 
         /* Stores */
-        $expectedStore = Mage::getModel('Magento_Core_Model_Store');
+        $expectedStore = Mage::getModel('\Magento\Core\Model\Store');
         $expectedStore->setId(456);
         $expectedGroup->setDefaultStoreId($expectedStore->getId());
         $this->_model->setStores(array($expectedStore));
@@ -66,7 +66,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     {
         $groups = $this->_model->getGroups();
         $this->assertEquals(array(1), array_keys($groups));
-        $this->assertInstanceOf('Magento_Core_Model_Store_Group', $groups[1]);
+        $this->assertInstanceOf('\Magento\Core\Model\Store\Group', $groups[1]);
         $this->assertEquals(1, $groups[1]->getId());
     }
 
@@ -83,7 +83,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     public function testGetDefaultGroup()
     {
         $defaultGroup = $this->_model->getDefaultGroup();
-        $this->assertInstanceOf('Magento_Core_Model_Store_Group', $defaultGroup);
+        $this->assertInstanceOf('\Magento\Core\Model\Store\Group', $defaultGroup);
         $this->assertEquals(1, $defaultGroup->getId());
 
         $this->_model->setDefaultGroupId(null);
@@ -94,7 +94,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     {
         $stores = $this->_model->getStores();
         $this->assertEquals(array(1), array_keys($stores));
-        $this->assertInstanceOf('Magento_Core_Model_Store', $stores[1]);
+        $this->assertInstanceOf('\Magento\Core\Model\Store', $stores[1]);
         $this->assertEquals(1, $stores[1]->getId());
     }
 
@@ -136,14 +136,14 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
     public function testGetBaseCurrency()
     {
         $currency = $this->_model->getBaseCurrency();
-        $this->assertInstanceOf('Magento_Directory_Model_Currency', $currency);
+        $this->assertInstanceOf('\Magento\Directory\Model\Currency', $currency);
         $this->assertEquals('USD', $currency->getCode());
     }
 
     public function testGetDefaultStore()
     {
         $defaultStore = $this->_model->getDefaultStore();
-        $this->assertInstanceOf('Magento_Core_Model_Store', $defaultStore);
+        $this->assertInstanceOf('\Magento\Core\Model\Store', $defaultStore);
         $this->assertEquals(1, $defaultStore->getId());
     }
 
@@ -173,7 +173,7 @@ class Magento_Core_Model_WebsiteTest extends PHPUnit_Framework_TestCase
         );
 
         /* emulate admin store */
-        Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+        Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $crud = new Magento_TestFramework_Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }

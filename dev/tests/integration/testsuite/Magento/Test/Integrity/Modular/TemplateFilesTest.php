@@ -23,16 +23,16 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
      */
     public function testAllTemplates($module, $template, $class, $area)
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme();
         // intentionally to make sure the module files will be requested
         $params = array(
             'area'       => $area,
-            'themeModel' => Mage::getModel('Magento_Core_Model_Theme'),
+            'themeModel' => Mage::getModel('\Magento\Core\Model\Theme'),
             'module'     => $module
         );
         $file = Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
-            ->get('Magento_Core_Model_View_FileSystem')
+            ->get('Magento\Core\Model\View\FileSystem')
             ->getFilename($template, $params);
         $this->assertFileExists($file, "Block class: {$class}");
     }
@@ -44,7 +44,7 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
     {
         $blockClass = '';
         try {
-            /** @var $website Magento_Core_Model_Website */
+            /** @var $website \Magento\Core\Model\Website */
             Mage::app()->getStore()->setWebsiteId(0);
 
             $templates = array();
@@ -53,7 +53,7 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
                     continue;
                 }
                 $class = new ReflectionClass($blockClass);
-                if ($class->isAbstract() || !$class->isSubclassOf('Magento_Core_Block_Template')) {
+                if ($class->isAbstract() || !$class->isSubclassOf('\Magento\Core\Block\Template')) {
                     continue;
                 }
 
@@ -62,17 +62,17 @@ class Magento_Test_Integrity_Modular_TemplateFilesTest extends Magento_TestFrame
                     $area = 'install';
                 } elseif ($module == 'Magento_Adminhtml' || strpos($blockClass, '_Adminhtml_')
                     || strpos($blockClass, '_Backend_')
-                    || $class->isSubclassOf('Magento_Backend_Block_Template'))
+                    || $class->isSubclassOf('\Magento\Backend\Block\Template'))
                 {
                     $area = 'adminhtml';
                 }
 
                 Mage::app()->loadAreaPart(
-                    Magento_Core_Model_App_Area::AREA_ADMINHTML,
-                    Magento_Core_Model_App_Area::PART_CONFIG
+                    \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+                    \Magento\Core\Model\App\Area::PART_CONFIG
                 );
                 Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                    ->get('Magento_Core_Model_Config_Scope')
+                    ->get('Magento\Core\Model\Config\Scope')
                     ->setCurrentScope($area);
 
                 $block = Mage::getModel($blockClass);

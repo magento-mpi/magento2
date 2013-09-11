@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Compared
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
      * Javascript list type name for this grid
@@ -38,22 +40,22 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Compared
     /**
      * Return items collection
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-            $collection = Mage::getModel('Magento_Catalog_Model_Product_Compare_List')
+            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+            $collection = \Mage::getModel('\Magento\Catalog\Model\Product\Compare\ListCompare')
                 ->getItemCollection()
                 ->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
                 ->addStoreFilter($this->_getStore()->getId())
                 ->setCustomerId($this->_getCustomer()->getId())
                 ->addAttributeToSelect($attributes)
-                ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
-            Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
-            $collection = Mage::helper('Magento_Adminhtml_Helper_Sales')->applySalableProductTypesFilter($collection);
+                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+            \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')->addIsInStockFilterToCollection($collection);
+            $collection = \Mage::helper('Magento\Adminhtml\Helper\Sales')->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();
             $this->setData('items_collection', $collection);
         }

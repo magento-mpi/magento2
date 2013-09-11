@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_FlyweightFactory
+namespace Magento\Backend\Model\Config\Structure\Element;
+
+class FlyweightFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -21,9 +23,9 @@ class Magento_Backend_Model_Config_Structure_Element_FlyweightFactory
      * @var array
      */
     protected $_flyweightMap = array(
-        'section' => 'Magento_Backend_Model_Config_Structure_Element_Section',
-        'group' => 'Magento_Backend_Model_Config_Structure_Element_Group',
-        'field' => 'Magento_Backend_Model_Config_Structure_Element_Field'
+        'section' => '\Magento\Backend\Model\Config\Structure\Element\Section',
+        'group' => '\Magento\Backend\Model\Config\Structure\Element\Group',
+        'field' => '\Magento\Backend\Model\Config\Structure\Element\Field'
     );
 
     /**
@@ -38,7 +40,7 @@ class Magento_Backend_Model_Config_Structure_Element_FlyweightFactory
      * Create element flyweight flyweight
      *
      * @param string $type
-     * @return Magento_Backend_Model_Config_Structure_ElementInterface
+     * @return \Magento\Backend\Model\Config\Structure\ElementInterface
      */
     public function create($type)
     {

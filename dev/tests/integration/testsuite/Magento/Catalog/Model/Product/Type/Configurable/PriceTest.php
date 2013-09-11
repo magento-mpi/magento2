@@ -16,12 +16,12 @@ class Magento_Catalog_Model_Product_Type_Configurable_PriceTest extends PHPUnit_
      */
     public function testGetFinalPrice()
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1); // fixture
 
-        /** @var $model Magento_Catalog_Model_Product_Type_Configurable_Price */
-        $model = Mage::getModel('Magento_Catalog_Model_Product_Type_Configurable_Price');
+        /** @var $model \Magento\Catalog\Model\Product\Type\Configurable\Price */
+        $model = Mage::getModel('\Magento\Catalog\Model\Product\Type\Configurable\Price');
 
         // without configurable options
         $this->assertEquals(100.0, $model->getFinalPrice(1, $product));

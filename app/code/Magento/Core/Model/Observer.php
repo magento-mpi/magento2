@@ -13,25 +13,27 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Core_Model_Observer
+namespace Magento\Core\Model;
+
+class Observer
 {
     /**
-     * @var Magento_Core_Model_Cache_Frontend_Pool
+     * @var \Magento\Core\Model\Cache\Frontend\Pool
      */
     private $_cacheFrontendPool;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     private $_currentTheme;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_Collection
+     * @var \Magento\Core\Model\Page\Asset\Collection
      */
     private $_pageAssets;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
@@ -41,25 +43,25 @@ class Magento_Core_Model_Observer
     protected $_assetFileFactory;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @param Magento_Core_Model_Cache_Frontend_Pool $cacheFrontendPool
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Page $page
-     * @param Magento_Core_Model_ConfigInterface $config
+     * @param \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Page $page
+     * @param \Magento\Core\Model\ConfigInterface $config
      * @param Magento_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function __construct(
-        Magento_Core_Model_Cache_Frontend_Pool $cacheFrontendPool,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Page $page,
-        Magento_Core_Model_ConfigInterface $config,
+        \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Page $page,
+        \Magento\Core\Model\ConfigInterface $config,
         Magento_Core_Model_Page_Asset_PublicFileFactory $assetFileFactory,
-        Magento_Core_Model_Logger $logger
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $design->getDesignTheme();
@@ -72,15 +74,15 @@ class Magento_Core_Model_Observer
     /**
      * Cron job method to clean old cache resources
      *
-     * @param Magento_Cron_Model_Schedule $schedule
+     * @param \Magento\Cron\Model\Schedule $schedule
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function cleanCache(Magento_Cron_Model_Schedule $schedule)
+    public function cleanCache(\Magento\Cron\Model\Schedule $schedule)
     {
         /** @var $cacheFrontend \Magento\Cache\FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             // Magento cache frontend does not support the 'old' cleaning mode, that's why backend is used directly
-            $cacheFrontend->getBackend()->clean(Zend_Cache::CLEANING_MODE_OLD);
+            $cacheFrontend->getBackend()->clean(\Zend_Cache::CLEANING_MODE_OLD);
         }
     }
 
@@ -88,15 +90,15 @@ class Magento_Core_Model_Observer
      * Theme registration
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Core_Model_Observer
+     * @return \Magento\Core\Model\Observer
      */
     public function themeRegistration(\Magento\Event\Observer $observer)
     {
         $baseDir = $observer->getEvent()->getBaseDir();
         $pathPattern = $observer->getEvent()->getPathPattern();
         try {
-            Mage::getObjectManager()->get('Magento_Core_Model_Theme_Registration')->register($baseDir, $pathPattern);
-        } catch (Magento_Core_Exception $e) {
+            \Mage::getObjectManager()->get('Magento\Core\Model\Theme\Registration')->register($baseDir, $pathPattern);
+        } catch (\Magento\Core\Exception $e) {
             $this->_logger->logException($e);
         }
         return $this;
@@ -110,18 +112,18 @@ class Magento_Core_Model_Observer
      */
     public function applyThemeCustomization(\Magento\Event\Observer $observer)
     {
-        /** @var $themeFile Magento_Core_Model_Theme_File */
+        /** @var $themeFile \Magento\Core\Model\Theme\File */
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
             try {
                 $service = $themeFile->getCustomizationService();
-                if ($service instanceof Magento_Core_Model_Theme_Customization_FileAssetInterface) {
+                if ($service instanceof \Magento\Core\Model\Theme\Customization\FileAssetInterface) {
                     $asset = $this->_assetFileFactory->create(array(
                         'file'        => $themeFile->getFullPath(),
                         'contentType' => $service->getContentType()
                     ));
                     $this->_pageAssets->add($themeFile->getData('file_path'), $asset);
                 }
-            } catch (InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException $e) {
                 $this->_logger->logException($e);
             }
         }
@@ -131,7 +133,7 @@ class Magento_Core_Model_Observer
      * Rebuild whole config and save to fast storage
      *
      * @param  \Magento\Event\Observer $observer
-     * @return Magento_Core_Model_Observer
+     * @return \Magento\Core\Model\Observer
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function processReinitConfig(\Magento\Event\Observer $observer)

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Block_Order_Invoice_Totals extends Magento_Sales_Block_Order_Totals
+namespace Magento\Sales\Block\Order\Invoice;
+
+class Totals extends \Magento\Sales\Block\Order\Totals
 {
     protected $_invoice = null;
 
@@ -16,8 +18,8 @@ class Magento_Sales_Block_Order_Invoice_Totals extends Magento_Sales_Block_Order
         if ($this->_invoice === null) {
             if ($this->hasData('invoice')) {
                 $this->_invoice = $this->_getData('invoice');
-            } elseif (Mage::registry('current_invoice')) {
-                $this->_invoice = Mage::registry('current_invoice');
+            } elseif (\Mage::registry('current_invoice')) {
+                $this->_invoice = \Mage::registry('current_invoice');
             } elseif ($this->getParentBlock()->getInvoice()) {
                 $this->_invoice = $this->getParentBlock()->getInvoice();
             }
@@ -34,7 +36,7 @@ class Magento_Sales_Block_Order_Invoice_Totals extends Magento_Sales_Block_Order
     /**
      * Get totals source object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getSource()
     {
@@ -44,7 +46,7 @@ class Magento_Sales_Block_Order_Invoice_Totals extends Magento_Sales_Block_Order
     /**
      * Initialize order totals array
      *
-     * @return Magento_Sales_Block_Order_Totals
+     * @return \Magento\Sales\Block\Order\Totals
      */
     protected function _initTotals()
     {

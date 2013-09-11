@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Attribute_Option extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Eav\Model\Resource\Entity\Attribute;
+
+class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -29,10 +31,10 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option extends Magento_Core_Mo
     /**
      * Add Join with option value for collection select
      *
-     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
-     * @param Zend_Db_Expr $valueExpr
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Option
+     * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @param \Zend_Db_Expr $valueExpr
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option
      */
     public function addOptionValueToCollection($collection, $attribute, $valueExpr)
     {
@@ -65,12 +67,12 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option extends Magento_Core_Mo
     /**
      * Retrieve Select for update Flat data
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param int $store
      * @param bool $hasValueField flag which require option value
      * @return \Magento\DB\Select
      */
-    public function getFlatUpdateSelect(Magento_Eav_Model_Entity_Attribute_Abstract $attribute, $store,
+    public function getFlatUpdateSelect(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute, $store,
         $hasValueField = true
     ) {
         $adapter        = $this->_getReadAdapter();
@@ -82,7 +84,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Option extends Magento_Core_Mo
             . " AND %s.attribute_id = " . $attribute->getId()
             . " AND %s.store_id = %d";
         $joinCondition = sprintf($joinConditionTemplate, 'e', 't1', 't1', 't1', 't1',
-            Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+            \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         if ($attribute->getFlatAddChildData()) {
             $joinCondition .= ' AND e.child_id = t1.entity_id';
         }

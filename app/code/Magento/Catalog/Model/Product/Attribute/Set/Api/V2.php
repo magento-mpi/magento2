@@ -15,6 +15,8 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Set_Api_V2 extends Magento_Catalog_Model_Product_Attribute_Set_Api
+namespace Magento\Catalog\Model\Product\Attribute\Set\Api;
+
+class V2 extends \Magento\Catalog\Model\Product\Attribute\Set\Api
 {
 }

@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Downloadable_Model_Observer (duplicate downloadable data)
+ * Test class for \Magento\Downloadable\Model\Observer (duplicate downloadable data)
  */
 class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class Magento_Downloadable_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testDuplicateProductDownloadableProductWithFilesSuccessfullyDuplicated()
     {
-        $currentProduct = Mage::getModel('Magento_Catalog_Model_Product');
+        $currentProduct = Mage::getModel('\Magento\Catalog\Model\Product');
         $currentProduct->load(1); // fixture for initial product
         $currentLinks = $currentProduct->getTypeInstance($currentProduct)->getLinks($currentProduct);
         $currentSamples = $currentProduct->getTypeInstance($currentProduct)->getSamples($currentProduct);

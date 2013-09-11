@@ -16,13 +16,15 @@
  * @package    Magento_Centinel
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Centinel_Model_Observer extends \Magento\Object
+namespace Magento\Centinel\Model;
+
+class Observer extends \Magento\Object
 {
     /**
      * Set cmpi data to payment
      *
      * @param \Magento\Object $observer
-     * @return Magento_Centinel_Model_Observer
+     * @return \Magento\Centinel\Model\Observer
      */
     public function salesEventConvertQuoteToOrder($observer)
     {
@@ -39,7 +41,7 @@ class Magento_Centinel_Model_Observer extends \Magento\Object
      * Add cmpi data to info block
      *
      * @param \Magento\Object $observer
-     * @return Magento_Centinel_Model_Observer
+     * @return \Magento\Centinel\Model\Observer
      */
     public function paymentInfoBlockPrepareSpecificInformation($observer)
     {
@@ -49,14 +51,14 @@ class Magento_Centinel_Model_Observer extends \Magento\Object
 
         $payment = $observer->getEvent()->getPayment();
         $transport = $observer->getEvent()->getTransport();
-        $helper = Mage::helper('Magento_Centinel_Helper_Data');
+        $helper = \Mage::helper('Magento\Centinel\Helper\Data');
 
         $info = array(
-            Magento_Centinel_Model_Service::CMPI_PARES,
-            Magento_Centinel_Model_Service::CMPI_ENROLLED,
-            Magento_Centinel_Model_Service::CMPI_ECI,
-            Magento_Centinel_Model_Service::CMPI_CAVV,
-            Magento_Centinel_Model_Service::CMPI_XID
+            \Magento\Centinel\Model\Service::CMPI_PARES,
+            \Magento\Centinel\Model\Service::CMPI_ENROLLED,
+            \Magento\Centinel\Model\Service::CMPI_ECI,
+            \Magento\Centinel\Model\Service::CMPI_CAVV,
+            \Magento\Centinel\Model\Service::CMPI_XID
         );
         foreach ($info as $key) {
             if ($value = $payment->getAdditionalInformation($key)) {
@@ -70,7 +72,7 @@ class Magento_Centinel_Model_Observer extends \Magento\Object
      * Add centinel logo block into payment form
      *
      * @param \Magento\Object $observer
-     * @return Magento_Centinel_Model_Observer
+     * @return \Magento\Centinel\Model\Observer
      */
     public function paymentFormBlockToHtmlBefore($observer)
     {
@@ -80,7 +82,7 @@ class Magento_Centinel_Model_Observer extends \Magento\Object
         if ($method && $method->getIsCentinelValidationEnabled()) {
             $paymentFormBlock->setChild(
                'payment.method.' . $method->getCode() . 'centinel.logo',
-                Mage::helper('Magento_Centinel_Helper_Data')->getMethodFormBlock($method)
+                \Mage::helper('Magento\Centinel\Helper\Data')->getMethodFormBlock($method)
             );
         }
         return $this;
@@ -90,7 +92,7 @@ class Magento_Centinel_Model_Observer extends \Magento\Object
      * Reset validation data
      *
      * @param \Magento\Object $observer
-     * @return Magento_Centinel_Model_Observer
+     * @return \Magento\Centinel\Model\Observer
      */
     public function checkoutSubmitAllAfter($observer)
     {

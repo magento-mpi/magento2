@@ -15,21 +15,23 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  */
-class Magento_Adminhtml_Block_Catalog_Product_Price extends Magento_Catalog_Block_Product_Price
+namespace Magento\Adminhtml\Block\Catalog\Product;
+
+class Price extends \Magento\Catalog\Block\Product\Price
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -37,8 +39,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Price extends Magento_Catalog_Bloc
     }
 
     /**
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
-     * @return bool|Magento_Core_Model_Website
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
+     * @return bool|\Magento\Core\Model\Website
      */
     public function getWebsite($storeId)
     {

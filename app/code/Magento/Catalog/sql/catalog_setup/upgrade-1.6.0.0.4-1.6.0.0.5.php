@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer->getConnection()->modifyColumn(
     $installer->getTable('catalog_category_product_index'),
     'position',

@@ -16,11 +16,13 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Customer_Block_Account_Dashboard_Address extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Account\Dashboard;
+
+class Address extends \Magento\Core\Block\Template
 {
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
     }
 
     public function getPrimaryShippingAddressHtml()
@@ -47,12 +49,12 @@ class Magento_Customer_Block_Account_Dashboard_Address extends Magento_Core_Bloc
 
     public function getPrimaryShippingAddressEditUrl()
     {
-        return Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
+        return \Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
     }
 
     public function getPrimaryBillingAddressEditUrl()
     {
-        return Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
+        return \Mage::getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
     }
 
     public function getAddressBookUrl()

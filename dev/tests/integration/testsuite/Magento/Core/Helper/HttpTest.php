@@ -12,13 +12,13 @@
 class Magento_Core_Helper_HttpTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_helper = null;
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Core_Helper_Http');
+        $this->_helper = Mage::helper('Magento\Core\Helper\Http');
     }
 
     public function testGetRemoteAddrHeaders()

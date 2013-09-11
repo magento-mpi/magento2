@@ -16,12 +16,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Api_User_Edit_Tab_Main extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Api\User\Edit\Tab;
+
+class Main extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('api_user');
+        $model = \Mage::registry('api_user');
 
         $form = new \Magento\Data\Form();
 
@@ -107,7 +109,7 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Main extends Magento_Adminhtml_B
             ));
         }
 
-        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId() != $model->getUserId()) {
+        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId() != $model->getUserId()) {
             $fieldset->addField('is_active', 'select', array(
                 'name'  	=> 'is_active',
                 'label' 	=> __('This account is'),

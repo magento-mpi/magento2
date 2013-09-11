@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Index_Block_Adminhtml_Process_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Index\Block\Adminhtml\Process\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected function _prepareForm()
     {

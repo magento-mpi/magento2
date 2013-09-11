@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Webapi_Model_Acl_Role model.
+ * Test for \Magento\Webapi\Model\Acl\Role model.
  *
  * {license_notice}
  *
@@ -16,7 +16,7 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Magento_Webapi_Model_Acl_Role
+     * @var \Magento\Webapi\Model\Acl\Role
      */
     protected $_model;
 
@@ -26,7 +26,7 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model = $this->_objectManager->create('Magento_Webapi_Model_Acl_Role');
+        $this->_model = $this->_objectManager->create('Magento\Webapi\Model\Acl\Role');
     }
 
     /**

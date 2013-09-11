@@ -9,9 +9,9 @@
 -->
 <layouts>
     <handle id="fixture_handle_one">
-        <block class="Magento_Core_Block_Template" template="fixture_template_one.phtml"/>
+        <block class="\Magento\Core\Block\Template" template="fixture_template_one.phtml"/>
     </handle>
     <handle id="fixture_handle_two">
-        <block class="Magento_Core_Block_Template" template="fixture_template_two.phtml"/>
+        <block class="\Magento\Core\Block\Template" template="fixture_template_two.phtml"/>
     </handle>
 </layouts>

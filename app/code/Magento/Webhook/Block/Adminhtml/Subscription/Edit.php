@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription_Edit extends Magento_Backend_Block_Widget_Form_Container
+namespace Magento\Webhook\Block\Adminhtml\Subscription;
+
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /** Key used to store subscription data into the registry */
     const REGISTRY_KEY_CURRENT_SUBSCRIPTION = 'current_subscription';
@@ -21,13 +23,13 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit extends Magento_Backend_
     protected $_subscriptionData;
 
     /**
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Registry $registry,
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($context, $data);

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Resource_Config_SchemaLocator implements \Magento\Config\SchemaLocatorInterface
+namespace Magento\Webapi\Model\Acl\Resource\Config;
+
+class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
 {
     /**
      * Path to corresponding XSD file with validation rules for merged config
@@ -24,9 +26,9 @@ class Magento_Webapi_Model_Acl_Resource_Config_SchemaLocator implements \Magento
     protected $_perFileSchema;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      */
-    public function __construct(Magento_Core_Model_Config_Modules_Reader $moduleReader)
+    public function __construct(\Magento\Core\Model\Config\Modules\Reader $moduleReader)
     {
         $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Webapi') . DIRECTORY_SEPARATOR . 'acl.xsd';
     }

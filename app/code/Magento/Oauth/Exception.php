@@ -9,12 +9,14 @@
  */
 
 /**
- * oAuth Exception
+ * oAuth \Exception
  *
  * @category    Magento
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Exception extends Zend_Exception
+namespace Magento\Oauth;
+
+class Exception extends \Zend_Exception
 {
 }

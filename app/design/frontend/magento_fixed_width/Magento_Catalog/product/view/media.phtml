@@ -11,12 +11,12 @@
 /**
  * Product media data template
  *
- * @var $this Magento_Catalog_Block_Product_View_Media
+ * @var $this \Magento\Catalog\Block\Product\View\Media
  */
 ?>
 <?php
     $_product = $this->getProduct();
-    $_helper = $this->helper('Magento_Catalog_Helper_Output');
+    $_helper = $this->helper('\Magento\Catalog\Helper\Output');
     $_nativeZoom = false;
 ?>
 
@@ -26,14 +26,14 @@
     $_zoomSize = $this->getVar('product_zoom_image_size', 'Magento_Catalog');
 ?>
     <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-        <?php list($_imgWidth, $_imgHeight) = $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->getOriginalSizeArray(); ?>
+        <?php list($_imgWidth, $_imgHeight) = $this->helper('\Magento\Catalog\Helper\Image')->init($_product, 'image')->getOriginalSizeArray(); ?>
         <?php if ($_imgWidth > $_zoomSize+10 && $_imgHeight > $_zoomSize+10):?>
             <div data-role="base-image-container">
                 <a class="product-image image-zoom" id="base-image" data-role="base-image-zoom"
                    title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>"
-                   href="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image'); ?>">
+                   href="<?php echo $this->helper('\Magento\Catalog\Helper\Image')->init($_product, 'image'); ?>">
                     <?php
-                    $src = $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize);
+                    $src = $this->helper('\Magento\Catalog\Helper\Image')->init($_product, 'image')->resize($_zoomSize);
                     $_img = '<img data-role="base-image" src="' . $this->escapeHtml($src) . '" height="' . $_zoomSize
                         . '" width="' . $_zoomSize . '" alt="' . $this->escapeHtml($_product->getImageLabel())
                         . '" title="' . $this->escapeHtml($_product->getImageLabel()) . '"/>';
@@ -44,9 +44,9 @@
             <script data-role="base-image-template" type="text/x-jquery-tmpl">
                 <a class="product-image image-zoom" id="base-image" data-role="base-image-zoom"
                    title="<?php echo $this->escapeHtml($_product->getImageLabel()); ?>"
-                   href="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image'); ?>">
+                   href="<?php echo $this->helper('\Magento\Catalog\Helper\Image')->init($_product, 'image'); ?>">
                     <?php
-                    $src = $this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize);
+                    $src = $this->helper('\Magento\Catalog\Helper\Image')->init($_product, 'image')->resize($_zoomSize);
                     $_img = '<img data-role="base-image" src="' . $this->escapeHtml($src) .'" height="' . $_zoomSize
                         . '" width="' . $_zoomSize.'" alt="' . $this->escapeHtml($_product->getImageLabel())
                         . '" title="' . $this->escapeHtml($_product->getImageLabel()) . '"/>';
@@ -97,7 +97,7 @@
         <?php else: ?>
             <p class="product-image">
                 <?php
-                    $_img = '<img data-role="base-image" src="'.$this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
+                    $_img = '<img data-role="base-image" src="'.$this->helper('\Magento\Catalog\Helper\Image')->init($_product, 'image')->resize($_zoomSize).'" height="'.$_zoomSize.'" width="'.$_zoomSize.'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
                     echo $_helper->productAttribute($_product, $_img, 'image');
                 ?>
             </p>
@@ -106,7 +106,7 @@
     <?php else: ?>
         <p class="product-image">
             <?php
-                $_img = '<img data-role="base-image" src="'.$this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image')->resize($_zoomSize).'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
+                $_img = '<img data-role="base-image" src="'.$this->helper('\Magento\Catalog\Helper\Image')->init($_product, 'image')->resize($_zoomSize).'" alt="'.$this->escapeHtml($_product->getImageLabel()).'" title="'.$this->escapeHtml($_product->getImageLabel()).'" />';
                 echo $_helper->productAttribute($_product, $_img, 'image');
             ?>
         </p>
@@ -119,7 +119,7 @@
     <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
         <p class="product-image product-image-zoom">
             <?php
-                $_img = '<img data-role="base-image" id="image" src="'.$this->helper('Magento_Catalog_Helper_Image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
+                $_img = '<img data-role="base-image" id="image" src="'.$this->helper('\Magento\Catalog\Helper\Image')->init($_product, 'image').'" alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
                 echo $_helper->productAttribute($_product, $_img, 'image');
             ?>
         </p>
@@ -162,7 +162,7 @@
     <?php $_size = $this->getVar('product_base_image_icon_size', 'Magento_Catalog'); ?>
     <?php foreach ($this->getGalleryImages() as $_image): ?>
         <li>
-            <a href="#" data-mage-init="{popupWindow: {windowURL:'<?php echo $this->getGalleryUrl($_image) ?>',windowName:'gallery',width:300,height:300,status:1,scrollbars:1,resizable:1}}" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>"><img src="<?php echo $this->helper('Magento_Catalog_Helper_Image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize($_size); ?>" width="<?php echo $_size?>" height="<?php echo $_size?>" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" /></a>
+            <a href="#" data-mage-init="{popupWindow: {windowURL:'<?php echo $this->getGalleryUrl($_image) ?>',windowName:'gallery',width:300,height:300,status:1,scrollbars:1,resizable:1}}" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>"><img src="<?php echo $this->helper('\Magento\Catalog\Helper\Image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize($_size); ?>" width="<?php echo $_size?>" height="<?php echo $_size?>" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" /></a>
         </li>
     <?php endforeach; ?>
     </ul>

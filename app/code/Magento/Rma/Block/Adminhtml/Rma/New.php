@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Rma\Block\Adminhtml\Rma;
+
+class New extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Initialize RMA new page. Set management buttons
@@ -28,8 +30,8 @@ class Magento_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Widget
         $orderId    = false;
         $link       = $this->getUrl('*/*/');
 
-        if (Mage::registry('current_order') && Mage::registry('current_order')->getId()) {
-            $order      = Mage::registry('current_order');
+        if (\Mage::registry('current_order') && \Mage::registry('current_order')->getId()) {
+            $order      = \Mage::registry('current_order');
             $orderId    = $order->getId();
 
             $referer    = $this->getRequest()->getServer('HTTP_REFERER');
@@ -46,7 +48,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Widget
             return;
         }
 
-        if (Mage::helper('Magento_Rma_Helper_Data')->canCreateRma($orderId, true)) {
+        if (\Mage::helper('Magento\Rma\Helper\Data')->canCreateRma($orderId, true)) {
             $this->_updateButton('reset', 'onclick', "setLocation('" . $link . "')");
             $this->_updateButton('save', 'label', __('Submit Returns'));
         } else {
@@ -63,7 +65,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Widget
      */
     public function getHeaderText()
     {
-        return $this->getLayout()->createBlock('Magento_Rma_Block_Adminhtml_Rma_Create_Header')->toHtml();
+        return $this->getLayout()->createBlock('\Magento\Rma\Block\Adminhtml\Rma\Create\Header')->toHtml();
     }
 
     /**
@@ -73,6 +75,6 @@ class Magento_Rma_Block_Adminhtml_Rma_New extends Magento_Adminhtml_Block_Widget
      */
     public function getFormActionUrl()
     {
-        return $this->getUrl('*/*/save', array('order_id' => Mage::registry('current_order')->getId()));
+        return $this->getUrl('*/*/save', array('order_id' => \Mage::registry('current_order')->getId()));
     }
 }

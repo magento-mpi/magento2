@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Set;
+
+class Api extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Retrieve attribute set list
@@ -24,8 +26,8 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
      */
     public function items()
     {
-        $entityType = Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getEntityType();
-        $collection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        $entityType = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getEntityType();
+        $collection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
             ->setEntityTypeFilter($entityType->getId());
 
         $result = array();
@@ -48,13 +50,13 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
     public function create($attributeSetName, $skeletonSetId)
     {
         // check if set with requested $skeletonSetId exists
-        if (!Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')->load($skeletonSetId)->getId()) {
+        if (!\Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($skeletonSetId)->getId()) {
             $this->_fault('invalid_skeleton_set_id');
         }
         // get catalog product entity type id
-        $entityTypeId = Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId();
-        /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+        $entityTypeId = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId();
+        /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
+        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
             ->setEntityTypeId($entityTypeId)
             ->setAttributeSetName($attributeSetName);
         try {
@@ -63,9 +65,9 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
             // copy parameters to new set from skeleton set
             $attributeSet->save();
             $attributeSet->initFromSkeleton($skeletonSetId)->save();
-        } catch (Magento_Eav_Exception $e) {
+        } catch (\Magento\Eav\Exception $e) {
             $this->_fault('invalid_data', $e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('create_attribute_set_error', $e->getMessage());
         }
         return (int)$attributeSet->getId();
@@ -82,21 +84,21 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
     {
         // if attribute set has related goods and $forceProductsRemove is not set throw exception
         if (!$forceProductsRemove) {
-            /** @var $productsCollection Magento_Catalog_Model_Resource_Product_Collection */
-            $productsCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+            /** @var $productsCollection \Magento\Catalog\Model\Resource\Product\Collection */
+            $productsCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
                     ->addFieldToFilter('attribute_set_id', $attributeSetId);
             if (count($productsCollection)) {
                 $this->_fault('attribute_set_has_related_products');
             }
         }
-        $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')->load($attributeSetId);
+        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
         // check if set with requested id exists
         if (!$attributeSet->getId()) {
             $this->_fault('invalid_attribute_set_id');
         }
         try {
             $attributeSet->delete();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('remove_attribute_set_error', $e->getMessage());
         }
         return true;
@@ -114,20 +116,20 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
     public function attributeAdd($attributeId, $attributeSetId, $attributeGroupId = null, $sortOrder = '0')
     {
         // check if attribute with requested id exists
-        /** @var $attribute Magento_Eav_Model_Entity_Attribute */
-        $attribute = Mage::getModel('Magento_Eav_Model_Entity_Attribute')->load($attributeId);
+        /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
+        $attribute = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')->load($attributeId);
         if (!$attribute->getId()) {
             $this->_fault('invalid_attribute_id');
         }
         // check if attribute set with requested id exists
-        /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')->load($attributeSetId);
+        /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
+        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
         if (!$attributeSet->getId()) {
             $this->_fault('invalid_attribute_set_id');
         }
         if (!empty($attributeGroupId)) {
             // check if attribute group with requested id exists
-            if (!Mage::getModel('Magento_Eav_Model_Entity_Attribute_Group')->load($attributeGroupId)->getId()) {
+            if (!\Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group')->load($attributeGroupId)->getId()) {
                 $this->_fault('invalid_attribute_group_id');
             }
         } else {
@@ -144,7 +146,7 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
                 ->setAttributeGroupId($attributeGroupId)
                 ->setSortOrder($sortOrder)
                 ->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('add_attribute_error', $e->getMessage());
         }
         return true;
@@ -160,14 +162,14 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
     public function attributeRemove($attributeId, $attributeSetId)
     {
         // check if attribute with requested id exists
-        /** @var $attribute Magento_Eav_Model_Entity_Attribute */
-        $attribute = Mage::getModel('Magento_Eav_Model_Entity_Attribute')->load($attributeId);
+        /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
+        $attribute = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute')->load($attributeId);
         if (!$attribute->getId()) {
             $this->_fault('invalid_attribute_id');
         }
         // check if attribute set with requested id exists
-        /** @var $attributeSet Magento_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')->load($attributeSetId);
+        /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
+        $attributeSet = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')->load($attributeSetId);
         if (!$attributeSet->getId()) {
             $this->_fault('invalid_attribute_set_id');
         }
@@ -180,7 +182,7 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
             // delete record from eav_entity_attribute
             // using entity_attribute_id loaded by loadEntityAttributeIdBySet()
             $attribute->deleteEntity();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('remove_attribute_error', $e->getMessage());
         }
 
@@ -196,18 +198,18 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
      */
     public function groupAdd($attributeSetId, $groupName)
     {
-        /** @var $group Magento_Eav_Model_Entity_Attribute_Group */
-        $group = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Group');
+        /** @var $group \Magento\Eav\Model\Entity\Attribute\Group */
+        $group = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group');
         $group->setAttributeSetId($attributeSetId)
                 ->setAttributeGroupName(
-                    Mage::helper('Magento_Catalog_Helper_Data')->stripTags($groupName)
+                    \Mage::helper('Magento\Catalog\Helper\Data')->stripTags($groupName)
                 );
         if ($group->itemExists()) {
             $this->_fault('group_already_exists');
         }
         try {
             $group->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('group_add_error', $e->getMessage());
         }
         return (int)$group->getId();
@@ -222,18 +224,18 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
      */
     public function groupRename($groupId, $groupName)
     {
-        $model = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Group')->load($groupId);
+        $model = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Group')->load($groupId);
 
         if (!$model->getAttributeGroupName()) {
             $this->_fault('invalid_attribute_group_id');
         }
 
         $model->setAttributeGroupName(
-                Mage::helper('Magento_Catalog_Helper_Data')->stripTags($groupName)
+                \Mage::helper('Magento\Catalog\Helper\Data')->stripTags($groupName)
         );
         try {
             $model->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('group_rename_error', $e->getMessage());
         }
         return true;
@@ -247,8 +249,8 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
      */
     public function groupRemove($attributeGroupId)
     {
-        /** @var $group Magento_Catalog_Model_Product_Attribute_Group */
-        $group = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Group')->load($attributeGroupId);
+        /** @var $group \Magento\Catalog\Model\Product\Attribute\Group */
+        $group = \Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Group')->load($attributeGroupId);
         if (!$group->getId()) {
             $this->_fault('invalid_attribute_group_id');
         }
@@ -260,7 +262,7 @@ class Magento_Catalog_Model_Product_Attribute_Set_Api extends Magento_Api_Model_
         }
         try {
             $group->delete();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('group_remove_error', $e->getMessage());
         }
         return true;

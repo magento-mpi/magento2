@@ -42,7 +42,7 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
             'objectManager' => $objectManagerMock,
         ))->create($adapter);
 
-        $storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config', array('getConfig'), array(), '', false);
+        $storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
         $storeConfigMock->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue($adapter));
@@ -60,13 +60,13 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
     public function createDataProvider()
     {
         return array(
-            array(Magento_Core_Model_Image_AdapterFactory::ADAPTER_GD2, '\Magento\Image\Adapter\Gd2'),
-            array(Magento_Core_Model_Image_AdapterFactory::ADAPTER_IM, '\Magento\Image\Adapter\ImageMagick'),
+            array(\Magento\Core\Model\Image\AdapterFactory::ADAPTER_GD2, '\Magento\Image\Adapter\Gd2'),
+            array(\Magento\Core\Model\Image\AdapterFactory::ADAPTER_IM, '\Magento\Image\Adapter\ImageMagick'),
         );
     }
 
     /**
-     * @covers Magento_Core_Model_Image_AdapterFactory::create
+     * @covers \Magento\Core\Model\Image\AdapterFactory::create
      * @dataProvider invalidArgumentExceptionDataProvider
      * @expectedException InvalidArgumentException
      * @param string $adapter
@@ -89,8 +89,8 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @covers Magento_Core_Model_Image_AdapterFactory::create
-     * @expectedException Magento_Core_Exception
+     * @covers \Magento\Core\Model\Image\AdapterFactory::create
+     * @expectedException \Magento\Core\Exception
      */
     public function testMageCoreException()
     {
@@ -109,12 +109,12 @@ class Magento_Core_Model_Image_AdapterFactoryTest extends PHPUnit_Framework_Test
 
     /**
      * @param array $mockObjects
-     * @return Magento_Core_Model_Image_AdapterFactory
+     * @return \Magento\Core\Model\Image\AdapterFactory
      */
     protected function _getModel(array $mockObjects = array())
     {
         return $this->_objectManagerHelper->getObject(
-            'Magento_Core_Model_Image_AdapterFactory',
+            '\Magento\Core\Model\Image\AdapterFactory',
             $mockObjects
         );
     }

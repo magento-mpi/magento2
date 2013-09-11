@@ -12,7 +12,9 @@
  * Shopping cart rule edit form block
  */
 
-class Magento_Adminhtml_Block_Promo_Quote_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Promo\Quote;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     /**
@@ -45,7 +47,7 @@ class Magento_Adminhtml_Block_Promo_Quote_Edit extends Magento_Adminhtml_Block_W
      */
     public function getHeaderText()
     {
-        $rule = Mage::registry('current_promo_quote_rule');
+        $rule = \Mage::registry('current_promo_quote_rule');
         if ($rule->getRuleId()) {
             return __("Edit Rule '%1'", $this->escapeHtml($rule->getName()));
         }

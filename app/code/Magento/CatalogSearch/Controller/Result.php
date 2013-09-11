@@ -11,29 +11,31 @@
 /**
  * Catalog Search Controller
  */
-class Magento_CatalogSearch_Controller_Result extends Magento_Core_Controller_Front_Action
+namespace Magento\CatalogSearch\Controller;
+
+class Result extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Retrieve catalog session
      *
-     * @return Magento_Catalog_Model_Session
+     * @return \Magento\Catalog\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Session');
+        return \Mage::getSingleton('Magento\Catalog\Model\Session');
     }
     /**
      * Display search result
      */
     public function indexAction()
     {
-        $query = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery();
-        /* @var $query Magento_CatalogSearch_Model_Query */
+        $query = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery();
+        /* @var $query \Magento\CatalogSearch\Model\Query */
 
-        $query->setStoreId(Mage::app()->getStore()->getId());
+        $query->setStoreId(\Mage::app()->getStore()->getId());
 
         if ($query->getQueryText() != '') {
-            if (Mage::helper('Magento_CatalogSearch_Helper_Data')->isMinQueryLength()) {
+            if (\Mage::helper('Magento\CatalogSearch\Helper\Data')->isMinQueryLength()) {
                 $query->setId(0)
                     ->setIsActive(1)
                     ->setIsProcessed(1);
@@ -56,14 +58,14 @@ class Magento_CatalogSearch_Controller_Result extends Magento_Core_Controller_Fr
                 }
             }
 
-            Mage::helper('Magento_CatalogSearch_Helper_Data')->checkNotes();
+            \Mage::helper('Magento\CatalogSearch\Helper\Data')->checkNotes();
 
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento_Catalog_Model_Session');
-            $this->_initLayoutMessages('Magento_Checkout_Model_Session');
+            $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
+            $this->_initLayoutMessages('\Magento\Checkout\Model\Session');
             $this->renderLayout();
 
-            if (!Mage::helper('Magento_CatalogSearch_Helper_Data')->isMinQueryLength()) {
+            if (!\Mage::helper('Magento\CatalogSearch\Helper\Data')->isMinQueryLength()) {
                 $query->save();
             }
         }

@@ -15,9 +15,11 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View
- extends Magento_Adminhtml_Block_Template
- implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
+
+class View
+ extends \Magento\Adminhtml\Block\Template
+ implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
 
     protected $_customer;
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getCustomer()
     {
         if (!$this->_customer) {
-            $this->_customer = Mage::registry('current_customer');
+            $this->_customer = \Mage::registry('current_customer');
         }
         return $this->_customer;
     }
@@ -35,7 +37,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getGroupName()
     {
         if ($groupId = $this->getCustomer()->getGroupId()) {
-            return Mage::getModel('Magento_Customer_Model_Group')
+            return \Mage::getModel('\Magento\Customer\Model\Group')
                 ->load($groupId)
                 ->getCustomerGroupCode();
         }
@@ -44,12 +46,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     /**
      * Load Customer Log model
      *
-     * @return Magento_Log_Model_Customer
+     * @return \Magento\Log\Model\Customer
      */
     public function getCustomerLog()
     {
         if (!$this->_customerLog) {
-            $this->_customerLog = Mage::getModel('Magento_Log_Model_Customer')
+            $this->_customerLog = \Mage::getModel('\Magento\Log\Model\Customer')
                 ->loadByCustomer($this->getCustomer()->getId());
         }
         return $this->_customerLog;
@@ -62,27 +64,27 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
      */
     public function getCreateDate()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->formatDate(
+        return \Mage::helper('Magento\Core\Helper\Data')->formatDate(
             $this->getCustomer()->getCreatedAtTimestamp(),
-            Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
             true
         );
     }
 
     public function getStoreCreateDate()
     {
-        $date = Mage::app()->getLocale()->storeDate(
+        $date = \Mage::app()->getLocale()->storeDate(
             $this->getCustomer()->getStoreId(),
             $this->getCustomer()->getCreatedAtTimestamp(),
             true
         );
-        return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true);
     }
 
     public function getStoreCreateDateTimezone()
     {
-        return Mage::app()->getStore($this->getCustomer()->getStoreId())
-            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        return \Mage::app()->getStore($this->getCustomer()->getStoreId())
+            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
     }
 
     /**
@@ -94,9 +96,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            return Mage::helper('Magento_Core_Helper_Data')->formatDate(
+            return \Mage::helper('Magento\Core\Helper\Data')->formatDate(
                 $date,
-                Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
+                \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
                 true
             );
         }
@@ -106,27 +108,27 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
     public function getStoreLastLoginDate()
     {
         if ($date = $this->getCustomerLog()->getLoginAtTimestamp()) {
-            $date = Mage::app()->getLocale()->storeDate(
+            $date = \Mage::app()->getLocale()->storeDate(
                 $this->getCustomer()->getStoreId(),
                 $date,
                 true
             );
-            return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true);
+            return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true);
         }
         return __('Never');
     }
 
     public function getStoreLastLoginDateTimezone()
     {
-        return Mage::app()->getStore($this->getCustomer()->getStoreId())
-            ->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
+        return \Mage::app()->getStore($this->getCustomer()->getStoreId())
+            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
     }
 
     public function getCurrentStatus()
     {
         $log = $this->getCustomerLog();
         if ($log->getLogoutAt() ||
-            strtotime(now())-strtotime($log->getLastVisitAt())>Magento_Log_Model_Visitor::getOnlineMinutesInterval()*60) {
+            strtotime(now())-strtotime($log->getLastVisitAt())>\Magento\Log\Model\Visitor::getOnlineMinutesInterval()*60) {
             return __('Offline');
         }
         return __('Online');
@@ -146,7 +148,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function getCreatedInStore()
     {
-        return Mage::app()->getStore($this->getCustomer()->getStoreId())->getName();
+        return \Mage::app()->getStore($this->getCustomer()->getStoreId())->getName();
     }
 
     public function getStoreId()
@@ -188,7 +190,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function canShowTab()
     {
-        if (Mage::registry('current_customer')->getId()) {
+        if (\Mage::registry('current_customer')->getId()) {
             return true;
         }
         return false;
@@ -196,7 +198,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View
 
     public function isHidden()
     {
-        if (Mage::registry('current_customer')->getId()) {
+        if (\Mage::registry('current_customer')->getId()) {
             return false;
         }
         return true;

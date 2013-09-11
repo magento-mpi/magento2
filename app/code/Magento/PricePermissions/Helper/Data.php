@@ -15,7 +15,9 @@
  * @package     Magento_PricePermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PricePermissions_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\PricePermissions\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Path to edit_product_price node in ACL
@@ -49,10 +51,10 @@ class Magento_PricePermissions_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_authorization;
 
     /**
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\AuthorizationInterface $authorization
      */
-    public function __construct(Magento_Core_Helper_Context $context, \Magento\AuthorizationInterface $authorization)
+    public function __construct(\Magento\Core\Helper\Context $context, \Magento\AuthorizationInterface $authorization)
     {
         parent::__construct($context);
         $this->_authorization = $authorization;
@@ -95,6 +97,6 @@ class Magento_PricePermissions_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getDefaultProductPriceString()
     {
-        return (string) Mage::getConfig()->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
+        return (string) \Mage::getConfig()->getValue(self::DEFAULT_PRODUCT_PRICE_CONFIG_PATH, 'default');
     }
 }

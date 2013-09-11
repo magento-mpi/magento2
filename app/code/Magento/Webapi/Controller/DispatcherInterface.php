@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Webapi_Controller_DispatcherInterface
+namespace Magento\Webapi\Controller;
+
+interface DispatcherInterface
 {
     /**
      * Dispatch request.
      *
-     * @return Magento_Webapi_Controller_DispatcherInterface
+     * @return \Magento\Webapi\Controller\DispatcherInterface
      */
     public function dispatch();
 }

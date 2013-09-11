@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Core_Model_Store_StorageFactory
+ * Test class for \Magento\Core\Model\Store\StorageFactory
  *
  * {license_notice}
  *
@@ -14,7 +14,7 @@
 class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Store_StorageFactory
+     * @var \Magento\Core\Model\Store\StorageFactory
      */
     protected $_model;
 
@@ -51,12 +51,12 @@ class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_Test
     /**
      * @var string
      */
-    protected $_defaultStorage = 'Magento_Core_Model_Store_Storage_Default';
+    protected $_defaultStorage = '\Magento\Core\Model\Store\Storage\DefaultStorage';
 
     /**
      * @var string
      */
-    protected $_dbStorage = 'Magento_Core_Model_Store_Storage_Db';
+    protected $_dbStorage = '\Magento\Core\Model\Store\Storage\Db';
 
     /**
      * @var array
@@ -72,14 +72,14 @@ class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_Test
     {
         $this->_arguments = array('test' => 'argument');
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_eventManagerMock = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false);
-        $this->_logMock = $this->getMock('Magento_Core_Model_Logger', array(), array(), '', false);
-        $this->_configMock = $this->getMock('Magento_Core_Model_ConfigInterface', array(), array(), '', false);
-        $this->_appMock = $this->getMock('Magento_Core_Model_App_Proxy', array(), array(), '', false);
-        $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
-        $this->_storage = $this->getMock('Magento_Core_Model_Store_StorageInterface');
+        $this->_eventManagerMock = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false);
+        $this->_logMock = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento\Core\Model\ConfigInterface', array(), array(), '', false);
+        $this->_appMock = $this->getMock('Magento\Core\Model\App\Proxy', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
+        $this->_storage = $this->getMock('Magento\Core\Model\Store\StorageInterface');
 
-        $this->_model = new Magento_Core_Model_Store_StorageFactory(
+        $this->_model = new \Magento\Core\Model\Store\StorageFactory(
             $this->_objectManagerMock,
             $this->_eventManagerMock,
             $this->_logMock,
@@ -116,7 +116,7 @@ class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_Test
     {
         $this->_appStateMock->expects($this->exactly(2))->method('isInstalled')->will($this->returnValue(true));
 
-        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
 
         $this->_storage
             ->expects($this->exactly(2))
@@ -125,7 +125,7 @@ class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_Test
 
         $store->expects($this->once())
             ->method('getConfig')
-            ->with(Magento_Core_Model_Session_Abstract::XML_PATH_USE_FRONTEND_SID)
+            ->with(\Magento\Core\Model\Session\AbstractSession::XML_PATH_USE_FRONTEND_SID)
             ->will($this->returnValue(true));
 
 
@@ -157,7 +157,7 @@ class Magento_Core_Model_Store_StorageFactoryTest extends PHPUnit_Framework_Test
     {
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
 
-        $invalidObject = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $invalidObject = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
 
         $this->_objectManagerMock
             ->expects($this->once())

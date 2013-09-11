@@ -16,7 +16,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
+namespace Magento\Rma\Helper;
+
+class Eav extends \Magento\Eav\Helper\Data
 {
     /**
      * complicated array of select-typed attribute values for all stores
@@ -87,7 +89,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
                 'validate_types'    => array(),
                 'validate_filters'  => array(),
                 'filter_types'      => array(),
-                'source_model'      => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                'source_model'      => '\Magento\Eav\Model\Entity\Attribute\Source\Table',
                 'backend_type'      => 'int',
                 'default_value'     => false,
             ),
@@ -119,7 +121,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
      *
      * Uses internal protected method, which must use data from protected variable
      *
-     * @param null|int|Magento_Core_Model_Store $storeId
+     * @param null|int|\Magento\Core\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -141,7 +143,7 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
      * Uses internal protected method, which must use data from protected variable
      *
      * @param string $attributeCode
-     * @param null|int|Magento_Core_Model_Store $storeId
+     * @param null|int|\Magento\Core\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
@@ -160,30 +162,30 @@ class Magento_Rma_Helper_Eav extends Magento_Eav_Helper_Data
     /**
      * Get complicated array of select-typed attribute values depending by store
      *
-     * @param null|int|Magento_Core_Model_Store $storeId
+     * @param null|int|\Magento\Core\Model\Store $storeId
      * @param bool $useDefaultValue
      * @return array
      */
     protected function _getAttributeOptionValues($storeId = null, $useDefaultValue = true)
     {
         if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
-        } elseif ($storeId instanceof Magento_Core_Model_Store) {
+            $storeId = \Mage::app()->getStore()->getId();
+        } elseif ($storeId instanceof \Magento\Core\Model\Store) {
             $storeId = $storeId->getId();
         }
 
         if (!isset($this->_attributeOptionValues[$storeId])) {
-            $optionCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+            $optionCollection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection')
                 ->setStoreFilter($storeId, $useDefaultValue);
 
             $optionCollection
                 ->getSelect()
                 ->join(
-                    array('ea' => Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_attribute')),
+                    array('ea' => \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('eav_attribute')),
                     'main_table.attribute_id = ea.attribute_id',
                     array('attribute_code' => 'ea.attribute_code'))
                 ->join(
-                    array('eat' => Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('eav_entity_type')),
+                    array('eat' => \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('eav_entity_type')),
                     'ea.entity_type_id = eat.entity_type_id',
                     array(''))
                 ->where('eat.entity_type_code = ?', $this->_getEntityTypeCode());

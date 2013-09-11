@@ -11,7 +11,9 @@
 /**
  * Controls configuration factory
  */
-class Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
+namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
+
+class Factory
 {
     /**#@+
      * Group of types
@@ -36,17 +38,17 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Model_View_FileSystem $viewFileSystem
+        \Magento\Core\Model\View\FileSystem $viewFileSystem
     ) {
         $this->_objectManager = $objectManager;
         $this->_viewFileSystem = $viewFileSystem;
@@ -56,7 +58,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
      * Get file path by type
      *
      * @param string $type
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return string
      * @throws \Magento\Exception
      */
@@ -66,7 +68,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
             throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
         }
         return $this->_viewFileSystem->getFilename($this->_fileNames[$type], array(
-            'area'       => Magento_Core_Model_View_DesignInterface::DEFAULT_AREA,
+            'area'       => \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA,
             'themeModel' => $theme
         ));
     }
@@ -75,34 +77,34 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
      * Create new instance
      *
      * @param string $type
-     * @param Magento_Core_Model_Theme $theme
-     * @param Magento_Core_Model_Theme $parentTheme
+     * @param \Magento\Core\Model\Theme $theme
+     * @param \Magento\Core\Model\Theme $parentTheme
      * @param array $files
-     * @return Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration
+     * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
      * @throws \Magento\Exception
      */
     public function create(
         $type,
-        Magento_Core_Model_Theme $theme = null,
-        Magento_Core_Model_Theme $parentTheme = null,
+        \Magento\Core\Model\Theme $theme = null,
+        \Magento\Core\Model\Theme $parentTheme = null,
         array $files = array()
     ) {
         $files[] = $this->_getFilePathByType($type, $theme);
         switch ($type) {
             case self::TYPE_QUICK_STYLES:
-                $class = 'Magento_DesignEditor_Model_Config_Control_QuickStyles';
+                $class = '\Magento\DesignEditor\Model\Config\Control\QuickStyles';
                 break;
             case self::TYPE_IMAGE_SIZING:
-                $class = 'Magento_DesignEditor_Model_Config_Control_ImageSizing';
+                $class = '\Magento\DesignEditor\Model\Config\Control\ImageSizing';
                 break;
             default:
                 throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
                 break;
         }
-        /** @var $config Magento_DesignEditor_Model_Config_Control_Abstract */
+        /** @var $config \Magento\DesignEditor\Model\Config\Control\AbstractControl */
         $config = $this->_objectManager->create($class, array('configFiles' => $files));
-        return Mage::getObjectManager()->create(
-            'Magento_DesignEditor_Model_Editor_Tools_Controls_Configuration', array(
+        return \Mage::getObjectManager()->create(
+            '\Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration', array(
                 'configuration' => $config,
                 'theme'         => $theme,
                 'parentTheme'   => $parentTheme

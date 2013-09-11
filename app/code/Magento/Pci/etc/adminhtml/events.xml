@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="admin_user_authenticate_after">
-        <observer name="magento_pci" instance="Magento_Pci_Model_Observer" method="adminAuthenticate" />
+        <observer name="magento_pci" instance="\Magento\Pci\Model\Observer" method="adminAuthenticate" />
     </event>
     <event name="api_user_authenticated">
-        <observer name="magento_pci" instance="Magento_Pci_Model_Observer" method="upgradeApiKey" />
+        <observer name="magento_pci" instance="\Magento\Pci\Model\Observer" method="upgradeApiKey" />
     </event>
     <event name="controller_action_predispatch">
-        <observer name="magento_pci" instance="Magento_Pci_Model_Observer" method="forceAdminPasswordChange" />
+        <observer name="magento_pci" instance="\Magento\Pci\Model\Observer" method="forceAdminPasswordChange" />
     </event>
 </config>

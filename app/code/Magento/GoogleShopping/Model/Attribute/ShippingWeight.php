@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Attribute_ShippingWeight extends Magento_GoogleShopping_Model_Attribute_Default
+namespace Magento\GoogleShopping\Model\Attribute;
+
+class ShippingWeight extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
      * Default weight unit
@@ -27,7 +29,7 @@ class Magento_GoogleShopping_Model_Attribute_ShippingWeight extends Magento_Goog
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Gdata\Gshopping\Entry $entry
      * @return \Magento\Gdata\Gshopping\Entry
      */

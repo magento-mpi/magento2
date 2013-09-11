@@ -7,9 +7,11 @@
  */
 
 /**
- * Iterator that aggregates one or more assets and provides a single public file with equivalent behavior
+ * \Iterator that aggregates one or more assets and provides a single public file with equivalent behavior
  */
-class Magento_Core_Model_Page_Asset_Merged implements Iterator
+namespace Magento\Core\Model\Page\Asset;
+
+class Merged implements \Iterator
 {
     /**
      * Sub path for merged files relative to public view cache directory
@@ -22,17 +24,17 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
     private $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     private $_logger;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_MergeStrategyInterface
+     * @var \Magento\Core\Model\Page\Asset\MergeStrategyInterface
      */
     private $_mergeStrategy;
 
     /**
-     * @var Magento_Core_Model_Page_Asset_MergeableInterface[]
+     * @var \Magento\Core\Model\Page\Asset\MergeableInterface[]
      */
     private $_assets;
 
@@ -50,17 +52,17 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_Logger $logger,
-     * @param Magento_Core_Model_Dir $dirs,
-     * @param Magento_Core_Model_Page_Asset_MergeStrategyInterface $mergeStrategy
+     * @param \Magento\Core\Model\Logger $logger,
+     * @param \Magento\Core\Model\Dir $dirs,
+     * @param \Magento\Core\Model\Page\Asset\MergeStrategyInterface $mergeStrategy
      * @param array $assets
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_Dir $dirs,
-        Magento_Core_Model_Page_Asset_MergeStrategyInterface $mergeStrategy,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\Dir $dirs,
+        \Magento\Core\Model\Page\Asset\MergeStrategyInterface $mergeStrategy,
         array $assets
     ) {
         $this->_objectManager = $objectManager;
@@ -69,19 +71,19 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
         $this->_mergeStrategy = $mergeStrategy;
 
         if (!$assets) {
-            throw new InvalidArgumentException('At least one asset has to be passed for merging.');
+            throw new \InvalidArgumentException('At least one asset has to be passed for merging.');
         }
-        /** @var $asset Magento_Core_Model_Page_Asset_MergeableInterface */
+        /** @var $asset \Magento\Core\Model\Page\Asset\MergeableInterface */
         foreach ($assets as $asset) {
-            if (!($asset instanceof Magento_Core_Model_Page_Asset_MergeableInterface)) {
-                throw new InvalidArgumentException(
-                    'Asset has to implement Magento_Core_Model_Page_Asset_MergeableInterface.'
+            if (!($asset instanceof \Magento\Core\Model\Page\Asset\MergeableInterface)) {
+                throw new \InvalidArgumentException(
+                    'Asset has to implement \Magento\Core\Model\Page\Asset\MergeableInterface.'
                 );
             }
             if (!$this->_contentType) {
                 $this->_contentType = $asset->getContentType();
             } else if ($asset->getContentType() != $this->_contentType) {
-                throw new InvalidArgumentException(
+                throw new \InvalidArgumentException(
                     "Content type '{$asset->getContentType()}' cannot be merged with '{$this->_contentType}'."
                 );
             }
@@ -98,7 +100,7 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
             $this->_isInitialized = true;
             try {
                 $this->_assets = array($this->_getMergedAsset($this->_assets));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_logger->logException($e);
             }
         }
@@ -107,8 +109,8 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
     /**
      * Retrieve asset instance representing a merged file
      *
-     * @param Magento_Core_Model_Page_Asset_MergeableInterface[] $assets
-     * @return Magento_Core_Model_Page_Asset_AssetInterface
+     * @param \Magento\Core\Model\Page\Asset\MergeableInterface[] $assets
+     * @return \Magento\Core\Model\Page\Asset\AssetInterface
      */
     protected function _getMergedAsset(array $assets)
     {
@@ -116,7 +118,7 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
         $destinationFile = $this->_getMergedFilePath($sourceFiles);
 
         $this->_mergeStrategy->mergeFiles($sourceFiles, $destinationFile, $this->_contentType);
-        return $this->_objectManager->create('Magento_Core_Model_Page_Asset_PublicFile', array(
+        return $this->_objectManager->create('Magento\Core\Model\Page\Asset\PublicFile', array(
             'file' => $destinationFile,
             'contentType' => $this->_contentType,
         ));
@@ -126,7 +128,7 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
      * Go through all the files to merge, ensure that they are public (publish if needed), and compose
      * array of public paths to merge
      *
-     * @param Magento_Core_Model_Page_Asset_MergeableInterface[] $assets
+     * @param \Magento\Core\Model\Page\Asset\MergeableInterface[] $assets
      * @return array
      */
     protected function _getPublicFilesToMerge(array $assets)
@@ -147,8 +149,8 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
      */
     protected function _getMergedFilePath(array $publicFiles)
     {
-        $jsDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::PUB_LIB));
-        $publicDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(Magento_Core_Model_Dir::STATIC_VIEW));
+        $jsDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\Core\Model\Dir::PUB_LIB));
+        $publicDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\Core\Model\Dir::STATIC_VIEW));
         $prefixRemovals = array($jsDir, $publicDir);
 
         $relFileNames = array();
@@ -157,7 +159,7 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
             $relFileNames[] = str_replace($prefixRemovals, '', $file);
         }
 
-        $mergedDir = $this->_dirs->getDir(Magento_Core_Model_Dir::PUB_VIEW_CACHE) . '/'
+        $mergedDir = $this->_dirs->getDir(\Magento\Core\Model\Dir::PUB_VIEW_CACHE) . '/'
             . self::PUBLIC_MERGE_DIR;
         return $mergedDir . '/' . md5(implode('|', $relFileNames)) . '.' . $this->_contentType;
     }
@@ -165,7 +167,7 @@ class Magento_Core_Model_Page_Asset_Merged implements Iterator
     /**
      * {@inheritdoc}
      *
-     * @return Magento_Core_Model_Page_Asset_AssetInterface
+     * @return \Magento\Core\Model\Page\Asset\AssetInterface
      */
     public function current()
     {

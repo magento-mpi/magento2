@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Shipment;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     /**
@@ -34,17 +36,17 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_Sales_Model_Resource_Order_Shipment_Grid_Collection';
+        return '\Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection';
     }
 
     /**
      * Prepare and set collection of grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel($this->_getCollectionClass());
+        $collection = \Mage::getResourceModel($this->_getCollectionClass());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -52,7 +54,7 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
     /**
      * Prepare and add columns to grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -150,7 +152,7 @@ class Magento_Adminhtml_Block_Sales_Shipment_Grid extends Magento_Adminhtml_Bloc
     /**
      * Prepare and set options for massaction
      *
-     * @return Magento_Adminhtml_Block_Sales_Shipment_Grid
+     * @return \Magento\Adminhtml\Block\Sales\Shipment\Grid
      */
     protected function _prepareMassaction()
     {

@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Store extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Eav\Model\Resource\Entity;
+
+class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -34,7 +36,7 @@ class Magento_Eav_Model_Resource_Entity_Store extends Magento_Core_Model_Resourc
      * @param int $storeId
      * @return boolean
      */
-    public function loadByEntityStore(Magento_Core_Model_Abstract $object, $entityTypeId, $storeId)
+    public function loadByEntityStore(\Magento\Core\Model\AbstractModel $object, $entityTypeId, $storeId)
     {
         $adapter = $this->_getWriteAdapter();
         $bind    = array(

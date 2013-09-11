@@ -18,7 +18,7 @@ class Magento_Test_Integrity_Magento_Widget_SkinFilesTest extends PHPUnit_Framew
     {
         $this->assertFileExists(
             Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
-                ->get('Magento_Core_Model_View_FileSystem')->getViewFile(
+                ->get('Magento\Core\Model\View\FileSystem')->getViewFile(
                     $skinImage,
                     array('area' => 'adminhtml')
                 )
@@ -31,11 +31,11 @@ class Magento_Test_Integrity_Magento_Widget_SkinFilesTest extends PHPUnit_Framew
     public function widgetPlaceholderImagesDataProvider()
     {
         $result = array();
-        /** @var $model Magento_Widget_Model_Widget */
-        $model = Mage::getModel('Magento_Widget_Model_Widget');
+        /** @var $model \Magento\Widget\Model\Widget */
+        $model = Mage::getModel('\Magento\Widget\Model\Widget');
         foreach ($model->getWidgetsArray() as $row) {
-            /** @var $instance Magento_Widget_Model_Widget_Instance */
-            $instance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+            /** @var $instance \Magento\Widget\Model\Widget\Instance */
+            $instance = Mage::getModel('\Magento\Widget\Model\Widget\Instance');
             $config = $instance->setType($row['type'])->getWidgetConfig();
             // @codingStandardsIgnoreStart
             if (isset($config->placeholder_image)) {

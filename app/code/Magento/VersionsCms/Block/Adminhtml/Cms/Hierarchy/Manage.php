@@ -15,7 +15,9 @@
  * @package    Magento_VersionsCms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
+
+class Manage extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
@@ -41,7 +43,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_A
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Edit_Form
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form
      */
     protected function _prepareForm()
     {
@@ -54,14 +56,14 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_A
         $currentStore   = $this->getRequest()->getParam('store');
         $excludeScopes = array();
         if ($currentStore) {
-            $storeId = Mage::app()->getStore($currentStore)->getId();
+            $storeId = \Mage::app()->getStore($currentStore)->getId();
             $excludeScopes = array(
-                Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_STORE . $storeId
+                \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE . $storeId
             );
         } elseif ($currentWebsite) {
-            $websiteId = Mage::app()->getWebsite($currentWebsite)->getId();
+            $websiteId = \Mage::app()->getWebsite($currentWebsite)->getId();
             $excludeScopes = array(
-                Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId
+                \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_WEBSITE . $websiteId
             );
         }
         $allStoreViews = $currentStore || $currentWebsite;
@@ -100,13 +102,13 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_A
      */
     protected function _prepareOptions($all = false, $excludeScopes)
     {
-        $storeStructure = Mage::getSingleton('Magento_Core_Model_System_Store')
+        $storeStructure = \Mage::getSingleton('Magento\Core\Model\System\Store')
                 ->getStoresStructure($all);
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');
         $options = array();
 
         foreach ($storeStructure as $website) {
-            $value = Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_WEBSITE . $website['value'];
+            $value = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_WEBSITE . $website['value'];
             if (isset($website['children'])) {
                 $website['value'] = in_array($value, $excludeScopes) ? array() : $value;
                 $options[] = array(
@@ -118,7 +120,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_A
                     if (isset($store['children']) && !in_array($store['value'], $excludeScopes)) {
                         $storeViewOptions = array();
                         foreach ($store['children'] as $storeView) {
-                            $storeView['value'] = Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_STORE
+                            $storeView['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE
                                                   . $storeView['value'];
                             if (!in_array($storeView['value'], $excludeScopes)) {
                                 $storeView['label'] = str_repeat($nonEscapableNbspChar, 4) . $storeView['label'];
@@ -133,9 +135,9 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Hierarchy_Manage extends Magento_A
                         }
                     }
                 }
-            } elseif ($website['value'] == Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID) {
-                $website['value'] = Magento_VersionsCms_Helper_Hierarchy::SCOPE_PREFIX_STORE
-                                    . Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+            } elseif ($website['value'] == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
+                $website['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE
+                                    . \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
                 $options[] = array(
                     'label' => $website['label'],
                     'value' => $website['value'],

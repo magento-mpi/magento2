@@ -9,15 +9,17 @@
  */
 
 
-class Magento_Sales_Model_Quote_Address_Total_Grand extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Grand extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Collect grand total address amount
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Total_Grand
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Total\Grand
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $grandTotal     = $address->getGrandTotal();
         $baseGrandTotal = $address->getBaseGrandTotal();
@@ -33,10 +35,10 @@ class Magento_Sales_Model_Quote_Address_Total_Grand extends Magento_Sales_Model_
     /**
      * Add grand total information to address
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Total_Grand
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Total\Grand
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $address->addTotal(array(
             'code'  => $this->getCode(),

@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Variable_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\System\Variable;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Internal constructor
@@ -33,18 +35,18 @@ class Magento_Adminhtml_Block_System_Variable_Edit extends Magento_Adminhtml_Blo
     /**
      * Getter
      *
-     * @return Magento_Core_Model_Variable
+     * @return \Magento\Core\Model\Variable
      */
     public function getVariable()
     {
-        return Mage::registry('current_variable');
+        return \Mage::registry('current_variable');
     }
 
     /**
      * Prepare layout.
      * Adding save_and_continue button
      *
-     * @return Magento_Adminhtml_Block_System_Variable_Edit
+     * @return \Magento\Adminhtml\Block\System\Variable\Edit
      */
     protected function _preparelayout()
     {
@@ -71,9 +73,9 @@ class Magento_Adminhtml_Block_System_Variable_Edit extends Magento_Adminhtml_Blo
     public function getFormHtml()
     {
         $formHtml = parent::getFormHtml();
-        if (!Mage::app()->isSingleStoreMode() && $this->getVariable()->getId()) {
+        if (!\Mage::app()->isSingleStoreMode() && $this->getVariable()->getId()) {
             $storeSwitcher = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher')->toHtml();
+                ->createBlock('\Magento\Backend\Block\Store\Switcher')->toHtml();
             $formHtml = $storeSwitcher.$formHtml;
         }
         return $formHtml;

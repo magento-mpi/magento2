@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_customer_orders">
         <container name="root" label="Root" output="1">
-            <block class="Magento_Adminhtml_Block_Customer_Edit_Tab_Orders" name="adminhtml.customer.edit.tab.orders"/>
+            <block class="\Magento\Adminhtml\Block\Customer\Edit\Tab\Orders" name="adminhtml.customer.edit.tab.orders"/>
         </container>
     </handle>
 </layout>

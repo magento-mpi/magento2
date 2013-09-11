@@ -15,7 +15,9 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Server
+namespace Magento\Api\Model;
+
+class Server
 {
 
     /**
@@ -27,7 +29,7 @@ class Magento_Api_Model_Server
     /**
      * Web service adapter
      *
-     * @var Magento_Api_Model_Server_Adapter_Soap
+     * @var \Magento\Api\Model\Server\Adapter\Soap
      */
     protected $_adapter;
 
@@ -39,18 +41,18 @@ class Magento_Api_Model_Server
      */
     public function getAdapterCodeByAlias($alias)
     {
-        /** @var $config Magento_Api_Model_Config */
-        $config  = Mage::getSingleton('Magento_Api_Model_Config');
+        /** @var $config \Magento\Api\Model\Config */
+        $config  = \Mage::getSingleton('Magento\Api\Model\Config');
         $aliases = $config->getAdapterAliases();
 
         if (!isset($aliases[$alias])) {
             return null;
         }
-        $object = Mage::getModel($aliases[$alias][0]);
+        $object = \Mage::getModel($aliases[$alias][0]);
         $method = $aliases[$alias][1];
 
         if (!method_exists($object, $method)) {
-            Mage::throwException(__('Can not find webservice adapter.'));
+            \Mage::throwException(__('Can not find webservice adapter.'));
         }
         return $object->$method();
     }
@@ -58,12 +60,12 @@ class Magento_Api_Model_Server
     /**
      * Initialize server components
      *
-     * @param Magento_Api_Controller_Action $controller
+     * @param \Magento\Api\Controller\Action $controller
      * @param string $adapter Adapter name
      * @param string $handler Handler name
-     * @return Magento_Api_Model_Server
+     * @return \Magento\Api\Model\Server
      */
-    public function init(Magento_Api_Controller_Action $controller, $adapter = 'default', $handler = 'default')
+    public function init(\Magento\Api\Controller\Action $controller, $adapter = 'default', $handler = 'default')
     {
         $this->initialize($adapter, $handler);
 
@@ -77,20 +79,20 @@ class Magento_Api_Model_Server
      *
      * @param string $adapterCode Adapter code
      * @param string $handler OPTIONAL Handler name (if not specified, it will be found from config)
-     * @return Magento_Api_Model_Server
+     * @return \Magento\Api\Model\Server
      */
     public function initialize($adapterCode, $handler = null)
     {
-        /** @var $helper Magento_Api_Model_Config */
-        $helper   = Mage::getSingleton('Magento_Api_Model_Config');
+        /** @var $helper \Magento\Api\Model\Config */
+        $helper   = \Mage::getSingleton('Magento\Api\Model\Config');
         $adapters = $helper->getActiveAdapters();
 
         if (isset($adapters[$adapterCode])) {
-            /** @var $adapterModel Magento_Api_Model_Server_Adapter_Soap */
-            $adapterModel = Mage::getModel((string) $adapters[$adapterCode]->model);
+            /** @var $adapterModel \Magento\Api\Model\Server\Adapter\Soap */
+            $adapterModel = \Mage::getModel((string) $adapters[$adapterCode]->model);
 
-            if (!($adapterModel instanceof Magento_Api_Model_Server_Adapter_Soap)) {
-                Mage::throwException(__('Please correct the webservice adapter specified.'));
+            if (!($adapterModel instanceof \Magento\Api\Model\Server\Adapter\Soap)) {
+                \Mage::throwException(__('Please correct the webservice adapter specified.'));
             }
             $this->_adapter = $adapterModel;
             $this->_api     = $adapterCode;
@@ -102,13 +104,13 @@ class Magento_Api_Model_Server
             $handlers = $helper->getHandlers();
 
             if (!isset($handlers->$handler)) {
-                Mage::throwException(__('Please correct the webservice handler specified.'));
+                \Mage::throwException(__('Please correct the webservice handler specified.'));
             }
             $handlerClassName = (string) $handlers->$handler->model;
 
             $this->_adapter->setHandler($handlerClassName);
         } else {
-            Mage::throwException(__('Please correct the webservice adapter specified.'));
+            \Mage::throwException(__('Please correct the webservice adapter specified.'));
         }
         return $this;
     }
@@ -134,7 +136,7 @@ class Magento_Api_Model_Server
     /**
      * Retrieve web service adapter
      *
-     * @return Magento_Api_Model_Server_Adapter_Soap
+     * @return \Magento\Api\Model\Server\Adapter\Soap
      */
     public function getAdapter()
     {

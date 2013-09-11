@@ -28,21 +28,21 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
     protected $_appStateMock;
 
     /**
-     * @var Magento_Core_Model_Event_Invoker_InvokerDefault
+     * @var \Magento\Core\Model\Event\Invoker\InvokerDefault
      */
     protected $_invokerDefault;
 
     protected function setUp()
     {
         $this->_observerFactoryMock = $this->getMock(
-            'Magento_Core_Model_ObserverFactory', array(), array(), '', false
+            '\Magento\Core\Model\ObserverFactory', array(), array(), '', false
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_listenerMock = $this->getMock('Magento_Some_Model_Observer_Some', array('method_name'), array(), '',
             false);
-        $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
 
-        $this->_invokerDefault = new Magento_Core_Model_Event_Invoker_InvokerDefault(
+        $this->_invokerDefault = new \Magento\Core\Model\Event\Invoker\InvokerDefault(
             $this->_observerFactoryMock,
             $this->_appStateMock
         );
@@ -85,7 +85,7 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
     /**
      * @param string $shared
      * @dataProvider dataProviderForMethodIsNotDefined
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testMethodIsNotDefinedExceptionWithEnabledDeveloperMode($shared)
     {
@@ -94,7 +94,7 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
         $this->_observerFactoryMock->expects($this->any())->method('get')->with('class_name')
             ->will($this->returnValue($this->_listenerMock));
         $this->_appStateMock->expects($this->once())->method('getMode')
-            ->will($this->returnValue(Magento_Core_Model_App_State::MODE_DEVELOPER));
+            ->will($this->returnValue(\Magento\Core\Model\App\State::MODE_DEVELOPER));
 
         $this->_invokerDefault->dispatch(
             array(
@@ -118,7 +118,7 @@ class Magento_Core_Model_Event_Invoker_InvokerDefaultTest extends PHPUnit_Framew
         $this->_observerFactoryMock->expects($this->any())->method('get')->with('class_name')
             ->will($this->returnValue($this->_listenerMock));
         $this->_appStateMock->expects($this->once())->method('getMode')
-            ->will($this->returnValue(Magento_Core_Model_App_State::MODE_PRODUCTION));
+            ->will($this->returnValue(\Magento\Core\Model\App\State::MODE_PRODUCTION));
 
         $this->_invokerDefault->dispatch(
             array(

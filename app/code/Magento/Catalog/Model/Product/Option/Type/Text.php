@@ -15,14 +15,16 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Option_Type_Text extends Magento_Catalog_Model_Product_Option_Type_Default
+namespace Magento\Catalog\Model\Product\Option\Type;
+
+class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
      * Validate user input for option
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
-     * @return Magento_Catalog_Model_Product_Option_Type_Default
+     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function validateUserValue($values)
     {
@@ -34,14 +36,14 @@ class Magento_Catalog_Model_Product_Option_Type_Text extends Magento_Catalog_Mod
         // Check requires option to have some value
         if (strlen($value) == 0 && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            Mage::throwException(__('Please specify the product\'s required option(s).'));
+            \Mage::throwException(__('Please specify the product\'s required option(s).'));
         }
 
         // Check maximal length limit
         $maxCharacters = $option->getMaxCharacters();
-        if ($maxCharacters > 0 && Mage::helper('Magento_Core_Helper_String')->strlen($value) > $maxCharacters) {
+        if ($maxCharacters > 0 && \Mage::helper('Magento\Core\Helper\String')->strlen($value) > $maxCharacters) {
             $this->setIsValid(false);
-            Mage::throwException(__('The text is too long.'));
+            \Mage::throwException(__('The text is too long.'));
         }
 
         $this->setUserValue($value);
@@ -70,6 +72,6 @@ class Magento_Catalog_Model_Product_Option_Type_Text extends Magento_Catalog_Mod
      */
     public function getFormattedOptionValue($value)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->escapeHtml($value);
+        return \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($value);
     }
 }

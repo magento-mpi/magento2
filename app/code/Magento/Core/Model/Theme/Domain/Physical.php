@@ -11,12 +11,14 @@
 /**
  * Physical theme model class
  */
-class Magento_Core_Model_Theme_Domain_Physical
+namespace Magento\Core\Model\Theme\Domain;
+
+class Physical
 {
     /**
      * Physical theme model instance
      *
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
@@ -26,26 +28,26 @@ class Magento_Core_Model_Theme_Domain_Physical
     protected $_themeFactory;
 
     /**
-     * @var Magento_Core_Model_Theme_CopyService
+     * @var \Magento\Core\Model\Theme\CopyService
      */
     protected $_themeCopyService;
 
     /**
-     * @var Magento_Core_Model_Resource_Theme_Collection
+     * @var \Magento\Core\Model\Resource\Theme\Collection
      */
     protected $_themeCollection;
 
     /**
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @param Magento_Core_Model_ThemeFactory $themeFactory
-     * @param Magento_Core_Model_Theme_CopyService $themeCopyService
-     * @param Magento_Core_Model_Resource_Theme_Collection $themeCollection
+     * @param \Magento\Core\Model\Theme\CopyService $themeCopyService
+     * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
      */
     public function __construct(
-        Magento_Core_Model_Theme $theme,
+        \Magento\Core\Model\Theme $theme,
         Magento_Core_Model_ThemeFactory $themeFactory,
-        Magento_Core_Model_Theme_CopyService $themeCopyService,
-        Magento_Core_Model_Resource_Theme_Collection $themeCollection
+        \Magento\Core\Model\Theme\CopyService $themeCopyService,
+        \Magento\Core\Model\Resource\Theme\Collection $themeCollection
     ) {
         $this->_theme = $theme;
         $this->_themeFactory = $themeFactory;
@@ -56,8 +58,8 @@ class Magento_Core_Model_Theme_Domain_Physical
     /**
      * Create theme customization
      *
-     * @param Magento_Core_Model_Theme $theme
-     * @return Magento_Core_Model_Theme
+     * @param \Magento\Core\Model\Theme $theme
+     * @return \Magento\Core\Model\Theme
      */
     public function createVirtualTheme($theme)
     {
@@ -66,9 +68,9 @@ class Magento_Core_Model_Theme_Domain_Physical
         $themeData['theme_id'] = null;
         $themeData['theme_path'] = null;
         $themeData['theme_title'] = $this->_getVirtualThemeTitle($theme);
-        $themeData['type'] = Magento_Core_Model_Theme::TYPE_VIRTUAL;
+        $themeData['type'] = \Magento\Core\Model\Theme::TYPE_VIRTUAL;
 
-        /** @var $themeCustomization Magento_Core_Model_Theme */
+        /** @var $themeCustomization \Magento\Core\Model\Theme */
         $themeCustomization = $this->_themeFactory->create()->setData($themeData);
         $themeCustomization->getThemeImage()->createPreviewImageCopy($theme->getPreviewImage());
         $themeCustomization->save();
@@ -81,13 +83,13 @@ class Magento_Core_Model_Theme_Domain_Physical
     /**
      * Get virtual theme title
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @return string
      */
     protected function _getVirtualThemeTitle($theme)
     {
-        $themeCopyCount = $this->_themeCollection->addAreaFilter(Magento_Core_Model_App_Area::AREA_FRONTEND)
-            ->addTypeFilter(Magento_Core_Model_Theme::TYPE_VIRTUAL)
+        $themeCopyCount = $this->_themeCollection->addAreaFilter(\Magento\Core\Model\App\Area::AREA_FRONTEND)
+            ->addTypeFilter(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
             ->addFilter('parent_id', $theme->getId())
             ->count();
 

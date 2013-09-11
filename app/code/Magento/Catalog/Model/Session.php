@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Catalog\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * Class constructor. Initialize session namespace

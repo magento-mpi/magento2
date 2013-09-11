@@ -9,11 +9,11 @@
  */
 
 require 'order.php';
-/** @var Magento_Sales_Model_Order $order */
+/** @var \Magento\Sales\Model\Order $order */
 
-$orderService = new Magento_Sales_Model_Service_Order($order);
+$orderService = new \Magento\Sales\Model\Service\Order($order);
 $invoice = $orderService->prepareInvoice();
 $invoice->register();
 $order->setIsInProcess(true);
-$transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction');
+$transactionSave = Mage::getModel('\Magento\Core\Model\Resource\Transaction');
 $transactionSave->addObject($invoice)->addObject($order)->save();

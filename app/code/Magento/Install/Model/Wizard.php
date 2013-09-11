@@ -11,7 +11,9 @@
 /**
  * Installation wizard model
  */
-class Magento_Install_Model_Wizard
+namespace Magento\Install\Model;
+
+class Wizard
 {
     /**
      * Wizard configuration
@@ -25,7 +27,7 @@ class Magento_Install_Model_Wizard
      */
     public function __construct()
     {
-        $this->_steps = Mage::getSingleton('Magento_Install_Model_Config')->getWizardSteps();
+        $this->_steps = \Mage::getSingleton('Magento\Install\Model\Config')->getWizardSteps();
 
         foreach (array_keys($this->_steps) as $index) {
             $this->_steps[$index]->setUrl(
@@ -60,10 +62,10 @@ class Magento_Install_Model_Wizard
     /**
      * Get wizard step by request
      *
-     * @param   Zend_Controller_Request_Abstract $request
+     * @param   \Zend_Controller_Request_Abstract $request
      * @return  \Magento\Object|bool
      */
-    public function getStepByRequest(Zend_Controller_Request_Abstract $request)
+    public function getStepByRequest(\Zend_Controller_Request_Abstract $request)
     {
         foreach ($this->_steps as $step) {
             if ($step->getController() == $request->getControllerName()
@@ -109,7 +111,7 @@ class Magento_Install_Model_Wizard
      */
     protected function _getUrl($controller, $action)
     {
-        return Mage::getUrl($this->_getUrlPath($controller, $action));
+        return \Mage::getUrl($this->_getUrlPath($controller, $action));
     }
 
     /**

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Banner\Block\Adminhtml\Banner;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Set defaults
@@ -27,11 +29,11 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
     /**
      * Instantiate and prepare collection
      *
-     * @return Magento_Banner_Block_Adminhtml_Banner_Grid
+     * @return \Magento\Banner\Block\Adminhtml\Banner\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Banner_Model_Resource_Banner_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Banner\Model\Resource\Banner\Collection')
             ->addStoresVisibility();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -60,7 +62,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
         $this->addColumn('banner_types', array(
             'header'  => __('Banner Types'),
             'type'    => 'options',
-            'options' => Mage::getSingleton('Magento_Banner_Model_Config')->toOptionArray(true, false),
+            'options' => \Mage::getSingleton('Magento\Banner\Model\Config')->toOptionArray(true, false),
             'index'   => 'types',
             'width'   => 250,
             'filter'  => false, // TODO implement
@@ -69,7 +71,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
                 'header'                => __('Visibility'),
                 'type'                  => 'store',
@@ -88,9 +90,9 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
                 'index'     => 'is_enabled',
                 'type'      => 'options',
                 'options'   => array(
-                    Magento_Banner_Model_Banner::STATUS_ENABLED  =>
+                    \Magento\Banner\Model\Banner::STATUS_ENABLED  =>
                         __('Yes'),
-                    Magento_Banner_Model_Banner::STATUS_DISABLED =>
+                    \Magento\Banner\Model\Banner::STATUS_DISABLED =>
                         __('No'),
                 ),
         ));
@@ -135,8 +137,8 @@ class Magento_Banner_Block_Adminhtml_Banner_Grid extends Magento_Adminhtml_Block
     /**
      * Add store filter
      *
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column  $column
-     * @return Magento_Banner_Block_Adminhtml_Banner_Grid
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column  $column
+     * @return \Magento\Banner\Block\Adminhtml\Banner\Grid
      */
     protected function _addColumnFilterToCollection($column)
     {

@@ -11,7 +11,9 @@
 /**
  * Front end helper block to show giftregistry items
  */
-class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
+namespace Magento\GiftRegistry\Block;
+
+class Items extends \Magento\Checkout\Block\Cart
 {
 
     /**
@@ -25,12 +27,12 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
             if (!$this->getEntity()) {
                 return array();
             }
-            $collection = Mage::getModel('Magento_GiftRegistry_Model_Item')->getCollection()
+            $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Item')->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId());
 
             $quoteItemsCollection = array();
-            $quote = Mage::getModel('Magento_Sales_Model_Quote')->setItemCount(true);
-            $emptyQuoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item');
+            $quote = \Mage::getModel('\Magento\Sales\Model\Quote')->setItemCount(true);
+            $emptyQuoteItem = \Mage::getModel('\Magento\Sales\Model\Quote\Item');
             foreach ($collection as $item) {
                 $product = $item->getProduct();
                 $remainingQty = $item->getQty() - $item->getQtyFulfilled();
@@ -46,14 +48,14 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
                     ->setOptions($item->getOptions());
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($product)) {
+                if (\Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
-                        Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                            Mage::helper('Magento_Tax_Helper_Data')->getPrice($product, $product->getFinalPrice(), true)
+                        \Mage::app()->getStore()->formatPrice(\Mage::app()->getStore()->convertPrice(
+                            \Mage::helper('Magento\Tax\Helper\Data')->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
-                    $product->setAddToCartUrl($this->helper('Magento_Checkout_Helper_Cart')->getAddUrl($product));
+                    $product->setAddToCartUrl($this->helper('\Magento\Checkout\Helper\Cart')->getAddUrl($product));
                 } else {
                     $quoteItem->setGiftRegistryPrice($product->getFinalPrice());
                     $quoteItem->setCanApplyMsrp(false);
@@ -70,12 +72,12 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     /**
      * Return current gift registry entity
      *
-     * @return Magento_GiftRegistry_Model_Resource_Item_Collection
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
      */
     public function getEntity()
     {
          if (!$this->hasEntity()) {
-            $this->setData('entity', Mage::registry('current_entity'));
+            $this->setData('entity', \Mage::registry('current_entity'));
         }
         return $this->_getData('entity');
     }
@@ -83,7 +85,7 @@ class Magento_GiftRegistry_Block_Items extends Magento_Checkout_Block_Cart
     /**
      * Return "add to cart" url
      *
-     * @param Magento_GiftRegistry_Model_Item $item
+     * @param \Magento\GiftRegistry\Model\Item $item
      * @return string
      */
     public function getActionUrl()

@@ -15,13 +15,15 @@
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\User\Controller\Adminhtml\User;
+
+class Role extends \Magento\Backend\Controller\ActionAbstract
 {
 
     /**
      * Preparing layout for output
      *
-     * @return Magento_User_Controller_Adminhtml_User_Role
+     * @return \Magento\User\Controller\Adminhtml\User\Role
      */
     protected function _initAction()
     {
@@ -36,20 +38,20 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
     /**
      * Initialize role model by passed parameter in request
      *
-     * @return Magento_User_Model_Role
+     * @return \Magento\User\Model\Role
      */
     protected function _initRole($requestVariable = 'rid')
     {
         $this->_title(__('Roles'));
 
-        $role = Mage::getModel('Magento_User_Model_Role')->load($this->getRequest()->getParam($requestVariable));
+        $role = \Mage::getModel('\Magento\User\Model\Role')->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
         if ($role->getId() && $role->getRoleType() != 'G') {
             $role->unsetData($role->getIdFieldName());
         }
 
-        Mage::register('current_role', $role);
-        return Mage::registry('current_role');
+        \Mage::register('current_role', $role);
+        return \Mage::registry('current_role');
     }
 
     /**
@@ -112,8 +114,8 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
     {
         $rid = $this->getRequest()->getParam('rid', false);
 
-        $currentUser = Mage::getModel('Magento_User_Model_User')->setId(
-            Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId()
+        $currentUser = \Mage::getModel('\Magento\User\Model\User')->setId(
+            \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId()
         );
 
         if (in_array($rid, $currentUser->getRoles()) ) {
@@ -130,7 +132,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
             $this->_session->addSuccess(
                 __('You deleted the role.')
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_session->addError(
                 __('An error occurred while deleting this role.')
             );
@@ -157,7 +159,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
 
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resource = array($this->_objectManager->get('Magento_Core_Model_Acl_RootResource')->getId());
+            $resource = array($this->_objectManager->get('Magento\Core\Model\Acl\RootResource')->getId());
         }
 
         $role = $this->_initRole('role_id');
@@ -179,7 +181,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
             );
             $role->save();
 
-            Mage::getModel('Magento_User_Model_Rules')
+            \Mage::getModel('\Magento\User\Model\Rules')
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();
@@ -195,9 +197,9 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
             $this->_session->addSuccess(
                 __('You saved the role.')
             );
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_session->addError(
                 __('An error occurred while saving this role.')
             );
@@ -225,11 +227,11 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
     protected function _deleteUserFromRole($userId, $roleId)
     {
         try {
-            Mage::getModel('Magento_User_Model_User')
+            \Mage::getModel('\Magento\User\Model\User')
                 ->setRoleId($roleId)
                 ->setUserId($userId)
                 ->deleteFromRole();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
             return false;
         }
@@ -245,7 +247,7 @@ class Magento_User_Controller_Adminhtml_User_Role extends Magento_Backend_Contro
      */
     protected function _addUserToRole($userId, $roleId)
     {
-        $user = Mage::getModel('Magento_User_Model_User')->load($userId);
+        $user = \Mage::getModel('\Magento\User\Model\User')->load($userId);
         $user->setRoleId($roleId);
 
         if ($user->roleUserExists() === true ) {

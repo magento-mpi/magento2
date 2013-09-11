@@ -16,9 +16,11 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  *
  * @method string getRowClickCallback() getRowClickCallback()
- * @method Magento_Backend_Block_Widget_Grid setRowClickCallback() setRowClickCallback(string $value)
+ * @method \Magento\Backend\Block\Widget\Grid setRowClickCallback() setRowClickCallback(string $value)
  */
-class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
+namespace Magento\Backend\Block\Widget;
+
+class Grid extends \Magento\Backend\Block\Widget
 {
     /**
      * Page and sorting var names
@@ -96,25 +98,25 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     protected $_template = 'Magento_Backend::widget/grid.phtml';
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Core_Model_Url
+     * @var \Magento\Core\Model\Url
      */
     protected $_urlModel;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
-     * @param Magento_Core_Model_Url $urlModel
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
-        Magento_Core_Model_Url $urlModel,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -183,7 +185,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Retrieve column set block
      *
-     * @return Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @return \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     public function getColumnSet()
     {
@@ -193,13 +195,13 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Retrieve export block
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Core_Block_Abstract
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function getExportBlock()
     {
         if (!$this->getChildBlock('grid.export')) {
-            Mage::throwException('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
+            \Mage::throwException('Export block for grid ' . $this->getNameInLayout() . ' is not defined');
         }
         return $this->getChildBlock('grid.export');
     }
@@ -228,7 +230,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Retrieve column by id
      *
      * @param string $columnId
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function getColumn($columnId)
     {
@@ -239,7 +241,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Process column filtration values
      *
      * @param mixed $data
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _setFilterValues($data)
     {
@@ -258,8 +260,8 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Add column filtering conditions to collection
      *
-     * @param Magento_Backend_Block_Widget_Grid_Column $column
-     * @return Magento_Backend_Block_Widget_Grid
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -280,8 +282,8 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Sets sorting order by some column
      *
-     * @param Magento_Backend_Block_Widget_Grid_Column $column
-     * @return Magento_Backend_Block_Widget_Grid
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _setCollectionOrder($column)
     {
@@ -308,7 +310,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Apply sorting and filtering to collection
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
@@ -325,7 +327,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
             }
 
             if (is_string($filter)) {
-                $data = $this->helper('Magento_Backend_Helper_Data')->prepareFilterString($filter);
+                $data = $this->helper('\Magento\Backend\Helper\Data')->prepareFilterString($filter);
                 $data = array_merge($data, (array)$this->getRequest()->getPost($this->getVarNameFilter()));
                 $this->_setFilterValues($data);
             } else if ($filter && is_array($filter)) {
@@ -351,7 +353,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      */
     protected function _decodeFilter(&$value)
     {
-        $value = $this->helper('Magento_Backend_Helper_Data')->decodeFilter($value);
+        $value = $this->helper('\Magento\Backend\Helper\Data')->decodeFilter($value);
     }
 
     /**
@@ -390,7 +392,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Get massaction block
      *
-     * @return bool|Magento_Core_Block_Abstract
+     * @return bool|\Magento\Core\Block\AbstractBlock
      */
     public function getMassactionBlock()
     {
@@ -403,14 +405,14 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     protected function _prepareFilterButtons()
     {
         $this->setChild('reset_filter_button',
-            $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
+            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Reset Filter'),
                 'onclick'   => $this->getJsObjectName().'.resetFilter()',
             ))
         );
         $this->setChild('search_button',
-            $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
+            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Search'),
                 'onclick'   => $this->getJsObjectName().'.doFilter()',
@@ -422,7 +424,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Initialize grid before rendering
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
@@ -484,7 +486,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set Limit request key
      *
      * @param string $name
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setVarNameLimit($name)
     {
@@ -496,7 +498,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set Page request key
      *
      * @param string $name
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setVarNamePage($name)
     {
@@ -508,7 +510,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set Sort request key
      *
      * @param string $name
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setVarNameSort($name)
     {
@@ -520,7 +522,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set Sort Direction request key
      *
      * @param string $name
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setVarNameDir($name)
     {
@@ -532,7 +534,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set Filter request key
      *
      * @param string $name
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setVarNameFilter($name)
     {
@@ -544,7 +546,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set visibility of pager
      *
      * @param boolean $visible
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setPagerVisibility($visible = true)
     {
@@ -586,7 +588,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set default limit
      *
      * @param int $limit
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setDefaultLimit($limit)
     {
@@ -598,7 +600,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set default page
      *
      * @param int $page
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setDefaultPage($page)
     {
@@ -610,7 +612,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set default sort
      *
      * @param string $sort
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setDefaultSort($sort)
     {
@@ -622,7 +624,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set default direction
      *
      * @param string $dir
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setDefaultDir($dir)
     {
@@ -634,7 +636,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set default filter
      *
      * @param string $filter
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setDefaultFilter($filter)
     {
@@ -673,7 +675,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      *
      * @param   string $url
      * @param   string $label
-     * @return  Magento_Backend_Block_Widget_Grid
+     * @return  \Magento\Backend\Block\Widget\Grid
      */
     public function addRssList($url, $label)
     {
@@ -689,7 +691,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
     /**
      * Clear rss list in grid
      *
-     * @return  Magento_Backend_Block_Widget_Grid
+     * @return  \Magento\Backend\Block\Widget\Grid
      */
     public function clearRss()
     {
@@ -741,7 +743,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      */
     public function getParam($paramName, $default=null)
     {
-        $session = Mage::getSingleton('Magento_Backend_Model_Session');
+        $session = \Mage::getSingleton('Magento\Backend\Model\Session');
         $sessionParamName = $this->getId() . $paramName;
         if ($this->getRequest()->has($paramName)) {
             $param = $this->getRequest()->getParam($paramName);
@@ -760,7 +762,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set whether grid parameters should be saved in session
      *
      * @param bool $flag
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setSaveParametersInSession($flag)
     {
@@ -782,7 +784,7 @@ class Magento_Backend_Block_Widget_Grid extends Magento_Backend_Block_Widget
      * Set count totals
      *
      * @param boolean $count
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setCountTotals($count = true)
     {

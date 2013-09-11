@@ -13,7 +13,9 @@
  *
  * Each item is rendered as separate total with its details
  */
-class Magento_Checkout_Block_Total_Nominal extends Magento_Checkout_Block_Total_Default
+namespace Magento\Checkout\Block\Total;
+
+class Nominal extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
      * Custom template
@@ -25,10 +27,10 @@ class Magento_Checkout_Block_Total_Nominal extends Magento_Checkout_Block_Total_
     /**
      * Getter for a quote item name
      *
-     * @param Magento_Sales_Model_Quote_Item_Abstract $quoteItem
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $quoteItem
      * @return string
      */
-    public function getItemName(Magento_Sales_Model_Quote_Item_Abstract $quoteItem)
+    public function getItemName(\Magento\Sales\Model\Quote\Item\AbstractItem $quoteItem)
     {
         return $quoteItem->getName();
     }
@@ -36,10 +38,10 @@ class Magento_Checkout_Block_Total_Nominal extends Magento_Checkout_Block_Total_
     /**
      * Getter for a quote item row total
      *
-     * @param Magento_Sales_Model_Quote_Item_Abstract $quoteItem
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $quoteItem
      * @return float
      */
-    public function getItemRowTotal(Magento_Sales_Model_Quote_Item_Abstract $quoteItem)
+    public function getItemRowTotal(\Magento\Sales\Model\Quote\Item\AbstractItem $quoteItem)
     {
         return $quoteItem->getNominalRowTotal();
     }
@@ -47,10 +49,10 @@ class Magento_Checkout_Block_Total_Nominal extends Magento_Checkout_Block_Total_
     /**
      * Getter for nominal total item details
      *
-     * @param Magento_Sales_Model_Quote_Item_Abstract $quoteItem
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $quoteItem
      * @return array
      */
-    public function getTotalItemDetails(Magento_Sales_Model_Quote_Item_Abstract $quoteItem)
+    public function getTotalItemDetails(\Magento\Sales\Model\Quote\Item\AbstractItem $quoteItem)
     {
         return $quoteItem->getNominalTotalDetails();
     }

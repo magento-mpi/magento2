@@ -15,14 +15,14 @@
 class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Observer
+     * @var \Magento\Backend\Model\Observer
      */
     protected $_model;
 
     public function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Magento_Backend_Model_Observer');
+        $this->_model = Mage::getModel('\Magento\Backend\Model\Observer');
     }
 
     public function testActionPreDispatchAdminNotLogged()
@@ -56,7 +56,7 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $code = $response->getHttpResponseCode();
         $this->assertTrue($code >= 300 && $code < 400);
 
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $session = Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         $this->assertTrue($session->isLoggedIn());
     }
 
@@ -75,7 +75,7 @@ class Magento_Backend_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $code = $response->getHttpResponseCode();
         $this->assertFalse($code >= 300 && $code < 400);
 
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $session = Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         $this->assertTrue($session->isLoggedIn());
     }
 

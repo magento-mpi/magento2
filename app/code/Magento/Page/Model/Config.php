@@ -15,7 +15,9 @@
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Model_Config
+namespace Magento\Page\Model;
+
+class Config
 {
     const XML_PATH_PAGE_LAYOUTS = 'global/page/layouts';
     const XML_PATH_CMS_LAYOUTS = 'global/cms/layouts';
@@ -30,7 +32,7 @@ class Magento_Page_Model_Config
     /**
      * Initialize page layouts list
      *
-     * @return Magento_Page_Model_Config
+     * @return \Magento\Page\Model\Config
      */
     protected function _initPageLayouts()
     {
@@ -46,17 +48,17 @@ class Magento_Page_Model_Config
      * Fill in $_pageLayouts by reading layouts from config
      *
      * @param string $xmlPath XML path to layouts root
-     * @return Magento_Page_Model_Config
+     * @return \Magento\Page\Model\Config
      */
     protected function _appendPageLayouts($xmlPath)
     {
-        if (!Mage::getConfig()->getNode($xmlPath)) {
+        if (!\Mage::getConfig()->getNode($xmlPath)) {
             return $this;
         }
         if (!is_array($this->_pageLayouts)) {
             $this->_pageLayouts = array();
         }
-        foreach (Mage::getConfig()->getNode($xmlPath)->children() as $layoutCode => $layoutConfig) {
+        foreach (\Mage::getConfig()->getNode($xmlPath)->children() as $layoutCode => $layoutConfig) {
             $this->_pageLayouts[$layoutCode] = new \Magento\Object(array(
                 'label'         => __((string)$layoutConfig->label),
                 'code'          => $layoutCode,

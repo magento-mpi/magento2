@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_DEFAULT_COUNTRY              = 'general/country/default';
     const XML_PATH_PROTECTED_FILE_EXTENSIONS    = 'general/file/protected_extensions';
@@ -51,34 +53,34 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
 
     /**
-     * @var Magento_Core_Model_Encryption
+     * @var \Magento\Core\Model\Encryption
      */
     protected $_encryptor = null;
 
     protected $_allowedFormats = array(
-        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL,
-        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG,
-        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM,
-        Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
+        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT
     );
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config $config
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Model_Config $config)
+    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Model\Config $config)
     {
         parent::__construct($context);
         $this->_config = $config;
     }
 
     /**
-     * @return Magento_Core_Model_Encryption
+     * @return \Magento\Core\Model\Encryption
      */
     public function getEncryptor()
     {
@@ -86,10 +88,10 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
             $encryptionModel = (string)$this->_config->getNode(self::XML_PATH_ENCRYPTION_MODEL);
 
             if (!$encryptionModel) {
-                $encryptionModel = 'Magento_Core_Model_Encryption';
+                $encryptionModel = '\Magento\Core\Model\Encryption';
             }
 
-            $this->_encryptor = Mage::getObjectManager()->create($encryptionModel);
+            $this->_encryptor = \Mage::getObjectManager()->create($encryptionModel);
 
             $this->_encryptor->setHelper($this);
         }
@@ -113,7 +115,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * Convert and format price value for specified store
      *
      * @param   float $value
-     * @param   int|Magento_Core_Model_Store $store
+     * @param   int|\Magento\Core\Model\Store $store
      * @param   bool $format
      * @param   bool $includeContainer
      * @return  mixed
@@ -121,13 +123,13 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     public static function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
     {
         try {
-            if (!($store instanceof Magento_Core_Model_Store)) {
-                $store = Mage::app()->getStore($store);
+            if (!($store instanceof \Magento\Core\Model\Store)) {
+                $store = \Mage::app()->getStore($store);
             }
 
             $value = $store->convertPrice($value, $format, $includeContainer);
         }
-        catch (Exception $e){
+        catch (\Exception $e){
             $value = $e->getMessage();
         }
 
@@ -155,39 +157,39 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function formatPrice($price, $includeContainer = true)
     {
-        return Mage::app()->getStore()->formatPrice($price, $includeContainer);
+        return \Mage::app()->getStore()->formatPrice($price, $includeContainer);
     }
 
     /**
      * Format date using current locale options and time zone.
      *
      * @param   date|Zend_Date|null $date
-     * @param   string              $format   See Magento_Core_Model_LocaleInterface::FORMAT_TYPE_* constants
+     * @param   string              $format   See \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_* constants
      * @param   bool                $showTime Whether to include time
      * @return  string
      */
-    public function formatDate($date = null, $format = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false)
+    public function formatDate($date = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false)
     {
         if (!in_array($format, $this->_allowedFormats, true)) {
             return $date;
         }
-        if (!($date instanceof Zend_Date) && $date && !strtotime($date)) {
+        if (!($date instanceof \Zend_Date) && $date && !strtotime($date)) {
             return '';
         }
         if (is_null($date)) {
-            $date = Mage::app()->getLocale()->date(
-                Mage::getSingleton('Magento_Core_Model_Date')->gmtTimestamp(),
+            $date = \Mage::app()->getLocale()->date(
+                \Mage::getSingleton('Magento\Core\Model\Date')->gmtTimestamp(),
                 null,
                 null
             );
-        } elseif (!$date instanceof Zend_Date) {
-            $date = Mage::app()->getLocale()->date(strtotime($date), null, null);
+        } elseif (!$date instanceof \Zend_Date) {
+            $date = \Mage::app()->getLocale()->date(strtotime($date), null, null);
         }
 
         if ($showTime) {
-            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
+            $format = \Mage::app()->getLocale()->getDateTimeFormat($format);
         } else {
-            $format = Mage::app()->getLocale()->getDateFormat($format);
+            $format = \Mage::app()->getLocale()->getDateFormat($format);
         }
 
         return $date->toString($format);
@@ -201,24 +203,24 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      * @param   bool                $showDate
      * @return  string
      */
-    public function formatTime($time = null, $format = Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false)
+    public function formatTime($time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false)
     {
         if (!in_array($format, $this->_allowedFormats, true)) {
             return $time;
         }
 
         if (is_null($time)) {
-            $date = Mage::app()->getLocale()->date(time());
-        } else if ($time instanceof Zend_Date) {
+            $date = \Mage::app()->getLocale()->date(time());
+        } else if ($time instanceof \Zend_Date) {
             $date = $time;
         } else {
-            $date = Mage::app()->getLocale()->date(strtotime($time));
+            $date = \Mage::app()->getLocale()->date(strtotime($time));
         }
 
         if ($showDate) {
-            $format = Mage::app()->getLocale()->getDateTimeFormat($format);
+            $format = \Mage::app()->getLocale()->getDateTimeFormat($format);
         } else {
-            $format = Mage::app()->getLocale()->getTimeFormat($format);
+            $format = \Mage::app()->getLocale()->getTimeFormat($format);
         }
 
         return $date->toString($format);
@@ -232,7 +234,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function encrypt($data)
     {
-        if (!Mage::isInstalled()) {
+        if (!\Mage::isInstalled()) {
             return $data;
         }
         return $this->getEncryptor()->encrypt($data);
@@ -246,7 +248,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function decrypt($data)
     {
-        if (!Mage::isInstalled()) {
+        if (!\Mage::isInstalled()) {
             return $data;
         }
         return $this->getEncryptor()->decrypt($data);
@@ -294,7 +296,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getStoreId($store=null)
     {
-        return Mage::app()->getStore($store)->getId();
+        return \Mage::app()->getStore($store)->getId();
     }
 
     /**
@@ -361,12 +363,12 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     {
         $allow = true;
 
-        $allowedIps = Mage::getStoreConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
-        $remoteAddr = Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr();
+        $allowedIps = \Mage::getStoreConfig(self::XML_PATH_DEV_ALLOW_IPS, $storeId);
+        $remoteAddr = \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
             if (array_search($remoteAddr, $allowedIps) === false
-                && array_search(Mage::helper('Magento_Core_Helper_Http')->getHttpHost(), $allowedIps) === false) {
+                && array_search(\Mage::helper('Magento\Core\Helper\Http')->getHttpHost(), $allowedIps) === false) {
                 $allow = false;
             }
         }
@@ -381,8 +383,8 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCacheTypes()
     {
-        /** @var Magento_Core_Model_Cache_Config $config */
-        $config = Mage::getObjectManager()->get('Magento_Core_Model_Cache_Config');
+        /** @var \Magento\Core\Model\Cache\Config $config */
+        $config = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\Config');
         $types = array();
         foreach ($config->getTypes() as $type => $node) {
             $types[$type] = $node['label'];
@@ -411,7 +413,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
 
             return false;
         }
-        $fields = Mage::getConfig()->getFieldset($fieldset, $root);
+        $fields = \Mage::getConfig()->getFieldset($fieldset, $root);
         if (!$fields) {
             return false;
         }
@@ -444,7 +446,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
-        Mage::dispatchEvent($eventName, array(
+        \Mage::dispatchEvent($eventName, array(
             'target' => $target,
             'source' => $source,
             'root'   => $root
@@ -455,7 +457,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
 
     /**
      * Decorate a plain array of arrays or objects
-     * The array actually can be an object with Iterator interface
+     * The array actually can be an object with \Iterator interface
      *
      * Keys with prefix_* will be set:
      * *_is_first - if the element is first
@@ -485,7 +487,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
         $keyIsEven  = "{$prefix}is_even";
         $keyIsLast  = "{$prefix}is_last";
 
-        $count  = count($array); // this will force Iterator to load
+        $count  = count($array); // this will force \Iterator to load
         $i      = 0;
         $isEven = false;
         foreach ($array as $key => $element) {
@@ -533,12 +535,12 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * Transform an assoc array to SimpleXMLElement object
+     * Transform an assoc array to \SimpleXMLElement object
      * Array has some limitations. Appropriate exceptions will be thrown
      *
      * @param array $array
      * @param string $rootName
-     * @return SimpleXMLElement
+     * @return \SimpleXMLElement
      * @throws \Magento\Exception
      */
     public function assocToXml(array $array, $rootName = '_')
@@ -551,7 +553,7 @@ class Magento_Core_Helper_Data extends Magento_Core_Helper_Abstract
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 <$rootName></$rootName>
 XML;
-        $xml = new SimpleXMLElement($xmlstr);
+        $xml = new \SimpleXMLElement($xmlstr);
         foreach ($array as $key => $value) {
             if (is_numeric($key)) {
                 throw new \Magento\Exception('Array root keys must not be numeric.');
@@ -565,11 +567,11 @@ XML;
      *
      * @param array $array
      * @param string $rootName
-     * @param SimpleXMLElement $xml
-     * @return SimpleXMLElement
+     * @param \SimpleXMLElement $xml
+     * @return \SimpleXMLElement
      * @throws \Magento\Exception
      */
-    private function _assocToXml(array $array, $rootName, SimpleXMLElement &$xml)
+    private function _assocToXml(array $array, $rootName, \SimpleXMLElement &$xml)
     {
         $hasNumericKey = false;
         $hasStringKey  = false;
@@ -598,13 +600,13 @@ XML;
     }
 
     /**
-     * Transform SimpleXMLElement to associative array
-     * SimpleXMLElement must be conform structure, generated by assocToXml()
+     * Transform \SimpleXMLElement to associative array
+     * \SimpleXMLElement must be conform structure, generated by assocToXml()
      *
-     * @param SimpleXMLElement $xml
+     * @param \SimpleXMLElement $xml
      * @return array
      */
-    public function xmlToAssoc(SimpleXMLElement $xml)
+    public function xmlToAssoc(\SimpleXMLElement $xml)
     {
         $array = array();
         foreach ($xml as $key => $value) {
@@ -637,7 +639,7 @@ XML;
      */
     public function jsonEncode($valueToEncode, $cycleCheck = false, $options = array())
     {
-        $json = Zend_Json::encode($valueToEncode, $cycleCheck, $options);
+        $json = \Zend_Json::encode($valueToEncode, $cycleCheck, $options);
         if ($this->_translator->isAllowed()) {
             $this->_translator->processResponseBody($json, true);
         }
@@ -653,9 +655,9 @@ XML;
      * @param int $objectDecodeType
      * @return mixed
      */
-    public function jsonDecode($encodedValue, $objectDecodeType = Zend_Json::TYPE_ARRAY)
+    public function jsonDecode($encodedValue, $objectDecodeType = \Zend_Json::TYPE_ARRAY)
     {
-        return Zend_Json::decode($encodedValue, $objectDecodeType);
+        return \Zend_Json::decode($encodedValue, $objectDecodeType);
     }
 
     /**
@@ -672,23 +674,23 @@ XML;
     /**
      * Return default country code
      *
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return string
      */
     public function getDefaultCountry($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_DEFAULT_COUNTRY, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_DEFAULT_COUNTRY, $store);
     }
 
     /**
      * Return list with protected file extensions
      *
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return array
      */
     public function getProtectedFileExtensions($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_PROTECTED_FILE_EXTENSIONS, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_PROTECTED_FILE_EXTENSIONS, $store);
     }
 
     /**
@@ -698,20 +700,20 @@ XML;
      */
     public function getPublicFilesValidPath()
     {
-        return Mage::getStoreConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS);
+        return \Mage::getStoreConfig(self::XML_PATH_PUBLIC_FILES_VALID_PATHS);
     }
 
     /**
      * Check LFI protection
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @param string $name
      * @return bool
      */
     public function checkLfiProtection($name)
     {
         if (preg_match('#\.\.[\\\/]#', $name)) {
-            throw new Magento_Core_Exception(__('Requested file may not include parent directory traversal ("../", "..\\" notation)'));
+            throw new \Magento\Core\Exception(__('Requested file may not include parent directory traversal ("../", "..\\" notation)'));
         }
         return true;
     }
@@ -723,8 +725,8 @@ XML;
      */
     public function useDbCompatibleMode()
     {
-        /** @var $resourceConfig Magento_Core_Model_Config_Resource */
-        $resourceConfig = Mage::getSingleton('Magento_Core_Model_Config_Resource');
+        /** @var $resourceConfig \Magento\Core\Model\Config\Resource */
+        $resourceConfig = \Mage::getSingleton('Magento\Core\Model\Config\Resource');
         $connType = (string) $resourceConfig->getResourceConnectionConfig('default_setup')->type;
         $value = (string) $resourceConfig->getResourceTypeConfig($connType)->compatibleMode;
         return (bool) $value;
@@ -733,23 +735,23 @@ XML;
     /**
      * Retrieve merchant country code
      *
-     * @param Magento_Core_Model_Store|string|int|null $store
+     * @param \Magento\Core\Model\Store|string|int|null $store
      * @return string
      */
     public function getMerchantCountryCode($store = null)
     {
-        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE, $store);
+        return (string) \Mage::getStoreConfig(self::XML_PATH_MERCHANT_COUNTRY_CODE, $store);
     }
 
     /**
      * Retrieve merchant VAT number
      *
-     * @param Magento_Core_Model_Store|string|int|null $store
+     * @param \Magento\Core\Model\Store|string|int|null $store
      * @return string
      */
     public function getMerchantVatNumber($store = null)
     {
-        return (string) Mage::getStoreConfig(self::XML_PATH_MERCHANT_VAT_NUMBER, $store);
+        return (string) \Mage::getStoreConfig(self::XML_PATH_MERCHANT_VAT_NUMBER, $store);
     }
 
     /**
@@ -761,7 +763,7 @@ XML;
      */
     public function isCountryInEU($countryCode, $storeId = null)
     {
-        $euCountries = explode(',', Mage::getStoreConfig(self::XML_PATH_EU_COUNTRIES_LIST, $storeId));
+        $euCountries = explode(',', \Mage::getStoreConfig(self::XML_PATH_EU_COUNTRIES_LIST, $storeId));
         return in_array($countryCode, $euCountries);
     }
 
@@ -794,13 +796,13 @@ XML;
      */
     public function isSingleStoreModeEnabled()
     {
-        return (bool) Mage::getStoreConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
+        return (bool) \Mage::getStoreConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
     }
 
     /**
      * Returns the translate model for this instance.
      *
-     * @return Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function getTranslator()
     {

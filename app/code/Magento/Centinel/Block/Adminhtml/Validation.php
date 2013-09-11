@@ -11,7 +11,9 @@
 /**
  * Adminhtml sales order create validation card block
  */
-class Magento_Centinel_Block_Adminhtml_Validation extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Centinel\Block\Adminhtml;
+
+class Validation extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
      * construct

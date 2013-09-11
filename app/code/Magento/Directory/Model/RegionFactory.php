@@ -15,7 +15,9 @@
  * @package    Magento_Directory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_RegionFactory
+namespace Magento\Directory\Model;
+
+class RegionFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -34,10 +36,10 @@ class Magento_Directory_Model_RegionFactory
      * Create new region model
      *
      * @param array $arguments
-     * @return Magento_Directory_Model_Region
+     * @return \Magento\Directory\Model\Region
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento_Directory_Model_Region', $arguments);
+        return $this->_objectManager->create('Magento\Directory\Model\Region', $arguments);
     }
 }

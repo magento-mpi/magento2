@@ -19,14 +19,14 @@ class Magento_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Fram
         require __DIR__ . '/../_files/attribute_set_with_configurable.php';
         // Prepare fixture
         $productData = $this->_getValidProductPostData();
-        /** @var Magento_Eav_Model_Entity_Attribute_Set $attributeSet */
+        /** @var \Magento\Eav\Model\Entity\Attribute\Set $attributeSet */
         $attributeSet = Mage::registry('attribute_set_with_configurable');
-        /** @var Magento_Catalog_Model_Resource_Eav_Attribute $attributeOne */
+        /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attributeOne */
         $attributeOne = Mage::registry('eav_configurable_attribute_1');
-        /** @var Magento_Catalog_Model_Resource_Eav_Attribute $attributeTwo */
+        /** @var \Magento\Catalog\Model\Resource\Eav\Attribute $attributeTwo */
         $attributeTwo = Mage::registry('eav_configurable_attribute_2');
         $productData['attribute_set_id'] = $attributeSet->getId();
-        /** @var Magento_Eav_Model_Entity_Attribute_Source_Table $attributeOneSource */
+        /** @var \Magento\Eav\Model\Entity\Attribute\Source\Table $attributeOneSource */
         $attributeOneSource = $attributeOne->getSource();
         $attributeOnePrices = array();
         foreach ($attributeOneSource->getAllOptions(false) as $option) {
@@ -56,7 +56,7 @@ class Magento_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Fram
     /**
      * Check if the configurable attributes' data was saved correctly during create
      *
-     * @param Magento_Catalog_Model_Product $configurable
+     * @param \Magento\Catalog\Model\Product $configurable
      * @param array $expectedAttributes
      * @param bool $validatePrices
      */
@@ -65,7 +65,7 @@ class Magento_Catalog_Model_Product_Api_Helper_Configurable extends PHPUnit_Fram
         $expectedAttributes,
         $validatePrices = true
     ) {
-        /** @var Magento_Catalog_Model_Product_Type_Configurable $configurableType */
+        /** @var \Magento\Catalog\Model\Product\Type\Configurable $configurableType */
         $configurableType = $configurable->getTypeInstance();
         $actualAttributes = $configurableType->getConfigurableAttributesAsArray($configurable);
         foreach ($expectedAttributes as $expectedAttribute) {

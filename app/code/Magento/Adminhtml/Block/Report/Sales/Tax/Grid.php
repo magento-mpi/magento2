@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Block_Report_Grid_Abstract
+namespace Magento\Adminhtml\Block\Report\Sales\Tax;
+
+class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
 {
     protected $_columnGroupBy = 'period';
 
@@ -29,8 +31,8 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
-            ? 'Magento_Tax_Model_Resource_Report_Updatedat_Collection'
-            : 'Magento_Tax_Model_Resource_Report_Collection';
+            ? '\Magento\Tax\Model\Resource\Report\Updatedat\Collection'
+            : '\Magento\Tax\Model\Resource\Report\Collection';
     }
 
     protected function _prepareColumns()
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
             'index'             => 'period',
             'sortable'          => false,
             'period_type'       => $this->getPeriodType(),
-            'renderer'          => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
+            'renderer'          => '\Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
             'totals_label'      => __('Total'),
             'subtotals_label'   => __('Subtotal'),
             'html_decorators' => array('nobr'),
@@ -103,15 +105,15 @@ class Magento_Adminhtml_Block_Report_Sales_Tax_Grid extends Magento_Adminhtml_Bl
      * Preparing collection
      * Filter canceled statuses for orders in taxes
      *
-     *@return Magento_Adminhtml_Block_Report_Sales_Tax_Grid
+     *@return \Magento\Adminhtml\Block\Report\Sales\Tax\Grid
      */
     protected function _prepareCollection()
     {
         $filterData = $this->getFilterData();
         if(!$filterData->hasData('order_statuses')) {
-            $orderConfig = Mage::getModel('Magento_Sales_Model_Order_Config');
+            $orderConfig = \Mage::getModel('\Magento\Sales\Model\Order\Config');
             $statusValues = array();
-            $canceledStatuses = $orderConfig->getStateStatuses(Magento_Sales_Model_Order::STATE_CANCELED);
+            $canceledStatuses = $orderConfig->getStateStatuses(\Magento\Sales\Model\Order::STATE_CANCELED);
             foreach ($orderConfig->getStatuses() as $code => $label) {
                 if (!isset($canceledStatuses[$code])) {
                     $statusValues[] = $code;

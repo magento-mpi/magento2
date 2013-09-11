@@ -15,8 +15,10 @@
  * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
-    extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
+
+class Detail
+    extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Constructor
@@ -74,11 +76,11 @@ class Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
     /**
      * Getter
      *
-     * @return Magento_CustomerSegment_Model_Segment
+     * @return \Magento\CustomerSegment\Model\Segment
      */
     public function getCustomerSegment()
     {
-        return Mage::registry('current_customer_segment');
+        return \Mage::registry('current_customer_segment');
     }
 
     /**
@@ -88,7 +90,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
      */
     public function getWebsites()
     {
-        return Mage::app()->getWebsites();
+        return \Mage::app()->getWebsites();
     }
 
 }

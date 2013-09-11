@@ -15,11 +15,11 @@
 class Magento_Enterprise_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Enterprise_Model_Resource_Setup_Migration::getCompositeModules
+     * @covers \Magento\Enterprise\Model\Resource\Setup\Migration::getCompositeModules
      */
     public function testGetCompositeModules()
     {
-        $compositeModules = Magento_Enterprise_Model_Resource_Setup_Migration::getCompositeModules();
+        $compositeModules = \Magento\Enterprise\Model\Resource\Setup\Migration::getCompositeModules();
         $this->assertInternalType('array', $compositeModules);
         $this->assertNotEmpty($compositeModules);
         foreach ($compositeModules as $classAlias => $className) {
@@ -30,7 +30,7 @@ class Magento_Enterprise_Model_Resource_Setup_MigrationTest extends PHPUnit_Fram
         }
 
         // array must contain all data from parent class
-        $parentModules = Magento_Core_Model_Resource_Setup_Migration::getCompositeModules();
+        $parentModules = \Magento\Core\Model\Resource\Setup\Migration::getCompositeModules();
         $this->assertEmpty(array_diff($parentModules, $compositeModules));
     }
 }

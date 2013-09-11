@@ -7,23 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Dispatcher_Rest_Authentication
+namespace Magento\Webapi\Controller\Dispatcher\Rest;
+
+class Authentication
 {
-    /** @var Magento_Webapi_Model_Authorization_RoleLocator */
+    /** @var \Magento\Webapi\Model\Authorization\RoleLocator */
     protected $_roleLocator;
 
-    /** @var Magento_Webapi_Model_Rest_Oauth_Server */
+    /** @var \Magento\Webapi\Model\Rest\Oauth\Server */
     protected $_oauthServer;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Model_Rest_Oauth_Server $oauthServer
-     * @param Magento_Webapi_Model_Authorization_RoleLocator $roleLocator
+     * @param \Magento\Webapi\Model\Rest\Oauth\Server $oauthServer
+     * @param \Magento\Webapi\Model\Authorization\RoleLocator $roleLocator
      */
     public function __construct(
-        Magento_Webapi_Model_Rest_Oauth_Server $oauthServer,
-        Magento_Webapi_Model_Authorization_RoleLocator $roleLocator
+        \Magento\Webapi\Model\Rest\Oauth\Server $oauthServer,
+        \Magento\Webapi\Model\Authorization\RoleLocator $roleLocator
     ) {
         $this->_oauthServer = $oauthServer;
         $this->_roleLocator = $roleLocator;
@@ -32,17 +34,17 @@ class Magento_Webapi_Controller_Dispatcher_Rest_Authentication
     /**
      * Authenticate user.
      *
-     * @throws Magento_Webapi_Exception If authentication failed
+     * @throws \Magento\Webapi\Exception If authentication failed
      */
     public function authenticate()
     {
         try {
             $consumer = $this->_oauthServer->authenticateTwoLegged();
             $this->_roleLocator->setRoleId($consumer->getRoleId());
-        } catch (Exception $e) {
-            throw new Magento_Webapi_Exception(
+        } catch (\Exception $e) {
+            throw new \Magento\Webapi\Exception(
                 $this->_oauthServer->reportProblem($e),
-                Magento_Webapi_Exception::HTTP_UNAUTHORIZED
+                \Magento\Webapi\Exception::HTTP_UNAUTHORIZED
             );
         }
     }

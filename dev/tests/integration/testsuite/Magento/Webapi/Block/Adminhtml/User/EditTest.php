@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Webapi_Block_Adminhtml_User_Edit block.
+ * Test for \Magento\Webapi\Block\Adminhtml\User\Edit block.
  *
  * {license_notice}
  *
@@ -19,12 +19,12 @@ class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_Tes
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_User_Edit
+     * @var \Magento\Webapi\Block\Adminhtml\User\Edit
      */
     protected $_block;
 
@@ -36,8 +36,8 @@ class Magento_Webapi_Block_Adminhtml_User_EditTest extends PHPUnit_Framework_Tes
         parent::setUp();
 
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Magento_Webapi_Block_Adminhtml_User_Edit');
+        $this->_layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('\Magento\Webapi\Block\Adminhtml\User\Edit');
     }
 
     /**

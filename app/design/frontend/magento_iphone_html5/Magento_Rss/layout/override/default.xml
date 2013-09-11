@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="default">
-        <block class="Magento_Rss_Block_List" name="head_rss" ifconfig="rss/config/active"/>
+        <block class="\Magento\Rss\Block\ListBlock" name="head_rss" ifconfig="rss/config/active"/>
     </handle>
 </layout>

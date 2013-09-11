@@ -9,12 +9,14 @@
  */
 
 /**
- * Directory Country Api V2
+ * \Directory Country Api V2
  *
  * @category   Magento
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Store_Api_V2 extends Magento_Core_Model_Store_Api
+namespace Magento\Core\Model\Store\Api;
+
+class V2 extends \Magento\Core\Model\Store\Api
 {
 }

@@ -12,7 +12,7 @@
 class Magento_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
+     * @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract
      */
     protected $_model;
 
@@ -22,15 +22,15 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends 
         $objectManagerModel = $this->getMock('Magento\ObjectManager');
 
         $constructArguments = $objectManagerHelper->getConstructArguments(
-            'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js',
+            '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
             array(
                  'objectManager' => $objectManagerModel,
-                 'urlBuilder'    => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
+                 'urlBuilder'    => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
             )
         );
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract',
+            '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract',
             $constructArguments, '', true, false, true,
             array('_getCurrentTheme', 'getTabLabel')
         );
@@ -59,7 +59,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_TabAbstractTest extends 
      */
     public function testCanShowTab($isVirtual, $themeId, $result)
     {
-        $themeMock = $this->getMock('Magento_Core_Model_Theme', array('isVirtual', 'getId'), array(), '', false);
+        $themeMock = $this->getMock('Magento\Core\Model\Theme', array('isVirtual', 'getId'), array(), '', false);
         $themeMock->expects($this->any())
             ->method('isVirtual')
             ->will($this->returnValue($isVirtual));

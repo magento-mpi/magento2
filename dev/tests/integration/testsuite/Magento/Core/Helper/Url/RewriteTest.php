@@ -12,13 +12,13 @@
 class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Url_Rewrite
+     * @var \Magento\Core\Helper\Url\Rewrite
      */
     protected $_helper;
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Core_Helper_Url_Rewrite');
+        $this->_helper = Mage::helper('Magento\Core\Helper\Url\Rewrite');
     }
 
     /**
@@ -31,7 +31,7 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider requestPathExceptionDataProvider
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testValidateRequestPathException($requestPath)
     {
@@ -48,7 +48,7 @@ class Magento_Core_Helper_Url_RewriteTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider requestPathExceptionDataProvider
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testValidateSuffixException($suffix)
     {

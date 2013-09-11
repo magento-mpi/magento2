@@ -10,77 +10,79 @@
 
 
 /**
- * @method Magento_Sales_Model_Resource_Order_Invoice_Item _getResource()
- * @method Magento_Sales_Model_Resource_Order_Invoice_Item getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Invoice\Item _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Invoice\Item getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Invoice_Item setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setParentId(int $value)
  * @method float getBasePrice()
- * @method Magento_Sales_Model_Order_Invoice_Item setBasePrice(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBasePrice(float $value)
  * @method float getBaseWeeeTaxRowDisposition()
- * @method Magento_Sales_Model_Order_Invoice_Item setBaseWeeeTaxRowDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBaseWeeeTaxRowDisposition(float $value)
  * @method float getWeeeTaxAppliedRowAmount()
- * @method Magento_Sales_Model_Order_Invoice_Item setWeeeTaxAppliedRowAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setWeeeTaxAppliedRowAmount(float $value)
  * @method float getBaseWeeeTaxAppliedAmount()
- * @method Magento_Sales_Model_Order_Invoice_Item setBaseWeeeTaxAppliedAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBaseWeeeTaxAppliedAmount(float $value)
  * @method float getTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice_Item setTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setTaxAmount(float $value)
  * @method float getBaseRowTotal()
- * @method Magento_Sales_Model_Order_Invoice_Item setBaseRowTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBaseRowTotal(float $value)
  * @method float getDiscountAmount()
- * @method Magento_Sales_Model_Order_Invoice_Item setDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setDiscountAmount(float $value)
  * @method float getRowTotal()
- * @method Magento_Sales_Model_Order_Invoice_Item setRowTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setRowTotal(float $value)
  * @method float getWeeeTaxRowDisposition()
- * @method Magento_Sales_Model_Order_Invoice_Item setWeeeTaxRowDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setWeeeTaxRowDisposition(float $value)
  * @method float getBaseDiscountAmount()
- * @method Magento_Sales_Model_Order_Invoice_Item setBaseDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBaseDiscountAmount(float $value)
  * @method float getBaseWeeeTaxDisposition()
- * @method Magento_Sales_Model_Order_Invoice_Item setBaseWeeeTaxDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBaseWeeeTaxDisposition(float $value)
  * @method float getPriceInclTax()
- * @method Magento_Sales_Model_Order_Invoice_Item setPriceInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setPriceInclTax(float $value)
  * @method float getWeeeTaxAppliedAmount()
- * @method Magento_Sales_Model_Order_Invoice_Item setWeeeTaxAppliedAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setWeeeTaxAppliedAmount(float $value)
  * @method float getBaseTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice_Item setBaseTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBaseTaxAmount(float $value)
  * @method float getBasePriceInclTax()
- * @method Magento_Sales_Model_Order_Invoice_Item setBasePriceInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBasePriceInclTax(float $value)
  * @method float getQty()
  * @method float getWeeeTaxDisposition()
- * @method Magento_Sales_Model_Order_Invoice_Item setWeeeTaxDisposition(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setWeeeTaxDisposition(float $value)
  * @method float getBaseCost()
- * @method Magento_Sales_Model_Order_Invoice_Item setBaseCost(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBaseCost(float $value)
  * @method float getBaseWeeeTaxAppliedRowAmnt()
- * @method Magento_Sales_Model_Order_Invoice_Item setBaseWeeeTaxAppliedRowAmnt(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBaseWeeeTaxAppliedRowAmnt(float $value)
  * @method float getPrice()
- * @method Magento_Sales_Model_Order_Invoice_Item setPrice(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setPrice(float $value)
  * @method float getBaseRowTotalInclTax()
- * @method Magento_Sales_Model_Order_Invoice_Item setBaseRowTotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBaseRowTotalInclTax(float $value)
  * @method float getRowTotalInclTax()
- * @method Magento_Sales_Model_Order_Invoice_Item setRowTotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setRowTotalInclTax(float $value)
  * @method int getProductId()
- * @method Magento_Sales_Model_Order_Invoice_Item setProductId(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setProductId(int $value)
  * @method int getOrderItemId()
- * @method Magento_Sales_Model_Order_Invoice_Item setOrderItemId(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setOrderItemId(int $value)
  * @method string getAdditionalData()
- * @method Magento_Sales_Model_Order_Invoice_Item setAdditionalData(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setAdditionalData(string $value)
  * @method string getDescription()
- * @method Magento_Sales_Model_Order_Invoice_Item setDescription(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setDescription(string $value)
  * @method string getWeeeTaxApplied()
- * @method Magento_Sales_Model_Order_Invoice_Item setWeeeTaxApplied(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setWeeeTaxApplied(string $value)
  * @method string getSku()
- * @method Magento_Sales_Model_Order_Invoice_Item setSku(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setSku(string $value)
  * @method string getName()
- * @method Magento_Sales_Model_Order_Invoice_Item setName(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setName(string $value)
  * @method float getHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice_Item setHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setHiddenTaxAmount(float $value)
  * @method float getBaseHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Invoice_Item setBaseHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Item setBaseHiddenTaxAmount(float $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
+namespace Magento\Sales\Model\Order\Invoice;
+
+class Item extends \Magento\Core\Model\AbstractModel
 {
     protected $_eventPrefix = 'sales_invoice_item';
     protected $_eventObject = 'invoice_item';
@@ -93,16 +95,16 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Invoice_Item');
+        $this->_init('\Magento\Sales\Model\Resource\Order\Invoice\Item');
     }
 
     /**
      * Declare invoice instance
      *
-     * @param   Magento_Sales_Model_Order_Invoice $invoice
-     * @return  Magento_Sales_Model_Order_Invoice_Item
+     * @param   \Magento\Sales\Model\Order\Invoice $invoice
+     * @return  \Magento\Sales\Model\Order\Invoice\Item
      */
-    public function setInvoice(Magento_Sales_Model_Order_Invoice $invoice)
+    public function setInvoice(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $this->_invoice = $invoice;
         return $this;
@@ -111,7 +113,7 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
     /**
      * Retrieve invoice instance
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getInvoice()
     {
@@ -121,10 +123,10 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
     /**
      * Declare order item instance
      *
-     * @param   Magento_Sales_Model_Order_Item $item
-     * @return  Magento_Sales_Model_Order_Invoice_Item
+     * @param   \Magento\Sales\Model\Order\Item $item
+     * @return  \Magento\Sales\Model\Order\Invoice\Item
      */
-    public function setOrderItem(Magento_Sales_Model_Order_Item $item)
+    public function setOrderItem(\Magento\Sales\Model\Order\Item $item)
     {
         $this->_orderItem = $item;
         $this->setOrderItemId($item->getId());
@@ -134,7 +136,7 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
     /**
      * Retrieve order item instance
      *
-     * @return Magento_Sales_Model_Order_Item
+     * @return \Magento\Sales\Model\Order\Item
      */
     public function getOrderItem()
     {
@@ -143,7 +145,7 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
                 $this->_orderItem = $this->getInvoice()->getOrder()->getItemById($this->getOrderItemId());
             }
             else {
-                $this->_orderItem = Mage::getModel('Magento_Sales_Model_Order_Item')
+                $this->_orderItem = \Mage::getModel('\Magento\Sales\Model\Order\Item')
                     ->load($this->getOrderItemId());
             }
         }
@@ -154,7 +156,7 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
      * Declare qty
      *
      * @param   float $qty
-     * @return  Magento_Sales_Model_Order_Invoice_Item
+     * @return  \Magento\Sales\Model\Order\Invoice\Item
      */
     public function setQty($qty)
     {
@@ -174,7 +176,7 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
             $this->setData('qty', $qty);
         }
         else {
-            Mage::throwException(
+            \Mage::throwException(
                 __('We found an invalid quantity to invoice item "%1".', $this->getName())
             );
         }
@@ -184,7 +186,7 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
     /**
      * Applying qty to order item
      *
-     * @return Magento_Sales_Model_Order_Invoice_Item
+     * @return \Magento\Sales\Model\Order\Invoice\Item
      */
     public function register()
     {
@@ -207,7 +209,7 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
     /**
      * Cancelling invoice item
      *
-     * @return Magento_Sales_Model_Order_Invoice_Item
+     * @return \Magento\Sales\Model\Order\Invoice\Item
      */
     public function cancel()
     {
@@ -231,7 +233,7 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
     /**
      * Invoice item row total calculation
      *
-     * @return Magento_Sales_Model_Order_Invoice_Item
+     * @return \Magento\Sales\Model\Order\Invoice\Item
      */
     public function calcRowTotal()
     {
@@ -276,7 +278,7 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
     /**
      * Before object save
      *
-     * @return Magento_Sales_Model_Order_Invoice_Item
+     * @return \Magento\Sales\Model\Order\Invoice\Item
      */
     protected function _beforeSave()
     {
@@ -292,7 +294,7 @@ class Magento_Sales_Model_Order_Invoice_Item extends Magento_Core_Model_Abstract
     /**
      * After object save
      *
-     * @return Magento_Sales_Model_Order_Invoice_Item
+     * @return \Magento\Sales\Model\Order\Invoice\Item
      */
     protected function _afterSave()
     {

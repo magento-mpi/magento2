@@ -7,8 +7,8 @@
  */
 
 // refresh report statistics
-/** @var Magento_Tax_Model_Resource_Report_Tax $reportResource */
-$reportResource = Mage::getResourceModel('Magento_Tax_Model_Resource_Report_Tax');
+/** @var \Magento\Tax\Model\Resource\Report\Tax $reportResource */
+$reportResource = Mage::getResourceModel('\Magento\Tax\Model\Resource\Report\Tax');
 $reportResource->beginTransaction(); // prevent table truncation by incrementing the transaction nesting level counter
 try {
     $reportResource->aggregate();

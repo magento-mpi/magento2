@@ -24,15 +24,15 @@ class Magento_Log_Model_Shell_Command_CleanTest extends PHPUnit_Framework_TestCa
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento_Core_Model_StoreManagerInterface');
+        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $this->_logFactoryMock = $this->getMock('Magento_Log_Model_LogFactory', array('create'), array(), '', false);
-        $this->_logMock = $this->getMock('Magento_Log_Model_Log', array(), array(), '', false);
+        $this->_logMock = $this->getMock('Magento\Log\Model\Log', array(), array(), '', false);
         $this->_logFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->_logMock));
     }
 
     public function testExecuteWithoutDaysOffset()
     {
-        $model = new Magento_Log_Model_Shell_Command_Clean($this->_storeManagerMock, $this->_logFactoryMock, 0);
+        $model = new \Magento\Log\Model\Shell\Command\Clean($this->_storeManagerMock, $this->_logFactoryMock, 0);
         $this->_storeManagerMock->expects($this->never())->method('getStore');
         $this->_logMock->expects($this->once())->method('clean');
         $this->assertStringStartsWith('Log cleaned', $model->execute());
@@ -40,12 +40,12 @@ class Magento_Log_Model_Shell_Command_CleanTest extends PHPUnit_Framework_TestCa
 
     public function testExecuteWithDaysOffset()
     {
-        $model = new Magento_Log_Model_Shell_Command_Clean($this->_storeManagerMock, $this->_logFactoryMock, 10);
-        $storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $model = new \Magento\Log\Model\Shell\Command\Clean($this->_storeManagerMock, $this->_logFactoryMock, 10);
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
 
         $this->_logMock->expects($this->once())->method('clean');
-        $storeMock->expects($this->once())->method('setConfig')->with(Magento_Log_Model_Log::XML_LOG_CLEAN_DAYS, 10);
+        $storeMock->expects($this->once())->method('setConfig')->with(\Magento\Log\Model\Log::XML_LOG_CLEAN_DAYS, 10);
         $this->assertStringStartsWith('Log cleaned', $model->execute());
     }
 }

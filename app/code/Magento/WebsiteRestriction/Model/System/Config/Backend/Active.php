@@ -15,7 +15,9 @@
  * @package     Magento_WebsiteRestriction
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_WebsiteRestriction_Model_System_Config_Backend_Active extends Magento_Core_Model_Config_Value
+namespace Magento\WebsiteRestriction\Model\System\Config\Backend;
+
+class Active extends \Magento\Core\Model\Config\Value
 {
     /**
      * Prefix of model events names
@@ -27,12 +29,12 @@ class Magento_WebsiteRestriction_Model_System_Config_Backend_Active extends Mage
     /**
      * Cleanup blocks HTML cache if value has been changed
      *
-     * @return Magento_WebsiteRestriction_Model_System_Config_Backend_Active
+     * @return \Magento\WebsiteRestriction\Model\System\Config\Backend\Active
      */
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::app()->cleanCache(array(Magento_Core_Model_Store::CACHE_TAG, Magento_Cms_Model_Block::CACHE_TAG));
+            \Mage::app()->cleanCache(array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG));
         }
         return parent::_afterSave();
     }

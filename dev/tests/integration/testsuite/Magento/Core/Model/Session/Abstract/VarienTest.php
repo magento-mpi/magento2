@@ -37,11 +37,11 @@ class Magento_Core_Model_Session_Abstract_VarienTest extends PHPUnit_Framework_T
 
         ini_set('session.save_handler', $origSessionHandler);
 
-        Mage::getConfig()->setNode(Magento_Core_Model_Session_Abstract::XML_NODE_SESSION_SAVE, $saveMethod);
+        Mage::getConfig()->setNode(\Magento\Core\Model\Session\AbstractSession::XML_NODE_SESSION_SAVE, $saveMethod);
         /**
          * @var Magento_Core_Model_Session_Abstract_Varien
          */
-        $model = Mage::getModel('Magento_Core_Model_Session_Abstract');
+        $model = Mage::getModel('\Magento\Core\Model\Session\AbstractSession');
         //There is no any possibility to determine whether session already started or not in php before 5.4
         $model->setSkipEmptySessionCheck(true);
         $model->start();

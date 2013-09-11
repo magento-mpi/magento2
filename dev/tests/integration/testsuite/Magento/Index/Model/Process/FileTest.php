@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Index_Model_Process_File
+ * Test class for \Magento\Index\Model\Process\File
  */
 class Magento_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
 {
@@ -35,17 +35,17 @@ class Magento_Index_Model_Process_FileTest extends PHPUnit_Framework_TestCase
     protected $_testFileHandler;
 
     /**
-     * @var Magento_Index_Model_Process_File
+     * @var \Magento\Index\Model\Process\File
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_objectManager   = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_model           = $this->_objectManager->create('Magento_Index_Model_Process_File');
-        /** @var $dir Magento_Core_Model_Dir */
-        $dir = $this->_objectManager->get('Magento_Core_Model_Dir');
-        $this->_fileDirectory   = $dir->getDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'locks';
+        $this->_model           = $this->_objectManager->create('Magento\Index\Model\Process\File');
+        /** @var $dir \Magento\Core\Model\Dir */
+        $dir = $this->_objectManager->get('Magento\Core\Model\Dir');
+        $this->_fileDirectory   = $dir->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'locks';
         $fullFileName           = $this->_fileDirectory . DIRECTORY_SEPARATOR . self::FILE_NAME;
         $this->_testFileHandler = fopen($fullFileName, 'w');
     }

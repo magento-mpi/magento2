@@ -7,71 +7,73 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Menu_Config
+namespace Magento\Backend\Model\Menu;
+
+class Config
 {
     const CACHE_ID = 'backend_menu_config';
     const CACHE_MENU_OBJECT = 'backend_menu_object';
 
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Backend_Model_MenuFactory
+     * @var \Magento\Backend\Model\MenuFactory
      */
     protected $_menuFactory;
     /**
      * Menu model
      *
-     * @var Magento_Backend_Model_Menu
+     * @var \Magento\Backend\Model\Menu
      */
     protected $_menu;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
     /**
-     * @var Magento_Backend_Model_Menu_Config_Reader
+     * @var \Magento\Backend\Model\Menu\Config\Reader
      */
     protected $_configReader;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Backend_Model_Menu_DirectorAbstract
+     * @var \Magento\Backend\Model\Menu\DirectorAbstract
      */
     protected $_director;
 
     /**
-     * @param Magento_Backend_Model_Menu_Builder $menuBuilder
-     * @param Magento_Backend_Model_Menu_DirectorAbstract $menuDirector
-     * @param Magento_Backend_Model_MenuFactory $menuFactory
-     * @param Magento_Backend_Model_Menu_Config_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Logger $logger
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Model\Menu\Builder $menuBuilder
+     * @param \Magento\Backend\Model\Menu\DirectorAbstract $menuDirector
+     * @param \Magento\Backend\Model\MenuFactory $menuFactory
+     * @param \Magento\Backend\Model\Menu\Config\Reader $configReader
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        Magento_Backend_Model_Menu_Builder $menuBuilder,
-        Magento_Backend_Model_Menu_DirectorAbstract $menuDirector,
-        Magento_Backend_Model_MenuFactory $menuFactory,
-        Magento_Backend_Model_Menu_Config_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Logger $logger,
-        Magento_Core_Model_StoreManagerInterface $storeManager
+        \Magento\Backend\Model\Menu\Builder $menuBuilder,
+        \Magento\Backend\Model\Menu\DirectorAbstract $menuDirector,
+        \Magento\Backend\Model\MenuFactory $menuFactory,
+        \Magento\Backend\Model\Menu\Config\Reader $configReader,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Logger $logger,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_menuBuilder = $menuBuilder;
         $this->_director = $menuDirector;
@@ -86,26 +88,26 @@ class Magento_Backend_Model_Menu_Config
     /**
      * Build menu model from config
      *
-     * @return Magento_Backend_Model_Menu
-     * @throws InvalidArgumentException|BadMethodCallException|OutOfRangeException|Exception
+     * @return \Magento\Backend\Model\Menu
+     * @throws \InvalidArgumentException|BadMethodCallException|OutOfRangeException|Exception
      */
     public function getMenu()
     {
         $store = $this->_storeManager->getStore();
-        $this->_logger->addStoreLog(Magento_Backend_Model_Menu::LOGGER_KEY, $store);
+        $this->_logger->addStoreLog(\Magento\Backend\Model\Menu::LOGGER_KEY, $store);
         try {
             $this->_initMenu();
             return $this->_menu;
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $this->_logger->logException($e);
             throw $e;
-        } catch (BadMethodCallException $e) {
+        } catch (\BadMethodCallException $e) {
             $this->_logger->logException($e);
             throw $e;
-        } catch (OutOfRangeException $e) {
+        } catch (\OutOfRangeException $e) {
             $this->_logger->logException($e);
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -127,7 +129,7 @@ class Magento_Backend_Model_Menu_Config
             }
 
             $this->_director->direct(
-                $this->_configReader->read(Magento_Core_Model_App_Area::AREA_ADMINHTML),
+                $this->_configReader->read(\Magento\Core\Model\App\Area::AREA_ADMINHTML),
                 $this->_menuBuilder,
                 $this->_logger
             );

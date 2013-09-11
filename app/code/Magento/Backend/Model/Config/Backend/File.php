@@ -15,10 +15,12 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend;
+
+class File extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var Magento_Backend_Model_Config_Backend_File_RequestData_Interface
+     * @var \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface
      */
     protected $_requestData;
 
@@ -35,18 +37,18 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Backend_Model_Config_Backend_File_RequestData_Interface $requestData,
+        \Magento\Core\Model\Context $context,
+        \Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface $requestData,
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -58,7 +60,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
     /**
      * Save uploaded file before saving config value
      *
-     * @return Magento_Backend_Model_Config_Backend_File
+     * @return \Magento\Backend\Model\Config\Backend\File
      */
     protected function _beforeSave()
     {
@@ -76,14 +78,14 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
         if (!empty($file)) {
             $uploadDir = $this->_getUploadDir();
             try {
-                $uploader = new Magento_Core_Model_File_Uploader($file);
+                $uploader = new \Magento\Core\Model\File\Uploader($file);
                 $uploader->setAllowedExtensions($this->_getAllowedExtensions());
                 $uploader->setAllowRenameFiles(true);
                 $uploader->addValidateCallback('size', $this, 'validateMaxSize');
                 $result = $uploader->save($uploadDir);
 
-            } catch (Exception $e) {
-                Mage::throwException($e->getMessage());
+            } catch (\Exception $e) {
+                \Mage::throwException($e->getMessage());
                 return $this;
             }
 
@@ -109,13 +111,13 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
      * Validation callback for checking max file size
      *
      * @param  string $filePath Path to temporary uploaded file
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function validateMaxSize($filePath)
     {
         if ($this->_maxFileSize > 0
             && $this->_filesystem->getFileSize($filePath, dirname($filePath)) > ($this->_maxFileSize * 1024)) {
-            throw Mage::exception(
+            throw \Mage::exception(
                 'Magento_Core', __('The file you\'re uploading exceeds the server size limit of %1 kilobytes.',
                          $this->_maxFileSize)
             );
@@ -138,7 +140,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
      * Return path to directory for upload file
      *
      * @return string
-     * @throw Magento_Core_Exception
+     * @throw \Magento\Core\Exception
      */
     protected function _getUploadDir()
     {
@@ -146,7 +148,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
         /* @var $fieldConfig \Magento\Simplexml\Element */
 
         if (!array_key_exists('upload_dir', $fieldConfig)) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('The base directory to upload file is not specified.')
             );
         }
@@ -179,7 +181,7 @@ class Magento_Backend_Model_Config_Backend_File extends Magento_Core_Model_Confi
      */
     protected function _getUploadRoot($token)
     {
-        return Mage::getBaseDir('media');
+        return \Mage::getBaseDir('media');
     }
 
     /**

@@ -8,7 +8,7 @@
 class Magento_Core_Model_Config_FileResolver_PrimaryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_FileResolver_Primary
+     * @var \Magento\Core\Model\Config\FileResolver\Primary
      */
     protected $_model;
 
@@ -18,13 +18,13 @@ class Magento_Core_Model_Config_FileResolver_PrimaryTest extends PHPUnit_Framewo
             . '_files' . DIRECTORY_SEPARATOR . 'primary'
             . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'etc';
 
-        $applicationDirsMock = $this->getMock('Magento_Core_Model_Dir', array(), array('getDir'), '', false);
+        $applicationDirsMock = $this->getMock('Magento\Core\Model\Dir', array(), array('getDir'), '', false);
         $applicationDirsMock->expects($this->any())
             ->method('getDir')
-            ->with(Magento_Core_Model_Dir::CONFIG)
+            ->with(\Magento\Core\Model\Dir::CONFIG)
             ->will($this->returnValue($appConfigDir));
 
-        $this->_model = new Magento_Core_Model_Config_FileResolver_Primary($applicationDirsMock);
+        $this->_model = new \Magento\Core\Model\Config\FileResolver\Primary($applicationDirsMock);
     }
 
     /**

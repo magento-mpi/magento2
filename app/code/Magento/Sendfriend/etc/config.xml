@@ -15,7 +15,7 @@
             <sendfriend_setup>
                 <setup>
                     <module>Magento_Sendfriend</module>
-                    <class>Magento_Sendfriend_Model_Resource_Setup</class>
+                    <class>Magento\Sendfriend\Model\Resource\Setup</class>
                 </setup>
             </sendfriend_setup>
         </resources>

@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Model_Config_Ordered
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Collector extends \Magento\Sales\Model\Config\Ordered
 {
     /**
      * Path to sort order values of checkout totals
@@ -32,7 +34,7 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     /**
      * Corresponding store object
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
@@ -53,13 +55,13 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     /**
      * Init corresponding total models
      *
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
-     * @param Magento_Core_Model_Store $store
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\Core\Model\Store $store
      */
-    public function __construct(Magento_Core_Model_Cache_Type_Config $configCacheType, $store = null)
+    public function __construct(\Magento\Core\Model\Cache\Type\Config $configCacheType, $store = null)
     {
         parent::__construct($configCacheType);
-        $this->_store = $store ?: Mage::app()->getStore();
+        $this->_store = $store ?: \Mage::app()->getStore();
         $this->_initModels()
             ->_initCollectors()
             ->_initRetrievers();
@@ -91,14 +93,14 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
      * @param string $class
      * @param string $totalCode
      * @param array $totalConfig
-     * @return Magento_Sales_Model_Quote_Address_Total_Abstract
+     * @return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
     protected function _initModelInstance($class, $totalCode, $totalConfig)
     {
-        $model = Mage::getModel($class);
-        if (!$model instanceof Magento_Sales_Model_Quote_Address_Total_Abstract) {
-            Mage::throwException(
-                __('The address total model should be extended from Magento_Sales_Model_Quote_Address_Total_Abstract.')
+        $model = \Mage::getModel($class);
+        if (!$model instanceof \Magento\Sales\Model\Quote\Address\Total\AbstractTotal) {
+            \Mage::throwException(
+                __('The address total model should be extended from \Magento\Sales\Model\Quote\Address\Total\AbstractTotal.')
             );
         }
 
@@ -115,11 +117,11 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     /**
      * Initialize total models configuration and objects
      *
-     * @return Magento_Sales_Model_Quote_Address_Total_Collector
+     * @return \Magento\Sales\Model\Quote\Address\Total\Collector
      */
     protected function _initModels()
     {
-        $totalsConfig = Mage::getConfig()->getNode($this->_totalsConfigNode);
+        $totalsConfig = \Mage::getConfig()->getNode($this->_totalsConfigNode);
 
         foreach ($totalsConfig->children() as $totalCode => $totalConfig) {
             $class = $totalConfig->getClassName();
@@ -133,11 +135,11 @@ class Magento_Sales_Model_Quote_Address_Total_Collector extends Magento_Sales_Mo
     /**
      * Initialize retrievers array
      *
-     * @return Magento_Sales_Model_Quote_Address_Total_Collector
+     * @return \Magento\Sales\Model\Quote\Address\Total\Collector
      */
     protected function _initRetrievers()
     {
-        $sorts = Mage::getStoreConfig(self::XML_PATH_SALES_TOTALS_SORT, $this->_store);
+        $sorts = \Mage::getStoreConfig(self::XML_PATH_SALES_TOTALS_SORT, $this->_store);
         foreach ($sorts as $code => $sortOrder) {
             if (isset($this->_models[$code])) {
                 // Reserve enough space for collisions

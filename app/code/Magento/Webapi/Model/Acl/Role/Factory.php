@@ -7,9 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Role_Factory
+namespace Magento\Webapi\Model\Acl\Role;
+
+class Factory
 {
-    const CLASS_NAME = 'Magento_Webapi_Model_Acl_Role';
+    const CLASS_NAME = '\Magento\Webapi\Model\Acl\Role';
 
     /**
      * @var \Magento\ObjectManager
@@ -28,7 +30,7 @@ class Magento_Webapi_Model_Acl_Role_Factory
      * Create ACL role model.
      *
      * @param array $arguments
-     * @return Magento_Webapi_Model_Acl_Role
+     * @return \Magento\Webapi\Model\Acl\Role
      */
     public function create(array $arguments = array())
     {

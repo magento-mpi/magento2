@@ -15,7 +15,9 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Config extends \Magento\Simplexml\Config
+namespace Magento\Api\Model;
+
+class Config extends \Magento\Simplexml\Config
 {
     /**
      * Constructor
@@ -25,7 +27,7 @@ class Magento_Api_Model_Config extends \Magento\Simplexml\Config
     public function __construct($sourceData=null)
     {
         $this->setCacheId('config_api');
-        $this->setCacheTags(array(Magento_Api_Model_Cache_Type::CACHE_TAG));
+        $this->setCacheTags(array(\Magento\Api\Model\Cache\Type::CACHE_TAG));
 
         parent::__construct($sourceData);
         $this->_construct();
@@ -34,23 +36,23 @@ class Magento_Api_Model_Config extends \Magento\Simplexml\Config
     /**
      * Init configuration for webservices api
      *
-     * @return Magento_Api_Model_Config
+     * @return \Magento\Api\Model\Config
      */
     protected function _construct()
     {
-        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getObjectManager()->get('Magento_Core_Model_Cache_StateInterface');
+        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
+        $cacheState = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\StateInterface');
 
-        if ($cacheState->isEnabled(Magento_Api_Model_Cache_Type::TYPE_IDENTIFIER)) {
+        if ($cacheState->isEnabled(\Magento\Api\Model\Cache\Type::TYPE_IDENTIFIER)) {
             if ($this->loadCache()) {
                 return $this;
             }
         }
 
-        $config = Mage::getSingleton('Magento_Core_Model_Config_Modules_Reader')->loadModulesConfiguration('api.xml');
+        $config = \Mage::getSingleton('Magento\Core\Model\Config\Modules\Reader')->loadModulesConfiguration('api.xml');
         $this->setXml($config->getNode('api'));
 
-        if ($cacheState->isEnabled(Magento_Api_Model_Cache_Type::TYPE_IDENTIFIER)) {
+        if ($cacheState->isEnabled(\Magento\Api\Model\Cache\Type::TYPE_IDENTIFIER)) {
             $this->saveCache();
         }
         return $this;
@@ -153,12 +155,12 @@ class Magento_Api_Model_Config extends \Magento\Simplexml\Config
     /**
      * Load Acl resources from config
      *
-     * @param Magento_Api_Model_Acl $acl
-     * @param Magento_Core_Model_Config_Element $resource
+     * @param \Magento\Api\Model\Acl $acl
+     * @param \Magento\Core\Model\Config\Element $resource
      * @param string $parentName
-     * @return Magento_Api_Model_Config
+     * @return \Magento\Api\Model\Config
      */
-    public function loadAclResources(Magento_Api_Model_Acl $acl, $resource=null, $parentName=null)
+    public function loadAclResources(\Magento\Api\Model\Acl $acl, $resource=null, $parentName=null)
     {
         $resourceName = null;
         if (is_null($resource)) {
@@ -166,7 +168,7 @@ class Magento_Api_Model_Config extends \Magento\Simplexml\Config
         } else {
             $resourceName = (is_null($parentName) ? '' : $parentName.'/').$resource->getName();
             $acl->addResource(
-                Mage::getModel('Magento_Api_Model_Acl_Resource', array('resourceId' => $resourceName)),
+                \Mage::getModel('\Magento\Api\Model\Acl\Resource', array('resourceId' => $resourceName)),
                 $parentName
             );
         }
@@ -189,7 +191,7 @@ class Magento_Api_Model_Config extends \Magento\Simplexml\Config
      * Get acl assert config
      *
      * @param string $name
-     * @return Magento_Core_Model_Config_Element|boolean
+     * @return \Magento\Core\Model\Config\Element|boolean
      */
     public function getAclAssert($name='')
     {
@@ -209,7 +211,7 @@ class Magento_Api_Model_Config extends \Magento\Simplexml\Config
      * Retrieve privilege set by name
      *
      * @param string $name
-     * @return Magento_Core_Model_Config_Element|boolean
+     * @return \Magento\Core\Model\Config\Element|boolean
      */
     public function getAclPrivilegeSet($name='')
     {
@@ -250,25 +252,25 @@ class Magento_Api_Model_Config extends \Magento\Simplexml\Config
     /**
      * Retrieve cache object
      *
-     * @return Zend_Cache_Frontend_File
+     * @return \Zend_Cache_Frontend_File
      */
     public function getCache()
     {
-        return Mage::app()->getCache();
+        return \Mage::app()->getCache();
     }
 
     protected function _loadCache($id)
     {
-        return Mage::app()->loadCache($id);
+        return \Mage::app()->loadCache($id);
     }
 
     protected function _saveCache($data, $id, $tags=array(), $lifetime=false)
     {
-        return Mage::app()->saveCache($data, $id, $tags, $lifetime);
+        return \Mage::app()->saveCache($data, $id, $tags, $lifetime);
     }
 
     protected function _removeCache($id)
     {
-        return Mage::app()->removeCache($id);
+        return \Mage::app()->removeCache($id);
     }
-} // Class Magento_Api_Model_Config End
+} // Class \Magento\Api\Model\Config End

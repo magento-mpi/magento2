@@ -24,15 +24,15 @@ class Magento_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
     /**
      * Assert that the actual layout update instance represents the expected layout update file
      *
-     * @param Magento_Core_Model_Layout_Merge $actualUpdate
+     * @param \Magento\Core\Model\Layout\Merge $actualUpdate
      * @param string $expectedUpdateFile
      */
     protected function _assertLayoutUpdate($actualUpdate, $expectedUpdateFile)
     {
-        $this->assertInstanceOf('Magento_Core_Model_Layout_Merge', $actualUpdate);
+        $this->assertInstanceOf('\Magento\Core\Model\Layout\Merge', $actualUpdate);
 
         $layoutUpdateXml = $actualUpdate->getFileLayoutUpdatesXml();
-        $this->assertInstanceOf('Magento_Core_Model_Layout_Element', $layoutUpdateXml);
+        $this->assertInstanceOf('\Magento\Core\Model\Layout\Element', $layoutUpdateXml);
         $this->assertXmlStringEqualsXmlFile($expectedUpdateFile, $layoutUpdateXml->asNiceXml());
     }
 
@@ -47,7 +47,7 @@ class Magento_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $layoutUpdateFile = __DIR__ . '/_files/_layout_update.xml';
         $layout = $this->_utility->getLayoutFromFixture($layoutUpdateFile, $this->_utility->getLayoutDependencies());
-        $this->assertInstanceOf('Magento_Core_Model_Layout', $layout);
+        $this->assertInstanceOf('\Magento\Core\Model\Layout', $layout);
         $this->_assertLayoutUpdate($layout->getUpdate(), $layoutUpdateFile);
     }
 }

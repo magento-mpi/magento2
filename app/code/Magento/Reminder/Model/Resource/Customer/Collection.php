@@ -16,16 +16,18 @@
  * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Customer_Model_Resource_Customer_Collection
+namespace Magento\Reminder\Model\Resource\Customer;
+
+class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * Instantiate select to get matched customers
      *
-     * @return Magento_Reminder_Model_Resource_Customer_Collection
+     * @return \Magento\Reminder\Model\Resource\Customer\Collection
      */
     protected function _initSelect()
     {
-        $rule = Mage::registry('current_reminder_rule');
+        $rule = \Mage::registry('current_reminder_rule');
         $select = $this->getSelect();
 
         $customerTable = $this->getTable('customer_entity');
@@ -46,8 +48,8 @@ class Magento_Reminder_Model_Resource_Customer_Collection extends Magento_Custom
         $subSelect->from(array('g' => $logTable), array(
             'customer_id',
             'rule_id',
-            'emails_sent' => new Zend_Db_Expr('COUNT(log_id)'),
-            'last_sent' => new Zend_Db_Expr('MAX(sent_at)')
+            'emails_sent' => new \Zend_Db_Expr('COUNT(log_id)'),
+            'last_sent' => new \Zend_Db_Expr('MAX(sent_at)')
         ));
 
         $subSelect->where('rule_id = ?', $rule->getId());

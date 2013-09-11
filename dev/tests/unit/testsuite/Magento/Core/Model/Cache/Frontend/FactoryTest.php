@@ -132,7 +132,7 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
      *
      * @param array $enforcedOptions
      * @param array $decorators
-     * @return Magento_Core_Model_Cache_Frontend_Factory
+     * @return \Magento\Core\Model\Cache\Frontend\Factory
      */
     protected function _buildModelForCreate($enforcedOptions = array(), $decorators = array())
     {
@@ -164,15 +164,15 @@ class Magento_Core_Model_Cache_Frontend_FactoryTest extends PHPUnit_Framework_Te
             ->will($this->returnValue(true));
 
         $map = array(
-            array(Magento_Core_Model_Dir::CACHE, 'CACHE_DIR'),
-            array(Magento_Core_Model_Dir::CONFIG, 'CONFIG_DIR'),
+            array(\Magento\Core\Model\Dir::CACHE, 'CACHE_DIR'),
+            array(\Magento\Core\Model\Dir::CONFIG, 'CONFIG_DIR'),
         );
-        $dirs = $this->getMock('Magento_Core_Model_Dir', array('getDir'), array(), '', false);
+        $dirs = $this->getMock('Magento\Core\Model\Dir', array('getDir'), array(), '', false);
         $dirs->expects($this->any())
             ->method('getDir')
             ->will($this->returnValueMap($map));
 
-        $model = new Magento_Core_Model_Cache_Frontend_Factory($objectManager, $filesystem, $dirs, $enforcedOptions,
+        $model = new \Magento\Core\Model\Cache\Frontend\Factory($objectManager, $filesystem, $dirs, $enforcedOptions,
             $decorators);
 
         return $model;

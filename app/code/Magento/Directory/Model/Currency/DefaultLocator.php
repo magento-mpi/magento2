@@ -8,21 +8,23 @@
  * @license     {license_link}
  */
 
-class Magento_Directory_Model_Currency_DefaultLocator
+namespace Magento\Directory\Model\Currency;
+
+class DefaultLocator
 {
     /**
      * Application object
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Core\Model\App $app
      */
-    public function __construct(Magento_Core_Model_App $app)
+    public function __construct(\Magento\Core\Model\App $app)
     {
         $this->_app = $app;
     }
@@ -30,10 +32,10 @@ class Magento_Directory_Model_Currency_DefaultLocator
     /**
      * Retrieve default currency for selected store, website or website group
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @return string
      */
-    public function getDefaultCurrency(Magento_Core_Controller_Request_Http $request)
+    public function getDefaultCurrency(\Magento\Core\Controller\Request\Http $request)
     {
         if ($request->getParam('store')) {
             $store = $request->getParam('store');

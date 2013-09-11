@@ -16,23 +16,25 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Rating\Edit\Tab;
+
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Store manager instance
      *
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
     /**
      * Prepare rating edit form
      *
-     * @return Magento_Adminhtml_Block_Rating_Edit_Tab_Form
+     * @return \Magento\Adminhtml\Block\Rating\Edit\Tab\Form
      */
     protected function _prepareForm()
     {
@@ -61,31 +63,31 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
             'required' => true,
         ));
 
-        foreach (Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreCollection() as $store) {
+        foreach (\Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreCollection() as $store) {
             $fieldset->addField('rating_code_' . $store->getId(), 'text', array(
                 'label' => $store->getName(),
                 'name' => 'rating_codes[' . $store->getId() . ']',
             ));
         }
 
-        if (Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRatingData()) {
-            $form->setValues(Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRatingData());
-            $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getRatingData();
+        if (\Mage::getSingleton('Magento\Adminhtml\Model\Session')->getRatingData()) {
+            $form->setValues(\Mage::getSingleton('Magento\Adminhtml\Model\Session')->getRatingData());
+            $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getRatingData();
             if (isset($data['rating_codes'])) {
                $this->_setRatingCodes($data['rating_codes']);
             }
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setRatingData(null);
-        } elseif (Mage::registry('rating_data')) {
-            $form->setValues(Mage::registry('rating_data')->getData());
-            if (Mage::registry('rating_data')->getRatingCodes()) {
-               $this->_setRatingCodes(Mage::registry('rating_data')->getRatingCodes());
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setRatingData(null);
+        } elseif (\Mage::registry('rating_data')) {
+            $form->setValues(\Mage::registry('rating_data')->getData());
+            if (\Mage::registry('rating_data')->getRatingCodes()) {
+               $this->_setRatingCodes(\Mage::registry('rating_data')->getRatingCodes());
             }
         }
 
-        if (Mage::registry('rating_data')) {
-            $collection = Mage::getModel('Magento_Rating_Model_Rating_Option')
+        if (\Mage::registry('rating_data')) {
+            $collection = \Mage::getModel('\Magento\Rating\Model\Rating\Option')
                 ->getResourceCollection()
-                ->addRatingFilter(Mage::registry('rating_data')->getId())
+                ->addRatingFilter(\Mage::registry('rating_data')->getId())
                 ->load();
 
             $i = 1;
@@ -115,13 +117,13 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
             $field = $fieldset->addField('stores', 'multiselect', array(
                 'label' => __('Visible In'),
                 'name' => 'stores[]',
-                'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values' => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
 
-            if (Mage::registry('rating_data')) {
-                $form->getElement('stores')->setValue(Mage::registry('rating_data')->getStores());
+            if (\Mage::registry('rating_data')) {
+                $form->getElement('stores')->setValue(\Mage::registry('rating_data')->getStores());
             }
         }
 
@@ -136,9 +138,9 @@ class Magento_Adminhtml_Block_Rating_Edit_Tab_Form extends Magento_Backend_Block
             'name' => 'position',
         ));
 
-        if (Mage::registry('rating_data')) {
-            $form->getElement('position')->setValue(Mage::registry('rating_data')->getPosition());
-            $form->getElement('is_active')->setIsChecked(Mage::registry('rating_data')->getIsActive());
+        if (\Mage::registry('rating_data')) {
+            $form->getElement('position')->setValue(\Mage::registry('rating_data')->getPosition());
+            $form->getElement('is_active')->setIsChecked(\Mage::registry('rating_data')->getIsActive());
         }
 
         return parent::_prepareForm();

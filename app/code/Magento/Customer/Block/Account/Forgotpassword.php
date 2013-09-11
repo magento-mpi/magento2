@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Customer_Block_Account_Forgotpassword extends Magento_Core_Block_Template
+namespace Magento\Customer\Block\Account;
+
+class Forgotpassword extends \Magento\Core\Block\Template
 {
 
 }

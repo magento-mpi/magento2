@@ -16,7 +16,7 @@
 class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_model = null;
 
@@ -24,13 +24,13 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
+                \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_View_FileSystem');
+            ->create('Magento\Core\Model\View\FileSystem');
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface')
+            ->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('test_default');
     }
 

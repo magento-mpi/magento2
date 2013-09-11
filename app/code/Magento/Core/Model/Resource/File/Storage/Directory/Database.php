@@ -10,13 +10,15 @@
 
 
 /**
- * Directory storage database resource model class
+ * \Directory storage database resource model class
  *
  * @category    Magento
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magento_Core_Model_Resource_File_Storage_Abstract
+namespace Magento\Core\Model\Resource\File\Storage\Directory;
+
+class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
 {
     /**
      * Define table name and id field for resource
@@ -29,7 +31,7 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
     /**
      * Create database scheme for storing files
      *
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
     public function createDatabaseScheme()
     {
@@ -50,7 +52,7 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
                 'nullable' => false
             ), 'Directory Name')
             ->addColumn('path', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
-                'default' => null), 'Path to the Directory')
+                'default' => null), 'Path to the \Directory')
             ->addColumn('upload_time', \Magento\DB\Ddl\Table::TYPE_TIMESTAMP, null, array(
                 'nullable' => false,
                 'default' => \Magento\DB\Ddl\Table::TIMESTAMP_INIT
@@ -59,7 +61,7 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
                 'nullable' => true,
                 'default' => null,
                 'unsigned' => true
-                ), 'Parent Directory Id')
+                ), 'Parent \Directory Id')
             ->addIndex($adapter->getIndexName($table, array('name', 'parent_id'),
                 \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
                 array('name', 'parent_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
@@ -76,11 +78,11 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
     /**
      * Load entity by path
      *
-     * @param  Magento_Core_Model_File_Storage_Directory_Database $object
+     * @param  \Magento\Core\Model\File\Storage\Directory\Database $object
      * @param  string $path
-     * @return Magento_Core_Model_Resource_File_Storage_Directory_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Directory\Database
      */
-    public function loadByPath(Magento_Core_Model_File_Storage_Directory_Database $object, $path)
+    public function loadByPath(\Magento\Core\Model\File\Storage\Directory\Database $object, $path)
     {
         $adapter = $this->_getReadAdapter();
 
@@ -134,7 +136,7 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
     /**
      * Delete all directories from storage
      *
-     * @return Magento_Core_Model_Resource_File_Storage_Database
+     * @return \Magento\Core\Model\Resource\File\Storage\Database
      */
     public function clearDirectories()
     {
@@ -199,7 +201,7 @@ class Magento_Core_Model_Resource_File_Storage_Directory_Database extends Magent
         $adapter = $this->_getWriteAdapter();
 
         $where = array('name = ?' => $name);
-        $where[] = new Zend_Db_Expr($adapter->prepareSqlCondition('path', array('seq' => $path)));
+        $where[] = new \Zend_Db_Expr($adapter->prepareSqlCondition('path', array('seq' => $path)));
 
         $adapter->delete($this->getMainTable(), $where);
     }

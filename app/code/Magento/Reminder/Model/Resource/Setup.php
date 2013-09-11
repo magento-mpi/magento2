@@ -16,6 +16,8 @@
  * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reminder_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\Reminder\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
 }

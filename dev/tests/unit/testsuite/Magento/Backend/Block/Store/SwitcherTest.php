@@ -12,7 +12,7 @@
 class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Store_Switcher
+     * @var \Magento\Backend\Block\Store\Switcher
      */
     protected $_object;
 
@@ -33,10 +33,10 @@ class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_applicationModel = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
-        $this->_websiteFactory = $this->getMock('Magento_Core_Model_Website_Factory', array(), array(), '', false);
+        $this->_applicationModel = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
+        $this->_websiteFactory = $this->getMock('Magento\Core\Model\Website\Factory', array(), array(), '', false);
         $this->_storeGroupFactory = $this->getMock(
-            'Magento_Core_Model_Store_Group_Factory',
+            '\Magento\Core\Model\Store\Group\Factory',
             array(),
             array(),
             '',
@@ -44,8 +44,8 @@ class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCas
         );
 
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_object = $helper->getObject('Magento_Backend_Block_Store_Switcher', array(
-            'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false),
+        $this->_object = $helper->getObject('\Magento\Backend\Block\Store\Switcher', array(
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
             'application' => $this->_applicationModel,
             'websiteFactory' => $this->_websiteFactory,
             'storeGroupFactory' => $this->_storeGroupFactory
@@ -53,13 +53,13 @@ class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @covers Magento_Backend_Block_Store_Switcher::getWebsiteCollection
+     * @covers \Magento\Backend\Block\Store\Switcher::getWebsiteCollection
      */
     public function testGetWebsiteCollectionWhenWebSiteIdsEmpty()
     {
-        $websiteModel = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false, false);
+        $websiteModel = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false, false);
         $collection = $this->getMock(
-            'Magento_Core_Model_Resource_Website_Collection',
+            '\Magento\Core\Model\Resource\Website\Collection',
             array(),
             array(),
             '',
@@ -84,13 +84,13 @@ class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCas
 
 
     /**
-     * @covers Magento_Backend_Block_Store_Switcher::getWebsiteCollection
+     * @covers \Magento\Backend\Block\Store\Switcher::getWebsiteCollection
      */
     public function testGetWebsiteCollectionWhenWebSiteIdsIsSet()
     {
-        $websiteModel = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false, false);
+        $websiteModel = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false, false);
         $collection = $this->getMock(
-            'Magento_Core_Model_Resource_Website_Collection',
+            '\Magento\Core\Model\Resource\Website\Collection',
             array(),
             array(),
             '',
@@ -115,7 +115,7 @@ class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @covers Magento_Backend_Block_Store_Switcher::getWebsites
+     * @covers \Magento\Backend\Block\Store\Switcher::getWebsites
      */
     public function testGetWebsitesWhenWebSiteIdsIsNotSet()
     {
@@ -128,7 +128,7 @@ class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @covers Magento_Backend_Block_Store_Switcher::getWebsites
+     * @covers \Magento\Backend\Block\Store\Switcher::getWebsites
      */
     public function testGetWebsitesWhenWebSiteIdsIsSetAndMatchWebsites()
     {
@@ -154,7 +154,7 @@ class Magento_Backend_Block_Store_SwitcherTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @covers Magento_Backend_Block_Store_Switcher::getWebsites
+     * @covers \Magento\Backend\Block\Store\Switcher::getWebsites
      */
     public function testGetWebsitesWhenWebSiteIdsIsSetAndNotMatchWebsites()
     {

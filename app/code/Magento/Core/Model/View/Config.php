@@ -11,7 +11,9 @@
 /**
  * Handles theme view.xml files
  */
-class Magento_Core_Model_View_Config
+namespace Magento\Core\Model\View;
+
+class Config
 {
     /**
      * List of view configuration objects per theme
@@ -23,7 +25,7 @@ class Magento_Core_Model_View_Config
     /**
      * Module configuration reader
      *
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_moduleReader;
 
@@ -33,30 +35,30 @@ class Magento_Core_Model_View_Config
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_View_Service
+     * @var \Magento\Core\Model\View\Service
      */
     protected $_viewService;
 
     /**
      * View file system model
      *
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
      * View config model
      *
-     * @param Magento_Core_Model_Config_Modules_Reader $moduleReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $moduleReader
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_View_Service $viewService
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\View\Service $viewService
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $moduleReader,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader,
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_View_Service $viewService,
-        Magento_Core_Model_View_FileSystem $viewFileSystem
+        \Magento\Core\Model\View\Service $viewService,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem
     ) {
         $this->_moduleReader = $moduleReader;
         $this->_filesystem = $filesystem;
@@ -73,18 +75,18 @@ class Magento_Core_Model_View_Config
     public function getViewConfig(array $params = array())
     {
         $this->_viewService->updateDesignParams($params);
-        /** @var $currentTheme Magento_Core_Model_Theme */
+        /** @var $currentTheme \Magento\Core\Model\Theme */
         $currentTheme = $params['themeModel'];
         $key = $currentTheme->getId();
         if (isset($this->_viewConfigs[$key])) {
             return $this->_viewConfigs[$key];
         }
 
-        $configFiles = $this->_moduleReader->getConfigurationFiles(Magento_Core_Model_Theme::FILENAME_VIEW_CONFIG);
+        $configFiles = $this->_moduleReader->getConfigurationFiles(\Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG);
         $themeConfigFile = $currentTheme->getCustomization()->getCustomViewConfigPath();
         if (empty($themeConfigFile) || !$this->_filesystem->has($themeConfigFile)) {
             $themeConfigFile = $this->_viewFileSystem->getFilename(
-                Magento_Core_Model_Theme::FILENAME_VIEW_CONFIG, $params
+                \Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG, $params
             );
         }
         if ($themeConfigFile && $this->_filesystem->has($themeConfigFile)) {

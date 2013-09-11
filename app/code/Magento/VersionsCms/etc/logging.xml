@@ -22,13 +22,13 @@
     <magento_versionscms_hierarchy translate="label">
         <label>CMS Hierarchy</label>
         <expected_models>
-            <Magento_VersionsCms_Model_Hierarchy_Node/>
+            <Magento\VersionsCms\Model\Hierarchy\Node/>
         </expected_models>
         <actions>
             <adminhtml_cms_hierarchy_index>
                 <action>view</action>
                 <expected_models />
-                <post_dispatch>Magento_VersionsCms_Model_Observer::postDispatchCmsHierachyView</post_dispatch>
+                <post_dispatch>\Magento\VersionsCms\Model\Observer::postDispatchCmsHierachyView</post_dispatch>
             </adminhtml_cms_hierarchy_index>
             <adminhtml_cms_hierarchy_save>
                 <action>save</action>
@@ -48,21 +48,21 @@
             <adminhtml_cms_page_massDeleteVersions>
                 <action>massDelete</action>
                 <expected_models>
-                    <Magento_VersionsCms_Model_Page_Version/>
+                    <Magento\VersionsCms\Model\Page\Version/>
                 </expected_models>
             </adminhtml_cms_page_massDeleteVersions>
 
             <adminhtml_cms_page_version_edit>
                 <action>view</action>
                 <expected_models>
-                    <Magento_VersionsCms_Model_Page_Version/>
+                    <Magento\VersionsCms\Model\Page\Version/>
                 </expected_models>
             </adminhtml_cms_page_version_edit>
 
             <adminhtml_cms_page_version_save>
                 <action>save</action>
                 <expected_models>
-                    <Magento_VersionsCms_Model_Page_Version/>
+                    <Magento\VersionsCms\Model\Page\Version/>
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_cms_page_version_edit />
@@ -72,7 +72,7 @@
             <adminhtml_cms_page_version_new>
                 <action>save</action>
                 <expected_models>
-                    <Magento_VersionsCms_Model_Page_Version/>
+                    <Magento\VersionsCms\Model\Page\Version/>
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_cms_page_revision_edit />
@@ -82,7 +82,7 @@
             <adminhtml_cms_page_version_delete>
                 <action>delete</action>
                 <expected_models>
-                    <Magento_VersionsCms_Model_Page_Version/>
+                    <Magento\VersionsCms\Model\Page\Version/>
                 </expected_models>
             </adminhtml_cms_page_version_delete>
 <!--
@@ -91,27 +91,27 @@
             <adminhtml_cms_page_version_massDeleteRevisions>
                 <action>massDelete</action>
                 <expected_models>
-                    <Magento_VersionsCms_Model_Page_Revision/>
+                    <Magento\VersionsCms\Model\Page\Revision/>
                 </expected_models>
             </adminhtml_cms_page_version_massDeleteRevisions>
 
             <adminhtml_cms_page_revision_edit>
                 <action>view</action>
                 <expected_models>
-                    <Magento_VersionsCms_Model_Page_Revision/>
+                    <Magento\VersionsCms\Model\Page\Revision/>
                 </expected_models>
             </adminhtml_cms_page_revision_edit>
 
             <adminhtml_cms_page_revision_preview>
                 <action>preview</action>
                 <expected_models />
-                <post_dispatch>Magento_VersionsCms_Model_Observer::postDispatchCmsRevisionPreview</post_dispatch>
+                <post_dispatch>\Magento\VersionsCms\Model\Observer::postDispatchCmsRevisionPreview</post_dispatch>
             </adminhtml_cms_page_revision_preview>
 
             <adminhtml_cms_page_revision_save>
                 <action>save</action>
                 <expected_models>
-                    <Magento_VersionsCms_Model_Page_Revision/>
+                    <Magento\VersionsCms\Model\Page\Revision/>
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_cms_page_revision_edit />
@@ -121,13 +121,13 @@
             <adminhtml_cms_page_revision_delete>
                 <action>delete</action>
                 <expected_models>
-                    <Magento_VersionsCms_Model_Page_Revision/>
+                    <Magento\VersionsCms\Model\Page\Revision/>
                 </expected_models>
             </adminhtml_cms_page_revision_delete>
 
             <adminhtml_cms_page_revision_publish>
                 <action>publish</action>
-                <post_dispatch>Magento_VersionsCms_Model_Observer::postDispatchCmsRevisionPublish</post_dispatch>
+                <post_dispatch>\Magento\VersionsCms\Model\Observer::postDispatchCmsRevisionPublish</post_dispatch>
                 <skip_on_back>
                     <adminhtml_cms_page_revision_edit />
                 </skip_on_back>

@@ -11,21 +11,23 @@
 /**
  * Reminder adminhtml promo rules notice block
  */
-class Magento_Reminder_Block_Adminhtml_Promo_Notice extends Magento_Adminhtml_Block_Template
+namespace Magento\Reminder\Block\Adminhtml\Promo;
+
+class Notice extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Preparing block layout
      *
-     * @return Magento_Reminder_Block_Adminhtml_Promo_Notice
+     * @return \Magento\Reminder\Block\Adminhtml\Promo\Notice
      */
     protected function _prepareLayout()
     {
-        if ($salesRule = Mage::registry('current_promo_quote_rule')) {
-            $resource = Mage::getResourceModel('Magento_Reminder_Model_Resource_Rule');
+        if ($salesRule = \Mage::registry('current_promo_quote_rule')) {
+            $resource = \Mage::getResourceModel('\Magento\Reminder\Model\Resource\Rule');
             if ($count = $resource->getAssignedRulesCount($salesRule->getId())) {
                 $confirm = __('This rule is assigned to %1 automated reminder rule(s). Deleting this rule will automatically unassign it.', $count);
                 $block = $this->getLayout()->getBlock('promo_quote_edit');
-                if ($block instanceof Magento_Adminhtml_Block_Promo_Quote_Edit) {
+                if ($block instanceof \Magento\Adminhtml\Block\Promo\Quote\Edit) {
                     $block->updateButton('delete', 'onclick', 'deleteConfirm(\'' . $confirm . '\', \'' . $block->getDeleteUrl() . '\')');
                 }
             }

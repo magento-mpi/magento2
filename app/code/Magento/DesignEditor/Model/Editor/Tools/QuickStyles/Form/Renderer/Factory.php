@@ -11,17 +11,19 @@
 /**
  * Block that renders JS tab
  *
- * @method Magento_Core_Model_Theme getTheme()
+ * @method \Magento\Core\Model\Theme getTheme()
  * @method setTheme($theme)
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer;
+
+class Factory
 {
     /**
      * Layout model
      *
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
@@ -31,35 +33,35 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      * @var array
      */
     protected $_rendererByElement = array(
-        'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Column'
-            => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Column',
+        '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column'
+            => '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Column',
 
-        'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker'
-            => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ColorPicker',
+        '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker'
+            => '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ColorPicker',
 
-        'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Logo'
-            => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',
+        '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Logo'
+            => '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Composite',
 
-        'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Font'
-            => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Font',
+        '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font'
+            => '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Font',
 
-        'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_LogoUploader'
-            => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_LogoUploader',
+        '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\LogoUploader'
+            => '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\LogoUploader',
 
-        'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background'
-            => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Composite',
+        '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Background'
+            => '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Composite',
 
-        'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_FontPicker'
-            => 'Magento_Backend_Block_Widget_Form_Renderer_Fieldset_Element',
+        '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker'
+            => '\Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element',
 
-        'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader'
-            => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_BackgroundUploader',
+        '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader'
+            => '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\BackgroundUploader',
 
-        'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ImageUploader'
-            => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_ImageUploader',
+        '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader'
+            => '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\ImageUploader',
 
         '\Magento\Data\Form\Element\Checkbox'
-            => 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Renderer_Checkbox'
+            => '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Checkbox'
     );
 
     /**
@@ -71,9 +73,9 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
     protected $_sharedRenderers = array();
 
     /**
-     * @param Magento_Core_Model_Layout $layout
+     * @param \Magento\Core\Model\Layout $layout
      */
-    public function __construct(Magento_Core_Model_Layout $layout)
+    public function __construct(\Magento\Core\Model\Layout $layout)
     {
         $this->_layout = $layout;
     }
@@ -84,12 +86,12 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_Form_Renderer_Factory
      * @param string $elementClassName
      * @param string $rendererName
      * @return \Magento\Data\Form\Element\Renderer\RendererInterface
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function create($elementClassName, $rendererName)
     {
         if (!isset($this->_rendererByElement[$elementClassName])) {
-            throw new Magento_Core_Exception(
+            throw new \Magento\Core\Exception(
                 sprintf('No renderer registered for elements of class "%s"', $elementClassName)
             );
         }

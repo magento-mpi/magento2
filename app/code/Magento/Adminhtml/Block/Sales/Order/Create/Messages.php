@@ -15,12 +15,14 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Messages extends Magento_Adminhtml_Block_Messages
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Messages extends \Magento\Adminhtml\Block\Messages
 {
 
     public function _prepareLayout()
     {
-        $this->addMessages(Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getMessages(true));
+        $this->addMessages(\Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getMessages(true));
         parent::_prepareLayout();
     }
 

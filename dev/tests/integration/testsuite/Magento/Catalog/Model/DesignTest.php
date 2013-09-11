@@ -10,18 +10,18 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Design.
+ * Test class for \Magento\Catalog\Model\Design.
  */
 class Magento_Catalog_Model_DesignTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Design
+     * @var \Magento\Catalog\Model\Design
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Design');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Design');
     }
 
     /**
@@ -31,17 +31,17 @@ class Magento_Catalog_Model_DesignTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->applyCustomDesign($theme);
         $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+            ->get('Magento\Core\Model\View\DesignInterface');
         $this->assertEquals('package', $design->getDesignTheme()->getPackageCode());
         $this->assertEquals('theme', $design->getDesignTheme()->getThemeCode());
     }
 
     /**
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function getThemeModel()
     {
-        $theme = Mage::getModel('Magento_Core_Model_Theme');
+        $theme = Mage::getModel('\Magento\Core\Model\Theme');
         $theme->setData($this->_getThemeData());
         return array(array($theme));
     }

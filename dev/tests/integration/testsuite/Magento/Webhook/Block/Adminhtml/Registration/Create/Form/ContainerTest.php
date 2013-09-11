@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Registration_Create_Form_Container
+ * \Magento\Webhook\Block\Adminhtml\Registration\Create\Form\Container
  *
  * @magentoDbIsolation enabled
  * @magentoAppArea adminhtml
@@ -19,26 +19,26 @@ class Magento_Webhook_Block_Adminhtml_Registration_Create_Form_ContainerTest ext
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         // Data for the block object
-        $subscriptionId = $objectManager->create('Magento_Webhook_Model_Subscription')
+        $subscriptionId = $objectManager->create('Magento\Webhook\Model\Subscription')
             ->setDataChanges(true)
             ->save()
             ->getId();
         $subscriptionData = array(
-            Magento_Webhook_Block_Adminhtml_Registration_Activate::DATA_SUBSCRIPTION_ID => $subscriptionId,
-            Magento_Webhook_Block_Adminhtml_Registration_Activate::DATA_NAME => 'name',
+            \Magento\Webhook\Block\Adminhtml\Registration\Activate::DATA_SUBSCRIPTION_ID => $subscriptionId,
+            \Magento\Webhook\Block\Adminhtml\Registration\Activate::DATA_NAME => 'name',
         );
 
-        /** @var Magento_Core_Model_Registry $registry */
-        $registry = $objectManager->get('Magento_Core_Model_Registry');
-        $registry->register(Magento_Webhook_Block_Adminhtml_Registration_Activate::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
+        /** @var \Magento\Core\Model\Registry $registry */
+        $registry = $objectManager->get('Magento\Core\Model\Registry');
+        $registry->register(\Magento\Webhook\Block\Adminhtml\Registration\Activate::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
             $subscriptionData);
 
-        /** @var Magento_Core_Block_Template_Context $context */
-        $context = $objectManager->create('Magento_Core_Block_Template_Context');
+        /** @var \Magento\Core\Block\Template\Context $context */
+        $context = $objectManager->create('Magento\Core\Block\Template\Context');
 
-        /** @var Magento_Webhook_Block_Adminhtml_Registration_Activate $block */
+        /** @var \Magento\Webhook\Block\Adminhtml\Registration\Activate $block */
         $block = $objectManager
-            ->create('Magento_Webhook_Block_Adminhtml_Registration_Create_Form_Container', array(
+            ->create('Magento\Webhook\Block\Adminhtml\Registration\Create\Form\Container', array(
                 $context,
                 $registry
         ));

@@ -11,7 +11,9 @@
 /**
  * Theme domain model class
  */
-class Magento_Core_Model_Theme_Domain_Factory
+namespace Magento\Core\Model\Theme\Domain;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -22,9 +24,9 @@ class Magento_Core_Model_Theme_Domain_Factory
      * @var array
      */
     protected $_types = array(
-        Magento_Core_Model_Theme::TYPE_PHYSICAL => 'Magento_Core_Model_Theme_Domain_Physical',
-        Magento_Core_Model_Theme::TYPE_VIRTUAL  => 'Magento_Core_Model_Theme_Domain_Virtual',
-        Magento_Core_Model_Theme::TYPE_STAGING  => 'Magento_Core_Model_Theme_Domain_Staging',
+        \Magento\Core\Model\Theme::TYPE_PHYSICAL => '\Magento\Core\Model\Theme\Domain\Physical',
+        \Magento\Core\Model\Theme::TYPE_VIRTUAL  => '\Magento\Core\Model\Theme\Domain\Virtual',
+        \Magento\Core\Model\Theme::TYPE_STAGING  => '\Magento\Core\Model\Theme\Domain\Staging',
     );
 
     /**
@@ -38,14 +40,14 @@ class Magento_Core_Model_Theme_Domain_Factory
     /**
      * Create new config object
      *
-     * @param Magento_Core_Model_Theme $theme
-     * @return Magento_Core_Model_Theme_Domain_Virtual|Magento_Core_Model_Theme_Domain_Staging
-     * @throws Magento_Core_Exception
+     * @param \Magento\Core\Model\Theme $theme
+     * @return \Magento\Core\Model\Theme\Domain\Virtual|\Magento\Core\Model\Theme\Domain\Staging
+     * @throws \Magento\Core\Exception
      */
-    public function create(Magento_Core_Model_Theme $theme)
+    public function create(\Magento\Core\Model\Theme $theme)
     {
         if (!isset($this->_types[$theme->getType()])) {
-            throw new Magento_Core_Exception(sprintf('Invalid type of theme domain model "%s"', $theme->getType()));
+            throw new \Magento\Core\Exception(sprintf('Invalid type of theme domain model "%s"', $theme->getType()));
         }
         $class = $this->_types[$theme->getType()];
         return $this->_objectManager->create($class, array('theme' => $theme));

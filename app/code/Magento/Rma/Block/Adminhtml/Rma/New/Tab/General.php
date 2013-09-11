@@ -15,12 +15,14 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_New_Tab_General extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General
+namespace Magento\Rma\Block\Adminhtml\Rma\New\Tab;
+
+class General extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General
 {
     /**
      * Create form. Fieldset are being added in child blocks
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General
      */
     protected function _prepareForm()
     {

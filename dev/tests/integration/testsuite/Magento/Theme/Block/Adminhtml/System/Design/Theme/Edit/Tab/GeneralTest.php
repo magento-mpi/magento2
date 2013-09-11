@@ -14,23 +14,23 @@
  */
 class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_GeneralTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Core_Model_Layout */
+    /** @var \Magento\Core\Model\Layout */
     protected $_layout;
 
-    /** @var Magento_Core_Model_Theme */
+    /** @var \Magento\Core\Model\Theme */
     protected $_theme;
 
-    /** @var Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General */
+    /** @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
-        $this->_theme = Mage::getModel('Magento_Core_Model_Theme');
-        $this->_theme->setType(Magento_Core_Model_Theme::TYPE_VIRTUAL);
+        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $this->_theme = Mage::getModel('\Magento\Core\Model\Theme');
+        $this->_theme->setType(\Magento\Core\Model\Theme::TYPE_VIRTUAL);
         $this->_block = $this->_layout
-            ->createBlock('Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_General');
+            ->createBlock('\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\General');
     }
 
     public function testToHtmlPreviewImageNote()

@@ -15,7 +15,9 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Resource_Shell
+namespace Magento\Log\Model\Resource;
+
+class Shell
 {
     /**
      * Retrieves information about log tables
@@ -37,9 +39,9 @@ class Magento_Log_Model_Resource_Shell
             'catalog_compare_item'
         );
 
-        $resHelper = Mage::getResourceHelper('Magento_Log');
+        $resHelper = \Mage::getResourceHelper('Magento_Log');
         $result = array();
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
         foreach ($tables as $table) {
             $info = $resHelper->getTableInfo($resource->getTableName($table));
             if (!$info) {

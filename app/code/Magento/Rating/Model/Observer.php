@@ -16,19 +16,21 @@
  * @package    Magento_Rating
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Observer
+namespace Magento\Rating\Model;
+
+class Observer
 {
     /**
      * Cleanup product ratings after product delete
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Rating_Model_Observer
+     * @return  \Magento\Rating\Model\Observer
      */
     public function processProductAfterDeleteEvent(\Magento\Event\Observer $observer)
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            Mage::getResourceSingleton('Magento_Rating_Model_Resource_Rating')
+            \Mage::getResourceSingleton('\Magento\Rating\Model\Resource\Rating')
                 ->deleteAggregatedRatingsByProductId($eventProduct->getId());
         }
         return $this;

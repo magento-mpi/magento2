@@ -15,7 +15,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Bundle\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_NODE_BUNDLE_PRODUCT_TYPE      = 'global/catalog/product/type/bundle';
 
@@ -26,7 +28,7 @@ class Magento_Bundle_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAllowedSelectionTypes()
     {
-        $config = Mage::getConfig()->getNode(self::XML_NODE_BUNDLE_PRODUCT_TYPE);
+        $config = \Mage::getConfig()->getNode(self::XML_NODE_BUNDLE_PRODUCT_TYPE);
         return array_keys($config->allowed_selection_types->asArray());
     }
 }

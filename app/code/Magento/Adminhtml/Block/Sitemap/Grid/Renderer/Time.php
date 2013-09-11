@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Sitemap
  */
-class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Time extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Sitemap\Grid\Renderer;
+
+class Time extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
 
     /**
@@ -25,7 +27,7 @@ class Magento_Adminhtml_Block_Sitemap_Grid_Renderer_Time extends Magento_Adminht
      */
     public function render(\Magento\Object $row)
     {
-        $time =  date('Y-m-d H:i:s', strtotime($row->getSitemapTime()) + Mage::getSingleton('Magento_Core_Model_Date')->getGmtOffset());
+        $time =  date('Y-m-d H:i:s', strtotime($row->getSitemapTime()) + \Mage::getSingleton('Magento\Core\Model\Date')->getGmtOffset());
 
         return $time;
     }

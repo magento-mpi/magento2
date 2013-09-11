@@ -8,7 +8,7 @@
 class Magento_Core_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Resource
+     * @var \Magento\Core\Model\Config\Resource
      */
     protected $_model;
 
@@ -19,7 +19,7 @@ class Magento_Core_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_configMock = new Magento_Core_Model_Config_Base('
+        $this->_configMock = new \Magento\Core\Model\Config\Base('
         <config>
             <global>
                 <resources>
@@ -53,7 +53,7 @@ class Magento_Core_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
             </global>
         </config>
         ');
-        $this->_model = new Magento_Core_Model_Config_Resource($this->_configMock);
+        $this->_model = new \Magento\Core\Model\Config\Resource($this->_configMock);
     }
 
     protected function tearDown()

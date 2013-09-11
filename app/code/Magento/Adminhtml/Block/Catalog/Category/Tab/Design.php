@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tab_Design extends Magento_Adminhtml_Block_Catalog_Form
+namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
+
+class Design extends \Magento\Adminhtml\Block\Catalog\Form
 {
     public function _construct()
     {
@@ -18,7 +20,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Design extends Magento_Adminh
     public function getCategory()
     {
         if (!$this->_category) {
-            $this->_category = Mage::registry('category');
+            $this->_category = \Mage::registry('category');
         }
         return $this->_category;
     }

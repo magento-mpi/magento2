@@ -15,18 +15,20 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Source_Countryofmanufacture
-    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Source;
+
+class Countryofmanufacture
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      */
-    public function __construct(Magento_Core_Model_Cache_Type_Config $configCacheType)
+    public function __construct(\Magento\Core\Model\Cache\Type\Config $configCacheType)
     {
         $this->_configCacheType = $configCacheType;
     }
@@ -38,11 +40,11 @@ class Magento_Catalog_Model_Product_Attribute_Source_Countryofmanufacture
      */
     public function getAllOptions()
     {
-        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_' . Mage::app()->getStore()->getCode();
+        $cacheKey = 'DIRECTORY_COUNTRY_SELECT_STORE_' . \Mage::app()->getStore()->getCode();
         if ($cache = $this->_configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
         } else {
-            $collection = Mage::getModel('Magento_Directory_Model_Country')->getResourceCollection()
+            $collection = \Mage::getModel('\Magento\Directory\Model\Country')->getResourceCollection()
                 ->loadByStore();
             $options = $collection->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);

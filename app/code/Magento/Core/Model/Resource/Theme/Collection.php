@@ -11,7 +11,9 @@
 /**
  * Theme collection
  */
-class Magento_Core_Model_Resource_Theme_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Theme;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Default page size
@@ -23,13 +25,13 @@ class Magento_Core_Model_Resource_Theme_Collection extends Magento_Core_Model_Re
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Theme', 'Magento_Core_Model_Resource_Theme');
+        $this->_init('\Magento\Core\Model\Theme', '\Magento\Core\Model\Resource\Theme');
     }
 
     /**
      * Add title for parent themes
      *
-     * @return Magento_Core_Model_Resource_Theme_Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public function addParentTitle()
     {
@@ -45,9 +47,9 @@ class Magento_Core_Model_Resource_Theme_Collection extends Magento_Core_Model_Re
      * Add area filter
      *
      * @param string $area
-     * @return Magento_Core_Model_Resource_Theme_Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
-    public function addAreaFilter($area = Magento_Core_Model_App_Area::AREA_FRONTEND)
+    public function addAreaFilter($area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
     {
         $this->getSelect()->where('main_table.area=?', $area);
         return $this;
@@ -58,7 +60,7 @@ class Magento_Core_Model_Resource_Theme_Collection extends Magento_Core_Model_Re
      *
      * @param int $typeParent
      * @param int $typeChild
-     * @return Magento_Core_Model_Resource_Theme_Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public function addTypeRelationFilter($typeParent, $typeChild)
     {
@@ -74,7 +76,7 @@ class Magento_Core_Model_Resource_Theme_Collection extends Magento_Core_Model_Re
      * Add type filter
      *
      * @param string|array $type
-     * @return Magento_Core_Model_Resource_Theme_Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public function addTypeFilter($type)
     {
@@ -85,11 +87,11 @@ class Magento_Core_Model_Resource_Theme_Collection extends Magento_Core_Model_Re
     /**
      * Filter visible themes in backend (physical and virtual only)
      *
-     * @return Magento_Core_Model_Resource_Theme_Collection
+     * @return \Magento\Core\Model\Resource\Theme\Collection
      */
     public function filterVisibleThemes()
     {
-        $this->addTypeFilter(array(Magento_Core_Model_Theme::TYPE_PHYSICAL, Magento_Core_Model_Theme::TYPE_VIRTUAL));
+        $this->addTypeFilter(array(\Magento\Core\Model\Theme::TYPE_PHYSICAL, \Magento\Core\Model\Theme::TYPE_VIRTUAL));
         return $this;
     }
 
@@ -117,7 +119,7 @@ class Magento_Core_Model_Resource_Theme_Collection extends Magento_Core_Model_Re
      * Get theme from DB by area and theme_path
      *
      * @param string $fullPath
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function getThemeByFullPath($fullPath)
     {
@@ -143,15 +145,15 @@ class Magento_Core_Model_Resource_Theme_Collection extends Magento_Core_Model_Re
     /**
      * Update all child themes relations
      *
-     * @param Magento_Core_Model_Theme $themeModel
+     * @param \Magento\Core\Model\Theme $themeModel
      * @return $this
      */
-    public function updateChildRelations(Magento_Core_Model_Theme $themeModel)
+    public function updateChildRelations(\Magento\Core\Model\Theme $themeModel)
     {
         $parentThemeId = $themeModel->getParentId();
         $this->addFieldToFilter('parent_id', array('eq' => $themeModel->getId()))->load();
 
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         foreach ($this->getItems() as $theme) {
             $theme->setParentId($parentThemeId)->save();
         }
@@ -168,11 +170,11 @@ class Magento_Core_Model_Resource_Theme_Collection extends Magento_Core_Model_Re
      */
     public function filterPhysicalThemes(
         $page = null,
-        $pageSize = Magento_Core_Model_Resource_Theme_Collection::DEFAULT_PAGE_SIZE
+        $pageSize = \Magento\Core\Model\Resource\Theme\Collection::DEFAULT_PAGE_SIZE
     ) {
 
-        $this->addAreaFilter(Magento_Core_Model_App_Area::AREA_FRONTEND)
-            ->addTypeFilter(Magento_Core_Model_Theme::TYPE_PHYSICAL);
+        $this->addAreaFilter(\Magento\Core\Model\App\Area::AREA_FRONTEND)
+            ->addTypeFilter(\Magento\Core\Model\Theme::TYPE_PHYSICAL);
         if ($page) {
             $this->setPageSize($pageSize)->setCurPage($page);
         }
@@ -187,8 +189,8 @@ class Magento_Core_Model_Resource_Theme_Collection extends Magento_Core_Model_Re
      * @return $this
      */
     public function filterThemeCustomizations(
-        $area = Magento_Core_Model_App_Area::AREA_FRONTEND,
-        $type = Magento_Core_Model_Theme::TYPE_VIRTUAL
+        $area = \Magento\Core\Model\App\Area::AREA_FRONTEND,
+        $type = \Magento\Core\Model\Theme::TYPE_VIRTUAL
     ) {
         $this->addAreaFilter($area)->addTypeFilter($type);
         return $this;

@@ -7,38 +7,40 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_TemplateEngine_Twig implements Magento_Core_Model_TemplateEngine_EngineInterface,
-    Magento_Core_Model_TemplateEngine_BlockTrackerInterface
+namespace Magento\Core\Model\TemplateEngine;
+
+class Twig implements \Magento\Core\Model\TemplateEngine\EngineInterface,
+    \Magento\Core\Model\TemplateEngine\BlockTrackerInterface
 {
     /**
-     * @var Magento_Core_Block_Template
+     * @var \Magento\Core\Block\Template
      */
     protected $_currentBlock;
 
     /**
-     * @var Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactory
+     * @var \Magento\Core\Model\TemplateEngine\Twig\EnvironmentFactory
      */
     protected $_factory;
 
     /**
-     * @var Magento_Core_Model_TemplateEngine_Twig_Extension
+     * @var \Magento\Core\Model\TemplateEngine\Twig\Extension
      */
     protected $_extension;
 
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     protected $_environment;
 
     /**
      *  Populates the environment based on the environment builder provided.
      *
-     * @param Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactory $factory
-     * @param Magento_Core_Model_TemplateEngine_Twig_Extension $extension
+     * @param \Magento\Core\Model\TemplateEngine\Twig\EnvironmentFactory $factory
+     * @param \Magento\Core\Model\TemplateEngine\Twig\Extension $extension
      */
     public function __construct(
-        Magento_Core_Model_TemplateEngine_Twig_EnvironmentFactory $factory,
-        Magento_Core_Model_TemplateEngine_Twig_Extension $extension
+        \Magento\Core\Model\TemplateEngine\Twig\EnvironmentFactory $factory,
+        \Magento\Core\Model\TemplateEngine\Twig\Extension $extension
     ) {
         $this->_factory = $factory;
         $this->_extension = $extension;
@@ -49,13 +51,13 @@ class Magento_Core_Model_TemplateEngine_Twig implements Magento_Core_Model_Templ
     /**
      * Render the named Twig template using the given block as the context of the Twig helper functions/filters.
      *
-     * @param Magento_Core_Block_Template $block
+     * @param \Magento\Core\Block\Template $block
      * @param string $fileName
      * @param array $dictionary
-     * @throws Exception 
+     * @throws \Exception 
      * @return string
      */
-    public function render(Magento_Core_Block_Template $block, $fileName, array $dictionary = array())
+    public function render(\Magento\Core\Block\Template $block, $fileName, array $dictionary = array())
     {
         if ($this->_environment === null) {
             $this->_environment = $this->_factory->create();
@@ -66,7 +68,7 @@ class Magento_Core_Model_TemplateEngine_Twig implements Magento_Core_Model_Templ
         $this->_currentBlock = $block;
         try {
             $output = $this->_environment->render($fileName, $dictionary);
-        } catch (Exception $renderException) {
+        } catch (\Exception $renderException) {
             // restore state for previous block
             $this->_currentBlock = $previousBlock;
             throw $renderException;     
@@ -79,7 +81,7 @@ class Magento_Core_Model_TemplateEngine_Twig implements Magento_Core_Model_Templ
     /**
      * Get the current block
      *
-     * @return Magento_Core_Block_Template
+     * @return \Magento\Core\Block\Template
      */
     public function getCurrentBlock()
     {

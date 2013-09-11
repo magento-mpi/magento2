@@ -15,15 +15,17 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_System_Config_ValidatevatFactory
+namespace Magento\Adminhtml\Block\Customer\System\Config;
+
+class ValidatevatFactory
 {
     /**
      * Create new VAT validator
      *
-     * @return Magento_Adminhtml_Block_Customer_System_Config_Validatevat
+     * @return \Magento\Adminhtml\Block\Customer\System\Config\Validatevat
      */
     public function createVatValidator()
     {
-        return Mage::getBlockSingleton('Magento_Adminhtml_Block_Customer_System_Config_Validatevat');
+        return \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Customer\System\Config\Validatevat');
     }
 }

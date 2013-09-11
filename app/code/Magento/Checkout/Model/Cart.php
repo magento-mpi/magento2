@@ -15,7 +15,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Checkout_Model_Cart_Interface
+namespace Magento\Checkout\Model;
+
+class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
     /**
      * Shopping cart items summary quantity(s)
@@ -34,37 +36,37 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
     /**
      * Get shopping cart resource model
      *
-     * @return Magento_Checkout_Model_Resource_Cart
+     * @return \Magento\Checkout\Model\Resource\Cart
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_Checkout_Model_Resource_Cart');
+        return \Mage::getResourceSingleton('\Magento\Checkout\Model\Resource\Cart');
     }
 
     /**
      * Retrieve checkout session model
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getCheckoutSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return \Mage::getSingleton('Magento\Checkout\Model\Session');
     }
 
     /**
      * Retrieve customer session model
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomerSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return \Mage::getSingleton('Magento\Customer\Model\Session');
     }
 
     /**
      * List of shopping cart items
      *
-     * @return Magento_Eav_Model_Entity_Collection_Abstract|array
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection|array
      */
     public function getItems()
     {
@@ -95,7 +97,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
     /**
      * Get quote object associated with cart. By default it is current customer session quote
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -108,10 +110,10 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
     /**
      * Set quote object associated with the cart
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Checkout_Model_Cart
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Checkout\Model\Cart
      */
-    public function setQuote(Magento_Sales_Model_Quote $quote)
+    public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
         $this->setData('quote', $quote);
         return $this;
@@ -120,13 +122,13 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
     /**
      * Initialize cart quote state to be able use it on cart page
      *
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     public function init()
     {
         $quote = $this->getQuote()->setCheckoutMethod('');
 
-        if ($this->getCheckoutSession()->getCheckoutState() !== Magento_Checkout_Model_Session::CHECKOUT_STATE_BEGIN) {
+        if ($this->getCheckoutSession()->getCheckoutState() !== \Magento\Checkout\Model\Session::CHECKOUT_STATE_BEGIN) {
             $quote->removeAllAddresses()->removePayment();
             $this->getCheckoutSession()->resetCheckout();
         }
@@ -142,16 +144,16 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
     /**
      * Convert order item to quote item
      *
-     * @param Magento_Sales_Model_Order_Item $orderItem
+     * @param \Magento\Sales\Model\Order\Item $orderItem
      * @param mixed $qtyFlag if is null set product qty like in order
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     public function addOrderItem($orderItem, $qtyFlag=null)
     {
-        /* @var $orderItem Magento_Sales_Model_Order_Item */
+        /* @var $orderItem \Magento\Sales\Model\Order\Item */
         if (is_null($orderItem->getParentItem())) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($orderItem->getProductId());
             if (!$product->getId()) {
                 return $this;
@@ -174,25 +176,25 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
      * Get product object based on requested product information
      *
      * @param   mixed $productInfo
-     * @return  Magento_Catalog_Model_Product
+     * @return  \Magento\Catalog\Model\Product
      */
     protected function _getProduct($productInfo)
     {
         $product = null;
-        if ($productInfo instanceof Magento_Catalog_Model_Product) {
+        if ($productInfo instanceof \Magento\Catalog\Model\Product) {
             $product = $productInfo;
         } elseif (is_int($productInfo) || is_string($productInfo)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($productInfo);
         }
-        $currentWebsiteId = Mage::app()->getStore()->getWebsiteId();
+        $currentWebsiteId = \Mage::app()->getStore()->getWebsiteId();
         if (!$product
             || !$product->getId()
             || !is_array($product->getWebsiteIds())
             || !in_array($currentWebsiteId, $product->getWebsiteIds())
         ) {
-            Mage::throwException(__('We can\'t find the product.'));
+            \Mage::throwException(__('We can\'t find the product.'));
         }
         return $product;
     }
@@ -223,9 +225,9 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
     /**
      * Add product to shopping cart (quote)
      *
-     * @param   int|Magento_Catalog_Model_Product $productInfo
+     * @param   int|\Magento\Catalog\Model\Product $productInfo
      * @param   mixed $requestInfo
-     * @return  Magento_Checkout_Model_Cart
+     * @return  \Magento\Checkout\Model\Cart
      */
     public function addProduct($productInfo, $requestInfo=null)
     {
@@ -247,7 +249,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
         if ($productId) {
             try {
                 $result = $this->getQuote()->addProduct($product, $request);
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->getCheckoutSession()->setUseNotice(false);
                 $result = $e->getMessage();
             }
@@ -265,13 +267,13 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
                 if ($this->getCheckoutSession()->getUseNotice() === null) {
                     $this->getCheckoutSession()->setUseNotice(true);
                 }
-                Mage::throwException($result);
+                \Mage::throwException($result);
             }
         } else {
-            Mage::throwException(__('The product does not exist.'));
+            \Mage::throwException(__('The product does not exist.'));
         }
 
-        Mage::dispatchEvent('checkout_cart_product_add_after', array('quote_item' => $result, 'product' => $product));
+        \Mage::dispatchEvent('checkout_cart_product_add_after', array('quote_item' => $result, 'product' => $product));
         $this->getCheckoutSession()->setLastAddedProductId($productId);
         return $this;
     }
@@ -280,7 +282,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
      * Adding products to cart by ids
      *
      * @param   array $productIds
-     * @return  Magento_Checkout_Model_Cart
+     * @return  \Magento\Checkout\Model\Cart
      */
     public function addProductsByIds($productIds)
     {
@@ -297,7 +299,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
                 if ($product->getId() && $product->isVisibleInCatalog()) {
                     try {
                         $this->getQuote()->addProduct($product);
-                    } catch (Exception $e){
+                    } catch (\Exception $e){
                         $allAdded = false;
                     }
                 } else {
@@ -350,7 +352,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
                 continue;
             }
 
-            /* @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
+            /* @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
             $stockItem = $product->getStockItem();
             if (!$stockItem) {
                 continue;
@@ -367,14 +369,14 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
      * Update cart items information
      *
      * @param   array $data
-     * @return  Magento_Checkout_Model_Cart
+     * @return  \Magento\Checkout\Model\Cart
      */
     public function updateItems($data)
     {
-        Mage::dispatchEvent('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
+        \Mage::dispatchEvent('checkout_cart_update_items_before', array('cart'=>$this, 'info'=>$data));
 
-        /* @var $messageFactory Magento_Core_Model_Message */
-        $messageFactory = Mage::getSingleton('Magento_Core_Model_Message');
+        /* @var $messageFactory \Magento\Core\Model\Message */
+        $messageFactory = \Mage::getSingleton('Magento\Core\Model\Message');
         $session = $this->getCheckoutSession();
         $qtyRecalculatedFlag = false;
         foreach ($data as $itemId => $itemInfo) {
@@ -395,7 +397,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
                 $itemInQuote = $this->getQuote()->getItemById($item->getId());
 
                 if (!$itemInQuote && $item->getHasError()) {
-                    Mage::throwException($item->getMessage());
+                    \Mage::throwException($item->getMessage());
                 }
 
                 if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
@@ -412,7 +414,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
             );
         }
 
-        Mage::dispatchEvent('checkout_cart_update_items_after', array('cart'=>$this, 'info'=>$data));
+        \Mage::dispatchEvent('checkout_cart_update_items_after', array('cart'=>$this, 'info'=>$data));
         return $this;
     }
 
@@ -420,7 +422,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
      * Remove item from cart
      *
      * @param   int $itemId
-     * @return  Magento_Checkout_Model_Cart
+     * @return  \Magento\Checkout\Model\Cart
      */
     public function removeItem($itemId)
     {
@@ -431,11 +433,11 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
     /**
      * Save cart
      *
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     public function save()
     {
-        Mage::dispatchEvent('checkout_cart_save_before', array('cart'=>$this));
+        \Mage::dispatchEvent('checkout_cart_save_before', array('cart'=>$this));
 
         $this->getQuote()->getBillingAddress();
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
@@ -445,7 +447,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
         /**
          * Cart save usually called after changes with cart items.
          */
-        Mage::dispatchEvent('checkout_cart_save_after', array('cart'=>$this));
+        \Mage::dispatchEvent('checkout_cart_save_after', array('cart'=>$this));
         return $this;
     }
 
@@ -460,7 +462,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
     /**
      * Mark all quote items as deleted (empty shopping cart)
      *
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     public function truncate()
     {
@@ -470,7 +472,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
 
     public function getProductIds()
     {
-        $quoteId = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId();
+        $quoteId = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId();
         if (null === $this->_productIds) {
             $this->_productIds = array();
             if ($this->getSummaryQty()>0) {
@@ -490,18 +492,18 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
      */
     public function getSummaryQty()
     {
-        $quoteId = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId();
+        $quoteId = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId();
 
         //If there is no quote id in session trying to load quote
         //and get new quote id. This is done for cases when quote was created
         //not by customer (from backend for example).
-        if (!$quoteId && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
-            $quoteId = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId();
+        if (!$quoteId && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+            $quoteId = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId();
         }
 
         if ($quoteId && $this->_summaryQty === null) {
-            if (Mage::getStoreConfig('checkout/cart_link/use_qty')) {
+            if (\Mage::getStoreConfig('checkout/cart_link/use_qty')) {
                 $this->_summaryQty = $this->getItemsQty();
             } else {
                 $this->_summaryQty = $this->getItemsCount();
@@ -538,16 +540,16 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
      * @param int $itemId
      * @param int|array|\Magento\Object $requestInfo
      * @param null|array|\Magento\Object $updatingParams
-     * @return Magento_Sales_Model_Quote_Item|string
+     * @return \Magento\Sales\Model\Quote\Item|string
      *
-     * @see Magento_Sales_Model_Quote::updateItem()
+     * @see \Magento\Sales\Model\Quote::updateItem()
      */
     public function updateItem($itemId, $requestInfo = null, $updatingParams = null)
     {
         try {
             $item = $this->getQuote()->getItemById($itemId);
             if (!$item) {
-                Mage::throwException(__('This quote item does not exist.'));
+                \Mage::throwException(__('This quote item does not exist.'));
             }
             $productId = $item->getProduct()->getId();
             $product = $this->_getProduct($productId);
@@ -565,7 +567,7 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
             }
 
             $result = $this->getQuote()->updateItem($itemId, $request, $updatingParams);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->getCheckoutSession()->setUseNotice(false);
             $result = $e->getMessage();
         }
@@ -577,10 +579,10 @@ class Magento_Checkout_Model_Cart extends \Magento\Object implements Magento_Che
             if ($this->getCheckoutSession()->getUseNotice() === null) {
                 $this->getCheckoutSession()->setUseNotice(true);
             }
-            Mage::throwException($result);
+            \Mage::throwException($result);
         }
 
-        Mage::dispatchEvent('checkout_cart_product_update_after', array(
+        \Mage::dispatchEvent('checkout_cart_product_update_after', array(
             'quote_item' => $result,
             'product' => $product
         ));

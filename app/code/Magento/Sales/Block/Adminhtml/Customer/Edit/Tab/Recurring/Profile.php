@@ -13,9 +13,11 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
-    extends Magento_Sales_Block_Adminhtml_Recurring_Profile_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring;
+
+class Profile
+    extends \Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Disable filters and paging
@@ -54,7 +56,7 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
      */
     public function canShowTab()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = \Mage::registry('current_customer');
         return (bool)$customer->getId();
     }
 
@@ -71,17 +73,17 @@ class Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Sales_Block_Adminhtml_Customer_Edit_Tab_Recurring_Profile
+     * @return \Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring\Profile
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Recurring_Profile_Collection')
-            ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId());
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Recurring\Profile\Collection')
+            ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId());
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
         }
         $this->setCollection($collection);
-        return Magento_Adminhtml_Block_Widget_Grid::_prepareCollection();
+        return \Magento\Adminhtml\Block\Widget\Grid::_prepareCollection();
     }
 
     /**

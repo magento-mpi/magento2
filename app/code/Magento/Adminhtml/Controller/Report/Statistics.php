@@ -15,12 +15,14 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Report;
+
+class Statistics extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Admin session model
      *
-     * @var null|Magento_Backend_Model_Auth_Session
+     * @var null|\Magento\Backend\Model\Auth\Session
      */
     protected $_adminSession = null;
 
@@ -38,7 +40,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
             $blocks = array($blocks);
         }
 
-        $requestData = Mage::helper('Magento_Adminhtml_Helper_Data')->prepareFilterString($this->getRequest()->getParam('filter'));
+        $requestData = \Mage::helper('Magento\Adminhtml\Helper\Data')->prepareFilterString($this->getRequest()->getParam('filter'));
         $requestData = $this->_filterDates($requestData, array('from', 'to'));
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
         $params = new \Magento\Object();
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
     {
         $codes = $this->getRequest()->getParam('code');
         if (!$codes) {
-            throw new Exception(__('No report code is specified.'));
+            throw new \Exception(__('No report code is specified.'));
         }
 
         if(!is_array($codes) && strpos($codes, ',') === false) {
@@ -78,14 +80,14 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
         }
 
         $aliases = array(
-            'sales'       => 'Magento_Sales_Model_Resource_Report_Order',
-            'tax'         => 'Magento_Tax_Model_Resource_Report_Tax',
-            'shipping'    => 'Magento_Sales_Model_Resource_Report_Shipping',
-            'invoiced'    => 'Magento_Sales_Model_Resource_Report_Invoiced',
-            'refunded'    => 'Magento_Sales_Model_Resource_Report_Refunded',
-            'coupons'     => 'Magento_SalesRule_Model_Resource_Report_Rule',
-            'bestsellers' => 'Magento_Sales_Model_Resource_Report_Bestsellers',
-            'viewed'      => 'Magento_Reports_Model_Resource_Report_Product_Viewed',
+            'sales'       => '\Magento\Sales\Model\Resource\Report\Order',
+            'tax'         => '\Magento\Tax\Model\Resource\Report\Tax',
+            'shipping'    => '\Magento\Sales\Model\Resource\Report\Shipping',
+            'invoiced'    => '\Magento\Sales\Model\Resource\Report\Invoiced',
+            'refunded'    => '\Magento\Sales\Model\Resource\Report\Refunded',
+            'coupons'     => '\Magento\SalesRule\Model\Resource\Report\Rule',
+            'bestsellers' => '\Magento\Sales\Model\Resource\Report\Bestsellers',
+            'viewed'      => '\Magento\Reports\Model\Resource\Report\Product\Viewed',
         );
         $out = array();
         foreach ($codes as $code) {
@@ -97,23 +99,23 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
     /**
      * Refresh statistics for last 25 hours
      *
-     * @return Magento_Adminhtml_Controller_Report_Sales
+     * @return \Magento\Adminhtml\Controller\Report\Sales
      */
     public function refreshRecentAction()
     {
         try {
             $collectionsNames = $this->_getCollectionNames();
-            $currentDate = Mage::app()->getLocale()->date();
+            $currentDate = \Mage::app()->getLocale()->date();
             $date = $currentDate->subHour(25);
             foreach ($collectionsNames as $collectionName) {
-                Mage::getResourceModel($collectionName)->aggregate($date);
+                \Mage::getResourceModel($collectionName)->aggregate($date);
             }
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('Recent statistics have been updated.'));
-        } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We can\'t refresh recent statistics.'));
-            Mage::logException($e);
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('Recent statistics have been updated.'));
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We can\'t refresh recent statistics.'));
+            \Mage::logException($e);
         }
 
         if($this->_getSession()->isFirstPageAfterLogin()) {
@@ -127,21 +129,21 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
     /**
      * Refresh statistics for all period
      *
-     * @return Magento_Adminhtml_Controller_Report_Sales
+     * @return \Magento\Adminhtml\Controller\Report\Sales
      */
     public function refreshLifetimeAction()
     {
         try {
             $collectionsNames = $this->_getCollectionNames();
             foreach ($collectionsNames as $collectionName) {
-                Mage::getResourceModel($collectionName)->aggregate();
+                \Mage::getResourceModel($collectionName)->aggregate();
             }
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('We updated lifetime statistics.'));
-        } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We can\'t refresh lifetime statistics.'));
-            Mage::logException($e);
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('We updated lifetime statistics.'));
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We can\'t refresh lifetime statistics.'));
+            \Mage::logException($e);
         }
 
         if($this->_getSession()->isFirstPageAfterLogin()) {
@@ -171,12 +173,12 @@ class Magento_Adminhtml_Controller_Report_Statistics extends Magento_Adminhtml_C
     /**
      * Retrieve admin session model
      *
-     * @return Magento_Backend_Model_Auth_Session
+     * @return \Magento\Backend\Model\Auth\Session
      */
     protected function _getSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+            $this->_adminSession = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         }
         return $this->_adminSession;
     }

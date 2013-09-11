@@ -17,23 +17,25 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
-    extends Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
+
+class Content
+    extends \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Content
 {
     /**
      * Preparing form by adding extra fields.
      * Adding on change js call.
      *
-     * @return Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
+     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab\Content
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_Cms_Model_Page */
-        $model = Mage::registry('cms_page');
+        /* @var $model \Magento\Cms\Model\Page */
+        $model = \Mage::registry('cms_page');
 
         parent::_prepareForm();
 
-        Mage::helper('Magento_VersionsCms_Helper_Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
+        \Mage::helper('Magento\VersionsCms\Helper\Data')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
         /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
@@ -64,7 +66,7 @@ class Magento_VersionsCms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
         // setting current user id for new version functionality.
         // in posted data there will be current user
-        $this->getForm()->getElement('user_id')->setValue(Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId());
+        $this->getForm()->getElement('user_id')->setValue(\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId());
 
         return $this;
     }

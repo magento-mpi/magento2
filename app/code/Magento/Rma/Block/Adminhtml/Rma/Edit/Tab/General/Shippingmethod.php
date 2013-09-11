@@ -15,8 +15,10 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
-    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
+
+class Shippingmethod
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
 
     /**
@@ -29,17 +31,17 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     /**
      * Variable to store RMA instance
      *
-     * @var null|Magento_Rma_Model_Rma
+     * @var null|\Magento\Rma\Model\Rma
      */
     protected $_rma = null;
 
     public function _construct()
     {
-        $buttonStatus       = Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISALLOWED;
+        $buttonStatus       = \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod::PSL_DISALLOWED;
         if ($this->_getShippingAvailability() && $this->getRma() && $this->getRma()->isAvailableForPrintLabel()) {
-            $buttonStatus   = Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_ALLOWED;
+            $buttonStatus   = \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod::PSL_ALLOWED;
         } elseif($this->getRma() && $this->getRma()->getButtonDisabledStatus()) {
-            $buttonStatus   = Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod::PSL_DISABLED;
+            $buttonStatus   = \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod::PSL_DISABLED;
         }
 
         $this->setIsPsl($buttonStatus);
@@ -48,12 +50,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     /**
      * Declare rma instance
      *
-     * @return  Magento_Rma_Model_Item
+     * @return  \Magento\Rma\Model\Item
      */
     public function getRma()
     {
         if (is_null($this->_rma)) {
-            $this->_rma = Mage::registry('current_rma');
+            $this->_rma = \Mage::registry('current_rma');
         }
         return $this->_rma;
     }
@@ -67,7 +69,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     {
         $carriers = array();
         if ($this->getRma()) {
-            $carriers = Mage::helper('Magento_Rma_Helper_Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
+            $carriers = \Mage::helper('Magento\Rma\Helper\Data')->getAllowedShippingCarriers($this->getRma()->getStoreId());
         }
         return !empty($carriers);
     }
@@ -75,11 +77,11 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Rma_Model_Shipping
+     * @return \Magento\Rma\Model\Shipping
      */
     public function getShipment()
     {
-        return Mage::getModel('Magento_Rma_Model_Shipping')
+        return \Mage::getModel('\Magento\Rma\Model\Shipping')
             ->getShippingLabelByRma($this->getRma());
     }
 
@@ -91,10 +93,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
      */
     public function getShippingPrice($price)
     {
-        return Mage::app()
+        return \Mage::app()
             ->getStore($this->getRma()->getStoreId())
             ->convertPrice(
-                Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice(
+                \Mage::helper('Magento\Tax\Helper\Data')->getShippingPrice(
                     $price
                 ),
                 true,
@@ -134,7 +136,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         }
         $address    = $order->getShippingAddress();
         $shipperAddressCountryCode  = $address->getCountryId();
-        $recipientAddressCountryCode= Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
+        $recipientAddressCountryCode= \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($storeId)->getCountryId();
 
         if (($carrierCode == 'fedex' || $carrierCode == 'dhl')
             && $shipperAddressCountryCode != $recipientAddressCountryCode) {
@@ -154,7 +156,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $url        = $this->getUrl('*/rma/printLabel', $data);
 
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -170,7 +172,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Show Packages'),
                 'onclick' => 'showPackedWindow();'
@@ -189,7 +191,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $url        = $this->getUrl('*/rma/printPackage', $data);
 
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Print'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -206,7 +208,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     public function getContainerTypeByCode($code)
     {
         $carrierCode= $this->getShipment()->getCarrierCode();
-        $carrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($carrierCode, $this->getRma()->getStoreId());
+        $carrier    = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($carrierCode, $this->getRma()->getStoreId());
         if ($carrier) {
             $containerTypes = $carrier->getContainerTypes();
             $containerType = !empty($containerTypes[$code]) ? $containerTypes[$code] : '';
@@ -224,9 +226,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
     public function getDeliveryConfirmationTypeByCode($code)
     {
         $storeId    = $this->getRma()->getStoreId();
-        $countryId  = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
+        $countryId  = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($storeId)->getCountryId();
         $carrierCode= $this->getShipment()->getCarrierCode();
-        $carrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($carrierCode, $this->getRma()->getStoreId());
+        $carrier    = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($carrierCode, $this->getRma()->getStoreId());
         if ($carrier) {
             $params = new \Magento\Object(array('country_recipient' => $countryId));
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
@@ -274,9 +276,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod
         $address    = $order->getShippingAddress();
 
         $carrierCode= $this->getShipment()->getCarrierCode();
-        $carrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
+        $carrier    = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($carrierCode, $storeId);
 
-        $countryShipper = Mage::getStoreConfig(Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = \Mage::getStoreConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new \Magento\Object(array(
                 'method'            => $carrier->getMethod(),

@@ -15,14 +15,16 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Controller_Adminhtml_Bundle_Product_Edit extends Magento_Adminhtml_Controller_Catalog_Product
+namespace Magento\Bundle\Controller\Adminhtml\Bundle\Product;
+
+class Edit extends \Magento\Adminhtml\Controller\Catalog\Product
 {
     public function formAction()
     {
         $product = $this->_initProduct();
         $this->getResponse()->setBody(
             $this->getLayout()
-                ->createBlock('Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle',
+                ->createBlock('\Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle',
                     'admin.product.bundle.items')
                 ->setProductId($product->getId())
                 ->toHtml()

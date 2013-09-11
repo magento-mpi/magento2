@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Attribute_Set extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Eav\Model\Resource\Entity\Attribute;
+
+class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection
@@ -30,13 +32,13 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Set extends Magento_Core_Model
     /**
      * Perform actions after object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Set
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Set
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->getGroups()) {
-            /* @var $group Magento_Eav_Model_Entity_Attribute_Group */
+            /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
             foreach ($object->getGroups() as $group) {
                 $group->setAttributeSetId($object->getId());
                 if ($group->itemExists() && !$group->getId()) {
@@ -47,15 +49,15 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Set extends Magento_Core_Model
         }
         if ($object->getRemoveGroups()) {
             foreach ($object->getRemoveGroups() as $group) {
-                /* @var $group Magento_Eav_Model_Entity_Attribute_Group */
+                /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */
                 $group->delete();
             }
-            Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group')
+            \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Group')
                 ->updateDefaultGroup($object->getId());
         }
         if ($object->getRemoveAttributes()) {
             foreach ($object->getRemoveAttributes() as $attribute) {
-                /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+                /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
                 $attribute->deleteEntity();
             }
         }
@@ -66,7 +68,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Set extends Magento_Core_Model
     /**
      * Validate attribute set name
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Set $object
+     * @param \Magento\Eav\Model\Entity\Attribute\Set $object
      * @param string $attributeSetName
      * @return bool
      */

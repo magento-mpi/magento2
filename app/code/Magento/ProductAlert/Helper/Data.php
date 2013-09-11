@@ -16,33 +16,35 @@
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
+namespace Magento\ProductAlert\Helper;
+
+class Data extends \Magento\Core\Helper\Url
 {
     /**
      * Current product instance (override registry one)
      *
-     * @var null|Magento_Catalog_Model_Product
+     * @var null|\Magento\Catalog\Model\Product
      */
     protected $_product = null;
 
     /**
      * Get current product instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         if (!is_null($this->_product)) {
             return $this->_product;
         }
-        return Mage::registry('product');
+        return \Mage::registry('product');
     }
 
     /**
      * Set current product instance
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_ProductAlert_Helper_Data
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\ProductAlert\Helper\Data
      */
     public function setProduct($product)
     {
@@ -52,37 +54,37 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
 
     public function getCustomer()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return \Mage::getSingleton('Magento\Customer\Model\Session');
     }
 
     public function getStore()
     {
-        return Mage::app()->getStore();
+        return \Mage::app()->getStore();
     }
 
     public function getSaveUrl($type)
     {
         return $this->_getUrl('productalert/add/' . $type, array(
             'product_id'    => $this->getProduct()->getId(),
-            Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
+            \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
         ));
     }
 
     /**
      * Create block instance
      *
-     * @param string|Magento_Core_Block_Abstract $block
-     * @return Magento_Core_Block_Abstract
+     * @param string|\Magento\Core\Block\AbstractBlock $block
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function createBlock($block)
     {
         if (is_string($block)) {
             if (class_exists($block)) {
-                $block = Mage::getObjectManager()->create($block);
+                $block = \Mage::getObjectManager()->create($block);
             }
         }
-        if (!$block instanceof Magento_Core_Block_Abstract) {
-            Mage::throwException(__('Invalid block type: %1', $block));
+        if (!$block instanceof \Magento\Core\Block\AbstractBlock) {
+            \Mage::throwException(__('Invalid block type: %1', $block));
         }
         return $block;
     }
@@ -94,7 +96,7 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      */
     public function isStockAlertAllowed()
     {
-        return Mage::getStoreConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_STOCK_ALLOW);
+        return \Mage::getStoreConfigFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_STOCK_ALLOW);
     }
 
     /**
@@ -104,6 +106,6 @@ class Magento_ProductAlert_Helper_Data extends Magento_Core_Helper_Url
      */
     public function isPriceAlertAllowed()
     {
-        return Mage::getStoreConfigFlag(Magento_ProductAlert_Model_Observer::XML_PATH_PRICE_ALLOW);
+        return \Mage::getStoreConfigFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_PRICE_ALLOW);
     }
 }

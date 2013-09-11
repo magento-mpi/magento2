@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Cache_Resource_Grid_Collection extends \Magento\Data\Collection
+namespace Magento\Backend\Model\Cache\Resource\Grid;
+
+class Collection extends \Magento\Data\Collection
 {
     /**
-     * @var Magento_Core_Model_Cache_TypeListInterface
+     * @var \Magento\Core\Model\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
 
     /**
-     * @param Magento_Core_Model_Cache_TypeListInterface $cacheTypeList
+     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
      */
-    public function __construct(Magento_Core_Model_Cache_TypeListInterface $cacheTypeList)
+    public function __construct(\Magento\Core\Model\Cache\TypeListInterface $cacheTypeList)
     {
         $this->_cacheTypeList = $cacheTypeList;
     }
@@ -27,7 +29,7 @@ class Magento_Backend_Model_Cache_Resource_Grid_Collection extends \Magento\Data
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return Magento_Backend_Model_Cache_Resource_Grid_Collection
+     * @return \Magento\Backend\Model\Cache\Resource\Grid\Collection
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function loadData($printQuery = false, $logQuery = false)

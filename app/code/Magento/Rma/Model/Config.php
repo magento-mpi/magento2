@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Config extends \Magento\Object
+namespace Magento\Rma\Model;
+
+class Config extends \Magento\Object
 {
     /**
      * XML configuration paths
@@ -40,7 +42,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
     /**
      * Current store instance
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store = null;
 
@@ -57,7 +59,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
      *
      * @param string $configRootPath Current config root
      * @param mixed $store Current store
-     * @return Magento_Rma_Model_Config
+     * @return \Magento\Rma\Model\Config
      */
     public function init($configRootPath, $store)
     {
@@ -71,16 +73,16 @@ class Magento_Rma_Model_Config extends \Magento\Object
      * Set config store
      *
      * @param mixed $store
-     * @return Magento_Rma_Model_Config
+     * @return \Magento\Rma\Model\Config
      */
     public function setStore($store)
     {
-        if ($store instanceof Magento_Core_Model_Store) {
+        if ($store instanceof \Magento\Core\Model\Store) {
             $this->_store = $store;
         } elseif ($store = intval($store)) {
-            $this->_store = Mage::app()->getStore($store);
+            $this->_store = \Mage::app()->getStore($store);
         } else {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = \Mage::app()->getStore();
         }
         return $this;
     }
@@ -89,18 +91,18 @@ class Magento_Rma_Model_Config extends \Magento\Object
      * Retrieve store object
      *
      * @param mixed $store
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore($store = null)
     {
         if($store){
-            if ($store instanceof Magento_Core_Model_Store) {
+            if ($store instanceof \Magento\Core\Model\Store) {
                 return $store;
             } elseif (is_int($store)) {
-                return Mage::app()->getStore($store);
+                return \Mage::app()->getStore($store);
             }
         } elseif (is_null($this->_store)) {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = \Mage::app()->getStore();
         }
         return $this->_store;
     }
@@ -109,7 +111,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
      * Set config root path
      *
      * @param string $path
-     * @return Magento_Rma_Model_Config
+     * @return \Magento\Rma\Model\Config
      */
     public function setRootPath($path)
     {
@@ -172,7 +174,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
      * Get value of Enabled parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Magento_Core_Model_Store|null $store
+     * @param int|\Magento\Core\Model\Store|null $store
      * @return mixed
      */
     public function isEnabled($path = null, $store = null)
@@ -184,7 +186,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
      * Get array of emails from CopyTo parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Magento_Core_Model_Store|null $store
+     * @param int|\Magento\Core\Model\Store|null $store
      * @return mixed
      */
     public function getCopyTo($path = '', $store = null)
@@ -200,7 +202,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
      * Get value of Copy Method parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Magento_Core_Model_Store|null $store
+     * @param int|\Magento\Core\Model\Store|null $store
      * @return mixed
      */
     public function getCopyMethod($path = '', $store = null)
@@ -212,7 +214,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
      * Get value of Template for Guest parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Magento_Core_Model_Store|null $store
+     * @param int|\Magento\Core\Model\Store|null $store
      * @return mixed
      */
     public function getGuestTemplate($path = '', $store = null)
@@ -224,7 +226,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
      * Get value of Template parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Magento_Core_Model_Store|null $store
+     * @param int|\Magento\Core\Model\Store|null $store
      * @return mixed
      */
     public function getTemplate($path = '', $store = null)
@@ -236,7 +238,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
      * Get value of Email Sender Identity parameter for store
      *
      * @param string|null $path Root path for parameter
-     * @param int|Magento_Core_Model_Store|null $store
+     * @param int|\Magento\Core\Model\Store|null $store
      * @return mixed
      */
     public function getIdentity($path = '', $store = null)
@@ -271,7 +273,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
         if (is_null($store)) {
             $store = $this->_store;
         }
-        return Mage::getStoreConfig($this->_getPath($path), $this->getStore($store));
+        return \Mage::getStoreConfig($this->_getPath($path), $this->getStore($store));
     }
 
     /**
@@ -284,7 +286,7 @@ class Magento_Rma_Model_Config extends \Magento\Object
      */
     public function getCustomerEmailRecipient($store)
     {
-        $senderCode = Mage::getStoreConfig(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, $store);
-        return Mage::getStoreConfig('trans_email/ident_' . $senderCode . '/email', $store);
+        $senderCode = \Mage::getStoreConfig(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, $store);
+        return \Mage::getStoreConfig('trans_email/ident_' . $senderCode . '/email', $store);
     }
 }

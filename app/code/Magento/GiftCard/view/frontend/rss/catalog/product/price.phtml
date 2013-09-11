@@ -13,7 +13,7 @@
 /**
  * Template for displaying giftcard product price in RSS feeds
  *
- * @see Magento_GiftCard_Block_Catalog_Product_Price
+ * @see \Magento\GiftCard\Block\Catalog\Product\Price
  */
 ?>
 
@@ -25,12 +25,12 @@
     <div class="price-box">
     <?php if (($_min = $this->getMinAmount()) && ($_max = $this->getMaxAmount()) && ($_min == $_max)): ?>
         <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-            <?php echo $this->helper('Magento_Core_Helper_Data')->currency($_min, true, false) ?>
+            <?php echo $this->helper('\Magento\Core\Helper\Data')->currency($_min, true, false) ?>
         </span>
     <?php elseif (($_min = $this->getMinAmount()) && $_min != 0): ?>
         <span class="label"><?php echo __('From') ?></span>
         <span class="price" id="min-product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-            <?php echo $this->helper('Magento_Core_Helper_Data')->currency($_min,true,false) ?>
+            <?php echo $this->helper('\Magento\Core\Helper\Data')->currency($_min,true,false) ?>
         </span>
     <?php endif; ?>
     </div>

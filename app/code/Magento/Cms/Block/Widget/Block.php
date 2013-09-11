@@ -16,7 +16,9 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template implements Magento_Widget_Block_Interface
+namespace Magento\Cms\Block\Widget;
+
+class Block extends \Magento\Core\Block\Template implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Storage for used widgets
@@ -29,7 +31,7 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
      * Prepare block text and determine whether block output enabled or not
      * Prevent blocks recursion if needed
      *
-     * @return Magento_Cms_Block_Widget_Block
+     * @return \Magento\Cms\Block\Widget\Block
      */
     protected function _beforeToHtml()
     {
@@ -43,13 +45,13 @@ class Magento_Cms_Block_Widget_Block extends Magento_Core_Block_Template impleme
         self::$_widgetUsageMap[$blockHash] = true;
 
         if ($blockId) {
-            $storeId = Mage::app()->getStore()->getId();
-            $block = Mage::getModel('Magento_Cms_Model_Block')
+            $storeId = \Mage::app()->getStore()->getId();
+            $block = \Mage::getModel('\Magento\Cms\Model\Block')
                 ->setStoreId($storeId)
                 ->load($blockId);
             if ($block->getIsActive()) {
-                /* @var $helper Magento_Cms_Helper_Data */
-                $helper = Mage::helper('Magento_Cms_Helper_Data');
+                /* @var $helper \Magento\Cms\Helper\Data */
+                $helper = \Mage::helper('Magento\Cms\Helper\Data');
                 $processor = $helper->getBlockTemplateProcessor();
                 $this->setText($processor->setStoreId($storeId)->filter($block->getContent()));
             }

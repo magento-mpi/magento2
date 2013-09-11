@@ -9,7 +9,9 @@
  */
 
 
-class Magento_GoogleCheckout_Model_Source_Shipping_Virtual_Schedule
+namespace Magento\GoogleCheckout\Model\Source\Shipping\Virtual;
+
+class Schedule
 {
     public function toOptionArray()
     {

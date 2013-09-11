@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_Webapi_Model_Config_ReaderAbstract
+namespace Magento\Webapi\Model\Config;
+
+abstract class ReaderAbstract
 {
     /**
      * Cache ID for resource config.
@@ -20,27 +22,27 @@ abstract class Magento_Webapi_Model_Config_ReaderAbstract
     const RESOURCE_CLASS_PATTERN = '/^(.*)_(.*)_Controller_Webapi(_.*)+$/';
 
     /**
-     * @var Zend\Code\Scanner\DirectoryScanner
+     * @var \Zend\Code\Scanner\DirectoryScanner
      */
     protected $_directoryScanner;
 
     /**
-     * @var Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract
+     * @var \Magento\Webapi\Model\Config\Reader\ClassReflectorAbstract
      */
     protected $_classReflector;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_applicationConfig;
 
     /**
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
@@ -50,23 +52,23 @@ abstract class Magento_Webapi_Model_Config_ReaderAbstract
     protected $_data = array();
 
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_cacheState;
 
     /**
-     * @param Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector
-     * @param Magento_Core_Model_Config $appConfig
-     * @param Magento_Core_Model_CacheInterface $cache
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Cache_StateInterface $cacheState
+     * @param \Magento\Webapi\Model\Config\Reader\ClassReflectorAbstract $classReflector
+     * @param \Magento\Core\Model\Config $appConfig
+     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
      */
     public function __construct(
-        Magento_Webapi_Model_Config_Reader_ClassReflectorAbstract $classReflector,
-        Magento_Core_Model_Config $appConfig,
-        Magento_Core_Model_CacheInterface $cache,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Cache_StateInterface $cacheState
+        \Magento\Webapi\Model\Config\Reader\ClassReflectorAbstract $classReflector,
+        \Magento\Core\Model\Config $appConfig,
+        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Cache\StateInterface $cacheState
     ) {
         $this->_classReflector = $classReflector;
         $this->_applicationConfig = $appConfig;
@@ -85,12 +87,12 @@ abstract class Magento_Webapi_Model_Config_ReaderAbstract
     /**
      * Get current directory scanner. Initialize if it was not initialized previously.
      *
-     * @return Zend\Code\Scanner\DirectoryScanner
+     * @return \Zend\Code\Scanner\DirectoryScanner
      */
     public function getDirectoryScanner()
     {
         if (!$this->_directoryScanner) {
-            $this->_directoryScanner = new Zend\Code\Scanner\DirectoryScanner();
+            $this->_directoryScanner = new \Zend\Code\Scanner\DirectoryScanner();
             foreach ($this->_moduleList->getModules() as $module) {
                 /** Invalid type is specified to retrieve path to module directory. */
                 $moduleDir = $this->_applicationConfig->getModuleDir('invalid_type', $module['name']);
@@ -107,9 +109,9 @@ abstract class Magento_Webapi_Model_Config_ReaderAbstract
     /**
      * Set directory scanner object.
      *
-     * @param Zend\Code\Scanner\DirectoryScanner $directoryScanner
+     * @param \Zend\Code\Scanner\DirectoryScanner $directoryScanner
      */
-    public function setDirectoryScanner(Zend\Code\Scanner\DirectoryScanner $directoryScanner)
+    public function setDirectoryScanner(\Zend\Code\Scanner\DirectoryScanner $directoryScanner)
     {
         $this->_directoryScanner = $directoryScanner;
     }
@@ -117,8 +119,8 @@ abstract class Magento_Webapi_Model_Config_ReaderAbstract
     /**
      * Read configuration data from the action controllers files using class reflector.
      *
-     * @throws InvalidArgumentException
-     * @throws LogicException
+     * @throws \InvalidArgumentException
+     * @throws \LogicException
      * @return array
      */
     public function getData()
@@ -129,7 +131,7 @@ abstract class Magento_Webapi_Model_Config_ReaderAbstract
                 $filename = $file->getFile();
                 $classes = $file->getClasses();
                 if (count($classes) > 1) {
-                    throw new LogicException(sprintf(
+                    throw new \LogicException(sprintf(
                         'There can be only one class in the "%s" controller file .',
                         $filename
                     ));
@@ -146,7 +148,7 @@ abstract class Magento_Webapi_Model_Config_ReaderAbstract
             $this->_addData($postReflectionData);
 
             if (!isset($this->_data['resources'])) {
-                throw new LogicException('Cannot populate config - no action controllers were found.');
+                throw new \LogicException('Cannot populate config - no action controllers were found.');
             }
 
             $this->_saveDataToCache();
@@ -173,7 +175,7 @@ abstract class Magento_Webapi_Model_Config_ReaderAbstract
     protected function _loadDataFromCache()
     {
         $isLoaded = false;
-        if ($this->_cacheState->isEnabled(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cacheState->isEnabled(\Magento\Webapi\Model\ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $cachedData = $this->_cache->load($this->getCacheId());
             if ($cachedData !== false) {
                 $this->_data = unserialize($cachedData);
@@ -188,11 +190,11 @@ abstract class Magento_Webapi_Model_Config_ReaderAbstract
      */
     protected function _saveDataToCache()
     {
-        if ($this->_cacheState->isEnabled(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
+        if ($this->_cacheState->isEnabled(\Magento\Webapi\Model\ConfigAbstract::WEBSERVICE_CACHE_NAME)) {
             $this->_cache->save(
                 serialize($this->_data),
                 $this->getCacheId(),
-                array(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG)
+                array(\Magento\Webapi\Model\ConfigAbstract::WEBSERVICE_CACHE_TAG)
             );
         }
     }

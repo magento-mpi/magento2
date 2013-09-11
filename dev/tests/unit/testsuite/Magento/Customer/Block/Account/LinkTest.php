@@ -8,39 +8,39 @@
 
 class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Customer_Model_Session */
+    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Model\Session */
     protected $_session;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Customer_Helper_Data */
+    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Customer\Helper\Data */
     protected $_helper;
 
-    /** @var PHPUnit_Framework_MockObject_MockObject|Magento_Page_Block_Template_Links */
+    /** @var PHPUnit_Framework_MockObject_MockObject|\Magento\Page\Block\Template\Links */
     protected $_targetBlock;
 
-    /** @var Magento_Customer_Block_Account_Link */
+    /** @var \Magento\Customer\Block\Account\Link */
     protected $_block;
 
     public function setUp()
     {
-        $this->_session = $this->getMock('Magento_Customer_Model_Session', array(), array(), '', false);
+        $this->_session = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
 
-        $this->_helper = $this->getMock('Magento_Customer_Helper_Data', array(), array(), '', false);
+        $this->_helper = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
 
-        $helperFactory = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
+        $helperFactory = $this->getMock('Magento\Core\Model\Factory\Helper', array(), array(), '', false);
         $helperFactory->expects($this->any())
             ->method('get')
-            ->with('Magento_Customer_Helper_Data')
+            ->with('Magento\Customer\Helper\Data')
             ->will($this->returnValue($this->_helper));
 
-        $this->_targetBlock = $this->getMock('Magento_Page_Block_Template_Links', array(), array(), '', false);
+        $this->_targetBlock = $this->getMock('Magento\Page\Block\Template\Links', array(), array(), '', false);
 
-        $layout = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $layout->expects($this->any())
             ->method('getBlock')
             ->with('target_block')
             ->will($this->returnValue($this->_targetBlock));
 
-        $context = $this->getMock('Magento_Core_Block_Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Core\Block\Context', array(), array(), '', false);
         $context->expects($this->any())
             ->method('getHelperFactory')
             ->will($this->returnValue($helperFactory));
@@ -48,7 +48,7 @@ class Magento_Customer_Block_Account_LinkTest extends PHPUnit_Framework_TestCase
             ->method('getLayout')
             ->will($this->returnValue($layout));
 
-        $this->_block = new Magento_Customer_Block_Account_Link($context, $this->_session);
+        $this->_block = new \Magento\Customer\Block\Account\Link($context, $this->_session);
     }
 
     /**

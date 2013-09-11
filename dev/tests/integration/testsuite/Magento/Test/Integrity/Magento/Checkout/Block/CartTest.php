@@ -35,7 +35,7 @@ class Magento_Test_Integrity_Magento_Checkout_Block_CartTest extends PHPUnit_Fra
             preg_match('/^(.+?_.+?)_/', $blockNode['class'], $matches);
             $params['module'] = $matches[1];
             $this->assertFileExists(
-                Magento_TestFramework_Helper_Bootstrap::getObjectmanager()->get('Magento_Core_Model_View_FileSystem')
+                Magento_TestFramework_Helper_Bootstrap::getObjectmanager()->get('Magento\Core\Model\View\FileSystem')
                     ->getFilename($template, $params)
             );
         }

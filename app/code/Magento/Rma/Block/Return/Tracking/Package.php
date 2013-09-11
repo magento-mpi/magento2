@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Return_Tracking_Package extends Magento_Shipping_Block_Tracking_Popup
+namespace Magento\Rma\Block\Return\Tracking;
+
+class Package extends \Magento\Shipping\Block\Tracking\Popup
 {
     /**
      * Class constructor
@@ -16,7 +18,7 @@ class Magento_Rma_Block_Return_Tracking_Package extends Magento_Shipping_Block_T
     protected function _construct()
     {
         parent::_construct();
-        $this->setPackageInfo(Mage::registry('rma_package_shipping'));
+        $this->setPackageInfo(\Mage::registry('rma_package_shipping'));
     }
 
     /**
@@ -49,7 +51,7 @@ class Magento_Rma_Block_Return_Tracking_Package extends Magento_Shipping_Block_T
     public function getContainerTypeByCode($code)
     {
         $carrierCode= $this->getPackageInfo()->getCarrierCode();
-        $carrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($carrierCode, Mage::app()->getStore()->getId());
+        $carrier    = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($carrierCode, \Mage::app()->getStore()->getId());
         if ($carrier) {
             $containerTypes = $carrier->getContainerTypes();
             $containerType = !empty($containerTypes[$code]) ? $containerTypes[$code] : '';

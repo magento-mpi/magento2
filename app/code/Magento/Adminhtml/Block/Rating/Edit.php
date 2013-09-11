@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Rating_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Rating;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {
@@ -29,10 +31,10 @@ class Magento_Adminhtml_Block_Rating_Edit extends Magento_Adminhtml_Block_Widget
 
         if( $this->getRequest()->getParam($this->_objectId) ) {
 
-            $ratingData = Mage::getModel('Magento_Rating_Model_Rating')
+            $ratingData = \Mage::getModel('\Magento\Rating\Model\Rating')
                 ->load($this->getRequest()->getParam($this->_objectId));
 
-            Mage::register('rating_data', $ratingData);
+            \Mage::register('rating_data', $ratingData);
         }
 
 
@@ -40,8 +42,8 @@ class Magento_Adminhtml_Block_Rating_Edit extends Magento_Adminhtml_Block_Widget
 
     public function getHeaderText()
     {
-        if( Mage::registry('rating_data') && Mage::registry('rating_data')->getId() ) {
-            return __("Edit Rating #%1", $this->escapeHtml(Mage::registry('rating_data')->getRatingCode()));
+        if( \Mage::registry('rating_data') && \Mage::registry('rating_data')->getId() ) {
+            return __("Edit Rating #%1", $this->escapeHtml(\Mage::registry('rating_data')->getRatingCode()));
         } else {
             return __('New Rating');
         }

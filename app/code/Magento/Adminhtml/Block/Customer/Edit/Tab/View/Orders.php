@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View;
+
+class Orders extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -37,8 +39,8 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
-            ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Grid\Collection')
+            ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
             ->setIsCustomerMode(true);
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -77,7 +79,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
             'currency'  => 'order_currency_code',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'    => __('Purchase Point'),
                 'index'     => 'store_id',
@@ -91,7 +93,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Orders extends Magento_Admi
             'filter'    =>  false,
             'sortable'  =>  false,
             'width'     => '100px',
-            'renderer'  =>  'Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action'
+            'renderer'  =>  '\Magento\Adminhtml\Block\Sales\Reorder\Renderer\Action'
         ));
 
         return parent::_prepareColumns();

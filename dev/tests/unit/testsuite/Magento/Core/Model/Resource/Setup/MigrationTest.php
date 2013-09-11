@@ -84,7 +84,7 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
             'base_dir'          => 'not_used',
             'path_to_map_file'  => 'not_used',
             'connection'        => $adapterMock,
-            'core_helper'       => $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false),
+            'core_helper'       => $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false),
             'aliases_map'       => $aliasesMap
         );
     }
@@ -129,16 +129,16 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Setup_Migration::appendClassAliasReplace
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::appendClassAliasReplace
      */
     public function testAppendClassAliasReplace()
     {
-        $setupModel = new Magento_Core_Model_Resource_Setup_Migration(
-            $this->getMock('Magento_Core_Model_Config_Resource', array(), array(), '', false, false),
-            $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false),
-            $this->getMock('Magento_Core_Model_ModuleListInterface'),
-            $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
-            $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
+        $setupModel = new \Magento\Core\Model\Resource\Setup\Migration(
+            $this->getMock('Magento\Core\Model\Config\Resource', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\ModuleListInterface'),
+            $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false),
             $this->getMock('Magento\Filesystem', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies()
@@ -164,25 +164,25 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
 
     /**
      * @dataProvider updateClassAliasesDataProvider
-     * @covers Magento_Core_Model_Resource_Setup_Migration::doUpdateClassAliases
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_updateClassAliasesInTable
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getRowsCount
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_applyFieldRule
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_updateRowsData
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getTableData
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getReplacement
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getCorrespondingClassName
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getModelReplacement
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getPatternReplacement
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getClassName
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_isFactoryName
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getModuleName
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getCompositeModuleName
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getAliasFromMap
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_pushToMap
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getAliasesMap
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_getAliasInSerializedStringReplacement
-     * @covers Magento_Core_Model_Resource_Setup_Migration::_parseSerializedString
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::doUpdateClassAliases
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_updateClassAliasesInTable
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getRowsCount
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_applyFieldRule
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_updateRowsData
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getTableData
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getReplacement
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getCorrespondingClassName
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getModelReplacement
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getPatternReplacement
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getClassName
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_isFactoryName
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getModuleName
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getCompositeModuleName
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getAliasFromMap
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_pushToMap
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getAliasesMap
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_getAliasInSerializedStringReplacement
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::_parseSerializedString
      */
     public function testDoUpdateClassAliases($replaceRules, $tableData, $expected, $aliasesMap = array())
     {
@@ -190,12 +190,12 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
 
         $tableRowsCount = count($tableData);
 
-        $setupModel = new Magento_Core_Model_Resource_Setup_Migration(
-            $this->getMock('Magento_Core_Model_Config_Resource', array(), array(), '', false, false),
-            $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false),
-            $this->getMock('Magento_Core_Model_ModuleListInterface'),
-            $this->getMock('Magento_Core_Model_Resource', array(), array(), '', false, false),
-            $this->getMock('Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false, false),
+        $setupModel = new \Magento\Core\Model\Resource\Setup\Migration(
+            $this->getMock('Magento\Core\Model\Config\Resource', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\ModuleListInterface'),
+            $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false, false),
             $this->getMock('Magento\Filesystem', array(), array(), '', false),
             'core_setup',
             $this->_getModelDependencies($tableRowsCount, $tableData, $aliasesMap)
@@ -238,11 +238,11 @@ class Magento_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Setup_Migration::getCompositeModules
+     * @covers \Magento\Core\Model\Resource\Setup\Migration::getCompositeModules
      */
     public function testGetCompositeModules()
     {
-        $compositeModules = Magento_Core_Model_Resource_Setup_Migration::getCompositeModules();
+        $compositeModules = \Magento\Core\Model\Resource\Setup\Migration::getCompositeModules();
         $this->assertInternalType('array', $compositeModules);
         $this->assertNotEmpty($compositeModules);
         foreach ($compositeModules as $classAlias => $className) {

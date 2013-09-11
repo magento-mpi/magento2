@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
+namespace Magento\Sales\Controller;
+
+class Guest extends \Magento\Sales\Controller\AbstractController
 {
     /**
      * Try to load valid order and register it
@@ -26,18 +28,18 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
      */
     protected function _loadValidOrder($orderId = null)
     {
-        return Mage::helper('Magento_Sales_Helper_Guest')->loadValidOrder();
+        return \Mage::helper('Magento\Sales\Helper\Guest')->loadValidOrder();
     }
 
     /**
      * Check order view availability
      *
-     * @param   Magento_Sales_Model_Order $order
+     * @param   \Magento\Sales\Model\Order $order
      * @return  bool
      */
     protected function _canViewOrder($order)
     {
-        $currentOrder = Mage::registry('current_order');
+        $currentOrder = \Mage::registry('current_order');
         if ($order->getId() && ($order->getId() === $currentOrder->getId())) {
             return true;
         }
@@ -51,7 +53,7 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
         }
 
         $this->loadLayout();
-        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
+        \Mage::helper('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -60,13 +62,13 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
      */
     public function formAction()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
             $this->_redirect('customer/account/');
             return;
         }
         $this->loadLayout();
         $this->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
-        Mage::helper('Magento_Sales_Helper_Guest')->getBreadcrumbs($this);
+        \Mage::helper('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
         $this->renderLayout();
     }
 
@@ -78,15 +80,15 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
 
         $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
-            $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->load($invoiceId);
+            $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
         } else {
-            $order = Mage::registry('current_order');
+            $order = \Mage::registry('current_order');
         }
 
         if ($this->_canViewOrder($order)) {
             if (isset($invoice)) {
-                Mage::register('current_invoice', $invoice);
+                \Mage::register('current_invoice', $invoice);
             }
             $this->loadLayout('print');
             $this->renderLayout();
@@ -103,14 +105,14 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
 
         $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
         if ($shipmentId) {
-            $shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->load($shipmentId);
+            $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
         } else {
-            $order = Mage::registry('current_order');
+            $order = \Mage::registry('current_order');
         }
         if ($this->_canViewOrder($order)) {
             if (isset($shipment)) {
-                Mage::register('current_shipment', $shipment);
+                \Mage::register('current_shipment', $shipment);
             }
             $this->loadLayout('print');
             $this->renderLayout();
@@ -127,15 +129,15 @@ class Magento_Sales_Controller_Guest extends Magento_Sales_Controller_Abstract
 
         $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
         if ($creditmemoId) {
-            $creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo')->load($creditmemoId);
+            $creditmemo = \Mage::getModel('\Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();
         } else {
-            $order = Mage::registry('current_order');
+            $order = \Mage::registry('current_order');
         }
 
         if ($this->_canViewOrder($order)) {
             if (isset($creditmemo)) {
-                Mage::register('current_creditmemo', $creditmemo);
+                \Mage::register('current_creditmemo', $creditmemo);
             }
             $this->loadLayout('print');
             $this->renderLayout();

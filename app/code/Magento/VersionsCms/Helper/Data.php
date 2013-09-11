@@ -15,7 +15,9 @@
  * @package    Magento_VersionsCms
  */
 
-class Magento_VersionsCms_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\VersionsCms\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Array of admin users in system
@@ -31,7 +33,7 @@ class Magento_VersionsCms_Helper_Data extends Magento_Core_Helper_Abstract
     public function getUsersArray($addEmptyUser = false)
     {
         if (!$this->_usersHash) {
-            $collection = Mage::getModel('Magento_User_Model_User')->getCollection();
+            $collection = \Mage::getModel('\Magento\User\Model\User')->getCollection();
             $this->_usersHash = array();
 
             if ($addEmptyUser) {
@@ -54,9 +56,9 @@ class Magento_VersionsCms_Helper_Data extends Magento_Core_Helper_Abstract
     public function getVersionAccessLevels()
     {
         return array(
-            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PRIVATE => __('Private'),
-            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PROTECTED => __('Protected'),
-            Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PUBLIC => __('Public')
+            \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PRIVATE => __('Private'),
+            \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PROTECTED => __('Protected'),
+            \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC => __('Public')
         );
     }
 

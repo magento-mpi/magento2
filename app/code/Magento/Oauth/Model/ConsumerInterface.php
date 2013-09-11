@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Oauth_Model_ConsumerInterface
+namespace Magento\Oauth\Model;
+
+interface ConsumerInterface
 {
     /**
      * Load consumer by key.
      *
      * @param string $key
-     * @return Magento_Oauth_Model_ConsumerInterface
+     * @return \Magento\Oauth\Model\ConsumerInterface
      */
     public function loadByKey($key);
 

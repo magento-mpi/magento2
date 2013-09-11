@@ -16,7 +16,9 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_Method_Cc
+namespace Magento\Pbridge\Model\Payment\Method;
+
+class Ogone extends \Magento\Payment\Model\Method\Cc
 {
     /**
      * Payment method code
@@ -45,17 +47,17 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
      * Form block type for the frontend
      * @var string
      */
-    protected $_formBlockType = 'Magento_Pbridge_Block_Checkout_Payment_Ogone';
+    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Ogone';
 
     /**
      * Form block type for the backend
      * @var string
      */
-    protected $_backendFormBlockType = 'Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Ogone';
+    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Ogone';
 
     /**
      * Payment Bridge Payment Method Instance
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
 
@@ -71,13 +73,13 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
     /**
      * Check whether payment method can be used
      *
-     * @param Magento_Sales_Model_Quote|null $quote
+     * @param \Magento\Sales\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
     {
-        return Mage::helper('Magento_Pbridge_Helper_Data')->isEnabled($quote ? $quote->getStoreId() : null)
-            && Magento_Payment_Model_Method_Abstract::isAvailable($quote);
+        return \Mage::helper('Magento\Pbridge\Helper\Data')->isEnabled($quote ? $quote->getStoreId() : null)
+            && \Magento\Payment\Model\Method\AbstractMethod::isAvailable($quote);
     }
 
     /**
@@ -96,19 +98,19 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
      */
     public function getFormBlockType()
     {
-        return Mage::app()->getStore()->isAdmin() ?
+        return \Mage::app()->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }
 
     /**
      * Return Payment Bridge method instance
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -118,7 +120,7 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -128,7 +130,7 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
 
     /**
      * Validate payment method information object
-     * @return Magento_Pbridge_Model_Payment_Method_Ogone
+     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
      */
     public function validate()
     {
@@ -141,7 +143,7 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Ogone
+     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -155,7 +157,7 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Ogone
+     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -173,7 +175,7 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Ogone
+     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -187,7 +189,7 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return Magento_Pbridge_Model_Payment_Method_Ogone
+     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
      */
     public function void(\Magento\Object $payment)
     {
@@ -200,7 +202,7 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
      * Cancel payment
      *
      * @param \Magento\Object $payment
-     * @return Magento_Pbridge_Model_Payment_Method_Ogone
+     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -223,12 +225,12 @@ class Magento_Pbridge_Model_Payment_Method_Ogone extends Magento_Payment_Model_M
     /**
      * Store id setter, also set storeId to helper
      * @param int $store
-     * @return Magento_Pbridge_Model_Payment_Method_Ogone
+     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
      */
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Magento_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 }

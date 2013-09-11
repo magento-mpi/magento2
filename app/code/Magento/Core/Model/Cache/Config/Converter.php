@@ -5,26 +5,28 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Cache_Config_Converter implements \Magento\Config\ConverterInterface
+namespace Magento\Core\Model\Cache\Config;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Convert dom node tree to array
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
      */
     public function convert($source)
     {
         $output = array();
-        /** @var DOMNodeList $types */
+        /** @var \DOMNodeList $types */
         $types = $source->getElementsByTagName('type');
-        /** @var DOMNode $type */
+        /** @var \DOMNode $type */
         foreach ($types as $type) {
             $typeConfig = array();
             foreach ($type->attributes as $attribute) {
                 $typeConfig[$attribute->nodeName] = $attribute->nodeValue;
             }
-            /** @var DOMNode $childNode */
+            /** @var \DOMNode $childNode */
             foreach ($type->childNodes as $childNode) {
                 if ($childNode->nodeType == XML_ELEMENT_NODE
                     || ($childNode->nodeType == XML_CDATA_SECTION_NODE

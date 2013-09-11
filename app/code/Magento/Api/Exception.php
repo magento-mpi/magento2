@@ -15,7 +15,9 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Exception extends Magento_Core_Exception
+namespace Magento\Api;
+
+class Exception extends \Magento\Core\Exception
 {
     protected $_customMessage = null;
 

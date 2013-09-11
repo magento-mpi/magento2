@@ -16,20 +16,22 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
+namespace Magento\Adminhtml\Block\Newsletter\Queue\Grid\Renderer;
+
+class Action extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Action
 {
     public function render(\Magento\Object $row)
     {
         $actions = array();
 
-        if($row->getQueueStatus()==Magento_Newsletter_Model_Queue::STATUS_NEVER) {
+        if($row->getQueueStatus()==\Magento\Newsletter\Model\Queue::STATUS_NEVER) {
                if(!$row->getQueueStartAt() && $row->getSubscribersTotal()) {
                 $actions[] = array(
                     'url' => $this->getUrl('*/*/start', array('id'=>$row->getId())),
                     'caption'	=> __('Start')
                 );
             }
-        } else if ($row->getQueueStatus()==Magento_Newsletter_Model_Queue::STATUS_SENDING) {
+        } else if ($row->getQueueStatus()==\Magento\Newsletter\Model\Queue::STATUS_SENDING) {
             $actions[] = array(
                     'url' => $this->getUrl('*/*/pause', array('id'=>$row->getId())),
                     'caption'	=>	__('Pause')
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Newsletter_Queue_Grid_Renderer_Action extends Mage
             );
 
 
-        } else if ($row->getQueueStatus()==Magento_Newsletter_Model_Queue::STATUS_PAUSE) {
+        } else if ($row->getQueueStatus()==\Magento\Newsletter\Model\Queue::STATUS_PAUSE) {
 
             $actions[] = array(
                 'url' => $this->getUrl('*/*/resume', array('id'=>$row->getId())),

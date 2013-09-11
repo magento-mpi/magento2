@@ -11,30 +11,32 @@
 /**
  * Poll model
  *
- * @method Magento_Poll_Model_Resource_Poll _getResource()
- * @method Magento_Poll_Model_Resource_Poll getResource()
+ * @method \Magento\Poll\Model\Resource\Poll _getResource()
+ * @method \Magento\Poll\Model\Resource\Poll getResource()
  * @method string getPollTitle()
- * @method Magento_Poll_Model_Poll setPollTitle(string $value)
- * @method Magento_Poll_Model_Poll setVotesCount(int $value)
+ * @method \Magento\Poll\Model\Poll setPollTitle(string $value)
+ * @method \Magento\Poll\Model\Poll setVotesCount(int $value)
  * @method int getStoreId()
- * @method Magento_Poll_Model_Poll setStoreId(int $value)
+ * @method \Magento\Poll\Model\Poll setStoreId(int $value)
  * @method string getDatePosted()
- * @method Magento_Poll_Model_Poll setDatePosted(string $value)
+ * @method \Magento\Poll\Model\Poll setDatePosted(string $value)
  * @method string getDateClosed()
- * @method Magento_Poll_Model_Poll setDateClosed(string $value)
+ * @method \Magento\Poll\Model\Poll setDateClosed(string $value)
  * @method int getActive()
- * @method Magento_Poll_Model_Poll setActive(int $value)
+ * @method \Magento\Poll\Model\Poll setActive(int $value)
  * @method int getClosed()
- * @method Magento_Poll_Model_Poll setClosed(int $value)
+ * @method \Magento\Poll\Model\Poll setClosed(int $value)
  * @method int getAnswersDisplay()
- * @method Magento_Poll_Model_Poll setAnswersDisplay(int $value)
+ * @method \Magento\Poll\Model\Poll setAnswersDisplay(int $value)
  *
  * @category    Magento
  * @package     Magento_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Poll_Model_Poll extends Magento_Core_Model_Abstract
+namespace Magento\Poll\Model;
+
+class Poll extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_POLL_CHECK_BY_IP = 'web/polls/poll_check_by_ip';
 
@@ -44,17 +46,17 @@ class Magento_Poll_Model_Poll extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Poll_Model_Resource_Poll');
+        $this->_init('\Magento\Poll\Model\Resource\Poll');
     }
 
     /**
      * Retrieve Cookie Object
      *
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function getCookie()
     {
-        return Mage::app()->getCookie();
+        return \Mage::app()->getCookie();
     }
 
     /**
@@ -101,14 +103,14 @@ class Magento_Poll_Model_Poll extends Magento_Core_Model_Abstract
      */
     public function isValidationByIp()
     {
-        return (1 == Mage::getStoreConfig(self::XML_PATH_POLL_CHECK_BY_IP));
+        return (1 == \Mage::getStoreConfig(self::XML_PATH_POLL_CHECK_BY_IP));
     }
 
     /**
      * Declare poll as voted
      *
      * @param   int $pollId
-     * @return  Magento_Poll_Model_Poll
+     * @return  \Magento\Poll\Model\Poll
      */
     public function setVoted($pollId=null)
     {
@@ -134,7 +136,7 @@ class Magento_Poll_Model_Poll extends Magento_Core_Model_Abstract
         }
 
         // check by ip
-        if (count($this->_getResource()->getVotedPollIdsByIp(Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(), $pollId))) {
+        if (count($this->_getResource()->getVotedPollIdsByIp(\Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(), $pollId))) {
             return true;
         }
 
@@ -166,7 +168,7 @@ class Magento_Poll_Model_Poll extends Magento_Core_Model_Abstract
      *
      * @return unknown
      */
-    public function addVote(Magento_Poll_Model_Poll_Vote $vote)
+    public function addVote(\Magento\Poll\Model\Poll\Vote $vote)
     {
         if ($this->hasAnswer($vote->getPollAnswerId())) {
             $vote->setPollId($this->getId())
@@ -188,7 +190,7 @@ class Magento_Poll_Model_Poll extends Magento_Core_Model_Abstract
         if (is_numeric($answer)) {
             $answerId = $answer;
         }
-        elseif ($answer instanceof Magento_Poll_Model_Poll_Answer) {
+        elseif ($answer instanceof \Magento\Poll\Model\Poll\Answer) {
             $answerId = $answer->getId();
         }
 
@@ -213,14 +215,14 @@ class Magento_Poll_Model_Poll extends Magento_Core_Model_Abstract
             $pattern = '#^' . preg_quote($this->_pollCookieDefaultName, '#') . '(\d+)$#';
             $match   = array();
             if (preg_match($pattern, $cookieName, $match)) {
-                if ($match[1] != Mage::getSingleton('Magento_Core_Model_Session')->getJustVotedPoll()) {
+                if ($match[1] != \Mage::getSingleton('Magento\Core\Model\Session')->getJustVotedPoll()) {
                     $idsArray[$match[1]] = $match[1];
                 }
             }
         }
 
         // load from db for this ip
-        foreach ($this->_getResource()->getVotedPollIdsByIp(Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr()) as $pollId) {
+        foreach ($this->_getResource()->getVotedPollIdsByIp(\Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr()) as $pollId) {
             $idsArray[$pollId] = $pollId;
         }
 

@@ -12,7 +12,9 @@
  * Gift wrapping total block for admin checkout
  *
  */
-class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals extends Magento_Adminhtml_Block_Sales_Order_Create_Totals_Default
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
+
+class Totals extends \Magento\Adminhtml\Block\Sales\Order\Create\Totals\DefaultTotals
 {
     /**
      * Return information for showing
@@ -22,7 +24,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_Create_Totals extends Magento_A
     public function getValues(){
         $values = array();
         $total = $this->getTotal();
-        $totals = Mage::helper('Magento_GiftWrapping_Helper_Data')->getTotals($total);
+        $totals = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getTotals($total);
         foreach ($totals as $total) {
             $values[$total['label']] = $total['value'];
         }

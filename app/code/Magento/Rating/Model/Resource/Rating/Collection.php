@@ -15,12 +15,14 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Rating\Model\Resource\Rating;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Application instance
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
@@ -28,19 +30,19 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
      * Collection constructor
      *
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      * @param array $data
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Resource_Db_Abstract $resource = null,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
         $data = array()
     ) {
-        $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
+        $this->_app = isset($data['app']) ? $data['app'] : \Mage::app();
 
-        if (!($this->_app instanceof Magento_Core_Model_App)) {
-            throw new InvalidArgumentException('Required app object is invalid');
+        if (!($this->_app instanceof \Magento\Core\Model\App)) {
+            throw new \InvalidArgumentException('Required app object is invalid');
         }
         parent::__construct($fetchStrategy, $resource);
     }
@@ -56,14 +58,14 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rating_Model_Rating', 'Magento_Rating_Model_Resource_Rating');
+        $this->_init('\Magento\Rating\Model\Rating', '\Magento\Rating\Model\Resource\Rating');
     }
 
     /**
      * Add entity filter
      *
      * @param   int|string $entity
-     * @return  Magento_Rating_Model_Resource_Rating_Collection
+     * @return  \Magento\Rating\Model\Resource\Rating\Collection
      */
     public function addEntityFilter($entity)
     {
@@ -90,7 +92,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
      * set order by position field
      *
      * @param   string $dir
-     * @return  Magento_Rating_Model_Resource_Rating_Collection
+     * @return  \Magento\Rating\Model\Resource\Rating\Collection
      */
     public function setPositionOrder($dir='ASC')
     {
@@ -102,7 +104,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
      * Set store filter
      *
      * @param int_type $storeId
-     * @return Magento_Rating_Model_Resource_Rating_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Collection
      */
     public function setStoreFilter($storeId)
     {
@@ -139,14 +141,14 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
     /**
      * Add options to ratings in collection
      *
-     * @return Magento_Rating_Model_Resource_Rating_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Collection
      */
     public function addOptionToItems()
     {
         $arrRatingId = $this->getColumnValues('rating_id');
 
         if (!empty($arrRatingId)) {
-            $collection = Mage::getResourceModel('Magento_Rating_Model_Resource_Rating_Option_Collection')
+            $collection = \Mage::getResourceModel('\Magento\Rating\Model\Resource\Rating\Option\Collection')
                 ->addRatingFilter($arrRatingId)
                 ->setPositionOrder()
                 ->load();
@@ -164,7 +166,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
      *
      * @param int $entityPkValue
      * @param int $storeId
-     * @return Magento_Rating_Model_Resource_Rating_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Collection
      */
     public function addEntitySummaryToItem($entityPkValue, $storeId)
     {
@@ -178,8 +180,8 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
         $inCond = $adapter->prepareSqlCondition('rating_option_vote.rating_id', array(
             'in' => $arrRatingId
         ));
-        $sumCond = new Zend_Db_Expr("SUM(rating_option_vote.{$adapter->quoteIdentifier('percent')})");
-        $countCond = new Zend_Db_Expr('COUNT(*)');
+        $sumCond = new \Zend_Db_Expr("SUM(rating_option_vote.{$adapter->quoteIdentifier('percent')})");
+        $countCond = new \Zend_Db_Expr('COUNT(*)');
         $select = $adapter->select()
             ->from(array('rating_option_vote'  => $this->getTable('rating_option_vote')),
                 array(
@@ -227,7 +229,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
      * Add rating store name
      *
      * @param int $storeId
-     * @return Magento_Rating_Model_Resource_Rating_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Collection
      */
     public function addRatingPerStoreName($storeId)
     {
@@ -243,7 +245,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
     /**
      * Add stores to collection
      *
-     * @return Magento_Rating_Model_Resource_Rating_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Collection
      */
     public function addStoresToCollection()
     {
@@ -286,7 +288,7 @@ class Magento_Rating_Model_Resource_Rating_Collection extends Magento_Core_Model
      * Set Active Filter
      *
      * @param bool $isActive
-     * @return Magento_Rating_Model_Resource_Rating_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Collection
      */
     public function setActiveFilter($isActive = true)
     {

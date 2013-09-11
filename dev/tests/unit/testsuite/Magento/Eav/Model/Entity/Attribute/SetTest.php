@@ -10,24 +10,24 @@
  */
 
 /**
- * Test class for Magento_Eav_Model_Entity_Attribute_Set
+ * Test class for \Magento\Eav\Model\Entity\Attribute\Set
  */
 class Magento_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Eav_Model_Entity_Attribute_Set
+     * @var \Magento\Eav\Model\Entity\Attribute\Set
      */
     protected $_model;
 
     protected function setUp()
     {
-        $resource = $this->getMock('Magento_Eav_Model_Resource_Entity_Attribute_Set', array(), array(), '', false);
+        $resource = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Set', array(), array(), '', false);
 
         $arguments = array(
             'resource'  => $resource,
         );
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_Eav_Model_Entity_Attribute_Set', $arguments);
+        $this->_model = $objectManagerHelper->getObject('\Magento\Eav\Model\Entity\Attribute\Set', $arguments);
     }
 
     protected function tearDown()
@@ -48,7 +48,7 @@ class Magento_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestC
             ->method('validate')
             ->will($this->returnValue(false));
 
-        $this->setExpectedException('Magento_Eav_Exception', $exceptionMessage);
+        $this->setExpectedException('\Magento\Eav\Exception', $exceptionMessage);
         $this->_model->setAttributeSetName($attributeSetName);
         $this->_model->validate();
     }

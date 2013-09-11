@@ -9,21 +9,23 @@
  */
 
 
-class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstract
+namespace Magento\Payment\Model\Method;
+
+class Cc extends \Magento\Payment\Model\Method\AbstractMethod
 {
-    protected $_formBlockType = 'Magento_Payment_Block_Form_Cc';
-    protected $_infoBlockType = 'Magento_Payment_Block_Info_Cc';
+    protected $_formBlockType = '\Magento\Payment\Block\Form\Cc';
+    protected $_infoBlockType = '\Magento\Payment\Block\Info\Cc';
     protected $_canSaveCc     = false;
 
     /**
-     * @var Magento_Core_Model_ModuleListInterface
+     * @var \Magento\Core\Model\ModuleListInterface
      */
     protected $_moduleList;
 
     /**
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
      */
-    public function __construct(Magento_Core_Model_ModuleListInterface $moduleList)
+    public function __construct(\Magento\Core\Model\ModuleListInterface $moduleList)
     {
         $this->_moduleList = $moduleList;
     }
@@ -32,7 +34,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
      * Assign data to info model instance
      *
      * @param   mixed $data
-     * @return  Magento_Payment_Model_Info
+     * @return  \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -159,7 +161,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
         }
 
         if ($errorMsg) {
-            Mage::throwException($errorMsg);
+            \Mage::throwException($errorMsg);
         }
 
         //This must be after all validation conditions
@@ -197,7 +199,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
 
     protected function _validateExpDate($expYear, $expMonth)
     {
-        $date = Mage::app()->getLocale()->date();
+        $date = \Mage::app()->getLocale()->date();
         if (!$expYear || !$expMonth || ($date->compareYear($expYear) == 1)
             || ($date->compareYear($expYear) == 0 && ($date->compareMonth($expMonth) == 1))
         ) {
@@ -264,7 +266,7 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     /**
      * Check whether there are CC types set in configuration
      *
-     * @param Magento_Sales_Model_Quote|null $quote
+     * @param \Magento\Sales\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
@@ -287,11 +289,11 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     /**
      * Instantiate centinel validator model
      *
-     * @return Magento_Centinel_Model_Service
+     * @return \Magento\Centinel\Model\Service
      */
     public function getCentinelValidator()
     {
-        $validator = Mage::getSingleton('Magento_Centinel_Model_Service');
+        $validator = \Mage::getSingleton('Magento\Centinel\Model\Service');
         $validator
             ->setIsModeStrict($this->getConfigData('centinel_is_mode_strict'))
             ->setCustomApiEndpointUrl($this->getConfigData('centinel_api_url'))
@@ -379,9 +381,9 @@ class Magento_Payment_Model_Method_Cc extends Magento_Payment_Model_Method_Abstr
     private function _isPlaceOrder()
     {
         $info = $this->getInfoInstance();
-        if ($info instanceof Magento_Sales_Model_Quote_Payment) {
+        if ($info instanceof \Magento\Sales\Model\Quote\Payment) {
             return false;
-        } elseif ($info instanceof Magento_Sales_Model_Order_Payment) {
+        } elseif ($info instanceof \Magento\Sales\Model\Order\Payment) {
             return true;
         }
     }

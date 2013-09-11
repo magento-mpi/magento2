@@ -1,13 +1,15 @@
 <?php
 /**
- * Initial configuration data converter. Converts DOMDocument to array
+ * Initial configuration data converter. Converts \DOMDocument to array
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Initial_Converter implements \Magento\Config\ConverterInterface
+namespace Magento\Core\Model\Config\Initial;
+
+class Converter implements \Magento\Config\ConverterInterface
 {
     /**
      * Node path to process
@@ -36,16 +38,16 @@ class Magento_Core_Model_Config_Initial_Converter implements \Magento\Config\Con
     /**
      * Convert config data
      *
-     * @param DOMDocument $source
+     * @param \DOMDocument $source
      * @return array
      */
     public function convert($source)
     {
         $output = array();
-        $xpath = new DOMXPath($source);
+        $xpath = new \DOMXPath($source);
         $this->_metadata = array();
 
-        /** @var $node DOMNode */
+        /** @var $node \DOMNode */
         foreach ($xpath->query(implode(' | ', $this->_nodeMap)) as $node) {
             $output = array_merge($output, $this->_convertNode($node));
         }
@@ -55,13 +57,13 @@ class Magento_Core_Model_Config_Initial_Converter implements \Magento\Config\Con
     /**
      * Convert node oto array
      *
-     * @param DOMNode $node
+     * @param \DOMNode $node
      * @param string $path
      * @return array|string|null
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _convertNode(DOMNode $node, $path = '')
+    protected function _convertNode(\DOMNode $node, $path = '')
     {
         $output = array();
         if ($node->nodeType == XML_ELEMENT_NODE) {
@@ -72,7 +74,7 @@ class Magento_Core_Model_Config_Initial_Converter implements \Magento\Config\Con
                 }
             }
             $nodeData = array();
-            /** @var $childNode DOMNode */
+            /** @var $childNode \DOMNode */
             foreach ($node->childNodes as $childNode) {
                 $childrenData = $this->_convertNode($childNode, ($path ? $path . '/' : '') . $childNode->nodeName);
                 if ($childrenData == null) {

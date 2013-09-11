@@ -16,8 +16,10 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
-    extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
+
+class Grid
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
      * Initialize grid, set grid Id
@@ -37,7 +39,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Attribute_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item\Attribute\Collection')
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);

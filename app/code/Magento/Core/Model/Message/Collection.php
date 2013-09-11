@@ -11,7 +11,9 @@
 /**
  * Messages collection
  */
-class Magento_Core_Model_Message_Collection
+namespace Magento\Core\Model\Message;
+
+class Collection
 {
     /**
      * All messages by type array
@@ -28,10 +30,10 @@ class Magento_Core_Model_Message_Collection
     /**
      * Adding new message to collection
      *
-     * @param   Magento_Core_Model_Message_Abstract $message
-     * @return  Magento_Core_Model_Message_Collection
+     * @param   \Magento\Core\Model\Message\AbstractMessage $message
+     * @return  \Magento\Core\Model\Message\Collection
      */
-    public function add(Magento_Core_Model_Message_Abstract $message)
+    public function add(\Magento\Core\Model\Message\AbstractMessage $message)
     {
         return $this->addMessage($message);
     }
@@ -39,10 +41,10 @@ class Magento_Core_Model_Message_Collection
     /**
      * Adding new message to collection
      *
-     * @param   Magento_Core_Model_Message_Abstract $message
-     * @return  Magento_Core_Model_Message_Collection
+     * @param   \Magento\Core\Model\Message\AbstractMessage $message
+     * @return  \Magento\Core\Model\Message\Collection
      */
-    public function addMessage(Magento_Core_Model_Message_Abstract $message)
+    public function addMessage(\Magento\Core\Model\Message\AbstractMessage $message)
     {
         if (!isset($this->_messages[$message->getType()])) {
             $this->_messages[$message->getType()] = array();
@@ -55,7 +57,7 @@ class Magento_Core_Model_Message_Collection
     /**
      * Clear all messages except sticky
      *
-     * @return Magento_Core_Model_Message_Collection
+     * @return \Magento\Core\Model\Message\Collection
      */
     public function clear()
     {
@@ -75,7 +77,7 @@ class Magento_Core_Model_Message_Collection
     /**
      * Get last added message if any
      *
-     * @return Magento_Core_Model_Message_Abstract|null
+     * @return \Magento\Core\Model\Message\AbstractMessage|null
      */
     public function getLastAddedMessage()
     {
@@ -86,7 +88,7 @@ class Magento_Core_Model_Message_Collection
      * Get first even message by identifier
      *
      * @param string $identifier
-     * @return Magento_Core_Model_Message_Abstract|null
+     * @return \Magento\Core\Model\Message\AbstractMessage|null
      */
     public function getMessageByIdentifier($identifier)
     {
@@ -156,7 +158,7 @@ class Magento_Core_Model_Message_Collection
      */
     public function getErrors()
     {
-        return $this->getItemsByType(Magento_Core_Model_Message::ERROR);
+        return $this->getItemsByType(\Magento\Core\Model\Message::ERROR);
     }
 
     /**

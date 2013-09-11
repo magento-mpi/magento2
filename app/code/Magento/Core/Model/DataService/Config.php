@@ -10,29 +10,31 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Config implements Magento_Core_Model_DataService_ConfigInterface
+namespace Magento\Core\Model\DataService;
+
+class Config implements \Magento\Core\Model\DataService\ConfigInterface
 {
     /** Xpath to service call */
     const SERVICE_CALLS_XPATH = '/service_calls/service_call';
 
-    /** @var Magento_Core_Model_DataService_Config_Reader_Factory */
+    /** @var \Magento\Core\Model\DataService\Config\Reader\Factory */
     protected $_readerFactory;
 
-    /** @var  Magento_Core_Model_DataService_Config_Reader */
+    /** @var  \Magento\Core\Model\DataService\Config\Reader */
     protected $_reader;
 
     /** @var array $_serviceCallNodes */
     protected $_serviceCallNodes;
 
-    /** @var Magento_Core_Model_Config_Modules_Reader  */
+    /** @var \Magento\Core\Model\Config\Modules\Reader  */
     protected $_moduleReader;
 
     /**
-     * @param Magento_Core_Model_DataService_Config_Reader_Factory $readerFactory
-     * @param Magento_Core_Model_Config_Modules_Reader
+     * @param \Magento\Core\Model\DataService\Config\Reader\Factory $readerFactory
+     * @param \Magento\Core\Model\Config\Modules\Reader
      */
-    public function __construct(Magento_Core_Model_DataService_Config_Reader_Factory $readerFactory,
-        Magento_Core_Model_Config_Modules_Reader $moduleReader
+    public function __construct(\Magento\Core\Model\DataService\Config\Reader\Factory $readerFactory,
+        \Magento\Core\Model\Config\Modules\Reader $moduleReader
     ) {
         $this->_readerFactory = $readerFactory;
         $this->_moduleReader = $moduleReader;
@@ -42,11 +44,11 @@ class Magento_Core_Model_DataService_Config implements Magento_Core_Model_DataSe
     /**
      * Build an index of service calls nodes to avoid expensive xpath calls
      *
-     * @return Magento_Core_Model_DataService_Config $this
+     * @return \Magento\Core\Model\DataService\Config $this
      */
     private function _indexServiceCallNodes()
     {
-        /** @var DOMElement $node */
+        /** @var \DOMElement $node */
         foreach ($this->getServiceCalls() as $node) {
             $this->_serviceCallNodes[$node->getAttribute('name')] = $node;
         }
@@ -56,7 +58,7 @@ class Magento_Core_Model_DataService_Config implements Magento_Core_Model_DataSe
     /**
      * Reader object initialization.
      *
-     * @return Magento_Core_Model_DataService_Config_Reader
+     * @return \Magento\Core\Model\DataService\Config\Reader
      */
     protected function _getReader()
     {
@@ -78,20 +80,20 @@ class Magento_Core_Model_DataService_Config implements Magento_Core_Model_DataSe
     }
 
     /**
-     * Get DOMXPath with loaded service calls inside.
+     * Get \DOMXPath with loaded service calls inside.
      *
-     * @return DOMXPath
+     * @return \DOMXPath
      */
     protected function _getXPathServiceCalls()
     {
         $serviceCalls = $this->_getReader()->getServiceCallConfig();
-        return new DOMXPath($serviceCalls);
+        return new \DOMXPath($serviceCalls);
     }
 
     /**
      * Return Service Calls.
      *
-     * @return DOMNodeList
+     * @return \DOMNodeList
      */
     public function getServiceCalls()
     {
@@ -103,23 +105,23 @@ class Magento_Core_Model_DataService_Config implements Magento_Core_Model_DataSe
      *
      * @param string $alias
      * @return array
-     * @throws InvalidArgumentException
-     * @throws LogicException
+     * @throws \InvalidArgumentException
+     * @throws \LogicException
      */
     public function getClassByAlias($alias)
     {
         //validate that service call is defined
         if (!isset($this->_serviceCallNodes[$alias])) {
-            throw new InvalidArgumentException("Service call with name '{$alias}'  doesn't exist");
+            throw new \InvalidArgumentException("Service call with name '{$alias}'  doesn't exist");
         }
 
-        /** @var DOMElement $node */
+        /** @var \DOMElement $node */
         $node = $this->_serviceCallNodes[$alias];
         $methodArguments = array();
 
-        /** @var DOMElement $child */
+        /** @var \DOMElement $child */
         foreach ($node->childNodes as $child) {
-            if ($child instanceof DOMElement) {
+            if ($child instanceof \DOMElement) {
                 $methodArguments[$child->getAttribute('name')] = $child->nodeValue;
             }
         }
@@ -132,13 +134,13 @@ class Magento_Core_Model_DataService_Config implements Magento_Core_Model_DataSe
 
         //validate that service attribute is defined
         if (!$result['class']) {
-            throw new InvalidArgumentException("Invalid Service call {$alias}, "
+            throw new \InvalidArgumentException("Invalid Service call {$alias}, "
                 . 'service type must be defined in the "service" attribute');
         }
 
         //validate that retrieval method attribute is defined
         if (!$result['retrieveMethod']) {
-            throw new LogicException("Invalid Service call {$alias}, "
+            throw new \LogicException("Invalid Service call {$alias}, "
                 . "retrieval method must be defined for the service {$result['class']}");
         }
 

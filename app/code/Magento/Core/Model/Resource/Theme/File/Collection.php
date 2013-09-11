@@ -11,14 +11,16 @@
 /**
  * Theme files collection
  */
-class Magento_Core_Model_Resource_Theme_File_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Core\Model\Resource\Theme\File;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Collection initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Core_Model_Theme_File', 'Magento_Core_Model_Resource_Theme_File');
+        $this->_init('\Magento\Core\Model\Theme\File', '\Magento\Core\Model\Resource\Theme\File');
     }
 
     /**
@@ -28,7 +30,7 @@ class Magento_Core_Model_Resource_Theme_File_Collection extends Magento_Core_Mod
      *
      * @param string $field
      * @param string $direction
-     * @return Magento_Core_Model_Resource_Theme_File_Collection|\Magento\Data\Collection|\Magento\Data\Collection\Db
+     * @return \Magento\Core\Model\Resource\Theme\File\Collection|\Magento\Data\Collection|\Magento\Data\Collection\Db
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -39,7 +41,7 @@ class Magento_Core_Model_Resource_Theme_File_Collection extends Magento_Core_Mod
      * Set default order
      *
      * @param string $direction
-     * @return Magento_Core_Model_Resource_Theme_File_Collection
+     * @return \Magento\Core\Model\Resource\Theme\File\Collection
      */
     public function setDefaultOrder($direction = self::SORT_ORDER_ASC)
     {
@@ -49,10 +51,10 @@ class Magento_Core_Model_Resource_Theme_File_Collection extends Magento_Core_Mod
     /**
      * Filter out files that do not belong to a theme
      *
-     * @param Magento_Core_Model_Theme $theme
-     * @return Magento_Core_Model_Resource_Theme_File_Collection
+     * @param \Magento\Core\Model\Theme $theme
+     * @return \Magento\Core\Model\Resource\Theme\File\Collection
      */
-    public function addThemeFilter(Magento_Core_Model_Theme $theme)
+    public function addThemeFilter(\Magento\Core\Model\Theme $theme)
     {
         $this->addFieldToFilter('theme_id', $theme->getId());
         return $this;

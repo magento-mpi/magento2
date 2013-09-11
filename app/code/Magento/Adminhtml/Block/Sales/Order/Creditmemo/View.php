@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo;
+
+class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     /**
@@ -87,11 +89,11 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View extends Magento_Adminh
     /**
      * Retrieve creditmemo model instance
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return \Mage::registry('current_creditmemo');
     }
 
     /**
@@ -183,7 +185,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View extends Magento_Adminh
     /**
      * Update 'back' button url
      *
-     * @return Magento_Adminhtml_Block_Widget_Container | Magento_Adminhtml_Block_Sales_Order_Creditmemo_View
+     * @return \Magento\Adminhtml\Block\Widget\Container | \Magento\Adminhtml\Block\Sales\Order\Creditmemo\View
      */
     public function updateBackButtonUrl($flag)
     {

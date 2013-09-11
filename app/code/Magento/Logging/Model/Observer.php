@@ -12,23 +12,25 @@
  * Log admin actions and performed changes.
  * It doesn't log all admin actions, only listed in logging.xml config files.
  */
-class Magento_Logging_Model_Observer
+namespace Magento\Logging\Model;
+
+class Observer
 {
 
     /**
      * Instance of Magento_Logging_Model_Logging
      *
-     * @var Magento_Logging_Model_Processor
+     * @var \Magento\Logging\Model\Processor
      */
     protected $_processor;
 
     /**
-     * Initialize Magento_Logging_Model_Processor class
+     * Initialize \Magento\Logging\Model\Processor class
      *
      */
     public function __construct()
     {
-        $this->_processor = Mage::getSingleton('Magento_Logging_Model_Processor');
+        $this->_processor = \Mage::getSingleton('Magento\Logging\Model\Processor');
     }
 
     /**
@@ -38,9 +40,9 @@ class Magento_Logging_Model_Observer
      */
     public function controllerPredispatch($observer)
     {
-        /* @var $action Magento_Core_Controller_Varien_Action */
+        /* @var $action \Magento\Core\Controller\Varien\Action */
         $action = $observer->getEvent()->getControllerAction();
-        /* @var $request Magento_Core_Controller_Request_Http */
+        /* @var $request \Magento\Core\Controller\Request\Http */
         $request = $observer->getEvent()->getControllerAction()->getRequest();
 
         $beforeForwardInfo = $request->getBeforeForwardInfo();
@@ -133,9 +135,9 @@ class Magento_Logging_Model_Observer
     {
         $eventModel = $this->_logAdminLogin($observer->getUserName());
 
-        if (class_exists('Magento_Pci_Model_Observer', false) && $eventModel) {
+        if (class_exists('\Magento\Pci\Model\Observer', false) && $eventModel) {
             $exception = $observer->getException();
-            if ($exception->getCode() == Magento_Pci_Model_Observer::ADMIN_USER_LOCKED) {
+            if ($exception->getCode() == \Magento\Pci\Model\Observer::ADMIN_USER_LOCKED) {
                 $eventModel->setInfo(__('User is locked'))->save();
             }
         }
@@ -146,23 +148,23 @@ class Magento_Logging_Model_Observer
      *
      * @param string $username
      * @param int $userId
-     * @return Magento_Logging_Model_Event
+     * @return \Magento\Logging\Model\Event
      */
     protected function _logAdminLogin($username, $userId = null)
     {
         $eventCode = 'admin_login';
-        if (!Mage::getSingleton('Magento_Logging_Model_Config')->isActive($eventCode, true)) {
+        if (!\Mage::getSingleton('Magento\Logging\Model\Config')->isActive($eventCode, true)) {
             return;
         }
         $success = (bool)$userId;
         if (!$userId) {
-            $userId = Mage::getSingleton('Magento_User_Model_User')->loadByUsername($username)->getId();
+            $userId = \Mage::getSingleton('Magento\User\Model\User')->loadByUsername($username)->getId();
         }
-        $request = Mage::app()->getRequest();
-        /** @var Magento_Logging_Model_Event $event */
-        $event = Mage::getSingleton('Magento_Logging_Model_Event');
+        $request = \Mage::app()->getRequest();
+        /** @var \Magento\Logging\Model\Event $event */
+        $event = \Mage::getSingleton('Magento\Logging\Model\Event');
         $event->setData(array(
-            'ip'         => Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(),
+            'ip'         => \Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => $success,
@@ -178,12 +180,12 @@ class Magento_Logging_Model_Observer
      */
     public function rotateLogs()
     {
-        $lastRotationFlag = Mage::getModel('Magento_Logging_Model_Flag')->loadSelf();
+        $lastRotationFlag = \Mage::getModel('\Magento\Logging\Model\Flag')->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
-        $rotationFrequency = 3600 * 24 * (int)Mage::getConfig()->getValue('system/rotation/frequency', 'default');
+        $rotationFrequency = 3600 * 24 * (int)\Mage::getConfig()->getValue('system/rotation/frequency', 'default');
         if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
-            Mage::getResourceModel('Magento_Logging_Model_Resource_Event')->rotate(
-                3600 * 24 *(int)Mage::getConfig()->getValue('system/rotation/lifetime', 'default')
+            \Mage::getResourceModel('\Magento\Logging\Model\Resource\Event')->rotate(
+                3600 * 24 *(int)\Mage::getConfig()->getValue('system/rotation/lifetime', 'default')
             );
         }
         $lastRotationFlag->setFlagData(time())->save();

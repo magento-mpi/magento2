@@ -15,7 +15,7 @@
             <paypal_setup>
                 <setup>
                     <module>Magento_Paypal</module>
-                    <class>Magento_Paypal_Model_Resource_Setup</class>
+                    <class>Magento\Paypal\Model\Resource\Setup</class>
                 </setup>
             </paypal_setup>
         </resources>
@@ -85,25 +85,25 @@
                 <logo>nowAccepting_150x60</logo>
             </style>
             <wpp>
-                <api_password backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
-                <api_signature backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
-                <api_username backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <api_password backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
+                <api_signature backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
+                <api_username backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
                 <button_flavor>dynamic</button_flavor>
             </wpp>
             <wpuk>
-                <user backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
-                <pwd backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <user backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
+                <pwd backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
             </wpuk>
             <fetch_reports>
-                <ftp_login backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
-                <ftp_password backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <ftp_login backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
+                <ftp_password backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
                 <schedule>1</schedule>
                 <time>00,00,00</time>
             </fetch_reports>
         </paypal>
         <payment>
             <paypal_express>
-                <model>Magento_Paypal_Model_Express</model>
+                <model>\Magento\Paypal\Model\Express</model>
                 <title>PayPal Express Checkout</title>
                 <payment_action>Authorization</payment_action>
                 <solution_type>Mark</solution_type>
@@ -118,7 +118,7 @@
                 <verify_peer>1</verify_peer>
             </paypal_express>
             <paypal_direct>
-                <model>Magento_Paypal_Model_Direct</model>
+                <model>\Magento\Paypal\Model\Direct</model>
                 <title>PayPal Payments Pro</title>
                 <payment_action>Authorization</payment_action>
                 <cctypes>VI,MC</cctypes>
@@ -127,7 +127,7 @@
                 <verify_peer>1</verify_peer>
             </paypal_direct>
             <paypal_standard>
-                <model>Magento_Paypal_Model_Standard</model>
+                <model>\Magento\Paypal\Model\Standard</model>
                 <title>PayPal Website Payments Standard</title>
                 <payment_action>Sale</payment_action>
                 <line_items_enabled>1</line_items_enabled>
@@ -152,31 +152,31 @@
                 <verify_peer>1</verify_peer>
             </paypaluk_direct>
             <verisign>
-                <model>Magento_Paypal_Model_Payflowpro</model>
+                <model>\Magento\Paypal\Model\Payflowpro</model>
                 <title>Payflow Pro</title>
                 <payment_action>Authorization</payment_action>
                 <cctypes>AE,VI</cctypes>
                 <useccv>1</useccv>
                 <tender>C</tender>
                 <verbosity>MEDIUM</verbosity>
-                <user backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
-                <pwd backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <user backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
+                <pwd backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
                 <group>paypal</group>
                 <verify_peer>1</verify_peer>
             </verisign>
             <paypal_billing_agreement>
                 <active>1</active>
                 <allow_billing_agreement_wizard>1</allow_billing_agreement_wizard>
-                <model>Magento_Paypal_Model_Method_Agreement</model>
+                <model>\Magento\Paypal\Model\Method\Agreement</model>
                 <title>PayPal Billing Agreement</title>
                 <group>paypal</group>
                 <verify_peer>1</verify_peer>
             </paypal_billing_agreement>
             <payflow_link>
-                <model>Magento_Paypal_Model_Payflowlink</model>
+                <model>\Magento\Paypal\Model\Payflowlink</model>
                 <payment_action>Authorization</payment_action>
                 <verbosity>HIGH</verbosity>
-                <pwd backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <pwd backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
                 <group>paypal</group>
                 <title>Credit Card</title>
                 <partner>PayPal</partner>
@@ -187,10 +187,10 @@
                 <verify_peer>1</verify_peer>
             </payflow_link>
             <payflow_advanced>
-                <model>Magento_Paypal_Model_Payflowadvanced</model>
+                <model>\Magento\Paypal\Model\Payflowadvanced</model>
                 <payment_action>Authorization</payment_action>
                 <verbosity>HIGH</verbosity>
-                <pwd backend_model="Magento_Backend_Model_Config_Backend_Encrypted" />
+                <pwd backend_model="\Magento\Backend\Model\Config\Backend\Encrypted" />
                 <group>paypal</group>
                 <title>Credit Card</title>
                 <partner>PayPal</partner>
@@ -203,7 +203,7 @@
                 <verify_peer>1</verify_peer>
             </payflow_advanced>
             <hosted_pro>
-                <model>Magento_Paypal_Model_Hostedpro</model>
+                <model>\Magento\Paypal\Model\Hostedpro</model>
                 <title>Payment by cards or by PayPal account</title>
                 <payment_action>Authorization</payment_action>
                 <group>paypal</group>
@@ -216,7 +216,7 @@
         <jobs>
             <paypal_fetch_settlement_reports>
                 <run>
-                    <model>Magento_Paypal_Model_Observer::fetchReports</model>
+                    <model>\Magento\Paypal\Model\Observer::fetchReports</model>
                 </run>
             </paypal_fetch_settlement_reports>
         </jobs>

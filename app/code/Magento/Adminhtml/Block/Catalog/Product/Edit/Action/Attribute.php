@@ -16,23 +16,25 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Action;
+
+class Attribute extends \Magento\Adminhtml\Block\Widget
 {
 
     protected function _prepareLayout()
     {
-        $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/catalog_product/', array('store'=>$this->getRequest()->getParam('store', 0))).'\')',
             'class' => 'back'
         ));
 
-        $this->addChild('reset_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('reset_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Reset'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
         ));
 
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save'),
             'class'     => 'save',
             'data_attribute'  => array(
@@ -56,11 +58,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage
     /**
      * Retrieve block attributes update helper
      *
-     * @return Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute
+     * @return \Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute
      */
     protected function _getHelper()
     {
-        return $this->helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
+        return $this->helper('\Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
     }
 
     /**
@@ -100,7 +102,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute extends Mage
      */
     public function getSaveUrl()
     {
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog_Product_Edit_Action_Attribute');
+        $helper = \Mage::helper('Magento\Adminhtml\Helper\Catalog\Product\Edit\Action\Attribute');
         return $this->getUrl(
             '*/*/save',
             array(

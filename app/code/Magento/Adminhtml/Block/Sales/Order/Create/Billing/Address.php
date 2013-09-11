@@ -16,8 +16,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Address
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Form_Address
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Billing;
+
+class Address
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\Form\Address
 {
     /**
      * Return header text
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Address
     /**
      * Prepare Form and add elements to form
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Create_Billing_Address
+     * @return \Magento\Adminhtml\Block\Sales\Order\Create\Billing\Address
      */
     protected function _prepareForm()
     {
@@ -79,7 +81,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Billing_Address
     /**
      * Return billing address object
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getAddress()
     {

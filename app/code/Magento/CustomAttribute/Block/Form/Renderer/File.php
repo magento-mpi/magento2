@@ -16,7 +16,9 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomAttribute_Block_Form_Renderer_File extends Magento_CustomAttribute_Block_Form_Renderer_Abstract
+namespace Magento\CustomAttribute\Block\Form\Renderer;
+
+class File extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
 {
     /**
      * Return escaped value
@@ -26,7 +28,7 @@ class Magento_CustomAttribute_Block_Form_Renderer_File extends Magento_CustomAtt
     public function getEscapedValue()
     {
         if ($this->getValue()) {
-            return $this->escapeHtml(Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()));
+            return $this->escapeHtml(\Mage::helper('Magento\Core\Helper\Data')->urlEncode($this->getValue()));
         }
         return '';
     }

@@ -16,24 +16,26 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extends Magento_Adminhtml_Block_Template
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
+class Packaging extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Variable to store RMA instance
      *
-     * @var null|Magento_Rma_Model_Rma
+     * @var null|\Magento\Rma\Model\Rma
      */
     protected $_rma = null;
 
     /**
      * Declare rma instance
      *
-     * @return  Magento_Rma_Model_Item
+     * @return  \Magento\Rma\Model\Item
      */
     public function getRma()
     {
         if (is_null($this->_rma)) {
-            $this->_rma = Mage::registry('current_rma');
+            $this->_rma = \Mage::registry('current_rma');
         }
         return $this->_rma;
     }
@@ -45,7 +47,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
      */
     public function getCarrier()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->getCarrier(
+        return \Mage::helper('Magento\Rma\Helper\Data')->getCarrier(
             $this->getRequest()->getParam('method'),
             $this->getRma()->getStoreId()
         );
@@ -79,7 +81,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
         $address    = $order->getShippingAddress();
         $carrier    = $this->getCarrier();
 
-        $countryRecipient = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
+        $countryRecipient = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($storeId)->getCountryId();
         if ($carrier) {
             $params = new \Magento\Object(array(
                 'method' => $this->getCarrierMethod(),
@@ -102,7 +104,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
         $order      = $this->getRma()->getOrder();
         $address                        = $order->getShippingAddress();
         $shipperAddressCountryCode      = $address->getCountryId();
-        $recipientAddressCountryCode    = Mage::helper('Magento_Rma_Helper_Data')
+        $recipientAddressCountryCode    = \Mage::helper('Magento\Rma\Helper\Data')
             ->getReturnAddressModel($storeId)->getCountryId();
 
         if ($shipperAddressCountryCode != $recipientAddressCountryCode) {
@@ -123,8 +125,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
         $code       = $this->getRequest()->getParam('method');
         if (!empty($code)) {
             list($carrierCode, $methodCode) = explode('_', $code, 2);
-            $carrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
-            $countryId  = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
+            $carrier    = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($carrierCode, $storeId);
+            $countryId  = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($storeId)->getCountryId();
             $params = new \Magento\Object(array('country_recipient' => $countryId));
 
             if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
@@ -146,8 +148,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
         $girth      = false;
         if (!empty($code)) {
             list($carrierCode, $methodCode) = explode('_', $code, 2);
-            $carrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
-            $countryId  = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
+            $carrier    = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($carrierCode, $storeId);
+            $countryId  = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($storeId)->getCountryId();
 
             $girth = $carrier->isGirthAllowed($countryId);
         }
@@ -164,7 +166,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
         $code       = $this->getRequest()->getParam('method');
         $girth      = false;
         if (!empty($code)) {
-            $girth = (Mage::helper('Magento_Usa_Helper_Data')->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
+            $girth = (\Mage::helper('Magento\Usa\Helper\Data')->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
         }
 
         return $girth;
@@ -181,10 +183,10 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
         $code       = $this->getRequest()->getParam('method');
         if (!empty($code)) {
             list($carrierCode, $methodCode) = explode('_', $code, 2);
-            $carrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($carrierCode, $storeId);
-            $countryId  = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($storeId)->getCountryId();
+            $carrier    = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($carrierCode, $storeId);
+            $countryId  = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($storeId)->getCountryId();
 
-            $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
+            $order              = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getRma()->getOrderId());
             $shipperAddress     = $order->getShippingAddress();
              if ($carrier) {
                 $params = new \Magento\Object(array(
@@ -208,7 +210,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
     {
         $storeId = $this->getRma()->getStoreId();
         $code    = $this->getRequest()->getParam('method');
-        $carrier = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($code, $storeId);
+        $carrier = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($code, $storeId);
         if ($carrier) {
             $getCustomizableContainers =  $carrier->getCustomizableContainerTypes();
 
@@ -226,7 +228,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
      */
     public function getShippingCarrierUspsSourceSize()
     {
-        return Mage::getModel('Magento_Usa_Model_Shipping_Carrier_Usps_Source_Size')->toOptionArray();
+        return \Mage::getModel('\Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size')->toOptionArray();
     }
 
     /**
@@ -238,18 +240,18 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
     {
         $storeId = $this->getRma()->getStoreId();
         $code    = $this->getRequest()->getParam('method');
-        $carrier = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($code, $storeId);
+        $carrier = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($code, $storeId);
 
         $girthEnabled   = false;
         $sizeEnabled    = false;
         $regular        = $this->getShippingCarrierUspsSourceSize();
         if ($carrier && isset($regular[0]['value'])) {
-            if ($regular[0]['value'] == Magento_Usa_Model_Shipping_Carrier_Usps::SIZE_LARGE
+            if ($regular[0]['value'] == \Magento\Usa\Model\Shipping\Carrier\Usps::SIZE_LARGE
                 && in_array(
                     key($this->getContainers()),
                     array(
-                        Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_NONRECTANGULAR,
-                        Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_VARIABLE,
+                        \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_NONRECTANGULAR,
+                        \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_VARIABLE,
                     )
                 )
             ) {
@@ -259,9 +261,9 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Packaging extend
             if (in_array(
                 key($this->getContainers()),
                 array(
-                    Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_NONRECTANGULAR,
-                    Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_RECTANGULAR,
-                    Magento_Usa_Model_Shipping_Carrier_Usps::CONTAINER_VARIABLE,
+                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_NONRECTANGULAR,
+                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_RECTANGULAR,
+                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_VARIABLE,
                 )
             )) {
                 $sizeEnabled = true;

@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Catalog_Model_Resource_Setup */
+/** @var $this \Magento\Catalog\Model\Resource\Setup */
 
-$attribute = $this->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'image');
+$attribute = $this->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'image');
 
 if ($attribute) {
     $this->addAttributeToGroup(
@@ -25,6 +25,6 @@ if ($attribute) {
         $attribute['entity_type_id'],
         $attribute['attribute_id'],
         'frontend_input_renderer',
-        'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage'
+        '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\BaseImage'
     );
 }

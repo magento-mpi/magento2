@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_User_Factory
+ * \Magento\Webhook\Model\User\Factory
  *
  * {license_notice}
  *
@@ -17,9 +17,9 @@ class Magento_Webhook_Model_User_FactoryTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $factory = new Magento_Webhook_Model_User_Factory($mockObjectManager);
+        $factory = new \Magento\Webhook\Model\User\Factory($mockObjectManager);
 
-        $mockUser = $this->getMockBuilder('Magento_Webhook_Model_User')
+        $mockUser = $this->getMockBuilder('Magento\Webhook\Model\User')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -27,7 +27,7 @@ class Magento_Webhook_Model_User_FactoryTest extends PHPUnit_Framework_TestCase
 
         $mockObjectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Webhook_Model_User', array('webapiUserId' => $webapiUserId))
+            ->with('Magento\Webhook\Model\User', array('webapiUserId' => $webapiUserId))
             ->will($this->returnValue($mockUser));
 
         $this->assertSame($mockUser, $factory->create($webapiUserId));

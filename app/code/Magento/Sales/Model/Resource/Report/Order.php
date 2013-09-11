@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Report_Order extends Magento_Sales_Model_Resource_Report_Abstract
+namespace Magento\Sales\Model\Resource\Report;
+
+class Order extends \Magento\Sales\Model\Resource\Report\AbstractReport
 {
     /**
      * Model initialization
@@ -32,13 +34,13 @@ class Magento_Sales_Model_Resource_Report_Order extends Magento_Sales_Model_Reso
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_Sales_Model_Resource_Report_Order
+     * @return \Magento\Sales\Model\Resource\Report\Order
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Order_Createdat')->aggregate($from, $to);
-        Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Order_Updatedat')->aggregate($from, $to);
-        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_ORDER_FLAG_CODE);
+        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Order\Createdat')->aggregate($from, $to);
+        \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Order\Updatedat')->aggregate($from, $to);
+        $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_ORDER_FLAG_CODE);
 
         return $this;
     }

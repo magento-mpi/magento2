@@ -12,7 +12,9 @@
 /**
  * Centinel validation form lookup
  */
-class Magento_Centinel_Block_Authentication_Complete extends Magento_Core_Block_Template
+namespace Magento\Centinel\Block\Authentication;
+
+class Complete extends \Magento\Core\Block\Template
 {
     /**
      * Prepare authentication result params and render
@@ -21,7 +23,7 @@ class Magento_Centinel_Block_Authentication_Complete extends Magento_Core_Block_
      */
     protected function _toHtml()
     {
-        $validator = Mage::registry('current_centinel_validator');
+        $validator = \Mage::registry('current_centinel_validator');
         if ($validator) {
             $this->setIsProcessed(true);
             $this->setIsSuccess($validator->isAuthenticateSuccessful());

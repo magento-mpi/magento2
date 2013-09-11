@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Block_Order_Totals extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order;
+
+class Totals extends \Magento\Core\Block\Template
 {
     /**
      * Associated array of totals
@@ -23,7 +25,7 @@ class Magento_Sales_Block_Order_Totals extends Magento_Core_Block_Template
     /**
      * Initialize self totals and children blocks totals before html building
      *
-     * @return Magento_Sales_Block_Order_Totals
+     * @return \Magento\Sales\Block\Order\Totals
      */
     protected function _beforeToHtml()
     {
@@ -39,15 +41,15 @@ class Magento_Sales_Block_Order_Totals extends Magento_Core_Block_Template
     /**
      * Get order object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
         if ($this->_order === null) {
             if ($this->hasData('order')) {
                 $this->_order = $this->_getData('order');
-            } elseif (Mage::registry('current_order')) {
-                $this->_order = Mage::registry('current_order');
+            } elseif (\Mage::registry('current_order')) {
+                $this->_order = \Mage::registry('current_order');
             } elseif ($this->getParentBlock()->getOrder()) {
                 $this->_order = $this->getParentBlock()->getOrder();
             }
@@ -64,7 +66,7 @@ class Magento_Sales_Block_Order_Totals extends Magento_Core_Block_Template
     /**
      * Get totals source object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getSource()
     {
@@ -74,7 +76,7 @@ class Magento_Sales_Block_Order_Totals extends Magento_Core_Block_Template
     /**
      * Initialize order totals array
      *
-     * @return Magento_Sales_Block_Order_Totals
+     * @return \Magento\Sales\Block\Order\Totals
      */
     protected function _initTotals()
     {
@@ -145,7 +147,7 @@ class Magento_Sales_Block_Order_Totals extends Magento_Core_Block_Template
      *
      * @param   \Magento\Object $total
      * @param   null|string|last|first $after
-     * @return  Magento_Sales_Block_Order_Totals
+     * @return  \Magento\Sales\Block\Order\Totals
      */
     public function addTotal(\Magento\Object $total, $after=null)
     {
@@ -183,7 +185,7 @@ class Magento_Sales_Block_Order_Totals extends Magento_Core_Block_Template
      *
      * @param   \Magento\Object $total
      * @param   null|string $after
-     * @return  Magento_Sales_Block_Order_Totals
+     * @return  \Magento\Sales\Block\Order\Totals
      */
     public function addTotalBefore(\Magento\Object $total, $before=null)
     {
@@ -233,7 +235,7 @@ class Magento_Sales_Block_Order_Totals extends Magento_Core_Block_Template
      * Delete total by specific
      *
      * @param   string $code
-     * @return  Magento_Sales_Block_Order_Totals
+     * @return  \Magento\Sales\Block\Order\Totals
      */
     public function removeTotal($code)
     {
@@ -250,7 +252,7 @@ class Magento_Sales_Block_Order_Totals extends Magento_Core_Block_Template
      *
      *
      * @param   array $order
-     * @return  Magento_Sales_Block_Order_Totals
+     * @return  \Magento\Sales\Block\Order\Totals
      */
     public function applySortOrder($order)
     {

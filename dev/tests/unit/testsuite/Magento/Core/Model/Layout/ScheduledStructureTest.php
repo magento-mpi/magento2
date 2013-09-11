@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_ScheduledStructure
+ * Test class for \Magento\Core\Model\Layout\ScheduledStructure
  */
 class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_ScheduledStructure
+     * @var \Magento\Core\Model\Layout\ScheduledStructure
      */
     protected $_model;
 
@@ -59,11 +59,11 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
                 'path4' => 'path 4',
             ),
         );
-        $this->_model = new Magento_Core_Model_Layout_ScheduledStructure($this->_scheduledData);
+        $this->_model = new \Magento\Core\Model\Layout\ScheduledStructure($this->_scheduledData);
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::getListToMove
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::getListToMove
      */
     public function testGetListToMove()
     {
@@ -75,7 +75,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::getListToRemove
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::getListToRemove
      */
     public function testGetListToRemove()
     {
@@ -87,7 +87,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::getElements
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::getElements
      */
     public function testGetElements()
     {
@@ -95,7 +95,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::getElement
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::getElement
      */
     public function testGetElement()
     {
@@ -107,7 +107,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::isElementsEmpty
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::isElementsEmpty
      */
     public function testIsElementsEmpty()
     {
@@ -117,7 +117,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::setElement
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::setElement
      */
     public function testSetElement()
     {
@@ -135,7 +135,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::hasElement
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::hasElement
      */
     public function testHasElement()
     {
@@ -144,7 +144,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::unsetElement
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::unsetElement
      */
     public function testUnsetElement()
     {
@@ -154,7 +154,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::getElementToMove
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::getElementToMove
      */
     public function testGetElementToMove()
     {
@@ -167,7 +167,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::setElementToMove
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::setElementToMove
      */
     public function testSetElementToMove()
     {
@@ -185,7 +185,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::unsetElementFromListToRemove
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::unsetElementFromListToRemove
      */
     public function testUnsetElementFromListToRemove()
     {
@@ -195,7 +195,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::setElementToRemoveList
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::setElementToRemoveList
      */
     public function testSetElementToRemoveList()
     {
@@ -206,7 +206,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::getStructure
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::getStructure
      */
     public function testGetStructure()
     {
@@ -214,7 +214,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::getStructureElement
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::getStructureElement
      */
     public function testGetStructureElement()
     {
@@ -226,7 +226,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::isStructureEmpty
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::isStructureEmpty
      */
     public function testIsStructureEmpty()
     {
@@ -236,7 +236,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::hasStructureElement
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::hasStructureElement
      */
     public function testHasStructureElement()
     {
@@ -245,7 +245,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::setStructureElement
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::setStructureElement
      */
     public function testSetStructureElement()
     {
@@ -263,7 +263,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::unsetStructureElement
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::unsetStructureElement
      */
     public function testUnsetStructureElement()
     {
@@ -273,7 +273,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::getPaths
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::getPaths
      */
     public function testGetPaths()
     {
@@ -281,7 +281,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::getPath
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::getPath
      */
     public function testGetPath()
     {
@@ -294,7 +294,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::hasPath
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::hasPath
      */
     public function testHasPath()
     {
@@ -303,7 +303,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::setPathElement
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::setPathElement
      */
     public function testSetPathElement()
     {
@@ -321,7 +321,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::unsetPathElement
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::unsetPathElement
      */
     public function testUnsetPathElement()
     {
@@ -331,7 +331,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::flushPaths
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::flushPaths
      */
     public function testFlushPaths()
     {
@@ -341,7 +341,7 @@ class Magento_Core_Model_Layout_ScheduledStructureTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_ScheduledStructure::flushScheduledStructure
+     * @covers \Magento\Core\Model\Layout\ScheduledStructure::flushScheduledStructure
      */
     public function testFlushScheduledStructure()
     {

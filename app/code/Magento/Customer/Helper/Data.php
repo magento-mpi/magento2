@@ -16,7 +16,9 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Customer\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Query param name for last url visited
@@ -73,7 +75,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Customer groups collection
      *
-     * @var Magento_Customer_Model_Resource_Group_Collection
+     * @var \Magento\Customer\Model\Resource\Group\Collection
      */
     protected $_groups;
 
@@ -84,18 +86,18 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isLoggedIn()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn();
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn();
     }
 
     /**
      * Retrieve logged in customer
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
+            $this->_customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
         }
         return $this->_customer;
     }
@@ -103,12 +105,12 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve customer groups collection
      *
-     * @return Magento_Customer_Model_Resource_Group_Collection
+     * @return \Magento\Customer\Model\Resource\Group\Collection
      */
     public function getGroups()
     {
         if (empty($this->_groups)) {
-            $this->_groups = Mage::getModel('Magento_Customer_Model_Group')->getResourceCollection()
+            $this->_groups = \Mage::getModel('\Magento\Customer\Model\Group')->getResourceCollection()
                 ->setRealGroupsFilter()
                 ->load();
         }
@@ -118,7 +120,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve current (logged in) customer object
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCurrentCustomer()
     {
@@ -170,11 +172,11 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
 
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
-        if (!$referer && !Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
-            && !Mage::getSingleton('Magento_Customer_Model_Session')->getNoReferer()
+        if (!$referer && !\Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD)
+            && !\Mage::getSingleton('Magento\Customer\Model\Session')->getNoReferer()
         ) {
-            $referer = Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
-            $referer = Mage::helper('Magento_Core_Helper_Data')->urlEncode($referer);
+            $referer = \Mage::getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
+            $referer = \Mage::helper('Magento\Core\Helper\Data')->urlEncode($referer);
         }
 
         if ($referer) {
@@ -309,7 +311,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     public function isRegistrationAllowed()
     {
         $result = new \Magento\Object(array('is_allowed' => true));
-        Mage::dispatchEvent('customer_registration_is_allowed', array('result' => $result));
+        \Mage::dispatchEvent('customer_registration_is_allowed', array('result' => $result));
         return $result->getIsAllowed();
     }
 
@@ -321,7 +323,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     public function getNamePrefixOptions($store = null)
     {
         return $this->_prepareNamePrefixSuffixOptions(
-            Mage::helper('Magento_Customer_Helper_Address')->getConfig('prefix_options', $store)
+            \Mage::helper('Magento\Customer\Helper\Address')->getConfig('prefix_options', $store)
         );
     }
 
@@ -333,7 +335,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     public function getNameSuffixOptions($store = null)
     {
         return $this->_prepareNamePrefixSuffixOptions(
-            Mage::helper('Magento_Customer_Helper_Address')->getConfig('suffix_options', $store)
+            \Mage::helper('Magento\Customer\Helper\Address')->getConfig('suffix_options', $store)
         );
     }
 
@@ -365,7 +367,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function generateResetPasswordLinkToken()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
     }
 
     /**
@@ -375,7 +377,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int) Mage::getConfig()->getValue(
+        return (int) \Mage::getConfig()->getValue(
             self::XML_PATH_CUSTOMER_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
             'default'
         );
@@ -384,12 +386,12 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get default customer group id
      *
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return int
      */
     public function getDefaultCustomerGroupId($store = null)
     {
-        return (int)Mage::getStoreConfig(Magento_Customer_Model_Group::XML_PATH_DEFAULT_ID, $store);
+        return (int)\Mage::getStoreConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $store);
     }
 
     /**
@@ -397,7 +399,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param string $customerCountryCode
      * @param \Magento\Object $vatValidationResult
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return null|int
      */
     public function getCustomerGroupIdBasedOnVatNumber($customerCountryCode, $vatValidationResult, $store = null)
@@ -414,7 +416,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         );
 
         if (isset($vatClassToGroupXmlPathMap[$vatClass])) {
-            $groupId = (int)Mage::getStoreConfig($vatClassToGroupXmlPathMap[$vatClass], $store);
+            $groupId = (int)\Mage::getStoreConfig($vatClassToGroupXmlPathMap[$vatClass], $store);
         }
 
         return $groupId;
@@ -441,7 +443,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         ));
 
         if (!extension_loaded('soap')) {
-            Mage::logException(Mage::exception('Magento_Core',
+            \Mage::logException(\Mage::exception('Magento_Core',
                 __('PHP SOAP extension is required.')));
             return $gatewayResponse;
         }
@@ -466,7 +468,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
             $gatewayResponse->setRequestDate((string) $result->requestDate);
             $gatewayResponse->setRequestIdentifier((string) $result->requestIdentifier);
             $gatewayResponse->setRequestSuccess(true);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $gatewayResponse->setIsValid(false);
             $gatewayResponse->setRequestDate('');
             $gatewayResponse->setRequestIdentifier('');
@@ -488,8 +490,8 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     public function canCheckVatNumber($countryCode, $vatNumber, $requesterCountryCode, $requesterVatNumber)
     {
         $result = true;
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
 
         if (!is_string($countryCode)
             || !is_string($vatNumber)
@@ -513,7 +515,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      *
      * @param string $customerCountryCode
      * @param \Magento\Object $vatValidationResult
-     * @param Magento_Core_Model_Store|string|int|null $store
+     * @param \Magento\Core\Model\Store|string|int|null $store
      * @return null|string
      */
     public function getCustomerVatClass($customerCountryCode, $vatValidationResult, $store = null)
@@ -524,7 +526,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
 
         if (is_string($customerCountryCode)
             && !empty($customerCountryCode)
-            && $customerCountryCode === Mage::helper('Magento_Core_Helper_Data')->getMerchantCountryCode($store)
+            && $customerCountryCode === \Mage::helper('Magento\Core\Helper\Data')->getMerchantCountryCode($store)
             && $isVatNumberValid
         ) {
             $vatClass = self::VAT_CLASS_DOMESTIC;
@@ -544,7 +546,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Get validation message that will be displayed to user by VAT validation result object
      *
-     * @param Magento_Customer_Model_Address $customerAddress
+     * @param \Magento\Customer\Model\Address $customerAddress
      * @param bool $customerGroupAutoAssignDisabled
      * @param \Magento\Object $validationResult
      * @return \Magento\Object
@@ -554,7 +556,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         $message = '';
         $isError = true;
         $customerVatClass = $this->getCustomerVatClass($customerAddress->getCountryId(), $validationResult);
-        $groupAutoAssignDisabled = Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
+        $groupAutoAssignDisabled = \Mage::getStoreConfigFlag(self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
 
         $willChargeTaxMessage    = __('You will be charged tax.');
         $willNotChargeTaxMessage = __('You will not be charged tax.');
@@ -579,7 +581,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         }
         else {
             $contactUsMessage = sprintf(__('If you believe this is an error, please contact us at %s'),
-                Mage::getStoreConfig(self::XML_PATH_SUPPORT_EMAIL));
+                \Mage::getStoreConfig(self::XML_PATH_SUPPORT_EMAIL));
 
             $message = __('Your Tax ID cannot be validated.') . ' '
                 . (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled
@@ -598,31 +600,31 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
      * Create SOAP client based on VAT validation service WSDL
      *
      * @param boolean $trace
-     * @return SoapClient
+     * @return \SoapClient
      */
     protected function _createVatNumberValidationSoapClient($trace = false)
     {
-        return new SoapClient(self::VAT_VALIDATION_WSDL_URL, array('trace' => $trace));
+        return new \SoapClient(self::VAT_VALIDATION_WSDL_URL, array('trace' => $trace));
     }
 
     /**
      * Perform customer data filtration based on form code and form object
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @param string $formCode The code of EAV form to take the list of attributes from
-     * @param Magento_Core_Model_Abstract $entity entity model for the form
+     * @param \Magento\Core\Model\AbstractModel $entity entity model for the form
      * @param array $additionalAttributes The list of attribute codes to skip filtration for
      * @param string $scope scope of the request
-     * @param Magento_Eav_Model_Form|null $eavForm EAV form model to use for extraction
+     * @param \Magento\Eav\Model\Form|null $eavForm EAV form model to use for extraction
      * @return array Filtered customer data
      */
-    public function extractCustomerData(Zend_Controller_Request_Http $request, $formCode, $entity,
+    public function extractCustomerData(\Zend_Controller_Request_Http $request, $formCode, $entity,
         $additionalAttributes = array(), $scope = null, $eavForm = null
     ) {
         if (is_null($eavForm)) {
-            $eavForm = Mage::getModel('Magento_Customer_Model_Form');
+            $eavForm = \Mage::getModel('\Magento\Customer\Model\Form');
         }
-        /** @var Magento_Eav_Model_Form $eavForm */
+        /** @var \Magento\Eav\Model\Form $eavForm */
         $eavForm->setEntity($entity)
             ->setFormCode($formCode)
             ->ignoreInvisible(false);
@@ -634,7 +636,7 @@ class Magento_Customer_Helper_Data extends Magento_Core_Helper_Abstract
         }
 
         $formAttributes = $eavForm->getAttributes();
-        /** @var Magento_Customer_Model_Attribute $attribute */
+        /** @var \Magento\Customer\Model\Attribute $attribute */
         foreach ($formAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             $frontendInput = $attribute->getFrontendInput();

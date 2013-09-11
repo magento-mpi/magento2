@@ -15,7 +15,9 @@
  * @package    Magento_CatalogSearch
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
+namespace Magento\CatalogSearch\Block;
+
+class Term extends \Magento\Core\Block\Template
 {
     protected $_terms;
     protected $_minPopularity;
@@ -24,14 +26,14 @@ class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
     /**
      * Load terms and try to sort it by names
      *
-     * @return Magento_CatalogSearch_Block_Term
+     * @return \Magento\CatalogSearch\Block\Term
      */
     protected function _loadTerms()
     {
         if (empty($this->_terms)) {
             $this->_terms = array();
-            $terms = Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Query_Collection')
-                ->setPopularQueryFilter(Mage::app()->getStore()->getId())
+            $terms = \Mage::getResourceModel('\Magento\CatalogSearch\Model\Resource\Query\Collection')
+                ->setPopularQueryFilter(\Mage::app()->getStore()->getId())
                 ->setPageSize(100)
                 ->load()
                 ->getItems();
@@ -70,7 +72,7 @@ class Magento_CatalogSearch_Block_Term extends Magento_Core_Block_Template
 
     public function getSearchUrl($obj)
     {
-        $url = Mage::getModel('Magento_Core_Model_Url');
+        $url = \Mage::getModel('\Magento\Core\Model\Url');
         /*
         * url encoding will be done in Url.php http_build_query
         * so no need to explicitly called urlencode for the text

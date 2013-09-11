@@ -16,7 +16,9 @@
  * @package     Magento_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Poll\Model\Resource;
+
+class Poll extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource
@@ -30,7 +32,7 @@ class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Initialize unique fields
      *
-     * @return Magento_Poll_Model_Resource_Poll
+     * @return \Magento\Poll\Model\Resource\Poll
      */
     protected function _initUniqueFields()
     {
@@ -44,7 +46,7 @@ class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Get select object for not closed poll ids
      *
-     * @param Magento_Poll_Model_Poll $object
+     * @param \Magento\Poll\Model\Poll $object
      * @return
      */
     protected function _getSelectIds($object)
@@ -74,7 +76,7 @@ class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Get random identifier not closed poll
      *
-     * @param Magento_Poll_Model_Poll $object
+     * @param \Magento\Poll\Model\Poll $object
      * @return int
      */
     public function getRandomId($object)
@@ -86,7 +88,7 @@ class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Get all ids for not closed polls
      *
-     * @param Magento_Poll_Model_Poll $object
+     * @param \Magento\Poll\Model\Poll $object
      * @return array
      */
     public function getAllIds($object)
@@ -98,7 +100,7 @@ class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Check answer id existing for poll
      *
-     * @param Magento_Poll_Model_Poll $poll
+     * @param \Magento\Poll\Model\Poll $poll
      * @param int $answerId
      * @return bool
      */
@@ -124,7 +126,7 @@ class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Ab
     public function getVotedPollIdsByIp($ipAddress, $pollId = false)
     {
         // check if validation by ip is enabled
-        if (!Mage::getModel('Magento_Poll_Model_Poll')->isValidationByIp()) {
+        if (!\Mage::getModel('\Magento\Poll\Model\Poll')->isValidationByIp()) {
             return array();
         }
 
@@ -148,18 +150,18 @@ class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Resett votes count
      *
-     * @param Magento_Poll_Model_Poll $object
-     * @return Magento_Poll_Model_Poll
+     * @param \Magento\Poll\Model\Poll $object
+     * @return \Magento\Poll\Model\Poll
      */
     public function resetVotesCount($object)
     {
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()
-            ->from($this->getTable('poll_answer'), new Zend_Db_Expr("SUM(votes_count)"))
+            ->from($this->getTable('poll_answer'), new \Zend_Db_Expr("SUM(votes_count)"))
             ->where('poll_id = ?', $object->getPollId());
         $adapter->update(
             $this->getMainTable(),
-            array('votes_count' => new Zend_Db_Expr("($select)")),
+            array('votes_count' => new \Zend_Db_Expr("($select)")),
             array('poll_id = ' . $adapter->quote($object->getPollId()))
         );
         return $object;
@@ -168,9 +170,9 @@ class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Load store Ids array
      *
-     * @param Magento_Poll_Model_Poll $object
+     * @param \Magento\Poll\Model\Poll $object
      */
-    public function loadStoreIds(Magento_Poll_Model_Poll $object)
+    public function loadStoreIds(\Magento\Poll\Model\Poll $object)
     {
         $pollId   = $object->getId();
         $storeIds = array();
@@ -184,9 +186,9 @@ class Magento_Poll_Model_Resource_Poll extends Magento_Core_Model_Resource_Db_Ab
      * Delete current poll from the table poll_store and then
      * insert to update "poll to store" relations
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      */
-    public function _afterSave(Magento_Core_Model_Abstract $object)
+    public function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         /** stores */
         $deleteWhere = $this->_getWriteAdapter()->quoteInto('poll_id = ?', $object->getId());

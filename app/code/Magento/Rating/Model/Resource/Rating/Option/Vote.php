@@ -15,7 +15,9 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rating_Model_Resource_Rating_Option_Vote extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Rating\Model\Resource\Rating\Option;
+
+class Vote extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization

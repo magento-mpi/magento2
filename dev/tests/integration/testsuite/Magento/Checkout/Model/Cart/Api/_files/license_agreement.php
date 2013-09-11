@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var Magento_Checkout_Model_Agreement $agreement */
-$agreement = Mage::getModel('Magento_Checkout_Model_Agreement');
+/** @var \Magento\Checkout\Model\Agreement $agreement */
+$agreement = Mage::getModel('\Magento\Checkout\Model\Agreement');
 $agreement->setData(
     array(
         'name' => 'Agreement name',

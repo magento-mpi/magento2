@@ -11,7 +11,9 @@
 /**
  * Reminder rules observer model
  */
-class Magento_Reminder_Model_Observer
+namespace Magento\Reminder\Model;
+
+class Observer
 {
     const CRON_MINUTELY = 'I';
     const CRON_HOURLY   = 'H';
@@ -21,7 +23,7 @@ class Magento_Reminder_Model_Observer
      * Include auto coupon type
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Reminder_Model_Observer
+     * @return  \Magento\Reminder\Model\Observer
      */
     public function getCouponTypes($observer)
     {
@@ -35,7 +37,7 @@ class Magento_Reminder_Model_Observer
      * Add custom comment after coupon type field
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Reminder_Model_Observer
+     * @return  \Magento\Reminder\Model\Observer
      */
     public function updatePromoQuoteTabMainForm($observer)
     {
@@ -85,12 +87,12 @@ class Magento_Reminder_Model_Observer
     /**
      * Send scheduled notifications
      *
-     * @return Magento_Reminder_Model_Observer
+     * @return \Magento\Reminder\Model\Observer
      */
     public function scheduledNotification()
     {
-        if (Mage::helper('Magento_Reminder_Helper_Data')->isEnabled()) {
-            Mage::getModel('Magento_Reminder_Model_Rule')->sendReminderEmails();
+        if (\Mage::helper('Magento\Reminder\Helper\Data')->isEnabled()) {
+            \Mage::getModel('\Magento\Reminder\Model\Rule')->sendReminderEmails();
             return $this;
         }
     }
@@ -107,8 +109,8 @@ class Magento_Reminder_Model_Observer
         $couponType = $rule->getCouponType();
         $autoGeneration = $rule->getUseAutoGeneration();
 
-        if ($couponType == Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
-            $model = Mage::getModel('Magento_Reminder_Model_Rule');
+        if ($couponType == \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC && !empty($autoGeneration)) {
+            $model = \Mage::getModel('\Magento\Reminder\Model\Rule');
             $ruleId = $rule->getId();
             $model->detachSalesRule($ruleId);
         }

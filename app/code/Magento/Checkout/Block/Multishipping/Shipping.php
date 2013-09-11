@@ -15,16 +15,18 @@
  * @package    Magento_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Checkout\Block\Multishipping;
+
+class Shipping extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Get multishipping checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
     }
 
     protected function _prepareLayout()
@@ -78,7 +80,7 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
 
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
             return $name;
         }
         return $carrierCode;
@@ -106,6 +108,6 @@ class Magento_Checkout_Block_Multishipping_Shipping extends Magento_Sales_Block_
 
     public function getShippingPrice($address, $price, $flag)
     {
-        return $address->getQuote()->getStore()->convertPrice($this->helper('Magento_Tax_Helper_Data')->getShippingPrice($price, $flag, $address), true);
+        return $address->getQuote()->getStore()->convertPrice($this->helper('\Magento\Tax\Helper\Data')->getShippingPrice($price, $flag, $address), true);
     }
 }

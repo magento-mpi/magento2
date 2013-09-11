@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
+ * Test class for \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General
  * @magentoAppArea adminhtml
  */
 class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_GeneralTest extends PHPUnit_Framework_TestCase
@@ -20,16 +20,16 @@ class Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_GeneralTest extends PHP
      */
     public function testPrepareForm()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        Mage::register('current_reminder_rule', Mage::getModel('Magento_Reminder_Model_Rule'));
+        Mage::register('current_reminder_rule', Mage::getModel('\Magento\Reminder\Model\Rule'));
 
         $block = Mage::app()->getLayout()->createBlock(
-            'Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General'
+            '\Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General'
         );
         $prepareFormMethod = new ReflectionMethod(
-            'Magento_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General', '_prepareForm');
+            '\Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

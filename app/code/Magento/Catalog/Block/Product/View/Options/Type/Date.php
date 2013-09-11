@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catalog_Block_Product_View_Options_Abstract
+namespace Magento\Catalog\Block\Product\View\Options\Type;
+
+class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
 {
 
     /**
@@ -41,7 +43,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
      */
     public function useCalendar()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Option_Type_Date')->useCalendar();
+        return \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->useCalendar();
     }
 
     /**
@@ -68,16 +70,16 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
         $option = $this->getOption();
         $value = $this->getProduct()->getPreconfiguredValues()->getData('options/' . $option->getId() . '/date');
 
-        $yearStart = Mage::getSingleton('Magento_Catalog_Model_Product_Option_Type_Date')->getYearStart();
-        $yearEnd = Mage::getSingleton('Magento_Catalog_Model_Product_Option_Type_Date')->getYearEnd();
+        $yearStart = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->getYearStart();
+        $yearEnd = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->getYearEnd();
 
         $calendar = $this->getLayout()
-            ->createBlock('Magento_Core_Block_Html_Date')
+            ->createBlock('\Magento\Core\Block\Html\Date')
             ->setId('options_'.$this->getOption()->getId().'_date')
             ->setName('options['.$this->getOption()->getId().'][date]')
             ->setClass('product-custom-option datetime-picker input-text')
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat(Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
+            ->setDateFormat(\Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
             ->setValue($value)
             ->setYearsRange($yearStart . ':' . $yearEnd);
 
@@ -92,14 +94,14 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
     public function getDropDownsDateHtml()
     {
         $fieldsSeparator = '&nbsp;';
-        $fieldsOrder = Mage::getSingleton('Magento_Catalog_Model_Product_Option_Type_Date')->getConfigData('date_fields_order');
+        $fieldsOrder = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->getConfigData('date_fields_order');
         $fieldsOrder = str_replace(',', $fieldsSeparator, $fieldsOrder);
 
         $monthsHtml = $this->_getSelectFromToHtml('month', 1, 12);
         $daysHtml = $this->_getSelectFromToHtml('day', 1, 31);
 
-        $yearStart = Mage::getSingleton('Magento_Catalog_Model_Product_Option_Type_Date')->getYearStart();
-        $yearEnd = Mage::getSingleton('Magento_Catalog_Model_Product_Option_Type_Date')->getYearEnd();
+        $yearStart = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->getYearStart();
+        $yearEnd = \Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->getYearEnd();
         $yearsHtml = $this->_getSelectFromToHtml('year', $yearStart, $yearEnd);
 
         $translations = array(
@@ -117,7 +119,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
      */
     public function getTimeHtml()
     {
-        if (Mage::getSingleton('Magento_Catalog_Model_Product_Option_Type_Date')->is24hTimeFormat()) {
+        if (\Mage::getSingleton('Magento\Catalog\Model\Product\Option\Type\Date')->is24hTimeFormat()) {
             $hourStart = 0;
             $hourEnd = 23;
             $dayPartHtml = '';
@@ -163,7 +165,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
      * HTML select element
      *
      * @param string $name Id/name of html select element
-     * @return Magento_Core_Block_Html_Select
+     * @return \Magento\Core\Block\Html\Select
      */
     protected function _getHtmlSelect($name, $value = null)
     {
@@ -173,7 +175,7 @@ class Magento_Catalog_Block_Product_View_Options_Type_Date extends Magento_Catal
 
         // $require = $this->getOption()->getIsRequire() ? ' required-entry' : '';
         $require = '';
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
             ->setId('options_' . $this->getOption()->getId() . '_' . $name)
             ->setClass('product-custom-option datetime-picker' . $require)
             ->setExtraParams()

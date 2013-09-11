@@ -12,13 +12,13 @@
 class Magento_Customer_Model_GroupTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Customer_Model_Group
+     * @var \Magento\Customer\Model\Group
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento_Customer_Model_Group');
+        $this->_model= Mage::getModel('\Magento\Customer\Model\Group');
     }
 
     public function testCRUD()

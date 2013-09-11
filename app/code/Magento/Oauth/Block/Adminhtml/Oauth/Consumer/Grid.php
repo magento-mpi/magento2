@@ -15,7 +15,9 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Oauth\Block\Adminhtml\Oauth\Consumer;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Allow edit status
@@ -42,11 +44,11 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Magento_Adminhtm
     /**
      * Prepare collection
      *
-     * @return Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid
+     * @return \Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Oauth_Model_Consumer')->getCollection();
+        $collection = \Mage::getModel('\Magento\Oauth\Model\Consumer')->getCollection();
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -55,7 +57,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Magento_Adminhtm
     /**
      * Prepare columns
      *
-     * @return Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid
+     * @return \Magento\Oauth\Block\Adminhtml\Oauth\Consumer\Grid
      */
     protected function _prepareColumns()
     {
@@ -87,7 +89,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_Consumer_Grid extends Magento_Adminhtm
     /**
      * Get row URL
      *
-     * @param Magento_Oauth_Model_Consumer $row
+     * @param \Magento\Oauth\Model\Consumer $row
      * @return string|null
      */
     public function getRowUrl($row)

@@ -11,13 +11,15 @@
 /**
  * Base container block for payment methods forms
  *
- * @method Magento_Sales_Model_Quote getQuote()
+ * @method \Magento\Sales\Model\Quote getQuote()
  *
  * @category   Magento
  * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Block_Form_Container extends Magento_Core_Block_Template
+namespace Magento\Payment\Block\Form;
+
+class Container extends \Magento\Core\Block\Template
 {
     /**
      * Prepare children blocks
@@ -30,7 +32,7 @@ class Magento_Payment_Block_Form_Container extends Magento_Core_Block_Template
         foreach ($this->getMethods() as $method) {
             $this->setChild(
                'payment.method.'.$method->getCode(),
-               $this->helper('Magento_Payment_Helper_Data')->getMethodFormBlock($method)
+               $this->helper('\Magento\Payment\Helper\Data')->getMethodFormBlock($method)
             );
         }
 
@@ -40,14 +42,14 @@ class Magento_Payment_Block_Form_Container extends Magento_Core_Block_Template
     /**
      * Check payment method model
      *
-     * @param Magento_Payment_Model_Method_Abstract $method
+     * @param \Magento\Payment\Model\Method\AbstractMethod $method
      * @return bool
      */
     protected function _canUseMethod($method)
     {
-        return $method->isApplicableToQuote($this->getQuote(), Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_COUNTRY
-            | Magento_Payment_Model_Method_Abstract::CHECK_USE_FOR_CURRENCY
-            | Magento_Payment_Model_Method_Abstract::CHECK_ORDER_TOTAL_MIN_MAX
+        return $method->isApplicableToQuote($this->getQuote(), \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY
+            | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY
+            | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
         );
     }
 
@@ -56,7 +58,7 @@ class Magento_Payment_Block_Form_Container extends Magento_Core_Block_Template
      *
      * Redeclare this method in child classes for declaring method info instance
      *
-     * @param Magento_Payment_Model_Method_Abstract $method
+     * @param \Magento\Payment\Model\Method\AbstractMethod $method
      * @return bool
      */
     protected function _assignMethod($method)
@@ -70,7 +72,7 @@ class Magento_Payment_Block_Form_Container extends Magento_Core_Block_Template
      *
      * @param   string $method
      * @param   string $template
-     * @return  Magento_Payment_Block_Form_Container
+     * @return  \Magento\Payment\Block\Form\Container
      */
     public function setMethodFormTemplate($method='', $template='')
     {
@@ -94,10 +96,10 @@ class Magento_Payment_Block_Form_Container extends Magento_Core_Block_Template
             $quote = $this->getQuote();
             $store = $quote ? $quote->getStoreId() : null;
             $methods = array();
-            foreach ($this->helper('Magento_Payment_Helper_Data')->getStoreMethods($store, $quote) as $method) {
+            foreach ($this->helper('\Magento\Payment\Helper\Data')->getStoreMethods($store, $quote) as $method) {
                 if ($this->_canUseMethod($method) && $method->isApplicableToQuote(
                     $quote,
-                    Magento_Payment_Model_Method_Abstract::CHECK_ZERO_TOTAL
+                    \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
                 )) {
                     $this->_assignMethod($method);
                     $methods[] = $method;

@@ -14,7 +14,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     const VIRTUAL_FIELD_HTML_ID = 'weight_and_type_switcher';
 
     /**
-     * @var Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight
+     * @var \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
     {
         $this->_virtual = new \Magento\Object();
 
-        $helper = $this->getMock('Magento_Catalog_Helper_Product', array('getTypeSwitcherControlLabel'),
+        $helper = $this->getMock('Magento\Catalog\Helper\Product', array('getTypeSwitcherControlLabel'),
             array(), '', false, false
         );
         $helper->expects($this->any())->method('getTypeSwitcherControlLabel')
@@ -38,7 +38,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
         $this->assertNull($this->_virtual->getLabel());
         $this->assertNull($this->_virtual->getForm());
 
-        $this->_model = new Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight(
+        $this->_model = new \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight(
             array('element' => $this->_virtual, 'helper' => $helper)
         );
 
@@ -46,7 +46,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_WeightTest extends PHP
         $this->_model->setForm($form);
 
         $this->assertEquals(
-            Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Weight::VIRTUAL_FIELD_HTML_ID,
+            \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Weight::VIRTUAL_FIELD_HTML_ID,
             $this->_virtual->getId()
         );
         $this->assertEquals('is_virtual', $this->_virtual->getName());

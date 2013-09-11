@@ -12,7 +12,7 @@
 class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_helper;
 
@@ -22,20 +22,20 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected $_configMock;
 
     /**
-     * @var Magento_Core_Model_Config_Primary
+     * @var \Magento\Core\Model\Config\Primary
      */
     protected $_primaryConfigMock;
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false, false);
+        $this->_configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false, false);
         $this->_primaryConfigMock =
-            $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false, false);
+            $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false, false);
 
-        $this->_helper = new Magento_Backend_Helper_Data($this->_configMock,
+        $this->_helper = new \Magento\Backend\Helper\Data($this->_configMock,
             $this->_primaryConfigMock,
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false),
-            $this->getMock('Magento_Core_Model_RouterList', array(), array(), '', false),
+            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
+            $this->getMock('Magento\Core\Model\RouterList', array(), array(), '', false),
             'backend'
         );
     }
@@ -43,11 +43,11 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetAreaFrontNameReturnsDefaultValueWhenCustomNotSet()
     {
         $this->_configMock->expects($this->once())->method('getValue')
-            ->with(Magento_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
+            ->with(\Magento\Backend\Helper\Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(false));
 
         $this->_primaryConfigMock->expects($this->once())->method('getNode')
-            ->with(Magento_Backend_Helper_Data::XML_PATH_BACKEND_AREA_FRONTNAME)
+            ->with(\Magento\Backend\Helper\Data::XML_PATH_BACKEND_AREA_FRONTNAME)
             ->will($this->returnValue(''));
 
         $this->assertEquals('backend', $this->_helper->getAreaFrontName());
@@ -56,11 +56,11 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetAreaFrontNameLocalConfigCustomFrontName()
     {
         $this->_configMock->expects($this->once())->method('getValue')
-            ->with(Magento_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
+            ->with(\Magento\Backend\Helper\Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(false));
 
         $this->_primaryConfigMock->expects($this->once())->method('getNode')
-            ->with(Magento_Backend_Helper_Data::XML_PATH_BACKEND_AREA_FRONTNAME)
+            ->with(\Magento\Backend\Helper\Data::XML_PATH_BACKEND_AREA_FRONTNAME)
             ->will($this->returnValue('backend_custom'));
 
         $this->assertEquals('backend_custom', $this->_helper->getAreaFrontName());
@@ -69,11 +69,11 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testGetAreaFrontNameAdminConfigCustomFrontName()
     {
         $this->_configMock->expects($this->at(0))->method('getValue')
-            ->with(Magento_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
+            ->with(\Magento\Backend\Helper\Data::XML_PATH_USE_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue(true));
 
         $this->_configMock->expects($this->at(1))->method('getValue')
-            ->with(Magento_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH, 'default')
+            ->with(\Magento\Backend\Helper\Data::XML_PATH_CUSTOM_ADMIN_PATH, 'default')
             ->will($this->returnValue('control'));
 
         $this->assertEquals('control', $this->_helper->getAreaFrontName());

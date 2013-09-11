@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Loader_Resource extends \Magento\Acl\Loader\Resource
+namespace Magento\Webapi\Model\Authorization\Loader;
+
+class Resource extends \Magento\Acl\Loader\Resource
 {
     /**
-     * @param Magento_Webapi_Model_Acl_Resource_ProviderInterface $resourceProvider
+     * @param \Magento\Webapi\Model\Acl\Resource\ProviderInterface $resourceProvider
      * @param \Magento\Acl\ResourceFactory $resourceFactory
      */
     public function __construct(
-        Magento_Webapi_Model_Acl_Resource_ProviderInterface $resourceProvider,
+        \Magento\Webapi\Model\Acl\Resource\ProviderInterface $resourceProvider,
         \Magento\Acl\ResourceFactory $resourceFactory
     ) {
         parent::__construct($resourceProvider, $resourceFactory);
@@ -55,7 +57,7 @@ class Magento_Webapi_Model_Authorization_Loader_Resource extends \Magento\Acl\Lo
      * Populate ACL with resources from external storage.
      *
      * @param \Magento\Acl $acl
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function populateAcl(\Magento\Acl $acl)
     {

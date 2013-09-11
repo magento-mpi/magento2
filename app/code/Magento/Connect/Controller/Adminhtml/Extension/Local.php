@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Controller_Adminhtml_Extension_Local extends Magento_Adminhtml_Controller_Action
+namespace Magento\Connect\Controller\Adminhtml\Extension;
+
+class Local extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Redirect to Magento Connect
@@ -23,8 +25,8 @@ class Magento_Connect_Controller_Adminhtml_Extension_Local extends Magento_Admin
      */
     public function indexAction()
     {
-        $url = Mage::getBaseUrl('web')
-            . 'downloader/?return=' . urlencode(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl());
+        $url = \Mage::getBaseUrl('web')
+            . 'downloader/?return=' . urlencode(\Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl());
         $this->getResponse()->setRedirect($url);
     }
 }

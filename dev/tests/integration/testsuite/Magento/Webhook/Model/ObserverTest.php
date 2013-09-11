@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Observer
+ * \Magento\Webhook\Model\Observer
  *
  * {license_notice}
  *
@@ -14,48 +14,48 @@
  */
 class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webhook_Model_Subscription */
+    /** @var \Magento\Webhook\Model\Subscription */
     private $_subscription;
 
-    /** @var Magento_Webapi_Model_Acl_User */
+    /** @var \Magento\Webapi\Model\Acl\User */
     private $_user;
 
-    /** @var Magento_Webapi_Model_Acl_Role */
+    /** @var \Magento\Webapi\Model\Acl\Role */
     private $_role;
 
-    /** @var Magento_Webhook_Model_Endpoint */
+    /** @var \Magento\Webhook\Model\Endpoint */
     private $_endpoint;
 
-    /** @var Magento_Webhook_Model_Subscription_Factory */
+    /** @var \Magento\Webhook\Model\Subscription\Factory */
     private $_subscriptionFactory;
 
     public function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
 
-        /** @var $factory Magento_Webhook_Model_Subscription_Factory */
-        $this->_subscriptionFactory = $objectManager->create('Magento_Webhook_Model_Subscription_Factory');
+        /** @var $factory \Magento\Webhook\Model\Subscription\Factory */
+        $this->_subscriptionFactory = $objectManager->create('Magento\Webhook\Model\Subscription\Factory');
 
-        $this->_subscription = $objectManager->create('Magento_Webhook_Model_Subscription_Factory')
+        $this->_subscription = $objectManager->create('Magento\Webhook\Model\Subscription\Factory')
             ->create()
             ->setName('dummy')
             ->setEndpointUrl('http://localhost')
             ->save();
 
-        $this->_role = $objectManager->create('Magento_Webapi_Model_Acl_Role')
+        $this->_role = $objectManager->create('Magento\Webapi\Model\Acl\Role')
             ->setData(array( 'role_name' => 'Test role'))
             ->save();
 
         $allowResourceId = 'test/get';
-        /** @var Magento_Webapi_Model_Acl_Rule $rule */
-        $rule = $objectManager->create('Magento_Webapi_Model_Acl_Rule');
+        /** @var \Magento\Webapi\Model\Acl\Rule $rule */
+        $rule = $objectManager->create('Magento\Webapi\Model\Acl\Rule');
         $rule->setData(array(
             'resource_id' => $allowResourceId,
             'role_id' => $this->_role->getId()
         ));
         $rule->save();
 
-        $this->_user = Mage::getModel('Magento_Webapi_Model_Acl_User')
+        $this->_user = Mage::getModel('\Magento\Webapi\Model\Acl\User')
             ->setData(array(
             'api_key' => 'webhook_test_username',
             'secret' => 'webhook_test_secret',
@@ -63,7 +63,7 @@ class Magento_Webhook_Model_ObserverTest extends PHPUnit_Framework_TestCase
             'role_id' => $this->_role->getId()
         ))->save();
 
-        $this->_endpoint = $objectManager->create('Magento_Webhook_Model_Endpoint')
+        $this->_endpoint = $objectManager->create('Magento\Webhook\Model\Endpoint')
             ->load($this->_subscription->getEndpointId());
     }
 

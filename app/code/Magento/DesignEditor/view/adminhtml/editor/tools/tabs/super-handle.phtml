@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_Backend_Block_Template */ ?>
+<?php /** @var $this \Magento\Backend\Block\Template */ ?>
 <li class="item<?php echo ' ',$this->getClass(); ?><?php echo $this->getIsHidden() ? ' hidden' : '' ?><?php echo $this->getIsDisabled() ? ' disabled' : '' ?>">
     <a href="<?php echo $this->getHref() ?>" data-toggle="<?php echo $this->getIsDisabled() ? 'tab-disabled' : 'tab' ?>" title="<?php echo $this->getTitle(); ?>">
         <span><?php echo $this->getLabel(); ?></span>

@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Address extends Magento_Sales_Model_Resource_Order_Abstract
+namespace Magento\Sales\Model\Resource\Order;
+
+class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
      * Event prefix
@@ -61,22 +63,22 @@ class Magento_Sales_Model_Resource_Order_Address extends Magento_Sales_Model_Res
      * Update related grid table after object save
      *
      * @param \Magento\Object $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         $resource = parent::_afterSave($object);
         if ($object->hasDataChanges() && $object->getOrder()) {
             $gridList = array(
-                'Magento_Sales_Model_Resource_Order' => 'entity_id',
-                'Magento_Sales_Model_Resource_Order_Invoice' => 'order_id',
-                'Magento_Sales_Model_Resource_Order_Shipment' => 'order_id',
-                'Magento_Sales_Model_Resource_Order_Creditmemo' => 'order_id'
+                '\Magento\Sales\Model\Resource\Order' => 'entity_id',
+                '\Magento\Sales\Model\Resource\Order\Invoice' => 'order_id',
+                '\Magento\Sales\Model\Resource\Order\Shipment' => 'order_id',
+                '\Magento\Sales\Model\Resource\Order\Creditmemo' => 'order_id'
             );
 
             // update grid table after grid update
             foreach ($gridList as $gridResource => $field) {
-                Mage::getResourceModel($gridResource)->updateOnRelatedRecordChanged(
+                \Mage::getResourceModel($gridResource)->updateOnRelatedRecordChanged(
                     $field,
                     $object->getParentId()
                 );

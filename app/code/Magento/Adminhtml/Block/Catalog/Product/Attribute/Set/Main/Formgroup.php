@@ -14,7 +14,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
+
+class Formgroup extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     protected function _prepareForm()
@@ -33,7 +35,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup exten
 
         $fieldset->addField('submit', 'note',
                             array(
-                                'text' => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+                                'text' => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
                                             ->setData(array(
                                                 'label'     => __('Add Group'),
                                                 'onclick'   => 'this.form.submit();',
@@ -61,8 +63,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup exten
     {
         return ( intval($this->getRequest()->getParam('id')) > 0 )
                     ? intval($this->getRequest()->getParam('id'))
-                    : Mage::getModel('Magento_Eav_Model_Entity_Type')
-                        ->load(Mage::registry('entityType'))
+                    : \Mage::getModel('\Magento\Eav\Model\Entity\Type')
+                        ->load(\Mage::registry('entityType'))
                         ->getDefaultAttributeSetId();
     }
 }

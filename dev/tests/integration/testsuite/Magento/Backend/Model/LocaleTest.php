@@ -15,47 +15,47 @@
 class Magento_Backend_Model_LocaleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_model;
 
     public function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::getModel('Magento_Backend_Model_Locale');
+        $this->_model = Mage::getModel('\Magento\Backend\Model\Locale');
     }
 
     /**
-     * @covers Magento_Core_Model_LocaleInterface::setLocale
+     * @covers \Magento\Core\Model\LocaleInterface::setLocale
      */
     public function testSetLocaleWithDefaultLocale()
     {
-        $this->_checkSetLocale(Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE);
+        $this->_checkSetLocale(\Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE);
     }
 
     /**
-     * @covers Magento_Core_Model_LocaleInterface::setLocale
+     * @covers \Magento\Core\Model\LocaleInterface::setLocale
      */
     public function testSetLocaleWithBaseInterfaceLocale()
     {
         $user = new \Magento\Object();
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $session = Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
-        Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->setInterfaceLocale('fr_FR');
+        Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->setInterfaceLocale('fr_FR');
         $this->_checkSetLocale('fr_FR');
     }
 
     /**
-     * @covers Magento_Core_Model_LocaleInterface::setLocale
+     * @covers \Magento\Core\Model\LocaleInterface::setLocale
      */
     public function testSetLocaleWithSessionLocale()
     {
-        Mage::getSingleton('Magento_Backend_Model_Session')->setSessionLocale('es_ES');
+        Mage::getSingleton('Magento\Backend\Model\Session')->setSessionLocale('es_ES');
         $this->_checkSetLocale('es_ES');
     }
 
     /**
-     * @covers Magento_Core_Model_LocaleInterface::setLocale
+     * @covers \Magento\Core\Model\LocaleInterface::setLocale
      */
     public function testSetLocaleWithRequestLocale()
     {

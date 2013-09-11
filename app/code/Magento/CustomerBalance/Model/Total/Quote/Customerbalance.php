@@ -9,7 +9,9 @@
  */
 
 
-class Magento_CustomerBalance_Model_Total_Quote_Customerbalance extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\CustomerBalance\Model\Total\Quote;
+
+class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Init total model, set total code
@@ -22,12 +24,12 @@ class Magento_CustomerBalance_Model_Total_Quote_Customerbalance extends Magento_
     /**
      * Collect customer balance totals for specified address
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_CustomerBalance_Model_Total_Quote_Customerbalance
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\CustomerBalance\Model\Total\Quote\Customerbalance
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             return $this;
         }
         $quote = $address->getQuote();
@@ -43,8 +45,8 @@ class Magento_CustomerBalance_Model_Total_Quote_Customerbalance extends Magento_
         $baseBalance = $balance = 0;
         if ($quote->getCustomer()->getId()) {
             if ($quote->getUseCustomerBalance()) {
-                $store = Mage::app()->getStore($quote->getStoreId());
-                $baseBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+                $store = \Mage::app()->getStore($quote->getStoreId());
+                $baseBalance = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
                     ->setCustomer($quote->getCustomer())
                     ->setCustomerId($quote->getCustomer()->getId())
                     ->setWebsiteId($store->getWebsiteId())
@@ -86,12 +88,12 @@ class Magento_CustomerBalance_Model_Total_Quote_Customerbalance extends Magento_
     /**
      * Return shopping cart total row items
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @return Magento_CustomerBalance_Model_Total_Quote_Customerbalance
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @return \Magento\CustomerBalance\Model\Total\Quote\Customerbalance
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             return $this;
         }
         if ($address->getCustomerBalanceAmount()) {

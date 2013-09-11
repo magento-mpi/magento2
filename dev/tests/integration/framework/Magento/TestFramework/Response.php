@@ -12,7 +12,7 @@
 /**
  * HTTP response implementation that is used instead core one for testing
  */
-class Magento_TestFramework_Response extends Magento_Core_Controller_Response_Http
+class Magento_TestFramework_Response extends \Magento\Core\Controller\Response\Http
 {
     /**
      * Prevent generating exceptions if headers are already sent

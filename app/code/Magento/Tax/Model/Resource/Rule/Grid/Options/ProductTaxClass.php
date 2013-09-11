@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Tax_Model_Resource_Rule_Grid_Options_ProductTaxClass
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Tax\Model\Resource\Rule\Grid\Options;
+
+class ProductTaxClass
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * @var Magento_Tax_Model_Resource_TaxClass_CollectionFactory
@@ -30,7 +32,7 @@ class Magento_Tax_Model_Resource_Rule_Grid_Options_ProductTaxClass
      */
     public function toOptionArray()
     {
-        return $this->_collectionFactory->create()->setClassTypeFilter(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
+        return $this->_collectionFactory->create()->setClassTypeFilter(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
             ->toOptionHash();
     }
 }

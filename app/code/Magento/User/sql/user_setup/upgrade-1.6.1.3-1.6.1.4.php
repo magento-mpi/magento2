@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -18,6 +18,6 @@ $connection->addColumn($installer->getTable('admin_user'), 'interface_locale', a
     'type'     => \Magento\DB\Ddl\Table::TYPE_TEXT,
     'length'   => 5,
     'nullable' => false,
-    'default'  => Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE,
+    'default'  => \Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE,
     'comment'  => 'Backend interface locale'
 ));

@@ -8,11 +8,10 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 
-// Create Root Catalog Node
-Mage::getModel('Magento_Catalog_Model_Category')
+// Create Root Catalog Node \Mage::getModel('\Magento\Catalog\Model\Category')
     ->load(1)
     ->setId(1)
     ->setStoreId(0)
@@ -24,8 +23,8 @@ Mage::getModel('Magento_Catalog_Model_Category')
     ->setInitialSetupFlag(true)
     ->save();
 
-/* @var $category Magento_Catalog_Model_Category */
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+/* @var $category \Magento\Catalog\Model\Category */
+$category = \Mage::getModel('\Magento\Catalog\Model\Category');
 
 $category->setStoreId(0)
     ->setName('Default Category')
@@ -36,11 +35,11 @@ $category->setStoreId(0)
     ->setInitialSetupFlag(true)
     ->save();
 
-$installer->setConfigData(Magento_Catalog_Helper_Category::XML_PATH_CATEGORY_ROOT_ID, $category->getId());
+$installer->setConfigData(\Magento\Catalog\Helper\Category::XML_PATH_CATEGORY_ROOT_ID, $category->getId());
 
-$installer->addAttributeGroup(Magento_Catalog_Model_Product::ENTITY, 'Default', 'Design', 6);
+$installer->addAttributeGroup(\Magento\Catalog\Model\Product::ENTITY, 'Default', 'Design', 6);
 
-$entityTypeId     = $installer->getEntityTypeId(Magento_Catalog_Model_Category::ENTITY);
+$entityTypeId     = $installer->getEntityTypeId(\Magento\Catalog\Model\Category::ENTITY);
 $attributeSetId   = $installer->getDefaultAttributeSetId($entityTypeId);
 $attributeGroupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
 
@@ -129,19 +128,19 @@ foreach ($attributes as $attributeCode => $attributeProp) {
  */
 $data = array(
     array(
-        'link_type_id'  => Magento_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
+        'link_type_id'  => \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED,
         'code'          => 'relation'
     ),
     array(
-        'link_type_id'  => Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED,
+        'link_type_id'  => \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED,
         'code'  => 'super'
     ),
     array(
-        'link_type_id'  => Magento_Catalog_Model_Product_Link::LINK_TYPE_UPSELL,
+        'link_type_id'  => \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL,
         'code'  => 'up_sell'
     ),
     array(
-        'link_type_id'  => Magento_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
+        'link_type_id'  => \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL,
         'code'  => 'cross_sell'
     ),
 );
@@ -155,27 +154,27 @@ foreach ($data as $bind) {
  */
 $data = array(
     array(
-        'link_type_id'                  => Magento_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
+        'link_type_id'                  => \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED,
         'product_link_attribute_code'   => 'position',
         'data_type'                     => 'int'
     ),
     array(
-        'link_type_id'                  => Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED,
+        'link_type_id'                  => \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED,
         'product_link_attribute_code'   => 'position',
         'data_type'                     => 'int'
     ),
     array(
-        'link_type_id'                  => Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED,
+        'link_type_id'                  => \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED,
         'product_link_attribute_code'   => 'qty',
         'data_type'                     => 'decimal'
     ),
     array(
-        'link_type_id'                  => Magento_Catalog_Model_Product_Link::LINK_TYPE_UPSELL,
+        'link_type_id'                  => \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL,
         'product_link_attribute_code'   => 'position',
         'data_type'                     => 'int'
     ),
     array(
-        'link_type_id'                  => Magento_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
+        'link_type_id'                  => \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL,
         'product_link_attribute_code'   => 'position',
         'data_type'                     => 'int'
     ),

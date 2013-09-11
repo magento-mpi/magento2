@@ -14,25 +14,27 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Link extends Magento_Core_Block_Template
+namespace Magento\Invitation\Block;
+
+class Link extends \Magento\Core\Block\Template
 {
     /**
      * Adding link to account links block link params if invitation
      * is allowed globally and for current website
      *
-     * @return Magento_Invitation_Block_Link
+     * @return \Magento\Invitation\Block\Link
      */
     public function addAccountLink()
     {
-        if (Mage::getSingleton('Magento_Invitation_Model_Config')->isEnabledOnFront()
-            && Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
+        if (\Mage::getSingleton('Magento\Invitation\Model\Config')->isEnabledOnFront()
+            && \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
         ) {
-            /** @var $blockInstance Magento_Page_Block_Template_Links */
+            /** @var $blockInstance \Magento\Page\Block\Template\Links */
             $blockInstance = $this->getLayout()->getBlock('account.links');
             if ($blockInstance) {
                 $blockInstance->addLink(
                     __('Send Invitations'),
-                    Mage::helper('Magento_Invitation_Helper_Data')->getCustomerInvitationFormUrl(),
+                    \Mage::helper('Magento\Invitation\Helper\Data')->getCustomerInvitationFormUrl(),
                     __('Send Invitations'),
                     true,
                     array(),
@@ -53,12 +55,12 @@ class Magento_Invitation_Block_Link extends Magento_Core_Block_Template
      * @param string $path
      * @param string $label
      * @param array $urlParams
-     * @return Magento_Invitation_Block_Link
+     * @return \Magento\Invitation\Block\Link
      */
     public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
     {
-        if (Mage::getSingleton('Magento_Invitation_Model_Config')->isEnabledOnFront()) {
-            /** @var $blockInstance Magento_Customer_Block_Account_Navigation */
+        if (\Mage::getSingleton('Magento\Invitation\Model\Config')->isEnabledOnFront()) {
+            /** @var $blockInstance \Magento\Customer\Block\Account\Navigation */
             $blockInstance = $this->getLayout()->getBlock($block);
             if ($blockInstance) {
                 $blockInstance->addLink($name, $path, $label, $urlParams);

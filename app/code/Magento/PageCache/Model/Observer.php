@@ -15,18 +15,20 @@
  * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PageCache_Model_Observer
+namespace Magento\PageCache\Model;
+
+class Observer
 {
     const XML_NODE_ALLOWED_CACHE = 'frontend/cache/allowed_requests';
 
     /**
      * Retrieve the helper instance
      *
-     * @return Magento_PageCache_Helper_Data
+     * @return \Magento\PageCache\Helper\Data
      */
     protected function _getHelper()
     {
-        return Mage::helper('Magento_PageCache_Helper_Data');
+        return \Mage::helper('Magento\PageCache\Helper\Data');
     }
 
     /**
@@ -43,7 +45,7 @@ class Magento_PageCache_Model_Observer
      * Check when cache should be disabled
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_PageCache_Model_Observer
+     * @return \Magento\PageCache\Model\Observer
      */
     public function processPreDispatch(\Magento\Event\Observer $observer)
     {
@@ -58,7 +60,7 @@ class Magento_PageCache_Model_Observer
             $needCaching = false;
         }
 
-        $configuration = Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
+        $configuration = \Mage::getConfig()->getNode(self::XML_NODE_ALLOWED_CACHE);
 
         if (!$configuration) {
             $needCaching = false;
@@ -92,7 +94,7 @@ class Magento_PageCache_Model_Observer
      * Temporary disabling full page caching by setting bo-cache cookie
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_PageCache_Model_Observer
+     * @return \Magento\PageCache\Model\Observer
      */
     public function setNoCacheCookie(\Magento\Event\Observer $observer)
     {
@@ -107,7 +109,7 @@ class Magento_PageCache_Model_Observer
      * Activating full page cache aby deleting no-cache cookie
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_PageCache_Model_Observer
+     * @return \Magento\PageCache\Model\Observer
      */
     public function deleteNoCacheCookie(\Magento\Event\Observer $observer)
     {

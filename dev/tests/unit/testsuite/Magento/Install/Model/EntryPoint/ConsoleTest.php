@@ -9,7 +9,7 @@
 class Magento_Install_Model_EntryPoint_ConsoleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Install_Model_EntryPoint_Console
+     * @var \Magento\Install\Model\EntryPoint\Console
      */
     protected $_model;
 
@@ -19,41 +19,41 @@ class Magento_Install_Model_EntryPoint_ConsoleTest extends PHPUnit_Framework_Tes
     protected $_objectManagerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Config_Primary
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Config\Primary
      */
     protected $_configMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Install_Model_Installer_Console
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Install\Model\Installer\Console
      */
     protected $_installerMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_Dir_Verification
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Dir\Verification
      */
     protected $_dirVerifierMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Install_Model_EntryPoint_Output
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Install\Model\EntryPoint\Output
      */
     protected $_outputMock;
 
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_configMock = $this->getMock('Magento_Core_Model_Config_Primary', array(), array(), '', false);
-        $this->_installerMock = $this->getMock('Magento_Install_Model_Installer_Console', array(), array(), '', false);
-        $this->_dirVerifierMock = $this->getMock('Magento_Core_Model_Dir_Verification', array(), array(), '', false);
-        $this->_outputMock = $this->getMock('Magento_Install_Model_EntryPoint_Output', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento\Core\Model\Config\Primary', array(), array(), '', false);
+        $this->_installerMock = $this->getMock('Magento\Install\Model\Installer\Console', array(), array(), '', false);
+        $this->_dirVerifierMock = $this->getMock('Magento\Core\Model\Dir\Verification', array(), array(), '', false);
+        $this->_outputMock = $this->getMock('Magento\Install\Model\EntryPoint\Output', array(), array(), '', false);
 
         $this->_objectManagerMock->expects($this->once())->method('create')
-            ->with('Magento_Install_Model_Installer_Console')
+            ->with('Magento\Install\Model\Installer\Console')
             ->will($this->returnValue($this->_installerMock));
     }
 
     protected function _createModel($params = array())
     {
-        return new Magento_Install_Model_EntryPoint_Console('', $params, $this->_configMock,
+        return new \Magento\Install\Model\EntryPoint\Console('', $params, $this->_configMock,
             $this->_objectManagerMock, $this->_outputMock
         );
     }

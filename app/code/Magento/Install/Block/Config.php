@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
+namespace Magento\Install\Block;
+
+class Config extends \Magento\Install\Block\AbstractBlock
 {
     /**
      * @var string
@@ -39,9 +41,9 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $data = Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
+            $data = \Mage::getSingleton('Magento_Install_Model_Session')->getConfigData(true);
             if (empty($data)) {
-                $data = Mage::getModel('Magento_Install_Model_Installer_Config')->getFormData();
+                $data = \Mage::getModel('\Magento\Install\Model\Installer\Config')->getFormData();
             } else {
                 $data = new \Magento\Object($data);
             }
@@ -55,7 +57,7 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
      */
     public function getSkipUrlValidation()
     {
-        return Mage::getSingleton('Magento_Install_Model_Session')->getSkipUrlValidation();
+        return \Mage::getSingleton('Magento_Install_Model_Session')->getSkipUrlValidation();
     }
 
     /**
@@ -63,7 +65,7 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
      */
     public function getSkipBaseUrlValidation()
     {
-        return Mage::getSingleton('Magento_Install_Model_Session')->getSkipBaseUrlValidation();
+        return \Mage::getSingleton('Magento_Install_Model_Session')->getSkipBaseUrlValidation();
     }
 
     /**
@@ -82,7 +84,7 @@ class Magento_Install_Block_Config extends Magento_Install_Block_Abstract
      */
     public function getSessionSaveSelect()
     {
-        $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $html = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
             ->setName('config[session_save]')
             ->setId('session_save')
             ->setTitle(__('Save Session Files In'))

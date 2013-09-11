@@ -10,14 +10,14 @@
  */
 
 /**
- * Test for Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree
+ * Test for \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree
  *
  * @magentoAppArea adminhtml
  */
 class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree
+     * @var \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree
      */
     private $_treeBlock;
 
@@ -29,11 +29,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUn
         parent::setUp();
 
         $this->_treeBlock = Mage::app()->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree');
+            ->createBlock('\Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree');
     }
 
     /**
-     * Test for method Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree::getTreeArray()
+     * Test for method \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree::getTreeArray()
      */
     public function testGetTreeArray()
     {
@@ -75,11 +75,11 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_TreeTest extends PHPUn
     }
 
     /**
-     * Test for method Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree::getCategoryCollection()
+     * Test for method \Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Tree::getCategoryCollection()
      */
     public function testGetCategoryCollection()
     {
         $collection = $this->_treeBlock->getCategoryCollection();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Category_Collection', $collection);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Category\Collection', $collection);
     }
 }

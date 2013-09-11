@@ -16,22 +16,24 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_Backend_Block_Template
+namespace Magento\Reward\Block\Adminhtml\Sales\Order\Create;
+
+class Payment extends \Magento\Backend\Block\Template
 {
     /**
      * Getter
      *
-     * @return Magento_Adminhtml_Model_Sales_Order_Create
+     * @return \Magento\Adminhtml\Model\Sales\Order\Create
      */
     protected function _getOrderCreateModel()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Sales_Order_Create');
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Sales\Order\Create');
     }
 
     /**
      * Getter
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
@@ -45,15 +47,15 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
      */
     public function canUseRewardPoints()
     {
-        $websiteId = Mage::app()->getStore($this->getQuote()->getStoreId())->getWebsiteId();
-        $minPointsBalance = (int)Mage::getStoreConfig(
-            Magento_Reward_Model_Reward::XML_PATH_MIN_POINTS_BALANCE,
+        $websiteId = \Mage::app()->getStore($this->getQuote()->getStoreId())->getWebsiteId();
+        $minPointsBalance = (int)\Mage::getStoreConfig(
+            \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE,
             $this->getQuote()->getStoreId()
         );
 
         return $this->getReward()->getPointsBalance() >= $minPointsBalance
-            && Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront($websiteId)
-            && $this->_authorization->isAllowed(Magento_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT)
+            && \Mage::helper('Magento\Reward\Helper\Data')->isEnabledOnFront($websiteId)
+            && $this->_authorization->isAllowed(\Magento\Reward\Helper\Data::XML_PATH_PERMISSION_AFFECT)
             && (float)$this->getCurrencyAmount()
             && $this->getQuote()->getBaseGrandTotal() + $this->getQuote()->getBaseRewardCurrencyAmount() > 0;
     }
@@ -62,13 +64,13 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
      * Getter.
      * Retrieve reward points model
      *
-     * @return Magento_Reward_Model_Reward
+     * @return \Magento\Reward\Model\Reward
      */
     public function getReward()
     {
         if (!$this->_getData('reward')) {
-            /* @var $reward Magento_Reward_Model_Reward */
-            $reward = Mage::getModel('Magento_Reward_Model_Reward')
+            /* @var $reward \Magento\Reward\Model\Reward */
+            $reward = \Mage::getModel('\Magento\Reward\Model\Reward')
                 ->setCustomer($this->getQuote()->getCustomer())
                 ->setStore($this->getQuote()->getStore())
                 ->loadByCustomer();
@@ -86,7 +88,7 @@ class Magento_Reward_Block_Adminhtml_Sales_Order_Create_Payment extends Magento_
     {
         $points = $this->getReward()->getPointsBalance();
         $amount = $this->getReward()->getCurrencyAmount();
-        $rewardFormatted = Mage::helper('Magento_Reward_Helper_Data')
+        $rewardFormatted = \Mage::helper('Magento\Reward\Helper\Data')
             ->formatReward($points, $amount, $this->getQuote()->getStore()->getId());
         $this->setPointsBalance($points)->setCurrencyAmount($amount)
             ->setUseLabel(__('Use my reward points; %1 are available.', $rewardFormatted))

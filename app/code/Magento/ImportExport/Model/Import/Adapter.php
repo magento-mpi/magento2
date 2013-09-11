@@ -15,31 +15,33 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Import_Adapter
+namespace Magento\ImportExport\Model\Import;
+
+class Adapter
 {
     /**
      * Adapter factory. Checks for availability, loads and create instance of import adapter object.
      *
      * @param string $type Adapter type ('csv', 'xml' etc.)
      * @param mixed $options OPTIONAL Adapter constructor options
-     * @throws Exception
-     * @return Magento_ImportExport_Model_Import_SourceAbstract
+     * @throws \Exception
+     * @return \Magento\ImportExport\Model\Import\SourceAbstract
      */
     public static function factory($type, $options = null)
     {
         if (!is_string($type) || !$type) {
-            Mage::throwException(__('The adapter type must be a non empty string.'));
+            \Mage::throwException(__('The adapter type must be a non empty string.'));
         }
         $adapterClass = 'Magento_ImportExport_Model_Import_Source_' . ucfirst(strtolower($type));
 
         if (!class_exists($adapterClass)) {
-            Mage::throwException("'{$type}' file extension is not supported");
+            \Mage::throwException("'{$type}' file extension is not supported");
         }
         $adapter = new $adapterClass($options);
 
-        if (! $adapter instanceof Magento_ImportExport_Model_Import_SourceAbstract) {
-            Mage::throwException(
-                __('Adapter must be an instance of Magento_ImportExport_Model_Import_SourceAbstract')
+        if (! $adapter instanceof \Magento\ImportExport\Model\Import\SourceAbstract) {
+            \Mage::throwException(
+                __('Adapter must be an instance of \Magento\ImportExport\Model\Import\SourceAbstract')
             );
         }
         return $adapter;
@@ -49,7 +51,7 @@ class Magento_ImportExport_Model_Import_Adapter
      * Create adapter instance for specified source file.
      *
      * @param string $source Source file path.
-     * @return Magento_ImportExport_Model_Import_SourceAbstract
+     * @return \Magento\ImportExport\Model\Import\SourceAbstract
      */
     public static function findAdapterFor($source)
     {

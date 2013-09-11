@@ -15,7 +15,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Recommendations extends Magento_Core_Block_Template
+namespace Magento\Search\Block;
+
+class Recommendations extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve search recommendations
@@ -24,14 +26,14 @@ class Magento_Search_Block_Recommendations extends Magento_Core_Block_Template
      */
     public function getRecommendations()
     {
-        $searchRecommendationsEnabled = (boolean)Mage::helper('Magento_Search_Helper_Data')
+        $searchRecommendationsEnabled = (boolean)\Mage::helper('Magento\Search\Helper\Data')
             ->getSearchConfigData('search_recommendations_enabled');
 
         if (!$searchRecommendationsEnabled) {
             return array();
         }
 
-        $recommendationsModel = Mage::getModel('Magento_Search_Model_Recommendations');
+        $recommendationsModel = \Mage::getModel('\Magento\Search\Model\Recommendations');
         $recommendations = $recommendationsModel->getSearchRecommendations();
 
         if (!count($recommendations)) {
@@ -39,8 +41,8 @@ class Magento_Search_Block_Recommendations extends Magento_Core_Block_Template
         }
         $result = array();
 
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
         foreach ($recommendations as $recommendation) {
             $result[] = array(
                 'word'        => $coreHelper->escapeHtml($recommendation['query_text']),
@@ -58,7 +60,7 @@ class Magento_Search_Block_Recommendations extends Magento_Core_Block_Template
      */
     public function isCountResultsEnabled()
     {
-        return (boolean)Mage::helper('Magento_Search_Helper_Data')
+        return (boolean)\Mage::helper('Magento\Search\Helper\Data')
             ->getSearchConfigData('search_recommendations_count_results_enabled');
     }
 }

@@ -16,39 +16,41 @@
  * @package    Magento_Wishlist
  * @module     Wishlist
  */
-class Magento_Wishlist_Block_Item_Configure extends Magento_Core_Block_Template
+namespace Magento\Wishlist\Block\Item;
+
+class Configure extends \Magento\Core\Block\Template
 {
     /**
      * Returns product being edited
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function getProduct()
     {
-        return Mage::registry('product');
+        return \Mage::registry('product');
     }
 
     /**
      * Returns wishlist item being configured
      *
-     * @return Magento_Catalog_Model_Product|Magento_Wishlist_Model_Item
+     * @return \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item
      */
     protected function getWishlistItem()
     {
-        return Mage::registry('wishlist_item');
+        return \Mage::registry('wishlist_item');
     }
 
     /**
      * Configure product view blocks
      *
-     * @return Magento_Wishlist_Block_Item_Configure
+     * @return \Magento\Wishlist\Block\Item\Configure
      */
     protected function _prepareLayout()
     {
         // Set custom add to cart url
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
-            $url = Mage::helper('Magento_Wishlist_Helper_Data')->getAddToCartUrl($this->getWishlistItem());
+            $url = \Mage::helper('Magento\Wishlist\Helper\Data')->getAddToCartUrl($this->getWishlistItem());
             $block->setCustomAddToCartUrl($url);
         }
 

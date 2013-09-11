@@ -23,7 +23,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
      * @var array
      */
     protected $_websites = array(
-        Magento_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        \Magento\Core\Model\AppInterface::ADMIN_STORE_ID => 'admin',
         1                                            => 'website1',
     );
 
@@ -63,13 +63,13 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     /**
      * Customer export model
      *
-     * @var Magento_ImportExport_Model_Export_Entity_Eav_Customer
+     * @var \Magento\ImportExport\Model\Export\Entity\Eav\Customer
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Magento_ImportExport_Model_Export_Entity_Eav_Customer($this->_getModelDependencies());
+        $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer($this->_getModelDependencies());
     }
 
     public function tearDown()
@@ -99,9 +99,9 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $attributeCollection = new \Magento\Data\Collection();
         foreach ($this->_attributes as $attributeData) {
-            $arguments = $objectManagerHelper->getConstructArguments('Magento_Eav_Model_Entity_Attribute_Abstract');
+            $arguments = $objectManagerHelper->getConstructArguments('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute');
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract',
+            $attribute = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 $arguments, '', true, true, true, array('_construct')
             );
             $attributeCollection->addItem($attribute);
@@ -134,7 +134,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(
@@ -176,12 +176,12 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
     /**
      * Test for method exportItem()
      *
-     * @covers Magento_ImportExport_Model_Export_Entity_Eav_Customer::exportItem
+     * @covers \Magento\ImportExport\Model\Export\Entity\Eav\Customer::exportItem
      */
     public function testExportItem()
     {
-        /** @var $writer Magento_ImportExport_Model_Export_Adapter_Abstract */
-        $writer = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Adapter_Abstract',
+        /** @var $writer \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter */
+        $writer = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
             array(), '', false, false, true, array('writeRow')
         );
 
@@ -192,9 +192,9 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
         $this->_model->setWriter($writer);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $arguments = $objectManagerHelper->getConstructArguments('Magento_Core_Model_Abstract');
+        $arguments = $objectManagerHelper->getConstructArguments('\Magento\Core\Model\AbstractModel');
         $arguments['data'] = $this->_customerData;
-        $item = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', $arguments);
+        $item = $this->getMockForAbstractClass('\Magento\Core\Model\AbstractModel', $arguments);
 
         $this->_model->exportItem($item);
     }
@@ -206,8 +206,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_
      */
     public function validateWriteRow(array $row)
     {
-        $websiteColumn = Magento_ImportExport_Model_Export_Entity_Eav_Customer::COLUMN_WEBSITE;
-        $storeColumn = Magento_ImportExport_Model_Export_Entity_Eav_Customer::COLUMN_STORE;
+        $websiteColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer::COLUMN_WEBSITE;
+        $storeColumn = \Magento\ImportExport\Model\Export\Entity\Eav\Customer::COLUMN_STORE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
         $this->assertEquals($this->_stores[$this->_customerData['store_id']], $row[$storeColumn]);
         $this->assertEquals($this->_customerData[self::ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

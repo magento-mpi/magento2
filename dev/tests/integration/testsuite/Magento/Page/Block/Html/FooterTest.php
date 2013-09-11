@@ -12,20 +12,20 @@
 class Magento_Page_Block_Html_FooterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
     protected function setUp()
     {
         $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+            ->get('Magento\Core\Model\View\DesignInterface');
         $this->_theme = $design->setDefaultDesignTheme()->getDesignTheme();
     }
 
     public function testGetCacheKeyInfo()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_Page_Block_Html_Footer');
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Page\Block\Html\Footer');
         $storeId = Mage::app()->getStore()->getId();
         $this->assertEquals(
             array('PAGE_FOOTER', $storeId, 0, $this->_theme->getId(), null),

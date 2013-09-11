@@ -10,32 +10,32 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Url.
+ * Test class for \Magento\Catalog\Model\Url.
  *
  * @magentoDataFixture Magento/Catalog/_files/url_rewrites.php
  */
 class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Url
+     * @var \Magento\Catalog\Model\Url
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Url');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Url');
     }
 
     /**
      * Retrieve loaded url rewrite
      *
      * @param string $idPath
-     * @return Magento_Core_Model_Url_Rewrite
+     * @return \Magento\Core\Model\Url\Rewrite
      */
     protected function _loadRewrite($idPath)
     {
-        /** @var $rewrite Magento_Core_Model_Url_Rewrite */
-        $rewrite = Mage::getModel('Magento_Core_Model_Url_Rewrite');
+        /** @var $rewrite \Magento\Core\Model\Url\Rewrite */
+        $rewrite = Mage::getModel('\Magento\Core\Model\Url\Rewrite');
         $rewrite->loadByIdPath($idPath);
         return $rewrite;
     }
@@ -49,18 +49,18 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testGetResource()
     {
         $resource = $this->_model->getResource();
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Url', $resource);
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Url', $resource);
         $this->assertSame($resource, $this->_model->getResource());
     }
 
     public function testGetCategoryModel()
     {
-        $this->assertInstanceOf('Magento_Catalog_Model_Category', $this->_model->getCategoryModel());
+        $this->assertInstanceOf('\Magento\Catalog\Model\Category', $this->_model->getCategoryModel());
     }
 
     public function testGetProductModel()
     {
-        $this->assertInstanceOf('Magento_Catalog_Model_Product', $this->_model->getProductModel());
+        $this->assertInstanceOf('\Magento\Catalog\Model\Product', $this->_model->getProductModel());
     }
 
     public function testGetStoreRootCategory()
@@ -85,7 +85,7 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testRefreshRewrites()
     {
         $this->assertNotEmpty($this->_loadRewrite('product/1/4')->getId());
-        $this->assertInstanceOf('Magento_Catalog_Model_Url', $this->_model->refreshRewrites());
+        $this->assertInstanceOf('\Magento\Catalog\Model\Url', $this->_model->refreshRewrites());
         $this->assertEmpty($this->_loadRewrite('product/1/4')->getId());
     }
 
@@ -173,7 +173,7 @@ class Magento_Catalog_Model_UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGeneratePathDefault()
     {

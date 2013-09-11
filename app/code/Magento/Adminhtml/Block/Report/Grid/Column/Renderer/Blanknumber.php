@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Blanknumber extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Number
+namespace Magento\Adminhtml\Block\Report\Grid\Column\Renderer;
+
+class Blanknumber extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Number
 {
     protected function _getValue(\Magento\Object $row)
     {

@@ -15,7 +15,9 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Model_Config
+namespace Magento\VersionsCms\Model;
+
+class Config
 {
     const XML_PATH_CONTENT_VERSIONING = 'cms/content/versioning';
 
@@ -80,11 +82,11 @@ class Magento_VersionsCms_Model_Config
     {
         if ($this->canCurrentUserPublishRevision()) {
             return array(
-                Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PROTECTED,
-                Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PUBLIC
+                \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PROTECTED,
+                \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC
                 );
         } else {
-            return array(Magento_VersionsCms_Model_Page_Version::ACCESS_LEVEL_PUBLIC);
+            return array(\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC);
         }
     }
 
@@ -166,7 +168,7 @@ class Magento_VersionsCms_Model_Config
      */
     public function isCurrentUserOwner($userId)
     {
-        return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId() == $userId;
+        return \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId() == $userId;
     }
 
     /**
@@ -176,6 +178,6 @@ class Magento_VersionsCms_Model_Config
      */
     public function getDefaultVersioningStatus()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_CONTENT_VERSIONING);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_CONTENT_VERSIONING);
     }
 }

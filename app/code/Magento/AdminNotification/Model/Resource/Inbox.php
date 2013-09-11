@@ -16,7 +16,9 @@
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Resource_Inbox extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\AdminNotification\Model\Resource;
+
+class Inbox extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * AdminNotification Resource initialization
@@ -30,10 +32,10 @@ class Magento_AdminNotification_Model_Resource_Inbox extends Magento_Core_Model_
     /**
      * Load latest notice
      *
-     * @param Magento_AdminNotification_Model_Inbox $object
-     * @return Magento_AdminNotification_Model_Resource_Inbox
+     * @param \Magento\AdminNotification\Model\Inbox $object
+     * @return \Magento\AdminNotification\Model\Resource\Inbox
      */
-    public function loadLatestNotice(Magento_AdminNotification_Model_Inbox $object)
+    public function loadLatestNotice(\Magento\AdminNotification\Model\Inbox $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
@@ -56,16 +58,16 @@ class Magento_AdminNotification_Model_Resource_Inbox extends Magento_Core_Model_
     /**
      * Get notifications grouped by severity
      *
-     * @param Magento_AdminNotification_Model_Inbox $object
+     * @param \Magento\AdminNotification\Model\Inbox $object
      * @return array
      */
-    public function getNoticeStatus(Magento_AdminNotification_Model_Inbox $object)
+    public function getNoticeStatus(\Magento\AdminNotification\Model\Inbox $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
             ->from($this->getMainTable(), array(
                 'severity'     => 'severity',
-                'count_notice' => new Zend_Db_Expr('COUNT(' . $this->getIdFieldName() . ')')))
+                'count_notice' => new \Zend_Db_Expr('COUNT(' . $this->getIdFieldName() . ')')))
             ->group('severity')
             ->where('is_remove=?', 0)
             ->where('is_read=?', 0);
@@ -76,10 +78,10 @@ class Magento_AdminNotification_Model_Resource_Inbox extends Magento_Core_Model_
     /**
      * Save notifications (if not exists)
      *
-     * @param Magento_AdminNotification_Model_Inbox $object
+     * @param \Magento\AdminNotification\Model\Inbox $object
      * @param array $data
      */
-    public function parse(Magento_AdminNotification_Model_Inbox $object, array $data)
+    public function parse(\Magento\AdminNotification\Model\Inbox $object, array $data)
     {
         $adapter = $this->_getWriteAdapter();
         foreach ($data as $item) {

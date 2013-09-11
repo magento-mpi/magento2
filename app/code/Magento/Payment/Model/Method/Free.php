@@ -16,7 +16,9 @@
  * @package    Magento_Payment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Model_Method_Free extends Magento_Payment_Model_Method_Abstract
+namespace Magento\Payment\Model\Method;
+
+class Free extends \Magento\Payment\Model\Method\AbstractMethod
 {
     /**
      * XML Paths for configuration constants
@@ -41,13 +43,13 @@ class Magento_Payment_Model_Method_Free extends Magento_Payment_Model_Method_Abs
     /**
      * Check whether method is available
      *
-     * @param Magento_Sales_Model_Quote|null $quote
+     * @param \Magento\Sales\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable($quote = null)
     {
         return parent::isAvailable($quote) && !empty($quote)
-            && Mage::app()->getStore()->roundPrice($quote->getGrandTotal()) == 0;
+            && \Mage::app()->getStore()->roundPrice($quote->getGrandTotal()) == 0;
     }
 
     /**

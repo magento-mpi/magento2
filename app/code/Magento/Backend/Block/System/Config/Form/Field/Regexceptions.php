@@ -15,8 +15,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
-    extends Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Regexceptions
+    extends \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
 {
     /**
      * Initialise form fields
@@ -32,7 +34,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
             'style' => 'width:120px',
         ));
         $this->_addAfter = false;
-        $this->_addButtonLabel = __('Add Exception');
+        $this->_addButtonLabel = __('Add \Exception');
         parent::_construct();
     }
 
@@ -45,8 +47,8 @@ class Magento_Backend_Block_System_Config_Form_Field_Regexceptions
     public function renderCellTemplate($columnName)
     {
         if ($columnName == 'value' && isset($this->_columns[$columnName])) {
-            /** @var $label Magento_Core_Model_Theme_Label */
-            $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+            /** @var $label \Magento\Core\Model\Theme\Label */
+            $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
             $options = $label->getLabelsCollection(__('-- No Theme --'));
             $element = new \Magento\Data\Form\Element\Select();
             $element

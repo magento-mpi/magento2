@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Observer_Backend_CatalogPriceRule
+namespace Magento\Sales\Model\Observer\Backend;
+
+class CatalogPriceRule
 {
     /**
-     * @var Magento_Sales_Model_Resource_Quote
+     * @var \Magento\Sales\Model\Resource\Quote
      */
     protected $_quote;
 
     /**
-     * @param Magento_Sales_Model_Resource_Quote $quote
+     * @param \Magento\Sales\Model\Resource\Quote $quote
      */
-    public function __construct(Magento_Sales_Model_Resource_Quote $quote)
+    public function __construct(\Magento\Sales\Model\Resource\Quote $quote)
     {
         $this->_quote = $quote;
     }

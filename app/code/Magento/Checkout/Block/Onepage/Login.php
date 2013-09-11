@@ -16,7 +16,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepage_Abstract
+namespace Magento\Checkout\Block\Onepage;
+
+class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
     protected function _construct()
     {
@@ -28,12 +30,12 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
 
     public function getMessages()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getMessages(true);
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getMessages(true);
     }
 
     public function getPostAction()
     {
-        return Mage::getUrl('customer/account/loginPost', array('_secure'=>true));
+        return \Mage::getUrl('customer/account/loginPost', array('_secure'=>true));
     }
 
     public function getMethod()
@@ -63,7 +65,7 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
      */
     public function getUsername()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session')->getUsername(true);
+        return \Mage::getSingleton('Magento\Customer\Model\Session')->getUsername(true);
     }
 
     /**
@@ -73,6 +75,6 @@ class Magento_Checkout_Block_Onepage_Login extends Magento_Checkout_Block_Onepag
      */
     public function isAllowedGuestCheckout()
     {
-        return Mage::helper('Magento_Checkout_Helper_Data')->isAllowedGuestCheckout($this->getQuote());
+        return \Mage::helper('Magento\Checkout\Helper\Data')->isAllowedGuestCheckout($this->getQuote());
     }
 }

@@ -15,7 +15,9 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Oauth\Block\Adminhtml\Oauth\AuthorizedTokens;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Construct grid block
@@ -33,14 +35,14 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_
     /**
      * Prepare collection
      *
-     * @return Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid
+     * @return \Magento\Oauth\Block\Adminhtml\Oauth\AuthorizedTokens\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Oauth_Model_Resource_Token_Collection */
-        $collection = Mage::getModel('Magento_Oauth_Model_Token')->getCollection();
+        /** @var $collection \Magento\Oauth\Model\Resource\Token\Collection */
+        $collection = \Mage::getModel('\Magento\Oauth\Model\Token')->getCollection();
         $collection->joinConsumerAsApplication()
-            ->addFilterByType(Magento_Oauth_Model_Token::TYPE_ACCESS);
+            ->addFilterByType(\Magento\Oauth\Model\Token::TYPE_ACCESS);
         $this->setCollection($collection);
 
         parent::_prepareCollection();
@@ -50,7 +52,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_
     /**
      * Prepare columns
      *
-     * @return Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid
+     * @return \Magento\Oauth\Block\Adminhtml\Oauth\AuthorizedTokens\Grid
      */
     protected function _prepareColumns()
     {
@@ -81,8 +83,8 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_
             'frame_callback' => array($this, 'decorateUserId')
         ));
 
-        /** @var $sourceYesNo Magento_Backend_Model_Config_Source_Yesno */
-        $sourceYesNo = Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno');
+        /** @var $sourceYesNo \Magento\Backend\Model\Config\Source\Yesno */
+        $sourceYesNo = \Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno');
         $this->addColumn('revoked', array(
             'header'    => __('Revoked'),
             'index'     => 'revoked',
@@ -109,7 +111,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_
     /**
      * Get revoke URL
      *
-     * @param Magento_Oauth_Model_Token $row
+     * @param \Magento\Oauth\Model\Token $row
      * @return string|null
      */
     public function getRevokeUrl($row)
@@ -120,7 +122,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_
     /**
      * Get delete URL
      *
-     * @param Magento_Oauth_Model_Token $row
+     * @param \Magento\Oauth\Model\Token $row
      * @return string|null
      */
     public function getDeleteUrl($row)
@@ -131,7 +133,7 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_
     /**
      * Add mass-actions to grid
      *
-     * @return Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid
+     * @return \Magento\Oauth\Block\Adminhtml\Oauth\AuthorizedTokens\Grid
      */
     protected function _prepareMassaction()
     {
@@ -163,8 +165,8 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_
      * Decorate user type column
      *
      * @param string $value
-     * @param Magento_Oauth_Model_Token $row
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
+     * @param \Magento\Oauth\Model\Token $row
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
      * @param bool $isExport
      * @return mixed
      */
@@ -182,8 +184,8 @@ class Magento_Oauth_Block_Adminhtml_Oauth_AuthorizedTokens_Grid extends Magento_
      * Decorate user type column
      *
      * @param string $value
-     * @param Magento_Oauth_Model_Token $row
-     * @param Magento_Adminhtml_Block_Widget_Grid_Column $column
+     * @param \Magento\Oauth\Model\Token $row
+     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
      * @param bool $isExport
      * @return mixed
      */

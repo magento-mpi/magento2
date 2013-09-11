@@ -11,46 +11,46 @@
 class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Url|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Model\Url|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_urlBuilder;
 
     /**
-     * @var Magento_Theme_Helper_Storage|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Theme\Helper\Storage|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperStorage;
 
     /**
-     * @var Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesContent;
 
     /**
-     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_request;
 
     public function setUp()
     {
-        $this->_helperStorage = $this->getMock('Magento_Theme_Helper_Storage', array(), array(), '', false);
-        $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
-        $this->_request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_helperStorage = $this->getMock('Magento\Theme\Helper\Storage', array(), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
+        $this->_request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments =  $objectManagerHelper->getConstructArguments(
-            'Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content',
+            '\Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content',
             array(
                 'urlBuilder'    => $this->_urlBuilder,
                 'request'       => $this->_request
             )
         );
         $this->_filesContent = $this->getMock(
-            'Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Content', array('helper'), $constructArguments
+            '\Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content', array('helper'), $constructArguments
         );
 
         $this->_filesContent->expects($this->any())
             ->method('helper')
-            ->with('Magento_Theme_Helper_Storage')
+            ->with('Magento\Theme\Helper\Storage')
             ->will($this->returnValue($this->_helperStorage));
     }
 
@@ -122,9 +122,9 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extend
     {
         return array(
             'requestParams' => array(
-                Magento_Theme_Helper_Storage::PARAM_THEME_ID     => 1,
-                Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE,
-                Magento_Theme_Helper_Storage::PARAM_NODE         => 'root'
+                \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => 1,
+                \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE,
+                \Magento\Theme\Helper\Storage::PARAM_NODE         => 'root'
             )
         );
     }
@@ -148,9 +148,9 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_ContentTest extend
         $expectedRequest = 'some_request';
 
         $requestParams = array(
-            Magento_Theme_Helper_Storage::PARAM_THEME_ID     => 1,
-            Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE,
-            Magento_Theme_Helper_Storage::PARAM_NODE         => 'root'
+            \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => 1,
+            \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE,
+            \Magento\Theme\Helper\Storage::PARAM_NODE         => 'root'
         );
 
         $this->_urlBuilder->expects($this->once())

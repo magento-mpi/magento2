@@ -15,7 +15,9 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Api_Model_Server_HandlerAbstract
+namespace Magento\Api\Model\Server;
+
+abstract class HandlerAbstract
 {
     protected $_resourceSuffix = null;
 
@@ -26,7 +28,7 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
 
     public function handlePhpError($errorCode, $errorMessage, $errorFile)
     {
-        Mage::log($errorMessage . $errorFile);
+        \Mage::log($errorMessage . $errorFile);
         if (in_array($errorCode, array(E_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR))) {
             $this->_fault('internal');
         }
@@ -37,38 +39,38 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
     /**
      * Retrive webservice session
      *
-     * @return Magento_Api_Model_Session
+     * @return \Magento\Api\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Api_Model_Session');
+        return \Mage::getSingleton('Magento\Api\Model\Session');
     }
 
     /**
      * Retrive webservice configuration
      *
-     * @return Magento_Api_Model_Config
+     * @return \Magento\Api\Model\Config
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('Magento_Api_Model_Config');
+        return \Mage::getSingleton('Magento\Api\Model\Config');
     }
 
     /**
      * Retrive webservice server
      *
-     * @return Magento_Api_Model_Server
+     * @return \Magento\Api\Model\Server
      */
     protected function _getServer()
     {
-        return Mage::getSingleton('Magento_Api_Model_Server');
+        return \Mage::getSingleton('Magento\Api\Model\Server');
     }
 
     /**
      * Start webservice session
      *
      * @param string $sessionId
-     * @return Magento_Api_Model_Server_HandlerAbstract
+     * @return \Magento\Api\Model\Server\HandlerAbstract
      */
     protected function _startSession($sessionId = null)
     {
@@ -192,7 +194,7 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
         try {
             $this->_startSession();
             $this->_getSession()->login($username, $apiKey);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->_fault('access_denied');
         }
         return $this->_getSession()->getSessionId();
@@ -205,7 +207,7 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
      * @param string $apiPath
      * @param array  $args
      * @return mixed
-     * @throws Magento_Api_Exception
+     * @throws \Magento\Api\Exception
      */
     protected function _call($sessionId, $apiPath, $args = array())
     {
@@ -256,12 +258,12 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
 
             $modelName = $this->_prepareResourceModelName((string)$resources->$resourceName->model);
             try {
-                $model = Mage::getModel($modelName);
-                if ($model instanceof Magento_Api_Model_Resource_Abstract) {
+                $model = \Mage::getModel($modelName);
+                if ($model instanceof \Magento\Api\Model\Resource\AbstractResource) {
                     $model->setResourceConfig($resources->$resourceName);
                 }
-            } catch (Exception $e) {
-                throw new Magento_Api_Exception('resource_path_not_callable');
+            } catch (\Exception $e) {
+                throw new \Magento\Api\Exception('resource_path_not_callable');
             }
 
             if (method_exists($model, $method)) {
@@ -273,12 +275,12 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
                     return call_user_func_array(array(&$model, $method), $args);
                 }
             } else {
-                throw new Magento_Api_Exception('resource_path_not_callable');
+                throw new \Magento\Api\Exception('resource_path_not_callable');
             }
-        } catch (Magento_Api_Exception $e) {
+        } catch (\Magento\Api\Exception $e) {
             return $this->_fault($e->getMessage(), $resourceName, $e->getCustomMessage());
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
             return $this->_fault('internal', null, $e->getMessage());
         }
     }
@@ -396,4 +398,4 @@ abstract class Magento_Api_Model_Server_HandlerAbstract
         $this->_startSession($sessionId);
         return array_values($this->_getConfig()->getFaults());
     }
-} // Class Magento_Api_Model_Server_HandlerAbstract End
+} // Class \Magento\Api\Model\Server\HandlerAbstract End

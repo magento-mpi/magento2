@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_EntryPoint_Media extends Magento_Core_Model_EntryPointAbstract
+namespace Magento\Core\Model\EntryPoint;
+
+class Media extends \Magento\Core\Model\EntryPointAbstract
 {
     /**
-     * @var Magento_Core_Model_File_Storage_Request
+     * @var \Magento\Core\Model\File\Storage\Request
      */
     protected $_request;
 
@@ -50,31 +52,31 @@ class Magento_Core_Model_EntryPoint_Media extends Magento_Core_Model_EntryPointA
     protected $_workingDirectory;
 
     /**
-     * @var Magento_Core_Model_File_Storage_Response
+     * @var \Magento\Core\Model\File\Storage\Response
      */
     protected $_response;
 
     /**
-     * @param Magento_Core_Model_Config_Primary $config
-     * @param Magento_Core_Model_File_Storage_Request $request
+     * @param \Magento\Core\Model\Config\Primary $config
+     * @param \Magento\Core\Model\File\Storage\Request $request
      * @param callable $isAllowed
      * @param string $workingDirectory
      * @param string $mediaDirectory
      * @param string $configCacheFile
      * @param string $relativeFileName
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_File_Storage_Response
+     * @param \Magento\Core\Model\File\Storage\Response
      */
     public function __construct(
-        Magento_Core_Model_Config_Primary $config,
-        Magento_Core_Model_File_Storage_Request $request,
+        \Magento\Core\Model\Config\Primary $config,
+        \Magento\Core\Model\File\Storage\Request $request,
         Closure $isAllowed,
         $workingDirectory,
         $mediaDirectory,
         $configCacheFile,
         $relativeFileName,
         \Magento\ObjectManager $objectManager = null,
-        Magento_Core_Model_File_Storage_Response $response = null
+        \Magento\Core\Model\File\Storage\Response $response = null
     ) {
         parent::__construct($config, $objectManager);
         $this->_request = $request;
@@ -83,7 +85,7 @@ class Magento_Core_Model_EntryPoint_Media extends Magento_Core_Model_EntryPointA
         $this->_mediaDirectory = $mediaDirectory;
         $this->_configCacheFile = $configCacheFile;
         $this->_relativeFileName = $relativeFileName;
-        $this->_response = $response ?: new Magento_Core_Model_File_Storage_Response($this->_objectManager);
+        $this->_response = $response ?: new \Magento\Core\Model\File\Storage\Response($this->_objectManager);
     }
 
     /**
@@ -92,14 +94,14 @@ class Magento_Core_Model_EntryPoint_Media extends Magento_Core_Model_EntryPointA
     protected function _processRequest()
     {
         try {
-            $appState = $this->_objectManager->get('Magento_Core_Model_App_State');
+            $appState = $this->_objectManager->get('Magento\Core\Model\App\State');
             if (!$appState->isInstalled()) {
                 $this->_response->sendNotFound();
                 return;
             }
             if (!$this->_mediaDirectory) {
                 $config = $this->_objectManager->create(
-                    'Magento_Core_Model_File_Storage_Config', array('cacheFile' => $this->_configCacheFile)
+                    '\Magento\Core\Model\File\Storage\Config', array('cacheFile' => $this->_configCacheFile)
                 );
                 $config->save();
                 $this->_mediaDirectory = str_replace($this->_workingDirectory, '', $config->getMediaDirectory());
@@ -119,7 +121,7 @@ class Magento_Core_Model_EntryPoint_Media extends Magento_Core_Model_EntryPointA
                 return;
             }
 
-            $sync = $this->_objectManager->get('Magento_Core_Model_File_Storage_Synchronization');
+            $sync = $this->_objectManager->get('Magento\Core\Model\File\Storage\Synchronization');
             $sync->synchronize($this->_relativeFileName, $this->_request->getFilePath());
 
             if (is_readable($this->_request->getFilePath())) {
@@ -127,7 +129,7 @@ class Magento_Core_Model_EntryPoint_Media extends Magento_Core_Model_EntryPointA
             } else {
                 $this->_response->sendNotFound();
             }
-        } catch (Magento_Core_Model_Store_Exception $e) {
+        } catch (\Magento\Core\Model\Store\Exception $e) {
             $this->_response->sendNotFound();
             return;
         }

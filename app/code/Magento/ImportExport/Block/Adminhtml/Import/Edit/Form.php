@@ -15,12 +15,14 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Add fieldsets
      *
-     * @return Magento_ImportExport_Block_Adminhtml_Import_Edit_Form
+     * @return \Magento\ImportExport\Block\Adminhtml\Import\Edit\Form
      */
     protected function _prepareForm()
     {
@@ -32,8 +34,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Admi
         ));
 
         // base fieldset
-        /** @var $importEntity Magento_ImportExport_Model_Source_Import_Entity */
-        $importEntity = Mage::getModel('Magento_ImportExport_Model_Source_Import_Entity');
+        /** @var $importEntity \Magento\ImportExport\Model\Source\Import\Entity */
+        $importEntity = \Mage::getModel('\Magento\ImportExport\Model\Source\Import\Entity');
         $fieldsets['base'] = $form->addFieldset('base_fieldset', array('legend' => __('Import Settings')));
         $fieldsets['base']->addField('entity', 'select', array(
             'name'     => 'entity',
@@ -45,7 +47,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Admi
         ));
 
         // add behaviour fieldsets
-        $uniqueBehaviors = Magento_ImportExport_Model_Import::getUniqueEntityBehaviors();
+        $uniqueBehaviors = \Magento\ImportExport\Model\Import::getUniqueEntityBehaviors();
         foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
             $fieldsets[$behaviorCode] = $form->addFieldset(
                 $behaviorCode . '_fieldset',
@@ -54,8 +56,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Admi
                     'class'  => 'no-display',
                 )
             );
-            /** @var $behaviorSource Magento_ImportExport_Model_Source_Import_BehaviorAbstract */
-            $behaviorSource = Mage::getModel($behaviorClass);
+            /** @var $behaviorSource \Magento\ImportExport\Model\Source\Import\BehaviorAbstract */
+            $behaviorSource = \Mage::getModel($behaviorClass);
             $fieldsets[$behaviorCode]->addField($behaviorCode, 'select', array(
                 'name'     => 'behavior',
                 'title'    => __('Import Behavior'),
@@ -73,8 +75,8 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_Form extends Magento_Admi
                 'class'  => 'no-display',
             )
         );
-        $fieldsets['upload']->addField(Magento_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE, 'file', array(
-            'name'     => Magento_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE,
+        $fieldsets['upload']->addField(\Magento\ImportExport\Model\Import::FIELD_NAME_SOURCE_FILE, 'file', array(
+            'name'     => \Magento\ImportExport\Model\Import::FIELD_NAME_SOURCE_FILE,
             'label'    => __('Select File to Import'),
             'title'    => __('Select File to Import'),
             'required' => true,

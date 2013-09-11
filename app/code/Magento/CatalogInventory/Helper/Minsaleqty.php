@@ -11,7 +11,9 @@
 /**
  * MinSaleQty value manipulation helper
  */
-class Magento_CatalogInventory_Helper_Minsaleqty
+namespace Magento\CatalogInventory\Helper;
+
+class Minsaleqty
 {
     /**
      * Retrieve fixed qty value
@@ -42,8 +44,8 @@ class Magento_CatalogInventory_Helper_Minsaleqty
                     $data[$groupId] = $this->_fixQty($qty);
                 }
             }
-            if (count($data) == 1 && array_key_exists(Magento_Customer_Model_Group::CUST_GROUP_ALL, $data)) {
-                return (string)$data[Magento_Customer_Model_Group::CUST_GROUP_ALL];
+            if (count($data) == 1 && array_key_exists(\Magento\Customer\Model\Group::CUST_GROUP_ALL, $data)) {
+                return (string)$data[\Magento\Customer\Model\Group::CUST_GROUP_ALL];
             }
             return serialize($data);
         } else {
@@ -61,7 +63,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
     {
         if (is_numeric($value)) {
             return array(
-                Magento_Customer_Model_Group::CUST_GROUP_ALL => $this->_fixQty($value)
+                \Magento\Customer\Model\Group::CUST_GROUP_ALL => $this->_fixQty($value)
             );
         } else if (is_string($value) && !empty($value)) {
             return unserialize($value);
@@ -91,7 +93,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
     }
 
     /**
-     * Encode value to be used in Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract
+     * Encode value to be used in \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
      *
      * @param array
      * @return array
@@ -100,7 +102,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
     {
         $result = array();
         foreach ($value as $groupId => $qty) {
-            $_id = Mage::helper('Magento_Core_Helper_Data')->uniqHash('_');
+            $_id = \Mage::helper('Magento\Core\Helper\Data')->uniqHash('_');
             $result[$_id] = array(
                 'customer_group_id' => $groupId,
                 'min_sale_qty' => $this->_fixQty($qty),
@@ -110,7 +112,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
     }
 
     /**
-     * Decode value from used in Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract
+     * Decode value from used in \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
      *
      * @param array
      * @return array
@@ -139,7 +141,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
      */
     public function getConfigValue($customerGroupId, $store = null)
     {
-        $value = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_MIN_SALE_QTY, $store);
+        $value = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY, $store);
         $value = $this->_unserializeValue($value);
         if ($this->_isEncodedArrayFieldValue($value)) {
             $value = $this->_decodeArrayFieldValue($value);
@@ -149,7 +151,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
             if ($groupId == $customerGroupId) {
                 $result = $qty;
                 break;
-            } else if ($groupId == Magento_Customer_Model_Group::CUST_GROUP_ALL) {
+            } else if ($groupId == \Magento\Customer\Model\Group::CUST_GROUP_ALL) {
                 $result = $qty;
             }
         }
@@ -157,7 +159,7 @@ class Magento_CatalogInventory_Helper_Minsaleqty
     }
 
     /**
-     * Make value readable by Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract
+     * Make value readable by \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
      *
      * @param mixed $value
      * @return array

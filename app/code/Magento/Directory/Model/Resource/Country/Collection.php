@@ -10,37 +10,39 @@
 
 
 /**
- * Directory Country Resource Collection
+ * \Directory Country Resource Collection
  *
  * @category    Magento
  * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Directory\Model\Resource\Country;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * String helper
      *
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_stringHelper;
 
     /**
      * Locale model
      *
-     * @var Magento_Core_Model_LocaleInterface
+     * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * @param Magento_Core_Helper_String $stringHelper
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Helper\String $stringHelper
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        Magento_Core_Helper_String $stringHelper,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Core\Helper\String $stringHelper,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         $resource = null
     ) {
@@ -61,18 +63,18 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      */
     protected function _construct()
     {
-        $this->_init('Magento_Directory_Model_Country', 'Magento_Directory_Model_Resource_Country');
+        $this->_init('\Magento\Directory\Model\Country', '\Magento\Directory\Model\Resource\Country');
     }
 
     /**
      * Load allowed countries for current store
      *
      * @param mixed $store
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function loadByStore($store = null)
     {
-        $allowCountries = explode(',', (string)Mage::getStoreConfig('general/country/allow', $store));
+        $allowCountries = explode(',', (string)\Mage::getStoreConfig('general/country/allow', $store));
         if (!empty($allowCountries)) {
             $this->addFieldToFilter("country_id", array('in' => $allowCountries));
         }
@@ -83,7 +85,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      * Loads Item By Id
      *
      * @param string $countryId
-     * @return Magento_Directory_Model_Resource_Country
+     * @return \Magento\Directory\Model\Resource\Country
      */
     public function getItemById($countryId)
     {
@@ -92,7 +94,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
                 return $country;
             }
         }
-        return Mage::getResourceModel('Magento_Directory_Model_Resource_Country');
+        return \Mage::getResourceModel('\Magento\Directory\Model\Resource\Country');
     }
 
     /**
@@ -103,7 +105,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      *
      * @param string|array $countryCode
      * @param string|array $iso
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function addCountryCodeFilter($countryCode, $iso = array('iso3', 'iso2'))
     {
@@ -137,7 +139,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      * Add filter by country code(s) to collection
      *
      * @param string|array $countryId
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function addCountryIdFilter($countryId)
     {
@@ -193,7 +195,7 @@ class Magento_Directory_Model_Resource_Country_Collection extends Magento_Core_M
      * Set foreground countries array
      *
      * @param string|array $foregroundCountries
-     * @return Magento_Directory_Model_Resource_Country_Collection
+     * @return \Magento\Directory\Model\Resource\Country\Collection
      */
     public function setForegroundCountries($foregroundCountries)
     {

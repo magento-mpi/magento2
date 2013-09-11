@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-$model = new Magento_Catalog_Model_Resource_Eav_Attribute(
-    Mage::getModel('Magento_Core_Model_Context')
+$model = new \Magento\Catalog\Model\Resource\Eav\Attribute(
+    Mage::getModel('\Magento\Core\Model\Context')
 );
 $model->setName('user_attribute')
     ->setId(1)

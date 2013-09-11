@@ -15,17 +15,19 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Widget_Model_Resource_Widget_Instance_Options_Types implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Widget\Model\Resource\Widget\Instance\Options;
+
+class Types implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var Magento_Widget_Model_Widget_Instance
+     * @var \Magento\Widget\Model\Widget\Instance
      */
     protected $_model;
 
     /**
-     * @param Magento_Widget_Model_Widget_Instance $widgetInstanceModel
+     * @param \Magento\Widget\Model\Widget\Instance $widgetInstanceModel
      */
-    public function __construct(Magento_Widget_Model_Widget_Instance $widgetInstanceModel)
+    public function __construct(\Magento\Widget\Model\Widget\Instance $widgetInstanceModel)
     {
         $this->_model = $widgetInstanceModel;
     }

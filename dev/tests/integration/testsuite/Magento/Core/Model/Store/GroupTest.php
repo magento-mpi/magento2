@@ -12,13 +12,13 @@
 class Magento_Core_Model_Store_GroupTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Store_Group
+     * @var \Magento\Core\Model\Store\Group
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Store_Group');
+        $this->_model = Mage::getModel('\Magento\Core\Model\Store\Group');
     }
 
     public function testSetGetWebsite()

@@ -10,7 +10,7 @@
 
 
 /**
- * Core Session Exception
+ * Core Session \Exception
  *
  * Allows dispatching before and after events for each controller action
  *
@@ -18,5 +18,7 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Session_Exception extends Magento_Core_Exception
+namespace Magento\Core\Model\Session;
+
+class Exception extends \Magento\Core\Exception
 {}

@@ -11,7 +11,9 @@
 /**
  * Abstract Validation State Model
  */
-abstract class Magento_Centinel_Model_StateAbstract extends \Magento\Object
+namespace Magento\Centinel\Model;
+
+abstract class StateAbstract extends \Magento\Object
 {
     /**
      * Storage data model
@@ -24,7 +26,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends \Magento\Object
      * Setter for storage data model
      *
      * @param \Magento\Object $dataStorageModel
-     * @return Magento_Centinel_Model_StateAbstract
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     public function setDataStorage($dataStorageModel)
     {
@@ -49,7 +51,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends \Magento\Object
      * Otherwise it will return value of the attribute specified by $key
      *
      * $index parameter is ignored
-     * @see Magento_Core_Model_Session_Abstract::getData()
+     * @see \Magento\Core\Model\Session\AbstractSession::getData()
      *
      * @param string $key
      * @param string|int $index
@@ -70,7 +72,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends \Magento\Object
      *
      * @param string|array $key
      * @param mixed $value
-     * @return Magento_Centinel_Model_StateAbstract
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     public function setData($key, $value=null)
     {
@@ -82,7 +84,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends \Magento\Object
      * Save lookup result in state model
      *
      * @param \Magento\Object $result
-     * @return Magento_Centinel_Model_StateAbstract
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     public function setLookupResult($result)
     {
@@ -96,7 +98,7 @@ abstract class Magento_Centinel_Model_StateAbstract extends \Magento\Object
      * Save authenticate result in state model
      *
      * @param \Magento\Object $result
-     * @return Magento_Centinel_Model_StateAbstract
+     * @return \Magento\Centinel\Model\StateAbstract
      */
     public function setAuthenticateResult($result)
     {

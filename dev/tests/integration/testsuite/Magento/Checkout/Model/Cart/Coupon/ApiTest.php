@@ -11,11 +11,11 @@
  */
 class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Catalog_Model_Product */
+    /** @var \Magento\Catalog\Model\Product */
     protected $_product;
-    /** @var Magento_Sales_Model_Quote */
+    /** @var \Magento\Sales\Model\Quote */
     protected $_quote;
-    /** @var Magento_SalesRule_Model_Rule */
+    /** @var \Magento\SalesRule\Model\Rule */
     protected $_salesRule;
 
     /**
@@ -23,9 +23,9 @@ class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestC
      */
     protected function _init()
     {
-        $this->_product = Mage::getModel('Magento_Catalog_Model_Product')->load(1);
-        $this->_quote = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection')->getFirstItem();
-        $this->_salesRule = Mage::getModel('Magento_SalesRule_Model_Rule')->load('Test Coupon', 'name');
+        $this->_product = Mage::getModel('\Magento\Catalog\Model\Product')->load(1);
+        $this->_quote = Mage::getModel('\Magento\Sales\Model\Resource\Quote\Collection')->getFirstItem();
+        $this->_salesRule = Mage::getModel('\Magento\SalesRule\Model\Rule')->load('Test Coupon', 'name');
     }
 
     /**
@@ -45,7 +45,7 @@ class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestC
         );
 
         $this->assertTrue($soapResult, 'Coupon code was not applied');
-        /** @var $discountedQuote Magento_Sales_Model_Quote */
+        /** @var $discountedQuote \Magento\Sales\Model\Quote */
         $discountedQuote = $this->_quote->load($this->_quote->getId());
         $discountedPrice = sprintf('%01.2f', $this->_product->getPrice() * (1 - 10 / 100));
 
@@ -77,7 +77,7 @@ class Magento_Checkout_Model_Cart_Coupon_ApiTest extends PHPUnit_Framework_TestC
 
         $this->assertTrue($soapResult, 'Coupon code was not removed');
 
-        /** @var $quoteWithoutDiscount Magento_Sales_Model_Quote */
+        /** @var $quoteWithoutDiscount \Magento\Sales\Model\Quote */
         $quoteWithoutDiscount = $this->_quote->load($this->_quote->getId());
 
         $this->assertEquals(

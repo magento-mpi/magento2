@@ -15,25 +15,27 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Column_Renderer_Radio
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
+
+class Radio
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     protected $_defaultWidth = 55;
     protected $_values;
 
     /**
-     * @var Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter
+     * @var \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter
      */
     protected $_converter;
 
     /**
-     * @param Magento_Backend_Block_Context $context
-     * @param Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Context $context,
-        Magento_Backend_Block_Widget_Grid_Column_Renderer_Options_Converter $converter,
+        \Magento\Backend\Block\Context $context,
+        \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter,
         array $data = array()
     ) {
         parent::__construct($context, $data);

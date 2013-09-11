@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Search_Model_Client_FactoryInterface
+namespace Magento\Search\Model\Client;
+
+interface FactoryInterface
 {
     /**
      * Return search client interface

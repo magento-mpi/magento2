@@ -8,17 +8,17 @@
  * @license     {license_link}
  */
 
-/** @var Magento_SalesRule_Model_Rule $salesRule */
-$salesRule = Mage::getModel('Magento_SalesRule_Model_Rule');
+/** @var \Magento\SalesRule\Model\Rule $salesRule */
+$salesRule = Mage::getModel('\Magento\SalesRule\Model\Rule');
 
 $data = array(
     'name' => 'Test Coupon',
     'is_active' => true,
     'website_ids' => array(Mage::app()->getStore()->getWebsiteId()),
-    'customer_group_ids' => array(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID),
-    'coupon_type' => Magento_SalesRule_Model_Rule::COUPON_TYPE_SPECIFIC,
+    'customer_group_ids' => array(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID),
+    'coupon_type' => \Magento\SalesRule\Model\Rule::COUPON_TYPE_SPECIFIC,
     'coupon_code' => uniqid(),
-    'simple_action' => Magento_SalesRule_Model_Rule::BY_PERCENT_ACTION,
+    'simple_action' => \Magento\SalesRule\Model\Rule::BY_PERCENT_ACTION,
     'discount_amount' => 10,
     'discount_step' => 1,
 );

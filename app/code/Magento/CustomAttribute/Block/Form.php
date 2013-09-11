@@ -16,7 +16,9 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
+namespace Magento\CustomAttribute\Block;
+
+class Form extends \Magento\Core\Block\Template
 {
     /**
      * Name of the block in layout update xml file
@@ -63,21 +65,21 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     /**
      * Entity type instance
      *
-     * @var Magento_Eav_Model_Entity_Type
+     * @var \Magento\Eav\Model\Entity\Type
      */
     protected $_entityType;
 
     /**
      * EAV form instance
      *
-     * @var Magento_Eav_Model_Form
+     * @var \Magento\Eav\Model\Form
      */
     protected $_form;
 
     /**
      * EAV Entity Model
      *
-     * @var Magento_Core_Model_Abstract
+     * @var \Magento\Core\Model\AbstractModel
      */
     protected $_entity;
 
@@ -101,7 +103,7 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
      * @param string $type
      * @param string $block
      * @param string $template
-     * @return Magento_CustomAttribute_Block_Form
+     * @return \Magento\CustomAttribute\Block\Form
      */
     public function addRenderer($type, $block, $template)
     {
@@ -117,19 +119,19 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
      * Try to get EAV Form Template Block
      * Get Attribute renderers from it, and add to self
      *
-     * @return Magento_CustomAttribute_Block_Form
-     * @throws Magento_Core_Exception
+     * @return \Magento\CustomAttribute\Block\Form
+     * @throws \Magento\Core\Exception
      */
     protected function _prepareLayout()
     {
         if (empty($this->_xmlBlockName)) {
-            Mage::throwException(__('The current module XML block name is undefined.'));
+            \Mage::throwException(__('The current module XML block name is undefined.'));
         }
         if (empty($this->_formModelPath)) {
-            Mage::throwException(__('The current module form model pathname is undefined.'));
+            \Mage::throwException(__('The current module form model pathname is undefined.'));
         }
 
-        /* $var $template Magento_CustomAttribute_Block_Form_Template */
+        /* $var $template \Magento\CustomAttribute\Block\Form\Template */
         $template = $this->getLayout()->getBlock($this->_xmlBlockName);
         if ($template && $template->getRenderers()) {
             foreach ($template->getRenderers() as $type => $data) {
@@ -143,7 +145,7 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
      * Return attribute renderer by frontend input type
      *
      * @param string $type
-     * @return Magento_CustomAttribute_Block_Form_Renderer_Abstract
+     * @return \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
      */
     public function getRenderer($type)
     {
@@ -165,10 +167,10 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     /**
      * Set Entity object
      *
-     * @param Magento_Core_Model_Abstract $entity
-     * @return Magento_CustomAttribute_Block_Form
+     * @param \Magento\Core\Model\AbstractModel $entity
+     * @return \Magento\CustomAttribute\Block\Form
      */
-    public function setEntity(Magento_Core_Model_Abstract $entity)
+    public function setEntity(\Magento\Core\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -178,7 +180,7 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
      * Set entity model class for new object
      *
      * @param string $model
-     * @return Magento_CustomAttribute_Block_Form
+     * @return \Magento\CustomAttribute\Block\Form
      */
     public function setEntityModelClass($model)
     {
@@ -189,25 +191,25 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     /**
      * Set Entity type if entity model entity type is not defined or is different
      *
-     * @param int|string|Magento_Eav_Model_Entity_Type $entityType
-     * @return Magento_CustomAttribute_Block_Form
+     * @param int|string|\Magento\Eav\Model\Entity\Type $entityType
+     * @return \Magento\CustomAttribute\Block\Form
      */
     public function setEntityType($entityType)
     {
-        $this->_entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType($entityType);
+        $this->_entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType($entityType);
         return $this;
     }
 
     /**
      * Return Entity object
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function getEntity()
     {
         if (is_null($this->_entity)) {
             if ($this->_entityModelClass) {
-                $this->_entity = Mage::getModel($this->_entityModelClass);
+                $this->_entity = \Mage::getModel($this->_entityModelClass);
             }
         }
         return $this->_entity;
@@ -216,10 +218,10 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     /**
      * Set EAV entity form instance
      *
-     * @param Magento_Eav_Model_Form $form
-     * @return Magento_CustomAttribute_Block_Form
+     * @param \Magento\Eav\Model\Form $form
+     * @return \Magento\CustomAttribute\Block\Form
      */
-    public function setForm(Magento_Eav_Model_Form $form)
+    public function setForm(\Magento\Eav\Model\Form $form)
     {
         $this->_form = $form;
         return $this;
@@ -229,7 +231,7 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
      * Set EAV entity Form code
      *
      * @param string $code
-     * @return Magento_CustomAttribute_Block_Form
+     * @return \Magento\CustomAttribute\Block\Form
      */
     public function setFormCode($code)
     {
@@ -240,12 +242,12 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     /**
      * Return EAV entity Form instance
      *
-     * @return Magento_Eav_Model_Form
+     * @return \Magento\Eav\Model\Form
      */
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = Mage::getModel($this->_formModelPath)
+            $this->_form = \Mage::getModel($this->_formModelPath)
                 ->setFormCode($this->_formCode)
                 ->setEntity($this->getEntity());
             if ($this->_entityType) {
@@ -288,10 +290,10 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
     /**
      * Render attribute row and return HTML
      *
-     * @param Magento_Eav_Model_Attribute $attribute
+     * @param \Magento\Eav\Model\Attribute $attribute
      * @return string
      */
-    public function getAttributeHtml(Magento_Eav_Model_Attribute $attribute)
+    public function getAttributeHtml(\Magento\Eav\Model\Attribute $attribute)
     {
         $type   = $attribute->getFrontendInput();
         $block  = $this->getRenderer($type);
@@ -309,7 +311,7 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
      * Set format for HTML elements id attribute
      *
      * @param string $format
-     * @return Magento_CustomAttribute_Block_Form
+     * @return \Magento\CustomAttribute\Block\Form
      */
     public function setFieldIdFormat($format)
     {
@@ -321,7 +323,7 @@ class Magento_CustomAttribute_Block_Form extends Magento_Core_Block_Template
      * Set format for HTML elements name attribute
      *
      * @param string $format
-     * @return Magento_CustomAttribute_Block_Form
+     * @return \Magento\CustomAttribute\Block\Form
      */
     public function setFieldNameFormat($format)
     {

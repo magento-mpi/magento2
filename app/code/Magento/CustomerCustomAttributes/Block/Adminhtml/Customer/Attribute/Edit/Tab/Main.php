@@ -16,14 +16,16 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
-    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab;
+
+class Main
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Preparing global layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -38,7 +40,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
     /**
      * Adding customer form elements for edit form
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main
      */
     protected function _prepareForm()
     {
@@ -47,8 +49,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
         $attribute  = $this->getAttributeObject();
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
-        /* @var $helper Magento_CustomerCustomAttributes_Helper_Data */
-        $helper     = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data');
+        /* @var $helper \Magento\CustomerCustomAttributes\Helper\Data */
+        $helper     = \Mage::helper('Magento\CustomerCustomAttributes\Helper\Data');
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');
@@ -62,12 +64,12 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
         // add limitation to attribute code
         // customer attribute code can have prefix "customer_" and its length must be max length minus prefix length
         $element      = $form->getElement('attribute_code');
-        $oldClassName = sprintf('maximum-length-%d', Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH);
-        $newClassName = sprintf('maximum-length-%d', Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9);
+        $oldClassName = sprintf('maximum-length-%d', \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH);
+        $newClassName = sprintf('maximum-length-%d', \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9);
         $class        = str_replace($oldClassName, $newClassName, $element->getClass());
         $element->setClass($class);
         $element->setNote(
-            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', Magento_Eav_Model_Entity_Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9)
+            __('For internal use. Must be unique with no spaces. Maximum length of attribute code must be less than %1 symbols', \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9)
         );
 
         $fieldset->addField('multiline_count', 'text', array(
@@ -151,7 +153,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
             'date_format'    => $helper->getDateFormat()
         ), 'date_range_min');
 
-        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => __('Frontend Properties')
@@ -230,7 +232,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
 
         $this->getForm()->setDataObject($this->getAttributeObject());
 
-        Mage::dispatchEvent('magento_customercustomattributes_attribute_edit_tab_general_prepare_form', array(
+        \Mage::dispatchEvent('magento_customercustomattributes_attribute_edit_tab_general_prepare_form', array(
             'form'      => $form,
             'attribute' => $attribute
         ));
@@ -241,7 +243,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
     /**
      * Initialize form fileds values
      *
-     * @return Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+     * @return \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
      */
     protected function _initFormValues()
     {

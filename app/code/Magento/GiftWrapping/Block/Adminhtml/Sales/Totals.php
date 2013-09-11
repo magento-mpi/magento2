@@ -15,18 +15,20 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Adminhtml_Sales_Totals extends Magento_Core_Block_Template
+namespace Magento\GiftWrapping\Block\Adminhtml\Sales;
+
+class Totals extends \Magento\Core\Block\Template
 {
     /**
      * Initialize gift wrapping and printed card totals for order/invoice/creditmemo
      *
-     * @return Magento_GiftWrapping_Block_Adminhtml_Sales_Totals
+     * @return \Magento\GiftWrapping\Block\Adminhtml\Sales\Totals
      */
     public function initTotals()
     {
         $parent = $this->getParentBlock();
         $source  = $parent->getSource();
-        $totals = Mage::helper('Magento_GiftWrapping_Helper_Data')->getTotals($source);
+        $totals = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getTotals($source);
         foreach ($totals as $total) {
             $this->getParentBlock()->addTotalBefore(new \Magento\Object($total), 'tax');
         }

@@ -15,14 +15,14 @@
 class Magento_Adminhtml_Block_Report_Sales_Bestsellers_GridTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Report_Sales_Bestsellers_Grid
+     * @var \Magento\Adminhtml\Block\Report\Sales\Bestsellers\Grid
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Sales_Bestsellers_Grid');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Bestsellers\Grid');
     }
 
     public function testGetResourceCollectionName()

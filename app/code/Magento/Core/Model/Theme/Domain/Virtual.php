@@ -11,12 +11,14 @@
 /**
  * Virtual theme domain model
  */
-class Magento_Core_Model_Theme_Domain_Virtual
+namespace Magento\Core\Model\Theme\Domain;
+
+class Virtual
 {
     /**
      * Virtual theme model instance
      *
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
@@ -28,33 +30,33 @@ class Magento_Core_Model_Theme_Domain_Virtual
     /**
      * Staging theme model instance
      *
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_stagingTheme;
 
     /**
-     * @var Magento_Core_Model_Theme_CopyService
+     * @var \Magento\Core\Model\Theme\CopyService
      */
     protected $_themeCopyService;
 
     /**
      * Theme customization config
      *
-     * @var Magento_Theme_Model_Config_Customization
+     * @var \Magento\Theme\Model\Config\Customization
      */
     protected $_customizationConfig;
 
     /**
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @param Magento_Core_Model_ThemeFactory $themeFactory
-     * @param Magento_Core_Model_Theme_CopyService $themeCopyService
-     * @param Magento_Theme_Model_Config_Customization $customizationConfig
+     * @param \Magento\Core\Model\Theme\CopyService $themeCopyService
+     * @param \Magento\Theme\Model\Config\Customization $customizationConfig
      */
     public function __construct(
-        Magento_Core_Model_Theme $theme,
+        \Magento\Core\Model\Theme $theme,
         Magento_Core_Model_ThemeFactory $themeFactory,
-        Magento_Core_Model_Theme_CopyService $themeCopyService,
-        Magento_Theme_Model_Config_Customization $customizationConfig
+        \Magento\Core\Model\Theme\CopyService $themeCopyService,
+        \Magento\Theme\Model\Config\Customization $customizationConfig
     ) {
         $this->_theme = $theme;
         $this->_themeFactory = $themeFactory;
@@ -65,7 +67,7 @@ class Magento_Core_Model_Theme_Domain_Virtual
     /**
      * Get 'staging' theme
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function getStagingTheme()
     {
@@ -82,11 +84,11 @@ class Magento_Core_Model_Theme_Domain_Virtual
     /**
      * Get 'physical' theme
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function getPhysicalTheme()
     {
-        /** @var $parentTheme Magento_Core_Model_Theme */
+        /** @var $parentTheme \Magento\Core\Model\Theme */
         $parentTheme = $this->_theme->getParentTheme();
         while ($parentTheme && !$parentTheme->isPhysical()) {
             $parentTheme = $parentTheme->getParentTheme();
@@ -112,7 +114,7 @@ class Magento_Core_Model_Theme_Domain_Virtual
     /**
      * Create 'staging' theme associated with current 'virtual' theme
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     protected function _createStagingTheme()
     {
@@ -125,7 +127,7 @@ class Magento_Core_Model_Theme_Domain_Virtual
             'preview_image'        => $this->_theme->getPreviewImage(),
             'is_featured'          => $this->_theme->getIsFeatured(),
             'area'                 => $this->_theme->getArea(),
-            'type'                 => Magento_Core_Model_Theme::TYPE_STAGING
+            'type'                 => \Magento\Core\Model\Theme::TYPE_STAGING
         ));
         $stagingTheme->save();
         return $stagingTheme;

@@ -28,21 +28,21 @@ class Magento_Core_Utility_Layout
      * Retrieve new layout update model instance with XML data from a fixture file
      *
      * @param string $layoutUpdatesFile
-     * @return Magento_Core_Model_Layout_Merge
+     * @return \Magento\Core\Model\Layout\Merge
      */
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Layout_File_Factory $fileFactory */
-        $fileFactory = $objectManager->get('Magento_Core_Model_Layout_File_Factory');
+        /** @var \Magento\Core\Model\Layout\File\Factory $fileFactory */
+        $fileFactory = $objectManager->get('Magento\Core\Model\Layout\File\Factory');
         $file = $fileFactory->create($layoutUpdatesFile, 'Magento_Core');
-        $fileSource = $this->_testCase->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
+        $fileSource = $this->_testCase->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
         $fileSource->expects(PHPUnit_Framework_TestCase::any())
             ->method('getFiles')
             ->will(PHPUnit_Framework_TestCase::returnValue(array($file)));
         $cache = $this->_testCase->getMockForAbstractClass('\Magento\Cache\FrontendInterface');
         return $objectManager->create(
-            'Magento_Core_Model_Layout_Merge', array('fileSource' => $fileSource, 'cache' => $cache)
+            '\Magento\Core\Model\Layout\Merge', array('fileSource' => $fileSource, 'cache' => $cache)
         );
     }
 
@@ -51,11 +51,11 @@ class Magento_Core_Utility_Layout
      *
      * @param string $layoutUpdatesFile
      * @param array $args
-     * @return Magento_Core_Model_Layout|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Core\Model\Layout|PHPUnit_Framework_MockObject_MockObject
      */
     public function getLayoutFromFixture($layoutUpdatesFile, array $args = array())
     {
-        $layout = $this->_testCase->getMock('Magento_Core_Model_Layout', array('getUpdate'), $args);
+        $layout = $this->_testCase->getMock('\Magento\Core\Model\Layout', array('getUpdate'), $args);
         $layoutUpdate = $this->getLayoutUpdateFromFixture($layoutUpdatesFile);
         $layoutUpdate->asSimplexml();
         $layout->expects(PHPUnit_Framework_TestCase::any())
@@ -73,12 +73,12 @@ class Magento_Core_Utility_Layout
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         return array(
-            'design'             => $objectManager->get('Magento_Core_Model_View_DesignInterface'),
-            'blockFactory'       => $objectManager->create('Magento_Core_Model_BlockFactory', array()),
+            'design'             => $objectManager->get('Magento\Core\Model\View\DesignInterface'),
+            'blockFactory'       => $objectManager->create('Magento\Core\Model\BlockFactory', array()),
             'structure'          => $objectManager->create('Magento\Data\Structure', array()),
-            'argumentProcessor'  => $objectManager->create('Magento_Core_Model_Layout_Argument_Processor', array()),
-            'scheduledStructure' => $objectManager->create('Magento_Core_Model_Layout_ScheduledStructure', array()),
-            'dataServiceGraph'   => $objectManager->create('Magento_Core_Model_DataService_Graph', array()),
+            'argumentProcessor'  => $objectManager->create('Magento\Core\Model\Layout\Argument\Processor', array()),
+            'scheduledStructure' => $objectManager->create('Magento\Core\Model\Layout\ScheduledStructure', array()),
+            'dataServiceGraph'   => $objectManager->create('Magento\Core\Model\DataService\Graph', array()),
         );
     }
 }

@@ -11,7 +11,9 @@
 /**
  * Gift registry type edit form block
  */
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Intialize form
@@ -28,7 +30,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form extends Magent
     /**
      * Prepare edit form
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Form
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Form
      */
     protected function _prepareForm()
     {

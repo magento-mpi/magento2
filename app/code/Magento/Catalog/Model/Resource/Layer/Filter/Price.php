@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Layer\Filter;
+
+class Price extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Minimal possible price
@@ -55,12 +57,12 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
         }
         $adapter = $this->_getReadAdapter();
         $oldAlias = array(
-            Magento_Catalog_Model_Resource_Product_Collection::INDEX_TABLE_ALIAS . '.',
-            $adapter->quoteIdentifier(Magento_Catalog_Model_Resource_Product_Collection::INDEX_TABLE_ALIAS) . '.',
+            \Magento\Catalog\Model\Resource\Product\Collection::INDEX_TABLE_ALIAS . '.',
+            $adapter->quoteIdentifier(\Magento\Catalog\Model\Resource\Product\Collection::INDEX_TABLE_ALIAS) . '.',
         );
         $newAlias = array(
-            Magento_Catalog_Model_Resource_Product_Collection::MAIN_TABLE_ALIAS . '.',
-            $adapter->quoteIdentifier(Magento_Catalog_Model_Resource_Product_Collection::MAIN_TABLE_ALIAS) . '.',
+            \Magento\Catalog\Model\Resource\Product\Collection::MAIN_TABLE_ALIAS . '.',
+            $adapter->quoteIdentifier(\Magento\Catalog\Model\Resource\Product\Collection::MAIN_TABLE_ALIAS) . '.',
         );
         return str_replace($oldAlias, $newAlias, $conditionString);
     }
@@ -68,7 +70,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
     /**
      * Retrieve clean select with joined price index table
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @return \Magento\DB\Select
      */
     protected function _getSelect($filter)
@@ -83,39 +85,39 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
         }
 
         // reset columns, order and limitation conditions
-        $select->reset(Zend_Db_Select::COLUMNS);
-        $select->reset(Zend_Db_Select::ORDER);
-        $select->reset(Zend_Db_Select::LIMIT_COUNT);
-        $select->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $select->reset(\Zend_Db_Select::COLUMNS);
+        $select->reset(\Zend_Db_Select::ORDER);
+        $select->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $select->reset(\Zend_Db_Select::LIMIT_OFFSET);
 
         // remove join with main table
-        $fromPart = $select->getPart(Zend_Db_Select::FROM);
-        if (!isset($fromPart[Magento_Catalog_Model_Resource_Product_Collection::INDEX_TABLE_ALIAS])
-            || !isset($fromPart[Magento_Catalog_Model_Resource_Product_Collection::MAIN_TABLE_ALIAS])
+        $fromPart = $select->getPart(\Zend_Db_Select::FROM);
+        if (!isset($fromPart[\Magento\Catalog\Model\Resource\Product\Collection::INDEX_TABLE_ALIAS])
+            || !isset($fromPart[\Magento\Catalog\Model\Resource\Product\Collection::MAIN_TABLE_ALIAS])
         ) {
             return $select;
         }
 
         // processing FROM part
-        $priceIndexJoinPart = $fromPart[Magento_Catalog_Model_Resource_Product_Collection::INDEX_TABLE_ALIAS];
+        $priceIndexJoinPart = $fromPart[\Magento\Catalog\Model\Resource\Product\Collection::INDEX_TABLE_ALIAS];
         $priceIndexJoinConditions = explode('AND', $priceIndexJoinPart['joinCondition']);
-        $priceIndexJoinPart['joinType'] = Zend_Db_Select::FROM;
+        $priceIndexJoinPart['joinType'] = \Zend_Db_Select::FROM;
         $priceIndexJoinPart['joinCondition'] = null;
-        $fromPart[Magento_Catalog_Model_Resource_Product_Collection::MAIN_TABLE_ALIAS] = $priceIndexJoinPart;
-        unset($fromPart[Magento_Catalog_Model_Resource_Product_Collection::INDEX_TABLE_ALIAS]);
-        $select->setPart(Zend_Db_Select::FROM, $fromPart);
+        $fromPart[\Magento\Catalog\Model\Resource\Product\Collection::MAIN_TABLE_ALIAS] = $priceIndexJoinPart;
+        unset($fromPart[\Magento\Catalog\Model\Resource\Product\Collection::INDEX_TABLE_ALIAS]);
+        $select->setPart(\Zend_Db_Select::FROM, $fromPart);
         foreach ($fromPart as $key => $fromJoinItem) {
             $fromPart[$key]['joinCondition'] = $this->_replaceTableAlias($fromJoinItem['joinCondition']);
         }
-        $select->setPart(Zend_Db_Select::FROM, $fromPart);
+        $select->setPart(\Zend_Db_Select::FROM, $fromPart);
 
         // processing WHERE part
-        $wherePart = $select->getPart(Zend_Db_Select::WHERE);
+        $wherePart = $select->getPart(\Zend_Db_Select::WHERE);
         foreach ($wherePart as $key => $wherePartItem) {
             $wherePart[$key] = $this->_replaceTableAlias($wherePartItem);
         }
-        $select->setPart(Zend_Db_Select::WHERE, $wherePart);
-        $excludeJoinPart = Magento_Catalog_Model_Resource_Product_Collection::MAIN_TABLE_ALIAS . '.entity_id';
+        $select->setPart(\Zend_Db_Select::WHERE, $wherePart);
+        $excludeJoinPart = \Magento\Catalog\Model\Resource\Product\Collection::MAIN_TABLE_ALIAS . '.entity_id';
         foreach ($priceIndexJoinConditions as $condition) {
             if (strpos($condition, $excludeJoinPart) !== false) {
                 continue;
@@ -132,7 +134,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
      * Return response object
      *
      * @deprecated since 1.7.0.0
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param \Magento\DB\Select $select
      * @return \Magento\Object
      */
@@ -153,7 +155,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
         /**
          * @since 1.4
          */
-        Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
+        \Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
 
         return $response;
     }
@@ -162,7 +164,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
      * Retrieve maximal price for attribute
      *
      * @deprecated since 1.7.0.0
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @return float
      */
     public function getMaxPrice($filter)
@@ -173,7 +175,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
     /**
      * Price expression generated by products collection
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param \Magento\DB\Select $select
      * @param bool $replaceAlias
      * @return string
@@ -196,7 +198,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
      * Get comparing value sql part
      *
      * @param float $price
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param bool $decrease
      * @return float
      */
@@ -212,20 +214,20 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
     /**
      * Get full price expression generated by products collection
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param \Magento\DB\Select $select
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      */
     protected function _getFullPriceExpression($filter, $select)
     {
-        return new Zend_Db_Expr('ROUND((' . $this->_getPriceExpression($filter, $select) . ') * '
+        return new \Zend_Db_Expr('ROUND((' . $this->_getPriceExpression($filter, $select) . ') * '
             . $filter->getLayer()->getProductCollection()->getCurrencyRate() . ', 2)');
     }
 
     /**
      * Retrieve array with products counts per price range
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param int $range
      * @return array
      */
@@ -241,8 +243,8 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
         if ($range == 0) {
             $range = 1;
         }
-        $countExpr = new Zend_Db_Expr('COUNT(*)');
-        $rangeExpr = new Zend_Db_Expr("FLOOR(({$priceExpression}) / {$range}) + 1");
+        $countExpr = new \Zend_Db_Expr('COUNT(*)');
+        $rangeExpr = new \Zend_Db_Expr("FLOOR(({$priceExpression}) / {$range}) + 1");
 
         $select->columns(array(
             'range' => $rangeExpr,
@@ -257,10 +259,10 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
      * Apply attribute filter to product collection
      *
      * @deprecated since 1.7.0.0
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param int $range
      * @param int $index    the range factor
-     * @return Magento_Catalog_Model_Resource_Layer_Filter_Price
+     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Price
      */
     public function applyFilterToCollection($filter, $range, $index)
     {
@@ -277,7 +279,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
     /**
      * Load range of product prices
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param int $limit
      * @param null|int $offset
      * @param null|int $lowerPrice
@@ -305,7 +307,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
     /**
      * Load range of product prices, preceding the price
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param float $price
      * @param int $index
      * @return array|false
@@ -329,7 +331,7 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
     /**
      * Load range of product prices, next to the price
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param float $price
      * @param int $rightIndex
      * @param null|int $upperPrice
@@ -367,8 +369,8 @@ class Magento_Catalog_Model_Resource_Layer_Filter_Price extends Magento_Core_Mod
     /**
      * Apply price range filter to product collection
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
-     * @return Magento_Catalog_Model_Resource_Layer_Filter_Price
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
+     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Price
      */
     public function applyPriceRange($filter)
     {

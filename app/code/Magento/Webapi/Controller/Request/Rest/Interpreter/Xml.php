@@ -7,22 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Request_Rest_Interpreter_Xml implements
-    Magento_Webapi_Controller_Request_Rest_InterpreterInterface
+namespace Magento\Webapi\Controller\Request\Rest\Interpreter;
+
+class Xml implements
+    \Magento\Webapi\Controller\Request\Rest\InterpreterInterface
 {
     /** @var \Magento\Xml\Parser */
     protected $_xmlParser;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_app;
 
     /**
      * Initialize dependencies.
      *
      * @param \Magento\Xml\Parser $xmlParser
-     * @param Magento_Core_Model_App $app
+     * @param \Magento\Core\Model\App $app
      */
-    public function __construct(\Magento\Xml\Parser $xmlParser, Magento_Core_Model_App $app)
+    public function __construct(\Magento\Xml\Parser $xmlParser, \Magento\Core\Model\App $app)
     {
         $this->_xmlParser = $xmlParser;
         $this->_app = $app;
@@ -42,13 +44,13 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_Xml implements
      *
      * @param string $xmlRequestBody XML document
      * @return array Data converted from XML document to array. Root node is excluded from response.
-     * @throws InvalidArgumentException In case of invalid argument type.
-     * @throws Magento_Webapi_Exception If decoding error occurs.
+     * @throws \InvalidArgumentException In case of invalid argument type.
+     * @throws \Magento\Webapi\Exception If decoding error occurs.
      */
     public function interpret($xmlRequestBody)
     {
         if (!is_string($xmlRequestBody)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 sprintf('"%s" data type is invalid. String is expected.', gettype($xmlRequestBody))
             );
         }
@@ -68,7 +70,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_Xml implements
             } else {
                 $exceptionMessage = 'Decoding Error: ' . $this->_errorMessage;
             }
-            throw new Magento_Webapi_Exception($exceptionMessage, Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+            throw new \Magento\Webapi\Exception($exceptionMessage, \Magento\Webapi\Exception::HTTP_BAD_REQUEST);
         }
         $data = $this->_xmlParser->xmlToArray();
         /** Data will always have exactly one element so it is safe to call reset here. */

@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Config_Structure_Element_IteratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_Iterator
+     * @var \Magento\Backend\Model\Config\Structure\Element\Iterator
      */
     protected $_model;
 
@@ -35,10 +35,10 @@ class Magento_Backend_Model_Config_Structure_Element_IteratorTest extends PHPUni
             )
         );
         $this->_flyweightMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Group', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Element\Group', array(), array(), '', false
         );
 
-        $this->_model = new Magento_Backend_Model_Config_Structure_Element_Iterator($this->_flyweightMock);
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Iterator($this->_flyweightMock);
         $this->_model->setElements($elementData, 'scope');
     }
 
@@ -79,7 +79,7 @@ class Magento_Backend_Model_Config_Structure_Element_IteratorTest extends PHPUni
      */
     public function testIsLast($elementId, $result)
     {
-        $elementMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Field', array(), array(), '',
+        $elementMock = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Field', array(), array(), '',
             false);
         $elementMock->expects($this->once())->method('getId')->will($this->returnValue($elementId));
         $this->assertEquals($result, $this->_model->isLast($elementMock));

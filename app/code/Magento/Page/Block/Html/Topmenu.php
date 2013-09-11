@@ -15,7 +15,9 @@
  * @package     Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Topmenu extends \Magento\Core\Block\Template
 {
     /**
      * Top menu data tree
@@ -37,7 +39,7 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
         $this->addData(array(
             'cache_lifetime'    => false,
             'cache_tags'        => array(
-                Magento_Core_Model_Store_Group::CACHE_TAG
+                \Magento\Core\Model\Store\Group::CACHE_TAG
             ),
         ));
     }
@@ -72,14 +74,14 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Count All Subnavigation Items
      *
-     * @param Magento_Backend_Model_Menu $items
+     * @param \Magento\Backend\Model\Menu $items
      * @return int
      */
     protected function _countItems($items)
     {
         $total = $items->count();
         foreach ($items as $item) {
-            /** @var $item Magento_Backend_Model_Menu_Item */
+            /** @var $item \Magento\Backend\Model\Menu\Item */
             if ($item->hasChildren()) {
                 $total += $this->_countItems($item->getChildren());
             }
@@ -90,7 +92,7 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Building Array with Column Brake Stops
      *
-     * @param Magento_Backend_Model_Menu $items
+     * @param \Magento\Backend\Model\Menu $items
      * @param int $limit
      * @return array
      * @todo: Add Depth Level limit, and better logic for columns
@@ -133,7 +135,7 @@ class Magento_Page_Block_Html_Topmenu extends Magento_Core_Block_Template
     /**
      * Add sub menu HTML code for current menu item
      *
-     * @param $menuItem Magento_Backend_Model_Menu_Item
+     * @param $menuItem \Magento\Backend\Model\Menu\Item
      * @param $level int
      * @param $limit int
      * @return string HTML code

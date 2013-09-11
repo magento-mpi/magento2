@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Items_Column_Name extends Magento_Adminhtml_Block_Sales_Items_Column_Default
+namespace Magento\Adminhtml\Block\Sales\Items\Column;
+
+class Name extends \Magento\Adminhtml\Block\Sales\Items\Column\DefaultColumn
 {
     /**
      * Add line breaks and truncate value
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Block_Sales_Items_Column_Name extends Magento_Adminhtml_
     public function getFormattedOption($value)
     {
         $_remainder = '';
-        $value = Mage::helper('Magento_Core_Helper_String')->truncate($value, 55, '', $_remainder);
+        $value = \Mage::helper('Magento\Core\Helper\String')->truncate($value, 55, '', $_remainder);
         $result = array(
             'value' => nl2br($value),
             'remainder' => nl2br($_remainder)

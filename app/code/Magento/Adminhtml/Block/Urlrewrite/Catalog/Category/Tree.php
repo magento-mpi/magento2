@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Category;
+
+class Tree extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
     /**
      * List of allowed category ids
@@ -36,16 +38,16 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
      */
     public function getTreeArray($parentId = null, $asJson = false, $recursionLevel = 3)
     {
-        $productId = Mage::app()->getRequest()->getParam('product');
+        $productId = \Mage::app()->getRequest()->getParam('product');
         if ($productId) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->setId($productId);
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->setId($productId);
             $this->_allowedCategoryIds = $product->getCategoryIds();
             unset($product);
         }
 
         $result = array();
         if ($parentId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($parentId);
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
                 if (!empty($tree) && !empty($tree['children'])) {
@@ -57,7 +59,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
         }
 
         if ($asJson) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
         }
 
         $this->_allowedCategoryIds = null;
@@ -68,13 +70,13 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
     /**
      * Get categories collection
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategoryCollection()
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
+            $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
                 ->setLoadProductCount(true);
             $this->setData('category_collection', $collection);
@@ -124,6 +126,6 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Magento_A
      */
     public function getLoadTreeUrl()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('*/*/categoriesJson');
+        return \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('*/*/categoriesJson');
     }
 }

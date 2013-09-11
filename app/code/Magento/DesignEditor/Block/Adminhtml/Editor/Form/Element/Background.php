@@ -11,8 +11,10 @@
 /**
  * Form element renderer to display composite background element for VDE
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
-    extends Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Composite_Abstract
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+class Background
+    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Composite\AbstractComposite
 {
     /**
      * Control type
@@ -22,7 +24,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
     /**
      * Add form elements
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Background
      */
     protected function _addFields()
     {
@@ -55,13 +57,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
     /**
      * Add element types used in composite font element
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Background
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Background
      */
     protected function _addElementTypes()
     {
-        $this->addType('color-picker', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker');
+        $this->addType('color-picker', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker');
         $this->addType('background-uploader',
-            'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_BackgroundUploader'
+            '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader'
         );
 
         return $this;

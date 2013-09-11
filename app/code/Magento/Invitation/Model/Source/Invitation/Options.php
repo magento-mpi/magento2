@@ -14,8 +14,10 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Source_Invitation_Options
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Invitation\Model\Source\Invitation;
+
+class Options
+    implements \Magento\Core\Model\Option\ArrayInterface
 
 {
     /**
@@ -25,7 +27,7 @@ class Magento_Invitation_Model_Source_Invitation_Options
      */
     public function toOptionArray()
     {
-        return Mage::getSingleton('Magento_Invitation_Model_Source_Invitation_Status')->getOptions();
+        return \Mage::getSingleton('Magento\Invitation\Model\Source\Invitation\Status')->getOptions();
 
     }
 }

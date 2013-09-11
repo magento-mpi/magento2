@@ -9,11 +9,11 @@
  */
 
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 
 $installer = $this;
 
-$pollModel = Mage::getModel('Magento_Poll_Model_Poll');
+$pollModel = \Mage::getModel('\Magento\Poll\Model\Poll');
 
 $pollModel  ->setDatePosted(now())
             ->setPollTitle('What is your favorite color')
@@ -27,7 +27,7 @@ $answers  = array(
                 );
 
 foreach( $answers as $key => $answer ) {
-    $answerModel = Mage::getModel('Magento_Poll_Model_Poll_Answer');
+    $answerModel = \Mage::getModel('\Magento\Poll\Model\Poll\Answer');
     $answerModel->setAnswerTitle($answer[0])
                 ->setVotesCount($answer[1]);
 

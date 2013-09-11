@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_sales_order_shipment_addtrack">
-        <block class="Magento_Adminhtml_Block_Sales_Order_Shipment_View_Tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"/>
+        <block class="\Magento\Adminhtml\Block\Sales\Order\Shipment\View\Tracking" name="shipment_tracking" template="sales/order/shipment/view/tracking.phtml"/>
     </handle>
 </layout>

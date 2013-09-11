@@ -1,5 +1,5 @@
 <?php
-use Zend\Server\Reflection\ReflectionMethod;
+use \Zend\Server\Reflection\ReflectionMethod;
 
 /**
  * REST routes generator.
@@ -9,22 +9,24 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator
+namespace Magento\Webapi\Model\Config\Reader\Rest;
+
+class RouteGenerator
 {
     /** @var array */
     protected $_routes = array();
 
     /**
-     * @var Magento_Webapi_Helper_Config
+     * @var \Magento\Webapi\Helper\Config
      */
     protected $_helper;
 
     /**
      * Construct routes generator.
      *
-     * @param Magento_Webapi_Helper_Config $helper
+     * @param \Magento\Webapi\Helper\Config $helper
      */
-    public function __construct(Magento_Webapi_Helper_Config $helper)
+    public function __construct(\Magento\Webapi\Helper\Config $helper)
     {
         $this->_helper = $helper;
     }
@@ -32,13 +34,13 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator
     /**
      * Generate a list of routes available fo the specified method.
      *
-     * @param ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $methodReflection
      * @return array
      */
-    public function generateRestRoutes(ReflectionMethod $methodReflection)
+    public function generateRestRoutes(\ReflectionMethod $methodReflection)
     {
         $routes = array();
-        $routePath = "/:" . Magento_Webapi_Controller_Router_Route_Rest::PARAM_VERSION;
+        $routePath = "/:" . \Magento\Webapi\Controller\Router\Route\Rest::PARAM_VERSION;
         $routeParts = $this->_helper->getResourceNameParts($methodReflection->getDeclaringClass()->getName());
         $partsCount = count($routeParts);
         for ($i = 0; $i < $partsCount; $i++) {
@@ -49,19 +51,19 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator
                  */
                 && ($i == ($partsCount - 1))
             ) {
-                $routePath .= "/:" . Magento_Webapi_Controller_Router_Route_Rest::PARAM_PARENT_ID;
+                $routePath .= "/:" . \Magento\Webapi\Controller\Router\Route\Rest::PARAM_PARENT_ID;
             }
             $routePath .= "/" . lcfirst($this->_helper->convertSingularToPlural($routeParts[$i]));
         }
         if ($this->_isResourceIdExpected($methodReflection)) {
-            $routePath .= "/:" . Magento_Webapi_Controller_Router_Route_Rest::PARAM_ID;
+            $routePath .= "/:" . \Magento\Webapi\Controller\Router\Route\Rest::PARAM_ID;
         }
 
         foreach ($this->_getAdditionalRequiredParamNames($methodReflection) as $additionalRequired) {
             $routePath .= "/$additionalRequired/:$additionalRequired";
         }
 
-        $actionType = Magento_Webapi_Controller_Request_Rest::getActionTypeByOperation(
+        $actionType = \Magento\Webapi\Controller\Request\Rest::getActionTypeByOperation(
             $this->_helper->getMethodNameWithoutVersionSuffix($methodReflection)
         );
         $resourceName = $this->_helper->translateResourceName($methodReflection->getDeclaringClass()->getName());
@@ -87,19 +89,19 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator
     /**
      * Identify if method expects Parent resource ID to be present in the request.
      *
-     * @param Zend\Server\Reflection\ReflectionMethod $methodReflection
+     * @param \Zend\Server\Reflection\ReflectionMethod $methodReflection
      * @return bool
      */
-    protected function _isParentResourceIdExpected(ReflectionMethod $methodReflection)
+    protected function _isParentResourceIdExpected(\ReflectionMethod $methodReflection)
     {
         $isIdFieldExpected = false;
         if ($this->_helper->isSubresource($methodReflection)) {
             $methodsWithParentId = array(
-                Magento_Webapi_Controller_ActionAbstract::METHOD_CREATE,
-                Magento_Webapi_Controller_ActionAbstract::METHOD_LIST,
-                Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE,
-                Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE,
-                Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_CREATE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_LIST,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_UPDATE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_DELETE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_CREATE,
             );
             $methodName = $this->_helper->getMethodNameWithoutVersionSuffix($methodReflection);
             if (in_array($methodName, $methodsWithParentId)) {
@@ -112,16 +114,16 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator
     /**
      * Identify if method expects Resource ID to be present in the request.
      *
-     * @param Zend\Server\Reflection\ReflectionMethod $methodReflection
+     * @param \Zend\Server\Reflection\ReflectionMethod $methodReflection
      * @return bool
      */
-    protected function _isResourceIdExpected(ReflectionMethod $methodReflection)
+    protected function _isResourceIdExpected(\ReflectionMethod $methodReflection)
     {
         $isIdFieldExpected = false;
         $methodsWithId = array(
-            Magento_Webapi_Controller_ActionAbstract::METHOD_GET,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_GET,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_UPDATE,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_DELETE,
         );
         $methodName = $this->_helper->getMethodNameWithoutVersionSuffix($methodReflection);
         if (in_array($methodName, $methodsWithId)) {
@@ -133,10 +135,10 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator
     /**
      * Retrieve the list of names of required params except ID and Request body.
      *
-     * @param ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $methodReflection
      * @return array
      */
-    protected function _getAdditionalRequiredParamNames(ReflectionMethod $methodReflection)
+    protected function _getAdditionalRequiredParamNames(\ReflectionMethod $methodReflection)
     {
         $paramNames = array();
         $methodInterfaces = $methodReflection->getPrototypes();
@@ -146,7 +148,7 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator
         $methodParams = $methodInterface->getParameters();
         $idParamName = $this->_helper->getOperationIdParamName($methodReflection);
         $bodyParamName = $this->_helper->getOperationBodyParamName($methodReflection);
-        /** @var ReflectionParameter $paramReflection */
+        /** @var \ReflectionParameter $paramReflection */
         foreach ($methodParams as $paramReflection) {
             if (!$paramReflection->isOptional()
                 && $paramReflection->getName() != $bodyParamName
@@ -195,10 +197,10 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator
     /**
      * Retrieve all optional parameters names.
      *
-     * @param ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $methodReflection
      * @return array
      */
-    protected function _getOptionalParamNames(ReflectionMethod $methodReflection)
+    protected function _getOptionalParamNames(\ReflectionMethod $methodReflection)
     {
         $optionalParamNames = array();
         $methodInterfaces = $methodReflection->getPrototypes();
@@ -206,7 +208,7 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator
         /** @var \Zend\Server\Reflection\Prototype $methodInterface */
         $methodInterface = end($methodInterfaces);
         $methodParams = $methodInterface->getParameters();
-        /** @var ReflectionParameter $paramReflection */
+        /** @var \ReflectionParameter $paramReflection */
         foreach ($methodParams as $paramReflection) {
             if ($paramReflection->isOptional()) {
                 $optionalParamNames[] = $paramReflection->getName();

@@ -12,16 +12,16 @@
 class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_model;
 
     public function setUp()
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(Mage::PARAM_CUSTOM_LOCAL_CONFIG
-            => sprintf(Magento_Core_Model_Config_Primary::CONFIG_TEMPLATE_INSTALL_DATE, date('r', strtotime('now')))
+            => sprintf(\Magento\Core\Model\Config\Primary::CONFIG_TEMPLATE_INSTALL_DATE, date('r', strtotime('now')))
         ));
-        $this->_model = Mage::getModel('Magento_Core_Controller_Request_Http');
+        $this->_model = Mage::getModel('\Magento\Core\Controller\Request\Http');
     }
 
     public function testGetOriginalPathInfo()
@@ -82,8 +82,8 @@ class Magento_Core_Controller_Request_HttpTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @covers Magento_Core_Controller_Request_Http::rewritePathInfo
-     * @covers Magento_Core_Controller_Request_Http::getOriginalPathInfo
+     * @covers \Magento\Core\Controller\Request\Http::rewritePathInfo
+     * @covers \Magento\Core\Controller\Request\Http::getOriginalPathInfo
      * @magentoConfigFixture current_store web/url/use_store 1
      */
     public function testRewritePathInfoStoreCodeInUrl()

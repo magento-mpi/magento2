@@ -7,38 +7,40 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_Core_Model_Config_StorageAbstract implements Magento_Core_Model_Config_StorageInterface
+namespace Magento\Core\Model\Config;
+
+abstract class StorageAbstract implements \Magento\Core\Model\Config\StorageInterface
 {
     /**
      * Cache storage object
      *
-     * @var Magento_Core_Model_Config_Cache
+     * @var \Magento\Core\Model\Config\Cache
      */
     protected $_cache;
 
     /**
      * Configuration loader
      *
-     * @var Magento_Core_Model_Config_LoaderInterface
+     * @var \Magento\Core\Model\Config\LoaderInterface
      */
     protected $_loader;
 
     /**
      * Configuration loader
      *
-     * @var Magento_Core_Model_Config_BaseFactory
+     * @var \Magento\Core\Model\Config\BaseFactory
      */
     protected $_configFactory;
 
     /**
-     * @param Magento_Core_Model_Config_Cache $cache
-     * @param Magento_Core_Model_Config_LoaderInterface $loader
-     * @param Magento_Core_Model_Config_BaseFactory $factory
+     * @param \Magento\Core\Model\Config\Cache $cache
+     * @param \Magento\Core\Model\Config\LoaderInterface $loader
+     * @param \Magento\Core\Model\Config\BaseFactory $factory
      */
     public function __construct(
-        Magento_Core_Model_Config_Cache $cache,
-        Magento_Core_Model_Config_LoaderInterface $loader,
-        Magento_Core_Model_Config_BaseFactory $factory
+        \Magento\Core\Model\Config\Cache $cache,
+        \Magento\Core\Model\Config\LoaderInterface $loader,
+        \Magento\Core\Model\Config\BaseFactory $factory
     ) {
         $this->_cache = $cache;
         $this->_loader = $loader;
@@ -48,7 +50,7 @@ abstract class Magento_Core_Model_Config_StorageAbstract implements Magento_Core
     /**
      * Get loaded configuration
      *
-     * @return Magento_Core_Model_ConfigInterface
+     * @return \Magento\Core\Model\ConfigInterface
      */
     public function getConfiguration()
     {

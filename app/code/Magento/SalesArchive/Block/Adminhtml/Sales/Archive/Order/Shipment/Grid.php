@@ -13,8 +13,10 @@
  *
  */
 
-class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
-    extends Magento_Adminhtml_Block_Sales_Shipment_Grid
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Sales\Shipment\Grid
 {
     public function _construct()
     {
@@ -30,7 +32,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_SalesArchive_Model_Resource_Order_Shipment_Collection';
+        return '\Magento\SalesArchive\Model\Resource\Order\Shipment\Collection';
     }
 
     /**
@@ -52,8 +54,8 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
     {
         if (!empty($this->_exportTypes)) {
             foreach ($this->_exportTypes as $exportType) {
-                $url = Mage::helper('Magento_Core_Helper_Url')->removeRequestParam($exportType->getUrl(), 'action');
-                $exportType->setUrl(Mage::helper('Magento_Core_Helper_Url')
+                $url = \Mage::helper('Magento\Core\Helper\Url')->removeRequestParam($exportType->getUrl(), 'action');
+                $exportType->setUrl(\Mage::helper('Magento\Core\Helper\Url')
                     ->addRequestParam($url, array('action' => 'shipment')));
             }
             return $this->_exportTypes;
@@ -64,7 +66,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
     /**
      * Prepare and set options for massaction
      *
-     * @return Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
+     * @return \Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid
      */
     protected function _prepareMassaction()
     {

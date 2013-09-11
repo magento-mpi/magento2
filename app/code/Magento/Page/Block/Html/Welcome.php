@@ -15,7 +15,9 @@
  * @package    Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Welcome extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Welcome extends \Magento\Core\Block\Template
 {
     /**
      * Get block messsage
@@ -24,6 +26,6 @@ class Magento_Page_Block_Html_Welcome extends Magento_Core_Block_Template
      */
     protected function _toHtml()
     {
-        return Mage::app()->getLayout()->getBlock('header')->getWelcome();
+        return \Mage::app()->getLayout()->getBlock('header')->getWelcome();
     }
 }

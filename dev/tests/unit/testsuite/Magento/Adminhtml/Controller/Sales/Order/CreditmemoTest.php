@@ -8,22 +8,22 @@
 class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Controller_Sales_Order_Creditmemo
+     * @var \Magento\Adminhtml\Controller\Sales\Order\Creditmemo
      */
     protected $_controller;
 
     /**
-     * @var Magento_Core_Controller_Response_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Response\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
 
     /**
-     * @var Magento_Core_Controller_Request_Http|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Controller\Request\Http|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var Magento_Backend_Model_Session|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Model\Session|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sessionMock;
 
@@ -38,18 +38,18 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
     protected function setUp()
     {
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_responseMock = $this->getMock('Magento_Core_Controller_Response_Http',
+        $this->_responseMock = $this->getMock('Magento\Core\Controller\Response\Http',
             array('setRedirect'), array(), '', false
         );
         $this->_responseMock->headersSentThrowsException = false;
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
-        $this->_sessionMock = $this->getMock('Magento_Backend_Model_Session',
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $this->_sessionMock = $this->getMock('Magento\Backend\Model\Session',
             array('addError', 'setFormData'), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
-        $registryMock = $this->getMock('Magento_Core_Model_Registry', array(), array(), '', false, false);
+        $registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false, false);
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->with($this->equalTo('Magento_Core_Model_Registry'))
+            ->with($this->equalTo('Magento\Core\Model\Registry'))
             ->will($this->returnValue($registryMock));
 
         $arguments = array(
@@ -59,9 +59,9 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
             'objectManager' => $this->_objectManager,
         );
 
-        $context = $helper->getObject('Magento_Backend_Controller_Context', $arguments);
+        $context = $helper->getObject('\Magento\Backend\Controller\Context', $arguments);
 
-        $this->_controller = $helper->getObject('Magento_Adminhtml_Controller_Sales_Order_Creditmemo',
+        $this->_controller = $helper->getObject('\Magento\Adminhtml\Controller\Sales\Order\Creditmemo',
             array('context' => $context));
     }
 
@@ -84,14 +84,14 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
             ->method('getParam')->will($this->returnValue(null));
 
         $creditmemoMock = $this->getMock(
-            'Magento_Sales_Model_Order_Creditmemo', array('load', 'getGrandTotal'), array(), '', false
+            '\Magento\Sales\Model\Order\Creditmemo', array('load', 'getGrandTotal'), array(), '', false
         );
         $creditmemoMock->expects($this->once())->method('load')
             ->with($this->equalTo($creditmemoId))->will($this->returnSelf());
         $creditmemoMock->expects($this->once())->method('getGrandTotal')->will($this->returnValue('1'));
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento_Sales_Model_Order_Creditmemo'))
+            ->with($this->equalTo('Magento\Sales\Model\Order\Creditmemo'))
             ->will($this->returnValue($creditmemoMock));
 
         $this->_setSaveActionExpectationForMageCoreException($data,
@@ -115,7 +115,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
         $this->_requestMock->expects($this->any())
             ->method('getParam')->will($this->returnValue(null));
 
-        $creditmemoMock = $this->getMock('Magento_Sales_Model_Order_Creditmemo',
+        $creditmemoMock = $this->getMock('Magento\Sales\Model\Order\Creditmemo',
             array('load', 'getGrandTotal', 'getAllowZeroGrandTotal'), array(), '', false);
         $creditmemoMock->expects($this->once())->method('load')
             ->with($this->equalTo($creditmemoId))->will($this->returnSelf());
@@ -123,7 +123,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
         $creditmemoMock->expects($this->once())->method('getAllowZeroGrandTotal')->will($this->returnValue(false));
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento_Sales_Model_Order_Creditmemo'))
+            ->with($this->equalTo('Magento\Sales\Model\Order\Creditmemo'))
             ->will($this->returnValue($creditmemoMock));
 
         $this->_setSaveActionExpectationForMageCoreException($data, 'Credit memo\'s total must be positive.');
@@ -132,7 +132,7 @@ class Magento_Adminhtml_Controller_Sales_Order_CreditmemoTest extends PHPUnit_Fr
     }
 
     /**
-     * Set expectations in case of Magento_Core_Exception for saveAction method
+     * Set expectations in case of \Magento\Core\Exception for saveAction method
      *
      * @param array $data
      * @param string $errorMessage

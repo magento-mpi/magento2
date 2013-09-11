@@ -15,14 +15,16 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\View\Grid\Renderer;
+
+class Item
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Returns helper for product type
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Helper_Product_Configuration_Interface
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
      */
     protected function _getProductHelper($product)
     {
@@ -46,12 +48,12 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
         } else if (isset($productHelpers['default'])) {
             $helperName = $productHelpers['default'];
         } else {
-            $helperName = 'Magento_Catalog_Helper_Product_Configuration';
+            $helperName = '\Magento\Catalog\Helper\Product\Configuration';
         }
 
-        $helper = Mage::helper($helperName);
-        if (!($helper instanceof Magento_Catalog_Helper_Product_Configuration_Interface)) {
-            Mage::throwException(__("Helper for options rendering doesn't implement required interface."));
+        $helper = \Mage::helper($helperName);
+        if (!($helper instanceof \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface)) {
+            \Mage::throwException(__("Helper for options rendering doesn't implement required interface."));
         }
 
         return $helper;
@@ -60,7 +62,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
     /*
      * Returns product associated with this block
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getProduct()
@@ -92,13 +94,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
         $params = array(
             'max_length' => 55
         );
-        return Mage::helper('Magento_Catalog_Helper_Product_Configuration')->getFormattedOptionValue($option, $params);
+        return \Mage::helper('Magento\Catalog\Helper\Product\Configuration')->getFormattedOptionValue($option, $params);
     }
 
     /*
      * Renders item product name and its configuration
      *
-     * @param Magento_Catalog_Model_Product_Configuration_Item_Interface $item
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
      * @return string
      */
     public function render(\Magento\Object $item)
@@ -112,11 +114,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_View_Grid_Renderer_Item
     /**
      * Render product item with options
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $options
      * @return string
      */
-    protected function _renderItemOptions(Magento_Catalog_Model_Product $product, array $options)
+    protected function _renderItemOptions(\Magento\Catalog\Model\Product $product, array $options)
     {
         $html = '<div class="bundle-product-options">'
             . '<strong>' . $this->escapeHtml($product->getName()) . '</strong>'

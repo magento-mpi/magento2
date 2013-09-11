@@ -15,7 +15,9 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Wysiwyg_Config extends \Magento\Object
+namespace Magento\Cms\Model\Wysiwyg;
+
+class Config extends \Magento\Object
 {
     /**
      * Wysiwyg behaviour
@@ -31,18 +33,18 @@ class Magento_Cms_Model_Wysiwyg_Config extends \Magento\Object
     protected $_authorization;
     
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
      * @param \Magento\AuthorizationInterface $authorization
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
      * @param array $data
      */
     public function __construct(
         \Magento\AuthorizationInterface $authorization,
-        Magento_Core_Model_View_Url $viewUrl,
+        \Magento\Core\Model\View\Url $viewUrl,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
@@ -78,10 +80,10 @@ class Magento_Cms_Model_Wysiwyg_Config extends \Magento\Object
             'add_variables'                 => true,
             'add_widgets'                   => true,
             'no_display'                    => false,
-            'translator'                    => Mage::helper('Magento_Cms_Helper_Data'),
+            'translator'                    => \Mage::helper('Magento\Cms\Helper\Data'),
             'encode_directives'             => true,
             'directives_url'                =>
-                Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/cms_wysiwyg/directive'),
+                \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     =>
                 $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
             'content_css'                   =>
@@ -95,10 +97,10 @@ class Magento_Cms_Model_Wysiwyg_Config extends \Magento\Object
         if ($this->_authorization->isAllowed('Magento_Cms::media_gallery')) {
             $config->addData(array(
                 'add_images' => true,
-                'files_browser_window_url' => Mage::getSingleton('Magento_Backend_Model_Url')
+                'files_browser_window_url' => \Mage::getSingleton('Magento\Backend\Model\Url')
                     ->getUrl('*/cms_wysiwyg_images/index'),
-                'files_browser_window_width' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
-                'files_browser_window_height'=> (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_height'),
+                'files_browser_window_width' => (int) \Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
+                'files_browser_window_height'=> (int) \Mage::getConfig()->getNode('adminhtml/cms/browser/window_height'),
             ));
         }
 
@@ -106,7 +108,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends \Magento\Object
             $config->addData($data);
         }
 
-        Mage::dispatchEvent('cms_wysiwyg_config_prepare', array('config' => $config));
+        \Mage::dispatchEvent('cms_wysiwyg_config_prepare', array('config' => $config));
 
         return $config;
     }
@@ -128,7 +130,7 @@ class Magento_Cms_Model_Wysiwyg_Config extends \Magento\Object
      */
     public function isEnabled()
     {
-        $wysiwygState = Mage::getStoreConfig('cms/wysiwyg/enabled', $this->getStoreId());
+        $wysiwygState = \Mage::getStoreConfig('cms/wysiwyg/enabled', $this->getStoreId());
         return in_array($wysiwygState, array(self::WYSIWYG_ENABLED, self::WYSIWYG_HIDDEN));
     }
 
@@ -139,6 +141,6 @@ class Magento_Cms_Model_Wysiwyg_Config extends \Magento\Object
      */
     public function isHidden()
     {
-        return Mage::getStoreConfig('cms/wysiwyg/enabled') == self::WYSIWYG_HIDDEN;
+        return \Mage::getStoreConfig('cms/wysiwyg/enabled') == self::WYSIWYG_HIDDEN;
     }
 }

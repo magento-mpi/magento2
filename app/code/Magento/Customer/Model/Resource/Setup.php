@@ -16,7 +16,9 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Setup
+namespace Magento\Customer\Model\Resource;
+
+class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
      * Prepare customer attribute values to save in additional table
@@ -124,19 +126,19 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
     {
         $entities = array(
             'customer'                       => array(
-                'entity_model'                   => 'Magento_Customer_Model_Resource_Customer',
-                'attribute_model'                => 'Magento_Customer_Model_Attribute',
+                'entity_model'                   => '\Magento\Customer\Model\Resource\Customer',
+                'attribute_model'                => '\Magento\Customer\Model\Attribute',
                 'table'                          => 'customer_entity',
-                'increment_model'                => 'Magento_Eav_Model_Entity_Increment_Numeric',
+                'increment_model'                => '\Magento\Eav\Model\Entity\Increment\Numeric',
                 'additional_attribute_table'     => 'customer_eav_attribute',
-                'entity_attribute_collection'    => 'Magento_Customer_Model_Resource_Attribute_Collection',
+                'entity_attribute_collection'    => '\Magento\Customer\Model\Resource\Attribute\Collection',
                 'attributes'                     => array(
                     'website_id'         => array(
                         'type'               => 'static',
                         'label'              => 'Associate to Website',
                         'input'              => 'select',
-                        'source'             => 'Magento_Customer_Model_Customer_Attribute_Source_Website',
-                        'backend'            => 'Magento_Customer_Model_Customer_Attribute_Backend_Website',
+                        'source'             => '\Magento\Customer\Model\Customer\Attribute\Source\Website',
+                        'backend'            => '\Magento\Customer\Model\Customer\Attribute\Backend\Website',
                         'sort_order'         => 10,
                         'position'           => 10,
                         'adminhtml_only'     => 1,
@@ -145,8 +147,8 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'type'               => 'static',
                         'label'              => 'Create In',
                         'input'              => 'select',
-                        'source'             => 'Magento_Customer_Model_Customer_Attribute_Source_Store',
-                        'backend'            => 'Magento_Customer_Model_Customer_Attribute_Backend_Store',
+                        'source'             => '\Magento\Customer\Model\Customer\Attribute\Source\Store',
+                        'backend'            => '\Magento\Customer\Model\Customer\Attribute\Backend\Store',
                         'sort_order'         => 20,
                         'visible'            => false,
                         'adminhtml_only'     => 1,
@@ -219,7 +221,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'type'               => 'static',
                         'label'              => 'Group',
                         'input'              => 'select',
-                        'source'             => 'Magento_Customer_Model_Customer_Attribute_Source_Group',
+                        'source'             => '\Magento\Customer\Model\Customer\Attribute\Source\Group',
                         'sort_order'         => 25,
                         'position'           => 25,
                         'adminhtml_only'     => 1,
@@ -229,8 +231,8 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'type'               => 'datetime',
                         'label'              => 'Date Of Birth',
                         'input'              => 'date',
-                        'frontend'           => 'Magento_Eav_Model_Entity_Attribute_Frontend_Datetime',
-                        'backend'            => 'Magento_Eav_Model_Entity_Attribute_Backend_Datetime',
+                        'frontend'           => '\Magento\Eav\Model\Entity\Attribute\Frontend\Datetime',
+                        'backend'            => '\Magento\Eav\Model\Entity\Attribute\Backend\Datetime',
                         'required'           => false,
                         'sort_order'         => 90,
                         'visible'            => false,
@@ -243,7 +245,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                     'password_hash'      => array(
                         'type'               => 'varchar',
                         'input'              => 'hidden',
-                        'backend'            => 'Magento_Customer_Model_Customer_Attribute_Backend_Password',
+                        'backend'            => '\Magento\Customer\Model\Customer\Attribute\Backend\Password',
                         'required'           => false,
                         'sort_order'         => 81,
                         'visible'            => false,
@@ -252,7 +254,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'type'               => 'int',
                         'label'              => 'Default Billing Address',
                         'input'              => 'text',
-                        'backend'            => 'Magento_Customer_Model_Customer_Attribute_Backend_Billing',
+                        'backend'            => '\Magento\Customer\Model\Customer\Attribute\Backend\Billing',
                         'required'           => false,
                         'sort_order'         => 82,
                         'visible'            => false,
@@ -261,7 +263,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'type'               => 'int',
                         'label'              => 'Default Shipping Address',
                         'input'              => 'text',
-                        'backend'            => 'Magento_Customer_Model_Customer_Attribute_Backend_Shipping',
+                        'backend'            => '\Magento\Customer\Model\Customer\Attribute\Backend\Shipping',
                         'required'           => false,
                         'sort_order'         => 83,
                         'visible'            => false,
@@ -299,7 +301,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'type'               => 'int',
                         'label'              => 'Gender',
                         'input'              => 'select',
-                        'source'             => 'Magento_Eav_Model_Entity_Attribute_Source_Table',
+                        'source'             => '\Magento\Eav\Model\Entity\Attribute\Source\Table',
                         'required'           => false,
                         'sort_order'         => 110,
                         'visible'            => false,
@@ -313,11 +315,11 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
             ),
 
             'customer_address'               => array(
-                'entity_model'                   => 'Magento_Customer_Model_Resource_Address',
-                'attribute_model'                => 'Magento_Customer_Model_Attribute',
+                'entity_model'                   => '\Magento\Customer\Model\Resource\Address',
+                'attribute_model'                => '\Magento\Customer\Model\Attribute',
                 'table'                          => 'customer_address_entity',
                 'additional_attribute_table'     => 'customer_eav_attribute',
-                'entity_attribute_collection'    => 'Magento_Customer_Model_Resource_Address_Attribute_Collection',
+                'entity_attribute_collection'    => '\Magento\Customer\Model\Resource\Address\Attribute\Collection',
                 'attributes'                     => array(
                     'prefix'             => array(
                         'type'               => 'varchar',
@@ -378,7 +380,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'type'               => 'text',
                         'label'              => 'Street Address',
                         'input'              => 'multiline',
-                        'backend'            => 'Magento_Eav_Model_Entity_Attribute_Backend_Default',
+                        'backend'            => '\Magento\Eav\Model\Entity\Attribute\Backend\DefaultBackend',
                         'sort_order'         => 70,
                         'multiline_count'    => 2,
                         'validate_rules'     => 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}',
@@ -396,7 +398,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'type'               => 'varchar',
                         'label'              => 'Country',
                         'input'              => 'select',
-                        'source'             => 'Magento_Customer_Model_Resource_Address_Attribute_Source_Country',
+                        'source'             => '\Magento\Customer\Model\Resource\Address\Attribute\Source\Country',
                         'sort_order'         => 90,
                         'position'           => 90,
                     ),
@@ -404,7 +406,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'type'               => 'varchar',
                         'label'              => 'State/Province',
                         'input'              => 'text',
-                        'backend'            => 'Magento_Customer_Model_Resource_Address_Attribute_Backend_Region',
+                        'backend'            => '\Magento\Customer\Model\Resource\Address\Attribute\Backend\Region',
                         'required'           => false,
                         'sort_order'         => 100,
                         'position'           => 100,
@@ -413,7 +415,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'type'               => 'int',
                         'label'              => 'State/Province',
                         'input'              => 'hidden',
-                        'source'             => 'Magento_Customer_Model_Resource_Address_Attribute_Source_Region',
+                        'source'             => '\Magento\Customer\Model\Resource\Address\Attribute\Source\Region',
                         'required'           => false,
                         'sort_order'         => 100,
                         'position'           => 100,
@@ -424,7 +426,7 @@ class Magento_Customer_Model_Resource_Setup extends Magento_Eav_Model_Entity_Set
                         'input'              => 'text',
                         'sort_order'         => 110,
                         'validate_rules'     => 'a:0:{}',
-                        'data'               => 'Magento_Customer_Model_Attribute_Data_Postcode',
+                        'data'               => '\Magento\Customer\Model\Attribute\Data\Postcode',
                         'position'           => 110,
                     ),
                     'telephone'          => array(

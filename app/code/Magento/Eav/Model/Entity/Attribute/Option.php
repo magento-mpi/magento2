@@ -11,24 +11,26 @@
 /**
  * Emtity attribute option model
  *
- * @method Magento_Eav_Model_Resource_Entity_Attribute_Option _getResource()
- * @method Magento_Eav_Model_Resource_Entity_Attribute_Option getResource()
+ * @method \Magento\Eav\Model\Resource\Entity\Attribute\Option _getResource()
+ * @method \Magento\Eav\Model\Resource\Entity\Attribute\Option getResource()
  * @method int getAttributeId()
- * @method Magento_Eav_Model_Entity_Attribute_Option setAttributeId(int $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Option setAttributeId(int $value)
  * @method int getSortOrder()
- * @method Magento_Eav_Model_Entity_Attribute_Option setSortOrder(int $value)
+ * @method \Magento\Eav\Model\Entity\Attribute\Option setSortOrder(int $value)
  *
  * @category    Magento
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute_Option extends Magento_Core_Model_Abstract
+namespace Magento\Eav\Model\Entity\Attribute;
+
+class Option extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Resource initialization
      */
     public function _construct()
     {
-        $this->_init('Magento_Eav_Model_Resource_Entity_Attribute_Option');
+        $this->_init('\Magento\Eav\Model\Resource\Entity\Attribute\Option');
     }
 }

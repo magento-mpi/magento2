@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Poll_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Poll;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {
@@ -33,8 +35,8 @@ class Magento_Adminhtml_Block_Poll_Edit extends Magento_Adminhtml_Block_Widget_F
 
     public function getHeaderText()
     {
-        if( Mage::registry('poll_data') && Mage::registry('poll_data')->getId() ) {
-            return __("Edit Poll '%1'", $this->escapeHtml(Mage::registry('poll_data')->getPollTitle()));
+        if( \Mage::registry('poll_data') && \Mage::registry('poll_data')->getId() ) {
+            return __("Edit Poll '%1'", $this->escapeHtml(\Mage::registry('poll_data')->getPollTitle()));
         } else {
             return __('New Poll');
         }

@@ -11,7 +11,9 @@
 /**
  * Orders container
  */
-class Magento_FullPageCache_Model_Container_Orders extends Magento_FullPageCache_Model_Container_Advanced_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Orders extends \Magento\FullPageCache\Model\Container\Advanced\AbstractAdvanced
 {
     const CACHE_TAG_PREFIX = 'orders';
 
@@ -22,7 +24,7 @@ class Magento_FullPageCache_Model_Container_Orders extends Magento_FullPageCache
      */
     protected function _getIdentifier()
     {
-        return $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER, '');
+        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER, '');
     }
 
     /**
@@ -53,7 +55,7 @@ class Magento_FullPageCache_Model_Container_Orders extends Magento_FullPageCache
     protected function _renderBlock()
     {
         $block = $this->_getPlaceHolderBlock();
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        \Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
         return $block->toHtml();
     }
 }

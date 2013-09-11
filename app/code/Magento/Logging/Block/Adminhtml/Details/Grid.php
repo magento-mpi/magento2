@@ -13,7 +13,9 @@
  * Admin Actions Log Archive grid
  *
  */
-class Magento_Logging_Block_Adminhtml_Details_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Logging\Block\Adminhtml\Details;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Initialize default sorting and html ID
@@ -32,8 +34,8 @@ class Magento_Logging_Block_Adminhtml_Details_Grid extends Magento_Adminhtml_Blo
      */
     protected function _prepareCollection()
     {
-        $event = Mage::registry('current_event');
-        $collection = Mage::getResourceModel('Magento_Logging_Model_Resource_Event_Changes_Collection')
+        $event = \Mage::registry('current_event');
+        $collection = \Mage::getResourceModel('\Magento\Logging\Model\Resource\Event\Changes\Collection')
             ->addFieldToFilter('event_id', $event->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -49,7 +51,7 @@ class Magento_Logging_Block_Adminhtml_Details_Grid extends Magento_Adminhtml_Blo
         $this->addColumn('source_name', array(
             'header'    => __('Source Data'),
             'sortable'  => false,
-            'renderer'  => 'Magento_Logging_Block_Adminhtml_Details_Renderer_Sourcename',
+            'renderer'  => '\Magento\Logging\Block\Adminhtml\Details\Renderer\Sourcename',
             'index'     => 'source_name',
             'width'     => 1
         ));
@@ -57,14 +59,14 @@ class Magento_Logging_Block_Adminhtml_Details_Grid extends Magento_Adminhtml_Blo
         $this->addColumn('original_data', array(
             'header'    => __('Value Before Change'),
             'sortable'  => false,
-            'renderer'  => 'Magento_Logging_Block_Adminhtml_Details_Renderer_Diff',
+            'renderer'  => '\Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
             'index'     => 'original_data'
         ));
 
         $this->addColumn('result_data', array(
             'header'    => __('Value After Change'),
             'sortable'  => false,
-            'renderer'  => 'Magento_Logging_Block_Adminhtml_Details_Renderer_Diff',
+            'renderer'  => '\Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
             'index'     => 'result_data'
         ));
 

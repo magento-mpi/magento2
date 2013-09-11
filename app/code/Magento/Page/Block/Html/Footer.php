@@ -15,7 +15,9 @@
  * @package    Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html_Footer extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Html;
+
+class Footer extends \Magento\Core\Block\Template
 {
 
     protected $_copyright;
@@ -24,7 +26,7 @@ class Magento_Page_Block_Html_Footer extends Magento_Core_Block_Template
     {
         $this->addData(array(
             'cache_lifetime'=> false,
-            'cache_tags'    => array(Magento_Core_Model_Store::CACHE_TAG, Magento_Cms_Model_Block::CACHE_TAG)
+            'cache_tags'    => array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
         ));
     }
 
@@ -37,10 +39,10 @@ class Magento_Page_Block_Html_Footer extends Magento_Core_Block_Template
     {
         return array(
             'PAGE_FOOTER',
-            Mage::app()->getStore()->getId(),
-            (int)Mage::app()->getStore()->isCurrentlySecure(),
+            \Mage::app()->getStore()->getId(),
+            (int)\Mage::app()->getStore()->isCurrentlySecure(),
             $this->_design->getDesignTheme()->getId(),
-            Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()
+            \Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()
         );
     }
 
@@ -53,7 +55,7 @@ class Magento_Page_Block_Html_Footer extends Magento_Core_Block_Template
     public function getCopyright()
     {
         if (!$this->_copyright) {
-            $this->_copyright = Mage::getStoreConfig('design/footer/copyright');
+            $this->_copyright = \Mage::getStoreConfig('design/footer/copyright');
         }
 
         return $this->_copyright;

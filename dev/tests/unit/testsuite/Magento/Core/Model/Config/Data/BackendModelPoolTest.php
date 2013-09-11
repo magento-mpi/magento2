@@ -20,11 +20,11 @@ class Magento_Core_Model_Config_Data_BackendModelPoolTest extends PHPUnit_Framew
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_model = new Magento_Core_Model_Config_Data_BackendModelPool($this->_objectManager);
+        $this->_model = new \Magento\Core\Model\Config\Data\BackendModelPool($this->_objectManager);
     }
 
     /**
-     * @covers Magento_Core_Model_Config_Data_BackendModelPool::get
+     * @covers \Magento\Core\Model\Config\Data\BackendModelPool::get
      */
     public function testGetModelWithCorrectInterface()
     {
@@ -37,7 +37,7 @@ class Magento_Core_Model_Config_Data_BackendModelPoolTest extends PHPUnit_Framew
     }
 
     /**
-     * @covers Magento_Core_Model_Config_Data_BackendModelPool::get
+     * @covers \Magento\Core\Model\Config\Data\BackendModelPool::get
      * @expectedException InvalidArgumentException
      */
     public function testGetModelWithWrongInterface()
@@ -51,7 +51,7 @@ class Magento_Core_Model_Config_Data_BackendModelPoolTest extends PHPUnit_Framew
     }
 
     /**
-     * @covers Magento_Core_Model_Config_Data_BackendModelPool::get
+     * @covers \Magento\Core\Model\Config\Data\BackendModelPool::get
      */
     public function testGetMemoryCache()
     {
@@ -65,7 +65,7 @@ class Magento_Core_Model_Config_Data_BackendModelPoolTest extends PHPUnit_Framew
     }
 }
 
-class TestBackendModel implements Magento_Core_Model_Config_Data_BackendModelInterface
+class TestBackendModel implements \Magento\Core\Model\Config\Data\BackendModelInterface
 {
     public function processValue($value)
     {

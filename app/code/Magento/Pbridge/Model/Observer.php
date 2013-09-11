@@ -16,27 +16,29 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_Observer
+namespace Magento\Pbridge\Model;
+
+class Observer
 {
     /**
-     * @var Magento_Core_Model_Cache_Type_Config
+     * @var \Magento\Core\Model\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
      * Writer of configuration storage
      *
-     * @var Magento_Core_Model_Config_Storage_WriterInterface
+     * @var \Magento\Core\Model\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
     /**
-     * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      */
     public function __construct(
-        Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Magento_Core_Model_Cache_Type_Config $configCacheType
+        \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType
     ) {
         $this->_configWriter = $configWriter;
         $this->_configCacheType = $configCacheType;
@@ -46,11 +48,11 @@ class Magento_Pbridge_Model_Observer
      * Add HTTP header to response that allows browsers accept third-party cookies
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Pbridge_Model_Observer
+     * @return \Magento\Pbridge\Model\Observer
      */
     public function addPrivacyHeader(\Magento\Event\Observer $observer)
     {
-        /* @var $controllerAction Magento_Core_Controller_Varien_Action */
+        /* @var $controllerAction \Magento\Core\Controller\Varien\Action */
         $controllerAction = $observer->getEvent()->getData('controller_action');
         $controllerAction->getResponse()->setHeader("P3P", 'CP="CAO PSA OUR"', true);
         return $this;
@@ -60,12 +62,12 @@ class Magento_Pbridge_Model_Observer
      * Check payment methods availability
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Pbridge_Model_Observer
+     * @return \Magento\Pbridge\Model\Observer
      */
     public function isPaymentMethodAvailable(\Magento\Event\Observer $observer)
     {
         $method = $observer->getEvent()->getData('method_instance');
-        /* @var $quote Magento_Sales_Model_Quote */
+        /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getData('quote');
         $result = $observer->getEvent()->getData('result');
         $storeId = $quote ? $quote->getStoreId() : null;
@@ -80,11 +82,11 @@ class Magento_Pbridge_Model_Observer
     /**
      * Update Payment Profiles functionality switcher
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Pbridge_Model_Observer
+     * @return \Magento\Pbridge\Model\Observer
      */
     public function updatePaymentProfileStatus(\Magento\Event\Observer $observer)
     {
-        $website = Mage::app()->getWebsite($observer->getEvent()->getData('website'));
+        $website = \Mage::app()->getWebsite($observer->getEvent()->getData('website'));
         $braintreeEnabled = $website->getConfig('payment/braintree_basic/active')
             && $website->getConfig('payment/braintree_basic/payment_profiles_enabled');
         $authorizenetEnabled = $website->getConfig('payment/pbridge_authorizenet/active')
@@ -110,16 +112,16 @@ class Magento_Pbridge_Model_Observer
      * Return system config value by key for specified payment method
      *
      * @param string $key
-     * @param Magento_Payment_Model_Method_Abstract $method
+     * @param \Magento\Payment\Model\Method\AbstractMethod $method
      * @param int $storeId
      *
      * @return string
      */
-    protected function _getMethodConfigData($key, Magento_Payment_Model_Method_Abstract $method, $storeId = null)
+    protected function _getMethodConfigData($key, \Magento\Payment\Model\Method\AbstractMethod $method, $storeId = null)
     {
         if (!$method->getCode()) {
             return null;
         }
-        return Mage::getStoreConfig("payment/{$method->getCode()}/$key", $storeId);
+        return \Mage::getStoreConfig("payment/{$method->getCode()}/$key", $storeId);
     }
 }

@@ -7,41 +7,43 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Loader implements Magento_Core_Model_Config_LoaderInterface
+namespace Magento\Core\Model\Config;
+
+class Loader implements \Magento\Core\Model\Config\LoaderInterface
 {
     /**
      * Primary application configuration
      *
-     * @var Magento_Core_Model_Config_Primary
+     * @var \Magento\Core\Model\Config\Primary
      */
     protected $_primaryConfig;
 
     /**
-     * @var Magento_Core_Model_Config_Resource
+     * @var \Magento\Core\Model\Config\Resource
      */
     protected $_resourceConfig;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_fileReader;
 
     /**
-     * @var Magento_Core_Model_Config_Loader_Local
+     * @var \Magento\Core\Model\Config\Loader\Local
      */
     protected $_localLoader;
 
     /**
-     * @param Magento_Core_Model_Config_Primary $primaryConfig
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
-     * @param Magento_Core_Model_Config_Modules_Reader $fileReader
-     * @param Magento_Core_Model_Config_Loader_Local $localLoader
+     * @param \Magento\Core\Model\Config\Primary $primaryConfig
+     * @param \Magento\Core\Model\Config\Resource $resourceConfig
+     * @param \Magento\Core\Model\Config\Modules\Reader $fileReader
+     * @param \Magento\Core\Model\Config\Loader\Local $localLoader
      */
     public function __construct(
-        Magento_Core_Model_Config_Primary $primaryConfig,
-        Magento_Core_Model_Config_Resource $resourceConfig,
-        Magento_Core_Model_Config_Modules_Reader $fileReader,
-        Magento_Core_Model_Config_Loader_Local $localLoader
+        \Magento\Core\Model\Config\Primary $primaryConfig,
+        \Magento\Core\Model\Config\Resource $resourceConfig,
+        \Magento\Core\Model\Config\Modules\Reader $fileReader,
+        \Magento\Core\Model\Config\Loader\Local $localLoader
     ) {
         $this->_primaryConfig = $primaryConfig;
         $this->_resourceConfig = $resourceConfig;
@@ -52,9 +54,9 @@ class Magento_Core_Model_Config_Loader implements Magento_Core_Model_Config_Load
     /**
      * Populate configuration object
      *
-     * @param Magento_Core_Model_Config_Base $config
+     * @param \Magento\Core\Model\Config\Base $config
      */
-    public function load(Magento_Core_Model_Config_Base $config)
+    public function load(\Magento\Core\Model\Config\Base $config)
     {
         if (!$config->getNode()) {
             $config->loadString('<config></config>');

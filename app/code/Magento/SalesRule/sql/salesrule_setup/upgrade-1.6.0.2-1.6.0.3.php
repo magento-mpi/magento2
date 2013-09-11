@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer           = $this;
 $connection          = $installer->getConnection();
 
@@ -110,7 +110,7 @@ $select = $connection->select()
     ->join(
         array('cw' => $websitesTable),
         $connection->prepareSqlCondition(
-           'sr.website_ids', array('finset' =>  new Zend_Db_Expr('cw.website_id'))
+           'sr.website_ids', array('finset' =>  new \Zend_Db_Expr('cw.website_id'))
         ),
         array()
     );
@@ -127,7 +127,7 @@ $select = $connection->select()
     ->join(
         array('cg' => $customerGroupsTable),
         $connection->prepareSqlCondition(
-            'sr.customer_group_ids', array('finset' =>  new Zend_Db_Expr('cg.customer_group_id'))
+            'sr.customer_group_ids', array('finset' =>  new \Zend_Db_Expr('cg.customer_group_id'))
         ),
         array()
     );

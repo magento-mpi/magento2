@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog_Model_Layer_Filter_Category
+namespace Magento\Search\Model\Catalog\Layer\Filter;
+
+class Category extends \Magento\Catalog\Model\Layer\Filter\Category
 {
     /**
      * Get data array for building category filter items
@@ -43,7 +45,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog
 
             if ($category->getIsActive() && $category->getProductCount()) {
                 $data[] = array(
-                    'label' => Mage::helper('Magento_Core_Helper_Data')->escapeHtml($category->getName()),
+                    'label' => \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($category->getName()),
                     'value' => $categoryId,
                     'count' => $category->getProductCount(),
                 );
@@ -56,14 +58,14 @@ class Magento_Search_Model_Catalog_Layer_Filter_Category extends Magento_Catalog
     /**
      * Add params to faceted search
      *
-     * @return Magento_Search_Model_Catalog_Layer_Filter_Category
+     * @return \Magento\Search\Model\Catalog\Layer\Filter\Category
      */
     public function addFacetCondition()
     {
         $category = $this->getCategory();
         $childrenCategories = $category->getChildrenCategories();
 
-        $useFlat = (bool) Mage::getStoreConfig('catalog/frontend/flat_catalog_category');
+        $useFlat = (bool) \Mage::getStoreConfig('catalog/frontend/flat_catalog_category');
         $categories = ($useFlat)
             ? array_keys($childrenCategories)
             : array_keys($childrenCategories->toArray());

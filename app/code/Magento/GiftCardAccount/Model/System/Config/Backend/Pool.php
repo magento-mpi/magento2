@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Model_System_Config_Backend_Pool extends Magento_Core_Model_Config_Value
+namespace Magento\GiftCardAccount\Model\System\Config\Backend;
+
+class Pool extends \Magento\Core\Model\Config\Value
 {
     protected function _beforeSave()
     {
         if ($this->isValueChanged()) {
-            if (!Mage::registry('giftcardaccount_code_length_check')) {
-                Mage::register('giftcardaccount_code_length_check', 1);
+            if (!\Mage::registry('giftcardaccount_code_length_check')) {
+                \Mage::register('giftcardaccount_code_length_check', 1);
                 $this->_checkMaxLength();
             }
         }
@@ -24,7 +26,7 @@ class Magento_GiftCardAccount_Model_System_Config_Backend_Pool extends Magento_C
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            Mage::getModel('Magento_GiftCardAccount_Model_Pool')->cleanupFree();
+            \Mage::getModel('\Magento\GiftCardAccount\Model\Pool')->cleanupFree();
         }
         parent::_afterSave();
     }
@@ -51,13 +53,13 @@ class Magento_GiftCardAccount_Model_System_Config_Backend_Pool extends Magento_C
         if (isset($fields['code_split']['value'])) {
             $v = (int) $fields['code_split']['value'];
             if ($v > 0 && $v < $codeLen) {
-                $sep = Mage::getModel('Magento_GiftCardAccount_Model_Pool')->getCodeSeparator();
+                $sep = \Mage::getModel('\Magento\GiftCardAccount\Model\Pool')->getCodeSeparator();
                 $len += (ceil($codeLen/$v) * strlen($sep))-1;
             }
         }
 
         if ($len > 255) {
-            Mage::throwException(__('Maximum generated code length is 255. Please correct your settings.'));
+            \Mage::throwException(__('Maximum generated code length is 255. Please correct your settings.'));
         }
     }
 }

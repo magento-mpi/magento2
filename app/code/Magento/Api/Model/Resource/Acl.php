@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_Acl extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Api\Model\Resource;
+
+class Acl extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize resource connections
@@ -30,14 +32,14 @@ class Magento_Api_Model_Resource_Acl extends Magento_Core_Model_Resource_Db_Abst
     /**
      * Load ACL for the user
      *
-     * @return Magento_Api_Model_Acl
+     * @return \Magento\Api\Model\Acl
      */
     public function loadAcl()
     {
-        $acl = Mage::getModel('Magento_Api_Model_Acl');
+        $acl = \Mage::getModel('\Magento\Api\Model\Acl');
         $adapter = $this->_getReadAdapter();
 
-        Mage::getSingleton('Magento_Api_Model_Config')->loadAclResources($acl);
+        \Mage::getSingleton('Magento\Api\Model\Config')->loadAclResources($acl);
 
         $rolesArr = $adapter->fetchAll(
             $adapter->select()
@@ -61,28 +63,28 @@ class Magento_Api_Model_Resource_Acl extends Magento_Core_Model_Resource_Db_Abst
     /**
      * Load roles
      *
-     * @param Magento_Api_Model_Acl $acl
+     * @param \Magento\Api\Model\Acl $acl
      * @param array $rolesArr
-     * @return Magento_Api_Model_Resource_Acl
+     * @return \Magento\Api\Model\Resource\Acl
      */
-    public function loadRoles(Magento_Api_Model_Acl $acl, array $rolesArr)
+    public function loadRoles(\Magento\Api\Model\Acl $acl, array $rolesArr)
     {
         foreach ($rolesArr as $role) {
-            $parent = $role['parent_id']>0 ? Magento_Api_Model_Acl::ROLE_TYPE_GROUP.$role['parent_id'] : null;
+            $parent = $role['parent_id']>0 ? \Magento\Api\Model\Acl::ROLE_TYPE_GROUP.$role['parent_id'] : null;
             switch ($role['role_type']) {
-                case Magento_Api_Model_Acl::ROLE_TYPE_GROUP:
+                case \Magento\Api\Model\Acl::ROLE_TYPE_GROUP:
                     $roleId = $role['role_type'].$role['role_id'];
                     $acl->addRole(
-                        Mage::getModel('Magento_Api_Model_Acl_Role_Group', array('roleId' => $roleId)),
+                        \Mage::getModel('\Magento\Api\Model\Acl\Role\Group', array('roleId' => $roleId)),
                         $parent
                     );
                     break;
 
-                case Magento_Api_Model_Acl::ROLE_TYPE_USER:
+                case \Magento\Api\Model\Acl::ROLE_TYPE_USER:
                     $roleId = $role['role_type'].$role['user_id'];
                     if (!$acl->hasRole($roleId)) {
                         $acl->addRole(
-                            Mage::getModel('Magento_Api_Model_Acl_Role_User', array('roleId' => $roleId)),
+                            \Mage::getModel('\Magento\Api\Model\Acl\Role\User', array('roleId' => $roleId)),
                             $parent
                         );
                     } else {
@@ -98,11 +100,11 @@ class Magento_Api_Model_Resource_Acl extends Magento_Core_Model_Resource_Db_Abst
     /**
      * Load rules
      *
-     * @param Magento_Api_Model_Acl $acl
+     * @param \Magento\Api\Model\Acl $acl
      * @param array $rulesArr
-     * @return Magento_Api_Model_Resource_Acl
+     * @return \Magento\Api\Model\Resource\Acl
      */
-    public function loadRules(Magento_Api_Model_Acl $acl, array $rulesArr)
+    public function loadRules(\Magento\Api\Model\Acl $acl, array $rulesArr)
     {
         foreach ($rulesArr as $rule) {
             $role = $rule['role_type'].$rule['role_id'];
@@ -111,7 +113,7 @@ class Magento_Api_Model_Resource_Acl extends Magento_Core_Model_Resource_Db_Abst
 
             $assert = null;
             if (0!=$rule['assert_id']) {
-                $assertClass = Mage::getSingleton('Magento_Api_Model_Config')->getAclAssert($rule['assert_type'])->getClassName();
+                $assertClass = \Mage::getSingleton('Magento\Api\Model\Config')->getAclAssert($rule['assert_type'])->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
             try {
@@ -120,7 +122,7 @@ class Magento_Api_Model_Resource_Acl extends Magento_Core_Model_Resource_Db_Abst
                 } else if ($rule['api_permission'] == 'deny') {
                     $acl->deny($role, $resource, $privileges, $assert);
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // TODO: properly process exception
             }
         }

@@ -15,12 +15,14 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Magento_Adminhtml_Block_Catalog_Product_Grid
+namespace Magento\Adminhtml\Block\Urlrewrite\Catalog\Product;
+
+class Grid extends \Magento\Adminhtml\Block\Catalog\Product\Grid
 {
     /**
      * Disable massaction
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid
      */
     protected function _prepareMassaction()
     {
@@ -30,7 +32,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Magento_Ad
     /**
      * Prepare columns layout
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid
      */
     protected function _prepareColumns()
     {
@@ -59,7 +61,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Magento_Ad
                 'width' => 50,
                 'index' => 'status',
                 'type'  => 'options',
-                'options' => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
+                'options' => \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getOptionArray(),
         ));
         return $this;
     }
@@ -77,7 +79,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Magento_Ad
     /**
      * Return row url for js event handlers
      *
-     * @param Magento_Catalog_Model_Product|\Magento\Object
+     * @param \Magento\Catalog\Model\Product|\Magento\Object
      * @return string
      */
     public function getRowUrl($row)

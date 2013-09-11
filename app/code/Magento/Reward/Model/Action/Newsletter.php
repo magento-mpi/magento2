@@ -15,7 +15,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Retrieve points delta for action
@@ -25,7 +27,7 @@ class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig('newsletter', $websiteId);
+        return (int)\Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig('newsletter', $websiteId);
     }
 
     /**
@@ -37,15 +39,15 @@ class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action
     {
         $subscriber = $this->getEntity();
         $subscriberStatuses = array(
-            Magento_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED,
-            Magento_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED
+            \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED,
+            \Magento\Newsletter\Model\Subscriber::STATUS_UNCONFIRMED
         );
         if (!in_array($subscriber->getData('subscriber_status'), $subscriberStatuses)) {
             return false;
         }
 
-        /* @var $subscribers Magento_Newsletter_Model_Resource_Subscriber_Collection */
-        $subscribers = Mage::getResourceModel('Magento_Newsletter_Model_Resource_Subscriber_Collection')
+        /* @var $subscribers \Magento\Newsletter\Model\Resource\Subscriber\Collection */
+        $subscribers = \Mage::getResourceModel('\Magento\Newsletter\Model\Resource\Subscriber\Collection')
             ->addFieldToFilter('customer_id', $subscriber->getCustomerId())
             ->load();
         // check for existing customer subscribtions
@@ -76,7 +78,7 @@ class Magento_Reward_Model_Action_Newsletter extends Magento_Reward_Model_Action
      * Setter for $_entity and add some extra data to history
      *
      * @param \Magento\Object $entity
-     * @return Magento_Reward_Model_Action_Abstract
+     * @return \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)
     {

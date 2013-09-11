@@ -16,7 +16,9 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Resource_Agreement_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Checkout\Model\Resource\Agreement;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     protected $_map = array('fields' => array(
         'agreement_id' => 'main_table.agreement_id',
@@ -35,19 +37,19 @@ class Magento_Checkout_Model_Resource_Agreement_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Checkout_Model_Agreement', 'Magento_Checkout_Model_Resource_Agreement');
+        $this->_init('\Magento\Checkout\Model\Agreement', '\Magento\Checkout\Model\Resource\Agreement');
     }
 
     /**
      * Filter collection by specified store ids
      *
-     * @param int|Magento_Core_Model_Store $store
-     * @return Magento_Checkout_Model_Resource_Agreement_Collection
+     * @param int|\Magento\Core\Model\Store $store
+     * @return \Magento\Checkout\Model\Resource\Agreement\Collection
      */
     public function addStoreFilter($store)
     {
         // check and prepare data
-        if ($store instanceof Magento_Core_Model_Store) {
+        if ($store instanceof \Magento\Core\Model\Store) {
             $store = array($store->getId());
         } elseif (is_numeric($store)) {
             $store = array($store);
@@ -80,7 +82,7 @@ class Magento_Checkout_Model_Resource_Agreement_Collection extends Magento_Core_
      * Make store filter using admin website or not
      *
      * @param bool $value
-     * @return Magento_Checkout_Model_Resource_Agreement_Collection
+     * @return \Magento\Checkout\Model\Resource\Agreement\Collection
      */
     public function setIsStoreFilterWithAdmin($value)
     {

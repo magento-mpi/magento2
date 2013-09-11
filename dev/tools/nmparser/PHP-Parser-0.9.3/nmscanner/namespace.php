@@ -473,10 +473,10 @@ class namespacer
             "preference for=\"Magento",
             "module name=\"Magento_",
             "type=\"Magento\\",
-            "<module>Magento_",
-            "<class>Magento_",
-            "<Magento",
-            "</Magento"
+            "<module>Magento\\",
+            "<class>Magento\\",
+            "<Magento\\",
+            "</Magento\\"
         );
 
         echo "=====================\n";

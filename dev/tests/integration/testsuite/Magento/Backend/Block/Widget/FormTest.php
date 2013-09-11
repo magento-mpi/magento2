@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Backend_Block_Widget_Form
+ * Test class for \Magento\Backend\Block\Widget\Form
  * @magentoAppArea adminhtml
  */
 class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
@@ -21,11 +21,11 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
     public function testSetFieldset()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $layout = $objectManager->create('Magento_Core_Model_Layout');
-        $formBlock = $layout->addBlock('Magento_Backend_Block_Widget_Form');
+        $layout = $objectManager->create('Magento\Core\Model\Layout');
+        $formBlock = $layout->addBlock('\Magento\Backend\Block\Widget\Form');
         $fieldSet = $objectManager->create('Magento\Data\Form\Element\Fieldset');
         $arguments = array(
             'data' => array(
@@ -35,8 +35,8 @@ class Magento_Backend_Block_Widget_FormTest extends PHPUnit_Framework_TestCase
                 'frontend_label' => 'Date',
             )
         );
-        $attributes = array($objectManager->create('Magento_Eav_Model_Entity_Attribute', $arguments));
-        $method = new ReflectionMethod('Magento_Backend_Block_Widget_Form', '_setFieldset');
+        $attributes = array($objectManager->create('Magento\Eav\Model\Entity\Attribute', $arguments));
+        $method = new ReflectionMethod('\Magento\Backend\Block\Widget\Form', '_setFieldset');
         $method->setAccessible(true);
         $method->invoke($formBlock, $attributes, $fieldSet);
         $fields = $fieldSet->getElements();

@@ -15,24 +15,26 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block;
+
+class Page extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'admin/page.phtml';
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -47,7 +49,7 @@ class Magento_Adminhtml_Block_Page extends Magento_Adminhtml_Block_Template
     {
         parent::_construct();
 
-        $action = Mage::app()->getFrontController()->getAction();
+        $action = \Mage::app()->getFrontController()->getAction();
         if ($action) {
             $this->addBodyClass($action->getFullActionName('-'));
         }
@@ -61,7 +63,7 @@ class Magento_Adminhtml_Block_Page extends Magento_Adminhtml_Block_Template
     public function getLang()
     {
         if (!$this->hasData('lang')) {
-            $this->setData('lang', substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2));
+            $this->setData('lang', substr(\Mage::app()->getLocale()->getLocaleCode(), 0, 2));
         }
         return $this->getData('lang');
     }
@@ -70,7 +72,7 @@ class Magento_Adminhtml_Block_Page extends Magento_Adminhtml_Block_Template
      * Add CSS class to page body tag
      *
      * @param string $className
-     * @return Magento_Adminhtml_Block_Page
+     * @return \Magento\Adminhtml\Block\Page
      */
     public function addBodyClass($className)
     {

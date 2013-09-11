@@ -16,23 +16,25 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management;
+
+class Update
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Getter
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
-        return Mage::registry('current_customer');
+        return \Mage::registry('current_customer');
     }
 
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Update
      */
     protected function _prepareForm()
     {
@@ -43,7 +45,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
             'legend' => __('Update Reward Points Balance')
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store', 'select', array(
                 'name'  => 'store_id',
                 'title' => __('Store'),
@@ -96,13 +98,13 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Update
     {
         $customer = $this->getCustomer();
         if (!$customer->getWebsiteId()
-            || Mage::app()->hasSingleStore()
+            || \Mage::app()->hasSingleStore()
             || $customer->getSharingConfig()->isGlobalScope())
         {
-            return Mage::getModel('Magento_Core_Model_System_Store')->getStoreValuesForForm();
+            return \Mage::getModel('\Magento\Core\Model\System\Store')->getStoreValuesForForm();
         }
 
-        $stores = Mage::getModel('Magento_Core_Model_System_Store')
+        $stores = \Mage::getModel('\Magento\Core\Model\System\Store')
             ->getStoresStructure(false, array(), array(), array($customer->getWebsiteId()));
         $values = array();
 

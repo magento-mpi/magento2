@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
+namespace Magento\Catalog\Model;
+
+class Config extends \Magento\Eav\Model\Config
 {
     const XML_PATH_LIST_DEFAULT_SORT_BY     = 'catalog/frontend/default_sort_by';
     const XML_PATH_GROUPED_ALLOWED_PRODUCT_TYPES = 'global/catalog/product/type/grouped/allow_product_types';
@@ -53,14 +55,14 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Config');
+        $this->_init('\Magento\Catalog\Model\Resource\Config');
     }
 
     /**
      * Set store id
      *
      * @param integer $storeId
-     * @return Magento_Catalog_Model_Config
+     * @return \Magento\Catalog\Model\Config
      */
     public function setStoreId($storeId)
     {
@@ -76,7 +78,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     public function getStoreId()
     {
         if ($this->_storeId === null) {
-            return Mage::app()->getStore()->getId();
+            return \Mage::app()->getStore()->getId();
         }
         return $this->_storeId;
     }
@@ -87,7 +89,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
             return $this;
         }
 
-        $attributeSetCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        $attributeSetCollection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
             ->load();
 
         $this->_attributeSetsById = array();
@@ -134,7 +136,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
             return $this;
         }
 
-        $attributeSetCollection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection')
+        $attributeSetCollection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection')
             ->load();
 
         $this->_attributeGroupsById = array();
@@ -183,7 +185,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
             return $this;
         }
 
-        $productTypeCollection = Mage::getModel('Magento_Catalog_Model_Product_Type')
+        $productTypeCollection = \Mage::getModel('\Magento\Catalog\Model\Product\Type')
             ->getOptionArray();
 
         $this->_productTypesById = array();
@@ -249,7 +251,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
      * @return array
      */
     public function getProductCollectionAttributes() {
-        $attributes = Mage::getConfig()
+        $attributes = \Mage::getConfig()
             ->getNode(self::XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES)
             ->asArray();
         return array_keys($attributes);;
@@ -258,11 +260,11 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     /**
      * Retrieve resource model
      *
-     * @return Magento_Catalog_Model_Resource_Config
+     * @return \Magento\Catalog\Model\Resource\Config
      */
     protected function _getResource()
     {
-        return Mage::getResourceModel('Magento_Catalog_Model_Resource_Config');
+        return \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Config');
     }
 
     /**
@@ -273,15 +275,15 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     public function getAttributesUsedInProductListing() {
         if (is_null($this->_usedInProductListing)) {
             $this->_usedInProductListing = array();
-            $entityType = Magento_Catalog_Model_Product::ENTITY;
+            $entityType = \Magento\Catalog\Model\Product::ENTITY;
             $attributesData = $this->_getResource()
                 ->setStoreId($this->getStoreId())
                 ->getAttributesUsedInListing();
-            Mage::getSingleton('Magento_Eav_Model_Config')
+            \Mage::getSingleton('Magento\Eav\Model\Config')
                 ->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
-                $this->_usedInProductListing[$attributeCode] = Mage::getSingleton('Magento_Eav_Model_Config')
+                $this->_usedInProductListing[$attributeCode] = \Mage::getSingleton('Magento\Eav\Model\Config')
                     ->getAttribute($entityType, $attributeCode);
             }
         }
@@ -296,14 +298,14 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
     public function getAttributesUsedForSortBy() {
         if (is_null($this->_usedForSortBy)) {
             $this->_usedForSortBy = array();
-            $entityType     = Magento_Catalog_Model_Product::ENTITY;
+            $entityType     = \Magento\Catalog\Model\Product::ENTITY;
             $attributesData = $this->_getResource()
                 ->getAttributesUsedForSortBy();
-            Mage::getSingleton('Magento_Eav_Model_Config')
+            \Mage::getSingleton('Magento\Eav\Model\Config')
                 ->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
-                $this->_usedForSortBy[$attributeCode] = Mage::getSingleton('Magento_Eav_Model_Config')
+                $this->_usedForSortBy[$attributeCode] = \Mage::getSingleton('Magento\Eav\Model\Config')
                     ->getAttribute($entityType, $attributeCode);
             }
         }
@@ -322,7 +324,7 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
             'position'  => __('Position')
         );
         foreach ($this->getAttributesUsedForSortBy() as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             $options[$attribute->getAttributeCode()] = $attribute->getStoreLabel();
         }
 
@@ -336,6 +338,6 @@ class Magento_Catalog_Model_Config extends Magento_Eav_Model_Config
      * @return string
      */
     public function getProductListDefaultSortBy($store = null) {
-        return Mage::getStoreConfig(self::XML_PATH_LIST_DEFAULT_SORT_BY, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_LIST_DEFAULT_SORT_BY, $store);
     }
 }

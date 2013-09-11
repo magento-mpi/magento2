@@ -11,44 +11,46 @@
 /**
  * Newsletter queue model.
  *
- * @method Magento_Newsletter_Model_Resource_Queue _getResource()
- * @method Magento_Newsletter_Model_Resource_Queue getResource()
+ * @method \Magento\Newsletter\Model\Resource\Queue _getResource()
+ * @method \Magento\Newsletter\Model\Resource\Queue getResource()
  * @method int getTemplateId()
- * @method Magento_Newsletter_Model_Queue setTemplateId(int $value)
+ * @method \Magento\Newsletter\Model\Queue setTemplateId(int $value)
  * @method int getNewsletterType()
- * @method Magento_Newsletter_Model_Queue setNewsletterType(int $value)
+ * @method \Magento\Newsletter\Model\Queue setNewsletterType(int $value)
  * @method string getNewsletterText()
- * @method Magento_Newsletter_Model_Queue setNewsletterText(string $value)
+ * @method \Magento\Newsletter\Model\Queue setNewsletterText(string $value)
  * @method string getNewsletterStyles()
- * @method Magento_Newsletter_Model_Queue setNewsletterStyles(string $value)
+ * @method \Magento\Newsletter\Model\Queue setNewsletterStyles(string $value)
  * @method string getNewsletterSubject()
- * @method Magento_Newsletter_Model_Queue setNewsletterSubject(string $value)
+ * @method \Magento\Newsletter\Model\Queue setNewsletterSubject(string $value)
  * @method string getNewsletterSenderName()
- * @method Magento_Newsletter_Model_Queue setNewsletterSenderName(string $value)
+ * @method \Magento\Newsletter\Model\Queue setNewsletterSenderName(string $value)
  * @method string getNewsletterSenderEmail()
- * @method Magento_Newsletter_Model_Queue setNewsletterSenderEmail(string $value)
+ * @method \Magento\Newsletter\Model\Queue setNewsletterSenderEmail(string $value)
  * @method int getQueueStatus()
- * @method Magento_Newsletter_Model_Queue setQueueStatus(int $value)
+ * @method \Magento\Newsletter\Model\Queue setQueueStatus(int $value)
  * @method string getQueueStartAt()
- * @method Magento_Newsletter_Model_Queue setQueueStartAt(string $value)
+ * @method \Magento\Newsletter\Model\Queue setQueueStartAt(string $value)
  * @method string getQueueFinishAt()
- * @method Magento_Newsletter_Model_Queue setQueueFinishAt(string $value)
+ * @method \Magento\Newsletter\Model\Queue setQueueFinishAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
+namespace Magento\Newsletter\Model;
+
+class Queue extends \Magento\Core\Model\Template
 {
     /**
      * Newsletter Template object
      *
-     * @var Magento_Newsletter_Model_Template
+     * @var \Magento\Newsletter\Model\Template
      */
     protected $_template;
 
     /**
-     * @var Magento_Core_Model_Email_Template
+     * @var \Magento\Core\Model\Email\Template
      */
     protected $_emailTemplate = null;
 
@@ -87,12 +89,12 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
         $emailTemplate = $this->_getData('email_template');
         if ($emailTemplate) {
             $this->unsetData('email_template');
-            if (!($emailTemplate instanceof Magento_Core_Model_Email_Template)) {
-                throw new Exception('Instance of Magento_Core_Model_Email_Template is expected.');
+            if (!($emailTemplate instanceof \Magento\Core\Model\Email\Template)) {
+                throw new \Exception('Instance of \Magento\Core\Model\Email\Template is expected.');
             }
             $this->_emailTemplate = $emailTemplate;
         }
-        $this->_init('Magento_Newsletter_Model_Resource_Queue');
+        $this->_init('\Magento\Newsletter\Model\Resource\Queue');
     }
 
     /**
@@ -113,8 +115,8 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
     public function getSubscribersCollection()
     {
         if (is_null($this->_subscribersCollection)) {
-            $this->_subscribersCollection = Mage::getResourceModel(
-                    'Magento_Newsletter_Model_Resource_Subscriber_Collection'
+            $this->_subscribersCollection = \Mage::getResourceModel(
+                    '\Magento\Newsletter\Model\Resource\Subscriber\Collection'
                 )
                 ->useQueue($this);
         }
@@ -126,17 +128,17 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
      * Set $_data['queue_start'] based on string from backend, which based on locale.
      *
      * @param string|null $startAt start date of the mailing queue
-     * @return Magento_Newsletter_Model_Queue
+     * @return \Magento\Newsletter\Model\Queue
      */
     public function setQueueStartAtByString($startAt)
     {
         if(is_null($startAt) || $startAt == '') {
             $this->setQueueStartAt(null);
         } else {
-            $locale = Mage::app()->getLocale();
-            $format = $locale->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
+            $locale = \Mage::app()->getLocale();
+            $format = $locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
             $time = $locale->date($startAt, $format)->getTimestamp();
-            $this->setQueueStartAt(Mage::getModel('Magento_Core_Model_Date')->gmtDate(null, $time));
+            $this->setQueueStartAt(\Mage::getModel('\Magento\Core\Model\Date')->gmtDate(null, $time));
         }
         return $this;
      }
@@ -146,7 +148,7 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
      *
      * @param   int     $count
      * @param   array   $additionalVariables
-     * @return Magento_Newsletter_Model_Queue
+     * @return \Magento\Newsletter\Model\Queue
      */
     public function sendPerSubscriber($count = 20, array $additionalVariables = array())
     {
@@ -168,17 +170,17 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
             ->setCurPage(1)
             ->load();
 
-        /** @var Magento_Core_Model_Email_Template $sender */
-        $sender = $this->_emailTemplate ?: Mage::getModel('Magento_Core_Model_Email_Template');
+        /** @var \Magento\Core\Model\Email\Template $sender */
+        $sender = $this->_emailTemplate ?: \Mage::getModel('\Magento\Core\Model\Email\Template');
         $sender->setSenderName($this->getNewsletterSenderName())
             ->setSenderEmail($this->getNewsletterSenderEmail())
             ->setTemplateType(self::TYPE_HTML)
             ->setTemplateSubject($this->getNewsletterSubject())
             ->setTemplateText($this->getNewsletterText())
             ->setTemplateStyles($this->getNewsletterStyles())
-            ->setTemplateFilter(Mage::helper('Magento_Newsletter_Helper_Data')->getTemplateProcessor());
+            ->setTemplateFilter(\Mage::helper('Magento\Newsletter\Helper\Data')->getTemplateProcessor());
 
-        /** @var Magento_Newsletter_Model_Subscriber $item */
+        /** @var \Magento\Newsletter\Model\Subscriber $item */
         foreach ($collection->getItems() as $item) {
             $email = $item->getSubscriberEmail();
             $name = $item->getSubscriberFullName();
@@ -190,8 +192,8 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
             if ($successSend) {
                 $item->received($this);
             } else {
-                /** @var Magento_Newsletter_Model_Problem $problem */
-                $problem = Mage::getModel('Magento_Newsletter_Model_Problem');
+                /** @var \Magento\Newsletter\Model\Problem $problem */
+                $problem = \Mage::getModel('\Magento\Newsletter\Model\Problem');
                 $problem->addSubscriberData($item);
                 $problem->addQueueData($this);
                 $e = $sender->getSendingException();
@@ -212,11 +214,11 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
     /**
      * Finish queue: set status SENT and update finish date
      *
-     * @return Magento_Newsletter_Model_Queue
+     * @return \Magento\Newsletter\Model\Queue
      */
     protected function _finishQueue()
     {
-        $this->setQueueFinishAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+        $this->setQueueFinishAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
         $this->setQueueStatus(self::STATUS_SENT);
         $this->save();
 
@@ -242,7 +244,7 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
      * Add subscribers to queue.
      *
      * @param array $subscriberIds
-     * @return Magento_Newsletter_Model_Queue
+     * @return \Magento\Newsletter\Model\Queue
      */
     public function addSubscribersToQueue(array $subscriberIds)
     {
@@ -254,7 +256,7 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
      * Setter for save stores flag.
      *
      * @param boolean|integer|string $value
-     * @return Magento_Newsletter_Model_Queue
+     * @return \Magento\Newsletter\Model\Queue
      */
     public function setSaveStoresFlag($value)
     {
@@ -277,7 +279,7 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
      * Setter for stores of queue.
      *
      * @param array
-     * @return Magento_Newsletter_Model_Queue
+     * @return \Magento\Newsletter\Model\Queue
      */
     public function setStores(array $storesIds)
     {
@@ -303,12 +305,12 @@ class Magento_Newsletter_Model_Queue extends Magento_Core_Model_Template
     /**
      * Retrieve Newsletter Template object
      *
-     * @return Magento_Newsletter_Model_Template
+     * @return \Magento\Newsletter\Model\Template
      */
     public function getTemplate()
     {
         if (is_null($this->_template)) {
-            $this->_template = Mage::getModel('Magento_Newsletter_Model_Template')
+            $this->_template = \Mage::getModel('\Magento\Newsletter\Model\Template')
                 ->load($this->getTemplateId());
         }
         return $this->_template;

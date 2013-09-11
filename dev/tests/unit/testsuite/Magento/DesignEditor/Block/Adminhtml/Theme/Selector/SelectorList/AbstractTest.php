@@ -16,9 +16,9 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
      */
     public function testGetListItems($collection)
     {
-        /** @var $listAbstractBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract */
+        /** @var $listAbstractBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList */
         $listAbstractBlock = $this->getMockForAbstractClass(
-            'Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract',
+            '\Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList',
             array(),
             '',
             false,
@@ -27,7 +27,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
             array('getChildBlock')
         );
 
-        $themeMock = $this->getMock('Magento_DesignEditor_Block_Adminhtml_Theme', array(), array(), '', false);
+        $themeMock = $this->getMock('Magento\DesignEditor\Block\Adminhtml\Theme', array(), array(), '', false);
 
         $listAbstractBlock->setCollection($collection);
 
@@ -51,9 +51,9 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
 
     public function testAddAssignButtonHtml()
     {
-        /** @var $listAbstractBlock Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract */
+        /** @var $listAbstractBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList */
         $listAbstractBlock = $this->getMockForAbstractClass(
-            'Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract',
+            '\Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList',
             array(),
             '',
             false,
@@ -61,16 +61,16 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_AbstractT
             true,
             array('getChildBlock', 'getLayout')
         );
-        /** @var $themeMock Magento_Core_Model_Theme */
-        $themeMock = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
-        /** @var $themeBlockMock Magento_DesignEditor_Block_Adminhtml_Theme */
+        /** @var $themeMock \Magento\Core\Model\Theme */
+        $themeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
+        /** @var $themeBlockMock \Magento\DesignEditor\Block\Adminhtml\Theme */
         $themeBlockMock = $this->getMock(
-            'Magento_DesignEditor_Block_Adminhtml_Theme', array('getTheme'), array(), '', false
+            '\Magento\DesignEditor\Block\Adminhtml\Theme', array('getTheme'), array(), '', false
         );
-        /** @var $layoutMock Magento_Core_Model_Layout */
-        $layoutMock  = $this->getMock('Magento_Core_Model_Layout', array('createBlock'), array(), '', false);
-        /** @var $buttonMock Magento_Backend_Block_Widget_Button */
-        $buttonMock = $this->getMock('Magento_Backend_Block_Widget_Button', array(), array(), '', false);
+        /** @var $layoutMock \Magento\Core\Model\Layout */
+        $layoutMock  = $this->getMock('Magento\Core\Model\Layout', array('createBlock'), array(), '', false);
+        /** @var $buttonMock \Magento\Backend\Block\Widget\Button */
+        $buttonMock = $this->getMock('Magento\Backend\Block\Widget\Button', array(), array(), '', false);
 
         $layoutMock->expects($this->once())
             ->method('createBlock')

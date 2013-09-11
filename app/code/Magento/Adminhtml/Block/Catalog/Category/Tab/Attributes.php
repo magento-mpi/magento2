@@ -16,16 +16,18 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Adminhtml_Block_Catalog_Form
+namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
+
+class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
 {
     /**
      * Retrieve Category object
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return \Mage::registry('current_category');
     }
 
     /**
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()) {
+        if (\Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
@@ -51,7 +53,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes
+     * @return \Magento\Adminhtml\Block\Catalog\Category\Tab\Attributes
      */
     protected function _prepareForm() {
         $group      = $this->getGroup();
@@ -97,7 +99,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
         $this->_setFieldset($attributes, $fieldset);
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Eav_Model_Entity_Attribute */
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             if ($attribute->getAttributeCode() == 'url_key') {
                 if ($this->getCategory()->getLevel() == 1) {
                     $fieldset->removeField('url_key');
@@ -107,7 +109,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
                     ));
                 } else {
                     $form->getElement('url_key')->setRenderer(
-                        $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey')
+                        $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute\Urlkey')
                     );
                 }
             }
@@ -142,7 +144,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
 
         $form->addValues($this->getCategory()->getData());
 
-        Mage::dispatchEvent('adminhtml_catalog_category_edit_prepare_form', array('form'=>$form));
+        \Mage::dispatchEvent('adminhtml_catalog_category_edit_prepare_form', array('form'=>$form));
 
         $form->setFieldNameSuffix('general');
         $this->setForm($form);
@@ -158,8 +160,8 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Attributes extends Magento_Ad
     protected function _getAdditionalElementTypes()
     {
         return array(
-            'image' => 'Magento_Adminhtml_Block_Catalog_Category_Helper_Image',
-            'textarea' => 'Magento_Adminhtml_Block_Catalog_Helper_Form_Wysiwyg'
+            'image' => '\Magento\Adminhtml\Block\Catalog\Category\Helper\Image',
+            'textarea' => '\Magento\Adminhtml\Block\Catalog\Helper\Form\Wysiwyg'
         );
     }
 }

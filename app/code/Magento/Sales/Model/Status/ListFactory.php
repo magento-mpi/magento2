@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Sales_Model_Status_ListFactory
+namespace Magento\Sales\Model\Status;
+
+class ListFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -27,10 +29,10 @@ class Magento_Sales_Model_Status_ListFactory
      * Create status list instance
      *
      * @param array $arguments
-     * @return Magento_Sales_Model_Status_List
+     * @return \Magento\Sales\Model\Status\ListStatus
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento_Sales_Model_Status_List', $arguments);
+        return $this->_objectManager->create('Magento\Sales\Model\Status\ListStatus', $arguments);
     }
 }

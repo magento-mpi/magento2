@@ -77,7 +77,7 @@ foreach ($fieldsets as $fieldset => $fields) : ?>
                                 isRegionRequired: false,
                                 isZipRequired: false,
                                 isCountryRequired: true,
-                                regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson(); ?>
+                                regionJson: <?php echo $this->helper('\Magento\Directory\Helper\Data')->getRegionJson(); ?>
                             });
                         });
                 })(jQuery);

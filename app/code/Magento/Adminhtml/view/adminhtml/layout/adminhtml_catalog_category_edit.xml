@@ -31,13 +31,13 @@
             </action>
         </reference>
         <reference name="left">
-            <block class="Magento_Adminhtml_Block_Catalog_Category_Tree" name="category.tree" template="catalog/category/tree.phtml"/>
+            <block class="\Magento\Adminhtml\Block\Catalog\Category\Tree" name="category.tree" template="catalog/category/tree.phtml"/>
         </reference>
         <reference name="content">
-            <block class="Magento_Adminhtml_Block_Catalog_Category_Edit" name="category.edit" template="catalog/category/edit.phtml"/>
+            <block class="\Magento\Adminhtml\Block\Catalog\Category\Edit" name="category.edit" template="catalog/category/edit.phtml"/>
         </reference>
         <reference name="js">
-            <block class="Magento_Core_Block_Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js"/>
+            <block class="\Magento\Core\Block\Template" template="Magento_Adminhtml::catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js"/>
         </reference>
     </handle>
 </layout>

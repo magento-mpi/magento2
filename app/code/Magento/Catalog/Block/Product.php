@@ -9,18 +9,20 @@
  */
 
 
-class Magento_Catalog_Block_Product extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block;
+
+class Product extends \Magento\Core\Block\Template
 {
     protected $_finalPrice = array();
 
     public function getProduct()
     {
-        if (!$this->getData('product') instanceof Magento_Catalog_Model_Product) {
+        if (!$this->getData('product') instanceof \Magento\Catalog\Model\Product) {
             if ($this->getData('product')->getProductId()) {
                 $productId = $this->getData('product')->getProductId();
             }
             if ($productId) {
-                $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+                $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
                 if ($product) {
                     $this->setProduct($product);
                 }

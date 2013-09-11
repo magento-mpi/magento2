@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Http extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_NODE_REMOTE_ADDR_HEADERS  = 'global/remote_addr_headers';
 
@@ -31,10 +33,10 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
      *
      * Returns plain array with 2 items: login and password respectively
      *
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return array
      */
-    public function getHttpAuthCredentials(Zend_Controller_Request_Http $request)
+    public function getHttpAuthCredentials(\Zend_Controller_Request_Http $request)
     {
         $server = $request->getServer();
         $user = '';
@@ -72,10 +74,10 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
     /**
      * Set "auth failed" headers to the specified response object
      *
-     * @param Zend_Controller_Response_Http $response
+     * @param \Zend_Controller_Response_Http $response
      * @param string $realm
      */
-    public function failHttpAuthentication(Zend_Controller_Response_Http $response, $realm)
+    public function failHttpAuthentication(\Zend_Controller_Response_Http $response, $realm)
     {
         $response->setHeader('HTTP/1.1', '401 Unauthorized')
             ->setHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"')
@@ -91,8 +93,8 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
     public function getRemoteAddrHeaders()
     {
         $headers = array();
-        $element = Mage::getConfig()->getNode(self::XML_NODE_REMOTE_ADDR_HEADERS);
-        if ($element instanceof Magento_Core_Model_Config_Element) {
+        $element = \Mage::getConfig()->getNode(self::XML_NODE_REMOTE_ADDR_HEADERS);
+        if ($element instanceof \Magento\Core\Model\Config\Element) {
             foreach ($element->children() as $node) {
                 $headers[] = (string)$node;
             }
@@ -156,7 +158,7 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
     {
         $value = $this->_getRequest()->getServer($var, '');
         if ($clean) {
-            $value = Mage::helper('Magento_Core_Helper_String')->cleanString($value);
+            $value = \Mage::helper('Magento\Core\Helper\String')->cleanString($value);
         }
 
         return $value;
@@ -228,7 +230,7 @@ class Magento_Core_Helper_Http extends Magento_Core_Helper_Abstract
     {
         $uri = $this->_getRequest()->getRequestUri();
         if ($clean) {
-            $uri = Mage::helper('Magento_Core_Helper_String')->cleanString($uri);
+            $uri = \Mage::helper('Magento\Core\Helper\String')->cleanString($uri);
         }
         return $uri;
     }

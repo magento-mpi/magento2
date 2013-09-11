@@ -15,9 +15,11 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Model_Cart_Customer_Api extends Magento_Checkout_Model_Api_Resource_Customer
+namespace Magento\Checkout\Model\Cart\Customer;
+
+class Api extends \Magento\Checkout\Model\Api\Resource\Customer
 {
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
+    public function __construct(\Magento\Api\Helper\Data $apiHelper)
     {
         parent::__construct($apiHelper);
         $this->_storeIdSessionField = "cart_store_id";
@@ -46,14 +48,14 @@ class Magento_Checkout_Model_Cart_Customer_Api extends Magento_Checkout_Model_Ap
 
         switch ($customerData['mode']) {
             case self::MODE_CUSTOMER:
-                /** @var Magento_Customer_Model_Customer $customer */
+                /** @var \Magento\Customer\Model\Customer $customer */
                 $customer = $this->_getCustomer($customerData['entity_id']);
                 $customer->setMode(self::MODE_CUSTOMER);
                 break;
             case self::MODE_REGISTER:
             case self::MODE_GUEST:
-                /** @var Magento_Customer_Model_Customer $customer */
-                $customer = Mage::getModel('Magento_Customer_Model_Customer')->setData($customerData);
+                /** @var \Magento\Customer\Model\Customer $customer */
+                $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->setData($customerData);
 
                 if ($customer->getMode() == self::MODE_GUEST) {
                     $password = $customer->generatePassword();
@@ -74,7 +76,7 @@ class Magento_Checkout_Model_Cart_Customer_Api extends Magento_Checkout_Model_Ap
                 ->setPasswordHash($customer->encryptPassword($customer->getPassword()))
                 ->collectTotals()
                 ->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('customer_not_set', $e->getMessage());
         }
 
@@ -97,8 +99,8 @@ class Magento_Checkout_Model_Cart_Customer_Api extends Magento_Checkout_Model_Ap
         }
 
         foreach ($customerAddressData as $addressItem) {
-            /** @var $address Magento_Sales_Model_Quote_Address */
-            $address = Mage::getModel('Magento_Sales_Model_Quote_Address');
+            /** @var $address \Magento\Sales\Model\Quote\Address */
+            $address = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
             $addressMode = $addressItem['mode'];
             unset($addressItem['mode']);
 
@@ -155,7 +157,7 @@ class Magento_Checkout_Model_Cart_Customer_Api extends Magento_Checkout_Model_Ap
 
         try {
             $quote->collectTotals()->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('address_is_not_set', $e->getMessage());
         }
 

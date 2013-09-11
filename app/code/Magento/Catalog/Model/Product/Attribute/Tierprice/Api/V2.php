@@ -15,12 +15,14 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Magento_Catalog_Model_Product_Attribute_Tierprice_Api
+namespace Magento\Catalog\Model\Product\Attribute\Tierprice\Api;
+
+class V2 extends \Magento\Catalog\Model\Product\Attribute\Tierprice\Api
 {
     /**
      *  Prepare tier prices for save
      *
-     *  @param      Magento_Catalog_Model_Product $product
+     *  @param      \Magento\Catalog\Model\Product $product
      *  @param      array $tierPrices
      *  @return     array
      */
@@ -43,8 +45,8 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Magento_C
                 $tierPrice->website = 0;
             } else {
                 try {
-                    $tierPrice->website = Mage::app()->getWebsite($tierPrice->website)->getId();
-                } catch (Magento_Core_Exception $e) {
+                    $tierPrice->website = \Mage::app()->getWebsite($tierPrice->website)->getId();
+                } catch (\Magento\Core\Exception $e) {
                     $tierPrice->website = 0;
                 }
             }
@@ -58,7 +60,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Magento_C
             }
 
             if ($tierPrice->customer_group_id == 'all') {
-                $tierPrice->customer_group_id = Magento_Customer_Model_Group::CUST_GROUP_ALL;
+                $tierPrice->customer_group_id = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
             }
 
             $updateValue[] = array(

@@ -15,7 +15,9 @@
  * @package    Magento_Directory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_CountryFactory
+namespace Magento\Directory\Model;
+
+class CountryFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -34,10 +36,10 @@ class Magento_Directory_Model_CountryFactory
      * Create new country model
      *
      * @param array $arguments
-     * @return Magento_Directory_Model_Country
+     * @return \Magento\Directory\Model\Country
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento_Directory_Model_Country', $arguments, false);
+        return $this->_objectManager->create('Magento\Directory\Model\Country', $arguments, false);
     }
 }

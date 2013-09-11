@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_RouterList
+namespace Magento\Core\Model;
+
+class RouterList
 {
     /**
      * @var \Magento\ObjectManager
@@ -105,7 +107,7 @@ class Magento_Core_Model_RouterList
      * Get router by route
      *
      * @param string $routeId
-     * @return Magento_Core_Controller_Varien_Router_Abstract
+     * @return \Magento\Core\Controller\Varien\Router\AbstractRouter
      */
     public function getRouterByRoute($routeId)
     {
@@ -144,7 +146,7 @@ class Magento_Core_Model_RouterList
      * Get router by frontName
      *
      * @param string $frontName
-     * @return Magento_Core_Controller_Varien_Router_Abstract
+     * @return \Magento\Core\Controller\Varien\Router\AbstractRouter
      */
     public function getRouterByFrontName($frontName)
     {

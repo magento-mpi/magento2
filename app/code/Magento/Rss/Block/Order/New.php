@@ -15,14 +15,16 @@
  * @package    Magento_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
+namespace Magento\Rss\Block\Order;
+
+class New extends \Magento\Core\Block\AbstractBlock
 {
     protected function _toHtml()
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = \Mage::getModel('\Magento\Sales\Model\Order');
         $passDate = $order->getResource()->formatDate(mktime(0,0,0,date('m'),date('d')-7));
 
-        $newurl = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
+        $newurl = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
             'adminhtml/sales_order',
             array(
                 '_secure' => true,
@@ -31,7 +33,7 @@ class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
         );
         $title = __('New Orders');
 
-        $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
+        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
@@ -44,11 +46,11 @@ class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
             ->addAttributeToSort('created_at','desc')
         ;
 
-        $detailBlock = Mage::getBlockSingleton('Magento_Rss_Block_Order_Details');
+        $detailBlock = \Mage::getBlockSingleton('\Magento\Rss\Block\Order\Details');
 
-        Mage::dispatchEvent('rss_order_new_collection_select', array('collection' => $collection));
+        \Mage::dispatchEvent('rss_order_new_collection_select', array('collection' => $collection));
 
-        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')
+        \Mage::getSingleton('Magento\Core\Model\Resource\Iterator')
             ->walk($collection->getSelect(), array(array($this, 'addNewOrderXmlCallback')), array('rssObj'=> $rssObj, 'order'=>$order , 'detailBlock' => $detailBlock));
 
         return $rssObj->createRssXml();
@@ -62,7 +64,7 @@ class Magento_Rss_Block_Order_New extends Magento_Core_Block_Abstract
         $order->reset()->load($args['row']['entity_id']);
         if ($order && $order->getId()) {
             $title = __('Order #%1 created at %2', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
-            $url = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
+            $url = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
                 'adminhtml/sales_order/view',
                 array(
                     '_secure' => true,

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_System_Email_Template_Preview extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\System\Email\Template;
+
+class Preview extends \Magento\Adminhtml\Block\Widget
 {
     /**
      * Prepare html output
@@ -24,9 +26,9 @@ class Magento_Adminhtml_Block_System_Email_Template_Preview extends Magento_Admi
      */
     protected function _toHtml()
     {
-        /** @var $template Magento_Core_Model_Email_Template */
-        $template = Mage::getModel('Magento_Core_Model_Email_Template',
-            array('data' => array('area' => Magento_Core_Model_App_Area::AREA_FRONTEND)));
+        /** @var $template \Magento\Core\Model\Email\Template */
+        $template = \Mage::getModel('\Magento\Core\Model\Email\Template',
+            array('data' => array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND)));
         $id = (int)$this->getRequest()->getParam('id');
         if ($id) {
             $template->load($id);
@@ -36,8 +38,8 @@ class Magento_Adminhtml_Block_System_Email_Template_Preview extends Magento_Admi
             $template->setTemplateStyles($this->getRequest()->getParam('styles'));
         }
 
-        /* @var $filter Magento_Core_Model_Input_Filter_MaliciousCode */
-        $filter = Mage::getSingleton('Magento_Core_Model_Input_Filter_MaliciousCode');
+        /* @var $filter \Magento\Core\Model\Input\Filter\MaliciousCode */
+        $filter = \Mage::getSingleton('Magento\Core\Model\Input\Filter\MaliciousCode');
 
         $template->setTemplateText(
             $filter->filter($template->getTemplateText())
@@ -49,7 +51,7 @@ class Magento_Adminhtml_Block_System_Email_Template_Preview extends Magento_Admi
         $template->setDesignConfig(
             array(
                 'area' => $this->_design->getArea(),
-                'store' => Mage::getSingleton('Magento_Core_Model_StoreManagerInterface')->getDefaultStoreView()->getId()
+                'store' => \Mage::getSingleton('Magento\Core\Model\StoreManagerInterface')->getDefaultStoreView()->getId()
             )
         );
         $templateProcessed = $template->getProcessedTemplate($vars, true);

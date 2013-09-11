@@ -8,13 +8,13 @@
 
 Mage::app()->loadArea('frontend');
 include 'order_with_shipping.php';
-/** @var Magento_Sales_Model_Order $order */
+/** @var \Magento\Sales\Model\Order $order */
 
 $shipment = $order->prepareShipment();
 $shipment->register();
 $shipment->getOrder()->setIsInProcess(true);
-/** @var Magento_Core_Model_Resource_Transaction $transaction */
-$transaction = Mage::getModel('Magento_Core_Model_Resource_Transaction');
+/** @var \Magento\Core\Model\Resource\Transaction $transaction */
+$transaction = Mage::getModel('\Magento\Core\Model\Resource\Transaction');
 $transaction->addObject($shipment)->addObject($order)->save();
 
 Mage::register('shipment', $shipment);

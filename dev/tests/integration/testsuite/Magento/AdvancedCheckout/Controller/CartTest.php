@@ -10,19 +10,19 @@
  */
 
 /**
- * Test class for Magento_AdvancedCheckout_Controller_Cart
+ * Test class for \Magento\AdvancedCheckout\Controller\Cart
  */
 class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
-     * Test for Magento_AdvancedCheckout_Controller_Cart::configureAction() with gift card product
+     * Test for \Magento\AdvancedCheckout\Controller\Cart::configureAction() with gift card product
      *
      * @magentoDataFixture Magento/AdvancedCheckout/_files/quote_with_gift_card_product.php
      */
     public function testConfigureActionWithGiftCardProduct()
     {
-        /** @var $session Magento_Checkout_Model_Session  */
-        $session = Mage::getModel('Magento_Checkout_Model_Session');
+        /** @var $session \Magento\Checkout\Model\Session  */
+        $session = Mage::getModel('\Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
 
@@ -31,8 +31,8 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            Magento_Core_Model_Message::ERROR,
-            'Magento_Checkout_Model_Session'
+            \Magento\Core\Model\Message::ERROR,
+            '\Magento\Checkout\Model\Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -43,7 +43,7 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
     }
 
     /**
-     * Test for Magento_AdvancedCheckout_Controller_Cart::configureFailedAction() with simple product
+     * Test for \Magento\AdvancedCheckout\Controller\Cart::configureFailedAction() with simple product
      *
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      */
@@ -54,8 +54,8 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            Magento_Core_Model_Message::ERROR,
-            'Magento_Checkout_Model_Session'
+            \Magento\Core\Model\Message::ERROR,
+            '\Magento\Checkout\Model\Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -63,7 +63,7 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
     }
 
     /**
-     * Test for Magento_AdvancedCheckout_Controller_Cart::configureFailedAction() with bundle product
+     * Test for \Magento\AdvancedCheckout\Controller\Cart::configureFailedAction() with bundle product
      *
      * @magentoDataFixture Magento/Bundle/_files/product.php
      */
@@ -74,8 +74,8 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            Magento_Core_Model_Message::ERROR,
-            'Magento_Checkout_Model_Session'
+            \Magento\Core\Model\Message::ERROR,
+            '\Magento\Checkout\Model\Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -83,7 +83,7 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
     }
 
     /**
-     * Test for Magento_AdvancedCheckout_Controller_Cart::configureFailedAction() with downloadable product
+     * Test for \Magento\AdvancedCheckout\Controller\Cart::configureFailedAction() with downloadable product
      *
      * @magentoDataFixture Magento/Downloadable/_files/product.php
      */
@@ -94,8 +94,8 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            Magento_Core_Model_Message::ERROR,
-            'Magento_Checkout_Model_Session'
+            \Magento\Core\Model\Message::ERROR,
+            '\Magento\Checkout\Model\Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -106,7 +106,7 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
     }
 
     /**
-     * Test for Magento_AdvancedCheckout_Controller_Cart::configureFailedAction() with configurable product
+     * Test for \Magento\AdvancedCheckout\Controller\Cart::configureFailedAction() with configurable product
      *
      * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
      */
@@ -117,8 +117,8 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            Magento_Core_Model_Message::ERROR,
-            'Magento_Checkout_Model_Session'
+            \Magento\Core\Model\Message::ERROR,
+            '\Magento\Checkout\Model\Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -129,7 +129,7 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
     }
 
     /**
-     * Test for Magento_AdvancedCheckout_Controller_Cart::configureFailedAction() with gift card product
+     * Test for \Magento\AdvancedCheckout\Controller\Cart::configureFailedAction() with gift card product
      *
      * @magentoDataFixture Magento/GiftCard/_files/gift_card.php
      */
@@ -140,8 +140,8 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            Magento_Core_Model_Message::ERROR,
-            'Magento_Checkout_Model_Session'
+            \Magento\Core\Model\Message::ERROR,
+            '\Magento\Checkout\Model\Session'
         );
 
         $this->assertSelectCount('button.button.btn-cart[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -152,15 +152,15 @@ class Magento_AdvancedCheckout_Controller_CartTest extends Magento_TestFramework
     }
 
     /**
-     * Gets Magento_Sales_Model_Quote_Item from Magento_Sales_Model_Quote by product id
+     * Gets \Magento\Sales\Model\Quote\Item from \Magento\Sales\Model\Quote by product id
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @param $productId
-     * @return Magento_Sales_Model_Quote_Item|null
+     * @return \Magento\Sales\Model\Quote\Item|null
      */
     private function _getQuoteItemIdByProductId($quote, $productId)
     {
-        /** @var $quoteItems Magento_Sales_Model_Quote_Item[] */
+        /** @var $quoteItems \Magento\Sales\Model\Quote\Item[] */
         $quoteItems = $quote->getAllItems();
         foreach ($quoteItems as $quoteItem) {
             if ($productId == $quoteItem->getProductId()) {

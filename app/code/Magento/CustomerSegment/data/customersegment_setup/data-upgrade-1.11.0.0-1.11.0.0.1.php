@@ -11,7 +11,7 @@
 /**
  * Resave all segments for segment conditions regeneration
  */
-$collection = Mage::getResourceModel('Magento_CustomerSegment_Model_Resource_Segment_Collection');
+$collection = \Mage::getResourceModel('\Magento\CustomerSegment\Model\Resource\Segment\Collection');
 foreach($collection as $segment) {
     $segment->afterLoad();
     $segment->save();

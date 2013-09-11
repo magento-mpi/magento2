@@ -15,6 +15,8 @@
  * @category   Magento
  * @package    Magento_Adminhtml
  */
-class Magento_Adminhtml_Exception extends Magento_Core_Exception
+namespace Magento\Adminhtml;
+
+class Exception extends \Magento\Core\Exception
 {
 }

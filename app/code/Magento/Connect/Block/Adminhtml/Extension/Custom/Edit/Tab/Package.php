@@ -15,13 +15,15 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
-    extends Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Package
+    extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
 {
     /**
      * Prepare Package Info Form before rendering HTML
      *
-     * @return Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Package
+     * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Package
      */
     protected function _prepareForm()
     {

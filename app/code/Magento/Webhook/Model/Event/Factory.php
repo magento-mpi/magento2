@@ -1,6 +1,6 @@
 <?php
 /**
- * Creates new Magento_Webhook_Model_Event objects.
+ * Creates new \Magento\Webhook\Model\Event objects.
  *
  * {license_notice}
  *
@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_Factory implements \Magento\PubSub\Event\FactoryInterface
+namespace Magento\Webhook\Model\Event;
+
+class Factory implements \Magento\PubSub\Event\FactoryInterface
 {
     /**
      * @var \Magento\ObjectManager
@@ -38,11 +40,11 @@ class Magento_Webhook_Model_Event_Factory implements \Magento\PubSub\Event\Facto
      *
      * @param string $topic Topic on which to publish data
      * @param array $data Data to be published.  Should only contain primitives
-     * @return Magento_Webhook_Model_Event
+     * @return \Magento\Webhook\Model\Event
      */
     public function create($topic, $data)
     {
-        return $this->_objectManager->create('Magento_Webhook_Model_Event', array(
+        return $this->_objectManager->create('Magento\Webhook\Model\Event', array(
             'data' => array(
                 'topic' => $topic,
                 'body_data' => serialize($this->_arrayConverter->convertDataToArray($data))
@@ -53,10 +55,10 @@ class Magento_Webhook_Model_Event_Factory implements \Magento\PubSub\Event\Facto
     /**
      * Return the empty instance of Event
      *
-     * @return Magento_Webhook_Model_Event
+     * @return \Magento\Webhook\Model\Event
      */
     public function createEmpty()
     {
-        return $this->_objectManager->create('Magento_Webhook_Model_Event');
+        return $this->_objectManager->create('Magento\Webhook\Model\Event');
     }
 }

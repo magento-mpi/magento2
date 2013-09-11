@@ -8,12 +8,12 @@
  */
 
 /**
- * Test class for Magento_FullPageCache_Model_Http_Handler
+ * Test class for \Magento\FullPageCache\Model\Http\Handler
  */
 class Magento_FullPageCache_Model_Http_HandlerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_FullPageCache_Model_Http_Handler
+     * @var \Magento\FullPageCache\Model\Http\Handler
      */
     protected $_model;
 
@@ -36,7 +36,7 @@ class Magento_FullPageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Tes
     {
         $this->_requestMock = $this->getMock('Zend_Controller_Request_Http', array(), array(), '', false, false);
         $this->_responseMock = $this->getMock('Zend_Controller_Response_Http', array(), array(), '', false, false);
-        $this->_factoryMock = $this->getMock('Magento_FullPageCache_Model_RequestProcessorFactory',
+        $this->_factoryMock = $this->getMock('Magento\FullPageCache\Model\RequestProcessorFactory',
             array(), array(), '', false, false);
     }
 
@@ -55,14 +55,14 @@ class Magento_FullPageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Tes
         $this->_requestMock->expects($this->never())->method('setDispatched');
         $this->_responseMock->expects($this->never())->method('sendResponse');
 
-        $this->_model = new Magento_FullPageCache_Model_Http_Handler(array(), $this->_factoryMock);
+        $this->_model = new \Magento\FullPageCache\Model\Http\Handler(array(), $this->_factoryMock);
         $this->_model->handle($this->_requestMock, $this->_responseMock);
     }
 
     public function testHandleWithProcessorsContent()
     {
         $processorMock = $this->getMock(
-            'Magento_FullPageCache_Model_Processor', array(), array(), '', false, false
+            '\Magento\FullPageCache\Model\Processor', array(), array(), '', false, false
         );
         $this->_factoryMock->expects($this->once())
             ->method('create')->with('processor_class')->will($this->returnValue($processorMock));
@@ -77,7 +77,7 @@ class Magento_FullPageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Tes
         $this->_responseMock->expects($this->once())->method('appendBody')->with('cache');
         $this->_responseMock->expects($this->once())->method('sendResponse');
 
-        $this->_model = new Magento_FullPageCache_Model_Http_Handler(
+        $this->_model = new \Magento\FullPageCache\Model\Http\Handler(
             array(array('sortOrder' => 10, 'class' => 'processor_class')),
             $this->_factoryMock
         );
@@ -87,7 +87,7 @@ class Magento_FullPageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Tes
     public function testHandleWithoutProcessorsContent()
     {
         $processorMock = $this->getMock(
-            'Magento_FullPageCache_Model_Processor', array(), array(), '', false, false
+            '\Magento\FullPageCache\Model\Processor', array(), array(), '', false, false
         );
         $this->_factoryMock->expects($this->once())
             ->method('create')->with('processor_class')->will($this->returnValue($processorMock));
@@ -102,7 +102,7 @@ class Magento_FullPageCache_Model_Http_HandlerTest extends PHPUnit_Framework_Tes
         $this->_responseMock->expects($this->never())->method('appendBody');
         $this->_responseMock->expects($this->never())->method('sendResponse');
 
-        $this->_model = new Magento_FullPageCache_Model_Http_Handler(
+        $this->_model = new \Magento\FullPageCache\Model\Http\Handler(
             array(array('sortOrder' => 10, 'class' => 'processor_class')),
             $this->_factoryMock
         );

@@ -16,7 +16,9 @@
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\Review\Model\Resource\Review\Product;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Entities alias
@@ -53,16 +55,16 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Product', 'Magento_Catalog_Model_Resource_Product');
+        $this->_init('\Magento\Catalog\Model\Product', '\Magento\Catalog\Model\Resource\Product');
         $this->setRowIdFieldName('review_id');
-        $this->_reviewStoreTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review_store');
+        $this->_reviewStoreTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('review_store');
         $this->_initTables();
     }
 
     /**
      * init select
      *
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     protected function _initSelect()
     {
@@ -75,7 +77,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      * Adds store filter into array
      *
      * @param mixed $storeId
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function addStoreFilter($storeId = null)
     {
@@ -102,7 +104,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      * Adds specific store id into array
      *
      * @param array $storeId
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function setStoreFilter($storeId)
     {
@@ -127,9 +129,9 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      * Applies all store filters in one place to prevent multiple joins in select
      *
      * @param null|Zend_Db_Select $select
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
-    protected function _applyStoresFilterToSelect(Zend_Db_Select $select = null)
+    protected function _applyStoresFilterToSelect(\Zend_Db_Select $select = null)
     {
         $adapter = $this->getConnection();
         $storesIds = $this->_storesIds;
@@ -159,7 +161,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     /**
      * Add stores data
      *
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function addStoreData()
     {
@@ -171,7 +173,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      * Add customer filter
      *
      * @param int $customerId
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function addCustomerFilter($customerId)
     {
@@ -184,7 +186,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      * Add entity filter
      *
      * @param int $entityId
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function addEntityFilter($entityId)
     {
@@ -197,7 +199,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      * Add status filter
      *
      * @param mixed $status
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function addStatusFilter($status)
     {
@@ -210,7 +212,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      * Set date order
      *
      * @param string $dir
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function setDateOrder($dir = 'DESC')
     {
@@ -221,12 +223,12 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     /**
      * Add review summary
      *
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function addReviewSummary()
     {
         foreach ($this->getItems() as $item) {
-            $model = Mage::getModel('Magento_Rating_Model_Rating');
+            $model = \Mage::getModel('\Magento\Rating\Model\Rating');
             $model->getReviewSummary($item->getReviewId());
             $item->addData($model->getData());
         }
@@ -236,15 +238,15 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     /**
      * Add rote votes
      *
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function addRateVotes()
     {
         foreach ($this->getItems() as $item) {
-            $votesCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
+            $votesCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
                 ->getResourceCollection()
                 ->setEntityPkFilter($item->getEntityId())
-                ->setStoreFilter(Mage::app()->getStore()->getId())
+                ->setStoreFilter(\Mage::app()->getStore()->getId())
                 ->load();
             $item->setRatingVotes($votesCollection);
         }
@@ -254,12 +256,12 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     /**
      * join fields to entity
      *
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     protected function _joinFields()
     {
-        $reviewTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review');
-        $reviewDetailTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('review_detail');
+        $reviewTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('review');
+        $reviewDetailTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('review_detail');
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('sku');
@@ -284,10 +286,10 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     public function getAllIds($limit = null, $offset = null)
     {
         $idsSelect = clone $this->getSelect();
-        $idsSelect->reset(Zend_Db_Select::ORDER);
-        $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $idsSelect->reset(Zend_Db_Select::COLUMNS);
+        $idsSelect->reset(\Zend_Db_Select::ORDER);
+        $idsSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $idsSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $idsSelect->reset(\Zend_Db_Select::COLUMNS);
         $idsSelect->columns('rt.review_id');
         return $this->getConnection()->fetchCol($idsSelect);
     }
@@ -300,10 +302,10 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     public function getResultingIds()
     {
         $idsSelect = clone $this->getSelect();
-        $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $idsSelect->reset(Zend_Db_Select::COLUMNS);
-        $idsSelect->reset(Zend_Db_Select::ORDER);
+        $idsSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $idsSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $idsSelect->reset(\Zend_Db_Select::COLUMNS);
+        $idsSelect->reset(\Zend_Db_Select::ORDER);
         $idsSelect->columns('rt.review_id');
         return $this->getConnection()->fetchCol($idsSelect);
     }
@@ -316,9 +318,9 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     public function getSelectCountSql()
     {
         $select = parent::getSelectCountSql();
-        $select->reset(Zend_Db_Select::COLUMNS)
+        $select->reset(\Zend_Db_Select::COLUMNS)
             ->columns('COUNT(e.entity_id)')
-            ->reset(Zend_Db_Select::HAVING);
+            ->reset(\Zend_Db_Select::HAVING);
 
         return $select;
     }
@@ -328,7 +330,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function setOrder($attribute, $dir = 'DESC')
     {
@@ -357,10 +359,10 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     /**
      * Add attribute to filter
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract|string $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|string $attribute
      * @param array $condition
      * @param string $joinType
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     public function addAttributeToFilter($attribute, $condition = null, $joinType = 'inner')
     {
@@ -380,10 +382,10 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
             case 'type':
                 if ($condition == 1) {
                     $conditionParts = array(
-                        $this->_getConditionSql('rdt.customer_id', array('is' => new Zend_Db_Expr('NULL'))),
+                        $this->_getConditionSql('rdt.customer_id', array('is' => new \Zend_Db_Expr('NULL'))),
                         $this->_getConditionSql(
                             'rdt.store_id',
-                            array('eq' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+                            array('eq' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
                         )
                     );
                     $conditionSql = implode(' AND ', $conditionParts);
@@ -391,10 +393,10 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
                     $conditionSql = $this->_getConditionSql('rdt.customer_id', array('gt' => 0));
                 } else {
                     $conditionParts = array(
-                        $this->_getConditionSql('rdt.customer_id', array('is' => new Zend_Db_Expr('NULL'))),
+                        $this->_getConditionSql('rdt.customer_id', array('is' => new \Zend_Db_Expr('NULL'))),
                         $this->_getConditionSql(
                             'rdt.store_id',
-                            array('neq' => Magento_Core_Model_AppInterface::ADMIN_STORE_ID)
+                            array('neq' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
                         )
                     );
                     $conditionSql = implode(' AND ', $conditionParts);
@@ -427,7 +429,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     /**
      * Action after load
      *
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     protected function _afterLoad()
     {
@@ -477,7 +479,7 @@ class Magento_Review_Model_Resource_Review_Product_Collection extends Magento_Ca
     /**
      * Redeclare parent method for store filters applying
      *
-     * @return Magento_Review_Model_Resource_Review_Product_Collection
+     * @return \Magento\Review\Model\Resource\Review\Product\Collection
      */
     protected function _beforeLoad()
     {

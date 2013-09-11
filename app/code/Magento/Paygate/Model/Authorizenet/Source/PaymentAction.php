@@ -14,17 +14,19 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paygate_Model_Authorizenet_Source_PaymentAction
+namespace Magento\Paygate\Model\Authorizenet\Source;
+
+class PaymentAction
 {
     public function toOptionArray()
     {
         return array(
             array(
-                'value' => Magento_Paygate_Model_Authorizenet::ACTION_AUTHORIZE,
+                'value' => \Magento\Paygate\Model\Authorizenet::ACTION_AUTHORIZE,
                 'label' => __('Authorize Only')
             ),
             array(
-                'value' => Magento_Paygate_Model_Authorizenet::ACTION_AUTHORIZE_CAPTURE,
+                'value' => \Magento\Paygate\Model\Authorizenet::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Authorize and Capture')
             ),
         );

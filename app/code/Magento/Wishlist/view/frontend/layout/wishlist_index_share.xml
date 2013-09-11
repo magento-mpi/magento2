@@ -11,7 +11,7 @@
     <handle label="Customer My Account Wish List Sharing Form" id="wishlist_index_share" type="page" parent="wishlist_index_index">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block class="Magento_Wishlist_Block_Customer_Sharing" name="wishlist.sharing" template="sharing.phtml"/>
+            <block class="\Magento\Wishlist\Block\Customer\Sharing" name="wishlist.sharing" template="sharing.phtml"/>
         </reference>
         <reference name="right">
             <action method="unsetChild">

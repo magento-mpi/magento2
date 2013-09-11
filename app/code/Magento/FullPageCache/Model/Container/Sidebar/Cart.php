@@ -11,7 +11,9 @@
 /**
  * Cart sidebar container
  */
-class Magento_FullPageCache_Model_Container_Sidebar_Cart extends Magento_FullPageCache_Model_Container_Advanced_Quote
+namespace Magento\FullPageCache\Model\Container\Sidebar;
+
+class Cart extends \Magento\FullPageCache\Model\Container\Advanced\Quote
 {
     /**
      * Cache tag prefix

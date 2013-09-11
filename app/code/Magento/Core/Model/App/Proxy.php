@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
+namespace Magento\Core\Model\App;
+
+class Proxy implements \Magento\Core\Model\AppInterface
 {
     /**
      * @var \Magento\ObjectManager
@@ -15,7 +17,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_app = null;
 
@@ -30,12 +32,12 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Get application model
      *
-     * @return Magento_Core_Model_App
+     * @return \Magento\Core\Model\App
      */
     protected function _getApp()
     {
         if (null === $this->_app) {
-            $this->_app = $this->_objectManager->get('Magento_Core_Model_App');
+            $this->_app = $this->_objectManager->get('Magento\Core\Model\App');
         }
 
         return $this->_app;
@@ -44,7 +46,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Run application. Run process responsible for request processing and sending response.
      *
-     * @return Magento_Core_Model_AppInterface
+     * @return \Magento\Core\Model\AppInterface
      */
     public function run()
     {
@@ -64,7 +66,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve cookie object
      *
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     public function getCookie()
     {
@@ -125,7 +127,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
      * Re-declare custom error handler
      *
      * @param   string $handler
-     * @return  Magento_Core_Model_AppInterface
+     * @return  \Magento\Core\Model\AppInterface
      */
     public function setErrorHandler($handler)
     {
@@ -136,7 +138,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
      * Loading application area
      *
      * @param   string $code
-     * @return  Magento_Core_Model_AppInterface
+     * @return  \Magento\Core\Model\AppInterface
      */
     public function loadArea($code)
     {
@@ -148,7 +150,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
      *
      * @param   string $area
      * @param   string $part
-     * @return  Magento_Core_Model_AppInterface
+     * @return  \Magento\Core\Model\AppInterface
      */
     public function loadAreaPart($area, $part)
     {
@@ -159,7 +161,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
      * Retrieve application area
      *
      * @param   string $code
-     * @return  Magento_Core_Model_App_Area
+     * @return  \Magento\Core\Model\App\Area
      */
     public function getArea($code)
     {
@@ -169,9 +171,9 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
-     * @return Magento_Core_Model_Store
-     * @throws Magento_Core_Model_Store_Exception
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
+     * @return \Magento\Core\Model\Store
+     * @throws \Magento\Core\Model\Store\Exception
      */
     public function getStore($storeId = null)
     {
@@ -181,8 +183,8 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve application store object without Store_Exception
      *
-     * @param string|int|Magento_Core_Model_Store $storeId
-     * @return Magento_Core_Model_Store
+     * @param string|int|\Magento\Core\Model\Store $storeId
+     * @return \Magento\Core\Model\Store
      */
     public function getSafeStore($storeId = null)
     {
@@ -204,7 +206,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getDefaultStoreView()
     {
@@ -224,9 +226,9 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|Magento_Core_Model_Website $websiteId
-     * @return Magento_Core_Model_Website
-     * @throws Magento_Core_Exception
+     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
+     * @return \Magento\Core\Model\Website
+     * @throws \Magento\Core\Exception
      */
     public function getWebsite($websiteId = null)
     {
@@ -248,9 +250,9 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve application store group object
      *
-     * @param null|Magento_Core_Model_Store_Group|string $groupId
-     * @return Magento_Core_Model_Store_Group
-     * @throws Magento_Core_Exception
+     * @param null|\Magento\Core\Model\Store\Group|string $groupId
+     * @return \Magento\Core\Model\Store\Group
+     * @throws \Magento\Core\Exception
      */
     public function getGroup($groupId = null)
     {
@@ -260,7 +262,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve application locale object
      *
-     * @return Magento_Core_Model_LocaleInterface
+     * @return \Magento\Core\Model\LocaleInterface
      */
     public function getLocale()
     {
@@ -270,7 +272,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve layout object
      *
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function getLayout()
     {
@@ -281,7 +283,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
      * Retrieve helper object
      *
      * @param string $name
-     * @return Magento_Core_Helper_Abstract
+     * @return \Magento\Core\Helper\AbstractHelper
      */
     public function getHelper($name)
     {
@@ -301,7 +303,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve configuration object
      *
-     * @return Magento_Core_Model_Config
+     * @return \Magento\Core\Model\Config
      */
     public function getConfig()
     {
@@ -311,7 +313,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve front controller object
      *
-     * @return Magento_Core_Controller_Varien_Front
+     * @return \Magento\Core\Controller\Varien\Front
      */
     public function getFrontController()
     {
@@ -321,7 +323,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Get core cache model
      *
-     * @return Magento_Core_Model_CacheInterface
+     * @return \Magento\Core\Model\CacheInterface
      */
     public function getCacheInstance()
     {
@@ -331,7 +333,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve cache object
      *
-     * @return Zend_Cache_Core
+     * @return \Zend_Cache_Core
      */
     public function getCache()
     {
@@ -356,7 +358,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
      * @param string $cacheId
      * @param array $tags
      * @param bool $lifeTime
-     * @return Magento_Core_Model_AppInterface
+     * @return \Magento\Core\Model\AppInterface
      */
     public function saveCache($data, $cacheId, $tags = array(), $lifeTime = false)
     {
@@ -367,7 +369,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
      * Remove cache
      *
      * @param   string $cacheId
-     * @return  Magento_Core_Model_AppInterface
+     * @return  \Magento\Core\Model\AppInterface
      */
     public function removeCache($cacheId)
     {
@@ -378,7 +380,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
      * Cleaning cache
      *
      * @param   array $tags
-     * @return  Magento_Core_Model_AppInterface
+     * @return  \Magento\Core\Model\AppInterface
      */
     public function cleanCache($tags = array())
     {
@@ -388,7 +390,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Deletes all session files
      *
-     * @return Magento_Core_Model_AppInterface
+     * @return \Magento\Core\Model\AppInterface
      */
     public function cleanAllSessions()
     {
@@ -398,7 +400,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve request object
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function getRequest()
     {
@@ -408,10 +410,10 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Request setter
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @return Magento_Core_Model_AppInterface
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @return \Magento\Core\Model\AppInterface
      */
-    public function setRequest(Magento_Core_Controller_Request_Http $request)
+    public function setRequest(\Magento\Core\Controller\Request\Http $request)
     {
         return $this->_getApp()->setRequest($request);
     }
@@ -419,7 +421,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Retrieve response object
      *
-     * @return Zend_Controller_Response_Http
+     * @return \Zend_Controller_Response_Http
      */
     public function getResponse()
     {
@@ -429,16 +431,16 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Response setter
      *
-     * @param Magento_Core_Controller_Response_Http $response
-     * @return Magento_Core_Model_AppInterface
+     * @param \Magento\Core\Controller\Response\Http $response
+     * @return \Magento\Core\Model\AppInterface
      */
-    public function setResponse(Magento_Core_Controller_Response_Http $response)
+    public function setResponse(\Magento\Core\Controller\Response\Http $response)
     {
         return $this->_getApp()->setResponse($response);
     }
 
    /**
-     * @throws Magento_Core_Model_Store_Exception
+     * @throws \Magento\Core\Model\Store\Exception
      */
     public function throwStoreException()
     {
@@ -449,7 +451,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
      * Set use session var instead of SID for URL
      *
      * @param bool $var
-     * @return Magento_Core_Model_AppInterface
+     * @return \Magento\Core\Model\AppInterface
      */
     public function setUseSessionVar($var)
     {
@@ -469,7 +471,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      * Get either default or any store view
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getAnyStoreView()
     {
@@ -480,7 +482,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
      * Set Use session in URL flag
      *
      * @param bool $flag
-     * @return Magento_Core_Model_AppInterface
+     * @return \Magento\Core\Model\AppInterface
      */
     public function setUseSessionInUrl($flag = true)
     {
@@ -524,7 +526,7 @@ class Magento_Core_Model_App_Proxy implements Magento_Core_Model_AppInterface
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|Magento_Core_Model_Website $websiteId
+     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
      */
     public function clearWebsiteCache($websiteId = null)
     {

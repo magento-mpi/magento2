@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Magento_Wishlist_Block_Customer_Sidebar */
+/* @var $this \Magento\Wishlist\Block\Customer\Sidebar */
 ?>
-<?php if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) : ?>
+<?php if ($this->helper('\Magento\Wishlist\Helper\Data')->isAllow()) : ?>
 <div class="block block-wishlist">
     <div class="block-title">
         <strong><span><?php echo $this->getTitle(); ?></span></strong>
@@ -35,7 +35,7 @@
     </ol>
     <script type="text/javascript">(function($) {$('#wishlist-sidebar').decorate('list', false)})(jQuery)</script>
     <div class="actions">
-        <a href="<?php echo $this->helper('Magento_Wishlist_Helper_Data')->getListUrl() ?>"><?php echo __('Go to Wish List') ?></a>
+        <a href="<?php echo $this->helper('\Magento\Wishlist\Helper\Data')->getListUrl() ?>"><?php echo __('Go to Wish List') ?></a>
     </div>
     <?php else: ?>
         <p class="empty"><?php echo __('You have no items in your wishlist.') ?></p>

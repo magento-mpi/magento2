@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
-    extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Shipping\Method;
+
+class Form
+    extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     protected $_rates;
 
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
     /**
      * Retrieve quote shipping address model
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
+        if ($name = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
             return $name;
         }
         return $carrierCode;
@@ -99,7 +101,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
     /**
      * Retrieve rate of active shipping method
      *
-     * @return Magento_Sales_Model_Quote_Address_Rate || false
+     * @return \Magento\Sales\Model\Quote\Address\Rate || false
      */
     public function getActiveMethodRate()
     {
@@ -124,7 +126,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Shipping_Method_Form
     public function getShippingPrice($price, $flag)
     {
         return $this->getQuote()->getStore()->convertPrice(
-            Mage::helper('Magento_Tax_Helper_Data')->getShippingPrice(
+            \Mage::helper('Magento\Tax\Helper\Data')->getShippingPrice(
                 $price,
                 $flag,
                 $this->getAddress(),

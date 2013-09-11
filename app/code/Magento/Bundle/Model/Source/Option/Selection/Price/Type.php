@@ -15,7 +15,9 @@
  * @package    Magento_Bundle
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Source_Option_Selection_Price_Type
+namespace Magento\Bundle\Model\Source\Option\Selection\Price;
+
+class Type
 {
     public function toOptionArray()
     {

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Weee_Block_Renderer_Weee_Tax extends Magento_Adminhtml_Block_Widget implements \Magento\Data\Form\Element\Renderer\RendererInterface
+namespace Magento\Weee\Block\Renderer\Weee;
+
+class Tax extends \Magento\Adminhtml\Block\Widget implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_element = null;
     protected $_countries = null;
@@ -24,7 +26,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax extends Magento_Adminhtml_Block_Widge
 
     public function getProduct()
     {
-        return Mage::registry('product');
+        return \Mage::registry('product');
     }
 
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
@@ -40,7 +42,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax extends Magento_Adminhtml_Block_Widge
     {
         $this->addChild(
             'add_button',
-            'Magento_Adminhtml_Block_Widget_Button',
+            '\Magento\Adminhtml\Block\Widget\Button',
             array(
                 'label' => __('Add Tax'),
                 'data_attribute' => array('action' => 'add-fpt-item'),
@@ -49,7 +51,7 @@ class Magento_Weee_Block_Renderer_Weee_Tax extends Magento_Adminhtml_Block_Widge
         );
         $this->addChild(
             'delete_button',
-            'Magento_Adminhtml_Block_Widget_Button',
+            '\Magento\Adminhtml\Block\Widget\Button',
             array(
                 'label' => __('Delete Tax'),
                 'data_attribute' => array('action' => 'delete-fpt-item'),
@@ -100,13 +102,13 @@ class Magento_Weee_Block_Renderer_Weee_Tax extends Magento_Adminhtml_Block_Widge
 
     public function isMultiWebsites()
     {
-        return !Mage::app()->hasSingleStore();
+        return !\Mage::app()->hasSingleStore();
     }
 
     public function getCountries()
     {
         if (is_null($this->_countries)) {
-            $this->_countries = Mage::getModel('Magento_Directory_Model_Config_Source_Country')->toOptionArray();
+            $this->_countries = \Mage::getModel('\Magento\Directory\Model\Config\Source\Country')->toOptionArray();
         }
 
         return $this->_countries;
@@ -120,24 +122,24 @@ class Magento_Weee_Block_Renderer_Weee_Tax extends Magento_Adminhtml_Block_Widge
         $websites = array();
         $websites[0] = array(
             'name'     => __('All Websites'),
-            'currency' => Mage::app()->getBaseCurrencyCode()
+            'currency' => \Mage::app()->getBaseCurrencyCode()
         );
 
-        if (!Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
+        if (!\Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             if ($storeId = $this->getProduct()->getStoreId()) {
-                $website = Mage::app()->getStore($storeId)->getWebsite();
+                $website = \Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
                     'name'     => $website->getName(),
-                    'currency' => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
                 );
             } else {
-                foreach (Mage::app()->getWebsites() as $website) {
+                foreach (\Mage::app()->getWebsites() as $website) {
                     if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
                         continue;
                     }
                     $websites[$website->getId()] = array(
                         'name'     => $website->getName(),
-                        'currency' => $website->getConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
                     );
                 }
             }

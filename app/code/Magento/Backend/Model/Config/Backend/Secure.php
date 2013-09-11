@@ -5,24 +5,26 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Backend_Secure extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend;
+
+class Secure extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var Magento_Core_Model_Page_Asset_MergeService
+     * @var \Magento\Core\Model\Page\Asset\MergeService
      */
     protected $_mergeService;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Page_Asset_MergeService $mergeService
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Page\Asset\MergeService $mergeService
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Page_Asset_MergeService $mergeService,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Page\Asset\MergeService $mergeService,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

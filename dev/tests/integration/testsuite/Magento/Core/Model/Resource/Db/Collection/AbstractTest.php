@@ -9,14 +9,14 @@
 class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');
-        $resource = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract',
+        $resourceModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource');
+        $resource = $this->getMockForAbstractClass('\Magento\Core\Model\Resource\Db\AbstractDb',
             array($resourceModel), '', true, true, true, array('getMainTable', 'getIdFieldName')
         );
 
@@ -30,7 +30,7 @@ class Magento_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Fra
         $fetchStrategy = $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface');
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Resource_Db_Collection_Abstract',
+            '\Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
             array($fetchStrategy, $resource)
         );
     }

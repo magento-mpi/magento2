@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Customer\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 
     protected function _construct()
@@ -31,11 +33,11 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Adminhtml_Block
         \Magento\Profiler::start('customer/tabs');
 
         /*
-                if (Mage::registry('current_customer')->getId()) {
+                if (\Mage::registry('current_customer')->getId()) {
                     $this->addTab('view', array(
                         'label'     => __('Customer View'),
                         'content'   => $this->getLayout()
-                        ->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_View')->toHtml(),
+                        ->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\View')->toHtml(),
                         'active'    => true
                     ));
                 }
@@ -43,20 +45,20 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Adminhtml_Block
         $this->addTab('account', array(
             'label'     => __('Account Information'),
             'content'   => $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Account')->initForm()->toHtml(),
-            'active'    => Mage::registry('current_customer')->getId() ? false : true
+                ->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\Account')->initForm()->toHtml(),
+            'active'    => \Mage::registry('current_customer')->getId() ? false : true
         ));
 
         $this->addTab('addresses', array(
             'label'     => __('Addresses'),
             'content'   => $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Addresses')->initForm()->toHtml(),
+                ->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\Addresses')->initForm()->toHtml(),
         ));
 
 
         // load: Orders, Shopping Cart, Wishlist, Product Reviews, Product Tags - with ajax
 
-        if (Mage::registry('current_customer')->getId()) {
+        if (\Mage::registry('current_customer')->getId()) {
 
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->addTab('orders', array(
@@ -82,7 +84,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tabs extends Magento_Adminhtml_Block
                 $this->addTab('newsletter', array(
                     'label'     => __('Newsletter'),
                     'content'   => $this->getLayout()
-                        ->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter')->initForm()->toHtml()
+                        ->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter')->initForm()->toHtml()
                 ));
             }
 

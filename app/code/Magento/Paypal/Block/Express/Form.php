@@ -11,13 +11,15 @@
 /**
  * PayPal Standard payment "form"
  */
-class Magento_Paypal_Block_Express_Form extends Magento_Paypal_Block_Standard_Form
+namespace Magento\Paypal\Block\Express;
+
+class Form extends \Magento\Paypal\Block\Standard\Form
 {
     /**
      * Payment method code
      * @var string
      */
-    protected $_methodCode = Magento_Paypal_Model_Config::METHOD_WPP_EXPRESS;
+    protected $_methodCode = \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS;
 
     /**
      * Set template and redirect message
@@ -32,14 +34,14 @@ class Magento_Paypal_Block_Express_Form extends Magento_Paypal_Block_Standard_Fo
     /**
      * Set data to block
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
-        if (Mage::helper('Magento_Paypal_Helper_Data')->shouldAskToCreateBillingAgreement($this->_config, $customerId)
+        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
+        if (\Mage::helper('Magento\Paypal\Helper\Data')->shouldAskToCreateBillingAgreement($this->_config, $customerId)
              && $this->canCreateBillingAgreement()) {
-            $this->setCreateBACode(Magento_Paypal_Model_Express_Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
+            $this->setCreateBACode(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
         }
         return parent::_beforeToHtml();
     }

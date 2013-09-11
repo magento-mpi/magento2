@@ -15,18 +15,20 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
-    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Abstract
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
+
+class History
+    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
      * Prepare child blocks
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\History
      */
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('rma-history-block').parentNode, '".$this->getSubmitUrl()."')";
-        $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $button = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Submit Comment'),
                 'class'   => 'save',
@@ -44,8 +46,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
      */
     public function canSendCommentEmail()
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        /** @var $configRmaEmail \Magento\Rma\Model\Config */
+        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
         $configRmaEmail->init($configRmaEmail->getRootCommentEmail(), $this->getOrder()->getStore());
         return $configRmaEmail->isEnabled();
     }
@@ -57,8 +59,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
      */
     public function canSendConfirmationEmail()
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        /** @var $configRmaEmail \Magento\Rma\Model\Config */
+        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
         $configRmaEmail->init($configRmaEmail->getRootRmaEmail(), $this->getOrder()->getStore());
         return $configRmaEmail->isEnabled();
     }
@@ -74,8 +76,8 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_History
     }
 
     public function getComments() {
-        return Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Status_History_Collection')
-            ->addFieldToFilter('rma_entity_id', Mage::registry('current_rma')->getId());
+        return \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Status\History\Collection')
+            ->addFieldToFilter('rma_entity_id', \Mage::registry('current_rma')->getId());
     }
 
 }

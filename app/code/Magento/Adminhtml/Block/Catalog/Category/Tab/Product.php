@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Catalog\Category\Tab;
+
+class Product extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Admin
 
     public function getCategory()
     {
-        return Mage::registry('category');
+        return \Mage::registry('category');
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -57,7 +59,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Admin
         if ($this->getCategory()->getId()) {
             $this->setDefaultFilter(array('in_category'=>1));
         }
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
@@ -112,7 +114,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Admin
             'header'    => __('Price'),
             'type'  => 'currency',
             'width'     => '1',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
             'index'     => 'price'
         ));
         $this->addColumn('position', array(
@@ -121,7 +123,7 @@ class Magento_Adminhtml_Block_Catalog_Category_Tab_Product extends Magento_Admin
             'type'      => 'number',
             'index'     => 'position',
             'editable'  => !$this->getCategory()->getProductsReadonly()
-            //'renderer'  => 'Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Input'
+            //'renderer'  => '\Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Input'
         ));
 
         return parent::_prepareColumns();

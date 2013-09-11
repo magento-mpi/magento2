@@ -10,11 +10,13 @@
 
 
 /**
- * Custom Zend_Controller_Response_Http class (formally)
+ * Custom \Zend_Controller_Response_Http class (formally)
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Http
+namespace Magento\Core\Controller\Response;
+
+class Http extends \Zend_Controller_Response_Http
 {
     /**
      * Transport object for observers to perform
@@ -28,12 +30,12 @@ class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Htt
      *
      * @link  http://bugs.php.net/bug.php?id=36705
      *
-     * @return Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     public function sendHeaders()
     {
         if (!$this->canSendHeaders()) {
-            Mage::log('HEADERS ALREADY SENT: '.mageDebugBacktrace(true, true, true));
+            \Mage::log('HEADERS ALREADY SENT: '.mageDebugBacktrace(true, true, true));
             return $this;
         }
 
@@ -71,7 +73,7 @@ class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Htt
      *
      * @param string $url
      * @param int $code
-     * @return Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     public function setRedirect($url, $code = 302)
     {
@@ -83,7 +85,7 @@ class Magento_Core_Controller_Response_Http extends Zend_Controller_Response_Htt
         }
         self::$_transportObject->setUrl($url);
         self::$_transportObject->setCode($code);
-        Mage::dispatchEvent('controller_response_redirect',
+        \Mage::dispatchEvent('controller_response_redirect',
                 array('response' => $this, 'transport' => self::$_transportObject));
 
         return parent::setRedirect(self::$_transportObject->getUrl(), self::$_transportObject->getCode());

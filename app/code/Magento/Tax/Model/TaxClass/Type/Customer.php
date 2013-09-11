@@ -11,12 +11,14 @@
 /**
  * Customer Tax Class
  */
-class Magento_Tax_Model_TaxClass_Type_Customer
-    extends Magento_Tax_Model_TaxClass_TypeAbstract
-    implements Magento_Tax_Model_TaxClass_Type_Interface
+namespace Magento\Tax\Model\TaxClass\Type;
+
+class Customer
+    extends \Magento\Tax\Model\TaxClass\TypeAbstract
+    implements \Magento\Tax\Model\TaxClass\Type\TypeInterface
 {
     /**
-     * @var Magento_Customer_Model_Group
+     * @var \Magento\Customer\Model\Group
      */
     protected $_modelCustomerGroup;
 
@@ -25,16 +27,16 @@ class Magento_Tax_Model_TaxClass_Type_Customer
      *
      * @var string
      */
-    protected $_classType = Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER;
+    protected $_classType = \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER;
 
     /**
-     * @param Magento_Tax_Model_Calculation_Rule $calculationRule
-     * @param Magento_Customer_Model_Group $modelCustomerGroup
+     * @param \Magento\Tax\Model\Calculation\Rule $calculationRule
+     * @param \Magento\Customer\Model\Group $modelCustomerGroup
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Model_Calculation_Rule $calculationRule,
-        Magento_Customer_Model_Group $modelCustomerGroup,
+        \Magento\Tax\Model\Calculation\Rule $calculationRule,
+        \Magento\Customer\Model\Group $modelCustomerGroup,
         array $data = array()
     ) {
         parent::__construct($calculationRule, $data);
@@ -44,7 +46,7 @@ class Magento_Tax_Model_TaxClass_Type_Customer
     /**
      * Get Customer Groups with this tax class
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getAssignedToObjects()
     {

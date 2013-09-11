@@ -11,19 +11,19 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
 {
     const WEBAPI_AREA_FRONT_NAME = 'webapi';
 
-    /** @var Magento_Webapi_Model_Soap_Server */
+    /** @var \Magento\Webapi\Model\Soap\Server */
     protected $_soapServer;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_appMock;
 
-    /** @var Magento_Core_Model_Store */
+    /** @var \Magento\Core\Model\Store */
     protected $_storeMock;
 
-    /** @var Magento_Core_Model_Config */
+    /** @var \Magento\Core\Model\Config */
     protected $_configMock;
 
-    /** @var Magento_Webapi_Controller_Request_Soap */
+    /** @var \Magento\Webapi\Controller\Request\Soap */
     protected $_requestMock;
 
     /** @var \Magento\DomDocument\Factory */
@@ -32,24 +32,24 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Init all dependencies for SUT. */
-        $this->_storeMock = $this->getMockBuilder('Magento_Core_Model_Store')->disableOriginalConstructor()->getMock();
-        $this->_configMock = $this->getMockBuilder('Magento_Core_Model_Config')
+        $this->_storeMock = $this->getMockBuilder('Magento\Core\Model\Store')->disableOriginalConstructor()->getMock();
+        $this->_configMock = $this->getMockBuilder('Magento\Core\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_configMock->expects($this->any())->method('getAreaFrontName')->will(
             $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)
         );
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
         $this->_appMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
         $this->_appMock->expects($this->any())->method('getConfig')->will($this->returnValue($this->_configMock));
-        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Request_Soap')
+        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Request\Soap')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_domDocumentFactory = $this->getMockBuilder('Magento\DomDocument\Factory')
             ->disableOriginalConstructor()->getMock();
 
         /** Init SUT. */
-        $this->_soapServer = new Magento_Webapi_Model_Soap_Server(
+        $this->_soapServer = new \Magento\Webapi\Model\Soap\Server(
             $this->_appMock,
             $this->_requestMock,
             $this->_domDocumentFactory
@@ -87,7 +87,7 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     {
         $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue(null));
         $this->assertEquals(
-            Magento_Webapi_Model_Soap_Server::SOAP_DEFAULT_ENCODING,
+            \Magento\Webapi\Model\Soap\Server::SOAP_DEFAULT_ENCODING,
             $this->_soapServer->getApiCharset(),
             'Default API charset encoding getting is invalid.'
         );
@@ -135,7 +135,7 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
             $this->returnValue('http://magento.com/')
         );
         $expectedResult = 'http://magento.com/' . self::WEBAPI_AREA_FRONT_NAME . '/'
-            . Magento_Webapi_Controller_Front::API_TYPE_SOAP;
+            . \Magento\Webapi\Controller\Front::API_TYPE_SOAP;
         $actualResult = $this->_soapServer->getEndpointUri();
         $this->assertEquals($expectedResult, $actualResult, 'Endpoint URI building is invalid.');
     }
@@ -153,12 +153,12 @@ class Magento_Webapi_Model_Soap_ServerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test fault method with Magento_Webapi_Model_Soap_Fault.
+     * Test fault method with \Magento\Webapi\Model\Soap\Fault.
      */
     public function testWebapiSoapFault()
     {
         /** Mock Webapi Soap fault. */
-        $apiFault = $this->getMockBuilder('Magento_Webapi_Model_Soap_Fault')->disableOriginalConstructor()->getMock();
+        $apiFault = $this->getMockBuilder('Magento\Webapi\Model\Soap\Fault')->disableOriginalConstructor()->getMock();
         /** Assert that mocked fault toXml method will be executed once. */
         $apiFault->expects($this->once())->method('toXml');
         $this->_soapServer->fault($apiFault);

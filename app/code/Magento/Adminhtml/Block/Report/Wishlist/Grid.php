@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Wishlist_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Report\Wishlist;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Report_Wishlist_Grid extends Magento_Adminhtml_Blo
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Wishlist_Product_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Wishlist\Product\Collection')
             ->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('name')
             ->addWishlistCount();

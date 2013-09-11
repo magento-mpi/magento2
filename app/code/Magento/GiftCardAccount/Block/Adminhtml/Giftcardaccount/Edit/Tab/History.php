@@ -9,7 +9,9 @@
  */
 
 
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
+
+class History extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected $_collection;
 
@@ -23,9 +25,9 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History e
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_GiftCardAccount_Model_History')
+        $collection = \Mage::getModel('\Magento\GiftCardAccount\Model\History')
             ->getCollection()
-            ->addFieldToFilter('giftcardaccount_id', Mage::registry('current_giftcardaccount')->getId());
+            ->addFieldToFilter('giftcardaccount_id', \Mage::registry('current_giftcardaccount')->getId());
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -54,10 +56,10 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History e
             'index'     => 'action',
             'sortable'  => false,
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_GiftCardAccount_Model_History')->getActionNamesArray(),
+            'options'   => \Mage::getSingleton('Magento\GiftCardAccount\Model\History')->getActionNamesArray(),
         ));
 
-        $currency = Mage::app()->getWebsite(Mage::registry('current_giftcardaccount')->getWebsiteId())->getBaseCurrencyCode();
+        $currency = \Mage::app()->getWebsite(\Mage::registry('current_giftcardaccount')->getWebsiteId())->getBaseCurrencyCode();
         $this->addColumn('balance_delta', array(
             'header'        => __('Balance Change'),
             'width'         => 50,

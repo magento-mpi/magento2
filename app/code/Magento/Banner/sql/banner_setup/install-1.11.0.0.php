@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Banner_Model_Resource_Setup */
+/* @var $installer \Magento\Banner\Model\Resource\Setup */
 $installer = $this;
 $installer->startSetup();
 

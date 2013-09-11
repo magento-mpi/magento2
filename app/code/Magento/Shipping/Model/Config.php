@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Shipping_Model_Config extends \Magento\Object
+namespace Magento\Shipping\Model;
+
+class Config extends \Magento\Object
 {
     /**
      * Shipping origin settings
@@ -30,9 +32,9 @@ class Magento_Shipping_Model_Config extends \Magento\Object
     public function getActiveCarriers($store = null)
     {
         $carriers = array();
-        $config = Mage::getStoreConfig('carriers', $store);
+        $config = \Mage::getStoreConfig('carriers', $store);
         foreach ($config as $code => $carrierConfig) {
-            if (Mage::getStoreConfigFlag('carriers/'.$code.'/active', $store)) {
+            if (\Mage::getStoreConfigFlag('carriers/'.$code.'/active', $store)) {
                 $carrierModel = $this->_getCarrier($code, $carrierConfig, $store);
                 if ($carrierModel) {
                     $carriers[$code] = $carrierModel;
@@ -51,7 +53,7 @@ class Magento_Shipping_Model_Config extends \Magento\Object
     public function getAllCarriers($store = null)
     {
         $carriers = array();
-        $config = Mage::getStoreConfig('carriers', $store);
+        $config = \Mage::getStoreConfig('carriers', $store);
         foreach ($config as $code => $carrierConfig) {
             $model = $this->_getCarrier($code, $carrierConfig, $store);
             if ($model) {
@@ -66,11 +68,11 @@ class Magento_Shipping_Model_Config extends \Magento\Object
      *
      * @param   string $carrierCode
      * @param   mixed $store
-     * @return  Magento_Usa_Model_Shipping_Carrier_Abstract
+     * @return  \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
      */
     public function getCarrierInstance($carrierCode, $store = null)
     {
-        $carrierConfig =  Mage::getStoreConfig('carriers/'.$carrierCode, $store);
+        $carrierConfig =  \Mage::getStoreConfig('carriers/'.$carrierCode, $store);
         if (!empty($carrierConfig)) {
             return $this->_getCarrier($carrierCode, $carrierConfig, $store);
         }
@@ -83,7 +85,7 @@ class Magento_Shipping_Model_Config extends \Magento\Object
      * @param string $code
      * @param array $config
      * @param mixed $store
-     * @return Magento_Shipping_Model_Carrier_Abstract
+     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier
      */
     protected function _getCarrier($code, $config, $store = null)
     {
@@ -97,9 +99,9 @@ class Magento_Shipping_Model_Config extends \Magento\Object
          * Related with module uninstall process
          */
         try {
-            $carrier = Mage::getModel($modelName);
-        } catch (Exception $e) {
-            Mage::logException($e);
+            $carrier = \Mage::getModel($modelName);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
             return false;
         }
         $carrier->setId($code)->setStore($store);

@@ -11,16 +11,16 @@
     <handle id="adminhtml_customer_address_attribute_edit">
         <update handle="scope_switcher"/>
         <reference name="content">
-            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit" name="magento_customercustomattributes_address_attribute_edit"/>
+            <block class="\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit" name="magento_customercustomattributes_address_attribute_edit"/>
         </reference>
         <reference name="left">
-            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tabs" name="magento_customercustomattributes_address_attribute_edit_tabs">
-                <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General" name="magento_customercustomattributes_address_attribute_edit_tab_general"/>
+            <block class="\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tabs" name="magento_customercustomattributes_address_attribute_edit_tabs">
+                <block class="\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General" name="magento_customercustomattributes_address_attribute_edit_tab_general"/>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">general</argument>
                     <argument name="block" xsi:type="string">magento_customercustomattributes_address_attribute_edit_tab_general</argument>
                 </action>
-                <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_Options" name="magento_customercustomattributes_address_attribute_edit_tab_options"/>
+                <block class="\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\Options" name="magento_customercustomattributes_address_attribute_edit_tab_options"/>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">options</argument>
                     <argument name="block" xsi:type="string">magento_customercustomattributes_address_attribute_edit_tab_options</argument>
@@ -28,7 +28,7 @@
             </block>
         </reference>
         <reference name="js">
-            <block class="Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Js" template="attribute/js.phtml"/>
+            <block class="\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Js" template="attribute/js.phtml"/>
         </reference>
     </handle>
 </layout>

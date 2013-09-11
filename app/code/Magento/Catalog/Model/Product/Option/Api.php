@@ -15,18 +15,20 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api_Resource
+namespace Magento\Catalog\Model\Product\Option;
+
+class Api extends \Magento\Catalog\Model\Api\Resource
 {
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request = null;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request
+        \Magento\Core\Controller\Request\Http $request
     ) {
         $this->_request = $request;
     }
@@ -66,8 +68,8 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
      */
     public function update($optionId, $data, $store = null)
     {
-        /** @var $option Magento_Catalog_Model_Product_Option */
-        $option = Mage::getModel('Magento_Catalog_Model_Product_Option')->load($optionId);
+        /** @var $option \Magento\Catalog\Model\Product\Option */
+        $option = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->load($optionId);
         if (!$option->getId()) {
             $this->_fault('option_not_exists');
         }
@@ -102,7 +104,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     protected function _prepareAdditionalFields(&$data, $groupType)
     {
         if (is_array($data['additional_fields'])) {
-            if ($groupType != Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+            if ($groupType != \Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT) {
                 // reset can be used as there should be the only
                 // element in 'additional_fields' for options of all types except those from Select group
                 $field = reset($data['additional_fields']);
@@ -120,7 +122,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
                         $this->_fault('invalid_data');
                     } else {
                         foreach ($row as $key => $value) {
-                            $row[$key] = Mage::helper('Magento_Catalog_Helper_Data')->stripTags($value);
+                            $row[$key] = \Mage::helper('Magento\Catalog\Helper\Data')->stripTags($value);
                         }
                         if (!empty($row['value_id'])) {
                             // map 'value_id' to 'option_type_id'
@@ -140,7 +142,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     /**
      * Save product custom option data. Used for custom option add and update.
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $data
      * @return void
      */
@@ -148,7 +150,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     {
         foreach ($data as $key => $value) {
             if (is_string($value)) {
-                $data[$key] = Mage::helper('Magento_Catalog_Helper_Data')->stripTags($value);
+                $data[$key] = \Mage::helper('Magento\Catalog\Helper\Data')->stripTags($value);
             }
         }
 
@@ -162,7 +164,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
 
                 // an empty request can be set as event parameter
                 // because it is not used for options changing in observers
-                Mage::dispatchEvent(
+                \Mage::dispatchEvent(
                     'catalog_product_prepare_save',
                     array(
                         'product' => $product,
@@ -172,7 +174,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
 
                 $product->save();
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('save_option_error', $e->getMessage());
         }
     }
@@ -184,15 +186,15 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
      */
     public function types()
     {
-        $path = Magento_Catalog_Model_Config_Source_Product_Options_Type::PRODUCT_OPTIONS_GROUPS_PATH;
+        $path = \Magento\Catalog\Model\Config\Source\Product\Options\Type::PRODUCT_OPTIONS_GROUPS_PATH;
         $types = array();
-        foreach (Mage::getConfig()->getNode($path)->children() as $group) {
-            $groupTypes = Mage::getConfig()->getNode($path . '/' . $group->getName() . '/types')->children();
-            /** @var $type Magento_Core_Model_Config_Element */
+        foreach (\Mage::getConfig()->getNode($path)->children() as $group) {
+            $groupTypes = \Mage::getConfig()->getNode($path . '/' . $group->getName() . '/types')->children();
+            /** @var $type \Magento\Core\Model\Config\Element */
             foreach($groupTypes as $type){
                 $labelPath = $path . '/' . $group->getName() . '/types/' . $type->getName() . '/label';
                 $types[] = array(
-                    'label' => (string) Mage::getConfig()->getNode($labelPath),
+                    'label' => (string) \Mage::getConfig()->getNode($labelPath),
                     'value' => $type->getName()
                 );
             }
@@ -209,12 +211,12 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
      */
     public function info($optionId, $store = null)
     {
-        /** @var $option Magento_Catalog_Model_Product_Option */
-        $option = Mage::getModel('Magento_Catalog_Model_Product_Option')->load($optionId);
+        /** @var $option \Magento\Catalog\Model\Product\Option */
+        $option = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->load($optionId);
         if (!$option->getId()) {
             $this->_fault('option_not_exists');
         }
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_getProduct($option->getProductId(), $store, null);
         $option = $product->getOptionById($optionId);
         $result = array(
@@ -233,15 +235,15 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
         );
         // Set additional fields to each type group
         switch ($option->getGroupByType()) {
-            case Magento_Catalog_Model_Product_Option::OPTION_GROUP_TEXT:
+            case \Magento\Catalog\Model\Product\Option::OPTION_GROUP_TEXT:
                 $result['additional_fields'][0]['max_characters'] = $option->getMaxCharacters();
                 break;
-            case Magento_Catalog_Model_Product_Option::OPTION_GROUP_FILE:
+            case \Magento\Catalog\Model\Product\Option::OPTION_GROUP_FILE:
                 $result['additional_fields'][0]['file_extension'] = $option->getFileExtension();
                 $result['additional_fields'][0]['image_size_x'] = $option->getImageSizeX();
                 $result['additional_fields'][0]['image_size_y'] = $option->getImageSizeY();
                 break;
-            case Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT:
+            case \Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT:
                 $result['additional_fields'] = array();
                 foreach ($option->getValuesCollection() as $value) {
                     $result['additional_fields'][] = array(
@@ -272,7 +274,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
     {
         $result = array();
         $product = $this->_getProduct($productId, $store, null);
-        /** @var $option Magento_Catalog_Model_Product_Option */
+        /** @var $option \Magento\Catalog\Model\Product\Option */
         foreach ($product->getProductOptionsCollection() as $option) {
             $result[] = array(
                 'option_id' => $option->getId(),
@@ -293,8 +295,8 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
      */
     public function remove($optionId)
     {
-        /** @var $option Magento_Catalog_Model_Product_Option */
-        $option = Mage::getModel('Magento_Catalog_Model_Product_Option')->load($optionId);
+        /** @var $option \Magento\Catalog\Model\Product\Option */
+        $option = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->load($optionId);
         if (!$option->getId()) {
             $this->_fault('option_not_exists');
         }
@@ -303,7 +305,7 @@ class Magento_Catalog_Model_Product_Option_Api extends Magento_Catalog_Model_Api
             $option->deletePrices($optionId);
             $option->deleteTitles($optionId);
             $option->delete();
-        } catch (Exception $e){
+        } catch (\Exception $e){
             $this->fault('delete_option_error');
         }
         return true;

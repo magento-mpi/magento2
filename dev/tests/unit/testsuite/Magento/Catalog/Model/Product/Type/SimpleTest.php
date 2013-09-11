@@ -12,14 +12,14 @@
 class Magento_Catalog_Model_Product_Type_SimpleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Type_Simple
+     * @var \Magento\Catalog\Model\Product\Type\Simple
      */
     protected $_model;
 
     protected function setUp()
     {
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
-        $this->_model = new Magento_Catalog_Model_Product_Type_Simple($filesystem);
+        $this->_model = new \Magento\Catalog\Model\Product\Type\Simple($filesystem);
     }
 
     public function testHasWeightTrue()

@@ -16,7 +16,9 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Model_System_Config_Source_AuthorizationAmounts
+namespace Magento\Paypal\Model\System\Config\Source;
+
+class AuthorizationAmounts
 {
     /**
      * Options getter

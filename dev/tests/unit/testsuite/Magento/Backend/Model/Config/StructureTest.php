@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure
+     * @var \Magento\Backend\Model\Config\Structure
      */
     protected $_model;
 
@@ -44,16 +44,16 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
     public function setUp()
     {
         $this->_flyweightFactory = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_FlyweightFactory', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Element\FlyweightFactory', array(), array(), '', false
         );
         $this->_tabIteratorMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Iterator_Tab', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Element\Iterator\Tab', array(), array(), '', false
         );
         $this->_structureDataMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Data', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Data', array(), array(), '', false
         );
         $this->_scopeDefinerMock = $this->getMock(
-            'Magento_Backend_Model_Config_ScopeDefiner', array(), array(), '', false
+            '\Magento\Backend\Model\Config\ScopeDefiner', array(), array(), '', false
         );
         $this->_scopeDefinerMock->expects($this->any())->method('getScope')->will($this->returnValue('scope'));
 
@@ -62,7 +62,7 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
         $this->_structureDataMock->expects($this->once())->method('get')
             ->will($this->returnValue($this->_structureData['config']['system'])
         );
-        $this->_model = new Magento_Backend_Model_Config_Structure(
+        $this->_model = new \Magento\Backend\Model\Config\Structure(
             $this->_structureDataMock, $this->_tabIteratorMock, $this->_flyweightFactory, $this->_scopeDefinerMock
         );
     }
@@ -80,13 +80,13 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
     public function testGetTabsBuildsSectionTree()
     {
         $this->_structureDataMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Data', array(), array(), '', false
+            '\Magento\Backend\Model\Config\Structure\Data', array(), array(), '', false
         );
         $this->_structureDataMock->expects($this->any())->method('get')->will($this->returnValue(
             array('sections' => array('section1' => array('tab' => 'tab1')), 'tabs' => array('tab1' => array()))
         ));
         $expected = array('tab1' => array('children' => array('section1' => array('tab' => 'tab1'))));
-        $model = new Magento_Backend_Model_Config_Structure(
+        $model = new \Magento\Backend\Model\Config\Structure(
             $this->_structureDataMock, $this->_tabIteratorMock, $this->_flyweightFactory, $this->_scopeDefinerMock
         );
         $this->_tabIteratorMock->expects($this->once())->method('setElements')->with($expected);
@@ -108,7 +108,7 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
             'path' => $expectedPath,
             '_elementType' => $expectedType
         );
-        $elementMock = $this->getMock('Magento_Backend_Model_Config_Structure_ElementInterface');
+        $elementMock = $this->getMock('Magento\Backend\Model\Config\Structure\ElementInterface');
         $elementMock->expects($this->once())->method('setData')->with($expectedConfig);
         $this->_flyweightFactory->expects($this->once())->method('create')->with($expectedType)
             ->will($this->returnValue($elementMock));
@@ -128,7 +128,7 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
     public function testGetElementReturnsProperElementByPath()
     {
         $elementMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false);
+            '\Magento\Backend\Model\Config\Structure\Element\Field', array(), array(), '', false);
         $section = $this->_structureData['config']['system']['sections']['section_1'];
         $fieldData = $section['children']['group_level_1']['children']['field_3'];
         $elementMock->expects($this->once())->method('setData')->with($fieldData, 'scope');
@@ -142,7 +142,7 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
     public function testGetFirstSectionReturnsFirstAllowedSection()
     {
         $tabMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Tab',
+            '\Magento\Backend\Model\Config\Structure\Element\Tab',
             array('current', 'getChildren', 'rewind'), array(), '', false
         );
         $tabMock->expects($this->any())->method('getChildren')->will($this->returnSelf());
@@ -156,7 +156,7 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
     public function testGetElementReturnsProperElementByPathCachesObject()
     {
         $elementMock = $this->getMock(
-            'Magento_Backend_Model_Config_Structure_Element_Field', array(), array(), '', false);
+            '\Magento\Backend\Model\Config\Structure\Element\Field', array(), array(), '', false);
         $section = $this->_structureData['config']['system']['sections']['section_1'];
         $fieldData = $section['children']['group_level_1']['children']['field_3'];
         $elementMock->expects($this->once())->method('setData')->with($fieldData, 'scope');
@@ -182,7 +182,7 @@ class Magento_Backend_Model_Config_StructureTest extends PHPUnit_Framework_TestC
     public function getFieldPathsByAttributeDataProvider()
     {
         return array(
-            array('backend_model', 'Magento_Backend_Model_Config_Backend_Encrypted', array(
+            array('backend_model', '\Magento\Backend\Model\Config\Backend\Encrypted', array(
                 'section_1/group_1/field_2',
                 'section_1/group_level_1/group_level_2/group_level_3/field_3.1.1',
                 'section_2/group_3/field_4',

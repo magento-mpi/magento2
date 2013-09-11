@@ -1,6 +1,6 @@
 <?php
 /**
- * Proxy class for Magento_Backend_Model_Url
+ * Proxy class for \Magento\Backend\Model\Url
  *
  * {license_notice}
  *
@@ -11,7 +11,9 @@
  *
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
-class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
+namespace Magento\Backend\Model\Url;
+
+class Proxy extends \Magento\Backend\Model\Url
 {
     /**
      * Object Manager instance
@@ -21,7 +23,7 @@ class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
     protected $_objectManager = null;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_object;
 
@@ -38,12 +40,12 @@ class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
     /**
      * Get instance
      *
-     * @return Magento_Backend_Model_Url
+     * @return \Magento\Backend\Model\Url
      */
     protected function _getObject()
     {
         if (null === $this->_object) {
-            $this->_object = $this->_objectManager->get('Magento_Backend_Model_Url');
+            $this->_object = $this->_objectManager->get('Magento\Backend\Model\Url');
         }
         return $this->_object;
     }
@@ -131,7 +133,7 @@ class Magento_Backend_Model_Url_Proxy extends Magento_Backend_Model_Url
     /**
      * {@inheritdoc}
      */
-    public function setSession(Magento_Backend_Model_Auth_Session $session)
+    public function setSession(\Magento\Backend\Model\Auth\Session $session)
     {
         return $this->_getObject()->setSession($session);
     }

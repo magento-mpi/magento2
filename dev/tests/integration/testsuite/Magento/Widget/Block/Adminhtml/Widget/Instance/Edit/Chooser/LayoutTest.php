@@ -16,7 +16,7 @@
 class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_block;
 
@@ -27,7 +27,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest ext
         $layoutUtility = new Magento_Core_Utility_Layout($this);
         $pageTypesFixture = __DIR__ . '/_files/_page_types_with_containers.xml';
         $args = array(
-            'context' => Mage::getSingleton('Magento_Core_Block_Template_Context'),
+            'context' => Mage::getSingleton('Magento\Core\Block\Template\Context'),
             'data' => array(
                 'name'  => 'page_type',
                 'id'    => 'page_types_select',
@@ -36,7 +36,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_LayoutTest ext
             )
         );
         $this->_block = $this->getMock(
-            'Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout',
+            '\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout',
             array('_getLayoutMerge'), $args
         );
         $this->_block

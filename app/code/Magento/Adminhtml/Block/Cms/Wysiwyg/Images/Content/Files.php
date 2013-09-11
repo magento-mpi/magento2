@@ -9,13 +9,15 @@
  */
 
 /**
- * Directory contents block for Wysiwyg Images
+ * \Directory contents block for Wysiwyg Images
  *
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Cms\Wysiwyg\Images\Content;
+
+class Files extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Files collection object
@@ -32,9 +34,9 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
     public function getFiles()
     {
         if (! $this->_filesCollection) {
-            $this->_filesCollection = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')
+            $this->_filesCollection = \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Images\Storage')
                 ->getFilesCollection(
-                    Mage::helper('Magento_Cms_Helper_Wysiwyg_Images')->getCurrentPath(), $this->_getMediaType()
+                    \Mage::helper('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath(), $this->_getMediaType()
                 );
         }
 
@@ -119,12 +121,12 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Magento_A
 
     public function getImagesWidth()
     {
-        return Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')->getConfigData('resize_width');
+        return \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Images\Storage')->getConfigData('resize_width');
     }
 
     public function getImagesHeight()
     {
-        return Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Images_Storage')->getConfigData('resize_height');
+        return \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Images\Storage')->getConfigData('resize_height');
     }
 
     /**

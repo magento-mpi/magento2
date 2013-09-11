@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_User_Block_Role_Edit extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\User\Block\Role;
+
+class Edit extends \Magento\Backend\Block\Widget\Tabs
 {
     protected function _construct()
     {
@@ -20,12 +22,12 @@ class Magento_User_Block_Role_Edit extends Magento_Backend_Block_Widget_Tabs
 
     protected function _prepareLayout()
     {
-        $role = Mage::registry('current_role');
+        $role = \Mage::registry('current_role');
 
         $this->addTab(
             'info',
             $this->getLayout()
-                ->createBlock('Magento_User_Block_Role_Tab_Info')
+                ->createBlock('\Magento\User\Block\Role\Tab\Info')
                 ->setRole($role)
                 ->setActive(true)
         );
@@ -35,7 +37,7 @@ class Magento_User_Block_Role_Edit extends Magento_Backend_Block_Widget_Tabs
                 'label'     => __('Role Users'),
                 'title'     => __('Role Users'),
                 'content'   => $this->getLayout()
-                    ->createBlock('Magento_User_Block_Role_Tab_Users', 'role.users.grid')
+                    ->createBlock('\Magento\User\Block\Role\Tab\Users', 'role.users.grid')
                     ->toHtml(),
             ));
         }

@@ -12,7 +12,7 @@
         <update handle="formkey"/>
         <update handle="adminhtml_catalog_event_block"/>
         <reference name="content">
-            <block class="Magento_CatalogEvent_Block_Adminhtml_Event" name="adminhtml.catalog.event.grid.container"/>
+            <block class="\Magento\CatalogEvent\Block\Adminhtml\Event" name="adminhtml.catalog.event.grid.container"/>
         </reference>
     </handle>
 </layout>

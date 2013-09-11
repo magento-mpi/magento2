@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
+
+class Media extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     const GALLERY_TABLE       = 'catalog_product_entity_media_gallery';
     const GALLERY_VALUE_TABLE = 'catalog_product_entity_media_gallery_value';
@@ -32,8 +34,8 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mag
     /**
      * Load gallery images for product
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @param Magento_Catalog_Model_Product_Attribute_Backend_Media $object
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Product\Attribute\Backend\Media $object
      * @return array
      */
     public function loadGallery($product, $object)
@@ -75,7 +77,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mag
      * Remove duplicates
      *
      * @param array $result
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
      */
     protected function _removeDuplicates(&$result)
     {
@@ -113,7 +115,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mag
      * Delete gallery value in db
      *
      * @param array|integer $valueId
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
      */
     public function deleteGallery($valueId)
     {
@@ -133,7 +135,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mag
      * Insert gallery value for store to db
      *
      * @param array $data
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
      */
     public function insertGalleryValueInStore($data)
     {
@@ -148,7 +150,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mag
      *
      * @param integer $valueId
      * @param integer $storeId
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
      */
     public function deleteGalleryValueInStore($valueId, $storeId)
     {
@@ -167,11 +169,11 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media extends Mag
     /**
      * Duplicates gallery db values
      *
-     * @param Magento_Catalog_Model_Product_Attribute_Backend_Media $object
+     * @param \Magento\Catalog\Model\Product\Attribute\Backend\Media $object
      * @param array $newFiles
      * @param int $originalProductId
      * @param int $newProductId
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
      */
     public function duplicate($object, $newFiles, $originalProductId, $newProductId)
     {

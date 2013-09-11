@@ -15,8 +15,10 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Item_Renderer_Fieldset
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Renderer;
+
+class Fieldset
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset
 {
     protected $_template = 'edit/item/renderer/fieldset.phtml';
 }

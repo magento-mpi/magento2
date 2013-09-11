@@ -15,6 +15,8 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\Oauth\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
 }

@@ -16,7 +16,9 @@
  * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogInventory\Model\Resource\Stock;
+
+class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource model initialization
@@ -30,15 +32,15 @@ class Magento_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_
     /**
      * Save Product Status per website
      *
-     * @param Magento_CatalogInventory_Model_Stock_Status $object
+     * @param \Magento\CatalogInventory\Model\Stock\Status $object
      * @param int $productId
      * @param int $status
      * @param float $qty
      * @param int $stockId
      * @param int|null $websiteId
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Status
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Status
      */
-    public function saveProductStatus(Magento_CatalogInventory_Model_Stock_Status $object, $productId, $status, $qty = 0,
+    public function saveProductStatus(\Magento\CatalogInventory\Model\Stock\Status $object, $productId, $status, $qty = 0,
         $stockId = 1, $websiteId = null)
     {
         $websites = array_keys($object->getWebsites($websiteId));
@@ -136,7 +138,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_
      */
     public function getWebsiteStores()
     {
-        $select = Mage::getModel('Magento_Core_Model_Website')->getDefaultStoresSelect(false);
+        $select = \Mage::getModel('\Magento\Core\Model\Website')->getDefaultStoresSelect(false);
         return $this->_getReadAdapter()->fetchPairs($select);
     }
 
@@ -186,10 +188,10 @@ class Magento_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_
      * Add stock status to prepare index select
      *
      * @param \Magento\DB\Select $select
-     * @param Magento_Core_Model_Website $website
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Status
+     * @param \Magento\Core\Model\Website $website
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Status
      */
-    public function addStockStatusToSelect(\Magento\DB\Select $select, Magento_Core_Model_Website $website)
+    public function addStockStatusToSelect(\Magento\DB\Select $select, \Magento\Core\Model\Website $website)
     {
         $websiteId = $website->getId();
         $select->joinLeft(
@@ -207,7 +209,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_
      * @param \Magento\DB\Select $select
      * @param string|Zend_Db_Expr $entityField
      * @param string|Zend_Db_Expr $websiteField
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Status
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Status
      */
     public function prepareCatalogProductIndexSelect(\Magento\DB\Select $select, $entityField, $websiteField)
     {
@@ -216,7 +218,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_
             "ciss.product_id = {$entityField} AND ciss.website_id = {$websiteField}",
             array()
         );
-        $select->where('ciss.stock_status = ?', Magento_CatalogInventory_Model_Stock_Status::STATUS_IN_STOCK);
+        $select->where('ciss.stock_status = ?', \Magento\CatalogInventory\Model\Stock\Status::STATUS_IN_STOCK);
 
         return $this;
     }
@@ -224,12 +226,12 @@ class Magento_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_
     /**
      * Add only is in stock products filter to product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Status
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Status
      */
     public function addIsInStockFilterToCollection($collection)
     {
-        $websiteId = Mage::app()->getStore($collection->getStoreId())->getWebsiteId();
+        $websiteId = \Mage::app()->getStore($collection->getStoreId())->getWebsiteId();
         $joinCondition = $this->_getReadAdapter()
             ->quoteInto('e.entity_id = stock_status_index.product_id'
                 . ' AND stock_status_index.website_id = ?', $websiteId
@@ -237,7 +239,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_
 
         $joinCondition .= $this->_getReadAdapter()->quoteInto(
             ' AND stock_status_index.stock_id = ?',
-            Magento_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID
+            \Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID
         );
 
         $collection->getSelect()
@@ -246,7 +248,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Status extends Magento_Core_
                 $joinCondition,
                 array()
             )
-            ->where('stock_status_index.stock_status=?', Magento_CatalogInventory_Model_Stock_Status::STATUS_IN_STOCK);
+            ->where('stock_status_index.stock_status=?', \Magento\CatalogInventory\Model\Stock\Status::STATUS_IN_STOCK);
 
         return $this;
     }

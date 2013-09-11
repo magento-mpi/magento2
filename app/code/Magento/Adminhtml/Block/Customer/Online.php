@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Online extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Customer;
+
+class Online extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'customer/online.phtml';
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Block_Customer_Online extends Magento_Adminhtml_Block_Te
 
     protected function _prepareLayout()
     {
-        $this->addChild('filterForm', 'Magento_Adminhtml_Block_Customer_Online_Filter');
+        $this->addChild('filterForm', '\Magento\Adminhtml\Block\Customer\Online\Filter');
         return parent::_prepareLayout();
     }
 

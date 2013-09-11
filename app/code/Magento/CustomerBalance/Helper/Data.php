@@ -12,7 +12,9 @@
  * Customerbalance helper
  *
  */
-class Magento_CustomerBalance_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\CustomerBalance\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * XML configuration paths
@@ -27,7 +29,7 @@ class Magento_CustomerBalance_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfig(self::XML_PATH_ENABLED) == 1;
+        return \Mage::getStoreConfig(self::XML_PATH_ENABLED) == 1;
     }
 
     /**
@@ -37,6 +39,6 @@ class Magento_CustomerBalance_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isAutoRefundEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_AUTO_REFUND);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_AUTO_REFUND);
     }
 }

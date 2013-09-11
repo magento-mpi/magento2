@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="adminhtml_customer_orders_add_action_renderer">
-        <observer name="magento_rma" instance="Magento_Rma_Model_Observer" method="addRmaOption" />
+        <observer name="magento_rma" instance="\Magento\Rma\Model\Observer" method="addRmaOption" />
     </event>
 </config>

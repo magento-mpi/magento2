@@ -15,17 +15,19 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_UrlFactory
-    implements Magento_Core_Model_Layout_Argument_HandlerFactoryInterface
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class UrlFactory
+    implements \Magento\Core\Model\Layout\Argument\HandlerFactoryInterface
 {
     /**
      * Create url type handler
-     * @return Magento_Core_Model_Layout_Argument_HandlerInterface
+     * @return \Magento\Core\Model\Layout\Argument\HandlerInterface
      */
     public function createHandler()
     {
-        return Mage::getModel('Magento_Core_Model_Layout_Argument_Handler_Url', array(
-            'urlModel' => Mage::app()->getStore()->getUrlModel()
+        return \Mage::getModel('\Magento\Core\Model\Layout\Argument\Handler\Url', array(
+            'urlModel' => \Mage::app()->getStore()->getUrlModel()
         ));
     }
 }

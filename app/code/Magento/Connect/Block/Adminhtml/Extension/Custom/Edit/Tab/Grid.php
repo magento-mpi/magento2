@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Initialize Grid block
@@ -32,12 +34,12 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mag
     /**
      * Creates extension collection if it has not been created yet
      *
-     * @return Magento_Connect_Model_Extension_Collection
+     * @return \Magento\Connect\Model\Extension\Collection
      */
     public function getCollection()
     {
         if (!$this->_collection) {
-            $this->_collection = Mage::getModel('Magento_Connect_Model_Extension_Collection');
+            $this->_collection = \Mage::getModel('\Magento\Connect\Model\Extension\Collection');
         }
         return $this->_collection;
     }
@@ -45,7 +47,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid extends Mag
     /**
      * Prepare Local Package Collection for Grid
      *
-     * @return Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Grid
+     * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Grid
      */
     protected function _prepareCollection()
     {

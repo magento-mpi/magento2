@@ -15,7 +15,9 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Model_Resource_Consumer_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Oauth\Model\Resource\Consumer;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection model
@@ -24,6 +26,6 @@ class Magento_Oauth_Model_Resource_Consumer_Collection extends Magento_Core_Mode
      */
     protected function _construct()
     {
-        $this->_init('Magento_Oauth_Model_Consumer', 'Magento_Oauth_Model_Resource_Consumer');
+        $this->_init('\Magento\Oauth\Model\Consumer', '\Magento\Oauth\Model\Resource\Consumer');
     }
 }

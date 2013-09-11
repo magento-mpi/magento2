@@ -40,5 +40,5 @@ $cmsPages = array(
  * Insert default and system pages
  */
 foreach ($cmsPages as $data) {
-    Mage::getModel('Magento_Cms_Model_Page')->setData($data)->save();
+    \Mage::getModel('\Magento\Cms\Model\Page')->setData($data)->save();
 }

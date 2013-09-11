@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widg
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection')
             ->addNameToSelect()
             ->addAttributeToSelect('email')
             ->addAttributeToSelect('created_at')
@@ -71,7 +73,7 @@ class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widg
             'index'     => 'email'
         ));
 
-        $groups = Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')
+        $groups = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();
@@ -117,13 +119,13 @@ class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widg
             'gmtoffset' => true
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header'    => __('Web Site'),
                 'align'     => 'center',
                 'width'     => '80px',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash(true),
+                'options'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash(true),
                 'index'     => 'website_id',
             ));
         }
@@ -173,7 +175,7 @@ class Magento_Adminhtml_Block_Customer_Grid extends Magento_Adminhtml_Block_Widg
              'url'      => $this->getUrl('*/*/massUnsubscribe')
         ));
 
-        $groups = $this->helper('Magento_Customer_Helper_Data')->getGroups()->toOptionArray();
+        $groups = $this->helper('\Magento\Customer\Helper\Data')->getGroups()->toOptionArray();
 
         array_unshift($groups, array('label'=> '', 'value'=> ''));
         $this->getMassactionBlock()->addItem('assign_group', array(

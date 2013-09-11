@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid
-    extends Magento_Banner_Block_Adminhtml_Banner_Grid
+namespace Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners;
+
+class Grid
+    extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
 
     /**
@@ -29,7 +31,7 @@ class Magento_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid
     /**
      * Create grid columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -47,7 +49,7 @@ class Magento_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid
     /* Set custom filter for in banner flag
      *
      * @param string $column
-     * @return Magento_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule
+     * @return \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -72,7 +74,7 @@ class Magento_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid
     /**
      * Disable massaction functioanality
      *
-     * @return Magento_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
+     * @return \Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners\Grid
      */
     protected function _prepareMassaction()
     {
@@ -120,17 +122,17 @@ class Magento_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid
      */
     public function getRelatedBannersByRule()
     {
-        $ruleId = Mage::registry('current_promo_catalog_rule')->getRuleId();
-        return Mage::getModel('Magento_Banner_Model_Banner')->getRelatedBannersByCatalogRuleId($ruleId);
+        $ruleId = \Mage::registry('current_promo_catalog_rule')->getRuleId();
+        return \Mage::getModel('\Magento\Banner\Model\Banner')->getRelatedBannersByCatalogRuleId($ruleId);
     }
 
     /**
      * Get current catalog rule model
      *
-     * @return Magento_CatalogRule_Model_Rule
+     * @return \Magento\CatalogRule\Model\Rule
      */
     protected function _getRule()
     {
-        return Mage::registry('current_promo_catalog_rule');
+        return \Mage::registry('current_promo_catalog_rule');
     }
 }

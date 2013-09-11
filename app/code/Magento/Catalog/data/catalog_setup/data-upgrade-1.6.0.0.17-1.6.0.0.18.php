@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Catalog_Model_Resource_Setup */
+/** @var $this \Magento\Catalog\Model\Resource\Setup */
 
-$attribute = $this->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'category_ids');
+$attribute = $this->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'category_ids');
 if ($attribute) {
     $properties = array(
         'sort_order' => 9,
@@ -18,8 +18,8 @@ if ($attribute) {
         'frontend_label' => 'Categories',
         'input' => 'categories',
         'group' => 'General Information',
-        'backend_model' => 'Magento_Catalog_Model_Product_Attribute_Backend_Category',
-        'frontend_input_renderer' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Category',
+        'backend_model' => '\Magento\Catalog\Model\Product\Attribute\Backend\Category',
+        'frontend_input_renderer' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Category',
     );
     foreach ($properties as $key => $value) {
         $this->updateAttribute(

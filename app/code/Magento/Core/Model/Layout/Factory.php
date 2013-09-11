@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Layout_Factory
+namespace Magento\Core\Model\Layout;
+
+class Factory
 {
     /**
      * Default layout class name
      */
-    const CLASS_NAME = 'Magento_Core_Model_Layout';
+    const CLASS_NAME = '\Magento\Core\Model\Layout';
 
     /**
      * @var \Magento\ObjectManager
@@ -31,7 +33,7 @@ class Magento_Core_Model_Layout_Factory
     /**
      * @param array $arguments
      * @param string $className
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function createLayout(array $arguments = array(), $className = self::CLASS_NAME)
     {

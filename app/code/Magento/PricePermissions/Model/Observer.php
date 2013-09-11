@@ -15,12 +15,14 @@
  * @package     Magento_PricePermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PricePermissions_Model_Observer
+namespace Magento\PricePermissions\Model;
+
+class Observer
 {
     /**
      * Instance of http request
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
@@ -87,7 +89,7 @@ class Magento_PricePermissions_Model_Observer
      */
     public function __construct(array $data = array())
     {
-        $this->_request = (isset($data['request']) && false === $data['request']) ? false : Mage::app()->getRequest();
+        $this->_request = (isset($data['request']) && false === $data['request']) ? false : \Mage::app()->getRequest();
         if (isset($data['can_edit_product_price']) && false === $data['can_edit_product_price']) {
             $this->_canEditProductPrice = false;
         }
@@ -109,14 +111,14 @@ class Magento_PricePermissions_Model_Observer
      */
     public function adminControllerPredispatch($observer)
     {
-        /* @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        /* @var $session \Magento\Backend\Model\Auth\Session */
+        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
 
         // load role with true websites and store groups
         if ($session->isLoggedIn() && $session->getUser()->getRole()) {
             // Set all necessary flags
-            /** @var $helper Magento_PricePermissions_Helper_Data */
-            $helper = Mage::helper('Magento_PricePermissions_Helper_Data');
+            /** @var $helper \Magento\PricePermissions\Helper\Data */
+            $helper = \Mage::helper('Magento\PricePermissions\Helper\Data');
             $this->_canEditProductPrice = $helper->getCanAdminEditProductPrice();
             $this->_canReadProductPrice = $helper->getCanAdminReadProductPrice();
             $this->_canEditProductStatus = $helper->getCanAdminEditProductStatus();
@@ -128,7 +130,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Call needed function depending on block name
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _filterByBlockName($block)
     {
@@ -143,7 +145,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Remove status option in massaction
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _removeStatusMassaction($block)
     {
@@ -155,7 +157,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Remove price column from grid
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _removeColumnPrice($block)
     {
@@ -165,7 +167,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Remove price and total columns from grid
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _removeColumnsPriceTotal($block)
     {
@@ -175,7 +177,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Set read price to false
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _setCanReadPriceFalse($block)
     {
@@ -187,7 +189,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Set read and edit price to false
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _setCanEditReadPriceFalse($block)
     {
@@ -200,7 +202,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Set edit and read tab to false
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _setTabEditReadFalse($block)
     {
@@ -215,7 +217,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Set edit and read price in child block to false
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _setOptionsEditReadFalse($block)
     {
@@ -233,7 +235,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Set default product price
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _setCanEditReadDefaultPrice($block)
     {
@@ -246,7 +248,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Set edit and read price to child block
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _setCanEditReadChildBlock($block)
     {
@@ -269,7 +271,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Set form element value and readonly
      *
-     * @param Magento_Adminhtml_Block_Template $block
+     * @param \Magento\Adminhtml\Block\Template $block
      */
     protected function _setFormElementAttributes($block)
     {
@@ -280,7 +282,7 @@ class Magento_PricePermissions_Model_Observer
             if (!$this->_canEditProductStatus) {
                 $statusElement = $form->getElement('simple_product_status');
                 if (!is_null($statusElement)) {
-                    $statusElement->setValue(Magento_Catalog_Model_Product_Status::STATUS_DISABLED);
+                    $statusElement->setValue(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
                     $statusElement->setReadonly(true, true);
                 }
             }
@@ -295,7 +297,7 @@ class Magento_PricePermissions_Model_Observer
      */
     public function adminhtmlBlockHtmlBefore($observer)
     {
-        /** @var $block Magento_Adminhtml_Block_Template */
+        /** @var $block \Magento\Adminhtml\Block\Template */
         $block = $observer->getBlock();
 
         $this->_filterByBlockName($block);
@@ -314,7 +316,7 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Remove columns from grid
      *
-     * @param Magento_Adminhtml_Block_Widget_Grid $block
+     * @param \Magento\Adminhtml\Block\Widget\Grid $block
      * @param array $columns
      */
     protected function _removeColumnsFromGrid($block, array $columns)
@@ -329,13 +331,13 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Remove column from grid
      *
-     * @param Magento_Adminhtml_Block_Widget_Grid $block
+     * @param \Magento\Adminhtml\Block\Widget\Grid $block
      * @param string $column
-     * @return Magento_Adminhtml_Block_Widget_Grid|bool
+     * @return \Magento\Adminhtml\Block\Widget\Grid|bool
      */
     protected function _removeColumnFromGrid($block, $column)
     {
-        if (!$block instanceof Magento_Adminhtml_Block_Widget_Grid) {
+        if (!$block instanceof \Magento\Adminhtml\Block\Widget\Grid) {
             return false;
         }
         return $block->removeColumn($column);
@@ -349,15 +351,15 @@ class Magento_PricePermissions_Model_Observer
      */
     public function coreBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block Magento_Core_Block_Abstract */
+         /** @var $block \Magento\Core\Block\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
             // Handle product Recurring Profile tab
             case 'adminhtml_recurring_profile_edit_form' :
-                if (!Mage::registry('product')->isObjectNew()) {
+                if (!\Mage::registry('product')->isObjectNew()) {
                     if (!$this->_canReadProductPrice) {
-                        $block->setProductEntity(Mage::getModel('Magento_Catalog_Model_Product'));
+                        $block->setProductEntity(\Mage::getModel('\Magento\Catalog\Model\Product'));
                     }
                 }
                 if (!$this->_canEditProductPrice) {
@@ -368,7 +370,7 @@ class Magento_PricePermissions_Model_Observer
                 if (!$this->_canEditProductPrice) {
                     $block->addConfigOptions(array('can_edit_price' => false));
                     if (!$this->_canReadProductPrice) {
-                        $dependenceValue = (Mage::registry('product')->getIsRecurring()) ? '0' : '1';
+                        $dependenceValue = (\Mage::registry('product')->getIsRecurring()) ? '0' : '1';
                         // Override previous dependence value
                         $block->addFieldDependence('product[recurring_profile]', 'product[is_recurring]',
                             $dependenceValue);
@@ -393,7 +395,7 @@ class Magento_PricePermissions_Model_Observer
      */
     public function catalogProductLoadAfter(\Magento\Event\Observer $observer)
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
 
         if (!$this->_canEditProductPrice) {
@@ -431,10 +433,10 @@ class Magento_PricePermissions_Model_Observer
      */
     public function catalogProductSaveBefore(\Magento\Event\Observer $observer)
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
         if ($product->isObjectNew() && !$this->_canEditProductStatus) {
-            $product->setStatus(Magento_Catalog_Model_Product_Status::STATUS_DISABLED);
+            $product->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
         }
     }
 
@@ -446,15 +448,15 @@ class Magento_PricePermissions_Model_Observer
      */
     public function adminhtmlCatalogProductEditPrepareForm(\Magento\Event\Observer $observer)
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::registry('product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Mage::registry('product');
         if ($product->isObjectNew()) {
             $form = $observer->getEvent()->getForm();
             // Disable Status drop-down if needed
             if (!$this->_canEditProductStatus) {
                 $statusElement = $form->getElement('status');
                 if (!is_null($statusElement)) {
-                    $statusElement->setValue(Magento_Catalog_Model_Product_Status::STATUS_DISABLED);
+                    $statusElement->setValue(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
                     $statusElement->setReadonly(true, true);
                 }
             }
@@ -471,7 +473,7 @@ class Magento_PricePermissions_Model_Observer
      */
     public function catalogProductPrepareSave($observer)
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getProduct();
 
         if (!$this->_canEditProductPrice) {
@@ -484,19 +486,19 @@ class Magento_PricePermissions_Model_Observer
                 if (is_array($originalOptions)) {
 
                     foreach ($originalOptions as $originalOption) {
-                        /** @var $originalOption Magento_Catalog_Model_Product_Option */
+                        /** @var $originalOption \Magento\Catalog\Model\Product\Option */
                         $originalOptionAssoc = array();
                         $originalOptionAssoc['id'] = $originalOption->getOptionId();
                         $originalOptionAssoc['option_id'] = $originalOption->getOptionId();
                         $originalOptionAssoc['type'] = $originalOption->getType();
                         $originalOptionGroup = $originalOption->getGroupByType();
-                        if ($originalOptionGroup != Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                        if ($originalOptionGroup != \Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT) {
                             $originalOptionAssoc['price'] = $originalOption->getPrice();
                             $originalOptionAssoc['price_type'] = $originalOption->getPriceType();
                         } else {
                             $originalOptionAssoc['values'] = array();
                             foreach ($originalOption->getValues() as $value) {
-                                /** @var $value Magento_Catalog_Model_Product_Option_Value */
+                                /** @var $value \Magento\Catalog\Model\Product\Option\Value */
                                 $originalOptionAssoc['values'][$value->getOptionTypeId()] = array(
                                     'price' => $value->getPrice(),
                                     'price_type' => $value->getPriceType()
@@ -550,7 +552,7 @@ class Magento_PricePermissions_Model_Observer
             $product->setRecurringProfile($originalRecurringProfile);
 
             // Handle data received from Associated Products tab of configurable product
-            if ($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
                 $originalAttributes = $product->getTypeInstance()
                     ->getConfigurableAttributesAsArray($product);
                 // Organize main information about original product attributes in assoc array form
@@ -587,7 +589,7 @@ class Magento_PricePermissions_Model_Observer
             }
 
             // Handle seletion data of bundle products
-            if ($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                 $bundleSelectionsData = $product->getBundleSelectionsData();
                 if (is_array($bundleSelectionsData)) {
                     // Retrieve original selections data
@@ -642,7 +644,7 @@ class Magento_PricePermissions_Model_Observer
             }
 
             // Handle data received from Downloadable Links tab of downloadable products
-            if ($product->getTypeId() == Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE) {
+            if ($product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
 
                 $downloadableData = $product->getDownloadableData();
                 if (is_array($downloadableData) && isset($downloadableData['link'])) {
@@ -663,15 +665,15 @@ class Magento_PricePermissions_Model_Observer
 
             if ($product->isObjectNew()) {
                 // For new products set default price
-                if (!($product->getTypeId() == Magento_Catalog_Model_Product_Type::TYPE_BUNDLE
-                    && $product->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC)
+                if (!($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+                    && $product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC)
                 ) {
                     $product->setPrice((float) $this->_defaultProductPriceString);
                     // Set default amount for Gift Card product
-                    if ($product->getTypeId() == Magento_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD
+                    if ($product->getTypeId() == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD
                     ) {
                         $storeId = (int) $this->_request->getParam('store', 0);
-                        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+                        $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
                         $product->setGiftcardAmounts(array(
                             array(
                                 'website_id' => $websiteId,
@@ -686,9 +688,9 @@ class Magento_PricePermissions_Model_Observer
                 $product->unsRecurringProfile();
                 // Add MAP default values
                 $product->setMsrpEnabled(
-                    Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled::MSRP_ENABLE_USE_CONFIG);
+                    \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG);
                 $product->setMsrpDisplayActualPriceType(
-                    Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Price::TYPE_USE_CONFIG);
+                    \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG);
             }
         }
     }
@@ -701,7 +703,7 @@ class Magento_PricePermissions_Model_Observer
      */
     public function adminhtmlCatalogProductFormPrepareExcludedFieldList($observer)
     {
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes */
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab\Attributes */
         $block = $observer->getEvent()->getObject();
         $excludedFieldList = array();
 
@@ -727,7 +729,7 @@ class Magento_PricePermissions_Model_Observer
      */
     public function catalogProductAttributeUpdateBefore($observer)
     {
-        /** @var $block Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes */
+        /** @var $block \Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab\Attributes */
         $attributesData = $observer->getEvent()->getAttributesData();
         $excludedAttributes = array();
 
@@ -753,13 +755,13 @@ class Magento_PricePermissions_Model_Observer
     /**
      * Hide price elements on Price Tab of Product Edit Page if needed
      *
-     * @param Magento_Core_Block_Abstract $block
+     * @param \Magento\Core\Block\AbstractBlock $block
      * @return void
      */
     protected function _hidePriceElements($block)
     {
-        /** @var $product Magento_Catalog_Model_Product */
-        $product = Mage::registry('product');
+        /** @var $product \Magento\Catalog\Model\Product */
+        $product = \Mage::registry('product');
         $form = $block->getForm();
         $group = $block->getGroup();
         $fieldset = null;
@@ -787,7 +789,7 @@ class Magento_PricePermissions_Model_Observer
             );
 
             // Leave price element for bundle product active in order to change/view price type when product is created
-            if (Mage::registry('product')->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE) {
+            if (\Mage::registry('product')->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
                 array_push($priceElementIds, 'price');
             }
 
@@ -817,7 +819,7 @@ class Magento_PricePermissions_Model_Observer
                     $priceElement = $form->getElement('price');
                     if (!is_null($priceElement)
                         && $this->_canReadProductPrice
-                        && (Mage::registry('product')->getTypeId() != Magento_Catalog_Model_Product_Type::TYPE_BUNDLE)
+                        && (\Mage::registry('product')->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE)
                     ) {
                         $priceElement->setValue($this->_defaultProductPriceString);
                     }
@@ -825,7 +827,7 @@ class Magento_PricePermissions_Model_Observer
                     $amountsElement = $form->getElement('giftcard_amounts');
                     if (!is_null($amountsElement)) {
                         $storeId = (int) $this->_request->getParam('store', 0);
-                        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+                        $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
                         $amountsElement->setValue(array(
                             array(
                                 'website_id'    => $websiteId,

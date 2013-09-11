@@ -9,7 +9,9 @@
  */
 
 
-class Magento_GoogleCheckout_Model_Source_Shipping_Category
+namespace Magento\GoogleCheckout\Model\Source\Shipping;
+
+class Category
 {
     public function toOptionArray()
     {

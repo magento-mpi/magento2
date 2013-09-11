@@ -9,30 +9,32 @@
  */
 
 /**
- * @method Magento_Api_Model_Resource_Rules _getResource()
- * @method Magento_Api_Model_Resource_Rules getResource()
+ * @method \Magento\Api\Model\Resource\Rules _getResource()
+ * @method \Magento\Api\Model\Resource\Rules getResource()
  * @method int getRoleId()
- * @method Magento_Api_Model_Rules setRoleId(int $value)
+ * @method \Magento\Api\Model\Rules setRoleId(int $value)
  * @method string getResourceId()
- * @method Magento_Api_Model_Rules setResourceId(string $value)
+ * @method \Magento\Api\Model\Rules setResourceId(string $value)
  * @method string getPrivileges()
- * @method Magento_Api_Model_Rules setPrivileges(string $value)
+ * @method \Magento\Api\Model\Rules setPrivileges(string $value)
  * @method int getAssertId()
- * @method Magento_Api_Model_Rules setAssertId(int $value)
+ * @method \Magento\Api\Model\Rules setAssertId(int $value)
  * @method string getRoleType()
- * @method Magento_Api_Model_Rules setRoleType(string $value)
+ * @method \Magento\Api\Model\Rules setRoleType(string $value)
  * @method string getPermission()
- * @method Magento_Api_Model_Rules setPermission(string $value)
+ * @method \Magento\Api\Model\Rules setPermission(string $value)
  *
  * @category    Magento
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Rules extends Magento_Core_Model_Abstract
+namespace Magento\Api\Model;
+
+class Rules extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Api_Model_Resource_Rules');
+        $this->_init('\Magento\Api\Model\Resource\Rules');
     }
 
     public function update() {
@@ -41,7 +43,7 @@ class Magento_Api_Model_Rules extends Magento_Core_Model_Abstract
     }
 
     public function getCollection() {
-        return Mage::getResourceModel('Magento_Api_Model_Resource_Permissions_Collection');
+        return \Mage::getResourceModel('\Magento\Api\Model\Resource\Permissions\Collection');
     }
 
     public function saveRel() {

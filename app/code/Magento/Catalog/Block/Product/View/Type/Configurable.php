@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catalog_Block_Product_View_Abstract
+namespace Magento\Catalog\Block\Product\View\Type;
+
+class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 {
     /**
      * Prices
@@ -53,7 +55,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
         $attributes = $this->getAllowAttributes();
         if (count($attributes)) {
             foreach ($attributes as $attribute) {
-                /** @var Magento_Catalog_Model_Product_Type_Configurable_Attribute $attribute */
+                /** @var \Magento\Catalog\Model\Product\Type\Configurable\Attribute $attribute */
                 if ($attribute->getData('prices')) {
                     return true;
                 }
@@ -71,7 +73,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
     {
         if (!$this->hasAllowProducts()) {
             $products = array();
-            $skipSaleableCheck = Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck();
+            $skipSaleableCheck = \Mage::helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck();
             $allProducts = $this->getProduct()->getTypeInstance()
                 ->getUsedProducts($this->getProduct(), null);
             foreach ($allProducts as $product) {
@@ -87,11 +89,11 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
     /**
      * retrieve current store
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getCurrentStore()
     {
-        return Mage::app()->getStore();
+        return \Mage::app()->getStore();
     }
 
     /**
@@ -114,7 +116,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
         $attributes = array();
         $options    = array();
         $store      = $this->getCurrentStore();
-        $taxHelper  = Mage::helper('Magento_Tax_Helper_Data');
+        $taxHelper  = \Mage::helper('Magento\Tax\Helper\Data');
         $currentProduct = $this->getProduct();
 
         $preconfiguredFlag = $currentProduct->hasPreconfiguredValues();
@@ -125,7 +127,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
 
         foreach ($this->getAllowProducts() as $product) {
             $productId  = $product->getId();
-            $image = $this->helper('Magento_Catalog_Helper_Image')->init($product, 'image');
+            $image = $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'image');
 
             foreach ($this->getAllowAttributes() as $attribute) {
                 $productAttribute   = $attribute->getProductAttribute();
@@ -170,7 +172,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
                         $this->_preparePrice($value['pricing_value'], $value['is_percent'])
                     );
                     $currentProduct->setParentId(true);
-                    Mage::dispatchEvent(
+                    \Mage::dispatchEvent(
                         'catalog_product_type_configurable_price',
                         array('product' => $currentProduct)
                     );
@@ -213,9 +215,9 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
             }
         }
 
-        $taxCalculation = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        if (!$taxCalculation->getCustomer() && Mage::registry('current_customer')) {
-            $taxCalculation->setCustomer(Mage::registry('current_customer'));
+        $taxCalculation = \Mage::getSingleton('Magento\Tax\Model\Calculation');
+        if (!$taxCalculation->getCustomer() && \Mage::registry('current_customer')) {
+            $taxCalculation->setCustomer(\Mage::registry('current_customer'));
         }
 
         $_request = $taxCalculation->getRateRequest(false, false, false);
@@ -252,7 +254,7 @@ class Magento_Catalog_Block_Product_View_Type_Configurable extends Magento_Catal
 
         $config = array_merge($config, $this->_getAdditionalConfig());
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config);
     }
 
     /**

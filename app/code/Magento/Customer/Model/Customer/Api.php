@@ -15,16 +15,18 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Api extends Magento_Customer_Model_Api_Resource
+namespace Magento\Customer\Model\Customer;
+
+class Api extends \Magento\Customer\Model\Api\Resource
 {
     protected $_mapAttributes = array(
         'customer_id' => 'entity_id'
     );
     /**
      * Prepare data to insert/update.
-     * Creating array for stdClass Object
+     * Creating array for \stdClass Object
      *
-     * @param stdClass $data
+     * @param \stdClass $data
      * @return array
      */
     protected function _prepareData($data)
@@ -49,10 +51,10 @@ class Magento_Customer_Model_Customer_Api extends Magento_Customer_Model_Api_Res
     {
         $customerData = $this->_prepareData($customerData);
         try {
-            $customer = Mage::getModel('Magento_Customer_Model_Customer')
+            $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
                 ->setData($customerData)
                 ->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
         return $customer->getId();
@@ -67,7 +69,7 @@ class Magento_Customer_Model_Customer_Api extends Magento_Customer_Model_Api_Res
      */
     public function info($customerId, $attributes = null)
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
 
         if (!$customer->getId()) {
             $this->_fault('not_exists');
@@ -98,15 +100,15 @@ class Magento_Customer_Model_Customer_Api extends Magento_Customer_Model_Api_Res
      */
     public function items($filters)
     {
-        $collection = Mage::getModel('Magento_Customer_Model_Customer')->getCollection()->addAttributeToSelect('*');
-        /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        $collection = \Mage::getModel('\Magento\Customer\Model\Customer')->getCollection()->addAttributeToSelect('*');
+        /** @var $apiHelper \Magento\Api\Helper\Data */
+        $apiHelper = \Mage::helper('Magento\Api\Helper\Data');
         $filters = $apiHelper->parseFilters($filters, $this->_mapAttributes);
         try {
             foreach ($filters as $field => $value) {
                 $collection->addFieldToFilter($field, $value);
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('filters_invalid', $e->getMessage());
         }
         $result = array();
@@ -138,7 +140,7 @@ class Magento_Customer_Model_Customer_Api extends Magento_Customer_Model_Api_Res
     {
         $customerData = $this->_prepareData($customerData);
 
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
 
         if (!$customer->getId()) {
             $this->_fault('not_exists');
@@ -162,7 +164,7 @@ class Magento_Customer_Model_Customer_Api extends Magento_Customer_Model_Api_Res
      */
     public function delete($customerId)
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
 
         if (!$customer->getId()) {
             $this->_fault('not_exists');
@@ -170,11 +172,11 @@ class Magento_Customer_Model_Customer_Api extends Magento_Customer_Model_Api_Res
 
         try {
             $customer->delete();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('not_deleted', $e->getMessage());
         }
 
         return true;
     }
 
-} // Class Magento_Customer_Model_Customer_Api End
+} // Class \Magento\Customer\Model\Customer\Api End

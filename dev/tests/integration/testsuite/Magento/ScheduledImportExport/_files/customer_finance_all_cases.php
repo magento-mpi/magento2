@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-/** @var $helper Magento_ScheduledImportExport_Helper_Data */
-$helper = Mage::helper('Magento_ScheduledImportExport_Helper_Data');
+/** @var $helper \Magento\ScheduledImportExport\Helper\Data */
+$helper = Mage::helper('Magento\ScheduledImportExport\Helper\Data');
 
 // customer with reward points and customer balance
-/** @var $customer Magento_Customer_Model_Customer */
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+/** @var $customer \Magento\Customer\Model\Customer */
+$customer = Mage::getModel('\Magento\Customer\Model\Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
@@ -27,23 +27,23 @@ $customer->setEmail($customerEmail);
 $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();
 
-/** @var $customerBalance Magento_CustomerBalance_Model_Balance */
-$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
+/** @var $customerBalance \Magento\CustomerBalance\Model\Balance */
+$customerBalance = Mage::getModel('\Magento\CustomerBalance\Model\Balance');
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(10);
 $customerBalance->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customerBalance->save();
 
-/** @var $rewardPoints Magento_Reward_Model_Reward */
-$rewardPoints = Mage::getModel('Magento_Reward_Model_Reward');
+/** @var $rewardPoints \Magento\Reward\Model\Reward */
+$rewardPoints = Mage::getModel('\Magento\Reward\Model\Reward');
 $rewardPoints->setCustomerId($customer->getId());
 $rewardPoints->setPointsBalance(20);
 $rewardPoints->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $rewardPoints->save();
 
 // customer with reward points and without customer balance
-/** @var $customer Magento_Customer_Model_Customer */
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+/** @var $customer \Magento\Customer\Model\Customer */
+$customer = Mage::getModel('\Magento\Customer\Model\Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
@@ -56,16 +56,16 @@ $customer->setEmail($customerEmail);
 $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();
 
-/** @var $rewardPoints Magento_Reward_Model_Reward */
-$rewardPoints = Mage::getModel('Magento_Reward_Model_Reward');
+/** @var $rewardPoints \Magento\Reward\Model\Reward */
+$rewardPoints = Mage::getModel('\Magento\Reward\Model\Reward');
 $rewardPoints->setCustomerId($customer->getId());
 $rewardPoints->setPointsBalance(20);
 $rewardPoints->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $rewardPoints->save();
 
 // customer without reward points and with customer balance
-/** @var $customer Magento_Customer_Model_Customer */
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+/** @var $customer \Magento\Customer\Model\Customer */
+$customer = Mage::getModel('\Magento\Customer\Model\Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'
@@ -78,16 +78,16 @@ $customer->setEmail($customerEmail);
 $customer->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customer->save();
 
-/** @var $customerBalance Magento_CustomerBalance_Model_Balance */
-$customerBalance = Mage::getModel('Magento_CustomerBalance_Model_Balance');
+/** @var $customerBalance \Magento\CustomerBalance\Model\Balance */
+$customerBalance = Mage::getModel('\Magento\CustomerBalance\Model\Balance');
 $customerBalance->setCustomerId($customer->getId());
 $customerBalance->setAmountDelta(10);
 $customerBalance->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
 $customerBalance->save();
 
 // customer without reward points and customer balance
-/** @var $customer Magento_Customer_Model_Customer */
-$customer = Mage::getModel('Magento_Customer_Model_Customer');
+/** @var $customer \Magento\Customer\Model\Customer */
+$customer = Mage::getModel('\Magento\Customer\Model\Customer');
 $customer->addData(array(
     'firstname' => 'Test',
     'lastname' => 'User'

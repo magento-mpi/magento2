@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends \Magento\Data\Form\Element\AbstractElement
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class Gallery extends \Magento\Data\Form\Element\AbstractElement
 {
 
     public function getElementHtml()
@@ -33,9 +35,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends \Magen
     public function getContentHtml()
     {
 
-        /* @var $content Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content */
-        $content = Mage::app()->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content');
+        /* @var $content \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content */
+        $content = \Mage::app()->getLayout()
+            ->createBlock('\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Gallery\Content');
 
         $content->setId($this->getHtmlId() . '_content')->setElement($this);
         $galleryJs = $content->getJsObjectName();
@@ -51,7 +53,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends \Magen
     /**
      * Check "Use default" checkbox display availability
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @return bool
      */
     public function canDisplayUseDefault($attribute)
@@ -66,7 +68,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends \Magen
     /**
      * Check default value usage fact
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @return bool
      */
     public function usedDefault($attribute)
@@ -91,13 +93,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends \Magen
      *
      * GLOBAL | WEBSITE | STORE
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @return string
      */
     public function getScopeLabel($attribute)
     {
         $html = '';
-        if (Mage::app()->isSingleStoreMode()) {
+        if (\Mage::app()->isSingleStoreMode()) {
             return $html;
         }
 
@@ -114,7 +116,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends \Magen
     /**
      * Retrieve data object related with form
      *
-     * @return Magento_Catalog_Model_Product || Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Product || \Magento\Catalog\Model\Category
      */
     public function getDataObject()
     {
@@ -125,7 +127,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends \Magen
      * Retrieve attribute field name
      *
      *
-     * @param Magento_Eav_Model_Entity_Attribute $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @return string
      */
     public function getAttributeFieldName($attribute)
@@ -140,7 +142,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends \Magen
     /**
      * Check readonly attribute
      *
-     * @param Magento_Eav_Model_Entity_Attribute|string $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute|string $attribute
      * @return boolean
      */
     public function getAttributeReadonly($attribute)
@@ -168,6 +170,6 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery extends \Magen
      */
     protected function _getDefaultStoreId()
     {
-        return Magento_Catalog_Model_Abstract::DEFAULT_STORE_ID;
+        return \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
     }
 }

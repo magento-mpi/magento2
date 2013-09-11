@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @var Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Resource $this
+ * @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Resource $this
  */
 ?>
 
@@ -62,12 +62,12 @@ Ext.EventManager.onDocumentReady(function() {
         text: 'root',
         draggable:false,
         checked:'false',
-        id:'<?php echo Magento_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID; ?>',
+        id:'<?php echo \Magento\Webapi\Helper\Data::RESOURCES_TREE_ROOT_ID; ?>',
         uiProvider: Ext.tree.CheckboxNodeUI
     });
 
     tree.setRootNode(root);
-    buildResourcesTree(root, <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getResourcesTree()) ?>);
+    buildResourcesTree(root, <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getResourcesTree()) ?>);
     tree.addListener('click', resourceClick.createDelegate(this));
 
     // render the tree
@@ -104,7 +104,7 @@ function checkHandler(node)
         var n = node.parentNode;
         this.removeListener('check', checkHandler);
         do {
-            if (!n || n.attributes.id == 'admin' || n.attributes.id == '<?php echo Magento_Webapi_Helper_Data::RESOURCES_TREE_ROOT_ID; ?>') {
+            if (!n || n.attributes.id == 'admin' || n.attributes.id == '<?php echo \Magento\Webapi\Helper\Data::RESOURCES_TREE_ROOT_ID; ?>') {
                 break;
             } else {
                 n.ui.check(true);

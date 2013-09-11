@@ -9,19 +9,21 @@
  */
 
 
-class Magento_Tax_Model_Sales_Total_Quote_Shipping extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Tax\Model\Sales\Total\Quote;
+
+class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Tax calculation model
      *
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_calculator = null;
 
     /**
      * Tax configuration object
      *
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_config = null;
 
@@ -46,17 +48,17 @@ class Magento_Tax_Model_Sales_Total_Quote_Shipping extends Magento_Sales_Model_Q
     public function __construct()
     {
         $this->setCode('shipping');
-        $this->_calculator  = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        $this->_config      = Mage::getSingleton('Magento_Tax_Model_Config');
+        $this->_calculator  = \Mage::getSingleton('Magento\Tax\Model\Calculation');
+        $this->_config      = \Mage::getSingleton('Magento\Tax\Model\Config');
     }
 
     /**
      * Collect totals information about shipping
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Total_Shipping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Total\Shipping
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
         $calc               = $this->_calculator;

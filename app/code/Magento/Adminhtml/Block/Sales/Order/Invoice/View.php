@@ -15,12 +15,14 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Invoice_View extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Sales\Order\Invoice;
+
+class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Admin session
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_session;
 
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View extends Magento_Adminhtml
         $this->_objectId    = 'invoice_id';
         $this->_controller  = 'sales_order_invoice';
         $this->_mode        = 'view';
-        $this->_session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $this->_session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
 
         parent::_construct();
 
@@ -117,11 +119,11 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_View extends Magento_Adminhtml
     /**
      * Retrieve invoice model instance
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return \Mage::registry('current_invoice');
     }
 
     public function getHeaderText()

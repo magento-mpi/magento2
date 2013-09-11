@@ -8,23 +8,25 @@
  * @license     {license_link}
  */
 
-abstract class Magento_Backend_Model_Config_Structure_Element_CompositeAbstract
-    extends Magento_Backend_Model_Config_Structure_ElementAbstract
+namespace Magento\Backend\Model\Config\Structure\Element;
+
+abstract class CompositeAbstract
+    extends \Magento\Backend\Model\Config\Structure\ElementAbstract
 {
     /**
      * Child elements iterator
      *
-     * @var Magento_Backend_Model_Config_Structure_Element_Iterator
+     * @var \Magento\Backend\Model\Config\Structure\Element\Iterator
      */
     protected $_childrenIterator;
 
     /**
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Backend_Model_Config_Structure_Element_Iterator $childrenIterator
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Backend\Model\Config\Structure\Element\Iterator $childrenIterator
      */
     public function __construct(
-        Magento_Core_Model_App $application,
-        Magento_Backend_Model_Config_Structure_Element_Iterator $childrenIterator
+        \Magento\Core\Model\App $application,
+        \Magento\Backend\Model\Config\Structure\Element\Iterator $childrenIterator
     ) {
         parent::__construct($application);
         $this->_childrenIterator = $childrenIterator;
@@ -61,7 +63,7 @@ abstract class Magento_Backend_Model_Config_Structure_Element_CompositeAbstract
     /**
      * Retrieve children iterator
      *
-     * @return Magento_Backend_Model_Config_Structure_Element_Iterator
+     * @return \Magento\Backend\Model\Config\Structure\Element\Iterator
      */
     public function getChildren()
     {

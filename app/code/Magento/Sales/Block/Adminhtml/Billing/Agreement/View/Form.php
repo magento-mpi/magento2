@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Form extends Magento_Adminhtml_Block_Template
+namespace Magento\Sales\Block\Adminhtml\Billing\Agreement\View;
+
+class Form extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'billing/agreement/view/form.phtml';
 }

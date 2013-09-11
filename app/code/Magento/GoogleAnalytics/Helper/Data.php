@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_GoogleAnalytics
  */
-class Magento_GoogleAnalytics_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\GoogleAnalytics\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Config paths for using throughout the code
@@ -31,7 +33,7 @@ class Magento_GoogleAnalytics_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isGoogleAnalyticsAvailable($store = null)
     {
-        $accountId = Mage::getStoreConfig(self::XML_PATH_ACCOUNT, $store);
-        return $accountId && Mage::getStoreConfigFlag(self::XML_PATH_ACTIVE, $store);
+        $accountId = \Mage::getStoreConfig(self::XML_PATH_ACCOUNT, $store);
+        return $accountId && \Mage::getStoreConfigFlag(self::XML_PATH_ACTIVE, $store);
     }
 }

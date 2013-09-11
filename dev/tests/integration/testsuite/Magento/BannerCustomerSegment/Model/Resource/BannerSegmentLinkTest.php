@@ -9,14 +9,14 @@
 class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink
+     * @var \Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink
      */
     private $_resourceModel;
 
     protected function setUp()
     {
         $this->_resourceModel = Mage::getResourceModel(
-            'Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink'
+            '\Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink'
         );
     }
 
@@ -74,8 +74,8 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
             $expectedBannerIds[] = $this->_getBannerId($bannerName);
         }
 
-        /** @var Magento_Banner_Model_Resource_Salesrule_Collection $collection */
-        $collection = Mage::getResourceModel('Magento_Banner_Model_Resource_Salesrule_Collection');
+        /** @var \Magento\Banner\Model\Resource\Salesrule\Collection $collection */
+        $collection = Mage::getResourceModel('\Magento\Banner\Model\Resource\Salesrule\Collection');
         $select = $collection->getSelect();
         $initialSql = (string)$select;
 
@@ -119,8 +119,8 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
      */
     protected function _getBannerId($bannerName)
     {
-        /** @var Magento_Banner_Model_Banner $banner */
-        $banner = Mage::getModel('Magento_Banner_Model_Banner');
+        /** @var \Magento\Banner\Model\Banner $banner */
+        $banner = Mage::getModel('\Magento\Banner\Model\Banner');
         $banner->load($bannerName, 'name');
         return $banner->getId();
     }
@@ -135,8 +135,8 @@ class Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLinkTest extends
     {
         $result = array();
         foreach ($segmentNames as $segmentName) {
-            /** @var $segment Magento_CustomerSegment_Model_Segment */
-            $segment = Mage::getModel('Magento_CustomerSegment_Model_Segment');
+            /** @var $segment \Magento\CustomerSegment\Model\Segment */
+            $segment = Mage::getModel('\Magento\CustomerSegment\Model\Segment');
             $segment->load($segmentName, 'name');
             $result[] = $segment->getId();
         }

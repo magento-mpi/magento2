@@ -16,8 +16,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Fieldset
-    extends Magento_Backend_Block_Abstract
+namespace Magento\Backend\Block\System\Config\Form;
+
+class Fieldset
+    extends \Magento\Backend\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
 
@@ -127,7 +129,7 @@ class Magento_Backend_Block_System_Config_Form_Fieldset
      */
     protected function _getFieldsetCss()
     {
-        /** @var Magento_Backend_Model_Config_Structure_Element_Group $group */
+        /** @var \Magento\Backend\Model\Config\Structure\Element\Group $group */
         $group = $this->getGroup();
         $configCss = $group->getFieldsetCss();
         return 'config collapseable' . ($configCss ? ' ' . $configCss: '');
@@ -172,7 +174,7 @@ class Magento_Backend_Block_System_Config_Form_Fieldset
     {
         $htmlId = $element->getHtmlId();
         $output = "Fieldset.applyCollapse('{$htmlId}');";
-        return $this->helper('Magento_Core_Helper_Js')->getScript($output);
+        return $this->helper('\Magento\Core\Helper\Js')->getScript($output);
     }
 
     /**
@@ -186,7 +188,7 @@ class Magento_Backend_Block_System_Config_Form_Fieldset
         if ($element->getExpanded()) {
             return true;
         }
-        $extra = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getExtra();
+        $extra = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getExtra();
         if (isset($extra['configState'][$element->getId()])) {
             return $extra['configState'][$element->getId()];
         }

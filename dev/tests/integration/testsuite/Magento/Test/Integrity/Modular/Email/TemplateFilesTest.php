@@ -20,7 +20,7 @@ class Magento_Test_Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Fra
      */
     public function testLoadBaseContents($module, $filename)
     {
-        $model = Mage::getModel('Magento_Core_Model_Email_Template');
+        $model = Mage::getModel('\Magento\Core\Model\Email\Template');
         $this->assertNotEmpty($model->loadBaseContents($module, $filename));
     }
 
@@ -28,7 +28,7 @@ class Magento_Test_Integrity_Modular_Email_TemplateFilesTest extends PHPUnit_Fra
     {
         $data = array();
         $config = Mage::getConfig();
-        foreach (Magento_Core_Model_Email_Template::getDefaultTemplates() as $row) {
+        foreach (\Magento\Core\Model\Email\Template::getDefaultTemplates() as $row) {
             $data[] = array($config->determineOmittedNamespace($row['@']['module'], true), $row['file']);
         }
         return $data;

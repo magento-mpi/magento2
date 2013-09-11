@@ -12,16 +12,18 @@
  * Adminhtml reviews grid
  *
  * @method int getProductId() getProductId()
- * @method Magento_Adminhtml_Block_Review_Grid setProductId() setProductId(int $productId)
+ * @method \Magento\Adminhtml\Block\Review\Grid setProductId() setProductId(int $productId)
  * @method int getCustomerId() getCustomerId()
- * @method Magento_Adminhtml_Block_Review_Grid setCustomerId() setCustomerId(int $customerId)
- * @method Magento_Adminhtml_Block_Review_Grid setMassactionIdFieldOnlyIndexValue() setMassactionIdFieldOnlyIndexValue(bool $onlyIndex)
+ * @method \Magento\Adminhtml\Block\Review\Grid setCustomerId() setCustomerId(int $customerId)
+ * @method \Magento\Adminhtml\Block\Review\Grid setMassactionIdFieldOnlyIndexValue() setMassactionIdFieldOnlyIndexValue(bool $onlyIndex)
  *
  * @category   Magento
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_Grid_Extended
+namespace Magento\Adminhtml\Block\Review;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Initialize grid
@@ -36,12 +38,12 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     /**
      * Save search results
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _afterLoadCollection()
     {
-        /** @var $actionPager Magento_Review_Helper_Action_Pager */
-        $actionPager = Mage::helper('Magento_Review_Helper_Action_Pager');
+        /** @var $actionPager \Magento\Review\Helper\Action\Pager */
+        $actionPager = \Mage::helper('Magento\Review\Helper\Action\Pager');
         $actionPager->setStorageId('reviews');
         $actionPager->setItems($this->getCollection()->getResultingIds());
 
@@ -51,13 +53,13 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     /**
      * Prepare collection
      *
-     * @return Magento_Adminhtml_Block_Review_Grid
+     * @return \Magento\Adminhtml\Block\Review\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $model Magento_Review_Model_Review */
-        $model = Mage::getModel('Magento_Review_Model_Review');
-        /** @var $collection Magento_Review_Model_Resource_Review_Product_Collection */
+        /** @var $model \Magento\Review\Model\Review */
+        $model = \Mage::getModel('\Magento\Review\Model\Review');
+        /** @var $collection \Magento\Review\Model\Resource\Review\Product\Collection */
         $collection = $model->getProductCollection();
 
         if ($this->getProductId() || $this->getRequest()->getParam('productId', false)) {
@@ -78,7 +80,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             $collection->addCustomerFilter($this->getCustomerId());
         }
 
-        if (Mage::registry('usePendingFilter') === true) {
+        if (\Mage::registry('usePendingFilter') === true) {
             $collection->addStatusFilter($model->getPendingStatus());
         }
 
@@ -91,12 +93,12 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     /**
      * Prepare grid columns
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
-        /** @var $helper Magento_Review_Helper_Data */
-        $helper = Mage::helper('Magento_Review_Helper_Data');
+        /** @var $helper \Magento\Review\Helper\Data */
+        $helper = \Mage::helper('Magento\Review\Helper\Data');
         $this->addColumn('review_id', array(
             'header'        => __('ID'),
             'align'         => 'right',
@@ -114,7 +116,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'index'         => 'review_created_at',
         ));
 
-        if( !Mage::registry('usePendingFilter') ) {
+        if( !\Mage::registry('usePendingFilter') ) {
             $this->addColumn('status', array(
                 'header'        => __('Status'),
                 'align'         => 'left',
@@ -162,7 +164,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('visible_in', array(
                 'header'    => __('Visibility'),
                 'index'     => 'stores',
@@ -175,8 +177,8 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'header'    => __('Type'),
             'type'      => 'select',
             'index'     => 'type',
-            'filter'    => 'Magento_Adminhtml_Block_Review_Grid_Filter_Type',
-            'renderer'  => 'Magento_Adminhtml_Block_Review_Grid_Renderer_Type'
+            'filter'    => '\Magento\Adminhtml\Block\Review\Grid\Filter\Type',
+            'renderer'  => '\Magento\Adminhtml\Block\Review\Grid\Renderer\Type'
         ));
 
         $this->addColumn('name', array(
@@ -210,7 +212,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
                             'params'=> array(
                                 'productId' => $this->getProductId(),
                                 'customerId' => $this->getCustomerId(),
-                                'ret'       => ( Mage::registry('usePendingFilter') ) ? 'pending' : null
+                                'ret'       => ( \Mage::registry('usePendingFilter') ) ? 'pending' : null
                             )
                          ),
                          'field'   => 'id'
@@ -228,12 +230,12 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     /**
      * Prepare grid mass actions
      *
-     * @return Magento_Backend_Block_Widget_Grid|void
+     * @return \Magento\Backend\Block\Widget\Grid|void
      */
     protected function _prepareMassaction()
     {
-        /** @var $helper Magento_Review_Helper_Data */
-        $helper = Mage::helper('Magento_Review_Helper_Data');
+        /** @var $helper \Magento\Review\Helper\Data */
+        $helper = \Mage::helper('Magento\Review\Helper\Data');
 
         $this->setMassactionIdField('review_id');
         $this->setMassactionIdFilter('rt.review_id');
@@ -244,7 +246,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'label'=> __('Delete'),
             'url'  => $this->getUrl(
                 '*/*/massDelete',
-                array('ret' => Mage::registry('usePendingFilter') ? 'pending' : 'index')
+                array('ret' => \Mage::registry('usePendingFilter') ? 'pending' : 'index')
             ),
             'confirm' => __('Are you sure?')
         ));
@@ -255,7 +257,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'label'         => __('Update Status'),
             'url'           => $this->getUrl(
                 '*/*/massUpdateStatus',
-                array('ret' => Mage::registry('usePendingFilter') ? 'pending' : 'index')
+                array('ret' => \Mage::registry('usePendingFilter') ? 'pending' : 'index')
             ),
             'additional'    => array(
                 'status'    => array(
@@ -272,7 +274,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     /**
      * Get row url
      *
-     * @param Magento_Review_Model_Review|\Magento\Object $row
+     * @param \Magento\Review\Model\Review|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)
@@ -281,7 +283,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
             'id' => $row->getReviewId(),
             'productId' => $this->getProductId(),
             'customerId' => $this->getCustomerId(),
-            'ret'       => ( Mage::registry('usePendingFilter') ) ? 'pending' : null,
+            'ret'       => ( \Mage::registry('usePendingFilter') ) ? 'pending' : null,
         ));
     }
 
@@ -294,7 +296,7 @@ class Magento_Adminhtml_Block_Review_Grid extends Magento_Backend_Block_Widget_G
     {
         if( $this->getProductId() || $this->getCustomerId() ) {
             return $this->getUrl(
-                '*/catalog_product_review/' . (Mage::registry('usePendingFilter') ? 'pending' : ''),
+                '*/catalog_product_review/' . (\Mage::registry('usePendingFilter') ? 'pending' : ''),
                 array(
                     'productId' => $this->getProductId(),
                     'customerId' => $this->getCustomerId(),

@@ -11,7 +11,9 @@
 /**
  * Shopping cart price rule chooser
  */
-class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Promo\Widget;
+
+class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Block constructor, prepare grid params
@@ -32,10 +34,10 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
      */
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $uniqId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
+        $uniqId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/promo_quote/chooser', array('uniq_id' => $uniqId));
 
-        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
             ->setUniqId($uniqId);
 
         if ($element->getValue()) {
-            $rule = Mage::getModel('Magento_SalesRule_Model_Rule')->load((int)$element->getValue());
+            $rule = \Mage::getModel('\Magento\SalesRule\Model\Rule')->load((int)$element->getValue());
             if ($rule->getId()) {
                 $chooser->setLabel($rule->getName());
             }
@@ -77,14 +79,14 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
     /**
      * Prepare rules collection
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_SalesRule_Model_Rule')->getResourceCollection();
+        $collection = \Mage::getModel('\Magento\SalesRule\Model\Rule')->getResourceCollection();
         $this->setCollection($collection);
 
-        Mage::dispatchEvent('adminhtml_block_promo_widget_chooser_prepare_collection', array(
+        \Mage::dispatchEvent('adminhtml_block_promo_widget_chooser_prepare_collection', array(
             'collection' => $collection
         ));
 
@@ -94,7 +96,7 @@ class Magento_Adminhtml_Block_Promo_Widget_Chooser extends Magento_Adminhtml_Blo
     /**
      * Prepare columns for rules grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {

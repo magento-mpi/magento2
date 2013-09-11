@@ -11,7 +11,9 @@
 /**
  * Segment condition for sales rules
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Rule_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition;
+
+class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -64,7 +66,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
      */
     public function getValueElementChooserUrl()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/customersegment/chooserGrid', array(
+        return \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/customersegment/chooserGrid', array(
             'value_element_id' => $this->_valueElement->getId(),
             'form' => $this->getJsFormObject(),
         ));
@@ -97,7 +99,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
     /**
      * Specify allowed comparison operators
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Segment
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Segment
      */
     public function loadOperatorOptions()
     {
@@ -126,12 +128,12 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
     /**
      * Validate if qoute customer is assigned to role segments
      *
-     * @param   Magento_Sales_Model_Quote_Address $object
+     * @param   \Magento\Sales\Model\Quote\Address $object
      * @return  bool
      */
     public function validate(\Magento\Object $object)
     {
-        if (!Mage::helper('Magento_CustomerSegment_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\CustomerSegment\Helper\Data')->isEnabled()) {
             return false;
         }
         $customer = null;
@@ -144,14 +146,14 @@ class Magento_CustomerSegment_Model_Segment_Condition_Segment extends Magento_Ru
 
         $quoteWebsiteId = $object->getQuote()->getStore()->getWebsite()->getId();
         if (!$customer->getId()) {
-            $visitorSegmentIds = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerSegmentIds();
+            $visitorSegmentIds = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerSegmentIds();
             if (is_array($visitorSegmentIds) && isset($visitorSegmentIds[$quoteWebsiteId])) {
                 $segments = $visitorSegmentIds[$quoteWebsiteId];
             } else {
                 $segments = array();
             }
         } else {
-            $segments = Mage::getSingleton('Magento_CustomerSegment_Model_Customer')
+            $segments = \Mage::getSingleton('Magento\CustomerSegment\Model\Customer')
                 ->getCustomerSegmentIdsForWebsite($customer->getId(), $quoteWebsiteId);
         }
         return $this->validateAttribute($segments);

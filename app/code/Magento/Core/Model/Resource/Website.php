@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Website extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource;
+
+class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
@@ -30,7 +32,7 @@ class Magento_Core_Model_Resource_Website extends Magento_Core_Model_Resource_Db
     /**
      * Initialize unique fields
      *
-     * @return Magento_Core_Model_Resource_Website
+     * @return \Magento\Core\Model\Resource\Website
      */
     protected function _initUniqueFields()
     {
@@ -44,13 +46,13 @@ class Magento_Core_Model_Resource_Website extends Magento_Core_Model_Resource_Db
     /**
      * Validate website code before object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Website
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Website
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
-            Mage::throwException(__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
+            \Mage::throwException(__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
         }
 
         return parent::_beforeSave($object);
@@ -59,10 +61,10 @@ class Magento_Core_Model_Resource_Website extends Magento_Core_Model_Resource_Db
     /**
      * Perform actions after object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Website
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Website
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->getIsDefault()) {
             $this->_getWriteAdapter()->update($this->getMainTable(), array('is_default' => 0));
@@ -75,13 +77,13 @@ class Magento_Core_Model_Resource_Website extends Magento_Core_Model_Resource_Db
     /**
      * Remove core configuration data after delete website
      *
-     * @param Magento_Core_Model_Abstract $model
-     * @return Magento_Core_Model_Resource_Website
+     * @param \Magento\Core\Model\AbstractModel $model
+     * @return \Magento\Core\Model\Resource\Website
      */
-    protected function _afterDelete(Magento_Core_Model_Abstract $model)
+    protected function _afterDelete(\Magento\Core\Model\AbstractModel $model)
     {
         $where = array(
-            'scope = ?'    => Magento_Core_Model_Config::SCOPE_WEBSITES,
+            'scope = ?'    => \Magento\Core\Model\Config::SCOPE_WEBSITES,
             'scope_id = ?' => $model->getWebsiteId()
         );
 

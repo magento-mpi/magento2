@@ -16,28 +16,30 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Sales extends Magento_Adminhtml_Block_Dashboard_Bar
+namespace Magento\Adminhtml\Block\Dashboard;
+
+class Sales extends \Magento\Adminhtml\Block\Dashboard\Bar
 {
 
     protected $_template = 'dashboard/salebar.phtml';
 
     protected function _prepareLayout()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_Reports')) {
+        if (!\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_Reports')) {
             return $this;
         }
         $isFilter = $this->getRequest()->getParam('store') || $this->getRequest()->getParam('website') || $this->getRequest()->getParam('group');
 
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Order_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Order\Collection')
             ->calculateSales($isFilter);
 
         if ($this->getRequest()->getParam('store')) {
             $collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
         } else if ($this->getRequest()->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } else if ($this->getRequest()->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
         }
 

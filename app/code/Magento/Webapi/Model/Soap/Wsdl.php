@@ -1,5 +1,5 @@
 <?php
-use Zend\Soap\Wsdl;
+use \Zend\Soap\Wsdl;
 
 /**
  * Magento-specific WSDL builder.
@@ -9,7 +9,9 @@ use Zend\Soap\Wsdl;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Wsdl extends Wsdl
+namespace Magento\Webapi\Model\Soap;
+
+class Wsdl extends Wsdl
 {
     /**
      * @var string|Zend\Uri\Uri
@@ -22,9 +24,9 @@ class Magento_Webapi_Model_Soap_Wsdl extends Wsdl
      *
      * @param string $name
      * @param string|Zend\Uri\Uri $uri
-     * @param Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased $strategy
+     * @param \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased $strategy
      */
-    public function __construct($name, $uri, Magento_Webapi_Model_Soap_Wsdl_ComplexTypeStrategy_ConfigBased $strategy)
+    public function __construct($name, $uri, \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased $strategy)
     {
         $this->_uri = $uri;
         parent::__construct($name, $uri, $strategy);

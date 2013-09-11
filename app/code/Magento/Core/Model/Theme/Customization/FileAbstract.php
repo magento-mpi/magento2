@@ -11,17 +11,19 @@
 /**
  * Theme file service abstract class
  */
-abstract class Magento_Core_Model_Theme_Customization_FileAbstract
-    implements Magento_Core_Model_Theme_Customization_FileInterface,
-               Magento_Core_Model_Theme_Customization_FileAssetInterface
+namespace Magento\Core\Model\Theme\Customization;
+
+abstract class FileAbstract
+    implements \Magento\Core\Model\Theme\Customization\FileInterface,
+               \Magento\Core\Model\Theme\Customization\FileAssetInterface
 {
     /**
-     * @var Magento_Core_Model_Theme_Customization_Path
+     * @var \Magento\Core\Model\Theme\Customization\Path
      */
     protected $_customizationPath;
 
     /**
-     * @var Magento_Core_Model_Theme_FileFactory
+     * @var \Magento\Core\Model\Theme\FileFactory
      */
     protected $_fileFactory;
 
@@ -31,13 +33,13 @@ abstract class Magento_Core_Model_Theme_Customization_FileAbstract
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Model_Theme_Customization_Path $customizationPath
-     * @param Magento_Core_Model_Theme_FileFactory $fileFactory
+     * @param \Magento\Core\Model\Theme\Customization\Path $customizationPath
+     * @param \Magento\Core\Model\Theme\FileFactory $fileFactory
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        Magento_Core_Model_Theme_Customization_Path $customizationPath,
-        Magento_Core_Model_Theme_FileFactory $fileFactory,
+        \Magento\Core\Model\Theme\Customization\Path $customizationPath,
+        \Magento\Core\Model\Theme\FileFactory $fileFactory,
         \Magento\Filesystem $filesystem
     ) {
         $this->_customizationPath = $customizationPath;
@@ -58,7 +60,7 @@ abstract class Magento_Core_Model_Theme_Customization_FileAbstract
     /**
      * {@inheritdoc}
      */
-    public function getFullPath(Magento_Core_Model_Theme_FileInterface $file)
+    public function getFullPath(\Magento\Core\Model\Theme\FileInterface $file)
     {
         $customizationPath = $this->_customizationPath->getCustomizationPath($file->getTheme());
         return $customizationPath . DIRECTORY_SEPARATOR . $file->getData('file_path');
@@ -67,7 +69,7 @@ abstract class Magento_Core_Model_Theme_Customization_FileAbstract
     /**
      * {@inheritdoc}
      */
-    public function prepareFile(Magento_Core_Model_Theme_FileInterface $file)
+    public function prepareFile(\Magento\Core\Model\Theme\FileInterface $file)
     {
         $file->setData('file_type', $this->getType());
         if (!$file->getId()) {
@@ -81,7 +83,7 @@ abstract class Magento_Core_Model_Theme_Customization_FileAbstract
     /**
      * {@inheritdoc}
      */
-    public function save(Magento_Core_Model_Theme_FileInterface $file)
+    public function save(\Magento\Core\Model\Theme\FileInterface $file)
     {
         $this->_saveFileContent($this->getFullPath($file), $file->getContent());
         return $this;
@@ -90,7 +92,7 @@ abstract class Magento_Core_Model_Theme_Customization_FileAbstract
     /**
      * {@inheritdoc}
      */
-    public function delete(Magento_Core_Model_Theme_FileInterface $file)
+    public function delete(\Magento\Core\Model\Theme\FileInterface $file)
     {
         $this->_deleteFileContent($this->getFullPath($file));
         return $this;
@@ -99,16 +101,16 @@ abstract class Magento_Core_Model_Theme_Customization_FileAbstract
     /**
      * Prepares filename of file
      *
-     * @param Magento_Core_Model_Theme_FileInterface $file
+     * @param \Magento\Core\Model\Theme\FileInterface $file
      */
-    protected function _prepareFileName(Magento_Core_Model_Theme_FileInterface $file)
+    protected function _prepareFileName(\Magento\Core\Model\Theme\FileInterface $file)
     {
         $customFiles = $file->getTheme()->getCustomization()->getFilesByType($this->getType());
 
         $fileName = $file->getFileName();
         $fileInfo = pathinfo($fileName);
         $fileIndex = 0;
-        /** @var $customFile Magento_Core_Model_Theme_FileInterface */
+        /** @var $customFile \Magento\Core\Model\Theme\FileInterface */
         foreach ($customFiles as $customFile) {
             if ($fileName === $customFile->getFileName()) {
                 $fileName = sprintf('%s_%d.%s', $fileInfo['filename'], ++$fileIndex, $fileInfo['extension']);
@@ -120,9 +122,9 @@ abstract class Magento_Core_Model_Theme_Customization_FileAbstract
     /**
      * Prepares relative path of file
      *
-     * @param Magento_Core_Model_Theme_FileInterface $file
+     * @param \Magento\Core\Model\Theme\FileInterface $file
      */
-    protected function _prepareFilePath(Magento_Core_Model_Theme_FileInterface $file)
+    protected function _prepareFilePath(\Magento\Core\Model\Theme\FileInterface $file)
     {
         $file->setData('file_path', $this->getContentType() . '/' . $file->getFileName());
     }
@@ -130,9 +132,9 @@ abstract class Magento_Core_Model_Theme_Customization_FileAbstract
     /**
      * Prepares sort order of custom file
      *
-     * @param Magento_Core_Model_Theme_FileInterface $file
+     * @param \Magento\Core\Model\Theme\FileInterface $file
      */
-    protected function _prepareSortOrder(Magento_Core_Model_Theme_FileInterface $file)
+    protected function _prepareSortOrder(\Magento\Core\Model\Theme\FileInterface $file)
     {
         $customFiles = $file->getTheme()->getCustomization()->getFilesByType($this->getType());
         $sortOrderIndex = (int)$file->getData('sort_order');

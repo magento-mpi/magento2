@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product;
+
+class Flat extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Store scope Id
@@ -32,7 +34,7 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
     protected function _construct()
     {
         $this->_init('catalog_product_flat', 'entity_id');
-        $this->_storeId = (int)Mage::app()->getStore()->getId();
+        $this->_storeId = (int)\Mage::app()->getStore()->getId();
     }
 
     /**
@@ -49,14 +51,14 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      * Set store for resource model
      *
      * @param mixed $store
-     * @return Magento_Catalog_Model_Resource_Product_Flat
+     * @return \Magento\Catalog\Model\Resource\Product\Flat
      */
     public function setStoreId($store)
     {
         if (is_int($store)) {
             $this->_storeId = $store;
         } else {
-            $this->_storeId = (int)Mage::app()->getStore($store)->getId();
+            $this->_storeId = (int)\Mage::app()->getStore($store)->getId();
         }
         return $this;
     }
@@ -82,8 +84,8 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      */
     public function getTypeId()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Config')
-            ->getEntityType(Magento_Catalog_Model_Product::ENTITY)
+        return \Mage::getSingleton('Magento\Catalog\Model\Config')
+            ->getEntityType(\Magento\Catalog\Model\Product::ENTITY)
             ->getEntityTypeId();
     }
 
@@ -143,13 +145,13 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      * Check whether the attribute is a real field in entity table
      * Rewrited for EAV Collection
      *
-     * @param integer|string|Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param integer|string|\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @return bool
      */
     public function isAttributeStatic($attribute)
     {
         $attributeCode = null;
-        if ($attribute instanceof Magento_Eav_Model_Entity_Attribute_Interface) {
+        if ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AttributeInterface) {
             $attributeCode = $attribute->getAttributeCode();
         } elseif (is_string($attribute)) {
             $attributeCode = $attribute;
@@ -184,12 +186,12 @@ class Magento_Catalog_Model_Resource_Product_Flat extends Magento_Core_Model_Res
      * Special for non static flat table
      *
      * @param mixed $attribute
-     * @return Magento_Eav_Model_Entity_Attribute_Abstract
+     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     public function getAttribute($attribute)
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Config')
-            ->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attribute);
+        return \Mage::getSingleton('Magento\Catalog\Model\Config')
+            ->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attribute);
     }
 
     /**

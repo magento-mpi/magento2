@@ -17,8 +17,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
-    extends Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
+namespace Magento\Adminhtml\Block\Catalog\Form\Renderer\Attribute;
+
+class Urlkey
+    extends \Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element
 {
     public function getElementHtml()
     {
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Catalog_Form_Renderer_Attribute_Urlkey
         $data['html_id'] = $element->getHtmlId() . '_create_redirect';
         $data['label'] = __('Create Permanent Redirect for old URL');
         $data['value'] = $element->getValue();
-        $data['checked'] = Mage::helper('Magento_Catalog_Helper_Data')->shouldSaveUrlRewritesHistory($storeId);
+        $data['checked'] = \Mage::helper('Magento\Catalog\Helper\Data')->shouldSaveUrlRewritesHistory($storeId);
         $checkbox = new \Magento\Data\Form\Element\Checkbox($data);
         $checkbox->setForm($element->getForm());
 

@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_Adminhtml_Block_Catalog_Category_Abstract
+namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
+
+class Category extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
 {
     protected $_template = 'categories.phtml';
 
@@ -30,7 +32,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
     {
         $result = array();
         if ($parentId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($parentId);
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($parentId);
             if (!empty($category)) {
                 $tree = $this->_getNodesArray($this->getNode($category, $recursionLevel));
                 if (!empty($tree) && !empty($tree['children'])) {
@@ -42,7 +44,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
             $result = $this->_getNodesArray($this->getRoot(null, $recursionLevel));
         }
         if ($asJson) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
         }
         return $result;
     }
@@ -50,13 +52,13 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
     /**
      * Get categories collection
      *
-     * @return Magento_Catalog_Model_Resource_Category_Collection
+     * @return \Magento\Catalog\Model\Resource\Category\Collection
      */
     public function getCategoryCollection()
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = Mage::getModel('Magento_Catalog_Model_Category')->getCollection()
+            $collection = \Mage::getModel('\Magento\Catalog\Model\Category')->getCollection()
                 ->addAttributeToSelect(array('name', 'is_active'))
                 ->setLoadProductCount(true)
             ;
@@ -72,7 +74,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Magento_A
      */
     protected function _getNodesArray($node)
     {
-        $eventHelper = $this->helper('Magento_CatalogEvent_Helper_Adminhtml_Event');
+        $eventHelper = $this->helper('\Magento\CatalogEvent\Helper\Adminhtml\Event');
         $result = array(
             'id'             => (int)$node->getId(),
             'parent_id'      => (int)$node->getParentId(),

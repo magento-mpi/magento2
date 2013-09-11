@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Endpoint
+ * \Magento\Webhook\Model\Endpoint
  *
  * {license_notice}
  *
@@ -11,8 +11,8 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
 {
     public function testGetMethods()
     {
-        /** @var  Magento_Webhook_Model_Endpoint $endpoint */
-        $endpoint = Mage::getModel('Magento_Webhook_Model_Endpoint');
+        /** @var  \Magento\Webhook\Model\Endpoint $endpoint */
+        $endpoint = Mage::getModel('\Magento\Webhook\Model\Endpoint');
 
         $endpoint->setEndpointUrl('endpoint.url.com');
         $this->assertEquals('endpoint.url.com', $endpoint->getEndpointUrl());
@@ -32,7 +32,7 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
 
         $userId = 42;
         $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_User', array('webapiUserId' => $userId));
+            ->create('Magento\Webhook\Model\User', array('webapiUserId' => $userId));
         $endpoint->setApiUserId($userId);
         $this->assertEquals($user, $endpoint->getUser());
 
@@ -40,8 +40,8 @@ class Magento_Webhook_Model_EndpointTest extends PHPUnit_Framework_TestCase
 
     public function testBeforeSave()
     {
-        /** @var  Magento_Webhook_Model_Endpoint $endpoint */
-        $endpoint = Mage::getModel('Magento_Webhook_Model_Endpoint');
+        /** @var  \Magento\Webhook\Model\Endpoint $endpoint */
+        $endpoint = Mage::getModel('\Magento\Webhook\Model\Endpoint');
         $endpoint->setUpdatedAt('-1')
             ->save();
 

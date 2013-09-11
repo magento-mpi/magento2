@@ -18,8 +18,8 @@
                     <comment>
                         <![CDATA[Defines the default product price]]>
                     </comment>
-                    <backend_model>Magento_PricePermissions_Model_System_Config_Backend_Catalog_Product_Price_Default</backend_model>
-                    <frontend_model>Magento_PricePermissions_Block_Adminhtml_Catalog_Product_Price_Default</frontend_model>
+                    <backend_model>\Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\Price\DefaultPrice</backend_model>
+                    <frontend_model>\Magento\PricePermissions\Block\Adminhtml\Catalog\Product\Price\DefaultPrice</frontend_model>
                 </field>
             </group>
         </section>

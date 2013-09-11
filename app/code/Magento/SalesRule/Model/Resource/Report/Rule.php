@@ -16,7 +16,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model_Resource_Report_Abstract
+namespace Magento\SalesRule\Model\Resource\Report;
+
+class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
 {
     /**
      * Resource Report Rule constructor
@@ -32,13 +34,13 @@ class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_SalesRule_Model_Resource_Report_Rule
+     * @return \Magento\SalesRule\Model\Resource\Report\Rule
      */
     public function aggregate($from = null, $to = null)
     {
-        Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule_Createdat')->aggregate($from, $to);
-        Mage::getResourceModel('Magento_SalesRule_Model_Resource_Report_Rule_Updatedat')->aggregate($from, $to);
-        $this->_setFlagData(Magento_Reports_Model_Flag::REPORT_COUPONS_FLAG_CODE);
+        \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Report\Rule\Createdat')->aggregate($from, $to);
+        \Mage::getResourceModel('\Magento\SalesRule\Model\Resource\Report\Rule\Updatedat')->aggregate($from, $to);
+        $this->_setFlagData(\Magento\Reports\Model\Flag::REPORT_COUPONS_FLAG_CODE);
 
         return $this;
     }
@@ -55,7 +57,7 @@ class Magento_SalesRule_Model_Resource_Report_Rule extends Magento_Reports_Model
         $select = $adapter->select()
             ->from(
                 $tableName,
-                new Zend_Db_Expr('DISTINCT rule_name')
+                new \Zend_Db_Expr('DISTINCT rule_name')
             )
             ->where('rule_name IS NOT NULL')
             ->where('rule_name <> ?', '')

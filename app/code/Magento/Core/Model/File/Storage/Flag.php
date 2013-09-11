@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_File_Storage_Flag extends Magento_Core_Model_Flag
+namespace Magento\Core\Model\File\Storage;
+
+class Flag extends \Magento\Core\Model\Flag
 {
     /**
      * There was no synchronization
@@ -50,10 +52,10 @@ class Magento_Core_Model_File_Storage_Flag extends Magento_Core_Model_Flag
     /**
      * Pass error to flag
      *
-     * @param Exception $e
-     * @return Magento_Core_Model_File_Storage_Flag
+     * @param \Exception $e
+     * @return \Magento\Core\Model\File\Storage\Flag
      */
-    public function passError(Exception $e)
+    public function passError(\Exception $e)
     {
         $data = $this->getFlagData();
         if (!is_array($data)) {

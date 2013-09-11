@@ -6,13 +6,13 @@
  * @license {license_link}
  */
 
-/** @var $entityType Magento_Eav_Model_Entity_Type */
-$entityType = Mage::getModel('Magento_Eav_Model_Entity_Type')->loadByCode('catalog_product');
-$taxClasses = Mage::getResourceModel('Magento_Tax_Model_Resource_TaxClass_Collection')->toArray();
+/** @var $entityType \Magento\Eav\Model\Entity\Type */
+$entityType = Mage::getModel('\Magento\Eav\Model\Entity\Type')->loadByCode('catalog_product');
+$taxClasses = Mage::getResourceModel('\Magento\Tax\Model\Resource\TaxClass\Collection')->toArray();
 $taxClass = reset($taxClasses['items']);
 
 return array(
-    'type_id' => Magento_Catalog_Model_Product_Type::TYPE_SIMPLE,
+    'type_id' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
     'attribute_set_id' => $entityType->getDefaultAttributeSetId(),
     'name' => '!";%:?*()_+{}[]\|<>,.?/',
     'description' => '!";%:?*()_+{}[]\|<>,.?/',
@@ -21,9 +21,9 @@ return array(
     'weight' => 125,
     'news_from_date' => '02/16/2012',
     'news_to_date' => '16.02.2012',
-    'status' => Magento_Catalog_Model_Product_Status::STATUS_ENABLED,
+    'status' => \Magento\Catalog\Model\Product\Status::STATUS_ENABLED,
     'url_key' => '123!";%:?*()_+{}[]\|<>,.?/abc',
-    'visibility' => Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+    'visibility' => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
     'price' => 25.50,
     'special_price' => 11.2,
     'special_from_date' => '02/16/2012',

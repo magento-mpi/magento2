@@ -15,18 +15,20 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_Filter_Item extends \Magento\Object
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class Item extends \Magento\Object
 {
     /**
      * Get filter instance
      *
-     * @return Magento_Catalog_Model_Layer_Filter_Abstract
+     * @return \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     public function getFilter()
     {
         $filter = $this->getData('filter');
         if (!is_object($filter)) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('The filter must be an object. Please set correct filter.')
             );
         }
@@ -42,9 +44,9 @@ class Magento_Catalog_Model_Layer_Filter_Item extends \Magento\Object
     {
         $query = array(
             $this->getFilter()->getRequestVar()=>$this->getValue(),
-            Mage::getBlockSingleton('Magento_Page_Block_Html_Pager')->getPageVarName() => null // exclude current page from urls
+            \Mage::getBlockSingleton('\Magento\Page\Block\Html\Pager')->getPageVarName() => null // exclude current page from urls
         );
-        return Mage::getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true, '_query'=>$query));
+        return \Mage::getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true, '_query'=>$query));
     }
 
     /**
@@ -59,7 +61,7 @@ class Magento_Catalog_Model_Layer_Filter_Item extends \Magento\Object
         $params['_use_rewrite'] = true;
         $params['_query']       = $query;
         $params['_escape']      = true;
-        return Mage::getUrl('*/*/*', $params);
+        return \Mage::getUrl('*/*/*', $params);
     }
 
     /**
@@ -80,7 +82,7 @@ class Magento_Catalog_Model_Layer_Filter_Item extends \Magento\Object
             '_query' => array($this->getFilter()->getRequestVar() => null),
             '_escape' => true,
         );
-        return Mage::getUrl('*/*/*', $urlParams);
+        return \Mage::getUrl('*/*/*', $urlParams);
     }
 
     /**

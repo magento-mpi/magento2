@@ -1,5 +1,5 @@
 <?php
-use Zend\Server\Reflection\ReflectionMethod;
+use \Zend\Server\Reflection\ReflectionMethod;
 
 /**
  * Webapi config helper.
@@ -9,7 +9,9 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
+namespace Magento\Webapi\Helper;
+
+class Config extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Convert singular form of word to plural.
@@ -112,7 +114,7 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
      *
      * @param string $class
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function translateTypeName($class)
     {
@@ -123,7 +125,7 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
 
             return ucfirst($moduleNamespace . $moduleName . implode('', $typeNameParts));
         }
-        throw new InvalidArgumentException(sprintf('Invalid parameter type "%s".', $class));
+        throw new \InvalidArgumentException(sprintf('Invalid parameter type "%s".', $class));
     }
 
     /**
@@ -156,7 +158,7 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
      *
      * @param string $class
      * @return string
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function translateResourceName($class)
     {
@@ -174,11 +176,11 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
      *
      * @param string $className
      * @return array
-     * @throws InvalidArgumentException When class is not valid API resource.
+     * @throws \InvalidArgumentException When class is not valid API resource.
      */
     public function getResourceNameParts($className)
     {
-        if (preg_match(Magento_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(\Magento\Webapi\Model\Config\ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
@@ -191,19 +193,19 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
             array_unshift($resourceNameParts, $parentResourceName);
             return $resourceNameParts;
         }
-        throw new InvalidArgumentException(sprintf('The controller class name "%s" is invalid.', $className));
+        throw new \InvalidArgumentException(sprintf('The controller class name "%s" is invalid.', $className));
     }
 
     /**
      * Identify API method name without version suffix by its reflection.
      *
-     * @param ReflectionMethod|string $method Method name or method reflection.
+     * @param \ReflectionMethod|string $method Method name or method reflection.
      * @return string Method name without version suffix on success.
-     * @throws InvalidArgumentException When method name is invalid API resource method.
+     * @throws \InvalidArgumentException When method name is invalid API resource method.
      */
     public function getMethodNameWithoutVersionSuffix($method)
     {
-        if ($method instanceof ReflectionMethod) {
+        if ($method instanceof \ReflectionMethod) {
             $methodNameWithSuffix = $method->getName();
         } else {
             $methodNameWithSuffix = $method;
@@ -213,7 +215,7 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
             $methodName = $methodMatches[1];
             return $methodName;
         }
-        throw new InvalidArgumentException(sprintf('"%s" is an invalid API resource method.', $methodNameWithSuffix));
+        throw new \InvalidArgumentException(sprintf('"%s" is an invalid API resource method.', $methodNameWithSuffix));
     }
 
     /**
@@ -223,17 +225,17 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
      */
     public function getMethodNameRegularExpression()
     {
-        return sprintf('/(%s)(V\d+)/', implode('|', Magento_Webapi_Controller_ActionAbstract::getAllowedMethods()));
+        return sprintf('/(%s)(V\d+)/', implode('|', \Magento\Webapi\Controller\ActionAbstract::getAllowedMethods()));
     }
 
     /**
      * Identify request body param name, if it is expected by method.
      *
-     * @param ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $methodReflection
      * @return bool|string Return body param name if body is expected, false otherwise
-     * @throws LogicException
+     * @throws \LogicException
      */
-    public function getOperationBodyParamName(ReflectionMethod $methodReflection)
+    public function getOperationBodyParamName(\ReflectionMethod $methodReflection)
     {
         $bodyParamName = false;
         /**#@+
@@ -246,18 +248,18 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
         $bodyPosMultiDelete = 1;
         /**#@-*/
         $bodyParamPositions = array(
-            Magento_Webapi_Controller_ActionAbstract::METHOD_CREATE => $bodyPosCreate,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_CREATE => $bodyPosMultiCreate,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_UPDATE => $bodyPosUpdate,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_UPDATE => $bodyPosMultiUpdate,
-            Magento_Webapi_Controller_ActionAbstract::METHOD_MULTI_DELETE => $bodyPosMultiDelete
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_CREATE => $bodyPosCreate,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_CREATE => $bodyPosMultiCreate,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_UPDATE => $bodyPosUpdate,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_UPDATE => $bodyPosMultiUpdate,
+            \Magento\Webapi\Controller\ActionAbstract::METHOD_MULTI_DELETE => $bodyPosMultiDelete
         );
         $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
         $isBodyExpected = isset($bodyParamPositions[$methodName]);
         if ($isBodyExpected) {
             $bodyParamPosition = $bodyParamPositions[$methodName];
             if ($this->isSubresource($methodReflection)
-                && $methodName != Magento_Webapi_Controller_ActionAbstract::METHOD_UPDATE
+                && $methodName != \Magento\Webapi\Controller\ActionAbstract::METHOD_UPDATE
             ) {
                 /** For subresources parent ID param must precede request body param. */
                 $bodyParamPosition++;
@@ -267,7 +269,7 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
             $methodInterface = reset($methodInterfaces);
             $methodParams = $methodInterface->getParameters();
             if (empty($methodParams) || (count($methodParams) < $bodyParamPosition)) {
-                throw new LogicException(sprintf(
+                throw new \LogicException(sprintf(
                     'Method "%s" must have parameter for passing request body. '
                         . 'Its position must be "%s" in method interface.',
                     $methodReflection->getName(),
@@ -285,20 +287,20 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
     /**
      * Identify ID param name if it is expected for the specified method.
      *
-     * @param ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $methodReflection
      * @return bool|string Return ID param name if it is expected; false otherwise.
-     * @throws LogicException If resource method interface does not contain required ID parameter.
+     * @throws \LogicException If resource method interface does not contain required ID parameter.
      */
-    public function getOperationIdParamName(ReflectionMethod $methodReflection)
+    public function getOperationIdParamName(\ReflectionMethod $methodReflection)
     {
         $idParamName = false;
         $isIdFieldExpected = false;
         if (!$this->isSubresource($methodReflection)) {
             /** Top level resource, not subresource */
             $methodsWithId = array(
-                Magento_Webapi_Controller_ActionAbstract::METHOD_GET,
-                Magento_Webapi_Controller_ActionAbstract::METHOD_UPDATE,
-                Magento_Webapi_Controller_ActionAbstract::METHOD_DELETE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_GET,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_UPDATE,
+                \Magento\Webapi\Controller\ActionAbstract::METHOD_DELETE,
             );
             $methodName = $this->getMethodNameWithoutVersionSuffix($methodReflection);
             if (in_array($methodName, $methodsWithId)) {
@@ -319,12 +321,12 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
             $methodInterface = reset($methodInterfaces);
             $methodParams = $methodInterface->getParameters();
             if (empty($methodParams)) {
-                throw new LogicException(sprintf(
+                throw new \LogicException(sprintf(
                     'The "%s" method must have at least one parameter: resource ID.',
                     $methodReflection->getName()
                 ));
             }
-            /** @var ReflectionParameter $idParam */
+            /** @var \ReflectionParameter $idParam */
             $idParam = reset($methodParams);
             $idParamName = $idParam->getName();
         }
@@ -334,16 +336,16 @@ class Magento_Webapi_Helper_Config extends Magento_Core_Helper_Abstract
     /**
      * Identify if API resource is top level resource or subresource.
      *
-     * @param ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $methodReflection
      * @return bool
-     * @throws InvalidArgumentException In case when class name is not valid API resource class.
+     * @throws \InvalidArgumentException In case when class name is not valid API resource class.
      */
-    public  function isSubresource(ReflectionMethod $methodReflection)
+    public  function isSubresource(\ReflectionMethod $methodReflection)
     {
         $className = $methodReflection->getDeclaringClass()->getName();
-        if (preg_match(Magento_Webapi_Model_Config_ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
+        if (preg_match(\Magento\Webapi\Model\Config\ReaderAbstract::RESOURCE_CLASS_PATTERN, $className, $matches)) {
             return count(explode('_', trim($matches[3], '_'))) > 1;
         }
-        throw new InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
+        throw new \InvalidArgumentException(sprintf('"%s" is not a valid resource class.', $className));
     }
 }

@@ -11,32 +11,34 @@
 /**
  * Order status history comments
  *
- * @method Magento_Sales_Model_Resource_Order_Status_History _getResource()
- * @method Magento_Sales_Model_Resource_Order_Status_History getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Status\History _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Status\History getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Status_History setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Status\History setParentId(int $value)
  * @method int getIsCustomerNotified()
  * @method int getIsVisibleOnFront()
- * @method Magento_Sales_Model_Order_Status_History setIsVisibleOnFront(int $value)
+ * @method \Magento\Sales\Model\Order\Status\History setIsVisibleOnFront(int $value)
  * @method string getComment()
- * @method Magento_Sales_Model_Order_Status_History setComment(string $value)
+ * @method \Magento\Sales\Model\Order\Status\History setComment(string $value)
  * @method string getStatus()
- * @method Magento_Sales_Model_Order_Status_History setStatus(string $value)
+ * @method \Magento\Sales\Model\Order\Status\History setStatus(string $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Order_Status_History setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Status\History setCreatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Status_History extends Magento_Sales_Model_Abstract
+namespace Magento\Sales\Model\Order\Status;
+
+class History extends \Magento\Sales\Model\AbstractModel
 {
     const CUSTOMER_NOTIFICATION_NOT_APPLICABLE = 2;
 
     /**
      * Order instance
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
@@ -48,16 +50,16 @@ class Magento_Sales_Model_Order_Status_History extends Magento_Sales_Model_Abstr
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Status_History');
+        $this->_init('\Magento\Sales\Model\Resource\Order\Status\History');
     }
 
     /**
      * Set order object and grab some metadata from it
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Order_Status_History
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Order\Status\History
      */
-    public function setOrder(Magento_Sales_Model_Order $order)
+    public function setOrder(\Magento\Sales\Model\Order $order)
     {
         $this->_order = $order;
         $this->setStoreId($order->getStoreId());
@@ -68,7 +70,7 @@ class Magento_Sales_Model_Order_Status_History extends Magento_Sales_Model_Abstr
      * Notification flag
      *
      * @param  mixed $flag OPTIONAL (notification is not applicable by default)
-     * @return Magento_Sales_Model_Order_Status_History
+     * @return \Magento\Sales\Model\Order\Status\History
      */
     public function setIsCustomerNotified($flag = null)
     {
@@ -92,7 +94,7 @@ class Magento_Sales_Model_Order_Status_History extends Magento_Sales_Model_Abstr
     /**
      * Retrieve order instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -121,13 +123,13 @@ class Magento_Sales_Model_Order_Status_History extends Magento_Sales_Model_Abstr
         if ($this->getOrder()) {
             return $this->getOrder()->getStore();
         }
-        return Mage::app()->getStore();
+        return \Mage::app()->getStore();
     }
 
     /**
      * Set order again if required
      *
-     * @return Magento_Sales_Model_Order_Status_History
+     * @return \Magento\Sales\Model\Order\Status\History
      */
     protected function _beforeSave()
     {

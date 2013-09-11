@@ -8,29 +8,29 @@
  */
 -->
 <config>
-    <preference for="Magento_FullPageCache_Model_Processor_RestrictionInterface" type="Magento_FullPageCache_Model_Processor_Restriction" />
-    <type name="Magento_FullPageCache_Model_Request_Identifier">
+    <preference for="Magento\FullPageCache\Model\Processor\RestrictionInterface" type="Magento\FullPageCache\Model\Processor\Restriction" />
+    <type name="Magento\FullPageCache\Model\Request\Identifier">
         <param name="scopeCode">
             <value type="argument">Mage::PARAM_RUN_CODE</value>
         </param>
     </type>
-    <type name="Magento_FullPageCache_Model_Processor">
+    <type name="Magento\FullPageCache\Model\Processor">
         <param name="storeManager">
-            <instance type="Magento_Core_Model_StoreManager_Proxy" />
+            <instance type="Magento\Core\Model\StoreManager\Proxy" />
         </param>
         <param name="metadata">
-            <instance type="Magento_FullPageCache_Model_Metadata_Proxy" />
+            <instance type="Magento\FullPageCache\Model\Metadata\Proxy" />
         </param>
         <param name="requestIdentifier">
-            <instance type="Magento_FullPageCache_Model_Request_Identifier_Proxy" />
+            <instance type="Magento\FullPageCache\Model\Request\Identifier\Proxy" />
         </param>
     </type>
-    <type name="Magento_FullPageCache_Model_DesignPackage_Rules">
+    <type name="Magento\FullPageCache\Model\DesignPackage\Rules">
         <param name="designChange">
-            <instance type="Magento_Core_Model_Design_Proxy" />
+            <instance type="Magento\Core\Model\Design\Proxy" />
         </param>
         <param name="design">
-            <instance type="Magento_Core_Model_View_Design_Proxy" />
+            <instance type="Magento\Core\Model\View\Design\Proxy" />
         </param>
     </type>
 </config>

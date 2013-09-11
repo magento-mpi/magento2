@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Request_Factory
+namespace Magento\Webapi\Controller\Request;
+
+class Factory
 {
     /**
      * List of request classes corresponding to API types.
@@ -15,24 +17,24 @@ class Magento_Webapi_Controller_Request_Factory
      * @var array
      */
     protected $_apiTypeToRequestMap = array(
-        Magento_Webapi_Controller_Front::API_TYPE_REST => 'Magento_Webapi_Controller_Request_Rest',
-        Magento_Webapi_Controller_Front::API_TYPE_SOAP => 'Magento_Webapi_Controller_Request_Soap',
+        \Magento\Webapi\Controller\Front::API_TYPE_REST => '\Magento\Webapi\Controller\Request\Rest',
+        \Magento\Webapi\Controller\Front::API_TYPE_SOAP => '\Magento\Webapi\Controller\Request\Soap',
     );
 
     /** @var \Magento\ObjectManager */
     protected $_objectManager;
 
-    /** @var Magento_Webapi_Controller_Front */
+    /** @var \Magento\Webapi\Controller\Front */
     protected $_apiFrontController;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Controller_Front $apiFrontController
+     * @param \Magento\Webapi\Controller\Front $apiFrontController
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        Magento_Webapi_Controller_Front $apiFrontController,
+        \Magento\Webapi\Controller\Front $apiFrontController,
         \Magento\ObjectManager $objectManager
     ) {
         $this->_apiFrontController = $apiFrontController;
@@ -44,14 +46,14 @@ class Magento_Webapi_Controller_Request_Factory
      *
      * Use current API type to define proper request class.
      *
-     * @return Magento_Webapi_Controller_Request
-     * @throws LogicException If there is no corresponding request class for current API type.
+     * @return \Magento\Webapi\Controller\Request
+     * @throws \LogicException If there is no corresponding request class for current API type.
      */
     public function get()
     {
         $apiType = $this->_apiFrontController->determineApiType();
         if (!isset($this->_apiTypeToRequestMap[$apiType])) {
-            throw new LogicException(
+            throw new \LogicException(
                 sprintf('There is no corresponding request class for the "%s" API type.', $apiType)
             );
         }

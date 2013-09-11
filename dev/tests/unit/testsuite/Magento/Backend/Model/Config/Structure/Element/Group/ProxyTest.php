@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Config_Structure_Element_Group_ProxyTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Element_Group_Proxy
+     * @var \Magento\Backend\Model\Config\Structure\Element\Group\Proxy
      */
     protected $_model;
 
@@ -24,7 +24,7 @@ class Magento_Backend_Model_Config_Structure_Element_Group_ProxyTest extends PHP
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_model = new Magento_Backend_Model_Config_Structure_Element_Group_Proxy($this->_objectManagerMock);
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Group\Proxy($this->_objectManagerMock);
     }
 
     protected function tearDown()
@@ -35,14 +35,14 @@ class Magento_Backend_Model_Config_Structure_Element_Group_ProxyTest extends PHP
 
     public function testProxyInitializesProxiedObjectOnFirstCall()
     {
-        $groupMock = $this->getMock('Magento_Backend_Model_Config_Structure_Element_Group', array(), array(), '',
+        $groupMock = $this->getMock('Magento\Backend\Model\Config\Structure\Element\Group', array(), array(), '',
             false);
 
         $groupMock->expects($this->once())->method('setData');
         $groupMock->expects($this->once())->method('getId')->will($this->returnValue('group_id'));
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
-            ->with('Magento_Backend_Model_Config_Structure_Element_Group')
+            ->with('Magento\Backend\Model\Config\Structure\Element\Group')
             ->will($this->returnValue($groupMock));
 
         $this->_model->setData(array(), '');

@@ -15,7 +15,9 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Checkout_Success extends Magento_Checkout_Block_Onepage_Success
+namespace Magento\Downloadable\Block\Checkout;
+
+class Success extends \Magento\Checkout\Block\Onepage\Success
 {
 
     /**
@@ -25,7 +27,7 @@ class Magento_Downloadable_Block_Checkout_Success extends Magento_Checkout_Block
      */
     public function getOrderHasDownloadable()
     {
-        $hasDownloadableFlag = Mage::getSingleton('Magento_Checkout_Model_Session')
+        $hasDownloadableFlag = \Mage::getSingleton('Magento\Checkout\Model\Session')
             ->getHasDownloadableProducts(true);
         if (!$this->isOrderVisible()) {
             return false;
@@ -33,7 +35,7 @@ class Magento_Downloadable_Block_Checkout_Success extends Magento_Checkout_Block
         /**
          * if use guest checkout
          */
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) {
+        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) {
             return false;
         }
         return $hasDownloadableFlag;

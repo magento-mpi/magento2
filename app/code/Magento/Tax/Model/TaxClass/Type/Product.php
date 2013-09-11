@@ -11,12 +11,14 @@
 /**
  * Product Tax Class
  */
-class Magento_Tax_Model_TaxClass_Type_Product
-    extends Magento_Tax_Model_TaxClass_TypeAbstract
-    implements Magento_Tax_Model_TaxClass_Type_Interface
+namespace Magento\Tax\Model\TaxClass\Type;
+
+class Product
+    extends \Magento\Tax\Model\TaxClass\TypeAbstract
+    implements \Magento\Tax\Model\TaxClass\Type\TypeInterface
 {
     /**
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_modelProduct;
 
@@ -25,16 +27,16 @@ class Magento_Tax_Model_TaxClass_Type_Product
      *
      * @var string
      */
-    protected $_classType = Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT;
+    protected $_classType = \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT;
 
     /**
-     * @param Magento_Tax_Model_Calculation_Rule $calculationRule
-     * @param Magento_Catalog_Model_Product $modelProduct
+     * @param \Magento\Tax\Model\Calculation\Rule $calculationRule
+     * @param \Magento\Catalog\Model\Product $modelProduct
      * @param array $data
      */
     public function __construct(
-        Magento_Tax_Model_Calculation_Rule $calculationRule,
-        Magento_Catalog_Model_Product $modelProduct,
+        \Magento\Tax\Model\Calculation\Rule $calculationRule,
+        \Magento\Catalog\Model\Product $modelProduct,
         array $data = array()
     ) {
         parent::__construct($calculationRule, $data);
@@ -44,7 +46,7 @@ class Magento_Tax_Model_TaxClass_Type_Product
     /**
      * Get Products with this tax class
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getAssignedToObjects()
     {

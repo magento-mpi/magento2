@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Loader_Rule implements \Magento\Acl\LoaderInterface
+namespace Magento\Webapi\Model\Authorization\Loader;
+
+class Rule implements \Magento\Acl\LoaderInterface
 {
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_Rule
+     * @var \Magento\Webapi\Model\Resource\Acl\Rule
      */
     protected $_ruleResource;
 
     /**
-     * @param Magento_Webapi_Model_Resource_Acl_Rule $ruleResource
+     * @param \Magento\Webapi\Model\Resource\Acl\Rule $ruleResource
      */
-    public function __construct(Magento_Webapi_Model_Resource_Acl_Rule $ruleResource)
+    public function __construct(\Magento\Webapi\Model\Resource\Acl\Rule $ruleResource)
     {
         $this->_ruleResource = $ruleResource;
     }

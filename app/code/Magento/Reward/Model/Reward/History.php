@@ -12,51 +12,53 @@
 /**
  * Reward history model
  *
- * @method Magento_Reward_Model_Resource_Reward_History _getResource()
- * @method Magento_Reward_Model_Resource_Reward_History getResource()
+ * @method \Magento\Reward\Model\Resource\Reward\History _getResource()
+ * @method \Magento\Reward\Model\Resource\Reward\History getResource()
  * @method int getRewardId()
- * @method Magento_Reward_Model_Reward_History setRewardId(int $value)
+ * @method \Magento\Reward\Model\Reward\History setRewardId(int $value)
  * @method int getWebsiteId()
- * @method Magento_Reward_Model_Reward_History setWebsiteId(int $value)
+ * @method \Magento\Reward\Model\Reward\History setWebsiteId(int $value)
  * @method int getStoreId()
- * @method Magento_Reward_Model_Reward_History setStoreId(int $value)
+ * @method \Magento\Reward\Model\Reward\History setStoreId(int $value)
  * @method int getAction()
- * @method Magento_Reward_Model_Reward_History setAction(int $value)
+ * @method \Magento\Reward\Model\Reward\History setAction(int $value)
  * @method int getEntity()
- * @method Magento_Reward_Model_Reward_History setEntity(int $value)
+ * @method \Magento\Reward\Model\Reward\History setEntity(int $value)
  * @method int getPointsBalance()
- * @method Magento_Reward_Model_Reward_History setPointsBalance(int $value)
+ * @method \Magento\Reward\Model\Reward\History setPointsBalance(int $value)
  * @method int getPointsDelta()
- * @method Magento_Reward_Model_Reward_History setPointsDelta(int $value)
+ * @method \Magento\Reward\Model\Reward\History setPointsDelta(int $value)
  * @method int getPointsUsed()
- * @method Magento_Reward_Model_Reward_History setPointsUsed(int $value)
+ * @method \Magento\Reward\Model\Reward\History setPointsUsed(int $value)
  * @method float getCurrencyAmount()
- * @method Magento_Reward_Model_Reward_History setCurrencyAmount(float $value)
+ * @method \Magento\Reward\Model\Reward\History setCurrencyAmount(float $value)
  * @method float getCurrencyDelta()
- * @method Magento_Reward_Model_Reward_History setCurrencyDelta(float $value)
+ * @method \Magento\Reward\Model\Reward\History setCurrencyDelta(float $value)
  * @method string getBaseCurrencyCode()
- * @method Magento_Reward_Model_Reward_History setBaseCurrencyCode(string $value)
- * @method Magento_Reward_Model_Reward_History setAdditionalData(string $value)
+ * @method \Magento\Reward\Model\Reward\History setBaseCurrencyCode(string $value)
+ * @method \Magento\Reward\Model\Reward\History setAdditionalData(string $value)
  * @method string getComment()
- * @method Magento_Reward_Model_Reward_History setComment(string $value)
+ * @method \Magento\Reward\Model\Reward\History setComment(string $value)
  * @method string getCreatedAt()
- * @method Magento_Reward_Model_Reward_History setCreatedAt(string $value)
+ * @method \Magento\Reward\Model\Reward\History setCreatedAt(string $value)
  * @method string getExpiredAtStatic()
- * @method Magento_Reward_Model_Reward_History setExpiredAtStatic(string $value)
+ * @method \Magento\Reward\Model\Reward\History setExpiredAtStatic(string $value)
  * @method string getExpiredAtDynamic()
- * @method Magento_Reward_Model_Reward_History setExpiredAtDynamic(string $value)
+ * @method \Magento\Reward\Model\Reward\History setExpiredAtDynamic(string $value)
  * @method int getIsExpired()
- * @method Magento_Reward_Model_Reward_History setIsExpired(int $value)
+ * @method \Magento\Reward\Model\Reward\History setIsExpired(int $value)
  * @method int getIsDuplicateOf()
- * @method Magento_Reward_Model_Reward_History setIsDuplicateOf(int $value)
+ * @method \Magento\Reward\Model\Reward\History setIsDuplicateOf(int $value)
  * @method int getNotificationSent()
- * @method Magento_Reward_Model_Reward_History setNotificationSent(int $value)
+ * @method \Magento\Reward\Model\Reward\History setNotificationSent(int $value)
  *
  * @category    Magento
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
+namespace Magento\Reward\Model\Reward;
+
+class History extends \Magento\Core\Model\AbstractModel
 {
     protected $_reward = null;
     /**
@@ -64,20 +66,20 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reward_Model_Resource_Reward_History');
+        $this->_init('\Magento\Reward\Model\Resource\Reward\History');
     }
 
     /**
      * Processing object before save data.
      * Prepare history data
      *
-     * @return Magento_Reward_Model_Reward_History
+     * @return \Magento\Reward\Model\Reward\History
      */
     protected function _beforeSave()
     {
         if ($this->getWebsiteId()) {
             $this->setBaseCurrencyCode(
-                Mage::app()->getWebsite($this->getWebsiteId())->getBaseCurrencyCode()
+                \Mage::app()->getWebsite($this->getWebsiteId())->getBaseCurrencyCode()
             );
         }
         if ($this->getPointsDelta() < 0) {
@@ -92,7 +94,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
             'notification_sent' => 0
         ));
 
-        $lifetime = (int)Mage::helper('Magento_Reward_Helper_Data')->getGeneralConfig('expiration_days', $this->getWebsiteId());
+        $lifetime = (int)\Mage::helper('Magento\Reward\Helper\Data')->getGeneralConfig('expiration_days', $this->getWebsiteId());
         if ($lifetime > 0) {
             $expires = $now + $lifetime * 86400;
             $expires = $this->getResource()->formatDate($expires);
@@ -108,8 +110,8 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     /**
      * Setter
      *
-     * @param Magento_Reward_Model_Reward $reward
-     * @return Magento_Reward_Model_Reward_History
+     * @param \Magento\Reward\Model\Reward $reward
+     * @return \Magento\Reward\Model\Reward\History
      */
     public function setReward($reward)
     {
@@ -120,7 +122,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     /**
      * Getter
      *
-     * @return Magento_Reward_Model_Reward
+     * @return \Magento\Reward\Model\Reward
      */
     public function getReward()
     {
@@ -130,13 +132,13 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     /**
      * Create history data from reward object
      *
-     * @return Magento_Reward_Model_Reward_History
+     * @return \Magento\Reward\Model\Reward\History
      */
     public function prepareFromReward()
     {
         $store = $this->getReward()->getStore();
         if ($store === null) {
-            $store = Mage::app()->getStore();
+            $store = \Mage::app()->getStore();
         }
         $this->setRewardId($this->getReward()->getId())
             ->setWebsiteId($this->getReward()->getWebsiteId())
@@ -153,7 +155,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
                 'points' => $this->getReward()->getRate()->getPoints(),
                 'currency_amount' => $this->getReward()->getRate()->getCurrencyAmount(),
                 'direction' => $this->getReward()->getRate()->getDirection(),
-                'currency_code' => Mage::app()->getWebsite($this->getReward()->getWebsiteId())->getBaseCurrencyCode()
+                'currency_code' => \Mage::app()->getWebsite($this->getReward()->getWebsiteId())->getBaseCurrencyCode()
             )
         ));
 
@@ -200,7 +202,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
      * Add additional values to additional_data
      *
      * @param array $data
-     * @return Magento_Reward_Model_Reward_History
+     * @return \Magento\Reward\Model\Reward\History
      */
     public function addAdditionalData($data)
     {
@@ -223,7 +225,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     public function getMessage()
     {
         if (!$this->hasData('message')) {
-            $action = Mage::getSingleton('Magento_Reward_Model_Reward')->getActionInstance($this->getAction());
+            $action = \Mage::getSingleton('Magento\Reward\Model\Reward')->getActionInstance($this->getAction());
             $message = '';
             if ($action !== null) {
                 $message = $action->getHistoryMessage($this->getAdditionalData());
@@ -242,7 +244,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
     {
         $rate = $this->getAdditionalDataByKey('rate');
         if (isset($rate['points']) && isset($rate['currency_amount']) && isset($rate['direction'])) {
-            return Magento_Reward_Model_Reward_Rate::getRateText(
+            return \Magento\Reward\Model\Reward\Rate::getRateText(
                 (int)$rate['direction'], (int)$rate['points'], (float)$rate['currency_amount'],
                 $this->getBaseCurrencyCode()
             );
@@ -287,7 +289,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
         if ($this->getPointsDelta() <= 0) {
             return null;
         }
-        return Mage::helper('Magento_Reward_Helper_Data')->getGeneralConfig('expiry_calculation') == 'static'
+        return \Mage::helper('Magento\Reward\Helper\Data')->getGeneralConfig('expiry_calculation') == 'static'
             ? $this->getExpiredAtStatic() : $this->getExpiredAtDynamic()
         ;
     }
@@ -296,7 +298,7 @@ class Magento_Reward_Model_Reward_History extends Magento_Core_Model_Abstract
      * Spend unused points for required amount
      *
      * @param int $required Points total that required
-     * @return Magento_Reward_Model_Reward_History
+     * @return \Magento\Reward\Model\Reward\History
      */
     protected function _spendAvailablePoints($required)
     {

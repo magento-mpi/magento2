@@ -11,7 +11,9 @@
 /**
  * Log and archive grids controller
  */
-class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Controller_Action
+namespace Magento\Logging\Controller\Adminhtml;
+
+class Logging extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Log page
@@ -40,7 +42,7 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
     public function detailsAction()
     {
         $eventId = $this->getRequest()->getParam('event_id');
-        $model   = Mage::getModel('Magento_Logging_Model_Event')
+        $model   = \Mage::getModel('\Magento\Logging\Model\Event')
             ->load($eventId);
         if (!$model->getId()) {
             $this->_redirect('*/*/');
@@ -48,7 +50,7 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
         }
         $this->_title(__("Log Entry #%1", $eventId));
 
-        Mage::register('current_event', $model);
+        \Mage::register('current_event', $model);
 
         $this->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
@@ -62,7 +64,7 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'log.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
     }
@@ -74,7 +76,7 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
     {
         $this->loadLayout();
         $fileName = 'log.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -105,7 +107,7 @@ class Magento_Logging_Controller_Adminhtml_Logging extends Magento_Adminhtml_Con
      */
     public function downloadAction()
     {
-        $archive = Mage::getModel('Magento_Logging_Model_Archive')->loadByBaseName(
+        $archive = \Mage::getModel('\Magento\Logging\Model\Archive')->loadByBaseName(
             $this->getRequest()->getParam('basename')
         );
         if ($archive->getFilename()) {

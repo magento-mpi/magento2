@@ -11,7 +11,9 @@
 /**
  * System Configuration Converter Mapper Interface
  */
-interface Magento_Backend_Model_Config_Structure_MapperInterface
+namespace Magento\Backend\Model\Config\Structure;
+
+interface MapperInterface
 {
     /**
      * Apply map

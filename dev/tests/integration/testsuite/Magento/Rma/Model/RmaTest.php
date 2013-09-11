@@ -16,9 +16,9 @@ class Magento_Rma_Model_RmaTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveRma()
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Mage::getModel('\Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
-        $rma = Mage::getModel('Magento_Rma_Model_Rma');
+        $rma = Mage::getModel('\Magento\Rma\Model\Rma');
         $rmaItems = array();
 
         foreach ($order->getItemsCollection() as $item) {
@@ -36,8 +36,8 @@ class Magento_Rma_Model_RmaTest extends PHPUnit_Framework_TestCase
             'rma_comment' => 'comment',
         );
         $rmaData = array(
-            'status'                => Magento_Rma_Model_Rma_Source_Status::STATE_PENDING,
-            'date_requested'        => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate(),
+            'status'                => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
+            'date_requested'        => Mage::getSingleton('Magento\Core\Model\Date')->gmtDate(),
             'order_id'              => $order->getId(),
             'order_increment_id'    => $order->getIncrementId(),
             'store_id'              => $order->getStoreId(),
@@ -51,13 +51,13 @@ class Magento_Rma_Model_RmaTest extends PHPUnit_Framework_TestCase
         $rmaId = $rma->getId();
 
         unset($rma);
-        $rma = Mage::getModel('Magento_Rma_Model_Rma');
+        $rma = Mage::getModel('\Magento\Rma\Model\Rma');
         $rma->load($rmaId);
         $this->assertEquals($rma->getId(), $rmaId);
         $this->assertEquals($rma->getOrderId(), $order->getId());
         $this->assertEquals($rma->getCustomerCustomEmail(), $rmaData['customer_custom_email']);
         $this->assertEquals($rma->getOrderIncrementId(), $order->getIncrementId());
         $this->assertEquals($rma->getStoreId(), $order->getStoreId());
-        $this->assertEquals($rma->getStatus(), Magento_Rma_Model_Rma_Source_Status::STATE_PENDING);
+        $this->assertEquals($rma->getStatus(), \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING);
     }
 }

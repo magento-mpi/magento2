@@ -7,8 +7,8 @@
  */
 
 // refresh report statistics
-/** @var Magento_Sales_Model_Resource_Report_Shipping $reportResource */
-$reportResource = Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Shipping');
+/** @var \Magento\Sales\Model\Resource\Report\Shipping $reportResource */
+$reportResource = Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Shipping');
 $reportResource->beginTransaction(); // prevent table truncation by incrementing the transaction nesting level counter
 try {
     $reportResource->aggregate();

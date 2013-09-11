@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Source;
+
+class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Option values
@@ -85,7 +87,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Mode
             'extra'     => null
         );
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
             $column['type']     = 'tinyint(1)';
             $column['is_null']  = true;
         } else {
@@ -124,7 +126,7 @@ class Magento_Eav_Model_Entity_Attribute_Source_Boolean extends Magento_Eav_Mode
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
+        return \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 

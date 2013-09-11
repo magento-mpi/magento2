@@ -12,7 +12,9 @@
  * Website permissions column grid
  *
  */
-class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer;
+
+class Gws extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var array
@@ -38,8 +40,8 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Grid_Renderer_Gws extends Mag
 
         // lookup websites and store groups in system
         if (!self::$websites) {
-            foreach (Mage::getResourceSingleton('Magento_Core_Model_Resource_Store_Group_Collection') as $storeGroup) {
-                /* @var $storeGroup Magento_Core_Model_Store_Group */
+            foreach (\Mage::getResourceSingleton('\Magento\Core\Model\Resource\Store\Group\Collection') as $storeGroup) {
+                /* @var $storeGroup \Magento\Core\Model\Store\Group */
                 $website = $storeGroup->getWebsite();
                 $websiteId = (string)$storeGroup->getWebsiteId();
                 self::$websites[$websiteId]['name'] = $website->getName();

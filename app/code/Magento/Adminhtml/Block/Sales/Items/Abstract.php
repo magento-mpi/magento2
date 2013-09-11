@@ -16,7 +16,7 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Block_Template
+class  Magento_Adminhtml_Block_Sales_Items_Abstract extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Renderers with render type key
@@ -51,8 +51,8 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
      */
     protected function _construct()
     {
-        $this->addColumnRender('qty', 'Magento_Adminhtml_Block_Sales_Items_Column_Qty', 'sales/items/column/qty.phtml');
-        $this->addColumnRender('name', 'Magento_Adminhtml_Block_Sales_Items_Column_Name', 'sales/items/column/name.phtml');
+        $this->addColumnRender('qty', '\Magento\Adminhtml\Block\Sales\Items\Column\Qty', 'sales/items/column/qty.phtml');
+        $this->addColumnRender('name', '\Magento\Adminhtml\Block\Sales\Items\Column\Name', 'sales/items/column/name.phtml');
         parent::_construct();
     }
 
@@ -99,7 +99,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
      * Retrieve item renderer block
      *
      * @param string $type
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function getItemRenderer($type)
     {
@@ -122,7 +122,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
      *
      * @param string $column
      * @param string $compositePart
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function getColumnRenderer($column, $compositePart='')
     {
@@ -206,7 +206,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
 
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return \Mage::registry('current_creditmemo');
     }
 
     /**
@@ -216,18 +216,18 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve available order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
         if ($this->hasOrder()) {
             return $this->getData('order');
         }
-        if (Mage::registry('current_order')) {
-            return Mage::registry('current_order');
+        if (\Mage::registry('current_order')) {
+            return \Mage::registry('current_order');
         }
-        if (Mage::registry('order')) {
-            return Mage::registry('order');
+        if (\Mage::registry('order')) {
+            return \Mage::registry('order');
         }
         if ($this->getInvoice())
         {
@@ -242,13 +242,13 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
             return $this->getItem()->getOrder();
         }
 
-        Mage::throwException(__('We cannot get the order instance.'));
+        \Mage::throwException(__('We cannot get the order instance.'));
     }
 
     /**
      * Retrieve price data object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getPriceDataObject()
     {
@@ -382,7 +382,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
         if ($item->getTaxPercent() && $item->getTaxString() == '') {
             $percents = array($item->getTaxPercent());
         } else if ($item->getTaxString()) {
-            $percents = explode(Magento_Tax_Model_Config::CALCULATION_STRING_SEPARATOR, $item->getTaxString());
+            $percents = explode(\Magento\Tax\Model\Config::CALCULATION_STRING_SEPARATOR, $item->getTaxString());
         } else {
             return '0%';
         }
@@ -484,7 +484,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getSource()
     {
@@ -498,7 +498,7 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return \Mage::registry('current_invoice');
     }
 
     /**
@@ -506,8 +506,8 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
      */
 
     public function canReturnToStock() {
-        $canReturnToStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
-        if (Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
+        $canReturnToStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT);
+        if (\Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
             return false;
@@ -516,14 +516,14 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
 
     /**
      * Whether to show 'Return to stock' checkbox for item
-     * @param Magento_Sales_Model_Order_Creditmemo_Item $item
+     * @param \Magento\Sales\Model\Order\Creditmemo\Item $item
      * @return bool
      */
     public function canReturnItemToStock($item=null) {
-        $canReturnToStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
+        $canReturnToStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT);
         if (!is_null($item)) {
             if (!$item->hasCanReturnToStock()) {
-                $product = Mage::getModel('Magento_Catalog_Model_Product')->load($item->getOrderItem()->getProductId());
+                $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($item->getOrderItem()->getProductId());
                 if ( $product->getId() && $product->getStockItem()->getManageStock() ) {
                     $item->setCanReturnToStock(true);
                 }
@@ -537,12 +537,12 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     }
     /**
      * Whether to show 'Return to stock' column for item parent
-     * @param Magento_Sales_Model_Order_Creditmemo_Item $item
+     * @param \Magento\Sales\Model\Order\Creditmemo\Item $item
      * @return bool
      */
     public function canParentReturnToStock($item = null)
     {
-        $canReturnToStock = Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
+        $canReturnToStock = \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT);
         if (!is_null($item)) {
             if ( $item->getCreditmemo()->getOrder()->hasCanReturnToStock() ) {
                 $canReturnToStock = $item->getCreditmemo()->getOrder()->getCanReturnToStock();
@@ -556,13 +556,13 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Return true if can ship partially
      *
-     * @param Magento_Sales_Model_Order|null $order
+     * @param \Magento\Sales\Model\Order|null $order
      * @return boolean
      */
     public function canShipPartially($order = null)
     {
-        if (is_null($order) || !$order instanceof Magento_Sales_Model_Order) {
-            $order = Mage::registry('current_shipment')->getOrder();
+        if (is_null($order) || !$order instanceof \Magento\Sales\Model\Order) {
+            $order = \Mage::registry('current_shipment')->getOrder();
         }
         $value = $order->getCanShipPartially();
         if (!is_null($value) && !$value) {
@@ -574,13 +574,13 @@ class  Magento_Adminhtml_Block_Sales_Items_Abstract extends Magento_Adminhtml_Bl
     /**
      * Return true if can ship items partially
      *
-     * @param Magento_Sales_Model_Order|null $order
+     * @param \Magento\Sales\Model\Order|null $order
      * @return boolean
      */
     public function canShipPartiallyItem($order = null)
     {
-        if (is_null($order) || !$order instanceof Magento_Sales_Model_Order) {
-            $order = Mage::registry('current_shipment')->getOrder();
+        if (is_null($order) || !$order instanceof \Magento\Sales\Model\Order) {
+            $order = \Mage::registry('current_shipment')->getOrder();
         }
         $value = $order->getCanShipPartiallyItem();
         if (!is_null($value) && !$value) {

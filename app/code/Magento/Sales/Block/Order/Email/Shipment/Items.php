@@ -16,15 +16,17 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Email_Shipment_Items extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Sales\Block\Order\Email\Shipment;
+
+class Items extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Prepare item before output
      *
-     * @param Magento_Core_Block_Abstract $renderer
-     * @return Magento_Sales_Block_Items_Abstract
+     * @param \Magento\Core\Block\AbstractBlock $renderer
+     * @return \Magento\Sales\Block\Items\AbstractItems
      */
-    protected function _prepareItem(Magento_Core_Block_Abstract $renderer)
+    protected function _prepareItem(\Magento\Core\Block\AbstractBlock $renderer)
     {
         $renderer->getItem()->setOrder($this->getOrder());
         $renderer->getItem()->setSource($this->getShipment());

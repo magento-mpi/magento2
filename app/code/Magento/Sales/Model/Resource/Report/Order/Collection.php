@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Report_Order_Collection extends Magento_Sales_Model_Resource_Report_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Report\Order;
+
+class Collection extends \Magento\Sales\Model\Resource\Report\Collection\AbstractCollection
 {
     /**
      * Period format
@@ -45,7 +47,7 @@ class Magento_Sales_Model_Resource_Report_Order_Collection extends Magento_Sales
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Sales_Model_Resource_Report $resource
+        \Magento\Sales\Model\Resource\Report $resource
     ) {
         $resource->init($this->_aggregationTable);
         parent::__construct($fetchStrategy, $resource);
@@ -99,7 +101,7 @@ class Magento_Sales_Model_Resource_Report_Order_Collection extends Magento_Sales
     /**
      * Add selected data
      *
-     * @return Magento_Sales_Model_Resource_Report_Order_Collection
+     * @return \Magento\Sales\Model\Resource\Report\Order\Collection
      */
     protected function _initSelect()
     {

@@ -19,7 +19,7 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
 
     public static function setUpBeforeClass()
     {
-        self::$_baseDir = Mage::helper('Magento_Cms_Helper_Wysiwyg_Images')->getCurrentPath() . __CLASS__;
+        self::$_baseDir = Mage::helper('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath() . __CLASS__;
         mkdir(self::$_baseDir, 0777);
         touch(self::$_baseDir . DIRECTORY_SEPARATOR . '1.swf');
     }
@@ -34,12 +34,12 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
      */
     public function testGetFilesCollection()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_basic', 'adminhtml');
-        /** @var $model Magento_Cms_Model_Wysiwyg_Images_Storage */
-        $model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Images_Storage');
+        /** @var $model \Magento\Cms\Model\Wysiwyg\Images\Storage */
+        $model = Mage::getModel('\Magento\Cms\Model\Wysiwyg\Images\Storage');
         $collection = $model->getFilesCollection(self::$_baseDir, 'media');
-        $this->assertInstanceOf('Magento_Cms_Model_Wysiwyg_Images_Storage_Collection', $collection);
+        $this->assertInstanceOf('\Magento\Cms\Model\Wysiwyg\Images\Storage\Collection', $collection);
         foreach ($collection as $item) {
             $this->assertInstanceOf('\Magento\Object', $item);
             $this->assertStringEndsWith('/1.swf', $item->getUrl());
@@ -55,9 +55,9 @@ class Magento_Cms_Model_Wysiwyg_Images_StorageTest extends PHPUnit_Framework_Tes
     {
         $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $imageFactory = $objectManager->get('Magento_Core_Model_Image_AdapterFactory');
-        $viewUrl = $objectManager->get('Magento_Core_Model_View_Url');
-        $model = new Magento_Cms_Model_Wysiwyg_Images_Storage($filesystem, $imageFactory, $viewUrl);
+        $imageFactory = $objectManager->get('Magento\Core\Model\Image\AdapterFactory');
+        $viewUrl = $objectManager->get('Magento\Core\Model\View\Url');
+        $model = new \Magento\Cms\Model\Wysiwyg\Images\Storage($filesystem, $imageFactory, $viewUrl);
         $this->assertStringStartsWith(
             realpath(Magento_TestFramework_Helper_Bootstrap::getInstance()->getAppInstallDir()),
             $model->getThumbsPath()

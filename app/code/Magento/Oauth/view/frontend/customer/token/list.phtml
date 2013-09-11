@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-/** @var $this Magento_Oauth_Block_Customer_Token_List */
+/** @var $this \Magento\Oauth\Block\Customer\Token\ListToken */
 ?>
 <?php echo $this->getLayout()->renderElement('messages') ?>
 <div class="page-title">
@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php /** @var $item Magento_Oauth_Model_Token */ ?>
+                <?php /** @var $item \Magento\Oauth\Model\Token */ ?>
                 <?php foreach ($this->getCollection() as $item) : ?>
                 <tr>
                     <td><span class="app-name">

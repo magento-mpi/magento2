@@ -12,28 +12,28 @@
 /**
  * Replacement for the native cookie model that doesn't send cookie headers in testing environment
  */
-class Magento_TestFramework_Cookie extends Magento_Core_Model_Cookie
+class Magento_TestFramework_Cookie extends \Magento\Core\Model\Cookie
 {
     /**
      * Request instance
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     private $_request;
 
     /**
      * Response instance
      *
-     * @var Magento_Core_Controller_Response_Http
+     * @var \Magento\Core\Controller\Response\Http
      */
     private $_response;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Controller_Response_Http $response
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Controller\Response\Http $response
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request = null, Magento_Core_Controller_Response_Http $response = null
+        \Magento\Core\Controller\Request\Http $request = null, \Magento\Core\Controller\Response\Http $response = null
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -42,7 +42,7 @@ class Magento_TestFramework_Cookie extends Magento_Core_Model_Cookie
     /**
      * Retrieve a request instance suitable for the testing environment
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     protected function _getRequest()
     {
@@ -55,7 +55,7 @@ class Magento_TestFramework_Cookie extends Magento_Core_Model_Cookie
     /**
      * Retrieve a request instance suitable for the testing environment
      *
-     * @return Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     protected function _getResponse()
     {

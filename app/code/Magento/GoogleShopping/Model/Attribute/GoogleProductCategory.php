@@ -15,23 +15,25 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Attribute_GoogleProductCategory extends Magento_GoogleShopping_Model_Attribute_Default
+namespace Magento\GoogleShopping\Model\Attribute;
+
+class GoogleProductCategory extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Gdata\Gshopping\Entry $entry
      * @return \Magento\Gdata\Gshopping\Entry
      */
     public function convertAttribute($product, $entry)
     {
-        $targetCountry = Mage::getSingleton('Magento_GoogleShopping_Model_Config')
+        $targetCountry = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')
             ->getTargetCountry($product->getStoreId());
-        $value = Mage::getModel('Magento_GoogleShopping_Model_Type')
+        $value = \Mage::getModel('\Magento\GoogleShopping\Model\Type')
             ->loadByAttributeSetId($product->getAttributeSetId(), $targetCountry);
 
-        $val = ($value->getCategory() == Magento_GoogleShopping_Helper_Category::CATEGORY_OTHER)
+        $val = ($value->getCategory() == \Magento\GoogleShopping\Helper\Category::CATEGORY_OTHER)
             ? ''
             : $value->getCategory();
 

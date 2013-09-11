@@ -15,8 +15,10 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Template
-    extends Magento_Adminhtml_Block_Widget
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
+
+class Template
+    extends \Magento\Adminhtml\Block\Widget
 {
     /**
      * Prepare html output
@@ -32,7 +34,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Template
             $html = '<input type="hidden" name="template" value="' . $widgetTemplate['value'] . '" />';
             $html .= $widgetTemplate['label'];
         } else {
-            $html = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+            $html = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
                 ->setName('template')
                 ->setClass('select')
                 ->setOptions($this->getWidgetTemplates())

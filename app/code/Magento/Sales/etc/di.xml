@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <type name="Magento_Sales_Model_Resource_Report" shared="false" />
+    <type name="Magento\Sales\Model\Resource\Report" shared="false" />
 </config>

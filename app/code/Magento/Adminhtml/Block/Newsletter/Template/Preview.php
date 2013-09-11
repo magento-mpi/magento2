@@ -15,13 +15,15 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Template_Preview extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Newsletter\Template;
+
+class Preview extends \Magento\Adminhtml\Block\Widget
 {
 
     protected function _toHtml()
     {
-        /* @var $template Magento_Newsletter_Model_Template */
-        $template = Mage::getModel('Magento_Newsletter_Model_Template');
+        /* @var $template \Magento\Newsletter\Model\Template */
+        $template = \Mage::getModel('\Magento\Newsletter\Model\Template');
 
         if($id = (int)$this->getRequest()->getParam('id')) {
             $template->load($id);
@@ -33,13 +35,13 @@ class Magento_Adminhtml_Block_Newsletter_Template_Preview extends Magento_Adminh
 
         $storeId = (int)$this->getRequest()->getParam('store_id');
         if(!$storeId) {
-            $storeId = Mage::app()->getDefaultStoreView()->getId();
+            $storeId = \Mage::app()->getDefaultStoreView()->getId();
         }
 
         \Magento\Profiler::start("newsletter_template_proccessing");
         $vars = array();
 
-        $vars['subscriber'] = Mage::getModel('Magento_Newsletter_Model_Subscriber');
+        $vars['subscriber'] = \Mage::getModel('\Magento\Newsletter\Model\Subscriber');
         if($this->getRequest()->getParam('subscriber')) {
             $vars['subscriber']->load($this->getRequest()->getParam('subscriber'));
         }

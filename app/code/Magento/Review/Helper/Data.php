@@ -13,12 +13,14 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Review\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_REVIEW_GUETS_ALLOW = 'catalog/review/allow_guest';
 
     public function getDetail($origDetail){
-        return nl2br(Mage::helper('Magento_Core_Helper_String')->truncate($origDetail, 50));
+        return nl2br(\Mage::helper('Magento\Core\Helper\String')->truncate($origDetail, 50));
     }
 
     /**
@@ -27,12 +29,12 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
      * @return string
      */
     public function getDetailHtml($origDetail){
-        return nl2br(Mage::helper('Magento_Core_Helper_String')->truncate($this->escapeHtml($origDetail), 50));
+        return nl2br(\Mage::helper('Magento\Core\Helper\String')->truncate($this->escapeHtml($origDetail), 50));
     }
 
     public function getIsGuestAllowToWrite()
     {
-        return Mage::getStoreConfigFlag(self::XML_REVIEW_GUETS_ALLOW);
+        return \Mage::getStoreConfigFlag(self::XML_REVIEW_GUETS_ALLOW);
     }
 
     /**
@@ -43,9 +45,9 @@ class Magento_Review_Helper_Data extends Magento_Core_Helper_Abstract
     public function getReviewStatuses()
     {
         return array(
-            Magento_Review_Model_Review::STATUS_APPROVED     => __('Approved'),
-            Magento_Review_Model_Review::STATUS_PENDING      => __('Pending'),
-            Magento_Review_Model_Review::STATUS_NOT_APPROVED => __('Not Approved'),
+            \Magento\Review\Model\Review::STATUS_APPROVED     => __('Approved'),
+            \Magento\Review\Model\Review::STATUS_PENDING      => __('Pending'),
+            \Magento\Review\Model\Review::STATUS_NOT_APPROVED => __('Not Approved'),
         );
     }
 

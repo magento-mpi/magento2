@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Backend_Block_Widget_Button
+ * Test class for \Magento\Backend\Block\Widget\Button
  */
 class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
 {
@@ -42,10 +42,10 @@ class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helperMock =
-            $this->getMock('Magento_Backend_Helper_Data', array('uniqHash'), array(), '', false, false);
+            $this->getMock('Magento\Backend\Helper\Data', array('uniqHash'), array(), '', false, false);
 
         $this->_layoutMock =
-            $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false, false);
+            $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false, false);
         $this->_layoutMock
             ->expects($this->any())
             ->method('helper')
@@ -53,13 +53,13 @@ class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
 
         $arguments = array(
             'urlBuilder' =>
-                $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false, false),
+                $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false),
             'layout' => $this->_layoutMock
         );
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_blockMock =
-            $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Button', $arguments);
+            $objectManagerHelper->getObject('\Magento\Backend\Block\Widget\Button', $arguments);
     }
 
     public function tearDown()
@@ -70,7 +70,7 @@ class Magento_Backend_Block_Widget_ButtonTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Backend_Block_Widget_Button::getAttributesHtml
+     * @covers \Magento\Backend\Block\Widget\Button::getAttributesHtml
      * @dataProvider getAttributesHtmlDataProvider
      */
     public function testGetAttributesHtml($data, $expect)

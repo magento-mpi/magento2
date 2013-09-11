@@ -18,7 +18,7 @@
 
 <?php foreach ($items as $_item): ?>
 
-<?php if($this->getItemOptions() || $parentItem->getDescription() || $this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
+<?php if($this->getItemOptions() || $parentItem->getDescription() || $this->helper('\Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
     <?php $_showlastRow = true ?>
 <?php else: ?>
     <?php $_showlastRow = false ?>
@@ -85,7 +85,7 @@
         </dl>
         <?php endif; ?>
         <?php echo $this->escapeHtml($_item->getDescription()) ?>
-        <?php if ($this->helper('Magento_GiftMessage_Helper_Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
+        <?php if ($this->helper('\Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
             <a href="#" id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>" class="gift-message-link" aria-controls="order-item-gift-message-<?php echo $parentItem->getId()?>" data-item-id="<?php echo $parentItem->getId() ?>"><?php echo __('Gift Message') ?></a>
         <?php endif; ?>
     </td>

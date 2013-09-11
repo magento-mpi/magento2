@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_Roles_User_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Api\Model\Resource\Roles\User;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization
@@ -24,13 +26,13 @@ class Magento_Api_Model_Resource_Roles_User_Collection extends Magento_Core_Mode
      */
     protected function _construct()
     {
-        $this->_init('Magento_Api_Model_User', 'Magento_Api_Model_Resource_User');
+        $this->_init('\Magento\Api\Model\User', '\Magento\Api\Model\Resource\User');
     }
 
     /**
      * Init collection select
      *
-     * @return Magento_Api_Model_Resource_Roles_User_Collection
+     * @return \Magento\Api\Model\Resource\Roles\User\Collection
      */
     protected function _initSelect()
     {

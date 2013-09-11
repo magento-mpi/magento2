@@ -16,22 +16,24 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Getter
      *
-     * @return Magento_Reward_Model_Reward_Rate
+     * @return \Magento\Reward\Model\Reward\Rate
      */
     public function getRate()
     {
-        return Mage::registry('current_reward_rate');
+        return \Mage::registry('current_reward_rate');
     }
 
     /**
      * Prepare form
      *
-     * @return Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form
+     * @return \Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form
      */
     protected function _prepareForm()
     {
@@ -45,15 +47,15 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Admin
             'legend' => __('Reward Exchange Rate Information')
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('website_id', 'select', array(
                 'name'   => 'website_id',
                 'title'  => __('Website'),
                 'label'  => __('Website'),
-                'values' => Mage::getModel('Magento_Reward_Model_Source_Website')->toOptionArray(),
+                'values' => \Mage::getModel('\Magento\Reward\Model\Source\Website')->toOptionArray(),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -61,7 +63,7 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Admin
             'name'   => 'customer_group_id',
             'title'  => __('Customer Group'),
             'label'  => __('Customer Group'),
-            'values' => Mage::getModel('Magento_Reward_Model_Source_Customer_Groups')->toOptionArray()
+            'values' => \Mage::getModel('\Magento\Reward\Model\Source\Customer\Groups')->toOptionArray()
         ));
 
         $fieldset->addField('direction', 'select', array(
@@ -72,10 +74,10 @@ class Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form extends Magento_Admin
         ));
 
         $rateRenderer = $this->getLayout()
-            ->createBlock('Magento_Reward_Block_Adminhtml_Reward_Rate_Edit_Form_Renderer_Rate')
+            ->createBlock('\Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form\Renderer\Rate')
             ->setRate($this->getRate());
         $direction = $this->getRate()->getDirection();
-        if ($direction == Magento_Reward_Model_Reward_Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {
+        if ($direction == \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY) {
             $fromIndex = 'points';
             $toIndex = 'currency_amount';
         } else {

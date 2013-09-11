@@ -15,7 +15,7 @@
             <catalogevent_setup>
                 <setup>
                     <module>Magento_CatalogEvent</module>
-                    <class>Magento_CatalogEvent_Model_Resource_Setup</class>
+                    <class>Magento\CatalogEvent\Model\Resource\Setup</class>
                 </setup>
             </catalogevent_setup>
         </resources>
@@ -52,4 +52,4 @@
             </modules>
         </translate>
     </adminhtml>
-</config>
+</config>

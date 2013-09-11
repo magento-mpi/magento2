@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Event
+ * \Magento\Webhook\Model\Event
  *
  * {license_notice}
  *
@@ -10,12 +10,12 @@
  */
 class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
 {
-    /** @var  Magento_Webhook_Model_Event */
+    /** @var  \Magento\Webhook\Model\Event */
     private $_event;
 
     public function setUp()
     {
-        $this->_event = Mage::getModel('Magento_Webhook_Model_Event');
+        $this->_event = Mage::getModel('\Magento\Webhook\Model\Event');
     }
 
     public function testSetGet()
@@ -54,7 +54,7 @@ class Magento_Webhook_Model_EventTest extends PHPUnit_Framework_TestCase
             ->save()
             ->getId();
         $loadedEvent = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Event')
+            ->create('Magento\Webhook\Model\Event')
             ->load($eventId);
         $this->assertEquals($bodyData, $loadedEvent->getBodyData());
     }

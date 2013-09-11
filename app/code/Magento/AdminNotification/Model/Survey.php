@@ -16,7 +16,9 @@
  * @package    Magento_AdminNotification
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Survey
+namespace Magento\AdminNotification\Model;
+
+class Survey
 {
     protected static $_flagCode  = 'admin_notification_survey';
     protected static $_flagModel = null;
@@ -32,11 +34,11 @@ class Magento_AdminNotification_Model_Survey
     {
         $curl = new \Magento\HTTP\Adapter\Curl();
         $curl->setConfig(array('timeout'   => 5))
-            ->write(Zend_Http_Client::GET, self::getSurveyUrl(), '1.0');
+            ->write(\Zend_Http_Client::GET, self::getSurveyUrl(), '1.0');
         $response = $curl->read();
         $curl->close();
 
-        if (Zend_Http_Response::extractCode($response) == 200) {
+        if (\Zend_Http_Response::extractCode($response) == 200) {
             return true;
         }
         return false;
@@ -49,19 +51,19 @@ class Magento_AdminNotification_Model_Survey
      */
     public static function getSurveyUrl()
     {
-        $host = Mage::app()->getRequest()->isSecure() ? 'https://' : 'http://';
+        $host = \Mage::app()->getRequest()->isSecure() ? 'https://' : 'http://';
         return $host . self::SURVEY_URL;
     }
 
     /**
      * Return core flag model
      *
-     * @return Magento_Core_Model_Flag
+     * @return \Magento\Core\Model\Flag
      */
     protected static function _getFlagModel()
     {
         if (self::$_flagModel === null) {
-            self::$_flagModel = Mage::getModel('Magento_Core_Model_Flag',
+            self::$_flagModel = \Mage::getModel('\Magento\Core\Model\Flag',
                 array('data' => array('flag_code' => self::$_flagCode)))
                 ->loadSelf();
         }

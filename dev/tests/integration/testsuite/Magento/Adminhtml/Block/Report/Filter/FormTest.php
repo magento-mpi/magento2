@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Adminhtml_Block_Report_Filter_Form
+ * Test class for \Magento\Adminhtml\Block\Report\Filter\Form
  * @magentoAppArea adminhtml
  */
 class Magento_Adminhtml_Block_Report_Filter_FormTest extends PHPUnit_Framework_TestCase
@@ -20,13 +20,13 @@ class Magento_Adminhtml_Block_Report_Filter_FormTest extends PHPUnit_Framework_T
      */
     public function testPrepareForm()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout');
-        $block = $layout->addBlock('Magento_Adminhtml_Block_Report_Filter_Form');
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
+        $block = $layout->addBlock('\Magento\Adminhtml\Block\Report\Filter\Form');
         $prepareFormMethod = new ReflectionMethod(
-            'Magento_Adminhtml_Block_Report_Filter_Form', '_prepareForm');
+            '\Magento\Adminhtml\Block\Report\Filter\Form', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

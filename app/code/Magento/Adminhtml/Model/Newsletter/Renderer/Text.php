@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_Newsletter_Renderer_Text implements \Magento\Data\Form\Element\Renderer\RendererInterface
+namespace Magento\Adminhtml\Model\Newsletter\Renderer;
+
+class Text implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
 
     public function render(\Magento\Data\Form\Element\AbstractElement $element)

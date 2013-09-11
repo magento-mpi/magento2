@@ -15,14 +15,14 @@
             <catalogpermissions_setup>
                 <setup>
                     <module>Magento_CatalogPermissions</module>
-                    <class>Magento_CatalogPermissions_Model_Resource_Setup</class>
+                    <class>Magento\CatalogPermissions\Model\Resource\Setup</class>
                 </setup>
             </catalogpermissions_setup>
         </resources>
         <index>
             <indexer>
                 <catalogpermissions>
-                    <model>Magento_CatalogPermissions_Model_Permission_Index</model>
+                    <model>\Magento\CatalogPermissions\Model\Permission\Index</model>
                 </catalogpermissions>
             </indexer>
         </index>
@@ -61,4 +61,4 @@
             </magento_catalogpermissions>
         </catalog>
     </default>
-</config>
+</config>

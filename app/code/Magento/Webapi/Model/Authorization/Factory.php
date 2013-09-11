@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Factory
+namespace Magento\Webapi\Model\Authorization;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -25,13 +27,13 @@ class Magento_Webapi_Model_Authorization_Factory
     }
 
     /**
-     * Create a new instance of Magento_Webapi_Model_Authorization
+     * Create a new instance of \Magento\Webapi\Model\Authorization
      *
      * @param array $arguments fed into constructor
-     * @return Magento_Webapi_Model_Authorization
+     * @return \Magento\Webapi\Model\Authorization
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento_Webapi_Model_Authorization', $arguments);
+        return $this->_objectManager->create('Magento\Webapi\Model\Authorization', $arguments);
     }
 }

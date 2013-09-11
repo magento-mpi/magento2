@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Resource
+namespace Magento\Core\Model;
+
+class Resource
 {
     const AUTO_UPDATE_CACHE_KEY  = 'DB_AUTOUPDATE';
     const AUTO_UPDATE_ONCE       = 0;
@@ -56,22 +58,22 @@ class Magento_Core_Model_Resource
     /**
      * Resource configuration
      *
-     * @var Magento_Core_Model_Config_Resource
+     * @var \Magento\Core\Model\Config\Resource
      */
     protected $_resourceConfig;
 
     /**
      * Application cache
      *
-     * @var Magento_Core_Model_CacheInterface
+     * @var \Magento\Core\Model\CacheInterface
      */
     protected $_cache;
 
     /**
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param \Magento\Core\Model\Config\Resource $resourceConfig
+     * @param \Magento\Core\Model\CacheInterface $cache
      */
-    public function __construct(Magento_Core_Model_Config_Resource $resourceConfig, Magento_Core_Model_CacheInterface $cache)
+    public function __construct(\Magento\Core\Model\Config\Resource $resourceConfig, \Magento\Core\Model\CacheInterface $cache)
     {
         $this->_resourceConfig = $resourceConfig;
         $this->_cache = $cache;
@@ -80,9 +82,9 @@ class Magento_Core_Model_Resource
     /**
      * Set resource configuration
      *
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
+     * @param \Magento\Core\Model\Config\Resource $resourceConfig
      */
-    public function setResourceConfig(Magento_Core_Model_Config_Resource $resourceConfig)
+    public function setResourceConfig(\Magento\Core\Model\Config\Resource $resourceConfig)
     {
         $this->_resourceConfig = $resourceConfig;
     }
@@ -90,9 +92,9 @@ class Magento_Core_Model_Resource
     /**
      * Set cache instance
      *
-     * @param Magento_Core_Model_CacheInterface $cache
+     * @param \Magento\Core\Model\CacheInterface $cache
      */
-    public function setCache(Magento_Core_Model_CacheInterface $cache)
+    public function setCache(\Magento\Core\Model\CacheInterface $cache)
     {
         $this->_cache = $cache;
     }
@@ -108,7 +110,7 @@ class Magento_Core_Model_Resource
         if (isset($this->_connections[$name])) {
             $connection = $this->_connections[$name];
             if (isset($this->_skippedConnections[$name])) {
-                $connection->setCacheAdapter(Mage::app()->getCache());
+                $connection->setCacheAdapter(\Mage::app()->getCache());
                 unset($this->_skippedConnections[$name]);
             }
             return $connection;
@@ -161,12 +163,12 @@ class Magento_Core_Model_Resource
      * Create new connection adapter instance by connection type and config
      *
      * @param string $type the connection type
-     * @param Magento_Core_Model_Config_Element|array $config the connection configuration
+     * @param \Magento\Core\Model\Config\Element|array $config the connection configuration
      * @return \Magento\DB\Adapter\AdapterInterface|false
      */
     protected function _newConnection($type, $config)
     {
-        if ($config instanceof Magento_Core_Model_Config_Element) {
+        if ($config instanceof \Magento\Core\Model\Config\Element) {
             $config = $config->asArray();
         }
         if (!is_array($config)) {
@@ -179,7 +181,7 @@ class Magento_Core_Model_Resource
         if ($className) {
             $connection = new $className($config);
             if ($connection instanceof \Magento\DB\Adapter\AdapterInterface) {
-                /** @var Zend_Db_Adapter_Abstract $connection */
+                /** @var \Zend_Db_Adapter_Abstract $connection */
 
                 // Set additional params for Magento profiling tool
                 $profiler = $connection->getProfiler();
@@ -203,7 +205,7 @@ class Magento_Core_Model_Resource
         // try to get connection from type
         if (!$connection) {
             $typeInstance = $this->getConnectionTypeInstance($type);
-            /** @var Magento_Core_Model_Resource_Type_Abstract $typeInstance */
+            /** @var \Magento\Core\Model\Resource\Type\AbstractType $typeInstance */
             $connection = $typeInstance->getConnection($config);
             if (!$connection instanceof \Magento\DB\Adapter\AdapterInterface) {
                 $connection = false;
@@ -233,7 +235,7 @@ class Magento_Core_Model_Resource
      * Creates new if doesn't exist
      *
      * @param string $type
-     * @return Magento_Core_Model_Resource_Type_Abstract
+     * @return \Magento\Core\Model\Resource\Type\AbstractType
      */
     public function getConnectionTypeInstance($type)
     {
@@ -281,7 +283,7 @@ class Magento_Core_Model_Resource
      *
      * @param string $tableName
      * @param string $mappedName
-     * @return Magento_Core_Model_Resource
+     * @return \Magento\Core\Model\Resource
      */
     public function setMappedTableName($tableName, $mappedName)
     {
@@ -325,14 +327,14 @@ class Magento_Core_Model_Resource
     public function checkDbConnection()
     {
         if (!$this->getConnection('core_read')) {
-            //Mage::app()->getResponse()->setRedirect(Mage::getUrl('install'));
+            //Mage::app()->getResponse()->setRedirect(\Mage::getUrl('install'));
         }
     }
 
     public function getAutoUpdate()
     {
         return self::AUTO_UPDATE_ALWAYS;
-        #return Mage::app()->loadCache(self::AUTO_UPDATE_CACHE_KEY);
+        #return \Mage::app()->loadCache(self::AUTO_UPDATE_CACHE_KEY);
     }
 
     public function setAutoUpdate($value)

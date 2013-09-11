@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Object
+ * Test class for \Magento\Core\Model\Layout\Argument\Handler\Object
  */
 class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Object
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Object
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class Magento_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Fram
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_model = new Magento_Core_Model_Layout_Argument_Handler_Object($this->_objectManagerMock);
+        $this->_model = new \Magento\Core\Model\Layout\Argument\Handler\Object($this->_objectManagerMock);
     }
 
     protected function tearDown()

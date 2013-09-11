@@ -15,23 +15,23 @@
 class Magento_Adminhtml_Block_Customer_Edit_Tab_View_AccordionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion
+     * @var \Magento\Adminhtml\Block\Customer\Edit\Tab\View\Accordion
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        /** @var $customer Magento_Customer_Model_Customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        /** @var $customer \Magento\Customer\Model\Customer */
+        $customer = Mage::getModel('\Magento\Customer\Model\Customer');
         $customer->load(1);
         Mage::register('current_customer', $customer);
-        /** @var $layout Magento_Core_Model_Layout */
+        /** @var $layout \Magento\Core\Model\Layout */
         $layout = Mage::getModel(
-            'Magento_Core_Model_Layout',
-            array('area' => Magento_Core_Model_App_Area::AREA_ADMINHTML)
+            '\Magento\Core\Model\Layout',
+            array('area' => \Magento\Core\Model\App\Area::AREA_ADMINHTML)
         );
-        $this->_block = $layout->createBlock('Magento_Adminhtml_Block_Customer_Edit_Tab_View_Accordion');
+        $this->_block = $layout->createBlock('\Magento\Adminhtml\Block\Customer\Edit\Tab\View\Accordion');
     }
 
     /**

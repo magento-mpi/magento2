@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
+namespace Magento\Adminhtml\Helper\Dashboard;
+
+class Data extends \Magento\Core\Helper\Data
 {
     protected $_locale = null;
     protected $_stores = null;
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
     public function getStores()
     {
         if(!$this->_stores) {
-            $this->_stores = Mage::app()->getStore()->getResourceCollection()->load();
+            $this->_stores = \Mage::app()->getStore()->getResourceCollection()->load();
         }
 
         return $this->_stores;
@@ -70,7 +72,7 @@ class Magento_Adminhtml_Helper_Dashboard_Data extends Magento_Core_Helper_Data
      */
     public function getChartDataHash($data)
     {
-        $secret = (string)Mage::getConfig()->getNode(Magento_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE);
+        $secret = (string)\Mage::getConfig()->getNode(\Magento\Core\Model\Config\Primary::XML_PATH_INSTALL_DATE);
         return md5($data . $secret);
     }
 }

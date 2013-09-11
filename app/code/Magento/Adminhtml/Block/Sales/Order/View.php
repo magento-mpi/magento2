@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Sales\Order;
+
+class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()
@@ -47,7 +49,7 @@ class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Adminhtml_Block_W
             // see if order has non-editable products as items
             $nonEditableTypes = array_keys($this->getOrder()->getResource()->aggregateProductsByTypes(
                 $order->getId(),
-                array_keys(Mage::getConfig()
+                array_keys(\Mage::getConfig()
                     ->getNode('adminhtml/sales/order/create/available_product_types')
                     ->asArray()
                 ),
@@ -155,7 +157,7 @@ class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Adminhtml_Block_W
         }
 
         if ($this->_isAllowedAction('Magento_Sales::reorder')
-            && $this->helper('Magento_Sales_Helper_Reorder')->isAllowed($order->getStore())
+            && $this->helper('\Magento\Sales\Helper\Reorder')->isAllowed($order->getStore())
             && $order->canReorderIgnoreSalable()
         ) {
             $this->_addButton('order_reorder', array(
@@ -169,11 +171,11 @@ class Magento_Adminhtml_Block_Sales_Order_View extends Magento_Adminhtml_Block_W
     /**
      * Retrieve order model object
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('sales_order');
+        return \Mage::registry('sales_order');
     }
 
     /**

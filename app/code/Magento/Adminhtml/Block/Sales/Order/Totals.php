@@ -15,12 +15,14 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Totals extends Magento_Adminhtml_Block_Sales_Totals//Magento_Adminhtml_Block_Sales_Order_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order;
+
+class Totals extends \Magento\Adminhtml\Block\Sales\Totals//\Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
      * Initialize order totals array
      *
-     * @return Magento_Sales_Block_Order_Totals
+     * @return \Magento\Sales\Block\Order\Totals
      */
     protected function _initTotals()
     {

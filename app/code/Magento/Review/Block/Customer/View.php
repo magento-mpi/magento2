@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Review\Block\Customer;
+
+class View extends \Magento\Catalog\Block\Product\AbstractProduct
 {
 
     protected $_template = 'customer/view.phtml';
@@ -32,8 +34,8 @@ class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_A
     public function getProductData()
     {
         if( $this->getReviewId() && !$this->getProductCacheData() ) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($this->getReviewData()->getEntityPkValue());
             $this->setProductCacheData($product);
         }
@@ -43,24 +45,24 @@ class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_A
     public function getReviewData()
     {
         if( $this->getReviewId() && !$this->getReviewCachedData() ) {
-            $this->setReviewCachedData(Mage::getModel('Magento_Review_Model_Review')->load($this->getReviewId()));
+            $this->setReviewCachedData(\Mage::getModel('\Magento\Review\Model\Review')->load($this->getReviewId()));
         }
         return $this->getReviewCachedData();
     }
 
     public function getBackUrl()
     {
-        return Mage::getUrl('review/customer');
+        return \Mage::getUrl('review/customer');
     }
 
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
+            $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
-                ->addRatingInfo(Mage::app()->getStore()->getId())
-                ->setStoreFilter(Mage::app()->getStore()->getId())
+                ->addRatingInfo(\Mage::app()->getStore()->getId())
+                ->setStoreFilter(\Mage::app()->getStore()->getId())
                 ->load();
 
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
@@ -72,7 +74,7 @@ class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_A
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
-            $this->setRatingSummaryCache(Mage::getModel('Magento_Rating_Model_Rating')->getEntitySummary($this->getProductData()->getId()));
+            $this->setRatingSummaryCache(\Mage::getModel('\Magento\Rating\Model\Rating')->getEntitySummary($this->getProductData()->getId()));
         }
         return $this->getRatingSummaryCache();
     }
@@ -80,14 +82,14 @@ class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_A
     public function getTotalReviews()
     {
         if( !$this->getTotalReviewsCache() ) {
-            $this->setTotalReviewsCache(Mage::getModel('Magento_Review_Model_Review')->getTotalReviews($this->getProductData()->getId()), false, Mage::app()->getStore()->getId());
+            $this->setTotalReviewsCache(\Mage::getModel('\Magento\Review\Model\Review')->getTotalReviews($this->getProductData()->getId()), false, \Mage::app()->getStore()->getId());
         }
         return $this->getTotalReviewsCache();
     }
 
     public function dateFormat($date)
     {
-        return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG);
+        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG);
     }
 
     /**
@@ -97,6 +99,6 @@ class Magento_Review_Block_Customer_View extends Magento_Catalog_Block_Product_A
      */
     public function isReviewOwner()
     {
-        return ($this->getReviewData()->getCustomerId() == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId());
+        return ($this->getReviewData()->getCustomerId() == \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId());
     }
 }

@@ -11,7 +11,9 @@
 /**
  * Google Site Verification Helper
  */
-class Magento_GoogleShopping_Helper_SiteVerification extends Magento_Core_Helper_Abstract
+namespace Magento\GoogleShopping\Helper;
+
+class SiteVerification extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Name meta data for Google Site Verification
@@ -19,15 +21,15 @@ class Magento_GoogleShopping_Helper_SiteVerification extends Magento_Core_Helper
     const META_NAME = 'google-site-verification';
 
     /**
-     * @var Magento_GoogleShopping_Model_Config
+     * @var \Magento\GoogleShopping\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_GoogleShopping_Model_Config $config
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\GoogleShopping\Model\Config $config
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_GoogleShopping_Model_Config $config)
+    public function __construct(\Magento\Core\Helper\Context $context, \Magento\GoogleShopping\Model\Config $config)
     {
         $this->_config = $config;
         parent::__construct($context);

@@ -10,26 +10,28 @@
 /**
  * Enterprise CustomerSegment Segment Model
  *
- * @method Magento_CustomerSegment_Model_Resource_Segment _getResource()
- * @method Magento_CustomerSegment_Model_Resource_Segment getResource()
+ * @method \Magento\CustomerSegment\Model\Resource\Segment _getResource()
+ * @method \Magento\CustomerSegment\Model\Resource\Segment getResource()
  * @method string getName()
- * @method Magento_CustomerSegment_Model_Segment setName(string $value)
+ * @method \Magento\CustomerSegment\Model\Segment setName(string $value)
  * @method string getDescription()
- * @method Magento_CustomerSegment_Model_Segment setDescription(string $value)
+ * @method \Magento\CustomerSegment\Model\Segment setDescription(string $value)
  * @method int getIsActive()
- * @method Magento_CustomerSegment_Model_Segment setIsActive(int $value)
+ * @method \Magento\CustomerSegment\Model\Segment setIsActive(int $value)
  * @method string getConditionsSerialized()
- * @method Magento_CustomerSegment_Model_Segment setConditionsSerialized(string $value)
+ * @method \Magento\CustomerSegment\Model\Segment setConditionsSerialized(string $value)
  * @method int getProcessingFrequency()
- * @method Magento_CustomerSegment_Model_Segment setProcessingFrequency(int $value)
+ * @method \Magento\CustomerSegment\Model\Segment setProcessingFrequency(int $value)
  * @method string getConditionSql()
- * @method Magento_CustomerSegment_Model_Segment setConditionSql(string $value)
+ * @method \Magento\CustomerSegment\Model\Segment setConditionSql(string $value)
  *
  * @category    Magento
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
+namespace Magento\CustomerSegment\Model;
+
+class Segment extends \Magento\Rule\Model\AbstractModel
 {
     /**
      * Customer segment view modes
@@ -52,14 +54,14 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_CustomerSegment_Model_Resource_Segment');
+        $this->_init('\Magento\CustomerSegment\Model\Resource\Segment');
     }
 
     /**
      * Set aggregated conditions SQL.
      * Collect and save list of events which are applicable to segment.
      *
-     * @return Magento_CustomerSegment_Model_Segment
+     * @return \Magento\CustomerSegment\Model\Segment
      */
     protected function _beforeSave()
     {
@@ -76,8 +78,8 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
         if ($this->getIsActive()) {
             $events = $this->collectMatchedEvents();
         }
-        $customer = new Zend_Db_Expr(':customer_id');
-        $website = new Zend_Db_Expr(':website_id');
+        $customer = new \Zend_Db_Expr(':customer_id');
+        $website = new \Zend_Db_Expr(':website_id');
         $this->setConditionSql(
             $this->getConditions()->getConditionsSql($customer, $website)
         );
@@ -90,27 +92,27 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
     /**
      * Getter for rule combine conditions instance
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Combine
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Combine
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root');
+        return \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
     }
 
     /**
      * Getter for rule actions collection instance
      *
-     * @return Magento_Rule_Model_Action_Collection
+     * @return \Magento\Rule\Model\Action\Collection
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Magento_Rule_Model_Action_Collection');
+        return \Mage::getModel('\Magento\Rule\Model\Action\Collection');
     }
 
     /**
      * Collect all matched event names for current segment
      *
-     * @param null|Magento_CustomerSegment_Model_Condition_Combine_Abstract $conditionsCombine
+     * @param null|\Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine $conditionsCombine
      *
      * @return array
      */
@@ -146,7 +148,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
     /**
      * Get list of all models which are used in segment conditions
      *
-     * @param  null|Magento_Rule_Model_Condition_Combine $conditions
+     * @param  null|\Magento\Rule\Model\Condition\Combine $conditions
      *
      * @return array
      */
@@ -182,10 +184,10 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
      */
     public function validate(\Magento\Object $object)
     {
-        $website = Mage::app()->getWebsite();
-        if ($object instanceof Magento_Customer_Model_Customer) {
+        $website = \Mage::app()->getWebsite();
+        if ($object instanceof \Magento\Customer\Model\Customer) {
             if (!$object->getId()) {
-                $this->setVisitorId(Mage::getSingleton('Magento_Log_Model_Visitor')->getId());
+                $this->setVisitorId(\Mage::getSingleton('Magento\Log\Model\Visitor')->getId());
             }
             return $this->validateCustomer($object, $website);
         }
@@ -195,8 +197,8 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
     /**
      * Check if customer is matched by segment
      *
-     * @param int|Magento_Customer_Model_Customer|\Magento\Object $customer
-     * @param null|Magento_Core_Model_Website|bool|int|string $website
+     * @param int|\Magento\Customer\Model\Customer|\Magento\Object $customer
+     * @param null|\Magento\Core\Model\Website|bool|int|string $website
      *
      * @return bool
      */
@@ -209,13 +211,13 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
         if (!$sql) {
             return false;
         }
-        if ($customer instanceof Magento_Customer_Model_Customer) {
+        if ($customer instanceof \Magento\Customer\Model\Customer) {
             $customerId = $customer->getId();
         } else {
             $customerId = $customer;
         }
 
-        $website = Mage::app()->getWebsite($website);
+        $website = \Mage::app()->getWebsite($website);
         $params = array();
         if (strpos($sql, ':customer_id')) {
             $params['customer_id']  = $customerId;
@@ -225,7 +227,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
         }
         if (strpos($sql, ':quote_id')) {
             if (!$customerId) {
-                $params['quote_id'] = Mage::getModel('Magento_Log_Model_Visitor')
+                $params['quote_id'] = \Mage::getModel('\Magento\Log\Model\Visitor')
                     ->load($this->getVisitorId())->getQuoteId();
             } else {
                 $params['quote_id'] = 0;
@@ -245,7 +247,7 @@ class Magento_CustomerSegment_Model_Segment extends Magento_Rule_Model_Abstract
     /**
      * Match all customers by segment conditions and fill customer/segments relations table
      *
-     * @return Magento_CustomerSegment_Model_Segment
+     * @return \Magento\CustomerSegment\Model\Segment
      */
     public function matchCustomers()
     {

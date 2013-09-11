@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Email_Items extends Magento_Rma_Block_Form
+namespace Magento\Rma\Block\Email;
+
+class Items extends \Magento\Rma\Block\Form
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -26,7 +28,7 @@ class Magento_Rma_Block_Email_Items extends Magento_Rma_Block_Form
     public function getOptionAttributeStringValue($attributeValue)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = Mage::helper('Magento_Rma_Helper_Eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$attributeValue])) {
             return $this->_attributeOptionValues[$attributeValue];

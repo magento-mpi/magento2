@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Model_Import_EntityAbstract
+ * Test class for \Magento\ImportExport\Model\Import\EntityAbstract
  */
 class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framework_TestCase
 {
@@ -19,13 +19,13 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
      */
     public function testSaveValidatedBunches()
     {
-        $source = new Magento_ImportExport_Model_Import_Source_Csv(
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv'
         );
         $source->rewind();
         $expected = $source->current();
-        /** @var $model Magento_ImportExport_Model_Import_EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
-        $model = $this->getMockForAbstractClass('Magento_ImportExport_Model_Import_EntityAbstract');
+        /** @var $model \Magento\ImportExport\Model\Import\EntityAbstract|PHPUnit_Framework_MockObject_MockObject */
+        $model = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Import\EntityAbstract');
         $model->expects($this->any())
             ->method('validateRow')
             ->will($this->returnValue(true));
@@ -39,7 +39,7 @@ class Magento_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Frame
         $method->setAccessible(true);
         $method->invoke($model);
 
-        $dataSourceModel = Magento_ImportExport_Model_Import::getDataSourceModel();
+        $dataSourceModel = \Magento\ImportExport\Model\Import::getDataSourceModel();
         $this->assertCount(1, $dataSourceModel->getIterator());
 
         $bunch = $dataSourceModel->getNextBunch();

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\GiftCard\Model\Source;
+
+class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Get all options
@@ -50,9 +52,9 @@ class Magento_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attrib
     protected function _getValues()
     {
         return array(
-            Magento_GiftCard_Model_Giftcard::TYPE_VIRTUAL  => __('Virtual'),
-            Magento_GiftCard_Model_Giftcard::TYPE_PHYSICAL => __('Physical'),
-            Magento_GiftCard_Model_Giftcard::TYPE_COMBINED => __('Combined'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL  => __('Virtual'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL => __('Physical'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined'),
         );
     }
 
@@ -70,7 +72,7 @@ class Magento_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attrib
             'extra'     => null
         );
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
             $column['type']     = 'tinyint';
             $column['is_null']  = true;
         } else {
@@ -90,7 +92,7 @@ class Magento_GiftCard_Model_Source_Type extends Magento_Eav_Model_Entity_Attrib
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
+        return \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

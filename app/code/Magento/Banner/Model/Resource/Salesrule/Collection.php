@@ -9,7 +9,9 @@
 /**
  * Collection of banner <-> sales rule associations
  */
-class Magento_Banner_Model_Resource_Salesrule_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Banner\Model\Resource\Salesrule;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var string
@@ -26,14 +28,14 @@ class Magento_Banner_Model_Resource_Salesrule_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('\Magento\Object', 'Magento_SalesRule_Model_Resource_Rule');
+        $this->_init('\Magento\Object', '\Magento\SalesRule\Model\Resource\Rule');
         $this->setMainTable('magento_banner_salesrule');
     }
 
     /**
      * Filter out disabled banners
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {
@@ -53,7 +55,7 @@ class Magento_Banner_Model_Resource_Salesrule_Collection extends Magento_Core_Mo
      * Add sales rule ids filter to the collection
      *
      * @param array $ruleIds
-     * @return Magento_Banner_Model_Resource_Salesrule_Collection
+     * @return \Magento\Banner\Model\Resource\Salesrule\Collection
      */
     public function addRuleIdsFilter(array $ruleIds)
     {

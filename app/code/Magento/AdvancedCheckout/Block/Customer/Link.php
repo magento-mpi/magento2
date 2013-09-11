@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Block_Customer_Link extends Magento_Core_Block_Template
+namespace Magento\AdvancedCheckout\Block\Customer;
+
+class Link extends \Magento\Core\Block\Template
 {
     /**
      * Adding link to dashboard links block
@@ -24,12 +26,12 @@ class Magento_AdvancedCheckout_Block_Customer_Link extends Magento_Core_Block_Te
      * @param string $path
      * @param string $label
      * @param array $urlParams
-     * @return Magento_AdvancedCheckout_Block_Customer_Link
+     * @return \Magento\AdvancedCheckout\Block\Customer\Link
      */
     public function addDashboardLink($block, $name, $path, $label, $urlParams = array())
     {
-        if (Mage::helper('Magento_AdvancedCheckout_Helper_Data')->isSkuApplied()) {
-            /** @var $blockInstance Magento_Customer_Block_Account_Navigation */
+        if (\Mage::helper('Magento\AdvancedCheckout\Helper\Data')->isSkuApplied()) {
+            /** @var $blockInstance \Magento\Customer\Block\Account\Navigation */
             $blockInstance = $this->getLayout()->getBlock($block);
             if ($blockInstance) {
                 $blockInstance->addLink($name, $path, $label, $urlParams);

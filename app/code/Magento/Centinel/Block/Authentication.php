@@ -11,7 +11,9 @@
 /**
  * Centinel validation frame
  */
-class Magento_Centinel_Block_Authentication extends Magento_Core_Block_Template
+namespace Magento\Centinel\Block;
+
+class Authentication extends \Magento\Core\Block\Template
 {
     /**
      * Strage for identifiers of related blocks
@@ -32,7 +34,7 @@ class Magento_Centinel_Block_Authentication extends Magento_Core_Block_Template
      * Add identifier of related block
      *
      * @param string $blockId
-     * @return Magento_Centinel_Block_Authentication
+     * @return \Magento\Centinel\Block\Authentication
      */
     public function addRelatedBlock($blockId)
     {
@@ -57,7 +59,7 @@ class Magento_Centinel_Block_Authentication extends Magento_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $method = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()->getMethodInstance();
+        $method = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()->getMethodInstance();
         if ($method->getIsCentinelValidationEnabled()) {
             $centinel = $method->getCentinelValidator();
             if ($centinel && $centinel->shouldAuthenticate()) {

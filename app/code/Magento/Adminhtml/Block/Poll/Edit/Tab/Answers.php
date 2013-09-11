@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers extends Magento_Adminhtml_Block_Text_List
+namespace Magento\Adminhtml\Block\Poll\Edit\Tab;
+
+class Answers extends \Magento\Adminhtml\Block\Text\ListText
 {
 
 

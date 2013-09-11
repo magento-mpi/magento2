@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_FullPageCache_Model_Metadata
+ * Test class for \Magento\FullPageCache\Model\Metadata
  *
  * {license_notice}
  *
@@ -22,7 +22,7 @@ class Magento_FullPageCache_Model_MetadataTest extends PHPUnit_Framework_TestCas
     protected $_requestIdtfMock;
 
     /**
-     * @var Magento_FullPageCache_Model_Metadata
+     * @var \Magento\FullPageCache\Model\Metadata
      */
     protected $_model;
 
@@ -37,8 +37,8 @@ class Magento_FullPageCache_Model_MetadataTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $this->_fpcCacheMock = $this->getMock('Magento_FullPageCache_Model_Cache', array(), array(), '', false);
-        $this->_requestIdtfMock = $this->getMock('Magento_FullPageCache_Model_Request_Identifier',
+        $this->_fpcCacheMock = $this->getMock('Magento\FullPageCache\Model\Cache', array(), array(), '', false);
+        $this->_requestIdtfMock = $this->getMock('Magento\FullPageCache\Model\Request\Identifier',
             array(), array(), '', false
         );
 
@@ -49,10 +49,10 @@ class Magento_FullPageCache_Model_MetadataTest extends PHPUnit_Framework_TestCas
         $cache = serialize($this->_data);
         $this->_fpcCacheMock->expects($this->once())
             ->method('load')
-            ->with('test_id' . Magento_FullPageCache_Model_MetadataInterface::METADATA_CACHE_SUFFIX)
+            ->with('test_id' . \Magento\FullPageCache\Model\MetadataInterface::METADATA_CACHE_SUFFIX)
             ->will($this->returnValue($cache));
 
-        $this->_model = new Magento_FullPageCache_Model_Metadata($this->_fpcCacheMock, $this->_requestIdtfMock);
+        $this->_model = new \Magento\FullPageCache\Model\Metadata($this->_fpcCacheMock, $this->_requestIdtfMock);
     }
 
     public function testGetSetMetadata()
@@ -67,7 +67,7 @@ class Magento_FullPageCache_Model_MetadataTest extends PHPUnit_Framework_TestCas
     public function testSaveMetadata()
     {
         $tags = array('some_tag');
-        $cacheId = 'test_id' . Magento_FullPageCache_Model_MetadataInterface::METADATA_CACHE_SUFFIX;
+        $cacheId = 'test_id' . \Magento\FullPageCache\Model\MetadataInterface::METADATA_CACHE_SUFFIX;
         $this->_fpcCacheMock->expects($this->once())
             ->method('save')
             ->with(serialize($this->_data), $cacheId, $tags);

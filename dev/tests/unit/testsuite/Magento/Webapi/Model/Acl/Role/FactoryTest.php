@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Acl_Role_Factory.
+ * Test class for \Magento\Webapi\Model\Acl\Role\Factory.
  *
  * {license_notice}
  *
@@ -10,7 +10,7 @@
 class Magento_Webapi_Model_Acl_Role_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Webapi_Model_Acl_Role_Factory
+     * @var \Magento\Webapi\Model\Acl\Role\Factory
      */
     protected $_model;
 
@@ -20,7 +20,7 @@ class Magento_Webapi_Model_Acl_Role_FactoryTest extends PHPUnit_Framework_TestCa
     protected $_objectManager;
 
     /**
-     * @var Magento_Webapi_Model_Acl_Role
+     * @var \Magento\Webapi\Model\Acl\Role
      */
     protected $_expectedObject;
 
@@ -33,11 +33,11 @@ class Magento_Webapi_Model_Acl_Role_FactoryTest extends PHPUnit_Framework_TestCa
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
 
-        $this->_expectedObject = $this->getMockBuilder('Magento_Webapi_Model_Acl_Role')
+        $this->_expectedObject = $this->getMockBuilder('Magento\Webapi\Model\Acl\Role')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_model = $helper->getObject('Magento_Webapi_Model_Acl_Role_Factory', array(
+        $this->_model = $helper->getObject('\Magento\Webapi\Model\Acl\Role\Factory', array(
             'objectManager' => $this->_objectManager,
         ));
     }
@@ -50,7 +50,7 @@ class Magento_Webapi_Model_Acl_Role_FactoryTest extends PHPUnit_Framework_TestCa
         $arguments = array('property' => 'value');
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Webapi_Model_Acl_Role', $arguments)
+            ->with('Magento\Webapi\Model\Acl\Role', $arguments)
             ->will($this->returnValue($this->_expectedObject));
         $this->assertEquals($this->_expectedObject, $this->_model->create($arguments));
     }

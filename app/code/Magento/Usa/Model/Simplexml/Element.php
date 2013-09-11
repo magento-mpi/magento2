@@ -10,13 +10,15 @@
 
 
 /**
- * Extends SimpleXML to add valuable functionality to SimpleXMLElement class
+ * Extends SimpleXML to add valuable functionality to \SimpleXMLElement class
  *
  * @category Magento
  * @package  Magento_Usa
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Simplexml_Element extends SimpleXMLElement
+namespace Magento\Usa\Model\Simplexml;
+
+class Element extends \SimpleXMLElement
 {
     /**
      * Adds an attribute to the SimpleXML element
@@ -40,7 +42,7 @@ class Magento_Usa_Model_Simplexml_Element extends SimpleXMLElement
      * @param string $name The name of the child element to add.
      * @param string $value If specified, the value of the child element.
      * @param string $namespace If specified, the namespace to which the child element belongs.
-     * @return Magento_Usa_Model_Simplexml_Element
+     * @return \Magento\Usa\Model\Simplexml\Element
      */
     public function addChild($name, $value = null, $namespace = null)
     {

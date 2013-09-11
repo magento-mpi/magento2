@@ -11,7 +11,7 @@
     <handle id="contacts_index_index">
         <remove name="form.additional.info"/>
         <reference name="content">
-            <block class="Magento_Page_Block_Html_Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
+            <block class="\Magento\Page\Block\Html\Breadcrumbs" name="breadcrumbs" as="breadcrumbs" before="-">
                 <action method="addCrumb">
                     <argument translate="true" name="crumbName" xsi:type="string">home</argument>
                     <argument name="crumbInfo" xsi:type="array">

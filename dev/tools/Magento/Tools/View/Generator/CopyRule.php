@@ -21,12 +21,12 @@ class CopyRule
     private $_filesystem;
 
     /**
-     * @var \Magento_Core_Model_Theme_Collection
+     * @var \Magento\Core\Model\Theme\Collection
      */
     private $_themes;
 
     /**
-     * @var \Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     private $_fallbackRule;
 
@@ -41,13 +41,13 @@ class CopyRule
      * Constructor
      *
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento_Core_Model_Theme_Collection $themes
-     * @param \Magento_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
+     * @param \Magento\Core\Model\Theme\Collection $themes
+     * @param \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $fallbackRule
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento_Core_Model_Theme_Collection $themes,
-        \Magento_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
+        \Magento\Core\Model\Theme\Collection $themes,
+        \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $fallbackRule
     ) {
         $this->_filesystem = $filesystem;
         $this->_themes = $themes;
@@ -66,7 +66,7 @@ class CopyRule
     public function getCopyRules()
     {
         $result = array();
-        /** @var $theme \Magento_Core_Model_ThemeInterface */
+        /** @var $theme \Magento\Core\Model\ThemeInterface */
         foreach ($this->_themes as $theme) {
             $area = $theme->getArea();
             $nonModularLocations = $this->_fallbackRule->getPatternDirs(array(

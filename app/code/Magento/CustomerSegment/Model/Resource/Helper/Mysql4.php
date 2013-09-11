@@ -16,7 +16,9 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
+namespace Magento\CustomerSegment\Model\Resource\Helper;
+
+class Mysql4 extends \Magento\Core\Model\Resource\Helper\Mysql4
 {
     /**
      * Get comparison condition for rule condition operator which will be used in SQL query
@@ -59,7 +61,7 @@ class Magento_CustomerSegment_Model_Resource_Helper_Mysql4 extends Magento_Core_
             case '<=':
                 return $operator;
             default:
-                Mage::throwException(__('Unknown operator specified.'));
+                \Mage::throwException(__('Unknown operator specified.'));
         }
     }
 }

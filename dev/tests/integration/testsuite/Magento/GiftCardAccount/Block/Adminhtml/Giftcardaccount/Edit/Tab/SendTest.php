@@ -14,20 +14,20 @@
  */
 class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_SendTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send */
+    /** @var \Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $model = Mage::getModel('Magento_GiftCardAccount_Model_Giftcardaccount');
+        $model = Mage::getModel('\Magento\GiftCardAccount\Model\Giftcardaccount');
         Mage::register('current_giftcardaccount', $model);
 
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
 
         $this->_block = $layout
-            ->createBlock('Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send');
+            ->createBlock('\Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send');
     }
 
     protected function tearDown()

@@ -16,8 +16,10 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
-    extends Magento_Eav_Block_Adminhtml_Attribute_Grid_Abstract
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute;
+
+class Grid
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
      * Initialize grid, set grid Id
@@ -33,11 +35,11 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
     /**
      * Prepare customer attributes grid collection object
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Customer_Model_Resource_Attribute_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Attribute\Collection')
             ->addSystemHiddenFilter()
             ->addExcludeHiddenFrontendFilter();
         $this->setCollection($collection);
@@ -48,7 +50,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
     /**
      * Prepare customer attributes grid columns
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Grid
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Grid
      */
     protected function _prepareColumns()
     {

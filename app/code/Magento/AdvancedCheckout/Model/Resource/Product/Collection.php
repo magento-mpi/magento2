@@ -14,12 +14,14 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Model_Resource_Product_Collection extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\AdvancedCheckout\Model\Resource\Product;
+
+class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 {
     /**
      * Join Product Price Table using left-join
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _productLimitationJoinPrice()
     {

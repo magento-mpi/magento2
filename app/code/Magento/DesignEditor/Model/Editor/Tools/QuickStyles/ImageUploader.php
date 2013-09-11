@@ -11,7 +11,9 @@
 /**
  * Quick style file uploader
  */
-class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends \Magento\Object
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles;
+
+class ImageUploader extends \Magento\Object
 {
     /**
      * Quick style images path prefix
@@ -80,7 +82,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends 
      * Set storage path
      *
      * @param string $path
-     * @return Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader
+     * @return \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\ImageUploader
      */
     public function setStoragePath($path)
     {
@@ -91,15 +93,15 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends 
     /**
      * Get theme
      *
-     * @return Magento_Core_Model_Theme
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\Theme
+     * @throws \InvalidArgumentException
      */
     protected function _getTheme()
     {
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         $theme = $this->getTheme();
         if (!$theme->getId()) {
-            throw new InvalidArgumentException('Theme was not found.');
+            throw new \InvalidArgumentException('Theme was not found.');
         }
         return $theme;
     }
@@ -113,7 +115,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends 
     public function uploadFile($key)
     {
         $result = array();
-        /** @var $uploader Magento_Core_Model_File_Uploader */
+        /** @var $uploader \Magento\Core\Model\File\Uploader */
         $uploader = $this->_uploaderFactory->create(array('fileId' => $key));
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->setAllowRenameFiles(true);
@@ -121,7 +123,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends 
 
         if (!$uploader->save($this->getStoragePath())) {
             /** @todo add translator */
-            Mage::throwException('Cannot upload file.');
+            \Mage::throwException('Cannot upload file.');
         }
         $result['css_path'] = implode(
             '/', array('..', self::PATH_PREFIX_QUICK_STYLE, $uploader->getUploadedFileName())
@@ -134,7 +136,7 @@ class Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader extends 
      * Remove file
      *
      * @param string $file
-     * @return Magento_DesignEditor_Model_Editor_Tools_QuickStyles_ImageUploader
+     * @return \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\ImageUploader
      */
     public function removeFile($file)
     {

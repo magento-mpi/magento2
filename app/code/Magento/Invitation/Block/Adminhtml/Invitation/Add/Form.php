@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Invitation\Block\Adminhtml\Invitation\Add;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Return invitation form action url
@@ -29,7 +31,7 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Adm
     /**
      * Prepare invitation form
      *
-     * @return Magento_Invitation_Block_Adminhtml_Invitation_Add_Form
+     * @return \Magento\Invitation\Block\Adminhtml\Invitation\Add\Form
      */
     protected function _prepareForm()
     {
@@ -58,18 +60,18 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Adm
             'name' => 'message'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'label' => __('Send From'),
                 'required' => true,
                 'name' => 'store_id',
-                'values' => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values' => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
             ));
-            $renderer = $this->getLayout()->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $renderer = $this->getLayout()->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
-        $groups = Mage::getModel('Magento_Customer_Model_Group')->getCollection()
+        $groups = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection()
             ->addFieldToFilter('customer_group_id', array('gt'=> 0))
             ->load()
             ->toOptionHash();
@@ -91,11 +93,11 @@ class Magento_Invitation_Block_Adminhtml_Invitation_Add_Form extends Magento_Adm
     /**
      * Return adminhtml session
      *
-     * @return Magento_Adminhtml_Model_Session
+     * @return \Magento\Adminhtml\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session');
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Session');
     }
 
 }

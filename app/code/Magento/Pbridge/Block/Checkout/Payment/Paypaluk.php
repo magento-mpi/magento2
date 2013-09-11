@@ -16,12 +16,14 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Block_Checkout_Payment_Paypaluk extends Magento_Pbridge_Block_Checkout_Payment_Paypal
+namespace Magento\Pbridge\Block\Checkout\Payment;
+
+class Paypaluk extends \Magento\Pbridge\Block\Checkout\Payment\Paypal
 {
     /**
      * Paypal UK payment code
      *
      * @var string
      */
-    protected $_code = Magento_Paypal_Model_Config::METHOD_WPP_PE_DIRECT;
+    protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_PE_DIRECT;
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Magento_Catalog_Block_Product_Grouped_AssociatedProducts_List */
+/* @var $this \Magento\Catalog\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts */
 ?>
 <script type="text/x-jquery-tmpl" id="group-product-template">
 <tr title="#" class="pointer" data-role="row">
@@ -35,7 +35,7 @@
 </script>
 <div class="grid-container" class="no-display">
     <table class="data-table" data-role="grouped-product-grid"
-        data-products="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode(
+        data-products="<?php echo $this->escapeHtml($this->helper('\Magento\Core\Helper\Data')->jsonEncode(
                 $this->getAssociatedProducts()
         )); ?>">
         <thead>

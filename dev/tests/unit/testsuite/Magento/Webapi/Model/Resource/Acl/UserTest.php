@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Resource_Acl_User
+ * Test class for \Magento\Webapi\Model\Resource\Acl\User
  *
  * {license_notice}
  *
@@ -13,11 +13,11 @@ class Magento_Webapi_Model_Resource_Acl_UserTest extends Magento_Webapi_Model_Re
      * Create resource model.
      *
      * @param \Magento\DB\Select $selectMock
-     * @return Magento_Webapi_Model_Resource_Acl_User
+     * @return \Magento\Webapi\Model\Resource\Acl\User
      */
     protected function _createModel($selectMock = null)
     {
-        $this->_resource = $this->getMockBuilder('Magento_Core_Model_Resource')
+        $this->_resource = $this->getMockBuilder('Magento\Core\Model\Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getConnection', 'getTableName'))
             ->getMock();
@@ -52,7 +52,7 @@ class Magento_Webapi_Model_Resource_Acl_UserTest extends Magento_Webapi_Model_Re
             ->withAnyParameters()
             ->will($this->returnValue($this->_adapter));
 
-        return $this->_helper->getObject('Magento_Webapi_Model_Resource_Acl_User', array(
+        return $this->_helper->getObject('\Magento\Webapi\Model\Resource\Acl\User', array(
             'resource' => $this->_resource,
         ));
     }

@@ -18,32 +18,32 @@ include_once __DIR__ . '/../_files/autodiscovery/subresource_class_fixture.php';
 /**#@-*/
 
 /**
- * Class implements tests for Magento_Webapi_Helper_Data class.
+ * Class implements tests for \Magento\Webapi\Helper\Data class.
  */
 class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Helper_Data */
+    /** @var \Magento\Webapi\Helper\Data */
     protected $_helper;
 
-    /** @var Magento_Webapi_Model_ConfigAbstract */
+    /** @var \Magento\Webapi\Model\ConfigAbstract */
     protected $_apiConfig;
 
     protected function setUp()
     {
-        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Webapi_Helper_Data');
+        $this->_helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Webapi\Helper\Data');
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** Prepare arguments for SUT constructor. */
         $pathToFixtures = __DIR__ . '/../_files/autodiscovery';
-        /** @var Magento_Webapi_Model_Config_Reader_Soap $reader */
+        /** @var \Magento\Webapi\Model\Config\Reader\Soap $reader */
         $reader = $objectManager->create(
-            'Magento_Webapi_Model_Config_Reader_Soap',
+            '\Magento\Webapi\Model\Config\Reader\Soap',
             array(
-                'cache' => $this->getMock('Magento_Core_Model_Cache', array(), array(), '', false)
+                'cache' => $this->getMock('Magento\Core\Model\Cache', array(), array(), '', false)
             )
         );
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToFixtures));
         /** Initialize SUT. */
-        $this->_apiConfig = $objectManager->create('Magento_Webapi_Model_Config_Soap', array('reader' => $reader));
+        $this->_apiConfig = $objectManager->create('Magento\Webapi\Model\Config\Soap', array('reader' => $reader));
     }
 
     /**
@@ -142,9 +142,9 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testPrepareMethodParamsArrayExpectedException()
     {
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Data corresponding to "VendorModuleCustomerData[]" type is expected to be an array.',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         $this->_helper->prepareMethodParams(
             'Vendor_Module_Controller_Webapi_Resource_Subresource',
@@ -160,9 +160,9 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
     public function testPrepareMethodParamsComplexTypeArrayExpectedException()
     {
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Data corresponding to "VendorModuleCustomerData" type is expected to be an array.',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         $this->_helper->prepareMethodParams(
             'Vendor_Module_Controller_Webapi_Resource_Subresource',
@@ -203,7 +203,7 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
                 'Vendor_Module_Controller_Webapi_Resource_Subresource',
                 'createV1',
                 array('param2' => 2, 'param4' => 4),
-                'Magento_Webapi_Exception',
+                '\Magento\Webapi\Exception',
                 'Required parameter "param1" is missing.'
             ),
             // Test passing of complex type parameter with not specified required field.
@@ -211,7 +211,7 @@ class Magento_Webapi_Helper_DataTest extends PHPUnit_Framework_TestCase
                 new Vendor_Module_Controller_Webapi_Resource_Subresource(),
                 'updateV1',
                 array('param1' => 1, 'param2' => $withoutRequired),
-                'Magento_Webapi_Exception',
+                '\Magento\Webapi\Exception',
                 'Value of "firstname" attribute is required.'
             ),
         );

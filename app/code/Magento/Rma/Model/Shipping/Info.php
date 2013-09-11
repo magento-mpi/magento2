@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Shipping_Info extends \Magento\Object
+namespace Magento\Rma\Model\Shipping;
+
+class Info extends \Magento\Object
 {
     /**
      * Tracking info
@@ -28,11 +30,11 @@ class Magento_Rma_Model_Shipping_Info extends \Magento\Object
      * Generating tracking info
      *
      * @param string $hash
-     * @return Magento_Shipping_Model_Info
+     * @return \Magento\Shipping\Model\Info
      */
     public function loadByHash($hash)
     {
-        $data = Mage::helper('Magento_Rma_Helper_Data')->decodeTrackingHash($hash);
+        $data = \Mage::helper('Magento\Rma\Helper\Data')->decodeTrackingHash($hash);
 
         if (!empty($data)) {
             $this->setData($data['key'], $data['id']);
@@ -51,11 +53,11 @@ class Magento_Rma_Model_Shipping_Info extends \Magento\Object
      * Generating tracking info
      *
      * @param string $hash
-     * @return Magento_Shipping_Model_Info
+     * @return \Magento\Shipping\Model\Info
      */
     public function loadPackage($hash)
     {
-        $data = Mage::helper('Magento_Rma_Helper_Data')->decodeTrackingHash($hash);
+        $data = \Mage::helper('Magento\Rma\Helper\Data')->decodeTrackingHash($hash);
         $package = array();
         if (!empty($data)) {
             $this->setData($data['key'], $data['id']);
@@ -80,12 +82,12 @@ class Magento_Rma_Model_Shipping_Info extends \Magento\Object
     /**
      * Instantiate RMA model
      *
-     * @return Magento_Rma_Model_Rma || false
+     * @return \Magento\Rma\Model\Rma || false
      */
     protected function _initRma()
     {
-        /* @var $model Magento_Rma_Model_Rma */
-        $model = Mage::getModel('Magento_Rma_Model_Rma');
+        /* @var $model \Magento\Rma\Model\Rma */
+        $model = \Mage::getModel('\Magento\Rma\Model\Rma');
         $rma = $model->load($this->getRmaId());
         if (!$rma->getEntityId() || $this->getProtectCode() != $rma->getProtectCode()) {
             return false;
@@ -124,7 +126,7 @@ class Magento_Rma_Model_Shipping_Info extends \Magento\Object
      */
     public function getTrackingInfoByTrackId()
     {
-        $track = Mage::getModel('Magento_Rma_Model_Shipping')->load($this->getTrackId());
+        $track = \Mage::getModel('\Magento\Rma\Model\Shipping')->load($this->getTrackId());
         if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
             $this->_trackingInfo = array(array($track->getNumberDetail()));
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Resource_Acl_Rule
+ * Test class for \Magento\Webapi\Model\Resource\Acl\Rule
  *
  * {license_notice}
  *
@@ -13,11 +13,11 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
      * Create resource model.
      *
      * @param \Magento\DB\Select $selectMock
-     * @return Magento_Webapi_Model_Resource_Acl_Rule
+     * @return \Magento\Webapi\Model\Resource\Acl\Rule
      */
     protected function _createModel($selectMock = null)
     {
-        $this->_resource = $this->getMockBuilder('Magento_Core_Model_Resource')
+        $this->_resource = $this->getMockBuilder('Magento\Core\Model\Resource')
             ->disableOriginalConstructor()
             ->setMethods(array('getConnection', 'getTableName'))
             ->getMock();
@@ -63,7 +63,7 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
             ->withAnyParameters()
             ->will($this->returnValue($this->_adapter));
 
-        return $this->_helper->getObject('Magento_Webapi_Model_Resource_Acl_Rule', array(
+        return $this->_helper->getObject('\Magento\Webapi\Model\Resource\Acl\Rule', array(
             'resource' => $this->_resource,
         ));
     }
@@ -130,7 +130,7 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
     public function testSaveResources()
     {
         // Init rule resource.
-        $ruleResource = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_Rule')
+        $ruleResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Rule')
             ->disableOriginalConstructor()
             ->setMethods(array('saveResources', 'getIdFieldName', 'getReadConnection', 'getResources'))
             ->getMock();
@@ -146,9 +146,9 @@ class Magento_Webapi_Model_Resource_Acl_RuleTest extends Magento_Webapi_Model_Re
             ->will($this->returnValue($this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false)));
 
         // Init rule.
-        $rule = $this->getMockBuilder('Magento_Webapi_Model_Acl_Rule')
+        $rule = $this->getMockBuilder('Magento\Webapi\Model\Acl\Rule')
             ->setConstructorArgs(array(
-                'context' => $this->getMock('Magento_Core_Model_Context', array(), array(), '', false),
+                'context' => $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
                 'resource' => $ruleResource
             ))
             ->setMethods(array('getResources'))

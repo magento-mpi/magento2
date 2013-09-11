@@ -16,29 +16,31 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Template
+namespace Magento\Adminhtml\Model\Email;
+
+class Template extends \Magento\Core\Model\Email\Template
 {
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Model_Context $context
+     * @param \Magento\Core\Model\Context $context
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
+        \Magento\Core\Model\Context $context,
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Config $config,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Config $config,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -102,10 +104,10 @@ class Magento_Adminhtml_Model_Email_Template extends Magento_Core_Model_Email_Te
             return array();
         }
 
-        /** @var Magento_Backend_Model_Config_Structure $configStructure  */
-        $configStructure = Mage::getSingleton('Magento_Backend_Model_Config_Structure');
+        /** @var \Magento\Backend\Model\Config\Structure $configStructure  */
+        $configStructure = \Mage::getSingleton('Magento\Backend\Model\Config\Structure');
         $templatePaths = $configStructure
-            ->getFieldPathsByAttribute('source_model', 'Magento_Backend_Model_Config_Source_Email_Template');
+            ->getFieldPathsByAttribute('source_model', '\Magento\Backend\Model\Config\Source\Email\Template');
 
         if (!count($templatePaths)) {
             return array();

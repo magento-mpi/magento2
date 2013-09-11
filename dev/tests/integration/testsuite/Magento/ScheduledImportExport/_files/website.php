@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-/** @var $website Magento_Core_Model_Website */
-$website = Mage::getModel('Magento_Core_Model_Website');
+/** @var $website \Magento\Core\Model\Website */
+$website = Mage::getModel('\Magento\Core\Model\Website');
 $website->setData(array(
     'code' => 'test',
     'name' => 'Test Website',

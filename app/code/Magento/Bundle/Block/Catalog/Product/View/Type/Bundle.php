@@ -16,7 +16,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Catalog_Block_Product_View_Abstract
+namespace Magento\Bundle\Block\Catalog\Product\View\Type;
+
+class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 {
     protected $_optionRenderers = array();
     protected $_options         = null;
@@ -43,7 +45,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
             );
 
             $this->_options = $optionCollection->appendSelections($selectionCollection, false,
-                Mage::helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck()
+                \Mage::helper('Magento\Catalog\Helper\Product')->getSkipSaleableCheck()
             );
         }
 
@@ -66,19 +68,19 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
      */
     public function getJsonConfig()
     {
-        Mage::app()->getLocale()->getJsPriceFormat();
+        \Mage::app()->getLocale()->getJsPriceFormat();
         $optionsArray = $this->getOptions();
         $options      = array();
         $selected     = array();
         $currentProduct = $this->getProduct();
-        /* @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper   = Mage::helper('Magento_Core_Helper_Data');
-        /* @var $catalogHelper Magento_Catalog_Helper_Data */
-        $catalogHelper = Mage::helper('Magento_Catalog_Helper_Data');
-        /* @var $taxHelper Magento_Tax_Helper_Data */
-        $taxHelper = Mage::helper('Magento_Tax_Helper_Data');
-        /* @var $bundlePriceModel Magento_Bundle_Model_Product_Price */
-        $bundlePriceModel = Mage::getModel('Magento_Bundle_Model_Product_Price');
+        /* @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper   = \Mage::helper('Magento\Core\Helper\Data');
+        /* @var $catalogHelper \Magento\Catalog\Helper\Data */
+        $catalogHelper = \Mage::helper('Magento\Catalog\Helper\Data');
+        /* @var $taxHelper \Magento\Tax\Helper\Data */
+        $taxHelper = \Mage::helper('Magento\Tax\Helper\Data');
+        /* @var $bundlePriceModel \Magento\Bundle\Model\Product\Price */
+        $bundlePriceModel = \Mage::getModel('\Magento\Bundle\Model\Product\Price');
 
         if ($preConfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
             $preConfiguredValues = $currentProduct->getPreconfiguredValues();
@@ -87,7 +89,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
 
         $position = 0;
         foreach ($optionsArray as $_option) {
-            /* @var $_option Magento_Bundle_Model_Option */
+            /* @var $_option \Magento\Bundle\Model\Option */
             if (!$_option->getSelections()) {
                 continue;
             }
@@ -103,7 +105,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
             $selectionCount = count($_option->getSelections());
 
             foreach ($_option->getSelections() as $_selection) {
-                /* @var $_selection Magento_Catalog_Model_Product */
+                /* @var $_selection \Magento\Catalog\Model\Product */
                 $selectionId = $_selection->getSelectionId();
                 $_qty = !($_selection->getSelectionQty() * 1) ? '1' : $_selection->getSelectionQty() * 1;
                 // recalculate currency
@@ -122,7 +124,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
                 $_priceInclTax = $taxHelper->getPrice($_selection, $itemPrice, true);
                 $_priceExclTax = $taxHelper->getPrice($_selection, $itemPrice);
 
-                if ($currentProduct->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
+                if ($currentProduct->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
                     $_priceInclTax = $taxHelper->getPrice($currentProduct, $itemPrice, true);
                     $_priceExclTax = $taxHelper->getPrice($currentProduct, $itemPrice);
                 }
@@ -144,7 +146,7 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
 
                 $responseObject = new \Magento\Object();
                 $args = array('response_object' => $responseObject, 'selection' => $_selection);
-                Mage::dispatchEvent('bundle_product_view_config', $args);
+                \Mage::dispatchEvent('bundle_product_view_config', $args);
                 if (is_array($responseObject->getAdditionalOptions())) {
                     foreach ($responseObject->getAdditionalOptions() as $o => $v) {
                         $selection[$o] = $v;
@@ -173,12 +175,12 @@ class Magento_Bundle_Block_Catalog_Product_View_Type_Bundle extends Magento_Cata
             'options'       => $options,
             'selected'      => $selected,
             'bundleId'      => $currentProduct->getId(),
-            'priceFormat'   => Mage::app()->getLocale()->getJsPriceFormat(),
+            'priceFormat'   => \Mage::app()->getLocale()->getJsPriceFormat(),
             'basePrice'     => $coreHelper->currency($currentProduct->getPrice(), false, false),
             'priceType'     => $currentProduct->getPriceType(),
             'specialPrice'  => $currentProduct->getSpecialPrice(),
             'includeTax'    => $taxHelper->priceIncludesTax() ? 'true' : 'false',
-            'isFixedPrice'  => $this->getProduct()->getPriceType() == Magento_Bundle_Model_Product_Price::PRICE_TYPE_FIXED,
+            'isFixedPrice'  => $this->getProduct()->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED,
             'isMAPAppliedDirectly' => $catalogHelper->canApplyMsrp($this->getProduct(), null, false)
         );
 

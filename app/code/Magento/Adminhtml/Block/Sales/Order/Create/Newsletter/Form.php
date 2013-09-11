@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Newsletter_Form extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Newsletter;
+
+class Form extends \Magento\Adminhtml\Block\Widget
 {
 
     protected function _construct()

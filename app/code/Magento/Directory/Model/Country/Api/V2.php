@@ -9,12 +9,14 @@
  */
 
 /**
- * Directory Country Api V2
+ * \Directory Country Api V2
  *
  * @category   Magento
  * @package    Magento_Directory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Country_Api_V2 extends Magento_Directory_Model_Country_Api
+namespace Magento\Directory\Model\Country\Api;
+
+class V2 extends \Magento\Directory\Model\Country\Api
 {
 }

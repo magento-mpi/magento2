@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class Magento_Core_Controller_Varien_Action_Factory
+ * Test class \Magento\Core\Controller\Varien\Action\Factory
  */
 class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framewor
     /**
      * Test class instance
      *
-     * @var Magento_Core_Controller_Varien_Action_Factory
+     * @var \Magento\Core\Controller\Varien\Action\Factory
      */
     protected $_model;
 
@@ -40,7 +40,7 @@ class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framewor
 
     public function testConstruct()
     {
-        $this->_model = new Magento_Core_Controller_Varien_Action_Factory($this->_objectManager);
+        $this->_model = new \Magento\Core\Controller\Varien\Action\Factory($this->_objectManager);
         $this->assertAttributeInstanceOf('\Magento\ObjectManager', '_objectManager', $this->_model);
     }
 
@@ -51,7 +51,7 @@ class Magento_Core_Controller_Varien_Action_FactoryTest extends PHPUnit_Framewor
             ->with(self::CONTROLLER_NAME)
             ->will($this->returnValue('TestControllerInstance'));
 
-        $this->_model = new Magento_Core_Controller_Varien_Action_Factory($this->_objectManager);
+        $this->_model = new \Magento\Core\Controller\Varien\Action\Factory($this->_objectManager);
         $this->assertEquals('TestControllerInstance', $this->_model->createController(self::CONTROLLER_NAME));
     }
 }

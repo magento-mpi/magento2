@@ -12,7 +12,9 @@
  * Locked administrators controller
  *
  */
-class Magento_Pci_Controller_Adminhtml_Locks extends Magento_Adminhtml_Controller_Action
+namespace Magento\Pci\Controller\Adminhtml;
+
+class Locks extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Render page with grid
@@ -47,14 +49,14 @@ class Magento_Pci_Controller_Adminhtml_Locks extends Magento_Adminhtml_Controlle
             // unlock users
             $userIds = $this->getRequest()->getPost('unlock');
             if ($userIds && is_array($userIds)) {
-                $affectedUsers = Mage::getResourceSingleton('Magento_Pci_Model_Resource_Admin_User')
+                $affectedUsers = \Mage::getResourceSingleton('\Magento\Pci\Model\Resource\Admin\User')
                     ->unlock($userIds);
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                         ->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
             }
         }
-        catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+        catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
     }

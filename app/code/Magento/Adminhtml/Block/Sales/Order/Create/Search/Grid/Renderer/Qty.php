@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Input
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer;
+
+class Qty
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Input
 {
     /**
      * Returns whether this qty field must be inactive
@@ -26,7 +28,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Qty
      */
     protected function _isInactive($row)
     {
-        return $row->getTypeId() == Magento_Catalog_Model_Product_Type_Grouped::TYPE_CODE;
+        return $row->getTypeId() == \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE;
     }
 
     /**

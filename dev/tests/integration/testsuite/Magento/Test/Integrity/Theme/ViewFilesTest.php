@@ -24,22 +24,22 @@ class Magento_Test_Integrity_Theme_ViewFilesTest extends Magento_TestFramework_T
         try {
             $params = array('area' => $area, 'themeId' => $themeId);
             $viewFile = Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
-                ->get('Magento_Core_Model_View_FileSystem')
+                ->get('Magento\Core\Model\View\FileSystem')
                 ->getViewFile($file, $params);
             $this->assertFileExists($viewFile);
 
-            $fileParts = explode(Magento_Core_Model_View_Service::SCOPE_SEPARATOR, $file);
+            $fileParts = explode(\Magento\Core\Model\View\Service::SCOPE_SEPARATOR, $file);
             if (count($fileParts) > 1) {
                 $params['module'] = $fileParts[0];
             }
             if (pathinfo($file, PATHINFO_EXTENSION) == 'css') {
                 $errors = array();
                 $content = file_get_contents($viewFile);
-                preg_match_all(Magento_Core_Helper_Css::REGEX_CSS_RELATIVE_URLS, $content, $matches);
+                preg_match_all(\Magento\Core\Helper\Css::REGEX_CSS_RELATIVE_URLS, $content, $matches);
                 foreach ($matches[1] as $relativePath) {
                     $path = $this->_addCssDirectory($relativePath, $file);
                     $pathFile = Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
-                        ->get('Magento_Core_Model_View_FileSystem')
+                        ->get('Magento\Core\Model\View\FileSystem')
                         ->getViewFile($path, $params);
                     if (!is_file($pathFile)) {
                         $errors[] = $relativePath;
@@ -112,14 +112,14 @@ class Magento_Test_Integrity_Theme_ViewFilesTest extends Magento_TestFramework_T
 
         // Find files, declared in views
         $files = array();
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themes as $theme) {
             $this->_collectGetViewUrlInvokes($theme, $files);
         }
 
         // Populate data provider in correspondence of themes to view files
         $result = array();
-        /** @var $theme Magento_Core_Model_Theme */
+        /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themes as $theme) {
             if (!isset($files[$theme->getId()])) {
                 continue;
@@ -134,7 +134,7 @@ class Magento_Test_Integrity_Theme_ViewFilesTest extends Magento_TestFramework_T
     /**
      * Collect getViewUrl() from theme templates
      *
-     * @param Magento_Core_Model_Theme $theme
+     * @param \Magento\Core\Model\Theme $theme
      * @param array &$files
      */
     protected function _collectGetViewUrlInvokes($theme, &$files)
@@ -155,8 +155,8 @@ class Magento_Test_Integrity_Theme_ViewFilesTest extends Magento_TestFramework_T
         }
 
         // Collect "addCss" and "addJs" from theme layout
-        /** @var Magento_Core_Model_Layout_Merge $layoutUpdate */
-        $layoutUpdate = Mage::getModel('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
+        /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
+        $layoutUpdate = Mage::getModel('\Magento\Core\Model\Layout\Merge', array('theme' => $theme));
         $fileLayoutUpdates = $layoutUpdate->getFileLayoutUpdatesXml();
         $elements = $fileLayoutUpdates->xpath('//action[@method="addCss" or @method="addJs"]/*[1]');
         if ($elements) {

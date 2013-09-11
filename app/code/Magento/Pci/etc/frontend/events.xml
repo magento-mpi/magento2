@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="customer_customer_authenticated">
-        <observer name="magento_pci" instance="Magento_Pci_Model_Observer" method="upgradeCustomerPassword" />
+        <observer name="magento_pci" instance="\Magento\Pci\Model\Observer" method="upgradeCustomerPassword" />
     </event>
 </config>

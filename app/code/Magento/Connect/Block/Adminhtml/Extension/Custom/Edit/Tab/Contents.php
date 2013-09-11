@@ -15,8 +15,10 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents
-    extends Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Contents
+    extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
 {
     /**
      * Retrieve list of targets
@@ -25,7 +27,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Contents
      */
     public function getMageTargets()
     {
-        $targets = Mage::getModel('Magento_Connect_Model_Extension')->getLabelTargets();
+        $targets = \Mage::getModel('\Magento\Connect\Model\Extension')->getLabelTargets();
         if (!is_array($targets)) {
             $targets = array();
         }

@@ -15,7 +15,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Catalog_Layer_Filter_Price extends Magento_Catalog_Block_Layer_Filter_Abstract
+namespace Magento\Search\Block\Catalog\Layer\Filter;
+
+class Price extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     /**
      * Initialize Price filter module
@@ -23,13 +25,13 @@ class Magento_Search_Block_Catalog_Layer_Filter_Price extends Magento_Catalog_Bl
     protected function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = 'Magento_Search_Model_Catalog_Layer_Filter_Price';
+        $this->_filterModelName = '\Magento\Search\Model\Catalog\Layer\Filter\Price';
     }
 
     /**
      * Prepare filter process
      *
-     * @return Magento_Catalog_Block_Layer_Filter_Price
+     * @return \Magento\Catalog\Block\Layer\Filter\Price
      */
     protected function _prepareFilter()
     {
@@ -40,7 +42,7 @@ class Magento_Search_Block_Catalog_Layer_Filter_Price extends Magento_Catalog_Bl
     /**
      * Add params to faceted search
      *
-     * @return Magento_Search_Block_Catalog_Layer_Filter_Price
+     * @return \Magento\Search\Block\Catalog\Layer\Filter\Price
      */
     public function addFacetCondition()
     {

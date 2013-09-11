@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Admin_Custom extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
+class Custom extends \Magento\Core\Model\Config\Value
 {
     const CONFIG_SCOPE                      = 'stores';
     const CONFIG_SCOPE_ID                   = 0;
@@ -29,21 +31,21 @@ class Magento_Backend_Model_Config_Backend_Admin_Custom extends Magento_Core_Mod
     /**
      * Writer of configuration storage
      *
-     * @var Magento_Core_Model_Config_Storage_WriterInterface
+     * @var \Magento\Core\Model\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -54,7 +56,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Custom extends Magento_Core_Mod
     /**
      * Validate value before save
      *
-     * @return Magento_Backend_Model_Config_Backend_Admin_Custom
+     * @return \Magento\Backend\Model\Config\Backend\Admin\Custom
      */
     protected function _beforeSave()
     {
@@ -71,7 +73,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Custom extends Magento_Core_Mod
     /**
      * Change secure/unsecure base_url after use_custom_url was modified
      *
-     * @return Magento_Backend_Model_Config_Backend_Admin_Custom
+     * @return \Magento\Backend\Model\Config\Backend\Admin\Custom
      */
     public function _afterSave()
     {

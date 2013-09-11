@@ -8,19 +8,21 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
+
+class Send extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Init form fields
      *
-     * @return Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send
+     * @return \Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send
      */
     public function initForm()
     {
         $form = new \Magento\Data\Form();
         $form->setHtmlIdPrefix('_send');
 
-        $model = Mage::registry('current_giftcardaccount');
+        $model = \Mage::registry('current_giftcardaccount');
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend'=>__('Send Gift Card'))
@@ -39,7 +41,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send exte
             'name'      => 'recipient_name',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'name'     => 'recipient_store',
                 'label'    => __('Send Email from the Following Store View'),
@@ -47,7 +49,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send exte
                 'after_element_html' => $this->_getStoreIdScript()
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -63,7 +65,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send exte
     protected function _getStoreIdScript()
     {
         $websiteStores = array();
-        foreach (Mage::app()->getWebsites() as $websiteId => $website) {
+        foreach (\Mage::app()->getWebsites() as $websiteId => $website) {
             $websiteStores[$websiteId] = array();
             foreach ($website->getGroups() as $groupId => $group) {
                 $websiteStores[$websiteId][$groupId] = array(
@@ -78,7 +80,7 @@ class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send exte
             }
         }
 
-        $websiteStores = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($websiteStores);
+        $websiteStores = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($websiteStores);
 
         $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
         $result .= "var websiteStores = $websiteStores;";

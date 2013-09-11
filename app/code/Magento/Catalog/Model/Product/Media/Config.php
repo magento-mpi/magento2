@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Media_Config implements Magento_Media_Model_Image_Config_Interface
+namespace Magento\Catalog\Model\Product\Media;
+
+class Config implements \Magento\Media\Model\Image\Config\ConfigInterface
 {
     /**
      * Filesystem directory path of product images
@@ -64,22 +66,22 @@ class Magento_Catalog_Model_Product_Media_Config implements Magento_Media_Model_
 
     public function getBaseMediaPath()
     {
-        return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'catalog' . DIRECTORY_SEPARATOR . 'product';
+        return \Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'catalog' . DIRECTORY_SEPARATOR . 'product';
     }
 
     public function getBaseMediaUrl()
     {
-        return Mage::getBaseUrl('media') . 'catalog/product';
+        return \Mage::getBaseUrl('media') . 'catalog/product';
     }
 
     public function getBaseTmpMediaPath()
     {
-        return Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . $this->getBaseTmpMediaPathAddition();
+        return \Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . $this->getBaseTmpMediaPathAddition();
     }
 
     public function getBaseTmpMediaUrl()
     {
-        return Mage::getBaseUrl('media') . $this->getBaseTmpMediaUrlAddition();
+        return \Mage::getBaseUrl('media') . $this->getBaseTmpMediaUrlAddition();
     }
 
     public function getMediaUrl($file)

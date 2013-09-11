@@ -11,8 +11,10 @@
 /**
  * Customer gift registry share block
  */
-class Magento_GiftRegistry_Block_Customer_Share
-    extends Magento_Customer_Block_Account_Dashboard
+namespace Magento\GiftRegistry\Block\Customer;
+
+class Share
+    extends \Magento\Customer\Block\Account\Dashboard
 {
     protected $_formData = null;
 
@@ -54,7 +56,7 @@ class Magento_GiftRegistry_Block_Customer_Share
      */
     public function getRecipientsLimit()
     {
-        return (int)Mage::helper('Magento_GiftRegistry_Helper_Data')->getRecipientsLimit();
+        return (int)\Mage::helper('Magento\GiftRegistry\Helper\Data')->getRecipientsLimit();
     }
 
     /**
@@ -66,7 +68,7 @@ class Magento_GiftRegistry_Block_Customer_Share
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')
+            $this->_formData = \Mage::getSingleton('Magento\Customer\Model\Session')
                 ->getData('sharing_form', true);
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {

@@ -16,12 +16,14 @@
  * @package     Magento_Sitemap
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Sitemap\Model\Resource\Catalog;
+
+class Category extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Collection Zend Db select
      *
-     * @var Zend_Db_Select
+     * @var \Zend_Db_Select
      */
     protected $_select;
 
@@ -44,15 +46,15 @@ class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model
     /**
      * Get category collection array
      *
-     * @param null|string|bool|int|Magento_Core_Model_Store $storeId
+     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
      * @return array
      */
     public function getCollection($storeId)
     {
         $categories = array();
 
-        $store = Mage::app()->getStore($storeId);
-        /* @var $store Magento_Core_Model_Store */
+        $store = \Mage::app()->getStore($storeId);
+        /* @var $store \Magento\Core\Model\Store */
 
         if (!$store) {
             return false;
@@ -117,16 +119,16 @@ class Magento_Sitemap_Model_Resource_Catalog_Category extends Magento_Core_Model
      * @param string $attributeCode
      * @param mixed $value
      * @param string $type
-     * @return Zend_Db_Select|bool
+     * @return \Zend_Db_Select|bool
      */
     protected function _addFilter($storeId, $attributeCode, $value, $type = '=')
     {
-        if (!$this->_select instanceof Zend_Db_Select) {
+        if (!$this->_select instanceof \Zend_Db_Select) {
             return false;
         }
 
         if (!isset($this->_attributesCache[$attributeCode])) {
-            $attribute = Mage::getSingleton('Magento_Catalog_Model_Category')->getResource()->getAttribute($attributeCode);
+            $attribute = \Mage::getSingleton('Magento\Catalog\Model\Category')->getResource()->getAttribute($attributeCode);
 
             $this->_attributesCache[$attributeCode] = array(
                 'entity_type_id'    => $attribute->getEntityTypeId(),

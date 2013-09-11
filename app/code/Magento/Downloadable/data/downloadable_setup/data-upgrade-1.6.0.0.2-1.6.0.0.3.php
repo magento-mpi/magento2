@@ -9,8 +9,8 @@
  */
 
 $applyTo = array_merge(
-    explode(',', $this->getAttribute(Magento_Catalog_Model_Product::ENTITY, 'weight', 'apply_to')),
-    array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE)
+    explode(',', $this->getAttribute(\Magento\Catalog\Model\Product::ENTITY, 'weight', 'apply_to')),
+    array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
 );
 
-$this->updateAttribute(Magento_Catalog_Model_Product::ENTITY, 'weight', 'apply_to', implode(',', $applyTo));
+$this->updateAttribute(\Magento\Catalog\Model\Product::ENTITY, 'weight', 'apply_to', implode(',', $applyTo));

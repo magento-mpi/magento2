@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Sales_Block_Order_Recent extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order;
+
+class Recent extends \Magento\Core\Block\Template
 {
 
     protected function _construct()
@@ -24,12 +26,12 @@ class Magento_Sales_Block_Order_Recent extends Magento_Core_Block_Template
         parent::_construct();
 
         //TODO: add full name logic
-        $orders = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+        $orders = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
             ->addAttributeToSelect('*')
             ->joinAttribute('shipping_firstname', 'order_address/firstname', 'shipping_address_id', null, 'left')
             ->joinAttribute('shipping_lastname', 'order_address/lastname', 'shipping_address_id', null, 'left')
-            ->addAttributeToFilter('customer_id', Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer()->getId())
-            ->addAttributeToFilter('state', array('in' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getVisibleOnFrontStates()))
+            ->addAttributeToFilter('customer_id', \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer()->getId())
+            ->addAttributeToFilter('state', array('in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates()))
             ->addAttributeToSort('created_at', 'desc')
             ->setPageSize('5')
             ->load()

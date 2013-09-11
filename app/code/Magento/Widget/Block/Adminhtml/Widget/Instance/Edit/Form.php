@@ -15,12 +15,14 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit_Form
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Form
      */
     protected function _prepareForm()
     {

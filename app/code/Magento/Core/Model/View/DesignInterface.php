@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-interface Magento_Core_Model_View_DesignInterface
+namespace Magento\Core\Model\View;
+
+interface DesignInterface
 {
     /**
      * Default design area
@@ -19,7 +21,7 @@ interface Magento_Core_Model_View_DesignInterface
      * Set package area
      *
      * @param string $area
-     * @return Magento_Core_Model_View_DesignInterface
+     * @return \Magento\Core\Model\View\DesignInterface
      */
     public function setArea($area);
 
@@ -33,9 +35,9 @@ interface Magento_Core_Model_View_DesignInterface
     /**
      * Set theme path
      *
-     * @param Magento_Core_Model_Theme|int|string $theme
+     * @param \Magento\Core\Model\Theme|int|string $theme
      * @param string $area
-     * @return Magento_Core_Model_View_DesignInterface
+     * @return \Magento\Core\Model\View\DesignInterface
      */
     public function setDesignTheme($theme, $area = null);
 
@@ -51,14 +53,14 @@ interface Magento_Core_Model_View_DesignInterface
     /**
      * Set default design theme
      *
-     * @return Magento_Core_Model_View_DesignInterface
+     * @return \Magento\Core\Model\View\DesignInterface
      */
     public function setDefaultDesignTheme();
 
     /**
      * Design theme model getter
      *
-     * @return Magento_Core_Model_Theme
+     * @return \Magento\Core\Model\Theme
      */
     public function getDesignTheme();
 

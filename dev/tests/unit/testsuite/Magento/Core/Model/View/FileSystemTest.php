@@ -15,45 +15,45 @@
 class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_View_FileSystem|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\View\FileSystem|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Design_FileResolution_StrategyPool|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Design\FileResolution\StrategyPool|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_strategyPool;
 
     /**
-     * @var Magento_Core_Model_View_Service|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\View\Service|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewService;
 
 
     protected function setUp()
     {
-        $this->_strategyPool = $this->getMock('Magento_Core_Model_Design_FileResolution_StrategyPool', array(),
+        $this->_strategyPool = $this->getMock('Magento\Core\Model\Design\FileResolution\StrategyPool', array(),
             array(), '', false
         );
-        $this->_viewService = $this->getMock('Magento_Core_Model_View_Service',
+        $this->_viewService = $this->getMock('Magento\Core\Model\View\Service',
             array('extractScope', 'updateDesignParams'), array(), '', false
         );
 
-        $this->_model = new Magento_Core_Model_View_FileSystem($this->_strategyPool, $this->_viewService);
+        $this->_model = new \Magento\Core\Model\View\FileSystem($this->_strategyPool, $this->_viewService);
     }
 
     public function testGetFilename()
     {
         $params = array(
             'area'       => 'some_area',
-            'themeModel' => $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false, false),
-            'module'     => 'Some_Module'   //It should be set in Magento_Core_Model_View_Service::extractScope
+            'themeModel' => $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false, false),
+            'module'     => 'Some_Module'   //It should be set in \Magento\Core\Model\View\Service::extractScope
                                             // but PHPUnit has problems with passing arguments by reference
         );
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $strategyMock = $this->getMock('Magento_Core_Model_Design_FileResolution_Strategy_FileInterface');
+        $strategyMock = $this->getMock('Magento\Core\Model\Design\FileResolution\Strategy\FileInterface');
         $strategyMock->expects($this->once())
             ->method('getFile')
             ->with($params['area'], $params['themeModel'], 'some_file.ext', 'Some_Module')
@@ -77,13 +77,13 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
     {
         $params = array(
             'area' => 'some_area',
-            'themeModel' => $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false, false),
+            'themeModel' => $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false, false),
             'locale' => 'some_locale'
         );
         $file = 'some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $strategyMock = $this->getMock('Magento_Core_Model_Design_FileResolution_Strategy_LocaleInterface');
+        $strategyMock = $this->getMock('Magento\Core\Model\Design\FileResolution\Strategy\LocaleInterface');
         $strategyMock->expects($this->once())
             ->method('getLocaleFile')
             ->with($params['area'], $params['themeModel'], $params['locale'], 'some_file.ext')
@@ -102,15 +102,15 @@ class Magento_Core_Model_View_FileSystemTest extends PHPUnit_Framework_TestCase
     {
         $params = array(
             'area'       => 'some_area',
-            'themeModel' => $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false, false),
+            'themeModel' => $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false, false),
             'locale'     => 'some_locale',
-            'module'     => 'Some_Module'   //It should be set in Magento_Core_Model_View_Service::extractScope
+            'module'     => 'Some_Module'   //It should be set in \Magento\Core\Model\View\Service::extractScope
                                             // but PHPUnit has problems with passing arguments by reference
         );
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $strategyMock = $this->getMock('Magento_Core_Model_Design_FileResolution_Strategy_ViewInterface');
+        $strategyMock = $this->getMock('Magento\Core\Model\Design\FileResolution\Strategy\ViewInterface');
         $strategyMock->expects($this->once())
             ->method('getViewFile')
             ->with($params['area'], $params['themeModel'], $params['locale'], 'some_file.ext', 'Some_Module')

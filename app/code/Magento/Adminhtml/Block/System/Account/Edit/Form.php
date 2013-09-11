@@ -16,12 +16,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_System_Account_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\System\Account\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected function _prepareForm()
     {
-        $userId = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId();
-        $user = Mage::getModel('Magento_User_Model_User')
+        $userId = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId();
+        $user = \Mage::getModel('\Magento\User\Model\User')
             ->load($userId);
         $user->unsetData('password');
 
@@ -78,7 +80,7 @@ class Magento_Adminhtml_Block_System_Account_Edit_Form extends Magento_Adminhtml
             'name'   => 'interface_locale',
             'label'  => __('Interface Locale'),
             'title'  => __('Interface Locale'),
-            'values' => Mage::app()->getLocale()->getTranslatedOptionLocales(),
+            'values' => \Mage::app()->getLocale()->getTranslatedOptionLocales(),
             'class'  => 'select',
         ));
 

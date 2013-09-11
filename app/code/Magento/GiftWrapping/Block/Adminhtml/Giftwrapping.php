@@ -15,7 +15,9 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\GiftWrapping\Block\Adminhtml;
+
+class Giftwrapping extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize gift wrapping management page

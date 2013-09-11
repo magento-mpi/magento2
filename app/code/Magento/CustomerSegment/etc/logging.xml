@@ -19,7 +19,7 @@
     <magento_customersegment translate="label">
         <label>Manage Segments</label>
         <expected_models>
-            <Magento_CustomerSegment_Model_Segment/>
+            <Magento\CustomerSegment\Model\Segment/>
         </expected_models>
         <actions>
             <adminhtml_customersegment_edit>
@@ -35,7 +35,7 @@
 
             <adminhtml_customersegment_match>
                 <action>refresh_data</action>
-                <post_dispatch>Magento_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch</post_dispatch>
+                <post_dispatch>\Magento\CustomerSegment\Model\Logging::postDispatchCustomerSegmentMatch</post_dispatch>
             </adminhtml_customersegment_match>
 
             <adminhtml_customersegment_delete>

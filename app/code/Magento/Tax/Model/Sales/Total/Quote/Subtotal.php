@@ -11,19 +11,21 @@
 /**
  * Calculate items and address amounts including/excluding tax
  */
-class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Tax\Model\Sales\Total\Quote;
+
+class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Tax calculation model
      *
-     * @var Magento_Tax_Model_Calculation
+     * @var \Magento\Tax\Model\Calculation
      */
     protected $_calculator = null;
 
     /**
      * Tax configuration object
      *
-     * @var Magento_Tax_Model_Config
+     * @var \Magento\Tax\Model\Config
      */
     protected $_config = null;
     protected $_helper = null;
@@ -51,7 +53,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     /**
      *  Quote store
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
@@ -68,9 +70,9 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     public function __construct()
     {
         $this->setCode('tax_subtotal');
-        $this->_helper      = Mage::helper('Magento_Tax_Helper_Data');
-        $this->_calculator  = Mage::getSingleton('Magento_Tax_Model_Calculation');
-        $this->_config      = Mage::getSingleton('Magento_Tax_Model_Config');
+        $this->_helper      = \Mage::helper('Magento\Tax\Helper\Data');
+        $this->_calculator  = \Mage::getSingleton('Magento\Tax\Model\Calculation');
+        $this->_config      = \Mage::getSingleton('Magento\Tax\Model\Config');
     }
 
     /**
@@ -78,10 +80,10 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
      * and subtotal including/excluding tax.
      * Determine discount price if needed
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Tax_Model_Sales_Total_Quote_Subtotal
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Subtotal
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $this->_store   = $address->getQuote()->getStore();
         $this->_address = $address;
@@ -142,20 +144,20 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     /**
      * Caclulate item price and row total with configured rounding level
      *
-     * @param Magento_Sales_Model_Quote_Address $address
-     * @param Magento_Sales_Model_Quote_Item_Abstract $item
-     * @return Magento_Tax_Model_Sales_Total_Quote_Subtotal
+     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return \Magento\Tax\Model\Sales\Total\Quote\Subtotal
      */
     protected function _processItem($item, $taxRequest)
     {
         switch ($this->_config->getAlgorithm($this->_store)) {
-            case Magento_Tax_Model_Calculation::CALC_UNIT_BASE:
+            case \Magento\Tax\Model\Calculation::CALC_UNIT_BASE:
                 $this->_unitBaseCalculation($item, $taxRequest);
                 break;
-            case Magento_Tax_Model_Calculation::CALC_ROW_BASE:
+            case \Magento\Tax\Model\Calculation::CALC_ROW_BASE:
                 $this->_rowBaseCalculation($item, $taxRequest);
                 break;
-            case Magento_Tax_Model_Calculation::CALC_TOTAL_BASE:
+            case \Magento\Tax\Model\Calculation::CALC_TOTAL_BASE:
                 $this->_totalBaseCalculation($item, $taxRequest);
                 break;
             default:
@@ -167,9 +169,9 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     /**
      * Calculate item price and row total including/excluding tax based on unit price rounding level
      *
-     * @param Magento_Sales_Model_Quote_Item_Abstract $item
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param \Magento\Object $request
-     * @return Magento_Tax_Model_Sales_Total_Quote_Subtotal
+     * @return \Magento\Tax\Model\Sales\Total\Quote\Subtotal
      */
     protected function _unitBaseCalculation($item, $request)
     {
@@ -279,9 +281,9 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     /**
      * Calculate item price and row total including/excluding tax based on row total price rounding level
      *
-     * @param Magento_Sales_Model_Quote_Item_Abstract $item
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param \Magento\Object $request
-     * @return Magento_Tax_Model_Sales_Total_Quote_Subtotal
+     * @return \Magento\Tax\Model\Sales\Total\Quote\Subtotal
      */
     protected function _rowBaseCalculation($item, $request)
     {
@@ -394,9 +396,9 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     /**
      * Calculate item price and row total including/excluding tax based on total price rounding level
      *
-     * @param Magento_Sales_Model_Quote_Item_Abstract $item
+     * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
      * @param \Magento\Object $request
-     * @return Magento_Tax_Model_Sales_Total_Quote_Subtotal
+     * @return \Magento\Tax\Model\Sales\Total\Quote\Subtotal
      */
     protected function _totalBaseCalculation($item, $request)
     {
@@ -591,10 +593,10 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     /**
      * Recalculate row information for item based on children calculation
      *
-     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
-     * @return  Magento_Tax_Model_Sales_Total_Quote_Subtotal
+     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Subtotal
      */
-    protected function _recalculateParent(Magento_Sales_Model_Quote_Item_Abstract $item)
+    protected function _recalculateParent(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
         $price       = 0;
         $basePrice   = 0;
@@ -628,7 +630,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     /**
      * Get request for fetching store tax rate
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
+     * @param   \Magento\Sales\Model\Quote\Address $address
      * @return  \Magento\Object
      */
     protected function _getStoreTaxRequest($address)
@@ -642,7 +644,7 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     /**
      * Get request for fetching address tax rate
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
+     * @param   \Magento\Sales\Model\Quote\Address $address
      * @return  \Magento\Object
      */
     protected function _getAddressTaxRequest($address)
@@ -659,11 +661,11 @@ class Magento_Tax_Model_Sales_Total_Quote_Subtotal extends Magento_Sales_Model_Q
     /**
      * Add row total item amount to subtotal
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @param   Magento_Sales_Model_Quote_Item_Abstract $item
-     * @return  Magento_Tax_Model_Sales_Total_Quote_Subtotal
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @param   \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return  \Magento\Tax\Model\Sales\Total\Quote\Subtotal
      */
-    protected function _addSubtotalAmount(Magento_Sales_Model_Quote_Address $address, $item)
+    protected function _addSubtotalAmount(\Magento\Sales\Model\Quote\Address $address, $item)
     {
         $address->setTotalAmount('subtotal', $address->getTotalAmount('subtotal')+$item->getRowTotal());
         $address->setBaseTotalAmount('subtotal', $address->getBaseTotalAmount('subtotal')+$item->getBaseRowTotal());

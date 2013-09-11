@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
-class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Model_Product_Attribute_Backend_Price
+namespace Magento\Weee\Model\Attribute\Backend\Weee;
+
+class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 {
     public static function getBackendModelName()
     {
-        return 'Magento_Weee_Model_Attribute_Backend_Weee_Tax';
+        return '\Magento\Weee\Model\Attribute\Backend\Weee\Tax';
     }
     /**
      * Retrieve resource model
@@ -21,13 +23,13 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_Weee_Model_Resource_Attribute_Backend_Weee_Tax');
+        return \Mage::getResourceSingleton('\Magento\Weee\Model\Resource\Attribute\Backend\Weee\Tax');
     }
 
     /**
      * Validate data
      *
-     * @param   Magento_Catalog_Model_Product $object
+     * @param   \Magento\Catalog\Model\Product $object
      * @return  this
      */
     public function validate($object)
@@ -47,7 +49,7 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
             $key1 = implode('-', array($tax['website_id'], $tax['country'], $state));
 
             if (!empty($dup[$key1])) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('We found a duplicate website, country, and state tax.')
                 );
             }
@@ -59,7 +61,7 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
     /**
      * Assign WEEE taxes to product data
      *
-     * @param   Magento_Catalog_Model_Product $object
+     * @param   \Magento\Catalog\Model\Product $object
      * @return  Magento_Catalog_Model_Product_Attribute_Backend_Weee
      */
     public function afterLoad($object)
@@ -68,7 +70,7 @@ class Magento_Weee_Model_Attribute_Backend_Weee_Tax extends Magento_Catalog_Mode
 
         foreach ($data as $i=>$row) {
             if ($data[$i]['website_id'] == 0) {
-                $rate = Mage::app()->getStore()->getBaseCurrency()->getRate(Mage::app()->getBaseCurrencyCode());
+                $rate = \Mage::app()->getStore()->getBaseCurrency()->getRate(\Mage::app()->getBaseCurrencyCode());
                 if ($rate) {
                     $data[$i]['website_value'] = $data[$i]['value']/$rate;
                 } else {

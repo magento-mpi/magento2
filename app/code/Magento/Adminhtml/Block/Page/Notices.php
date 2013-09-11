@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page_Notices extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Page;
+
+class Notices extends \Magento\Adminhtml\Block\Template
 {
 
     /**
@@ -25,7 +27,7 @@ class Magento_Adminhtml_Block_Page_Notices extends Magento_Adminhtml_Block_Templ
      */
     public function displayNoscriptNotice()
     {
-        return Mage::getStoreConfig('web/browser_capabilities/javascript');
+        return \Mage::getStoreConfig('web/browser_capabilities/javascript');
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_Adminhtml_Block_Page_Notices extends Magento_Adminhtml_Block_Templ
      */
     public function displayDemoNotice()
     {
-        return Mage::getStoreConfig('design/head/demonotice');
+        return \Mage::getStoreConfig('design/head/demonotice');
     }
 
 }

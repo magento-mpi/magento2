@@ -10,27 +10,27 @@
  */
 
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
-/** @var Magento_Catalog_Model_Product $product */
+/** @var \Magento\Catalog\Model\Product $product */
 
 $addressData = include(__DIR__ . '/address_data.php');
-$billingAddress = Mage::getModel('Magento_Sales_Model_Order_Address', array('data' => $addressData));
+$billingAddress = Mage::getModel('\Magento\Sales\Model\Order\Address', array('data' => $addressData));
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
-$payment = Mage::getModel('Magento_Sales_Model_Order_Payment');
+$payment = Mage::getModel('\Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
-/** @var Magento_Sales_Model_Order_Item $orderItem */
-$orderItem = Mage::getModel('Magento_Sales_Model_Order_Item');
+/** @var \Magento\Sales\Model\Order\Item $orderItem */
+$orderItem = Mage::getModel('\Magento\Sales\Model\Order\Item');
 $orderItem->setProductId($product->getId())->setQtyOrdered(2);
 
-/** @var Magento_Sales_Model_Order $order */
-$order = Mage::getModel('Magento_Sales_Model_Order');
+/** @var \Magento\Sales\Model\Order $order */
+$order = Mage::getModel('\Magento\Sales\Model\Order');
 $order->setIncrementId('100000001')
-    ->setState(Magento_Sales_Model_Order::STATE_PROCESSING)
+    ->setState(\Magento\Sales\Model\Order::STATE_PROCESSING)
     ->setSubtotal(100)
     ->setBaseSubtotal(100)
     ->setCustomerIsGuest(true)

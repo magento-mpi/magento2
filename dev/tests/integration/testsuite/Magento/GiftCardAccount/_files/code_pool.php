@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-$pool = Mage::getResourceModel('Magento_GiftCardAccount_Model_Resource_Pool');
+$pool = Mage::getResourceModel('\Magento\GiftCardAccount\Model\Resource\Pool');
 
 do {
     $code = 'test-code-' . mt_rand(10, 9999);

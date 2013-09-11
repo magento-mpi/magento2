@@ -15,7 +15,9 @@
  * @package    Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Template
+namespace Magento\CatalogSearch\Block\Advanced;
+
+class Result extends \Magento\Core\Block\Template
 {
     protected function _prepareLayout()
     {
@@ -35,9 +37,9 @@ class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Tem
     }
 
     public function setListOrders() {
-        $category = Mage::getSingleton('Magento_Catalog_Model_Layer')
+        $category = \Mage::getSingleton('Magento\Catalog\Model\Layer')
             ->getCurrentCategory();
-        /* @var $category Magento_Catalog_Model_Category */
+        /* @var $category \Magento\Catalog\Model\Category */
 
         $availableOrders = $category->getAvailableSortByOptions();
         unset($availableOrders['position']);
@@ -65,7 +67,7 @@ class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Tem
 
     public function getSearchModel()
     {
-        return Mage::getSingleton('Magento_CatalogSearch_Model_Advanced');
+        return \Mage::getSingleton('Magento\CatalogSearch\Model\Advanced');
     }
 
     public function getResultCount()
@@ -84,7 +86,7 @@ class Magento_CatalogSearch_Block_Advanced_Result extends Magento_Core_Block_Tem
 
     public function getFormUrl()
     {
-        return Mage::getModel('Magento_Core_Model_Url')
+        return \Mage::getModel('\Magento\Core\Model\Url')
             ->setQueryParams($this->getRequest()->getQuery())
             ->getUrl('*/*/', array('_escape' => true));
     }

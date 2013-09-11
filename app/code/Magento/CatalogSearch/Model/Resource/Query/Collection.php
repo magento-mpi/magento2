@@ -16,7 +16,9 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\CatalogSearch\Model\Resource\Query;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store for filter
@@ -31,18 +33,18 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogSearch_Model_Query', 'Magento_CatalogSearch_Model_Resource_Query');
+        $this->_init('\Magento\CatalogSearch\Model\Query', '\Magento\CatalogSearch\Model\Resource\Query');
     }
 
     /**
      * Set Store ID for filter
      *
      * @param mixed $store
-     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
      */
     public function setStoreId($store)
     {
-        if ($store instanceof Magento_Core_Model_Store) {
+        if ($store instanceof \Magento\Core\Model\Store) {
             $store = $store->getId();
         }
         $this->_storeId = $store;
@@ -63,19 +65,19 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
      * Set search query text to filter
      *
      * @param string $query
-     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
      */
     public function setQueryFilter($query)
     {
         $ifSynonymFor = $this->getConnection()
             ->getIfNullSql('synonym_for', 'query_text');
-        $this->getSelect()->reset(Zend_Db_Select::FROM)->distinct(true)
+        $this->getSelect()->reset(\Zend_Db_Select::FROM)->distinct(true)
             ->from(
                 array('main_table' => $this->getTable('catalogsearch_query')),
                 array('query'      => $ifSynonymFor, 'num_results')
             )
             ->where('num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?',
-                Mage::getResourceHelper('Magento_Core')->addLikeEscape($query, array('position' => 'start')))
+                \Mage::getResourceHelper('Magento_Core')->addLikeEscape($query, array('position' => 'start')))
             ->order('popularity ' . \Magento\DB\Select::SQL_DESC);
         if ($this->getStoreId()) {
             $this->getSelect()
@@ -88,16 +90,16 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
      * Set Popular Search Query Filter
      *
      * @param int|array $storeIds
-     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
      */
     public function setPopularQueryFilter($storeIds = null)
     {
-        $ifSynonymFor = new Zend_Db_Expr($this->getConnection()
+        $ifSynonymFor = new \Zend_Db_Expr($this->getConnection()
             ->getCheckSql("synonym_for IS NOT NULL AND synonym_for != ''", 'synonym_for', 'query_text'));
 
         $this->getSelect()
-            ->reset(Zend_Db_Select::FROM)
-            ->reset(Zend_Db_Select::COLUMNS)
+            ->reset(\Zend_Db_Select::FROM)
+            ->reset(\Zend_Db_Select::COLUMNS)
             ->distinct(true)
             ->from(
                 array('main_table' => $this->getTable('catalogsearch_query')),
@@ -108,7 +110,7 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
             $this->getSelect()->where('num_results > 0');
         }
         elseif (null === $storeIds) {
-            $this->addStoreFilter(Mage::app()->getStore()->getId());
+            $this->addStoreFilter(\Mage::app()->getStore()->getId());
             $this->getSelect()->where('num_results > 0');
         }
 
@@ -120,7 +122,7 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
     /**
      * Set Recent Queries Order
      *
-     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
      */
     public function setRecentQueryFilter()
     {
@@ -132,7 +134,7 @@ class Magento_CatalogSearch_Model_Resource_Query_Collection extends Magento_Core
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return Magento_CatalogSearch_Model_Resource_Query_Collection
+     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
      */
     public function addStoreFilter($storeIds)
     {

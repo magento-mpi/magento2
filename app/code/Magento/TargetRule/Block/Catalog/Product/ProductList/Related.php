@@ -15,8 +15,10 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Magento_TargetRule_Block_Catalog_Product_ProductList_Related
-    extends Magento_TargetRule_Block_Catalog_Product_ProductList_Abstract
+namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
+
+class Related
+    extends \Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
 {
     /**
      * Default MAP renderer type
@@ -32,7 +34,7 @@ class Magento_TargetRule_Block_Catalog_Product_ProductList_Related
      */
     public function getProductListType()
     {
-        return Magento_TargetRule_Model_Rule::RELATED_PRODUCTS;
+        return \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS;
     }
 
     /**
@@ -44,7 +46,7 @@ class Magento_TargetRule_Block_Catalog_Product_ProductList_Related
     public function getExcludeProductIds()
     {
         if (is_null($this->_excludeProductIds)) {
-            $cartProductIds = Mage::getSingleton('Magento_Checkout_Model_Cart')->getProductIds();
+            $cartProductIds = \Mage::getSingleton('Magento\Checkout\Model\Cart')->getProductIds();
             $this->_excludeProductIds = array_merge($cartProductIds, array($this->getProduct()->getEntityId()));
         }
         return $this->_excludeProductIds;

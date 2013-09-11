@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Source_Export_Format
+namespace Magento\ImportExport\Model\Source\Export;
+
+class Format
 {
     /**
      * Prepare and return array of available export file formats.
@@ -24,7 +26,7 @@ class Magento_ImportExport_Model_Source_Export_Format
      */
     public function toOptionArray()
     {
-        $formats = Magento_ImportExport_Model_Export::CONFIG_KEY_FORMATS;
-        return Magento_ImportExport_Model_Config::getModelsComboOptions($formats);
+        $formats = \Magento\ImportExport\Model\Export::CONFIG_KEY_FORMATS;
+        return \Magento\ImportExport\Model\Config::getModelsComboOptions($formats);
     }
 }

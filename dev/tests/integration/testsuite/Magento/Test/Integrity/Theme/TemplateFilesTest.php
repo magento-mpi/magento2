@@ -35,7 +35,7 @@ class Magento_Test_Integrity_Theme_TemplateFilesTest extends Magento_TestFramewo
             );
             try {
                 $templateFilename = Magento_TestFramework_Helper_Bootstrap::getObjectmanager()
-                    ->get('Magento_Core_Model_View_FileSystem')
+                    ->get('Magento\Core\Model\View\FileSystem')
                     ->getFilename($file, $params);
                 $this->assertFileExists($templateFilename);
             } catch (PHPUnit_Framework_ExpectationFailedException $e) {
@@ -54,8 +54,8 @@ class Magento_Test_Integrity_Theme_TemplateFilesTest extends Magento_TestFramewo
 
         $themes = $this->_getDesignThemes();
         foreach ($themes as $theme) {
-            /** @var Magento_Core_Model_Layout_Merge $layoutUpdate */
-            $layoutUpdate = Mage::getModel('Magento_Core_Model_Layout_Merge', array('theme' => $theme));
+            /** @var \Magento\Core\Model\Layout\Merge $layoutUpdate */
+            $layoutUpdate = Mage::getModel('\Magento\Core\Model\Layout\Merge', array('theme' => $theme));
             $layoutTemplates = $this->_getLayoutTemplates($layoutUpdate->getFileLayoutUpdatesXml());
             foreach ($layoutTemplates as $templateData) {
                 $templates[] = array_merge(array($theme->getArea(), $theme->getId()), $templateData);

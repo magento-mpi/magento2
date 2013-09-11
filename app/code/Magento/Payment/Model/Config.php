@@ -17,7 +17,9 @@
  * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Model_Config
+namespace Magento\Payment\Model;
+
+class Config
 {
     protected static $_methods;
 
@@ -30,11 +32,11 @@ class Magento_Payment_Model_Config
     public function getActiveMethods($store=null)
     {
         $methods = array();
-        $config = Mage::getStoreConfig('payment', $store);
+        $config = \Mage::getStoreConfig('payment', $store);
         foreach ($config as $code => $methodConfig) {
-            if (Mage::getStoreConfigFlag('payment/'.$code.'/active', $store)) {
+            if (\Mage::getStoreConfigFlag('payment/'.$code.'/active', $store)) {
                 if (array_key_exists('model', $methodConfig)) {
-                    $methodModel = Mage::getModel($methodConfig['model']);
+                    $methodModel = \Mage::getModel($methodConfig['model']);
                     if ($methodModel && $methodModel->getConfigData('active', $store)) {
                         $methods[$code] = $this->_getMethod($code, $methodConfig);
                     }
@@ -53,7 +55,7 @@ class Magento_Payment_Model_Config
     public function getAllMethods($store=null)
     {
         $methods = array();
-        $config = Mage::getStoreConfig('payment', $store);
+        $config = \Mage::getStoreConfig('payment', $store);
         foreach ($config as $code => $methodConfig) {
             $data = $this->_getMethod($code, $methodConfig);
             if (false !== $data) {
@@ -77,7 +79,7 @@ class Magento_Payment_Model_Config
             return false;
         }
 
-        $method = Mage::getModel($modelName);
+        $method = \Mage::getModel($modelName);
         $method->setId($code)->setStore($store);
         self::$_methods[$code] = $method;
         return self::$_methods[$code];
@@ -90,9 +92,9 @@ class Magento_Payment_Model_Config
      */
     public function getCcTypes()
     {
-        $_types = Mage::getConfig()->getNode('global/payment/cc/types')->asArray();
+        $_types = \Mage::getConfig()->getNode('global/payment/cc/types')->asArray();
 
-        uasort($_types, array('Magento_Payment_Model_Config', 'compareCcTypes'));
+        uasort($_types, array('Magento\Payment\Model\Config', 'compareCcTypes'));
 
         $types = array();
         foreach ($_types as $data) {
@@ -110,7 +112,7 @@ class Magento_Payment_Model_Config
      */
     public function getMonths()
     {
-        $data = Mage::app()->getLocale()->getTranslationList('month');
+        $data = \Mage::app()->getLocale()->getTranslationList('month');
         foreach ($data as $key => $value) {
             $monthNum = ($key < 10) ? '0'.$key : $key;
             $data[$key] = $monthNum . ' - ' . $value;

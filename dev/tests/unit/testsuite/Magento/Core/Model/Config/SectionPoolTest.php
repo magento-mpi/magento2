@@ -8,17 +8,17 @@
 class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_SectionPool
+     * @var \Magento\Core\Model\Config\SectionPool
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Config_Section_ReaderPool
+     * @var \Magento\Core\Model\Config\Section\ReaderPool
      */
     protected $_readerPoolMock;
 
     /**
-     * @var Magento_Core_Model_Config_DataFactory
+     * @var \Magento\Core\Model\Config\DataFactory
      */
     protected $_dataFactoryMock;
 
@@ -50,10 +50,10 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         $this->_readerPoolMock = $this->getMock(
-            'Magento_Core_Model_Config_Section_ReaderPool', array(), array(), '', false
+            'Magento\Core\Model\Config\Section\ReaderPool', array(), array(), '', false
         );
         $this->_dataFactoryMock = $this->getMock(
-            'Magento_Core_Model_Config_DataFactory', array('create'), array(), '', false
+            'Magento\Core\Model\Config\DataFactory', array('create'), array(), '', false
         );
         $this->_cacheMock = $this->getMock('Magento\Cache\FrontendInterface');
         $this->_cacheKey = 'customCacheId';
@@ -62,7 +62,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
         $this->_scopeCode = 'scopeCode';
         $this->_configData = array('key' => 'value');
 
-        $this->_model = new Magento_Core_Model_Config_SectionPool(
+        $this->_model = new \Magento\Core\Model\Config\SectionPool(
             $this->_readerPoolMock,
             $this->_dataFactoryMock,
             $this->_cacheMock,
@@ -71,7 +71,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @covers Magento_Core_Model_Config_SectionPool::getSection
+     * @covers \Magento\Core\Model\Config\SectionPool::getSection
      */
     public function testGetSectionCached()
     {
@@ -89,7 +89,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @covers Magento_Core_Model_Config_SectionPool::getSection
+     * @covers \Magento\Core\Model\Config\SectionPool::getSection
      */
     public function testGetSectionNotCachedCertainScope()
     {
@@ -115,7 +115,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
             ->with(
                 serialize($this->_configData),
                 $this->_cacheKey . '|' . $this->_scopeType . '|' . $this->_scopeCode,
-                array(Magento_Core_Model_Config_SectionPool::CACHE_TAG));
+                array(\Magento\Core\Model\Config\SectionPool::CACHE_TAG));
 
         $this->_dataFactoryMock->expects($this->once())
             ->method('create')
@@ -129,7 +129,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @covers Magento_Core_Model_Config_SectionPool::getSection
+     * @covers \Magento\Core\Model\Config\SectionPool::getSection
      */
     public function testGetSectionNotCachedDefaultScope()
     {
@@ -155,7 +155,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
             ->with(
                 serialize($this->_configData),
                 $this->_cacheKey . '|' . 'default' . '|' . $this->_scopeCode,
-                array(Magento_Core_Model_Config_SectionPool::CACHE_TAG));
+                array(\Magento\Core\Model\Config\SectionPool::CACHE_TAG));
 
         $this->_dataFactoryMock->expects($this->once())
             ->method('create')
@@ -169,7 +169,7 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @covers Magento_Core_Model_Config_SectionPool::getSection
+     * @covers \Magento\Core\Model\Config\SectionPool::getSection
      */
     public function testGetSectionMemoryCache()
     {
@@ -188,13 +188,13 @@ class Magento_Core_Model_Config_SectionPoolTest extends PHPUnit_Framework_TestCa
     }
 
     /**
-     * @covers Magento_Core_Model_Config_SectionPool::clean
+     * @covers \Magento\Core\Model\Config\SectionPool::clean
      */
     public function testClean()
     {
         $this->_cacheMock->expects($this->once())
             ->method('clean')
-            ->with(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(Magento_Core_Model_Config_SectionPool::CACHE_TAG));
+            ->with(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(\Magento\Core\Model\Config\SectionPool::CACHE_TAG));
 
         $this->_model->clean();
     }

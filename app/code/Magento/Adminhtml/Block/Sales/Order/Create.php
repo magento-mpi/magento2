@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Sales\Order;
+
+class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {
@@ -59,7 +61,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create extends Magento_Adminhtml_Block
         $this->_updateButton('reset', 'class', 'cancel');
         $this->_updateButton('reset', 'onclick', 'deleteConfirm(\''.$confirm.'\', \'' . $this->getCancelUrl() . '\')');
 
-        $pageTitle = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Order_Create_Header')->toHtml();
+        $pageTitle = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Order\Create\Header')->toHtml();
         if (is_object($this->getLayout()->getBlock('page-title'))) {
             $this->getLayout()->getBlock('page-title')->setPageTitle($pageTitle);
         }
@@ -73,7 +75,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create extends Magento_Adminhtml_Block
     public function getHeaderHtml()
     {
         $out = '<div id="order-header">'
-            . $this->getLayout()->createBlock('Magento_Adminhtml_Block_Sales_Order_Create_Header')->toHtml()
+            . $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sales\Order\Create\Header')->toHtml()
             . '</div>';
         return $out;
     }
@@ -97,18 +99,18 @@ class Magento_Adminhtml_Block_Sales_Order_Create extends Magento_Adminhtml_Block
     /**
      * Retrieve quote session object
      *
-     * @return Magento_Adminhtml_Model_Session_Quote
+     * @return \Magento\Adminhtml\Model\Session\Quote
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote');
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote');
     }
 
     public function getCancelUrl()
     {
         if ($this->_getSession()->getOrder()->getId()) {
             $url = $this->getUrl('*/sales_order/view', array(
-                'order_id' => Mage::getSingleton('Magento_Adminhtml_Model_Session_Quote')->getOrder()->getId()
+                'order_id' => \Mage::getSingleton('Magento\Adminhtml\Model\Session\Quote')->getOrder()->getId()
             ));
         } else {
             $url = $this->getUrl('*/*/cancel');

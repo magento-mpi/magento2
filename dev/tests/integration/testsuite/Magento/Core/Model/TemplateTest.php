@@ -17,8 +17,8 @@ class Magento_Core_Model_TemplateTest extends PHPUnit_Framework_TestCase
      */
     public function testSetDesignConfigException($config)
     {
-        // Magento_Core_Model_Template is an abstract class
-        $model = Mage::getModel('Magento_Core_Model_Email_Template');
+        // \Magento\Core\Model\Template is an abstract class
+        $model = Mage::getModel('\Magento\Core\Model\Email\Template');
         $model->setDesignConfig($config);
     }
 

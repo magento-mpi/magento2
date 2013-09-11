@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option */ ?>
+<?php /** @var $this \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Option */ ?>
 <?php echo $this->getTemplatesHtml() ?>
 <script id="custom-option-base-template" type="text/x-jquery-tmpl">
     <div class="fieldset-wrapper collapsable-wrapper opened" id="option_${id}">
@@ -80,7 +80,7 @@
 <script type="text/javascript">
 jQuery(function ($) {
     var fieldSet = $('#Custom_Options');
-    fieldSet.customOptions(<?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode(
+    fieldSet.customOptions(<?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode(
         array(
             'fieldId' => $this->getFieldId(),
             'productGridUrl' => $this->getProductGridUrl(),

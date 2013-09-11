@@ -20,7 +20,9 @@
  * @method string getStyle()
  * @method array getDataAttribute()
  */
-class Magento_Backend_Block_Widget_Button_Split extends Magento_Backend_Block_Widget
+namespace Magento\Backend\Block\Widget\Button;
+
+class Split extends \Magento\Backend\Block\Widget
 {
     /**
      * Define block template
@@ -232,8 +234,8 @@ class Magento_Backend_Block_Widget_Button_Split extends Magento_Backend_Block_Wi
      */
     protected function _getAttributesString($attributes)
     {
-        /** @var $helper Magento_Backend_Helper_Data */
-        $helper = $this->helper('Magento_Backend_Helper_Data');
+        /** @var $helper \Magento\Backend\Helper\Data */
+        $helper = $this->helper('\Magento\Backend\Helper\Data');
 
         $html = array();
         foreach ($attributes as $attributeKey => $attributeValue) {

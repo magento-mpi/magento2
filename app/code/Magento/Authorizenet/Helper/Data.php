@@ -15,7 +15,9 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Authorizenet\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Return URL for admin area
@@ -26,7 +28,7 @@ class Magento_Authorizenet_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAdminUrl($route, $params)
     {
-        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl($route, $params);
+        return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl($route, $params);
     }
 
     /**
@@ -38,10 +40,10 @@ class Magento_Authorizenet_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function _getUrl($route, $params = array())
     {
-        $params['_type'] = Magento_Core_Model_Store::URL_TYPE_LINK;
+        $params['_type'] = \Magento\Core\Model\Store::URL_TYPE_LINK;
         if (isset($params['is_secure'])) {
             $params['_secure'] = (bool)$params['is_secure'];
-        } elseif (Mage::app()->getStore()->isCurrentlySecure()) {
+        } elseif (\Mage::app()->getStore()->isCurrentlySecure()) {
             $params['_secure'] = true;
         }
         return parent::_getUrl($route, $params);
@@ -140,7 +142,7 @@ class Magento_Authorizenet_Helper_Data extends Magento_Core_Helper_Abstract
             case 'sales_order_create':
             case 'sales_order_edit':
                 $route = 'adminhtml/sales_order/view';
-                $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($params['x_invoice_num']);
+                $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($params['x_invoice_num']);
                 $param['order_id'] = $order->getId();
                 return $this->getAdminUrl($route, $param);
 
@@ -159,16 +161,16 @@ class Magento_Authorizenet_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getControllerName()
     {
-        return Mage::app()->getFrontController()->getRequest()->getControllerName();
+        return \Mage::app()->getFrontController()->getRequest()->getControllerName();
     }
 
     /**
      * Update all child and parent order's edit increment numbers.
      * Needed for Admin area.
      *
-     * @param Magento_Sales_Model_Order $order
+     * @param \Magento\Sales\Model\Order $order
      */
-    public function updateOrderEditIncrements(Magento_Sales_Model_Order $order)
+    public function updateOrderEditIncrements(\Magento\Sales\Model\Order $order)
     {
         if ($order->getId() && $order->getOriginalIncrementId()) {
             $collection = $order->getCollection();

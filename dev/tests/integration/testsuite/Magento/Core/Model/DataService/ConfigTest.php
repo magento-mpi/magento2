@@ -10,33 +10,33 @@
 class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_DataService_Config
+     * @var \Magento\Core\Model\DataService\Config
      */
     protected $_config;
 
     public function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Dir $dirs */
+        /** @var \Magento\Core\Model\Dir $dirs */
         $dirs = $objectManager->create(
-            'Magento_Core_Model_Dir',
+            '\Magento\Core\Model\Dir',
             array(
                 'baseDir' => BP,
                 'dirs' => array(
-                    Magento_Core_Model_Dir::MODULES => __DIR__ . '/LayoutTest',
-                    Magento_Core_Model_Dir::CONFIG => __DIR__ . '/LayoutTest',
+                    \Magento\Core\Model\Dir::MODULES => __DIR__ . '/LayoutTest',
+                    \Magento\Core\Model\Dir::CONFIG => __DIR__ . '/LayoutTest',
                 )
             )
         );
 
         $moduleList = $objectManager->create(
-            'Magento_Core_Model_ModuleList',
+            '\Magento\Core\Model\ModuleList',
             array(
                 'reader' => $objectManager->create(
-                    'Magento_Core_Model_Module_Declaration_Reader_Filesystem',
+                    '\Magento\Core\Model\Module\Declaration\Reader\Filesystem',
                     array(
                         'fileResolver' => $objectManager->create(
-                            'Magento_Core_Model_Module_Declaration_FileResolver',
+                            '\Magento\Core\Model\Module\Declaration\FileResolver',
                             array(
                                 'applicationDirs' => $dirs
                             )
@@ -47,19 +47,19 @@ class Magento_Core_Model_DataService_ConfigTest extends PHPUnit_Framework_TestCa
             )
         );
 
-        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
+        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $objectManager->create(
-            'Magento_Core_Model_Config_Modules_Reader',
+            '\Magento\Core\Model\Config\Modules\Reader',
             array(
                 'dirs' => $dirs,
                 'moduleList' => $moduleList
             )
         );
 
-        /** @var Magento_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
-        $dsCfgReaderFactory = $objectManager->create('Magento_Core_Model_DataService_Config_Reader_Factory');
+        /** @var \Magento\Core\Model\DataService\Config\Reader\Factory $dsCfgReaderFactory */
+        $dsCfgReaderFactory = $objectManager->create('Magento\Core\Model\DataService\Config\Reader\Factory');
 
-        $this->_config = new Magento_Core_Model_DataService_Config($dsCfgReaderFactory, $moduleReader);
+        $this->_config = new \Magento\Core\Model\DataService\Config($dsCfgReaderFactory, $moduleReader);
     }
 
     public function testGetClassByAliasOverride()

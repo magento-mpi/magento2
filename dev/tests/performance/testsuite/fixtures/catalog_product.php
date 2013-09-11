@@ -10,9 +10,9 @@
  */
 
 // Extract product set id
-$productResource = Mage::getModel('Magento_Catalog_Model_Product');
+$productResource = Mage::getModel('\Magento\Catalog\Model\Product');
 $entityType = $productResource->getResource()->getEntityType();
-$sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+$sets = Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
     ->setEntityTypeFilter($entityType->getId())
     ->load();
 
@@ -26,7 +26,7 @@ if (!$setId) {
 }
 
 // Create product
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setAttributeSetId($setId)
     ->setWebsiteIds(array(1))
@@ -36,16 +36,16 @@ $product->setTypeId('simple')
     ->setDescription('Product 1 Description')
     ->setSku('product_1')
     ->setPrice(10)
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->setTaxClassId(0)
     ->save()
 ;
 
-$stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+$stockItem = Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
 $stockItem->setProductId($product->getId())
     ->setTypeId($product->getTypeId())
-    ->setStockId(Magento_CatalogInventory_Model_Stock::DEFAULT_STOCK_ID)
+    ->setStockId(\Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID)
     ->setIsInStock(1)
     ->setQty(10000)
     ->setUseConfigMinQty(1)

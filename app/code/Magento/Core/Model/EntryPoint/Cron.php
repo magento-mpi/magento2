@@ -5,22 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_EntryPoint_Cron extends Magento_Core_Model_EntryPointAbstract
+namespace Magento\Core\Model\EntryPoint;
+
+class Cron extends \Magento\Core\Model\EntryPointAbstract
 {
     /**
      * Process request to application
      */
     protected function _processRequest()
     {
-        /** @var $app Magento_Core_Model_App */
-        $app = $this->_objectManager->get('Magento_Core_Model_App');
+        /** @var $app \Magento\Core\Model\App */
+        $app = $this->_objectManager->get('Magento\Core\Model\App');
         $app->setUseSessionInUrl(false);
         $app->requireInstalledInstance();
 
-        /** @var $eventManager Magento_Core_Model_Event_Manager */
-        $eventManager = $this->_objectManager->get('Magento_Core_Model_Event_Manager');
-        /** @var Magento_Core_Model_Config_Scope $configScope */
-        $configScope = $this->_objectManager->get('Magento_Core_Model_Config_Scope');
+        /** @var $eventManager \Magento\Core\Model\Event\Manager */
+        $eventManager = $this->_objectManager->get('Magento\Core\Model\Event\Manager');
+        /** @var \Magento\Core\Model\Config\Scope $configScope */
+        $configScope = $this->_objectManager->get('Magento\Core\Model\Config\Scope');
         $configScope->setCurrentScope('crontab');
         $eventManager->dispatch('default');
     }

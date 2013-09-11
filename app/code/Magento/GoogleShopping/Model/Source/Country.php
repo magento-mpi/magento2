@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Source_Country
+namespace Magento\GoogleShopping\Model\Source;
+
+class Country
 {
     /**
      * Retrieve option array with allowed countries
@@ -24,7 +26,7 @@ class Magento_GoogleShopping_Model_Source_Country
      */
     public function toOptionArray()
     {
-        $_allowed = Mage::getSingleton('Magento_GoogleShopping_Model_Config')->getAllowedCountries();
+        $_allowed = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')->getAllowedCountries();
         $result = array();
         foreach ($_allowed as $iso => $info) {
             $result[] = array('value' => $iso, 'label' => $info['name']);

@@ -11,7 +11,9 @@
 /**
  * Command to update menu item data
  */
-class Magento_Backend_Model_Menu_Builder_Command_Update extends Magento_Backend_Model_Menu_Builder_CommandAbstract
+namespace Magento\Backend\Model\Menu\Builder\Command;
+
+class Update extends \Magento\Backend\Model\Menu\Builder\CommandAbstract
 {
     /**
      * Update item data

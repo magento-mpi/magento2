@@ -15,7 +15,7 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-/** @var $installer Magento_Core_Model_Resource_Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $installer->startSetup();

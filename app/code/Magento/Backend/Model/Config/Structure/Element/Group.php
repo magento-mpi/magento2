@@ -8,33 +8,35 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_Structure_Element_Group
-    extends Magento_Backend_Model_Config_Structure_Element_CompositeAbstract
+namespace Magento\Backend\Model\Config\Structure\Element;
+
+class Group
+    extends \Magento\Backend\Model\Config\Structure\Element\CompositeAbstract
 {
     /**
      * Group clone model factory
      *
-     * @var Magento_Backend_Model_Config_Clone_Factory
+     * @var \Magento\Backend\Model\Config\Clone\Factory
      */
     protected $_cloneModelFactory;
 
     /**
      *
-     * @var Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper
+     * @var \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper
      */
     protected $_dependencyMapper;
 
     /**
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Backend_Model_Config_Structure_Element_Iterator_Field $childrenIterator
-     * @param Magento_Backend_Model_Config_Clone_Factory $cloneModelFactory
-     * @param Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Backend\Model\Config\Structure\Element\Iterator\Field $childrenIterator
+     * @param \Magento\Backend\Model\Config\Clone\Factory $cloneModelFactory
+     * @param \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper $dependencyMapper
      */
     public function __construct(
-        Magento_Core_Model_App $application,
-        Magento_Backend_Model_Config_Structure_Element_Iterator_Field $childrenIterator,
-        Magento_Backend_Model_Config_Clone_Factory $cloneModelFactory,
-        Magento_Backend_Model_Config_Structure_Element_Dependency_Mapper $dependencyMapper
+        \Magento\Core\Model\App $application,
+        \Magento\Backend\Model\Config\Structure\Element\Iterator\Field $childrenIterator,
+        \Magento\Backend\Model\Config\Clone\Factory $cloneModelFactory,
+        \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper $dependencyMapper
     ) {
         parent::__construct($application, $childrenIterator);
         $this->_cloneModelFactory = $cloneModelFactory;
@@ -54,12 +56,12 @@ class Magento_Backend_Model_Config_Structure_Element_Group
     /**
      * Retrieve clone model
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function getCloneModel()
     {
         if (!isset($this->_data['clone_model']) || !$this->_data['clone_model']) {
-            Mage::throwException('Config form fieldset clone model required to be able to clone fields');
+            \Mage::throwException('Config form fieldset clone model required to be able to clone fields');
         }
         return $this->_cloneModelFactory->create($this->_data['clone_model']);
     }

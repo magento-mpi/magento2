@@ -18,8 +18,8 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testCreate()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_FRONTEND)
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         /** Prepare data. */
         $order = $this->_getFixtureOrder();
@@ -44,12 +44,12 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
         $this->assertGreaterThan(0, (int)$newInvoiceId, 'Invoice was not created.');
 
         /** Ensure that invoice was created. */
-        /** @var Magento_Sales_Model_Order $invoicedOrder */
-        $invoicedOrder = Mage::getModel('Magento_Sales_Model_Order');
+        /** @var \Magento\Sales\Model\Order $invoicedOrder */
+        $invoicedOrder = Mage::getModel('\Magento\Sales\Model\Order');
         $invoicedOrder->loadByIncrementId($order->getIncrementId());
         $invoiceCollection = $invoicedOrder->getInvoiceCollection();
         $this->assertCount(1, $invoiceCollection->getItems(), 'Invoice was not created.');
-        /** @var Magento_Sales_Model_Order_Invoice $createdInvoice */
+        /** @var \Magento\Sales\Model\Order\Invoice $createdInvoice */
         $createdInvoice = $invoiceCollection->getFirstItem();
         $this->assertEquals(
             $createdInvoice->getIncrementId(),
@@ -99,7 +99,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testAddComment()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         /** Prepare data. */
         $commentText = "Test invoice comment.";
 
@@ -117,10 +117,10 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
         $this->assertTrue($isAdded, "Comment was not added to the invoice.");
 
         /** Verify that comment was actually added. */
-        /** @var Magento_Sales_Model_Resource_Order_Invoice_Comment_Collection $commentsCollection */
+        /** @var \Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection $commentsCollection */
         $commentsCollection = $this->_getFixtureInvoice()->getCommentsCollection(true);
         $this->assertCount(1, $commentsCollection->getItems(), "There must be exactly 1 invoice comment.");
-        /** @var Magento_Sales_Model_Order_Invoice_Comment $createdComment */
+        /** @var \Magento\Sales\Model\Order\Invoice\Comment $createdComment */
         $createdComment = $commentsCollection->getFirstItem();
         $this->assertEquals($commentText, $createdComment->getComment(), 'Invoice comment text is invalid.');
     }
@@ -158,7 +158,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
     {
         /** Prepare data. Make invoice voidable. */
         $invoiceBefore = $this->_getFixtureInvoice();
-        $invoiceBefore->setState(Magento_Sales_Model_Order_Invoice::STATE_PAID)->setCanVoidFlag(true)->save();
+        $invoiceBefore->setState(\Magento\Sales\Model\Order\Invoice::STATE_PAID)->setCanVoidFlag(true)->save();
         /** Check if invoice can be voided via API. */
         $this->assertTrue($invoiceBefore->canVoid(), "Invoice fixture cannot be voided.");
 
@@ -196,7 +196,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
         /** Ensure that invoice was actually cancelled. */
         $invoiceAfter = $this->_getFixtureInvoice();
         $this->assertEquals(
-            Magento_Sales_Model_Order_Invoice::STATE_CANCELED,
+            \Magento\Sales\Model\Order\Invoice::STATE_CANCELED,
             $invoiceAfter->getState(),
             "Invoice was not cancelled."
         );
@@ -207,14 +207,14 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      *
      * This method reloads data and creates new object with each call.
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     protected function _getFixtureInvoice()
     {
         $order = $this->_getFixtureOrder();
         $invoiceCollection = $order->getInvoiceCollection();
         $this->assertCount(1, $invoiceCollection->getItems(), 'There must be exactly 1 invoice assigned to the order.');
-        /** @var Magento_Sales_Model_Order_Invoice $invoice */
+        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
         $invoice = $invoiceCollection->getFirstItem();
         return $invoice;
     }
@@ -224,13 +224,13 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      *
      * This method reloads data and creates new object with each call.
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     protected function _getFixtureOrder()
     {
         $orderIncrementId = '100000001';
-        /** @var Magento_Sales_Model_Order $order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = Mage::getModel('\Magento\Sales\Model\Order');
         $order->loadByIncrementId($orderIncrementId);
         return $order;
     }
@@ -244,7 +244,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testAutoIncrementType()
     {
-        /** @var $quote Magento_Sales_Model_Quote */
+        /** @var $quote \Magento\Sales\Model\Quote */
         $order = Mage::registry('order2');
         $incrementId = $order->getIncrementId();
 
@@ -278,7 +278,7 @@ class Magento_Sales_Model_Order_Invoice_ApiTest extends PHPUnit_Framework_TestCa
      */
     public function testListWithFilters()
     {
-        /** @var $invoice Magento_Sales_Model_Order_Invoice */
+        /** @var $invoice \Magento\Sales\Model\Order\Invoice */
         $invoice = Mage::registry('invoice');
 
         $filters = array(

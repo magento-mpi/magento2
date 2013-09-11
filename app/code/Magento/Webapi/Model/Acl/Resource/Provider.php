@@ -5,16 +5,18 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Webapi_Model_Acl_Resource_Provider extends  \Magento\Acl\Resource\Provider
-    implements Magento_Webapi_Model_Acl_Resource_ProviderInterface
+namespace Magento\Webapi\Model\Acl\Resource;
+
+class Provider extends  \Magento\Acl\Resource\Provider
+    implements \Magento\Webapi\Model\Acl\Resource\ProviderInterface
 {
     /**
-     * @param Magento_Webapi_Model_Acl_Resource_Config_Reader_Filesystem $configReader
+     * @param \Magento\Webapi\Model\Acl\Resource\Config\Reader\Filesystem $configReader
      * @param \Magento\Config\ScopeInterface $scope
      * @param \Magento\Acl\Resource\TreeBuilder $resourceTreeBuilder
      */
     public function __construct(
-        Magento_Webapi_Model_Acl_Resource_Config_Reader_Filesystem $configReader,
+        \Magento\Webapi\Model\Acl\Resource\Config\Reader\Filesystem $configReader,
         \Magento\Config\ScopeInterface $scope,
         \Magento\Acl\Resource\TreeBuilder $resourceTreeBuilder
     ) {

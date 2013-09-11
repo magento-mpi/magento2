@@ -15,13 +15,15 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab;
+
+class General extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Create form. Fieldset are being added in child blocks
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General
      */
     protected function _prepareForm()
     {
@@ -29,7 +31,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General extends Magento_Adminhtml
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
-        $model = Mage::registry('current_rma');
+        $model = \Mage::registry('current_rma');
 
         if ($model) {
             $form->setValues($model->getData());

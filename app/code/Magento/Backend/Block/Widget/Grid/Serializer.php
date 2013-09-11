@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Template
+namespace Magento\Backend\Block\Widget\Grid;
+
+class Serializer extends \Magento\Core\Block\Template
 {
 
     /**
@@ -28,7 +30,7 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
     /**
      * Set serializer template
      *
-     * @return Magento_Backend_Block_Widget_Grid_Serializer
+     * @return \Magento\Backend\Block\Widget\Grid\Serializer
      */
     public function _construct()
     {
@@ -63,7 +65,7 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
     public function getColumnInputNames($asJSON = false)
     {
         if ($asJSON) {
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($this->_inputsToSerialize);
+            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($this->_inputsToSerialize);
         }
         return $this->_inputsToSerialize;
     }
@@ -81,7 +83,7 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
         } elseif (!empty($this->_inputsToSerialize)) {
             return '{}';
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
     }
 
 
@@ -93,7 +95,7 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
      * Also use reload param name for saving grid checked boxes states
      *
      *
-     * @param Magento_Backend_Block_Widget_Grid | string $grid grid object or grid block name
+     * @param \Magento\Backend\Block\Widget\Grid | string $grid grid object or grid block name
      * @param string $callback block method  to retrieve data to serialize
      * @param string $hiddenInputName hidden input name where serialized data will be store
      * @param string $reloadParamName name of request parameter that will be used to save setted data while reload grid
@@ -103,7 +105,7 @@ class Magento_Backend_Block_Widget_Grid_Serializer extends Magento_Core_Block_Te
         if (is_string($grid)) {
             $grid = $this->getLayout()->getBlock($grid);
         }
-        if ($grid instanceof Magento_Backend_Block_Widget_Grid) {
+        if ($grid instanceof \Magento\Backend\Block\Widget\Grid) {
             $this->setGridBlock($grid)
                  ->setInputElementName($hiddenInputName)
                  ->setReloadParamName($reloadParamName)

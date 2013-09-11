@@ -8,17 +8,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */ 
-class Magento_Core_Model_Config_Resource
+namespace Magento\Core\Model\Config;
+
+class Resource
 {
     /**
-     * @var Magento_Core_Model_ConfigInterface
+     * @var \Magento\Core\Model\ConfigInterface
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Model_ConfigInterface $config
+     * @param \Magento\Core\Model\ConfigInterface $config
      */
-    public function __construct(Magento_Core_Model_ConfigInterface $config)
+    public function __construct(\Magento\Core\Model\ConfigInterface $config)
     {
         $this->_config = $config;
     }
@@ -26,9 +28,9 @@ class Magento_Core_Model_Config_Resource
     /**
      * Set application config
      *
-     * @param Magento_Core_Model_ConfigInterface $config
+     * @param \Magento\Core\Model\ConfigInterface $config
      */
-    public function setConfig(Magento_Core_Model_ConfigInterface $config)
+    public function setConfig(\Magento\Core\Model\ConfigInterface $config)
     {
         $this->_config = $config;
     }
@@ -101,7 +103,7 @@ class Magento_Core_Model_Config_Resource
             $config        = $this->getResourceConnectionConfig($setupResource);
         }
         if (!$config) {
-            $config = $this->getResourceConnectionConfig(Magento_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+            $config = $this->getResourceConnectionConfig(\Magento\Core\Model\Resource::DEFAULT_SETUP_RESOURCE);
         }
 
         return (string) $config->model;

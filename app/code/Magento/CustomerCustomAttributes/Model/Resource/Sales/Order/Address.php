@@ -16,15 +16,17 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Model_Resource_Sales_Order_Address
-    extends Magento_CustomerCustomAttributes_Model_Resource_Sales_Address_Abstract
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Order;
+
+class Address
+    extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
 {
     /**
      * Main entity resource model name
      *
      * @var string
      */
-    protected $_parentResourceModelName = 'Magento_Sales_Model_Resource_Order_Address';
+    protected $_parentResourceModelName = '\Magento\Sales\Model\Resource\Order\Address';
 
     /**
      * Initializes resource

@@ -11,7 +11,9 @@
 /**
  * Gift registry custom attribute processor model
  */
-class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_Abstract
+namespace Magento\GiftRegistry\Model\Attribute;
+
+class Processor extends \Magento\Core\Model\AbstractModel
 {
     const XML_PROTOTYPE_NODE  = 'prototype';
     const XML_REGISTRY_NODE   = 'registry';
@@ -20,7 +22,7 @@ class Magento_GiftRegistry_Model_Attribute_Processor extends Magento_Core_Model_
     /**
      * Convert attributes data to xml
      *
-     * @param Magento_GiftRegistry_Model_Type $type
+     * @param \Magento\GiftRegistry\Model\Type $type
      * @return string
      */
     public function processData($type)

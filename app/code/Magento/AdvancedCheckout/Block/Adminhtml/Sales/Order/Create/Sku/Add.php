@@ -15,8 +15,10 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Sales_Order_Create_Sku_Add
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sales\Order\Create\Sku;
+
+class Add
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
 {
     /**
      * Returns JavaScript variable name of AdminCheckout or AdminOrder instance

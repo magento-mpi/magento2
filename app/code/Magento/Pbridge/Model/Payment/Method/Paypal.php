@@ -16,26 +16,28 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_Direct
+namespace Magento\Pbridge\Model\Payment\Method;
+
+class Paypal extends \Magento\Paypal\Model\Direct
 {
     /**
      * Form block type for the frontend
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento_Pbridge_Block_Checkout_Payment_Paypal';
+    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Paypal';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Paypal';
+    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal';
 
     /**
      * Payment Bridge Payment Method Instance
      *
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
 
@@ -44,7 +46,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
      *
      * @var $_proType string
      */
-    protected $_proType = 'Magento_Pbridge_Model_Payment_Method_Paypal_Pro';
+    protected $_proType = '\Magento\Pbridge\Model\Payment\Method\Paypal\Pro';
 
     public function __construct($params = array())
     {
@@ -65,12 +67,12 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
     /**
      * Return Payment Bridge method instance
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -105,7 +107,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -125,19 +127,19 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        return \Mage::getStoreConfig($path, $storeId);
     }
 
     /**
      * Check whether payment method can be used
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
     {
         return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(Magento_Paypal_Model_Config::METHOD_WPP_DIRECT);
+            && $this->_pro->getConfig()->isMethodAvailable(\Magento\Paypal\Model\Config::METHOD_WPP_DIRECT);
     }
 
     /**
@@ -147,7 +149,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
      */
     public function getFormBlockType()
     {
-        return Mage::app()->getStore()->isAdmin() ?
+        return \Mage::app()->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }
@@ -155,7 +157,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
     /**
      * Prepare info instance for save
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Paypal
+     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     public function prepareSave()
     {
@@ -172,7 +174,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
     /**
      * Validate payment method information object
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Paypal
+     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
      */
     public function validate()
     {
@@ -225,7 +227,7 @@ class Magento_Pbridge_Model_Payment_Method_Paypal extends Magento_Paypal_Model_D
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Magento_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         parent::setStore($store);
         return $this;
     }

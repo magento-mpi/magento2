@@ -15,7 +15,9 @@
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Stock_Item_Api extends Magento_Catalog_Model_Api_Resource
+namespace Magento\CatalogInventory\Model\Stock\Item;
+
+class Api extends \Magento\Catalog\Model\Api\Resource
 {
     public function __construct()
     {
@@ -28,7 +30,7 @@ class Magento_CatalogInventory_Model_Stock_Item_Api extends Magento_Catalog_Mode
             $productIds = array($productIds);
         }
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product');
 
         foreach ($productIds as &$productId) {
             if ($newId = $product->getIdBySku($productId)) {
@@ -36,7 +38,7 @@ class Magento_CatalogInventory_Model_Stock_Item_Api extends Magento_Catalog_Mode
             }
         }
 
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')
+        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')
             ->getCollection()
             ->setFlag('require_stock_items', true)
             ->addFieldToFilter('entity_id', array('in'=>$productIds));
@@ -56,4 +58,4 @@ class Magento_CatalogInventory_Model_Stock_Item_Api extends Magento_Catalog_Mode
 
         return $result;
     }
-} // Class Magento_CatalogInventory_Model_Stock_Item_Api End
+} // Class \Magento\CatalogInventory\Model\Stock\Item\Api End

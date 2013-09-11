@@ -12,7 +12,7 @@
 class Magento_Backend_Block_System_Config_Form_Field_Select_AllowspecificTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_System_Config_Form_Field_Select_Allowspecific
+     * @var \Magento\Backend\Block\System\Config\Form\Field\Select\Allowspecific
      */
     protected $_object;
 
@@ -23,7 +23,7 @@ class Magento_Backend_Block_System_Config_Form_Field_Select_AllowspecificTest ex
 
     protected function setUp()
     {
-        $this->_object = new Magento_Backend_Block_System_Config_Form_Field_Select_Allowspecific();
+        $this->_object = new \Magento\Backend\Block\System\Config\Form\Field\Select\Allowspecific();
         $this->_object->setData('html_id', 'spec_element');
         $this->_formMock = $this->getMock('Magento\Data\Form',
             array('getHtmlIdPrefix', 'getHtmlIdSuffix', 'getElement'),

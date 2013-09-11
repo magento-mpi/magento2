@@ -15,7 +15,9 @@
  * @package    Magento_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Block_Order_Status extends Magento_Core_Block_Template
+namespace Magento\Rss\Block\Order;
+
+class Status extends \Magento\Core\Block\Template
 {
     protected function _construct()
     {
@@ -28,20 +30,20 @@ class Magento_Rss_Block_Order_Status extends Magento_Core_Block_Template
 
     protected function _toHtml()
     {
-        $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
-        $order = Mage::registry('current_order');
+        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
+        $order = \Mage::registry('current_order');
         if (!$order) {
             return '';
         }
         $title = __('Order # %1 Notification(s)', $order->getIncrementId());
-        $newurl = Mage::getUrl('sales/order/view',array('order_id' => $order->getId()));
+        $newurl = \Mage::getUrl('sales/order/view',array('order_id' => $order->getId()));
         $data = array('title' => $title,
                 'description' => $title,
                 'link'        => $newurl,
                 'charset'     => 'UTF-8',
                 );
         $rssObj->_addHeader($data);
-        $resourceModel = Mage::getResourceModel('Magento_Rss_Model_Resource_Order');
+        $resourceModel = \Mage::getResourceModel('\Magento\Rss\Model\Resource\Order');
         $results = $resourceModel->getAllCommentCollection($order->getId());
         if($results){
             foreach($results as $result){
@@ -58,7 +60,7 @@ class Magento_Rss_Block_Order_Status extends Magento_Core_Block_Template
                 __('Comment: %1<br/>',$result['comment']).
                 '</p>'
                 ;
-                $url = Mage::getUrl('sales/order/'.$urlAppend,array('order_id' => $order->getId()));
+                $url = \Mage::getUrl('sales/order/'.$urlAppend,array('order_id' => $order->getId()));
                 $data = array(
                     'title'         => $title,
                     'link'          => $url,
@@ -68,7 +70,7 @@ class Magento_Rss_Block_Order_Status extends Magento_Core_Block_Template
             }
         }
         $title = __('Order #%1 created at %2', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
-        $url = Mage::getUrl('sales/order/view',array('order_id' => $order->getId()));
+        $url = \Mage::getUrl('sales/order/view',array('order_id' => $order->getId()));
         $description = '<p>'.
             __('Current Status: %1<br/>',$order->getStatusLabel()).
             __('Total: %1<br/>',$order->formatPrice($order->getGrandTotal())).

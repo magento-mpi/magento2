@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Item_Attribute_Source_Status extends Magento_Rma_Model_Rma_Source_Status
+namespace Magento\Rma\Model\Item\Attribute\Source;
+
+class Status extends \Magento\Rma\Model\Rma\Source\Status
 {
     /**
      * Get available states keys for entities

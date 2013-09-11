@@ -15,7 +15,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Suggestions
+namespace Magento\Search\Model;
+
+class Suggestions
 {
     /**
      * Retrieve search suggestions
@@ -24,7 +26,7 @@ class Magento_Search_Model_Suggestions
      */
     public function getSearchSuggestions()
     {
-        return Mage::getSingleton('Magento_Search_Model_Search_Layer')
+        return \Mage::getSingleton('Magento\Search\Model\Search\Layer')
             ->getProductCollection()
             ->getSuggestionsData();
     }

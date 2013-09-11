@@ -16,12 +16,14 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Model_Resource_User_Locked_Collection extends Magento_User_Model_Resource_User_Collection
+namespace Magento\User\Model\Resource\User\Locked;
+
+class Collection extends \Magento\User\Model\Resource\User\Collection
 {
     /**
      * Collection Init Select
      *
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     protected function _initSelect()
     {

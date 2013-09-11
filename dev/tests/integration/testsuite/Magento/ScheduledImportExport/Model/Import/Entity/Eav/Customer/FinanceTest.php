@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance
+ * Test class for \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
  */
 class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      */
     protected function tearDown()
     {
-        /** @var $testWebsite Magento_Core_Model_Website */
+        /** @var $testWebsite \Magento\Core\Model\Website */
         $testWebsite = Mage::registry('Magento_ScheduledImportExport_Model_Website');
         if ($testWebsite) {
             // Clear test website info from application cache.
@@ -33,10 +33,10 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      * @magentoDataFixture Magento/ScheduledImportExport/_files/customer_finance_all_cases.php
      * @magentoDataFixture Magento/ScheduledImportExport/_files/website.php
      *
-     * @covers Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::_importData
-     * @covers Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::_updateRewardPoints
-     * @covers Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::_updateCustomerBalance
-     * @covers Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::_getComment
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateRewardPoints
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateCustomerBalance
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_getComment
      */
     public function testImportData()
     {
@@ -44,13 +44,13 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
          * Try to get test website instance,
          * in this case test website will be added into protected property of Application instance class.
          */
-        /** @var $testWebsite Magento_Core_Model_Website */
+        /** @var $testWebsite \Magento\Core\Model\Website */
         $testWebsite = Mage::registry('Magento_ScheduledImportExport_Model_Website');
         Mage::app()->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
         $websiteCodes = array();
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach (Mage::app()->getWebsites() as $website) {
             $websiteCodes[$website->getId()] = $website->getCode();
         }
@@ -59,33 +59,33 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         $user = new \Magento\Object(array(
             'username' => $userName
         ));
-        /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        /** @var $session \Magento\Backend\Model\Auth\Session */
+        $session = Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
 
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
 
-        $source = new Magento_ImportExport_Model_Import_Source_Csv($pathToCsvFile);
-        $model = Mage::getModel('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile);
+        $model = Mage::getModel('\Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
         $model->setParameters(
-            array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
+            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE)
         );
         $model->setSource($source);
         $model->validateData();
         $model->importData();
 
         $rewardPointsKey =
-            Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
+            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
         $customerBalanceKey =
-            Magento_ScheduledImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
+            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
 
-        $customerCollection = Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
-        /** @var $customer Magento_Customer_Model_Customer */
+        $customerCollection = Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection');
+        /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customerCollection as $customer) {
-            $rewardCollection = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
+            $rewardCollection = Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward\Collection');
             $rewardCollection->addFieldToFilter('customer_id', $customer->getId());
-            /** @var $rewardPoints Magento_Reward_Model_Reward */
+            /** @var $rewardPoints \Magento\Reward\Model\Reward */
             foreach ($rewardCollection as $rewardPoints) {
                 $websiteCode = $websiteCodes[$rewardPoints->getWebsiteId()];
                 $expected = $expectedFinanceData[$customer->getEmail()][$websiteCode][$rewardPointsKey];
@@ -99,9 +99,9 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
                 );
             }
 
-            $customerBalance = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance_Collection');
+            $customerBalance = Mage::getResourceModel('\Magento\CustomerBalance\Model\Resource\Balance\Collection');
             $customerBalance->addFieldToFilter('customer_id', $customer->getId());
-            /** @var $balance Magento_CustomerBalance_Model_Balance */
+            /** @var $balance \Magento\CustomerBalance\Model\Balance */
             foreach ($customerBalance as $balance) {
                 $websiteCode = $websiteCodes[$balance->getWebsiteId()];
                 $expected = $expectedFinanceData[$customer->getEmail()][$websiteCode][$customerBalanceKey];
@@ -122,32 +122,32 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      *
      * @magentoDataFixture Magento/ScheduledImportExport/_files/customers_for_finance_import_delete.php
      *
-     * @covers Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::_importData
-     * @covers Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::_deleteRewardPoints
-     * @covers Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::_deleteCustomerBalance
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_deleteRewardPoints
+     * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_deleteCustomerBalance
      */
     public function testImportDataDelete()
     {
         /* clean up the database from prior tests before importing */
-        $rewards  = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
+        $rewards  = Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward\Collection');
         foreach ($rewards as $reward) {
             $reward->delete();
         }
 
-        $source = new Magento_ImportExport_Model_Import_Source_Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
-        $model = Mage::getModel('Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance');
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
+        $model = Mage::getModel('\Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
         $model->setParameters(
-            array('behavior' => Magento_ImportExport_Model_Import::BEHAVIOR_DELETE)
+            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE)
         );
         $model->setSource($source);
         $model->validateData();
         $model->importData();
 
-        $rewards  = Mage::getResourceModel('Magento_Reward_Model_Resource_Reward_Collection');
-        $balances = Mage::getResourceModel('Magento_CustomerBalance_Model_Resource_Balance_Collection');
+        $rewards  = Mage::getResourceModel('\Magento\Reward\Model\Resource\Reward\Collection');
+        $balances = Mage::getResourceModel('\Magento\CustomerBalance\Model\Resource\Balance\Collection');
 
         $expectedRewards = Mage::registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedRewards');
-        /** @var $reward Magento_Reward_Model_Reward */
+        /** @var $reward \Magento\Reward\Model\Reward */
         foreach ($rewards as $reward) {
             $this->assertEquals(
                 $reward->getPointsBalance(),
@@ -156,7 +156,7 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
         }
 
         $expectedBalances = Mage::registry('_fixture/Magento_ScheduledImportExport_Customers_ExpectedBalances');
-        /** @var $balance Magento_CustomerBalance_Model_Balance */
+        /** @var $balance \Magento\CustomerBalance\Model\Balance */
         foreach ($balances as $balance) {
             $this->assertEquals(
                 $balance->getAmount(),
@@ -173,8 +173,8 @@ class Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_FinanceTest
      */
     protected function _csvToArray($content)
     {
-        $emailKey = Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::COLUMN_EMAIL;
-        $websiteKey = Magento_ScheduledImportExport_Model_Import_Entity_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE;
+        $emailKey = \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_EMAIL;
+        $websiteKey = \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::COLUMN_FINANCE_WEBSITE;
 
         $header = array();
         $data = array();

@@ -15,12 +15,14 @@
  * @category   Magento
  * @package    Magento_Sitemap
  */
-class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller;
+
+class Sitemap extends  \Magento\Adminhtml\Controller\Action
 {
     /**
      * Init actions
      *
-     * @return Magento_Adminhtml_Controller_Sitemap
+     * @return \Magento\Adminhtml\Controller\Sitemap
      */
     protected function _initAction()
     {
@@ -65,13 +67,13 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('sitemap_id');
-        $model = Mage::getModel('Magento_Sitemap_Model_Sitemap');
+        $model = \Mage::getModel('\Magento\Sitemap\Model\Sitemap');
 
         // 2. Initial checking
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
                     __('This sitemap no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -81,20 +83,20 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
         $this->_title($model->getId() ? $model->getSitemapFilename() : __('New Site Map'));
 
         // 3. Set entered data if was error when we do save
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
+        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
 
         // 4. Register model to use later in blocks
-        Mage::register('sitemap_sitemap', $model);
+        \Mage::register('sitemap_sitemap', $model);
 
         // 5. Build edit form
         $this->_initAction()
             ->_addBreadcrumb(
                 $id ? __('Edit Sitemap') : __('New Sitemap'),
                 $id ? __('Edit Sitemap') : __('New Sitemap'))
-            ->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Sitemap_Edit'))
+            ->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Sitemap\Edit'))
             ->renderLayout();
     }
 
@@ -106,24 +108,24 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
             // init model and set data
-            /** @var Magento_Sitemap_Model_Sitemap $model */
-            $model = Mage::getModel('Magento_Sitemap_Model_Sitemap');
+            /** @var \Magento\Sitemap\Model\Sitemap $model */
+            $model = \Mage::getModel('\Magento\Sitemap\Model\Sitemap');
 
             //validate path to generate
             if (!empty($data['sitemap_filename']) && !empty($data['sitemap_path'])) {
                 $path = rtrim($data['sitemap_path'], '\\/')
                       . DS . $data['sitemap_filename'];
-                /** @var $validator Magento_Core_Model_File_Validator_AvailablePath */
-                $validator = Mage::getModel('Magento_Core_Model_File_Validator_AvailablePath');
-                /** @var $helper Magento_Adminhtml_Helper_Catalog */
-                $helper = Mage::helper('Magento_Adminhtml_Helper_Catalog');
+                /** @var $validator \Magento\Core\Model\File\Validator\AvailablePath */
+                $validator = \Mage::getModel('\Magento\Core\Model\File\Validator\AvailablePath');
+                /** @var $helper \Magento\Adminhtml\Helper\Catalog */
+                $helper = \Mage::helper('Magento\Adminhtml\Helper\Catalog');
                 $validator->setPaths($helper->getSitemapValidPaths());
                 if (!$validator->isValid($path)) {
                     foreach ($validator->getMessages() as $message) {
-                        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($message);
+                        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($message);
                     }
                     // save data in session
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
+                    \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData($data);
                     // redirect to edit form
                     $this->_redirect('*/*/edit', array(
                         'sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
@@ -138,8 +140,8 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
                 $model->load($this->getRequest()->getParam('sitemap_id'));
                 $fileName = $model->getSitemapFilename();
 
-                $filesystem->setWorkingDirectory(Mage::getBaseDir() . $model->getSitemapPath());
-                $filePath = Mage::getBaseDir() . $model->getSitemapPath() . DS . $fileName;
+                $filesystem->setWorkingDirectory(\Mage::getBaseDir() . $model->getSitemapPath());
+                $filePath = \Mage::getBaseDir() . $model->getSitemapPath() . DS . $fileName;
 
                 if ($fileName && $filesystem->isFile($filePath)) {
                     $filesystem->delete($filePath);
@@ -153,10 +155,10 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
                 // save the data
                 $model->save();
                 // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The sitemap has been saved.'));
                 // clear previously saved data from session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData(false);
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
@@ -172,11 +174,11 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // display error message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 // save data in session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('*/*/edit', array(
                     'sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
@@ -198,11 +200,11 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
         if ($id = $this->getRequest()->getParam('sitemap_id')) {
             try {
                 // init model and delete
-                $model = Mage::getModel('Magento_Sitemap_Model_Sitemap');
+                $model = \Mage::getModel('\Magento\Sitemap\Model\Sitemap');
                 $model->setId($id);
                 // init and load sitemap model
 
-                /* @var $sitemap Magento_Sitemap_Model_Sitemap */
+                /* @var $sitemap \Magento\Sitemap\Model\Sitemap */
                 $model->load($id);
                 // delete file
                 if ($model->getSitemapFilename() && $filesystem->isFile($model->getPreparedFilename())) {
@@ -210,22 +212,22 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
                 }
                 $model->delete();
                 // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(
                     __('The sitemap has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // display error message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('sitemap_id' => $id));
                 return;
             }
         }
         // display error message
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
             __('We can\'t find a sitemap to delete.'));
         // go to grid
         $this->_redirect('*/*/');
@@ -238,8 +240,8 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
     {
         // init and load sitemap model
         $id = $this->getRequest()->getParam('sitemap_id');
-        $sitemap = Mage::getModel('Magento_Sitemap_Model_Sitemap');
-        /* @var $sitemap Magento_Sitemap_Model_Sitemap */
+        $sitemap = \Mage::getModel('\Magento\Sitemap\Model\Sitemap');
+        /* @var $sitemap \Magento\Sitemap\Model\Sitemap */
         $sitemap->load($id);
         // if sitemap record exists
         if ($sitemap->getId()) {
@@ -249,10 +251,10 @@ class Magento_Adminhtml_Controller_Sitemap extends  Magento_Adminhtml_Controller
                 $this->_getSession()->addSuccess(
                     __('The sitemap "%1" has been generated.', $sitemap->getSitemapFilename()));
             }
-            catch (Magento_Core_Exception $e) {
+            catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong generating the sitemap.'));
             }

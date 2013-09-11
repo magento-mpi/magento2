@@ -15,7 +15,9 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Oauth_Block_AuthorizeBaseAbstract extends Magento_Oauth_Block_Authorize_Abstract
+namespace Magento\Oauth\Block;
+
+abstract class AuthorizeBaseAbstract extends \Magento\Oauth\Block\Authorize\AbstractAuthorize
 {
     /**
      * Retrieve user authorize form posting url

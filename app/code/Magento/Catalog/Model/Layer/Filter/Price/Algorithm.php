@@ -15,7 +15,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+namespace Magento\Catalog\Model\Layer\Filter\Price;
+
+class Algorithm
 {
     /**
      * Rounding factor coefficient
@@ -77,7 +79,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_Algorithm
     /**
      * Prices model
      *
-     * @var null|Magento_Catalog_Model_Layer_Filter_Price
+     * @var null|\Magento\Catalog\Model\Layer\Filter\Price
      */
     protected $_pricesModel = null;
 
@@ -121,7 +123,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_Algorithm
      *
      * @param null|float $lowerLimit
      * @param null|float $upperLimit
-     * @return Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+     * @return \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
      */
     public function setLimits($lowerLimit = null, $upperLimit = null)
     {
@@ -179,7 +181,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_Algorithm
      * @param float $max
      * @param float $standardDeviation
      * @param int $count
-     * @return Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+     * @return \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
      */
     public function setStatistics($min, $max, $standardDeviation, $count)
     {
@@ -207,8 +209,8 @@ class Magento_Catalog_Model_Layer_Filter_Price_Algorithm
     /**
      * Set prices model
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Price $pricesModel
-     * @return Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $pricesModel
+     * @return \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
      */
     public function setPricesModel($pricesModel)
     {
@@ -357,7 +359,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_Algorithm
                     $quantileInterval[0] -= count($additionalPrices);
                     $prices = array_merge($additionalPrices, $prices);
                     $bestRoundPrice = $this->_findRoundPrice(
-                        $prices[0] + Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10,
+                        $prices[0] + \Magento\Catalog\Model\Resource\Layer\Filter\Price::MIN_POSSIBLE_PRICE / 10,
                         $lastPrice,
                         false
                     );
@@ -381,7 +383,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_Algorithm
                         $prices = array_merge($prices, $additionalPrices);
                     }
                     $upperBestRoundPrice = $this->_findRoundPrice(
-                        $lastPrice + Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10,
+                        $lastPrice + \Magento\Catalog\Model\Resource\Layer\Filter\Price::MIN_POSSIBLE_PRICE / 10,
                         $prices[count($prices) - 1],
                         false
                     );
@@ -390,7 +392,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_Algorithm
             }
         } else {
             $bestRoundPrice = $this->_findRoundPrice(
-                $prices[0] + Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE / 10,
+                $prices[0] + \Magento\Catalog\Model\Resource\Layer\Filter\Price::MIN_POSSIBLE_PRICE / 10,
                 $lastPrice
             );
         }
@@ -459,8 +461,8 @@ class Magento_Catalog_Model_Layer_Filter_Price_Algorithm
         $result = array();
         $tenPower = pow(10, self::TEN_POWER_ROUNDING_FACTOR);
         $roundingFactorCoefficients = array(10, 5, 2);
-        while ($tenPower >= Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE) {
-            if ($tenPower == Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE) {
+        while ($tenPower >= \Magento\Catalog\Model\Resource\Layer\Filter\Price::MIN_POSSIBLE_PRICE) {
+            if ($tenPower == \Magento\Catalog\Model\Resource\Layer\Filter\Price::MIN_POSSIBLE_PRICE) {
                 $roundingFactorCoefficients[] = 1;
             }
             foreach ($roundingFactorCoefficients as $roundingFactorCoefficient) {
@@ -470,7 +472,7 @@ class Magento_Catalog_Model_Layer_Filter_Price_Algorithm
                 );
                 if ($roundPrices) {
                     $index = round($roundingFactorCoefficient
-                        / Magento_Catalog_Model_Resource_Layer_Filter_Price::MIN_POSSIBLE_PRICE);
+                        / \Magento\Catalog\Model\Resource\Layer\Filter\Price::MIN_POSSIBLE_PRICE);
                     $result[$index] = $roundPrices;
                 }
             }

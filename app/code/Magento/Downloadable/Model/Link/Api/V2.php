@@ -15,7 +15,9 @@
  * @package     Magento_Downloadable
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Link_Api_V2 extends Magento_Downloadable_Model_Link_Api
+namespace Magento\Downloadable\Model\Link\Api;
+
+class V2 extends \Magento\Downloadable\Model\Link\Api
 {
     /**
      * Clean the object, leave only property values

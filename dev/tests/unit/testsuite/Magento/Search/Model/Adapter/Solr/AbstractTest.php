@@ -17,8 +17,8 @@ class Magento_Search_Model_Adapter_Solr_AbstractTest extends PHPUnit_Framework_T
     public function testGetSearchEngineFieldName()
     {
         $sku = new \Magento\Object(array('attribute_code' => 'sku'));
-        /** @var $model Magento_Search_Model_Adapter_Solr_Abstract */
-        $model = $this->getMockForAbstractClass('Magento_Search_Model_Adapter_Solr_Abstract', array(), '', false);
+        /** @var $model \Magento\Search\Model\Adapter\Solr\AbstractSolr */
+        $model = $this->getMockForAbstractClass('\Magento\Search\Model\Adapter\Solr\AbstractSolr', array(), '', false);
         $this->assertEquals('sku', $model->getSearchEngineFieldName($sku, 'sku'));
         $this->assertEquals('attr_sort_sku', $model->getSearchEngineFieldName($sku, 'sort'));
     }

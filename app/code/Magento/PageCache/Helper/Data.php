@@ -15,7 +15,9 @@
  * @package     Magento_PageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\PageCache\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Paths to external cache config options
@@ -47,9 +49,9 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Initialize 'no cache' cookie locking
      *
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\Context $context
      */
-    function __construct(Magento_Core_Helper_Context $context)
+    function __construct(\Magento\Core\Helper\Context $context)
     {
         parent::__construct($context);
         $this->_isNoCacheCookieLocked = (bool)$this->_getCookie()->get(self::NO_CACHE_LOCK_COOKIE);
@@ -58,11 +60,11 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Retrieve the cookie model instance
      *
-     * @return Magento_Core_Model_Cookie
+     * @return \Magento\Core\Model\Cookie
      */
     protected function _getCookie()
     {
-        return Mage::getSingleton('Magento_Core_Model_Cookie');
+        return \Mage::getSingleton('Magento\Core\Model\Cookie');
     }
 
     /**
@@ -72,7 +74,7 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return (bool)Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_ENABLED);
+        return (bool)\Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_ENABLED);
     }
 
     /**
@@ -82,41 +84,41 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getCacheControls()
     {
-        $controls = Mage::app()->getConfig()->getNode(self::XML_PATH_EXTERNAL_CACHE_CONTROLS);
+        $controls = \Mage::app()->getConfig()->getNode(self::XML_PATH_EXTERNAL_CACHE_CONTROLS);
         return $controls->asCanonicalArray();
     }
 
     /**
      * Initialize proper external cache control model
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_PageCache_Model_Control_Interface
+     * @throws \Magento\Core\Exception
+     * @return \Magento\PageCache\Model\Control\ControlInterface
      */
     public function getCacheControlInstance()
     {
-        $usedControl = Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_CONTROL);
+        $usedControl = \Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_CONTROL);
         if ($usedControl) {
             foreach ($this->getCacheControls() as $control => $info) {
                 if ($control == $usedControl && !empty($info['class'])) {
-                    return Mage::getSingleton($info['class']);
+                    return \Mage::getSingleton($info['class']);
                 }
             }
         }
-        Mage::throwException(__('Failed to load external cache control'));
+        \Mage::throwException(__('Failed to load external cache control'));
     }
 
     /**
      * Disable caching on external storage side by setting special cookie, if the cookie has not been locked
      *
      * @param int|null $lifetime
-     * @return Magento_PageCache_Helper_Data
+     * @return \Magento\PageCache\Helper\Data
      */
     public function setNoCacheCookie($lifetime = null)
     {
         if ($this->_isNoCacheCookieLocked) {
             return $this;
         }
-        $lifetime = $lifetime !== null ? $lifetime : Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
+        $lifetime = $lifetime !== null ? $lifetime : \Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
         if ($this->_getCookie()->get(self::NO_CACHE_COOKIE)) {
             $this->_getCookie()->renew(self::NO_CACHE_COOKIE, $lifetime);
         } else {
@@ -128,7 +130,7 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Remove the 'no cache' cookie, if it has not been locked
      *
-     * @return Magento_PageCache_Helper_Data
+     * @return \Magento\PageCache\Helper\Data
      */
     public function removeNoCacheCookie()
     {
@@ -141,7 +143,7 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Disable modification of the 'no cache' cookie
      *
-     * @return Magento_PageCache_Helper_Data
+     * @return \Magento\PageCache\Helper\Data
      */
     public function lockNoCacheCookie()
     {
@@ -153,7 +155,7 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Enable modification of the 'no cache' cookie
      *
-     * @return Magento_PageCache_Helper_Data
+     * @return \Magento\PageCache\Helper\Data
      */
     public function unlockNoCacheCookie()
     {
@@ -169,6 +171,6 @@ class Magento_PageCache_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getNoCacheCookieLifetime()
     {
-        return Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
+        return \Mage::getStoreConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
     }
 }

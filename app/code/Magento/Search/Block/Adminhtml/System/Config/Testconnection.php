@@ -15,8 +15,10 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Adminhtml_System_Config_Testconnection
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Search\Block\Adminhtml\System\Config;
+
+class Testconnection
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Set template to itself
@@ -54,7 +56,7 @@ class Magento_Search_Block_Adminhtml_System_Config_Testconnection
         $this->addData(array(
             'button_label' => __($originalData['button_label']),
             'html_id' => $element->getHtmlId(),
-            'ajax_url' => Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/search_system_config_testconnection/ping')
+            'ajax_url' => \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/search_system_config_testconnection/ping')
         ));
 
         return $this->_toHtml();

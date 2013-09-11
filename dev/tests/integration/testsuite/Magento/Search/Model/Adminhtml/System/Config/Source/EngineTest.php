@@ -15,14 +15,14 @@
 class Magento_Search_Model_Adminhtml_System_Config_Source_EngineTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Search_Model_Adminhtml_System_Config_Source_Engine
+     * @var \Magento\Search\Model\Adminhtml\System\Config\Source\Engine
      */
     protected $_model;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model= Mage::getModel('Magento_Search_Model_Adminhtml_System_Config_Source_Engine');
+        $this->_model= Mage::getModel('\Magento\Search\Model\Adminhtml\System\Config\Source\Engine');
     }
 
     public function testToOptionArray()

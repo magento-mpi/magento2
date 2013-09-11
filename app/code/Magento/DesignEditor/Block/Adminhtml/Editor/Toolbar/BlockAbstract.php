@@ -11,7 +11,9 @@
 /**
  * Abstract toolbar block
  */
-abstract class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract extends Magento_Backend_Block_Template
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar;
+
+abstract class BlockAbstract extends \Magento\Backend\Block\Template
 {
     /**
      * Current VDE mode
@@ -34,7 +36,7 @@ abstract class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract
      * Get current VDE mode
      *
      * @param int $mode
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\BlockAbstract
      */
     public function setMode($mode)
     {
@@ -50,6 +52,6 @@ abstract class Magento_DesignEditor_Block_Adminhtml_Editor_Toolbar_BlockAbstract
      */
     public function isNavigationMode()
     {
-        return $this->getMode() == Magento_DesignEditor_Model_State::MODE_NAVIGATION;
+        return $this->getMode() == \Magento\DesignEditor\Model\State::MODE_NAVIGATION;
     }
 }

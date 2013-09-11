@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GiftCard_Model_Checkout_Cart_Api_V2 extends Magento_GiftCard_Model_Checkout_Cart_Api
+namespace Magento\GiftCard\Model\Checkout\Cart\Api;
+
+class V2 extends \Magento\GiftCard\Model\Checkout\Cart\Api
 {
 }

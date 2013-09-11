@@ -1,6 +1,6 @@
 <?php
 /**
- * File with unit tests for API configuration class: Magento_Webapi_Model_Config_Rest.
+ * File with unit tests for API configuration class: \Magento\Webapi\Model\Config\Rest.
  *
  * {license_notice}
  *
@@ -28,14 +28,14 @@ class Magento_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
     const WEBAPI_AREA_FRONT_NAME = 'webapi';
 
     /**
-     * @var Magento_Webapi_Model_Config_Rest
+     * @var \Magento\Webapi\Model\Config\Rest
      */
     protected $_apiConfig;
 
     /**
      * App mock clone usage helps to improve performance. It is required because mock will be removed in tear down.
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_appClone;
 
@@ -88,9 +88,9 @@ class Magento_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertCount($expectedRoutesCount, $actualRoutes, "Routes quantity is not equal to expected one.");
-        /** @var $actualRoute Magento_Webapi_Controller_Router_Route_Rest */
+        /** @var $actualRoute \Magento\Webapi\Controller\Router\Route\Rest */
         foreach ($actualRoutes as $actualRoute) {
-            $this->assertInstanceOf('Magento_Webapi_Controller_Router_Route_Rest', $actualRoute);
+            $this->assertInstanceOf('\Magento\Webapi\Controller\Router\Route\Rest', $actualRoute);
         }
     }
 
@@ -115,7 +115,7 @@ class Magento_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         $actualRoutes = $this->_apiConfig->getMethodRestRoutes('vendorModuleResourceSubresource', 'create', 'v1');
         $this->assertCount(5, $actualRoutes, "Routes quantity does not match expected one.");
         foreach ($actualRoutes as $actualRoute) {
-            $this->assertInstanceOf('Magento_Webapi_Controller_Router_Route_Rest', $actualRoute);
+            $this->assertInstanceOf('\Magento\Webapi\Controller\Router\Route\Rest', $actualRoute);
         }
     }
 
@@ -134,35 +134,35 @@ class Magento_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
      * Create resource config initialized with classes found in the specified directory.
      *
      * @param string $pathToResources
-     * @return Magento_Webapi_Model_Config_Rest
+     * @return \Magento\Webapi\Model\Config\Rest
      */
     protected function _createResourceConfig($pathToResources)
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
         /** Prepare arguments for SUT constructor. */
-        /** @var Magento_Core_Model_CacheInterface $cache */
-        $cache = $this->getMock('Magento_Core_Model_CacheInterface');
-        $configMock = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()->getMock();
+        /** @var \Magento\Core\Model\CacheInterface $cache */
+        $cache = $this->getMock('Magento\Core\Model\CacheInterface');
+        $configMock = $this->getMockBuilder('Magento\Core\Model\Config')->disableOriginalConstructor()->getMock();
         $configMock->expects($this->any())->method('getAreaFrontName')->will(
             $this->returnValue(self::WEBAPI_AREA_FRONT_NAME)
         );
-        $appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
+        $appMock = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
         $appMock->expects($this->any())->method('getConfig')->will($this->returnValue($configMock));
         $this->_appClone = clone $appMock;
         $objectManager->configure(array(
-            'Magento_Webapi_Model_Config_Reader_Rest' => array(
+            '\Magento\Webapi\Model\Config\Reader\Rest' => array(
                 'parameters' => array(
                     'cache' => $cache
                 )
             )
         ));
-        /** @var Magento_Webapi_Model_Config_Reader_Rest $reader */
-        $reader = $objectManager->get('Magento_Webapi_Model_Config_Reader_Rest');
+        /** @var \Magento\Webapi\Model\Config\Reader\Rest $reader */
+        $reader = $objectManager->get('Magento\Webapi\Model\Config\Reader\Rest');
         $reader->setDirectoryScanner(new Zend\Code\Scanner\DirectoryScanner($pathToResources));
 
         /** Initialize SUT. */
         $apiConfig = $objectManager->create(
-            'Magento_Webapi_Model_Config_Rest',
+            '\Magento\Webapi\Model\Config\Rest',
             array('reader' => $reader, 'application' => $this->_appClone)
         );
         return $apiConfig;

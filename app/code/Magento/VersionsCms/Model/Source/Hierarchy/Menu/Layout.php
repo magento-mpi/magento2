@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout
+namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
+
+class Layout
 {
     /**
      * Return options for displaying Hierarchy Menu
@@ -30,7 +32,7 @@ class Magento_VersionsCms_Model_Source_Hierarchy_Menu_Layout
            $options[] = array('label' => __('Use default'), 'value' => '');
         }
 
-        foreach (Mage::getSingleton('Magento_VersionsCms_Model_Hierarchy_Config')->getContextMenuLayouts() as $code => $info) {
+        foreach (\Mage::getSingleton('Magento\VersionsCms\Model\Hierarchy\Config')->getContextMenuLayouts() as $code => $info) {
             $options[] = array(
                 'label' => $info->getLabel(),
                 'value' => $code

@@ -16,7 +16,7 @@
 class Magento_Adminhtml_Block_System_Store_Edit_Form_StoreTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_System_Store_Edit_Form_Store
+     * @var \Magento\Adminhtml\Block\System\Store\Edit\Form\Store
      */
     protected $_block;
 
@@ -26,17 +26,17 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_StoreTest extends PHPUnit_F
 
         $registryData = array(
             'store_type' => 'store',
-            'store_data' => Mage::getModel('Magento_Core_Model_Store'),
+            'store_data' => Mage::getModel('\Magento\Core\Model\Store'),
             'store_action' => 'add'
         );
         foreach ($registryData as $key => $value) {
             Mage::register($key, $value);
         }
 
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
 
-        $this->_block = $layout->createBlock('Magento_Adminhtml_Block_System_Store_Edit_Form_Store');
+        $this->_block = $layout->createBlock('\Magento\Adminhtml\Block\System\Store\Edit\Form\Store');
 
         $this->_block->toHtml();
     }

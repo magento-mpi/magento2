@@ -12,14 +12,14 @@
 class Magento_Backend_Model_Config_Structure_Mapper_DependenciesTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure_Mapper_Dependencies
+     * @var \Magento\Backend\Model\Config\Structure\Mapper\Dependencies
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Magento_Backend_Model_Config_Structure_Mapper_Dependencies(
-            new Magento_Backend_Model_Config_Structure_Mapper_Helper_RelativePathConverter()
+        $this->_model = new \Magento\Backend\Model\Config\Structure\Mapper\Dependencies(
+            new \Magento\Backend\Model\Config\Structure\Mapper\Helper\RelativePathConverter()
         );
     }
 

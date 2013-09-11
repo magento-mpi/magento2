@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerBalance_Model_Total_Invoice_Customerbalance extends Magento_Sales_Model_Order_Invoice_Total_Abstract
+namespace Magento\CustomerBalance\Model\Total\Invoice;
+
+class Customerbalance extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
     /**
      * Collect customer balance totals for invoice
      *
-     * @param Magento_Sales_Model_Order_Invoice $invoice
-     * @return Magento_CustomerBalance_Model_Total_Invoice_Customerbalance
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @return \Magento\CustomerBalance\Model\Total\Invoice\Customerbalance
      */
-    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
+    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             return $this;
         }
         $order = $invoice->getOrder();

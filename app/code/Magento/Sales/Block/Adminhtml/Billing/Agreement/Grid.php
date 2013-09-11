@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Sales\Block\Adminhtml\Billing\Agreement;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Set grid params
@@ -51,11 +53,11 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Admin
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Billing_Agreement_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Billing\Agreement\Collection')
             ->addCustomerDetails();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -64,7 +66,7 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Admin
     /**
      * Add columns to grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -106,7 +108,7 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Admin
             'header'            => __('Payment Method'),
             'index'             => 'method_code',
             'type'              => 'options',
-            'options'           => Mage::helper('Magento_Payment_Helper_Data')->getAllBillingAgreementMethods(),
+            'options'           => \Mage::helper('Magento\Payment\Helper\Data')->getAllBillingAgreementMethods(),
             'header_css_class'  => 'col-payment',
             'column_css_class'  => 'col-payment'
         ));
@@ -123,7 +125,7 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_Grid extends Magento_Admin
             'header'            => __('Status'),
             'index'             => 'status',
             'type'              => 'options',
-            'options'           => Mage::getSingleton('Magento_Sales_Model_Billing_Agreement')->getStatusesArray(),
+            'options'           => \Mage::getSingleton('Magento\Sales\Model\Billing\Agreement')->getStatusesArray(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

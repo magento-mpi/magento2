@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 
     /**
@@ -27,12 +29,12 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
     /**
      * Add tab sections
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs
      */
     protected function _beforeToHtml()
     {
         $generalSectionContent = $this->getLayout()
-            ->createBlock('Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General')
+            ->createBlock('\Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\General')
             ->toHtml();
 
         $this->addTab('general_section', array(
@@ -42,11 +44,11 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
             'active'  => true
         ));
 
-        $segment = Mage::registry('current_customer_segment');
+        $segment = \Mage::registry('current_customer_segment');
 
         if ($segment && $segment->getId()) {
             $conditionsSectionContent = $this->getLayout()
-                ->createBlock('Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions')
+                ->createBlock('\Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\Conditions')
                 ->toHtml();
 
             $this->addTab('conditions_section', array(
@@ -55,8 +57,8 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs extends 
                 'content' => $conditionsSectionContent,
             ));
 
-            if ($segment->getApplyTo() != Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS) {
-                $customersQty = Mage::getModel('Magento_CustomerSegment_Model_Segment')->getResource()
+            if ($segment->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
+                $customersQty = \Mage::getModel('\Magento\CustomerSegment\Model\Segment')->getResource()
                     ->getSegmentCustomersQty($segment->getId());
                 $this->addTab('customers_tab', array(
                     'label' => __('Matched Customers (%1)', $customersQty),

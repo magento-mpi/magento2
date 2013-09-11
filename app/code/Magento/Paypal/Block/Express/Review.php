@@ -15,17 +15,19 @@
  * @package    Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
+namespace Magento\Paypal\Block\Express;
+
+class Review extends \Magento\Core\Block\Template
 {
     /**
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
      * Currently selected shipping rate
      *
-     * @var Magento_Sales_Model_Quote_Address_Rate
+     * @var \Magento\Sales\Model\Quote\Address\Rate
      */
     protected $_currentShippingRate = null;
 
@@ -39,10 +41,10 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Quote object setter
      *
-     * @param Magento_Sales_Model_Quote $quote
-     * @return Magento_Paypal_Block_Express_Review
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \Magento\Paypal\Block\Express\Review
      */
-    public function setQuote(Magento_Sales_Model_Quote $quote)
+    public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
         $this->_quote = $quote;
         return $this;
@@ -51,7 +53,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Return quote billing address
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getBillingAddress()
     {
@@ -61,7 +63,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Return quote shipping address
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getShippingAddress()
     {
@@ -74,7 +76,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Get HTML output for specified address
      *
-     * @param Magento_Sales_Model_Quote_Address $address
+     * @param \Magento\Sales\Model\Quote\Address $address
      * @return string
      */
     public function renderAddress($address)
@@ -90,7 +92,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig("carriers/{$carrierCode}/title")) {
+        if ($name = \Mage::getStoreConfig("carriers/{$carrierCode}/title")) {
             return $name;
         }
         return $carrierCode;
@@ -125,10 +127,10 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
             $price = $rate->getErrorMessage();
         } else {
             $price = $this->_getShippingPrice($rate->getPrice(),
-                $this->helper('Magento_Tax_Helper_Data')->displayShippingPriceIncludingTax());
+                $this->helper('\Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax());
 
             $incl = $this->_getShippingPrice($rate->getPrice(), true);
-            if (($incl != $price) && $this->helper('Magento_Tax_Helper_Data')->displayShippingBothPrices()) {
+            if (($incl != $price) && $this->helper('\Magento\Tax\Helper\Data')->displayShippingBothPrices()) {
                 $renderedInclTax = sprintf(
                     $inclTaxFormat,
                     __('Incl. Tax'),
@@ -142,7 +144,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Getter for current shipping rate
      *
-     * @return Magento_Sales_Model_Quote_Address_Rate
+     * @return \Magento\Sales\Model\Quote\Address\Rate
      */
     public function getCurrentShippingRate()
     {
@@ -168,7 +170,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     protected function _getShippingPrice($price, $isInclTax)
     {
         return $this->_formatPrice(
-            $this->helper('Magento_Tax_Helper_Data')->getShippingPrice(
+            $this->helper('\Magento\Tax\Helper\Data')->getShippingPrice(
                 $price,
                 $isInclTax,
                 $this->_address
@@ -190,7 +192,7 @@ class Magento_Paypal_Block_Express_Review extends Magento_Core_Block_Template
     /**
      * Retrieve payment method and assign additional template values
      *
-     * @return Magento_Paypal_Block_Express_Review
+     * @return \Magento\Paypal\Block\Express\Review
      */
     protected function _beforeToHtml()
     {

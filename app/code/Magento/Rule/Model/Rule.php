@@ -11,31 +11,33 @@
 /**
  * Abstract Rule entity data model
  *
- * @deprecated since 1.7.0.0 use Magento_Rule_Model_Abstract instead
+ * @deprecated since 1.7.0.0 use \Magento\Rule\Model\AbstractModel instead
  *
  * @category Magento
  * @package Magento_Rule
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rule_Model_Rule extends Magento_Rule_Model_Abstract
+namespace Magento\Rule\Model;
+
+class Rule extends \Magento\Rule\Model\AbstractModel
 {
     /**
      * Getter for rule combine conditions instance
      *
-     * @return Magento_Rule_Model_Condition_Combine
+     * @return \Magento\Rule\Model\Condition\Combine
      */
     public function getConditionsInstance()
     {
-        return Mage::getModel('Magento_Rule_Model_Condition_Combine');
+        return \Mage::getModel('\Magento\Rule\Model\Condition\Combine');
     }
 
     /**
      * Getter for rule actions collection instance
      *
-     * @return Magento_Rule_Model_Action_Collection
+     * @return \Magento\Rule\Model\Action\Collection
      */
     public function getActionsInstance()
     {
-        return Mage::getModel('Magento_Rule_Model_Action_Collection');
+        return \Mage::getModel('\Magento\Rule\Model\Action\Collection');
     }
 }

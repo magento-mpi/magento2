@@ -15,21 +15,23 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Server_Adapter_Soap_Wsi extends Magento_Api_Model_Server_Adapter_Soap
+namespace Magento\Api\Model\Server\Adapter\Soap;
+
+class Wsi extends \Magento\Api\Model\Server\Adapter\Soap
 {
     /**
      * Run webservice
      *
-     * @param Magento_Api_Controller_Action $controller
-     * @return Magento_Api_Model_Server_Adapter_Soap
+     * @param \Magento\Api\Controller\Action $controller
+     * @return \Magento\Api\Model\Server\Adapter\Soap
      */
     public function run()
     {
-        $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
+        $apiConfigCharset = \Mage::getStoreConfig("api/config/charset");
 
         if ($this->getController()->getRequest()->getParam('wsdl') !== null) {
-            /** @var $wsdlConfig Magento_Api_Model_Wsdl_Config */
-            $wsdlConfig = Mage::getModel('Magento_Api_Model_Wsdl_Config');
+            /** @var $wsdlConfig \Magento\Api\Model\Wsdl\Config */
+            $wsdlConfig = \Mage::getModel('\Magento\Api\Model\Wsdl\Config');
             $wsdlConfig->setHandler($this->getHandler())
                 ->setCacheId('wsdl_config_global_soap_wsi')
                 ->init();
@@ -82,9 +84,9 @@ class Magento_Api_Model_Server_Adapter_Soap_Wsi extends Magento_Api_Model_Server
                     ->setHeader('Content-Type', 'text/xml; charset=' . $apiConfigCharset)
                     ->setHeader('Content-Length', strlen($content), true)
                     ->setBody($content);
-            } catch (Zend_Soap_Server_Exception $e) {
+            } catch (\Zend_Soap_Server_Exception $e) {
                 $this->fault($e->getCode(), $e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->fault($e->getCode(), $e->getMessage());
             }
         }

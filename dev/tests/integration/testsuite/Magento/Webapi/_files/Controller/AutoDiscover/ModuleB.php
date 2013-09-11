@@ -8,7 +8,7 @@
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
-class Vendor_ModuleB_Controller_Webapi_ModuleB extends Magento_Webapi_Controller_ActionAbstract
+class Vendor_ModuleB_Controller_Webapi_ModuleB extends \Magento\Webapi\Controller\ActionAbstract
 {
     /**
      * Short description.

@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Payment_Block_Info_Checkmo extends Magento_Payment_Block_Info
+namespace Magento\Payment\Block\Info;
+
+class Checkmo extends \Magento\Payment\Block\Info
 {
 
     protected $_payableTo;
@@ -46,7 +48,7 @@ class Magento_Payment_Block_Info_Checkmo extends Magento_Payment_Block_Info
     /**
      * Enter description here...
      *
-     * @return Magento_Payment_Block_Info_Checkmo
+     * @return \Magento\Payment\Block\Info\Checkmo
      */
     protected function _convertAdditionalData()
     {

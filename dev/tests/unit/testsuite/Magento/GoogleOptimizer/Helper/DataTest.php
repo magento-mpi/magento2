@@ -19,18 +19,18 @@ class Magento_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected $_googleAnalyticsHelperMock;
 
     /**
-     * @var Magento_GoogleOptimizer_Helper_Data
+     * @var \Magento\GoogleOptimizer\Helper\Data
      */
     protected $_helper;
 
     public function setUp()
     {
-        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_ConfigInterface');
-        $this->_googleAnalyticsHelperMock = $this->getMock('Magento_GoogleAnalytics_Helper_Data', array(), array(), '',
+        $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\ConfigInterface');
+        $this->_googleAnalyticsHelperMock = $this->getMock('Magento\GoogleAnalytics\Helper\Data', array(), array(), '',
             false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_helper = $objectManagerHelper->getObject('Magento_GoogleOptimizer_Helper_Data', array(
+        $this->_helper = $objectManagerHelper->getObject('\Magento\GoogleOptimizer\Helper\Data', array(
             'storeConfig' => $this->_storeConfigMock,
             'analyticsHelper' => $this->_googleAnalyticsHelperMock,
         ));
@@ -44,7 +44,7 @@ class Magento_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $store = 1;
         $this->_storeConfigMock->expects($this->once())->method('getConfigFlag')
-            ->with(Magento_GoogleOptimizer_Helper_Data::XML_PATH_ENABLED, $store)
+            ->with(\Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED, $store)
             ->will($this->returnValue($isExperimentsEnabled));
 
         $this->assertEquals($isExperimentsEnabled, $this->_helper->isGoogleExperimentEnabled($store));
@@ -71,7 +71,7 @@ class Magento_GoogleOptimizer_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $store = 1;
         $this->_storeConfigMock->expects($this->once())->method('getConfigFlag')
-            ->with(Magento_GoogleOptimizer_Helper_Data::XML_PATH_ENABLED, $store)
+            ->with(\Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED, $store)
             ->will($this->returnValue($isExperimentsEnabled));
 
         $this->_googleAnalyticsHelperMock->expects($this->any())->method('isGoogleAnalyticsAvailable')

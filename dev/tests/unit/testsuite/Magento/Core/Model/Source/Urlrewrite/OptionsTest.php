@@ -19,7 +19,7 @@ class Magento_Core_Model_Source_Urlrewrite_OptionsTest extends PHPUnit_Framework
      */
     public function testGetAllOptions()
     {
-        $model = new Magento_Core_Model_Source_Urlrewrite_Options();
+        $model = new \Magento\Core\Model\Source\Urlrewrite\Options();
         $options = $model->getAllOptions();
         $this->assertInternalType('array', $options);
         $expectedOptions = array(

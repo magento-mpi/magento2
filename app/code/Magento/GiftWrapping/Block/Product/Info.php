@@ -15,7 +15,9 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Product_Info extends Magento_Core_Block_Template
+namespace Magento\GiftWrapping\Block\Product;
+
+class Info extends \Magento\Core\Block\Template
 {
     /**
      * Return product gift wrapping info
@@ -32,7 +34,7 @@ class Magento_GiftWrapping_Block_Product_Info extends Magento_Core_Block_Templat
         }
 
         if ($wrappingId) {
-            return Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->load($wrappingId);
+            return \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->load($wrappingId);
         }
         return false;
     }

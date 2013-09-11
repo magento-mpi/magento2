@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
-class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abstract
+namespace Magento\Checkout\Block\Cart;
+
+class Totals extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     protected $_totalRenderers;
-    protected $_defaultRenderer = 'Magento_Checkout_Block_Total_Default';
+    protected $_defaultRenderer = '\Magento\Checkout\Block\Total\DefaultTotal';
     protected $_totals = null;
 
     public function getTotals()
@@ -34,7 +36,7 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
             $block = $this->_defaultRenderer;
-            $config = Mage::getConfig()->getNode("global/sales/quote/totals/{$code}/renderer");
+            $config = \Mage::getConfig()->getNode("global/sales/quote/totals/{$code}/renderer");
             if ($config) {
                 $block = (string) $config;
             }
@@ -104,7 +106,7 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
         $firstTotal = reset($this->_totals);
         if ($firstTotal) {
             $total = $firstTotal->getAddress()->getBaseGrandTotal();
-            return Mage::app()->getStore()->getBaseCurrency()->format($total, array(), true);
+            return \Mage::app()->getStore()->getBaseCurrency()->format($total, array(), true);
         }
         return '-';
     }
@@ -112,7 +114,7 @@ class Magento_Checkout_Block_Cart_Totals extends Magento_Checkout_Block_Cart_Abs
     /**
      * Get active or custom quote
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {

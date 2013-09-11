@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Checkout\Block\Multishipping;
+
+class Overview extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
      * Initialize default item renderer for row-level items output
@@ -25,7 +27,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
         parent::_construct();
         $this->addItemRender(
             $this->_getRowItemType('default'),
-            'Magento_Checkout_Block_Cart_Item_Renderer',
+            '\Magento\Checkout\Block\Cart\Item\Renderer',
             'multishipping/overview/item.phtml'
         );
     }
@@ -33,11 +35,11 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     /**
      * Get multishipping checkout model
      *
-     * @return Magento_Checkout_Model_Type_Multishipping
+     * @return \Magento\Checkout\Model\Type\Multishipping
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Type_Multishipping');
+        return \Mage::getSingleton('Magento\Checkout\Model\Type\Multishipping');
     }
 
     protected function _prepareLayout()
@@ -124,7 +126,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
         $totals = $address->getTotals();
         foreach ($totals as $total) {
             if ($total->getCode()=='grand_total') {
-                if ($address->getAddressType() == Magento_Sales_Model_Quote_Address::TYPE_BILLING) {
+                if ($address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_BILLING) {
                     $total->setTitle(__('Total'));
                 }
                 else {
@@ -224,7 +226,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
     public function renderTotals($totals, $colspan=null)
     {
         if ($colspan === null) {
-            $colspan = $this->helper('Magento_Tax_Helper_Data')->displayCartBothPrices() ? 5 : 3;
+            $colspan = $this->helper('\Magento\Tax\Helper\Data')->displayCartBothPrices() ? 5 : 3;
         }
         $totals = $this->getChildBlock('totals')->setTotals($totals)->renderTotals('', $colspan)
             . $this->getChildBlock('totals')->setTotals($totals)->renderTotals('footer', $colspan);
@@ -237,7 +239,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
      * @param   string $type Product type
      * @param   string $block Block type
      * @param   string $template Block template
-     * @return  Magento_Checkout_Block_Multishipping_Overview
+     * @return  \Magento\Checkout\Block\Multishipping\Overview
      */
     public function addRowItemRender($type, $block, $template)
     {
@@ -265,7 +267,7 @@ class Magento_Checkout_Block_Multishipping_Overview extends Magento_Sales_Block_
      * Retrieve renderer block for row-level item output
      *
      * @param string $type
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function _getRowItemRenderer($type)
     {

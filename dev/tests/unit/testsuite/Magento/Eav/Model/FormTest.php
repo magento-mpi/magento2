@@ -10,12 +10,12 @@
  */
 
 /**
- * Test for Magento_Eav_Model_Form
+ * Test for \Magento\Eav\Model\Form
  */
 class Magento_Eav_Model_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Eav_Model_Form
+     * @var \Magento\Eav\Model\Form
      */
     protected $_model = null;
 
@@ -44,7 +44,7 @@ class Magento_Eav_Model_FormTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_model = $this->getMockBuilder('Magento_Eav_Model_Form')
+        $this->_model = $this->getMockBuilder('Magento\Eav\Model\Form')
             ->setMethods(array('_getFilteredFormAttributeCollection', '_getValidator', 'getEntity'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -134,7 +134,7 @@ class Magento_Eav_Model_FormTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateDataPassed($isValid, $expected, $messages = null)
     {
-        $validator = $this->getMockBuilder('Magento_Eav_Model_Validator_Attribute_Data')
+        $validator = $this->getMockBuilder('Magento\Eav\Model\Validator\Attribute\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('isValid', 'getMessages'))
             ->getMock();

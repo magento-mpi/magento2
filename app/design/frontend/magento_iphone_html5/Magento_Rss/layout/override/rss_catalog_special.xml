@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="rss_catalog_special">
-        <block class="Magento_Rss_Block_Catalog_Special" output="1" name="rss.catalog.special"/>
+        <block class="\Magento\Rss\Block\Catalog\Special" output="1" name="rss.catalog.special"/>
     </handle>
 </layout>

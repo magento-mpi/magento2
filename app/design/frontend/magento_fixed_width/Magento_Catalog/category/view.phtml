@@ -12,11 +12,11 @@
 /**
  * Category view template
  *
- * @see Magento_Catalog_Block_Category_View
+ * @see \Magento\Catalog\Block\Category\View
  */
 ?>
 <?php
-    $_helper    = $this->helper('Magento_Catalog_Helper_Output');
+    $_helper    = $this->helper('\Magento\Catalog\Helper\Output');
     $_category  = $this->getCurrentCategory();
     $_imgHtml   = '';
     if ($_imgUrl = $_category->getImageUrl()) {

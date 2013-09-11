@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_ImportExport_Model_Resource_Setup */
+/** @var $installer \Magento\ImportExport\Model\Resource\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -28,7 +28,7 @@ $table = $installer->getConnection()
         ), 'Entity')
     ->addColumn('behavior', \Magento\DB\Ddl\Table::TYPE_TEXT, 10, array(
         'nullable'  => false,
-        'default'   => Magento_ImportExport_Model_Import::BEHAVIOR_APPEND,
+        'default'   => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND,
         ), 'Behavior')
     ->addColumn('data', \Magento\DB\Ddl\Table::TYPE_TEXT, '64k', array(
         'default'   => '',

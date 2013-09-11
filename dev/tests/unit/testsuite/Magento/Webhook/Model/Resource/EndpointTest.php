@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Endpoint
+ * \Magento\Webhook\Model\Resource\Endpoint
  *
  * {license_notice}
  *
@@ -13,7 +13,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
 {
     const TABLE_NAME = 'outbound_endpoint_table';
 
-    /** @var  Magento_Webhook_Model_Resource_Endpoint */
+    /** @var  \Magento\Webhook\Model\Resource\Endpoint */
     private $_endpoint;
 
     /** @var  PHPUnit_Framework_MockObject_MockObject */
@@ -51,7 +51,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
             ->will($this->returnValue(1));
 
         // Resources mock
-        $this->_resourceMock = $this->_makeMock('Magento_Core_Model_Resource');
+        $this->_resourceMock = $this->_makeMock('\Magento\Core\Model\Resource');
         // Resources stubs
         $stubReturnMap = array(
             array('core_read', $this->_adapterMock),
@@ -65,7 +65,7 @@ class Magento_Webhook_Model_Resource_EndpointTest extends PHPUnit_Framework_Test
             ->with('outbound_endpoint')
             ->will($this->returnValue(self::TABLE_NAME));
 
-        $this->_endpoint = new Magento_Webhook_Model_Resource_Endpoint($this->_resourceMock);
+        $this->_endpoint = new \Magento\Webhook\Model\Resource\Endpoint($this->_resourceMock);
     }
 
     public function testGetApiUserEndpoints()

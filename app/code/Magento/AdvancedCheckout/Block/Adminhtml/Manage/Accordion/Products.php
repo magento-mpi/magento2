@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Products
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
      * Block initializing, grid parameters
@@ -44,24 +46,24 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Return items collection
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-            $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+            $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+            $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
                 ->setStore($this->_getStore())
                 ->addAttributeToSelect($attributes)
                 ->addAttributeToSelect('sku')
                 ->addAttributeToFilter(
                     'type_id',
                     array_keys(
-                        Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
+                        \Mage::getConfig()->getNode('adminhtml/sales/order/create/available_product_types')->asArray()
                     )
-                )->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+                )->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
                 ->addStoreFilter($this->_getStore());
-            Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')->addIsInStockFilterToCollection($collection);
+            \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
         return $this->getData('items_collection');
@@ -70,7 +72,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Prepare Grid columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -83,7 +85,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
 
         $this->addColumn('name', array(
             'header'    => __('Product'),
-            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Product',
+            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Product',
             'index'     => 'name'
         ));
 
@@ -100,7 +102,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
             'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
             'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
             'index'     => 'price',
-            'renderer'  => 'Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price'
+            'renderer'  => '\Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price'
         ));
 
         $this->_addControlColumns();
@@ -111,7 +113,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Custom products grid search callback
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareLayout()
     {
@@ -123,7 +125,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Search by selected products
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -152,7 +154,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     protected function _getSelectedProducts()
     {
         if ($this->getRequest()->getPost('source')) {
-            $source = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($this->getRequest()->getPost('source'));
+            $source = \Mage::helper('Magento\Core\Helper\Data')->jsonDecode($this->getRequest()->getPost('source'));
             if (isset($source['source_products']) && is_array($source['source_products'])) {
                 return array_keys($source['source_products']);
             }
@@ -173,7 +175,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /**
      * Add columns with controls to manage added products and their quantity
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _addControlColumns()
     {
@@ -184,7 +186,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
     /*
      * Add custom options to product collection
      *
-     * return Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Products
+     * return \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Products
      */
     protected function _afterLoadCollection()
     {

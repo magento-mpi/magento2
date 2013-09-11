@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Tracking */ ?>
+<?php /** @var $this \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Tracking */ ?>
 <table cellspacing="0" class="data-table" id="shipment_tracking_info">
     <thead>
         <tr class="headings">
@@ -43,7 +43,7 @@
                 <?php if ($_track->isCustom()): ?>
                     <?php echo $this->escapeHtml($_track->getTrackNumber()) ?>
                 <?php else: ?>
-                <a href="#" onclick="popWin('<?php echo $this->helper('Magento_Rma_Helper_Data')->getTrackingPopupUrlBySalesModel($_track) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')"><?php echo $this->escapeHtml($_track->getTrackNumber()) ?></a>
+                <a href="#" onclick="popWin('<?php echo $this->helper('\Magento\Rma\Helper\Data')->getTrackingPopupUrlBySalesModel($_track) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')"><?php echo $this->escapeHtml($_track->getTrackNumber()) ?></a>
                 <div id="shipment_tracking_info_response_<?php echo $_track->getId() ?>"></div>
                 <?php endif; ?>
             </td>

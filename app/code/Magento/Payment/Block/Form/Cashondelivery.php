@@ -11,7 +11,9 @@
 /**
  * Block for Cash On Delivery payment method form
  */
-class Magento_Payment_Block_Form_Cashondelivery extends Magento_Payment_Block_Form
+namespace Magento\Payment\Block\Form;
+
+class Cashondelivery extends \Magento\Payment\Block\Form
 {
 
     /**

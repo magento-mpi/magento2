@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
+namespace Magento\MultipleWishlist\Helper;
+
+class Data extends \Magento\Wishlist\Helper\Data
 {
     /**
      * The list of default wishlists grouped by customer id
@@ -27,14 +29,14 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     /**
      * Create wishlist item collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _createWishlistItemCollection()
     {
         if ($this->isMultipleEnabled()) {
-            return Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
+            return \Mage::getModel('\Magento\Wishlist\Model\Item')->getCollection()
                 ->addCustomerIdFilter($this->getCustomer()->getId())
-                ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
+                ->addStoreFilter(\Mage::app()->getStore()->getWebsite()->getStoreIds())
                 ->setVisibilityFilter();
         } else {
             return parent::_createWishlistItemCollection();
@@ -44,11 +46,11 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     /**
      * Retrieve current customer
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
-        return Mage::helper('Magento_Wishlist_Helper_Data')->getCustomer();
+        return \Mage::helper('Magento\Wishlist\Helper\Data')->getCustomer();
     }
 
     /**
@@ -59,17 +61,17 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     public function isMultipleEnabled()
     {
         return $this->isModuleOutputEnabled()
-            && Mage::getStoreConfig('wishlist/general/active')
-            && Mage::getStoreConfig('wishlist/general/multiple_enabled');
+            && \Mage::getStoreConfig('wishlist/general/active')
+            && \Mage::getStoreConfig('wishlist/general/multiple_enabled');
     }
 
     /**
      * Check whether given wishlist is default for it's customer
      *
-     * @param Magento_Wishlist_Model_Wishlist $wishlist
+     * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @return bool
      */
-    public function isWishlistDefault(Magento_Wishlist_Model_Wishlist $wishlist)
+    public function isWishlistDefault(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         return $this->getDefaultWishlist($wishlist->getCustomerId())->getId() == $wishlist->getId();
     }
@@ -78,7 +80,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
      * Retrieve customer's default wishlist
      *
      * @param int $customerId
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     public function getDefaultWishlist($customerId = null)
     {
@@ -86,7 +88,7 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
             $customerId = $this->getCustomer()->getId();
         }
         if (!isset($this->_defaultWishlistsByCustomer[$customerId])) {
-            $this->_defaultWishlistsByCustomer[$customerId] = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+            $this->_defaultWishlistsByCustomer[$customerId] = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
             $this->_defaultWishlistsByCustomer[$customerId]->loadByCustomer($customerId, false);
         }
         return $this->_defaultWishlistsByCustomer[$customerId];
@@ -99,16 +101,16 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
      */
     public function getWishlistLimit()
     {
-        return Mage::getStoreConfig('wishlist/general/multiple_wishlist_number');
+        return \Mage::getStoreConfig('wishlist/general/multiple_wishlist_number');
     }
 
     /**
      * Check whether given wishlist collection size exceeds wishlist limit
      *
-     * @param Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlistList
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistList
      * @return bool
      */
-    public function isWishlistLimitReached(Magento_Wishlist_Model_Resource_Wishlist_Collection $wishlistList)
+    public function isWishlistLimitReached(\Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistList)
     {
         return count($wishlistList) >= $this->getWishlistLimit();
     }
@@ -117,19 +119,19 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
      * Retrieve Wishlist collection by customer id
      *
      * @param int $customerId
-     * @return Magento_Wishlist_Model_Resource_Wishlist_Collection
+     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
      */
     public function getCustomerWishlists($customerId = null)
     {
         if (!$customerId && $this->getCustomer()) {
             $customerId = $this->getCustomer()->getId();
         }
-        $wishlistsByCustomer = Mage::registry('wishlists_by_customer');
+        $wishlistsByCustomer = \Mage::registry('wishlists_by_customer');
         if (!isset($wishlistsByCustomer[$customerId])) {
-            $collection = Mage::getModel('Magento_Wishlist_Model_Wishlist')->getCollection();
+            $collection = \Mage::getModel('\Magento\Wishlist\Model\Wishlist')->getCollection();
             $collection->filterByCustomerId($customerId);
             $wishlistsByCustomer[$customerId] = $collection;
-            Mage::register('wishlists_by_customer', $wishlistsByCustomer);
+            \Mage::register('wishlists_by_customer', $wishlistsByCustomer);
         }
         return $wishlistsByCustomer[$customerId];
     }
@@ -137,13 +139,13 @@ class Magento_MultipleWishlist_Helper_Data extends Magento_Wishlist_Helper_Data
     /**
      * Retrieve number of wishlist items in given wishlist
      *
-     * @param Magento_Wishlist_Model_Wishlist $wishlist
+     * @param \Magento\Wishlist\Model\Wishlist $wishlist
      * @return int
      */
-    public function getWishlistItemCount(Magento_Wishlist_Model_Wishlist $wishlist)
+    public function getWishlistItemCount(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         $collection = $wishlist->getItemCollection();
-        if (Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
+        if (\Mage::getStoreConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)) {
             $count = $collection->getItemsQty();
         } else {
             $count = $collection->getSize();

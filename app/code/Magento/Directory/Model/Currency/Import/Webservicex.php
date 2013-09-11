@@ -15,7 +15,9 @@
  * @package    Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Currency_Import_Webservicex extends Magento_Directory_Model_Currency_Import_Abstract
+namespace Magento\Directory\Model\Currency\Import;
+
+class Webservicex extends \Magento\Directory\Model\Currency\Import\AbstractImport
 {
     protected $_url = 'http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency={{CURRENCY_FROM}}&ToCurrency={{CURRENCY_TO}}';
     protected $_messages = array();
@@ -40,7 +42,7 @@ class Magento_Directory_Model_Currency_Import_Webservicex extends Magento_Direct
         try {
             $response = $this->_httpClient
                 ->setUri($url)
-                ->setConfig(array('timeout' => Mage::getStoreConfig('currency/webservicex/timeout')))
+                ->setConfig(array('timeout' => \Mage::getStoreConfig('currency/webservicex/timeout')))
                 ->request('GET')
                 ->getBody();
 
@@ -51,7 +53,7 @@ class Magento_Directory_Model_Currency_Import_Webservicex extends Magento_Direct
             }
             return (float) $xml;
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             if( $retry == 0 ) {
                 $this->_convert($currencyFrom, $currencyTo, 1);
             } else {

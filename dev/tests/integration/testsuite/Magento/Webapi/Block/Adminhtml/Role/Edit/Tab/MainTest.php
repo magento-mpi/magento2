@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main block
+ * Test for \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main block
  *
  * {license_notice}
  *
@@ -19,17 +19,17 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Core_Model_BlockFactory
+     * @var \Magento\Core\Model\BlockFactory
      */
     protected $_blockFactory;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main
+     * @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main
      */
     protected $_block;
 
@@ -38,16 +38,16 @@ class Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_MainTest extends PHPUnit_Fram
         parent::setUp();
 
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
-        $this->_blockFactory = $this->_objectManager->get('Magento_Core_Model_BlockFactory');
-        $this->_block = $this->_blockFactory->createBlock('Magento_Webapi_Block_Adminhtml_Role_Edit_Tab_Main');
+        $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
+        $this->_blockFactory = $this->_objectManager->get('Magento\Core\Model\BlockFactory');
+        $this->_block = $this->_blockFactory->createBlock('\Magento\Webapi\Block\Adminhtml\Role\Edit\Tab\Main');
         $this->_layout->addBlock($this->_block);
     }
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
-        $this->_objectManager->removeSharedInstance('Magento_Core_Model_BlockFactory');
+        $this->_objectManager->removeSharedInstance('\Magento\Core\Model\Layout');
+        $this->_objectManager->removeSharedInstance('\Magento\Core\Model\BlockFactory');
         unset($this->_objectManager, $this->_layout, $this->_blockFactory, $this->_block);
     }
 

@@ -9,15 +9,17 @@
  */
 
 
-class Magento_Sales_Model_Order_Invoice_Total_Subtotal extends Magento_Sales_Model_Order_Invoice_Total_Abstract
+namespace Magento\Sales\Model\Order\Invoice\Total;
+
+class Subtotal extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
     /**
      * Collect invoice subtotal
      *
-     * @param   Magento_Sales_Model_Order_Invoice $invoice
-     * @return  Magento_Sales_Model_Order_Invoice_Total_Subtotal
+     * @param   \Magento\Sales\Model\Order\Invoice $invoice
+     * @return  \Magento\Sales\Model\Order\Invoice\Total\Subtotal
      */
-    public function collect(Magento_Sales_Model_Order_Invoice $invoice)
+    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $subtotal       = 0;
         $baseSubtotal   = 0;

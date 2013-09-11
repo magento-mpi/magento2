@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
+namespace Magento\GoogleShopping\Model;
+
+class Attribute extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Default ignored attribute codes
@@ -53,7 +55,7 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_GoogleShopping_Model_Resource_Attribute');
+        $this->_init('\Magento\GoogleShopping\Model\Resource\Attribute');
     }
 
     /**
@@ -64,13 +66,13 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
      */
     public function getAllowedAttributes($setId)
     {
-        $attributes = Mage::getModel('Magento_Catalog_Model_Product')->getResource()
+        $attributes = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
 
         $titles = array();
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if ($attribute->isInSet($setId) && $this->_isAllowedAttribute($attribute)) {
                 $list[$attribute->getAttributeId()] = $attribute;
                 $titles[$attribute->getAttributeId()] = $attribute->getFrontendLabel();
@@ -87,7 +89,7 @@ class Magento_GoogleShopping_Model_Attribute extends Magento_Core_Model_Abstract
     /**
      * Check if attribute allowed
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      * @param array $attributes
      * @return boolean
      */

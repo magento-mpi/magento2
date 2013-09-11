@@ -16,11 +16,11 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit
 {
     public function testPrepareForm()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Layout');
 
-        /** @var Magento_Core_Model_Registry $registry */
-        $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Core_Model_Registry');
+        /** @var \Magento\Core\Model\Registry $registry */
+        $registry = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Core\Model\Registry');
         $subscription = array(
             'name' => 'subscriptionName',
             'endpoint_url' => 'example.url.com',
@@ -35,8 +35,8 @@ class Magento_Webhook_Block_Adminhtml_Subscription_Edit_FormTest extends PHPUnit
                 $subscription
             );
 
-        /** @var Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form $block */
-        $block = $layout->createBlock('Magento_Webhook_Block_Adminhtml_Subscription_Edit_Form',
+        /** @var \Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form $block */
+        $block = $layout->createBlock('\Magento\Webhook\Block\Adminhtml\Subscription\Edit\Form',
             '', array('registry' => $registry)
         );
         $block->toHtml();

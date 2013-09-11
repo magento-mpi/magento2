@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Core_Model_Resource
+ * Test for \Magento\Core\Model\Resource
  *
  * {license_notice}
  *
@@ -10,13 +10,13 @@
 class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Resource');
+        $this->_model = Mage::getModel('\Magento\Core\Model\Resource');
     }
 
     /**
@@ -39,18 +39,18 @@ class Magento_Core_Model_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testProfilerInit()
     {
-        $connReadConfig = Mage::getSingleton('Magento_Core_Model_Config_Resource')
+        $connReadConfig = Mage::getSingleton('Magento\Core\Model\Config\Resource')
             ->getResourceConnectionConfig('core_read');
         $profilerConfig = $connReadConfig->addChild('profiler');
-        $profilerConfig->addChild('class', 'Magento_Core_Model_Resource_Db_Profiler');
+        $profilerConfig->addChild('class', '\Magento\Core\Model\Resource\Db\Profiler');
         $profilerConfig->addChild('enabled', 'true');
 
         /** @var Zend_Db_Adapter_Abstract $connection */
         $connection = $this->_model->getConnection('core_read');
-        /** @var Magento_Core_Model_Resource_Db_Profiler $profiler */
+        /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
 
-        $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Profiler', $profiler);
+        $this->assertInstanceOf('\Magento\Core\Model\Resource\Db\Profiler', $profiler);
         $this->assertTrue($profiler->getEnabled());
         $this->assertAttributeEquals((string)$connReadConfig->host, '_host', $profiler);
         $this->assertAttributeEquals((string)$connReadConfig->type, '_type', $profiler);

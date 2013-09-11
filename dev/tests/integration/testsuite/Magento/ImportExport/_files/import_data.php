@@ -113,7 +113,7 @@ $bunches = array(
     )
 );
 
-$importDataResource = Mage::getResourceModel('Magento_ImportExport_Model_Resource_Import_Data');
+$importDataResource = Mage::getResourceModel('\Magento\ImportExport\Model\Resource\Import\Data');
 
 foreach ($bunches as $bunch) {
     $importDataResource->saveBunch($bunch['entity'], $bunch['behavior'], $bunch['data']);

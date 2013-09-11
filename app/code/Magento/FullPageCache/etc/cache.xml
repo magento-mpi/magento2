@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <type name="full_page" translate="label,description" instance="Magento_FullPageCache_Model_Cache_Type">
+    <type name="full_page" translate="label,description" instance="\Magento\FullPageCache\Model\Cache\Type">
         <label>Page Cache</label>
         <description>Full page caching.</description>
     </type>

@@ -15,17 +15,19 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions
-    extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab;
+
+class Conditions
+    extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare conditions form
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tab\Conditions
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_customer_segment');
+        $model = \Mage::registry('current_customer_segment');
 
         $form = new \Magento\Data\Form();
 
@@ -33,7 +35,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condition
         $params = array('apply_to' => $model->getApplyTo());
         $url = $this->getUrl('*/customersegment/newConditionHtml/form/segment_conditions_fieldset', $params);
 
-        $renderer = Mage::getBlockSingleton('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset')
+        $renderer = \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
             ->setTemplate('promo/fieldset.phtml')
             ->setNewChildUrl($url);
         $fieldset = $form->addFieldset('conditions_fieldset', array(
@@ -46,9 +48,9 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condition
             'label' => __('Conditions'),
             'title' => __('Conditions'),
             'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Conditions'));
+        ))->setRule($model)->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Conditions'));
 
-        if (Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED == $model->getApplyTo()) {
+        if (\Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS_AND_REGISTERED == $model->getApplyTo()) {
             $fieldset->addField('conditions-label', 'label', array(
                 'note' => __('* applicable to visitors and registered customers'),
             ));

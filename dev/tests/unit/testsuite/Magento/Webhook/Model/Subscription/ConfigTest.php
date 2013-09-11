@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Subscription_Config
+ * \Magento\Webhook\Model\Subscription\Config
  *
  * {license_notice}
  *
@@ -51,7 +51,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
             </setting_authentication_type>
         </xml>';
 
-    /** @var Magento_Webhook_Model_Subscription_Config that is also our unit under test */
+    /** @var \Magento\Webhook\Model\Subscription\Config that is also our unit under test */
     protected $_config;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -175,7 +175,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
         $methods = array('setData', 'getData', 'unsetData', 'save', 'setName', 'setTopics', 'setFormat',
                         'setEndpointUrl', 'getAuthenticationOptions', 'unsetAuthenticationOption',
                         'setAuthenticationType');
-        $mock = $this->getMockBuilder('Magento_Webhook_Model_Subscription')
+        $mock = $this->getMockBuilder('Magento\Webhook\Model\Subscription')
             ->disableOriginalConstructor()
             ->setMethods($methods)
             ->getMock();
@@ -191,37 +191,37 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
      * Creates stub config element given a fragment of valid xml string
      *
      * @param string $xmlString
-     * @return Magento_Core_Model_Config_Element
+     * @return \Magento\Core\Model\Config\Element
      */
     protected function _createStubConfigElement($xmlString)
     {
-        return new Magento_Core_Model_Config_Element($xmlString);
+        return new \Magento\Core\Model\Config\Element($xmlString);
     }
 
     /**
      * Initializes a set of mocks and stubs
      *
-     * @param Magento_Core_Model_Config_Element          $configNode
+     * @param \Magento\Core\Model\Config\Element          $configNode
      * @param PHPUnit_Framework_MockObject_MockObject $subxCollection
-     *        Mocks Magento_Webhook_Model_Resource_Subscription_Collection
+     *        Mocks \Magento\Webhook\Model\Resource\Subscription\Collection
      * @param string[]                                $expectedErrors
      */
     protected function _stubMock($configNode, $subxCollection = null, $expectedErrors = null)
     {
         // Mock objects
-        $this->_mockCollection = $this->getMockBuilder('Magento_Webhook_Model_Resource_Subscription_Collection')
+        $this->_mockCollection = $this->getMockBuilder('Magento\Webhook\Model\Resource\Subscription\Collection')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockMageConfig = $this->getMockBuilder('Magento_Core_Model_Config')
+        $this->_mockMageConfig = $this->getMockBuilder('Magento\Core\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockSubscribFactory = $this->getMockBuilder('Magento_Webhook_Model_Subscription_Factory')
+        $this->_mockSubscribFactory = $this->getMockBuilder('Magento\Webhook\Model\Subscription\Factory')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockLogger = $this->getMockBuilder('Magento_Core_Model_Logger')
+        $this->_mockLogger = $this->getMockBuilder('Magento\Core\Model\Logger')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -234,13 +234,13 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
         if ($expectedErrors !== null) {
             $this->_mockLogger->expects($this->once())
                 ->method('logException')
-                ->with($this->equalTo(new Magento_Webhook_Exception(implode("\n", $expectedErrors))));
+                ->with($this->equalTo(new \Magento\Webhook\Exception(implode("\n", $expectedErrors))));
         }
 
         // Stub getNode
         $this->_mockMageConfig->expects($this->any())
             ->method('getNode')
-            ->with($this->equalTo(Magento_Webhook_Model_Subscription_Config::XML_PATH_SUBSCRIPTIONS))
+            ->with($this->equalTo(\Magento\Webhook\Model\Subscription\Config::XML_PATH_SUBSCRIPTIONS))
             ->will($this->returnValue($configNode));
 
         // Get or set subscription collection mock
@@ -251,7 +251,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
         }
 
         // Create config object
-        $this->_config = new Magento_Webhook_Model_Subscription_Config(
+        $this->_config = new \Magento\Webhook\Model\Subscription\Config(
             $this->_mockCollection,
             $this->_mockMageConfig,
             $this->_mockSubscribFactory,
@@ -266,7 +266,7 @@ class Magento_Webhook_Model_Subscription_ConfigTest extends PHPUnit_Framework_Te
      */
     protected function _createMockSubscriptionCollection($idToSubscriptionsMap = array())
     {
-        $mock = $this->getMockBuilder('Magento_Webhook_Model_Resource_Subscription_Collection')
+        $mock = $this->getMockBuilder('Magento\Webhook\Model\Resource\Subscription\Collection')
             ->disableOriginalConstructor()
             ->getMock();
         // Order matters when mocking out methods.  We need the more restrictive one first.

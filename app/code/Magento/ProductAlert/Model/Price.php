@@ -12,39 +12,41 @@
 /**
  * ProductAlert for changed price model
  *
- * @method Magento_ProductAlert_Model_Resource_Price _getResource()
- * @method Magento_ProductAlert_Model_Resource_Price getResource()
+ * @method \Magento\ProductAlert\Model\Resource\Price _getResource()
+ * @method \Magento\ProductAlert\Model\Resource\Price getResource()
  * @method int getCustomerId()
- * @method Magento_ProductAlert_Model_Price setCustomerId(int $value)
+ * @method \Magento\ProductAlert\Model\Price setCustomerId(int $value)
  * @method int getProductId()
- * @method Magento_ProductAlert_Model_Price setProductId(int $value)
+ * @method \Magento\ProductAlert\Model\Price setProductId(int $value)
  * @method float getPrice()
- * @method Magento_ProductAlert_Model_Price setPrice(float $value)
+ * @method \Magento\ProductAlert\Model\Price setPrice(float $value)
  * @method int getWebsiteId()
- * @method Magento_ProductAlert_Model_Price setWebsiteId(int $value)
+ * @method \Magento\ProductAlert\Model\Price setWebsiteId(int $value)
  * @method string getAddDate()
- * @method Magento_ProductAlert_Model_Price setAddDate(string $value)
+ * @method \Magento\ProductAlert\Model\Price setAddDate(string $value)
  * @method string getLastSendDate()
- * @method Magento_ProductAlert_Model_Price setLastSendDate(string $value)
+ * @method \Magento\ProductAlert\Model\Price setLastSendDate(string $value)
  * @method int getSendCount()
- * @method Magento_ProductAlert_Model_Price setSendCount(int $value)
+ * @method \Magento\ProductAlert\Model\Price setSendCount(int $value)
  * @method int getStatus()
- * @method Magento_ProductAlert_Model_Price setStatus(int $value)
+ * @method \Magento\ProductAlert\Model\Price setStatus(int $value)
  *
  * @category    Magento
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Model_Price extends Magento_Core_Model_Abstract
+namespace Magento\ProductAlert\Model;
+
+class Price extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_ProductAlert_Model_Resource_Price');
+        $this->_init('\Magento\ProductAlert\Model\Resource\Price');
     }
 
     public function getCustomerCollection()
     {
-        return Mage::getResourceModel('Magento_ProductAlert_Model_Resource_Price_Customer_Collection');
+        return \Mage::getResourceModel('\Magento\ProductAlert\Model\Resource\Price\Customer\Collection');
     }
 
     public function loadByParam()

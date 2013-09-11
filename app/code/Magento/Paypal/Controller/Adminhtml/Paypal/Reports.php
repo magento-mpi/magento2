@@ -15,7 +15,9 @@
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminhtml_Controller_Action
+namespace Magento\Paypal\Controller\Adminhtml\Paypal;
+
+class Reports extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Grid action
@@ -41,16 +43,16 @@ class Magento_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminht
     public function detailsAction()
     {
         $rowId = $this->getRequest()->getParam('id');
-        $row = Mage::getModel('Magento_Paypal_Model_Report_Settlement_Row')->load($rowId);
+        $row = \Mage::getModel('\Magento\Paypal\Model\Report\Settlement\Row')->load($rowId);
         if (!$row->getId()) {
             $this->_redirect('*/*/');
             return;
         }
-        Mage::register('current_transaction', $row);
+        \Mage::register('current_transaction', $row);
         $this->_initAction()
             ->_title(__('View Transaction'))
             ->_addContent($this->getLayout()
-                ->createBlock('Magento_Paypal_Block_Adminhtml_Settlement_Details', 'settlementDetails'))
+                ->createBlock('\Magento\Paypal\Block\Adminhtml\Settlement\Details', 'settlementDetails'))
             ->renderLayout();
     }
 
@@ -60,36 +62,36 @@ class Magento_Paypal_Controller_Adminhtml_Paypal_Reports extends Magento_Adminht
     public function fetchAction()
     {
         try {
-            $reports = Mage::getModel('Magento_Paypal_Model_Report_Settlement');
-            /* @var $reports Magento_Paypal_Model_Report_Settlement */
+            $reports = \Mage::getModel('\Magento\Paypal\Model\Report\Settlement');
+            /* @var $reports \Magento\Paypal\Model\Report\Settlement */
             $credentials = $reports->getSftpCredentials();
             if (empty($credentials)) {
-                Mage::throwException(__('We found nothing to fetch because of an empty configuration.'));
+                \Mage::throwException(__('We found nothing to fetch because of an empty configuration.'));
             }
             foreach ($credentials as $config) {
                 try {
-                    $fetched = $reports->fetchAndSave(Magento_Paypal_Model_Report_Settlement::createConnection($config));
+                    $fetched = $reports->fetchAndSave(\Magento\Paypal\Model\Report\Settlement::createConnection($config));
                     $this->_getSession()->addSuccess(
                         __("We fetched %1 report rows from '%2@%3'.", $fetched, $config['username'], $config['hostname'])
                     );
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->_getSession()->addError(
                         __("We couldn't fetch reports from '%1@%2'.", $config['username'], $config['hostname'])
                     );
-                    Mage::logException($e);
+                    \Mage::logException($e);
                 }
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
         }
         $this->_redirect('*/*/index');
     }
 
     /**
      * Initialize titles, navigation
-     * @return Magento_Paypal_Controller_Adminhtml_Paypal_Reports
+     * @return \Magento\Paypal\Controller\Adminhtml\Paypal\Reports
      */
     protected function _initAction()
     {

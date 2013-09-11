@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Core_Model_ShellAbstract
+namespace Magento\Core\Model;
+
+abstract class ShellAbstract
 {
     /**
      * Raw arguments, that should be parsed
@@ -48,12 +50,12 @@ abstract class Magento_Core_Model_ShellAbstract
      *
      * @param \Magento\Filesystem $filesystem
      * @param string $entryPoint
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct(\Magento\Filesystem $filesystem, $entryPoint)
     {
         if (isset($_SERVER['REQUEST_METHOD'])) {
-            throw new Exception('This script cannot be run from Browser. This is the shell script.');
+            throw new \Exception('This script cannot be run from Browser. This is the shell script.');
         }
 
         $this->_filesystem = $filesystem;
@@ -67,7 +69,7 @@ abstract class Magento_Core_Model_ShellAbstract
      * Sets raw arguments to be parsed
      *
      * @param array $args
-     * @return Magento_Core_Model_ShellAbstract
+     * @return \Magento\Core\Model\ShellAbstract
      */
     public function setRawArgs($args)
     {
@@ -84,13 +86,13 @@ abstract class Magento_Core_Model_ShellAbstract
      */
     protected function _getRootPath()
     {
-        return Mage::getBaseDir();
+        return \Mage::getBaseDir();
     }
 
     /**
      * Parses .htaccess file and apply php settings to shell script
      *
-     * @return Magento_Core_Model_ShellAbstract
+     * @return \Magento\Core\Model\ShellAbstract
      */
     protected function _applyPhpVariables()
     {
@@ -118,7 +120,7 @@ abstract class Magento_Core_Model_ShellAbstract
     /**
      * Parses input arguments
      *
-     * @return Magento_Core_Model_ShellAbstract
+     * @return \Magento\Core\Model\ShellAbstract
      */
     protected function _parseArgs()
     {
@@ -149,7 +151,7 @@ abstract class Magento_Core_Model_ShellAbstract
     /**
      * Runs script
      *
-     * @return Magento_Core_Model_ShellAbstract
+     * @return \Magento\Core\Model\ShellAbstract
      */
     abstract public function run();
 

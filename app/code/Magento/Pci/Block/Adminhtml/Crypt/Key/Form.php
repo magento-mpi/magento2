@@ -12,12 +12,14 @@
  * Encryption key change form block
  *
  */
-class Magento_Pci_Block_Adminhtml_Crypt_Key_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Pci\Block\Adminhtml\Crypt\Key;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Add form fields
      *
-     * @return Magento_Pci_Block_Adminhtml_Crypt_Key_Form
+     * @return \Magento\Pci\Block\Adminhtml\Crypt\Key\Form
      */
     protected function _prepareForm()
     {

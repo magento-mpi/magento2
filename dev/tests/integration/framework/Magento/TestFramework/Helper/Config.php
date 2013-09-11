@@ -23,7 +23,7 @@ class Magento_TestFramework_Helper_Config
     {
         $result = array();
         $moduleList = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_ModuleListInterface');
+            ->get('Magento\Core\Model\ModuleListInterface');
         foreach ($moduleList->getModules() as $module) {
             $result[] = $module['name'];
         }

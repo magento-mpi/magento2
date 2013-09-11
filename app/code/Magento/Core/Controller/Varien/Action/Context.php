@@ -7,15 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Controller_Varien_Action_Context implements \Magento\ObjectManager\ContextInterface
+namespace Magento\Core\Controller\Varien\Action;
+
+class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Core_Controller_Response_Http
+     * @var \Magento\Core\Controller\Response\Http
      */
     protected $_response;
 
@@ -25,35 +27,35 @@ class Magento_Core_Controller_Varien_Action_Context implements \Magento\ObjectMa
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Controller_Varien_Front
+     * @var \Magento\Core\Controller\Varien\Front
      */
     protected $_frontController = null;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Controller_Response_Http $response
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Controller\Response\Http $response
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Controller_Varien_Front $frontController
-     * @param Magento_Core_Model_Layout $layout
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Controller\Varien\Front $frontController
+     * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Controller_Response_Http $response,
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Controller\Response\Http $response,
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Controller_Varien_Front $frontController,
-        Magento_Core_Model_Layout $layout,
-        Magento_Core_Model_Event_Manager $eventManager
+        \Magento\Core\Controller\Varien\Front $frontController,
+        \Magento\Core\Model\Layout $layout,
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
         $this->_request         = $request;
         $this->_response        = $response;
@@ -64,7 +66,7 @@ class Magento_Core_Controller_Varien_Action_Context implements \Magento\ObjectMa
     }
 
     /**
-     * @return \Magento_Core_Controller_Varien_Front
+     * @return \Magento\Core\Controller\Varien\Front
      */
     public function getFrontController()
     {
@@ -72,7 +74,7 @@ class Magento_Core_Controller_Varien_Action_Context implements \Magento\ObjectMa
     }
 
     /**
-     * @return \Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     public function getLayout()
     {
@@ -88,7 +90,7 @@ class Magento_Core_Controller_Varien_Action_Context implements \Magento\ObjectMa
     }
 
     /**
-     * @return \Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function getRequest()
     {
@@ -96,7 +98,7 @@ class Magento_Core_Controller_Varien_Action_Context implements \Magento\ObjectMa
     }
 
     /**
-     * @return \Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     public function getResponse()
     {
@@ -104,7 +106,7 @@ class Magento_Core_Controller_Varien_Action_Context implements \Magento\ObjectMa
     }
 
     /**
-     * @return \Magento_Core_Model_Event_Manager
+     * @return \Magento\Core\Model\Event\Manager
      */
     public function getEventManager()
     {

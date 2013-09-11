@@ -15,7 +15,9 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\GoogleShopping\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 
     /**
@@ -41,7 +43,7 @@ class Magento_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function cleanAtomAttribute($string)
     {
-        return Mage::helper('Magento_Core_Helper_String')
+        return \Mage::helper('Magento\Core\Helper\String')
             ->substr(preg_replace('/[\pC¢€•—™°½]|shipping/ui', '', $string), 0, 3500);
     }
 
@@ -59,10 +61,10 @@ class Magento_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
     }
 
     /**
-     * Parse Exception Response Body
+     * Parse \Exception Response Body
      *
-     * @param string $message Exception message to parse
-     * @param null|Magento_Catalog_Model_Product $product
+     * @param string $message \Exception message to parse
+     * @param null|\Magento\Catalog\Model\Product $product
      * @return string
      */
     public function parseGdataExceptionMessage($message, $product = null)
@@ -76,7 +78,7 @@ class Magento_GoogleShopping_Helper_Data extends Magento_Core_Helper_Abstract
             if (strip_tags($row) == $row) {
                 $row = preg_replace('/@ (.*)/', __("See '\\1'"), $row);
                 if (!is_null($product)) {
-                    $row .= ' ' . __("for product '%1' (in '%2' store)", $product->getName(), Mage::app()->getStore($product->getStoreId())->getName());
+                    $row .= ' ' . __("for product '%1' (in '%2' store)", $product->getName(), \Mage::app()->getStore($product->getStoreId())->getName());
                 }
                 $result[] = $row;
                 continue;

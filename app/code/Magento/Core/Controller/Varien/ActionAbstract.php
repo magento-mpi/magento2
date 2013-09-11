@@ -15,26 +15,28 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Core_Controller_Varien_ActionAbstract
-    implements Magento_Core_Controller_Varien_DispatchableInterface
+namespace Magento\Core\Controller\Varien;
+
+abstract class ActionAbstract
+    implements \Magento\Core\Controller\Varien\DispatchableInterface
 {
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
     /**
-     * @var Magento_Core_Controller_Response_Http
+     * @var \Magento\Core\Controller\Response\Http
      */
     protected $_response;
 
     /**
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Core_Controller_Response_Http $response
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Core\Controller\Response\Http $response
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Core_Controller_Response_Http $response
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Core\Controller\Response\Http $response
     ) {
         $this->_request  = $request;
         $this->_response = $response;
@@ -43,7 +45,7 @@ abstract class Magento_Core_Controller_Varien_ActionAbstract
     /**
      * Retrieve request object
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function getRequest()
     {
@@ -53,7 +55,7 @@ abstract class Magento_Core_Controller_Varien_ActionAbstract
     /**
      * Retrieve response object
      *
-     * @return Magento_Core_Controller_Response_Http
+     * @return \Magento\Core\Controller\Response\Http
      */
     public function getResponse()
     {

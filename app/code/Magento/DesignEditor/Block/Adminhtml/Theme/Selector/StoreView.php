@@ -15,30 +15,32 @@
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Magento_Backend_Block_Template
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector;
+
+class StoreView extends \Magento\Backend\Block\Template
 {
     /**
      * Website collection
      *
-     * @var Magento_Core_Model_Resource_Website_Collection
+     * @var \Magento\Core\Model\Resource\Website\Collection
      */
     protected $_websiteCollection;
 
     /**
-     * @var Magento_Theme_Model_Config_Customization
+     * @var \Magento\Theme\Model\Config\Customization
      */
     protected $_customizationConfig;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Resource_Website_Collection $websiteCollection
-     * @param Magento_Theme_Model_Config $themeConfig
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Resource\Website\Collection $websiteCollection
+     * @param \Magento\Theme\Model\Config $themeConfig
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Resource_Website_Collection $websiteCollection,
-        Magento_Theme_Model_Config_Customization $customizationConfig,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Resource\Website\Collection $websiteCollection,
+        \Magento\Theme\Model\Config\Customization $customizationConfig,
         array $data = array()
     ) {
         $this->_websiteCollection = $websiteCollection;
@@ -50,7 +52,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
     /**
      * Get website collection with stores and store-views joined
      *
-     * @return Magento_Core_Model_Resource_Website_Collection
+     * @return \Magento\Core\Model\Resource\Website\Collection
      */
     public function getCollection()
     {
@@ -60,7 +62,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
     /**
      * Get website, stores and store-views
      *
-     * @return Magento_Core_Model_Resource_Website_Collection
+     * @return \Magento\Core\Model\Resource\Website\Collection
      */
     public function getWebsiteStructure()
     {
@@ -68,7 +70,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
         $website = null;
         $store = null;
         $storeView = null;
-        /** @var $row Magento_Core_Model_Website */
+        /** @var $row \Magento\Core\Model\Website */
         foreach ($this->getCollection() as $row) {
             $website = $row->getName();
             $store = $row->getGroupTitle();
@@ -92,8 +94,8 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
      */
     public function getAssignNextButtonHtml()
     {
-        /** @var $assignSaveButton Magento_Backend_Block_Widget_Button */
-        $assignSaveButton = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button');
+        /** @var $assignSaveButton \Magento\Backend\Block\Widget\Button */
+        $assignSaveButton = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button');
         $assignSaveButton->setData(array(
             'label'     => __('Assign'),
             'class'     => 'action-save primary',
@@ -142,7 +144,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
             }
 
             $storesByThemes[$themeId] = array();
-            /** @var $store Magento_Core_Model_Store */
+            /** @var $store \Magento\Core\Model\Store */
             foreach ($stores as $store) {
                 $storesByThemes[$themeId][] = (int)$store->getId();
             }
@@ -161,7 +163,7 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
         $isMultipleMode = false;
         $tmpStore = null;
         foreach ($this->_customizationConfig->getStoresByThemes() as $stores) {
-            /** @var $store Magento_Core_Model_Store */
+            /** @var $store \Magento\Core\Model\Store */
             foreach ($stores as $store) {
                 if ($tmpStore === null) {
                     $tmpStore = $store->getId();
@@ -193,8 +195,8 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_StoreView extends Mage
         $options['actionOnAssign']   = $this->getData('actionOnAssign');
         $options['afterAssignOpen']  = false;
 
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = $this->helper('Magento_Core_Helper_Data');
+        /** @var $helper \Magento\Core\Helper\Data */
+        $helper = $this->helper('\Magento\Core\Helper\Data');
 
         return $helper->jsonEncode($options);
     }

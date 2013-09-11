@@ -15,11 +15,13 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Layer_Filter_Category extends Magento_Catalog_Block_Layer_Filter_Abstract
+namespace Magento\Catalog\Block\Layer\Filter;
+
+class Category extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->_filterModelName = 'Magento_Catalog_Model_Layer_Filter_Category';
+        $this->_filterModelName = '\Magento\Catalog\Model\Layer\Filter\Category';
     }
 }

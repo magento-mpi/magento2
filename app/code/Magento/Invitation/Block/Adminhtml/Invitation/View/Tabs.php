@@ -14,6 +14,8 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Invitation_View_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Invitation\Block\Adminhtml\Invitation\View;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 }

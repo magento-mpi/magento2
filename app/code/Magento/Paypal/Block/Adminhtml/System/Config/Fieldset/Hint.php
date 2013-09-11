@@ -13,8 +13,10 @@
  * Renderer for PayPal banner in System Configuration
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
-    extends Magento_Backend_Block_Template
+namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
+
+class Hint
+    extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_template = 'Magento_Paypal::system/config/fieldset/hint.phtml';
@@ -77,6 +79,6 @@ class Magento_Paypal_Block_Adminhtml_System_Config_Fieldset_Hint
                 });
             });
         ';
-        return $this->toHtml() . $this->helper('Magento_Adminhtml_Helper_Js')->getScript($js);
+        return $this->toHtml() . $this->helper('\Magento\Adminhtml\Helper\Js')->getScript($js);
     }
 }

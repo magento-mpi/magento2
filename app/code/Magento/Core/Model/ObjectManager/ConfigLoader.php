@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_ObjectManager_ConfigLoader
+namespace Magento\Core\Model\ObjectManager;
+
+class ConfigLoader
 {
     /**
      * Config reader factory

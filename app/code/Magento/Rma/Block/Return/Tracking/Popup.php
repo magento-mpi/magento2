@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Return_Tracking_Popup extends Magento_Shipping_Block_Tracking_Popup
+namespace Magento\Rma\Block\Return\Tracking;
+
+class Popup extends \Magento\Shipping\Block\Tracking\Popup
 {
     /**
      * Retrieve array of tracking info
@@ -17,8 +19,8 @@ class Magento_Rma_Block_Return_Tracking_Popup extends Magento_Shipping_Block_Tra
      */
     public function getTrackingInfo()
     {
-        /* @var $info Magento_Rma_Model_Shipping_Info */
-        $info = Mage::registry('rma_current_shipping');
+        /* @var $info \Magento\Rma\Model\Shipping\Info */
+        $info = \Mage::registry('rma_current_shipping');
 
         return $info->getTrackingInfo();
     }

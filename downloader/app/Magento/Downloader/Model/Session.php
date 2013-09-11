@@ -22,7 +22,7 @@ class Session extends \Magento\Downloader\Model
     /**
      * Session
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_session;
 
@@ -34,7 +34,7 @@ class Session extends \Magento\Downloader\Model
     public function start()
     {
         if (class_exists('Magento') && \Mage::isInstalled()) {
-            $this->_session = \Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+            $this->_session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         } else {
             session_start();
         }
@@ -113,7 +113,7 @@ class Session extends \Magento\Downloader\Model
     /**
      * Check is user logged in and permissions
      *
-     * @param Magento_User_Model_User|null $user
+     * @param \Magento\User\Model\User|null $user
      * @return bool
      */
     protected function _checkUserAccess($user = null)
@@ -202,6 +202,6 @@ class Session extends \Magento\Downloader\Model
         if (!$this->_session || !$this->_session->isLoggedIn()) {
             return '';
         }
-        return \Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
+        return \Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl();
     }
 }

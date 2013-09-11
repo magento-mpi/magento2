@@ -12,14 +12,14 @@
 class Magento_AdminGws_Model_BlocksTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_AdminGws_Model_Blocks
+     * @var \Magento\AdminGws\Model\Blocks
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_AdminGws_Model_Blocks(
-            $this->getMock('Magento_AdminGws_Model_Role', array(), array(), '', false)
+        $this->_model = new \Magento\AdminGws\Model\Blocks(
+            $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false)
         );
     }
 

@@ -16,10 +16,12 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Shipping_Model_Config_Backend_Tablerate extends Magento_Core_Model_Config_Value
+namespace Magento\Shipping\Model\Config\Backend;
+
+class Tablerate extends \Magento\Core\Model\Config\Value
 {
     public function _afterSave()
     {
-        Mage::getResourceModel('Magento_Shipping_Model_Resource_Carrier_Tablerate')->uploadAndImport($this);
+        \Mage::getResourceModel('\Magento\Shipping\Model\Resource\Carrier\Tablerate')->uploadAndImport($this);
     }
 }

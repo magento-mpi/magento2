@@ -16,7 +16,9 @@
  * @package Magento_SalesRule
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_Condition_Product_Abstract
+namespace Magento\SalesRule\Model\Rule\Condition;
+
+class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
      * Add special attributes
@@ -40,10 +42,10 @@ class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_
      */
     public function validate(\Magento\Object $object)
     {
-        /** @var Magento_Catalog_Model_Product $product */
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = $object->getProduct();
-        if (!($product instanceof Magento_Catalog_Model_Product)) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($object->getProductId());
+        if (!($product instanceof \Magento\Catalog\Model\Product)) {
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($object->getProductId());
         }
 
         $product
@@ -52,7 +54,7 @@ class Magento_SalesRule_Model_Rule_Condition_Product extends Magento_Rule_Model_
             ->setQuoteItemRowTotal($object->getBaseRowTotal());
 
         $valid = parent::validate($product);
-        if (!$valid && $product->getTypeId() == Magento_Catalog_Model_Product_Type_Configurable::TYPE_CODE) {
+        if (!$valid && $product->getTypeId() == \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE) {
             $children = $object->getChildren();
             $valid = $children && $this->validate($children[0]);
         }

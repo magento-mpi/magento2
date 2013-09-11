@@ -12,7 +12,9 @@
 /**
  * Installer data model
  */
-class Magento_Install_Model_Installer_Data extends \Magento\Object
+namespace Magento\Install\Model\Installer;
+
+class Data extends \Magento\Object
 {
 
     /**
@@ -26,7 +28,7 @@ class Magento_Install_Model_Installer_Data extends \Magento\Object
      * Add error
      *
      * @param string $error
-     * @return Magento_Install_Model_Installer_Data
+     * @return \Magento\Install\Model\Installer\Data
      */
     public function addError($error)
     {

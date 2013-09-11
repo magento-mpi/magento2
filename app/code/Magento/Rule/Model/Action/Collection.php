@@ -9,17 +9,19 @@
  */
 
 
-class Magento_Rule_Model_Action_Collection extends Magento_Rule_Model_Action_Abstract
+namespace Magento\Rule\Model\Action;
+
+class Collection extends \Magento\Rule\Model\Action\AbstractAction
 {
     /**
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
      * @param array $data
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl, array $data = array())
+    public function __construct(\Magento\Core\Model\View\Url $viewUrl, array $data = array())
     {
         parent::__construct($viewUrl, $data);
         $this->setActions(array());
-        $this->setType('Magento_Rule_Model_Action_Collection');
+        $this->setType('\Magento\Rule\Model\Action\Collection');
     }
 
     /**
@@ -52,7 +54,7 @@ class Magento_Rule_Model_Action_Collection extends Magento_Rule_Model_Action_Abs
                 if (empty($actArr['type'])) {
                     continue;
                 }
-                $action = Mage::getModel($actArr['type']);
+                $action = \Mage::getModel($actArr['type']);
                 $action->loadArray($actArr);
                 $this->addAction($action);
             }
@@ -60,7 +62,7 @@ class Magento_Rule_Model_Action_Collection extends Magento_Rule_Model_Action_Abs
         return $this;
     }
 
-    public function addAction(Magento_Rule_Model_Action_Interface $action)
+    public function addAction(\Magento\Rule\Model\Action\ActionInterface $action)
     {
         $actions = $this->getActions();
 
@@ -90,7 +92,7 @@ class Magento_Rule_Model_Action_Collection extends Magento_Rule_Model_Action_Abs
             'name' => 'rule[actions][' . $this->getId() . '][new_child]',
             'values' => $this->getNewChildSelectOptions(),
             'value_name' => $this->getNewChildName(),
-        ))->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Newchild'));
+        ))->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Newchild'));
     }
 
     /**

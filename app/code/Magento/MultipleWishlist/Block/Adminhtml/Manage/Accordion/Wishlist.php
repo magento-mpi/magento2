@@ -15,23 +15,25 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Adminhtml_Manage_Accordion_Wishlist
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Wishlist
+namespace Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion;
+
+class Wishlist
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
 {
     /**
      * Return items collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _createItemsCollection()
     {
-        return Mage::getModel('Magento_MultipleWishlist_Model_Item')->getCollection();
+        return \Mage::getModel('\Magento\MultipleWishlist\Model\Item')->getCollection();
     }
 
     /**
      * Prepare Grid columns
      *
-     * @return Magento_MultipleWishlist_Block_Adminhtml_Manage_Accordion_Wishlist
+     * @return \Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion\Wishlist
      */
     protected function _prepareColumns()
     {

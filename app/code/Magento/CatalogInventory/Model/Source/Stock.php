@@ -16,7 +16,9 @@
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Source_Stock
+namespace Magento\CatalogInventory\Model\Source;
+
+class Stock
 {
     /**
      * Retrieve option array
@@ -27,11 +29,11 @@ class Magento_CatalogInventory_Model_Source_Stock
     {
         return array(
             array(
-                'value' => Magento_CatalogInventory_Model_Stock::STOCK_IN_STOCK,
+                'value' => \Magento\CatalogInventory\Model\Stock::STOCK_IN_STOCK,
                 'label' => __('In Stock')
             ),
             array(
-                'value' => Magento_CatalogInventory_Model_Stock::STOCK_OUT_OF_STOCK,
+                'value' => \Magento\CatalogInventory\Model\Stock::STOCK_OUT_OF_STOCK,
                 'label' => __('Out of Stock')
             ),
         );

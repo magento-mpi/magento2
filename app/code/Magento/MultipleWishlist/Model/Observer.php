@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Observer
+namespace Magento\MultipleWishlist\Model;
+
+class Observer
 {
     /**
      * Set collection of all items from all wishlists to wishlist helper
@@ -23,13 +25,13 @@ class Magento_MultipleWishlist_Model_Observer
      */
     public function initHelperItemCollection()
     {
-        if (Mage::helper('Magento_MultipleWishlist_Helper_Data')->isMultipleEnabled()) {
-            $collection = Mage::getModel('Magento_Wishlist_Model_Item')->getCollection()
-                ->addCustomerIdFilter(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId())
+        if (\Mage::helper('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()) {
+            $collection = \Mage::getModel('\Magento\Wishlist\Model\Item')->getCollection()
+                ->addCustomerIdFilter(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId())
                 ->setVisibilityFilter()
-                ->addStoreFilter(Mage::app()->getStore()->getWebsite()->getStoreIds())
+                ->addStoreFilter(\Mage::app()->getStore()->getWebsite()->getStoreIds())
                 ->setVisibilityFilter();
-            Mage::helper('Magento_Wishlist_Helper_Data')->setWishlistItemCollection($collection);
+            \Mage::helper('Magento\Wishlist\Helper\Data')->setWishlistItemCollection($collection);
         }
     }
 }

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Banner_Block_Adminhtml_Banner_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Banner\Block\Adminhtml\Banner;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Initialize banner edit page. Set management buttons
@@ -43,7 +45,7 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit extends Magento_Adminhtml_Block
      */
     public function getBannerId()
     {
-        return Mage::registry('current_banner')->getId();
+        return \Mage::registry('current_banner')->getId();
     }
 
     /**
@@ -52,8 +54,8 @@ class Magento_Banner_Block_Adminhtml_Banner_Edit extends Magento_Adminhtml_Block
      */
     public function getHeaderText()
     {
-        if (Mage::registry('current_banner')->getId()) {
-            return $this->escapeHtml(Mage::registry('current_banner')->getName());
+        if (\Mage::registry('current_banner')->getId()) {
+            return $this->escapeHtml(\Mage::registry('current_banner')->getName());
         } else {
             return __('New Banner');
         }

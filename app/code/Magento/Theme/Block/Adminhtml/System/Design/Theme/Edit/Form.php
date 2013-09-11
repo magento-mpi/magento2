@@ -11,12 +11,14 @@
 /**
  * Theme Edit Form
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form extends Magento_Backend_Block_Widget_Form
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Initialize theme form
      *
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form|Magento_Backend_Block_Widget_Form
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form|\Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {

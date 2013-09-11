@@ -11,7 +11,9 @@
 /**
  * System configuration comment model factory
  */
-class Magento_Backend_Model_Config_CommentFactory
+namespace Magento\Backend\Model\Config;
+
+class CommentFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -30,14 +32,14 @@ class Magento_Backend_Model_Config_CommentFactory
      * Create new config object
      *
      * @param string $type
-     * @return Magento_Backend_Model_Config_CommentInterface
-     * @throws InvalidArgumentException
+     * @return \Magento\Backend\Model\Config\CommentInterface
+     * @throws \InvalidArgumentException
      */
     public function create($type)
     {
         $commentModel = $this->_objectManager->create($type);
-        if (!$commentModel instanceof Magento_Backend_Model_Config_CommentInterface) {
-            throw new InvalidArgumentException('Incorrect comment model provided');
+        if (!$commentModel instanceof \Magento\Backend\Model\Config\CommentInterface) {
+            throw new \InvalidArgumentException('Incorrect comment model provided');
         }
         return $commentModel;
     }

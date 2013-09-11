@@ -15,23 +15,25 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_Action
+namespace Magento\Customer\Controller;
+
+class Address extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Retrieve customer session object
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return \Mage::getSingleton('Magento\Customer\Model\Session');
     }
 
     public function preDispatch()
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -43,8 +45,8 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
     {
         if (count($this->_getSession()->getCustomer()->getAddresses())) {
             $this->loadLayout();
-            $this->_initLayoutMessages('Magento_Customer_Model_Session');
-            $this->_initLayoutMessages('Magento_Catalog_Model_Session');
+            $this->_initLayoutMessages('\Magento\Customer\Model\Session');
+            $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
 
             $block = $this->getLayout()->getBlock('address_book');
             if ($block) {
@@ -52,7 +54,7 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
             }
             $this->renderLayout();
         } else {
-            $this->getResponse()->setRedirect(Mage::getUrl('*/*/new'));
+            $this->getResponse()->setRedirect(\Mage::getUrl('*/*/new'));
         }
     }
 
@@ -72,7 +74,7 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
     public function formAction()
     {
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
         $navigationBlock = $this->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('customer/address');
@@ -91,7 +93,7 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
 
         if (!$this->getRequest()->isPost()) {
             $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-            $this->_redirectError(Mage::getUrl('*/*/edit'));
+            $this->_redirectError(\Mage::getUrl('*/*/edit'));
             return;
         }
 
@@ -100,9 +102,9 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
             $this->_validateAddress($address);
             $address->save();
             $this->_getSession()->addSuccess(__('The address has been saved.'));
-            $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
+            $this->_redirectSuccess(\Mage::getUrl('*/*/index', array('_secure'=>true)));
             return;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         } catch (\Magento\Validator\ValidatorException $e) {
             foreach ($e->getMessages() as $messages) {
@@ -110,18 +112,18 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
                     $this->_getSession()->addError($message);
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('Cannot save address.'));
         }
 
         $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-        $this->_redirectError(Mage::getUrl('*/*/edit', array('id' => $address->getId())));
+        $this->_redirectError(\Mage::getUrl('*/*/edit', array('id' => $address->getId())));
     }
 
     /**
      * Do address validation using validate methods in models
      *
-     * @param Magento_Customer_Model_Address $address
+     * @param \Magento\Customer\Model\Address $address
      * @throws \Magento\Validator\ValidatorException
      */
     protected function _validateAddress($address)
@@ -135,13 +137,13 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
     /**
      * Extract address from request
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     protected function _extractAddress()
     {
         $customer = $this->_getSession()->getCustomer();
-        /* @var Magento_Customer_Model_Address $address */
-        $address  = Mage::getModel('Magento_Customer_Model_Address');
+        /* @var \Magento\Customer\Model\Address $address */
+        $address  = \Mage::getModel('\Magento\Customer\Model\Address');
         $addressId = $this->getRequest()->getParam('id');
         if ($addressId) {
             $existsAddress = $customer->getAddressById($addressId);
@@ -149,8 +151,8 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
                 $address->load($existsAddress->getId());
             }
         }
-        /* @var Magento_Customer_Model_Form $addressForm */
-        $addressForm = Mage::getModel('Magento_Customer_Model_Address_Form');
+        /* @var \Magento\Customer\Model\Form $addressForm */
+        $addressForm = \Mage::getModel('\Magento\Customer\Model\Address\Form');
         $addressForm->setFormCode('customer_address_edit')
             ->setEntity($address);
         $addressData = $addressForm->extractData($this->getRequest());
@@ -166,22 +168,22 @@ class Magento_Customer_Controller_Address extends Magento_Core_Controller_Front_
         $addressId = $this->getRequest()->getParam('id', false);
 
         if ($addressId) {
-            $address = Mage::getModel('Magento_Customer_Model_Address')->load($addressId);
+            $address = \Mage::getModel('\Magento\Customer\Model\Address')->load($addressId);
 
             // Validate address_id <=> customer_id
             if ($address->getCustomerId() != $this->_getSession()->getCustomerId()) {
                 $this->_getSession()->addError(__('The address does not belong to this customer.'));
-                $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
+                $this->getResponse()->setRedirect(\Mage::getUrl('*/*/index'));
                 return;
             }
 
             try {
                 $address->delete();
                 $this->_getSession()->addSuccess(__('The address has been deleted.'));
-            } catch (Exception $e){
+            } catch (\Exception $e){
                 $this->_getSession()->addException($e, __('An error occurred while deleting the address.'));
             }
         }
-        $this->getResponse()->setRedirect(Mage::getUrl('*/*/index'));
+        $this->getResponse()->setRedirect(\Mage::getUrl('*/*/index'));
     }
 }

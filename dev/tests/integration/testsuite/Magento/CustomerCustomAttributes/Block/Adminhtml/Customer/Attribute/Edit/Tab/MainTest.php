@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main
+ * Test class for \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
@@ -22,19 +22,19 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_T
      */
     public function testPrepareForm()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer');
-        $model = Mage::getModel('Magento_Customer_Model_Attribute');
+        $entityType = Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer');
+        $model = Mage::getModel('\Magento\Customer\Model\Attribute');
         $model->setEntityTypeId($entityType->getId());
         Mage::register('entity_attribute', $model);
 
         $block = Mage::app()->getLayout()->createBlock(
-            'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main'
+            '\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main'
         );
         $prepareFormMethod = new ReflectionMethod(
-            'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Tab_Main', '_prepareForm');
+            '\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit\Tab\Main', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

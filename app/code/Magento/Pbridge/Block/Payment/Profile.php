@@ -16,7 +16,9 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Block_Payment_Profile extends Magento_Pbridge_Block_Iframe_Abstract
+namespace Magento\Pbridge\Block\Payment;
+
+class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe
 {
     /**
      * Default iframe height
@@ -34,7 +36,7 @@ class Magento_Pbridge_Block_Payment_Profile extends Magento_Pbridge_Block_Iframe
      */
     public function getSourceUrl()
     {
-        return Mage::helper('Magento_Pbridge_Helper_Data')->getPaymentProfileUrl(
+        return \Mage::helper('Magento\Pbridge\Helper\Data')->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
                 'css_url'         => $this->getCssUrl(),

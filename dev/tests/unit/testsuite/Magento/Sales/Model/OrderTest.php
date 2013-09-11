@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Sales_Model_Order
+ * Test class for \Magento\Sales\Model\Order
  */
 class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
     {
         $items = array();
         if (!$allInvoiced) {
-            $item = $this->getMockBuilder('Magento_Sales_Model_Order_Item')
+            $item = $this->getMockBuilder('Magento\Sales\Model\Order\Item')
                 ->setMethods(array('getQtyToInvoice', 'isDeleted'))
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -37,7 +37,7 @@ class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
             $items[] = $item;
         }
 
-        $itemsProperty = new ReflectionProperty('Magento_Sales_Model_Order', '_items');
+        $itemsProperty = new ReflectionProperty('\Magento\Sales\Model\Order', '_items');
         $itemsProperty->setAccessible(true);
         $itemsProperty->setValue($order, $items);
     }
@@ -51,7 +51,7 @@ class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
      */
     protected function _prepareOrderPayment($order, $canReviewPayment, $canUpdatePayment)
     {
-        $payment = $this->getMockBuilder('Magento_Sales_Model_Order_Payment')
+        $payment = $this->getMockBuilder('Magento\Sales\Model\Order\Payment')
             ->disableOriginalConstructor()
             ->getMock();
         $payment->expects($this->any())
@@ -64,7 +64,7 @@ class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
             ->method('isDeleted')
             ->will($this->returnValue(false));
 
-        $itemsProperty = new ReflectionProperty('Magento_Sales_Model_Order', '_payments');
+        $itemsProperty = new ReflectionProperty('\Magento\Sales\Model\Order', '_payments');
         $itemsProperty->setAccessible(true);
         $itemsProperty->setValue($order, array($payment));
     }
@@ -81,8 +81,8 @@ class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
      */
     public function testCanCancel($actionFlags, $orderState, $canReviewPayment, $canUpdatePayment, $allInvoiced)
     {
-        /** @var $order Magento_Sales_Model_Order */
-        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->setMethods(null)
             ->getMock();
@@ -95,24 +95,24 @@ class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
 
         // Calculate result
         $expectedResult = true;
-        if ((!isset($actionFlags[Magento_Sales_Model_Order::ACTION_FLAG_UNHOLD])
-            || $actionFlags[Magento_Sales_Model_Order::ACTION_FLAG_UNHOLD] !== false)
-            && $orderState == Magento_Sales_Model_Order::STATE_HOLDED
+        if ((!isset($actionFlags[\Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD])
+            || $actionFlags[\Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD] !== false)
+            && $orderState == \Magento\Sales\Model\Order::STATE_HOLDED
         ) {
             $expectedResult = false;
         }
-        if ($orderState == Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW && !$canReviewPayment && $canUpdatePayment) {
+        if ($orderState == \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW && !$canReviewPayment && $canUpdatePayment) {
             $expectedResult = false;
         }
         if ($allInvoiced || in_array($orderState, array(
-            Magento_Sales_Model_Order::STATE_CANCELED,
-            Magento_Sales_Model_Order::STATE_COMPLETE,
-            Magento_Sales_Model_Order::STATE_CLOSED
+            \Magento\Sales\Model\Order::STATE_CANCELED,
+            \Magento\Sales\Model\Order::STATE_COMPLETE,
+            \Magento\Sales\Model\Order::STATE_CLOSED
         ))) {
             $expectedResult = false;
         }
-        if (isset($actionFlags[Magento_Sales_Model_Order::ACTION_FLAG_CANCEL])
-            && $actionFlags[Magento_Sales_Model_Order::ACTION_FLAG_CANCEL] === false
+        if (isset($actionFlags[\Magento\Sales\Model\Order::ACTION_FLAG_CANCEL])
+            && $actionFlags[\Magento\Sales\Model\Order::ACTION_FLAG_CANCEL] === false
         ) {
             $expectedResult = false;
         }
@@ -125,22 +125,22 @@ class Magento_Sales_Model_OrderTest extends PHPUnit_Framework_TestCase
         $actionFlagsValues = array(
             array(),
             array(
-                Magento_Sales_Model_Order::ACTION_FLAG_UNHOLD => false,
-                Magento_Sales_Model_Order::ACTION_FLAG_CANCEL => false,
+                \Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD => false,
+                \Magento\Sales\Model\Order::ACTION_FLAG_CANCEL => false,
             ),
             array(
-                Magento_Sales_Model_Order::ACTION_FLAG_UNHOLD => false,
-                Magento_Sales_Model_Order::ACTION_FLAG_CANCEL => true,
+                \Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD => false,
+                \Magento\Sales\Model\Order::ACTION_FLAG_CANCEL => true,
             ),
         );
         $boolValues = array(true, false);
         $orderStatuses = array(
-            Magento_Sales_Model_Order::STATE_HOLDED,
-            Magento_Sales_Model_Order::STATE_PAYMENT_REVIEW,
-            Magento_Sales_Model_Order::STATE_CANCELED,
-            Magento_Sales_Model_Order::STATE_COMPLETE,
-            Magento_Sales_Model_Order::STATE_CLOSED,
-            Magento_Sales_Model_Order::STATE_PROCESSING,
+            \Magento\Sales\Model\Order::STATE_HOLDED,
+            \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW,
+            \Magento\Sales\Model\Order::STATE_CANCELED,
+            \Magento\Sales\Model\Order::STATE_COMPLETE,
+            \Magento\Sales\Model\Order::STATE_CLOSED,
+            \Magento\Sales\Model\Order::STATE_PROCESSING,
         );
 
         $data = array();

@@ -9,13 +9,15 @@
  */
 
 
-class Magento_Tax_Model_TaxClass_Source_Customer extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Tax\Model\TaxClass\Source;
+
+class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('Magento_Tax_Model_Resource_TaxClass_Collection')
-                ->addFieldToFilter('class_type', Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
+            $this->_options = \Mage::getResourceModel('\Magento\Tax\Model\Resource\TaxClass\Collection')
+                ->addFieldToFilter('class_type', \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER)
                 ->load()->toOptionArray();
         }
         return $this->_options;

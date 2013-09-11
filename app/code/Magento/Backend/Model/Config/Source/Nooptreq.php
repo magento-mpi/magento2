@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Config_Source_Nooptreq implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source;
+
+class Nooptreq implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

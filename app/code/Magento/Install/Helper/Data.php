@@ -11,6 +11,8 @@
 /**
  * Install data helper
  */
-class Magento_Install_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Install\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 }

@@ -8,14 +8,14 @@
  */
 -->
 <config>
-    <type name="Magento_Core_Model_ModuleManager">
+    <type name="Magento\Core\Model\ModuleManager">
         <param name="outputConfigPaths">
             <value>
-                <Magento_Reward>Magento_Reward_Helper_Data::XML_PATH_ENABLED</Magento_Reward>
+                <Magento_Reward>\Magento\Reward\Helper\Data::XML_PATH_ENABLED</Magento_Reward>
             </value>
         </param>
     </type>
-    <type name="Magento_Reward_Model_Observer">
+    <type name="Magento\Reward\Model\Observer">
         <param name="authorization">
             <instance type="Magento\Authorization" />
         </param>

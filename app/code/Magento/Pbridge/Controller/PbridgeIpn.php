@@ -16,7 +16,9 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Controller_PbridgeIpn extends Magento_Core_Controller_Front_Action
+namespace Magento\Pbridge\Controller;
+
+class PbridgeIpn extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Index Action.
@@ -26,7 +28,7 @@ class Magento_Pbridge_Controller_PbridgeIpn extends Magento_Core_Controller_Fron
      */
     public function indexAction()
     {
-        $ipn = Mage::getModel('Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn');
+        $ipn = \Mage::getModel('\Magento\Pbridge\Model\Payment\Method\Pbridge\Ipn');
 
         $ipn->setIpnFormData($this->getRequest()->getPost())
             ->processIpnRequest();

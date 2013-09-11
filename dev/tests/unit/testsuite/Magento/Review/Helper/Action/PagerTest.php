@@ -11,7 +11,7 @@
 
 class Magento_Review_Helper_Action_PagerTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Review_Helper_Action_Pager */
+    /** @var \Magento\Review\Helper\Action\Pager */
     protected $_helper = null;
 
     /**
@@ -19,7 +19,7 @@ class Magento_Review_Helper_Action_PagerTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $sessionMock = $this->getMockBuilder('Magento_Backend_Model_Session')
+        $sessionMock = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
             ->setMethods(array('setData', 'getData'))
             ->getMock();
@@ -31,7 +31,7 @@ class Magento_Review_Helper_Action_PagerTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('search_result_idsreviews'))
             ->will($this->returnValue(array(3,2,6,5)));
 
-        $this->_helper = $this->getMockBuilder('Magento_Review_Helper_Action_Pager')
+        $this->_helper = $this->getMockBuilder('Magento\Review\Helper\Action\Pager')
             ->setMethods(array('_getSession'))
             ->disableOriginalConstructor()
             ->getMock();

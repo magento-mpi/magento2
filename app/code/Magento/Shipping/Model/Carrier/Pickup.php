@@ -9,9 +9,11 @@
  */
 
 
-class Magento_Shipping_Model_Carrier_Pickup
-    extends Magento_Shipping_Model_Carrier_Abstract
-    implements Magento_Shipping_Model_Carrier_Interface
+namespace Magento\Shipping\Model\Carrier;
+
+class Pickup
+    extends \Magento\Shipping\Model\Carrier\AbstractCarrier
+    implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
 
     protected $_code = 'pickup';
@@ -20,19 +22,19 @@ class Magento_Shipping_Model_Carrier_Pickup
     /**
      * Enter description here...
      *
-     * @param Magento_Shipping_Model_Rate_Request $data
-     * @return Magento_Shipping_Model_Rate_Result
+     * @param \Magento\Shipping\Model\Rate\Request $data
+     * @return \Magento\Shipping\Model\Rate\Result
      */
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         if (!$this->getConfigFlag('active')) {
             return false;
         }
 
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
 
         if (!empty($rate)) {
-            $method = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+            $method = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
 
             $method->setCarrier('pickup');
             $method->setCarrierTitle($this->getConfigData('title'));

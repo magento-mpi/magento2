@@ -15,12 +15,14 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Transactions_Detail extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\Adminhtml\Block\Sales\Transactions;
+
+class Detail extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Transaction model
      *
-     * @var Magento_Sales_Model_Order_Payment_Transaction
+     * @var \Magento\Sales\Model\Order\Payment\Transaction
      */
     protected $_txn;
 
@@ -32,7 +34,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail extends Magento_Adminhtm
     {
         parent::_construct();
 
-        $this->_txn = Mage::registry('current_transaction');
+        $this->_txn = \Mage::registry('current_transaction');
         if (!$this->_txn) {
             return;
         }
@@ -62,7 +64,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail extends Magento_Adminhtm
      */
     public function getHeaderText()
     {
-        return __("Transaction # %1 | %2", $this->_txn->getTxnId(), $this->formatDate($this->_txn->getCreatedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true));
+        return __("Transaction # %1 | %2", $this->_txn->getTxnId(), $this->formatDate($this->_txn->getCreatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true));
     }
 
     protected function _toHtml()
@@ -90,7 +92,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail extends Magento_Adminhtm
         );
 
         $createdAt = (strtotime($this->_txn->getCreatedAt()))
-            ? $this->formatDate($this->_txn->getCreatedAt(), Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM, true)
+            ? $this->formatDate($this->_txn->getCreatedAt(), \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM, true)
             : __('N/A');
         $this->setCreatedAtHtml($this->escapeHtml($createdAt));
 

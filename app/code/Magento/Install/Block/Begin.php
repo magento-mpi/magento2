@@ -11,7 +11,9 @@
 /**
  * Installation begin block
  */
-class Magento_Install_Block_Begin extends Magento_Install_Block_Abstract
+namespace Magento\Install\Block;
+
+class Begin extends \Magento\Install\Block\AbstractBlock
 {
     protected $_template = 'begin.phtml';
 
@@ -22,7 +24,7 @@ class Magento_Install_Block_Begin extends Magento_Install_Block_Abstract
      */
     public function getPostUrl()
     {
-        return Mage::getUrl('install/wizard/beginPost');
+        return \Mage::getUrl('install/wizard/beginPost');
     }
 
     /**
@@ -32,6 +34,6 @@ class Magento_Install_Block_Begin extends Magento_Install_Block_Abstract
      */
     public function getLicenseHtml()
     {
-        return $this->_filesystem->read(BP . DS . (string)Mage::getConfig()->getNode('install/eula_file'));
+        return $this->_filesystem->read(BP . DS . (string)\Mage::getConfig()->getNode('install/eula_file'));
     }
 }

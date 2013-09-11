@@ -15,13 +15,13 @@
 
 $prices = array(5, 10, 15, 20, 50, 100, 150);
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
-$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
+$installer = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
-/** @var $category Magento_Catalog_Model_Category */
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+/** @var $category \Magento\Catalog\Model\Category */
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(3)
     ->setName('Root Category')
     ->setParentId(2) /**/
@@ -33,7 +33,7 @@ $category->setId(3)
     ->setPosition(1)
     ->save();
 
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(4)
     ->setName('PLN Category')
     ->setParentId(3)
@@ -48,9 +48,9 @@ $category->setId(4)
 
 $lastProductId = 0;
 foreach ($prices as $price) {
-    $product = Mage::getModel('Magento_Catalog_Model_Product');
+    $product = Mage::getModel('\Magento\Catalog\Model\Product');
     $productId = $lastProductId + 1;
-    $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+    $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
         ->setId($productId)
         ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
         ->setStoreId(1)
@@ -60,8 +60,8 @@ foreach ($prices as $price) {
         ->setPrice($price)
         ->setWeight(18)
         ->setCategoryIds(array(4))
-        ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-        ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+        ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+        ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
         ->save();
     ++$lastProductId;
 }

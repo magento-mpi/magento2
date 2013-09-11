@@ -17,29 +17,29 @@
         <reference name="right">
             <action method="unsetChildren"/>
             <container name="checkout.progress.wrapper" label="Checkout Progress Wrapper" htmlTag="div" htmlId="checkout-progress-wrapper">
-                <block class="Magento_Checkout_Block_Onepage_Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>
+                <block class="\Magento\Checkout\Block\Onepage\Progress" name="checkout.progress" before="-" template="onepage/progress.phtml"/>
             </container>
         </reference>
         <reference name="content">
-            <block class="Magento_Checkout_Block_Onepage" name="checkout.onepage" template="onepage.phtml">
-                <block class="Magento_Checkout_Block_Onepage_Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml">
+            <block class="\Magento\Checkout\Block\Onepage" name="checkout.onepage" template="onepage.phtml">
+                <block class="\Magento\Checkout\Block\Onepage\Login" name="checkout.onepage.login" as="login" template="onepage/login.phtml">
                     <container name="checkout.onepage.login.before" as="login_before" label="Login/Registration Before" htmlTag="div"/>
                 </block>
-                <block class="Magento_Checkout_Block_Onepage_Billing" name="checkout.onepage.billing" as="billing" template="onepage/billing.phtml"/>
-                <block class="Magento_Checkout_Block_Onepage_Shipping" name="checkout.onepage.shipping" as="shipping" template="onepage/shipping.phtml"/>
-                <block class="Magento_Checkout_Block_Onepage_Shipping_Method" name="checkout.onepage.shipping_method" as="shipping_method" template="onepage/shipping_method.phtml">
-                    <block class="Magento_Checkout_Block_Onepage_Shipping_Method_Available" name="checkout.onepage.shipping_method.available" as="available" template="onepage/shipping_method/available.phtml"/>
-                    <block class="Magento_Checkout_Block_Onepage_Shipping_Method_Additional" name="checkout.onepage.shipping_method.additional" as="additional" template="onepage/shipping_method/additional.phtml"/>
+                <block class="\Magento\Checkout\Block\Onepage\Billing" name="checkout.onepage.billing" as="billing" template="onepage/billing.phtml"/>
+                <block class="\Magento\Checkout\Block\Onepage\Shipping" name="checkout.onepage.shipping" as="shipping" template="onepage/shipping.phtml"/>
+                <block class="\Magento\Checkout\Block\Onepage\Shipping\Method" name="checkout.onepage.shipping_method" as="shipping_method" template="onepage/shipping_method.phtml">
+                    <block class="\Magento\Checkout\Block\Onepage\Shipping\Method\Available" name="checkout.onepage.shipping_method.available" as="available" template="onepage/shipping_method/available.phtml"/>
+                    <block class="\Magento\Checkout\Block\Onepage\Shipping\Method\Additional" name="checkout.onepage.shipping_method.additional" as="additional" template="onepage/shipping_method/additional.phtml"/>
                 </block>
-                <block class="Magento_Checkout_Block_Onepage_Payment" name="checkout.onepage.payment" as="payment" template="onepage/payment.phtml">
-                    <block class="Magento_Checkout_Block_Onepage_Payment_Methods" name="checkout.payment.methods" as="methods" template="onepage/payment/methods.phtml">
+                <block class="\Magento\Checkout\Block\Onepage\Payment" name="checkout.onepage.payment" as="payment" template="onepage/payment.phtml">
+                    <block class="\Magento\Checkout\Block\Onepage\Payment\Methods" name="checkout.payment.methods" as="methods" template="onepage/payment/methods.phtml">
                         <action method="setMethodFormTemplate">
                             <argument name="method" xsi:type="string">purchaseorder</argument>
                             <argument name="template" xsi:type="string">Magento_Payment::form/purchaseorder.phtml</argument>
                         </action>
                     </block>
                 </block>
-                <block class="Magento_Checkout_Block_Onepage_Review" name="checkout.onepage.review" as="review" template="onepage/review.phtml"/>
+                <block class="\Magento\Checkout\Block\Onepage\Review" name="checkout.onepage.review" as="review" template="onepage/review.phtml"/>
             </block>
         </reference>
     </handle>

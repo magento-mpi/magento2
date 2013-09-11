@@ -12,17 +12,19 @@
  * Controller for Customer account -> Store Credit ajax tab and all its contents
  *
  */
-class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magento_Adminhtml_Controller_Action
+namespace Magento\CustomerBalance\Controller\Adminhtml;
+
+class Customerbalance extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Check is enabled module in config
      *
-     * @return Magento_CustomerBalance_Controller_Adminhtml_Customerbalance
+     * @return \Magento\CustomerBalance\Controller\Adminhtml\Customerbalance
      */
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
@@ -51,7 +53,7 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
         $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock(
-                'Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid'
+                '\Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid'
             )->toHtml()
         );
     }
@@ -62,7 +64,7 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
      */
     public function deleteOrphanBalancesAction()
     {
-        $balance = Mage::getSingleton('Magento_CustomerBalance_Model_Balance')->deleteBalancesByCustomerId(
+        $balance = \Mage::getSingleton('Magento\CustomerBalance\Model\Balance')->deleteBalancesByCustomerId(
             (int)$this->getRequest()->getParam('id')
         );
         $this->_redirect('*/customer/edit/', array('_current'=>true));
@@ -75,11 +77,11 @@ class Magento_CustomerBalance_Controller_Adminhtml_Customerbalance extends Magen
      */
     protected function _initCustomer($idFieldName = 'id')
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load((int)$this->getRequest()->getParam($idFieldName));
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load((int)$this->getRequest()->getParam($idFieldName));
         if (!$customer->getId()) {
-            Mage::throwException(__('Failed to initialize customer'));
+            \Mage::throwException(__('Failed to initialize customer'));
         }
-        Mage::register('current_customer', $customer);
+        \Mage::register('current_customer', $customer);
     }
 
     /**

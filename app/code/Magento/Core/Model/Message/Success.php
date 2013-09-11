@@ -9,10 +9,12 @@
  */
 
 
-class Magento_Core_Model_Message_Success extends Magento_Core_Model_Message_Abstract
+namespace Magento\Core\Model\Message;
+
+class Success extends \Magento\Core\Model\Message\AbstractMessage
 {
     public function __construct($code)
     {
-        parent::__construct(Magento_Core_Model_Message::SUCCESS, $code);
+        parent::__construct(\Magento\Core\Model\Message::SUCCESS, $code);
     }
 }

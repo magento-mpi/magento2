@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Cms\Page\Widget;
+
+class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Block construction, prepare grid params
@@ -38,10 +40,10 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
      */
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $uniqId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
+        $uniqId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_page_widget/chooser', array('uniq_id' => $uniqId));
 
-        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -50,7 +52,7 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
 
 
         if ($element->getValue()) {
-            $page = Mage::getModel('Magento_Cms_Model_Page')->load((int)$element->getValue());
+            $page = \Mage::getModel('\Magento\Cms\Model\Page')->load((int)$element->getValue());
             if ($page->getId()) {
                 $chooser->setLabel($page->getTitle());
             }
@@ -84,12 +86,12 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
     /**
      * Prepare pages collection
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Cms_Model_Page')->getCollection();
-        /* @var $collection Magento_Cms_Model_Resource_Page_Collection */
+        $collection = \Mage::getModel('\Magento\Cms\Model\Page')->getCollection();
+        /* @var $collection \Magento\Cms\Model\Resource\Page\Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);
 
@@ -99,7 +101,7 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
     /**
      * Prepare columns for pages grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -128,7 +130,7 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
             'header'    => __('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Page_Model_Source_Layout')->getOptions(),
+            'options'   => \Mage::getSingleton('Magento\Page\Model\Source\Layout')->getOptions(),
             'header_css_class'  => 'col-layout',
             'column_css_class'  => 'col-layout'
         ));
@@ -137,7 +139,7 @@ class Magento_Adminhtml_Block_Cms_Page_Widget_Chooser extends Magento_Adminhtml_
             'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => Mage::getModel('Magento_Cms_Model_Page')->getAvailableStatuses(),
+            'options'   => \Mage::getModel('\Magento\Cms\Model\Page')->getAvailableStatuses(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));

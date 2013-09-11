@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Config_Reader extends \Magento\Config\XmlAbstract
+namespace Magento\Core\Model\DataService\Config;
+
+class Reader extends \Magento\Config\XmlAbstract
 {
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     private $_modulesReader;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param array $configFiles
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         array $configFiles
     ) {
         if (count($configFiles)) {
@@ -41,11 +43,11 @@ class Magento_Core_Model_DataService_Config_Reader extends \Magento\Config\XmlAb
     /**
      * Extract configuration data from the DOM structure
      *
-     * @param DOMDocument $dom
+     * @param \DOMDocument $dom
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _extractData(DOMDocument $dom)
+    protected function _extractData(\DOMDocument $dom)
     {
         return array();
     }
@@ -73,7 +75,7 @@ class Magento_Core_Model_DataService_Config_Reader extends \Magento\Config\XmlAb
     /**
      * Retrieve Service Calls
      *
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     public function getServiceCallConfig()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Response extends Zend_Controller_Response_Http
+namespace Magento\Webapi\Controller;
+
+class Response extends \Zend_Controller_Response_Http
 {
     /**
      * Character set which must be used in response.
@@ -33,7 +35,7 @@ class Magento_Webapi_Controller_Response extends Zend_Controller_Response_Http
      * Set header appropriate to specified MIME type.
      *
      * @param string $mimeType MIME type
-     * @return Magento_Webapi_Controller_Response
+     * @return \Magento\Webapi\Controller\Response
      */
     public function setMimeType($mimeType)
     {
@@ -47,7 +49,7 @@ class Magento_Webapi_Controller_Response extends Zend_Controller_Response_Http
      * @param string $code
      * @param array $params
      * @param string $type
-     * @return Magento_Webapi_Controller_Response
+     * @return \Magento\Webapi\Controller\Response
      */
     public function addMessage($message, $code, $params = array(), $type = self::MESSAGE_TYPE_ERROR)
     {
@@ -80,7 +82,7 @@ class Magento_Webapi_Controller_Response extends Zend_Controller_Response_Http
     /**
      * Clear messages.
      *
-     * @return Magento_Webapi_Controller_Response
+     * @return \Magento\Webapi\Controller\Response
      */
     public function clearMessages()
     {

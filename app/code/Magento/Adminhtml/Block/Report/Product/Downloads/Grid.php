@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Report\Product\Downloads;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected function _construct()
     {
@@ -27,10 +29,10 @@ class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Admi
     protected function _prepareCollection()
     {
         if ($this->getRequest()->getParam('website')) {
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else if ($this->getRequest()->getParam('group')) {
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else if ($this->getRequest()->getParam('store')) {
             $storeId = (int)$this->getRequest()->getParam('store');
@@ -38,10 +40,10 @@ class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Admi
             $storeId = '';
         }
 
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Downloads_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Product\Downloads\Collection')
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
-            ->addAttributeToFilter('type_id', array(Magento_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE))
+            ->addAttributeToFilter('type_id', array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE))
             ->addSummary();
 
         if( $storeId ) {
@@ -82,7 +84,7 @@ class Magento_Adminhtml_Block_Report_Product_Downloads_Grid extends Magento_Admi
             'filter'    => false,
             'index'     => 'purchases',
             'type'      => 'number',
-            'renderer'  => 'Magento_Adminhtml_Block_Report_Product_Downloads_Renderer_Purchases',
+            'renderer'  => '\Magento\Adminhtml\Block\Report\Product\Downloads\Renderer\Purchases',
             'header_css_class'  => 'col-purchases',
             'column_css_class'  => 'col-purchases'
         ));

@@ -73,7 +73,7 @@
         <jobs>
             <sitemap_generate>
                 <run>
-                    <model>Magento_Sitemap_Model_Observer::scheduledGenerateSitemaps</model>
+                    <model>\Magento\Sitemap\Model\Observer::scheduledGenerateSitemaps</model>
                 </run>
             </sitemap_generate>
         </jobs>

@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_ProductList_Related extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Catalog\Block\Product\ProductList;
+
+class Related extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Default MAP renderer type
@@ -29,8 +31,8 @@ class Magento_Catalog_Block_Product_ProductList_Related extends Magento_Catalog_
 
     protected function _prepareData()
     {
-        $product = Mage::registry('product');
-        /* @var $product Magento_Catalog_Model_Product */
+        $product = \Mage::registry('product');
+        /* @var $product \Magento\Catalog\Model\Product */
 
         $this->_itemCollection = $product->getRelatedProductCollection()
             ->addAttributeToSelect('required_options')
@@ -38,16 +40,16 @@ class Magento_Catalog_Block_Product_ProductList_Related extends Magento_Catalog_
             ->addStoreFilter()
         ;
 
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_Checkout')) {
-            Mage::getResourceSingleton('Magento_Checkout_Model_Resource_Cart')
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_Checkout')) {
+            \Mage::getResourceSingleton('\Magento\Checkout\Model\Resource\Cart')
                 ->addExcludeProductFilter(
                     $this->_itemCollection,
-                    Mage::getSingleton('Magento_Checkout_Model_Session')->getQuoteId()
+                    \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuoteId()
                 );
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
         $this->_itemCollection->setVisibility(
-            Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds()
+            \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds()
         );
 
         $this->_itemCollection->load();

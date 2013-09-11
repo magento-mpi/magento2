@@ -12,14 +12,14 @@
 class Magento_Catalog_Model_Product_Type_VirtualTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Type_Virtual
+     * @var \Magento\Catalog\Model\Product\Type\Virtual
      */
     protected $_model;
 
     protected function setUp()
     {
         $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
-        $this->_model = new Magento_Catalog_Model_Product_Type_Virtual($filesystem);
+        $this->_model = new \Magento\Catalog\Model\Product\Type\Virtual($filesystem);
     }
 
     public function testHasWeightFalse()

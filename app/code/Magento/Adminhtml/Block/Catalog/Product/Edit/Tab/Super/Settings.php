@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super;
+
+class Settings extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare block children and data
@@ -25,9 +27,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
     protected function _prepareLayout()
     {
         $onclick = "jQuery('[data-form=edit-product]').attr('action', "
-            . $this->helper('Magento_Core_Helper_Data')->jsonEncode($this->getContinueUrl())
+            . $this->helper('\Magento\Core\Helper\Data')->jsonEncode($this->getContinueUrl())
             . ").addClass('ignore-validate').submit();";
-        $this->addChild('continue_button', 'Magento_Backend_Block_Widget_Button', array(
+        $this->addChild('continue_button', '\Magento\Backend\Block\Widget\Button', array(
             'label'   => __('Generate Variations'),
             'onclick' => $onclick,
             'class'   => 'save',
@@ -38,17 +40,17 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
     /**
      * Retrieve currently edited product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return \Mage::registry('current_product');
     }
 
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Settings
      */
     protected function _prepareForm()
     {
@@ -63,13 +65,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Ma
         ));
 
         $product = $this->getProduct();
-        /** @var $configurableType Magento_Catalog_Model_Product_Type_Configurable */
-        $configurableType = Mage::getSingleton('Magento_Catalog_Model_Product_Type_Configurable');
+        /** @var $configurableType \Magento\Catalog\Model\Product\Type\Configurable */
+        $configurableType = \Mage::getSingleton('Magento\Catalog\Model\Product\Type\Configurable');
         $usedAttributes = $product->isConfigurable()
             ? $configurableType->getUsedProductAttributes($product)
             : array();
         foreach ($usedAttributes as $attribute) {
-            /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if ($configurableType->canUseAttribute($attribute, $product)) {
                 $fieldset->addField('attribute_' . $attribute->getAttributeId(), 'checkbox', array(
                     'label' => $attribute->getFrontendLabel(),

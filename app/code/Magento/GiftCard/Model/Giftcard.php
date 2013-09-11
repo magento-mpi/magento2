@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Giftcard extends Magento_Core_Model_Abstract
+namespace Magento\GiftCard\Model;
+
+class Giftcard extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH                    = 'giftcard/general/';
     const XML_PATH_EMAIL              = 'giftcard/email/';

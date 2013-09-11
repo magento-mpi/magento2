@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Rating_Edit_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Rating\Edit;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 
     protected function _construct()
@@ -31,15 +33,15 @@ class Magento_Adminhtml_Block_Rating_Edit_Tabs extends Magento_Adminhtml_Block_W
         $this->addTab('form_section', array(
             'label'     => __('Rating Information'),
             'title'     => __('Rating Information'),
-            'content'   => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Rating_Edit_Tab_Form')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Rating\Edit\Tab\Form')->toHtml(),
         ))
         ;
 /*
         $this->addTab('answers_section', array(
                 'label'     => __('Rating Options'),
                 'title'     => __('Rating Options'),
-                'content'   => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Rating_Edit_Tab_Options')
-                    ->append($this->getLayout()->createBlock('Magento_Adminhtml_Block_Rating_Edit_Tab_Options'))
+                'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Rating\Edit\Tab\Options')
+                    ->append($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Rating\Edit\Tab\Options'))
                     ->toHtml(),
            ));*/
         return parent::_beforeToHtml();

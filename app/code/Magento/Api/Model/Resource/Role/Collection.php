@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_Role_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Api\Model\Resource\Role;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization
@@ -24,30 +26,30 @@ class Magento_Api_Model_Resource_Role_Collection extends Magento_Core_Model_Reso
      */
     protected function _construct()
     {
-        $this->_init('Magento_Api_Model_Role', 'Magento_Api_Model_Resource_Role');
+        $this->_init('\Magento\Api\Model\Role', '\Magento\Api\Model\Resource\Role');
     }
 
     /**
      * Aet user filter
      *
      * @param int $userId
-     * @return Magento_Api_Model_Resource_Role_Collection
+     * @return \Magento\Api\Model\Resource\Role\Collection
      */
     public function setUserFilter($userId)
     {
         $this->addFieldToFilter('user_id', $userId);
-        $this->addFieldToFilter('role_type', Magento_Api_Model_Acl::ROLE_TYPE_GROUP);
+        $this->addFieldToFilter('role_type', \Magento\Api\Model\Acl::ROLE_TYPE_GROUP);
         return $this;
     }
 
     /**
      * Set roles filter
      *
-     * @return Magento_Api_Model_Resource_Role_Collection
+     * @return \Magento\Api\Model\Resource\Role\Collection
      */
     public function setRolesFilter()
     {
-        $this->addFieldToFilter('role_type', Magento_Api_Model_Acl::ROLE_TYPE_GROUP);
+        $this->addFieldToFilter('role_type', \Magento\Api\Model\Acl::ROLE_TYPE_GROUP);
         return $this;
     }
 }

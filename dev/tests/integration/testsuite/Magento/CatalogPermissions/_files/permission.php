@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-/** @var $permission Magento_CatalogPermissions_Model_Permission */
-$permission = Mage::getModel('Magento_CatalogPermissions_Model_Permission');
+/** @var $permission \Magento\CatalogPermissions\Model\Permission */
+$permission = Mage::getModel('\Magento\CatalogPermissions\Model\Permission');
 $permission->setWebsiteId(Mage::app()->getWebsite()->getId())
     ->setCategoryId(6)
     ->setCustomerGroupId(1)
-    ->setGrantCatalogCategoryView(Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY)
-    ->setGrantCatalogProductPrice(Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY)
-    ->setGrantCheckoutItems(Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY)
+    ->setGrantCatalogCategoryView(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY)
+    ->setGrantCatalogProductPrice(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY)
+    ->setGrantCheckoutItems(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY)
     ->save();

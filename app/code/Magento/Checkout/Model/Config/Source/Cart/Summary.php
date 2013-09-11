@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Checkout_Model_Config_Source_Cart_Summary implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Checkout\Model\Config\Source\Cart;
+
+class Summary implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

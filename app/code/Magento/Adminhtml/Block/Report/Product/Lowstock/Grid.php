@@ -15,10 +15,12 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Backend_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Report\Product\Lowstock;
+
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
@@ -38,8 +40,8 @@ class Magento_Adminhtml_Block_Report_Product_Lowstock_Grid extends Magento_Backe
             $storeId = '';
         }
 
-        /** @var $collection Magento_Reports_Model_Resource_Product_Lowstock_Collection  */
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Product_Lowstock_Collection')
+        /** @var $collection \Magento\Reports\Model\Resource\Product\Lowstock\Collection  */
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Product\Lowstock\Collection')
             ->addAttributeToSelect('*')
             ->setStoreId($storeId)
             ->filterByIsQtyProductTypes()

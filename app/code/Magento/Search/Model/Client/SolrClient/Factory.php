@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Search_Model_Client_SolrClient_Factory implements Magento_Search_Model_Client_FactoryInterface
+namespace Magento\Search\Model\Client\SolrClient;
+
+class Factory implements \Magento\Search\Model\Client\FactoryInterface
 {
     /**
      * Constructor

@@ -12,7 +12,7 @@
 class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Invitation_Block_Form
+     * @var \Magento\Invitation\Block\Form
      */
     protected $_block;
 
@@ -24,7 +24,7 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Invitation_Block_Form');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Invitation\Block\Form');
     }
 
     /**
@@ -35,7 +35,7 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMaxInvitationsPerSend($num, $expected)
     {
-        $this->_changeConfig(Magento_Invitation_Model_Config::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $num);
+        $this->_changeConfig(\Magento\Invitation\Model\Config::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $num);
         try {
             $this->assertEquals($expected, $this->_block->getMaxInvitationsPerSend());
         } catch (Exception $e) {
@@ -96,10 +96,10 @@ class Magento_Invitation_Block_FormTest extends PHPUnit_Framework_TestCase
     public function testIsInvitationMessageAllowed()
     {
         try {
-            $this->_changeConfig(Magento_Invitation_Model_Config::XML_PATH_USE_INVITATION_MESSAGE, 1);
+            $this->_changeConfig(\Magento\Invitation\Model\Config::XML_PATH_USE_INVITATION_MESSAGE, 1);
             $this->assertEquals(true, $this->_block->isInvitationMessageAllowed());
 
-            $this->_changeConfig(Magento_Invitation_Model_Config::XML_PATH_USE_INVITATION_MESSAGE, 0);
+            $this->_changeConfig(\Magento\Invitation\Model\Config::XML_PATH_USE_INVITATION_MESSAGE, 0);
             $this->assertEquals(false, $this->_block->isInvitationMessageAllowed());
 
         } catch (Exception $e) {

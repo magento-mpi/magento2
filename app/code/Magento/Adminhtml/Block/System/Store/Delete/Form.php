@@ -16,7 +16,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_System_Store_Delete_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\System\Store\Delete;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**

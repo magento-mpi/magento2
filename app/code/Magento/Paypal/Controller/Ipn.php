@@ -9,7 +9,9 @@
 /**
  * Unified IPN controller for all supported PayPal methods
  */
-class Magento_Paypal_Controller_Ipn extends Magento_Core_Controller_Front_Action
+namespace Magento\Paypal\Controller;
+
+class Ipn extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Instantiate IPN model and pass IPN request to it
@@ -22,9 +24,9 @@ class Magento_Paypal_Controller_Ipn extends Magento_Core_Controller_Front_Action
 
         try {
             $data = $this->getRequest()->getPost();
-            Mage::getModel('Magento_Paypal_Model_Ipn')->processIpnRequest($data, new \Magento\HTTP\Adapter\Curl());
-        } catch (Exception $e) {
-            Mage::logException($e);
+            \Mage::getModel('\Magento\Paypal\Model\Ipn')->processIpnRequest($data, new \Magento\HTTP\Adapter\Curl());
+        } catch (\Exception $e) {
+            \Mage::logException($e);
         }
     }
 }

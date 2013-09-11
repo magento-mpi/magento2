@@ -11,9 +11,11 @@
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_Widget_Grid_Export
-    extends Magento_Backend_Block_Widget
-    implements Magento_Backend_Block_Widget_Grid_ExportInterface
+namespace Magento\Backend\Block\Widget\Grid;
+
+class Export
+    extends \Magento\Backend\Block\Widget
+    implements \Magento\Backend\Block\Widget\Grid\ExportInterface
 {
     /**
      * Grid export types
@@ -47,18 +49,18 @@ class Magento_Backend_Block_Widget_Grid_Export
         if ($this->hasData('exportTypes')) {
             foreach ($this->getData('exportTypes') as $type) {
                 if (!isset($type['urlPath']) || !isset($type['label'])) {
-                    Mage::throwException('Invalid export type supplied for grid export block');
+                    \Mage::throwException('Invalid export type supplied for grid export block');
                 }
                 $this->addExportType($type['urlPath'], $type['label']);
             }
         }
-        $this->_exportPath = Mage::getBaseDir('var') . DS . 'export';
+        $this->_exportPath = \Mage::getBaseDir('var') . DS . 'export';
     }
 
     /**
      * Retrieve grid columns
      *
-     * @return Magento_Backend_Block_Widget_Grid_Column[]
+     * @return \Magento\Backend\Block\Widget\Grid\Column[]
      */
     protected function _getColumns()
     {
@@ -118,12 +120,12 @@ class Magento_Backend_Block_Widget_Grid_Export
     /**
      * Prepare export button
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
         $this->setChild('export_button',
-            $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
+            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Export'),
                 'onclick'   => $this->getParentBlock()->getJsObjectName().'.doExport()',
@@ -148,7 +150,7 @@ class Magento_Backend_Block_Widget_Grid_Export
      *
      * @param   string $url
      * @param   string $label
-     * @return  Magento_Backend_Block_Widget_Grid
+     * @return  \Magento\Backend\Block\Widget\Grid
      */
     public function addExportType($url, $label)
     {
@@ -211,7 +213,7 @@ class Magento_Backend_Block_Widget_Grid_Export
      *
      * @param string $callback
      * @param array $args additional arguments for callback method
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function _exportIterateCollection($callback, array $args)
     {
@@ -457,7 +459,7 @@ class Magento_Backend_Block_Widget_Grid_Export
             $data[] = $row;
         }
 
-        $convert = new \Magento\Convert\Excel(new ArrayIterator($data));
+        $convert = new \Magento\Convert\Excel(new \ArrayIterator($data));
         return $convert->convert('single_sheet');
     }
 

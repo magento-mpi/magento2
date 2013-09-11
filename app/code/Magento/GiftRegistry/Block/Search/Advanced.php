@@ -11,7 +11,9 @@
 /**
  * Gift registry advanced search block
  */
-class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Block_Form_Element
+namespace Magento\GiftRegistry\Block\Search;
+
+class Advanced extends \Magento\GiftRegistry\Block\Form\Element
 {
     protected $_attributes = null;
     protected $_formData = null;
@@ -46,7 +48,7 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
     public function getFormData($key)
     {
         if (is_null($this->_formData)) {
-            $this->_formData = Mage::getSingleton('Magento_Customer_Model_Session')->getRegistrySearchData();
+            $this->_formData = \Mage::getSingleton('Magento\Customer\Model\Session')->getRegistrySearchData();
         }
         if (!$this->_formData || !isset($this->_formData[$key])) {
             return null;
@@ -62,8 +64,8 @@ class Magento_GiftRegistry_Block_Search_Advanced extends Magento_GiftRegistry_Bl
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $type = Mage::registry('current_giftregistry_type');
-            $config = Mage::getSingleton('Magento_GiftRegistry_Model_Attribute_Config');
+            $type = \Mage::registry('current_giftregistry_type');
+            $config = \Mage::getSingleton('Magento\GiftRegistry\Model\Attribute\Config');
             $staticTypes = $config->getStaticTypesCodes();
 
             $attributes = array();

@@ -35,24 +35,24 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
     protected $_fallbackViewFile;
 
     /**
-     * @var Magento_Core_Model_Theme
+     * @var \Magento\Core\Model\Theme
      */
     protected $_theme;
 
     public function setUp()
     {
-        $this->_fallbackFile = $this->getMockForAbstractClass('Magento_Core_Model_Design_Fallback_Rule_RuleInterface');
+        $this->_fallbackFile = $this->getMockForAbstractClass('\Magento\Core\Model\Design\Fallback\Rule\RuleInterface');
         $this->_fallbackLocale = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Design_Fallback_Rule_RuleInterface'
+            '\Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
         );
         $this->_fallbackViewFile = $this->getMockForAbstractClass(
-            'Magento_Core_Model_Design_Fallback_Rule_RuleInterface'
+            '\Magento\Core\Model\Design\Fallback\Rule\RuleInterface'
         );
 
         $this->_fallbackFactory = $this->getMock(
-            'Magento_Core_Model_Design_Fallback_Factory',
+            '\Magento\Core\Model\Design\Fallback\Factory',
             array('createLocaleFileRule', 'createFileRule', 'createViewFileRule'),
-            array($this->getMock('Magento_Core_Model_Dir', array(), array(), '', false))
+            array($this->getMock('Magento\Core\Model\Dir', array(), array(), '', false))
         );
         $this->_fallbackFactory
             ->expects($this->any())->method('createLocaleFileRule')->will($this->returnValue($this->_fallbackLocale));
@@ -61,7 +61,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
         $this->_fallbackFactory
             ->expects($this->any())->method('createViewFileRule')->will($this->returnValue($this->_fallbackViewFile));
 
-        $this->_theme = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
+        $this->_theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
     }
 
     public function tearDown()
@@ -80,7 +80,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
     {
         $filesystem = $this->_getFileSystemMock($targetFile);
 
-        $fallback = new Magento_Core_Model_Design_FileResolution_Strategy_Fallback(
+        $fallback = new \Magento\Core\Model\Design\FileResolution\Strategy\Fallback(
             $filesystem, $this->_fallbackFactory
         );
 
@@ -137,7 +137,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
     {
         $filesystem = $this->_getFileSystemMock($targetFile);
 
-        $fallback = new Magento_Core_Model_Design_FileResolution_Strategy_Fallback(
+        $fallback = new \Magento\Core\Model\Design\FileResolution\Strategy\Fallback(
             $filesystem, $this->_fallbackFactory
         );
 
@@ -174,7 +174,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_FallbackTest extends PHP
     {
         $filesystem = $this->_getFileSystemMock($targetFile);
 
-        $fallback = new Magento_Core_Model_Design_FileResolution_Strategy_Fallback(
+        $fallback = new \Magento\Core\Model\Design\FileResolution\Strategy\Fallback(
             $filesystem,
             $this->_fallbackFactory
         );

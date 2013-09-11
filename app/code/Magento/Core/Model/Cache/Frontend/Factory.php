@@ -11,7 +11,9 @@
 /**
  * Factory that creates cache frontend instances based on options
  */
-class Magento_Core_Model_Cache_Frontend_Factory
+namespace Magento\Core\Model\Cache\Frontend;
+
+class Factory
 {
     /**
      * Default cache entry lifetime
@@ -29,7 +31,7 @@ class Magento_Core_Model_Cache_Frontend_Factory
     private $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     private $_dirs;
 
@@ -72,14 +74,14 @@ class Magento_Core_Model_Cache_Frontend_Factory
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_Dir $dirs
+     * @param \Magento\Core\Model\Dir $dirs
      * @param array $enforcedOptions
      * @param array $decorators
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_Dir $dirs,
+        \Magento\Core\Model\Dir $dirs,
         array $enforcedOptions = array(),
         array $decorators = array()
     ) {
@@ -102,21 +104,21 @@ class Magento_Core_Model_Cache_Frontend_Factory
 
         foreach (array('backend_options', 'slow_backend_options') as $section) {
             if (!empty($options[$section]['cache_dir'])) {
-                $dir = $this->_dirs->getDir(Magento_Core_Model_Dir::VAR_DIR) . DS . $options[$section]['cache_dir'];
+                $dir = $this->_dirs->getDir(\Magento\Core\Model\Dir::VAR_DIR) . DS . $options[$section]['cache_dir'];
                 $this->_filesystem->setIsAllowCreateDirectories(true);
                 $this->_filesystem->ensureDirectoryExists($dir, 0777);
                 $options[$section]['cache_dir'] = $dir;
             }
         }
 
-        $this->_backendOptions['cache_dir'] = $this->_dirs->getDir(Magento_Core_Model_Dir::CACHE);
+        $this->_backendOptions['cache_dir'] = $this->_dirs->getDir(\Magento\Core\Model\Dir::CACHE);
 
         $idPrefix = isset($options['id_prefix']) ? $options['id_prefix'] : '';
         if (!$idPrefix && isset($options['prefix'])) {
             $idPrefix = $options['prefix'];
         }
         if (empty($idPrefix)) {
-            $idPrefix = substr(md5($this->_dirs->getDir(Magento_Core_Model_Dir::CONFIG)), 0, 3) . '_';
+            $idPrefix = substr(md5($this->_dirs->getDir(\Magento\Core\Model\Dir::CONFIG)), 0, 3) . '_';
         }
         $options['frontend_options']['cache_id_prefix'] = $idPrefix;
 
@@ -134,7 +136,7 @@ class Magento_Core_Model_Cache_Frontend_Factory
 
         /** @var $result \Magento\Cache\Frontend\Adapter\Zend */
         $result = $this->_objectManager->create('Magento\Cache\Frontend\Adapter\Zend', array(
-            'frontend' => Zend_Cache::factory(
+            'frontend' => \Zend_Cache::factory(
                 $frontend['type'], $backend['type'], $frontend, $backend['options'], true, true, true
             ),
         ));
@@ -161,21 +163,21 @@ class Magento_Core_Model_Cache_Frontend_Factory
      *
      * @param \Magento\Cache\FrontendInterface $frontend
      * @return \Magento\Cache\FrontendInterface
-     * @throws LogicException
-     * @throws UnexpectedValueException
+     * @throws \LogicException
+     * @throws \UnexpectedValueException
      */
     private function _applyDecorators(\Magento\Cache\FrontendInterface $frontend)
     {
         foreach ($this->_decorators as $decoratorConfig) {
             if (!isset($decoratorConfig['class'])) {
-                throw new LogicException('Class has to be specified for a cache frontend decorator.');
+                throw new \LogicException('Class has to be specified for a cache frontend decorator.');
             }
             $decoratorClass = $decoratorConfig['class'];
             $decoratorParams = isset($decoratorConfig['parameters']) ? $decoratorConfig['parameters'] : array();
             $decoratorParams['frontend'] = $frontend; // conventionally, 'frontend' argument is a decoration subject
             $frontend = $this->_objectManager->create($decoratorClass, $decoratorParams);
             if (!($frontend instanceof \Magento\Cache\FrontendInterface)) {
-                throw new UnexpectedValueException('Decorator has to implement the cache frontend interface.');
+                throw new \UnexpectedValueException('Decorator has to implement the cache frontend interface.');
             }
         }
         return $frontend;
@@ -253,7 +255,7 @@ class Magento_Core_Model_Cache_Frontend_Factory
                                 $backendType = $type;
                             }
                         }
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                     }
                 }
         }
@@ -282,13 +284,13 @@ class Magento_Core_Model_Cache_Frontend_Factory
     protected function _getDbAdapterOptions()
     {
         $options['adapter_callback'] = function () {
-            return Mage::getSingleton('Magento_Core_Model_Resource')->getConnection('core_write');
+            return \Mage::getSingleton('Magento\Core\Model\Resource')->getConnection('core_write');
         };
         $options['data_table_callback'] = function () {
-            return Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('core_cache');
+            return \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('core_cache');
         };
         $options['tags_table_callback'] = function () {
-            return Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('core_cache_tag');
+            return \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('core_cache_tag');
         };
         return $options;
     }
@@ -343,7 +345,7 @@ class Magento_Core_Model_Cache_Frontend_Factory
     }
 
     /**
-     * Get options of cache frontend (options of Zend_Cache_Core)
+     * Get options of cache frontend (options of \Zend_Cache_Core)
      *
      * @param  array $cacheOptions
      * @return array

@@ -16,19 +16,21 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Address_Attribute_Backend_Region
-    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend;
+
+class Region
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Set region to the attribute
      *
      * @param \Magento\Object $object
-     * @return Magento_Sales_Model_Resource_Quote_Address_Attribute_Backend_Region
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend\Region
      */
     public function beforeSave($object)
     {
         if (is_numeric($object->getRegion())) {
-            $region = Mage::getModel('Magento_Directory_Model_Region')->load((int)$object->getRegion());
+            $region = \Mage::getModel('\Magento\Directory\Model\Region')->load((int)$object->getRegion());
             if ($region) {
                 $object->setRegionId($region->getId());
                 $object->setRegion($region->getCode());

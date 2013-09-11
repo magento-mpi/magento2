@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_Widget_Form_Renderer_Fieldset_Element extends Magento_Backend_Block_Template
+namespace Magento\Backend\Block\Widget\Form\Renderer\Fieldset;
+
+class Element extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_element;

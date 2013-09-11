@@ -15,6 +15,8 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Api_V2 extends Magento_Sales_Model_Order_Api
+namespace Magento\Sales\Model\Order\Api;
+
+class V2 extends \Magento\Sales\Model\Order\Api
 {
 }

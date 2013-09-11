@@ -15,21 +15,23 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Block_Sales_Order_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\View;
+
+class Info extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(__('Please correct the parent block for this block.'));
+            \Mage::throwException(__('Please correct the parent block for this block.'));
         }
         $this->setOrder($this->getParentBlock()->getOrder());
 
@@ -61,7 +63,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
                 $deleted = __(' [deleted]');
                 return nl2br($this->getOrder()->getStoreName()) . $deleted;
             }
-            $store = Mage::app()->getStore($storeId);
+            $store = \Mage::app()->getStore($storeId);
             $name = array(
                 $store->getWebsite()->getName(),
                 $store->getGroup()->getName(),
@@ -75,7 +77,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     public function getCustomerGroupName()
     {
         if ($this->getOrder()) {
-            return Mage::getModel('Magento_Customer_Model_Group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
+            return \Mage::getModel('\Magento\Customer\Model\Group')->load((int)$this->getOrder()->getCustomerGroupId())->getCode();
         }
         return null;
     }
@@ -119,12 +121,12 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     {
         $accountData = array();
 
-        /* @var $config Magento_Eav_Model_Config */
-        $config     = Mage::getSingleton('Magento_Eav_Model_Config');
+        /* @var $config \Magento\Eav\Model\Config */
+        $config     = \Mage::getSingleton('Magento\Eav\Model\Config');
         $entityType = 'customer';
-        $customer   = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer   = \Mage::getModel('\Magento\Customer\Model\Customer');
         foreach ($config->getEntityAttributeCodes($entityType) as $attributeCode) {
-            /* @var $attribute Magento_Customer_Model_Attribute */
+            /* @var $attribute \Magento\Customer\Model\Attribute */
             $attribute = $config->getAttribute($entityType, $attributeCode);
             if (!$attribute->getIsVisible() || $attribute->getIsSystem()) {
                 continue;
@@ -133,8 +135,8 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
             $orderValue = $this->getOrder()->getData($orderKey);
             if ($orderValue != '') {
                 $customer->setData($attribute->getAttributeCode(), $orderValue);
-                $dataModel  = Magento_Customer_Model_Attribute_Data::factory($attribute, $customer);
-                $value      = $dataModel->outputValue(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_HTML);
+                $dataModel  = \Magento\Customer\Model\Attribute\Data::factory($attribute, $customer);
+                $value      = $dataModel->outputValue(\Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_HTML);
                 $sortOrder  = $attribute->getSortOrder() + $attribute->getIsUserDefined() ? 200 : 0;
                 $sortOrder  = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
                 $accountData[$sortOrder] = array(
@@ -152,7 +154,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
     /**
      * Get link to edit order address page
      *
-     * @param Magento_Sales_Model_Order_Address $address
+     * @param \Magento\Sales\Model\Order\Address $address
      * @param string $label
      * @return string
      */
@@ -171,7 +173,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Info extends Magento_Adminhtml_Bl
      */
     public function shouldDisplayCustomerIp()
     {
-        return !Mage::getStoreConfigFlag('sales/general/hide_customer_ip', $this->getOrder()->getStoreId());
+        return !\Mage::getStoreConfigFlag('sales/general/hide_customer_ip', $this->getOrder()->getStoreId());
     }
 
     /**

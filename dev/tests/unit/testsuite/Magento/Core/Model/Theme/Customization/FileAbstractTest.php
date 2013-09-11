@@ -36,10 +36,10 @@ class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Fr
 
     protected function setUp()
     {
-        $this->_customizationPath = $this->getMock('Magento_Core_Model_Theme_Customization_Path',
+        $this->_customizationPath = $this->getMock('Magento\Core\Model\Theme\Customization\Path',
             array(), array(), '', false);
         $this->_fileFactory = $this->getMock(
-            'Magento_Core_Model_Theme_FileFactory',
+            '\Magento\Core\Model\Theme\FileFactory',
             array('create'),
             array(),
             '',
@@ -47,7 +47,7 @@ class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Fr
         );
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
 
-        $this->_modelBuilder = $this->getMockBuilder('Magento_Core_Model_Theme_Customization_FileAbstract')
+        $this->_modelBuilder = $this->getMockBuilder('Magento\Core\Model\Theme\Customization\FileAbstract')
             ->setMethods(array('getType', 'getContentType'))
             ->setConstructorArgs(array($this->_customizationPath, $this->_fileFactory, $this->_filesystem));
     }
@@ -61,27 +61,27 @@ class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Fr
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::__construct
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::create
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::__construct
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::create
      */
     public function testCreate()
     {
         $model = $this->_modelBuilder->getMock();
-        $file = $this->getMock('Magento_Core_Model_Theme_File', array(), array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', array(), array(), '', false);
         $file->expects($this->once())->method('setCustomizationService')->with($model);
         $this->_fileFactory->expects($this->once())->method('create')->will($this->returnValue($file));
-        /** @var $model Magento_Core_Model_Theme_Customization_FileAbstract */
+        /** @var $model \Magento\Core\Model\Theme\Customization\FileAbstract */
         $this->assertEquals($file, $model->create());
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::getFullPath
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::getFullPath
      */
     public function testGetFullPath()
     {
         $model = $this->_modelBuilder->getMock();
-        $theme = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
-        $file = $this->getMock('Magento_Core_Model_Theme_File', array(), array(), '', false);
+        $theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', array(), array(), '', false);
 
         $file->expects($this->any())->method('getTheme')->will($this->returnValue($theme));
         $file->expects($this->once())->method('getData')->with('file_path')->will($this->returnValue('file.path'));
@@ -89,16 +89,16 @@ class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Fr
         $this->_customizationPath->expects($this->once())->method('getCustomizationPath')
             ->will($this->returnValue('/path'));
 
-        /** @var $model Magento_Core_Model_Theme_Customization_FileAbstract */
-        /** @var $file Magento_Core_Model_Theme_File */
+        /** @var $model \Magento\Core\Model\Theme\Customization\FileAbstract */
+        /** @var $file \Magento\Core\Model\Theme\File */
         $this->assertEquals('/path' . DIRECTORY_SEPARATOR . 'file.path', $model->getFullPath($file));
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::prepareFile
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::_prepareFileName
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::_prepareFilePath
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::_prepareSortOrder
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::prepareFile
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::_prepareFileName
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::_prepareFilePath
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::_prepareSortOrder
      * @dataProvider getTestContent
      */
     public function testPrepareFile($type, $fileContent, $expectedContent, $existedFiles)
@@ -109,23 +109,23 @@ class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Fr
 
         $files = array();
         foreach ($existedFiles as $fileData) {
-            $file = $this->getMock('Magento_Core_Model_Theme_File', array('save'), array(), '', false);
+            $file = $this->getMock('Magento\Core\Model\Theme\File', array('save'), array(), '', false);
             $file->setData($fileData);
             $files[] = $file;
         }
-        $customization = $this->getMock('Magento_Core_Model_Theme_Customization', array(), array(), '', false);
+        $customization = $this->getMock('Magento\Core\Model\Theme\Customization', array(), array(), '', false);
         $customization->expects($this->atLeastOnce())->method('getFilesByType')->with($type)
             ->will($this->returnValue($files));
 
-        $theme = $this->getMock('Magento_Core_Model_Theme', array(), array(), '', false);
+        $theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
         $theme->expects($this->any())->method('getCustomization')->will($this->returnValue($customization));
 
-        $file = $this->getMock('Magento_Core_Model_Theme_File', array('getTheme', 'save'), array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', array('getTheme', 'save'), array(), '', false);
         $file->expects($this->any())->method('getTheme')->will($this->returnValue($theme));
         $file->setData($fileContent);
 
-        /** @var $model Magento_Core_Model_Theme_Customization_FileAbstract */
-        /** @var $file Magento_Core_Model_Theme_File */
+        /** @var $model \Magento\Core\Model\Theme\Customization\FileAbstract */
+        /** @var $file \Magento\Core\Model\Theme\File */
         $model->prepareFile($file);
         $this->assertEquals($expectedContent, $file->getData());
     }
@@ -211,14 +211,14 @@ class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Fr
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::save
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::_saveFileContent
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::save
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::_saveFileContent
      */
     public function testSave()
     {
         $model = $this->_modelBuilder->setMethods(array('getFullPath', 'getType', 'getContentType'))->getMock();
 
-        $file = $this->getMock('Magento_Core_Model_Theme_File', null, array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', null, array(), '', false);
         $file->setData(array(
             'file_type'  => 'js',
             'file_name'  => 'test_3.js',
@@ -231,19 +231,19 @@ class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Fr
         $this->_filesystem->expects($this->once())->method('setIsAllowCreateDirectories')->with(true)
             ->will($this->returnSelf());
         $this->_filesystem->expects($this->once())->method('write')->with('test_path', 'test content');
-        /** @var $model Magento_Core_Model_Theme_Customization_FileAbstract */
-        /** @var $file Magento_Core_Model_Theme_File */
+        /** @var $model \Magento\Core\Model\Theme\Customization\FileAbstract */
+        /** @var $file \Magento\Core\Model\Theme\File */
         $model->save($file);
     }
 
     /**
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::delete
-     * @covers Magento_Core_Model_Theme_Customization_FileAbstract::_deleteFileContent
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::delete
+     * @covers \Magento\Core\Model\Theme\Customization\FileAbstract::_deleteFileContent
      */
     public function testDelete()
     {
         $model = $this->_modelBuilder->setMethods(array('getFullPath', 'getType', 'getContentType'))->getMock();
-        $file = $this->getMock('Magento_Core_Model_Theme_File', null, array(), '', false);
+        $file = $this->getMock('Magento\Core\Model\Theme\File', null, array(), '', false);
         $file->setData(array(
             'file_type'  => 'js',
             'file_name'  => 'test_3.js',
@@ -254,8 +254,8 @@ class Magento_Core_Model_Theme_Customization_FileAbstractTest extends PHPUnit_Fr
         $this->_filesystem->expects($this->once())->method('has')->with('test_path')->will($this->returnValue(true));
         $this->_filesystem->expects($this->once())->method('delete')->with('test_path');
         $model->expects($this->once())->method('getFullPath')->with($file)->will($this->returnValue('test_path'));
-        /** @var $model Magento_Core_Model_Theme_Customization_FileAbstract */
-        /** @var $file Magento_Core_Model_Theme_File */
+        /** @var $model \Magento\Core\Model\Theme\Customization\FileAbstract */
+        /** @var $file \Magento\Core\Model\Theme\File */
         $model->delete($file);
     }
 }

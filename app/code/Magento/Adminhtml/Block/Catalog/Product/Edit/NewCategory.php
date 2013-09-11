@@ -15,15 +15,17 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_Backend_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit;
+
+class NewCategory extends \Magento\Backend\Block\Widget\Form
 {
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param Magento_Catalog_Model_CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Block\Template\Context $context,
         Magento_Catalog_Model_CategoryFactory $categoryFactory,
         array $data = array()
     ) {
@@ -103,8 +105,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_NewCategory extends Magento_B
      */
     public function getAfterElementHtml()
     {
-        /** @var $coreHelper Magento_Core_Helper_Data */
-        $coreHelper = Mage::helper('Magento_Core_Helper_Data');
+        /** @var $coreHelper \Magento\Core\Helper\Data */
+        $coreHelper = \Mage::helper('Magento\Core\Helper\Data');
         $widgetOptions = $coreHelper->jsonEncode(array(
             'suggestOptions' => array(
                 'source' => $this->getUrl('adminhtml/catalog_category/suggestCategories'),

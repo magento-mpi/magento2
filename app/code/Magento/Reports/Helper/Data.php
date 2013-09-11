@@ -11,7 +11,9 @@
 /**
  * Reports data helper
  */
-class Magento_Reports_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Reports\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const REPORT_PERIOD_TYPE_DAY    = 'day';
     const REPORT_PERIOD_TYPE_MONTH  = 'month';
@@ -31,21 +33,21 @@ class Magento_Reports_Helper_Data extends Magento_Core_Helper_Abstract
             return $intervals;
         }
 
-        $start = new Zend_Date($from, \Magento\Date::DATE_INTERNAL_FORMAT);
+        $start = new \Zend_Date($from, \Magento\Date::DATE_INTERNAL_FORMAT);
 
         if ($period == self::REPORT_PERIOD_TYPE_DAY) {
             $dateStart = $start;
         }
 
         if ($period == self::REPORT_PERIOD_TYPE_MONTH) {
-            $dateStart = new Zend_Date(date("Y-m", $start->getTimestamp()), \Magento\Date::DATE_INTERNAL_FORMAT);
+            $dateStart = new \Zend_Date(date("Y-m", $start->getTimestamp()), \Magento\Date::DATE_INTERNAL_FORMAT);
         }
 
         if ($period == self::REPORT_PERIOD_TYPE_YEAR) {
-            $dateStart = new Zend_Date(date("Y", $start->getTimestamp()), \Magento\Date::DATE_INTERNAL_FORMAT);
+            $dateStart = new \Zend_Date(date("Y", $start->getTimestamp()), \Magento\Date::DATE_INTERNAL_FORMAT);
         }
 
-        $dateEnd = new Zend_Date($to, \Magento\Date::DATE_INTERNAL_FORMAT);
+        $dateEnd = new \Zend_Date($to, \Magento\Date::DATE_INTERNAL_FORMAT);
 
         while ($dateStart->compare($dateEnd) <= 0) {
             switch ($period) {
@@ -72,7 +74,7 @@ class Magento_Reports_Helper_Data extends Magento_Core_Helper_Abstract
         $intervals = $this->getIntervals($from, $to, $periodType);
 
         foreach ($intervals as $interval) {
-            $item = Mage::getModel('Magento_Adminhtml_Model_Report_Item');
+            $item = \Mage::getModel('\Magento\Adminhtml\Model\Report\Item');
             $item->setPeriod($interval);
             $item->setIsEmpty();
             $collection->addItem($item);

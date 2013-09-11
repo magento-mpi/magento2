@@ -11,7 +11,7 @@
 class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CatalogRule_Model_Rule
+     * @var \Magento\CatalogRule\Model\Rule
      */
     protected $_object;
 
@@ -21,23 +21,23 @@ class Magento_CatalogRule_Model_RuleTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_object = Mage::getModel('Magento_CatalogRule_Model_Rule');
+        $this->_object = Mage::getModel('\Magento\CatalogRule\Model\Rule');
     }
 
     /**
      * @magentoAppIsolation enabled
-     * @covers Magento_CatalogRule_Model_Rule::calcProductPriceRule
+     * @covers \Magento\CatalogRule\Model\Rule::calcProductPriceRule
      */
     public function testCalcProductPriceRule()
     {
-        /** @var $catalogRule Magento_CatalogRule_Model_Rule */
-        $catalogRule = $this->getMock('Magento_CatalogRule_Model_Rule',
+        /** @var $catalogRule \Magento\CatalogRule\Model\Rule */
+        $catalogRule = $this->getMock('Magento\CatalogRule\Model\Rule',
             array('_getRulesFromProduct'), array(), '', false);
         $catalogRule->expects(self::any())
             ->method('_getRulesFromProduct')
             ->will($this->returnValue($this->_getCatalogRulesFixtures()));
 
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $this->assertEquals($catalogRule->calcProductPriceRule($product, 100), 45);
         $product->setParentId(true);
         $this->assertEquals($catalogRule->calcProductPriceRule($product, 50), 5);

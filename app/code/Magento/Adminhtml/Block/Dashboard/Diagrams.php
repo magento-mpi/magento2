@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Diagrams extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Dashboard;
+
+class Diagrams extends \Magento\Adminhtml\Block\Widget\Tabs
 {
 
     protected $_template = 'widget/tabshoriz.phtml';
@@ -32,13 +34,13 @@ class Magento_Adminhtml_Block_Dashboard_Diagrams extends Magento_Adminhtml_Block
     {
         $this->addTab('orders', array(
             'label'     => __('Orders'),
-            'content'   => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Dashboard_Tab_Orders')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Dashboard\Tab\Orders')->toHtml(),
             'active'    => true
         ));
 
         $this->addTab('amounts', array(
             'label'     => __('Amounts'),
-            'content'   => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Dashboard_Tab_Amounts')->toHtml(),
+            'content'   => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Dashboard\Tab\Amounts')->toHtml(),
         ));
         return parent::_prepareLayout();
     }

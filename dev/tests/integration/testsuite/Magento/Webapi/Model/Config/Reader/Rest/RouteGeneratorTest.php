@@ -1,6 +1,6 @@
 <?php
 /**
- * File with unit tests for REST routes generator class: Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator.
+ * File with unit tests for REST routes generator class: \Magento\Webapi\Model\Config\Reader\Rest\RouteGenerator.
  *
  * {license_notice}
  *
@@ -21,15 +21,15 @@ require_once __DIR__ . '/../../../_files/resource_with_invalid_name.php';
 class Magento_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator
+     * @var \Magento\Webapi\Model\Config\Reader\Rest\RouteGenerator
      */
     protected $_model;
 
     protected function setUp()
     {
-        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Webapi_Helper_Config');
+        $helper = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Webapi\Helper\Config');
 
-        $this->_model = new Magento_Webapi_Model_Config_Reader_Rest_RouteGenerator($helper);
+        $this->_model = new \Magento\Webapi\Model\Config\Reader\Rest\RouteGenerator($helper);
     }
 
     /**
@@ -41,14 +41,14 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit
     public function testGenerateRestRoutesTopLevelResource($className, $methodName, $expectedRoutes)
     {
         $actualRoutes = $this->_model->generateRestRoutes(
-            Magento_Webapi_Helper_Data::createMethodReflection($className, $methodName)
+            \Magento\Webapi\Helper\Data::createMethodReflection($className, $methodName)
         );
         $this->assertRoutesEqual($expectedRoutes, $actualRoutes);
     }
 
     public static function dataProviderTestGenerateRestRoutesTopLevelResource()
     {
-        $versionParam = Magento_Webapi_Controller_Router_Route_Rest::PARAM_VERSION;
+        $versionParam = \Magento\Webapi\Controller\Router\Route\Rest::PARAM_VERSION;
         $className = "Vendor_Module_Controller_Webapi_Resource";
         $createPath = "/:$versionParam/vendorModuleResources/requiredField/:requiredField";
         return array(
@@ -155,7 +155,7 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit
     public function testGenerateRestRoutesSubresource($className, $methodName, $expectedRoutes)
     {
         $actualRoutes = $this->_model->generateRestRoutes(
-            Magento_Webapi_Helper_Data::createMethodReflection($className, $methodName)
+            \Magento\Webapi\Helper\Data::createMethodReflection($className, $methodName)
         );
         $this->assertRoutesEqual($expectedRoutes, $actualRoutes);
     }
@@ -163,7 +163,7 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit
     public static function dataProviderTestGenerateRestRoutesSubresource()
     {
         $className = 'Vendor_Module_Controller_Webapi_Resource_Subresource';
-        $versionParam = Magento_Webapi_Controller_Router_Route_Rest::PARAM_VERSION;
+        $versionParam = \Magento\Webapi\Controller\Router\Route\Rest::PARAM_VERSION;
         return array(
             array(
                 $className,
@@ -231,7 +231,7 @@ class Magento_Webapi_Model_Config_Reader_Rest_RouteGeneratorTest extends PHPUnit
             '"invalidMethodNameV2" is an invalid API resource method.'
         );
         $this->_model->generateRestRoutes(
-            Magento_Webapi_Helper_Data::createMethodReflection(
+            \Magento\Webapi\Helper\Data::createMethodReflection(
                 'Vendor_Module_Controller_Webapi_Invalid_Interface',
                 'invalidMethodNameV2'
             )

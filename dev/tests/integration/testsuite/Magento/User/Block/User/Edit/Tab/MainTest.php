@@ -15,12 +15,12 @@
 class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_Controller
 {
     /**
-     * @var Magento_User_Block_User_Edit_Tab_Main
+     * @var \Magento\User\Block\User\Edit\Tab\Main
      */
     protected $_block;
 
     /**
-     * @var Magento_User_Model_User
+     * @var \Magento\User\Model\User
      */
     protected $_user;
 
@@ -28,9 +28,9 @@ class Magento_User_Block_User_Edit_Tab_MainTest extends Magento_Backend_Utility_
     {
         parent::setUp();
         $this->_block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_User_Block_User_Edit_Tab_Main');
+            ->create('Magento\User\Block\User\Edit\Tab\Main');
         $this->_block->setArea('adminhtml');
-        $this->_user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_User_Model_User');
+        $this->_user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\User\Model\User');
         Mage::register('permissions_user', $this->_user);
     }
 

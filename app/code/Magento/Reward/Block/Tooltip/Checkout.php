@@ -15,7 +15,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
+namespace Magento\Reward\Block\Tooltip;
+
+class Checkout extends \Magento\Reward\Block\Tooltip
 {
     /**
      * Set quote to the reward action instance
@@ -26,7 +28,7 @@ class Magento_Reward_Block_Tooltip_Checkout extends Magento_Reward_Block_Tooltip
     {
         parent::initRewardType($action);
         if ($this->_actionInstance) {
-            $this->_actionInstance->setQuote(Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote());
+            $this->_actionInstance->setQuote(\Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote());
         }
     }
 }

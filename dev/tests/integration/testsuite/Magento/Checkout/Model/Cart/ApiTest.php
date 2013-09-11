@@ -18,8 +18,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testProductAddToCart()
     {
-        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
+        /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('\Magento\Sales\Model\Resource\Quote\Collection');
         $quote = $quoteCollection->getFirstItem();
         $productSku = 'simple-1';
 
@@ -44,8 +44,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testProductAddToCartWithNonExistingProduct()
     {
-        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
+        /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('\Magento\Sales\Model\Resource\Quote\Collection');
         $quote = $quoteCollection->getFirstItem();
         $productId = "0";
 
@@ -76,16 +76,16 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         $customOptionId = null;
         $customOptionTitle = 'test_option_code_1';
         $customOptionValue = 'option_value';
-        /** @var Magento_Catalog_Model_Product $product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1);
-        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
+        /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('\Magento\Sales\Model\Resource\Quote\Collection');
         $quote = $quoteCollection->getFirstItem();
 
         // Find ID of created custom option for future use
-        /** @var $productOption Magento_Catalog_Model_Product_Option */
-        $productOption = Mage::getModel('Magento_Catalog_Model_Product_Option');
+        /** @var $productOption \Magento\Catalog\Model\Product\Option */
+        $productOption = Mage::getModel('\Magento\Catalog\Model\Product\Option');
 
         foreach ($productOption->getProductOptionCollection($product) as $option) {
             if ($option['default_title'] == $customOptionTitle) {
@@ -111,8 +111,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($soapResult, 'Error during product with custom options add to cart via API call');
 
-        /** @var $quoteItemOption Magento_Sales_Model_Resource_Quote_Item_Option_Collection */
-        $quoteItemOption = Mage::getResourceModel('Magento_Sales_Model_Resource_Quote_Item_Option_Collection');
+        /** @var $quoteItemOption \Magento\Sales\Model\Resource\Quote\Item\Option\Collection */
+        $quoteItemOption = Mage::getResourceModel('\Magento\Sales\Model\Resource\Quote\Item\Option\Collection');
         $itemOptionValue = null;
 
         foreach ($quoteItemOption->getOptionsByProduct($product) as $row) {
@@ -138,11 +138,11 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testCartProductList()
     {
-        /** @var Magento_Catalog_Model_Product $product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(1);
-        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
+        /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('\Magento\Sales\Model\Resource\Quote\Collection');
         $quote = $quoteCollection->getFirstItem();
 
         $soapResult = Magento_TestFramework_Helper_Api::call(
@@ -222,8 +222,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertTrue(is_string($orderIncrementId), 'Increment Id is not a string');
-        /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
         $this->assertEquals('ccsave', $order->getPayment()->getMethod());
     }
 
@@ -342,7 +342,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testInfo()
     {
-        /** @var Magento_Checkout_Model_Cart $quote */
+        /** @var \Magento\Checkout\Model\Cart $quote */
         $quote = $this->_getQuoteFixture();
         $quoteId = $quote->getId();
         /** Retrieve quote info. */
@@ -371,7 +371,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testTotals()
     {
-        /** @var Magento_Checkout_Model_Cart $quote */
+        /** @var \Magento\Checkout\Model\Cart $quote */
         $quote = $this->_getQuoteFixture();
         $quoteId = $quote->getId();
         /** Retrieve quote info. */
@@ -411,7 +411,7 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
      */
     public function testLicenseAgreement()
     {
-        /** @var Magento_Checkout_Model_Cart $quote */
+        /** @var \Magento\Checkout\Model\Cart $quote */
         $quote = $this->_getQuoteFixture();
         $quoteId = $quote->getId();
         /** Retrieve quote license agreement. */
@@ -423,8 +423,8 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
         /** Assert quote license agreement retrieving were successful. */
         $this->assertNotEmpty($licenseAgreement, 'Quote license agreement retrieving was unsuccessful.');
         /** Assert license info is retrieved correct. */
-        /** @var Magento_Checkout_Model_Agreement $agreement */
-        $agreement = Mage::getModel('Magento_Checkout_Model_Agreement')->load('Agreement name', 'name');
+        /** @var \Magento\Checkout\Model\Agreement $agreement */
+        $agreement = Mage::getModel('\Magento\Checkout\Model\Agreement')->load('Agreement name', 'name');
         $agreementData = $agreement->getData();
         unset($agreementData['store_id']);
         $this->assertEquals($agreementData, reset($licenseAgreement), 'License agreement data is incorrect.');
@@ -433,13 +433,13 @@ class Magento_Checkout_Model_Cart_ApiTest extends PHPUnit_Framework_TestCase
     /**
      * Retrieve the quote object created in fixture.
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     protected function _getQuoteFixture()
     {
-        /** @var Magento_Sales_Model_Resource_Quote_Collection $quoteCollection */
-        $quoteCollection = Mage::getModel('Magento_Sales_Model_Resource_Quote_Collection');
-        /** @var Magento_Sales_Model_Quote $quote */
+        /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
+        $quoteCollection = Mage::getModel('\Magento\Sales\Model\Resource\Quote\Collection');
+        /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $quoteCollection->getFirstItem();
         return $quote;
     }

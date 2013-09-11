@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\System\Design;
+
+class Edit extends \Magento\Adminhtml\Block\Widget
 {
 
     protected $_template = 'system/design/edit.phtml';
@@ -22,13 +24,13 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
 
     protected function _prepareLayout()
     {
-        $this->addChild('back_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('back_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Back'),
             'onclick'   => 'setLocation(\''.$this->getUrl('*/*/').'\')',
             'class' => 'back'
         ));
 
-        $this->addChild('save_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('save_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Save'),
             'class' => 'save',
             'data_attribute'  => array(
@@ -38,7 +40,7 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
             ),
         ));
 
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => __('Delete'),
             'onclick'   => 'confirmSetLocation(\''.__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
             'class'  => 'delete'
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
 
     public function getDesignChangeId()
     {
-        return Mage::registry('design')->getId();
+        return \Mage::registry('design')->getId();
     }
 
     public function getDeleteUrl()
@@ -69,7 +71,7 @@ class Magento_Adminhtml_Block_System_Design_Edit extends Magento_Adminhtml_Block
     public function getHeader()
     {
         $header = '';
-        if (Mage::registry('design')->getId()) {
+        if (\Mage::registry('design')->getId()) {
             $header = __('Edit Design Change');
         } else {
             $header = __('New Store Design Change');

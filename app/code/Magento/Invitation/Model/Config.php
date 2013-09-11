@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Config
+namespace Magento\Invitation\Model;
+
+class Config
 {
     const XML_PATH_ENABLED = 'magento_invitation/general/enabled';
     const XML_PATH_ENABLED_ON_FRONT = 'magento_invitation/general/enabled_on_front';
@@ -33,7 +35,7 @@ class Magento_Invitation_Model_Config
      */
     public function getMaxInvitationsPerSend($storeId = null)
     {
-        $max = (int)Mage::getStoreConfig(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $storeId);
+        $max = (int)\Mage::getStoreConfig(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $storeId);
         return ($max < 1 ? 1 : $max);
     }
 
@@ -45,7 +47,7 @@ class Magento_Invitation_Model_Config
      */
     public function getInvitationRequired($storeId = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_REGISTRATION_REQUIRED_INVITATION, $storeId);
+        return \Mage::getStoreConfig(self::XML_PATH_REGISTRATION_REQUIRED_INVITATION, $storeId);
     }
 
     /**
@@ -56,7 +58,7 @@ class Magento_Invitation_Model_Config
      */
     public function getUseInviterGroup($storeId = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_REGISTRATION_USE_INVITER_GROUP, $storeId);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_REGISTRATION_USE_INVITER_GROUP, $storeId);
     }
 
     /**
@@ -67,7 +69,7 @@ class Magento_Invitation_Model_Config
      */
     public function isInvitationMessageAllowed($storeId = null)
     {
-        return (bool) Mage::getStoreConfigFlag(self::XML_PATH_USE_INVITATION_MESSAGE, $storeId);
+        return (bool) \Mage::getStoreConfigFlag(self::XML_PATH_USE_INVITATION_MESSAGE, $storeId);
     }
 
     /**
@@ -79,7 +81,7 @@ class Magento_Invitation_Model_Config
      */
     public function isEnabled($storeId = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED, $storeId);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_ENABLED, $storeId);
     }
 
     /**
@@ -92,7 +94,7 @@ class Magento_Invitation_Model_Config
     public function isEnabledOnFront($storeId = null)
     {
         if ($this->isEnabled($storeId)) {
-            return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED_ON_FRONT, $storeId);
+            return \Mage::getStoreConfigFlag(self::XML_PATH_ENABLED_ON_FRONT, $storeId);
         }
 
         return false;

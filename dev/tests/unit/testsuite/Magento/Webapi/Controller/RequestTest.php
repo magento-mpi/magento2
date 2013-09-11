@@ -12,7 +12,7 @@ class Magento_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
     /**
      * Request object.
      *
-     * @var Magento_Webapi_Controller_Request
+     * @var \Magento\Webapi\Controller\Request
      */
     protected $_request;
 
@@ -20,7 +20,7 @@ class Magento_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_request = new Magento_Webapi_Controller_RequestStub(Magento_Webapi_Controller_Front::API_TYPE_REST);
+        $this->_request = new Magento_Webapi_Controller_RequestStub(\Magento\Webapi\Controller\Front::API_TYPE_REST);
     }
 
     /**
@@ -28,12 +28,12 @@ class Magento_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFilter()
     {
-        $_POST[Magento_Webapi_Controller_Request::QUERY_PARAM_FILTER] = 'filter_exists';
-        $this->_request->setParam(Magento_Webapi_Controller_Request::QUERY_PARAM_FILTER, 'filter_exists');
+        $_POST[\Magento\Webapi\Controller\Request::QUERY_PARAM_FILTER] = 'filter_exists';
+        $this->_request->setParam(\Magento\Webapi\Controller\Request::QUERY_PARAM_FILTER, 'filter_exists');
 
         $this->assertNull($this->_request->getFilter());
 
-        $_GET[Magento_Webapi_Controller_Request::QUERY_PARAM_FILTER] = 'filter_exists';
+        $_GET[\Magento\Webapi\Controller\Request::QUERY_PARAM_FILTER] = 'filter_exists';
 
         $this->assertEquals('filter_exists', $this->_request->getFilter());
     }
@@ -43,12 +43,12 @@ class Magento_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetOrderDirection()
     {
-        $_POST[Magento_Webapi_Controller_Request::QUERY_PARAM_ORDER_DIR] = 'asc';
-        $this->_request->setParam(Magento_Webapi_Controller_Request::QUERY_PARAM_ORDER_DIR, 'asc');
+        $_POST[\Magento\Webapi\Controller\Request::QUERY_PARAM_ORDER_DIR] = 'asc';
+        $this->_request->setParam(\Magento\Webapi\Controller\Request::QUERY_PARAM_ORDER_DIR, 'asc');
 
         $this->assertNull($this->_request->getOrderDirection());
 
-        $_GET[Magento_Webapi_Controller_Request::QUERY_PARAM_ORDER_DIR] = 'asc';
+        $_GET[\Magento\Webapi\Controller\Request::QUERY_PARAM_ORDER_DIR] = 'asc';
 
         $this->assertEquals('asc', $this->_request->getOrderDirection());
     }
@@ -58,12 +58,12 @@ class Magento_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetOrderField()
     {
-        $_POST[Magento_Webapi_Controller_Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
-        $this->_request->setParam(Magento_Webapi_Controller_Request::QUERY_PARAM_ORDER_FIELD, 'order_exists');
+        $_POST[\Magento\Webapi\Controller\Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
+        $this->_request->setParam(\Magento\Webapi\Controller\Request::QUERY_PARAM_ORDER_FIELD, 'order_exists');
 
         $this->assertNull($this->_request->getOrderField());
 
-        $_GET[Magento_Webapi_Controller_Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
+        $_GET[\Magento\Webapi\Controller\Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
 
         $this->assertEquals('order_exists', $this->_request->getOrderField());
     }
@@ -73,12 +73,12 @@ class Magento_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPageNumber()
     {
-        $_POST[Magento_Webapi_Controller_Request::QUERY_PARAM_PAGE_NUM] = 5;
-        $this->_request->setParam(Magento_Webapi_Controller_Request::QUERY_PARAM_PAGE_NUM, 5);
+        $_POST[\Magento\Webapi\Controller\Request::QUERY_PARAM_PAGE_NUM] = 5;
+        $this->_request->setParam(\Magento\Webapi\Controller\Request::QUERY_PARAM_PAGE_NUM, 5);
 
         $this->assertNull($this->_request->getPageNumber());
 
-        $_GET[Magento_Webapi_Controller_Request::QUERY_PARAM_PAGE_NUM] = 5;
+        $_GET[\Magento\Webapi\Controller\Request::QUERY_PARAM_PAGE_NUM] = 5;
 
         $this->assertEquals(5, $this->_request->getPageNumber());
     }
@@ -88,11 +88,11 @@ class Magento_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPageSize()
     {
-        $_POST[Magento_Webapi_Controller_Request::QUERY_PARAM_PAGE_SIZE] = 5;
-        $this->_request->setParam(Magento_Webapi_Controller_Request::QUERY_PARAM_PAGE_SIZE, 5);
+        $_POST[\Magento\Webapi\Controller\Request::QUERY_PARAM_PAGE_SIZE] = 5;
+        $this->_request->setParam(\Magento\Webapi\Controller\Request::QUERY_PARAM_PAGE_SIZE, 5);
         $this->assertNull($this->_request->getPageSize());
 
-        $_GET[Magento_Webapi_Controller_Request::QUERY_PARAM_PAGE_SIZE] = 5;
+        $_GET[\Magento\Webapi\Controller\Request::QUERY_PARAM_PAGE_SIZE] = 5;
         $this->assertEquals(5, $this->_request->getPageSize());
     }
 
@@ -101,20 +101,20 @@ class Magento_Webapi_Controller_RequestTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRequestedAttributes()
     {
-        $_GET[Magento_Webapi_Controller_Request::QUERY_PARAM_REQ_ATTRS][] = 'attr1';
-        $_GET[Magento_Webapi_Controller_Request::QUERY_PARAM_REQ_ATTRS][] = 'attr2';
+        $_GET[\Magento\Webapi\Controller\Request::QUERY_PARAM_REQ_ATTRS][] = 'attr1';
+        $_GET[\Magento\Webapi\Controller\Request::QUERY_PARAM_REQ_ATTRS][] = 'attr2';
 
         $this->assertInternalType('array', $this->_request->getRequestedAttributes());
         $this->assertEquals(array('attr1', 'attr2'), $this->_request->getRequestedAttributes());
 
-        $_GET[Magento_Webapi_Controller_Request::QUERY_PARAM_REQ_ATTRS] = 'attr1, attr2';
+        $_GET[\Magento\Webapi\Controller\Request::QUERY_PARAM_REQ_ATTRS] = 'attr1, attr2';
 
         $this->assertInternalType('array', $this->_request->getRequestedAttributes());
         $this->assertEquals(array('attr1', 'attr2'), $this->_request->getRequestedAttributes());
     }
 }
 
-class Magento_Webapi_Controller_RequestStub extends Magento_Webapi_Controller_Request
+class Magento_Webapi_Controller_RequestStub extends \Magento\Webapi\Controller\Request
 {
     public function getRequestedResources()
     {

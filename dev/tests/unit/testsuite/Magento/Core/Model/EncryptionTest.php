@@ -16,13 +16,13 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
         $objectManager = $this->getMock('Magento\ObjectManager');
         $objectManager->expects($this->once())
             ->method('get')
-            ->with($this->stringContains('Magento_Core_Helper_Data'))
-            ->will($this->returnValue($this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false)));
+            ->with($this->stringContains('\Magento\Core\Helper\Data'))
+            ->will($this->returnValue($this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)));
 
         /**
-         * @var Magento_Core_Model_Encryption
+         * @var \Magento\Core\Model\Encryption
          */
-        $model = new Magento_Core_Model_Encryption($objectManager);
+        $model = new \Magento\Core\Model\Encryption($objectManager);
         $model->setHelper($input);
         $model->getHash('password', 1);
     }
@@ -33,8 +33,8 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
     public function setHelperGetHashDataProvider()
     {
         return array(
-            'string' => array('Magento_Core_Helper_Data'),
-            'object' => array($this->getMock('Magento_Core_Helper_Data', array(), array(), '', false, false)),
+            'string' => array('Magento\Core\Helper\Data'),
+            'object' => array($this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false)),
         );
     }
 
@@ -45,9 +45,9 @@ class Magento_Core_Model_EncryptionTest extends PHPUnit_Framework_TestCase
     {
         $objectManager = $this->getMock('Magento\ObjectManager');
         /**
-         * @var Magento_Core_Model_Encryption
+         * @var \Magento\Core\Model\Encryption
          */
-        $model = new Magento_Core_Model_Encryption($objectManager);
+        $model = new \Magento\Core\Model\Encryption($objectManager);
         /** Mock object is not instance of Magento_Code_Helper_Data and should not pass validation */
         $input = $this->getMock('Magento_Code_Helper_Data', array(), array(), '', false);
         $model->setHelper($input);

@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Block_Adminhtml_Subscription extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Webhook\Block\Adminhtml;
+
+class Subscription extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * @var string

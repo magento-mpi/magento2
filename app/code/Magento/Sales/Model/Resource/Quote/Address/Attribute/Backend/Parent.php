@@ -16,14 +16,16 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Address_Attribute_Backend_Parent
-    extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend;
+
+class Parent
+    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Save items collection and shipping rates collection
      *
      * @param \Magento\Object $object
-     * @return Magento_Sales_Model_Resource_Quote_Address_Attribute_Backend_Parent
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend\Parent
      */
     public function afterSave($object)
     {

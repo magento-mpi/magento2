@@ -5,17 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer
+namespace Magento\Sales\Model\Observer\Backend\RecurringProfile;
+
+class FormRenderer
 {
     /**
-     * @var Magento_Core_Model_BlockFactory
+     * @var \Magento\Core\Model\BlockFactory
      */
     protected $_blockFactory;
 
     /**
-     * @param Magento_Core_Model_BlockFactory $blockFactory
+     * @param \Magento\Core\Model\BlockFactory $blockFactory
      */
-    public function __construct(Magento_Core_Model_BlockFactory $blockFactory)
+    public function __construct(\Magento\Core\Model\BlockFactory $blockFactory)
     {
         $this->_blockFactory = $blockFactory;
     }
@@ -31,16 +33,16 @@ class Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer
         $profileElement = $observer->getEvent()->getProductElement();
         $product = $observer->getEvent()->getProduct();
 
-        /** @var $formBlock Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form */
-        $formBlock = $this->_blockFactory->createBlock('Magento_Sales_Block_Adminhtml_Recurring_Profile_Edit_Form');
+        /** @var $formBlock \Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form */
+        $formBlock = $this->_blockFactory->createBlock('\Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form');
         $formBlock->setNameInLayout('adminhtml_recurring_profile_edit_form');
         $formBlock->setParentElement($profileElement);
         $formBlock->setProductEntity($product);
         $output = $formBlock->toHtml();
 
         // make the profile element dependent on is_recurring
-        /** @var $dependencies Magento_Backend_Block_Widget_Form_Element_Dependence */
-        $dependencies = $this->_blockFactory->createBlock('Magento_Backend_Block_Widget_Form_Element_Dependence');
+        /** @var $dependencies \Magento\Backend\Block\Widget\Form\Element\Dependence */
+        $dependencies = $this->_blockFactory->createBlock('\Magento\Backend\Block\Widget\Form\Element\Dependence');
         $dependencies->setNameInLayout('adminhtml_recurring_profile_edit_form_dependence');
         $dependencies->addFieldMap('is_recurring', 'product[is_recurring]');
         $dependencies->addFieldMap($profileElement->getHtmlId(), $profileElement->getName());

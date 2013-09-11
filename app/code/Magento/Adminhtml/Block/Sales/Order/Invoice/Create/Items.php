@@ -16,19 +16,21 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Invoice\Create;
+
+class Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
     protected $_disableSubmitButton = false;
 
     /**
      * Prepare child blocks
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items
+     * @return \Magento\Adminhtml\Block\Sales\Order\Invoice\Create\Items
      */
     protected function _beforeToHtml()
     {
         $onclick = "submitAndReloadArea($('invoice_item_container'),'".$this->getUpdateUrl()."')";
-        $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('update_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'class'     => 'update-button',
             'label'     => __('Update Qty\'s'),
             'onclick'   => $onclick,
@@ -50,7 +52,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
         } else {
             $_submitLabel = __('Submit Invoice');
         }
-        $this->addChild('submit_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('submit_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'     => $_submitLabel,
             'class'     => 'save submit-button' . $_submitButtonClass,
             'onclick'   => 'disableElements(\'submit-button\');$(\'edit_form\').submit()',
@@ -73,7 +75,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -83,7 +85,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getSource()
     {
@@ -93,11 +95,11 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
     /**
      * Retrieve invoice model instance
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return \Mage::registry('current_invoice');
     }
 
     /**
@@ -195,6 +197,6 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Magento_A
 
     public function canSendInvoiceEmail()
     {
-        return Mage::helper('Magento_Sales_Helper_Data')->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId());
+        return \Mage::helper('Magento\Sales\Helper\Data')->canSendNewInvoiceEmail($this->getOrder()->getStore()->getId());
     }
 }

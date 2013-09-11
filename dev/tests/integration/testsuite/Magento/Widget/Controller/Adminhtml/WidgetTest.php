@@ -15,11 +15,11 @@
 class Magento_Widget_Controller_Adminhtml_WidgetTest extends Magento_Backend_Utility_Controller
 {
     /**
-     * Partially covers Magento_Widget_Block_Adminhtml_Widget_Options::_addField()
+     * Partially covers \Magento\Widget\Block\Adminhtml\Widget\Options::_addField()
      */
     public function testLoadOptionsAction()
     {
-        $this->getRequest()->setPost('widget', '{"widget_type":"Magento_Cms_Block_Widget_Page_Link","values":{}}');
+        $this->getRequest()->setPost('widget', '{"widget_type":"\Magento\Cms\Block\Widget\Page\Link","values":{}}');
         $this->dispatch('backend/admin/widget/loadOptions');
         $output = $this->getResponse()->getBody();
         //searching for label with text "CMS Page"

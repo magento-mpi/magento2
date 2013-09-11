@@ -15,9 +15,11 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventory
-    extends Magento_Adminhtml_Block_Widget
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab;
+
+class Inventory
+    extends \Magento\Adminhtml\Block\Widget
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Retrieve Backorders Options
@@ -26,7 +28,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventor
      */
     public function getBackordersOption()
     {
-        return Mage::getSingleton('Magento_CatalogInventory_Model_Source_Backorders')->toOptionArray();
+        return \Mage::getSingleton('Magento\CatalogInventory\Model\Source\Backorders')->toOptionArray();
     }
 
     /**
@@ -58,7 +60,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Inventor
      */
     public function getDefaultConfigValue($field)
     {
-        return Mage::getStoreConfig(Magento_CatalogInventory_Model_Stock_Item::XML_PATH_ITEM . $field, $this->getStoreId());
+        return \Mage::getStoreConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, $this->getStoreId());
     }
 
     /**

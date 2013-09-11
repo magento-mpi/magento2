@@ -12,21 +12,23 @@
 /**
  * Catalog Viewed Product Index
  *
- * @method Magento_Reports_Model_Resource_Product_Index_Viewed _getResource()
- * @method Magento_Reports_Model_Resource_Product_Index_Viewed getResource()
- * @method Magento_Reports_Model_Product_Index_Viewed setVisitorId(int $value)
- * @method Magento_Reports_Model_Product_Index_Viewed setCustomerId(int $value)
+ * @method \Magento\Reports\Model\Resource\Product\Index\Viewed _getResource()
+ * @method \Magento\Reports\Model\Resource\Product\Index\Viewed getResource()
+ * @method \Magento\Reports\Model\Product\Index\Viewed setVisitorId(int $value)
+ * @method \Magento\Reports\Model\Product\Index\Viewed setCustomerId(int $value)
  * @method int getProductId()
- * @method Magento_Reports_Model_Product_Index_Viewed setProductId(int $value)
- * @method Magento_Reports_Model_Product_Index_Viewed setStoreId(int $value)
+ * @method \Magento\Reports\Model\Product\Index\Viewed setProductId(int $value)
+ * @method \Magento\Reports\Model\Product\Index\Viewed setStoreId(int $value)
  * @method string getAddedAt()
- * @method Magento_Reports_Model_Product_Index_Viewed setAddedAt(string $value)
+ * @method \Magento\Reports\Model\Product\Index\Viewed setAddedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Product_Index_Viewed extends Magento_Reports_Model_Product_Index_Abstract
+namespace Magento\Reports\Model\Product\Index;
+
+class Viewed extends \Magento\Reports\Model\Product\Index\AbstractIndex
 {
     /**
      * Cache key name for Count of product index
@@ -41,7 +43,7 @@ class Magento_Reports_Model_Product_Index_Viewed extends Magento_Reports_Model_P
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reports_Model_Resource_Product_Index_Viewed');
+        $this->_init('\Magento\Reports\Model\Resource\Product\Index\Viewed');
     }
 
     /**
@@ -53,8 +55,8 @@ class Magento_Reports_Model_Product_Index_Viewed extends Magento_Reports_Model_P
     {
         $productIds = array();
 
-        if (Mage::registry('current_product')) {
-            $productIds[] = Mage::registry('current_product')->getId();
+        if (\Mage::registry('current_product')) {
+            $productIds[] = \Mage::registry('current_product')->getId();
         }
 
         return $productIds;

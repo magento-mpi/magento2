@@ -11,10 +11,12 @@
 /**
  * Abstract Tax Class
  */
-abstract class Magento_Tax_Model_TaxClass_TypeAbstract extends \Magento\Object implements Magento_Tax_Model_TaxClass_Type_Interface
+namespace Magento\Tax\Model\TaxClass;
+
+abstract class TypeAbstract extends \Magento\Object implements \Magento\Tax\Model\TaxClass\Type\TypeInterface
 {
     /**
-     * @var Magento_Tax_Model_Calculation_Rule
+     * @var \Magento\Tax\Model\Calculation\Rule
      */
     protected $_calculationRule;
 
@@ -26,10 +28,10 @@ abstract class Magento_Tax_Model_TaxClass_TypeAbstract extends \Magento\Object i
     protected $_classType;
 
     /**
-     * @param Magento_Tax_Model_Calculation_Rule $calculationRule
+     * @param \Magento\Tax\Model\Calculation\Rule $calculationRule
      * @param array $data
      */
-    public function __construct(Magento_Tax_Model_Calculation_Rule $calculationRule, array $data = array())
+    public function __construct(\Magento\Tax\Model\Calculation\Rule $calculationRule, array $data = array())
     {
         parent::__construct($data);
         $this->_calculationRule = $calculationRule;
@@ -38,7 +40,7 @@ abstract class Magento_Tax_Model_TaxClass_TypeAbstract extends \Magento\Object i
     /**
      * Get Collection of Tax Rules that are assigned to this tax class
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getAssignedToRules()
     {

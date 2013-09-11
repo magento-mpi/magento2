@@ -11,7 +11,9 @@
 /**
  * Menu iterator
  */
-class Magento_Backend_Model_Menu_Iterator extends ArrayIterator
+namespace Magento\Backend\Model\Menu;
+
+class \Iterator extends \ArrayIterator
 {
     /**
      * Rewind to first element

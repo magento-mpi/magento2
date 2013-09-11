@@ -16,8 +16,10 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Source_Email_Template extends \Magento\Object
-    implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Email;
+
+class Template extends \Magento\Object
+    implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Generate list of email templates
@@ -26,17 +28,17 @@ class Magento_Backend_Model_Config_Source_Email_Template extends \Magento\Object
      */
     public function toOptionArray()
     {
-        if (!$collection = Mage::registry('config_system_email_template')) {
-            $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Email_Template_Collection')
+        if (!$collection = \Mage::registry('config_system_email_template')) {
+            $collection = \Mage::getResourceModel('\Magento\Core\Model\Resource\Email\Template\Collection')
                 ->load();
 
-            Mage::register('config_system_email_template', $collection);
+            \Mage::register('config_system_email_template', $collection);
         }
         $options = $collection->toOptionArray();
         $templateName = __('Default Template');
         $nodeName = str_replace('/', '_', $this->getPath());
-        $templateLabelNode = Mage::app()->getConfig()->getNode(
-            Magento_Core_Model_Email_Template::XML_PATH_TEMPLATE_EMAIL . '/' . $nodeName . '/label'
+        $templateLabelNode = \Mage::app()->getConfig()->getNode(
+            \Magento\Core\Model\Email\Template::XML_PATH_TEMPLATE_EMAIL . '/' . $nodeName . '/label'
         );
         if ($templateLabelNode) {
             $templateName = __('%1 (Default)', __((string)$templateLabelNode));

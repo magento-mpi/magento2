@@ -11,7 +11,9 @@
 /**
  * Theme css file service class
  */
-class Magento_Core_Model_Theme_Customization_File_Css extends Magento_Core_Model_Theme_Customization_FileAbstract
+namespace Magento\Core\Model\Theme\Customization\File;
+
+class Css extends \Magento\Core\Model\Theme\Customization\FileAbstract
 {
     /**#@+
      * CSS file customization types

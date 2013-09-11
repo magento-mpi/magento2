@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Template
+namespace Magento\GiftRegistry\Block\Cart\Product;
+
+class Mark extends \Magento\Core\Block\Template
 {
     /**
      * Check whether module is available
@@ -17,7 +19,7 @@ class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Te
      */
     public function getEnabled()
     {
-        return  Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled();
+        return  \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled();
     }
 
     /**
@@ -34,7 +36,7 @@ class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Te
         }
 
 
-        if ($item instanceof  Magento_Sales_Model_Quote_Address_Item) {
+        if ($item instanceof  \Magento\Sales\Model\Quote\Address\Item) {
             $item = $item->getQuoteItem();
         }
 
@@ -54,8 +56,8 @@ class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Te
     /**
      * Get gifregistry params by quote item
      *
-     * @param Magento_Sales_Model_Quote_Item $newItem
-     * @return Magento_GiftRegistry_Block_Cart_Product_Mark
+     * @param \Magento\Sales\Model\Quote\Item $newItem
+     * @return \Magento\GiftRegistry\Block\Cart\Product\Mark
      */
     public function setItem($newItem)
     {
@@ -65,7 +67,7 @@ class Magento_GiftRegistry_Block_Cart_Product_Mark extends Magento_Core_Block_Te
 
         if ($newItem->getGiftregistryItemId()) {
             $this->setData('item', $newItem);
-            $entity = Mage::getModel('Magento_GiftRegistry_Model_Entity')->loadByEntityItem($newItem->getGiftregistryItemId());
+            $entity = \Mage::getModel('\Magento\GiftRegistry\Model\Entity')->loadByEntityItem($newItem->getGiftregistryItemId());
             $this->setEntity($entity);
         }
 

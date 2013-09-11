@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
-    extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit;
+
+class Tabs
+    extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
      * Intialize form
@@ -27,21 +29,21 @@ class Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
     /**
      * Add tab sections
      *
-     * @return Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tabs
+     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs
      */
     protected function _beforeToHtml()
     {
         $this->addTab('general_section', array(
             'label'   => __('General Information'),
             'content' => $this->getLayout()->createBlock(
-                'Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_General'
+                '\Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\General'
             )->toHtml()
         ));
 
         $this->addTab('registry_attributes', array(
             'label'   => __('Attributes'),
             'content' => $this->getLayout()->createBlock(
-                'Magento_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry'
+                '\Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\Registry'
             )->toHtml()
         ));
 

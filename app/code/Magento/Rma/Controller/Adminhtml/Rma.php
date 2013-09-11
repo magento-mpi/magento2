@@ -8,12 +8,14 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_Action
+namespace Magento\Rma\Controller\Adminhtml;
+
+class Rma extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Init active menu and set breadcrumb
      *
-     * @return Magento_Rma_Controller_Adminhtml_Rma
+     * @return \Magento\Rma\Controller\Adminhtml\Rma
      */
     protected function _initAction()
     {
@@ -28,31 +30,31 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
      * Initialize model
      *
      * @param string $requestParam
-     * @return Magento_Rma_Model_Rma
+     * @return \Magento\Rma\Model\Rma
      */
     protected function _initModel($requestParam = 'id')
     {
-        $model = Mage::getModel('Magento_Rma_Model_Rma');
+        $model = \Mage::getModel('\Magento\Rma\Model\Rma');
         $model->setStoreId($this->getRequest()->getParam('store', 0));
 
         $rmaId = $this->getRequest()->getParam($requestParam);
         if ($rmaId) {
             $model->load($rmaId);
             if (!$model->getId()) {
-                Mage::throwException(__('The wrong RMA was requested.'));
+                \Mage::throwException(__('The wrong RMA was requested.'));
             }
-            Mage::register('current_rma', $model);
+            \Mage::register('current_rma', $model);
             $orderId = $model->getOrderId();
         } else {
             $orderId = $this->getRequest()->getParam('order_id');
         }
 
         if ($orderId) {
-            $order = Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
+            $order = \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
             if (!$order->getId()) {
-                Mage::throwException(__('This is the wrong RMA order ID.'));
+                \Mage::throwException(__('This is the wrong RMA order ID.'));
             }
-            Mage::register('current_order', $order);
+            \Mage::register('current_order', $order);
         }
 
         return $model;
@@ -61,20 +63,20 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Initialize model
      *
-     * @return Magento_Rma_Model_Rma_Create
+     * @return \Magento\Rma\Model\Rma\Create
      */
     protected function _initCreateModel()
     {
-        $model = Mage::getModel('Magento_Rma_Model_Rma_Create');
+        $model = \Mage::getModel('\Magento\Rma\Model\Rma\Create');
         $orderId = $this->getRequest()->getParam('order_id');
         $model->setOrderId($orderId);
         if ($orderId) {
-            $order =  Mage::getModel('Magento_Sales_Model_Order')->load($orderId);
+            $order =  \Mage::getModel('\Magento\Sales\Model\Order')->load($orderId);
             $model->setCustomerId($order->getCustomerId());
             $model->setStoreId($order->getStoreId());
         }
 
-        Mage::register('rma_create_model', $model);
+        \Mage::register('rma_create_model', $model);
 
         return $model;
     }
@@ -90,7 +92,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Create new RMA
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function newAction()
     {
@@ -102,13 +104,13 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             try {
                 $this->_initCreateModel();
                 $this->_initModel();
-                if (!Mage::helper('Magento_Rma_Helper_Data')->canCreateRma($orderId, true)) {
-                    Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+                if (!\Mage::helper('Magento\Rma\Helper\Data')->canCreateRma($orderId, true)) {
+                    \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
                         __('There are no applicable items for return in this order.')
                     );
                 }
-            } catch (Magento_Core_Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+            } catch (\Magento\Core\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 $this->_redirect('*/*/');
                 return;
             }
@@ -134,17 +136,17 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Edit RMA
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function editAction()
     {
         try {
             $model = $this->_initModel();
             if (!$model->getId()) {
-                Mage::throwException(__('The wrong RMA was requested.'));
+                \Mage::throwException(__('The wrong RMA was requested.'));
             }
-        } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
         }
@@ -156,7 +158,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Save new RMA request
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function saveNewAction()
     {
@@ -165,27 +167,27 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             return;
         }
         try {
-            /** @var $model Magento_Rma_Model_Rma */
+            /** @var $model \Magento\Rma\Model\Rma */
             $model = $this->_initModel();
             $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
             $model->setData($this->_prepareNewRmaInstanceData($saveRequest));
             if (!$model->saveRma($saveRequest)) {
-                Mage::throwException(__('We failed to save this RMA.'));
+                \Mage::throwException(__('We failed to save this RMA.'));
             }
             $this->_processNewRmaAdditionalInfo($saveRequest, $model);
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You submitted the RMA request.'));
-        } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-            $errorKeys = Mage::getSingleton('Magento_Core_Model_Session')->getRmaErrorKeys();
-            $controllerParams = array('order_id' => Mage::registry('current_order')->getId());
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You submitted the RMA request.'));
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $errorKeys = \Mage::getSingleton('Magento\Core\Model\Session')->getRmaErrorKeys();
+            $controllerParams = array('order_id' => \Mage::registry('current_order')->getId());
             if (!empty($errorKeys) && isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
                 $controllerParams['active_tab'] = 'items_section';
             }
             $this->_redirect('*/*/new', $controllerParams);
             return;
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We failed to save this RMA.'));
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We failed to save this RMA.'));
+            \Mage::logException($e);
         }
         $this->_redirect('*/*/');
     }
@@ -198,10 +200,10 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
      */
     protected function _prepareNewRmaInstanceData(array $saveRequest)
     {
-        $order = Mage::registry('current_order');
+        $order = \Mage::registry('current_order');
         $rmaData = array(
-            'status' => Magento_Rma_Model_Rma_Source_Status::STATE_PENDING,
-            'date_requested' => Mage::getSingleton('Magento_Core_Model_Date')->gmtDate(),
+            'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
+            'date_requested' => \Mage::getSingleton('Magento\Core\Model\Date')->gmtDate(),
             'order_id' => $order->getId(),
             'order_increment_id' => $order->getIncrementId(),
             'store_id' => $order->getStoreId(),
@@ -217,20 +219,20 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
      * Process additional RMA information (like comment, customer notification etc)
      *
      * @param array $saveRequest
-     * @param Magento_Rma_Model_Rma $rma
-     * @return Magento_Rma_Controller_Adminhtml_Rma
+     * @param \Magento\Rma\Model\Rma $rma
+     * @return \Magento\Rma\Controller\Adminhtml\Rma
      */
-    protected function _processNewRmaAdditionalInfo(array $saveRequest, Magento_Rma_Model_Rma $rma)
+    protected function _processNewRmaAdditionalInfo(array $saveRequest, \Magento\Rma\Model\Rma $rma)
     {
         if (!empty($saveRequest['comment']['comment'])) {
             $visible = isset($saveRequest['comment']['is_visible_on_front']);
 
-            Mage::getModel('Magento_Rma_Model_Rma_Status_History')
+            \Mage::getModel('\Magento\Rma\Model\Rma\Status\History')
                 ->setRmaEntityId($rma->getId())
                 ->setComment($saveRequest['comment']['comment'])
                 ->setIsVisibleOnFront($visible)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
+                ->setCreatedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
         }
@@ -243,7 +245,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Save RMA request
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function saveAction()
     {
@@ -260,30 +262,30 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
             $itemStatuses = $this->_combineItemStatuses($saveRequest['items'], $rmaId);
             $model = $this->_initModel('rma_id');
-            $model->setStatus(Mage::getModel('Magento_Rma_Model_Rma_Source_Status')->getStatusByItems($itemStatuses))
+            $model->setStatus(\Mage::getModel('\Magento\Rma\Model\Rma\Source\Status')->getStatusByItems($itemStatuses))
                 ->setIsUpdate(1);
             if (!$model->saveRma($saveRequest)) {
-                Mage::throwException(__('We failed to save this RMA.'));
+                \Mage::throwException(__('We failed to save this RMA.'));
             }
             $model->sendAuthorizeEmail();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the RMA request.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the RMA request.'));
             $redirectBack = $this->getRequest()->getParam('back', false);
             if ($redirectBack) {
                 $this->_redirect('*/*/edit', array('id' => $rmaId, 'store' => $model->getStoreId()));
                 return;
             }
-        } catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
-            $errorKeys = Mage::getSingleton('Magento_Core_Model_Session')->getRmaErrorKeys();
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $errorKeys = \Mage::getSingleton('Magento\Core\Model\Session')->getRmaErrorKeys();
             $controllerParams = array('id' => $rmaId);
             if (isset($errorKeys['tabs']) && ($errorKeys['tabs'] == 'items_section')) {
                 $controllerParams['active_tab'] = 'items_section';
             }
             $this->_redirect('*/*/edit', $controllerParams);
             return;
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We failed to save this RMA.'));
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We failed to save this RMA.'));
+            \Mage::logException($e);
             $this->_redirect('*/*/');
             return;
         }
@@ -295,12 +297,12 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
      *
      * @param array $saveRequest
      * @return array
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _filterRmaSaveRequest(array $saveRequest)
     {
         if (!isset($saveRequest['items'])) {
-            Mage::throwException(__('We failed to save this RMA. No items have been specified.'));
+            \Mage::throwException(__('We failed to save this RMA. No items have been specified.'));
         }
         $saveRequest['items'] = $this->_filterRmaItems($saveRequest['items']);
         return $saveRequest;
@@ -345,7 +347,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             }
         }
         /* Merge RMA Items status with POST data*/
-        $rmaItems = Mage::getModel('Magento_Rma_Model_Item')
+        $rmaItems = \Mage::getModel('\Magento\Rma\Model\Item')
             ->getCollection()
             ->addAttributeToFilter('rma_entity_id', $rmaId);
         foreach ($rmaItems as $rmaItem) {
@@ -380,7 +382,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $countCloseRma = 0;
         $countNonCloseRma = 0;
         foreach ($entityIds as $entityId) {
-            $rma = Mage::getModel('Magento_Rma_Model_Rma')->load($entityId);
+            $rma = \Mage::getModel('\Magento\Rma\Model\Rma')->load($entityId);
             if ($rma->canClose()) {
                 $rma->close()
                     ->save();
@@ -410,7 +412,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Add RMA comment action
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return void
      */
     public function addCommentAction()
@@ -422,24 +424,24 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $notify = isset($data['is_customer_notified']);
             $visible = isset($data['is_visible_on_front']);
 
-            $rma = Mage::registry('current_rma');
+            $rma = \Mage::registry('current_rma');
             if (!$rma) {
-                Mage::throwException(__('Invalid RMA'));
+                \Mage::throwException(__('Invalid RMA'));
             }
 
             $comment = trim($data['comment']);
             if (!$comment) {
-                Mage::throwException(__('Please enter a valid message.'));
+                \Mage::throwException(__('Please enter a valid message.'));
             }
 
-            /** @var $history Magento_Rma_Model_Rma_Status_History */
-            $history = Mage::getModel('Magento_Rma_Model_Rma_Status_History');
+            /** @var $history \Magento\Rma\Model\Rma\Status\History */
+            $history = \Mage::getModel('\Magento\Rma\Model\Rma\Status\History');
             $history->setRmaEntityId((int)$rma->getId())
                 ->setComment($comment)
                 ->setIsVisibleOnFront($visible)
                 ->setIsCustomerNotified($notify)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
+                ->setCreatedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
 
@@ -451,19 +453,19 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
 
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('comments_history')->toHtml();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('We cannot add the RMA history.'),
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -478,7 +480,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $this->getResponse()->setBody(
                 $this
                     ->getLayout()
-                    ->createBlock('Magento_Rma_Block_Adminhtml_Customer_Edit_Tab_Rma')
+                    ->createBlock('\Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma')
                     ->setCustomerId($customerId)
                     ->toHtml()
             );
@@ -494,7 +496,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $this->getResponse()->setBody(
             $this
                 ->getLayout()
-                ->createBlock('Magento_Rma_Block_Adminhtml_Order_View_Tab_Rma')
+                ->createBlock('\Magento\Rma\Block\Adminhtml\Order\View\Tab\Rma')
                 ->setOrderId($orderId)
                 ->toHtml()
         );
@@ -503,31 +505,31 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Generate RMA items grid for ajax request from selecting product grid during RMA creation
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function addProductGridAction()
     {
         try {
             $this->_initModel();
-            $order = Mage::registry('current_order');
+            $order = \Mage::registry('current_order');
             if (!$order) {
-                Mage::throwException(__('Invalid order'));
+                \Mage::throwException(__('Invalid order'));
             }
             $this->loadLayout();
             $response = $this->getLayout()->getBlock('add_product_grid')->toHtml();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('Something went wrong retrieving the product list.')
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -541,10 +543,10 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     {
         $rmaId = (int)$this->getRequest()->getParam('rma_id');
         if ($rmaId) {
-            if ($rma = Mage::getModel('Magento_Rma_Model_Rma')->load($rmaId)) {
-                $pdf = Mage::getModel('Magento_Rma_Model_Pdf_Rma')->getPdf(array($rma));
+            if ($rma = \Mage::getModel('\Magento\Rma\Model\Rma')->load($rmaId)) {
+                $pdf = \Mage::getModel('\Magento\Rma\Model\Pdf\Rma')->getPdf(array($rma));
                 $this->_prepareDownloadResponse(
-                    'rma'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf',
+                    'rma'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').'.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
@@ -557,7 +559,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Load user-defined attributes of RMA's item
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function loadAttributesAction()
     {
@@ -567,25 +569,25 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         try {
             $model = $this->_initModel();
             if (!$model->getId()) {
-                Mage::throwException(__('The wrong RMA was requested.'));
+                \Mage::throwException(__('The wrong RMA was requested.'));
             }
-            $rma_item = Mage::getModel('Magento_Rma_Model_Item');
+            $rma_item = \Mage::getModel('\Magento\Rma\Model\Item');
 
             if ($itemId) {
                 $rma_item->load($itemId);
                 if (!$rma_item->getId()) {
-                    Mage::throwException(__('The wrong RMA item was requested.'));
+                    \Mage::throwException(__('The wrong RMA item was requested.'));
                 }
-                Mage::register('current_rma_item', $rma_item);
+                \Mage::register('current_rma_item', $rma_item);
             } else {
-                Mage::throwException(__('The wrong RMA item was requested.'));
+                \Mage::throwException(__('The wrong RMA item was requested.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('We cannot display the item attributes.')
@@ -601,7 +603,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $response = $block->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -615,8 +617,8 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $orderId = $this->getRequest()->getParam('order_id');
         $productId = $this->getRequest()->getParam('product_id');
 
-        $rma_item = Mage::getModel('Magento_Rma_Model_Item');
-        Mage::register('current_rma_item', $rma_item);
+        $rma_item = \Mage::getModel('\Magento\Rma\Model\Item');
+        \Mage::register('current_rma_item', $rma_item);
 
         $this->loadLayout();
         $response = $this
@@ -627,7 +629,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             ->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -638,7 +640,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Load new row of RMA's item for Split Line functionality
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function loadSplitLineAction()
     {
@@ -649,25 +651,25 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         try {
             $model = $this->_initModel();
             if (!$model->getId()) {
-                Mage::throwException(__('The wrong RMA was requested.'));
+                \Mage::throwException(__('The wrong RMA was requested.'));
             }
-            $rma_item = Mage::getModel('Magento_Rma_Model_Item');
+            $rma_item = \Mage::getModel('\Magento\Rma\Model\Item');
 
             if ($itemId) {
                 $rma_item->load($itemId);
                 if (!$rma_item->getId()) {
-                    Mage::throwException(__('The wrong RMA item was requested.'));
+                    \Mage::throwException(__('The wrong RMA item was requested.'));
                 }
-                Mage::register('current_rma_item', $rma_item);
+                \Mage::register('current_rma_item', $rma_item);
             } else {
-                Mage::throwException(__('The wrong RMA item was requested.'));
+                \Mage::throwException(__('The wrong RMA item was requested.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('We cannot display the item attributes.')
@@ -684,7 +686,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             ->toHtml();
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -703,7 +705,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Shows bundle items on rma create
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function showBundleItemsAction()
     {
@@ -713,22 +715,22 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
 
         try {
             if ($orderId && $itemId) {
-                /** @var $items Magento_Rma_Model_Resource_Item */
-                $items = Mage::getResourceModel('Magento_Rma_Model_Resource_Item')->getOrderItems($orderId, $itemId);
+                /** @var $items \Magento\Rma\Model\Resource\Item */
+                $items = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item')->getOrderItems($orderId, $itemId);
                 if (empty($items)) {
-                    Mage::throwException(__('No items for bundle product'));
+                    \Mage::throwException(__('No items for bundle product'));
                 }
             } else {
-                Mage::throwException(__('The wrong order ID or item ID was requested.'));
+                \Mage::throwException(__('The wrong order ID or item ID was requested.'));
             }
 
-            Mage::register('current_rma_bundle_item', $items);
-        } catch (Magento_Core_Exception $e) {
+            \Mage::register('current_rma_bundle_item', $items);
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('We cannot display the item attributes.')
@@ -742,7 +744,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -758,16 +760,16 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('file'));
+            $file   = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('image'));
+            $file   = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
         }
 
-        $path = Mage::getBaseDir('media') . DS . 'rma_item';
+        $path = \Mage::getBaseDir('media') . DS . 'rma_item';
 
         $ioFile = new \Magento\Io\File();
         $ioFile->open(array('path' => $path));
@@ -830,7 +832,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Shows available shipping methods
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function showShippingMethodsAction()
     {
@@ -839,15 +841,15 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         try {
             $model = $this->_initModel();
             if (!$model->getId()) {
-                Mage::throwException(__('This is the wrong RMA ID.'));
+                \Mage::throwException(__('This is the wrong RMA ID.'));
             }
 
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('We cannot display the available shipping methods.')
@@ -861,7 +863,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
             $this->getResponse()->setBody($response);
         } else {
             $this->getResponse()->setBody($response);
@@ -871,8 +873,8 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Shows available shipping methods
      *
-     * @return Zend_Controller_Response_Abstract
-     * @throws Magento_Core_Exception
+     * @return \Zend_Controller_Response_Abstract
+     * @throws \Magento\Core\Exception
      */
     public function pslAction()
     {
@@ -882,15 +884,15 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         try {
             $model = $this->_initModel();
             if (!$model->getId()) {
-                Mage::throwException(__('This is the wrong RMA ID.'));
+                \Mage::throwException(__('This is the wrong RMA ID.'));
             }
 
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('We cannot display the available shipping methods.')
@@ -910,7 +912,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -918,7 +920,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Configuration for popup window for packaging
      *
-     * @param Magento_Rma_Model_Rma $model
+     * @param \Magento\Rma\Model\Rma $model
      * @return string
      */
     protected function _getConfigDataJson($model)
@@ -938,7 +940,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         $thisPage       = $this->getUrl('*/*/edit', $urlParams);
 
         $code    = $this->getRequest()->getParam('method');
-        $carrier = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($code, $model->getStoreId());
+        $carrier = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($code, $model->getStoreId());
         if ($carrier) {
             $getCustomizableContainers =  $carrier->getCustomizableContainerTypes();
         }
@@ -953,7 +955,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         }
 
         $shippingInformation = $this->getLayout()
-            ->createBlock('Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Information')
+            ->createBlock('\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Information')
             ->setIndex($this->getRequest()->getParam('index'))
             ->toHtml();
 
@@ -975,7 +977,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             'customizable'              => $getCustomizableContainers
         );
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($data);
     }
 
     /**
@@ -991,7 +993,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
         ;
 
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -1000,7 +1002,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
      * Save shipment
      * We can save only new shipment. Existing shipments are not editable
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function saveShippingAction()
     {
@@ -1014,16 +1016,16 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                         ->addSuccess(__('You created a shipping label.'));
                     $responseAjax->setOk(true);
                 }
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->getCommentText(true);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getCommentText(true);
             } else {
                 $this->_forward('noRoute');
                 return;
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
                 $responseAjax->setError(true);
                 $responseAjax->setMessage($e->getMessage());
-        } catch (Exception $e) {
-                Mage::logException($e);
+        } catch (\Exception $e) {
+                \Mage::logException($e);
                 $responseAjax->setError(true);
                 $responseAjax->setMessage(__('Something went wrong creating a shipping label.'));
         }
@@ -1033,7 +1035,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Create shipping label action for specific shipment
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function createLabelAction()
     {
@@ -1045,11 +1047,11 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 $this->_getSession()->addSuccess(__('You created a shipping label.'));
                 $response->setOk(true);
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response->setError(true);
             $response->setMessage($e->getMessage());
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
             $response->setError(true);
             $response->setMessage(__('Something went wrong creating a shipping label.'));
         }
@@ -1061,18 +1063,18 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Create shipping label for specific shipment with validation.
      *
-     * @param Magento_Rma_Model_Rma $model
+     * @param \Magento\Rma\Model\Rma $model
      * @return bool
      */
-    protected function _createShippingLabel(Magento_Rma_Model_Rma $model)
+    protected function _createShippingLabel(\Magento\Rma\Model\Rma $model)
     {
         $data = $this->getRequest()->getPost();
         if ($model && isset($data['packages']) && !empty($data['packages'])) {
-            /** @var $shipment Magento_Rma_Model_Shipping */
-            $shipment =  Mage::getModel('Magento_Rma_Model_Shipping')
+            /** @var $shipment \Magento\Rma\Model\Shipping */
+            $shipment =  \Mage::getModel('\Magento\Rma\Model\Shipping')
                 ->getShippingLabelByRma($model);
 
-            $carrier = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($data['code'], $model->getStoreId());
+            $carrier = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($data['code'], $model->getStoreId());
             if (!$carrier->isShippingLabelsAvailable()) {
                 return false;
             }
@@ -1110,27 +1112,27 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 $outputPdf = $this->_combineLabelsPdf($labelsContent);
                 $shipment->setPackages(serialize($data['packages']));
                 $shipment->setShippingLabel($outputPdf->render());
-                $shipment->setIsAdmin(Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL);
+                $shipment->setIsAdmin(\Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL);
                 $shipment->setRmaEntityId($model->getId());
                 $shipment->save();
 
                 $carrierCode = $carrier->getCarrierCode();
-                $carrierTitle = Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
+                $carrierTitle = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
                 if ($trackingNumbers) {
-                    Mage::getResourceModel('Magento_Rma_Model_Resource_Shipping')->deleteTrackingNumbers($model);
+                    \Mage::getResourceModel('\Magento\Rma\Model\Resource\Shipping')->deleteTrackingNumbers($model);
                     foreach ($trackingNumbers as $trackingNumber) {
-                        Mage::getModel('Magento_Rma_Model_Shipping')
+                        \Mage::getModel('\Magento\Rma\Model\Shipping')
                             ->setTrackNumber($trackingNumber)
                             ->setCarrierCode($carrierCode)
                             ->setCarrierTitle($carrierTitle)
                             ->setRmaEntityId($model->getId())
-                            ->setIsAdmin(Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER)
+                            ->setIsAdmin(\Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL_TRACKING_NUMBER)
                             ->save();
                     }
                 }
                 return true;
             } else {
-                Mage::throwException($response->getErrors());
+                \Mage::throwException($response->getErrors());
             }
         }
         return false;
@@ -1139,14 +1141,14 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Print label for one specific shipment
      *
-     * @return Magento_Adminhtml_Controller_Action
-     * @throws Magento_Core_Exception
+     * @return \Magento\Adminhtml\Controller\Action
+     * @throws \Magento\Core\Exception
      */
     public function printLabelAction()
     {
         try {
             $model = $this->_initModel();
-            $labelContent = Mage::getModel('Magento_Rma_Model_Shipping')
+            $labelContent = \Mage::getModel('\Magento\Rma\Model\Shipping')
                 ->getShippingLabelByRma($model)
                 ->getShippingLabel();
             if ($labelContent) {
@@ -1154,7 +1156,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                 if (stripos($labelContent, '%PDF-') !== false) {
                     $pdfContent = $labelContent;
                 } else {
-                    $pdf = new Zend_Pdf();
+                    $pdf = new \Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
                         $this->_getSession()->addError(__("We don't recognize or support the file extension in shipment %1.", $model->getIncrementId()));
@@ -1169,10 +1171,10 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                     'application/pdf'
                 );
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
             $this->_getSession()
                 ->addError(__('Something went wrong creating a shipping label.'));
        }
@@ -1187,17 +1189,17 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     public function printPackageAction()
     {
         $model = $this->_initModel();
-        $shipment = Mage::getModel('Magento_Rma_Model_Shipping')
+        $shipment = \Mage::getModel('\Magento\Rma\Model\Shipping')
             ->getShippingLabelByRma($model);
 
         if ($shipment) {
-            $pdf = Mage::getModel('Magento_Sales_Model_Order_Pdf_Shipment_Packaging')
+            $pdf = \Mage::getModel('\Magento\Sales\Model\Order\Pdf\Shipment\Packaging')
                     ->setPackageShippingBlock(
-                        Mage::getBlockSingleton('Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shippingmethod')
+                        \Mage::getBlockSingleton('\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod')
                     )
                     ->getPdf($shipment);
             $this->_prepareDownloadResponse(
-                'packingslip'.Mage::getSingleton('Magento_Core_Model_Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
+                'packingslip'.Mage::getSingleton('Magento\Core\Model\Date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
                 'application/pdf'
             );
         }
@@ -1207,10 +1209,10 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     }
 
     /**
-     * Create Zend_Pdf_Page instance with image from $imageString. Supports JPEG, PNG, GIF, WBMP, and GD2 formats.
+     * Create \Zend_Pdf_Page instance with image from $imageString. Supports JPEG, PNG, GIF, WBMP, and GD2 formats.
      *
      * @param string $imageString
-     * @return Zend_Pdf_Page|bool
+     * @return \Zend_Pdf_Page|bool
      */
     protected function _createPdfPageFromImageString($imageString)
     {
@@ -1221,13 +1223,13 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
 
         $xSize = imagesx($image);
         $ySize = imagesy($image);
-        $page = new Zend_Pdf_Page($xSize, $ySize);
+        $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
         $tmpFileName = sys_get_temp_dir() . DS . 'shipping_labels_'
                      . uniqid(mt_rand()) . time() . '.png';
         imagepng($image, $tmpFileName);
-        $pdfImage = Zend_Pdf_Image::imageWithPath($tmpFileName);
+        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFileName);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
         unlink($tmpFileName);
         return $page;
@@ -1237,14 +1239,14 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
      * Combine Labels Pdf
      *
      * @param array $labelsContent
-     * @return Zend_Pdf
+     * @return \Zend_Pdf
      */
     protected function _combineLabelsPdf(array $labelsContent)
     {
-        $outputPdf = new Zend_Pdf();
+        $outputPdf = new \Zend_Pdf();
         foreach ($labelsContent as $content) {
             if (stripos($content, '%PDF-') !== false) {
-                $pdfLabel = Zend_Pdf::parse($content);
+                $pdfLabel = \Zend_Pdf::parse($content);
                 foreach ($pdfLabel->pages as $page) {
                     $outputPdf->pages[] = clone $page;
                 }
@@ -1261,7 +1263,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     /**
      * Add new tracking number action
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function addTrackAction()
     {
@@ -1270,20 +1272,20 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             $number  = $this->getRequest()->getPost('number');
             $title  = $this->getRequest()->getPost('title');
             if (empty($carrier)) {
-                Mage::throwException(__('Please specify a carrier.'));
+                \Mage::throwException(__('Please specify a carrier.'));
             }
             if (empty($number)) {
-                Mage::throwException(__('You need to enter a tracking number.'));
+                \Mage::throwException(__('You need to enter a tracking number.'));
             }
 
             $model = $this->_initModel();
             if ($model->getId()) {
-                Mage::getModel('Magento_Rma_Model_Shipping')
+                \Mage::getModel('\Magento\Rma\Model\Shipping')
                     ->setTrackNumber($number)
                     ->setCarrierCode($carrier)
                     ->setCarrierTitle($title)
                     ->setRmaEntityId($model->getId())
-                    ->setIsAdmin(Magento_Rma_Model_Shipping::IS_ADMIN_STATUS_ADMIN_TRACKING_NUMBER)
+                    ->setIsAdmin(\Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_TRACKING_NUMBER)
                     ->save()
                 ;
 
@@ -1295,19 +1297,19 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                     'message'   => __('We cannot initialize an RMA to add a tracking number.'),
                 );
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => __('We cannot add a message.'),
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -1318,7 +1320,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
     public function removeTrackAction()
     {
         $trackId    = $this->getRequest()->getParam('track_id');
-        $track      = Mage::getModel('Magento_Rma_Model_Shipping')->load($trackId);
+        $track      = \Mage::getModel('\Magento\Rma\Model\Shipping')->load($trackId);
         if ($track->getId()) {
             try {
                 $model = $this->_initModel();
@@ -1333,7 +1335,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
                         'message'   => __('We cannot initialize an RMA to delete a tracking number.'),
                     );
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response = array(
                     'error'     => true,
                     'message'   => __('We cannot delete the tracking number.'),
@@ -1346,7 +1348,7 @@ class Magento_Rma_Controller_Adminhtml_Rma extends Magento_Adminhtml_Controller_
             );
         }
         if (is_array($response)) {
-            $response = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($response);
+            $response = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

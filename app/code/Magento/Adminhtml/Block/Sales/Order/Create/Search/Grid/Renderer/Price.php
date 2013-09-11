@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Search_Grid_Renderer_Price extends
-    Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Price
+namespace Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer;
+
+class Price extends
+    \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Price
 {
     /**
      * Render minimal price for downloadable products

@@ -11,13 +11,15 @@
 /**
  * Collections limiter model
  */
-class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer_Abstract
+namespace Magento\AdminGws\Model;
+
+class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
      * Limit store views collection. Adding limitation depending
      * on allowed group ids for user.
      *
-     * @param Magento_Core_Model_Resource_Store_Collection $collection
+     * @param \Magento\Core\Model\Resource\Store\Collection $collection
      */
     public function limitStores($collection)
     {
@@ -29,7 +31,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit websites collection
      *
-     * @param Magento_Core_Model_Resource_Website_Collection $collection
+     * @param \Magento\Core\Model\Resource\Website\Collection $collection
      */
     public function limitWebsites($collection)
     {
@@ -40,7 +42,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit store groups collection
      *
-     * @param Magento_Core_Model_Resource_Store_Group_Collection $collection
+     * @param \Magento\Core\Model\Resource\Store\Group\Collection $collection
      */
     public function limitStoreGroups($collection)
     {
@@ -52,7 +54,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit a collection by allowed stores without admin
      *
-     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
      */
     public function addStoreFilterNoAdmin($collection)
     {
@@ -62,7 +64,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Add filter by store views to a collection
      *
-     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
      */
     public function addStoreFilter($collection)
     {
@@ -72,7 +74,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit products collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      */
     public function limitProducts($collection)
     {
@@ -84,7 +86,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
             $websiteIds = (array)$filters['website_ids'];
         }
         if (isset($filters['store_id'])) {
-            $websiteIds[] = Mage::app()->getStore($filters['store_id'])->getWebsiteId();
+            $websiteIds[] = \Mage::app()->getStore($filters['store_id'])->getWebsiteId();
         }
 
         if (count($websiteIds)) {
@@ -97,7 +99,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit customers collection
      *
-     * @param Magento_Customer_Model_Resource_Customer_Collection $collection
+     * @param \Magento\Customer\Model\Resource\Customer\Collection $collection
      */
     public function limitCustomers($collection)
     {
@@ -110,7 +112,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit reviews collection
      *
-     * @param Magento_Review_Model_Resource_Review_Collection $collection
+     * @param \Magento\Review\Model\Resource\Review\Collection $collection
      */
     public function limitReviews($collection)
     {
@@ -120,7 +122,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit product reviews collection
      *
-     * @param Magento_Review_Model_Resource_Review_Product_Collection $collection
+     * @param \Magento\Review\Model\Resource\Review\Product\Collection $collection
      */
     public function limitProductReviews($collection)
     {
@@ -130,7 +132,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit online visitor log collection
      *
-     * @param Magento_Log_Model_Resource_Visitor_Collection $collection
+     * @param \Magento\Log\Model\Resource\Visitor\Collection $collection
      */
     public function limitOnlineCustomers($collection)
     {
@@ -140,7 +142,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit GCA collection
      *
-     * @param Magento_GiftCardAccount_Model_Resource_Giftcardaccount_Collection $collection
+     * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount\Collection $collection
      */
     public function limitGiftCardAccounts($collection)
     {
@@ -150,7 +152,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit Reward Points history collection
      *
-     * @param Magento_Reward_Model_Resource_Reward_History_Collection $collection
+     * @param \Magento\Reward\Model\Resource\Reward\History\Collection $collection
      */
     public function limitRewardHistoryWebsites($collection)
     {
@@ -160,7 +162,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit Reward Points balance collection
      *
-     * @param Magento_Reward_Model_Resource_Reward_Collection $collection
+     * @param \Magento\Reward\Model\Resource\Reward\Collection $collection
      */
     public function limitRewardBalanceWebsites($collection)
     {
@@ -170,7 +172,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit store credit collection
      *
-     * @param Magento_CustomerBalance_Model_Resource_Balance_Collection $collection
+     * @param \Magento\CustomerBalance\Model\Resource\Balance\Collection $collection
      */
     public function limitStoreCredits($collection)
     {
@@ -180,7 +182,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit store credit collection
      *
-     * @param Magento_CustomerBalance_Model_Resource_Balance_History_Collection $collection
+     * @param \Magento\CustomerBalance\Model\Resource\Balance\History\Collection $collection
      */
     public function limitStoreCreditsHistory($collection)
     {
@@ -191,7 +193,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit Catalog events collection
      *
-     * @param Magento_CatalogEvent_Model_Resource_Event_Collection $collection
+     * @param \Magento\CatalogEvent\Model\Resource\Event\Collection $collection
      */
     public function limitCatalogEvents($collection)
     {
@@ -201,7 +203,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit catalog categories collection
      *
-     * @param Magento_Catalog_Model_Resource_Category_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Category\Collection $collection
      */
     public function limitCatalogCategories($collection)
     {
@@ -211,7 +213,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit core URL rewrites
      *
-     * @param Magento_Core_Model_Resource_Url_Rewrite_Collection $collection
+     * @param \Magento\Core\Model\Resource\Url\Rewrite\Collection $collection
      */
     public function limitCoreUrlRewrites($collection)
     {
@@ -221,7 +223,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit ratings collection
      *
-     * @param Magento_Rating_Model_Resource_Rating_Collection $collection
+     * @param \Magento\Rating\Model\Resource\Rating\Collection $collection
      */
     public function limitRatings($collection)
     {
@@ -231,7 +233,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Add store_id attribute to filter of EAV-collection
      *
-     * @param Magento_Eav_Model_Entity_Collection_Abstract $collection
+     * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
      */
     public function addStoreAttributeToFilter($collection)
     {
@@ -241,7 +243,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Filter checkout agreements collection by allowed stores
      *
-     * @param Magento_Checkout_Model_Resource_Agreement_Collection $collection
+     * @param \Magento\Checkout\Model\Resource\Agreement\Collection $collection
      */
     public function limitCheckoutAgreements($collection)
     {
@@ -251,11 +253,11 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Filter admin roles collection by allowed stores
      *
-     * @param Magento_User_Model_Resource_Role_Collection $collection
+     * @param \Magento\User\Model\Resource\Role\Collection $collection
      */
     public function limitAdminPermissionRoles($collection)
     {
-        $limited = Mage::getResourceModel('Magento_AdminGws_Model_Resource_Collections')
+        $limited = \Mage::getResourceModel('\Magento\AdminGws\Model\Resource\Collections')
             ->getRolesOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),
@@ -268,11 +270,11 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Filter admin users collection by allowed stores
      *
-     * @param Magento_User_Model_Resource_User_Collection $collection
+     * @param \Magento\User\Model\Resource\User\Collection $collection
      */
     public function limitAdminPermissionUsers($collection)
     {
-        $limited = Mage::getResourceModel('Magento_AdminGws_Model_Resource_Collections')
+        $limited = \Mage::getResourceModel('\Magento\AdminGws\Model\Resource\Collections')
             ->getUsersOutsideLimitedScope(
                 $this->_role->getIsAll(),
                 $this->_role->getWebsiteIds(),
@@ -297,7 +299,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      * Apply store filter on collection used in new order's rss
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_AdminGws_Model_Collections
+     * @return \Magento\AdminGws\Model\Collections
      */
     public function rssOrderNewCollectionSelect($observer)
     {
@@ -309,13 +311,13 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Sets admin role. This is vital for limitProducts(), otherwise getRelevantWebsiteIds() returns an empty array.
      *
-     * @return Magento_AdminGws_Model_Collections
+     * @return \Magento\AdminGws\Model\Collections
      */
     protected function _initRssAdminRole()
     {
-        /* @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
-        /* @var $adminUser Magento_User_Model_User */
+        /* @var $session \Magento\Backend\Model\Auth\Session */
+        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
+        /* @var $adminUser \Magento\User\Model\User */
         $adminUser = $session->getUser();
         if ($adminUser) {
             $this->_role->setAdminRole($adminUser->getRole());
@@ -327,7 +329,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      * Apply websites filter on collection used in notify stock rss
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_AdminGws_Model_Collections
+     * @return \Magento\AdminGws\Model\Collections
      */
     public function rssCatalogNotifyStockCollectionSelect($observer)
     {
@@ -340,7 +342,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      * Apply websites filter on collection used in review rss
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_AdminGws_Model_Collections
+     * @return \Magento\AdminGws\Model\Collections
      */
     public function rssCatalogReviewCollectionSelect($observer)
     {
@@ -352,7 +354,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit product reports
      *
-     * @param  Magento_Reports_Model_Resource_Product_Collection $collection
+     * @param  \Magento\Reports\Model\Resource\Product\Collection $collection
      */
     public function limitProductReports($collection)
     {
@@ -362,7 +364,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit GiftRegistry Entity collection
      *
-     * @param Magento_GiftRegistry_Model_Resource_Entity_Collection $collection
+     * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $collection
      */
     public function limitGiftRegistryEntityWebsites($collection)
     {
@@ -372,7 +374,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit bestsellers collection
      *
-     * @param Magento_Sales_Model_Resource_Report_Bestsellers_Collection $collection
+     * @param \Magento\Sales\Model\Resource\Report\Bestsellers\Collection $collection
      */
     public function limitBestsellersCollection($collection)
     {
@@ -382,7 +384,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit most viewed collection
      *
-     * @param Magento_Reports_Model_Resource_Report_Product_Viewed_Collection $collection
+     * @param \Magento\Reports\Model\Resource\Report\Product\Viewed\Collection $collection
      */
     public function limitMostViewedCollection($collection)
     {
@@ -392,7 +394,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
     /**
      * Limit Automated Email Marketing Reminder Rules collection
      *
-     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
      */
     public function limitRuleEntityCollection($collection)
     {
@@ -408,7 +410,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      *
      * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
      *
-     * @param Magento_CustomerSegment_Model_Resource_Segment_Collection $collection
+     * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $collection
      */
     public function limitCustomerSegments($collection)
     {
@@ -420,7 +422,7 @@ class Magento_AdminGws_Model_Collections extends Magento_AdminGws_Model_Observer
      *
      * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
      *
-     * @param Magento_Core_Model_Resource_Db_Collection_Abstract $collection
+     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
      */
     public function limitPriceRules($collection)
     {

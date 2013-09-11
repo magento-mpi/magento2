@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options extends Magento_Catalog_Block_Product_View_Options
+namespace Magento\Adminhtml\Block\Catalog\Product\Composite\Fieldset;
+
+class Options extends \Magento\Catalog\Block\Product\View\Options
 {
     /**
      * Constructor for our block with options
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options extends
         parent::_construct();
         $this->addOptionRenderer(
             'default',
-            'Magento_Catalog_Block_Product_View_Options_Type_Default',
+            '\Magento\Catalog\Block\Product\View\Options\Type\DefaultType',
             'catalog/product/composite/fieldset/options/type/default.phtml'
         );
     }
@@ -35,11 +37,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Composite_Fieldset_Options extends
     /**
      * Get option html block
      *
-     * @param Magento_Catalog_Model_Product_Option $option
+     * @param \Magento\Catalog\Model\Product\Option $option
      *
      * @return string
      */
-    public function getOptionHtml(Magento_Catalog_Model_Product_Option $option)
+    public function getOptionHtml(\Magento\Catalog\Model\Product\Option $option)
     {
         $renderer = $this->getOptionRender(
             $this->getGroupOfOption($option->getType())

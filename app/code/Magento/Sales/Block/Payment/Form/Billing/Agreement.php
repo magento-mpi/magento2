@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Payment_Form_Billing_Agreement extends Magento_Payment_Block_Form
+namespace Magento\Sales\Block\Payment\Form\Billing;
+
+class Agreement extends \Magento\Payment\Block\Form
 {
     protected $_template = 'Magento_Sales::payment/form/billing/agreement.phtml';
 
@@ -21,7 +23,7 @@ class Magento_Sales_Block_Payment_Form_Billing_Agreement extends Magento_Payment
     {
         parent::_construct();
 
-        $this->setTransportName(Magento_Sales_Model_Payment_Method_Billing_AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID);
+        $this->setTransportName(\Magento\Sales\Model\Payment\Method\Billing\AgreementAbstract::TRANSPORT_BILLING_AGREEMENT_ID);
     }
 
     /**
@@ -36,7 +38,7 @@ class Magento_Sales_Block_Payment_Form_Billing_Agreement extends Magento_Payment
         if (!$quote || !$quote->getCustomer()) {
             return $data;
         }
-        $collection = Mage::getModel('Magento_Sales_Model_Billing_Agreement')->getAvailableCustomerBillingAgreements(
+        $collection = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->getAvailableCustomerBillingAgreements(
             $quote->getCustomer()->getId()
         );
 

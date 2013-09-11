@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Search_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Catalog\Search;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
 
     protected function _construct()
@@ -32,8 +34,8 @@ class Magento_Adminhtml_Block_Catalog_Search_Edit extends Magento_Adminhtml_Bloc
 
     public function getHeaderText()
     {
-        if (Mage::registry('current_catalog_search')->getId()) {
-            return __("Edit Search '%1'", $this->escapeHtml(Mage::registry('current_catalog_search')->getQueryText()));
+        if (\Mage::registry('current_catalog_search')->getId()) {
+            return __("Edit Search '%1'", $this->escapeHtml(\Mage::registry('current_catalog_search')->getQueryText()));
         }
         else {
             return __('New Search');

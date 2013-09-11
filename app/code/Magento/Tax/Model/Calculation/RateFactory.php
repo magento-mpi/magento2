@@ -15,7 +15,9 @@
  * @package    Magento_Tax
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Calculation_RateFactory
+namespace Magento\Tax\Model\Calculation;
+
+class RateFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -34,10 +36,10 @@ class Magento_Tax_Model_Calculation_RateFactory
      * Create new tax rate model
      *
      * @param array $arguments
-     * @return Magento_Tax_Model_Calculation_Rate
+     * @return \Magento\Tax\Model\Calculation\Rate
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento_Tax_Model_Calculation_Rate', $arguments);
+        return $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate', $arguments);
     }
 }

@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_Resource
+namespace Magento\Catalog\Model\Product\Link;
+
+class Api extends \Magento\Catalog\Model\Api\Resource
 {
     /**
      * Product link type mapping, used for references and validation
@@ -23,10 +25,10 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
      * @var array
      */
     protected $_typeMap = array(
-        'related'       => Magento_Catalog_Model_Product_Link::LINK_TYPE_RELATED,
-        'up_sell'       => Magento_Catalog_Model_Product_Link::LINK_TYPE_UPSELL,
-        'cross_sell'    => Magento_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
-        'grouped'       => Magento_Catalog_Model_Product_Link::LINK_TYPE_GROUPED
+        'related'       => \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED,
+        'up_sell'       => \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL,
+        'cross_sell'    => \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL,
+        'grouped'       => \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED
     );
 
     public function __construct()
@@ -115,15 +117,15 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
                 $link->getResource()->saveProductLinks($product, $links, $typeId);
             }
 
-            $_linkInstance = Mage::getSingleton('Magento_Catalog_Model_Product_Link');
+            $_linkInstance = \Mage::getSingleton('Magento\Catalog\Model\Product\Link');
             $_linkInstance->saveProductRelations($product);
 
-            $indexerStock = Mage::getModel('Magento_CatalogInventory_Model_Stock_Status');
+            $indexerStock = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Status');
             $indexerStock->updateStatus($productId);
 
-            $indexerPrice = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Indexer_Price');
+            $indexerPrice = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Indexer\Price');
             $indexerPrice->reindexProductIds($productId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('data_invalid', __('The linked product does not exist.'));
         }
 
@@ -171,15 +173,15 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
                 $link->getResource()->saveProductLinks($product, $links, $typeId);
             }
 
-            $_linkInstance = Mage::getSingleton('Magento_Catalog_Model_Product_Link');
+            $_linkInstance = \Mage::getSingleton('Magento\Catalog\Model\Product\Link');
             $_linkInstance->saveProductRelations($product);
 
-            $indexerStock = Mage::getModel('Magento_CatalogInventory_Model_Stock_Status');
+            $indexerStock = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Status');
             $indexerStock->updateStatus($productId);
 
-            $indexerPrice = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Indexer_Price');
+            $indexerPrice = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Indexer\Price');
             $indexerPrice->reindexProductIds($productId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('data_invalid', __('The linked product does not exist.'));
         }
 
@@ -219,7 +221,7 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
 
         try {
             $link->getResource()->saveProductLinks($product, $links, $typeId);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('not_removed');
         }
 
@@ -236,7 +238,7 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
     {
         $typeId = $this->_getTypeId($type);
 
-        $attributes = Mage::getModel('Magento_Catalog_Model_Product_Link')
+        $attributes = \Mage::getModel('\Magento\Catalog\Model\Product\Link')
             ->getAttributes($typeId);
 
         $result = array();
@@ -281,11 +283,11 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
      *
      * @param int $productId
      * @param  string $identifierType
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _initProduct($productId, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct($productId, null, $identifierType);
+        $product = \Mage::helper('Magento\Catalog\Helper\Product')->getProduct($productId, null, $identifierType);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }
@@ -296,9 +298,9 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
     /**
      * Initialize and return linked products collection
      *
-     * @param Magento_Catalog_Model_Product_Link $link
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Model_Resource_Product_Link_Product_Collection
+     * @param \Magento\Catalog\Model\Product\Link $link
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
      */
     protected function _initCollection($link, $product)
     {
@@ -313,7 +315,7 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
     /**
      * Export collection to editable array
      *
-     * @param Magento_Catalog_Model_Resource_Product_Link_Product_Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Product\Link\Product\Collection $collection
      * @return array
      */
     protected function _collectionToEditableArray($collection)
@@ -330,4 +332,4 @@ class Magento_Catalog_Model_Product_Link_Api extends Magento_Catalog_Model_Api_R
 
         return $result;
     }
-} // Class Magento_Catalog_Model_Product_Link_Api End
+} // Class \Magento\Catalog\Model\Product\Link\Api End

@@ -13,7 +13,7 @@ class Magento_Tax_Model_TaxClass_Type_ProductTest extends PHPUnit_Framework_Test
 {
     public function testGetAssignedObjects()
     {
-        $collectionMock = $this->getMockBuilder('Magento_Core_Model_Resource_Db_Collection_Abstract')
+        $collectionMock = $this->getMockBuilder('Magento\Core\Model\Resource\Db\Collection\AbstractCollection')
             ->setMethods(array(
                 'addAttributeToFilter'
             ))
@@ -24,7 +24,7 @@ class Magento_Tax_Model_TaxClass_Type_ProductTest extends PHPUnit_Framework_Test
             ->with($this->equalTo('tax_class_id'), $this->equalTo(1))
             ->will($this->returnSelf());
 
-        $productMock = $this->getMockBuilder('Magento_Catalog_Model_Product')
+        $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->setMethods(array('getCollection'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -33,9 +33,9 @@ class Magento_Tax_Model_TaxClass_Type_ProductTest extends PHPUnit_Framework_Test
             ->will($this->returnValue($collectionMock));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Tax_Model_TaxClass_Type_Product */
+        /** @var $model \Magento\Tax\Model\TaxClass\Type\Product */
         $model = $objectManagerHelper->getObject(
-            'Magento_Tax_Model_TaxClass_Type_Product',
+            '\Magento\Tax\Model\TaxClass\Type\Product',
             array(
                 'modelProduct' => $productMock,
                 'data' => array('id' => 1)

@@ -20,8 +20,8 @@ class Magento_Rma_Controller_GuestTest extends Magento_TestFramework_TestCase_Co
      */
     public function testIsResponseContain($uri, $content)
     {
-        /** @var $rma Magento_Rma_Model_Rma */
-        $rma = Mage::getModel('Magento_Rma_Model_Rma');
+        /** @var $rma \Magento\Rma\Model\Rma */
+        $rma = Mage::getModel('\Magento\Rma\Model\Rma');
         $rma->load(1, 'increment_id');
 
         $this->getRequest()->setParam('entity_id', $rma->getEntityId());

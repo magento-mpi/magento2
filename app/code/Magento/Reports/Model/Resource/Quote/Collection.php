@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Model_Resource_Quote_Collection
+namespace Magento\Reports\Model\Resource\Quote;
+
+class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
 {
 
     const SELECT_COUNT_SQL_TYPE_CART = 1;
@@ -41,7 +43,7 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Mode
      * Set type for COUNT SQL select
      *
      * @param int $type
-     * @return Magento_Reports_Model_Resource_Quote_Collection
+     * @return \Magento\Reports\Model\Resource\Quote\Collection
      */
     public function setSelectCountSqlType($type)
     {
@@ -54,7 +56,7 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Mode
      *
      * @param array $storeIds
      * @param string $filter
-     * @return Magento_Reports_Model_Resource_Quote_Collection
+     * @return \Magento\Reports\Model\Resource\Quote\Collection
      */
     public function prepareForAbandonedReport($storeIds, $filter = null)
     {
@@ -74,11 +76,11 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Mode
     /**
      * Prepare select query for products in carts report
      *
-     * @return Magento_Reports_Model_Resource_Quote_Collection
+     * @return \Magento\Reports\Model\Resource\Quote\Collection
      */
     public function prepareForProductsInCarts()
     {
-        $productEntity          = Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product_Collection');
+        $productEntity          = \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product\Collection');
         $productAttrName        = $productEntity->getAttribute('name');
         $productAttrNameId      = (int) $productAttrName->getAttributeId();
         $productAttrNameTable   = $productAttrName->getBackend()->getTable();
@@ -91,13 +93,13 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Mode
             ->from(
                 array('oi' => $this->getTable('sales_flat_order_item')),
                 array(
-                   'orders' => new Zend_Db_Expr('COUNT(1)'),
+                   'orders' => new \Zend_Db_Expr('COUNT(1)'),
                    'product_id'))
             ->group('oi.product_id');
 
         $this->getSelect()
             ->useStraightJoin(true)
-            ->reset(Zend_Db_Select::COLUMNS)
+            ->reset(\Zend_Db_Select::COLUMNS)
             ->joinInner(
                 array('quote_items' => $this->getTable('sales_flat_quote_item')),
                 'quote_items.quote_id = main_table.entity_id',
@@ -115,14 +117,14 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Mode
             ->joinInner(
                 array('product_price' => $productAttrPriceTable),
                 "product_price.entity_id = e.entity_id AND product_price.attribute_id = {$productAttrPriceId}",
-                array('price' => new Zend_Db_Expr('product_price.value * main_table.base_to_global_rate')))
+                array('price' => new \Zend_Db_Expr('product_price.value * main_table.base_to_global_rate')))
             ->joinLeft(
-                array('order_items' => new Zend_Db_Expr(sprintf('(%s)', $ordersSubSelect))),
+                array('order_items' => new \Zend_Db_Expr(sprintf('(%s)', $ordersSubSelect))),
                 'order_items.product_id = e.entity_id',
                 array()
             )
             ->columns('e.*')
-            ->columns(array('carts' => new Zend_Db_Expr('COUNT(quote_items.item_id)')))
+            ->columns(array('carts' => new \Zend_Db_Expr('COUNT(quote_items.item_id)')))
             ->columns('order_items.orders')
             ->where('main_table.is_active = ?', 1)
             ->group('quote_items.product_id');
@@ -134,7 +136,7 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Mode
      * Add store ids to filter
      *
      * @param array $storeIds
-     * @return Magento_Reports_Model_Resource_Quote_Collection
+     * @return \Magento\Reports\Model\Resource\Quote\Collection
      */
     public function addStoreFilter($storeIds)
     {
@@ -146,11 +148,11 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Mode
      * Add customer data
      *
      * @param unknown_type $filter
-     * @return Magento_Reports_Model_Resource_Quote_Collection
+     * @return \Magento\Reports\Model\Resource\Quote\Collection
      */
     public function addCustomerData($filter = null)
     {
-        $customerEntity         = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
+        $customerEntity         = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer');
         $attrFirstname          = $customerEntity->getAttribute('firstname');
         $attrFirstnameId        = (int) $attrFirstname->getAttributeId();
         $attrFirstnameTableName = $attrFirstname->getBackend()->getTable();
@@ -212,7 +214,7 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Mode
      *
      * @param array $storeIds
      * @param array $filter
-     * @return Magento_Reports_Model_Resource_Quote_Collection
+     * @return \Magento\Reports\Model\Resource\Quote\Collection
      */
     public function addSubtotal($storeIds = '', $filter = null)
     {
@@ -231,13 +233,13 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Mode
             if (isset($filter['subtotal']['from'])) {
                 $this->getSelect()->where(
                     $this->_joinedFields['subtotal'] . ' >= ?',
-                    $filter['subtotal']['from'], Zend_Db::FLOAT_TYPE
+                    $filter['subtotal']['from'], \Zend_Db::FLOAT_TYPE
                 );
             }
             if (isset($filter['subtotal']['to'])) {
                 $this->getSelect()->where(
                     $this->_joinedFields['subtotal'] . ' <= ?',
-                    $filter['subtotal']['to'], Zend_Db::FLOAT_TYPE
+                    $filter['subtotal']['to'], \Zend_Db::FLOAT_TYPE
                 );
             }
         }
@@ -253,11 +255,11 @@ class Magento_Reports_Model_Resource_Quote_Collection extends Magento_Sales_Mode
     public function getSelectCountSql()
     {
         $countSelect = clone $this->getSelect();
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::COLUMNS);
-        $countSelect->reset(Zend_Db_Select::GROUP);
+        $countSelect->reset(\Zend_Db_Select::ORDER);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(\Zend_Db_Select::COLUMNS);
+        $countSelect->reset(\Zend_Db_Select::GROUP);
         $countSelect->resetJoinLeft();
 
         if ($this->_selectCountSqlType == self::SELECT_COUNT_SQL_TYPE_CART) {

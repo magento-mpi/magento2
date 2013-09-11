@@ -11,8 +11,10 @@
 /**
  * Unassigned theme list
  */
-class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Unassigned
-    extends Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
+
+class Unassigned
+    extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList
 {
     /**
      * Get list title
@@ -27,15 +29,15 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Unassigne
     /**
      * Get remove button
      *
-     * @param Magento_DesignEditor_Block_Adminhtml_Theme $themeBlock
+     * @param \Magento\DesignEditor\Block\Adminhtml\Theme $themeBlock
      * @return string
      */
     protected function _addRemoveButtonHtml($themeBlock)
     {
         $themeId = $themeBlock->getTheme()->getId();
         $themeTitle = $themeBlock->getTheme()->getThemeTitle();
-        /** @var $removeButton Magento_Backend_Block_Widget_Button */
-        $removeButton = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button');
+        /** @var $removeButton \Magento\Backend\Block\Widget\Button */
+        $removeButton = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button');
 
         $removeButton->setData(array(
             'label'     => __('Remove'),
@@ -68,8 +70,8 @@ class Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Unassigne
     /**
      * Add theme buttons
      *
-     * @param Magento_DesignEditor_Block_Adminhtml_Theme $themeBlock
-     * @return Magento_DesignEditor_Block_Adminhtml_Theme_Selector_SelectorList_Abstract
+     * @param \Magento\DesignEditor\Block\Adminhtml\Theme $themeBlock
+     * @return \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList
      */
     protected function _addThemeButtons($themeBlock)
     {

@@ -11,23 +11,25 @@
 /**
  * Recurring profile gateway management interface
  */
-interface Magento_Payment_Model_Recurring_Profile_MethodInterface
+namespace Magento\Payment\Model\Recurring\Profile;
+
+interface MethodInterface
 {
     /**
      * Validate data
      *
-     * @param Magento_Payment_Model_Recurring_Profile $profile
-     * @throws Magento_Core_Exception
+     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @throws \Magento\Core\Exception
      */
-    public function validateRecurringProfile(Magento_Payment_Model_Recurring_Profile $profile);
+    public function validateRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile);
 
     /**
      * Submit to the gateway
      *
-     * @param Magento_Payment_Model_Recurring_Profile $profile
-     * @param Magento_Payment_Model_Info $paymentInfo
+     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\Payment\Model\Info $paymentInfo
      */
-    public function submitRecurringProfile(Magento_Payment_Model_Recurring_Profile $profile, Magento_Payment_Model_Info $paymentInfo);
+    public function submitRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile, \Magento\Payment\Model\Info $paymentInfo);
 
     /**
      * Fetch details
@@ -47,14 +49,14 @@ interface Magento_Payment_Model_Recurring_Profile_MethodInterface
     /**
      * Update data
      *
-     * @param Magento_Payment_Model_Recurring_Profile $profile
+     * @param \Magento\Payment\Model\Recurring\Profile $profile
      */
-    public function updateRecurringProfile(Magento_Payment_Model_Recurring_Profile $profile);
+    public function updateRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile);
 
     /**
      * Manage status
      *
-     * @param Magento_Payment_Model_Recurring_Profile $profile
+     * @param \Magento\Payment\Model\Recurring\Profile $profile
      */
-    public function updateRecurringProfileStatus(Magento_Payment_Model_Recurring_Profile $profile);
+    public function updateRecurringProfileStatus(\Magento\Payment\Model\Recurring\Profile $profile);
 }

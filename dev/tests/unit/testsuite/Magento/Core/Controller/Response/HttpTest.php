@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Core_Controller_Response_Http
+ * Test class for \Magento\Core\Controller\Response\Http
  */
 class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCase
 {
@@ -19,13 +19,13 @@ class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCa
      * Test for getHeader method
      *
      * @dataProvider headersDataProvider
-     * @covers Magento_Core_Controller_Response_Http::getHeader
+     * @covers \Magento\Core\Controller\Response\Http::getHeader
      *
      * @param string $header
      */
     public function testGetHeaderExists($header)
     {
-        $response = new Magento_Core_Controller_Response_Http();
+        $response = new \Magento\Core\Controller\Response\Http();
         $response->headersSentThrowsException = false;
         $response->setHeader($header['name'], $header['value'], $header['replace']);
         $this->assertEquals($header, $response->getHeader($header['name']));
@@ -57,12 +57,12 @@ class Magento_Core_Controller_Response_HttpTest extends PHPUnit_Framework_TestCa
     /**
      * Test for getHeader method. Validation for attempt to get not existing header
      *
-     * @covers Magento_Core_Controller_Response_Http::getHeader
+     * @covers \Magento\Core\Controller\Response\Http::getHeader
      *
      */
     public function testGetHeaderNotExists()
     {
-        $response = new Magento_Core_Controller_Response_Http();
+        $response = new \Magento\Core\Controller\Response\Http();
         $response->headersSentThrowsException = false;
         $response->setHeader('Name', 'value', true);
         $this->assertFalse($response->getHeader('Wrong name'));

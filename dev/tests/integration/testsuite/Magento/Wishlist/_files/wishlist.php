@@ -12,7 +12,7 @@
 require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
-$wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+$wishlist = Mage::getModel('\Magento\Wishlist\Model\Wishlist');
 $wishlist->loadByCustomer($customer->getId(), true);
 $item = $wishlist->addNewItem($product, new \Magento\Object(array(
 //    'product' => '1',

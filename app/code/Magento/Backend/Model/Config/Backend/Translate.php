@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend;
+
+class Translate extends \Magento\Core\Model\Config\Value
 {
     /**
      * Path to config node with list of caches
@@ -27,14 +29,14 @@ class Magento_Backend_Model_Config_Backend_Translate extends Magento_Core_Model_
     /**
      * Set status 'invalidate' for blocks and other output caches
      *
-     * @return Magento_Backend_Model_Config_Backend_Translate
+     * @return \Magento\Backend\Model\Config\Backend\Translate
      */
     protected function _afterSave()
     {
-        $types = array_keys(Mage::getStoreConfig(self::XML_PATH_INVALID_CACHES));
+        $types = array_keys(\Mage::getStoreConfig(self::XML_PATH_INVALID_CACHES));
         if ($this->isValueChanged()) {
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+            /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+            $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
             $cacheTypeList->invalidate($types);
         }
 

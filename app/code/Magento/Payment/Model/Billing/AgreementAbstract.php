@@ -13,12 +13,14 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_Core_Model_Abstract
+namespace Magento\Payment\Model\Billing;
+
+abstract class AgreementAbstract extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Payment method instance
      *
-     * @var Magento_Payment_Model_Method_Abstract
+     * @var \Magento\Payment\Model\Method\AbstractMethod
      */
     protected $_paymentMethodInstance = null;
 
@@ -56,12 +58,12 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
     /**
      * Retreive payment method instance
      *
-     * @return Magento_Payment_Model_Method_Abstract
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getPaymentMethodInstance()
     {
         if (is_null($this->_paymentMethodInstance)) {
-            $this->_paymentMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance($this->getMethodCode());
+            $this->_paymentMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance($this->getMethodCode());
         }
         if ($this->_paymentMethodInstance) {
             $this->_paymentMethodInstance->setStore($this->getStoreId());
@@ -89,8 +91,8 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
     /**
      * Before save, it's overriden just to make data validation on before save event
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Core_Model_Abstract
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -98,6 +100,6 @@ abstract class Magento_Payment_Model_Billing_AgreementAbstract extends Magento_C
             return parent::_beforeSave();
         }
         array_unshift($this->_errors, __('Unable to save Billing Agreement:'));
-        throw new Magento_Core_Exception(implode(' ', $this->_errors));
+        throw new \Magento\Core\Exception(implode(' ', $this->_errors));
     }
 }

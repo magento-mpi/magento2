@@ -16,18 +16,18 @@ class Magento_Sales_Block_Order_Print_CreditmemoTest extends PHPUnit_Framework_T
      */
     public function testGetTotalsHtml()
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        $order = Mage::getModel('\Magento\Sales\Model\Order');
         Mage::register('current_order', $order);
-        $payment = Mage::getModel('Magento_Sales_Model_Order_Payment');
+        $payment = Mage::getModel('\Magento\Sales\Model\Order\Payment');
         $payment->setMethod('checkmo');
         $order->setPayment($payment);
 
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        $block = $layout->createBlock('Magento_Sales_Block_Order_Print_Creditmemo', 'block');
-        $childBlock = $layout->addBlock('Magento_Core_Block_Text', 'creditmemo_totals', 'block');
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $block = $layout->createBlock('\Magento\Sales\Block\Order\Print\Creditmemo', 'block');
+        $childBlock = $layout->addBlock('\Magento\Core\Block\Text', 'creditmemo_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
-        $creditmemo = Mage::getModel('Magento_Sales_Model_Order_Creditmemo');
+        $creditmemo = Mage::getModel('\Magento\Sales\Model\Order\Creditmemo');
         $this->assertEmpty($childBlock->getCreditmemo());
         $this->assertNotEquals($expectedHtml, $block->getTotalsHtml($creditmemo));
 

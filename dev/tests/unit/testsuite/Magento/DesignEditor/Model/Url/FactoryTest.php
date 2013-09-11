@@ -11,7 +11,7 @@
 class Magento_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_DesignEditor_Model_Url_Factory
+     * @var \Magento\DesignEditor\Model\Url\Factory
      */
     protected $_model;
 
@@ -23,7 +23,7 @@ class Magento_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestC
     public function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_model = new Magento_DesignEditor_Model_Url_Factory($this->_objectManager);
+        $this->_model = new \Magento\DesignEditor\Model\Url\Factory($this->_objectManager);
     }
 
     public function testConstruct()
@@ -35,7 +35,7 @@ class Magento_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestC
     {
         $this->_objectManager->expects($this->once())
             ->method('configure')
-            ->with(array('preferences' => array('Magento_Core_Model_Url' => 'TestClass')));
+            ->with(array('preferences' => array('Magento\Core\Model\Url' => 'TestClass')));
 
         $this->assertEquals($this->_model, $this->_model->replaceClassName('TestClass'));
     }
@@ -44,7 +44,7 @@ class Magento_DesignEditor_Model_Url_FactoryTest extends PHPUnit_Framework_TestC
     {
         $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento_Core_Model_Url', array())
+            ->with('Magento\Core\Model\Url', array())
             ->will($this->returnValue('ModelInstance'));
 
         $this->assertEquals('ModelInstance', $this->_model->create());

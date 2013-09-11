@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_Abstract
+namespace Magento\Checkout\Block\Cart;
+
+class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
 {
     /**
      * Available Carriers Instances
@@ -30,18 +32,18 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
     protected $_address = array();
 
     /**
-     * @var Magento_Directory_Block_Data
+     * @var \Magento\Directory\Block\Data
      */
     protected $_directoryBlock;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Directory_Block_Data $directoryBlock
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Directory\Block\Data $directoryBlock
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Directory_Block_Data $directoryBlock,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Directory\Block\Data $directoryBlock,
         array $data = array()
     ) {
         $this->_directoryBlock = $directoryBlock;
@@ -60,7 +62,7 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
     }
 
     /**
-     * @return Magento_Directory_Block_Data
+     * @return \Magento\Directory\Block\Data
      */
     public function getDirectoryBlock()
     {
@@ -84,7 +86,7 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
     /**
      * Get Address Model
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
@@ -102,7 +104,7 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title')) {
             return $name;
         }
         return $carrierCode;
@@ -175,8 +177,8 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      */
     public function getCityActive()
     {
-        return (bool)Mage::getStoreConfig('carriers/dhl/active')
-            || (bool)Mage::getStoreConfig('carriers/dhlint/active');
+        return (bool)\Mage::getStoreConfig('carriers/dhl/active')
+            || (bool)\Mage::getStoreConfig('carriers/dhlint/active');
     }
 
     /**
@@ -186,9 +188,9 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      */
     public function getStateActive()
     {
-        return (bool)Mage::getStoreConfig('carriers/dhl/active')
-            || (bool)Mage::getStoreConfig('carriers/tablerate/active')
-            || (bool)Mage::getStoreConfig('carriers/dhlint/active');
+        return (bool)\Mage::getStoreConfig('carriers/dhl/active')
+            || (bool)\Mage::getStoreConfig('carriers/tablerate/active')
+            || (bool)\Mage::getStoreConfig('carriers/dhlint/active');
     }
 
     /**
@@ -211,7 +213,7 @@ class Magento_Checkout_Block_Cart_Shipping extends Magento_Checkout_Block_Cart_A
      */
     public function getShippingPrice($price, $flag)
     {
-        return $this->formatPrice($this->helper('Magento_Tax_Helper_Data')->getShippingPrice(
+        return $this->formatPrice($this->helper('\Magento\Tax\Helper\Data')->getShippingPrice(
             $price,
             $flag,
             $this->getAddress(),

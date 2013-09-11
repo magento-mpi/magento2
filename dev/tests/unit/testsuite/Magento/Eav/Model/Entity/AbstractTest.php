@@ -13,13 +13,13 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Entity model to be tested
-     * @var Magento_Eav_Model_Entity_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Eav\Model\Entity\AbstractEntity|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Abstract');
+        $this->_model = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\AbstractEntity');
     }
 
     protected function tearDown()
@@ -36,9 +36,9 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testCompareAttributes($attribute1Sort, $attribute2Sort, $expected)
     {
-        $attribute1 = $this->getMock('Magento_Eav_Model_Entity_Attribute', null, array(), '', false);
+        $attribute1 = $this->getMock('Magento\Eav\Model\Entity\Attribute', null, array(), '', false);
         $attribute1->setAttributeSetInfo(array(0 => $attribute1Sort));
-        $attribute2 = $this->getMock('Magento_Eav_Model_Entity_Attribute', null, array(), '', false);
+        $attribute2 = $this->getMock('Magento\Eav\Model\Entity\Attribute', null, array(), '', false);
         $attribute2->setAttributeSetInfo(array(0 => $attribute2Sort));
         $this->assertEquals($expected, $this->_model->attributesCompare($attribute1, $attribute2));
     }
@@ -93,7 +93,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
         $codes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
         foreach ($codes as $code) {
             $mock = $this->getMock(
-                'Magento_Eav_Model_Entity_Attribute_Abstract',
+                '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 array('getBackend', 'getBackendTable'),
                 array(),
                 '',
@@ -101,9 +101,9 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
             );
             $mock->setAttributeId($code);
 
-            /** @var $backendModel Magento_Eav_Model_Entity_Attribute_Backend_Abstract */
+            /** @var $backendModel \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend */
             $backendModel = $this->getMock(
-                'Magento_Eav_Model_Entity_Attribute_Backend_Abstract',
+                '\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
                 array('getBackend', 'getBackendTable')
             );
 
@@ -171,12 +171,12 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
      *
      * @param string $attributeCode
      * @param int $attributeSetId
-     * @return PHPUnit_Framework_MockObject_MockObject|Magento_Eav_Model_Entity_Attribute_Abstract
+     * @return PHPUnit_Framework_MockObject_MockObject|\Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      */
     protected function _getAttributeMock($attributeCode, $attributeSetId)
     {
         $attribute = $this->getMock(
-            'Magento_Eav_Model_Entity_Attribute_Abstract',
+            '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array('getBackend', 'getBackendTable', 'isInSet', 'getApplyTo', 'getAttributeCode'),
             array(),
             '',
@@ -210,7 +210,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
      */
     public function testSave($attributeCode, $attributeSetId, $productData, $productOrigData)
     {
-        $object = $this->getMock('Magento_Catalog_Model_Product', array('getOrigData'), array(), '', false);
+        $object = $this->getMock('Magento\Catalog\Model\Product', array('getOrigData'), array(), '', false);
         $object->setEntityTypeId(1);
         $object->setData($productData);
         $object->expects($this->any())
@@ -226,9 +226,9 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
 
         $attribute = $this->_getAttributeMock($attributeCode, $attributeSetId);
 
-        /** @var $backendModel Magento_Eav_Model_Entity_Attribute_Backend_Abstract */
+        /** @var $backendModel \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend */
         $backendModel = $this->getMock(
-            'Magento_Eav_Model_Entity_Attribute_Backend_Abstract',
+            '\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend',
             array(
                 'getBackend',
                 'getBackendTable',
@@ -276,7 +276,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
         );
         /** @var $model PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass(
-            'Magento_Eav_Model_Entity_Abstract',
+            '\Magento\Eav\Model\Entity\AbstractEntity',
             array($data),
             '',
             true,
@@ -285,7 +285,7 @@ class Magento_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
             array('_getConfig')
         );
 
-        $configMock = $this->getMock('Magento_Eav_Model_Config', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $model->expects($this->any())->method('_getConfig')->will($this->returnValue($configMock));
 
         $model->setConnection($this->_getAdapterMock());

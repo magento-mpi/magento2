@@ -11,22 +11,24 @@
 /**
  * Event type model
  *
- * @method Magento_Reports_Model_Resource_Event_Type _getResource()
- * @method Magento_Reports_Model_Resource_Event_Type getResource()
+ * @method \Magento\Reports\Model\Resource\Event\Type _getResource()
+ * @method \Magento\Reports\Model\Resource\Event\Type getResource()
  * @method string getEventName()
- * @method Magento_Reports_Model_Event_Type setEventName(string $value)
+ * @method \Magento\Reports\Model\Event\Type setEventName(string $value)
  * @method int getCustomerLogin()
- * @method Magento_Reports_Model_Event_Type setCustomerLogin(int $value)
+ * @method \Magento\Reports\Model\Event\Type setCustomerLogin(int $value)
  *
  * @category    Magento
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Reports_Model_Event_Type extends Magento_Core_Model_Abstract
+namespace Magento\Reports\Model\Event;
+
+class Type extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Reports_Model_Resource_Event_Type');
+        $this->_init('\Magento\Reports\Model\Resource\Event\Type');
     }
 }

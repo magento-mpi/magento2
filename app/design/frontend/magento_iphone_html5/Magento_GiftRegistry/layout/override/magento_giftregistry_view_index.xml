@@ -15,47 +15,47 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_GiftRegistry_Block_View" name="enterprise.giftregistry.view" template="view.phtml">
-                <block class="Magento_GiftRegistry_Block_Items" name="giftregistry_items" template="view/items.phtml">
-                    <block class="Magento_Catalog_Block_Product_Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
+            <block class="\Magento\GiftRegistry\Block\View" name="enterprise.giftregistry.view" template="view.phtml">
+                <block class="\Magento\GiftRegistry\Block\Items" name="giftregistry_items" template="view/items.phtml">
+                    <block class="\Magento\Catalog\Block\Product\Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">default</argument>
-                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                        <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>
                         <argument name="template" xsi:type="string">Magento_GiftRegistry::view/items/default.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">simple</argument>
-                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                        <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>
                         <argument name="template" xsi:type="string">Magento_GiftRegistry::view/items/default.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">grouped</argument>
-                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                        <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Grouped</argument>
                         <argument name="template" xsi:type="string">Magento_GiftRegistry::view/items/default.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">configurable</argument>
-                        <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                        <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
                         <argument name="template" xsi:type="string">Magento_GiftRegistry::view/items/default.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">bundle</argument>
-                        <argument name="block" xsi:type="string">Magento_Bundle_Block_Checkout_Cart_Item_Renderer</argument>
+                        <argument name="block" xsi:type="string">\Magento\Bundle\Block\Checkout\Cart\Item\Renderer</argument>
                         <argument name="template" xsi:type="string">Magento_GiftRegistry::view/items/default.phtml</argument>
                     </action>
                     <action method="addItemRender">
                         <argument name="type" xsi:type="string">giftcard</argument>
-                        <argument name="block" xsi:type="string">Magento_GiftCard_Block_Checkout_Cart_Item_Renderer</argument>
+                        <argument name="block" xsi:type="string">\Magento\GiftCard\Block\Checkout\Cart\Item\Renderer</argument>
                         <argument name="template" xsi:type="string">Magento_GiftRegistry::view/items/default.phtml</argument>
                     </action>
                 </block>
-                <block class="Magento_GiftRegistry_Block_Customer_Items" name="giftregistry.view.items" template="view/items.phtml"/>
+                <block class="\Magento\GiftRegistry\Block\Customer\Items" name="giftregistry.view.items" template="view/items.phtml"/>
             </block>
         </reference>
         <update handle="MAP_popup"/>
         <reference name="product.tooltip">
             <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
-                <block class="Magento_Paypal_Block_Express_Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml" module="Magento_Paypal">
+                <block class="\Magento\Paypal\Block\Express\Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml" module="Magento_Paypal">
                     <action method="setIsInCatalogProduct">
                         <argument name="value" xsi:type="string">1</argument>
                     </action>

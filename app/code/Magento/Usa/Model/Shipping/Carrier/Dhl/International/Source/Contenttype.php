@@ -15,7 +15,9 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Contenttype
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source;
+
+class Contenttype
 {
     /**
      * Returns array to be used in multiselect on back-end
@@ -26,9 +28,9 @@ class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Contenttype
     {
         return array(
             array('label' => __('Documents'),
-                'value' => Magento_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_DOC),
+                'value' => \Magento\Usa\Model\Shipping\Carrier\Dhl\International::DHL_CONTENT_TYPE_DOC),
             array('label' => __('Non documents'),
-                'value' => Magento_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_NON_DOC),
+                'value' => \Magento\Usa\Model\Shipping\Carrier\Dhl\International::DHL_CONTENT_TYPE_NON_DOC),
         );
     }
 }

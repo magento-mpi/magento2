@@ -15,7 +15,9 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\AdvancedCheckout\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Items for requiring attention grid (doesn't include sku-failed items)
@@ -71,7 +73,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Contains session object to which data is saved
      *
-     * @var Magento_Core_Model_Session_Abstract
+     * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_session;
 
@@ -88,14 +90,14 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Return session for affected items
      *
-     * @return Magento_Core_Model_Session_Abstract
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     public function getSession()
     {
         if (!$this->_session) {
-            $sessionClassPath = Mage::app()->getStore()->isAdmin() ?
-                    'Magento_Adminhtml_Model_Session' : 'Magento_Customer_Model_Session';
-            $this->_session =  Mage::getSingleton($sessionClassPath);
+            $sessionClassPath = \Mage::app()->getStore()->isAdmin() ?
+                    '\Magento\Adminhtml\Model\Session' : '\Magento\Customer\Model\Session';
+            $this->_session =  \Mage::getSingleton($sessionClassPath);
         }
 
         return $this->_session;
@@ -104,9 +106,9 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Sets session instance to use for saving data
      *
-     * @param Magento_Core_Model_Session_Abstract $session
+     * @param \Magento\Core\Model\Session\AbstractSession $session
      */
-    public function setSession(Magento_Core_Model_Session_Abstract $session)
+    public function setSession(\Magento\Core\Model\Session\AbstractSession $session)
     {
         $this->_session = $session;
     }
@@ -174,8 +176,8 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isSkuEnabled()
     {
-        $storeData = Mage::getStoreConfig(self::XML_PATH_SKU_ENABLED);
-        return Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::NO_VALUE != $storeData;
+        $storeData = \Mage::getStoreConfig(self::XML_PATH_SKU_ENABLED);
+        return \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::NO_VALUE != $storeData;
     }
 
     /**
@@ -186,17 +188,17 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function isSkuApplied()
     {
         $result = false;
-        $data = Mage::getStoreConfig(self::XML_PATH_SKU_ENABLED);
+        $data = \Mage::getStoreConfig(self::XML_PATH_SKU_ENABLED);
         switch ($data) {
-            case Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::YES_VALUE:
+            case \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::YES_VALUE:
                 $result = true;
                 break;
-            case Magento_AdvancedCheckout_Model_Cart_Sku_Source_Settings::YES_SPECIFIED_GROUPS_VALUE:
-                /** @var $customerSession Magento_Customer_Model_Session */
-                $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+            case \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::YES_SPECIFIED_GROUPS_VALUE:
+                /** @var $customerSession \Magento\Customer\Model\Session */
+                $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
                 if ($customerSession) {
                     $groupId = $customerSession->getCustomerGroupId();
-                    $result = $groupId === Magento_Customer_Model_Group::NOT_LOGGED_IN_ID
+                    $result = $groupId === \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
                         || in_array($groupId, $this->getSkuCustomerGroups());
                 }
                 break;
@@ -212,7 +214,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function getSkuCustomerGroups()
     {
         if ($this->_allowedGroups === null) {
-            $this->_allowedGroups = explode(',', trim(Mage::getStoreConfig(self::XML_PATH_SKU_ALLOWED_GROUPS)));
+            $this->_allowedGroups = explode(',', trim(\Mage::getStoreConfig(self::XML_PATH_SKU_ALLOWED_GROUPS)));
         }
         return $this->_allowedGroups;
     }
@@ -226,12 +228,12 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     public function getFailedItems($all = true)
     {
         if ($all && is_null($this->_itemsAll) || !$all && is_null($this->_items)) {
-            $failedItems = Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart')->getFailedItems();
-            $collection = Mage::getResourceSingleton('Magento_AdvancedCheckout_Model_Resource_Product_Collection')
+            $failedItems = \Mage::getSingleton('Magento\AdvancedCheckout\Model\Cart')->getFailedItems();
+            $collection = \Mage::getResourceSingleton('\Magento\AdvancedCheckout\Model\Resource\Product\Collection')
                 ->addMinimalPrice()
                 ->addFinalPrice()
                 ->addTaxPercents()
-                ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
+                ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
                 ->addUrlRewrite();
             $itemsToLoad = array();
 
@@ -253,8 +255,8 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
                     // Create empty quote item. Otherwise it won't be correctly treated inside failed.phtml
-                    $collectionItem = Mage::getModel('Magento_Sales_Model_Quote_Item')
-                        ->setProduct(Mage::getModel('Magento_Catalog_Model_Product'))
+                    $collectionItem = \Mage::getModel('\Magento\Sales\Model\Quote\Item')
+                        ->setProduct(\Mage::getModel('\Magento\Catalog\Model\Product'))
                         ->addData($item['item']);
                     $quoteItemsCollection[] = $collectionItem;
                 }
@@ -263,10 +265,10 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
             if ($ids) {
                 $collection->addIdFilter($ids);
 
-                $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
-                $emptyQuoteItem = Mage::getModel('Magento_Sales_Model_Quote_Item');
+                $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+                $emptyQuoteItem = \Mage::getModel('\Magento\Sales\Model\Quote\Item');
 
-                /** @var $itemProduct Magento_Catalog_Model_Product */
+                /** @var $itemProduct \Magento\Catalog\Model\Product */
                 foreach ($collection->getItems() as $product) {
                     $itemsCount = count($itemsToLoad[$product->getId()]);
                     foreach ($itemsToLoad[$product->getId()] as $index => $itemToLoad) {
@@ -284,20 +286,20 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
                             ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
-                        if (Mage::helper('Magento_Catalog_Helper_Data')->canApplyMsrp($itemProduct)) {
+                        if (\Mage::helper('Magento\Catalog\Helper\Data')->canApplyMsrp($itemProduct)) {
                             $quoteItem->setCanApplyMsrp(true);
                             $itemProduct->setRealPriceHtml(
-                                Mage::app()->getStore()->formatPrice(Mage::app()->getStore()->convertPrice(
-                                    Mage::helper('Magento_Tax_Helper_Data')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
+                                \Mage::app()->getStore()->formatPrice(\Mage::app()->getStore()->convertPrice(
+                                    \Mage::helper('Magento\Tax\Helper\Data')->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
                                 ))
                             );
-                            $itemProduct->setAddToCartUrl(Mage::helper('Magento_Checkout_Helper_Cart')->getAddUrl($itemProduct));
+                            $itemProduct->setAddToCartUrl(\Mage::helper('Magento\Checkout\Helper\Cart')->getAddUrl($itemProduct));
                         } else {
                             $quoteItem->setCanApplyMsrp(false);
                         }
 
-                        /** @var $stockItem Magento_CatalogInventory_Model_Stock_Item */
-                        $stockItem = Mage::getModel('Magento_CatalogInventory_Model_Stock_Item');
+                        /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
+                        $stockItem = \Mage::getModel('\Magento\CatalogInventory\Model\Stock\Item');
                         $stockItem->assignProduct($itemProduct);
                         $quoteItem->setStockItem($stockItem);
 
@@ -328,25 +330,25 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Process SKU file uploading and get uploaded data
      *
-     * @param Magento_Core_Model_Session_Abstract|null $session
+     * @param \Magento\Core\Model\Session\AbstractSession|null $session
      * @return array|bool
      */
     public function processSkuFileUploading($session)
     {
-        /** @var $importModel Magento_AdvancedCheckout_Model_Import */
-        $importModel = Mage::getModel('Magento_AdvancedCheckout_Model_Import');
+        /** @var $importModel \Magento\AdvancedCheckout\Model\Import */
+        $importModel = \Mage::getModel('\Magento\AdvancedCheckout\Model\Import');
         try {
             $importModel->uploadFile();
             $rows = $importModel->getRows();
             if (empty($rows)) {
-                Mage::throwException(__('The file is empty.'));
+                \Mage::throwException(__('The file is empty.'));
             }
             return $rows;
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             if (!is_null($session)) {
                 $session->addError($e->getMessage());
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (!is_null($session)) {
                 $session->addException($e, $this->getFileGeneralErrorText());
             }
@@ -356,10 +358,10 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Check whether SKU file was uploaded
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @return bool
      */
-    public function isSkuFileUploaded(Magento_Core_Controller_Request_Http $request)
+    public function isSkuFileUploaded(\Magento\Core\Controller\Request\Http $request)
     {
         return (bool)$request->getPost(self::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG);
     }
@@ -371,7 +373,7 @@ class Magento_AdvancedCheckout_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getAccountSkuUrl()
     {
-        return Mage::getSingleton('Magento_Core_Model_Url')->getUrl('magento_advancedcheckout/sku');
+        return \Mage::getSingleton('Magento\Core\Model\Url')->getUrl('magento_advancedcheckout/sku');
     }
 
     /**

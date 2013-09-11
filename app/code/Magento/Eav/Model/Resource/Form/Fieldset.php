@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Form_Fieldset extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Eav\Model\Resource\Form;
+
+class Fieldset extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table
@@ -33,10 +35,10 @@ class Magento_Eav_Model_Resource_Form_Fieldset extends Magento_Core_Model_Resour
     /**
      * After save (save labels)
      *
-     * @param Magento_Eav_Model_Form_Fieldset $object
-     * @return Magento_Eav_Model_Resource_Form_Fieldset
+     * @param \Magento\Eav\Model\Form\Fieldset $object
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $object)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($object->hasLabels()) {
             $new        = $object->getLabels();
@@ -100,7 +102,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset extends Magento_Core_Model_Resour
     /**
      * Retrieve fieldset labels for stores
      *
-     * @param Magento_Eav_Model_Form_Fieldset $object
+     * @param \Magento\Eav\Model\Form\Fieldset $object
      * @return array
      */
     public function getLabels($object)
@@ -123,7 +125,7 @@ class Magento_Eav_Model_Resource_Form_Fieldset extends Magento_Core_Model_Resour
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Eav_Model_Form_Fieldset $object
+     * @param \Magento\Eav\Model\Form\Fieldset $object
      * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)

@@ -17,7 +17,7 @@ class Magento_Catalog_Model_Product_Type_ApiTest extends PHPUnit_Framework_TestC
      */
     public function testItems($class)
     {
-        /** @var $model Magento_Catalog_Model_Product_Type_Api */
+        /** @var $model \Magento\Catalog\Model\Product\Type\Api */
         $model = Mage::getModel($class);
         $result = $model->items();
         $this->assertInternalType('array', $result);
@@ -31,8 +31,8 @@ class Magento_Catalog_Model_Product_Type_ApiTest extends PHPUnit_Framework_TestC
     public function itemsDataProvider()
     {
         return array(
-            array('Magento_Catalog_Model_Product_Type_Api'),
-            array('Magento_Catalog_Model_Product_Type_Api_V2'), // a dummy class, doesn't require separate test suite
+            array('Magento\Catalog\Model\Product\Type\Api'),
+            array('Magento\Catalog\Model\Product\Type\Api\V2'), // a dummy class, doesn't require separate test suite
         );
     }
 }

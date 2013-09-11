@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Template
+namespace Magento\Backend\Block\Store;
+
+class Switcher extends \Magento\Backend\Block\Template
 {
     /**
      * Key in config for store switcher hint
@@ -57,47 +59,47 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
     /**
      * Application model
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_application;
 
     /**
      * Website factory
      *
-     * @var Magento_Core_Model_Website_Factory
+     * @var \Magento\Core\Model\Website\Factory
      */
     protected $_websiteFactory;
 
     /**
      * Store Group Factory
      *
-     * @var Magento_Core_Model_Store_Group_Factory
+     * @var \Magento\Core\Model\Store\Group\Factory
      */
     protected $_storeGroupFactory;
 
     /**
      * Store Factory
      *
-     * @var Magento_Core_Model_StoreFactory
+     * @var \Magento\Core\Model\StoreFactory
      */
     protected $_storeFactory;
 
     /**
      * Constructor
      *
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_Website_Factory $websiteFactory
-     * @param Magento_Core_Model_Store_Group_Factory $storeGroupFactory
-     * @param Magento_Core_Model_StoreFactory $storeFactory
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\Website\Factory $websiteFactory
+     * @param \Magento\Core\Model\Store\Group\Factory $storeGroupFactory
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
-        Magento_Core_Model_Website_Factory $websiteFactory,
-        Magento_Core_Model_Store_Group_Factory $storeGroupFactory,
-        Magento_Core_Model_StoreFactory $storeFactory,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Core\Model\Store\Group\Factory $storeGroupFactory,
+        \Magento\Core\Model\StoreFactory $storeFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -118,7 +120,7 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
     }
 
     /**
-     * @return Magento_Core_Model_Resource_Website_Collection
+     * @return \Magento\Core\Model\Resource\Website\Collection
      */
     public function getWebsiteCollection()
     {
@@ -151,12 +153,12 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
     }
 
     /**
-     * @param int|Magento_Core_Model_Website $website
-     * @return Magento_Core_Model_Resource_Store_Group_Collection
+     * @param int|\Magento\Core\Model\Website $website
+     * @return \Magento\Core\Model\Resource\Store\Group\Collection
      */
     public function getGroupCollection($website)
     {
-        if (!$website instanceof Magento_Core_Model_Website) {
+        if (!$website instanceof \Magento\Core\Model\Website) {
             $website = $this->_websiteFactory->create()->load($website);
         }
         return $website->getGroupCollection();
@@ -165,24 +167,24 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
     /**
      * Get store groups for specified website
      *
-     * @param Magento_Core_Model_Website|int $website
+     * @param \Magento\Core\Model\Website|int $website
      * @return array
      */
     public function getStoreGroups($website)
     {
-        if (!$website instanceof Magento_Core_Model_Website) {
+        if (!$website instanceof \Magento\Core\Model\Website) {
             $website = $this->_application->getWebsite($website);
         }
         return $website->getGroups();
     }
 
     /**
-     * @param Magento_Core_Model_Store_Group|int $group
-     * @return Magento_Core_Model_Resource_Store_Collection
+     * @param \Magento\Core\Model\Store\Group|int $group
+     * @return \Magento\Core\Model\Resource\Store\Collection
      */
     public function getStoreCollection($group)
     {
-        if (!$group instanceof Magento_Core_Model_Store_Group) {
+        if (!$group instanceof \Magento\Core\Model\Store\Group) {
             $group = $this->_storeGroupFactory->create()->load($group);
         }
         $stores = $group->getStoreCollection();
@@ -196,12 +198,12 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
     /**
      * Get store views for specified store group
      *
-     * @param Magento_Core_Model_Store_Group|int $group
+     * @param \Magento\Core\Model\Store\Group|int $group
      * @return array
      */
     public function getStores($group)
     {
-        if (!$group instanceof Magento_Core_Model_Store_Group) {
+        if (!$group instanceof \Magento\Core\Model\Store\Group) {
             $group = $this->_application->getGroup($group);
         }
         $stores = $group->getStores();
@@ -228,7 +230,7 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
 
     /**
      * @param string $varName
-     * @return Magento_Backend_Block_Store_Switcher
+     * @return \Magento\Backend\Block\Store\Switcher
      */
     public function setStoreVarName($varName)
     {
@@ -262,7 +264,7 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
 
     /**
      * @param array $storeIds
-     * @return Magento_Backend_Block_Store_Switcher
+     * @return \Magento\Backend\Block\Store\Switcher
      */
     public function setStoreIds($storeIds)
     {
@@ -319,7 +321,7 @@ class Magento_Backend_Block_Store_Switcher extends Magento_Backend_Block_Templat
     public function getHintUrl()
     {
         if (null === $this->_hintUrl) {
-            $this->_hintUrl = $this->helper('Magento_Core_Helper_Hint')->getHintByCode(self::XPATH_HINT_KEY);
+            $this->_hintUrl = $this->helper('\Magento\Core\Helper\Hint')->getHintByCode(self::XPATH_HINT_KEY);
         }
         return $this->_hintUrl;
     }

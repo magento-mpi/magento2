@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Sitemap
  */
-class Magento_Sitemap_Model_Source_Product_Image_Include
+namespace Magento\Sitemap\Model\Source\Product\Image;
+
+class Include
 {
     /**#@+
      * Add Images into Sitemap possible values

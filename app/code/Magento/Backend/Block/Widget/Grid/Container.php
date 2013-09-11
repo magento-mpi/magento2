@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Backend_Block_Widget_Grid_Container extends Magento_Backend_Block_Widget_Container
+namespace Magento\Backend\Block\Widget\Grid;
+
+class Container extends \Magento\Backend\Block\Widget\Container
 {
     /**#@+
      * Initialization parameters in pseudo-constructor

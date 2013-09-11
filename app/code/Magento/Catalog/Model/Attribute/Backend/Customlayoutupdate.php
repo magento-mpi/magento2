@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Catalog\Model\Attribute\Backend;
+
+class Customlayoutupdate extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
 
    /**
@@ -24,7 +26,7 @@ class Magento_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Magento
     * In case invalid data throws exception.
     *
     * @param \Magento\Object $object
-    * @throws Magento_Eav_Model_Entity_Attribute_Exception
+    * @throws \Magento\Eav\Model\Entity\Attribute\Exception
     */
     public function validate($object)
     {
@@ -35,13 +37,13 @@ class Magento_Catalog_Model_Attribute_Backend_Customlayoutupdate extends Magento
             return true;
         }
 
-        /** @var $validator Magento_Adminhtml_Model_LayoutUpdate_Validator */
-        $validator = Mage::getModel('Magento_Adminhtml_Model_LayoutUpdate_Validator');
+        /** @var $validator \Magento\Adminhtml\Model\LayoutUpdate\Validator */
+        $validator = \Mage::getModel('\Magento\Adminhtml\Model\LayoutUpdate\Validator');
         if (!$validator->isValid($xml)) {
             $messages = $validator->getMessages();
             //Add first message to exception
             $massage = array_shift($messages);
-            $eavExc = new Magento_Eav_Model_Entity_Attribute_Exception($massage);
+            $eavExc = new \Magento\Eav\Model\Entity\Attribute\Exception($massage);
             $eavExc->setAttributeCode($attributeName);
             throw $eavExc;
         }

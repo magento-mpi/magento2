@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Type\Configurable;
+
+class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Label table name cache
@@ -46,18 +48,18 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     /**
      * Retrieve Catalog Helper
      *
-     * @return Magento_Catalog_Helper_Data
+     * @return \Magento\Catalog\Helper\Data
      */
     public function getCatalogHelper()
     {
-        return Mage::helper('Magento_Catalog_Helper_Data');
+        return \Mage::helper('Magento\Catalog\Helper\Data');
     }
 
     /**
      * Save Custom labels for Attribute name
      *
-     * @param Magento_Catalog_Model_Product_Type_Configurable_Attribute $attribute
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute
+     * @param \Magento\Catalog\Model\Product\Type\Configurable\Attribute $attribute
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute
      */
     public function saveLabel($attribute)
     {
@@ -98,8 +100,8 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     /**
      * Save Options prices (Depends from price save scope)
      *
-     * @param Magento_Catalog_Model_Product_Type_Configurable_Attribute $attribute
-     * @return Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute
+     * @param \Magento\Catalog\Model\Product\Type\Configurable\Attribute $attribute
+     * @return \Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute
      */
     public function savePrices($attribute)
     {
@@ -108,7 +110,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
         if ($this->getCatalogHelper()->isPriceGlobal()) {
             $websiteId = 0;
         } else {
-            $websiteId = (int)Mage::app()->getStore($attribute->getStoreId())->getWebsite()->getId();
+            $websiteId = (int)\Mage::app()->getStore($attribute->getStoreId())->getWebsite()->getId();
         }
 
         $values     = $attribute->getValues();
@@ -256,7 +258,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
 
         $bind = array(
             'attribute_set_id' => $setId,
-            'type_id'          => Magento_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+            'type_id'          => \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
         );
 
         return $adapter->fetchCol($select, $bind);
@@ -265,7 +267,7 @@ class Magento_Catalog_Model_Resource_Product_Type_Configurable_Attribute extends
     /**
      * Get configurable attribute id by product id and attribute id
      *
-     * @param Magento_Catalog_Model_Product_Type_Configurable_Attribute $attribute
+     * @param \Magento\Catalog\Model\Product\Type\Configurable\Attribute $attribute
      * @param $productId
      * @param $attributeId
      *

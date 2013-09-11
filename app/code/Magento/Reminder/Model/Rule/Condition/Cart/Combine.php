@@ -11,19 +11,21 @@
 /**
  * Rule conditions container
  */
-class Magento_Reminder_Model_Rule_Condition_Cart_Combine
-    extends Magento_Reminder_Model_Condition_Combine_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+class Combine
+    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Initialize model
      *
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Combine');
+        $this->setType('\Magento\Reminder\Model\Rule\Condition\Cart\Combine');
     }
 
     /**
@@ -36,18 +38,18 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Combine
         return array_merge_recursive(
             parent::getNewChildSelectOptions(), array(
                 $this->_getRecursiveChildSelectOption(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Cart_Couponcode")
+                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Couponcode")
                         ->getNewChildSelectOptions(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Cart_Itemsquantity")
+                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Itemsquantity")
                         ->getNewChildSelectOptions(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Cart_Totalquantity")
+                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Totalquantity")
                         ->getNewChildSelectOptions(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Cart_Virtual")
+                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Virtual")
                         ->getNewChildSelectOptions(),
-                Mage::getModel("Magento_Reminder_Model_Rule_Condition_Cart_Amount")
+                \Mage::getModel("\Magento\Reminder\Model\Rule\Condition\Cart\Amount")
                         ->getNewChildSelectOptions(),
                 array( // subselection combo
-                    'value' => 'Magento_Reminder_Model_Rule_Condition_Cart_Subselection',
+                    'value' => '\Magento\Reminder\Model\Rule\Condition\Cart\Subselection',
                     'label' => __('Items Subselection')
                 )
             )

@@ -11,7 +11,7 @@
 class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ScheduledImportExport_Model_Scheduled_Operation
+     * @var \Magento\ScheduledImportExport\Model\Scheduled\Operation
      */
     protected $_model;
 
@@ -20,7 +20,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
      */
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_ScheduledImportExport_Model_Scheduled_Operation');
+        $this->_model = Mage::getModel('\Magento\ScheduledImportExport\Model\Scheduled\Operation');
     }
 
 
@@ -56,7 +56,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
     /**
      * Test getHistoryFilePath() method in case when file info is not set
      *
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetHistoryFilePathException()
     {
@@ -86,7 +86,7 @@ class Magento_ScheduledImportExport_Model_Scheduled_OperationTest extends PHPUni
 
         $this->_model->run();
 
-        $scheduledExport = Mage::getModel('Magento_ScheduledImportExport_Model_Export');
+        $scheduledExport = Mage::getModel('\Magento\ScheduledImportExport\Model\Export');
         $scheduledExport->setEntity($this->_model->getEntityType());
         $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());

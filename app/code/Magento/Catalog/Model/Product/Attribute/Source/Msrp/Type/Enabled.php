@@ -15,8 +15,10 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
-    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;
+
+class Enabled
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Enable MAP
@@ -73,7 +75,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
             'extra'     => null
         );
 
-        if (Mage::helper('Magento_Core_Helper_Data')->useDbCompatibleMode()) {
+        if (\Mage::helper('Magento\Core\Helper\Data')->useDbCompatibleMode()) {
             $column['type']     = 'tinyint(1)';
             $column['is_null']  = true;
         } else {
@@ -94,7 +96,7 @@ class Magento_Catalog_Model_Product_Attribute_Source_Msrp_Type_Enabled
      */
     public function getFlatUpdateSelect($store)
     {
-        return Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute')
+        return \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute')
             ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }

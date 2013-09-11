@@ -9,11 +9,13 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Dhl_Source_Method
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\Source;
+
+class Method
 {
     public function toOptionArray()
     {
-        $dhl = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Dhl');
+        $dhl = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Dhl');
         $arr = array();
         foreach ($dhl->getCode('service') as $k=>$v) {
             $arr[] = array('value'=>$k, 'label'=>$v);

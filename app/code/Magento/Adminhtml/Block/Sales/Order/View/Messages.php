@@ -15,12 +15,14 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Messages extends Magento_Adminhtml_Block_Messages
+namespace Magento\Adminhtml\Block\Sales\Order\View;
+
+class Messages extends \Magento\Adminhtml\Block\Messages
 {
 
     protected function _getOrder()
     {
-        return Mage::registry('sales_order');
+        return \Mage::registry('sales_order');
     }
 
     public function _prepareLayout()
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Block_Sales_Order_View_Messages extends Magento_Adminhtm
         /**
          * Check customer existing
          */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->_getOrder()->getCustomerId());
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($this->_getOrder()->getCustomerId());
 
         /**
          * Check Item products existing

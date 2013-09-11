@@ -14,7 +14,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Price extends Magento_Backend_Block_Widget_Grid_Column_Filter_Price
+namespace Magento\Adminhtml\Block\Widget\Grid\Column\Filter;
+
+class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Price
 {
 
 }

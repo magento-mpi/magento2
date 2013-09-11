@@ -12,37 +12,39 @@
 /**
  * ProductAlert for back in stock model
  *
- * @method Magento_ProductAlert_Model_Resource_Stock _getResource()
- * @method Magento_ProductAlert_Model_Resource_Stock getResource()
+ * @method \Magento\ProductAlert\Model\Resource\Stock _getResource()
+ * @method \Magento\ProductAlert\Model\Resource\Stock getResource()
  * @method int getCustomerId()
- * @method Magento_ProductAlert_Model_Stock setCustomerId(int $value)
+ * @method \Magento\ProductAlert\Model\Stock setCustomerId(int $value)
  * @method int getProductId()
- * @method Magento_ProductAlert_Model_Stock setProductId(int $value)
+ * @method \Magento\ProductAlert\Model\Stock setProductId(int $value)
  * @method int getWebsiteId()
- * @method Magento_ProductAlert_Model_Stock setWebsiteId(int $value)
+ * @method \Magento\ProductAlert\Model\Stock setWebsiteId(int $value)
  * @method string getAddDate()
- * @method Magento_ProductAlert_Model_Stock setAddDate(string $value)
+ * @method \Magento\ProductAlert\Model\Stock setAddDate(string $value)
  * @method string getSendDate()
- * @method Magento_ProductAlert_Model_Stock setSendDate(string $value)
+ * @method \Magento\ProductAlert\Model\Stock setSendDate(string $value)
  * @method int getSendCount()
- * @method Magento_ProductAlert_Model_Stock setSendCount(int $value)
+ * @method \Magento\ProductAlert\Model\Stock setSendCount(int $value)
  * @method int getStatus()
- * @method Magento_ProductAlert_Model_Stock setStatus(int $value)
+ * @method \Magento\ProductAlert\Model\Stock setStatus(int $value)
  *
  * @category    Magento
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Model_Stock extends Magento_Core_Model_Abstract
+namespace Magento\ProductAlert\Model;
+
+class Stock extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_ProductAlert_Model_Resource_Stock');
+        $this->_init('\Magento\ProductAlert\Model\Resource\Stock');
     }
 
     public function getCustomerCollection()
     {
-        return Mage::getResourceModel('Magento_ProductAlert_Model_Resource_Stock_Customer_Collection');
+        return \Mage::getResourceModel('\Magento\ProductAlert\Model\Resource\Stock\Customer\Collection');
     }
 
     public function loadByParam()

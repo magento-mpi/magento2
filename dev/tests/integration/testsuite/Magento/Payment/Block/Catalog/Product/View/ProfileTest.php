@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Payment_Block_Catalog_Product_View_Profile
+ * Test class for \Magento\Payment\Block\Catalog\Product\View\Profile
  */
 class Magento_Payment_Block_Catalog_Product_View_ProfileTest extends PHPUnit_Framework_TestCase
 {
@@ -19,19 +19,19 @@ class Magento_Payment_Block_Catalog_Product_View_ProfileTest extends PHPUnit_Fra
      */
     public function testGetDateHtml()
     {
-        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Catalog_Model_Product');
+        $product = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
         $product->setIsRecurring('1');
         $product->setRecurringProfile(array('start_date_is_editable' => true));
         Mage::register('current_product', $product);
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Payment_Block_Catalog_Product_View_Profile');
+            ->create('Magento\Payment\Block\Catalog\Product\View\Profile');
         $block->setLayout(Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Layout'));
+            ->create('Magento\Core\Model\Layout'));
 
         $html = $block->getDateHtml();
         $this->assertNotEmpty($html);
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = Mage::app()->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = Mage::app()->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);
         $this->assertContains('timeFormat: "' . $timeFormat . '",', $html);
     }

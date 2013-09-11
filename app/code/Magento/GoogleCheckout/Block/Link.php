@@ -15,11 +15,13 @@
  * @package    Magento_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleCheckout_Block_Link extends Magento_Core_Block_Template
+namespace Magento\GoogleCheckout\Block;
+
+class Link extends \Magento\Core\Block\Template
 {
     public function getImageStyle()
     {
-        $s = Mage::getStoreConfig('google/checkout/checkout_image');
+        $s = \Mage::getStoreConfig('google/checkout/checkout_image');
         if (!$s) {
             $s = '180/46/trans';
         }
@@ -60,9 +62,9 @@ class Magento_GoogleCheckout_Block_Link extends Magento_Core_Block_Template
      */
     public function _toHtml()
     {
-        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
-        if (Mage::getModel('Magento_GoogleCheckout_Model_Payment')->isAvailable($quote) && $quote->validateMinimumAmount()) {
-            Mage::dispatchEvent('googlecheckout_block_link_html_before', array('block' => $this));
+        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        if (\Mage::getModel('\Magento\GoogleCheckout\Model\Payment')->isAvailable($quote) && $quote->validateMinimumAmount()) {
+            \Mage::dispatchEvent('googlecheckout_block_link_html_before', array('block' => $this));
             return parent::_toHtml();
         }
         return '';
@@ -70,10 +72,10 @@ class Magento_GoogleCheckout_Block_Link extends Magento_Core_Block_Template
 
     public function getIsDisabled()
     {
-        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
-        /* @var $quote Magento_Sales_Model_Quote */
+        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
+        /* @var $quote \Magento\Sales\Model\Quote */
         foreach ($quote->getAllVisibleItems() as $item) {
-            /* @var $item Magento_Sales_Model_Quote_Item */
+            /* @var $item \Magento\Sales\Model\Quote\Item */
             if (!$item->getProduct()->getEnableGooglecheckout()) {
                 return true;
             }

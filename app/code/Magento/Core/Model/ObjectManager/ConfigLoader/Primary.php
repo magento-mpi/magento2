@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_ObjectManager_ConfigLoader_Primary
+namespace Magento\Core\Model\ObjectManager\ConfigLoader;
+
+class Primary
 {
     /**
      * Application mode
@@ -15,15 +17,15 @@ class Magento_Core_Model_ObjectManager_ConfigLoader_Primary
     protected $_appMode;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     /**
-     * @param Magento_Core_Model_Dir $dirs
+     * @param \Magento\Core\Model\Dir $dirs
      * @param string $appMode
      */
-    public function __construct(Magento_Core_Model_Dir $dirs, $appMode = Magento_Core_Model_App_State::MODE_DEFAULT)
+    public function __construct(\Magento\Core\Model\Dir $dirs, $appMode = \Magento\Core\Model\App\State::MODE_DEFAULT)
     {
         $this->_dirs = $dirs;
         $this->_appMode = $appMode;
@@ -37,10 +39,10 @@ class Magento_Core_Model_ObjectManager_ConfigLoader_Primary
     public function load()
     {
         $reader = new \Magento\ObjectManager\Config\Reader\Dom(
-            new Magento_Core_Model_Config_FileResolver_Primary($this->_dirs),
+            new \Magento\Core\Model\Config\FileResolver\Primary($this->_dirs),
             new \Magento\ObjectManager\Config\Mapper\Dom(),
             new \Magento\ObjectManager\Config\SchemaLocator(),
-            new Magento_Core_Model_Config_ValidationState(new Magento_Core_Model_App_State($this->_appMode))
+            new \Magento\Core\Model\Config\ValidationState(new \Magento\Core\Model\App\State($this->_appMode))
         );
 
         return $reader->read('primary');

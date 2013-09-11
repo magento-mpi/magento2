@@ -16,22 +16,24 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Router_Abstract
+namespace Magento\Cms\Controller;
+
+class Router extends \Magento\Core\Controller\Varien\Router\AbstractRouter
 {
     /**
      * Event manager
      *
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @param Magento_Core_Controller_Varien_Action_Factory $controllerFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Core\Controller\Varien\Action\Factory $controllerFactory
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      */
     public function __construct(
-        Magento_Core_Controller_Varien_Action_Factory $controllerFactory,
-        Magento_Core_Model_Event_Manager $eventManager
+        \Magento\Core\Controller\Varien\Action\Factory $controllerFactory,
+        \Magento\Core\Model\Event\Manager $eventManager
     ) {
         parent::__construct($controllerFactory);
 
@@ -41,16 +43,16 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
     /**
      * Validate and Match Cms Page and modify request
      *
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Controller\Request\Http $request
      * @return bool
      *
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public function match(Magento_Core_Controller_Request_Http $request)
+    public function match(\Magento\Core\Controller\Request\Http $request)
     {
-        if (!Mage::isInstalled()) {
-            Mage::app()->getFrontController()->getResponse()
-                ->setRedirect(Mage::getUrl('install'))
+        if (!\Mage::isInstalled()) {
+            \Mage::app()->getFrontController()->getResponse()
+                ->setRedirect(\Mage::getUrl('install'))
                 ->sendResponse();
             exit;
         }
@@ -68,11 +70,11 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
         $identifier = $condition->getIdentifier();
 
         if ($condition->getRedirectUrl()) {
-            Mage::getSingleton('Magento_Core_Controller_Response_Http')
+            \Mage::getSingleton('Magento\Core\Controller\Response\Http')
                 ->setRedirect($condition->getRedirectUrl())
                 ->sendResponse();
             $request->setDispatched(true);
-            return $this->_controllerFactory->createController('Magento_Core_Controller_Varien_Action_Redirect',
+            return $this->_controllerFactory->createController('\Magento\Core\Controller\Varien\Action\Redirect',
                 array('request' => $request)
             );
         }
@@ -81,8 +83,8 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
             return null;
         }
 
-        $page   = Mage::getModel('Magento_Cms_Model_Page');
-        $pageId = $page->checkIdentifier($identifier, Mage::app()->getStore()->getId());
+        $page   = \Mage::getModel('\Magento\Cms\Model\Page');
+        $pageId = $page->checkIdentifier($identifier, \Mage::app()->getStore()->getId());
         if (!$pageId) {
             return null;
         }
@@ -92,11 +94,11 @@ class Magento_Cms_Controller_Router extends Magento_Core_Controller_Varien_Route
             ->setActionName('view')
             ->setParam('page_id', $pageId);
         $request->setAlias(
-            Magento_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS,
+            \Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS,
             $identifier
         );
 
-        return $this->_controllerFactory->createController('Magento_Core_Controller_Varien_Action_Forward',
+        return $this->_controllerFactory->createController('\Magento\Core\Controller\Varien\Action\Forward',
             array('request' => $request)
         );
     }

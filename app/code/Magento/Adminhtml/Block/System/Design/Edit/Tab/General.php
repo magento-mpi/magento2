@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\System\Design\Edit\Tab;
+
+class General extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
      * Initialise form fields
      *
-     * @return Magento_Adminhtml_Block_System_Design_Edit_Tab_General
+     * @return \Magento\Adminhtml\Block\System\Design\Edit\Tab\General
      */
     protected function _prepareForm()
     {
@@ -23,26 +25,26 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Adm
             'legend' => __('General Settings'))
         );
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'label'    => __('Store'),
                 'title'    => __('Store'),
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm(),
+                'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm(),
                 'name'     => 'store_id',
                 'required' => true,
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         } else {
             $fieldset->addField('store_id', 'hidden', array(
                 'name'      => 'store_id',
-                'value'     => Mage::app()->getStore(true)->getId(),
+                'value'     => \Mage::app()->getStore(true)->getId(),
             ));
         }
 
-        /** @var $label Magento_Core_Model_Theme_Label */
-        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+        /** @var $label \Magento\Core\Model\Theme\Label */
+        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('design', 'select', array(
             'label'    => __('Custom Design'),
@@ -52,7 +54,7 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Adm
             'required' => true,
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('date_from', 'date', array(
             'label'    => __('Date From'),
             'title'    => __('Date From'),
@@ -70,9 +72,9 @@ class Magento_Adminhtml_Block_System_Design_Edit_Tab_General extends Magento_Adm
             //'required' => true,
         ));
 
-        $formData = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getDesignData(true);
+        $formData = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getDesignData(true);
         if (!$formData) {
-            $formData = Mage::registry('design')->getData();
+            $formData = \Mage::registry('design')->getData();
         } else {
             $formData = $formData['design'];
         }

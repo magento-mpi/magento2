@@ -16,17 +16,19 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
-    extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
+
+class Edit
+    extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Return current customer address attribute instance
      *
-     * @return Magento_Rma_Model_Item_Attribute
+     * @return \Magento\Rma\Model\Item\Attribute
      */
     protected function _getAttribute()
     {
-        return Mage::registry('entity_attribute');
+        return \Mage::registry('entity_attribute');
     }
 
     /**

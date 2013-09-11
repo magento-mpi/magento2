@@ -12,10 +12,10 @@
         <remove name="top.search"/>
         <reference name="footer_links">
             <action method="removeLinkByUrl">
-                <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getSearchTermUrl"/>
+                <argument name="url" xsi:type="helper" helper="\Magento\CatalogSearch\Helper\Data::getSearchTermUrl"/>
             </action>
             <action method="removeLinkByUrl">
-                <argument name="url" xsi:type="helper" helper="Magento_CatalogSearch_Helper_Data::getAdvancedSearchUrl"/>
+                <argument name="url" xsi:type="helper" helper="\Magento\CatalogSearch\Helper\Data::getAdvancedSearchUrl"/>
             </action>
         </reference>
     </handle>

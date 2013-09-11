@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $this Magento_Rma_Block_Email_Items */
+/** @var $this \Magento\Rma\Block\Email\Items */
 ?>
 <table cellspacing="0" cellpadding="0" border="0" width="650">
     <thead>
@@ -54,10 +54,10 @@
             <?php echo $this->escapeHtml($this->getOptionAttributeStringValue($item->getResolution())) ?>
         </td>
         <td valign="top" align="center" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted <?php echo $color?>">
-            <?php echo $this->helper('Magento_Rma_Helper_Data')->parseQuantity($item->getQtyRequested(), $item) ?>
+            <?php echo $this->helper('\Magento\Rma\Helper\Data')->parseQuantity($item->getQtyRequested(), $item) ?>
         </td>
         <td valign="top" align="center" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted <?php echo $color?>">
-            <?php echo $this->helper('Magento_Rma_Helper_Data')->getQty($item) ?>
+            <?php echo $this->helper('\Magento\Rma\Helper\Data')->getQty($item) ?>
         </td>
         <td valign="top" align="left" style="font-size:11px;padding:3px 9px;border-bottom:1px dotted <?php echo $color?>">
             <?php echo $this->escapeHtml($item->getStatusLabel()) ?>

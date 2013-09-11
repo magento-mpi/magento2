@@ -13,13 +13,15 @@
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
-    extends Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
+
+class Js
+    extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract
 {
     /**
      * Create a form element with necessary controls
      *
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js
      */
     protected function _prepareForm()
     {
@@ -33,7 +35,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
     /**
      * Set theme js fieldset
      *
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js
      */
     protected function _addThemeJsFieldset()
     {
@@ -42,9 +44,9 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
             'legend' => __('Theme Java Script'),
         ));
         $customization = $this->_getCurrentTheme()->getCustomization();
-        $customJsFiles = $customization->getFilesByType(Magento_Core_Model_Theme_Customization_File_Js::TYPE);
+        $customJsFiles = $customization->getFilesByType(\Magento\Core\Model\Theme\Customization\File\Js::TYPE);
 
-        /** @var $jsFieldsetRenderer Magento_Backend_Block_Widget_Form_Renderer_Fieldset */
+        /** @var $jsFieldsetRenderer \Magento\Backend\Block\Widget\Form\Renderer\Fieldset */
         $jsFieldsetRenderer = $this->getChildBlock('theme_edit_tabs_tab_js_tab_content');
         $jsFieldsetRenderer->setJsFiles($customization->generateFileInfo($customJsFiles));
 
@@ -78,7 +80,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
      */
     protected function _getAdditionalElementTypes()
     {
-        $fileElement = 'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File';
+        $fileElement = '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File';
         return array('js_files' => $fileElement);
     }
 

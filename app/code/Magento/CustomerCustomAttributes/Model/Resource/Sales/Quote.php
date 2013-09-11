@@ -16,14 +16,16 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Model_Resource_Sales_Quote extends Magento_CustomerCustomAttributes_Model_Resource_Sales_Abstract
+namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
+
+class Quote extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\AbstractSales
 {
     /**
      * Main entity resource model name
      *
      * @var string
      */
-    protected $_parentResourceModelName = 'Magento_Sales_Model_Resource_Quote';
+    protected $_parentResourceModelName = '\Magento\Sales\Model\Resource\Quote';
 
     /**
      * Initialize resource

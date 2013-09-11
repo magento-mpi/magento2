@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <type name="Magento_Core_Model_Page">
+    <type name="Magento\Core\Model\Page">
         <param name="assets">
-            <instance type="Magento_Page_Model_Asset_GroupedCollection" />
+            <instance type="Magento\Page\Model\Asset\GroupedCollection" />
         </param>
     </type>
-    <type name="Magento_Page_Model_Asset_GroupedCollection" shared="false" />
+    <type name="Magento\Page\Model\Asset\GroupedCollection" shared="false" />
 </config>

@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Backend_Model_Config_Source_Email_Identity implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Email;
+
+class Identity implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Email Identity options
@@ -21,14 +23,14 @@ class Magento_Backend_Model_Config_Source_Email_Identity implements Magento_Core
     /**
      * Configuration structure
      *
-     * @var Magento_Backend_Model_Config_Structure
+     * @var \Magento\Backend\Model\Config\Structure
      */
     protected $_configStructure;
 
     /**
-     * @param Magento_Backend_Model_Config_Structure $configStructure
+     * @param \Magento\Backend\Model\Config\Structure $configStructure
      */
-    public function __construct(Magento_Backend_Model_Config_Structure $configStructure)
+    public function __construct(\Magento\Backend\Model\Config\Structure $configStructure)
     {
         $this->_configStructure = $configStructure;
     }
@@ -42,10 +44,10 @@ class Magento_Backend_Model_Config_Source_Email_Identity implements Magento_Core
     {
         if (is_null($this->_options)) {
             $this->_options = array();
-            /** @var $section Magento_Backend_Model_Config_Structure_Element_Section */
+            /** @var $section \Magento\Backend\Model\Config\Structure\Element\Section */
             $section = $this->_configStructure->getElement('trans_email');
 
-            /** @var $group Magento_Backend_Model_Config_Structure_Element_Group */
+            /** @var $group \Magento\Backend\Model\Config\Structure\Element\Group */
             foreach ($section->getChildren() as $group) {
                 $this->_options[] = array(
                     'value' => preg_replace('#^ident_(.*)$#', '$1', $group->getId()),

@@ -17,7 +17,7 @@
  *
  * - relative_url: true, false
  * - type: 'link', 'skin', 'js', 'media'
- * - store: instanceof Magento_Core_Model_Store
+ * - store: instanceof \Magento\Core\Model\Store
  * - secure: true, false
  *
  * - scheme: 'http', 'https'
@@ -60,7 +60,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Model_UrlInterface
+namespace Magento\Core\Model;
+
+class Url extends \Magento\Object implements \Magento\Core\Model\UrlInterface
 {
     /**
      * Configuration data cache
@@ -90,7 +92,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     /**
      * Controller request object
      *
-     * @var Zend_Controller_Request_Http
+     * @var \Zend_Controller_Request_Http
      */
     protected $_request;
 
@@ -116,14 +118,14 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      */
     protected function _getDefaultUrlType()
     {
-        return Magento_Core_Model_Store::URL_TYPE_LINK;
+        return \Magento\Core\Model\Store::URL_TYPE_LINK;
     }
 
     /**
      * Initialize object data from retrieved url
      *
      * @param   string $url
-     * @return  Magento_Core_Model_Url
+     * @return  \Magento\Core\Model\Url
      */
     public function parseUrl($url)
     {
@@ -160,7 +162,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Set use_url_cache flag
      *
      * @param boolean $flag
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setUseUrlCache($flag)
     {
@@ -172,7 +174,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Set use session rule
      *
      * @param bool $useSession
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setUseSession($useSession)
     {
@@ -184,7 +186,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Set route front name
      *
      * @param string $name
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setRouteFrontName($name)
     {
@@ -200,7 +202,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     public function getUseSession()
     {
         if (is_null($this->_useSession)) {
-            $this->_useSession = Mage::app()->getUseSessionInUrl();
+            $this->_useSession = \Mage::app()->getUseSessionInUrl();
         }
         return $this->_useSession;
     }
@@ -241,10 +243,10 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     /**
      * Set request
      *
-     * @param Zend_Controller_Request_Http $request
-     * @return Magento_Core_Model_Url
+     * @param \Zend_Controller_Request_Http $request
+     * @return \Magento\Core\Model\Url
      */
-    public function setRequest(Zend_Controller_Request_Http $request)
+    public function setRequest(\Zend_Controller_Request_Http $request)
     {
         $this->_request = $request;
         return $this;
@@ -253,12 +255,12 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     /**
      * Zend request object
      *
-     * @return Magento_Core_Controller_Request_Http
+     * @return \Magento\Core\Controller\Request\Http
      */
     public function getRequest()
     {
         if (!$this->_request) {
-            $this->_request = Mage::app()->getRequest();
+            $this->_request = \Mage::app()->getRequest();
         }
         return $this->_request;
     }
@@ -297,8 +299,8 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
         }
 
         if (!$this->hasData('secure')) {
-            if ($this->getType() == Magento_Core_Model_Store::URL_TYPE_LINK && !$store->isAdmin()) {
-                $pathSecure = Mage::getConfig()->shouldUrlBeSecure('/' . $this->getActionPath());
+            if ($this->getType() == \Magento\Core\Model\Store::URL_TYPE_LINK && !$store->isAdmin()) {
+                $pathSecure = \Mage::getConfig()->shouldUrlBeSecure('/' . $this->getActionPath());
                 $this->setData('secure', $pathSecure);
             } else {
                 $this->setData('secure', true);
@@ -311,18 +313,18 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Set store entity
      *
      * @param mixed $params
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setStore($params)
     {
-        $this->setData('store', Mage::app()->getStore($params));
+        $this->setData('store', \Mage::app()->getStore($params));
         return $this;
     }
 
     /**
      * Get current store for the url instance
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -354,9 +356,9 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
         /**
          * Add availability support urls without store code
          */
-        if ($this->getType() == Magento_Core_Model_Store::URL_TYPE_LINK
+        if ($this->getType() == \Magento\Core\Model\Store::URL_TYPE_LINK
             && $this->getRequest()->isDirectAccessFrontendName($this->getRouteFrontName())) {
-            $this->setType(Magento_Core_Model_Store::URL_TYPE_DIRECT_LINK);
+            $this->setType(\Magento\Core\Model\Store::URL_TYPE_DIRECT_LINK);
         }
 
         $result =  $this->getStore()->getBaseUrl($this->getType(), $this->isSecure());
@@ -368,7 +370,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Set Route Parameters
      *
      * @param string $data
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setRoutePath($data)
     {
@@ -453,7 +455,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     public function getRoutePath($routeParams = array())
     {
         if (!$this->hasData('route_path')) {
-            $routePath = $this->getRequest()->getAlias(Magento_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS);
+            $routePath = $this->getRequest()->getAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);
             if (!empty($routeParams['_use_rewrite']) && ($routePath !== null)) {
                 $this->setData('route_path', $routePath);
                 return $routePath;
@@ -479,7 +481,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Set route name
      *
      * @param string $data
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setRouteName($data)
     {
@@ -503,7 +505,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     {
         if (!$this->hasData('route_front_name')) {
             $routeId = $this->getRouteName();
-            $router = Mage::app()->getFrontController()->getRouterList()->getRouterByRoute($routeId);
+            $router = \Mage::app()->getFrontController()->getRouterList()->getRouterByRoute($routeId);
             $frontName = $router->getFrontNameByRoute($routeId);
 
             $this->setRouteFrontName($frontName);
@@ -529,7 +531,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Reset action name and route path if has change
      *
      * @param string $data
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setControllerName($data)
     {
@@ -556,7 +558,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Reseted route path if action name has change
      *
      * @param string $data
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setActionName($data)
     {
@@ -583,7 +585,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      *
      * @param array $data
      * @param boolean $unsetOldParams
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setRouteParams(array $data, $unsetOldParams = true)
     {
@@ -643,8 +645,8 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
         }
 
         if (isset($data['_store_to_url']) && (bool)$data['_store_to_url'] === true) {
-            if (!Mage::getStoreConfig(Magento_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStore())
-                && !Mage::app()->hasSingleStore()
+            if (!\Mage::getStoreConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL, $this->getStore())
+                && !\Mage::app()->hasSingleStore()
             ) {
                 $this->setQueryParam('___store', $this->getStore()->getCode());
             }
@@ -673,7 +675,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      *
      * @param string $key
      * @param mixed $data
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setRouteParam($key, $data)
     {
@@ -731,16 +733,16 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     /**
      * If the host was switched but session cookie won't recognize it - add session id to query
      *
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function checkCookieDomains()
     {
         $hostArr = explode(':', $this->getRequest()->getServer('HTTP_HOST'));
         if ($hostArr[0] !== $this->getHost()) {
-            $session = Mage::getSingleton('Magento_Core_Model_Session');
+            $session = \Mage::getSingleton('Magento\Core\Model\Session');
             if (!$session->isValidForHost($this->getHost())) {
                 if (!self::$_encryptedSessionId) {
-                    $helper = Mage::helper('Magento_Core_Helper_Data');
+                    $helper = \Mage::helper('Magento\Core\Helper\Data');
                     if (!$helper) {
                         return $this;
                     }
@@ -755,14 +757,14 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     /**
      * Add session param
      *
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function addSessionParam()
     {
-        $session = Mage::getSingleton('Magento_Core_Model_Session');
+        $session = \Mage::getSingleton('Magento\Core\Model\Session');
 
         if (!self::$_encryptedSessionId) {
-            $helper = Mage::helper('Magento_Core_Helper_Data');
+            $helper = \Mage::helper('Magento\Core\Helper\Data');
             if (!$helper) {
                 return $this;
             }
@@ -776,7 +778,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Set URL query param(s)
      *
      * @param mixed $data
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setQuery($data)
     {
@@ -811,7 +813,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Set query Params as array
      *
      * @param array $data
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setQueryParams(array $data)
     {
@@ -836,7 +838,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     /**
      * Purge Query params array
      *
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function purgeQueryParams()
     {
@@ -869,7 +871,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      *
      * @param string $key
      * @param mixed $data
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setQueryParam($key, $data)
     {
@@ -900,7 +902,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * Set fragment to URL
      *
      * @param string $data
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     public function setFragment($data)
     {
@@ -999,7 +1001,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      *
      * @param string $url
      *
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     protected function _prepareSessionUrl($url)
     {
@@ -1012,17 +1014,17 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
      * @param string $url
      * @param array $params
      *
-     * @return Magento_Core_Model_Url
+     * @return \Magento\Core\Model\Url
      */
     protected function _prepareSessionUrlWithParams($url, array $params)
     {
         if (!$this->getUseSession()) {
             return $this;
         }
-        /** @var $session Magento_Core_Model_Session */
-        $session = Mage::getSingleton('Magento_Core_Model_Session');
+        /** @var $session \Magento\Core\Model\Session */
+        $session = \Mage::getSingleton('Magento\Core\Model\Session');
         $sessionId = $session->getSessionIdForHost($url);
-        if (Mage::app()->getUseSessionVar() && !$sessionId) {
+        if (\Mage::app()->getUseSessionVar() && !$sessionId) {
             $this->setQueryParam('___SID', $this->isSecure() ? 'S' : 'U'); // Secure/Unsecure
         } else if ($sessionId) {
             $this->setQueryParam($session->getSessionIdQueryParam(), $sessionId);
@@ -1112,8 +1114,8 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     {
         $key = 'use_session_id_for_url_' . (int) $secure;
         if (is_null($this->getData($key))) {
-            $httpHost = Mage::app()->getFrontController()->getRequest()->getHttpHost();
-            $urlHost = parse_url($this->getStore()->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_LINK, $secure),
+            $httpHost = \Mage::app()->getFrontController()->getRequest()->getHttpHost();
+            $urlHost = parse_url($this->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, $secure),
                 PHP_URL_HOST);
 
             if ($httpHost != $urlHost) {
@@ -1134,8 +1136,8 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     public function sessionVarCallback($match)
     {
         if ($this->useSessionIdForUrl($match[2] == 'S' ? true : false)) {
-            $session = Mage::getSingleton('Magento_Core_Model_Session');
-            /* @var $session Magento_Core_Model_Session */
+            $session = \Mage::getSingleton('Magento\Core\Model\Session');
+            /* @var $session \Magento\Core\Model\Session */
             return $match[1]
                 . $session->getSessionIdQueryParam()
                 . '=' . $session->getEncryptedSessionId()
@@ -1162,10 +1164,10 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     public function isOwnOriginUrl()
     {
         $storeDomains = array();
-        $referer = parse_url(Mage::app()->getRequest()->getServer('HTTP_REFERER'), PHP_URL_HOST);
-        foreach (Mage::app()->getStores() as $store) {
+        $referer = parse_url(\Mage::app()->getRequest()->getServer('HTTP_REFERER'), PHP_URL_HOST);
+        foreach (\Mage::app()->getStores() as $store) {
             $storeDomains[] = parse_url($store->getBaseUrl(), PHP_URL_HOST);
-            $storeDomains[] = parse_url($store->getBaseUrl(Magento_Core_Model_Store::URL_TYPE_LINK, true), PHP_URL_HOST);
+            $storeDomains[] = parse_url($store->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, true), PHP_URL_HOST);
         }
         $storeDomains = array_unique($storeDomains);
         if (empty($referer) || in_array($referer, $storeDomains)) {
@@ -1184,7 +1186,7 @@ class Magento_Core_Model_Url extends \Magento\Object implements Magento_Core_Mod
     public function getRedirectUrl($url)
     {
         $this->_prepareSessionUrlWithParams($url, array(
-            'name' => Magento_Core_Controller_Front_Action::SESSION_NAMESPACE
+            'name' => \Magento\Core\Controller\Front\Action::SESSION_NAMESPACE
         ));
 
         $query = $this->getQuery(false);

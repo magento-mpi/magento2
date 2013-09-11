@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_Api_Resource
+namespace Magento\Catalog\Model\Product\Attribute;
+
+class Api extends \Magento\Catalog\Model\Api\Resource
 {
     /**
      * @var \Magento\Cache\FrontendInterface
@@ -39,7 +41,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
         $this->_ignoredAttributeCodes[] = 'type_id';
         $this->_ignoredAttributeTypes[] = 'gallery';
         $this->_ignoredAttributeTypes[] = 'media_image';
-        $this->_entityTypeId = Mage::getModel('Magento_Eav_Model_Entity')->setType('catalog_product')->getTypeId();
+        $this->_entityTypeId = \Mage::getModel('\Magento\Eav\Model\Entity')->setType('catalog_product')->getTypeId();
     }
 
     /**
@@ -50,13 +52,13 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
      */
     public function items($setId)
     {
-        $attributes = Mage::getModel('Magento_Catalog_Model_Product')->getResource()
+        $attributes = \Mage::getModel('\Magento\Catalog\Model\Product')->getResource()
                 ->loadAllAttributes()
                 ->getSortedAttributes($setId);
         $result = array();
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if ((!$attribute->getId() || $attribute->isInSet($setId))
                     && $this->_isAllowedAttribute($attribute)) {
 
@@ -91,12 +93,12 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
     public function options($attributeId, $store = null)
     {
         $storeId = $this->_getStoreId($store);
-        $attribute = Mage::getModel('Magento_Catalog_Model_Product')
+        $attribute = \Mage::getModel('\Magento\Catalog\Model\Product')
                 ->setStoreId($storeId)
                 ->getResource()
                 ->getAttribute($attributeId);
 
-        /* @var $attribute Magento_Catalog_Model_Entity_Attribute */
+        /* @var $attribute \Magento\Catalog\Model\Entity\Attribute */
         if (!$attribute) {
             $this->_fault('not_exists');
         }
@@ -124,7 +126,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
      */
     public function types()
     {
-        return Mage::getModel('Magento_Catalog_Model_Product_Attribute_Source_Inputtype')->toOptionArray();
+        return \Mage::getModel('Magento_Catalog_Model_Product_Attribute_Source_Inputtype')->toOptionArray();
     }
 
     /**
@@ -135,10 +137,10 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
      */
     public function create($data)
     {
-        /** @var $model Magento_Catalog_Model_Resource_Eav_Attribute */
-        $model = Mage::getModel('Magento_Catalog_Model_Resource_Eav_Attribute');
-        /** @var $helper Magento_Catalog_Helper_Product */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product');
+        /** @var $model \Magento\Catalog\Model\Resource\Eav\Attribute */
+        $model = \Mage::getModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
+        /** @var $helper \Magento\Catalog\Helper\Product */
+        $helper = \Mage::helper('Magento\Catalog\Helper\Product');
 
         if (empty($data['attribute_code']) || !is_array($data['frontend_label'])) {
             $this->_fault('invalid_parameters');
@@ -173,7 +175,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
         try {
             $model->save();
             $this->_attributeLabelCache->clean();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('unable_to_save', $e->getMessage());
         }
 
@@ -206,7 +208,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
             $model->save();
             $this->_attributeLabelCache->clean();
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('unable_to_save', $e->getMessage());
         }
     }
@@ -228,7 +230,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
         try {
             $model->delete();
             return true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('can_not_delete', $e->getMessage());
         }
     }
@@ -356,8 +358,8 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
             $this->_fault('invalid_frontend_input');
         }
 
-        /** @var $helperCatalog Magento_Catalog_Helper_Data */
-        $helperCatalog = Mage::helper('Magento_Catalog_Helper_Data');
+        /** @var $helperCatalog \Magento\Catalog\Helper\Data */
+        $helperCatalog = \Mage::helper('Magento\Catalog\Helper\Data');
 
         $optionLabels = array();
         foreach ($data['label'] as $label) {
@@ -373,7 +375,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
         }
         // data in the following format is accepted by the model
         // it simulates parameters of the request made to
-        // Magento_Adminhtml_Controller_Catalog_Product_Attribute::saveAction()
+        // \Magento\Adminhtml\Controller\Catalog\Product\Attribute::saveAction()
         $modelData = array(
             'option' => array(
                 'value' => array(
@@ -391,7 +393,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
         $model->addData($modelData);
         try {
             $model->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('unable_to_add_option', $e->getMessage());
         }
 
@@ -415,7 +417,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
 
         // data in the following format is accepted by the model
         // it simulates parameters of the request made to
-        // Magento_Adminhtml_Controller_Catalog_Product_Attribute::saveAction()
+        // \Magento\Adminhtml\Controller\Catalog\Product\Attribute::saveAction()
         $modelData = array(
             'option' => array(
                 'value' => array(
@@ -429,7 +431,7 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
         $model->addData($modelData);
         try {
             $model->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('unable_to_remove_option', $e->getMessage());
         }
 
@@ -444,15 +446,15 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
      */
     protected function _prepareDataForSave(&$data)
     {
-        /** @var $helperCatalog Magento_Catalog_Helper_Data */
-        $helperCatalog = Mage::helper('Magento_Catalog_Helper_Data');
+        /** @var $helperCatalog \Magento\Catalog\Helper\Data */
+        $helperCatalog = \Mage::helper('Magento\Catalog\Helper\Data');
 
         if ($data['scope'] == 'global') {
-            $data['is_global'] = Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL;
+            $data['is_global'] = \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL;
         } else if ($data['scope'] == 'website') {
-            $data['is_global'] = Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE;
+            $data['is_global'] = \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE;
         } else {
-            $data['is_global'] = Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE;
+            $data['is_global'] = \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE;
         }
         if (!isset($data['is_configurable'])) {
             $data['is_configurable'] = 0;
@@ -491,11 +493,11 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
      * Load model by attribute ID or code
      *
      * @param integer|string $attribute
-     * @return Magento_Catalog_Model_Resource_Eav_Attribute
+     * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
     protected function _getAttribute($attribute)
     {
-        $model = Mage::getResourceModel('Magento_Catalog_Model_Resource_Eav_Attribute')
+        $model = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute')
             ->setEntityTypeId($this->_entityTypeId);
 
         if (is_numeric($attribute)) {
@@ -511,4 +513,4 @@ class Magento_Catalog_Model_Product_Attribute_Api extends Magento_Catalog_Model_
         return $model;
     }
 
-} // Class Magento_Catalog_Model_Product_Attribute_Api End
+} // Class \Magento\Catalog\Model\Product\Attribute\Api End

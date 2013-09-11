@@ -15,8 +15,10 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_System_Store_Edit_Form_Store
-    extends Magento_Adminhtml_Block_System_Store_Edit_FormAbstract
+namespace Magento\Adminhtml\Block\System\Store\Edit\Form;
+
+class Store
+    extends \Magento\Adminhtml\Block\System\Store\Edit\FormAbstract
 {
     /**
      * Prepare store specific fieldset
@@ -25,15 +27,15 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Store
      */
     protected function _prepareStoreFieldset(\Magento\Data\Form $form)
     {
-        $storeModel = Mage::registry('store_data');
-        if ($postData = Mage::registry('store_post_data')) {
+        $storeModel = \Mage::registry('store_data');
+        if ($postData = \Mage::registry('store_post_data')) {
             $storeModel->setData($postData['store']);
         }
         $fieldset = $form->addFieldset('store_fieldset', array(
             'legend' => __('Store View Information')
         ));
 
-        if (Mage::registry('store_action') == 'edit' || Mage::registry('store_action') == 'add' ) {
+        if (\Mage::registry('store_action') == 'edit' || \Mage::registry('store_action') == 'add' ) {
             $fieldset->addField('store_group_id', 'select', array(
                 'name'      => 'store[group_id]',
                 'label'     => __('Store'),
@@ -116,8 +118,8 @@ class Magento_Adminhtml_Block_System_Store_Edit_Form_Store
      */
     protected function _getStoreGroups()
     {
-        $websites = Mage::getModel('Magento_Core_Model_Website')->getCollection();
-        $allgroups = Mage::getModel('Magento_Core_Model_Store_Group')->getCollection();
+        $websites = \Mage::getModel('\Magento\Core\Model\Website')->getCollection();
+        $allgroups = \Mage::getModel('\Magento\Core\Model\Store\Group')->getCollection();
         $groups = array();
         foreach ($websites as $website) {
             $values = array();

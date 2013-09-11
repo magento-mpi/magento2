@@ -15,7 +15,9 @@
  * @package    Magento_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstract
+namespace Magento\Rss\Block\Catalog;
+
+class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
 {
     protected function _construct()
     {
@@ -25,7 +27,7 @@ class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstr
         $this->setCacheKey('rss_catalog_category_'
             . $this->getRequest()->getParam('cid') . '_'
             . $this->getRequest()->getParam('store_id') . '_'
-            . Mage::getModel('Magento_Customer_Model_Session')->getId()
+            . \Mage::getModel('\Magento\Customer\Model\Session')->getId()
         );
         $this->setCacheLifetime(600);
     }
@@ -34,11 +36,11 @@ class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstr
     {
         $categoryId = $this->getRequest()->getParam('cid');
         $storeId = $this->_getStoreId();
-        $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
+        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
         if ($categoryId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
             if ($category && $category->getId()) {
-                $layer = Mage::getSingleton('Magento_Catalog_Model_Layer')->setStore($storeId);
+                $layer = \Mage::getSingleton('Magento\Catalog\Model\Layer')->setStore($storeId);
                 //want to load all products no matter anchor or not
                 $category->setIsAnchor(true);
                 $newurl = $category->getUrl();
@@ -59,7 +61,7 @@ class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstr
                     ->addIdFilter($category->getChildren())
                     ->load()
                 ;
-                $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection();
+                $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection();
 
                 $currentCategory = $layer->setCurrentCategory($category);
                 $layer->prepareProductCollection($productCollection);
@@ -72,7 +74,7 @@ class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstr
                 $_productCollection = $currentCategory
                     ->getProductCollection()
                     ->addAttributeToSort('updated_at','desc')
-                    ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds())
+                    ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds())
                     ->setCurPage(1)
                     ->setPageSize(50)
                 ;
@@ -100,7 +102,7 @@ class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstr
         $product->setAllowedInRss(true);
         $product->setAllowedPriceInRss(true);
 
-        Mage::dispatchEvent('rss_catalog_category_xml_callback', $args);
+        \Mage::dispatchEvent('rss_catalog_category_xml_callback', $args);
 
         if (!$product->getAllowedInRss()) {
             return;
@@ -108,7 +110,7 @@ class Magento_Rss_Block_Catalog_Category extends Magento_Rss_Block_Catalog_Abstr
 
         $description = '<table><tr>'
                      . '<td><a href="'.$product->getProductUrl().'"><img src="'
-                     . $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail')->resize(75, 75)
+                     . $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail')->resize(75, 75)
                      . '" border="0" align="left" height="75" width="75"></a></td>'
                      . '<td  style="text-decoration:none;">' . $product->getDescription();
 

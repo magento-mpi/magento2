@@ -7,37 +7,39 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleoptimizer
-    extends Magento_Adminhtml_Block_Catalog_Form
+namespace Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Category\Edit\Tab;
+
+class Googleoptimizer
+    extends \Magento\Adminhtml\Block\Catalog\Form
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registry;
 
     /**
-     * @var Magento_GoogleOptimizer_Helper_Code
+     * @var \Magento\GoogleOptimizer\Helper\Code
      */
     protected $_codeHelper;
 
     /**
-     * @var Magento_GoogleOptimizer_Helper_Form
+     * @var \Magento\GoogleOptimizer\Helper\Form
      */
     protected $_formHelper;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_GoogleOptimizer_Helper_Code $codeHelper
-     * @param Magento_GoogleOptimizer_Helper_Form $formHelper
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
+     * @param \Magento\GoogleOptimizer\Helper\Form $formHelper
      * @param \Magento\Data\Form $form
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Registry $registry,
-        Magento_GoogleOptimizer_Helper_Code $codeHelper,
-        Magento_GoogleOptimizer_Helper_Form $formHelper,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\GoogleOptimizer\Helper\Code $codeHelper,
+        \Magento\GoogleOptimizer\Helper\Form $formHelper,
         \Magento\Data\Form $form,
         array $data = array()
     ) {
@@ -52,7 +54,7 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
@@ -63,8 +65,8 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
     /**
      * Get google experiment code model
      *
-     * @return Magento_GoogleOptimizer_Model_Code|null
-     * @throws RuntimeException
+     * @return \Magento\GoogleOptimizer\Model\Code|null
+     * @throws \RuntimeException
      */
     protected function _getGoogleExperiment()
     {
@@ -79,13 +81,13 @@ class Magento_GoogleOptimizer_Block_Adminhtml_Catalog_Category_Edit_Tab_Googleop
      * Get category model from registry
      *
      * @return mixed
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     protected function _getCategory()
     {
         $entity = $this->_registry->registry('current_category');
         if (!$entity) {
-            throw new RuntimeException('Entity is not found in registry.');
+            throw new \RuntimeException('Entity is not found in registry.');
         }
         return $entity;
     }

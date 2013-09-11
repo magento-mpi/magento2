@@ -11,19 +11,21 @@
 /**
  * Product view price and stock alerts
  */
-class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Template
+namespace Magento\ProductAlert\Block\Product;
+
+class View extends \Magento\Core\Block\Template
 {
     /**
      * Current product instance
      *
-     * @var null|Magento_Catalog_Model_Product
+     * @var null|\Magento\Catalog\Model\Product
      */
     protected $_product = null;
 
     /**
      * Helper instance
      *
-     * @var null|Magento_ProductAlert_Helper_Data
+     * @var null|\Magento\ProductAlert\Helper\Data
      */
     protected $_helper = null;
 
@@ -60,11 +62,11 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
     /**
      * Get current product instance
      *
-     * @return Magento_ProductAlert_Block_Product_View
+     * @return \Magento\ProductAlert\Block\Product\View
      */
     protected function _prepareLayout()
     {
-        $product = Mage::registry('current_product');
+        $product = \Mage::registry('current_product');
         if ($product && $product->getId()) {
             $this->_product = $product;
         }
@@ -75,12 +77,12 @@ class Magento_ProductAlert_Block_Product_View extends Magento_Core_Block_Templat
     /**
      * Retrieve helper instance
      *
-     * @return Magento_ProductAlert_Helper_Data|null
+     * @return \Magento\ProductAlert\Helper\Data|null
      */
     protected function _getHelper()
     {
         if (is_null($this->_helper)) {
-            $this->_helper = Mage::helper('Magento_ProductAlert_Helper_Data');
+            $this->_helper = \Mage::helper('Magento\ProductAlert\Helper\Data');
         }
         return $this->_helper;
     }

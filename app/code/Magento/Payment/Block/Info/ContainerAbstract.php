@@ -15,19 +15,21 @@
  * @package    Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Payment_Block_Info_ContainerAbstract extends Magento_Core_Block_Template
+namespace Magento\Payment\Block\Info;
+
+abstract class ContainerAbstract extends \Magento\Core\Block\Template
 {
     /**
      * Add payment info block to layout
      *
-     * @return Magento_Payment_Block_Info_ContainerAbstract
+     * @return \Magento\Payment\Block\Info\ContainerAbstract
      */
     protected function _prepareLayout()
     {
         if ($info = $this->getPaymentInfo()) {
             $this->setChild(
                 $this->_getInfoBlockName(),
-                Mage::helper('Magento_Payment_Helper_Data')->getInfoBlock($info)
+                \Mage::helper('Magento\Payment\Helper\Data')->getInfoBlock($info)
             );
         }
         return parent::_prepareLayout();
@@ -49,7 +51,7 @@ abstract class Magento_Payment_Block_Info_ContainerAbstract extends Magento_Core
     /**
      * Retrieve payment info model
      *
-     * @return Magento_Payment_Model_Info|false
+     * @return \Magento\Payment\Model\Info|false
      */
     abstract public function getPaymentInfo();
 
@@ -58,7 +60,7 @@ abstract class Magento_Payment_Block_Info_ContainerAbstract extends Magento_Core
      *
      * @param   string $method
      * @param   string $template
-     * @return  Magento_Payment_Block_Info_ContainerAbstract
+     * @return  \Magento\Payment\Block\Info\ContainerAbstract
      */
     public function setInfoTemplate($method='', $template='')
     {

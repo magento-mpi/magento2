@@ -12,48 +12,50 @@
 /**
  * Cms Page Model
  *
- * @method Magento_Cms_Model_Resource_Page _getResource()
- * @method Magento_Cms_Model_Resource_Page getResource()
+ * @method \Magento\Cms\Model\Resource\Page _getResource()
+ * @method \Magento\Cms\Model\Resource\Page getResource()
  * @method string getTitle()
- * @method Magento_Cms_Model_Page setTitle(string $value)
+ * @method \Magento\Cms\Model\Page setTitle(string $value)
  * @method string getRootTemplate()
- * @method Magento_Cms_Model_Page setRootTemplate(string $value)
+ * @method \Magento\Cms\Model\Page setRootTemplate(string $value)
  * @method string getMetaKeywords()
- * @method Magento_Cms_Model_Page setMetaKeywords(string $value)
+ * @method \Magento\Cms\Model\Page setMetaKeywords(string $value)
  * @method string getMetaDescription()
- * @method Magento_Cms_Model_Page setMetaDescription(string $value)
+ * @method \Magento\Cms\Model\Page setMetaDescription(string $value)
  * @method string getIdentifier()
- * @method Magento_Cms_Model_Page setIdentifier(string $value)
+ * @method \Magento\Cms\Model\Page setIdentifier(string $value)
  * @method string getContentHeading()
- * @method Magento_Cms_Model_Page setContentHeading(string $value)
+ * @method \Magento\Cms\Model\Page setContentHeading(string $value)
  * @method string getContent()
- * @method Magento_Cms_Model_Page setContent(string $value)
+ * @method \Magento\Cms\Model\Page setContent(string $value)
  * @method string getCreationTime()
- * @method Magento_Cms_Model_Page setCreationTime(string $value)
+ * @method \Magento\Cms\Model\Page setCreationTime(string $value)
  * @method string getUpdateTime()
- * @method Magento_Cms_Model_Page setUpdateTime(string $value)
+ * @method \Magento\Cms\Model\Page setUpdateTime(string $value)
  * @method int getIsActive()
- * @method Magento_Cms_Model_Page setIsActive(int $value)
+ * @method \Magento\Cms\Model\Page setIsActive(int $value)
  * @method int getSortOrder()
- * @method Magento_Cms_Model_Page setSortOrder(int $value)
+ * @method \Magento\Cms\Model\Page setSortOrder(int $value)
  * @method string getLayoutUpdateXml()
- * @method Magento_Cms_Model_Page setLayoutUpdateXml(string $value)
+ * @method \Magento\Cms\Model\Page setLayoutUpdateXml(string $value)
  * @method string getCustomTheme()
- * @method Magento_Cms_Model_Page setCustomTheme(string $value)
+ * @method \Magento\Cms\Model\Page setCustomTheme(string $value)
  * @method string getCustomRootTemplate()
- * @method Magento_Cms_Model_Page setCustomRootTemplate(string $value)
+ * @method \Magento\Cms\Model\Page setCustomRootTemplate(string $value)
  * @method string getCustomLayoutUpdateXml()
- * @method Magento_Cms_Model_Page setCustomLayoutUpdateXml(string $value)
+ * @method \Magento\Cms\Model\Page setCustomLayoutUpdateXml(string $value)
  * @method string getCustomThemeFrom()
- * @method Magento_Cms_Model_Page setCustomThemeFrom(string $value)
+ * @method \Magento\Cms\Model\Page setCustomThemeFrom(string $value)
  * @method string getCustomThemeTo()
- * @method Magento_Cms_Model_Page setCustomThemeTo(string $value)
+ * @method \Magento\Cms\Model\Page setCustomThemeTo(string $value)
  *
  * @category    Magento
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Page extends Magento_Core_Model_Abstract
+namespace Magento\Cms\Model;
+
+class Page extends \Magento\Core\Model\AbstractModel
 {
     const NOROUTE_PAGE_ID = 'no-route';
 
@@ -79,7 +81,7 @@ class Magento_Cms_Model_Page extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Cms_Model_Resource_Page');
+        $this->_init('\Magento\Cms\Model\Resource\Page');
     }
 
     /**
@@ -87,7 +89,7 @@ class Magento_Cms_Model_Page extends Magento_Core_Model_Abstract
      *
      * @param mixed $id
      * @param string $field
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function load($id, $field=null)
     {
@@ -100,7 +102,7 @@ class Magento_Cms_Model_Page extends Magento_Core_Model_Abstract
     /**
      * Load No-Route Page
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function noRoutePage()
     {
@@ -133,7 +135,7 @@ class Magento_Cms_Model_Page extends Magento_Core_Model_Abstract
             self::STATUS_DISABLED => __('Disabled'),
         ));
 
-        Mage::dispatchEvent('cms_page_get_available_statuses', array('statuses' => $statuses));
+        \Mage::dispatchEvent('cms_page_get_available_statuses', array('statuses' => $statuses));
 
         return $statuses->getData();
     }

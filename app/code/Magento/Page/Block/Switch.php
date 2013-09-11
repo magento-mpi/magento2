@@ -15,23 +15,25 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Switch extends Magento_Core_Block_Template
+namespace Magento\Page\Block;
+
+class Switch extends \Magento\Core\Block\Template
 {
     protected $_storeInUrl;
 
     /**
-     * @var Magento_Core_Model_StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Core_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManagerInterface $storeManager
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -40,23 +42,23 @@ class Magento_Page_Block_Switch extends Magento_Core_Block_Template
 
     public function getCurrentWebsiteId()
     {
-        return Mage::app()->getStore()->getWebsiteId();
+        return \Mage::app()->getStore()->getWebsiteId();
     }
 
     public function getCurrentGroupId()
     {
-        return Mage::app()->getStore()->getGroupId();
+        return \Mage::app()->getStore()->getGroupId();
     }
 
     public function getCurrentStoreId()
     {
-        return Mage::app()->getStore()->getId();
+        return \Mage::app()->getStore()->getId();
     }
 
     public function getRawGroups()
     {
         if (!$this->hasData('raw_groups')) {
-            $websiteGroups = Mage::app()->getWebsite()->getGroups();
+            $websiteGroups = \Mage::app()->getWebsite()->getGroups();
 
             $groups = array();
             foreach ($websiteGroups as $group) {
@@ -70,10 +72,10 @@ class Magento_Page_Block_Switch extends Magento_Core_Block_Template
     public function getRawStores()
     {
         if (!$this->hasData('raw_stores')) {
-            $websiteStores = Mage::app()->getWebsite()->getStores();
+            $websiteStores = \Mage::app()->getWebsite()->getStores();
             $stores = array();
             foreach ($websiteStores as $store) {
-                /* @var $store Magento_Core_Model_Store */
+                /* @var $store \Magento\Core\Model\Store */
                 if (!$store->getIsActive()) {
                     continue;
                 }
@@ -107,9 +109,9 @@ class Magento_Page_Block_Switch extends Magento_Core_Block_Template
             $rawStores = $this->getRawStores();
 
             $groups = array();
-            $localeCode = Mage::getStoreConfig('general/locale/code');
+            $localeCode = \Mage::getStoreConfig('general/locale/code');
             foreach ($rawGroups as $group) {
-                /* @var $group Magento_Core_Model_Store_Group */
+                /* @var $group \Magento\Core\Model\Store\Group */
                 if (!isset($rawStores[$group->getId()])) {
                     continue;
                 }
@@ -148,7 +150,7 @@ class Magento_Page_Block_Switch extends Magento_Core_Block_Template
 
     public function getCurrentStoreCode()
     {
-        return Mage::app()->getStore()->getCode();
+        return \Mage::app()->getStore()->getCode();
     }
 
     public function isStoreInUrl()

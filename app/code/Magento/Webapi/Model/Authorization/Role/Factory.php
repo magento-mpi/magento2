@@ -1,15 +1,17 @@
 <?php
 /**
- * Factory for Magento_Webapi_Model_Authorization_Role
+ * Factory for \Magento\Webapi\Model\Authorization\Role
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Authorization_Role_Factory
+namespace Magento\Webapi\Model\Authorization\Role;
+
+class Factory
 {
-    const ROLE_CLASS_NAME = 'Magento_Webapi_Model_Authorization_Role';
+    const ROLE_CLASS_NAME = '\Magento\Webapi\Model\Authorization\Role';
 
     /**
      * @var \Magento\ObjectManager
@@ -28,7 +30,7 @@ class Magento_Webapi_Model_Authorization_Role_Factory
      * Return new ACL role model.
      *
      * @param array $arguments
-     * @return Magento_Webapi_Model_Authorization_Role
+     * @return \Magento\Webapi\Model\Authorization\Role
      */
     public function createRole(array $arguments = array())
     {

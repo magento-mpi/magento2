@@ -9,18 +9,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Resource_Subscription extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Webhook\Model\Resource;
+
+class Subscription extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
-    /** @var  Magento_Core_Model_ConfigInterface $_coreConfig */
+    /** @var  \Magento\Core\Model\ConfigInterface $_coreConfig */
     private $_coreConfig;
 
     /**
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_ConfigInterface $config
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\ConfigInterface $config
      */
     public function __construct(
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_ConfigInterface $config
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\ConfigInterface $config
     ) {
         parent::__construct($resource);
         $this->_coreConfig = $config;
@@ -38,10 +40,10 @@ class Magento_Webhook_Model_Resource_Subscription extends Magento_Core_Model_Res
     /**
      * Perform actions after subscription load
      *
-     * @param Magento_Core_Model_Abstract $subscription
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $subscription
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $subscription)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $subscription)
     {
         $this->loadTopics($subscription);
         return parent::_afterLoad($subscription);
@@ -50,10 +52,10 @@ class Magento_Webhook_Model_Resource_Subscription extends Magento_Core_Model_Res
     /**
      * Perform actions after subscription save
      *
-     * @param Magento_Core_Model_Abstract $subscription
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $subscription
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $subscription)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $subscription)
     {
         $oldTopics = $this->_getTopics($subscription->getId());
         $this->_updateTopics($oldTopics, $subscription);
@@ -78,9 +80,9 @@ class Magento_Webhook_Model_Resource_Subscription extends Magento_Core_Model_Res
     /**
      * Load topics of given subscription
      *
-     * @param Magento_Core_Model_Abstract $subscription
+     * @param \Magento\Core\Model\AbstractModel $subscription
      */
-    public function loadTopics(Magento_Core_Model_Abstract $subscription)
+    public function loadTopics(\Magento\Core\Model\AbstractModel $subscription)
     {
         $subscription->setData('topics', $this->_getTopics($subscription->getId()));
     }
@@ -88,10 +90,10 @@ class Magento_Webhook_Model_Resource_Subscription extends Magento_Core_Model_Res
      * Updates list of topics for subscription
      *
      * @param array $oldTopics
-     * @param Magento_Core_Model_Abstract $subscription
-     * @return Magento_Webhook_Model_Resource_Subscription
+     * @param \Magento\Core\Model\AbstractModel $subscription
+     * @return \Magento\Webhook\Model\Resource\Subscription
      */
-    protected function _updateTopics($oldTopics, Magento_Core_Model_Abstract $subscription)
+    protected function _updateTopics($oldTopics, \Magento\Core\Model\AbstractModel $subscription)
     {
         $newTopics = $subscription->getData('topics');
         $supportedTopics = $this->_getSupportedTopics();
@@ -121,7 +123,7 @@ class Magento_Webhook_Model_Resource_Subscription extends Magento_Core_Model_Res
      */
     protected function _getSupportedTopics()
     {
-        $node = $this->_coreConfig->getNode(Magento_Webhook_Model_Source_Hook::XML_PATH_WEBHOOK);
+        $node = $this->_coreConfig->getNode(\Magento\Webhook\Model\Source\Hook::XML_PATH_WEBHOOK);
         $availableHooks = array();
         if (!$node) {
             return $availableHooks;

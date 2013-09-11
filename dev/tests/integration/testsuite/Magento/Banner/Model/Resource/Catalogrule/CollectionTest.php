@@ -13,12 +13,12 @@
 class Magento_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Banner_Model_Resource_Catalogrule_Collection
+     * @var \Magento\Banner\Model\Resource\Catalogrule\Collection
      */
     protected $_collection;
 
     /**
-     * @var Magento_Banner_Model_Banner
+     * @var \Magento\Banner\Model\Banner
      */
     protected $_banner;
 
@@ -30,12 +30,12 @@ class Magento_Banner_Model_Resource_Catalogrule_CollectionTest extends PHPUnit_F
     /**
      * @var int
      */
-    protected $_customerGroupId = Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
+    protected $_customerGroupId = \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Banner_Model_Resource_Catalogrule_Collection');
-        $this->_banner = Mage::getModel('Magento_Banner_Model_Banner');
+        $this->_collection = Mage::getResourceModel('\Magento\Banner\Model\Resource\Catalogrule\Collection');
+        $this->_banner = Mage::getModel('\Magento\Banner\Model\Banner');
         $this->_banner->load('Test Banner', 'name');
     }
 

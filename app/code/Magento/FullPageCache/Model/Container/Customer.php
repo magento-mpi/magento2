@@ -11,7 +11,9 @@
 /**
  * Container for cache lifetime equated with session lifetime
  */
-class Magento_FullPageCache_Model_Container_Customer extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
      * Save data to cache storage and set cache lifetime equal with default cookie lifetime
@@ -22,7 +24,7 @@ class Magento_FullPageCache_Model_Container_Customer extends Magento_FullPageCac
      */
     protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {
-        $lifetime = Mage::getConfig()->getValue(Magento_Core_Model_Cookie::XML_PATH_COOKIE_LIFETIME, 'default');
+        $lifetime = \Mage::getConfig()->getValue(\Magento\Core\Model\Cookie::XML_PATH_COOKIE_LIFETIME, 'default');
         return parent::_saveCache($data, $id, $tags, $lifetime);
     }
 }

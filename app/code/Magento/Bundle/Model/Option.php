@@ -11,27 +11,29 @@
 /**
  * Bundle Option Model
  *
- * @method Magento_Bundle_Model_Resource_Option _getResource()
- * @method Magento_Bundle_Model_Resource_Option getResource()
+ * @method \Magento\Bundle\Model\Resource\Option _getResource()
+ * @method \Magento\Bundle\Model\Resource\Option getResource()
  * @method int getParentId()
- * @method Magento_Bundle_Model_Option setParentId(int $value)
+ * @method \Magento\Bundle\Model\Option setParentId(int $value)
  * @method int getRequired()
- * @method Magento_Bundle_Model_Option setRequired(int $value)
+ * @method \Magento\Bundle\Model\Option setRequired(int $value)
  * @method int getPosition()
- * @method Magento_Bundle_Model_Option setPosition(int $value)
+ * @method \Magento\Bundle\Model\Option setPosition(int $value)
  * @method string getType()
- * @method Magento_Bundle_Model_Option setType(string $value)
+ * @method \Magento\Bundle\Model\Option setType(string $value)
  *
  * @category    Magento
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Option extends Magento_Core_Model_Abstract
+namespace Magento\Bundle\Model;
+
+class Option extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Default selection object
      *
-     * @var Magento_Bundle_Model_Selection
+     * @var \Magento\Bundle\Model\Selection
      */
     protected $_defaultSelection = null;
 
@@ -41,15 +43,15 @@ class Magento_Bundle_Model_Option extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Bundle_Model_Resource_Option');
+        $this->_init('\Magento\Bundle\Model\Resource\Option');
         parent::_construct();
     }
 
     /**
      * Add selection to option
      *
-     * @param Magento_Bundle_Model_Selection $selection
-     * @return Magento_Bundle_Model_Option
+     * @param \Magento\Bundle\Model\Selection $selection
+     * @return \Magento\Bundle\Model\Option
      */
     public function addSelection($selection)
     {
@@ -88,7 +90,7 @@ class Magento_Bundle_Model_Option extends Magento_Core_Model_Abstract
     /**
      * Retrieve default Selection object
      *
-     * @return Magento_Bundle_Model_Selection
+     * @return \Magento\Bundle\Model\Selection
      */
     public function getDefaultSelection()
     {
@@ -150,7 +152,7 @@ class Magento_Bundle_Model_Option extends Magento_Core_Model_Abstract
      * Return selection by it's id
      *
      * @param int $selectionId
-     * @return Magento_Bundle_Model_Selection
+     * @return \Magento\Bundle\Model\Selection
      */
     public function getSelectionById($selectionId)
     {

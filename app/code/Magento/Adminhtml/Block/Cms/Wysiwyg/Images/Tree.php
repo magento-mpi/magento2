@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Cms\Wysiwyg\Images;
+
+class Tree extends \Magento\Adminhtml\Block\Template
 {
 
     /**
@@ -25,10 +27,10 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
      */
     public function getTreeJson()
     {
-        /** @var Magento_Cms_Helper_Wysiwyg_Images $helper */
-        $helper = Mage::helper('Magento_Cms_Helper_Wysiwyg_Images');
+        /** @var \Magento\Cms\Helper\Wysiwyg\Images $helper */
+        $helper = \Mage::helper('Magento\Cms\Helper\Wysiwyg\Images');
         $storageRoot = $helper->getStorageRoot();
-        $collection = Mage::registry('storage')->getDirsCollection($helper->getCurrentPath());
+        $collection = \Mage::registry('storage')->getDirsCollection($helper->getCurrentPath());
         $jsonArray = array();
         foreach ($collection as $item) {
             $jsonArray[] = array(
@@ -38,7 +40,7 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
                 'cls'   => 'folder'
             );
         }
-        return Zend_Json::encode($jsonArray);
+        return \Zend_Json::encode($jsonArray);
     }
 
     /**
@@ -69,8 +71,8 @@ class Magento_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Magento_Adminhtml_
     public function getTreeCurrentPath()
     {
         $treePath = array('root');
-        if ($path = Mage::registry('storage')->getSession()->getCurrentPath()) {
-            $helper = Mage::helper('Magento_Cms_Helper_Wysiwyg_Images');
+        if ($path = \Mage::registry('storage')->getSession()->getCurrentPath()) {
+            $helper = \Mage::helper('Magento\Cms\Helper\Wysiwyg\Images');
             $path = str_replace($helper->getStorageRoot(), '', $path);
             $relative = array();
             foreach (explode(DIRECTORY_SEPARATOR, $path) as $dirName) {

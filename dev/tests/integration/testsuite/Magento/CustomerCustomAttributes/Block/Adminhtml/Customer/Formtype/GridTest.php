@@ -16,12 +16,12 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_GridTes
 {
     public function testPrepareColumns()
     {
-        /** @var Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid $block */
+        /** @var \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid $block */
         $block = Mage::app()->getLayout()->createBlock(
-            'Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype_Grid');
+            '\Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid');
         $block->toHtml();
         foreach (array('code', 'label', 'store_id', 'theme', 'is_system') as $key) {
-            $this->assertInstanceOf('Magento_Backend_Block_Widget_Grid_Column', $block->getColumn($key));
+            $this->assertInstanceOf('\Magento\Backend\Block\Widget\Grid\Column', $block->getColumn($key));
         }
         $this->assertNotEmpty($block->getColumn('theme')->getOptions());
     }

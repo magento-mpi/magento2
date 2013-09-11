@@ -15,9 +15,11 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Resource
+namespace Magento\Sales\Model\Order\Shipment;
+
+class Api extends \Magento\Sales\Model\Api\Resource
 {
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
+    public function __construct(\Magento\Api\Helper\Data $apiHelper)
     {
         parent::__construct($apiHelper);
         $this->_attributesMap['shipment'] = array('shipment_id' => 'entity_id');
@@ -39,7 +41,7 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
     {
         $shipments = array();
         //TODO: add full name logic
-        $shipmentCollection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Shipment_Collection')
+        $shipmentCollection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Shipment\Collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('total_qty')
@@ -49,14 +51,14 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
             ->joinAttribute('order_increment_id', 'order/increment_id', 'order_id', null, 'left')
             ->joinAttribute('order_created_at', 'order/created_at', 'order_id', null, 'left');
 
-        /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        /** @var $apiHelper \Magento\Api\Helper\Data */
+        $apiHelper = \Mage::helper('Magento\Api\Helper\Data');
         try {
             $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['shipment']);
             foreach ($filters as $field => $value) {
                 $shipmentCollection->addFieldToFilter($field, $value);
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('filters_invalid', $e->getMessage());
         }
         foreach ($shipmentCollection as $shipment) {
@@ -74,9 +76,9 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
      */
     public function info($shipmentIncrementId)
     {
-        $shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
 
-        /* @var $shipment Magento_Sales_Model_Order_Shipment */
+        /* @var $shipment \Magento\Sales\Model\Order\Shipment */
 
         if (!$shipment->getId()) {
             $this->_fault('not_exists');
@@ -113,9 +115,9 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
      */
     public function addTrack($shipmentIncrementId, $carrier, $title, $trackNumber)
     {
-        $shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
 
-        /* @var $shipment Magento_Sales_Model_Order_Shipment */
+        /* @var $shipment \Magento\Sales\Model\Order\Shipment */
 
         if (!$shipment->getId()) {
             $this->_fault('not_exists');
@@ -127,7 +129,7 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
             $this->_fault('data_invalid', __('We don\'t recognize the carrier you selected.'));
         }
 
-        $track = Mage::getModel('Magento_Sales_Model_Order_Shipment_Track')
+        $track = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Track')
                     ->setNumber($trackNumber)
                     ->setCarrierCode($carrier)
                     ->setTitle($title);
@@ -137,7 +139,7 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
         try {
             $shipment->save();
             $track->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -153,9 +155,9 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
      */
     public function removeTrack($shipmentIncrementId, $trackId)
     {
-        $shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
 
-        /* @var $shipment Magento_Sales_Model_Order_Shipment */
+        /* @var $shipment \Magento\Sales\Model\Order\Shipment */
 
         if (!$shipment->getId()) {
             $this->_fault('not_exists');
@@ -167,7 +169,7 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
 
         try {
             $track->delete();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('track_not_deleted', $e->getMessage());
         }
 
@@ -183,8 +185,8 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
      */
     public function sendInfo($shipmentIncrementId, $comment = '')
     {
-        /* @var $shipment Magento_Sales_Model_Order_Shipment */
-        $shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
+        /* @var $shipment \Magento\Sales\Model\Order\Shipment */
+        $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
 
         if (!$shipment->getId()) {
             $this->_fault('not_exists');
@@ -194,13 +196,13 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
             $shipment->sendEmail(true, $comment)
                 ->setEmailSent(true)
                 ->save();
-            $historyItem = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_History_Collection')
-                ->getUnnotifiedForInstance($shipment, Magento_Sales_Model_Order_Shipment::HISTORY_ENTITY_NAME);
+            $historyItem = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\History\Collection')
+                ->getUnnotifiedForInstance($shipment, \Magento\Sales\Model\Order\Shipment::HISTORY_ENTITY_NAME);
             if ($historyItem) {
                 $historyItem->setIsCustomerNotified(1);
                 $historyItem->save();
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -218,9 +220,9 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
      */
     public function addComment($shipmentIncrementId, $comment, $email = false, $includeInEmail = false)
     {
-        $shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->loadByIncrementId($shipmentIncrementId);
+        $shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->loadByIncrementId($shipmentIncrementId);
 
-        /* @var $shipment Magento_Sales_Model_Order_Shipment */
+        /* @var $shipment \Magento\Sales\Model\Order\Shipment */
 
         if (!$shipment->getId()) {
             $this->_fault('not_exists');
@@ -231,7 +233,7 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
             $shipment->addComment($comment, $email);
             $shipment->sendUpdateEmail($email, ($includeInEmail ? $comment : ''));
             $shipment->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -246,7 +248,7 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
      */
     public function getCarriers($orderIncrementId)
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
+        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
 
         /**
           * Check order existing
@@ -261,13 +263,13 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
     /**
      * Retrieve shipping carriers for specified order
      *
-     * @param Magento_Eav_Model_Entity_Abstract $object
+     * @param \Magento\Eav\Model\Entity\AbstractEntity $object
      * @return array
      */
     protected function _getCarriers($object)
     {
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('Magento_Shipping_Model_Config')->getAllCarriers(
+        $carrierInstances = \Mage::getSingleton('Magento\Shipping\Model\Config')->getAllCarriers(
             $object->getStoreId()
         );
 
@@ -281,4 +283,4 @@ class Magento_Sales_Model_Order_Shipment_Api extends Magento_Sales_Model_Api_Res
         return $carriers;
     }
 
-} // Class Magento_Sales_Model_Order_Shipment_Api End
+} // Class \Magento\Sales\Model\Order\Shipment\Api End

@@ -15,13 +15,15 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Newsletter_Queue_Preview_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Newsletter\Queue\Preview;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
      * Preparing from for revision page
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {

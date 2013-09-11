@@ -12,103 +12,105 @@
 /**
  * Order creditmemo model
  *
- * @method Magento_Sales_Model_Resource_Order_Creditmemo _getResource()
- * @method Magento_Sales_Model_Resource_Order_Creditmemo getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Creditmemo _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Creditmemo getResource()
  * @method int getStoreId()
- * @method Magento_Sales_Model_Order_Creditmemo setStoreId(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setStoreId(int $value)
  * @method float getAdjustmentPositive()
  * @method float getBaseShippingTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseShippingTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseShippingTaxAmount(float $value)
  * @method float getStoreToOrderRate()
- * @method Magento_Sales_Model_Order_Creditmemo setStoreToOrderRate(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setStoreToOrderRate(float $value)
  * @method float getBaseDiscountAmount()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseDiscountAmount(float $value)
  * @method float getBaseToOrderRate()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseToOrderRate(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseToOrderRate(float $value)
  * @method float getGrandTotal()
- * @method Magento_Sales_Model_Order_Creditmemo setGrandTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setGrandTotal(float $value)
  * @method float getBaseAdjustmentNegative()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseAdjustmentNegative(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseAdjustmentNegative(float $value)
  * @method float getBaseSubtotalInclTax()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseSubtotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseSubtotalInclTax(float $value)
  * @method float getShippingAmount()
  * @method float getSubtotalInclTax()
- * @method Magento_Sales_Model_Order_Creditmemo setSubtotalInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setSubtotalInclTax(float $value)
  * @method float getAdjustmentNegative()
  * @method float getBaseShippingAmount()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseShippingAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseShippingAmount(float $value)
  * @method float getStoreToBaseRate()
- * @method Magento_Sales_Model_Order_Creditmemo setStoreToBaseRate(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setStoreToBaseRate(float $value)
  * @method float getBaseToGlobalRate()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseToGlobalRate(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseToGlobalRate(float $value)
  * @method float getBaseAdjustment()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseAdjustment(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseAdjustment(float $value)
  * @method float getBaseSubtotal()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseSubtotal(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseSubtotal(float $value)
  * @method float getDiscountAmount()
- * @method Magento_Sales_Model_Order_Creditmemo setDiscountAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setDiscountAmount(float $value)
  * @method float getSubtotal()
- * @method Magento_Sales_Model_Order_Creditmemo setSubtotal(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setSubtotal(float $value)
  * @method float getAdjustment()
- * @method Magento_Sales_Model_Order_Creditmemo setAdjustment(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setAdjustment(float $value)
  * @method float getBaseGrandTotal()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseGrandTotal(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseGrandTotal(float $value)
  * @method float getBaseAdjustmentPositive()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseAdjustmentPositive(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseAdjustmentPositive(float $value)
  * @method float getBaseTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseTaxAmount(float $value)
  * @method float getShippingTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo setShippingTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setShippingTaxAmount(float $value)
  * @method float getTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo setTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setTaxAmount(float $value)
  * @method int getOrderId()
- * @method Magento_Sales_Model_Order_Creditmemo setOrderId(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setOrderId(int $value)
  * @method int getEmailSent()
- * @method Magento_Sales_Model_Order_Creditmemo setEmailSent(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setEmailSent(int $value)
  * @method int getCreditmemoStatus()
- * @method Magento_Sales_Model_Order_Creditmemo setCreditmemoStatus(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setCreditmemoStatus(int $value)
  * @method int getState()
- * @method Magento_Sales_Model_Order_Creditmemo setState(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setState(int $value)
  * @method int getShippingAddressId()
- * @method Magento_Sales_Model_Order_Creditmemo setShippingAddressId(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setShippingAddressId(int $value)
  * @method int getBillingAddressId()
- * @method Magento_Sales_Model_Order_Creditmemo setBillingAddressId(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBillingAddressId(int $value)
  * @method int getInvoiceId()
- * @method Magento_Sales_Model_Order_Creditmemo setInvoiceId(int $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setInvoiceId(int $value)
  * @method string getStoreCurrencyCode()
- * @method Magento_Sales_Model_Order_Creditmemo setStoreCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setStoreCurrencyCode(string $value)
  * @method string getOrderCurrencyCode()
- * @method Magento_Sales_Model_Order_Creditmemo setOrderCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setOrderCurrencyCode(string $value)
  * @method string getBaseCurrencyCode()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseCurrencyCode(string $value)
  * @method string getGlobalCurrencyCode()
- * @method Magento_Sales_Model_Order_Creditmemo setGlobalCurrencyCode(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setGlobalCurrencyCode(string $value)
  * @method string getTransactionId()
- * @method Magento_Sales_Model_Order_Creditmemo setTransactionId(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setTransactionId(string $value)
  * @method string getIncrementId()
- * @method Magento_Sales_Model_Order_Creditmemo setIncrementId(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setIncrementId(string $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Order_Creditmemo setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Sales_Model_Order_Creditmemo setUpdatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setUpdatedAt(string $value)
  * @method float getHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo setHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setHiddenTaxAmount(float $value)
  * @method float getBaseHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseHiddenTaxAmount(float $value)
  * @method float getShippingHiddenTaxAmount()
- * @method Magento_Sales_Model_Order_Creditmemo setShippingHiddenTaxAmount(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setShippingHiddenTaxAmount(float $value)
  * @method float getBaseShippingHiddenTaxAmnt()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseShippingHiddenTaxAmnt(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseShippingHiddenTaxAmnt(float $value)
  * @method float getShippingInclTax()
- * @method Magento_Sales_Model_Order_Creditmemo setShippingInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setShippingInclTax(float $value)
  * @method float getBaseShippingInclTax()
- * @method Magento_Sales_Model_Order_Creditmemo setBaseShippingInclTax(float $value)
+ * @method \Magento\Sales\Model\Order\Creditmemo setBaseShippingInclTax(float $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
+namespace Magento\Sales\Model\Order;
+
+class Creditmemo extends \Magento\Sales\Model\AbstractModel
 {
     const STATE_OPEN        = 1;
     const STATE_REFUNDED    = 2;
@@ -157,23 +159,23 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Creditmemo');
+        $this->_init('\Magento\Sales\Model\Resource\Order\Creditmemo');
     }
 
     /**
      * Retrieve Creditmemo configuration model
      *
-     * @return Magento_Sales_Model_Order_Creditmemo_Config
+     * @return \Magento\Sales\Model\Order\Creditmemo\Config
      */
     public function getConfig()
     {
-        return Mage::getSingleton('Magento_Sales_Model_Order_Creditmemo_Config');
+        return \Mage::getSingleton('Magento\Sales\Model\Order\Creditmemo\Config');
     }
 
     /**
      * Retrieve creditmemo store instance
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -183,10 +185,10 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     /**
      * Declare order for creditmemo
      *
-     * @param   Magento_Sales_Model_Order $order
-     * @return  Magento_Sales_Model_Order_Creditmemo
+     * @param   \Magento\Sales\Model\Order $order
+     * @return  \Magento\Sales\Model\Order\Creditmemo
      */
-    public function setOrder(Magento_Sales_Model_Order $order)
+    public function setOrder(\Magento\Sales\Model\Order $order)
     {
         $this->_order = $order;
         $this->setOrderId($order->getId())
@@ -197,12 +199,12 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     /**
      * Retrieve the order the creditmemo for created for
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        if (!$this->_order instanceof Magento_Sales_Model_Order) {
-            $this->_order = Mage::getModel('Magento_Sales_Model_Order')->load($this->getOrderId());
+        if (!$this->_order instanceof \Magento\Sales\Model\Order) {
+            $this->_order = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getOrderId());
         }
         return $this->_order->setHistoryEntityName(self::HISTORY_ENTITY_NAME);
     }
@@ -210,7 +212,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     /**
      * Retrieve billing address
      *
-     * @return Magento_Sales_Model_Order_Address
+     * @return \Magento\Sales\Model\Order\Address
      */
     public function getBillingAddress()
     {
@@ -220,7 +222,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     /**
      * Retrieve shipping address
      *
-     * @return Magento_Sales_Model_Order_Address
+     * @return \Magento\Sales\Model\Order\Address
      */
     public function getShippingAddress()
     {
@@ -230,7 +232,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
-            $this->_items = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Creditmemo_Item_Collection')
+            $this->_items = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Creditmemo\Item\Collection')
                 ->setCreditmemoFilter($this->getId());
 
             if ($this->getId()) {
@@ -267,7 +269,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      * Returns credit memo item by its order id
      *
      * @param $orderId
-     * @return Magento_Sales_Model_Order_Creditmemo_Item|bool
+     * @return \Magento\Sales\Model\Order\Creditmemo\Item|bool
      */
     public function getItemByOrderId($orderId)
     {
@@ -279,7 +281,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         return false;
     }
 
-    public function addItem(Magento_Sales_Model_Order_Creditmemo_Item $item)
+    public function addItem(\Magento\Sales\Model\Order\Creditmemo\Item $item)
     {
         $item->setCreditmemo($this)
             ->setParentId($this->getId())
@@ -293,7 +295,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     /**
      * Creditmemo totals collecting
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function collectTotals()
     {
@@ -315,7 +317,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     {
         if ($price) {
             if (!isset($this->_calculators[$type])) {
-                $this->_calculators[$type] = Mage::getModel('Magento_Core_Model_Calculator',
+                $this->_calculators[$type] = \Mage::getModel('\Magento\Core\Model\Calculator',
                     array('store' => $this->getStore()));
             }
             $price = $this->_calculators[$type]->deltaRound($price, $negative);
@@ -376,18 +378,18 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     public function refund()
     {
         $this->setState(self::STATE_REFUNDED);
-        $orderRefund = Mage::app()->getStore()->roundPrice(
+        $orderRefund = \Mage::app()->getStore()->roundPrice(
             $this->getOrder()->getTotalRefunded()+$this->getGrandTotal()
         );
-        $baseOrderRefund = Mage::app()->getStore()->roundPrice(
+        $baseOrderRefund = \Mage::app()->getStore()->roundPrice(
             $this->getOrder()->getBaseTotalRefunded()+$this->getBaseGrandTotal()
         );
 
-        if ($baseOrderRefund > Mage::app()->getStore()->roundPrice($this->getOrder()->getBaseTotalPaid())) {
+        if ($baseOrderRefund > \Mage::app()->getStore()->roundPrice($this->getOrder()->getBaseTotalPaid())) {
 
             $baseAvailableRefund = $this->getOrder()->getBaseTotalPaid()- $this->getOrder()->getBaseTotalRefunded();
 
-            Mage::throwException(
+            \Mage::throwException(
                 __('The most money available to refund is %1.', $this->getOrder()->formatBasePrice($baseAvailableRefund))
             );
         }
@@ -430,14 +432,14 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
             $order->getPayment()->refund($this);
         }
 
-        Mage::dispatchEvent('sales_order_creditmemo_refund', array($this->_eventObject=>$this));
+        \Mage::dispatchEvent('sales_order_creditmemo_refund', array($this->_eventObject=>$this));
         return $this;
     }
 
     /**
      * Cancel Creditmemo action
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function cancel()
     {
@@ -477,7 +479,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         );
         $this->getOrder()->setShippingRefunded($this->getOrder()->getShippingRefunded()-$this->getShippingAmount());
 
-        Mage::dispatchEvent('sales_order_creditmemo_cancel', array($this->_eventObject=>$this));
+        \Mage::dispatchEvent('sales_order_creditmemo_cancel', array($this->_eventObject=>$this));
         return $this;
     }
 
@@ -486,12 +488,12 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      *
      * Apply to order, order items etc.
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function register()
     {
         if ($this->getId()) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('We cannot register an existing credit memo.')
             );
         }
@@ -631,16 +633,16 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      * Adds comment to credit memo with additional possibility to send it to customer via email
      * and show it in customer account
      *
-     * @param Magento_Sales_Model_Order_Creditmemo_Comment|string $comment
+     * @param \Magento\Sales\Model\Order\Creditmemo\Comment|string $comment
      * @param bool $notify
      * @param bool $visibleOnFront
      *
-     * @return Magento_Sales_Model_Order_Creditmemo_Comment
+     * @return \Magento\Sales\Model\Order\Creditmemo\Comment
      */
     public function addComment($comment, $notify=false, $visibleOnFront=false)
     {
-        if (!($comment instanceof Magento_Sales_Model_Order_Creditmemo_Comment)) {
-            $comment = Mage::getModel('Magento_Sales_Model_Order_Creditmemo_Comment')
+        if (!($comment instanceof \Magento\Sales\Model\Order\Creditmemo\Comment)) {
+            $comment = \Mage::getModel('\Magento\Sales\Model\Order\Creditmemo\Comment')
                 ->setComment($comment)
                 ->setIsCustomerNotified($notify)
                 ->setIsVisibleOnFront($visibleOnFront);
@@ -658,7 +660,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     public function getCommentsCollection($reload=false)
     {
         if (is_null($this->_comments) || $reload) {
-            $this->_comments = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Creditmemo_Comment_Collection')
+            $this->_comments = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection')
                 ->setCreditmemoFilter($this->getId())
                 ->setCreatedAtOrder();
             /**
@@ -682,38 +684,38 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function sendEmail($notifyCustomer = true, $comment = '')
     {
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('Magento_Sales_Helper_Data')->canSendNewCreditmemoEmail($storeId)) {
+        if (!\Mage::helper('Magento\Sales\Helper\Data')->canSendNewCreditmemoEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
+        $copyMethod = \Mage::getStoreConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
         // Check if at least one recepient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
         }
 
-        $paymentBlockHtml = Mage::helper('Magento_Payment_Helper_Data')->getInfoBlockHtml($order->getPayment(), $storeId);
+        $paymentBlockHtml = \Mage::helper('Magento\Payment\Helper\Data')->getInfoBlockHtml($order->getPayment(), $storeId);
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
+            $templateId = \Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $storeId);
+            $templateId = \Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $storeId);
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
+        $mailer = \Mage::getModel('\Magento\Core\Model\Email\Template\Mailer');
         if ($notifyCustomer) {
-            $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+            $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -727,14 +729,14 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+                $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
         }
 
         // Set all required params and send emails
-        $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
+        $mailer->setSender(\Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
         $mailer->setStoreId($storeId);
         $mailer->setTemplateId($templateId);
         $mailer->setTemplateParams(array(
@@ -758,19 +760,19 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function sendUpdateEmail($notifyCustomer = true, $comment = '')
     {
         $order = $this->getOrder();
         $storeId = $order->getStore()->getId();
 
-        if (!Mage::helper('Magento_Sales_Helper_Data')->canSendCreditmemoCommentEmail($storeId)) {
+        if (!\Mage::helper('Magento\Sales\Helper\Data')->canSendCreditmemoCommentEmail($storeId)) {
             return $this;
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $storeId);
+        $copyMethod = \Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $storeId);
         // Check if at least one recepient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
@@ -778,16 +780,16 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $storeId);
+            $templateId = \Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $storeId);
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $storeId);
+            $templateId = \Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $storeId);
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = Mage::getModel('Magento_Core_Model_Email_Template_Mailer');
+        $mailer = \Mage::getModel('\Magento\Core\Model\Email\Template\Mailer');
         if ($notifyCustomer) {
-            $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+            $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
             $emailInfo->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -801,14 +803,14 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('Magento_Core_Model_Email_Info');
+                $emailInfo = \Mage::getModel('\Magento\Core\Model\Email\Info');
                 $emailInfo->addTo($email);
                 $mailer->addEmailInfo($emailInfo);
             }
         }
 
         // Set all required params and send emails
-        $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId));
+        $mailer->setSender(\Mage::getStoreConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId));
         $mailer->setStoreId($storeId);
         $mailer->setTemplateId($templateId);
         $mailer->setTemplateParams(array(
@@ -825,7 +827,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
 
     protected function _getEmails($configPath)
     {
-        $data = Mage::getStoreConfig($configPath, $this->getStoreId());
+        $data = \Mage::getStoreConfig($configPath, $this->getStoreId());
         if (!empty($data)) {
             return explode(',', $data);
         }
@@ -841,7 +843,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     /**
      * After save object manipulations
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     protected function _afterSave()
     {
@@ -864,7 +866,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
     /**
      * Before object save manipulations
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     protected function _beforeSave()
     {
@@ -882,7 +884,7 @@ class Magento_Sales_Model_Order_Creditmemo extends Magento_Sales_Model_Abstract
      * Get creditmemos collection filtered by $filter
      *
      * @param array|null $filter
-     * @return Magento_Sales_Model_Resource_Order_Creditmemo_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Creditmemo\Collection
      */
     public function getFilteredCollectionItems($filter = null)
     {

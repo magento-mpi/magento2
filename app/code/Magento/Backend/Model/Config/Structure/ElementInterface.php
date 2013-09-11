@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-interface Magento_Backend_Model_Config_Structure_ElementInterface
+namespace Magento\Backend\Model\Config\Structure;
+
+interface ElementInterface
 {
     /**
      * Set element data

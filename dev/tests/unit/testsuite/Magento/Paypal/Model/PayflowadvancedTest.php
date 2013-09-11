@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Paypal_Model_Payflowadvanced
+ * Test class for \Magento\Paypal\Model\Payflowadvanced
  *
  */
 class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCase
@@ -63,20 +63,20 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
 
     protected function setUp()
     {
-        $order = $this->getMockBuilder('Magento_Sales_Model_Order')
+        $order = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
             ->getMock();
-        $payment = $this->getMockBuilder('Magento_Sales_Model_Order_Payment')
+        $payment = $this->getMockBuilder('Magento\Sales\Model\Order\Payment')
             ->disableOriginalConstructor()
             ->setMethods(array('getOrder'))
             ->getMock();
         $payment->expects($this->any())
             ->method('getOrder')
             ->will($this->returnValue($order));
-        $request = new Magento_Paypal_Model_Payflow_Request;
-        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        $request = new \Magento\Paypal\Model\Payflow\Request;
+        $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
         $this->_modelClass = $this->getMock(
-            'Magento_Paypal_Model_Payflowadvanced',
+            '\Magento\Paypal\Model\Payflowadvanced',
             array(
                 'getResponse',
                 '_postRequest',
@@ -110,7 +110,7 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
     public function testSetResponseData()
     {
         // Setting legacy parameters
-        /** @var $model Magento_Paypal_Model_Payflowadvanced */
+        /** @var $model \Magento\Paypal\Model\Payflowadvanced */
         $model = $this->_modelClass;
         $model->setResponseData(array(
             'NAME' => self::PARAMETER_FIRSTNAME . ' ' . self::PARAMETER_LASTNAME,
@@ -141,7 +141,7 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
         $this->_assertResponseData($model);
 
         // Setting new parameters
-        /** @var $model Magento_Paypal_Model_Payflowadvanced */
+        /** @var $model \Magento\Paypal\Model\Payflowadvanced */
         $model = $this->_modelClass;
         $model->setResponseData(array(
             'BILLTOFIRSTNAME' => self::PARAMETER_FIRSTNAME,
@@ -177,7 +177,7 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
     public function testDefaultRequestParameters($cscrequired, $cscedit, $emailcustomer, $urlmethod)
     {
         $params = array($cscrequired, $cscedit, $emailcustomer, $urlmethod);
-        /** @var $model Magento_Paypal_Model_Payflowadvanced */
+        /** @var $model \Magento\Paypal\Model\Payflowadvanced */
         $model = $this->_modelClass;
         $this->_prepareRequest($model, $params);
 
@@ -193,12 +193,12 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
     /**
      * Prepare request for test
      *
-     * @param Magento_Paypal_Model_Payflowadvanced $model
+     * @param \Magento\Paypal\Model\Payflowadvanced $model
      * @param array() $params
      */
-    protected function _prepareRequest(Magento_Paypal_Model_Payflowadvanced $model, $params)
+    protected function _prepareRequest(\Magento\Paypal\Model\Payflowadvanced $model, $params)
     {
-        $request = new Magento_Paypal_Model_Payflow_Request;
+        $request = new \Magento\Paypal\Model\Payflow\Request;
         $request->setCancelurl('/paypal/' . $model->getCallbackController() . '/' . 'cancelPayment')
             ->setErrorurl('/paypal/' . $model->getCallbackController() . '/' . 'returnUrl')
             ->setSilentpost('TRUE')
@@ -217,15 +217,15 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
         $checkRequest = create_function('$request', 'Magento_Paypal_Model_PayflowadvancedTest::$request = $request;');
         $model->expects($this->any())->method('_postRequest')->will($this->returnCallback($checkRequest));
         Magento_Paypal_Model_PayflowlinkTest::$request = null;
-        $model->initialize(Magento_Paypal_Model_Config::PAYMENT_ACTION_AUTH, new \Magento\Object());
+        $model->initialize(\Magento\Paypal\Model\Config::PAYMENT_ACTION_AUTH, new \Magento\Object());
     }
 
     /**
      * Assert request not configurable parameters
      *
-     * @param Magento_Paypal_Model_Payflowadvanced $model
+     * @param \Magento\Paypal\Model\Payflowadvanced $model
      */
-    protected function _assertRequestBaseParameters(Magento_Paypal_Model_Payflowadvanced $model)
+    protected function _assertRequestBaseParameters(\Magento\Paypal\Model\Payflowadvanced $model)
     {
         $controllerPath = '/paypal/' . $model->getCallbackController() . '/';
         $request = Magento_Paypal_Model_PayflowadvancedTest::$request;
@@ -233,7 +233,7 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
         $this->assertEquals($controllerPath . 'returnUrl', $request->getData('errorurl'));
         $this->assertEquals($controllerPath . 'silentPost', $request->getData('silentposturl'));
         $this->assertEquals($controllerPath . 'returnUrl', $request->getData('returnurl'));
-        $this->assertEquals(Magento_Paypal_Model_Payflowlink::LAYOUT_TEMPLATE, $request->getData('template'));
+        $this->assertEquals(\Magento\Paypal\Model\Payflowlink::LAYOUT_TEMPLATE, $request->getData('template'));
         $this->assertEquals('TRUE', $request->getData('silentpost'));
         $this->assertEquals('TRUE', $request->getData('disablereceipt'));
     }
@@ -241,9 +241,9 @@ class Magento_Paypal_Model_PayflowadvancedTest extends PHPUnit_Framework_TestCas
     /**
      * Assert response data
      *
-     * @param Magento_Paypal_Model_Payflowadvanced $model
+     * @param \Magento\Paypal\Model\Payflowadvanced $model
      */
-    protected function _assertResponseData(Magento_Paypal_Model_Payflowadvanced $model)
+    protected function _assertResponseData(\Magento\Paypal\Model\Payflowadvanced $model)
     {
         $data = $model->getResponse()->getData();
         $this->assertEquals(self::PARAMETER_FIRSTNAME . ' ' . self::PARAMETER_LASTNAME, $data['name']);

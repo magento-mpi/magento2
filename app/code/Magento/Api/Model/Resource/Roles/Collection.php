@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_Roles_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Api\Model\Resource\Roles;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization
@@ -24,7 +26,7 @@ class Magento_Api_Model_Resource_Roles_Collection extends Magento_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('Magento_Api_Model_Role', 'Magento_Api_Model_Resource_Role');
+        $this->_init('\Magento\Api\Model\Role', '\Magento\Api\Model\Resource\Role');
     }
 
     /**
@@ -40,12 +42,12 @@ class Magento_Api_Model_Resource_Roles_Collection extends Magento_Core_Model_Res
     /**
      * Init collection select
      *
-     * @return Magento_Api_Model_Resource_Roles_Collection
+     * @return \Magento\Api\Model\Resource\Roles\Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()->where('main_table.role_type = ?', Magento_Api_Model_Acl::ROLE_TYPE_GROUP);
+        $this->getSelect()->where('main_table.role_type = ?', \Magento\Api\Model\Acl::ROLE_TYPE_GROUP);
         return $this;
     }
 }

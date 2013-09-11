@@ -20,14 +20,14 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Fr
      */
     public function testConstruct()
     {
-        $type = 'Magento_Catalog_Block_Product_Widget_New';
+        $type = '\Magento\Catalog\Block\Product\Widget\New';
         $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface')
+            ->get('Magento\Core\Model\View\DesignInterface')
             ->setDefaultDesignTheme()
             ->getDesignTheme();
 
-        /** @var $widgetInstance Magento_Widget_Model_Widget_Instance */
-        $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance');
+        /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
+        $widgetInstance = Mage::getModel('\Magento\Widget\Model\Widget\Instance');
         $widgetInstance
             ->setType($type)
             ->setThemeId($theme->getId())
@@ -35,7 +35,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_EditTest extends PHPUnit_Fr
         Mage::register('current_widget_instance', $widgetInstance);
 
         Mage::app()->getRequest()->setParam('instance_id', $widgetInstance->getId());
-        $block = Mage::app()->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Instance_Edit', 'widget');
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Instance\Edit', 'widget');
         $this->assertArrayHasKey('widget-delete_button', $block->getLayout()->getAllBlocks());
     }
 }

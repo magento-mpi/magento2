@@ -17,18 +17,20 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Helper_Media_Js extends Magento_Core_Helper_Js
+namespace Magento\Adminhtml\Helper\Media;
+
+class Js extends \Magento\Core\Helper\Js
 {
     /**
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Model_Config_Modules_Reader $configReader
-     * @param Magento_Core_Model_Cache_Type_Config $configCacheType
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Model\Config\Modules\Reader $configReader
+     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_Core_Model_Config_Modules_Reader $configReader,
-        Magento_Core_Model_Cache_Type_Config $configCacheType,
-        Magento_Core_Model_View_Url $viewUrl
+        \Magento\Core\Helper\Context $context,
+        \Magento\Core\Model\Config\Modules\Reader $configReader,
+        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\Core\Model\View\Url $viewUrl
     ) {
         parent::__construct($context, $configReader, $configCacheType, $viewUrl);
         $this->_translateData = array(

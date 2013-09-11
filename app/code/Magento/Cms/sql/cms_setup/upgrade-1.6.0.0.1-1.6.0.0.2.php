@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $table = $installer->getConnection()
     ->newTable($installer->getTable('cms_url_rewrite'))
     ->addColumn('cms_rewrite_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null,

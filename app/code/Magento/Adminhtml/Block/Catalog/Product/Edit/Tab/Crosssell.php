@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab;
+
+class Crosssell extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Set grid params
@@ -38,18 +40,18 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
     /**
      * Retirve currently edited product model
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return \Mage::registry('current_product');
     }
 
     /**
      * Add filter
      *
      * @param object $column
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Crosssell
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -75,12 +77,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
     /**
      * Prepare collection
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Magento_Catalog_Model_Resource_Product_Link_Product_Collection */
-        $collection = Mage::getModel('Magento_Catalog_Model_Product_Link')->useCrossSellLinks()
+        /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
+        $collection = \Mage::getModel('\Magento\Catalog\Model\Product\Link')->useCrossSellLinks()
             ->getProductCollection()
             ->setProduct($this->getProduct())
             ->addAttributeToSelect('*');
@@ -112,7 +114,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
     /**
      * Add columns to grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -147,13 +149,13 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
             'header'    => __('Type'),
             'index'     => 'type_id',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getOptionArray(),
+            'options'   => \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getOptionArray(),
             'header_css_class'  => 'col-type',
             'column_css_class'  => 'col-type'
         ));
 
-        $sets = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-            ->setEntityTypeFilter(Mage::getModel('Magento_Catalog_Model_Product')->getResource()->getTypeId())
+        $sets = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
+            ->setEntityTypeFilter(\Mage::getModel('\Magento\Catalog\Model\Product')->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
@@ -170,7 +172,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
             'header'    => __('Status'),
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Status')->getOptionArray(),
+            'options'   => \Mage::getSingleton('Magento\Catalog\Model\Product\Status')->getOptionArray(),
             'header_css_class'  => 'col-status',
             'column_css_class'  => 'col-status'
         ));
@@ -179,7 +181,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
             'header'    => __('Visibility'),
             'index'     => 'visibility',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getOptionArray(),
+            'options'   => \Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getOptionArray(),
             'header_css_class'  => 'col-visibility',
             'column_css_class'  => 'col-visibility'
         ));
@@ -194,7 +196,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
         $this->addColumn('price', array(
             'header'        => __('Price'),
             'type'          => 'currency',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
             'index'         => 'price',
             'header_css_class'  => 'col-price',
             'column_css_class'  => 'col-price'
@@ -248,7 +250,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Magento
     public function getSelectedCrossSellProducts()
     {
         $products = array();
-        foreach (Mage::registry('current_product')->getCrossSellProducts() as $product) {
+        foreach (\Mage::registry('current_product')->getCrossSellProducts() as $product) {
             $products[$product->getId()] = array('position' => $product->getPosition());
         }
         return $products;

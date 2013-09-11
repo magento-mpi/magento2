@@ -12,7 +12,9 @@
  * Cache cleaner backend model
  *
  */
-class Magento_Rss_Model_System_Config_Backend_Links extends Magento_Core_Model_Config_Value
+namespace Magento\Rss\Model\System\Config\Backend;
+
+class Links extends \Magento\Core\Model\Config\Value
 {
     /**
      * Invalidate cache type, when value was changed
@@ -21,9 +23,9 @@ class Magento_Rss_Model_System_Config_Backend_Links extends Magento_Core_Model_C
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
-            $cacheTypeList->invalidate(Magento_Core_Block_Abstract::CACHE_GROUP);
+            /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+            $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
+            $cacheTypeList->invalidate(\Magento\Core\Block\AbstractBlock::CACHE_GROUP);
         }
     }
 

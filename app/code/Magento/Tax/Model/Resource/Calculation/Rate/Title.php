@@ -16,7 +16,9 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Calculation_Rate_Title extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Tax\Model\Resource\Calculation\Rate;
+
+class Title extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -30,7 +32,7 @@ class Magento_Tax_Model_Resource_Calculation_Rate_Title extends Magento_Core_Mod
      * Delete title by rate identifier
      *
      * @param int $rateId
-     * @return Magento_Tax_Model_Resource_Calculation_Rate_Title
+     * @return \Magento\Tax\Model\Resource\Calculation\Rate\Title
      */
     public function deleteByRateId($rateId)
     {

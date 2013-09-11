@@ -10,7 +10,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Config_Base extends \Magento\Simplexml\Config implements Magento_Core_Model_ConfigInterface
+namespace Magento\Core\Model\Config;
+
+class Base extends \Magento\Simplexml\Config implements \Magento\Core\Model\ConfigInterface
 {
     /**
      * List of instances
@@ -24,7 +26,7 @@ class Magento_Core_Model_Config_Base extends \Magento\Simplexml\Config implement
      */
     public function __construct($sourceData = null)
     {
-        $this->_elementClass = 'Magento_Core_Model_Config_Element';
+        $this->_elementClass = '\Magento\Core\Model\Config\Element';
         parent::__construct($sourceData);
         self::$instances[] = $this;
     }

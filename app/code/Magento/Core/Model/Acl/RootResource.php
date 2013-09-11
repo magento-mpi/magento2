@@ -7,7 +7,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_Acl_RootResource
+namespace Magento\Core\Model\Acl;
+
+class RootResource
 {
     /**
      * Root resource id

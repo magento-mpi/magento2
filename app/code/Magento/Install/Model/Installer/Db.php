@@ -11,7 +11,9 @@
 /**
  * DB Installer
  */
-class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer_Abstract
+namespace Magento\Install\Model\Installer;
+
+class Db extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**
      * @var database resource
@@ -21,14 +23,14 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
     /**
      * Resource configuration
      *
-     * @var Magento_Core_Model_Config_Resource
+     * @var \Magento\Core\Model\Config\Resource
      */
     protected $_resourceConfig;
 
     /**
-     * @param Magento_Core_Model_Config_Resource $resourceConfig
+     * @param \Magento\Core\Model\Config\Resource $resourceConfig
      */
-    public function __construct(Magento_Core_Model_Config_Resource $resourceConfig)
+    public function __construct(\Magento\Core\Model\Config\Resource $resourceConfig)
     {
         $this->_resourceConfig = $resourceConfig;
     }
@@ -48,7 +50,7 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
             $dbModel = ($data['db_model']);
 
             if (!$resource = $this->_getDbResource($dbModel)) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('There is no resource for %1 DB model.', $dbModel)
                 );
             }
@@ -64,36 +66,36 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
                 }
             }
             if (!empty($absenteeExtensions)) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('PHP Extensions "%1" must be loaded.', implode(',', $absenteeExtensions))
                 );
             }
 
             $version    = $resource->getVersion();
-            $requiredVersion = (string) Mage::getConfig()
+            $requiredVersion = (string) \Mage::getConfig()
                 ->getNode(sprintf('install/databases/%s/min_version', $dbModel));
 
             // check DB server version
             if (version_compare($version, $requiredVersion) == -1) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('The database server version doesn\'t match system requirements (required: %1, actual: %2).', $requiredVersion, $version)
                 );
             }
 
             // check InnoDB support
             if (!$resource->supportEngine()) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('Database server does not support the InnoDB storage engine.')
                 );
             }
 
             // TODO: check user roles
-        } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
-            Mage::throwException(__($e->getMessage()));
-        } catch (Exception $e) {
-            Mage::logException($e);
-            Mage::throwException(__('Something went wrong while connecting to the database.'));
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::logException($e);
+            \Mage::throwException(__($e->getMessage()));
+        } catch (\Exception $e) {
+            \Mage::logException($e);
+            \Mage::throwException(__('Something went wrong while connecting to the database.'));
         }
 
         return $data;
@@ -108,7 +110,7 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
     protected function _getCheckedData($data)
     {
         if (!isset($data['db_name']) || empty($data['db_name'])) {
-            Mage::throwException(__('The Database Name field cannot be empty.'));
+            \Mage::throwException(__('The Database Name field cannot be empty.'));
         }
         //make all table prefix to lower letter
         if ($data['db_prefix'] != '') {
@@ -117,7 +119,7 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
         //check table prefix
         if ($data['db_prefix'] != '') {
             if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $data['db_prefix'])) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('The table prefix should contain only letters (a-z), numbers (0-9) or underscores (_); the first character should be a letter.')
                 );
             }
@@ -125,11 +127,11 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
         //set default db model
         if (!isset($data['db_model']) || empty($data['db_model'])) {
             $data['db_model'] = $this->_resourceConfig
-                ->getResourceConnectionConfig(Magento_Core_Model_Resource::DEFAULT_SETUP_RESOURCE)->model;
+                ->getResourceConnectionConfig(\Magento\Core\Model\Resource::DEFAULT_SETUP_RESOURCE)->model;
         }
         //set db type according the db model
         if (!isset($data['db_type'])) {
-            $data['db_type'] = (string) Mage::getSingleton('Magento_Core_Model_Config')
+            $data['db_type'] = (string) \Mage::getSingleton('Magento\Core\Model\Config')
                 ->getNode(sprintf('install/databases/%s/type', $data['db_model']));
         }
 
@@ -137,7 +139,7 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
         $data['db_pdo_type'] = $dbResource->getPdoType();
 
         if (!isset($data['db_init_statements'])) {
-            $data['db_init_statements'] = (string) Mage::getSingleton('Magento_Core_Model_Config')
+            $data['db_init_statements'] = (string) \Mage::getSingleton('Magento\Core\Model\Config')
                 ->getNode(sprintf('install/databases/%s/initStatements', $data['db_model']));
         }
 
@@ -148,14 +150,14 @@ class Magento_Install_Model_Installer_Db extends Magento_Install_Model_Installer
      * Retrieve the database resource
      *
      * @param  string $model database type
-     * @return Magento_Install_Model_Installer_Db_Abstract
+     * @return \Magento\Install\Model\Installer\Db\AbstractDb
      */
     protected function _getDbResource($model)
     {
         if (!isset($this->_dbResource)) {
-            $resource =  Mage::getSingleton("Magento_Install_Model_Installer_Db_" . ucfirst($model));
+            $resource =  \Mage::getSingleton("Magento_Install_Model_Installer_Db_" . ucfirst($model));
             if (!$resource) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('Installer does not exist for %1 database type', $model)
                 );
             }

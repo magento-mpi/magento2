@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Design extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource;
+
+class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table and primary key
@@ -30,11 +32,11 @@ class Magento_Core_Model_Resource_Design extends Magento_Core_Model_Resource_Db_
     /**
      * Perform actions before object save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
-     * @throws Magento_Core_Exception
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @throws \Magento\Core\Exception
      */
-    public function _beforeSave(Magento_Core_Model_Abstract $object)
+    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if ($date = $object->getDateFrom()) {
             $object->setDateFrom($this->formatDate($date));
@@ -50,7 +52,7 @@ class Magento_Core_Model_Resource_Design extends Magento_Core_Model_Resource_Db_
 
         if (!is_null($object->getDateFrom()) && !is_null($object->getDateTo())
                 && \Magento\Date::toTimestamp($object->getDateFrom()) > \Magento\Date::toTimestamp($object->getDateTo())) {
-            Mage::throwException(__('Start date cannot be greater than end date.'));
+            \Mage::throwException(__('Start date cannot be greater than end date.'));
         }
 
         $check = $this->_checkIntersection(
@@ -61,16 +63,16 @@ class Magento_Core_Model_Resource_Design extends Magento_Core_Model_Resource_Db_
         );
 
         if ($check) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Your design change for the specified store intersects with another one, please specify another date range.')
             );
         }
 
         if ($object->getDateFrom() === null) {
-            $object->setDateFrom(new Zend_Db_Expr('null'));
+            $object->setDateFrom(new \Zend_Db_Expr('null'));
         }
         if ($object->getDateTo() === null) {
-            $object->setDateTo(new Zend_Db_Expr('null'));
+            $object->setDateTo(new \Zend_Db_Expr('null'));
         }
 
         parent::_beforeSave($object);

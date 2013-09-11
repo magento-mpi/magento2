@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Page_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Cms\Page;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Initialize cms page edit block
@@ -58,8 +60,8 @@ class Magento_Adminhtml_Block_Cms_Page_Edit extends Magento_Adminhtml_Block_Widg
      */
     public function getHeaderText()
     {
-        if (Mage::registry('cms_page')->getId()) {
-            return __("Edit Page '%1'", $this->escapeHtml(Mage::registry('cms_page')->getTitle()));
+        if (\Mage::registry('cms_page')->getId()) {
+            return __("Edit Page '%1'", $this->escapeHtml(\Mage::registry('cms_page')->getTitle()));
         }
         else {
             return __('New Page');
@@ -95,7 +97,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit extends Magento_Adminhtml_Block_Widg
     /**
      * Prepare layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

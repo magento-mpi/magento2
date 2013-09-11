@@ -9,7 +9,7 @@
 class Magento_CustomerSegment_Model_Segment_Condition_Combine_RootTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CustomerSegment_Model_Segment_Condition_Combine_Root
+     * @var \Magento\CustomerSegment\Model\Segment\Condition\Combine\Root
      */
     protected $_model;
 
@@ -26,7 +26,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Combine_RootTest extends P
     protected function setUp()
     {
         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root');
+            ->create('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
     }
 
 

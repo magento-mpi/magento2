@@ -9,24 +9,24 @@
  * @license     {license_link}
  */
 
-$customerTaxClass1 = Mage::getModel('Magento_Tax_Model_Class')
+$customerTaxClass1 = Mage::getModel('\Magento\Tax\Model\ClassModel')
     ->setClassName('CustomerTaxClass1')
-    ->setClassType(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
+    ->setClassType(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER)
     ->save();
 
-$customerTaxClass2 = Mage::getModel('Magento_Tax_Model_Class')
+$customerTaxClass2 = Mage::getModel('\Magento\Tax\Model\ClassModel')
     ->setClassName('CustomerTaxClass2')
-    ->setClassType(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER)
+    ->setClassType(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER)
     ->save();
 
-$productTaxClass1 = Mage::getModel('Magento_Tax_Model_Class')
+$productTaxClass1 = Mage::getModel('\Magento\Tax\Model\ClassModel')
     ->setClassName('ProductTaxClass1')
-    ->setClassType(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
+    ->setClassType(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
     ->save();
 
-$productTaxClass2 = Mage::getModel('Magento_Tax_Model_Class')
+$productTaxClass2 = Mage::getModel('\Magento\Tax\Model\ClassModel')
     ->setClassName('ProductTaxClass2')
-    ->setClassType(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT)
+    ->setClassType(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
     ->save();
 
 $taxRate = array(
@@ -36,9 +36,9 @@ $taxRate = array(
     'code' => '*',
     'rate' => '7.5'
 );
-$rate = Mage::getModel('Magento_Tax_Model_Calculation_Rate')->setData($taxRate)->save();
+$rate = Mage::getModel('\Magento\Tax\Model\Calculation\Rate')->setData($taxRate)->save();
 
-Mage::register('_fixture/Magento_Tax_Model_Calculation_Rate', $rate);
+Mage::register('_fixture/\Magento\Tax\Model\Calculation\Rate', $rate);
 
 $ruleData = array(
     'code' => 'Test Rule',
@@ -49,10 +49,10 @@ $ruleData = array(
     'tax_rate' => array($rate->getId())
 );
 
-$taxRule = Mage::getModel('Magento_Tax_Model_Calculation_Rule')->setData($ruleData)->save();
+$taxRule = Mage::getModel('\Magento\Tax\Model\Calculation\Rule')->setData($ruleData)->save();
 
-Mage::register('_fixture/Magento_Tax_Model_Calculation_Rule', $taxRule);
+Mage::register('_fixture/\Magento\Tax\Model\Calculation\Rule', $taxRule);
 
 $ruleData['code'] = 'Test Rule Duplicate';
 
-Mage::getModel('Magento_Tax_Model_Calculation_Rule')->setData($ruleData)->save();
+Mage::getModel('\Magento\Tax\Model\Calculation\Rule')->setData($ruleData)->save();

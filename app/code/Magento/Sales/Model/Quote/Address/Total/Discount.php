@@ -9,9 +9,11 @@
  */
 
 
-class Magento_Sales_Model_Quote_Address_Total_Discount extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\Sales\Model\Quote\Address\Total;
+
+class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $quote = $address->getQuote();
         $eventArgs = array(
@@ -61,7 +63,7 @@ class Magento_Sales_Model_Quote_Address_Total_Discount extends Magento_Sales_Mod
                 if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                     foreach ($item->getChildren() as $child) {
                         $eventArgs['item'] = $child;
-                        Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+                        \Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
 
                         if ($child->getDiscountAmount() || $child->getFreeShipping()) {
                             $hasDiscount = true;
@@ -92,7 +94,7 @@ class Magento_Sales_Model_Quote_Address_Total_Discount extends Magento_Sales_Mod
                 }
                 else {
                     $eventArgs['item'] = $item;
-                    Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
+                    \Mage::dispatchEvent('sales_quote_address_discount_item', $eventArgs);
 
                     if ($item->getDiscountAmount() || $item->getFreeShipping()) {
                         $hasDiscount = true;
@@ -118,7 +120,7 @@ class Magento_Sales_Model_Quote_Address_Total_Discount extends Magento_Sales_Mod
         return $this;
     }
 
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $amount = $address->getDiscountAmount();
         if ($amount!=0) {

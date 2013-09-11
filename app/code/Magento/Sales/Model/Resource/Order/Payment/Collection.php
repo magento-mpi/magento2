@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Order_Payment_Collection extends Magento_Sales_Model_Resource_Order_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Order\Payment;
+
+class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -38,13 +40,13 @@ class Magento_Sales_Model_Resource_Order_Payment_Collection extends Magento_Sale
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Order_Payment', 'Magento_Sales_Model_Resource_Order_Payment');
+        $this->_init('\Magento\Sales\Model\Order\Payment', '\Magento\Sales\Model\Resource\Order\Payment');
     }
 
     /**
      * Unserialize additional_information in each item
      *
-     * @return Magento_Sales_Model_Resource_Order_Payment_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Payment\Collection
      */
     protected function _afterLoad()
     {
@@ -52,11 +54,11 @@ class Magento_Sales_Model_Resource_Order_Payment_Collection extends Magento_Sale
             $this->getResource()->unserializeFields($item);
         }
 
-        /** @var Magento_Sales_Model_Order_Payment $item */
+        /** @var \Magento\Sales\Model\Order\Payment $item */
         foreach ($this->_items as $item) {
             foreach ($item->getData() as $fieldName => $fieldValue) {
                 $item->setData($fieldName,
-                    Mage::getSingleton('Magento_Sales_Model_Payment_Method_Converter')->decode($item, $fieldName)
+                    \Mage::getSingleton('Magento\Sales\Model\Payment\Method\Converter')->decode($item, $fieldName)
                 );
             }
         }

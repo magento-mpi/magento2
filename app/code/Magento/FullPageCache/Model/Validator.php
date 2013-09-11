@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Validator
+namespace Magento\FullPageCache\Model;
+
+class Validator
 {
     /**#@+
      * XML paths for lists of change nad delete dependencies
@@ -20,7 +22,7 @@ class Magento_FullPageCache_Model_Validator
     /**
      * General config object
      *
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
@@ -34,7 +36,7 @@ class Magento_FullPageCache_Model_Validator
         if (isset($data['config'])) {
             $this->_config = $data['config'];
         } else {
-            $this->_config = Mage::getConfig();
+            $this->_config = \Mage::getConfig();
         }
     }
 
@@ -43,8 +45,8 @@ class Magento_FullPageCache_Model_Validator
      */
     protected function _invalidateCache()
     {
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+        $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
         $cacheTypeList->invalidate('full_page');
     }
 
@@ -72,7 +74,7 @@ class Magento_FullPageCache_Model_Validator
      * Check if duering data change was used some model related with page cache and invalidate cache
      *
      * @param mixed $object
-     * @return Magento_FullPageCache_Model_Validator
+     * @return \Magento\FullPageCache\Model\Validator
      */
     public function checkDataChange($object)
     {
@@ -89,7 +91,7 @@ class Magento_FullPageCache_Model_Validator
      * Check if duering data delete was used some model related with page cache and invalidate cache
      *
      * @param mixed $object
-     * @return Magento_FullPageCache_Model_Validator
+     * @return \Magento\FullPageCache\Model\Validator
      */
     public function checkDataDelete($object)
     {

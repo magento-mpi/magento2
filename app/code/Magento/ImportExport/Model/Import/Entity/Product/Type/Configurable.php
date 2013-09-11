@@ -15,8 +15,10 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
-    extends Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+
+class Configurable
+    extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
 {
     /**
      * Error codes.
@@ -117,7 +119,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
      *
      * @param string $attrParams Name of attribute set.
      * @param array $attrParams Refined attribute parameters.
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
     protected function _addAttributeParams($attrSetName, array $attrParams)
     {
@@ -202,7 +204,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     /**
      * Array of SKU to array of super attribute values for all products.
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
      */
     protected function _loadSkuSuperAttributeValues()
     {
@@ -210,11 +212,11 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
             $attrSetIdToName   = $this->_entityModel->getAttrSetIdToName();
             $allowProductTypes = array();
 
-            foreach (Mage::getConfig()
+            foreach (\Mage::getConfig()
                     ->getNode('global/catalog/product/type/configurable/allow_product_types')->children() as $type) {
                 $allowProductTypes[] = $type->getName();
             }
-            foreach (Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+            foreach (\Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
                         ->addFieldToFilter('type_id', $allowProductTypes)
                         ->addAttributeToSelect(array_keys($this->_superAttributes)) as $product) {
                 $attrSetName = $attrSetIdToName[$product->getAttributeSetId()];
@@ -235,14 +237,14 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     /**
      * Array of SKU to array of super attribute values for all products.
      *
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
      */
     protected function _loadSkuSuperData()
     {
         if (!$this->_skuSuperData) {
             $connection = $this->_entityModel->getConnection();
-            $mainTable  = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute');
-            $priceTable = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute_pricing');
+            $mainTable  = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_product_super_attribute');
+            $priceTable = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_product_super_attribute_pricing');
             $select     = $connection->select()
                     ->from(array('m' => $mainTable), array('product_id', 'attribute_id', 'product_super_attribute_id'))
                     ->joinLeft(
@@ -269,7 +271,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
      *
      * @param array $superData
      * @param array $superAttributes
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
      */
     protected function _processSuperData(array $superData, array &$superAttributes)
     {
@@ -326,24 +328,24 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
     /**
      * Save product type specific data.
      *
-     * @throws Exception
-     * @return Magento_ImportExport_Model_Import_Entity_Product_Type_Abstract
+     * @throws \Exception
+     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
     public function saveData()
     {
         $connection      = $this->_entityModel->getConnection();
-        $mainTable       = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute');
-        $labelTable      = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute_label');
-        $priceTable      = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_attribute_pricing');
-        $linkTable       = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_super_link');
-        $relationTable   = Mage::getSingleton('Magento_Core_Model_Resource')->getTableName('catalog_product_relation');
+        $mainTable       = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_product_super_attribute');
+        $labelTable      = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_product_super_attribute_label');
+        $priceTable      = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_product_super_attribute_pricing');
+        $linkTable       = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_product_super_link');
+        $relationTable   = \Mage::getSingleton('Magento\Core\Model\Resource')->getTableName('catalog_product_relation');
         $newSku          = $this->_entityModel->getNewSku();
         $oldSku          = $this->_entityModel->getOldSku();
         $productSuperData = array();
         $productData     = null;
-        $nextAttrId      = Mage::getResourceHelper('Magento_ImportExport')->getNextAutoincrement($mainTable);
+        $nextAttrId      = \Mage::getResourceHelper('Magento_ImportExport')->getNextAutoincrement($mainTable);
 
-        if ($this->_entityModel->getBehavior() == Magento_ImportExport_Model_Import::BEHAVIOR_APPEND) {
+        if ($this->_entityModel->getBehavior() == \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND) {
             $this->_loadSkuSuperData();
         }
         $this->_loadSkuSuperAttributeValues();
@@ -362,8 +364,8 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
                 }
                 // remember SCOPE_DEFAULT row data
                 $scope = $this->_entityModel->getRowScope($rowData);
-                if (Magento_ImportExport_Model_Import_Entity_Product::SCOPE_DEFAULT == $scope) {
-                    $productData = $newSku[$rowData[Magento_ImportExport_Model_Import_Entity_Product::COL_SKU]];
+                if (\Magento\ImportExport\Model\Import\Entity\Product::SCOPE_DEFAULT == $scope) {
+                    $productData = $newSku[$rowData[\Magento\ImportExport\Model\Import\Entity\Product::COL_SKU]];
 
                     if ($this->_type != $productData['type_id']) {
                         $productData = null;
@@ -430,7 +432,7 @@ class Magento_ImportExport_Model_Import_Entity_Product_Type_Configurable
             $this->_processSuperData($productSuperData, $superAttributes);
 
             // remove old data if needed
-            if ($this->_entityModel->getBehavior() != Magento_ImportExport_Model_Import::BEHAVIOR_APPEND
+            if ($this->_entityModel->getBehavior() != \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
                 && $superAttributes['attributes']) {
                 $quoted = $connection->quoteInto('IN (?)', array_keys($superAttributes['attributes']));
                 $connection->delete($mainTable, "product_id {$quoted}");

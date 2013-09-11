@@ -11,12 +11,14 @@
 /**
  * Recurring profile info/options product view block
  */
-class Magento_Payment_Block_Catalog_Product_View_Profile extends Magento_Core_Block_Template
+namespace Magento\Payment\Block\Catalog\Product\View;
+
+class Profile extends \Magento\Core\Block\Template
 {
     /**
      * Recurring profile instance
      *
-     * @var Magento_Payment_Model_Recurring_Profile
+     * @var \Magento\Payment\Model\Recurring\Profile
      */
     protected $_profile = false;
 
@@ -47,13 +49,13 @@ class Magento_Payment_Block_Catalog_Product_View_Profile extends Magento_Core_Bl
         if ($this->_profile->getStartDateIsEditable()) {
             $this->setDateHtmlId('recurring_start_date');
             $calendar = $this->getLayout()
-                ->createBlock('Magento_Core_Block_Html_Date')
+                ->createBlock('\Magento\Core\Block\Html\Date')
                 ->setId('recurring_start_date')
-                ->setName(Magento_Payment_Model_Recurring_Profile::BUY_REQUEST_START_DATETIME)
+                ->setName(\Magento\Payment\Model\Recurring\Profile::BUY_REQUEST_START_DATETIME)
                 ->setClass('datetime-picker input-text')
                 ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-                ->setDateFormat(Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT))
-                ->setTimeFormat(Mage::app()->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT));
+                ->setDateFormat(\Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))
+                ->setTimeFormat(\Mage::app()->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT));
             return $calendar->getHtml();
         }
     }
@@ -61,13 +63,13 @@ class Magento_Payment_Block_Catalog_Product_View_Profile extends Magento_Core_Bl
     /**
      * Determine current product and initialize its recurring profile model
      *
-     * @return Magento_Payment_Block_Catalog_Product_View_Profile
+     * @return \Magento\Payment\Block\Catalog\Product\View\Profile
      */
     protected function _prepareLayout()
     {
-        $product = Mage::registry('current_product');
+        $product = \Mage::registry('current_product');
         if ($product) {
-            $this->_profile = Mage::getModel('Magento_Payment_Model_Recurring_Profile')->importProduct($product);
+            $this->_profile = \Mage::getModel('\Magento\Payment\Model\Recurring\Profile')->importProduct($product);
         }
         return parent::_prepareLayout();
     }

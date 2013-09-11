@@ -15,7 +15,7 @@
 class Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage
+     * @var \Magento\Webapi\Model\Soap\Security\UsernameToken\NonceStorage
      */
     protected $_nonceStorage;
 
@@ -29,8 +29,8 @@ class Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends 
      */
     protected function setUp()
     {
-        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface');
-        $this->_nonceStorage = new Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage($this->_cacheMock);
+        $this->_cacheMock = $this->getMock('Magento\Core\Model\CacheInterface');
+        $this->_nonceStorage = new \Magento\Webapi\Model\Soap\Security\UsernameToken\NonceStorage($this->_cacheMock);
     }
 
     /**
@@ -45,7 +45,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends 
     /**
      * @param int $timestamp
      * @dataProvider invalidTimestampDataProvider
-     * @expectedException Magento_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException
+     * @expectedException \Magento\Webapi\Model\Soap\Security\UsernameToken\TimestampRefusedException
      */
     public function testValidateNonceInvalidTimestamp($timestamp)
     {
@@ -63,14 +63,14 @@ class Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends 
 
     public function testValidateNonceTimeStampIsTooOld()
     {
-        $this->setExpectedException('Magento_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException');
-        $timestamp = time() - Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_TTL;
+        $this->setExpectedException('\Magento\Webapi\Model\Soap\Security\UsernameToken\TimestampRefusedException');
+        $timestamp = time() - \Magento\Webapi\Model\Soap\Security\UsernameToken\NonceStorage::NONCE_TTL;
         $this->_nonceStorage->validateNonce('', $timestamp);
     }
 
     public function testValidateNonceTimeStampFromFuture()
     {
-        $this->setExpectedException('Magento_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException');
+        $this->setExpectedException('\Magento\Webapi\Model\Soap\Security\UsernameToken\TimestampRefusedException');
         /** Timestamp is from future more far than 60 seconds must be prohibited */
         $this->_nonceStorage->validateNonce('', time() + 65);
     }
@@ -89,15 +89,15 @@ class Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorageTest extends 
             ->expects($this->once())
             ->method('save')
             ->with($timestamp, $this->_nonceStorage->getNonceCacheId($nonce),
-            array(Magento_Webapi_Model_ConfigAbstract::WEBSERVICE_CACHE_TAG),
-            Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_TTL
-                + Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage::NONCE_FROM_FUTURE_ACCEPTABLE_RANGE);
+            array(\Magento\Webapi\Model\ConfigAbstract::WEBSERVICE_CACHE_TAG),
+            \Magento\Webapi\Model\Soap\Security\UsernameToken\NonceStorage::NONCE_TTL
+                + \Magento\Webapi\Model\Soap\Security\UsernameToken\NonceStorage::NONCE_FROM_FUTURE_ACCEPTABLE_RANGE);
 
         $this->_nonceStorage->validateNonce($nonce, $timestamp);
     }
 
     /**
-     * @expectedException Magento_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException
+     * @expectedException \Magento\Webapi\Model\Soap\Security\UsernameToken\NonceUsedException
      */
     public function testValidateNonceUsed()
     {

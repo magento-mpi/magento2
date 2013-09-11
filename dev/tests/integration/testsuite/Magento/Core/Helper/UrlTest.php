@@ -12,13 +12,13 @@
 class Magento_Core_Helper_UrlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Url
+     * @var \Magento\Core\Helper\Url
      */
     protected $_helper = null;
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Core_Helper_Url');
+        $this->_helper = Mage::helper('Magento\Core\Helper\Url');
     }
 
     public function testGetCurrentUrl()

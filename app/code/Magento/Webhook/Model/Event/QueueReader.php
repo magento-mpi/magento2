@@ -10,17 +10,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Event_QueueReader implements \Magento\PubSub\Event\QueueReaderInterface
+namespace Magento\Webhook\Model\Event;
+
+class QueueReader implements \Magento\PubSub\Event\QueueReaderInterface
 {
-    /** @var ArrayIterator */
+    /** @var \ArrayIterator */
     protected $_iterator;
 
     /**
      * Initialize collection representing the queue
      *
-     * @param Magento_Webhook_Model_Resource_Event_Collection $collection
+     * @param \Magento\Webhook\Model\Resource\Event\Collection $collection
      */
-    public function __construct(Magento_Webhook_Model_Resource_Event_Collection $collection)
+    public function __construct(\Magento\Webhook\Model\Resource\Event\Collection $collection)
     {
         $this->_iterator = $collection->getIterator();
     }
@@ -33,7 +35,7 @@ class Magento_Webhook_Model_Event_QueueReader implements \Magento\PubSub\Event\Q
     public function poll()
     {
         if ($this->_iterator->valid()) {
-            /** @var Magento_Webhook_Model_Event $event */
+            /** @var \Magento\Webhook\Model\Event $event */
             $event = $this->_iterator->current();
             $this->_iterator->next();
             return $event;

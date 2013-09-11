@@ -16,7 +16,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product\View;
+
+class Options extends \Magento\Core\Block\Template
 {
     protected $_product;
 
@@ -27,7 +29,7 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
         parent::_construct();
         $this->addOptionRenderer(
             'default',
-            'Magento_Catalog_Block_Product_View_Options_Type_Default',
+            '\Magento\Catalog\Block\Product\View\Options\Type\DefaultType',
             'product/view/options/type/default.phtml'
         );
     }
@@ -35,15 +37,15 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     /**
      * Retrieve product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         if (!$this->_product) {
-            if (Mage::registry('current_product')) {
-                $this->_product = Mage::registry('current_product');
+            if (\Mage::registry('current_product')) {
+                $this->_product = \Mage::registry('current_product');
             } else {
-                $this->_product = Mage::getSingleton('Magento_Catalog_Model_Product');
+                $this->_product = \Mage::getSingleton('Magento\Catalog\Model\Product');
             }
         }
         return $this->_product;
@@ -52,10 +54,10 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     /**
      * Set product object
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Catalog_Block_Product_View_Options
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Catalog\Block\Product\View\Options
      */
-    public function setProduct(Magento_Catalog_Model_Product $product = null)
+    public function setProduct(\Magento\Catalog\Model\Product $product = null)
     {
         $this->_product = $product;
         return $this;
@@ -67,7 +69,7 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
      * @param string $type
      * @param string $block
      * @param string $template
-     * @return Magento_Catalog_Block_Product_View_Options
+     * @return \Magento\Catalog\Block\Product\View\Options
      */
     public function addOptionRenderer($type, $block, $template)
     {
@@ -96,7 +98,7 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
 
     public function getGroupOfOption($type)
     {
-        $group = Mage::getSingleton('Magento_Catalog_Model_Product_Option')->getGroupByType($type);
+        $group = \Mage::getSingleton('Magento\Catalog\Model\Product\Option')->getGroupByType($type);
 
         return $group == '' ? 'default' : $group;
     }
@@ -122,18 +124,18 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
     /**
      * Get price configuration
      *
-     * @param Magento_Catalog_Model_Product_Option_Value|Magento_Catalog_Model_Product_Option $option
+     * @param \Magento\Catalog\Model\Product\Option\Value|\Magento\Catalog\Model\Product\Option $option
      * @return array
      */
     protected function _getPriceConfiguration($option)
     {
         $data = array();
-        $data['price']      = Mage::helper('Magento_Core_Helper_Data')->currency($option->getPrice(true), false, false);
-        $data['oldPrice']   = Mage::helper('Magento_Core_Helper_Data')->currency($option->getPrice(false), false, false);
+        $data['price']      = \Mage::helper('Magento\Core\Helper\Data')->currency($option->getPrice(true), false, false);
+        $data['oldPrice']   = \Mage::helper('Magento\Core\Helper\Data')->currency($option->getPrice(false), false, false);
         $data['priceValue'] = $option->getPrice(false);
         $data['type']       = $option->getPriceType();
-        $data['excludeTax'] = $price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], false);
-        $data['includeTax'] = $price = Mage::helper('Magento_Tax_Helper_Data')->getPrice($option->getProduct(), $data['price'], true);
+        $data['excludeTax'] = $price = \Mage::helper('Magento\Tax\Helper\Data')->getPrice($option->getProduct(), $data['price'], false);
+        $data['includeTax'] = $price = \Mage::helper('Magento\Tax\Helper\Data')->getPrice($option->getProduct(), $data['price'], true);
         return $data;
     }
 
@@ -147,12 +149,12 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
         $config = array();
 
         foreach ($this->getOptions() as $option) {
-            /* @var $option Magento_Catalog_Model_Product_Option */
+            /* @var $option \Magento\Catalog\Model\Product\Option */
             $priceValue = 0;
-            if ($option->getGroupByType() == Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+            if ($option->getGroupByType() == \Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT) {
                 $_tmpPriceValues = array();
                 foreach ($option->getValues() as $value) {
-                    /* @var $value Magento_Catalog_Model_Product_Option_Value */
+                    /* @var $value \Magento\Catalog\Model\Product\Option\Value */
                     $id = $value->getId();
                     $_tmpPriceValues[$id] = $this->_getPriceConfiguration($value);
                 }
@@ -163,15 +165,15 @@ class Magento_Catalog_Block_Product_View_Options extends Magento_Core_Block_Temp
             $config[$option->getId()] = $priceValue;
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config);
     }
 
     /**
      * Get option html block
      *
-     * @param Magento_Catalog_Model_Product_Option $option
+     * @param \Magento\Catalog\Model\Product\Option $option
      */
-    public function getOptionHtml(Magento_Catalog_Model_Product_Option $option)
+    public function getOptionHtml(\Magento\Catalog\Model\Product\Option $option)
     {
         $renderer = $this->getOptionRender(
             $this->getGroupOfOption($option->getType())

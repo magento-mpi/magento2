@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Core_Model_StoreManager
+ * Test class for \Magento\Core\Model\StoreManager
  *
  * {license_notice}
  *
@@ -14,7 +14,7 @@
 class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_model;
 
@@ -40,12 +40,12 @@ class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento_Core_Model_Store_StorageFactory', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
-        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper', array(), array(), '', false);
-        $this->_storage = $this->getMock('Magento_Core_Model_Store_StorageInterface');
+        $this->_factoryMock = $this->getMock('Magento\Core\Model\Store\StorageFactory', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $this->_helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array(), array(), '', false);
+        $this->_storage = $this->getMock('Magento\Core\Model\Store\StorageInterface');
 
-        $this->_model = new Magento_Core_Model_StoreManager(
+        $this->_model = new \Magento\Core\Model\StoreManager(
             $this->_factoryMock,
             $this->_requestMock,
             $this->_helperFactoryMock,
@@ -133,13 +133,13 @@ class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
 
     public function testIsSingleStoreModeWhenSingleStoreModeEnabledAndHasSingleStore()
     {
-        $helperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('isSingleStoreModeEnabled')->will($this->returnValue(true));
 
         $this->_helperFactoryMock
             ->expects($this->any())
             ->method('get')
-            ->with('Magento_Core_Helper_Data')
+            ->with('Magento\Core\Helper\Data')
             ->will($this->returnValue($helperMock));
 
         $this->_storage->expects($this->once())->method('hasSingleStore')->will($this->returnValue(true));
@@ -151,13 +151,13 @@ class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
 
     public function testIsSingleStoreModeWhenSingleStoreModeDisabledAndHasSingleStore()
     {
-        $helperMock = $this->getMock('Magento_Core_Helper_Data', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('isSingleStoreModeEnabled')->will($this->returnValue(false));
 
         $this->_helperFactoryMock
             ->expects($this->any())
             ->method('get')
-            ->with('Magento_Core_Helper_Data')
+            ->with('Magento\Core\Helper\Data')
             ->will($this->returnValue($helperMock));
 
         $this->_storage->expects($this->once())->method('hasSingleStore')->will($this->returnValue(true));
@@ -190,7 +190,7 @@ class Magento_Core_Model_StoreManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testGetSafeStoreWithExceptionAndWithoutCurrentStore()
     {

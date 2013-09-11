@@ -15,10 +15,12 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Magento_Customer_Model_Resource_Attribute_Collection getAttributeCollection() getAttributeCollection()
+ * @method \Magento\Customer\Model\Resource\Attribute\Collection getAttributeCollection() getAttributeCollection()
  */
-class Magento_ImportExport_Model_Export_Entity_Eav_Customer
-    extends Magento_ImportExport_Model_Export_Entity_EavAbstract
+namespace Magento\ImportExport\Model\Export\Entity\Eav;
+
+class Customer
+    extends \Magento\ImportExport\Model\Export\Entity\EavAbstract
 {
     /**#@+
      * Permanent column names.
@@ -34,7 +36,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**#@+
      * Attribute collection name
      */
-    const ATTRIBUTE_COLLECTION_NAME = 'Magento_Customer_Model_Resource_Attribute_Collection';
+    const ATTRIBUTE_COLLECTION_NAME = '\Magento\Customer\Model\Resource\Attribute\Collection';
     /**#@-*/
 
     /**#@+
@@ -50,8 +52,8 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
      */
     protected $_attributeOverrides = array(
         'created_at'                  => array('backend_type' => 'datetime'),
-        'reward_update_notification'  => array('source_model' => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean'),
-        'reward_warning_notification' => array('source_model' => 'Magento_Eav_Model_Entity_Attribute_Source_Boolean')
+        'reward_update_notification'  => array('source_model' => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
+        'reward_warning_notification' => array('source_model' => '\Magento\Eav\Model\Entity\Attribute\Source\Boolean')
     );
 
     /**
@@ -78,7 +80,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Customers whose data is exported
      *
-     * @var Magento_Customer_Model_Resource_Customer_Collection
+     * @var \Magento\Customer\Model\Resource\Customer\Collection
      */
     protected $_customerCollection;
 
@@ -92,7 +94,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
         parent::__construct($data);
 
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : Mage::getResourceModel('Magento_Customer_Model_Resource_Customer_Collection');
+            : \Mage::getResourceModel('\Magento\Customer\Model\Resource\Customer\Collection');
 
         $this->_initAttributeValues()
             ->_initStores()
@@ -119,7 +121,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Get customers collection
      *
-     * @return Magento_Customer_Model_Resource_Customer_Collection
+     * @return \Magento\Customer\Model\Resource\Customer\Collection
      */
     protected function _getEntityCollection()
     {
@@ -138,7 +140,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
     /**
      * Export given customer data
      *
-     * @param Magento_Customer_Model_Customer $item
+     * @param \Magento\Customer\Model\Customer $item
      * @return string
      */
     public function exportItem($item)
@@ -159,7 +161,7 @@ class Magento_ImportExport_Model_Export_Entity_Eav_Customer
      */
     public function filterAttributeCollection(\Magento\Data\Collection $collection)
     {
-        /** @var $attribute Magento_Customer_Model_Attribute */
+        /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach (parent::filterAttributeCollection($collection) as $attribute) {
             if (!empty($this->_attributeOverrides[$attribute->getAttributeCode()])) {
                 $data = $this->_attributeOverrides[$attribute->getAttributeCode()];

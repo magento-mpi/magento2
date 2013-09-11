@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
+namespace Magento\CatalogSearch\Model;
+
+class Layer extends \Magento\Catalog\Model\Layer
 {
     const XML_PATH_DISPLAY_LAYER_COUNT = 'catalog/search/use_layered_navigation_count';
 
@@ -22,7 +24,7 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
         if (isset($this->_productCollections[$this->getCurrentCategory()->getId()])) {
             $collection = $this->_productCollections[$this->getCurrentCategory()->getId()];
         } else {
-            $collection = Mage::getResourceModel('Magento_CatalogSearch_Model_Resource_Fulltext_Collection');
+            $collection = \Mage::getResourceModel('\Magento\CatalogSearch\Model\Resource\Fulltext\Collection');
             $this->prepareProductCollection($collection);
             $this->_productCollections[$this->getCurrentCategory()->getId()] = $collection;
         }
@@ -33,20 +35,20 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
      * Prepare product collection
      *
      * @param Magento_Catalog_Model_Resource_Eav_Resource_Product_Collection $collection
-     * @return Magento_Catalog_Model_Layer
+     * @return \Magento\Catalog\Model\Layer
      */
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
-            ->addSearchFilter(Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery()->getQueryText())
-            ->setStore(Mage::app()->getStore())
+            ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
+            ->addSearchFilter(\Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery()->getQueryText())
+            ->setStore(\Mage::app()->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
             ->addStoreFilter()
             ->addUrlRewrite()
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInSearchIds());
+            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInSearchIds());
 
         return $this;
     }
@@ -59,7 +61,7 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     public function getStateKey()
     {
         if ($this->_stateKey === null) {
-            $this->_stateKey = 'Q_' . Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery()->getId()
+            $this->_stateKey = 'Q_' . \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery()->getId()
                 . '_'. parent::getStateKey();
         }
         return $this->_stateKey;
@@ -74,7 +76,7 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     public function getStateTags(array $additionalTags = array())
     {
         $additionalTags = parent::getStateTags($additionalTags);
-        $additionalTags[] = Magento_CatalogSearch_Model_Query::CACHE_TAG;
+        $additionalTags[] = \Magento\CatalogSearch\Model\Query::CACHE_TAG;
         return $additionalTags;
     }
 
@@ -94,13 +96,13 @@ class Magento_CatalogSearch_Model_Layer extends Magento_Catalog_Model_Layer
     /**
      * Prepare attribute for use in layered navigation
      *
-     * @param   Magento_Eav_Model_Entity_Attribute $attribute
-     * @return  Magento_Eav_Model_Entity_Attribute
+     * @param   \Magento\Eav\Model\Entity\Attribute $attribute
+     * @return  \Magento\Eav\Model\Entity\Attribute
      */
     protected function _prepareAttribute($attribute)
     {
         $attribute = parent::_prepareAttribute($attribute);
-        $attribute->setIsFilterable(Magento_Catalog_Model_Layer_Filter_Attribute::OPTIONS_ONLY_WITH_RESULTS);
+        $attribute->setIsFilterable(\Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS);
         return $attribute;
     }
 }

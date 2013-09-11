@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_catalog_product_crosssellgrid">
         <container name="root" label="Root" output="1">
-            <block class="Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell" name="catalog.product.edit.tab.crosssell"/>
+            <block class="\Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Crosssell" name="catalog.product.edit.tab.crosssell"/>
         </container>
     </handle>
 </layout>

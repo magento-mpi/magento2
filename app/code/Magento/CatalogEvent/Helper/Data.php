@@ -15,14 +15,16 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\CatalogEvent\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'catalog/magento_catalogevent/enabled';
 
     /**
      * Retreive event image url
      *
-     * @param Magento_CatalogEvent_Model_Event
+     * @param \Magento\CatalogEvent\Model\Event
      * @return string|boolean
      */
     public function getEventImageUrl($event)
@@ -41,6 +43,6 @@ class Magento_CatalogEvent_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
     }
 }

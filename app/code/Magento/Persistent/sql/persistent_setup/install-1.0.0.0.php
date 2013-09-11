@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Core_Model_Resource_Setup */
+/** @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 $installer->startSetup();
 
@@ -23,7 +23,7 @@ $table = $installer->getConnection()
         'nullable' => false,
         'unsigned' => true,
     ), 'Session id')
-    ->addColumn('key', \Magento\DB\Ddl\Table::TYPE_TEXT, Magento_Persistent_Model_Session::KEY_LENGTH, array(
+    ->addColumn('key', \Magento\DB\Ddl\Table::TYPE_TEXT, \Magento\Persistent\Model\Session::KEY_LENGTH, array(
         'nullable' => false,
     ), 'Unique cookie key')
     ->addColumn('customer_id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null, array(

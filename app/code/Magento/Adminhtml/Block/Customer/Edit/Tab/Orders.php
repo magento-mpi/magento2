@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab;
+
+class Orders extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Grid\Collection')
             ->addFieldToSelect('entity_id')
             ->addFieldToSelect('increment_id')
             ->addFieldToSelect('customer_id')
@@ -38,7 +40,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
             ->addFieldToSelect('store_id')
             ->addFieldToSelect('billing_name')
             ->addFieldToSelect('shipping_name')
-            ->addFieldToFilter('customer_id', Mage::registry('current_customer')->getId())
+            ->addFieldToFilter('customer_id', \Mage::registry('current_customer')->getId())
             ->setIsCustomerMode(true);
 
         $this->setCollection($collection);
@@ -85,7 +87,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
             'currency'  => 'order_currency_code',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'    => __('Purchase Point'),
                 'index'     => 'store_id',
@@ -94,13 +96,13 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Orders extends Magento_Adminhtml
             ));
         }
 
-        if (Mage::helper('Magento_Sales_Helper_Reorder')->isAllow()) {
+        if (\Mage::helper('Magento\Sales\Helper\Reorder')->isAllow()) {
             $this->addColumn('action', array(
                 'header'    => ' ',
                 'filter'    => false,
                 'sortable'  => false,
                 'width'     => '100px',
-                'renderer'  => 'Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action'
+                'renderer'  => '\Magento\Adminhtml\Block\Sales\Reorder\Renderer\Action'
             ));
         }
 

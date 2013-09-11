@@ -18,7 +18,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_
     protected $_eventObserverMock;
 
     /**
-     * @var Magento_GoogleOptimizer_Model_Observer_Product_Delete
+     * @var \Magento\GoogleOptimizer\Model\Observer\Product\Delete
      */
     protected $_model;
 
@@ -27,17 +27,17 @@ class Magento_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_
         $entityId = 3;
         $storeId = 0;
 
-        $this->_codeMock = $this->getMock('Magento_GoogleOptimizer_Model_Code', array(), array(), '', false);
+        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
         $event = $this->getMock('Magento\Event', array('getProduct'), array(), '', false);
         $this->_eventObserverMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
-        $product = $this->getMock('Magento_Catalog_Model_Product', array('getId', 'getStoreId'), array(), '', false);
+        $product = $this->getMock('Magento\Catalog\Model\Product', array('getId', 'getStoreId'), array(), '', false);
         $product->expects($this->once())->method('getId')->will($this->returnValue($entityId));
         $product->expects($this->once())->method('getStoreId')->will($this->returnValue($storeId));
         $event->expects($this->once())->method('getProduct')->will($this->returnValue($product));
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_GoogleOptimizer_Model_Observer_Product_Delete', array(
+        $this->_model = $objectManagerHelper->getObject('\Magento\GoogleOptimizer\Model\Observer\Product\Delete', array(
             'modelCode' => $this->_codeMock
         ));
     }
@@ -48,7 +48,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_
         $storeId = 0;
 
         $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
-            ->with($entityId, Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT, $storeId);
+            ->with($entityId, \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PRODUCT, $storeId);
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(2));
         $this->_codeMock->expects($this->once())->method('delete');
 
@@ -61,7 +61,7 @@ class Magento_GoogleOptimizer_Model_Observer_Product_DeleteTest extends PHPUnit_
         $storeId = 0;
 
         $this->_codeMock->expects($this->once())->method('loadByEntityIdAndType')
-            ->with($entityId, Magento_GoogleOptimizer_Model_Code::ENTITY_TYPE_PRODUCT, $storeId);
+            ->with($entityId, \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PRODUCT, $storeId);
         $this->_codeMock->expects($this->once())->method('getId')->will($this->returnValue(0));
         $this->_codeMock->expects($this->never())->method('delete');
 

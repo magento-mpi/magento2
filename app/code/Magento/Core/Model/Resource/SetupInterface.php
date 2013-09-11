@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Resource_SetupInterface
+namespace Magento\Core\Model\Resource;
+
+interface SetupInterface
 {
     const DEFAULT_SETUP_CONNECTION  = 'core_setup';
     const VERSION_COMPARE_EQUAL     = 0;
@@ -22,7 +24,7 @@ interface Magento_Core_Model_Resource_SetupInterface
     /**
      * Apply module resource install, upgrade and data scripts
      *
-     * @return Magento_Core_Model_Resource_SetupInterface
+     * @return \Magento\Core\Model\Resource\SetupInterface
      */
     public function applyUpdates();
 
@@ -36,7 +38,7 @@ interface Magento_Core_Model_Resource_SetupInterface
     /**
      * Run each time after applying of all updates,
      *
-     * @return Magento_Core_Model_Resource_SetupInterface
+     * @return \Magento\Core\Model\Resource\SetupInterface
      */
     public function afterApplyAllUpdates();
 

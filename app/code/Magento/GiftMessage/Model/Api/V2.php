@@ -15,7 +15,9 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Model_Api_V2 extends Magento_GiftMessage_Model_Api
+namespace Magento\GiftMessage\Model\Api;
+
+class V2 extends \Magento\GiftMessage\Model\Api
 {
 
     /**
@@ -63,15 +65,15 @@ class Magento_GiftMessage_Model_Api_V2 extends Magento_GiftMessage_Model_Api
      * Raise event for setting a giftMessage.
      *
      * @param String $entityId
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Sales_Model_Quote $quote
-     * @return stdClass
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Sales\Model\Quote $quote
+     * @return \stdClass
      */
     protected function _setGiftMessage($entityId, $request, $quote)
     {
         $currentScope = $this->_configScope->getCurrentScope();
 
-        $response = new stdClass();
+        $response = new \stdClass();
         $response->entityId = $entityId;
 
         /**
@@ -79,7 +81,7 @@ class Magento_GiftMessage_Model_Api_V2 extends Magento_GiftMessage_Model_Api
          */
         try {
             /** Frontend area events must be loaded as we emulate frontend behavior. */
-            $this->_configScope->setCurrentScope(Magento_Core_Model_App_Area::AREA_FRONTEND);
+            $this->_configScope->setCurrentScope(\Magento\Core\Model\App\Area::AREA_FRONTEND);
             $this->_eventManager->dispatch(
                 'checkout_controller_onepage_save_shipping_method',
                 array('request' => $request, 'quote' => $quote)
@@ -88,7 +90,7 @@ class Magento_GiftMessage_Model_Api_V2 extends Magento_GiftMessage_Model_Api
             $this->_configScope->setCurrentScope($currentScope);
             $response->result = true;
             $response->error = '';
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             /** Restore config scope */
             $this->_configScope->setCurrentScope($currentScope);
             $response->result = false;

@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Catalog_Category_Widget extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Catalog\Category;
+
+class Widget extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Chooser Source action
@@ -35,10 +37,10 @@ class Magento_Adminhtml_Controller_Catalog_Category_Widget extends Magento_Admin
     {
         if ($categoryId = (int) $this->getRequest()->getPost('id')) {
 
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
             if ($category->getId()) {
-                Mage::register('category', $category);
-                Mage::register('current_category', $category);
+                \Mage::register('category', $category);
+                \Mage::register('current_category', $category);
             }
             $this->getResponse()->setBody(
                 $this->_getCategoryTreeBlock()->getTreeJson($category)
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Controller_Catalog_Category_Widget extends Magento_Admin
 
     protected function _getCategoryTreeBlock()
     {
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Catalog_Category_Widget_Chooser', '', array(
+        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Catalog\Category\Widget\Chooser', '', array(
             'data' => array(
                 'id' => $this->getRequest()->getParam('uniq_id'),
                 'use_massaction' => $this->getRequest()->getParam('use_massaction', false)

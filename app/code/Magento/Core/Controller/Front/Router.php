@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Core_Controller_Front_Router
+namespace Magento\Core\Controller\Front;
+
+class Router
 {
     protected $_config = null;
     
@@ -23,13 +25,13 @@ class Magento_Core_Controller_Front_Router
         return $this->_config;
     }
     
-    public function addRoutes(Zend_Controller_Router_Interface $router)
+    public function addRoutes(\Zend_Controller_Router_Interface $router)
     {
         $frontName = $this->_config->getName();
         $routeMatch = $frontName.'/:controller/:action/*';
         $moduleName = (string)$this->_config->module;
         $routeParams = array('module'=>$moduleName, 'controller'=>'index', 'action'=>'index', '_frontName'=>$frontName);
-        $route = new Zend_Controller_Router_Route($routeMatch, $routeParams);
+        $route = new \Zend_Controller_Router_Route($routeMatch, $routeParams);
         $router->addRoute($moduleName, $route);
         
         return $this;
@@ -44,7 +46,7 @@ class Magento_Core_Controller_Front_Router
             $params = array('controller'=>$paramsArr[0], 'action'=>$paramsArr[1]);
         }
         
-        $url = Mage::getBaseUrl($params);
+        $url = \Mage::getBaseUrl($params);
 
         if (!empty($params['frontName'])) {
             $url .= $params['frontName'].'/';

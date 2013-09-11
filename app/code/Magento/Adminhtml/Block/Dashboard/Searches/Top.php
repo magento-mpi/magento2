@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Dashboard_Searches_Top extends Magento_Adminhtml_Block_Dashboard_Grid
+namespace Magento\Adminhtml\Block\Dashboard\Searches;
+
+class Top extends \Magento\Adminhtml\Block\Dashboard\Grid
 {
     protected $_collection;
 
@@ -28,18 +30,18 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Top extends Magento_Adminhtml_B
 
     protected function _prepareCollection()
     {
-        if (!Mage::helper('Magento_Core_Helper_Data')->isModuleEnabled('Magento_CatalogSearch')) {
+        if (!\Mage::helper('Magento\Core\Helper\Data')->isModuleEnabled('Magento_CatalogSearch')) {
             return parent::_prepareCollection();
         }
-        $this->_collection = Mage::getModel('Magento_CatalogSearch_Model_Query')
+        $this->_collection = \Mage::getModel('\Magento\CatalogSearch\Model\Query')
             ->getResourceCollection();
 
         if ($this->getRequest()->getParam('store')) {
             $storeIds = $this->getRequest()->getParam('store');
         } else if ($this->getRequest()->getParam('website')){
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
         } else if ($this->getRequest()->getParam('group')){
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         } else {
             $storeIds = '';
         }
@@ -58,7 +60,7 @@ class Magento_Adminhtml_Block_Dashboard_Searches_Top extends Magento_Adminhtml_B
             'header'    => __('Search Term'),
             'sortable'  => false,
             'index'     => 'name',
-            'renderer'  => 'Magento_Adminhtml_Block_Dashboard_Searches_Renderer_Searchquery',
+            'renderer'  => '\Magento\Adminhtml\Block\Dashboard\Searches\Renderer\Searchquery',
         ));
 
         $this->addColumn('num_results', array(

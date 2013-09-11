@@ -15,7 +15,9 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Order_Invoice extends Magento_Sales_Block_Order_Invoice_Items
+namespace Magento\Sales\Block\Order;
+
+class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
 {
 
     protected $_template = 'order/invoice.phtml';
@@ -27,7 +29,7 @@ class Magento_Sales_Block_Order_Invoice extends Magento_Sales_Block_Order_Invoic
         }
         $this->setChild(
             'payment_info',
-            $this->helper('Magento_Payment_Helper_Data')->getInfoBlock($this->getOrder()->getPayment())
+            $this->helper('\Magento\Payment\Helper\Data')->getInfoBlock($this->getOrder()->getPayment())
         );
     }
 
@@ -39,11 +41,11 @@ class Magento_Sales_Block_Order_Invoice extends Magento_Sales_Block_Order_Invoic
     /**
      * Retrieve current order model instance
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return \Mage::registry('current_order');
     }
 
     /**
@@ -53,10 +55,10 @@ class Magento_Sales_Block_Order_Invoice extends Magento_Sales_Block_Order_Invoic
      */
     public function getBackUrl()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::getUrl('*/*/history');
+        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            return \Mage::getUrl('*/*/history');
         }
-        return Mage::getUrl('*/*/form');
+        return \Mage::getUrl('*/*/form');
     }
 
     /**
@@ -66,7 +68,7 @@ class Magento_Sales_Block_Order_Invoice extends Magento_Sales_Block_Order_Invoic
      */
     public function getBackTitle()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
             return __('Back to My Orders');
         }
         return __('View Another Order');
@@ -74,24 +76,24 @@ class Magento_Sales_Block_Order_Invoice extends Magento_Sales_Block_Order_Invoic
 
     public function getViewUrl($order)
     {
-        return Mage::getUrl('*/*/view', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/view', array('order_id' => $order->getId()));
     }
 
     public function getShipmentUrl($order)
     {
-        return Mage::getUrl('*/*/shipment', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/shipment', array('order_id' => $order->getId()));
     }
 
     public function getCreditmemoUrl($order)
     {
-        return Mage::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
     }
 
     public function getPrintInvoiceUrl($invoice){
-        return Mage::getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
+        return \Mage::getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
     }
 
     public function getPrintAllInvoicesUrl($order){
-        return Mage::getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
+        return \Mage::getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
     }
 }

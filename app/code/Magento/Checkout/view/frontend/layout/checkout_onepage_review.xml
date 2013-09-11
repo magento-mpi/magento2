@@ -9,28 +9,28 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle label="One Page Checkout Overview" id="checkout_onepage_review" type="fragment" owner="checkout_onepage_index">
-        <block class="Magento_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
-            <block class="Magento_Checkout_Block_Onepage_Review_Info" name="order_review" template="onepage/review/info.phtml">
+        <block class="\Magento\Page\Block\Html" name="root" output="1" template="page_fragment.phtml">
+            <block class="\Magento\Checkout\Block\Onepage\Review\Info" name="order_review" template="onepage/review/info.phtml">
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">default</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>
                     <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                 </action>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">grouped</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Grouped</argument>
                     <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                 </action>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">configurable</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
                     <argument name="template" xsi:type="string">onepage/review/item.phtml</argument>
                 </action>
-                <block class="Magento_Checkout_Block_Cart_Totals" name="checkout.onepage.review.info.totals" as="totals" template="onepage/review/totals.phtml"/>
+                <block class="\Magento\Checkout\Block\Cart\Totals" name="checkout.onepage.review.info.totals" as="totals" template="onepage/review/totals.phtml"/>
                 <container name="checkout.onepage.review.info.items.before" as="items_before" label="Items Before"/>
                 <container name="checkout.onepage.review.info.items.after" as="items_after" label="Items After"/>
-                <block class="Magento_Checkout_Block_Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
-                <block class="Magento_Core_Block_Template" name="checkout.onepage.review.button" as="button" template="Magento_Checkout::onepage/review/button.phtml"/>
+                <block class="\Magento\Checkout\Block\Agreements" name="checkout.onepage.agreements" as="agreements" template="onepage/agreements.phtml"/>
+                <block class="\Magento\Core\Block\Template" name="checkout.onepage.review.button" as="button" template="Magento_Checkout::onepage/review/button.phtml"/>
             </block>
         </block>
     </handle>

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_Form
+namespace Magento\Paygate\Block\Authorizenet\Form;
+
+class Cc extends \Magento\Payment\Block\Form
 {
     protected $_template = 'Magento_Paygate::form/cc.phtml';
 
@@ -19,7 +21,7 @@ class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_F
      */
     public function getMethodFormBlock()
     {
-        return $this->getLayout()->createBlock('Magento_Payment_Block_Form_Cc')
+        return $this->getLayout()->createBlock('\Magento\Payment\Block\Form\Cc')
             ->setMethod($this->getMethod());
     }
 
@@ -30,7 +32,7 @@ class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_F
      */
     public function getCardsBlock()
     {
-        return $this->getLayout()->createBlock('Magento_Paygate_Block_Authorizenet_Info_Cc')
+        return $this->getLayout()->createBlock('\Magento\Paygate\Block\Authorizenet\Info\Cc')
             ->setMethod($this->getMethod())
             ->setInfo($this->getMethod()->getInfoInstance())
             ->setCheckoutProgressBlock(false)
@@ -54,7 +56,7 @@ class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_F
      */
     public function getAdminCancelUrl()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
+        return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('adminhtml/paygate_authorizenet_payment/cancel');
     }
 
     /**
@@ -89,10 +91,10 @@ class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_F
     public function getPartialAuthorizationConfirmationMessage()
     {
         $lastActionState = $this->getMethod()->getPartialAuthorizationLastActionState();
-        if ($lastActionState == Magento_Paygate_Model_Authorizenet::PARTIAL_AUTH_LAST_SUCCESS) {
+        if ($lastActionState == \Magento\Paygate\Model\Authorizenet::PARTIAL_AUTH_LAST_SUCCESS) {
             $this->getMethod()->unsetPartialAuthorizationLastActionState();
             return __('You don\'t have enough on your credit card to pay for this purchase. To complete your purchase, click "OK" and add a credit card to use for the balance. Otherwise, you can cancel the purchase and release the partial payment we are holding.');
-        } elseif ($lastActionState == Magento_Paygate_Model_Authorizenet::PARTIAL_AUTH_LAST_DECLINED) {
+        } elseif ($lastActionState == \Magento\Paygate\Model\Authorizenet::PARTIAL_AUTH_LAST_DECLINED) {
             $this->getMethod()->unsetPartialAuthorizationLastActionState();
             return __('Your credit card has been declined. You can click OK to add another credit card to complete your purchase. Or you can cancel this credit transaction and pay a different way.');
         }
@@ -109,13 +111,13 @@ class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_F
         $lastActionState = $this->getMethod()->getPartialAuthorizationLastActionState();
         $message = false;
         switch ($lastActionState) {
-            case Magento_Paygate_Model_Authorizenet::PARTIAL_AUTH_ALL_CANCELED:
+            case \Magento\Paygate\Model\Authorizenet::PARTIAL_AUTH_ALL_CANCELED:
                 $message = __('We canceled your payment and released any money we were holding.');
                 break;
-            case Magento_Paygate_Model_Authorizenet::PARTIAL_AUTH_CARDS_LIMIT_EXCEEDED:
+            case \Magento\Paygate\Model\Authorizenet::PARTIAL_AUTH_CARDS_LIMIT_EXCEEDED:
                 $message = __('You can\'t use any more credit cards for this payment, and you don\'t have enough to pay for this purchase. Sorry, but we\'ll have to cancel your transaction.');
                 break;
-            case Magento_Paygate_Model_Authorizenet::PARTIAL_AUTH_DATA_CHANGED:
+            case \Magento\Paygate\Model\Authorizenet::PARTIAL_AUTH_DATA_CHANGED:
                 $message = __('Your order has not been placed, because the contents of the shopping cart and/or your address has been changed. Authorized amounts from your previous payment that were left pending are now released. Please go through the checkout process to purchase your cart contents.');
                 break;
         }
@@ -152,7 +154,7 @@ class Magento_Paygate_Block_Authorizenet_Form_Cc extends Magento_Payment_Block_F
      */
     public function getCancelButtonHtml()
     {
-        $cancelButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $cancelButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'id'      => 'payment_cancel',
                 'label'   => __('Cancel'),

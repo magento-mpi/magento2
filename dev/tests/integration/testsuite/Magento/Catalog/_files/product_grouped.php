@@ -9,10 +9,10 @@
 require __DIR__ . '/product_simple_duplicated.php';
 require __DIR__ . '/product_virtual.php';
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+/** @var $product \Magento\Catalog\Model\Product */
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->isObjectNew(true);
-$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_GROUPED)
+$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED)
     ->setId(9)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(1))
@@ -20,8 +20,8 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_GROUPED)
     ->setSku('grouped-product')
     ->setPrice(100)
     ->setTaxClassId(0)
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->setGroupedLinkData(array(
         2 => array('qty' => 1, 'position' => 1),
         21 => array('qty' => 1, 'position' => 2),

@@ -11,7 +11,9 @@
 /**
  * Theme customization files factory
  */
-class Magento_Core_Model_Theme_Customization_FileServiceFactory
+namespace Magento\Core\Model\Theme\Customization;
+
+class FileServiceFactory
 {
     /**
      * XML path to definitions of customization services
@@ -24,7 +26,7 @@ class Magento_Core_Model_Theme_Customization_FileServiceFactory
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
@@ -35,9 +37,9 @@ class Magento_Core_Model_Theme_Customization_FileServiceFactory
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_Config $config
+     * @param \Magento\Core\Model\Config $config
      */
-    public function __construct(\Magento\ObjectManager $objectManager, Magento_Core_Model_Config $config)
+    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\Config $config)
     {
         $this->_objectManager = $objectManager;
         $this->_config = $config;
@@ -55,17 +57,17 @@ class Magento_Core_Model_Theme_Customization_FileServiceFactory
      *
      * @param $type
      * @param array $data
-     * @return Magento_Core_Model_Theme_Customization_FileInterface
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\Theme\Customization\FileInterface
+     * @throws \InvalidArgumentException
      */
     public function create($type, array $data = array())
     {
         if (empty($this->_types[$type])) {
-            throw new InvalidArgumentException('Unsupported file type');
+            throw new \InvalidArgumentException('Unsupported file type');
         }
         $fileService = $this->_objectManager->get($this->_types[$type], array($data));
-        if (!$fileService instanceof Magento_Core_Model_Theme_Customization_FileInterface) {
-            throw new InvalidArgumentException('Service don\'t implement interface');
+        if (!$fileService instanceof \Magento\Core\Model\Theme\Customization\FileInterface) {
+            throw new \InvalidArgumentException('Service don\'t implement interface');
         }
         return $fileService;
     }

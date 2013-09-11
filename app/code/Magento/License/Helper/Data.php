@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_License
  */
-class Magento_License_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\License\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * It stores information about whether the extension uploaded php "Ioncube Loader"

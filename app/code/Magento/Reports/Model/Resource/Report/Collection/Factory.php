@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reports_Model_Resource_Report_Collection_Factory
+namespace Magento\Reports\Model\Resource\Report\Collection;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -25,7 +27,7 @@ class Magento_Reports_Model_Resource_Report_Collection_Factory
      *
      * @param string $className
      * @param array $arguments
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function create($className, array $arguments = array())
     {

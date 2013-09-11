@@ -9,7 +9,7 @@
 -->
 <layout>
     <handle id="arguments_complex_values">
-        <block class="Magento_Core_Block_Text" name="block_with_args_complex_values">
+        <block class="\Magento\Core\Block\Text" name="block_with_args_complex_values">
             <arguments>
                 <argument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="one" xsi:type="array">
                     <item name="parameters" xsi:type="array">

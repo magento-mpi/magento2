@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Return_Tracking extends Magento_Core_Block_Template
+namespace Magento\Rma\Block\Return;
+
+class Tracking extends \Magento\Core\Block\Template
 {
     /**
      * Get whether rma is allowed for PSL
@@ -26,13 +28,13 @@ class Magento_Rma_Block_Return_Tracking extends Magento_Core_Block_Template
     {
         parent::_construct();
 
-        $this->setRma(Mage::registry('current_rma'));
+        $this->setRma(\Mage::registry('current_rma'));
     }
 
     /**
      * Get collection of tracking numbers of RMA
      *
-     * @return Magento_Rma_Model_Resource_Shipping_Collection|array
+     * @return \Magento\Rma\Model\Resource\Shipping\Collection|array
      */
     public function getTrackingNumbers()
     {
@@ -62,8 +64,8 @@ class Magento_Rma_Block_Return_Tracking extends Magento_Core_Block_Template
      */
     public function getErrorMessage()
     {
-        $message = Mage::getSingleton('Magento_Core_Model_Session')->getErrorMessage();
-        Mage::getSingleton('Magento_Core_Model_Session')->unsErrorMessage();
+        $message = \Mage::getSingleton('Magento\Core\Model\Session')->getErrorMessage();
+        \Mage::getSingleton('Magento\Core\Model\Session')->unsErrorMessage();
         return $message;
     }
 

@@ -15,7 +15,9 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Model_Directpost_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Authorizenet\Model\Directpost;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * Class constructor. Initialize session namespace

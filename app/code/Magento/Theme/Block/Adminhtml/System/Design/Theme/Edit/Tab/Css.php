@@ -11,39 +11,41 @@
 /**
  * Theme form, Css editor tab
  *
- * @method Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css setFiles(array $files)
+ * @method \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css setFiles(array $files)
  * @method array getFiles()
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
-    extends Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_TabAbstract
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
+
+class Css
+    extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\TabAbstract
 {
     /**
      * Uploader service
      *
-     * @var Magento_Theme_Model_Uploader_Service
+     * @var \Magento\Theme\Model\Uploader\Service
      */
     protected $_uploaderService;
 
     /**
      * Theme custom css file
      *
-     * @var Magento_Core_Model_Theme_File
+     * @var \Magento\Core\Model\Theme\File
      */
     protected $_customCssFile;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Theme_Model_Uploader_Service $uploaderService
+     * @param \Magento\Theme\Model\Uploader\Service $uploaderService
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
+        \Magento\Backend\Block\Template\Context $context,
         \Magento\ObjectManager $objectManager,
-        Magento_Theme_Model_Uploader_Service $uploaderService,
+        \Magento\Theme\Model\Uploader\Service $uploaderService,
         array $data = array()
     ) {
         parent::__construct($context, $objectManager, $data);
@@ -53,7 +55,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Create a form element with necessary controls
      *
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css
      */
     protected function _prepareForm()
     {
@@ -62,15 +64,15 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         $this->_addThemeCssFieldset();
 
         $customFiles = $this->_getCurrentTheme()->getCustomization()->getFilesByType(
-            Magento_Theme_Model_Theme_Customization_File_CustomCss::TYPE
+            \Magento\Theme\Model\Theme\Customization\File\CustomCss::TYPE
         );
         $this->_customCssFile = reset($customFiles);
         $this->_addCustomCssFieldset();
 
         $formData['custom_css_content'] = $this->_customCssFile ? $this->_customCssFile->getContent() : null;
 
-        /** @var $session Magento_Backend_Model_Session */
-        $session = $this->_objectManager->get('Magento_Backend_Model_Session');
+        /** @var $session \Magento\Backend\Model\Session */
+        $session = $this->_objectManager->get('Magento\Backend\Model\Session');
         $cssFileContent = $session->getThemeCustomCssData();
         if ($cssFileContent) {
             $formData['custom_css_content'] = $cssFileContent;
@@ -84,7 +86,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Set theme css fieldset
      *
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css
      */
     protected function _addThemeCssFieldset()
     {
@@ -112,7 +114,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Prepare file items for output on page for download
      *
-     * @param Magento_Core_Model_Theme_File $file
+     * @param \Magento\Core\Model\Theme\File $file
      * @return array
      */
     protected function _convertFileData($file)
@@ -128,7 +130,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     /**
      * Set custom css fieldset
      *
-     * @return Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
+     * @return \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css
      */
     protected function _addCustomCssFieldset()
     {
@@ -164,8 +166,8 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
         }
         $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
 
-        /** @var $imageButton Magento_Backend_Block_Widget_Button */
-        $imageButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        /** @var $imageButton \Magento\Backend\Block\Widget\Button */
+        $imageButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
             'id'        => 'css_images_manager',
             'label'     => __('Manage'),
@@ -173,8 +175,8 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'onclick'   => "MediabrowserUtility.openDialog('"
                 . $this->getUrl('*/system_design_wysiwyg_files/index', array(
                     'target_element_id'                           => 'custom_css_content',
-                    Magento_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
-                    Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Magento_Theme_Model_Wysiwyg_Storage::TYPE_IMAGE
+                    \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
+                    \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(
@@ -188,8 +190,8 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'text'  => $imageButton->toHtml()
         ));
 
-        /** @var $fontButton Magento_Backend_Block_Widget_Button */
-        $fontButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        /** @var $fontButton \Magento\Backend\Block\Widget\Button */
+        $fontButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
             'id'        => 'css_fonts_manager',
             'label'     => __('Manage'),
@@ -197,8 +199,8 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
             'onclick'   => "MediabrowserUtility.openDialog('"
                 . $this->getUrl('*/system_design_wysiwyg_files/index', array(
                     'target_element_id'                           => 'custom_css_content',
-                    Magento_Theme_Helper_Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
-                    Magento_Theme_Helper_Storage::PARAM_CONTENT_TYPE => Magento_Theme_Model_Wysiwyg_Storage::TYPE_FONT
+                    \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => $this->_getCurrentTheme()->getId(),
+                    \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT
                 ))
                 . "', null, null,'"
                 . $this->quoteEscape(
@@ -249,8 +251,8 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
      */
     protected function _getAdditionalElementTypes()
     {
-        $linksElement = 'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links';
-        $fileElement = 'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File';
+        $linksElement = '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\Links';
+        $fileElement = '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File';
         return array('links' => $linksElement, 'css_file' => $fileElement);
     }
 
@@ -275,7 +277,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Css
     {
         return $this->getUrl('*/*/downloadCss', array(
             'theme_id' => $themeId,
-            'file'     => $this->_helperFactory->get('Magento_Core_Helper_Data')->urlEncode($fileId)
+            'file'     => $this->_helperFactory->get('Magento\Core\Helper\Data')->urlEncode($fileId)
         ));
     }
 }

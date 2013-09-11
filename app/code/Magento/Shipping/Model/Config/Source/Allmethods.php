@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Shipping_Model_Config_Source_Allmethods implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Shipping\Model\Config\Source;
+
+class Allmethods implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return array of carriers.
@@ -20,7 +22,7 @@ class Magento_Shipping_Model_Config_Source_Allmethods implements Magento_Core_Mo
     public function toOptionArray($isActiveOnlyFlag=false)
     {
         $methods = array(array('value'=>'', 'label'=>''));
-        $carriers = Mage::getSingleton('Magento_Shipping_Model_Config')->getAllCarriers();
+        $carriers = \Mage::getSingleton('Magento\Shipping\Model\Config')->getAllCarriers();
         foreach ($carriers as $carrierCode=>$carrierModel) {
             if (!$carrierModel->isActive() && (bool)$isActiveOnlyFlag === true) {
                 continue;
@@ -29,7 +31,7 @@ class Magento_Shipping_Model_Config_Source_Allmethods implements Magento_Core_Mo
             if (!$carrierMethods) {
                 continue;
             }
-            $carrierTitle = Mage::getStoreConfig('carriers/'.$carrierCode.'/title');
+            $carrierTitle = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title');
             $methods[$carrierCode] = array(
                 'label'   => $carrierTitle,
                 'value' => array(),

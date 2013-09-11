@@ -15,19 +15,21 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Rma_Create extends \Magento\Object
+namespace Magento\Rma\Model\Rma;
+
+class Create extends \Magento\Object
 {
     /**
      * Customer object, RMA's order attached to
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer = null;
 
     /**
      * Order object, RMA attached to
      *
-     * @var Magento_Sales_Model_Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order = null;
 
@@ -35,7 +37,7 @@ class Magento_Rma_Model_Rma_Create extends \Magento\Object
      * Get Customer object
      *
      * @param null|int $customerId
-     * @return Magento_Customer_Model_Customer|null
+     * @return \Magento\Customer\Model\Customer|null
      */
     public function getCustomer($customerId = null)
     {
@@ -46,7 +48,7 @@ class Magento_Rma_Model_Rma_Create extends \Magento\Object
             $customerId = intval($customerId);
 
             if ($customerId) {
-                $customer = Mage::getModel('Magento_Customer_Model_Customer');
+                $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
                 $customer->load($customerId);
                 $this->_customer = $customer;
             } elseif (intval($this->getOrderId())) {
@@ -60,7 +62,7 @@ class Magento_Rma_Model_Rma_Create extends \Magento\Object
      * Get Order object
      *
      * @param null|int $orderId
-     * @return Magento_Sales_Model_Order|null
+     * @return \Magento\Sales\Model\Order|null
      */
     public function getOrder($orderId = null)
     {
@@ -70,7 +72,7 @@ class Magento_Rma_Model_Rma_Create extends \Magento\Object
             }
             $orderId = intval($orderId);
             if ($orderId) {
-                $order = Mage::getModel('Magento_Sales_Model_Order');
+                $order = \Mage::getModel('\Magento\Sales\Model\Order');
                 $order->load($orderId);
                 $this->_order = $order;
             }

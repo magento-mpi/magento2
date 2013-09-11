@@ -16,9 +16,11 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
-    extends Magento_Adminhtml_Block_Template
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab;
+
+class Reward
+    extends \Magento\Adminhtml\Block\Template
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Return tab label
@@ -47,10 +49,10 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     public function canShowTab()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = \Mage::registry('current_customer');
         return $customer->getId()
-            && Mage::helper('Magento_Reward_Helper_Data')->isEnabled()
-            && $this->_authorization->isAllowed(Magento_Reward_Helper_Data::XML_PATH_PERMISSION_BALANCE);
+            && \Mage::helper('Magento\Reward\Helper\Data')->isEnabled()
+            && $this->_authorization->isAllowed(\Magento\Reward\Helper\Data::XML_PATH_PERMISSION_BALANCE);
     }
 
     /**
@@ -67,11 +69,11 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      * Prepare layout.
      * Add accordion items
      *
-     * @return Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward
      */
     protected function _prepareLayout()
     {
-        $accordion = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Accordion');
+        $accordion = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Accordion');
         $accordion->addItem('reward_points_history', array(
             'title'       => __('Reward Points History'),
             'open'        => false,

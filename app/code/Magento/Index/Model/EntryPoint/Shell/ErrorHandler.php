@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Index_Model_EntryPoint_Shell_ErrorHandler
+namespace Magento\Index\Model\EntryPoint\Shell;
+
+class ErrorHandler
 {
     /**
      * Terminate execution of the script

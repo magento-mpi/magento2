@@ -13,7 +13,7 @@
     <magento_giftcardaccount translate="label">
         <label>Gift Card Accounts</label>
         <expected_models>
-            <Magento_GiftCardAccount_Model_Giftcardaccount/>
+            <Magento\GiftCardAccount\Model\Giftcardaccount/>
         </expected_models>
         <actions>
             <adminhtml_giftcardaccount_edit>

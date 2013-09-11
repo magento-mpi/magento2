@@ -9,7 +9,7 @@
 class Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependencyTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependency
+     * @var \Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency
      */
     private $_model;
 
@@ -37,10 +37,10 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependencyTest exten
             ),
         );
 
-        $this->_fileSource = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
-        $this->_moduleListMock = $this->getMock('Magento_Core_Model_ModuleListInterface');
+        $this->_fileSource = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
+        $this->_moduleListMock = $this->getMock('Magento\Core\Model\ModuleListInterface');
         $this->_moduleListMock->expects($this->any())->method('getModules')->will($this->returnValue($modulesConfig));
-        $this->_model = new Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependency(
+        $this->_model = new \Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency(
             $this->_fileSource, $this->_moduleListMock
         );
     }
@@ -53,7 +53,7 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependencyTest exten
      */
     public function testGetFiles(array $fixtureFiles, array $expectedFiles, $message)
     {
-        $theme = $this->getMockForAbstractClass('Magento_Core_Model_ThemeInterface');
+        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
         $this->_fileSource
             ->expects($this->once())
             ->method('getFiles')
@@ -65,12 +65,12 @@ class Magento_Core_Model_Layout_File_Source_Decorator_ModuleDependencyTest exten
 
     public function getFilesDataProvider()
     {
-        $fileOne = new Magento_Core_Model_Layout_File('b.xml', 'Fixture_ModuleB');
-        $fileTwo = new Magento_Core_Model_Layout_File('a.xml', 'Fixture_ModuleA');
-        $fileThree = new Magento_Core_Model_Layout_File('b.xml', 'Fixture_ModuleA');
+        $fileOne = new \Magento\Core\Model\Layout\File('b.xml', 'Fixture_ModuleB');
+        $fileTwo = new \Magento\Core\Model\Layout\File('a.xml', 'Fixture_ModuleA');
+        $fileThree = new \Magento\Core\Model\Layout\File('b.xml', 'Fixture_ModuleA');
 
-        $unknownFileOne = new Magento_Core_Model_Layout_File('b.xml', 'Unknown_ModuleA');
-        $unknownFileTwo = new Magento_Core_Model_Layout_File('a.xml', 'Unknown_ModuleB');
+        $unknownFileOne = new \Magento\Core\Model\Layout\File('b.xml', 'Unknown_ModuleA');
+        $unknownFileTwo = new \Magento\Core\Model\Layout\File('a.xml', 'Unknown_ModuleB');
         return array(
             'same module' => array(
                 array($fileThree, $fileTwo),

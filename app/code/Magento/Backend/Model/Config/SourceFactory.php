@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Model_Config_SourceFactory
+namespace Magento\Backend\Model\Config;
+
+class SourceFactory
 {
     /**
      * Object manager

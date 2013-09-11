@@ -16,7 +16,9 @@
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Logging\Model\Resource;
+
+class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Filesystem
@@ -26,11 +28,11 @@ class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_D
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      * @param \Magento\Filesystem $filesystem
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function __construct(Magento_Core_Model_Resource $resource, \Magento\Filesystem $filesystem)
+    public function __construct(\Magento\Core\Model\Resource $resource, \Magento\Filesystem $filesystem)
     {
         parent::__construct($resource);
         $this->_filesystem = $filesystem;
@@ -48,10 +50,10 @@ class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_D
     /**
      * Convert data before save ip
      *
-     * @param Magento_Core_Model_Abstract $event
-     * @return $this|\Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $event
+     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $event)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $event)
     {
         $event->setData('ip', ip2long($event->getIp()));
         $event->setTime($this->formatDate($event->getTime()));
@@ -79,11 +81,11 @@ class Magento_Logging_Model_Resource_Event extends Magento_Core_Model_Resource_D
         $latestLogEntry = $readAdapter->fetchOne($select);
         if ($latestLogEntry) {
             // make sure folder for dump file will exist
-            /** @var Magento_Logging_Model_Archive $archive */
-            $archive = Mage::getModel('Magento_Logging_Model_Archive');
+            /** @var \Magento\Logging\Model\Archive $archive */
+            $archive = \Mage::getModel('\Magento\Logging\Model\Archive');
             $archive->createNew();
 
-            $expr = new Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');
+            $expr = new \Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');
             $select = $readAdapter->select()
                 ->from($this->getMainTable())
                 ->where('log_id <= ?', $latestLogEntry)

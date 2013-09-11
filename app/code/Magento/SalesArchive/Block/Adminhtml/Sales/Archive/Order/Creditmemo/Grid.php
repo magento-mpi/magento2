@@ -13,8 +13,10 @@
  *
  */
 
-class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid
-    extends Magento_Adminhtml_Block_Sales_Creditmemo_Grid
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Sales\Creditmemo\Grid
 {
     protected function _construct()
     {
@@ -30,7 +32,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_SalesArchive_Model_Resource_Order_Creditmemo_Collection';
+        return '\Magento\SalesArchive\Model\Resource\Order\Creditmemo\Collection';
     }
 
     /**
@@ -52,8 +54,8 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid
     {
         if (!empty($this->_exportTypes)) {
             foreach ($this->_exportTypes as $exportType) {
-                $url = Mage::helper('Magento_Core_Helper_Url')->removeRequestParam($exportType->getUrl(), 'action');
-                $exportType->setUrl(Mage::helper('Magento_Core_Helper_Url')->addRequestParam($url, array('action' => 'creditmemo')));
+                $url = \Mage::helper('Magento\Core\Helper\Url')->removeRequestParam($exportType->getUrl(), 'action');
+                $exportType->setUrl(\Mage::helper('Magento\Core\Helper\Url')->addRequestParam($url, array('action' => 'creditmemo')));
             }
             return $this->_exportTypes;
         }

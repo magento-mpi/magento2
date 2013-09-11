@@ -15,6 +15,8 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Resource_Item extends Magento_Wishlist_Model_Resource_Item
+namespace Magento\MultipleWishlist\Model\Resource;
+
+class Item extends \Magento\Wishlist\Model\Resource\Item
 {
 }

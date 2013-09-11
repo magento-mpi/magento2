@@ -29,22 +29,22 @@ class Magento_GoogleAdwords_Model_Config_Source_LanguageTest extends PHPUnit_Fra
     protected $_uppercaseFilterMock;
 
     /**
-     * @var Magento_GoogleAdwords_Model_Config_Source_Language
+     * @var \Magento\GoogleAdwords\Model\Config\Source\Language
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_helperMock = $this->getMock('Magento_GoogleAdwords_Helper_Data', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\GoogleAdwords\Helper\Data', array(), array(), '', false);
         $this->_localeMock = $this->getMock('Zend_Locale', array(), array(), '', false);
-        $this->_localeModelMock = $this->getMock('Magento_Core_Model_LocaleInterface', array(), array(), '', false);
+        $this->_localeModelMock = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false);
         $this->_localeModelMock->expects($this->once())->method('getLocale')
             ->will($this->returnValue($this->_localeMock));
-        $this->_uppercaseFilterMock = $this->getMock('Magento_GoogleAdwords_Model_Filter_UppercaseTitle', array(),
+        $this->_uppercaseFilterMock = $this->getMock('Magento\GoogleAdwords\Model\Filter\UppercaseTitle', array(),
             array(), '', false);
 
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManager->getObject('Magento_GoogleAdwords_Model_Config_Source_Language', array(
+        $this->_model = $objectManager->getObject('\Magento\GoogleAdwords\Model\Config\Source\Language', array(
             'locale' => $this->_localeModelMock,
             'helper' => $this->_helperMock,
             'uppercaseFilter' => $this->_uppercaseFilterMock,

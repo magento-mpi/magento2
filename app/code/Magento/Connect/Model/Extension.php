@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Model_Extension extends \Magento\Object
+namespace Magento\Connect\Model;
+
+class Extension extends \Magento\Object
 {
     /**
      * Cache for targets
@@ -62,11 +64,11 @@ class Magento_Connect_Model_Extension extends \Magento\Object
     /**
      * Set package object.
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     public function generatePackageXml()
     {
-        Mage::getSingleton('Magento_Connect_Model_Session')
+        \Mage::getSingleton('Magento\Connect\Model\Session')
             ->setLocalExtensionPackageFormData($this->getData());
 
         $this->_setPackage()
@@ -76,7 +78,7 @@ class Magento_Connect_Model_Extension extends \Magento\Object
             ->_setContents();
         if (!$this->getPackage()->validate()) {
             $message = $this->getPackage()->getErrors();
-            throw Mage::exception('Magento_Core', __($message[0]));
+            throw \Mage::exception('Magento_Core', __($message[0]));
         }
         $this->setPackageXml($this->getPackage()->getPackageXml());
         return $this;
@@ -85,7 +87,7 @@ class Magento_Connect_Model_Extension extends \Magento\Object
     /**
      * Set general information.
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     protected function _setPackage()
     {
@@ -101,7 +103,7 @@ class Magento_Connect_Model_Extension extends \Magento\Object
     /**
      * Set release information
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     protected function _setRelease()
     {
@@ -117,7 +119,7 @@ class Magento_Connect_Model_Extension extends \Magento\Object
     /**
      * Set authors
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     protected function _setAuthors()
     {
@@ -150,7 +152,7 @@ class Magento_Connect_Model_Extension extends \Magento\Object
     /**
      * Set php, php extensions, another packages dependencies
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     protected function _setDependencies()
     {
@@ -192,7 +194,7 @@ class Magento_Connect_Model_Extension extends \Magento\Object
     /**
      * Set contents. Add file or entire directory.
      *
-     * @return Magento_Connect_Model_Extension
+     * @return \Magento\Connect\Model\Extension
      */
     protected function _setContents()
     {
@@ -246,12 +248,12 @@ class Magento_Connect_Model_Extension extends \Magento\Object
         }
 
         try {
-            $path = Mage::helper('Magento_Connect_Helper_Data')->getLocalPackagesPath();
+            $path = \Mage::helper('Magento\Connect\Helper\Data')->getLocalPackagesPath();
             $this->_filesystem->write($path . 'package.xml', $this->getPackageXml());
 
             $this->unsPackageXml();
             $this->unsTargets();
-            $xml = Mage::helper('Magento_Core_Helper_Data')->assocToXml($this->getData());
+            $xml = \Mage::helper('Magento\Core\Helper\Data')->assocToXml($this->getData());
             $xml = new \Magento\Simplexml\Element($xml->asXML());
 
             // prepare dir to save
@@ -276,7 +278,7 @@ class Magento_Connect_Model_Extension extends \Magento\Object
      */
     public function createPackage()
     {
-        $path = Mage::helper('Magento_Connect_Helper_Data')->getLocalPackagesPath();
+        $path = \Mage::helper('Magento\Connect\Helper\Data')->getLocalPackagesPath();
         if (!is_dir($path)) {
             if (!mkdir($path)) {
                 return false;
@@ -296,7 +298,7 @@ class Magento_Connect_Model_Extension extends \Magento\Object
      */
     public function createPackageV1x()
     {
-        $path = Mage::helper('Magento_Connect_Helper_Data')->getLocalPackagesPathV1x();
+        $path = \Mage::helper('Magento\Connect\Helper\Data')->getLocalPackagesPathV1x();
         if (!is_dir($path)) {
             if (!mkdir($path)) {
                 return false;

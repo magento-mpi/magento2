@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */
-/** @var $category Magento_Catalog_Model_Category */
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+/** @var $category \Magento\Catalog\Model\Category */
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(3)
     ->setName('Category 1')
     ->setParentId(2) /**/
@@ -26,7 +26,7 @@ $category->setId(3)
     ->setPosition(1)
     ->save();
 
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(4)
     ->setName('Category 1.1')
     ->setParentId(3) /**/
@@ -39,7 +39,7 @@ $category->setId(4)
     ->setPosition(1)
     ->save();
 
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(5)
     ->setName('Category 1.1.1')
     ->setParentId(4) /**/
@@ -53,7 +53,7 @@ $category->setId(5)
     ->setCustomDesign('magento_blank')
     ->save();
 
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(6)
     ->setName('Category 2')
     ->setParentId(2) /**/
@@ -65,7 +65,7 @@ $category->setId(6)
     ->setPosition(2)
     ->save();
 
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(7)
     ->setName('Movable')
     ->setParentId(2) /**/
@@ -77,7 +77,7 @@ $category->setId(7)
     ->setPosition(3)
     ->save();
 
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(8)
     ->setName('Inactive')
     ->setParentId(2) /**/
@@ -89,9 +89,9 @@ $category->setId(8)
     ->save();
 
 
-/** @var $product Magento_Catalog_Model_Product */
-$product = Mage::getModel('Magento_Catalog_Model_Product');
-$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+/** @var $product \Magento\Catalog\Model\Product */
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
     ->setStoreId(1)
@@ -104,12 +104,12 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
         'use_config_manage_stock' => 0,
     ))
     ->setCategoryIds(array(2,3,4))
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->save();
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
-$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(2)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
     ->setStoreId(1)
@@ -122,6 +122,6 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
         'use_config_manage_stock' => 0,
     ))
     ->setCategoryIds(array(5))
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->save();

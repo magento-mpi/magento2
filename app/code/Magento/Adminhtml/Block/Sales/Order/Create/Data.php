@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Data extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     /**
      * Retrieve avilable currency codes
@@ -27,12 +29,12 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_
         $dirtyCodes = $this->getStore()->getAvailableCurrencyCodes();
         $codes = array();
         if (is_array($dirtyCodes) && count($dirtyCodes)) {
-            $rates = Mage::getModel('Magento_Directory_Model_Currency')->getCurrencyRates(
-                Mage::app()->getStore()->getBaseCurrency(),
+            $rates = \Mage::getModel('\Magento\Directory\Model\Currency')->getCurrencyRates(
+                \Mage::app()->getStore()->getBaseCurrency(),
                 $dirtyCodes
             );
             foreach ($dirtyCodes as $code) {
-                if (isset($rates[$code]) || $code == Mage::app()->getStore()->getBaseCurrencyCode()) {
+                if (isset($rates[$code]) || $code == \Mage::app()->getStore()->getBaseCurrencyCode()) {
                     $codes[] = $code;
                 }
             }
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_
      */
     public function getCurrencyName($code)
     {
-        return Mage::app()->getLocale()->currency($code)->getName();
+        return \Mage::app()->getLocale()->currency($code)->getName();
     }
 
     /**
@@ -59,7 +61,7 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Data extends Magento_Adminhtml_
      */
     public function getCurrencySymbol($code)
     {
-        $currency = Mage::app()->getLocale()->currency($code);
+        $currency = \Mage::app()->getLocale()->currency($code);
         return $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
     }
 

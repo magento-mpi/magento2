@@ -16,7 +16,9 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Source_Email_Method implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backend\Model\Config\Source\Email;
+
+class Method implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

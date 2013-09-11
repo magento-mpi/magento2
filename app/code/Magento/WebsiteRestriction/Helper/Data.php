@@ -12,7 +12,9 @@
  * WebsiteRestriction helper for translations
  *
  */
-class Magento_WebsiteRestriction_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\WebsiteRestriction\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Website restriction settings
@@ -28,11 +30,11 @@ class Magento_WebsiteRestriction_Helper_Data extends Magento_Core_Helper_Abstrac
     /**
      * Define if restriction is active
      *
-     * @param Magento_Core_Model_Store|string|int $store
+     * @param \Magento\Core\Model\Store|string|int $store
      * @return bool
      */
     public function getIsRestrictionEnabled($store = null)
     {
-        return (bool)(int)Mage::getStoreConfig(self::XML_PATH_RESTRICTION_ENABLED, $store);
+        return (bool)(int)\Mage::getStoreConfig(self::XML_PATH_RESTRICTION_ENABLED, $store);
     }
 }

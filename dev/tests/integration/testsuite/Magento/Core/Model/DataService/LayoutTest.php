@@ -22,12 +22,12 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
             . DS . 'TestProduct.php';
         include $fixtureFileName;
         $invoker = $objectManager->create(
-            'Magento_Core_Model_DataService_Invoker',
+            '\Magento\Core\Model\DataService\Invoker',
             array('config' => $config)
         );
-        /** @var Magento_Core_Model_DataService_Graph $dataServiceGraph */
+        /** @var \Magento\Core\Model\DataService\Graph $dataServiceGraph */
         $this->_dataServiceGraph = $objectManager->create(
-            'Magento_Core_Model_DataService_Graph',
+            '\Magento\Core\Model\DataService\Graph',
             array('dataServiceInvoker' => $invoker)
         );
     }
@@ -35,30 +35,30 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
     protected function _loadServiceCallsConfig()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Dir $dirs */
+        /** @var \Magento\Core\Model\Dir $dirs */
         $dirs = $objectManager->create(
-            'Magento_Core_Model_Dir',
+            '\Magento\Core\Model\Dir',
             array(
                 'baseDir' => BP,
-                'dirs' => array(Magento_Core_Model_Dir::MODULES => __DIR__ . '/LayoutTest')
+                'dirs' => array(\Magento\Core\Model\Dir::MODULES => __DIR__ . '/LayoutTest')
             )
         );
 
-        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
+        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = $objectManager->create(
-            'Magento_Core_Model_Config_Modules_Reader',
+            '\Magento\Core\Model\Config\Modules\Reader',
             array(
                 'dirs' => $dirs,
             )
         );
 
-        /** @var Magento_Core_Model_DataService_Config_Reader_Factory $dsCfgReaderFactory */
+        /** @var \Magento\Core\Model\DataService\Config\Reader\Factory $dsCfgReaderFactory */
         $dsCfgReaderFactory = $objectManager->create(
-            'Magento_Core_Model_DataService_Config_Reader_Factory'
+            '\Magento\Core\Model\DataService\Config\Reader\Factory'
         );
 
-        /** @var Magento_Core_Model_DataService_Config $config */
-        $dataServiceConfig = new Magento_Core_Model_DataService_Config($dsCfgReaderFactory, $moduleReader);
+        /** @var \Magento\Core\Model\DataService\Config $config */
+        $dataServiceConfig = new \Magento\Core\Model\DataService\Config($dsCfgReaderFactory, $moduleReader);
         return $dataServiceConfig;
     }
 
@@ -67,7 +67,7 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
      */
     public function testServiceCalls()
     {
-        /** @var Magento_Core_Model_Layout $layout */
+        /** @var \Magento\Core\Model\Layout $layout */
         $layout = $this->_getLayoutModel('layout_update.xml');
         $serviceCalls = $layout->getServiceCalls();
         $expectedServiceCalls = array(
@@ -94,16 +94,16 @@ class Magento_Core_Model_DataService_LayoutTest extends Magento_TestFramework_Te
      *
      * @param string $fixtureFile
      *
-     * @return Magento_Core_Model_Layout
+     * @return \Magento\Core\Model\Layout
      */
     protected function _getLayoutModel($fixtureFile)
     {
-        /** @var $layout Magento_Core_Model_Layout */
+        /** @var $layout \Magento\Core\Model\Layout */
         $layout = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Layout',
+            '\Magento\Core\Model\Layout',
             array('dataServiceGraph' => $this->_dataServiceGraph)
         );
-        $xml = simplexml_load_file(__DIR__ . "/LayoutTest/{$fixtureFile}", 'Magento_Core_Model_Layout_Element');
+        $xml = simplexml_load_file(__DIR__ . "/LayoutTest/{$fixtureFile}", '\Magento\Core\Model\Layout\Element');
         $layout->setXml($xml);
         $layout->generateElements();
         return $layout;

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_TargetRule_Model_Resource_Setup */
+/* @var $installer \Magento\TargetRule\Model\Resource\Setup */
 
 $installer = $this;
 $installer->startSetup();
@@ -21,9 +21,9 @@ $installer->addAttribute('catalog_product', 'related_tgtr_position_limit', array
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
-    'global'       => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'global'       => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
-    'backend'      => 'Magento_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
+    'backend'      => '\Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule',
 ));
 
 $installer->addAttribute('catalog_product', 'related_tgtr_position_behavior', array(
@@ -33,9 +33,9 @@ $installer->addAttribute('catalog_product', 'related_tgtr_position_behavior', ar
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
-    'global'       => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'global'       => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
-    'backend'      => 'Magento_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
+    'backend'      => '\Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule',
 ));
 
 $installer->addAttribute('catalog_product', 'upsell_tgtr_position_limit', array(
@@ -45,9 +45,9 @@ $installer->addAttribute('catalog_product', 'upsell_tgtr_position_limit', array(
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
-    'global'       => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'global'       => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
-    'backend'      =>'Magento_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
+    'backend'      =>'\Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule',
 ));
 
 $installer->addAttribute('catalog_product', 'upsell_tgtr_position_behavior', array(
@@ -57,9 +57,9 @@ $installer->addAttribute('catalog_product', 'upsell_tgtr_position_behavior', arr
     'user_defined' => false,
     'required'     => false,
     'type'         => 'int',
-    'global'       => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'global'       => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
     'input'        => 'text',
-    'backend'      =>'Magento_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule',
+    'backend'      =>'\Magento\TargetRule\Model\Catalog\Product\Attribute\Backend\Rule',
 ));
 
 /**

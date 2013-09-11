@@ -30,19 +30,19 @@ class MageTest extends PHPUnit_Framework_TestCase
     {
         $message = uniqid();
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $logger Magento_Core_Model_Logger|PHPUnit_Framework_MockObject_MockObject */
-        $logger = $this->getMock('Magento_Core_Model_Logger', array('log', 'addStreamLog'), array(), '', false);
-        $realLogger = $objectManager->get('Magento_Core_Model_Logger');
-        $objectManager->addSharedInstance($logger, 'Magento_Core_Model_Logger');
+        /** @var $logger \Magento\Core\Model\Logger|PHPUnit_Framework_MockObject_MockObject */
+        $logger = $this->getMock('Magento\Core\Model\Logger', array('log', 'addStreamLog'), array(), '', false);
+        $realLogger = $objectManager->get('Magento\Core\Model\Logger');
+        $objectManager->addSharedInstance($logger, '\Magento\Core\Model\Logger');
         try {
             $logger->expects($this->once())->method('log')->with($message, $expectedLevel, $expectedKey);
             if ($expectsAddLog) {
                 $logger->expects($this->once())->method('addStreamLog');
             }
             Mage::log($message, $level, $file, $forceLog);
-            $objectManager->addSharedInstance($realLogger, 'Magento_Core_Model_Logger');
+            $objectManager->addSharedInstance($realLogger, '\Magento\Core\Model\Logger');
         } catch (Exception $e) {
-            $objectManager->addSharedInstance($realLogger, 'Magento_Core_Model_Logger');
+            $objectManager->addSharedInstance($realLogger, '\Magento\Core\Model\Logger');
             throw $e;
         }
 
@@ -54,11 +54,11 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function logDataProvider()
     {
         return array(
-            array(null, '', false, Zend_Log::DEBUG, Magento_Core_Model_Logger::LOGGER_SYSTEM, false),
-            array(Zend_Log::CRIT, 'system.log', true, Zend_Log::CRIT, Magento_Core_Model_Logger::LOGGER_SYSTEM, false),
-            array(null, 'exception.log', false, Zend_Log::DEBUG, Magento_Core_Model_Logger::LOGGER_EXCEPTION, false),
+            array(null, '', false, Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_SYSTEM, false),
+            array(Zend_Log::CRIT, 'system.log', true, Zend_Log::CRIT, \Magento\Core\Model\Logger::LOGGER_SYSTEM, false),
+            array(null, 'exception.log', false, Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_EXCEPTION, false),
             array(null, 'custom.log', false, Zend_Log::DEBUG, 'custom.log', true, false),
-            array(null, 'exception.log', true, Zend_Log::DEBUG, Magento_Core_Model_Logger::LOGGER_EXCEPTION, true),
+            array(null, 'exception.log', true, Zend_Log::DEBUG, \Magento\Core\Model\Logger::LOGGER_EXCEPTION, true),
         );
     }
 
@@ -133,7 +133,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getModelDataProvider()
     {
         return array(
-            array('Magento_Core_Model_Config', 'Magento_Core_Model_Config')
+            array('Magento\Core\Model\Config', '\Magento\Core\Model\Config')
         );
     }
 
@@ -153,7 +153,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getResourceModelDataProvider()
     {
         return array(
-            array('Magento_Core_Model_Resource_Config', 'Magento_Core_Model_Resource_Config')
+            array('Magento\Core\Model\Resource\Config', '\Magento\Core\Model\Resource\Config')
         );
     }
 
@@ -173,7 +173,7 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function getResourceHelperDataProvider()
     {
         return array(
-            array('Magento_Core', 'Magento_Core_Model_Resource_Helper_Abstract')
+            array('Magento_Core', '\Magento\Core\Model\Resource\Helper\AbstractHelper')
         );
     }
 
@@ -193,8 +193,8 @@ class MageTest extends PHPUnit_Framework_TestCase
     public function helperDataProvider()
     {
         return array(
-            'module name' => array('Magento_Core',           'Magento_Core_Helper_Data'),
-            'class name'  => array('Magento_Core_Helper_Js', 'Magento_Core_Helper_Js'),
+            'module name' => array('Magento_Core',           '\Magento\Core\Helper\Data'),
+            'class name'  => array('Magento\Core\Helper\Js', '\Magento\Core\Helper\Js'),
         );
     }
 }

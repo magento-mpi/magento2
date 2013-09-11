@@ -14,8 +14,10 @@
  * @category    Magento
  * @package     Magento_GiftWrapping
  */
-class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Form\Renderer;
+
+class Element
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
     protected $_template = 'form/renderer/element.phtml';
 
@@ -84,7 +86,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Form_Renderer_Element
     {
         $html = '';
         $element = $this->getElement();
-        if (Mage::app()->isSingleStoreMode()) {
+        if (\Mage::app()->isSingleStoreMode()) {
             return $html;
         }
         if ($element->getScope() == 'global' || $element->getScope() === null) {

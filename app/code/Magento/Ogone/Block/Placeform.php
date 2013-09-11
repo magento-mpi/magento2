@@ -9,40 +9,42 @@
  */
 
 
-class Magento_Ogone_Block_Placeform extends Magento_Core_Block_Template
+namespace Magento\Ogone\Block;
+
+class Placeform extends \Magento\Core\Block\Template
 {
 
     /**
      * Get checkout session namespace
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getCheckout()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return \Mage::getSingleton('Magento\Checkout\Model\Session');
     }
 
     /**
      * Ogone payment APi instance
      *
-     * @return Magento_Ogone_Model_Api
+     * @return \Magento\Ogone\Model\Api
      */
     protected function _getApi()
     {
-        return Mage::getSingleton('Magento_Ogone_Model_Api');
+        return \Mage::getSingleton('Magento\Ogone\Model\Api');
     }
 
     /**
      * Return order instance with loaded onformation by increment id
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     protected function _getOrder()
     {
         if ($this->getOrder()) {
             $order = $this->getOrder();
         } else if ($this->getCheckout()->getLastRealOrderId()) {
-            $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
+            $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($this->getCheckout()->getLastRealOrderId());
         } else {
             return null;
         }

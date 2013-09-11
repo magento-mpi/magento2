@@ -11,7 +11,9 @@
 /**
  * Edit status form
  */
-class Magento_Adminhtml_Block_Sales_Order_Status_Edit_Form extends Magento_Adminhtml_Block_Sales_Order_Status_New_Form
+namespace Magento\Adminhtml\Block\Sales\Order\Status\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Sales\Order\Status\New\Form
 {
     protected function _construct()
     {
@@ -22,7 +24,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_Edit_Form extends Magento_Admin
     /**
      * Modify structure of new status form
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {

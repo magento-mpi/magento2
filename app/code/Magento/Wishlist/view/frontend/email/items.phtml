@@ -7,15 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/* @var $this Magento_Wishlist_Block_Share_Email_Items */
+/* @var $this \Magento\Wishlist\Block\Share\Email\Items */
 ?>
 <?php $l = $this->getWishlistItemsCount() ?>
 <div style="border:1px solid #E0E0E0; padding:15px; background:#F9F9F9;">
 <table cellspacing="0" cellpadding="0" border="0" width="650">
     <tr>
     <?php $i = 0; foreach ($this->getWishlistItems() as $item): $i++ ?>
-        <?php /* @var $item Magento_Wishlist_Model_Item */ ?>
-        <?php /* @var $_product Magento_Catalog_Model_Product */ ?>
+        <?php /* @var $item \Magento\Wishlist\Model\Item */ ?>
+        <?php /* @var $_product \Magento\Catalog\Model\Product */ ?>
         <?php $_product = $item->getProduct(); ?>
         <td width="32%">
             <p align="center" style="font-size:12px;"><a href="<?php echo $this->getProductUrl($_product) ?>"><img src="<?php echo $this->getSmallImageUrl($_product); ?>" width="<?php echo $this->getSmallImageSize()?>" height="<?php echo $this->getSmallImageSize()?>" style="border:1px solid #ccc;" alt="" /></a></p>

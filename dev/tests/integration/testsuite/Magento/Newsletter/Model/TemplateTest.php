@@ -15,13 +15,13 @@
 class Magento_Newsletter_Model_TemplateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Newsletter_Model_Template
+     * @var \Magento\Newsletter\Model\Template
      */
     protected  $_model = null;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Newsletter_Model_Template');
+        $this->_model = Mage::getModel('\Magento\Newsletter\Model\Template');
     }
 
     /**

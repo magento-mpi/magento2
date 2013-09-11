@@ -5,18 +5,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_FullPageCache_Model_Request_Identifier
+namespace Magento\FullPageCache\Model\Request;
+
+class Identifier
 {
     /**
      * FPC cache model
-     * @var Magento_FullPageCache_Model_Cache
+     * @var \Magento\FullPageCache\Model\Cache
      */
     protected $_fpcCache;
 
     /**
      * Application environment
      *
-     * @var Magento_FullPageCache_Model_Environment
+     * @var \Magento\FullPageCache\Model\Environment
      */
     protected $_environment;
 
@@ -49,14 +51,14 @@ class Magento_FullPageCache_Model_Request_Identifier
     /**
      * Design info model
      *
-     * @var Magento_FullPageCache_Model_DesignPackage_Info
+     * @var \Magento\FullPageCache\Model\DesignPackage\Info
      */
     protected $_designInfo;
 
     /**
      * Store identifier model
      *
-     * @var Magento_FullPageCache_Model_Store_Identifier
+     * @var \Magento\FullPageCache\Model\Store\Identifier
      */
     protected $_storeIdentifier;
 
@@ -68,17 +70,17 @@ class Magento_FullPageCache_Model_Request_Identifier
     protected $_storeKeyCacheKey;
 
     /**
-     * @param Magento_FullPageCache_Model_Cache $fpcCache
-     * @param Magento_FullPageCache_Model_DesignPackage_Info $designInfo
-     * @param Magento_FullPageCache_Model_Environment $environment
-     * @param Magento_FullPageCache_Model_Store_Identifier $storeIdentifier
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
+     * @param \Magento\FullPageCache\Model\DesignPackage\Info $designInfo
+     * @param \Magento\FullPageCache\Model\Environment $environment
+     * @param \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier
      * @param string $scopeCode
      */
     public function __construct(
-        Magento_FullPageCache_Model_Cache $fpcCache,
-        Magento_FullPageCache_Model_DesignPackage_Info $designInfo,
-        Magento_FullPageCache_Model_Environment $environment,
-        Magento_FullPageCache_Model_Store_Identifier $storeIdentifier,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
+        \Magento\FullPageCache\Model\DesignPackage\Info $designInfo,
+        \Magento\FullPageCache\Model\Environment $environment,
+        \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier,
         $scopeCode = ''
     ) {
         $this->_scopeCode = $scopeCode;
@@ -141,10 +143,10 @@ class Magento_FullPageCache_Model_Request_Identifier
             $cookieParams = array(
                 'store',
                 'currency',
-                Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER_GROUP,
-                Magento_FullPageCache_Model_Cookie::COOKIE_CUSTOMER_LOGGED_IN,
-                Magento_FullPageCache_Model_Cookie::CUSTOMER_SEGMENT_IDS,
-                Magento_FullPageCache_Model_Cookie::IS_USER_ALLOWED_SAVE_COOKIE
+                \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_GROUP,
+                \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_LOGGED_IN,
+                \Magento\FullPageCache\Model\Cookie::CUSTOMER_SEGMENT_IDS,
+                \Magento\FullPageCache\Model\Cookie::IS_USER_ALLOWED_SAVE_COOKIE
             );
 
             foreach ($cookieParams as $paramName) {

@@ -17,9 +17,11 @@
  * @package    Magento_Usa
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Usps
-    extends Magento_Usa_Model_Shipping_Carrier_Abstract
-    implements Magento_Shipping_Model_Carrier_Interface
+namespace Magento\Usa\Model\Shipping\Carrier;
+
+class Usps
+    extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+    implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
     /**
      * USPS containers
@@ -66,14 +68,14 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      * Destination Zip Code required flag
      *
      * @var boolean
-     * @deprecated since 1.7.0 functionality implemented in Magento_Usa_Model_Shipping_Carrier_Abstract
+     * @deprecated since 1.7.0 functionality implemented in \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
      */
     protected $_isZipCodeRequired;
 
     /**
      * Rate request data
      *
-     * @var Magento_Shipping_Model_Rate_Request|null
+     * @var \Magento\Shipping\Model\Rate\Request|null
      */
     protected $_request = null;
 
@@ -87,7 +89,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Rate result data
      *
-     * @var Magento_Shipping_Model_Rate_Result|null
+     * @var \Magento\Shipping\Model\Rate\Result|null
      */
     protected $_result = null;
 
@@ -106,7 +108,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     protected $_customizableContainerTypes = array('VARIABLE', 'RECTANGULAR', 'NONRECTANGULAR');
 
     /**
-     * Factory for Magento_Usa_Model_Simplexml_Element
+     * Factory for \Magento\Usa\Model\Simplexml\Element
      *
      * @var Magento_Usa_Model_Simplexml_ElementFactory
      */
@@ -125,10 +127,10 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Collect and get rates
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Shipping_Model_Rate_Result|bool|null
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Shipping\Model\Rate\Result|bool|null
      */
-    public function collectRates(Magento_Shipping_Model_Rate_Request $request)
+    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
     {
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
@@ -146,10 +148,10 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Prepare and set request to this instance
      *
-     * @param Magento_Shipping_Model_Rate_Request $request
-     * @return Magento_Usa_Model_Shipping_Carrier_Usps
+     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @return \Magento\Usa\Model\Shipping\Carrier\Usps
      */
-    public function setRequest(Magento_Shipping_Model_Rate_Request $request)
+    public function setRequest(\Magento\Shipping\Model\Rate\Request $request)
     {
         $this->_request = $request;
 
@@ -220,8 +222,8 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal(Mage::getStoreConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_ZIP,
+            $r->setOrigPostal(\Mage::getStoreConfig(
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
         }
@@ -229,8 +231,8 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         if ($request->getOrigCountryId()) {
             $r->setOrigCountryId($request->getOrigCountryId());
         } else {
-            $r->setOrigCountryId(Mage::getStoreConfig(
-                Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+            $r->setOrigCountryId(\Mage::getStoreConfig(
+                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             ));
         }
@@ -281,7 +283,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     /**
      * Get quotes
      *
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _getQuotes()
     {
@@ -308,7 +310,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      * Build RateV3 request, send it to USPS gateway and retrieve quotes in XML format
      *
      * @link http://www.usps.com/webtools/htm/Rate-Calculators-v2-3.htm
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _getXmlQuotes()
     {
@@ -406,7 +408,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                 if (!$url) {
                     $url = $this->_defaultGatewayUrl;
                 }
-                $client = new Zend_Http_Client();
+                $client = new \Zend_Http_Client();
                 $client->setUri($url);
                 $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
                 $client->setParameterGet('API', $api);
@@ -416,7 +418,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $responseBody = '';
             }
@@ -430,7 +432,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
      *
      * @link http://www.usps.com/webtools/htm/Rate-Calculators-v2-3.htm
      * @param string $response
-     * @return Magento_Shipping_Model_Rate_Result
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     protected function _parseXmlResponse($response)
     {
@@ -510,16 +512,16 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             }
         }
 
-        $result = Mage::getModel('Magento_Shipping_Model_Rate_Result');
+        $result = \Mage::getModel('\Magento\Shipping\Model\Rate\Result');
         if (empty($priceArr)) {
-            $error = Mage::getModel('Magento_Shipping_Model_Rate_Result_Error');
+            $error = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
             foreach ($priceArr as $method=>$price) {
-                $rate = Mage::getModel('Magento_Shipping_Model_Rate_Result_Method');
+                $rate = \Mage::getModel('\Magento\Shipping\Model\Rate\Result\Method');
                 $rate->setCarrier('usps');
                 $rate->setCarrierTitle($this->getConfigData('title'));
                 $rate->setMethod($method);
@@ -831,7 +833,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                 if (!$url) {
                     $url = $this->_defaultGatewayUrl;
                 }
-                $client = new Zend_Http_Client();
+                $client = new \Zend_Http_Client();
                 $client->setUri($url);
                 $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
                 $client->setParameterGet('API', $api);
@@ -840,7 +842,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                 $responseBody = $response->getBody();
                 $debugData['result'] = $responseBody;
             }
-            catch (Exception $e) {
+            catch (\Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $responseBody = '';
             }
@@ -886,19 +888,19 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         }
 
         if (!$this->_result) {
-            $this->_result = Mage::getModel('Magento_Shipping_Model_Tracking_Result');
+            $this->_result = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result');
         }
         $defaults = $this->getDefaults();
 
         if ($resultArr) {
-             $tracking = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Status');
+             $tracking = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Status');
              $tracking->setCarrier('usps');
              $tracking->setCarrierTitle($this->getConfigData('title'));
              $tracking->setTracking($trackingvalue);
              $tracking->setTrackSummary($resultArr['tracksummary']);
              $this->_result->append($tracking);
          } else {
-            $error = Mage::getModel('Magento_Shipping_Model_Tracking_Result_Error');
+            $error = \Mage::getModel('\Magento\Shipping\Model\Tracking\Result\Error');
             $error->setCarrier('usps');
             $error->setCarrierTitle($this->getConfigData('title'));
             $error->setTracking($trackingvalue);
@@ -915,7 +917,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
     public function getResponse()
     {
         $statuses = '';
-        if ($this->_result instanceof Magento_Shipping_Model_Tracking_Result) {
+        if ($this->_result instanceof \Magento\Shipping\Model\Tracking\Result) {
             if ($trackings = $this->_result->getAllTrackings()) {
                 foreach ($trackings as $tracking) {
                     if($data = $tracking->getAllData()) {
@@ -1219,11 +1221,11 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         $packageParams = $request->getPackageParams();
 
         $packageWeight = $request->getPackageWeight();
-        if ($packageParams->getWeightUnits() != Zend_Measure_Weight::OUNCE) {
-            $packageWeight = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+        if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::OUNCE) {
+            $packageWeight = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
-                Zend_Measure_Weight::OUNCE
+                \Zend_Measure_Weight::OUNCE
             ));
         }
 
@@ -1300,15 +1302,15 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
                 $serviceType = 'Library Mail';
                 break;
             default:
-                throw new Exception(__('Service type does not match'));
+                throw new \Exception(__('Service type does not match'));
         }
         $packageParams = $request->getPackageParams();
         $packageWeight = $request->getPackageWeight();
-        if ($packageParams->getWeightUnits() != Zend_Measure_Weight::OUNCE) {
-            $packageWeight = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+        if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::OUNCE) {
+            $packageWeight = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
-                Zend_Measure_Weight::OUNCE
+                \Zend_Measure_Weight::OUNCE
             ));
         }
 
@@ -1383,35 +1385,35 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         $length = $packageParams->getLength();
         $girth = $packageParams->getGirth();
         $packageWeight = $request->getPackageWeight();
-        if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
-            $packageWeight = Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+        if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
+            $packageWeight = \Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
                 $request->getPackageWeight(),
                 $packageParams->getWeightUnits(),
-                Zend_Measure_Weight::POUND
+                \Zend_Measure_Weight::POUND
             );
         }
-        if ($packageParams->getDimensionUnits() != Zend_Measure_Length::INCH) {
-            $length = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+        if ($packageParams->getDimensionUnits() != \Zend_Measure_Length::INCH) {
+            $length = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
                 $packageParams->getLength(),
                 $packageParams->getDimensionUnits(),
-                Zend_Measure_Length::INCH
+                \Zend_Measure_Length::INCH
             ));
-            $width = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+            $width = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
                 $packageParams->getWidth(),
                 $packageParams->getDimensionUnits(),
-                Zend_Measure_Length::INCH
+                \Zend_Measure_Length::INCH
             ));
-            $height = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+            $height = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
                 $packageParams->getHeight(),
                 $packageParams->getDimensionUnits(),
-                Zend_Measure_Length::INCH
+                \Zend_Measure_Length::INCH
             ));
         }
-        if ($packageParams->getGirthDimensionUnits() != Zend_Measure_Length::INCH) {
-            $girth = round(Mage::helper('Magento_Usa_Helper_Data')->convertMeasureDimension(
+        if ($packageParams->getGirthDimensionUnits() != \Zend_Measure_Length::INCH) {
+            $girth = round(\Mage::helper('Magento\Usa\Helper\Data')->convertMeasureDimension(
                 $packageParams->getGirth(),
                 $packageParams->getGirthDimensionUnits(),
-                Zend_Measure_Length::INCH
+                \Zend_Measure_Length::INCH
             ));
         }
 
@@ -1520,7 +1522,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
 
                 $productIds[]= $item->getProductId();
         }
-        $productCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection')
+        $productCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection')
             ->addStoreFilter($request->getStoreId())
             ->addFieldToFilter('entity_id', array('in' => $productIds))
             ->addAttributeToSelect('country_of_manufacture');
@@ -1535,11 +1537,11 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
             $item->setData($itemShipment);
 
             $itemWeight = $item->getWeight() * $item->getQty();
-            if ($packageParams->getWeightUnits() != Zend_Measure_Weight::POUND) {
-                $itemWeight = Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
+            if ($packageParams->getWeightUnits() != \Zend_Measure_Weight::POUND) {
+                $itemWeight = \Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
                     $itemWeight,
                     $packageParams->getWeightUnits(),
-                    Zend_Measure_Weight::POUND
+                    \Zend_Measure_Weight::POUND
                 );
             }
             if (!empty($countriesOfManufacture[$item->getProductId()])) {
@@ -1645,7 +1647,7 @@ class Magento_Usa_Model_Shipping_Carrier_Usps
         if (!$url) {
             $url = $this->_defaultGatewayUrl;
         }
-        $client = new Zend_Http_Client();
+        $client = new \Zend_Http_Client();
         $client->setUri($url);
         $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
         $client->setParameterGet('API', $api);

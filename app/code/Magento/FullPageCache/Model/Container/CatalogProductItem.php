@@ -11,8 +11,10 @@
 /**
  * Placeholder container for catalog product items
  */
-class Magento_FullPageCache_Model_Container_CatalogProductItem
-    extends Magento_FullPageCache_Model_Container_Advanced_Quote
+namespace Magento\FullPageCache\Model\Container;
+
+class CatalogProductItem
+    extends \Magento\FullPageCache\Model\Container\Advanced\Quote
 {
     const BLOCK_NAME_RELATED           = 'CATALOG_PRODUCT_ITEM_RELATED';
     const BLOCK_NAME_UPSELL            = 'CATALOG_PRODUCT_ITEM_UPSELL';
@@ -20,7 +22,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     /**
      * Parent (container) block
      *
-     * @var null|Magento_TargetRule_Block_Catalog_Product_ProductList_Abstract
+     * @var null|\Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
      */
     protected $_parentBlock;
 
@@ -70,9 +72,9 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     {
         $blockName = $this->_placeholder->getName();
         if ($blockName == self::BLOCK_NAME_RELATED) {
-            return 'Magento_TargetRule_Block_Catalog_Product_ProductList_Related';
+            return '\Magento\TargetRule\Block\Catalog\Product\ProductList\Related';
         } elseif ($blockName == self::BLOCK_NAME_UPSELL) {
-            return 'Magento_TargetRule_Block_Catalog_Product_ProductList_Upsell';
+            return '\Magento\TargetRule\Block\Catalog\Product\ProductList\Upsell';
         }
 
         return null;
@@ -88,7 +90,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
         if (is_null($this->_infoCacheId)) {
             $this->_infoCacheId = 'CATALOG_PRODUCT_LIST_SHARED_'
                 . md5($this->_placeholder->getName()
-                    . $this->_getCookieValue(Magento_FullPageCache_Model_Cookie::COOKIE_CART, '')
+                    . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CART, '')
                     . $this->_getProductId());
         }
         return $this->_infoCacheId;
@@ -97,7 +99,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     /**
      * Saves informational cache, containing parameters used to show lists.
      *
-     * @return Magento_FullPageCache_Model_Container_CatalogProductItem
+     * @return \Magento\FullPageCache\Model\Container\CatalogProductItem
      */
     protected function _saveInfoCache()
     {
@@ -107,7 +109,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
         }
 
         $data = array();
-        $cacheRecord = Magento_FullPageCache_Model_Container_Abstract::_loadCache($this->_getCacheId());
+        $cacheRecord = \Magento\FullPageCache\Model\Container\AbstractContainer::_loadCache($this->_getCacheId());
         if ($cacheRecord) {
             $cacheRecord = json_decode($cacheRecord, true);
             if ($cacheRecord) {
@@ -117,7 +119,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
         $data[$this->_getInfoCacheId()] = self::$_sharedInfoData[$placeholderName]['info'];
         $data = json_encode($data);
 
-        $tags = array(Magento_FullPageCache_Model_Processor::CACHE_TAG);
+        $tags = array(\Magento\FullPageCache\Model\Processor::CACHE_TAG);
         $lifetime = $this->_placeholder->getAttribute('cache_lifetime');
         if (!$lifetime) {
             $lifetime = false;
@@ -155,7 +157,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
      *
      * @param string $key
      * @param mixed $value
-     * @return Magento_FullPageCache_Model_Container_CatalogProductItem
+     * @return \Magento\FullPageCache\Model\Container\CatalogProductItem
      */
     protected function _setSharedParam($key, $value)
     {
@@ -171,13 +173,13 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
     /**
      * Get parent (container) block
      *
-     * @return false|Magento_TargetRule_Block_Catalog_Product_ProductList_Abstract
+     * @return false|\Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
      */
     protected function _getParentBlock()
     {
         if (is_null($this->_parentBlock)) {
             $blockType = $this->_getListBlockType();
-            $this->_parentBlock = $blockType ? Mage::app()->getLayout()->createBlock($blockType) : false;
+            $this->_parentBlock = $blockType ? \Mage::app()->getLayout()->createBlock($blockType) : false;
         }
 
         return $this->_parentBlock;
@@ -197,15 +199,15 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
                 $parentBlock = $this->_getParentBlock();
                 if ($parentBlock) {
                     $productId = $this->_getProductId();
-                    if ($productId && !Mage::registry('product')) {
-                        $product = Mage::getModel('Magento_Catalog_Model_Product')
-                            ->setStoreId(Mage::app()->getStore()->getId())
+                    if ($productId && !\Mage::registry('product')) {
+                        $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                            ->setStoreId(\Mage::app()->getStore()->getId())
                             ->load($productId);
                         if ($product) {
-                            Mage::register('product', $product);
+                            \Mage::register('product', $product);
                         }
                     }
-                    $ids = Mage::registry('product') ? $parentBlock->getAllIds() : array();
+                    $ids = \Mage::registry('product') ? $parentBlock->getAllIds() : array();
                     $this->_setSharedParam('shuffled', $parentBlock->isShuffled());
                 }
                 if (!$ids) {
@@ -300,9 +302,9 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
             return '';
         }
 
-        /** @var $item Magento_Catalog_Model_Product */
-        $item = Mage::getModel('Magento_Catalog_Model_Product')
-            ->setStoreId(Mage::app()->getStore()->getId())
+        /** @var $item \Magento\Catalog\Model\Product */
+        $item = \Mage::getModel('\Magento\Catalog\Model\Product')
+            ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($itemId);
 
         $block = $this->_getPlaceHolderBlock();
@@ -317,7 +319,7 @@ class Magento_FullPageCache_Model_Container_CatalogProductItem
             );
         }
 
-        Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
+        \Mage::dispatchEvent('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
         return $block->toHtml();
     }

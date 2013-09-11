@@ -11,17 +11,19 @@
 /**
  * Customer address attributes conditions combine
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address
-    extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+class Address
+    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Customer\Address');
     }
 
     /**
@@ -37,8 +39,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address
                 'value' => $this->getType(),
                 'label' => __('Conditions Combination')
             ),
-            Mage::getModel($prefix.'Default')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
+            \Mage::getModel($prefix.'Default')->getNewChildSelectOptions(),
+            \Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }
@@ -76,9 +78,9 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address
     {
         $resource = $this->getResource();
         $select = $resource->createSelect();
-        $addressEntityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('customer_address');
+        $addressEntityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('customer_address');
         $addressTable = $resource->getTable($addressEntityType->getEntityTable());
-        $select->from(array('customer_address' => $addressTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('customer_address' => $addressTable), array(new \Zend_Db_Expr(1)));
         $select->where('customer_address.entity_type_id = ?', $addressEntityType->getId());
         $select->where($this->_createCustomerFilter($customer, 'customer_address.parent_id'));
         $select->limit(1);

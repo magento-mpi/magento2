@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order\Invoice\Create;
+
+class Tracking extends \Magento\Adminhtml\Block\Template
 {
     public function _construct()
     {
@@ -25,11 +27,11 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
     /**
      * Prepares layout of block
      *
-     * @return Magento_Adminhtml_Block_Sales_Order_View_Giftmessage
+     * @return \Magento\Adminhtml\Block\Sales\Order\View\Giftmessage
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'   => __('Add Tracking Number'),
             'class'   => '',
             'onclick' => 'trackingControl.add()'
@@ -39,21 +41,21 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return \Mage::registry('current_shipment');
     }
 
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getInvoice()
     {
-        return Mage::registry('current_invoice');
+        return \Mage::registry('current_invoice');
     }
 
     /**
@@ -65,7 +67,7 @@ class Magento_Adminhtml_Block_Sales_Order_Invoice_Create_Tracking extends Magent
     {
 
         $carriers = array();
-        $carrierInstances = Mage::getSingleton('Magento_Shipping_Model_Config')->getAllCarriers(
+        $carrierInstances = \Mage::getSingleton('Magento\Shipping\Model\Config')->getAllCarriers(
             $this->getInvoice()->getStoreId()
         );
         $carriers['custom'] = __('Custom Value');

@@ -9,28 +9,30 @@
  */
 
 /**
- * @method Magento_Api_Model_Resource_Roles _getResource()
- * @method Magento_Api_Model_Resource_Roles getResource()
+ * @method \Magento\Api\Model\Resource\Roles _getResource()
+ * @method \Magento\Api\Model\Resource\Roles getResource()
  * @method int getParentId()
- * @method Magento_Api_Model_Roles setParentId(int $value)
+ * @method \Magento\Api\Model\Roles setParentId(int $value)
  * @method int getTreeLevel()
- * @method Magento_Api_Model_Roles setTreeLevel(int $value)
+ * @method \Magento\Api\Model\Roles setTreeLevel(int $value)
  * @method int getSortOrder()
- * @method Magento_Api_Model_Roles setSortOrder(int $value)
+ * @method \Magento\Api\Model\Roles setSortOrder(int $value)
  * @method string getRoleType()
- * @method Magento_Api_Model_Roles setRoleType(string $value)
+ * @method \Magento\Api\Model\Roles setRoleType(string $value)
  * @method int getUserId()
- * @method Magento_Api_Model_Roles setUserId(int $value)
+ * @method \Magento\Api\Model\Roles setUserId(int $value)
  * @method string getRoleName()
- * @method Magento_Api_Model_Roles setRoleName(string $value)
+ * @method \Magento\Api\Model\Roles setRoleName(string $value)
  * @method string getName()
- * @method Magento_Api_Model_Role setName() setName(string $name)
+ * @method \Magento\Api\Model\Role setName() setName(string $name)
  *
  * @category    Magento
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Roles extends Magento_Core_Model_Abstract
+namespace Magento\Api\Model;
+
+class Roles extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Filters
@@ -42,7 +44,7 @@ class Magento_Api_Model_Roles extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_Api_Model_Resource_Roles');
+        $this->_init('\Magento\Api\Model\Resource\Roles');
     }
 
     public function update()
@@ -53,7 +55,7 @@ class Magento_Api_Model_Roles extends Magento_Core_Model_Abstract
 
     public function getUsersCollection()
     {
-        return Mage::getResourceModel('Magento_Api_Model_Resource_Roles_User_Collection');
+        return \Mage::getResourceModel('\Magento\Api\Model\Resource\Roles\User\Collection');
     }
 
     public function getResourcesTree()
@@ -83,7 +85,7 @@ class Magento_Api_Model_Roles extends Magento_Core_Model_Abstract
         static $result;
 
         if (is_null($resource)) {
-            $resource = Mage::getSingleton('Magento_Api_Model_Config')->getNode('acl/resources');
+            $resource = \Mage::getSingleton('Magento\Api\Model\Config')->getNode('acl/resources');
             $resourceName = null;
             $level = -1;
         } else {
@@ -134,7 +136,7 @@ class Magento_Api_Model_Roles extends Magento_Core_Model_Abstract
     /**
      * Filter data before save
      *
-     * @return Magento_Api_Model_Roles
+     * @return \Magento\Api\Model\Roles
      */
     protected function _beforeSave()
     {
@@ -146,7 +148,7 @@ class Magento_Api_Model_Roles extends Magento_Core_Model_Abstract
     /**
      * Filter set data
      *
-     * @return Magento_Api_Model_Roles
+     * @return \Magento\Api\Model\Roles
      */
     public function filter()
     {
@@ -154,8 +156,8 @@ class Magento_Api_Model_Roles extends Magento_Core_Model_Abstract
         if (!$this->_filters || !$data) {
             return $this;
         }
-        /** @var $filter Magento_Core_Model_Input_Filter */
-        $filter = Mage::getModel('Magento_Core_Model_Input_Filter');
+        /** @var $filter \Magento\Core\Model\Input\Filter */
+        $filter = \Mage::getModel('\Magento\Core\Model\Input\Filter');
         $filter->setFilters($this->_filters);
         $this->setData($filter->filter($data));
         return $this;

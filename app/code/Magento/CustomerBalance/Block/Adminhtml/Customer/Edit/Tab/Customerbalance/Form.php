@@ -15,13 +15,15 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form extends
-    Magento_Adminhtml_Block_Widget_Form
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
+
+class Form extends
+    \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Prepare form fields
      *
-     * @return Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form
+     * @return \Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Form
      */
     protected function _prepareForm()
     {
@@ -30,19 +32,19 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
         $form->setHtmlIdPrefix($prefix);
         $form->setFieldNameSuffix('customerbalance');
 
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($this->getRequest()->getParam('id'));
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($this->getRequest()->getParam('id'));
 
         /** @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset = $form->addFieldset('storecreidt_fieldset',
             array('legend' => __('Update Balance'))
         );
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('website_id', 'select', array(
                 'name'     => 'website_id',
                 'label'    => __('Website'),
                 'title'    => __('Website'),
-                'values'   => Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteValuesForForm(),
+                'values'   => \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteValuesForForm(),
                 'onchange' => 'updateEmailWebsites()',
             ));
         }
@@ -58,7 +60,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             'name'     => 'notify_by_email',
             'label'    => __('Notify Customer by Email'),
             'title'    => __('Notify Customer by Email'),
-            'after_element_html' => !Mage::app()->isSingleStoreMode() ? '<script type="text/javascript">'
+            'after_element_html' => !\Mage::app()->isSingleStoreMode() ? '<script type="text/javascript">'
                 . "
                 $('{$prefix}notify_by_email').disableSendemail = function() {
                     $('{$prefix}store_id').disabled = (this.checked) ? false : true;
@@ -69,14 +71,14 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
                 . '</script>' : '',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $field = $fieldset->addField('store_id', 'select', array(
                 'name'  => 'store_id',
                 'label' => __('Send Email Notification From the Following Store View'),
                 'title' => __('Send Email Notification From the Following Store View'),
             ));
             $renderer = $this->getLayout()
-                ->createBlock('Magento_Backend_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+                ->createBlock('\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
             $field->setRenderer($renderer);
         }
 
@@ -112,9 +114,9 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
     protected function _afterToHtml($html)
     {
         $html = parent::_afterToHtml($html);
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $block = $this->getLayout()
-                ->createBlock('Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js',
+                ->createBlock('\Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Js',
                 'customerbalance_edit_js'
             );
             $block->setTemplate('edit/js.phtml');

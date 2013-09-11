@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Block_Template
+namespace Magento\Widget\Block\Adminhtml\Widget;
+
+class Chooser extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Chooser source URL getter
@@ -136,7 +138,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Bl
         }
 
         $buttons = $config->getButtons();
-        $chooseButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+        $chooseButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setType('button')
             ->setId($chooserId . 'control')
             ->setClass('btn-chooser')
@@ -146,7 +148,7 @@ class Magento_Widget_Block_Adminhtml_Widget_Chooser extends Magento_Adminhtml_Bl
         $chooser->setData('after_element_html', $hiddenHtml . $chooseButton->toHtml());
 
         // render label and chooser scripts
-        $configJson = Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config->getData());
+        $configJson = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config->getData());
         return '
             <label class="widget-option-label" id="' . $chooserId . 'label">'
             . ($this->getLabel() ? $this->getLabel() : __('Not Selected')) . '</label>

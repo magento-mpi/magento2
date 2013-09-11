@@ -16,9 +16,11 @@
  * @method string getCssClass()
  * @method string getRequired()
  * @method string getNote()
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker setCssClass($class)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ColorPicker setCssClass($class)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_ColorPicker extends \Magento\Data\Form\Element\AbstractElement
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
+class ColorPicker extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Control type

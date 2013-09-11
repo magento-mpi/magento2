@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Catalog_Block_Product_ProductList_Related.
+ * Test class for \Magento\Catalog\Block\Product\ProductList\Related.
  *
  * @magentoDataFixture Magento/Catalog/_files/products_related.php
  */
@@ -18,19 +18,19 @@ class Magento_Catalog_Block_Product_ProductList_RelatedTest extends PHPUnit_Fram
 {
     public function testAll()
     {
-        Mage::app()->getArea(Magento_Core_Model_App_Area::AREA_FRONTEND)->load();
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        Mage::app()->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load(2);
         Mage::register('product', $product);
-        /** @var $block Magento_Catalog_Block_Product_ProductList_Related */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Catalog_Block_Product_ProductList_Related');
-        $block->setLayout(Mage::getModel('Magento_Core_Model_Layout'));
+        /** @var $block \Magento\Catalog\Block\Product\ProductList\Related */
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Catalog\Block\Product\ProductList\Related');
+        $block->setLayout(Mage::getModel('\Magento\Core\Model\Layout'));
         $block->setTemplate('product/list/related.phtml');
 
         $html = $block->toHtml();
         $this->assertNotEmpty($html);
         $this->assertContains('Simple Related Product', $html); /* name */
         $this->assertContains('product/1/', $html);  /* part of url */
-        $this->assertInstanceOf('Magento_Catalog_Model_Resource_Product_Link_Product_Collection', $block->getItems());
+        $this->assertInstanceOf('\Magento\Catalog\Model\Resource\Product\Link\Product\Collection', $block->getItems());
     }
 }

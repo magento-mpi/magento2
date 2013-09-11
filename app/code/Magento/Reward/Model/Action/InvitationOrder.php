@@ -15,7 +15,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_InvitationOrder extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class InvitationOrder extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Retrieve points delta for action
@@ -25,7 +27,7 @@ class Magento_Reward_Model_Action_InvitationOrder extends Magento_Reward_Model_A
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig('invitation_order', $websiteId);
+        return (int)\Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig('invitation_order', $websiteId);
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_Reward_Model_Action_InvitationOrder extends Magento_Reward_Model_A
      */
     public function canAddRewardPoints()
     {
-        $frequency = Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig(
+        $frequency = \Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig(
             'invitation_order_frequency', $this->getReward()->getWebsiteId()
         );
         if ($frequency == '*') {
@@ -52,7 +54,7 @@ class Magento_Reward_Model_Action_InvitationOrder extends Magento_Reward_Model_A
      */
     public function getRewardLimit()
     {
-        return Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig(
+        return \Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig(
             'invitation_order_limit',
             $this->getReward()->getWebsiteId()
         );
@@ -73,8 +75,8 @@ class Magento_Reward_Model_Action_InvitationOrder extends Magento_Reward_Model_A
     /**
      * Setter for $_entity and add some extra data to history
      *
-     * @param Magento_Invitation_Model_Invitation $entity
-     * @return Magento_Reward_Model_Action_Abstract
+     * @param \Magento\Invitation\Model\Invitation $entity
+     * @return \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)
     {

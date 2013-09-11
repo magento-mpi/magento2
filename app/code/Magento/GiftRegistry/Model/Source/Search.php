@@ -11,7 +11,9 @@
 /**
  * Search source model
  */
-class Magento_GiftRegistry_Model_Source_Search
+namespace Magento\GiftRegistry\Model\Source;
+
+class Search
 {
     /**
      * Quick search form types

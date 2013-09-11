@@ -16,7 +16,9 @@
  * @package    Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Acl_Resource extends Zend_Acl_Resource
+namespace Magento\Api\Model\Acl;
+
+class Resource extends \Zend_Acl_Resource
 {
 
 }

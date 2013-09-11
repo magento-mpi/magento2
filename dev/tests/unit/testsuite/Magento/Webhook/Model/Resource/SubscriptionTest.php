@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Subscription
+ * \Magento\Webhook\Model\Resource\Subscription
  *
  * {license_notice}
  *
@@ -49,7 +49,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
     public function setUp()
     {
         $this->_selectMock = $this->_makeMock('\Magento\DB\Select');
-        $this->_resourceMock = $this->_makeMock('Magento_Core_Model_Resource');
+        $this->_resourceMock = $this->_makeMock('\Magento\Core\Model\Resource');
         $this->_adapterMock = $this->_makeMock('\Magento\DB\Adapter\Pdo\Mysql');
         $this->_adapterMock->expects($this->any())
             ->method('select')
@@ -58,7 +58,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
 
         // Config mock
         $configMethods = array('getNode', 'setNode', 'getXpath', 'reinit');
-        $this->_configMock = $this->getMock('Magento_Core_Model_ConfigInterface', $configMethods, array(), '', false);
+        $this->_configMock = $this->getMock('Magento\Core\Model\ConfigInterface', $configMethods, array(), '', false);
     }
 
     /**
@@ -101,7 +101,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             ->will($this->returnSelf());
 
         // Subscription model mock
-        $subscriptionMock = $this->_makeMock('Magento_Webhook_Model_Subscription');
+        $subscriptionMock = $this->_makeMock('\Magento\Webhook\Model\Subscription');
         $subscriptionMock->expects($this->any())
             ->method('getId')
             ->with()
@@ -119,7 +119,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             ->method('getData')
             ->with('topics')
             ->will($this->returnValue($newTopics));
-        $configElement = new Magento_Core_Model_Config_Element(self::TOPICS_XML);
+        $configElement = new \Magento\Core\Model\Config\Element(self::TOPICS_XML);
         $this->_configMock->expects($this->once())
             ->method('getNode')
             ->will($this->returnValue($configElement));
@@ -168,7 +168,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
             ->will($this->returnSelf());
 
         // Subscription model mock
-        $subscriptionMock = $this->_makeMock('Magento_Webhook_Model_Subscription');
+        $subscriptionMock = $this->_makeMock('\Magento\Webhook\Model\Subscription');
         $subscriptionMock->expects($this->any())
             ->method('getId')
             ->with()
@@ -199,7 +199,7 @@ class Magento_Webhook_Model_Resource_SubscriptionTest extends PHPUnit_Framework_
     private function _makeSubscriptionResourceMock($methods)
     {
         return $this->getMock(
-            'Magento_Webhook_Model_Resource_Subscription',
+            '\Magento\Webhook\Model\Resource\Subscription',
             $methods,
             array($this->_resourceMock, $this->_configMock),
             '',

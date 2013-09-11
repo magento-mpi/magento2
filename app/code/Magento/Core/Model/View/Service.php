@@ -11,7 +11,9 @@
 /**
  * Design service model
  */
-class Magento_Core_Model_View_Service
+namespace Magento\Core\Model\View;
+
+class Service
 {
     /**
      * Scope separator
@@ -19,17 +21,17 @@ class Magento_Core_Model_View_Service
     const SCOPE_SEPARATOR = '::';
 
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @var Magento_Core_Model_View_Design_Proxy
+     * @var \Magento\Core\Model\View\Design\Proxy
      */
     private $_design;
 
     /**
-     * @var Magento_Core_Model_Theme_FlyweightFactory
+     * @var \Magento\Core\Model\Theme\FlyweightFactory
      */
     protected $_themeFactory;
 
@@ -37,14 +39,14 @@ class Magento_Core_Model_View_Service
      * View files system model
      *
      *
-     * @param Magento_Core_Model_App_State $appState
-     * @param Magento_Core_Model_View_Design_Proxy $design
-     * @param Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+     * @param \Magento\Core\Model\App\State $appState
+     * @param \Magento\Core\Model\View\Design\Proxy $design
+     * @param \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
      */
     public function __construct(
-        Magento_Core_Model_App_State $appState,
-        Magento_Core_Model_View_Design_Proxy $design,
-        Magento_Core_Model_Theme_FlyweightFactory $themeFactory
+        \Magento\Core\Model\App\State $appState,
+        \Magento\Core\Model\View\Design\Proxy $design,
+        \Magento\Core\Model\Theme\FlyweightFactory $themeFactory
     ) {
         $this->_appState = $appState;
         $this->_design = $design;
@@ -87,7 +89,7 @@ class Magento_Core_Model_View_Service
      */
     public function isViewFileOperationAllowed()
     {
-        return $this->getAppMode() != Magento_Core_Model_App_State::MODE_PRODUCTION;
+        return $this->getAppMode() != \Magento\Core\Model\App\State::MODE_PRODUCTION;
     }
 
     /**
@@ -107,14 +109,14 @@ class Magento_Core_Model_View_Service
      */
     public function getPublicDir()
     {
-        return Mage::getBaseDir(Magento_Core_Model_Dir::STATIC_VIEW);
+        return \Mage::getBaseDir(\Magento\Core\Model\Dir::STATIC_VIEW);
     }
 
     /**
      * Update required parameters with default values if custom not specified
      *
      * @param array $params
-     * @return Magento_Core_Model_View_Design
+     * @return \Magento\Core\Model\View\Design
      */
     public function updateDesignParams(array &$params)
     {

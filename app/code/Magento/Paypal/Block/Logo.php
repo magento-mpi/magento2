@@ -11,7 +11,9 @@
 /**
  * PayPal online logo with additional options
  */
-class Magento_Paypal_Block_Logo extends Magento_Core_Block_Template
+namespace Magento\Paypal\Block;
+
+class Logo extends \Magento\Core\Block\Template
 {
     /**
      * Return URL for Paypal Landing page
@@ -20,17 +22,17 @@ class Magento_Paypal_Block_Logo extends Magento_Core_Block_Template
      */
     public function getAboutPaypalPageUrl()
     {
-        return $this->_getConfig()->getPaymentMarkWhatIsPaypalUrl(Mage::app()->getLocale());
+        return $this->_getConfig()->getPaymentMarkWhatIsPaypalUrl(\Mage::app()->getLocale());
     }
 
     /**
      * Getter for paypal config
      *
-     * @return Magento_Paypal_Model_Config
+     * @return \Magento\Paypal\Model\Config
      */
     protected function _getConfig()
     {
-        return Mage::getSingleton('Magento_Paypal_Model_Config');
+        return \Mage::getSingleton('Magento\Paypal\Model\Config');
     }
 
     /**
@@ -41,7 +43,7 @@ class Magento_Paypal_Block_Logo extends Magento_Core_Block_Template
     protected function _toHtml()
     {
         $type = $this->getLogoType(); // assigned in layout etc.
-        $logoUrl = $this->_getConfig()->getAdditionalOptionsLogoUrl(Mage::app()->getLocale()->getLocaleCode(), $type);
+        $logoUrl = $this->_getConfig()->getAdditionalOptionsLogoUrl(\Mage::app()->getLocale()->getLocaleCode(), $type);
         if (!$logoUrl) {
             return '';
         }

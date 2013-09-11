@@ -9,18 +9,20 @@
  */
 
 
-class Magento_TargetRule_Model_Rule_Condition_Combine extends Magento_Rule_Model_Condition_Combine
+namespace Magento\TargetRule\Model\Rule\Condition;
+
+class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
      * Set condition type
      *
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_TargetRule_Model_Rule_Condition_Combine');
+        $this->setType('\Magento\TargetRule\Model\Rule\Condition\Combine');
     }
 
     /**
@@ -35,7 +37,7 @@ class Magento_TargetRule_Model_Rule_Condition_Combine extends Magento_Rule_Model
                 'value' => $this->getType(),
                 'label' => __('Conditions Combination')
             ),
-            Mage::getModel('Magento_TargetRule_Model_Rule_Condition_Product_Attributes')->getNewChildSelectOptions(),
+            \Mage::getModel('\Magento\TargetRule\Model\Rule\Condition\Product\Attributes')->getNewChildSelectOptions(),
         );
 
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
@@ -45,8 +47,8 @@ class Magento_TargetRule_Model_Rule_Condition_Combine extends Magento_Rule_Model
     /**
      * Collect validated attributes for Product Collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $productCollection
-     * @return Magento_TargetRule_Model_Rule_Condition_Combine
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
+     * @return \Magento\TargetRule\Model\Rule\Condition\Combine
      */
     public function collectValidatedAttributes($productCollection)
     {

@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Reward_Model_Reward_Balance_Validator
+namespace Magento\Reward\Model\Reward\Balance;
+
+class Validator
 {
     /**
      * @var Magento_Reward_Model_RewardFactory
@@ -13,24 +15,24 @@ class Magento_Reward_Model_Reward_Balance_Validator
     protected $_modelFactory;
 
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_session;
 
     /**
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param Magento_Reward_Model_RewardFactory $modelFactory
-     * @param Magento_Checkout_Model_Session $session
+     * @param \Magento\Checkout\Model\Session $session
      */
     public function __construct(
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Core\Model\StoreManager $storeManager,
         Magento_Reward_Model_RewardFactory $modelFactory,
-        Magento_Checkout_Model_Session $session
+        \Magento\Checkout\Model\Session $session
     ) {
         $this->_storeManager = $storeManager;
         $this->_modelFactory = $modelFactory;
@@ -40,14 +42,14 @@ class Magento_Reward_Model_Reward_Balance_Validator
     /**
      * Check reward points balance
      *
-     * @param Magento_Sales_Model_Order $order
-     * @throws Magento_Reward_Model_Reward_Balance_Exception
+     * @param \Magento\Sales\Model\Order $order
+     * @throws \Magento\Reward\Model\Reward\Balance\Exception
      */
-    public function validate(Magento_Sales_Model_Order $order)
+    public function validate(\Magento\Sales\Model\Order $order)
     {
         if ($order->getRewardPointsBalance() > 0) {
             $websiteId = $this->_storeManager->getStore($order->getStoreId())->getWebsiteId();
-            /* @var $reward Magento_Reward_Model_Reward */
+            /* @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_modelFactory->create();
             $reward->setCustomerId($order->getCustomerId());
             $reward->setWebsiteId($websiteId);
@@ -56,7 +58,7 @@ class Magento_Reward_Model_Reward_Balance_Validator
             if (($order->getRewardPointsBalance() - $reward->getPointsBalance()) >= 0.0001) {
                 $this->_session->setUpdateSection('payment-method');
                 $this->_session->setGotoSection('payment');
-                throw new Magento_Reward_Model_Reward_Balance_Exception(
+                throw new \Magento\Reward\Model\Reward\Balance\Exception(
                     __('You don\'t have enough reward points to pay for this purchase.')
                 );
             }

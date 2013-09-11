@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_Roles extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Api\Model\Resource;
+
+class Roles extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * User table name
@@ -47,10 +49,10 @@ class Magento_Api_Model_Resource_Roles extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Action before save
      *
-     * @param Magento_Core_Model_Abstract $role
-     * @return Magento_Api_Model_Resource_Roles
+     * @param \Magento\Core\Model\AbstractModel $role
+     * @return \Magento\Api\Model\Resource\Roles
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $role)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $role)
     {
         if ($role->getId() == '') {
             if ($role->getIdFieldName()) {
@@ -73,23 +75,23 @@ class Magento_Api_Model_Resource_Roles extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Action after save
      *
-     * @param Magento_Core_Model_Abstract $role
-     * @return Magento_Api_Model_Resource_Roles
+     * @param \Magento\Core\Model\AbstractModel $role
+     * @return \Magento\Api\Model\Resource\Roles
      */
-    protected function _afterSave(Magento_Core_Model_Abstract $role)
+    protected function _afterSave(\Magento\Core\Model\AbstractModel $role)
     {
         $this->_updateRoleUsersAcl($role);
-        Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG);
+        \Mage::app()->getCache()->clean(\Zend_Cache::CLEANING_MODE_MATCHING_TAG);
         return $this;
     }
 
     /**
      * Action after delete
      *
-     * @param Magento_Core_Model_Abstract $role
-     * @return Magento_Api_Model_Resource_Roles
+     * @param \Magento\Core\Model\AbstractModel $role
+     * @return \Magento\Api\Model\Resource\Roles
      */
-    protected function _afterDelete(Magento_Core_Model_Abstract $role)
+    protected function _afterDelete(\Magento\Core\Model\AbstractModel $role)
     {
         $adapter = $this->_getWriteAdapter();
         $adapter->delete($this->getMainTable(), array('parent_id=?'=>$role->getId()));
@@ -100,16 +102,16 @@ class Magento_Api_Model_Resource_Roles extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Get role users
      *
-     * @param Magento_Api_Model_Roles $role
+     * @param \Magento\Api\Model\Roles $role
      * @return unknown
      */
-    public function getRoleUsers(Magento_Api_Model_Roles $role)
+    public function getRoleUsers(\Magento\Api\Model\Roles $role)
     {
         $adapter   = $this->_getReadAdapter();
         $select     = $adapter->select()
             ->from($this->getMainTable(), array('user_id'))
             ->where('parent_id = ?', $role->getId())
-            ->where('role_type = ?', Magento_Api_Model_Acl::ROLE_TYPE_USER)
+            ->where('role_type = ?', \Magento\Api\Model\Acl::ROLE_TYPE_USER)
             ->where('user_id > 0');
         return $adapter->fetchCol($select);
     }
@@ -117,10 +119,10 @@ class Magento_Api_Model_Resource_Roles extends Magento_Core_Model_Resource_Db_Ab
     /**
      * Update role users
      *
-     * @param Magento_Api_Model_Roles $role
+     * @param \Magento\Api\Model\Roles $role
      * @return boolean
      */
-    private function _updateRoleUsersAcl(Magento_Api_Model_Roles $role)
+    private function _updateRoleUsersAcl(\Magento\Api\Model\Roles $role)
     {
         $users  = $this->getRoleUsers($role);
         $rowsCount = 0;

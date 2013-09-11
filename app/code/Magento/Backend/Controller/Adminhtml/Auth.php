@@ -15,19 +15,21 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\Backend\Controller\Adminhtml;
+
+class Auth extends \Magento\Backend\Controller\ActionAbstract
 {
     /**
      * Administrator login action
      */
     public function loginAction()
     {
-        $session = Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        $session = \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         if ($session->isLoggedIn()) {
             if ($session->isFirstPageAfterLogin()) {
                 $session->setIsFirstPageAfterLogin(true);
             }
-            $this->_redirect(Mage::getSingleton('Magento_Backend_Model_Url')->getStartupPageUrl());
+            $this->_redirect(\Mage::getSingleton('Magento\Backend\Model\Url')->getStartupPageUrl());
             return;
         }
         $this->loadLayout();
@@ -39,10 +41,10 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
      */
     public function logoutAction()
     {
-        $auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        $auth = \Mage::getSingleton('Magento\Backend\Model\Auth');
         $auth->logout();
         $auth->getAuthStorage()->addSuccess(__('You have logged out.'));
-        $this->getResponse()->setRedirect(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl());
+        $this->getResponse()->setRedirect(\Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl());
     }
 
     /**
@@ -60,9 +62,9 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
      */
     protected function _getDeniedJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array(
             'ajaxExpired' => 1,
-            'ajaxRedirect' => Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl()
+            'ajaxRedirect' => \Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl()
         ));
     }
 
@@ -81,7 +83,7 @@ class Magento_Backend_Controller_Adminhtml_Auth extends Magento_Backend_Controll
     protected function _getDeniedIframe()
     {
         return '<script type="text/javascript">parent.window.location = \''
-            . Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl() . '\';</script>';
+            . \Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl() . '\';</script>';
     }
 
     /**

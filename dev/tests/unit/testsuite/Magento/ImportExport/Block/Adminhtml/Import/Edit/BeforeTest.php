@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Block_Adminhtml_Import_Edit_Before
+ * Test class for \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before
  */
 class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test model
      *
-     * @var Magento_ImportExport_Block_Adminhtml_Import_Edit_Before
+     * @var \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before
      */
     protected $_model;
 
@@ -66,13 +66,13 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
 
     public function setUp()
     {
-        $coreHelper = $this->getMock('Magento_Core_Helper_Data', array('jsonEncode'), array(), '', false, false);
+        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array('jsonEncode'), array(), '', false, false);
         $coreHelper->expects($this->any())
             ->method('jsonEncode')
             ->will($this->returnCallback(array($this, 'jsonEncodeCallback')));
 
         $importModel = $this->getMock(
-            'Magento_ImportExport_Model_Import',
+            '\Magento\ImportExport\Model\Import',
             array('getEntityBehaviors', 'getUniqueEntityBehaviors')
         );
         $importModel->staticExpects($this->any())
@@ -85,10 +85,10 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
         $arguments = array(
             'coreHelper'  => $coreHelper,
             'importModel' => $importModel,
-            'urlBuilder' => $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false)
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento_ImportExport_Block_Adminhtml_Import_Edit_Before',
+        $this->_model = $objectManagerHelper->getObject('\Magento\ImportExport\Block\Adminhtml\Import\Edit\Before',
             $arguments
         );
     }
@@ -99,7 +99,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
     }
 
     /**
-     * Callback method for Magento_Core_Helper_Data::jsonEncode
+     * Callback method for \Magento\Core\Helper\Data::jsonEncode
      *
      * @param mixed $data
      * @return string
@@ -112,7 +112,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
     /**
      * Test for getEntityBehaviors method
      *
-     * @covers Magento_ImportExport_Block_Adminhtml_Import_Edit_Before::getEntityBehaviors
+     * @covers \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before::getEntityBehaviors
      */
     public function testGetEntityBehaviors()
     {
@@ -124,7 +124,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_BeforeTest extends PHPUni
     /**
      * Test for getUniqueBehaviors method
      *
-     * @covers Magento_ImportExport_Block_Adminhtml_Import_Edit_Before::getUniqueBehaviors
+     * @covers \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before::getUniqueBehaviors
      */
     public function testGetUniqueBehaviors()
     {

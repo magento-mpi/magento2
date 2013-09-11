@@ -11,15 +11,17 @@
 /**
  * Giftcard module helper
  */
-class Magento_GiftCard_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\GiftCard\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Instantiate giftardaccounts block when a gift card email should be sent
-     * @return Magento_Core_Block_Template
+     * @return \Magento\Core\Block\Template
      */
     public function getEmailGeneratedItemsBlock()
     {
-        $block = Mage::getObjectManager()->create('Magento_Core_Block_Template');
+        $block = \Mage::getObjectManager()->create('Magento\Core\Block\Template');
         $block->setTemplate('Magento_GiftCard::email/generated.phtml');
         return $block;
     }

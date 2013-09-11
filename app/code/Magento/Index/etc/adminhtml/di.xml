@@ -8,10 +8,10 @@
  */
 -->
 <config>
-    <type name="Magento_AdminNotification_Model_System_MessageList">
+    <type name="Magento\AdminNotification\Model\System\MessageList">
         <param name="messages">
             <value>
-                <indexer>Magento_Index_Model_System_Message_IndexOutdated</indexer>
+                <indexer>\Magento\Index\Model\System\Message\IndexOutdated</indexer>
             </value>
         </param>
     </type>

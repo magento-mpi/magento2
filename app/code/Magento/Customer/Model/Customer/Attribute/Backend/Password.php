@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Attribute_Backend_Password extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Customer\Model\Customer\Attribute\Backend;
+
+class Password extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     const MIN_PASSWORD_LENGTH = 6;
 
@@ -29,18 +31,18 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Password extends Magento
     public function beforeSave($object)
     {
         $password = $object->getPassword();
-        /** @var Magento_Core_Helper_String $stringHelper */
-        $stringHelper = Mage::helper('Magento_Core_Helper_String');
+        /** @var \Magento\Core\Helper\String $stringHelper */
+        $stringHelper = \Mage::helper('Magento\Core\Helper\String');
 
         $length = $stringHelper->strlen($password);
         if ($length > 0) {
             if ($length < self::MIN_PASSWORD_LENGTH) {
-                Mage::throwException(__('The password must have at least %1 characters.', self::MIN_PASSWORD_LENGTH));
+                \Mage::throwException(__('The password must have at least %1 characters.', self::MIN_PASSWORD_LENGTH));
             }
 
             if ($stringHelper->substr($password, 0, 1) == ' ' ||
                 $stringHelper->substr($password, $length - 1, 1) == ' ') {
-                Mage::throwException(__('The password can not begin or end with a space.'));
+                \Mage::throwException(__('The password can not begin or end with a space.'));
             }
 
             $object->setPasswordHash($object->hashPassword($password));

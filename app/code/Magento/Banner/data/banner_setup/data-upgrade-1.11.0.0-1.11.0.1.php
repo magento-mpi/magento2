@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Enterprise_Model_Resource_Setup_Migration */
-$installer = Mage::getResourceModel('Magento_Enterprise_Model_Resource_Setup_Migration',
+/** @var $installer \Magento\Enterprise\Model\Resource\Setup\Migration */
+$installer = \Mage::getResourceModel('\Magento\Enterprise\Model\Resource\Setup\Migration',
     array('resourceName' => 'core_setup'));
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('magento_banner_content', 'banner_content',
-    Magento_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-    Magento_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI,
+    \Magento\Enterprise\Model\Resource\Setup\Migration::ENTITY_TYPE_BLOCK,
+    \Magento\Enterprise\Model\Resource\Setup\Migration::FIELD_CONTENT_TYPE_WIKI,
     array('banner_id', 'store_id')
 );
 $installer->doUpdateClassAliases();

@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_ImportExport_Model_Export_EntityAbstract
+namespace Magento\ImportExport\Model\Export;
+
+abstract class EntityAbstract
 {
     /**#@+
      * Attribute collection name
@@ -30,16 +32,16 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     /**#@-*/
 
     /**
-     * Website manager (currently Magento_Core_Model_App works as website manager)
+     * Website manager (currently \Magento\Core\Model\App works as website manager)
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_websiteManager;
 
     /**
-     * Store manager (currently Magento_Core_Model_App works as store manager)
+     * Store manager (currently \Magento\Core\Model\App works as store manager)
      *
-     * @var Magento_Core_Model_App
+     * @var \Magento\Core\Model\App
      */
     protected $_storeManager;
 
@@ -102,7 +104,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     /**
      * Source model
      *
-     * @var Magento_ImportExport_Model_Export_Adapter_Abstract
+     * @var \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
      */
     protected $_writer;
 
@@ -151,7 +153,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     /**
      * Collection by pages iterator
      *
-     * @var Magento_ImportExport_Model_Resource_CollectionByPagesIterator
+     * @var \Magento\ImportExport\Model\Resource\CollectionByPagesIterator
      */
     protected $_byPagesIterator;
 
@@ -162,24 +164,24 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
      */
     public function __construct(array $data = array())
     {
-        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
-        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();
+        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : \Mage::app();
+        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : \Mage::app();
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
-            : Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            : \Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
         $this->_pageSize = isset($data['page_size']) ? $data['page_size']
-            : (static::XML_PATH_PAGE_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
+            : (static::XML_PATH_PAGE_SIZE ? (int) \Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
         $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
-            : Mage::getResourceModel('Magento_ImportExport_Model_Resource_CollectionByPagesIterator');
+            : \Mage::getResourceModel('\Magento\ImportExport\Model\Resource\CollectionByPagesIterator');
     }
 
     /**
      * Initialize stores hash
      *
-     * @return Magento_ImportExport_Model_Export_EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\EntityAbstract
      */
     protected function _initStores()
     {
-        /** @var $store Magento_Core_Model_Store */
+        /** @var $store \Magento\Core\Model\Store */
         foreach ($this->_storeManager->getStores(true) as $store) {
             $this->_storeIdToCode[$store->getId()] = $store->getCode();
         }
@@ -192,11 +194,11 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
      * Initialize website values
      *
      * @param bool $withDefault
-     * @return Magento_ImportExport_Model_Export_EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\EntityAbstract
      */
     protected function _initWebsites($withDefault = false)
     {
-        /** @var $website Magento_Core_Model_Website */
+        /** @var $website \Magento\Core\Model\Website */
         foreach ($this->_websiteManager->getWebsites($withDefault) as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
@@ -208,7 +210,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
      *
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number
-     * @return Magento_ImportExport_Model_Export_EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\EntityAbstract
      */
     public function addRowError($errorCode, $errorRowNum)
     {
@@ -225,7 +227,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
      *
      * @param string $errorCode Error code
      * @param string $message Message template
-     * @return Magento_ImportExport_Model_Export_EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\EntityAbstract
      */
     public function addMessageTemplate($errorCode, $message)
     {
@@ -244,7 +246,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     /**
      * Export one item
      *
-     * @param Magento_Core_Model_Abstract $item
+     * @param \Magento\Core\Model\AbstractModel $item
      */
     abstract public function exportItem($item);
 
@@ -298,7 +300,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
      */
     public function filterAttributeCollection(\Magento\Data\Collection $collection)
     {
-        /** @var $attribute Magento_Eav_Model_Entity_Attribute_Abstract */
+        /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
         foreach ($collection as $attribute) {
             if (in_array($attribute->getAttributeCode(), $this->_disabledAttributes)) {
                 $collection->removeItemByKey($attribute->getId());
@@ -370,13 +372,13 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     /**
      * Inner writer object getter
      *
-     * @throws Exception
-     * @return Magento_ImportExport_Model_Export_Adapter_Abstract
+     * @throws \Exception
+     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
      */
     public function getWriter()
     {
         if (!$this->_writer) {
-            Mage::throwException(__('Please specify writer.'));
+            \Mage::throwException(__('Please specify writer.'));
         }
 
         return $this->_writer;
@@ -386,7 +388,7 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
      * Set parameters
      *
      * @param array $parameters
-     * @return Magento_ImportExport_Model_Export_EntityAbstract
+     * @return \Magento\ImportExport\Model\Export\EntityAbstract
      */
     public function setParameters(array $parameters)
     {
@@ -398,10 +400,10 @@ abstract class Magento_ImportExport_Model_Export_EntityAbstract
     /**
      * Writer model setter
      *
-     * @param Magento_ImportExport_Model_Export_Adapter_Abstract $writer
-     * @return Magento_ImportExport_Model_Export_EntityAbstract
+     * @param \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer
+     * @return \Magento\ImportExport\Model\Export\EntityAbstract
      */
-    public function setWriter(Magento_ImportExport_Model_Export_Adapter_Abstract $writer)
+    public function setWriter(\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer)
     {
         $this->_writer = $writer;
 

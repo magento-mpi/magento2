@@ -13,7 +13,9 @@
  *
  * @method array getValues()
  */
-class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_Links
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
+
+class Links
     extends \Magento\Data\Form\Element\AbstractElement
 {
     /**

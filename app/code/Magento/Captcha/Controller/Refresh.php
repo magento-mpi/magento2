@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Captcha_Controller_Refresh extends Magento_Core_Controller_Front_Action
+namespace Magento\Captcha\Controller;
+
+class Refresh extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Refreshes captcha and returns JSON encoded URL to image (AJAX action)
@@ -26,7 +28,7 @@ class Magento_Captcha_Controller_Refresh extends Magento_Core_Controller_Front_A
     public function indexAction()
     {
         $formId = $this->getRequest()->getPost('formId');
-        $captchaModel = Mage::helper('Magento_Captcha_Helper_Data')->getCaptcha($formId);
+        $captchaModel = \Mage::helper('Magento\Captcha\Helper\Data')->getCaptcha($formId);
         $this->getLayout()->createBlock($captchaModel->getBlockName())->setFormId($formId)->setIsAjax(true)->toHtml();
         $this->getResponse()->setBody(json_encode(array('imgSrc' => $captchaModel->getImgSrc())));
         $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);

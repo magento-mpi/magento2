@@ -15,15 +15,17 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Review_Info extends Magento_Sales_Block_Items_Abstract
+namespace Magento\Checkout\Block\Onepage\Review;
+
+class Info extends \Magento\Sales\Block\Items\AbstractItems
 {
     public function getItems()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getAllVisibleItems();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getAllVisibleItems();
     }
 
     public function getTotals()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getTotals();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getTotals();
     }
 }

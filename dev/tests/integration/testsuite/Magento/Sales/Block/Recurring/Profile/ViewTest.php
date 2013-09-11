@@ -12,27 +12,27 @@
 class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Block_Recurring_Profile_View
+     * @var \Magento\Sales\Block\Recurring\Profile\View
      */
     protected $_block;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Sales_Model_Recurring_Profile
+     * @var \Magento\Sales\Model\Recurring\Profile
      */
     protected $_profile;
 
     public function setUp()
     {
-        $this->_profile = Mage::getModel('Magento_Sales_Model_Recurring_Profile');
+        $this->_profile = Mage::getModel('\Magento\Sales\Model\Recurring\Profile');
         Mage::register('current_recurring_profile', $this->_profile);
 
-        $this->_layout = Mage::getModel('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Magento_Sales_Block_Recurring_Profile_View', 'block');
+        $this->_layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('\Magento\Sales\Block\Recurring\Profile\View', 'block');
     }
 
     public function tearDown()
@@ -54,9 +54,9 @@ class Magento_Sales_Block_Recurring_Profile_ViewTest extends PHPUnit_Framework_T
     public function testToHtmlPropagatesUrl()
     {
         $this->_block->setShouldPrepareInfoTabs(true);
-        $childOne = $this->_layout->addBlock('Magento_Core_Block_Text', 'child1', 'block');
+        $childOne = $this->_layout->addBlock('\Magento\Core\Block\Text', 'child1', 'block');
         $this->_layout->addToParentGroup('child1', 'info_tabs');
-        $childTwo = $this->_layout->addBlock('Magento_Core_Block_Text', 'child2', 'block');
+        $childTwo = $this->_layout->addBlock('\Magento\Core\Block\Text', 'child2', 'block');
         $this->_layout->addToParentGroup('child2', 'info_tabs');
 
         $this->assertEmpty($childOne->getViewUrl());

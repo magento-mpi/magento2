@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Review_Grid_Filter_Type extends Magento_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+namespace Magento\Adminhtml\Block\Review\Grid\Filter;
+
+class Type extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
 {
     protected function _getOptions()
     {
@@ -38,4 +40,4 @@ class Magento_Adminhtml_Block_Review_Grid_Filter_Type extends Magento_Adminhtml_
             return 3;
         }
     }
-}// Class Magento_Adminhtml_Block_Review_Grid_Filter_Type END
+}// Class \Magento\Adminhtml\Block\Review\Grid\Filter\Type END

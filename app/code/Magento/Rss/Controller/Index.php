@@ -15,19 +15,21 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
+namespace Magento\Rss\Controller;
+
+class Index extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Current wishlist
      *
-     * @var Magento_Wishlist_Model_Wishlist
+     * @var \Magento\Wishlist\Model\Wishlist
      */
     protected $_wishlist;
 
     /**
      * Current customer
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -36,7 +38,7 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
      */
     public function indexAction()
     {
-        if (Mage::getStoreConfig('rss/config/active')) {
+        if (\Mage::getStoreConfig('rss/config/active')) {
             $this->loadLayout();
             $this->renderLayout();
         } else {
@@ -64,10 +66,10 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
      */
     public function wishlistAction()
     {
-        if (Mage::getStoreConfig('rss/wishlist/active')) {
+        if (\Mage::getStoreConfig('rss/wishlist/active')) {
             $wishlist = $this->_getWishlist();
             if ($wishlist && ($wishlist->getVisibility()
-                || Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)
+                || \Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)
                     && $wishlist->getCustomerId() == $this->_getCustomer()->getId())
             ) {
                 $this->getResponse()->setHeader('Content-Type', 'text/xml; charset=UTF-8');
@@ -82,12 +84,12 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
     /**
      * Retrieve Wishlist model
      *
-     * @return Magento_Wishlist_Model_Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist
      */
     protected function _getWishlist()
     {
         if (is_null($this->_wishlist)) {
-            $this->_wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+            $this->_wishlist = \Mage::getModel('\Magento\Wishlist\Model\Wishlist');
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
@@ -103,17 +105,17 @@ class Magento_Rss_Controller_Index extends Magento_Core_Controller_Front_Action
     /**
      * Retrieve Customer instance
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {
         if (is_null($this->_customer)) {
-            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer');
+            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer');
 
-            $params = Mage::helper('Magento_Core_Helper_Data')->urlDecode($this->getRequest()->getParam('data'));
+            $params = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($this->getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $customerId    = abs(intval($data[0]));
-            if ($customerId && ($customerId == Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId()) ) {
+            if ($customerId && ($customerId == \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId()) ) {
                 $this->_customer->load($customerId);
             }
         }

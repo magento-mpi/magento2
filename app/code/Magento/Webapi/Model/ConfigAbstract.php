@@ -1,5 +1,5 @@
 <?php
-use Zend\Server\Reflection\ReflectionMethod;
+use \Zend\Server\Reflection\ReflectionMethod;
 
 /**
  * Web API configuration.
@@ -12,13 +12,15 @@ use Zend\Server\Reflection\ReflectionMethod;
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_Webapi_Model_ConfigAbstract
+namespace Magento\Webapi\Model;
+
+abstract class ConfigAbstract
 {
     /**#@+
      * Cache parameters.
      */
-    const WEBSERVICE_CACHE_NAME = Magento_Webapi_Model_Cache_Type::TYPE_IDENTIFIER;
-    const WEBSERVICE_CACHE_TAG = Magento_Webapi_Model_Cache_Type::CACHE_TAG;
+    const WEBSERVICE_CACHE_NAME = \Magento\Webapi\Model\Cache\Type::TYPE_IDENTIFIER;
+    const WEBSERVICE_CACHE_TAG = \Magento\Webapi\Model\Cache\Type::CACHE_TAG;
     /**#@-*/
 
     /**#@+
@@ -28,13 +30,13 @@ abstract class Magento_Webapi_Model_ConfigAbstract
     const VERSION_MIN = 1;
     /**#@-*/
 
-    /** @var Magento_Webapi_Model_Config_ReaderAbstract */
+    /** @var \Magento\Webapi\Model\Config\ReaderAbstract */
     protected $_reader;
 
-    /** @var Magento_Webapi_Helper_Config */
+    /** @var \Magento\Webapi\Helper\Config */
     protected $_helper;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_application;
 
     /**
@@ -47,14 +49,14 @@ abstract class Magento_Webapi_Model_ConfigAbstract
     /**
      * Initialize dependencies. Initialize data.
      *
-     * @param Magento_Webapi_Model_Config_ReaderAbstract $reader
-     * @param Magento_Webapi_Helper_Config $helper
-     * @param Magento_Core_Model_App $application
+     * @param \Magento\Webapi\Model\Config\ReaderAbstract $reader
+     * @param \Magento\Webapi\Helper\Config $helper
+     * @param \Magento\Core\Model\App $application
      */
     public function __construct(
-        Magento_Webapi_Model_Config_ReaderAbstract $reader,
-        Magento_Webapi_Helper_Config $helper,
-        Magento_Core_Model_App $application
+        \Magento\Webapi\Model\Config\ReaderAbstract $reader,
+        \Magento\Webapi\Helper\Config $helper,
+        \Magento\Core\Model\App $application
     ) {
         $this->_reader = $reader;
         $this->_helper = $helper;
@@ -67,12 +69,12 @@ abstract class Magento_Webapi_Model_ConfigAbstract
      *
      * @param string $typeName
      * @return array
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getTypeData($typeName)
     {
         if (!isset($this->_data['types'][$typeName])) {
-            throw new InvalidArgumentException(sprintf('Data type "%s" was not found in config.', $typeName));
+            throw new \InvalidArgumentException(sprintf('Data type "%s" was not found in config.', $typeName));
         }
         return $this->_data['types'][$typeName];
     }
@@ -125,19 +127,19 @@ abstract class Magento_Webapi_Model_ConfigAbstract
      *
      * @param string $operationName
      * @return array
-     * @throws InvalidArgumentException In case when the specified operation name is invalid.
+     * @throws \InvalidArgumentException In case when the specified operation name is invalid.
      */
     protected function _parseOperationName($operationName)
     {
         /** Note that '(.*?)' must not be greedy to allow regexp to match 'multiUpdate' method before 'update' */
-        $regEx = sprintf('/(.*?)(%s)$/i', implode('|', Magento_Webapi_Controller_ActionAbstract::getAllowedMethods()));
+        $regEx = sprintf('/(.*?)(%s)$/i', implode('|', \Magento\Webapi\Controller\ActionAbstract::getAllowedMethods()));
         if (preg_match($regEx, $operationName, $matches)) {
             $resourceName = $matches[1];
             $methodName = lcfirst($matches[2]);
             $result = array($resourceName, $methodName);
             return $result;
         }
-        throw new InvalidArgumentException(sprintf(
+        throw new \InvalidArgumentException(sprintf(
             'The "%s" is not a valid API resource operation name.',
             $operationName
         ));
@@ -148,7 +150,7 @@ abstract class Magento_Webapi_Model_ConfigAbstract
      *
      * @param string $operationName
      * @return string Resource name on success
-     * @throws LogicException
+     * @throws \LogicException
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getControllerClassByOperationName($operationName)
@@ -157,24 +159,24 @@ abstract class Magento_Webapi_Model_ConfigAbstract
         if (isset($this->_data['resources'][$resourceName]['controller'])) {
             return $this->_data['resources'][$resourceName]['controller'];
         }
-        throw new LogicException(sprintf('Resource "%s" must have associated controller class.', $resourceName));
+        throw new \LogicException(sprintf('Resource "%s" must have associated controller class.', $resourceName));
     }
 
     /**
      * Retrieve method metadata.
      *
-     * @param Zend\Server\Reflection\ReflectionMethod $methodReflection
+     * @param \Zend\Server\Reflection\ReflectionMethod $methodReflection
      * @return array
-     * @throws InvalidArgumentException If specified method was not previously registered in API config.
+     * @throws \InvalidArgumentException If specified method was not previously registered in API config.
      */
-    public function getMethodMetadata(ReflectionMethod $methodReflection)
+    public function getMethodMetadata(\ReflectionMethod $methodReflection)
     {
         $resourceName = $this->_helper->translateResourceName($methodReflection->getDeclaringClass()->getName());
         $resourceVersion = $this->_getMethodVersion($methodReflection);
         $methodName = $this->_helper->getMethodNameWithoutVersionSuffix($methodReflection);
 
         if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion]['methods'][$methodName])) {
-            throw new InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'The "%s" method of "%s" resource in version "%s" is not registered.',
                 $methodName,
                 $resourceName,
@@ -211,14 +213,14 @@ abstract class Magento_Webapi_Model_ConfigAbstract
      * @param string $method
      * @param string $resourceVersion
      * @return array|bool On success array with policy details; false otherwise.
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getDeprecationPolicy($resourceName, $method, $resourceVersion)
     {
         $deprecationPolicy = false;
         $resourceData = $this->_getResourceData($resourceName, $resourceVersion);
         if (!isset($resourceData['methods'][$method])) {
-            throw new InvalidArgumentException(sprintf(
+            throw new \InvalidArgumentException(sprintf(
                 'Method "%s" does not exist in "%s" version of resource "%s".',
                 $method,
                 $resourceVersion,
@@ -242,8 +244,8 @@ abstract class Magento_Webapi_Model_ConfigAbstract
      * @param string $resourceName
      * @param string $method
      * @param string $resourceVersion
-     * @throws Magento_Webapi_Exception
-     * @throws LogicException
+     * @throws \Magento\Webapi\Exception
+     * @throws \LogicException
      */
     public function checkDeprecationPolicy($resourceName, $method, $resourceVersion)
     {
@@ -262,21 +264,21 @@ abstract class Magento_Webapi_Model_ConfigAbstract
                 $messageUseMethod = '';
             }
 
-            $badRequestCode = Magento_Webapi_Exception::HTTP_BAD_REQUEST;
+            $badRequestCode = \Magento\Webapi\Exception::HTTP_BAD_REQUEST;
             if (isset($deprecationPolicy['removed'])) {
                 $removalMessage = __('Version "%1" of "%2" method in "%3" resource was removed.',
                     $resourceVersion,
                     $method,
                     $resourceName
                 );
-                throw new Magento_Webapi_Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
+                throw new \Magento\Webapi\Exception($removalMessage . ' ' . $messageUseMethod, $badRequestCode);
             } elseif (isset($deprecationPolicy['deprecated']) && $this->_application->isDeveloperMode()) {
                 $deprecationMessage = __('Version "%1" of "%2" method in "%3" resource is deprecated.',
                     $resourceVersion,
                     $method,
                     $resourceName
                 );
-                throw new Magento_Webapi_Exception($deprecationMessage . ' ' . $messageUseMethod, $badRequestCode);
+                throw new \Magento\Webapi\Exception($deprecationMessage . ' ' . $messageUseMethod, $badRequestCode);
             }
         }
     }
@@ -286,12 +288,12 @@ abstract class Magento_Webapi_Model_ConfigAbstract
      *
      * @param string $resourceName
      * @return int
-     * @throws InvalidArgumentException When resource with the specified name does not exist.
+     * @throws \InvalidArgumentException When resource with the specified name does not exist.
      */
     public function getResourceMaxVersion($resourceName)
     {
         if (!isset($this->_data['resources'][$resourceName])) {
-            throw new InvalidArgumentException(sprintf('Resource "%s" does not exist.', $resourceName));
+            throw new \InvalidArgumentException(sprintf('Resource "%s" does not exist.', $resourceName));
         }
         $resourceVersions = array_keys($this->_data['resources'][$resourceName]['versions']);
         foreach ($resourceVersions as &$version) {
@@ -309,24 +311,24 @@ abstract class Magento_Webapi_Model_ConfigAbstract
      *
      * @param string $operationName
      * @param int $requestedVersion
-     * @param Magento_Webapi_Controller_ActionAbstract $controllerInstance
+     * @param \Magento\Webapi\Controller\ActionAbstract $controllerInstance
      * @return string
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function identifyVersionSuffix($operationName, $requestedVersion, $controllerInstance)
     {
         $methodName = $this->getMethodNameByOperation($operationName, $requestedVersion);
         $methodVersion = $requestedVersion;
         while ($methodVersion >= self::VERSION_MIN) {
-            $versionSuffix = Magento_Webapi_Model_ConfigAbstract::VERSION_NUMBER_PREFIX . $methodVersion;
+            $versionSuffix = \Magento\Webapi\Model\ConfigAbstract::VERSION_NUMBER_PREFIX . $methodVersion;
             if ($controllerInstance->hasAction($methodName . $versionSuffix)) {
                 return $versionSuffix;
             }
             $methodVersion--;
         }
-        throw new Magento_Webapi_Exception(
+        throw new \Magento\Webapi\Exception(
             __('The "%1" operation is not implemented in version %2', $operationName, $requestedVersion),
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
     }
 
@@ -335,20 +337,20 @@ abstract class Magento_Webapi_Model_ConfigAbstract
      *
      * @param int $version
      * @param string $resourceName
-     * @throws Magento_Webapi_Exception
+     * @throws \Magento\Webapi\Exception
      */
     public function validateVersionNumber($version, $resourceName)
     {
         $maxVersion = $this->getResourceMaxVersion($resourceName);
         if ((int)$version > $maxVersion) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __('The maximum version of the requested resource is "%1".', $maxVersion),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
         } elseif ((int)$version < self::VERSION_MIN) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __('Resource version cannot be lower than "%1".', self::VERSION_MIN),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
     }
@@ -371,11 +373,11 @@ abstract class Magento_Webapi_Model_ConfigAbstract
     /**
      * Identify API method version by its reflection.
      *
-     * @param ReflectionMethod $methodReflection
+     * @param \ReflectionMethod $methodReflection
      * @return string|bool Method version with prefix on success.
      *      false is returned in case when method should not be exposed via API.
      */
-    protected function _getMethodVersion(ReflectionMethod $methodReflection)
+    protected function _getMethodVersion(\ReflectionMethod $methodReflection)
     {
         $methodVersion = false;
         $methodNameWithSuffix = $methodReflection->getName();
@@ -393,7 +395,7 @@ abstract class Magento_Webapi_Model_ConfigAbstract
      * @param string $resourceName
      * @param string $resourceVersion Two formats are acceptable: 'v1' and '1'
      * @return array
-     * @throws InvalidArgumentException When the specified resource version does not exist.
+     * @throws \InvalidArgumentException When the specified resource version does not exist.
      */
     protected function _getResourceData($resourceName, $resourceVersion)
     {
@@ -403,8 +405,8 @@ abstract class Magento_Webapi_Model_ConfigAbstract
             : ucfirst($resourceVersion);
         try {
             $this->_checkIfResourceVersionExists($resourceName, $resourceVersion);
-        } catch (RuntimeException $e) {
-            throw new InvalidArgumentException($e->getMessage());
+        } catch (\RuntimeException $e) {
+            throw new \InvalidArgumentException($e->getMessage());
         }
         return $this->_data['resources'][$resourceName]['versions'][$resourceVersion];
     }
@@ -414,15 +416,15 @@ abstract class Magento_Webapi_Model_ConfigAbstract
      *
      * @param string $resourceName
      * @param string $resourceVersion
-     * @throws RuntimeException When resource does not exist.
+     * @throws \RuntimeException When resource does not exist.
      */
     protected function _checkIfResourceVersionExists($resourceName, $resourceVersion)
     {
         if (!isset($this->_data['resources'][$resourceName])) {
-            throw new RuntimeException(__('Unknown resource "%1".', $resourceName));
+            throw new \RuntimeException(__('Unknown resource "%1".', $resourceName));
         }
         if (!isset($this->_data['resources'][$resourceName]['versions'][$resourceVersion])) {
-            throw new RuntimeException(__(
+            throw new \RuntimeException(__(
                 'Unknown version "%1" for resource "%2".',
                 $resourceVersion,
                 $resourceName

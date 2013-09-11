@@ -24,7 +24,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      * @var array
      */
     protected $_websites = array(
-        Magento_Core_Model_AppInterface::ADMIN_STORE_ID => 'admin',
+        \Magento\Core\Model\AppInterface::ADMIN_STORE_ID => 'admin',
         1                                            => 'website1',
     );
 
@@ -54,14 +54,14 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
     /**
      * Customer financial data export model
      *
-     * @var Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance
+     * @var \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance
      */
     protected $_model;
 
     public function setUp()
     {
         $this->_model
-            = new Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance($this->_getModelDependencies());
+            = new \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance($this->_getModelDependencies());
     }
 
     public function tearDown()
@@ -89,10 +89,10 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
         $attributeCollection = $this->getMock('Magento\Data\Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             $arguments = $objectManagerHelper->getConstructArguments(
-                'Magento_Eav_Model_Entity_Attribute_Abstract'
+                '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute'
             );
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockBuilder('Magento_Eav_Model_Entity_Attribute_Abstract')
+            $attribute = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\AbstractAttribute')
                 ->setConstructorArgs($arguments)
                 ->setMethods(array('_construct'))
                 ->getMock();
@@ -128,7 +128,7 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == Magento_Core_Model_AppInterface::ADMIN_STORE_ID) {
+            if (!$withDefault && $id == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID) {
                 continue;
             }
             $websiteData = array(
@@ -144,11 +144,11 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
     /**
      * Test for method exportItem()
      *
-     * @covers Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::exportItem
+     * @covers \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::exportItem
      */
     public function testExportItem()
     {
-        $writer = $this->getMockForAbstractClass('Magento_ImportExport_Model_Export_Adapter_Abstract',
+        $writer = $this->getMockForAbstractClass('\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
             array(), '', false, false, true, array('writeRow')
         );
 
@@ -158,8 +158,8 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
 
         $this->_model->setWriter($writer);
 
-        $item = $this->getMockForAbstractClass('Magento_Core_Model_Abstract', array(), '', false);
-        /** @var $item Magento_Core_Model_Abstract */
+        $item = $this->getMockForAbstractClass('\Magento\Core\Model\AbstractModel', array(), '', false);
+        /** @var $item \Magento\Core\Model\AbstractModel */
         $item->setData($this->_customerData);
 
         $this->_model->exportItem($item);
@@ -172,13 +172,13 @@ class Magento_ScheduledImportExport_Model_Export_Entity_Customer_FinanceTest ext
      */
     public function validateWriteRow(array $row)
     {
-        $emailColumn = Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_EMAIL;
+        $emailColumn = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_EMAIL;
         $this->assertEquals($this->_customerData['email'], $row[$emailColumn]);
 
-        $websiteColumn = Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_WEBSITE;
+        $websiteColumn = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
 
-        $financeWebsiteCol = Magento_ScheduledImportExport_Model_Export_Entity_Customer_Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteCol = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$financeWebsiteCol]);
 
         $this->assertEquals($this->_customerData[self::WEBSITE_ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

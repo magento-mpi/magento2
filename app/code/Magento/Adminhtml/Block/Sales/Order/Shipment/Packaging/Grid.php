@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order\Shipment\Packaging;
+
+class Grid extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'sales/order/shipment/packaging/grid.phtml';
@@ -28,7 +30,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
     public function getCollection()
     {
         if ($this->getShipment()->getId()) {
-            $collection = Mage::getModel('Magento_Sales_Model_Order_Shipment_Item')->getCollection()
+            $collection = \Mage::getModel('\Magento\Sales\Model\Order\Shipment\Item')->getCollection()
                     ->setShipmentFilter($this->getShipment()->getId());
         } else{
             $collection = $this->getShipment()->getAllItems();
@@ -39,11 +41,11 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return \Mage::registry('current_shipment');
     }
 
     /**
@@ -56,8 +58,8 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Magent
         $storeId = $this->getShipment()->getStoreId();
         $order = $this->getShipment()->getOrder();
         $address = $order->getShippingAddress();
-        $shipperAddressCountryCode = Mage::getStoreConfig(
-            Magento_Shipping_Model_Shipping::XML_PATH_STORE_COUNTRY_ID,
+        $shipperAddressCountryCode = \Mage::getStoreConfig(
+            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
             $storeId
         );
         $recipientAddressCountryCode = $address->getCountryId();

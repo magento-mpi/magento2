@@ -16,14 +16,16 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
-    extends Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
+
+class General
+    extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Preparing global layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -38,7 +40,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     /**
      * Adding customer address attribute form elements for edit form
      *
-     * @return Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribute_Edit_Tab_General
+     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab\General
      */
     protected function _prepareForm()
     {
@@ -47,8 +49,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
         $attribute  = $this->getAttributeObject();
         $form       = $this->getForm();
         $fieldset   = $form->getElement('base_fieldset');
-        /* @var $helper Magento_CustomerCustomAttributes_Helper_Data */
-        $helper     = Mage::helper('Magento_CustomerCustomAttributes_Helper_Data');
+        /* @var $helper \Magento\CustomerCustomAttributes\Helper\Data */
+        $helper     = \Mage::helper('Magento\CustomerCustomAttributes\Helper\Data');
 
         $fieldset->removeField('frontend_class');
         $fieldset->removeField('is_unique');
@@ -141,7 +143,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
             'date_format' => $helper->getDateFormat()
         ), 'date_range_min');
 
-        $yesnoSource = Mage::getModel('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray();
+        $yesnoSource = \Mage::getModel('\Magento\Backend\Model\Config\Source\Yesno')->toOptionArray();
 
         $fieldset = $form->addFieldset('front_fieldset', array(
             'legend'    => __('Frontend Properties')
@@ -220,7 +222,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
 
         $this->getForm()->setDataObject($this->getAttributeObject());
 
-        Mage::dispatchEvent('magento_customercustomattributes_address_attribute_edit_tab_general_prepare_form', array(
+        \Mage::dispatchEvent('magento_customercustomattributes_address_attribute_edit_tab_general_prepare_form', array(
             'form'      => $form,
             'attribute' => $attribute
         ));
@@ -231,7 +233,7 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Address_Attribut
     /**
      * Initialize form fileds values
      *
-     * @return Magento_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract
+     * @return \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
      */
     protected function _initFormValues()
     {

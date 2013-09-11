@@ -16,7 +16,9 @@
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Helper_Url extends Magento_Core_Helper_Url
+namespace Magento\GiftMessage\Helper;
+
+class Url extends \Magento\Core\Helper\Url
 {
     /**
      * Retrive gift message save url

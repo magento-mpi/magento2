@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Review\Block;
+
+class View extends \Magento\Catalog\Block\Product\AbstractProduct
 {
 
     protected $_template = 'view.phtml';
@@ -24,21 +26,21 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
     /**
      * Retrieve current product model from registry
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProductData()
     {
-        return Mage::registry('current_product');
+        return \Mage::registry('current_product');
     }
 
     /**
      * Retrieve current review model from registry
      *
-     * @return Magento_Review_Model_Review
+     * @return \Magento\Review\Model\Review
      */
     public function getReviewData()
     {
-        return Mage::registry('current_review');
+        return \Mage::registry('current_review');
     }
 
     /**
@@ -48,22 +50,22 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
      */
     public function getBackUrl()
     {
-        return Mage::getUrl('*/*/list', array('id' => $this->getProductData()->getId()));
+        return \Mage::getUrl('*/*/list', array('id' => $this->getProductData()->getId()));
     }
 
     /**
      * Retrieve collection of ratings
      *
-     * @return Magento_Rating_Model_Resource_Rating_Option_Vote_Collection
+     * @return \Magento\Rating\Model\Resource\Rating\Option\Vote\Collection
      */
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
-            $ratingCollection = Mage::getModel('Magento_Rating_Model_Rating_Option_Vote')
+            $ratingCollection = \Mage::getModel('\Magento\Rating\Model\Rating\Option\Vote')
                 ->getResourceCollection()
                 ->setReviewFilter($this->getReviewId())
-                ->setStoreFilter(Mage::app()->getStore()->getId())
-                ->addRatingInfo(Mage::app()->getStore()->getId())
+                ->setStoreFilter(\Mage::app()->getStore()->getId())
+                ->addRatingInfo(\Mage::app()->getStore()->getId())
                 ->load();
             $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
         }
@@ -78,7 +80,7 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
-            $this->setRatingSummaryCache(Mage::getModel('Magento_Rating_Model_Rating')->getEntitySummary($this->getProductData()->getId()));
+            $this->setRatingSummaryCache(\Mage::getModel('\Magento\Rating\Model\Rating')->getEntitySummary($this->getProductData()->getId()));
         }
         return $this->getRatingSummaryCache();
     }
@@ -91,7 +93,7 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
     public function getTotalReviews()
     {
         if( !$this->getTotalReviewsCache() ) {
-            $this->setTotalReviewsCache(Mage::getModel('Magento_Review_Model_Review')->getTotalReviews($this->getProductData()->getId(), false, Mage::app()->getStore()->getId()));
+            $this->setTotalReviewsCache(\Mage::getModel('\Magento\Review\Model\Review')->getTotalReviews($this->getProductData()->getId(), false, \Mage::app()->getStore()->getId()));
         }
         return $this->getTotalReviewsCache();
     }
@@ -104,6 +106,6 @@ class Magento_Review_Block_View extends Magento_Catalog_Block_Product_Abstract
      */
     public function dateFormat($date)
     {
-        return $this->formatDate($date, Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG);
+        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG);
     }
 }

@@ -10,43 +10,43 @@
  */
 
 /**
- * Test class for Magento_GiftRegistry_Model_Entity
+ * Test class for \Magento\GiftRegistry\Model\Entity
  */
 class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
 {
     /**
      * GiftRegistry instance
      *
-     * @var Magento_GiftRegistry_Model_Entity
+     * @var \Magento\GiftRegistry\Model\Entity
      */
     protected $_model;
 
     /**
      * Mock for store instance
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
      * Mock from email template instance
      *
-     * @var Magento_Core_Model_Email_Template
+     * @var \Magento\Core\Model\Email\Template
      */
     protected $_emailTemplate;
 
     public function setUp()
     {
-        $app = $this->getMock('Magento_Core_Model_App', array(), array(), '', false);
-        $resource = $this->getMock('Magento_GiftRegistry_Model_Resource_Entity', array(), array(), '', false);
-        $helper = $this->getMock('Magento_GiftRegistry_Helper_Data',
+        $app = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
+        $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
+        $helper = $this->getMock('Magento\GiftRegistry\Helper\Data',
             array('getRegistryLink'), array(), '', false, false
         );
-        $translate = $this->getMock('Magento_Core_Model_Translate', array(), array(), '', false);
+        $translate = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
 
         $factory = $this->getMock('Magento_Core_Model_Email_TemplateFactory', array('create'), array(), '', false);
-        $this->_store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
-        $this->_emailTemplate = $this->getMock('Magento_Core_Model_Email_Template',
+        $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $this->_emailTemplate = $this->getMock('Magento\Core\Model\Email\Template',
             array('setDesignConfig', 'sendTransactional'), array(), '', false
         );
 
@@ -68,13 +68,13 @@ class Magento_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCase
                 }
             ));
 
-        $eventDispatcher = $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false, false);
-        $cacheManager = $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false, false);
-        $context = new Magento_Core_Model_Context($eventDispatcher, $cacheManager);
+        $eventDispatcher = $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false, false);
+        $cacheManager = $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false, false);
+        $context = new \Magento\Core\Model\Context($eventDispatcher, $cacheManager);
 
-        $this->_model = new Magento_GiftRegistry_Model_Entity(
+        $this->_model = new \Magento\GiftRegistry\Model\Entity(
             $context, $app, $this->_store, $translate, $factory, $resource, null, array(
-                'helpers' => array('Magento_GiftRegistry_Helper_Data' => $helper)
+                'helpers' => array('Magento\GiftRegistry\Helper\Data' => $helper)
             )
         );
     }

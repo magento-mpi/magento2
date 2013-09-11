@@ -14,7 +14,7 @@
         <areas>
             <adminhtml>
                 <auth>
-                    <credential_storage>Magento_User_Model_User</credential_storage>
+                    <credential_storage>\Magento\User\Model\User</credential_storage>
                 </auth>
             </adminhtml>
         </areas>

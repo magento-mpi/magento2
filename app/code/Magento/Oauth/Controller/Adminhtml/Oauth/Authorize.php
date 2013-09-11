@@ -15,14 +15,16 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminhtml_Controller_Action
+namespace Magento\Oauth\Controller\Adminhtml\Oauth;
+
+class Authorize extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Session name
      *
      * @var string
      */
-    protected $_sessionName = 'Magento_Backend_Model_Auth_Session';
+    protected $_sessionName = '\Magento\Backend\Model\Auth\Session';
 
     /**
      * Array of actions which can be processed without secret key validation
@@ -34,21 +36,21 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
     /**
      * Disable showing of login form
      *
-     * @see Magento_Adminhtml_Model_Observer::actionPreDispatchAdmin() method for explanation
+     * @see \Magento\Adminhtml\Model\Observer::actionPreDispatchAdmin() method for explanation
      * @return void
      */
     public function preDispatch()
     {
         $this->getRequest()->setParam('forwarded', true);
 
-        // check login data before it set null in Magento_Adminhtml_Model_Observer::actionPreDispatchAdmin
+        // check login data before it set null in \Magento\Adminhtml\Model\Observer::actionPreDispatchAdmin
         $loginError = $this->_checkLoginIsEmpty();
 
         parent::preDispatch();
 
         // call after parent::preDispatch(); to get session started
         if ($loginError) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                 ->addError(__('Please correct the user name or password.'));
             $params = array('_query' => array('oauth_token' => $this->getRequest()->getParam('oauth_token', null)));
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
@@ -87,24 +89,24 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
      * Init authorize page
      *
      * @param bool $simple
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Authorize
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Authorize
      */
     protected function _initForm($simple = false)
     {
-        /** @var $server Magento_Oauth_Model_Server */
-        $server = Mage::getModel('Magento_Oauth_Model_Server');
-        /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton($this->_sessionName);
+        /** @var $server \Magento\Oauth\Model\Server */
+        $server = \Mage::getModel('\Magento\Oauth\Model\Server');
+        /** @var $session \Magento\Backend\Model\Auth\Session */
+        $session = \Mage::getSingleton($this->_sessionName);
 
         $isException = false;
         try {
             $server->checkAuthorizeRequest();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $session->addError($e->getMessage());
-        } catch (Magento_Oauth_Exception $e) {
+        } catch (\Magento\Oauth\Exception $e) {
             $isException = true;
             $session->addException($e, __('An error occurred. Your authorization request is invalid.'));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $isException = true;
             $session->addException($e, __('An error occurred.'));
         }
@@ -116,11 +118,11 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
         $contentBlock = $layout->getBlock('content');
         if ($logged) {
             $contentBlock->unsetChild('oauth.authorize.form');
-            /** @var $block Magento_Oauth_Block_Adminhtml_Oauth_Authorize_Button */
+            /** @var $block \Magento\Oauth\Block\Adminhtml\Oauth\Authorize\Button */
             $block = $contentBlock->getChildBlock('oauth.authorize.button');
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
-            /** @var $block Magento_Oauth_Block_Adminhtml_Oauth_Authorize */
+            /** @var $block \Magento\Oauth\Block\Adminhtml\Oauth\Authorize */
             $block = $contentBlock->getChildBlock('oauth.authorize.form');
         }
 
@@ -134,36 +136,36 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
      * Init confirm page
      *
      * @param bool $simple
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Authorize
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Authorize
      */
     protected function _initConfirmPage($simple = false)
     {
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = Mage::helper('Magento_Oauth_Helper_Data');
+        /** @var $helper \Magento\Oauth\Helper\Data */
+        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
 
-        /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton($this->_sessionName);
+        /** @var $session \Magento\Backend\Model\Auth\Session */
+        $session = \Mage::getSingleton($this->_sessionName);
 
-        /** @var $user Magento_User_Model_User */
+        /** @var $user \Magento\User\Model\User */
         $user = $session->getData('user');
         if (!$user) {
             $session->addError(__('Please login to proceed authorization.'));
-            $url = $helper->getAuthorizeUrl(Magento_Oauth_Model_Token::USER_TYPE_ADMIN);
+            $url = $helper->getAuthorizeUrl(\Magento\Oauth\Model\Token::USER_TYPE_ADMIN);
             $this->_redirectUrl($url);
             return $this;
         }
 
         $this->loadLayout();
 
-        /** @var $block Magento_Oauth_Block_Adminhtml_Oauth_Authorize */
+        /** @var $block \Magento\Oauth\Block\Adminhtml\Oauth\Authorize */
         $block = $this->getLayout()->getBlock('oauth.authorize.confirm');
         $block->setIsSimple($simple);
 
         try {
-            /** @var $server Magento_Oauth_Model_Server */
-            $server = Mage::getModel('Magento_Oauth_Model_Server');
+            /** @var $server \Magento\Oauth\Model\Server */
+            $server = \Mage::getModel('\Magento\Oauth\Model\Server');
 
-            $token = $server->authorizeToken($user->getId(), Magento_Oauth_Model_Token::USER_TYPE_ADMIN);
+            $token = $server->authorizeToken($user->getId(), \Magento\Oauth\Model\Token::USER_TYPE_ADMIN);
 
             if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
                 $this->getResponse()->setRedirect($callback . ($simple ? '&simple=1' : ''));
@@ -172,10 +174,10 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
                 $block->setVerifier($token->getVerifier());
                 $session->addSuccess(__('Authorization confirmed.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $block->setHasException(true);
             $session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $block->setHasException(true);
             $session->addException($e, __('An error occurred on confirm authorize.'));
         }
@@ -190,26 +192,26 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
      * Init reject page
      *
      * @param bool $simple
-     * @return Magento_Oauth_Controller_Authorize
+     * @return \Magento\Oauth\Controller\Authorize
      */
     protected function _initRejectPage($simple = false)
     {
-        /** @var $server Magento_Oauth_Model_Server */
-        $server = Mage::getModel('Magento_Oauth_Model_Server');
+        /** @var $server \Magento\Oauth\Model\Server */
+        $server = \Mage::getModel('\Magento\Oauth\Model\Server');
 
-        /** @var $session Magento_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton($this->_sessionName);
+        /** @var $session \Magento\Backend\Model\Auth\Session */
+        $session = \Mage::getSingleton($this->_sessionName);
 
         $this->loadLayout();
 
-        /** @var $block Magento_Oauth_Block_Authorize */
+        /** @var $block \Magento\Oauth\Block\Authorize */
         $block = $this->getLayout()->getBlock('oauth.authorize.reject');
         $block->setIsSimple($simple);
 
         try {
             $token = $server->checkAuthorizeRequest();
-            /** @var $helper Magento_Oauth_Helper_Data */
-            $helper = Mage::helper('Magento_Oauth_Helper_Data');
+            /** @var $helper \Magento\Oauth\Helper\Data */
+            $helper = \Mage::helper('Magento\Oauth\Helper\Data');
 
             if (($callback = $helper->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
@@ -217,9 +219,9 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
             } else {
                 $session->addNotice(__('The application access request is rejected.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $session->addException($e, __('An error occurred on reject authorize.'));
         }
 
@@ -232,7 +234,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Authorize extends Magento_Adminht
 
     /**
      * Check is login data has empty login or pass
-     * See Magento_Backend_Model_Auth_Session: there is no any error message if login or password is empty
+     * See \Magento\Backend\Model\Auth\Session: there is no any error message if login or password is empty
      *
      * @return boolean
      */

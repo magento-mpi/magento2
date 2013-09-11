@@ -15,18 +15,18 @@
 class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Model_User
+     * @var \Magento\User\Model\User
      */
     protected $_model;
 
     /**
-     * @var Magento_User_Model_Role
+     * @var \Magento\User\Model\Role
      */
     protected static $_newRole;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_User_Model_User');
+        $this->_model = Mage::getModel('\Magento\User\Model\User');
     }
 
     /**
@@ -70,7 +70,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public static function roleDataFixture()
     {
-        self::$_newRole = Mage::getModel('Magento_User_Model_Role');
+        self::$_newRole = Mage::getModel('\Magento\User\Model\Role');
         self::$_newRole->setName('admin_role')
             ->setRoleType('G')
             ->setPid('1');
@@ -111,7 +111,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->loadByUsername(Magento_TestFramework_Bootstrap::ADMIN_NAME);
         $role = $this->_model->getRole();
-        $this->assertInstanceOf('Magento_User_Model_Role', $role);
+        $this->assertInstanceOf('\Magento\User\Model\Role', $role);
         $this->assertEquals(1, $role->getId());
         $this->_model->setRoleId(self::$_newRole->getId())->save();
         $role = $this->_model->getRole();
@@ -140,16 +140,16 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public function testGetCollection()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Resource_Db_Collection_Abstract',
+        $this->assertInstanceOf('\Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
             $this->_model->getCollection());
     }
 
     public function testSendPasswordResetConfirmationEmail()
     {
-        $mailer = $this->getMock('Magento_Core_Model_Email_Template_Mailer');
+        $mailer = $this->getMock('Magento\Core\Model\Email\Template\Mailer');
         $mailer->expects($this->once())
             ->method('setTemplateId')
-            ->with(Mage::getStoreConfig(Magento_User_Model_User::XML_PATH_FORGOT_EMAIL_TEMPLATE));
+            ->with(Mage::getStoreConfig(\Magento\User\Model\User::XML_PATH_FORGOT_EMAIL_TEMPLATE));
         $mailer->expects($this->once())
             ->method('send');
         $this->_model->setMailer($mailer);
@@ -165,7 +165,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     public function testGetAclRole()
     {
-        $newuser = Mage::getModel('Magento_User_Model_User');
+        $newuser = Mage::getModel('\Magento\User\Model\User');
         $newuser->setUserId(10);
         $this->assertNotEquals($this->_model->getAclRole(), $newuser->getAclRole());
     }
@@ -199,7 +199,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Backend_Model_Auth_Exception
+     * @expectedException \Magento\Backend\Model\Auth\Exception
      * @magentoDbIsolation enabled
      */
     public function testAuthenticateInactiveUser()
@@ -211,7 +211,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Backend_Model_Auth_Exception
+     * @expectedException \Magento\Backend\Model\Auth\Exception
      * @magentoDbIsolation enabled
      */
     public function testAuthenticateUserWithoutRole()
@@ -271,7 +271,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage User Name is a required field.
      * @expectedExceptionMessage First Name is a required field.
      * @expectedExceptionMessage Last Name is a required field.
@@ -286,7 +286,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Your password confirmation must match your password.
      * @magentoDbIsolation enabled
      */
@@ -298,7 +298,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Your password must include both numeric and alphabetic characters.
      * @magentoDbIsolation enabled
      */
@@ -310,7 +310,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider beforeSavePasswordInsecureDataProvider
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Your password must include both numeric and alphabetic characters.
      * @magentoDbIsolation enabled
      * @param string $password
@@ -330,7 +330,7 @@ class Magento_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage A user with the same user name or email already exists.
      * @magentoDbIsolation enabled
      */

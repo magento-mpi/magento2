@@ -7,27 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Block_Order_Comments extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Order;
+
+class Comments extends \Magento\Core\Block\Template
 {
     /**
      * Current entity (model instance) with getCommentsCollection() method
      *
-     * @var Magento_Sales_Model_Abstract
+     * @var \Magento\Sales\Model\AbstractModel
      */
     protected $_entity;
 
     /**
      * Currect comments collection
      *
-     * @var Magento_Sales_Model_Resource_Order_Comment_Collection_Abstract
+     * @var \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
      */
     protected $_commentCollection;
 
     /**
      * Sets comments parent model instance
      *
-     * @param Magento_Sales_Model_Abstract
-     * @return Magento_Sales_Block_Order_Comments
+     * @param \Magento\Sales\Model\AbstractModel
+     * @return \Magento\Sales\Block\Order\Comments
      */
     public function setEntity($entity)
     {
@@ -39,7 +41,7 @@ class Magento_Sales_Block_Order_Comments extends Magento_Core_Block_Template
     /**
      * Gets comments parent model instance
      *
-     * @return Magento_Sales_Model_Abstract
+     * @return \Magento\Sales\Model\AbstractModel
      */
     public function getEntity()
     {
@@ -49,23 +51,23 @@ class Magento_Sales_Block_Order_Comments extends Magento_Core_Block_Template
     /**
      * Initialize model comments and return comment collection
      *
-     * @return Magento_Sales_Model_Resource_Order_Comment_Collection_Abstract
+     * @return \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
      */
     public function getComments()
     {
         if (is_null($this->_commentCollection)) {
             $entity = $this->getEntity();
-            if ($entity instanceof Magento_Sales_Model_Order_Invoice) {
-                $collectionClass = 'Magento_Sales_Model_Resource_Order_Invoice_Comment_Collection';
-            } else if ($entity instanceof Magento_Sales_Model_Order_Creditmemo) {
-                $collectionClass = 'Magento_Sales_Model_Resource_Order_Creditmemo_Comment_Collection';
-            } else if ($entity instanceof Magento_Sales_Model_Order_Shipment) {
-                $collectionClass = 'Magento_Sales_Model_Resource_Order_Shipment_Comment_Collection';
+            if ($entity instanceof \Magento\Sales\Model\Order\Invoice) {
+                $collectionClass = '\Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection';
+            } else if ($entity instanceof \Magento\Sales\Model\Order\Creditmemo) {
+                $collectionClass = '\Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection';
+            } else if ($entity instanceof \Magento\Sales\Model\Order\Shipment) {
+                $collectionClass = '\Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection';
             } else {
-                Mage::throwException(__('We found an invalid entity model.'));
+                \Mage::throwException(__('We found an invalid entity model.'));
             }
 
-            $this->_commentCollection = Mage::getResourceModel($collectionClass);
+            $this->_commentCollection = \Mage::getResourceModel($collectionClass);
             $this->_commentCollection->setParentFilter($entity)
                ->setCreatedAtOrder()
                ->addVisibleOnFrontFilter();

@@ -11,18 +11,20 @@
 /**
  * PayPal Standard payment "form"
  */
-class Magento_Paypal_Block_Standard_Form extends Magento_Payment_Block_Form
+namespace Magento\Paypal\Block\Standard;
+
+class Form extends \Magento\Payment\Block\Form
 {
     /**
      * Payment method code
      * @var string
      */
-    protected $_methodCode = Magento_Paypal_Model_Config::METHOD_WPS;
+    protected $_methodCode = \Magento\Paypal\Model\Config::METHOD_WPS;
 
     /**
      * Config model instance
      *
-     * @var Magento_Paypal_Model_Config
+     * @var \Magento\Paypal\Model\Config
      */
     protected $_config;
 
@@ -31,10 +33,10 @@ class Magento_Paypal_Block_Standard_Form extends Magento_Payment_Block_Form
      */
     protected function _construct()
     {
-        $this->_config = Mage::getModel('Magento_Paypal_Model_Config')->setMethod($this->getMethodCode());
-        $locale = Mage::app()->getLocale();
-        /** @var $mark Magento_Core_Block_Template */
-        $mark = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Template');
+        $this->_config = \Mage::getModel('\Magento\Paypal\Model\Config')->setMethod($this->getMethodCode());
+        $locale = \Mage::app()->getLocale();
+        /** @var $mark \Magento\Core\Block\Template */
+        $mark = \Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Template');
         $mark->setTemplate('Magento_Paypal::payment/mark.phtml')
             ->setPaymentAcceptanceMarkHref($this->_config->getPaymentMarkWhatIsPaypalUrl($locale))
             ->setPaymentAcceptanceMarkSrc($this->_config->getPaymentMarkImageUrl($locale->getLocaleCode()))

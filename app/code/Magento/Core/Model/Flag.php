@@ -12,20 +12,22 @@
 /**
  * Core Flag model
  *
- * @method Magento_Core_Model_Resource_Flag _getResource()
- * @method Magento_Core_Model_Resource_Flag getResource()
+ * @method \Magento\Core\Model\Resource\Flag _getResource()
+ * @method \Magento\Core\Model\Resource\Flag getResource()
  * @method string getFlagCode()
- * @method Magento_Core_Model_Flag setFlagCode(string $value)
+ * @method \Magento\Core\Model\Flag setFlagCode(string $value)
  * @method int getState()
- * @method Magento_Core_Model_Flag setState(int $value)
+ * @method \Magento\Core\Model\Flag setState(int $value)
  * @method string getLastUpdate()
- * @method Magento_Core_Model_Flag setLastUpdate(string $value)
+ * @method \Magento\Core\Model\Flag setLastUpdate(string $value)
  *
  * @category    Magento
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Flag extends Magento_Core_Model_Abstract
+namespace Magento\Core\Model;
+
+class Flag extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Flag code
@@ -44,18 +46,18 @@ class Magento_Core_Model_Flag extends Magento_Core_Model_Abstract
         if ($this->hasData('flag_code')) {
             $this->_flagCode = $this->getData('flag_code');
         }
-        $this->_init('Magento_Core_Model_Resource_Flag');
+        $this->_init('\Magento\Core\Model\Resource\Flag');
     }
 
     /**
      * Processing object before save data
      *
-     * @return Magento_Core_Model_Flag
+     * @return \Magento\Core\Model\Flag
      */
     protected function _beforeSave()
     {
         if (is_null($this->_flagCode)) {
-            Mage::throwException(__('Please define flag code.'));
+            \Mage::throwException(__('Please define flag code.'));
         }
 
         $this->setFlagCode($this->_flagCode);
@@ -82,7 +84,7 @@ class Magento_Core_Model_Flag extends Magento_Core_Model_Abstract
      * Set flag data
      *
      * @param mixed $value
-     * @return Magento_Core_Model_Flag
+     * @return \Magento\Core\Model\Flag
      */
     public function setFlagData($value)
     {
@@ -92,12 +94,12 @@ class Magento_Core_Model_Flag extends Magento_Core_Model_Abstract
     /**
      * load self (load by flag code)
      *
-     * @return Magento_Core_Model_Flag
+     * @return \Magento\Core\Model\Flag
      */
     public function loadSelf()
     {
         if (is_null($this->_flagCode)) {
-            Mage::throwException(__('Please define flag code.'));
+            \Mage::throwException(__('Please define flag code.'));
         }
 
         return $this->load($this->_flagCode, 'flag_code');

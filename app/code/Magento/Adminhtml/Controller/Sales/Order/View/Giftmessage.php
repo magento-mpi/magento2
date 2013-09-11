@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Order_View_Giftmessage extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Sales\Order\View;
+
+class Giftmessage extends \Magento\Adminhtml\Controller\Action
 {
     public function saveAction()
     {
@@ -24,9 +26,9 @@ class Magento_Adminhtml_Controller_Sales_Order_View_Giftmessage extends Magento_
             $this->_getGiftmessageSaveModel()
                 ->setGiftmessages($this->getRequest()->getParam('giftmessage'))
                 ->saveAllInOrder();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('Something went wrong while saving the gift message.'));
         }
 
@@ -44,11 +46,11 @@ class Magento_Adminhtml_Controller_Sales_Order_View_Giftmessage extends Magento_
     /**
      * Retrieve gift message save model
      *
-     * @return Magento_Adminhtml_Model_Giftmessage_Save
+     * @return \Magento\Adminhtml\Model\Giftmessage\Save
      */
     protected function _getGiftmessageSaveModel()
     {
-        return Mage::getSingleton('Magento_Adminhtml_Model_Giftmessage_Save');
+        return \Mage::getSingleton('Magento\Adminhtml\Model\Giftmessage\Save');
     }
 
 }

@@ -11,26 +11,28 @@
 /**
  * Admin Role Model
  *
- * @method Magento_User_Model_Resource_Role _getResource()
- * @method Magento_User_Model_Resource_Role getResource()
+ * @method \Magento\User\Model\Resource\Role _getResource()
+ * @method \Magento\User\Model\Resource\Role getResource()
  * @method int getParentId()
- * @method Magento_User_Model_Role setParentId(int $value)
+ * @method \Magento\User\Model\Role setParentId(int $value)
  * @method int getTreeLevel()
- * @method Magento_User_Model_Role setTreeLevel(int $value)
+ * @method \Magento\User\Model\Role setTreeLevel(int $value)
  * @method int getSortOrder()
- * @method Magento_User_Model_Role setSortOrder(int $value)
+ * @method \Magento\User\Model\Role setSortOrder(int $value)
  * @method string getRoleType()
- * @method Magento_User_Model_Role setRoleType(string $value)
+ * @method \Magento\User\Model\Role setRoleType(string $value)
  * @method int getUserId()
- * @method Magento_User_Model_Role setUserId(int $value)
+ * @method \Magento\User\Model\Role setUserId(int $value)
  * @method string getRoleName()
- * @method Magento_User_Model_Role setRoleName(string $value)
+ * @method \Magento\User\Model\Role setRoleName(string $value)
  *
  * @category    Magento
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Model_Role extends Magento_Core_Model_Abstract
+namespace Magento\User\Model;
+
+class Role extends \Magento\Core\Model\AbstractModel
 {
     /**
      * @var string
@@ -39,13 +41,13 @@ class Magento_User_Model_Role extends Magento_Core_Model_Abstract
 
     protected function _construct()
     {
-        $this->_init('Magento_User_Model_Resource_Role');
+        $this->_init('\Magento\User\Model\Resource\Role');
     }
 
     /**
      * Update object into database
      *
-     * @return Magento_User_Model_Role
+     * @return \Magento\User\Model\Role
      */
     public function update()
     {
@@ -56,11 +58,11 @@ class Magento_User_Model_Role extends Magento_Core_Model_Abstract
     /**
      * Retrieve users collection
      *
-     * @return Magento_User_Model_Resource_Role_User_Collection
+     * @return \Magento\User\Model\Resource\Role\User\Collection
      */
     public function getUsersCollection()
     {
-        return Mage::getResourceModel('Magento_User_Model_Resource_Role_User_Collection');
+        return \Mage::getResourceModel('\Magento\User\Model\Resource\Role\User\Collection');
     }
 
     /**

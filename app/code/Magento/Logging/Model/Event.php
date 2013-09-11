@@ -11,7 +11,9 @@
 /**
  * Logging event model
  */
-class Magento_Logging_Model_Event extends Magento_Core_Model_Abstract
+namespace Magento\Logging\Model;
+
+class Event extends \Magento\Core\Model\AbstractModel
 {
     const RESULT_SUCCESS = 'success';
     const RESULT_FAILURE = 'failure';
@@ -22,20 +24,20 @@ class Magento_Logging_Model_Event extends Magento_Core_Model_Abstract
      */
     public function _construct()
     {
-        $this->_init('Magento_Logging_Model_Resource_Event');
+        $this->_init('\Magento\Logging\Model\Resource\Event');
     }
 
     /**
      * Set some data automatically before saving model
      *
-     * @return Magento_Logging_Model_Event
+     * @return \Magento\Logging\Model\Event
      */
     protected function _beforeSave()
     {
         if (!$this->getId()) {
             $this->setStatus($this->getIsSuccess() ? self::RESULT_SUCCESS : self::RESULT_FAILURE);
             if (!$this->getUser() && $id = $this->getUserId()) {
-                $this->setUser(Mage::getModel('Magento_User_Model_User')->load($id)->getUserName());
+                $this->setUser(\Mage::getModel('\Magento\User\Model\User')->load($id)->getUserName());
             }
             if (!$this->hasTime()) {
                 $this->setTime(time());

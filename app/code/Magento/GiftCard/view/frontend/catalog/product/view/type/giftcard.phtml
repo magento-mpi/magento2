@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /* @var $this Magento_GiftCard_Block_Catalog_Product_View_Type_Giftcard */?>
+<?php /* @var $this \Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard */?>
 <?php $_product = $this->getProduct(); ?>
 <?php $_id = $_product->getId(); ?>
 <div class="giftcard-form">
@@ -28,7 +28,7 @@
         <div class="price-box">
             <span class="regular-price">
                 <span class="price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
-                    <?php echo $this->helper('Magento_Core_Helper_Data')->currency($_amount, true, false); ?>
+                    <?php echo $this->helper('\Magento\Core\Helper\Data')->currency($_amount, true, false); ?>
                 </span>
             </span>
         </div>
@@ -49,18 +49,18 @@
                                                     data-validate="{number: true,required: true
                                                     <?php if ($_product->getOpenAmountMin()) {
                                                         echo ',min: ';
-                                                        echo $this->helper('Magento_Core_Helper_Data')->currency($_product->getOpenAmountMin(), false, false);
+                                                        echo $this->helper('\Magento\Core\Helper\Data')->currency($_product->getOpenAmountMin(), false, false);
                                                     }
                                                         if ($_product->getOpenAmountMax()) {
                                                             echo ',max: ';
-                                                            echo $this->helper('Magento_Core_Helper_Data')->currency($_product->getOpenAmountMax(), false, false);
+                                                            echo $this->helper('\Magento\Core\Helper\Data')->currency($_product->getOpenAmountMax(), false, false);
                                                         }
                                                         ?>
                                                         }" value="<?php echo $this->escapeHtml($this->getDefaultValue('custom_giftcard_amount')) ?>" /></span>
 
                         <?php if ($_product->getOpenAmountMin() || $_product->getOpenAmountMax()): ?>
-                            <?php $_min = $this->helper('Magento_Core_Helper_Data')->currency($_product->getOpenAmountMin(), true, false); ?>
-                            <?php $_max = $this->helper('Magento_Core_Helper_Data')->currency($_product->getOpenAmountMax(), true, false); ?>
+                            <?php $_min = $this->helper('\Magento\Core\Helper\Data')->currency($_product->getOpenAmountMin(), true, false); ?>
+                            <?php $_max = $this->helper('\Magento\Core\Helper\Data')->currency($_product->getOpenAmountMax(), true, false); ?>
                             <p class="notice">
                                 <?php if ($_product->getOpenAmountMax() && $_product->getOpenAmountMin()): ?>
                                     <span><?php echo __('Minimum: %1', $_min); ?></span>
@@ -80,7 +80,7 @@
                             <select name="giftcard_amount" id="giftcard-amount" class="required-entry giftcard-amount-entry">
                                 <option value=""><?php echo __('Choose an Amount...') ?></option>
                                 <?php foreach ($this->getAmounts($_product) as $value): ?>
-                                    <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>><?php echo $this->helper('Magento_Core_Helper_Data')->currency($value, true, false); ?></option>
+                                    <option value="<?php echo $value; ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>><?php echo $this->helper('\Magento\Core\Helper\Data')->currency($value, true, false); ?></option>
                                 <?php endforeach; ?>
 
                                 <?php if ($this->isOpenAmountAvailable($_product)): ?>

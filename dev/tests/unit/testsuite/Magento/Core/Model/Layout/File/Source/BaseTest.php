@@ -9,7 +9,7 @@
 class Magento_Core_Model_Layout_File_Source_BaseTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_File_Source_Base
+     * @var \Magento\Core\Model\Layout\File\Source\Base
      */
     private $_model;
 
@@ -31,17 +31,17 @@ class Magento_Core_Model_Layout_File_Source_BaseTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        $this->_dirs = $this->getMock('Magento_Core_Model_Dir', array(), array(), '', false);
+        $this->_dirs = $this->getMock('Magento\Core\Model\Dir', array(), array(), '', false);
         $this->_dirs->expects($this->any())->method('getDir')->will($this->returnArgument(0));
-        $this->_fileFactory = $this->getMock('Magento_Core_Model_Layout_File_Factory', array(), array(), '', false);
-        $this->_model = new Magento_Core_Model_Layout_File_Source_Base(
+        $this->_fileFactory = $this->getMock('Magento\Core\Model\Layout\File\Factory', array(), array(), '', false);
+        $this->_model = new \Magento\Core\Model\Layout\File\Source\Base(
             $this->_filesystem, $this->_dirs, $this->_fileFactory
         );
     }
 
     public function testGetFiles()
     {
-        $theme = $this->getMockForAbstractClass('Magento_Core_Model_ThemeInterface');
+        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
         $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
 
         $this->_filesystem
@@ -55,9 +55,9 @@ class Magento_Core_Model_Layout_File_Source_BaseTest extends PHPUnit_Framework_T
             )))
         ;
 
-        $fileOne = new Magento_Core_Model_Layout_File('1.xml', 'Module_One');
-        $fileTwo = new Magento_Core_Model_Layout_File('2.xml', 'Module_One');
-        $fileThree = new Magento_Core_Model_Layout_File('3.xml', 'Module_Two');
+        $fileOne = new \Magento\Core\Model\Layout\File('1.xml', 'Module_One');
+        $fileTwo = new \Magento\Core\Model\Layout\File('2.xml', 'Module_One');
+        $fileThree = new \Magento\Core\Model\Layout\File('3.xml', 'Module_Two');
         $this->_fileFactory
             ->expects($this->exactly(3))
             ->method('create')

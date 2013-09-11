@@ -10,7 +10,7 @@
  */
 class Magento_Catalog_Model_Product_Api_BackorderStatusTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Catalog_Model_Product */
+    /** @var \Magento\Catalog\Model\Product */
     protected $_product;
 
     /**
@@ -20,7 +20,7 @@ class Magento_Catalog_Model_Product_Api_BackorderStatusTest extends PHPUnit_Fram
     protected function setUp()
     {
         $productData = require dirname(__FILE__) . '/_files/ProductData.php';
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
 
         $product->setData($productData['create_full_fledged']);
         $product->save();

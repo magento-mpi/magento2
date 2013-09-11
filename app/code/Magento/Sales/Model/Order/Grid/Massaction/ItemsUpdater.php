@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Grid_Massaction_ItemsUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\Sales\Model\Order\Grid\Massaction;
+
+class ItemsUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * @var \Magento\AuthorizationInterface

@@ -11,28 +11,30 @@
 /**
  * Entity registrants data model
  *
- * @method Magento_GiftRegistry_Model_Resource_Person _getResource()
- * @method Magento_GiftRegistry_Model_Resource_Person getResource()
- * @method Magento_GiftRegistry_Model_Person setEntityId(int $value)
+ * @method \Magento\GiftRegistry\Model\Resource\Person _getResource()
+ * @method \Magento\GiftRegistry\Model\Resource\Person getResource()
+ * @method \Magento\GiftRegistry\Model\Person setEntityId(int $value)
  * @method string getFirstname()
- * @method Magento_GiftRegistry_Model_Person setFirstname(string $value)
+ * @method \Magento\GiftRegistry\Model\Person setFirstname(string $value)
  * @method string getLastname()
- * @method Magento_GiftRegistry_Model_Person setLastname(string $value)
+ * @method \Magento\GiftRegistry\Model\Person setLastname(string $value)
  * @method string getEmail()
- * @method Magento_GiftRegistry_Model_Person setEmail(string $value)
+ * @method \Magento\GiftRegistry\Model\Person setEmail(string $value)
  * @method string getRole()
- * @method Magento_GiftRegistry_Model_Person setRole(string $value)
+ * @method \Magento\GiftRegistry\Model\Person setRole(string $value)
  * @method string getCustomValues()
- * @method Magento_GiftRegistry_Model_Person setCustomValues(string $value)
+ * @method \Magento\GiftRegistry\Model\Person setCustomValues(string $value)
  *
  * @category    Magento
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
+namespace Magento\GiftRegistry\Model;
+
+class Person extends \Magento\Core\Model\AbstractModel
 {
     function _construct() {
-        $this->_init('Magento_GiftRegistry_Model_Resource_Person');
+        $this->_init('\Magento\GiftRegistry\Model\Resource\Person');
     }
 
     /**
@@ -58,9 +60,9 @@ class Magento_GiftRegistry_Model_Person extends Magento_Core_Model_Abstract
         }
 
         $customValues = $this->getCustom();
-        $attributes = Mage::getSingleton('Magento_GiftRegistry_Model_Entity')->getRegistrantAttributes();
+        $attributes = \Mage::getSingleton('Magento\GiftRegistry\Model\Entity')->getRegistrantAttributes();
 
-        $errorsCustom = Mage::helper('Magento_GiftRegistry_Helper_Data')->validateCustomAttributes($customValues, $attributes);
+        $errorsCustom = \Mage::helper('Magento\GiftRegistry\Helper\Data')->validateCustomAttributes($customValues, $attributes);
         if ($errorsCustom !== true) {
             $errors = empty($errors) ? $errorsCustom : array_merge($errors, $errorsCustom);
         }

@@ -13,9 +13,9 @@ class Magento_Backend_Block_System_Config_Form_Field_FieldArray_AbstractTest ext
 {
     public function testGetArrayRows()
     {
-        /** @var $block Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract */
+        /** @var $block \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray */
         $block = $this->getMockForAbstractClass(
-            'Magento_Backend_Block_System_Config_Form_Field_FieldArray_Abstract',
+            '\Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray',
             array(),
             '',
             false,

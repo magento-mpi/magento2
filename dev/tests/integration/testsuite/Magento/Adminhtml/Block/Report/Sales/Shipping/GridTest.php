@@ -18,11 +18,11 @@ class Magento_Adminhtml_Block_Report_Sales_Shipping_GridTest extends PHPUnit_Fra
      * Creates and inits block
      *
      * @param string|null $reportType
-     * @return Magento_Adminhtml_Block_Report_Sales_Shipping_Grid
+     * @return \Magento\Adminhtml\Block\Report\Sales\Shipping\Grid
      */
     protected function _createBlock($reportType = null)
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Report_Sales_Shipping_Grid');
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Report\Sales\Shipping\Grid');
 
         $filterData = new \Magento\Object();
         if ($reportType) {

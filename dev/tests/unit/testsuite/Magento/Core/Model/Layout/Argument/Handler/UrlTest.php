@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Argument_Handler_Url
+ * Test class for \Magento\Core\Model\Layout\Argument\Handler\Url
  */
 class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Argument_Handler_Url
+     * @var \Magento\Core\Model\Layout\Argument\Handler\Url
      */
     protected $_model;
 
@@ -32,8 +32,8 @@ class Magento_Core_Model_Layout_Argument_Handler_UrlTest extends PHPUnit_Framewo
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_urlModelMock = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
-        $this->_model = new Magento_Core_Model_Layout_Argument_Handler_Url($this->_objectManagerMock,
+        $this->_urlModelMock = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
+        $this->_model = new \Magento\Core\Model\Layout\Argument\Handler\Url($this->_objectManagerMock,
             $this->_urlModelMock
         );
     }

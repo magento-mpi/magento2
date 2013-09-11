@@ -12,12 +12,14 @@
  * Order archive model
  *
  */
-class Magento_SalesArchive_Model_Order_Status_Source extends Magento_Sales_Model_Config_Source_Order_Status
+namespace Magento\SalesArchive\Model\Order\Status;
+
+class Source extends \Magento\Sales\Model\Config\Source\Order\Status
 {
     /**
      * Retrieve order statuses as options for select
      *
-     * @see Magento_Sales_Model_Config_Source_Order_Status:toOptionArray()
+     * @see \Magento\Sales\Model\Config\Source\Order\Status:toOptionArray()
      * @return array
      */
     public function toOptionArray()

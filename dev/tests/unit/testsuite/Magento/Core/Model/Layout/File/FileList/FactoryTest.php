@@ -9,7 +9,7 @@
 class Magento_Core_Model_Layout_File_FileList_FactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_File_FileList_Factory
+     * @var \Magento\Core\Model\Layout\File\FileList\Factory
      */
     private $_model;
 
@@ -21,16 +21,16 @@ class Magento_Core_Model_Layout_File_FileList_FactoryTest extends PHPUnit_Framew
     protected function setUp()
     {
         $this->_objectManager = $this->getMockForAbstractClass('\Magento\ObjectManager');
-        $this->_model = new Magento_Core_Model_Layout_File_FileList_Factory($this->_objectManager);
+        $this->_model = new \Magento\Core\Model\Layout\File\FileList\Factory($this->_objectManager);
     }
 
     public function testCreate()
     {
-        $list = new Magento_Core_Model_Layout_File_List();
+        $list = new \Magento\Core\Model\Layout\File\ListFile();
         $this->_objectManager
             ->expects($this->once())
             ->method('create')
-            ->with('Magento_Core_Model_Layout_File_List')
+            ->with('Magento\Core\Model\Layout\File\ListFile')
             ->will($this->returnValue($list))
         ;
         $this->assertSame($list, $this->_model->create());

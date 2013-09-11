@@ -11,21 +11,23 @@
 /**
  * Ratings entity model
  *
- * @method Magento_Rating_Model_Resource_Rating_Entity _getResource()
- * @method Magento_Rating_Model_Resource_Rating_Entity getResource()
+ * @method \Magento\Rating\Model\Resource\Rating\Entity _getResource()
+ * @method \Magento\Rating\Model\Resource\Rating\Entity getResource()
  * @method string getEntityCode()
- * @method Magento_Rating_Model_Rating_Entity setEntityCode(string $value)
+ * @method \Magento\Rating\Model\Rating\Entity setEntityCode(string $value)
  *
  * @category    Magento
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rating_Model_Rating_Entity extends Magento_Core_Model_Abstract
+namespace Magento\Rating\Model\Rating;
+
+class Entity extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_Rating_Model_Resource_Rating_Entity');
+        $this->_init('\Magento\Rating\Model\Resource\Rating\Entity');
     }
 
     public function getIdByCode($entityCode)

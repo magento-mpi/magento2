@@ -15,8 +15,10 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend
-    extends Magento_Adminhtml_Block_Catalog_Form_Renderer_Fieldset_Element
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes;
+
+class Extend
+    extends \Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element
 {
     const DYNAMIC = 0;
     const FIXED = 1;
@@ -110,7 +112,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend
     public function getProduct()
     {
         if (!$this->getData('product')){
-            $this->setData('product', Mage::registry('product'));
+            $this->setData('product', \Mage::registry('product'));
         }
         return $this->getData('product');
     }

@@ -15,7 +15,9 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_CarrierAbstract_Source_Requesttype
+namespace Magento\Usa\Model\Shipping\Carrier\CarrierAbstract\Source;
+
+class Requesttype
 {
     /**
      * Returns array to be used in packages request type on back-end

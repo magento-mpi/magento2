@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
+namespace Magento\Catalog\Model\Product;
+
+class Image extends \Magento\Core\Model\AbstractModel
 {
     protected $_width;
     protected $_height;
@@ -46,42 +48,42 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Image_Factory
+     * @var \Magento\Core\Model\Image\Factory
      */
     protected $_imageFactory;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @param Magento_Core_Model_Context $context
+     * @param \Magento\Core\Model\Context $context
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_Image_Factory $imageFactory
-     * @param Magento_Core_Model_View_Url $viewUrl
-     * @param Magento_Core_Model_View_FileSystem $viewFileSystem
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Image\Factory $imageFactory
+     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
+        \Magento\Core\Model\Context $context,
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_Image_Factory $imageFactory,
-        Magento_Core_Model_View_Url $viewUrl,
-        Magento_Core_Model_View_FileSystem $viewFileSystem,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Image\Factory $imageFactory,
+        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\Core\Model\View\FileSystem $viewFileSystem,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $resource, $resourceCollection, $data);
-        $baseDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        $baseDir = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
         $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($baseDir);
@@ -94,7 +96,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
 
     /**
      * @param $width
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setWidth($width)
     {
@@ -108,7 +110,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setHeight($height)
     {
@@ -125,7 +127,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * Set image quality, values in percentage from 0 to 100
      *
      * @param int $quality
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setQuality($quality)
     {
@@ -144,7 +146,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setKeepAspectRatio($keep)
     {
@@ -153,7 +155,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setKeepFrame($keep)
     {
@@ -162,7 +164,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setKeepTransparency($keep)
     {
@@ -171,7 +173,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setConstrainOnly($flag)
     {
@@ -180,7 +182,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setBackgroundColor(array $rgbArray)
     {
@@ -189,7 +191,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setSize($size)
     {
@@ -296,7 +298,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * Set filenames for base file and new file
      *
      * @param string $file
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setBaseFile($file)
     {
@@ -305,7 +307,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         if (($file) && (0 !== strpos($file, '/', 0))) {
             $file = '/' . $file;
         }
-        $baseDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        $baseDir = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
 
         if ('/no_selection' == $file) {
             $file = null;
@@ -318,7 +320,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         if (!$file) {
             $this->_isBaseFilePlaceholder = true;
             // check if placeholder defined in config
-            $isConfigPlaceholder = Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
+            $isConfigPlaceholder = \Mage::getStoreConfig("catalog/placeholder/{$this->getDestinationSubdir()}_placeholder");
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
             if (!empty($isConfigPlaceholder) && $this->_fileExists($baseDir . $configPlaceholder)) {
                 $file = $configPlaceholder;
@@ -331,16 +333,16 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         $baseFile = $baseDir . $file;
 
         if (!$file || !$this->_filesystem->isFile($baseFile)) {
-            throw new Exception(__('We can\'t find the image file.'));
+            throw new \Exception(__('We can\'t find the image file.'));
         }
 
         $this->_baseFile = $baseFile;
 
         // build new filename (most important params)
         $path = array(
-            Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath(),
+            \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath(),
             'cache',
-            Mage::app()->getStore()->getId(),
+            \Mage::app()->getStore()->getId(),
             $path[] = $this->getDestinationSubdir()
         );
         if ((!empty($this->_width)) || (!empty($this->_height))) {
@@ -386,7 +388,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setImageProcessor($processor)
     {
@@ -413,7 +415,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
 
     /**
      * @see \Magento\Image\Adapter\AbstractAdapter
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function resize()
     {
@@ -425,7 +427,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function rotate($angle)
     {
@@ -440,7 +442,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * This func actually affects only the cache filename.
      *
      * @param int $angle
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setAngle($angle)
     {
@@ -458,7 +460,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * @param int $width
      * @param int $heigth
      * @param int $imageOpacity
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setWatermark($file, $position=null, $size=null, $width=null, $heigth=null, $imageOpacity=null)
     {
@@ -502,7 +504,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function saveFile()
     {
@@ -511,7 +513,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         }
         $filename = $this->getNewFile();
         $this->getImageProcessor()->save($filename);
-        Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFile($filename);
+        \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFile($filename);
         return $this;
     }
 
@@ -525,16 +527,16 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
                 "Magento_Catalog::images/product/placeholder/{$this->getDestinationSubdir()}.jpg"
             );
         } else {
-            $baseDir = Mage::getBaseDir('media');
+            $baseDir = \Mage::getBaseDir('media');
             $path = str_replace($baseDir . DS, "", $this->_newFile);
-            $url = Mage::getBaseUrl('media') . str_replace(DS, '/', $path);;
+            $url = \Mage::getBaseUrl('media') . str_replace(DS, '/', $path);;
         }
 
         return $url;
     }
 
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setDestinationSubdir($dir)
     {
@@ -561,7 +563,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * Set watermark file name
      *
      * @param string $file
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setWatermarkFile($file)
     {
@@ -593,12 +595,12 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
             return $filePath;
         }
 
-        $baseDir = Mage::getSingleton('Magento_Catalog_Model_Product_Media_Config')->getBaseMediaPath();
+        $baseDir = \Mage::getSingleton('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
 
-        if ($this->_fileExists($baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file)) {
-            $filePath = $baseDir . '/watermark/stores/' . Mage::app()->getStore()->getId() . $file;
-        } elseif ($this->_fileExists($baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file)) {
-            $filePath = $baseDir . '/watermark/websites/' . Mage::app()->getWebsite()->getId() . $file;
+        if ($this->_fileExists($baseDir . '/watermark/stores/' . \Mage::app()->getStore()->getId() . $file)) {
+            $filePath = $baseDir . '/watermark/stores/' . \Mage::app()->getStore()->getId() . $file;
+        } elseif ($this->_fileExists($baseDir . '/watermark/websites/' . \Mage::app()->getWebsite()->getId() . $file)) {
+            $filePath = $baseDir . '/watermark/websites/' . \Mage::app()->getWebsite()->getId() . $file;
         } elseif ($this->_fileExists($baseDir . '/watermark/default/' . $file)) {
             $filePath = $baseDir . '/watermark/default/' . $file;
         } elseif ($this->_fileExists($baseDir . '/watermark/' . $file)) {
@@ -617,7 +619,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * Set watermark position
      *
      * @param string $position
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setWatermarkPosition($position)
     {
@@ -639,7 +641,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * Set watermark image opacity
      *
      * @param int $imageOpacity
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setWatermarkImageOpacity($imageOpacity)
     {
@@ -661,7 +663,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * Set watermark size
      *
      * @param array $size
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setWatermarkSize($size)
     {
@@ -676,7 +678,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * Set watermark width
      *
      * @param int $width
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setWatermarkWidth($width)
     {
@@ -698,7 +700,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
      * Set watermark heigth
      *
      * @param int $heigth
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function setWatermarkHeight($heigth)
     {
@@ -718,10 +720,10 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
 
     public function clearCache()
     {
-        $directory = Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product' . DS.'cache' . DS;
+        $directory = \Mage::getBaseDir('media') . DS . 'catalog' . DS . 'product' . DS.'cache' . DS;
         $this->_filesystem->delete($directory);
 
-        Mage::helper('Magento_Core_Helper_File_Storage_Database')->deleteFolder($directory);
+        \Mage::helper('Magento\Core\Helper\File\Storage\Database')->deleteFolder($directory);
     }
 
     /**
@@ -736,7 +738,7 @@ class Magento_Catalog_Model_Product_Image extends Magento_Core_Model_Abstract
         if ($this->_filesystem->isFile($filename)) {
             return true;
         } else {
-            return Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFileToFilesystem($filename);
+            return \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFileToFilesystem($filename);
         }
     }
 }

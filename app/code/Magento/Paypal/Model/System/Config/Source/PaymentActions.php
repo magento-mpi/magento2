@@ -11,7 +11,9 @@
 /**
  * Source model for available payment actions
  */
-class Magento_Paypal_Model_System_Config_Source_PaymentActions
+namespace Magento\Paypal\Model\System\Config\Source;
+
+class PaymentActions
 {
     /**
      * Options getter
@@ -20,7 +22,7 @@ class Magento_Paypal_Model_System_Config_Source_PaymentActions
      */
     public function toOptionArray()
     {
-        $configModel = Mage::getModel('Magento_Paypal_Model_Config');
+        $configModel = \Mage::getModel('\Magento\Paypal\Model\Config');
         return $configModel->getPaymentActions();
     }
 }

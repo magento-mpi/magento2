@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Magento_Adminhtml_Block_Report_Grid_Abstract
+namespace Magento\Adminhtml\Block\Report\Sales\Invoiced;
+
+class Grid extends \Magento\Adminhtml\Block\Report\Grid\AbstractGrid
 {
     protected $_columnGroupBy = 'period';
 
@@ -28,8 +30,8 @@ class Magento_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Magento_Adminht
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_invoice')
-            ? 'Magento_Sales_Model_Resource_Report_Invoiced_Collection_Invoiced'
-            : 'Magento_Sales_Model_Resource_Report_Invoiced_Collection_Order';
+            ? '\Magento\Sales\Model\Resource\Report\Invoiced\Collection\Invoiced'
+            : '\Magento\Sales\Model\Resource\Report\Invoiced\Collection\Order';
     }
 
     protected function _prepareColumns()
@@ -39,7 +41,7 @@ class Magento_Adminhtml_Block_Report_Sales_Invoiced_Grid extends Magento_Adminht
             'index'         => 'period',
             'sortable'      => false,
             'period_type'   => $this->getPeriodType(),
-            'renderer'      => 'Magento_Adminhtml_Block_Report_Sales_Grid_Column_Renderer_Date',
+            'renderer'      => '\Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
             'totals_label'  => __('Total'),
             'html_decorators' => array('nobr'),
             'header_css_class'  => 'col-period',

@@ -16,20 +16,22 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Form_Element_File extends \Magento\Data\Form\Element\AbstractElement
+namespace Magento\Adminhtml\Block\Customer\Form\Element;
+
+class File extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
      * Initialize Form Element
      *
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
      * @param array $attributes
      */
-    public  function __construct(Magento_Core_Model_View_Url $viewUrl, $attributes = array())
+    public  function __construct(\Magento\Core\Model\View\Url $viewUrl, $attributes = array())
     {
         $this->_viewUrl = $viewUrl;
         parent::__construct($attributes);
@@ -159,8 +161,8 @@ class Magento_Adminhtml_Block_Customer_Form_Element_File extends \Magento\Data\F
      */
     protected function _getPreviewUrl()
     {
-        return Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/customer/viewfile', array(
-            'file' => Mage::helper('Magento_Core_Helper_Data')->urlEncode($this->getValue()),
+        return \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/customer/viewfile', array(
+            'file' => \Mage::helper('Magento\Core\Helper\Data')->urlEncode($this->getValue()),
         ));
     }
 

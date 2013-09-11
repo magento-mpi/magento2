@@ -12,19 +12,19 @@
 class Magento_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function testSetBaseFilePlaceholder()
     {
-        /** @var $model Magento_Catalog_Model_Product_Image */
-        $model = Mage::getModel('Magento_Catalog_Model_Product_Image');
+        /** @var $model \Magento\Catalog\Model\Product\Image */
+        $model = Mage::getModel('\Magento\Catalog\Model\Product\Image');
         $model->setDestinationSubdir('image')->setBaseFile('');
         $this->assertEmpty($model->getBaseFile());
         return $model;
     }
 
     /**
-     * @param Magento_Catalog_Model_Product_Image $model
+     * @param \Magento\Catalog\Model\Product\Image $model
      * @depends testSetBaseFilePlaceholder
      */
     public function testSaveFilePlaceholder($model)
@@ -35,7 +35,7 @@ class Magento_Catalog_Model_Product_ImageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Magento_Catalog_Model_Product_Image $model
+     * @param \Magento\Catalog\Model\Product\Image $model
      * @depends testSetBaseFilePlaceholder
      */
     public function testGetUrlPlaceholder($model)

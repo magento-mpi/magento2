@@ -12,14 +12,14 @@
 class Magento_Core_Helper_HttpTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Http
+     * @var \Magento\Core\Helper\Http
      */
     protected $_object = null;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Core_Helper_Http(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+        $this->_object = new \Magento\Core\Helper\Http(
+            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false)
         );
     }
 

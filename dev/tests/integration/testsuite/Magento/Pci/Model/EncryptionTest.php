@@ -12,13 +12,13 @@
 class Magento_Pci_Model_EncryptionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Pci_Model_Encryption
+     * @var \Magento\Pci\Model\Encryption
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Pci_Model_Encryption');
+        $this->_model = Mage::getModel('\Magento\Pci\Model\Encryption');
     }
 
     public function testEncryptDecrypt()

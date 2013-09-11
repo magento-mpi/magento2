@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Source_Format
+namespace Magento\Webhook\Model\Source;
+
+class Format
 {
     /** @var string[] $_formats */
     private $_formats;

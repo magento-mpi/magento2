@@ -16,22 +16,24 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
+namespace Magento\Cms\Block;
+
+class Page extends \Magento\Core\Block\AbstractBlock
 {
     /**
      * Retrieve Page instance
      *
-     * @return Magento_Cms_Model_Page
+     * @return \Magento\Cms\Model\Page
      */
     public function getPage()
     {
         if (!$this->hasData('page')) {
             if ($this->getPageId()) {
-                $page = Mage::getModel('Magento_Cms_Model_Page')
-                    ->setStoreId(Mage::app()->getStore()->getId())
+                $page = \Mage::getModel('\Magento\Cms\Model\Page')
+                    ->setStoreId(\Mage::app()->getStore()->getId())
                     ->load($this->getPageId(), 'identifier');
             } else {
-                $page = Mage::getSingleton('Magento_Cms_Model_Page');
+                $page = \Mage::getSingleton('Magento\Cms\Model\Page');
             }
             $this->setData('page', $page);
         }
@@ -41,14 +43,14 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
     /**
      * Prepare global layout
      *
-     * @return Magento_Cms_Block_Page
+     * @return \Magento\Cms\Block\Page
      */
     protected function _prepareLayout()
     {
         $page = $this->getPage();
 
         // show breadcrumbs
-        if (Mage::getStoreConfig('web/default/show_cms_breadcrumbs')
+        if (\Mage::getStoreConfig('web/default/show_cms_breadcrumbs')
             && ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs'))
             && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_home_page'))
             && ($page->getIdentifier()!==Mage::getStoreConfig('web/default/cms_no_route'))) {
@@ -85,8 +87,8 @@ class Magento_Cms_Block_Page extends Magento_Core_Block_Abstract
      */
     protected function _toHtml()
     {
-        /* @var $helper Magento_Cms_Helper_Data */
-        $helper = Mage::helper('Magento_Cms_Helper_Data');
+        /* @var $helper \Magento\Cms\Helper\Data */
+        $helper = \Mage::helper('Magento\Cms\Helper\Data');
         $processor = $helper->getPageTemplateProcessor();
         $html = $processor->filter($this->getPage()->getContent());
         $html = $this->getLayout()->renderElement('messages') . $html;

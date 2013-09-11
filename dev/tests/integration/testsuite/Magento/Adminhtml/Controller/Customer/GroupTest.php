@@ -19,8 +19,8 @@ class Magento_Adminhtml_Controller_Customer_GroupTest extends Magento_Backend_Ut
 
     public static function customerGroupDataFixture()
     {
-        /** @var Magento_Customer_Model_Group $group */
-        $group = Mage::getModel('Magento_Customer_Model_Group');
+        /** @var \Magento\Customer\Model\Group $group */
+        $group = Mage::getModel('\Magento\Customer\Model\Group');
 
         $groupData = array(
             'customer_group_code' => 'New Customer Group',
@@ -47,7 +47,7 @@ class Magento_Adminhtml_Controller_Customer_GroupTest extends Magento_Backend_Ut
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The customer group has been deleted.')), Magento_Core_Model_Message::SUCCESS
+            $this->equalTo(array('The customer group has been deleted.')), \Magento\Core\Model\Message::SUCCESS
         );
     }
 
@@ -60,7 +60,7 @@ class Magento_Adminhtml_Controller_Customer_GroupTest extends Magento_Backend_Ut
          * Check that error message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The customer group no longer exists.')), Magento_Core_Model_Message::ERROR
+            $this->equalTo(array('The customer group no longer exists.')), \Magento\Core\Model\Message::ERROR
         );
     }
 }

@@ -16,7 +16,9 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Calculation_Grid_Collection extends Magento_Tax_Model_Resource_Calculation_Rate_Collection
+namespace Magento\Tax\Model\Resource\Calculation\Grid;
+
+class Collection extends \Magento\Tax\Model\Resource\Calculation\Rate\Collection
 {
     /**
      * Join Region Table

@@ -15,25 +15,27 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_View_Tabs extends Magento_Adminhtml_Block_Widget_Tabs
+namespace Magento\Adminhtml\Block\Sales\Order\View;
+
+class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
 {
     /**
      * Retrieve available order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
         if ($this->hasOrder()) {
             return $this->getData('order');
         }
-        if (Mage::registry('current_order')) {
-            return Mage::registry('current_order');
+        if (\Mage::registry('current_order')) {
+            return \Mage::registry('current_order');
         }
-        if (Mage::registry('order')) {
-            return Mage::registry('order');
+        if (\Mage::registry('order')) {
+            return \Mage::registry('order');
         }
-        Mage::throwException(__('We cannot get the order instance.'));
+        \Mage::throwException(__('We cannot get the order instance.'));
     }
 
     protected function _construct()

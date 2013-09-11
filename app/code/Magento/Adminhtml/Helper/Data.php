@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Helper_Data extends Magento_Backend_Helper_Data
+namespace Magento\Adminhtml\Helper;
+
+class Data extends \Magento\Backend\Helper\Data
 {
 
 }

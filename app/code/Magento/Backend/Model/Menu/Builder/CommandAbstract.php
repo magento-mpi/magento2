@@ -11,7 +11,9 @@
 /**
  * Menu builder command
  */
-abstract class Magento_Backend_Model_Menu_Builder_CommandAbstract
+namespace Magento\Backend\Model\Menu\Builder;
+
+abstract class CommandAbstract
 {
     /**
      * List of required params
@@ -30,19 +32,19 @@ abstract class Magento_Backend_Model_Menu_Builder_CommandAbstract
     /**
      * Next command in the chain
      *
-     * @var Magento_Backend_Model_Menu_Builder_CommandAbstract
+     * @var \Magento\Backend\Model\Menu\Builder\CommandAbstract
      */
     protected $_next = null;
 
     /**
      * @param array $data
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $data = array())
     {
         foreach ($this->_requiredParams as $param) {
             if (!isset($data[$param]) || is_null($data[$param])) {
-                throw new InvalidArgumentException("Missing required param " . $param);
+                throw new \InvalidArgumentException("Missing required param " . $param);
             }
         }
         $this->_data = $data;
@@ -61,11 +63,11 @@ abstract class Magento_Backend_Model_Menu_Builder_CommandAbstract
     /**
      * Add command as last in the list of callbacks
      *
-     * @param Magento_Backend_Model_Menu_Builder_CommandAbstract $command
-     * @return Magento_Backend_Model_Menu_Builder_CommandAbstract
-     * @throws InvalidArgumentException if invalid chaining command is supplied
+     * @param \Magento\Backend\Model\Menu\Builder\CommandAbstract $command
+     * @return \Magento\Backend\Model\Menu\Builder\CommandAbstract
+     * @throws \InvalidArgumentException if invalid chaining command is supplied
      */
-    public function chain(Magento_Backend_Model_Menu_Builder_CommandAbstract $command)
+    public function chain(\Magento\Backend\Model\Menu\Builder\CommandAbstract $command)
     {
         if (is_null($this->_next)) {
             $this->_next = $command;

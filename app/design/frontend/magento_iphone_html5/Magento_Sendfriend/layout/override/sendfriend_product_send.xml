@@ -20,7 +20,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_Sendfriend_Block_Send" name="sendfriend.send" template="send.phtml"/>
+            <block class="\Magento\Sendfriend\Block\Send" name="sendfriend.send" template="send.phtml"/>
         </reference>
     </handle>
 </layout>

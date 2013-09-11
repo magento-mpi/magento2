@@ -16,7 +16,9 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\CatalogSearch\Model\Resource;
+
+class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define catalog product table as main table
@@ -44,11 +46,11 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
         $eventArgs = array(
             'select'          => $select,
             'table'           => 'price_index',
-            'store_id'        => Mage::app()->getStore()->getId(),
+            'store_id'        => \Mage::app()->getStore()->getId(),
             'response_object' => $response
         );
 
-        Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
+        \Mage::dispatchEvent('catalog_prepare_price_select', $eventArgs);
 
         return $response;
     }
@@ -56,9 +58,9 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
     /**
      * Prepare search condition for attribute
      *
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
-     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $collection
      * @return mixed
      */
     public function prepareCondition($attribute, $value, $collection)
@@ -89,8 +91,8 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
     /**
      * Add filter by attribute rated price
      *
-     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @param int $rate
      * @return bool
@@ -102,11 +104,11 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
         $conditions = array();
         if (strlen($value['from']) > 0) {
             $conditions[] = $adapter->quoteInto(
-                'price_index.min_price %s * %s >= ?', $value['from'], Zend_Db::FLOAT_TYPE);
+                'price_index.min_price %s * %s >= ?', $value['from'], \Zend_Db::FLOAT_TYPE);
         }
         if (strlen($value['to']) > 0) {
             $conditions[] = $adapter->quoteInto(
-                'price_index.min_price %s * %s <= ?', $value['to'], Zend_Db::FLOAT_TYPE);
+                'price_index.min_price %s * %s <= ?', $value['to'], \Zend_Db::FLOAT_TYPE);
         }
 
         if (!$conditions) {
@@ -128,8 +130,8 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
     /**
      * Add filter by indexable attribute
      *
-     * @param Magento_CatalogSearch_Model_Resource_Advanced_Collection $collection
-     * @param Magento_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $collection
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @return bool
      */
@@ -142,7 +144,7 @@ class Magento_CatalogSearch_Model_Resource_Advanced extends Magento_Core_Model_R
         }
 
         $tableAlias = 'a_' . $attribute->getAttributeId();
-        $storeId    = Mage::app()->getStore()->getId();
+        $storeId    = \Mage::app()->getStore()->getId();
         $select     = $collection->getSelect();
 
         if (is_array($value)) {

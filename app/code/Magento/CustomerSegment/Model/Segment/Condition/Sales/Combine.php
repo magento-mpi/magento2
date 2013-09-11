@@ -11,8 +11,10 @@
 /**
  * Sales conditions combine
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
-    extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
+
+class Combine
+    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * @var string
@@ -20,13 +22,13 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
     protected $_inputType = 'numeric';
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine');
     }
 
     /**
@@ -37,12 +39,12 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(parent::getNewChildSelectOptions(), array(
-            Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Order_Status')->getNewChildSelectOptions(),
+            \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Order\Status')->getNewChildSelectOptions(),
             // date ranges
             array(
                 'value' => array(
-                    Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Uptodate')->getNewChildSelectOptions(),
-                    Mage::getModel('Magento_CustomerSegment_Model_Segment_Condition_Daterange')->getNewChildSelectOptions(),
+                    \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Uptodate')->getNewChildSelectOptions(),
+                    \Mage::getModel('\Magento\CustomerSegment\Model\Segment\Condition\Daterange')->getNewChildSelectOptions(),
                 ),
                 'label' => __('Date Ranges')
             ),
@@ -52,7 +54,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
     /**
      * Init attribute select options
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Sales_Combine
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
      */
     public function loadAttributeOptions()
     {

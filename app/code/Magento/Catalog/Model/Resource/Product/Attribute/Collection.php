@@ -16,8 +16,10 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Attribute_Collection
-    extends Magento_Eav_Model_Resource_Entity_Attribute_Collection
+namespace Magento\Catalog\Model\Resource\Product\Attribute;
+
+class Collection
+    extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
 {
     /**
      * Resource model initialization
@@ -25,17 +27,17 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
      */
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Eav_Attribute', 'Magento_Eav_Model_Resource_Entity_Attribute');
+        $this->_init('\Magento\Catalog\Model\Resource\Eav\Attribute', '\Magento\Eav\Model\Resource\Entity\Attribute');
     }
 
     /**
      * initialize select object
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     protected function _initSelect()
     {
-        $entityTypeId = (int)Mage::getModel('Magento_Eav_Model_Entity')->setType(Magento_Catalog_Model_Product::ENTITY)
+        $entityTypeId = (int)\Mage::getModel('\Magento\Eav\Model\Entity')->setType(\Magento\Catalog\Model\Product::ENTITY)
             ->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);
@@ -61,7 +63,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
      * Entity type is defined.
      *
      * @param  int $typeId
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function setEntityTypeFilter($typeId)
     {
@@ -90,7 +92,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Remove price from attribute list
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function removePriceFilter()
     {
@@ -100,7 +102,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify "is_visible_in_advanced_search" filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addDisplayInAdvancedSearchFilter()
     {
@@ -110,7 +112,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify "is_filterable" filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addIsFilterableFilter()
     {
@@ -120,7 +122,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Add filterable in search filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addIsFilterableInSearchFilter()
     {
@@ -130,7 +132,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify filter by "is_visible" field
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addVisibleFilter()
     {
@@ -140,7 +142,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify "is_searchable" filter
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addIsSearchableFilter()
     {
@@ -151,7 +153,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
      * Specify filter for attributes that have to be indexed
      *
      * @param bool $addRequiredCodes
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addToIndexFilter($addRequiredCodes = false)
     {
@@ -176,7 +178,7 @@ class Magento_Catalog_Model_Resource_Product_Attribute_Collection
     /**
      * Specify filter for attributes used in quick search
      *
-     * @return Magento_Catalog_Model_Resource_Product_Attribute_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     public function addSearchableAttributeFilter()
     {

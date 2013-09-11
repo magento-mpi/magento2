@@ -13,20 +13,22 @@
  * GiftWrapping total calculator for quote
  *
  */
-class Magento_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\GiftWrapping\Model\Total\Quote;
+
+class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store;
 
     /**
-     * @var Magento_Sales_Model_Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
     /**
-     * @var Magento_Sales_Model_Quote|Magento_Sales_Model_Quote_Address
+     * @var \Magento\Sales\Model\Quote|\Magento\Sales\Model\Quote\Address
      */
     protected $_quoteEntity;
 
@@ -41,13 +43,13 @@ class Magento_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_
     /**
      * Collect gift wrapping totals
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_GiftWrapping_Model_Total_Quote_Giftwrapping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\GiftWrapping\Model\Total\Quote\Giftwrapping
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
-        if ($address->getAddressType() != Magento_Sales_Model_Quote_Address::TYPE_SHIPPING) {
+        if ($address->getAddressType() != \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING) {
             return $this;
         }
 
@@ -99,8 +101,8 @@ class Magento_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_
     /**
      * Collect wrapping total for items
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_GiftWrapping_Model_Total_Quote_Giftwrapping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\GiftWrapping\Model\Total\Quote\Giftwrapping
      */
     protected function _collectWrappingForItems($address)
     {
@@ -133,8 +135,8 @@ class Magento_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_
     /**
      * Collect wrapping total for quote
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_GiftWrapping_Model_Total_Quote_Giftwrapping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\GiftWrapping\Model\Total\Quote\Giftwrapping
      */
     protected function _collectWrappingForQuote($address)
     {
@@ -153,15 +155,15 @@ class Magento_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_
     /**
      * Collect printed card total for quote
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_GiftWrapping_Model_Total_Quote_Giftwrapping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\GiftWrapping\Model\Total\Quote\Giftwrapping
      */
     protected function _collectPrintedCard($address)
     {
         $printedCardBasePrice = false;
         $printedCardPrice = false;
         if ($this->_quoteEntity->getGwAddCard()) {
-            $printedCardBasePrice = Mage::helper('Magento_GiftWrapping_Helper_Data')->getPrintedCardPrice($this->_store);
+            $printedCardBasePrice = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getPrintedCardPrice($this->_store);
             $printedCardPrice = $this->_store->convertPrice($printedCardBasePrice);
         }
         $address->setGwCardBasePrice($printedCardBasePrice);
@@ -173,12 +175,12 @@ class Magento_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_
      * Return wrapping model for wrapping ID
      *
      * @param  int $wrappingId
-     * @param  Magento_Core_Model_Store $store
-     * @return Magento_GiftWrapping_Model_Wrapping
+     * @param  \Magento\Core\Model\Store $store
+     * @return \Magento\GiftWrapping\Model\Wrapping
      */
     protected function _getWrapping($wrappingId, $store)
     {
-        $wrapping = Mage::getModel('Magento_GiftWrapping_Model_Wrapping');
+        $wrapping = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping');
         $wrapping->setStoreId($store->getId());
         $wrapping->load($wrappingId);
         return $wrapping;
@@ -187,10 +189,10 @@ class Magento_GiftWrapping_Model_Total_Quote_Giftwrapping extends Magento_Sales_
     /**
      * Assign wrapping totals and labels to address object
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_Sales_Model_Quote_Address_Total_Subtotal
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\Sales\Model\Quote\Address\Total\Subtotal
      */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $address->addTotal(array(
             'code'  => $this->getCode(),

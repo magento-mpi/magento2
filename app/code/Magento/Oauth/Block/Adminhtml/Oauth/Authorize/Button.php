@@ -15,7 +15,9 @@
  * @package    Magento_Oauth
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Block_Adminhtml_Oauth_Authorize_Button extends Magento_Oauth_Block_Authorize_ButtonBaseAbstract
+namespace Magento\Oauth\Block\Adminhtml\Oauth\Authorize;
+
+class Button extends \Magento\Oauth\Block\Authorize\ButtonBaseAbstract
 {
     /**
      * Retrieve confirm authorization url path

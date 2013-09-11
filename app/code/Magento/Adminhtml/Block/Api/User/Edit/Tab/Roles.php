@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Api\User\Edit\Tab;
+
+class Roles extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -46,7 +48,7 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Api_Model_Resource_Role_Collection');
+        $collection = \Mage::getResourceModel('\Magento\Api\Model\Resource\Role\Collection');
         $collection->setRolesFilter();
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -82,7 +84,7 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/rolesGrid', array('user_id' => Mage::registry('api_user')->getUserId()));
+        return $this->getUrl('*/*/rolesGrid', array('user_id' => \Mage::registry('api_user')->getUserId()));
     }
 
     public function getSelectedRoles($json=false)
@@ -90,11 +92,11 @@ class Magento_Adminhtml_Block_Api_User_Edit_Tab_Roles extends Magento_Adminhtml_
         if ( $this->getRequest()->getParam('user_roles') != "" ) {
             return $this->getRequest()->getParam('user_roles');
         }
-        $uRoles = Mage::registry('api_user')->getRoles();
+        $uRoles = \Mage::registry('api_user')->getRoles();
         if ($json) {
             $jsonRoles = Array();
             foreach($uRoles as $urid) $jsonRoles[$urid] = 0;
-            return Mage::helper('Magento_Core_Helper_Data')->jsonEncode((object)$jsonRoles);
+            return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode((object)$jsonRoles);
         } else {
             return $uRoles;
         }

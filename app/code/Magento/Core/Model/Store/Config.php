@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Core_Model_Store_Config implements Magento_Core_Model_Store_ConfigInterface
+namespace Magento\Core\Model\Store;
+
+class Config implements \Magento\Core\Model\Store\ConfigInterface
 {
     /**
      * Retrieve store config value
@@ -19,7 +21,7 @@ class Magento_Core_Model_Store_Config implements Magento_Core_Model_Store_Config
      */
     public function getConfig($path, $store = null)
     {
-        return Mage::getStoreConfig($path, $store);
+        return \Mage::getStoreConfig($path, $store);
     }
 
     /**
@@ -31,6 +33,6 @@ class Magento_Core_Model_Store_Config implements Magento_Core_Model_Store_Config
      */
     public function getConfigFlag($path, $store = null)
     {
-        return Mage::getStoreConfigFlag($path, $store);
+        return \Mage::getStoreConfigFlag($path, $store);
     }
 }

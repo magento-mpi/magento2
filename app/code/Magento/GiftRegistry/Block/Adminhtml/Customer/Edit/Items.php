@@ -11,8 +11,10 @@
 /**
  * Adminhtml customer view gift registry items block
  */
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
-    extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
+
+class Items
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -26,7 +28,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_GiftRegistry_Model_Item')->getCollection()
+        $collection = \Mage::getModel('\Magento\GiftRegistry\Model\Item')->getCollection()
             ->addRegistryFilter($this->getEntity()->getId());
 
         $collection->updateItemAttributes();
@@ -59,14 +61,14 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
             'index'  => 'price',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) Mage::getStoreConfig(Magento_Directory_Model_Currency::XML_PATH_CURRENCY_BASE),
+            'currency_code' => (string) \Mage::getStoreConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
         ));
 
         $this->addColumn('qty', array(
             'header'   => __('Requested'),
             'index'    => 'qty',
             'width'    => '120px',
-            'renderer' => 'Magento_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Qty'
+            'renderer' => '\Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer\Qty'
         ));
 
         $this->addColumn('qty_fulfilled', array(
@@ -90,7 +92,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
                 'update' => __('Update Quantity'),
                 'remove' => __('Remove Item')
             ),
-            'renderer' => 'Magento_GiftRegistry_Block_Adminhtml_Widget_Grid_Column_Renderer_Action'
+            'renderer' => '\Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer\Action'
         ));
 
         return parent::_prepareColumns();
@@ -109,10 +111,10 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit_Items
     /**
      * Return gift registry entity object
      *
-     * @return Magento_GiftRegistry_Model_Entity
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getEntity()
     {
-        return Mage::registry('current_giftregistry_entity');
+        return \Mage::registry('current_giftregistry_entity');
     }
 }

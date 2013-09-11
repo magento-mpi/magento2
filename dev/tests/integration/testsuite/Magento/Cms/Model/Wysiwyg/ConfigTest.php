@@ -15,15 +15,15 @@
 class Magento_Cms_Model_Wysiwyg_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Cms_Model_Wysiwyg_Config
+     * @var \Magento\Cms\Model\Wysiwyg\Config
      */
     protected $_model;
 
     protected function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_model = Mage::getModel('Magento_Cms_Model_Wysiwyg_Config');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->_model = Mage::getModel('\Magento\Cms\Model\Wysiwyg\Config');
     }
 
     /**

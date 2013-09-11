@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Newsletter_Problem_Grid_Renderer_Checkbox extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Newsletter\Problem\Grid\Renderer;
+
+class Checkbox extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders grid column
@@ -28,4 +30,4 @@ class Magento_Adminhtml_Block_Newsletter_Problem_Grid_Renderer_Checkbox extends 
     {
         return '<input type="checkbox" name="problem[]" value="' . $row->getId() . '" class="problemCheckbox"/>';
     }
-}// Class Magento_Adminhtml_Block_Newsletter_Subscriber_Grid_Renderer_Checkbox END
+}// Class \Magento\Adminhtml\Block\Newsletter\Subscriber\Grid\Renderer\Checkbox END

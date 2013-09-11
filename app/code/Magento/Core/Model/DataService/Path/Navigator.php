@@ -12,21 +12,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Path_Navigator
+namespace Magento\Core\Model\DataService\Path;
+
+class Navigator
 {
     /**
      * Searches a root node using a given path for a specific child node.
      *
-     * @param Magento_Core_Model_DataService_Path_NodeInterface|array $root
+     * @param \Magento\Core\Model\DataService\Path\NodeInterface|array $root
      *        Root node in the graph from which to start the search.
      * @param array $path path to use for searching.
-     * @throws InvalidArgumentException if $root is null or if path can't be followed to a leaf node.
+     * @throws \InvalidArgumentException if $root is null or if path can't be followed to a leaf node.
      * @return mixed
      */
     public function search($root, array $path)
     {
         if (null === $root) {
-            throw new InvalidArgumentException('Search contained null root.');
+            throw new \InvalidArgumentException('Search contained null root.');
         }
         $pathElement = array_shift($path);
 
@@ -44,8 +46,8 @@ class Magento_Core_Model_DataService_Path_Navigator
         }
         try {
             return $this->search($childElement, $path);
-        } catch (InvalidArgumentException $iae) {
-            throw new InvalidArgumentException(
+        } catch (\InvalidArgumentException $iae) {
+            throw new \InvalidArgumentException(
                 'Search failed to find an intermediate node with given path: '
                 . $pathElement . '.' . join('.', $path)
             );

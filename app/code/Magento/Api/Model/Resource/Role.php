@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Api\Model\Resource;
+
+class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -30,10 +32,10 @@ class Magento_Api_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Action before save
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Api_Model_Resource_Role
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Api\Model\Resource\Role
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         if (!$object->getId()) {
             $object->setCreated(now());
@@ -45,12 +47,12 @@ class Magento_Api_Model_Resource_Role extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Load an object
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param mixed $value
      * @param string $field field to load by (defaults to model id)
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    public function load(Magento_Core_Model_Abstract $object, $value, $field = null)
+    public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
     {
         if (!intval($value) && is_string($value)) {
             $field = 'role_id';

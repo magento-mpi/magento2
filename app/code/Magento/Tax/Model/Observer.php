@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Observer
+namespace Magento\Tax\Model;
+
+class Observer
 {
     /**
      * Put quote address tax information into order
@@ -113,7 +115,7 @@ class Magento_Tax_Model_Observer
                     'base_real_amount'  => $baseRealAmount,
                 );
 
-                $result = Mage::getModel('Magento_Tax_Model_Sales_Order_Tax')->setData($data)->save();
+                $result = \Mage::getModel('\Magento\Tax\Model\Sales\Order\Tax')->setData($data)->save();
 
                 if (isset($ratesIdQuoteItemId[$id])) {
                     foreach ($ratesIdQuoteItemId[$id] as $quoteItemId) {
@@ -125,7 +127,7 @@ class Magento_Tax_Model_Observer
                                     'tax_id'        => $result->getTaxId(),
                                     'tax_percent'   => $quoteItemId['percent']
                                 );
-                                Mage::getModel('Magento_Tax_Model_Sales_Order_Tax_Item')->setData($data)->save();
+                                \Mage::getModel('\Magento\Tax\Model\Sales\Order\Tax\Item')->setData($data)->save();
                             }
                         }
                     }
@@ -140,11 +142,11 @@ class Magento_Tax_Model_Observer
      * Add tax percent values to product collection items
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  Magento_Tax_Model_Observer
+     * @return  \Magento\Tax\Model\Observer
      */
     public function addTaxPercentToProductCollection($observer)
     {
-        $helper = Mage::helper('Magento_Tax_Helper_Data');
+        $helper = \Mage::helper('Magento\Tax\Helper\Data');
         $collection = $observer->getEvent()->getCollection();
         $store = $collection->getStoreId();
         if (!$helper->needPriceConversion($store)) {
@@ -152,14 +154,14 @@ class Magento_Tax_Model_Observer
         }
 
         if ($collection->requireTaxPercent()) {
-            $request = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRateRequest();
+            $request = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRateRequest();
             foreach ($collection as $item) {
                 if (null === $item->getTaxClassId()) {
                     $item->setTaxClassId($item->getMinimalTaxClassId());
                 }
                 if (!isset($classToRate[$item->getTaxClassId()])) {
                     $request->setProductClassId($item->getTaxClassId());
-                    $classToRate[$item->getTaxClassId()] = Mage::getSingleton('Magento_Tax_Model_Calculation')->getRate($request);
+                    $classToRate[$item->getTaxClassId()] = \Mage::getSingleton('Magento\Tax\Model\Calculation')->getRate($request);
                 }
                 $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
             }
@@ -171,16 +173,16 @@ class Magento_Tax_Model_Observer
     /**
      * Refresh sales tax report statistics for last day
      *
-     * @param Magento_Cron_Model_Schedule $schedule
-     * @return Magento_Tax_Model_Observer
+     * @param \Magento\Cron\Model\Schedule $schedule
+     * @return \Magento\Tax\Model\Observer
      */
     public function aggregateSalesReportTaxData($schedule)
     {
-        Mage::app()->getLocale()->emulate(0);
-        $currentDate = Mage::app()->getLocale()->date();
+        \Mage::app()->getLocale()->emulate(0);
+        $currentDate = \Mage::app()->getLocale()->date();
         $date = $currentDate->subHour(25);
-        Mage::getResourceModel('Magento_Tax_Model_Resource_Report_Tax')->aggregate($date);
-        Mage::app()->getLocale()->revert();
+        \Mage::getResourceModel('\Magento\Tax\Model\Resource\Report\Tax')->aggregate($date);
+        \Mage::app()->getLocale()->revert();
         return $this;
     }
 
@@ -188,11 +190,11 @@ class Magento_Tax_Model_Observer
      * Reset extra tax amounts on quote addresses before recollecting totals
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Tax_Model_Observer
+     * @return \Magento\Tax\Model\Observer
      */
     public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
     {
-        /* @var $quote Magento_Sales_Model_Quote */
+        /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $observer->getEvent()->getQuote();
         foreach ($quote->getAllAddresses() as $address) {
             $address->setExtraTaxAmount(0);

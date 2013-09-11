@@ -16,7 +16,9 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Model_Resource_Helper_Mysql4
+namespace Magento\SalesArchive\Model\Resource\Helper;
+
+class Mysql4 extends \Magento\Core\Model\Resource\Helper\Mysql4
 {
     /**
      * Change columns position
@@ -25,7 +27,7 @@ class Magento_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Mod
      * @param string $column
      * @param boolean $after
      * @param boolean $first
-     * @return Magento_SalesArchive_Model_Resource_Helper_Mysql4
+     * @return \Magento\SalesArchive\Model\Resource\Helper\Mysql4
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
@@ -41,7 +43,7 @@ class Magento_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Mod
         }
 
         if (!$this->_getWriteAdapter()->isTableExists($table)) {
-            Mage::throwException(__("We can't find the table."));
+            \Mage::throwException(__("We can't find the table."));
         }
 
         $columns = array();
@@ -52,9 +54,9 @@ class Magento_SalesArchive_Model_Resource_Helper_Mysql4 extends Magento_Core_Mod
         }
 
         if (!isset($columns[$column])) {
-            Mage::throwException(__('Column not found'));
+            \Mage::throwException(__('Column not found'));
         } elseif ($after && !isset($columns[$after])) {
-            Mage::throwException(__('Positioning column not found'));
+            \Mage::throwException(__('Positioning column not found'));
         }
 
         if ($after) {

@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Billing_Agreement_View_Tabs extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\Sales\Block\Adminhtml\Billing\Agreement\View;
+
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize tab

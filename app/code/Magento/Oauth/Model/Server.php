@@ -15,7 +15,9 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Model_Server
+namespace Magento\Oauth\Model;
+
+class Server
 {
     /**#@+
      * OAuth result statuses
@@ -79,7 +81,7 @@ class Magento_Oauth_Model_Server
     /**
      * Consumer object
      *
-     * @var Magento_Oauth_Model_ConsumerInterface
+     * @var \Magento\Oauth\Model\ConsumerInterface
      */
     protected $_consumer;
 
@@ -146,7 +148,7 @@ class Magento_Oauth_Model_Server
     /**
      * Request object
      *
-     * @var Zend_Controller_Request_Http
+     * @var \Zend_Controller_Request_Http
      */
     protected $_request;
 
@@ -160,40 +162,40 @@ class Magento_Oauth_Model_Server
     /**
      * Response object
      *
-     * @var Zend_Controller_Response_Http
+     * @var \Zend_Controller_Response_Http
      */
     protected $_response = null;
 
     /**
      * Token object
      *
-     * @var Magento_Oauth_Model_Token
+     * @var \Magento\Oauth\Model\Token
      */
     protected $_token;
 
-    /** @var Magento_Oauth_Model_Token_Factory */
+    /** @var \Magento\Oauth\Model\Token\Factory */
     protected $_tokenFactory;
 
-    /** @var Magento_Oauth_Model_Consumer_Factory */
+    /** @var \Magento\Oauth\Model\Consumer\Factory */
     protected $_consumerFactory;
 
-    /** @var Magento_Oauth_Model_Nonce_Factory */
+    /** @var \Magento\Oauth\Model\Nonce\Factory */
     protected $_nonceFactory;
 
     /**
      * Internal constructor not depended on params
      *
-     * @param Zend_Controller_Request_Http $request OPTIONAL Request object (If not specified - use singleton)
-     * @param Magento_Oauth_Model_Token_Factory $tokenFactory
-     * @param Magento_Oauth_Model_Consumer_Factory $consumerFactory
-     * @param Magento_Oauth_Model_Nonce_Factory $nonceFactory
-     * @throws Exception
+     * @param \Zend_Controller_Request_Http $request OPTIONAL Request object (If not specified - use singleton)
+     * @param \Magento\Oauth\Model\Token\Factory $tokenFactory
+     * @param \Magento\Oauth\Model\Consumer\Factory $consumerFactory
+     * @param \Magento\Oauth\Model\Nonce\Factory $nonceFactory
+     * @throws \Exception
      */
     public function __construct(
-        Zend_Controller_Request_Http $request,
-        Magento_Oauth_Model_Token_Factory $tokenFactory,
-        Magento_Oauth_Model_Consumer_Factory $consumerFactory,
-        Magento_Oauth_Model_Nonce_Factory $nonceFactory
+        \Zend_Controller_Request_Http $request,
+        \Magento\Oauth\Model\Token\Factory $tokenFactory,
+        \Magento\Oauth\Model\Consumer\Factory $consumerFactory,
+        \Magento\Oauth\Model\Nonce\Factory $nonceFactory
     ) {
         $this->_request = $request;
         $this->_tokenFactory = $tokenFactory;
@@ -206,7 +208,7 @@ class Magento_Oauth_Model_Server
      *
      * @param string $authHeaderValue
      * @link http://tools.ietf.org/html/rfc5849#section-3.5
-     * @return Magento_Oauth_Model_Server
+     * @return \Magento\Oauth\Model\Server
      */
     protected function _fetchParams($authHeaderValue = null)
     {
@@ -228,9 +230,9 @@ class Magento_Oauth_Model_Server
                 }
             }
         }
-        $contentTypeHeader = $this->_request->getHeader(Zend_Http_Client::CONTENT_TYPE);
+        $contentTypeHeader = $this->_request->getHeader(\Zend_Http_Client::CONTENT_TYPE);
 
-        if ($contentTypeHeader && 0 === strpos($contentTypeHeader, Zend_Http_Client::ENC_URLENCODED)) {
+        if ($contentTypeHeader && 0 === strpos($contentTypeHeader, \Zend_Http_Client::ENC_URLENCODED)) {
             $protocolParamsNotSet = !$this->_protocolParams;
 
             parse_str($this->_request->getRawBody(), $bodyParams);
@@ -247,7 +249,7 @@ class Magento_Oauth_Model_Server
 
         $url = $this->_request->getScheme() . '://' . $this->_request->getHttpHost() . $this->_request->getRequestUri();
 
-        if (($queryString = Zend_Uri_Http::fromString($url)->getQuery())) {
+        if (($queryString = \Zend_Uri_Http::fromString($url)->getQuery())) {
             foreach (explode('&', $queryString) as $paramToValue) {
                 $paramData = explode('=', $paramToValue);
 
@@ -265,7 +267,7 @@ class Magento_Oauth_Model_Server
     /**
      * Retrieve protocol parameters from query string
      *
-     * @return Magento_Oauth_Model_Server
+     * @return \Magento\Oauth\Model\Server
      */
     protected function _fetchProtocolParamsFromQuery()
     {
@@ -280,12 +282,12 @@ class Magento_Oauth_Model_Server
     /**
      * Retrieve response object
      *
-     * @return Zend_Controller_Response_Http
+     * @return \Zend_Controller_Response_Http
      */
     protected function _getResponse()
     {
         if (null === $this->_response) {
-            $this->setResponse(Mage::app()->getResponse());
+            $this->setResponse(\Mage::app()->getResponse());
         }
         return $this->_response;
     }
@@ -293,7 +295,7 @@ class Magento_Oauth_Model_Server
     /**
      * Initialize consumer
      *
-     * @throws Magento_Oauth_Exception
+     * @throws \Magento\Oauth\Exception
      */
     protected function _initConsumer()
     {
@@ -308,8 +310,8 @@ class Magento_Oauth_Model_Server
     /**
      * Load token object, validate it depending on request type, set access data and save
      *
-     * @return Magento_Oauth_Model_Server
-     * @throws Magento_Oauth_Exception
+     * @return \Magento\Oauth\Model\Server
+     * @throws \Magento\Oauth\Exception
      */
     protected function _initToken()
     {
@@ -332,7 +334,7 @@ class Magento_Oauth_Model_Server
                 if ($this->_token->getConsumerId() != $this->_consumer->getId()) {
                     $this->_throwException('', self::ERR_TOKEN_REJECTED);
                 }
-                if (Magento_Oauth_Model_Token::TYPE_REQUEST != $this->_token->getType()) {
+                if (\Magento\Oauth\Model\Token::TYPE_REQUEST != $this->_token->getType()) {
                     $this->_throwException('', self::ERR_TOKEN_USED);
                 }
             } elseif (self::REQUEST_AUTHORIZE == $this->_requestType) {
@@ -340,7 +342,7 @@ class Magento_Oauth_Model_Server
                     $this->_throwException('', self::ERR_TOKEN_USED);
                 }
             } elseif (self::REQUEST_RESOURCE == $this->_requestType) {
-                if (Magento_Oauth_Model_Token::TYPE_ACCESS != $this->_token->getType()) {
+                if (\Magento\Oauth\Model\Token::TYPE_ACCESS != $this->_token->getType()) {
                     $this->_throwException('', self::ERR_TOKEN_REJECTED);
                 }
                 if ($this->_token->getRevoked()) {
@@ -369,8 +371,8 @@ class Magento_Oauth_Model_Server
      * Extract parameters from sources (GET, FormBody, Authorization header), decode them and validate
      *
      * @param string $requestType Request type - one of REQUEST_... class constant
-     * @return Magento_Oauth_Model_Server
-     * @throws Magento_Core_Exception
+     * @return \Magento\Oauth\Model\Server
+     * @throws \Magento\Core\Exception
      */
     protected function _processRequest($requestType)
     {
@@ -379,7 +381,7 @@ class Magento_Oauth_Model_Server
             && self::REQUEST_RESOURCE != $requestType
             && self::REQUEST_TOKEN != $requestType
         ) {
-            Mage::throwException('Invalid request type');
+            \Mage::throwException('Invalid request type');
         }
         $this->_requestType = $requestType;
 
@@ -425,13 +427,13 @@ class Magento_Oauth_Model_Server
     /**
      * Throw OAuth exception
      *
-     * @param string $message Exception message
-     * @param int $code Exception code
-     * @throws Magento_Oauth_Exception
+     * @param string $message \Exception message
+     * @param int $code \Exception code
+     * @throws \Magento\Oauth\Exception
      */
     protected function _throwException($message = '', $code = 0)
     {
-        throw Mage::exception('Magento_Oauth', $message, $code);
+        throw \Mage::exception('Magento_Oauth', $message, $code);
     }
 
     /**
@@ -479,7 +481,7 @@ class Magento_Oauth_Model_Server
     /**
      * Validate protocol parameters
      *
-     * @throws Magento_Oauth_Exception
+     * @throws \Magento\Oauth\Exception
      */
     protected function _validateProtocolParams()
     {
@@ -518,11 +520,11 @@ class Magento_Oauth_Model_Server
     /**
      * Validate signature
      *
-     * @throws Magento_Oauth_Exception
+     * @throws \Magento\Oauth\Exception
      */
     protected function _validateSignature()
     {
-        $util = new Zend_Oauth_Http_Utility();
+        $util = new \Zend_Oauth_Http_Utility();
 
         $calculatedSign = $util->sign(
             array_merge($this->_params, $this->_protocolParams),
@@ -549,7 +551,7 @@ class Magento_Oauth_Model_Server
         if (!is_string($this->_protocolParams['oauth_token'])) {
             $this->_throwException('', self::ERR_TOKEN_REJECTED);
         }
-        if (strlen($this->_protocolParams['oauth_token']) != Magento_Oauth_Model_Token::LENGTH_TOKEN) {
+        if (strlen($this->_protocolParams['oauth_token']) != \Magento\Oauth\Model\Token::LENGTH_TOKEN) {
             $this->_throwException('', self::ERR_TOKEN_REJECTED);
         }
     }
@@ -565,7 +567,7 @@ class Magento_Oauth_Model_Server
         if (!is_string($this->_protocolParams['oauth_verifier'])) {
             $this->_throwException('', self::ERR_VERIFIER_INVALID);
         }
-        if (strlen($this->_protocolParams['oauth_verifier']) != Magento_Oauth_Model_Token::LENGTH_VERIFIER) {
+        if (strlen($this->_protocolParams['oauth_verifier']) != \Magento\Oauth\Model\Token::LENGTH_VERIFIER) {
             $this->_throwException('', self::ERR_VERIFIER_INVALID);
         }
     }
@@ -579,7 +581,7 @@ class Magento_Oauth_Model_Server
             $this->_processRequest(self::REQUEST_TOKEN);
 
             $response = $this->_token->toString();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = $this->reportProblem($e);
         }
         $this->_getResponse()->setBody($response);
@@ -590,7 +592,7 @@ class Magento_Oauth_Model_Server
      *
      * @param int $userId Authorization user identifier
      * @param string $userType Authorization user type
-     * @return Magento_Oauth_Model_Token
+     * @return \Magento\Oauth\Model\Token
      */
     public function authorizeToken($userId, $userType)
     {
@@ -604,7 +606,7 @@ class Magento_Oauth_Model_Server
     /**
      * Validate request with access token for specified URL
      *
-     * @return Magento_Oauth_Model_Token
+     * @return \Magento\Oauth\Model\Token
      */
     public function checkAccessRequest()
     {
@@ -616,12 +618,12 @@ class Magento_Oauth_Model_Server
     /**
      * Check authorize request for validity and return token
      *
-     * @return Magento_Oauth_Model_Token
+     * @return \Magento\Oauth\Model\Token
      */
     public function checkAuthorizeRequest()
     {
         if (!$this->_request->isGet()) {
-            Mage::throwException('Request is not GET');
+            \Mage::throwException('Request is not GET');
         }
         $this->_requestType = self::REQUEST_AUTHORIZE;
 
@@ -650,7 +652,7 @@ class Magento_Oauth_Model_Server
             $this->_processRequest(self::REQUEST_INITIATE);
 
             $response = $this->_token->toString() . '&oauth_callback_confirmed=true';
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $response = $this->reportProblem($e);
         }
         $this->_getResponse()->setBody($response);
@@ -659,15 +661,15 @@ class Magento_Oauth_Model_Server
     /**
      * Create response string for problem during request and set HTTP error code
      *
-     * @param Exception $e
-     * @param Zend_Controller_Response_Http $response OPTIONAL If NULL - will use internal getter
+     * @param \Exception $e
+     * @param \Zend_Controller_Response_Http $response OPTIONAL If NULL - will use internal getter
      * @return string
      */
-    public function reportProblem(Exception $e, Zend_Controller_Response_Http $response = null)
+    public function reportProblem(\Exception $e, \Zend_Controller_Response_Http $response = null)
     {
         $eMsg = $e->getMessage();
 
-        if ($e instanceof Magento_Oauth_Exception) {
+        if ($e instanceof \Magento\Oauth\Exception) {
             $eCode = $e->getCode();
 
             if (isset($this->_errors[$eCode])) {
@@ -697,14 +699,14 @@ class Magento_Oauth_Model_Server
     /**
      * Set response object
      *
-     * @param Zend_Controller_Response_Http $response
-     * @return Magento_Oauth_Model_Server
+     * @param \Zend_Controller_Response_Http $response
+     * @return \Magento\Oauth\Model\Server
      */
-    public function setResponse(Zend_Controller_Response_Http $response)
+    public function setResponse(\Zend_Controller_Response_Http $response)
     {
         $this->_response = $response;
 
-        $this->_response->setHeader(Zend_Http_Client::CONTENT_TYPE, Zend_Http_Client::ENC_URLENCODED, true);
+        $this->_response->setHeader(\Zend_Http_Client::CONTENT_TYPE, \Zend_Http_Client::ENC_URLENCODED, true);
         $this->_response->setHttpResponseCode(self::HTTP_OK);
 
         return $this;

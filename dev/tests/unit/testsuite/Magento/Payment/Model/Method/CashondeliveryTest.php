@@ -12,17 +12,17 @@
 class Magento_Payment_Model_Method_CashondeliveryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Payment_Model_Method_Cashondelivery
+     * @var \Magento\Payment\Model\Method\Cashondelivery
      */
     protected $_object;
 
     protected function setUp()
     {
-        $this->_object = new Magento_Payment_Model_Method_Cashondelivery;
+        $this->_object = new \Magento\Payment\Model\Method\Cashondelivery;
     }
 
     public function testGetInfoBlockType()
     {
-        $this->assertEquals('Magento_Payment_Block_Info_Instructions', $this->_object->getInfoBlockType());
+        $this->assertEquals('\Magento\Payment\Block\Info\Instructions', $this->_object->getInfoBlockType());
     }
 }

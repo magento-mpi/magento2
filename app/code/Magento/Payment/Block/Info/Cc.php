@@ -11,7 +11,9 @@
 /**
  * Credit card generic payment info
  */
-class Magento_Payment_Block_Info_Cc extends Magento_Payment_Block_Info
+namespace Magento\Payment\Block\Info;
+
+class Cc extends \Magento\Payment\Block\Info
 {
     /**
      * Retrieve credit card type name
@@ -20,7 +22,7 @@ class Magento_Payment_Block_Info_Cc extends Magento_Payment_Block_Info
      */
     public function getCcTypeName()
     {
-        $types = Mage::getSingleton('Magento_Payment_Model_Config')->getCcTypes();
+        $types = \Mage::getSingleton('Magento\Payment\Model\Config')->getCcTypes();
         $ccType = $this->getInfo()->getCcType();
         if (isset($types[$ccType])) {
             return $types[$ccType];
@@ -55,11 +57,11 @@ class Magento_Payment_Block_Info_Cc extends Magento_Payment_Block_Info
     /**
      * Retrieve CC expiration date
      *
-     * @return Zend_Date
+     * @return \Zend_Date
      */
     public function getCcExpDate()
     {
-        $date = Mage::app()->getLocale()->date(0);
+        $date = \Mage::app()->getLocale()->date(0);
         $date->setYear($this->getInfo()->getCcExpYear());
         $date->setMonth($this->getInfo()->getCcExpMonth());
         return $date;

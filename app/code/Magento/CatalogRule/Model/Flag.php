@@ -15,7 +15,9 @@
  * @package     Magento_CatalogRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogRule_Model_Flag extends Magento_Core_Model_Flag
+namespace Magento\CatalogRule\Model;
+
+class Flag extends \Magento\Core\Model\Flag
 {
     /**
      * Flag code

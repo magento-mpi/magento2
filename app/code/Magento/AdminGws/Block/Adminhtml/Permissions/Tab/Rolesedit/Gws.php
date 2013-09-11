@@ -11,21 +11,23 @@
 /**
  * Websites fieldset for admin roles edit tab
  */
-class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Magento_Backend_Block_Template
+namespace Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit;
+
+class Gws extends \Magento\Backend\Block\Template
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -43,21 +45,21 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
             return false;
         }
 
-        if (!Mage::registry('current_role')->getId()) {
+        if (!\Mage::registry('current_role')->getId()) {
             return true;
         }
 
-        return Mage::registry('current_role')->getGwsIsAll();
+        return \Mage::registry('current_role')->getGwsIsAll();
     }
 
     /**
      * Get the role object
      *
-     * @return Magento_User_Model_Role
+     * @return \Magento\User\Model\Role
      */
     public function getRole()
     {
-        return Mage::registry('current_role');
+        return \Mage::registry('current_role');
     }
 
     /**
@@ -67,7 +69,7 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
      */
     public function canAssignGwsAll()
     {
-        return Mage::getSingleton('Magento_AdminGws_Model_Role')->getIsAll();
+        return \Mage::getSingleton('Magento\AdminGws\Model\Role')->getIsAll();
     }
 
     /**
@@ -78,21 +80,21 @@ class Magento_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mag
     public function getDisallowedStoreGroupsJson()
     {
         $result = array();
-        foreach (Mage::app()->getWebsites() as $website) {
+        foreach (\Mage::app()->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $groupId = $group->getId();
-                if (!Mage::getSingleton('Magento_AdminGws_Model_Role')->hasStoreGroupAccess($groupId)) {
+                if (!\Mage::getSingleton('Magento\AdminGws\Model\Role')->hasStoreGroupAccess($groupId)) {
                     $result[$groupId] = $groupId;
                 }
             }
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
     }
 
     /**
      * Get websites
      *
-     * @return Magento_Core_Model_Website[]
+     * @return \Magento\Core\Model\Website[]
      */
     public function getWebsites()
     {

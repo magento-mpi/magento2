@@ -15,13 +15,15 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid
-    extends Magento_Adminhtml_Block_Catalog_Product_Grid
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Popup;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Catalog\Product\Grid
 {
     /**
      * Return empty row url for disabling JS click events
      *
-     * @param Magento_Catalog_Model_Product|\Magento\Object
+     * @param \Magento\Catalog\Model\Product|\Magento\Object
      * @return string|null
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -45,7 +47,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid
     /**
      * Add import action to massaction block
      *
-     * @return Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid
+     * @return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options\Popup\Grid
      */
     public function _prepareMassaction()
     {

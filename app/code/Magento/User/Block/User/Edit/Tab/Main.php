@@ -16,18 +16,20 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget_Form
+namespace Magento\User\Block\User\Edit\Tab;
+
+class Main extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Prepare form fields
      *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     * @return Magento_Backend_Block_Widget_Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        /** @var $model Magento_User_Model_User */
-        $model = Mage::registry('permissions_user');
+        /** @var $model \Magento\User\Model\User */
+        $model = \Mage::registry('permissions_user');
 
         $form = new \Magento\Data\Form();
 
@@ -94,11 +96,11 @@ class Magento_User_Block_User_Edit_Tab_Main extends Magento_Backend_Block_Widget
             'name'   => 'interface_locale',
             'label'  => __('Interface Locale'),
             'title'  => __('Interface Locale'),
-            'values' => Mage::app()->getLocale()->getTranslatedOptionLocales(),
+            'values' => \Mage::app()->getLocale()->getTranslatedOptionLocales(),
             'class'  => 'select',
         ));
 
-        if (Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser()->getId() != $model->getUserId()) {
+        if (\Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser()->getId() != $model->getUserId()) {
             $fieldset->addField('is_active', 'select', array(
                 'name'  	=> 'is_active',
                 'label' 	=> __('This account is'),

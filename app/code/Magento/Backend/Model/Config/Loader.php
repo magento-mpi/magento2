@@ -11,7 +11,9 @@
 /**
  * System configuration loader
  */
-class Magento_Backend_Model_Config_Loader
+namespace Magento\Backend\Model\Config;
+
+class Loader
 {
     /**
      * Config data factory

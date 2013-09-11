@@ -16,7 +16,9 @@
  * @package    Magento_CatalogInventory
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends \Magento\Data\Form\Element\Select
+namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
+
+class Stock extends \Magento\Data\Form\Element\Select
 {
     const QUANTITY_FIELD_HTML_ID = 'qty';
 
@@ -49,7 +51,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends \Magento
      */
     protected function _createQtyElement()
     {
-        $element = Mage::getModel('\Magento\Data\Form\Element\Text');
+        $element = \Mage::getModel('\Magento\Data\Form\Element\Text');
         $element->setId(self::QUANTITY_FIELD_HTML_ID)->setName('qty')->addClass('validate-number input-text');
         return $element;
     }
@@ -120,7 +122,7 @@ class Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock extends \Magento
     /**
      * Disable fields depending on product type
      *
-     * @return Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock
+     * @return \Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock
      */
     protected function _disableFields()
     {

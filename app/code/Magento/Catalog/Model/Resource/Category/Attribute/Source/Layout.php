@@ -16,8 +16,10 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Category_Attribute_Source_Layout
-    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Catalog\Model\Resource\Category\Attribute\Source;
+
+class Layout
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Return cms layout update options
@@ -28,7 +30,7 @@ class Magento_Catalog_Model_Resource_Category_Attribute_Source_Layout
     {
         if (!$this->_options) {
             $layouts = array();
-            foreach (Mage::getConfig()->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
+            foreach (\Mage::getConfig()->getNode('global/cms/layouts')->children() as $layoutName=>$layoutConfig) {
                 $this->_options[] = array(
                    'value'=>$layoutName,
                    'label'=>(string)$layoutConfig->label

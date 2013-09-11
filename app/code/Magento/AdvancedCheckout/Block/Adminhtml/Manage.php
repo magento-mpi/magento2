@@ -15,7 +15,9 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\AdvancedCheckout\Block\Adminhtml;
+
+class Manage extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     protected function _construct()
     {
@@ -35,7 +37,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Adminhtml_
     /**
      * Prepare layout, create buttons
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -43,33 +45,33 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Adminhtml_
             return $this;
         }
 
-        $this->addChild('add_products_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_products_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add Products'),
             'onclick' => 'checkoutObj.searchProducts()',
             'class' => 'add',
             'id' => 'add_products_btn'
         ));
 
-        $this->addChild('update_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('update_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Update Items and Qty\'s'),
             'onclick' => 'checkoutObj.updateItems()',
             'style' => 'float:right; margin-left: 5px;'
         ));
         $deleteAllConfirmString = __('Are you sure you want to clear your shopping cart?');
-        $this->addChild('empty_customer_cart_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('empty_customer_cart_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Clear the shopping cart.'),
             'onclick' => 'confirm(\'' . $deleteAllConfirmString . '\') '
                 . ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
             'style' => 'float:right;'
         ));
 
-        $this->addChild('addto_cart_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('addto_cart_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add Selected Product(s) to Shopping Cart'),
             'onclick' => 'checkoutObj.addToCart()',
             'class' => 'add button-to-cart'
         ));
 
-        $this->addChild('cancel_add_products_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('cancel_add_products_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Cancel'),
             'onclick' => 'checkoutObj.cancelSearch()',
             'class' => 'cancel'
@@ -103,21 +105,21 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Adminhtml_
     /**
      * Return current customer from regisrty
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     protected function _getCustomer()
     {
-        return Mage::registry('checkout_current_customer');
+        return \Mage::registry('checkout_current_customer');
     }
 
     /**
      * Return current store from regisrty
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {
-        return Mage::registry('checkout_current_store');
+        return \Mage::registry('checkout_current_store');
     }
 
     /**
@@ -183,7 +185,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Adminhtml_
             'store_id' => $this->_getStore()->getId()
         );
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($data);
     }
 
     /**
@@ -194,7 +196,7 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage extends Magento_Adminhtml_
      */
     public function getCurrencySymbol($code)
     {
-        $currency = Mage::app()->getLocale()->currency($code);
+        $currency = \Mage::app()->getLocale()->currency($code);
         return $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
     }
 

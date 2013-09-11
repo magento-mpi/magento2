@@ -11,7 +11,9 @@
 /**
  * Archive files collection
  */
-class Magento_Logging_Model_Archive_Collection extends \Magento\Data\Collection\Filesystem
+namespace Magento\Logging\Model\Archive;
+
+class Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
      * Filenames regex filter
@@ -26,7 +28,7 @@ class Magento_Logging_Model_Archive_Collection extends \Magento\Data\Collection\
     public function __construct()
     {
         parent::__construct();
-        $basePath = Mage::getModel('Magento_Logging_Model_Archive')->getBasePath();
+        $basePath = \Mage::getModel('\Magento\Logging\Model\Archive')->getBasePath();
         $file = new \Magento\Io\File();
         $file->setAllowCreateFolders(true)->createDestinationDir($basePath);
         $this->addTargetDir($basePath);
@@ -34,7 +36,7 @@ class Magento_Logging_Model_Archive_Collection extends \Magento\Data\Collection\
 
     /**
      * Row generator
-     * Add 'time' column as Zend_Date object
+     * Add 'time' column as \Zend_Date object
      * Add 'timestamp' column as unix timestamp - used in date filter
      *
      * @param string $filename
@@ -43,12 +45,12 @@ class Magento_Logging_Model_Archive_Collection extends \Magento\Data\Collection\
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        $date = new Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMddHH', Mage::app()->getLocale()->getLocaleCode());
+        $date = new \Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMddHH', \Mage::app()->getLocale()->getLocaleCode());
         $row['time'] = $date;
         /**
          * Used in date filter, becouse $date contains hours
          */
-        $dateWithoutHours = new Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMdd', Mage::app()->getLocale()->getLocaleCode());
+        $dateWithoutHours = new \Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMdd', \Mage::app()->getLocale()->getLocaleCode());
         $row['timestamp'] = $dateWithoutHours->toString('yyyy-MM-dd');
         return $row;
     }

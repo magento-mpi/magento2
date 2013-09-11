@@ -15,22 +15,24 @@
  * @package     Magento_Sedfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Front_Action
+namespace Magento\Sendfriend\Controller;
+
+class Product extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Predispatch: check is enable module
      * If allow only for customer - redirect to login page
      *
-     * @return Magento_Sendfriend_Controller_Product
+     * @return \Magento\Sendfriend\Controller\Product
      */
     public function preDispatch()
     {
         parent::preDispatch();
 
-        /* @var $helper Magento_Sendfriend_Helper_Data */
-        $helper = Mage::helper('Magento_Sendfriend_Helper_Data');
-        /* @var $session Magento_Customer_Model_Session */
-        $session = Mage::getSingleton('Magento_Customer_Model_Session');
+        /* @var $helper \Magento\Sendfriend\Helper\Data */
+        $helper = \Mage::helper('Magento\Sendfriend\Helper\Data');
+        /* @var $session \Magento\Customer\Model\Session */
+        $session = \Mage::getSingleton('Magento\Customer\Model\Session');
 
         if (!$helper->isEnabled()) {
             $this->norouteAction();
@@ -40,10 +42,10 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
         if (!$helper->isAllowForGuest() && !$session->authenticate($this)) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             if ($this->getRequest()->getActionName() == 'sendemail') {
-                $session->setBeforeAuthUrl(Mage::getUrl('*/*/send', array(
+                $session->setBeforeAuthUrl(\Mage::getUrl('*/*/send', array(
                     '_current' => true
                 )));
-                Mage::getSingleton('Magento_Catalog_Model_Session')
+                \Mage::getSingleton('Magento\Catalog\Model\Session')
                     ->setSendfriendFormData($this->getRequest()->getPost());
             }
         }
@@ -54,7 +56,7 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
     /**
      * Initialize Product Instance
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _initProduct()
     {
@@ -62,29 +64,29 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
         if (!$productId) {
             return false;
         }
-        $product = Mage::getModel('Magento_Catalog_Model_Product')
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product')
             ->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             return false;
         }
 
-        Mage::register('product', $product);
+        \Mage::register('product', $product);
         return $product;
     }
 
     /**
      * Initialize send friend model
      *
-     * @return Magento_Sendfriend_Model_Sendfriend
+     * @return \Magento\Sendfriend\Model\Sendfriend
      */
     protected function _initSendToFriendModel()
     {
-        $model  = Mage::getModel('Magento_Sendfriend_Model_Sendfriend');
-        $model->setRemoteAddr(Mage::helper('Magento_Core_Helper_Http')->getRemoteAddr(true));
-        $model->setCookie(Mage::app()->getCookie());
-        $model->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+        $model  = \Mage::getModel('\Magento\Sendfriend\Model\Sendfriend');
+        $model->setRemoteAddr(\Mage::helper('Magento\Core\Helper\Http')->getRemoteAddr(true));
+        $model->setCookie(\Mage::app()->getCookie());
+        $model->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
 
-        Mage::register('send_to_friend_model', $model);
+        \Mage::register('send_to_friend_model', $model);
 
         return $model;
     }
@@ -104,18 +106,18 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
         }
 
         if ($model->getMaxSendsToFriend() && $model->isExceedLimit()) {
-            Mage::getSingleton('Magento_Catalog_Model_Session')->addNotice(
+            \Mage::getSingleton('Magento\Catalog\Model\Session')->addNotice(
                 __('You can\'t send messages more than %1 times an hour.', $model->getMaxSendsToFriend())
             );
         }
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Catalog_Model_Session');
+        $this->_initLayoutMessages('\Magento\Catalog\Model\Session');
 
         $this->_eventManager->dispatch('sendfriend_product', array('product' => $product));
-        $data = Mage::getSingleton('Magento_Catalog_Model_Session')->getSendfriendFormData();
+        $data = \Mage::getSingleton('Magento\Catalog\Model\Session')->getSendfriendFormData();
         if ($data) {
-            Mage::getSingleton('Magento_Catalog_Model_Session')->setSendfriendFormData(true);
+            \Mage::getSingleton('Magento\Catalog\Model\Session')->setSendfriendFormData(true);
             $block = $this->getLayout()->getBlock('sendfriend.send');
             if ($block) {
                 $block->setFormData($data);
@@ -146,10 +148,10 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
 
         $categoryId = $this->getRequest()->getParam('cat_id', null);
         if ($categoryId) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')
                 ->load($categoryId);
             $product->setCategory($category);
-            Mage::register('current_category', $category);
+            \Mage::register('current_category', $category);
         }
 
         $model->setSender($this->getRequest()->getPost('sender'));
@@ -160,32 +162,32 @@ class Magento_Sendfriend_Controller_Product extends Magento_Core_Controller_Fron
             $validate = $model->validate();
             if ($validate === true) {
                 $model->send();
-                Mage::getSingleton('Magento_Catalog_Model_Session')->addSuccess(__('The link to a friend was sent.'));
+                \Mage::getSingleton('Magento\Catalog\Model\Session')->addSuccess(__('The link to a friend was sent.'));
                 $this->_redirectSuccess($product->getProductUrl());
                 return;
             }
             else {
                 if (is_array($validate)) {
                     foreach ($validate as $errorMessage) {
-                        Mage::getSingleton('Magento_Catalog_Model_Session')->addError($errorMessage);
+                        \Mage::getSingleton('Magento\Catalog\Model\Session')->addError($errorMessage);
                     }
                 }
                 else {
-                    Mage::getSingleton('Magento_Catalog_Model_Session')->addError(__('We found some problems with the data.'));
+                    \Mage::getSingleton('Magento\Catalog\Model\Session')->addError(__('We found some problems with the data.'));
                 }
             }
         }
-        catch (Magento_Core_Exception $e) {
-            Mage::getSingleton('Magento_Catalog_Model_Session')->addError($e->getMessage());
+        catch (\Magento\Core\Exception $e) {
+            \Mage::getSingleton('Magento\Catalog\Model\Session')->addError($e->getMessage());
         }
-        catch (Exception $e) {
-            Mage::getSingleton('Magento_Catalog_Model_Session')
+        catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Catalog\Model\Session')
                 ->addException($e, __('Some emails were not sent.'));
         }
 
         // save form data
-        Mage::getSingleton('Magento_Catalog_Model_Session')->setSendfriendFormData($data);
+        \Mage::getSingleton('Magento\Catalog\Model\Session')->setSendfriendFormData($data);
 
-        $this->_redirectError(Mage::getURL('*/*/send', array('_current' => true)));
+        $this->_redirectError(\Mage::getURL('*/*/send', array('_current' => true)));
     }
 }

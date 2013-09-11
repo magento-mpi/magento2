@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Address_Rate_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Address\Rate;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Whether to load fixed items only
@@ -31,14 +33,14 @@ class Magento_Sales_Model_Resource_Quote_Address_Rate_Collection extends Magento
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Quote_Address_Rate', 'Magento_Sales_Model_Resource_Quote_Address_Rate');
+        $this->_init('\Magento\Sales\Model\Quote\Address\Rate', '\Magento\Sales\Model\Resource\Quote\Address\Rate');
     }
 
     /**
      * Set filter by address id
      *
      * @param int $addressId
-     * @return Magento_Sales_Model_Resource_Quote_Address_Rate_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Rate\Collection
      */
     public function setAddressFilter($addressId)
     {
@@ -55,7 +57,7 @@ class Magento_Sales_Model_Resource_Quote_Address_Rate_Collection extends Magento
      * Setter for loading fixed items only
      *
      * @param bool $value
-     * @return Magento_Sales_Model_Resource_Quote_Address_Rate_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Rate\Collection
      */
     public function setFixedOnlyFilter($value)
     {
@@ -66,8 +68,8 @@ class Magento_Sales_Model_Resource_Quote_Address_Rate_Collection extends Magento
     /**
      * Don't add item to the collection if only fixed are allowed and its carrier is not fixed
      *
-     * @param Magento_Sales_Model_Quote_Address_Rate $rate
-     * @return Magento_Sales_Model_Resource_Quote_Address_Rate_Collection
+     * @param \Magento\Sales\Model\Quote\Address\Rate $rate
+     * @return \Magento\Sales\Model\Resource\Quote\Address\Rate\Collection
      */
     public function addItem(\Magento\Object $rate)
     {

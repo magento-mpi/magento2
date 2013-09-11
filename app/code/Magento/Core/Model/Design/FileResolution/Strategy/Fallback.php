@@ -11,28 +11,30 @@
 /**
  * Resolver, which performs full search of files, according to fallback rules
  */
-class Magento_Core_Model_Design_FileResolution_Strategy_Fallback
-    implements Magento_Core_Model_Design_FileResolution_Strategy_FileInterface,
-    Magento_Core_Model_Design_FileResolution_Strategy_LocaleInterface,
-    Magento_Core_Model_Design_FileResolution_Strategy_ViewInterface
+namespace Magento\Core\Model\Design\FileResolution\Strategy;
+
+class Fallback
+    implements \Magento\Core\Model\Design\FileResolution\Strategy\FileInterface,
+    \Magento\Core\Model\Design\FileResolution\Strategy\LocaleInterface,
+    \Magento\Core\Model\Design\FileResolution\Strategy\ViewInterface
 {
     /**
-     * @var Magento_Core_Model_Design_Fallback_Factory
+     * @var \Magento\Core\Model\Design\Fallback\Factory
      */
     protected $_fallbackFactory;
 
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     protected $_ruleFile;
 
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     protected $_ruleLocaleFile;
 
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     protected $_ruleViewFile;
 
@@ -40,11 +42,11 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback
      * Constructor
      *
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_Design_Fallback_Factory $fallbackFactory
+     * @param \Magento\Core\Model\Design\Fallback\Factory $fallbackFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_Design_Fallback_Factory $fallbackFactory
+        \Magento\Core\Model\Design\Fallback\Factory $fallbackFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->_fallbackFactory = $fallbackFactory;
@@ -54,12 +56,12 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback
      * Get existing file name, using fallback mechanism
      *
      * @param string $area
-     * @param Magento_Core_Model_Theme $themeModel
+     * @param \Magento\Core\Model\Theme $themeModel
      * @param string $file
      * @param string|null $module
      * @return string
      */
-    public function getFile($area, Magento_Core_Model_Theme $themeModel, $file, $module = null)
+    public function getFile($area, \Magento\Core\Model\Theme $themeModel, $file, $module = null)
     {
         $params = array('area' => $area, 'theme' => $themeModel, 'namespace' => null, 'module' => null);
         if ($module) {
@@ -72,12 +74,12 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback
      * Get locale file name, using fallback mechanism
      *
      * @param string $area
-     * @param Magento_Core_Model_Theme $themeModel
+     * @param \Magento\Core\Model\Theme $themeModel
      * @param string $locale
      * @param string $file
      * @return string
      */
-    public function getLocaleFile($area, Magento_Core_Model_Theme $themeModel, $locale, $file)
+    public function getLocaleFile($area, \Magento\Core\Model\Theme $themeModel, $locale, $file)
     {
         $params = array('area' => $area, 'theme' => $themeModel, 'locale' => $locale);
         return $this->_resolveFile($this->_getLocaleFileRule(), $file, $params);
@@ -87,13 +89,13 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback
      * Get theme file name, using fallback mechanism
      *
      * @param string $area
-     * @param Magento_Core_Model_Theme $themeModel
+     * @param \Magento\Core\Model\Theme $themeModel
      * @param string $locale
      * @param string $file
      * @param string|null $module
      * @return string
      */
-    public function getViewFile($area, Magento_Core_Model_Theme $themeModel, $locale, $file, $module = null)
+    public function getViewFile($area, \Magento\Core\Model\Theme $themeModel, $locale, $file, $module = null)
     {
         $params = array(
             'area' => $area, 'theme' => $themeModel, 'locale' => $locale, 'namespace' => null, 'module' => null
@@ -107,7 +109,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback
     /**
      * Retrieve fallback rule for dynamic view files
      *
-     * @return Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @return \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     protected function _getFileRule()
     {
@@ -120,7 +122,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback
     /**
      * Retrieve fallback rule for locale files
      *
-     * @return Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @return \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     protected function _getLocaleFileRule()
     {
@@ -133,7 +135,7 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback
     /**
      * Retrieve fallback rule for static view files
      *
-     * @return Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @return \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     protected function _getViewFileRule()
     {
@@ -146,13 +148,13 @@ class Magento_Core_Model_Design_FileResolution_Strategy_Fallback
     /**
      * Get path of file after using fallback rules
      *
-     * @param Magento_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule
+     * @param \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $fallbackRule
      * @param string $file
      * @param array $params
      * @return string
      */
     protected function _resolveFile(
-        Magento_Core_Model_Design_Fallback_Rule_RuleInterface $fallbackRule, $file, $params = array()
+        \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $fallbackRule, $file, $params = array()
     ) {
         $path = '';
         foreach ($fallbackRule->getPatternDirs($params) as $dir) {

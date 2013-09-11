@@ -24,7 +24,7 @@ class Magento_Catalog_Model_Product_Api_Helper_Simple extends PHPUnit_Framework_
     /**
      * Check simple product attributes
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param array $expectedProductData
      * @param array $skipAttributes
      * @param array $skipStockItemAttrs
@@ -87,7 +87,7 @@ class Magento_Catalog_Model_Product_Api_Helper_Simple extends PHPUnit_Framework_
     /**
      * Check stock item use default flags
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      */
     public function checkStockItemDataUseDefault($product)
     {

@@ -31,7 +31,7 @@ class Magento_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework
     {
         $this->_oldLogActive = Mage::app()->getStore()->getConfig('dev/log/active');
         $this->_oldExceptionFile = Mage::app()->getStore()->getConfig('dev/log/exception_file');
-        $this->_oldWriterModel = (string)Mage::getConfig()->getNode('global/log/core/writer_model');
+        $this->_oldWriterModel = (string)\Mage::getConfig()->getNode('global/log/core/writer_model');
     }
 
     protected function tearDown()
@@ -64,8 +64,8 @@ class Magento_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework
      */
     public function testSaveCategoryWithoutImage()
     {
-        /** @var $category Magento_Catalog_Model_Category */
-        $category = Mage::registry('_fixture/Magento_Catalog_Model_Category');
+        /** @var $category \Magento\Catalog\Model\Category */
+        $category = Mage::registry('_fixture/\Magento\Catalog\Model\Category');
         $this->assertNotEmpty($category->getId());
 
         foreach (Magento_Catalog_Model_Category_CategoryImageTest_StubZendLogWriterStreamTest::$exceptions

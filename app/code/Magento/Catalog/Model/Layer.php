@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer extends \Magento\Object
+namespace Magento\Catalog\Model;
+
+class Layer extends \Magento\Object
 {
     /**
      * Product collections array
@@ -42,7 +44,7 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
         if ($this->_stateKey === null) {
             $this->_stateKey = 'STORE_'.Mage::app()->getStore()->getId()
                 . '_CAT_' . $this->getCurrentCategory()->getId()
-                . '_CUSTGROUP_' . Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+                . '_CUSTGROUP_' . \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
         }
 
         return $this->_stateKey;
@@ -57,7 +59,7 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
     public function getStateTags(array $additionalTags = array())
     {
         $additionalTags = array_merge($additionalTags, array(
-            Magento_Catalog_Model_Category::CACHE_TAG.$this->getCurrentCategory()->getId()
+            \Magento\Catalog\Model\Category::CACHE_TAG.$this->getCurrentCategory()->getId()
         ));
 
         return $additionalTags;
@@ -66,7 +68,7 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
     /**
      * Retrieve current layer product collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getProductCollection()
     {
@@ -84,18 +86,18 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
     /**
      * Initialize product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @return Magento_Catalog_Model_Layer
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @return \Magento\Catalog\Model\Layer
      */
     public function prepareProductCollection($collection)
     {
         $collection
-            ->addAttributeToSelect(Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes())
+            ->addAttributeToSelect(\Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes())
             ->addMinimalPrice()
             ->addFinalPrice()
             ->addTaxPercents()
             ->addUrlRewrite($this->getCurrentCategory()->getId())
-            ->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+            ->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
 
         return $this;
     }
@@ -106,7 +108,7 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
      * for prepare some index data before getting information
      * about existing intexes
      *
-     * @return Magento_Catalog_Model_Layer
+     * @return \Magento\Catalog\Model\Layer
      */
     public function apply()
     {
@@ -126,17 +128,17 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
      * Retrieve current category model
      * If no category found in registry, the root will be taken
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCurrentCategory()
     {
         $category = $this->getData('current_category');
         if (is_null($category)) {
-            if ($category = Mage::registry('current_category')) {
+            if ($category = \Mage::registry('current_category')) {
                 $this->setData('current_category', $category);
             }
             else {
-                $category = Mage::getModel('Magento_Catalog_Model_Category')->load($this->getCurrentStore()->getRootCategoryId());
+                $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($this->getCurrentStore()->getRootCategoryId());
                 $this->setData('current_category', $category);
             }
         }
@@ -148,18 +150,18 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
      * Change current category object
      *
      * @param mixed $category
-     * @return Magento_Catalog_Model_Layer
+     * @return \Magento\Catalog\Model\Layer
      */
     public function setCurrentCategory($category)
     {
         if (is_numeric($category)) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($category);
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($category);
         }
-        if (!$category instanceof Magento_Catalog_Model_Category) {
-            Mage::throwException(__('The category must be an instance of Magento_Catalog_Model_Category.'));
+        if (!$category instanceof \Magento\Catalog\Model\Category) {
+            \Mage::throwException(__('The category must be an instance of \Magento\Catalog\Model\Category.'));
         }
         if (!$category->getId()) {
-            Mage::throwException(__('Please correct the category.'));
+            \Mage::throwException(__('Please correct the category.'));
         }
 
         if ($category->getId() != $this->getCurrentCategory()->getId()) {
@@ -172,11 +174,11 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
     /**
      * Retrieve current store model
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getCurrentStore()
     {
-        return Mage::app()->getStore();
+        return \Mage::app()->getStore();
     }
 
     /**
@@ -186,19 +188,19 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
      */
     public function getFilterableAttributes()
     {
-//        $entity = Mage::getSingleton('Magento_Eav_Model_Config')
+//        $entity = \Mage::getSingleton('Magento\Eav\Model\Config')
 //            ->getEntityType('catalog_product');
 
         $setIds = $this->_getSetIds();
         if (!$setIds) {
             return array();
         }
-        /** @var $collection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
+        /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
         $collection
-            ->setItemObjectClass('Magento_Catalog_Model_Resource_Eav_Attribute')
+            ->setItemObjectClass('\Magento\Catalog\Model\Resource\Eav\Attribute')
             ->setAttributeSetFilter($setIds)
-            ->addStoreLabel(Mage::app()->getStore()->getId())
+            ->addStoreLabel(\Mage::app()->getStore()->getId())
             ->setOrder('position', 'ASC');
         $collection = $this->_prepareAttributeCollection($collection);
         $collection->load();
@@ -209,12 +211,12 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
     /**
      * Prepare attribute for use in layered navigation
      *
-     * @param   Magento_Eav_Model_Entity_Attribute $attribute
-     * @return  Magento_Eav_Model_Entity_Attribute
+     * @param   \Magento\Eav\Model\Entity\Attribute $attribute
+     * @return  \Magento\Eav\Model\Entity\Attribute
      */
     protected function _prepareAttribute($attribute)
     {
-        Mage::getResourceSingleton('Magento_Catalog_Model_Resource_Product')->getAttribute($attribute);
+        \Mage::getResourceSingleton('\Magento\Catalog\Model\Resource\Product')->getAttribute($attribute);
         return $attribute;
     }
 
@@ -233,14 +235,14 @@ class Magento_Catalog_Model_Layer extends \Magento\Object
     /**
      * Retrieve layer state object
      *
-     * @return Magento_Catalog_Model_Layer_State
+     * @return \Magento\Catalog\Model\Layer\State
      */
     public function getState()
     {
         $state = $this->getData('state');
         if (is_null($state)) {
             \Magento\Profiler::start(__METHOD__);
-            $state = Mage::getModel('Magento_Catalog_Model_Layer_State');
+            $state = \Mage::getModel('\Magento\Catalog\Model\Layer\State');
             $this->setData('state', $state);
             \Magento\Profiler::stop(__METHOD__);
         }

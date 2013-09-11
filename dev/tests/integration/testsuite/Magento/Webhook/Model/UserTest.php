@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_User
+ * \Magento\Webhook\Model\User
  *
  * @magentoDbIsolation enabled
  *
@@ -17,12 +17,12 @@ class Magento_Webhook_Model_UserTest extends PHPUnit_Framework_TestCase
     public function testGetSharedSecret()
     {
         $webapiUserId = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webapi_Model_Acl_User')
+            ->create('Magento\Webapi\Model\Acl\User')
             ->setSecret('secret')
             ->save()
             ->getId();
         $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_User', array('webapiUserId' => $webapiUserId));
+            ->create('Magento\Webhook\Model\User', array('webapiUserId' => $webapiUserId));
         $this->assertEquals('secret', $user->getSharedSecret());
     }
 }

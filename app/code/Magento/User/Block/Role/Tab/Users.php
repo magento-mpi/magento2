@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_User_Block_Role_Tab_Users extends Magento_Backend_Block_Widget_Tabs
+namespace Magento\User\Block\Role\Tab;
+
+class Users extends \Magento\Backend\Block\Widget\Tabs
 {
 
     protected function _construct()
@@ -17,7 +19,7 @@ class Magento_User_Block_Role_Tab_Users extends Magento_Backend_Block_Widget_Tab
 
         $roleId = $this->getRequest()->getParam('rid', false);
 
-        $users = Mage::getModel('Magento_User_Model_User')->getCollection()->load();
+        $users = \Mage::getModel('\Magento\User\Model\User')->getCollection()->load();
         $this->setTemplate('role/users.phtml')
             ->assign('users', $users->getItems())
             ->assign('roleId', $roleId);
@@ -27,7 +29,7 @@ class Magento_User_Block_Role_Tab_Users extends Magento_Backend_Block_Widget_Tab
     {
         $this->setChild(
             'userGrid',
-            $this->getLayout()->createBlock('Magento_User_Block_Role_Grid_User', 'roleUsersGrid')
+            $this->getLayout()->createBlock('\Magento\User\Block\Role\Grid\User', 'roleUsersGrid')
         );
         return parent::_prepareLayout();
     }

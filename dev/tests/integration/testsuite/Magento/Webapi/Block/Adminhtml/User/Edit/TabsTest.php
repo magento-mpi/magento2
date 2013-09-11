@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Magento_Webapi_Block_Adminhtml_User_Edit_Tabs block.
+ * Test for \Magento\Webapi\Block\Adminhtml\User\Edit\Tabs block.
  *
  * {license_notice}
  *
@@ -19,12 +19,12 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Layout
+     * @var \Magento\Core\Model\Layout
      */
     protected $_layout;
 
     /**
-     * @var Magento_Webapi_Block_Adminhtml_User_Edit_Tabs
+     * @var \Magento\Webapi\Block\Adminhtml\User\Edit\Tabs
      */
     protected $_block;
 
@@ -33,14 +33,14 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
         parent::setUp();
 
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_layout = $this->_objectManager->get('Magento_Core_Model_Layout');
-        $this->_block = $this->_layout->createBlock('Magento_Webapi_Block_Adminhtml_User_Edit_Tabs',
+        $this->_layout = $this->_objectManager->get('Magento\Core\Model\Layout');
+        $this->_block = $this->_layout->createBlock('\Magento\Webapi\Block\Adminhtml\User\Edit\Tabs',
             'webapi.user.edit.tabs');
     }
 
     protected function tearDown()
     {
-        $this->_objectManager->removeSharedInstance('Magento_Core_Model_Layout');
+        $this->_objectManager->removeSharedInstance('\Magento\Core\Model\Layout');
         unset($this->_objectManager, $this->_layout, $this->_block);
     }
 
@@ -50,15 +50,15 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
     public function testBeforeToHtml()
     {
         // TODO: Move to unit tests after MAGETWO-4015 complete.
-        /** @var Magento_Webapi_Block_Adminhtml_User_Edit_Tab_Main $mainTabBlock */
+        /** @var \Magento\Webapi\Block\Adminhtml\User\Edit\Tab\Main $mainTabBlock */
         $mainTabBlock = $this->_layout->addBlock(
-            'Magento_Core_Block_Text',
+            '\Magento\Core\Block\Text',
             'webapi.user.edit.tab.main',
             'webapi.user.edit.tabs'
         )->setText('Main Block Content');
 
         $this->_layout->addBlock(
-            'Magento_Core_Block_Text',
+            '\Magento\Core\Block\Text',
             'webapi.user.edit.tab.roles.grid',
             'webapi.user.edit.tabs'
         )->setText('Grid Block Content');
@@ -97,12 +97,12 @@ class Magento_Webapi_Block_Adminhtml_User_Edit_TabsTest extends PHPUnit_Framewor
     }
 
     /**
-     * Get protected _tabs property of Magento_Backend_Block_Widget_Tabs block.
+     * Get protected _tabs property of \Magento\Backend\Block\Widget\Tabs block.
      *
-     * @param Magento_Backend_Block_Widget_Tabs $tabs
+     * @param \Magento\Backend\Block\Widget\Tabs $tabs
      * @return array
      */
-    protected function _getProtectedTabsValue(Magento_Backend_Block_Widget_Tabs $tabs)
+    protected function _getProtectedTabsValue(\Magento\Backend\Block\Widget\Tabs $tabs)
     {
         $result = null;
         try {

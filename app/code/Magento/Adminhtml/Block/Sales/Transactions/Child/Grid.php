@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Transactions_Child_Grid extends Magento_Adminhtml_Block_Sales_Transactions_Grid
+namespace Magento\Adminhtml\Block\Sales\Transactions\Child;
+
+class Grid extends \Magento\Adminhtml\Block\Sales\Transactions\Grid
 {
     /**
      * Columns, that should be removed from grid
@@ -40,12 +42,12 @@ class Magento_Adminhtml_Block_Sales_Transactions_Child_Grid extends Magento_Admi
     /**
      * Add filter by parent transaction ID
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Payment_Transaction_Collection');
-        $collection->addParentIdFilter(Mage::registry('current_transaction')->getId());
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection');
+        $collection->addParentIdFilter(\Mage::registry('current_transaction')->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }

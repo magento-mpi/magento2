@@ -11,14 +11,14 @@
 
 include(__DIR__ . '/../../../Magento/Sales/_files/order.php');
 
-/** @var $rma Magento_Rma_Model_Rma */
-$rma = Mage::getModel('Magento_Rma_Model_Rma');
+/** @var $rma \Magento\Rma\Model\Rma */
+$rma = Mage::getModel('\Magento\Rma\Model\Rma');
 $rma->setOrderId($order->getId());
 $rma->setIncrementId(1);
 $rma->save();
 
-/** @var $trackingNumber Magento_Rma_Model_Shipping */
-$trackingNumber = Mage::getModel('Magento_Rma_Model_Shipping');
+/** @var $trackingNumber \Magento\Rma\Model\Shipping */
+$trackingNumber = Mage::getModel('\Magento\Rma\Model\Shipping');
 $trackingNumber
     ->setRmaEntityId($rma->getId())
     ->setCarrierTitle('CarrierTitle')

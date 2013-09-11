@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Webapi_Controller_Request_Rest_InterpreterInterface
+namespace Magento\Webapi\Controller\Request\Rest;
+
+interface InterpreterInterface
 {
     /**
      * Parse request body into array of params.

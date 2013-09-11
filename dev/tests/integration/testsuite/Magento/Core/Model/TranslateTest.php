@@ -15,17 +15,17 @@
 class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_designModel;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -34,7 +34,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
         $pathChunks = array(dirname(__FILE__), '_files', 'design', 'frontend', 'test_default', 'locale', 'en_US',
             'translate.csv');
 
-        $this->_viewFileSystem = $this->getMock('Magento_Core_Model_View_FileSystem',
+        $this->_viewFileSystem = $this->getMock('Magento\Core\Model\View\FileSystem',
             array('getLocaleFileName', 'getDesignTheme'), array(), '', false);
 
 
@@ -42,12 +42,12 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             ->method('getLocaleFileName')
             ->will($this->returnValue(implode(DIRECTORY_SEPARATOR, $pathChunks)));
 
-        $theme = $this->getMock('Magento_Core_Model_Theme', array('getId', 'getCollection'), array(), '', false);
+        $theme = $this->getMock('Magento\Core\Model\Theme', array('getId', 'getCollection'), array(), '', false);
         $theme->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(10));
 
-        $collection = $this->getMock('Magento_Core_Model_Theme', array('getThemeByFullPath'), array(), '', false);
+        $collection = $this->getMock('Magento\Core\Model\Theme', array('getThemeByFullPath'), array(), '', false);
         $collection->expects($this->any())
             ->method('getThemeByFullPath')
             ->will($this->returnValue($theme));
@@ -61,17 +61,17 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($theme));
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->addSharedInstance($this->_viewFileSystem, 'Magento_Core_Model_View_FileSystem');
+        $objectManager->addSharedInstance($this->_viewFileSystem, '\Magento\Core\Model\View\FileSystem');
 
         Mage::getConfig()->setModuleDir('Magento_Core', 'locale', dirname(__FILE__) . '/_files/Magento/Core/locale');
         Mage::getConfig()->setModuleDir('Magento_Catalog', 'locale',
             dirname(__FILE__) . '/_files/Magento/Catalog/locale');
 
-        $this->_designModel = $this->getMock('Magento_Core_Model_View_Design',
+        $this->_designModel = $this->getMock('Magento\Core\Model\View\Design',
             array('getDesignTheme'),
             array(
-                Mage::getSingleton('Magento_Core_Model_StoreManagerInterface'),
-                Mage::getSingleton('Magento_Core_Model_Theme_FlyweightFactory')
+                Mage::getSingleton('Magento\Core\Model\StoreManagerInterface'),
+                Mage::getSingleton('Magento\Core\Model\Theme\FlyweightFactory')
             )
         );
 
@@ -79,10 +79,10 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
             ->method('getDesignTheme')
             ->will($this->returnValue($theme));
 
-        $objectManager->addSharedInstance($this->_designModel, 'Magento_Core_Model_View_Design');
+        $objectManager->addSharedInstance($this->_designModel, '\Magento\Core\Model\View\Design');
 
-        $this->_model = Mage::getModel('Magento_Core_Model_Translate');
-        $this->_model->init(Magento_Core_Model_App_Area::AREA_FRONTEND);
+        $this->_model = Mage::getModel('\Magento\Core\Model\Translate');
+        $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
     }
 
     /**
@@ -92,19 +92,19 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
     public function testInitCaching()
     {
         // ensure string translation is cached
-        $this->_model->init(Magento_Core_Model_App_Area::AREA_FRONTEND, null);
+        $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
 
-        /** @var Magento_Core_Model_Resource_Translate_String $translateString */
-        $translateString = Mage::getModel('Magento_Core_Model_Resource_Translate_String');
+        /** @var \Magento\Core\Model\Resource\Translate\String $translateString */
+        $translateString = Mage::getModel('\Magento\Core\Model\Resource\Translate\String');
         $translateString->saveTranslate('Fixture String', 'New Db Translation');
 
-        $this->_model->init(Magento_Core_Model_App_Area::AREA_FRONTEND, null);
+        $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
         $this->assertEquals(
             'Fixture Db Translation', $this->_model->translate(array('Fixture String')),
             'Translation is expected to be cached'
         );
 
-        $this->_model->init(Magento_Core_Model_App_Area::AREA_FRONTEND, null, true);
+        $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null, true);
         $this->assertEquals(
             'New Db Translation', $this->_model->translate(array('Fixture String')),
             'Forced load should not use cache'
@@ -113,10 +113,10 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function testGetModulesConfig()
     {
-        /** @var $modulesConfig Magento_Core_Model_Config_Element */
+        /** @var $modulesConfig \Magento\Core\Model\Config\Element */
         $modulesConfig = $this->_model->getModulesConfig();
 
-        $this->assertInstanceOf('Magento_Core_Model_Config_Element', $modulesConfig);
+        $this->assertInstanceOf('\Magento\Core\Model\Config\Element', $modulesConfig);
 
         /* Number of nodes is the number of enabled modules, that support translation */
         $checkedNode = 'Magento_Core';
@@ -138,13 +138,13 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function testGetConfig()
     {
-        $this->assertEquals('frontend', $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_AREA));
-        $this->assertEquals('en_US', $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_LOCALE));
-        $this->assertEquals(1, $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_STORE));
+        $this->assertEquals('frontend', $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_AREA));
+        $this->assertEquals('en_US', $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_LOCALE));
+        $this->assertEquals(1, $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_STORE));
         $design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface');
+            ->get('Magento\Core\Model\View\DesignInterface');
         $this->assertEquals($design->getDesignTheme()->getId(),
-            $this->_model->getConfig(Magento_Core_Model_Translate::CONFIG_KEY_DESIGN_THEME));
+            $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_DESIGN_THEME));
         $this->assertNull($this->_model->getConfig('non_existing_key'));
     }
 
@@ -164,7 +164,7 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
 
     public function testGetResource()
     {
-        $this->assertInstanceOf('Magento_Core_Model_Resource_Translate', $this->_model->getResource());
+        $this->assertInstanceOf('\Magento\Core\Model\Resource\Translate', $this->_model->getResource());
     }
 
     public function testGetTranslate()
@@ -179,8 +179,8 @@ class Magento_Core_Model_TranslateTest extends PHPUnit_Framework_TestCase
      */
     public function testTranslate($inputText, $expectedTranslation)
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Translate');
-        $this->_model->init(Magento_Core_Model_App_Area::AREA_FRONTEND);
+        $this->_model = Mage::getModel('\Magento\Core\Model\Translate');
+        $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
         $actualTranslation = $this->_model->translate(array($inputText));
         $this->assertEquals($expectedTranslation, $actualTranslation);

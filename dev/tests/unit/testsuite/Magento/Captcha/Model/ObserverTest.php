@@ -11,7 +11,7 @@
 class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Captcha_Model_Observer
+     * @var \Magento\Captcha\Model\Observer
      */
     protected $_observer;
 
@@ -42,17 +42,17 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_customerSession = $this->getMock('Magento_Customer_Model_Session', array(), array(), '', false);
-        $this->_helper = $this->getMock('Magento_Captcha_Helper_Data', array(), array(), '', false);
-        $this->_urlManager = $this->getMock('Magento_Core_Model_Url', array(), array(), '', false);
+        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
+        $this->_helper = $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false);
+        $this->_urlManager = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        $this->_observer = new Magento_Captcha_Model_Observer(
+        $this->_observer = new \Magento\Captcha\Model\Observer(
             $this->_customerSession,
             $this->_helper,
             $this->_urlManager,
             $this->_filesystem
         );
-        $this->_captcha = $this->getMock('Magento_Captcha_Model_Default', array(), array(), '', false);
+        $this->_captcha = $this->getMock('Magento\Captcha\Model\DefaultModel', array(), array(), '', false);
     }
 
     public function testCheckContactUsFormWhenCaptchaIsRequiredAndValid()
@@ -60,11 +60,11 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $formId = 'contact_us';
         $captchaValue = 'some-value';
 
-        $controller = $this->getMock('Magento_Core_Controller_Varien_Action', array(), array(), '', false);
-        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $controller = $this->getMock('Magento\Core\Controller\Varien\Action', array(), array(), '', false);
+        $request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
         $request->expects($this->any())
             ->method('getPost')
-            ->with(Magento_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE, null)
+            ->with(\Magento\Captcha\Helper\Data::INPUT_NAME_FIELD_VALUE, null)
             ->will($this->returnValue(array(
                 $formId => $captchaValue,
             )));
@@ -98,10 +98,10 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->with($redirectRoutePath, null)
             ->will($this->returnValue($redirectUrl));
 
-        $controller = $this->getMock('Magento_Core_Controller_Varien_Action', array(), array(), '', false);
-        $request = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
-        $response = $this->getMock('Magento_Core_Controller_Response_Http', array(), array(), '', false);
-        $request->expects($this->any())->method('getPost')->with(Magento_Captcha_Helper_Data::INPUT_NAME_FIELD_VALUE,
+        $controller = $this->getMock('Magento\Core\Controller\Varien\Action', array(), array(), '', false);
+        $request = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $response = $this->getMock('Magento\Core\Controller\Response\Http', array(), array(), '', false);
+        $request->expects($this->any())->method('getPost')->with(\Magento\Captcha\Helper\Data::INPUT_NAME_FIELD_VALUE,
             null)
             ->will($this->returnValue(array(
                 $formId => $captchaValue,
@@ -121,7 +121,7 @@ class Magento_Captcha_Model_ObserverTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_captcha));
         $this->_customerSession->expects($this->once())->method('addError')->with($warningMessage);
         $controller->expects($this->once())->method('setFlag')
-            ->with('', Magento_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+            ->with('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
 
         $this->_observer->checkContactUsForm(new \Magento\Event\Observer(array('controller_action' => $controller)));
     }

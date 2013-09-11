@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Block_Adminhtml_Registration_Failed
+ * \Magento\Webhook\Block\Adminhtml\Registration\Failed
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@
  */
 class Magento_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Framework_TestCase
 {
-    /** @var  Magento_Webhook_Block_Adminhtml_Registration_Failed */
+    /** @var  \Magento\Webhook\Block\Adminhtml\Registration\Failed */
     private $_block;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -19,31 +19,31 @@ class Magento_Webhook_Block_Adminhtml_Registration_FailedTest extends PHPUnit_Fr
 
     public function setUp()
     {
-        $urlBuilder = $this->getMock('Magento_Core_Model_Url', array('getUrl'), array(), '', false);
+        $urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getUrl'), array(), '', false);
 
-        $context = $this->getMockBuilder('Magento_Backend_Block_Template_Context')
+        $context = $this->getMockBuilder('Magento\Backend\Block\Template\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $context->expects($this->once())
             ->method('getUrlBuilder')
             ->will($this->returnValue($urlBuilder));
 
-        $this->_lastMessage = $this->getMockBuilder('Magento_Core_Model_Message_Abstract')
+        $this->_lastMessage = $this->getMockBuilder('Magento\Core\Model\Message\AbstractMessage')
             ->disableOriginalConstructor()
             ->getMock();
-        $messages = $this->getMockBuilder('Magento_Core_Model_Message_Collection')
+        $messages = $this->getMockBuilder('Magento\Core\Model\Message\Collection')
             ->disableOriginalConstructor()
             ->getMock();
         $messages->expects($this->any())
             ->method('getLastAddedMessage')
             ->will($this->returnValue($this->_lastMessage));
-        $session = $this->getMockBuilder('Magento_Backend_Model_Session')
+        $session = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
             ->getMock();
         $session->expects($this->once())
             ->method('getMessages')
             ->will($this->returnValue($messages));
-        $this->_block = new Magento_Webhook_Block_Adminhtml_Registration_Failed($session, $context);
+        $this->_block = new \Magento\Webhook\Block\Adminhtml\Registration\Failed($session, $context);
     }
 
     public function testGetSessionError()

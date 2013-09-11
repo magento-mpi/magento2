@@ -16,7 +16,9 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
+namespace Magento\AdminNotification\Model;
+
+class Feed extends \Magento\Core\Model\AbstractModel
 {
     const XML_USE_HTTPS_PATH    = 'system/adminnotification/use_https';
     const XML_FEED_URL_PATH     = 'system/adminnotification/feed_url';
@@ -45,8 +47,8 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     public function getFeedUrl()
     {
         if (is_null($this->_feedUrl)) {
-            $this->_feedUrl = (Mage::getStoreConfigFlag(self::XML_USE_HTTPS_PATH) ? 'https://' : 'http://')
-                . Mage::getStoreConfig(self::XML_FEED_URL_PATH);
+            $this->_feedUrl = (\Mage::getStoreConfigFlag(self::XML_USE_HTTPS_PATH) ? 'https://' : 'http://')
+                . \Mage::getStoreConfig(self::XML_FEED_URL_PATH);
         }
         return $this->_feedUrl;
     }
@@ -54,7 +56,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     /**
      * Check feed for modification
      *
-     * @return Magento_AdminNotification_Model_Feed
+     * @return \Magento\AdminNotification\Model\Feed
      */
     public function checkUpdate()
     {
@@ -78,7 +80,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
             }
 
             if ($feedData) {
-                Mage::getModel('Magento_AdminNotification_Model_Inbox')->parse(array_reverse($feedData));
+                \Mage::getModel('\Magento\AdminNotification\Model\Inbox')->parse(array_reverse($feedData));
             }
 
         }
@@ -105,7 +107,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
      */
     public function getFrequency()
     {
-        return Mage::getStoreConfig(self::XML_FREQUENCY_PATH) * 3600;
+        return \Mage::getStoreConfig(self::XML_FREQUENCY_PATH) * 3600;
     }
 
     /**
@@ -115,19 +117,19 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
      */
     public function getLastUpdate()
     {
-        return Mage::app()->loadCache('admin_notifications_lastcheck');
+        return \Mage::app()->loadCache('admin_notifications_lastcheck');
     }
 
     /**
      * Set last update time (now)
      *
-     * @return Magento_AdminNotification_Model_Feed
+     * @return \Magento\AdminNotification\Model\Feed
      */
     public function setLastUpdate()
     {
-        Mage::app()->saveCache(time(), 'admin_notifications_lastcheck');
-//        $config = Mage::getModel('Magento_Core_Model_Config');
-//        /* @var $config Magento_Core_Model_Config */
+        \Mage::app()->saveCache(time(), 'admin_notifications_lastcheck');
+//        $config = \Mage::getModel('\Magento\Core\Model\Config');
+//        /* @var $config \Magento\Core\Model\Config */
 //        $config->saveConfig(self::XML_LAST_UPDATE_PATH, time());
         return $this;
     }
@@ -135,7 +137,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     /**
      * Retrieve feed data as XML element
      *
-     * @return SimpleXMLElement
+     * @return \SimpleXMLElement
      */
     public function getFeedData()
     {
@@ -143,7 +145,7 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
         $curl->setConfig(array(
             'timeout'   => 2
         ));
-        $curl->write(Zend_Http_Client::GET, $this->getFeedUrl(), '1.0');
+        $curl->write(\Zend_Http_Client::GET, $this->getFeedUrl(), '1.0');
         $data = $curl->read();
         if ($data === false) {
             return false;
@@ -153,9 +155,9 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
         $curl->close();
 
         try {
-            $xml  = new SimpleXMLElement($data);
+            $xml  = new \SimpleXMLElement($data);
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             return false;
         }
 
@@ -166,10 +168,10 @@ class Magento_AdminNotification_Model_Feed extends Magento_Core_Model_Abstract
     {
         try {
             $data = $this->getFeedData();
-            $xml  = new SimpleXMLElement($data);
+            $xml  = new \SimpleXMLElement($data);
         }
-        catch (Exception $e) {
-            $xml  = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8" ?>');
+        catch (\Exception $e) {
+            $xml  = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8" ?>');
         }
 
         return $xml;

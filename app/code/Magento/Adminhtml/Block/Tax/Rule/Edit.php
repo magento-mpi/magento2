@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Tax_Rule_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Adminhtml\Block\Tax\Rule;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Init class
@@ -50,7 +52,7 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit extends Magento_Adminhtml_Block_Widg
      */
     public function getHeaderText()
     {
-        if (Mage::registry('tax_rule')->getId()) {
+        if (\Mage::registry('tax_rule')->getId()) {
             return __("Edit Rule");
         }
         else {

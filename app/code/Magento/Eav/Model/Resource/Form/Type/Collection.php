@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Form_Type_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Eav\Model\Resource\Form\Type;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection model
@@ -24,7 +26,7 @@ class Magento_Eav_Model_Resource_Form_Type_Collection extends Magento_Core_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Form_Type', 'Magento_Eav_Model_Resource_Form_Type');
+        $this->_init('\Magento\Eav\Model\Form\Type', '\Magento\Eav\Model\Resource\Form\Type');
     }
 
     /**
@@ -40,12 +42,12 @@ class Magento_Eav_Model_Resource_Form_Type_Collection extends Magento_Core_Model
     /**
      * Add Entity type filter to collection
      *
-     * @param Magento_Eav_Model_Entity_Type|int $entity
-     * @return Magento_Eav_Model_Resource_Form_Type_Collection
+     * @param \Magento\Eav\Model\Entity\Type|int $entity
+     * @return \Magento\Eav\Model\Resource\Form\Type\Collection
      */
     public function addEntityTypeFilter($entity)
     {
-        if ($entity instanceof Magento_Eav_Model_Entity_Type) {
+        if ($entity instanceof \Magento\Eav\Model\Entity\Type) {
             $entity = $entity->getId();
         }
 

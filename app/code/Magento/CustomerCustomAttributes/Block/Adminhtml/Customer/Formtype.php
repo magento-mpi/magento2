@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Formtype extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer;
+
+class Formtype extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Block constructor

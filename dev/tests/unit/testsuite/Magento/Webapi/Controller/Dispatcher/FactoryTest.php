@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Magento_Webapi_Controller_Dispatcher_Factory.
+ * Test \Magento\Webapi\Controller\Dispatcher\Factory.
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,7 +11,7 @@ class Magento_Webapi_Controller_Dispatcher_FactoryTest extends PHPUnit_Framework
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManager;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_Factory */
+    /** @var \Magento\Webapi\Controller\Dispatcher\Factory */
     protected $_dispatcherFactory;
 
     protected function setUp()
@@ -22,7 +22,7 @@ class Magento_Webapi_Controller_Dispatcher_FactoryTest extends PHPUnit_Framework
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         /** Initialize SUT. */
-        $this->_dispatcherFactory = new Magento_Webapi_Controller_Dispatcher_Factory($this->_objectManager);
+        $this->_dispatcherFactory = new \Magento\Webapi\Controller\Dispatcher\Factory($this->_objectManager);
         parent::setUp();
     }
 
@@ -44,13 +44,13 @@ class Magento_Webapi_Controller_Dispatcher_FactoryTest extends PHPUnit_Framework
 
     public function testGet()
     {
-        $expectedController = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_Soap')
+        $expectedController = $this->getMockBuilder('Magento\Webapi\Controller\Dispatcher\Soap')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_objectManager->expects($this->once())->method('get')->will($this->returnValue($expectedController));
         $this->assertEquals(
             $expectedController,
-            $this->_dispatcherFactory->get(Magento_Webapi_Controller_Front::API_TYPE_SOAP)
+            $this->_dispatcherFactory->get(\Magento\Webapi\Controller\Front::API_TYPE_SOAP)
         );
     }
 }

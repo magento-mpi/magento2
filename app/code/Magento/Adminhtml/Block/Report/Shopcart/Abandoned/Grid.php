@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Magento_Adminhtml_Block_Report_Grid_Shopcart
+namespace Magento\Adminhtml\Block\Report\Shopcart\Abandoned;
+
+class Grid extends \Magento\Adminhtml\Block\Report\Grid\Shopcart
 {
 
     protected function _construct()
@@ -26,8 +28,8 @@ class Magento_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Magento_Adm
 
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Reports_Model_Resource_Quote_Collection */
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Quote_Collection');
+        /** @var $collection \Magento\Reports\Model\Resource\Quote\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Quote\Collection');
 
         $filter = $this->getParam($this->getVarNameFilter(), array());
         if ($filter) {
@@ -95,9 +97,9 @@ class Magento_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Magento_Adm
         ));
 
         if ($this->getRequest()->getParam('website')) {
-            $storeIds = Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
+            $storeIds = \Mage::app()->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
         } else if ($this->getRequest()->getParam('group')) {
-            $storeIds = Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+            $storeIds = \Mage::app()->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
         } else if ($this->getRequest()->getParam('store')) {
             $storeIds = array((int)$this->getRequest()->getParam('store'));
         } else {
@@ -112,7 +114,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Abandoned_Grid extends Magento_Adm
             'currency_code' => $currencyCode,
             'index'         => 'subtotal',
             'sortable'      => false,
-            'renderer'      => 'Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Currency',
+            'renderer'      => '\Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency',
             'rate'          => $this->getRate($currencyCode),
             'header_css_class'  => 'col-subtotal',
             'column_css_class'  => 'col-subtotal'

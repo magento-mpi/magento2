@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_AdminNotification_Model_NotificationService
+ * Test class for \Magento\AdminNotification\Model\NotificationService
  */
 class Magento_AdminNotification_Model_NotificationServiceTest extends PHPUnit_Framework_TestCase
 {
@@ -18,7 +18,7 @@ class Magento_AdminNotification_Model_NotificationServiceTest extends PHPUnit_Fr
      * Retrieve instance of notification service model
      *
      * @param $notificationId
-     * @return Magento_AdminNotification_Model_NotificationService
+     * @return \Magento\AdminNotification\Model\NotificationService
      */
     protected function _getServiceInstanceForMarkAsReadTest($notificationId)
     {
@@ -30,7 +30,7 @@ class Magento_AdminNotification_Model_NotificationServiceTest extends PHPUnit_Fr
             'Magento_AdminNotification_Model_InboxFactory', array('create'), array(), '', false
         );
         $notification = $this->getMock(
-            'Magento_AdminNotification_Model_Inbox',
+            '\Magento\AdminNotification\Model\Inbox',
             array('load', 'getId', 'save','setIsRead'),
             array(),
             '',
@@ -46,7 +46,7 @@ class Magento_AdminNotification_Model_NotificationServiceTest extends PHPUnit_Fr
         }
 
         $notificationFactory->expects($this->once())->method('create')->will($this->returnValue($notification));
-        return new Magento_AdminNotification_Model_NotificationService($notificationFactory);
+        return new \Magento\AdminNotification\Model\NotificationService($notificationFactory);
     }
 
     public function testMarkAsRead()
@@ -57,7 +57,7 @@ class Magento_AdminNotification_Model_NotificationServiceTest extends PHPUnit_Fr
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Wrong notification ID specified.
      */
     public function testMarkAsReadThrowsExceptionWhenNotificationIdIsInvalid()

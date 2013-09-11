@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Invoker
+namespace Magento\Core\Model\DataService;
+
+class Invoker
 {
     /**
      * separates data structure hierarchy
@@ -15,7 +17,7 @@ class Magento_Core_Model_DataService_Invoker
     const DATASERVICE_PATH_SEPARATOR = '.';
 
     /**
-     * @var Magento_Core_Model_DataService_ConfigInterface
+     * @var \Magento\Core\Model\DataService\ConfigInterface
      */
     protected $_config;
 
@@ -24,25 +26,25 @@ class Magento_Core_Model_DataService_Invoker
      */
     protected $_objectManager;
 
-    /** @var Magento_Core_Model_DataService_Path_Composite */
+    /** @var \Magento\Core\Model\DataService\Path\Composite */
     protected $_composite;
 
     /**
-     * @var Magento_Core_Model_DataService_Path_Navigator
+     * @var \Magento\Core\Model\DataService\Path\Navigator
      */
     private $_navigator;
 
     /**
-     * @param Magento_Core_Model_DataService_ConfigInterface $config
+     * @param \Magento\Core\Model\DataService\ConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_DataService_Path_Composite $composite
-     * @param Magento_Core_Model_DataService_Path_Navigator $navigator
+     * @param \Magento\Core\Model\DataService\Path\Composite $composite
+     * @param \Magento\Core\Model\DataService\Path\Navigator $navigator
      */
     public function __construct(
-        Magento_Core_Model_DataService_ConfigInterface $config,
+        \Magento\Core\Model\DataService\ConfigInterface $config,
         \Magento\ObjectManager $objectManager,
-        Magento_Core_Model_DataService_Path_Composite $composite,
-        Magento_Core_Model_DataService_Path_Navigator $navigator
+        \Magento\Core\Model\DataService\Path\Composite $composite,
+        \Magento\Core\Model\DataService\Path\Navigator $navigator
     ) {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
@@ -54,7 +56,7 @@ class Magento_Core_Model_DataService_Invoker
      * Call service method and retrieve the data (array) from the call
      *
      * @param string $sourceName
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return bool|array
      */
     public function getServiceData($sourceName)
@@ -67,7 +69,7 @@ class Magento_Core_Model_DataService_Invoker
         );
         if (!is_array($serviceData)) {
             $type = gettype($serviceData);
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 "Data service method calls must return an array, received {$type} instead.
                  Called {$classInformation['class']}::{$classInformation['retrieveMethod']}"
             );
@@ -119,7 +121,7 @@ class Magento_Core_Model_DataService_Invoker
         $navigator = $this->_navigator;
         $callback = function ($matches) use ($composite, $navigator) {
             // convert from '{{parent.child}}' format to array('parent', 'child') format
-            $pathArray = explode(Magento_Core_Model_DataService_Invoker::DATASERVICE_PATH_SEPARATOR, $matches[1]);
+            $pathArray = explode(\Magento\Core\Model\DataService\Invoker::DATASERVICE_PATH_SEPARATOR, $matches[1]);
             return $navigator->search($composite, $pathArray);
         };
 

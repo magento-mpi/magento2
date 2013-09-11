@@ -16,7 +16,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Rule_Customer_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\SalesRule\Model\Resource\Rule\Customer;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Collection constructor
@@ -25,6 +27,6 @@ class Magento_SalesRule_Model_Resource_Rule_Customer_Collection extends Magento_
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_SalesRule_Model_Rule_Customer', 'Magento_SalesRule_Model_Resource_Rule_Customer');
+        $this->_init('\Magento\SalesRule\Model\Rule\Customer', '\Magento\SalesRule\Model\Resource\Rule\Customer');
     }
 }

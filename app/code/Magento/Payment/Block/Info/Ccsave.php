@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Payment_Block_Info_Ccsave extends Magento_Payment_Block_Info_Cc
+namespace Magento\Payment\Block\Info;
+
+class Ccsave extends \Magento\Payment\Block\Info\Cc
 {
     /**
      * Show name on card, expiration date and full cc number

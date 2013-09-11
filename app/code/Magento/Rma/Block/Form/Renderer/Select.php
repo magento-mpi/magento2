@@ -16,20 +16,22 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Form_Renderer_Select extends Magento_CustomAttribute_Block_Form_Renderer_Select
+namespace Magento\Rma\Block\Form\Renderer;
+
+class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
 {
     /**
      * Prepare rma item attribute
      *
-     * @return boolean | Magento_Rma_Model_Item_Attribute
+     * @return boolean | \Magento\Rma\Model\Item\Attribute
      */
     public function getAttribute($code)
     {
         /* @var $itemModel  */
-        $itemModel = Mage::getModel('Magento_Rma_Model_Item');
+        $itemModel = \Mage::getModel('\Magento\Rma\Model\Item');
 
-        /* @var $itemForm Magento_Rma_Model_Item_Form */
-        $itemForm   = Mage::getModel('Magento_Rma_Model_Item_Form');
+        /* @var $itemForm \Magento\Rma\Model\Item\Form */
+        $itemForm   = \Mage::getModel('\Magento\Rma\Model\Item\Form');
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);

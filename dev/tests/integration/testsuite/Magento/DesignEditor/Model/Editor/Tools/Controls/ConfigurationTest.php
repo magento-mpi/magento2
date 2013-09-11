@@ -12,12 +12,12 @@
 class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_DesignEditor_Model_Editor_Tools_Controls_Factory
+     * @var \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory
      */
     protected $_configFactory;
 
     /**
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design;
 
@@ -27,11 +27,11 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
     protected function setUp()
     {
         $this->_design = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get(
-            'Magento_Core_Model_View_DesignInterface'
+            '\Magento\Core\Model\View\DesignInterface'
         );
-        $this->_design->setDesignTheme('vendor_test_child', Magento_Core_Model_View_DesignInterface::DEFAULT_AREA);
+        $this->_design->setDesignTheme('vendor_test_child', \Magento\Core\Model\View\DesignInterface::DEFAULT_AREA);
         $this->_configFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_DesignEditor_Model_Editor_Tools_Controls_Factory'
+            '\Magento\DesignEditor\Model\Editor\Tools\Controls\Factory'
         );
     }
 
@@ -45,7 +45,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
     public function testLoadConfigurations($type, $controlName, $controlData)
     {
         $designTheme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface')
+            ->get('Magento\Core\Model\View\DesignInterface')
             ->getDesignTheme();
         $configuration = $this->_configFactory->create($type, $designTheme);
         $this->assertEquals($controlData, $configuration->getControlData($controlName));
@@ -59,7 +59,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
     public function getConfigurationTypes()
     {
         return array(
-            array(Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES, 'logo-uploader', array(
+            array(\Magento\DesignEditor\Model\Editor\Tools\Controls\Factory::TYPE_QUICK_STYLES, 'logo-uploader', array(
                 'type'         => 'logo-uploader',
                 'layoutParams' => array('title' => 'Logo Uploader', 'column' => 'center'),
                 'attribute'    => 'background-image',
@@ -68,7 +68,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
                 'value'        => 'test_child_value4',
                 'default'      => 'test_value4'
             )),
-            array(Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES,
+            array(\Magento\DesignEditor\Model\Editor\Tools\Controls\Factory::TYPE_QUICK_STYLES,
                 'background-color-picker',
                 array(
                     'type'         => 'color-picker',
@@ -80,7 +80,7 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
                     'default'      => 'test_value5'
                 )
             ),
-            array(Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_IMAGE_SIZING, 'product-list', array(
+            array(\Magento\DesignEditor\Model\Editor\Tools\Controls\Factory::TYPE_IMAGE_SIZING, 'product-list', array(
                 'type'         => 'image-sizing',
                 'layoutParams' => array('title' => 'Up-sell Products List'),
                 'components'   => array(
@@ -116,9 +116,9 @@ class Magento_DesignEditor_Model_Editor_Tools_Controls_ConfigurationTest extends
      */
     public function testSaveConfiguration($saveData, $xpathData)
     {
-        $type = Magento_DesignEditor_Model_Editor_Tools_Controls_Factory::TYPE_QUICK_STYLES;
+        $type = \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory::TYPE_QUICK_STYLES;
         $theme = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_View_DesignInterface')
+            ->get('Magento\Core\Model\View\DesignInterface')
             ->getDesignTheme();
         $configuration = $this->_configFactory->create($type, $theme);
         $configuration->saveData($saveData);

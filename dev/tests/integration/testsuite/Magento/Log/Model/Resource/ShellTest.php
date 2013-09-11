@@ -12,13 +12,13 @@
 class Magento_Log_Model_Resource_ShellTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Log_Model_Resource_Shell
+     * @var \Magento\Log\Model\Resource\Shell
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento_Log_Model_Resource_Shell');
+        $this->_model = Mage::getResourceModel('\Magento\Log\Model\Resource\Shell');
     }
 
     public function testGetTablesInfo()

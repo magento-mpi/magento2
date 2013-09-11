@@ -34,8 +34,8 @@ class Magento_Adminhtml_Controller_Sales_OrderTest extends Magento_Backend_Utili
      */
     public function testOrderViewAction()
     {
-        /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = Mage::getModel('\Magento\Sales\Model\Order');
         $order->load('100000001', 'increment_id');
         $this->dispatch('backend/admin/sales_order/view/order_id/' . $order->getId());
         $this->assertContains('Los Angeles', $this->getResponse()->getBody());
@@ -53,8 +53,8 @@ class Magento_Adminhtml_Controller_Sales_OrderTest extends Magento_Backend_Utili
      */
     public function testAddressActionNoVAT()
     {
-        /** @var $address Magento_Sales_Model_Order_Address */
-        $address = Mage::getModel('Magento_Sales_Model_Order_Address');
+        /** @var $address \Magento\Sales\Model\Order\Address */
+        $address = Mage::getModel('\Magento\Sales\Model\Order\Address');
         $address->load('a_unique_firstname', 'firstname');
         $this->getRequest()->setParam('address_id', $address->getId());
         $this->dispatch('backend/admin/sales_order/address');
@@ -76,8 +76,8 @@ class Magento_Adminhtml_Controller_Sales_OrderTest extends Magento_Backend_Utili
      */
     public function testAddCommentAction($status, $comment, $response)
     {
-        /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = Mage::getModel('\Magento\Sales\Model\Order');
         $order->load('100000001', 'increment_id');
 
         $this->getRequest()->setPost(array('history' => array('status' => $status, 'comment' => $comment)));

@@ -56,7 +56,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     );
 
     /**
-     * @var Magento_Captcha_Model_Default
+     * @var \Magento\Captcha\Model\DefaultModel
      */
     protected $_object;
 
@@ -74,10 +74,10 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->with('Magento_Captcha_Helper_Data')
+            ->with('Magento\Captcha\Helper\Data')
             ->will($this->returnValue($this->_getHelperStub()));
 
-        $this->_object = new Magento_Captcha_Model_Default(
+        $this->_object = new \Magento\Captcha\Model\DefaultModel(
             $this->_objectManager,
             array(
                 'formId' => 'user_create',
@@ -87,15 +87,15 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getBlockName
+     * @covers \Magento\Captcha\Model\DefaultModel::getBlockName
      */
     public function testGetBlockName()
     {
-        $this->assertEquals($this->_object->getBlockName(), 'Magento_Captcha_Block_Captcha_Default');
+        $this->assertEquals($this->_object->getBlockName(), '\Magento\Captcha\Block\Captcha\DefaultCaptcha');
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::isRequired
+     * @covers \Magento\Captcha\Model\DefaultModel::isRequired
      */
     public function testIsRequired()
     {
@@ -103,7 +103,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::isCaseSensitive
+     * @covers \Magento\Captcha\Model\DefaultModel::isCaseSensitive
      */
     public function testIsCaseSensitive()
     {
@@ -114,7 +114,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getFont
+     * @covers \Magento\Captcha\Model\DefaultModel::getFont
      */
     public function testGetFont()
     {
@@ -125,8 +125,8 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getTimeout
-     * @covers Magento_Captcha_Model_Default::getExpiration
+     * @covers \Magento\Captcha\Model\DefaultModel::getTimeout
+     * @covers \Magento\Captcha\Model\DefaultModel::getExpiration
      */
     public function testGetTimeout()
     {
@@ -137,7 +137,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::isCorrect
+     * @covers \Magento\Captcha\Model\DefaultModel::isCorrect
      */
     public function testIsCorrect()
     {
@@ -155,7 +155,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getImgSrc
+     * @covers \Magento\Captcha\Model\DefaultModel::getImgSrc
      */
     public function testGetImgSrc()
     {
@@ -166,13 +166,13 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::logAttempt
+     * @covers \Magento\Captcha\Model\DefaultModel::logAttempt
      */
     public function testLogAttempt()
     {
         $resourceModel = $this->_getResourceModelStub();
 
-        $captcha = new Magento_Captcha_Model_Default(
+        $captcha = new \Magento\Captcha\Model\DefaultModel(
             $this->_objectManager,
             array(
                 'formId' => 'user_create',
@@ -185,7 +185,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Captcha_Model_Default::getWord
+     * @covers \Magento\Captcha\Model\DefaultModel::getWord
      */
     public function testGetWord()
     {
@@ -203,18 +203,18 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create stub session object
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getSessionStub()
     {
         $session = $this->getMock(
-            'Magento_Customer_Model_Session',
+            '\Magento\Customer\Model\Session',
             array('isLoggedIn'),
             array(), '', false
         );
 
         $session->expects($this->any())
-            ->method('Magento_Customer_Model_Session')
+            ->method('\Magento\Customer\Model\Session')
             ->will($this->returnValue(true));
 
         $session->setData(
@@ -231,11 +231,11 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
 
     /**
      * Create helper stub
-     * @return Magento_Captcha_Helper_Data
+     * @return \Magento\Captcha\Helper\Data
      */
     protected function _getHelperStub()
     {
-        $helper = $this->getMockBuilder('Magento_Captcha_Helper_Data')
+        $helper = $this->getMockBuilder('Magento\Captcha\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods(array('getConfigNode', 'getFonts', '_getWebsiteCode', 'getImgUrl'))
             ->getMock();
@@ -262,12 +262,12 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
 
     /**
      * Get stub for resource model
-     * @return Magento_Captcha_Model_Resource_Log
+     * @return \Magento\Captcha\Model\Resource\Log
      */
     protected function _getResourceModelStub()
     {
         $resourceModel = $this->getMock(
-            'Magento_Captcha_Model_Resource_Log',
+            '\Magento\Captcha\Model\Resource\Log',
             array('countAttemptsByRemoteAddress', 'countAttemptsByUserLogin', 'logAttempt'),
             array(), '', false
         );
@@ -310,7 +310,7 @@ class Magento_Captcha_Model_DefaultTest extends PHPUnit_Framework_TestCase
      */
     public function testIsShownToLoggedInUser($expectedResult, $formId)
     {
-        $captcha = new Magento_Captcha_Model_Default($this->_objectManager, array('formId' => $formId));
+        $captcha = new \Magento\Captcha\Model\DefaultModel($this->_objectManager, array('formId' => $formId));
         $this->assertEquals($expectedResult, $captcha->isShownToLoggedInUser());
     }
 

@@ -12,7 +12,9 @@
 /**
  * CatalogSearch fulltext indexer model
  */
-class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_Indexer_Abstract
+namespace Magento\CatalogSearch\Model\Indexer;
+
+class Fulltext extends \Magento\Index\Model\Indexer\AbstractIndexer
 {
     /**
      * Data key for matching result to be saved in
@@ -29,11 +31,11 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
     /**
      * Retrieve resource instance
      *
-     * @return Magento_CatalogSearch_Model_Resource_Indexer_Fulltext
+     * @return \Magento\CatalogSearch\Model\Resource\Indexer\Fulltext
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_CatalogSearch_Model_Resource_Indexer_Fulltext');
+        return \Mage::getResourceSingleton('\Magento\CatalogSearch\Model\Resource\Indexer\Fulltext');
     }
 
     /**
@@ -42,27 +44,27 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
      * @var array
      */
     protected $_matchedEntities = array(
-        Magento_Catalog_Model_Product::ENTITY => array(
-            Magento_Index_Model_Event::TYPE_SAVE,
-            Magento_Index_Model_Event::TYPE_MASS_ACTION,
-            Magento_Index_Model_Event::TYPE_DELETE
+        \Magento\Catalog\Model\Product::ENTITY => array(
+            \Magento\Index\Model\Event::TYPE_SAVE,
+            \Magento\Index\Model\Event::TYPE_MASS_ACTION,
+            \Magento\Index\Model\Event::TYPE_DELETE
         ),
-        Magento_Catalog_Model_Resource_Eav_Attribute::ENTITY => array(
-            Magento_Index_Model_Event::TYPE_SAVE,
-            Magento_Index_Model_Event::TYPE_DELETE,
+        \Magento\Catalog\Model\Resource\Eav\Attribute::ENTITY => array(
+            \Magento\Index\Model\Event::TYPE_SAVE,
+            \Magento\Index\Model\Event::TYPE_DELETE,
         ),
-        Magento_Core_Model_Store::ENTITY => array(
-            Magento_Index_Model_Event::TYPE_SAVE,
-            Magento_Index_Model_Event::TYPE_DELETE
+        \Magento\Core\Model\Store::ENTITY => array(
+            \Magento\Index\Model\Event::TYPE_SAVE,
+            \Magento\Index\Model\Event::TYPE_DELETE
         ),
-        Magento_Core_Model_Store_Group::ENTITY => array(
-            Magento_Index_Model_Event::TYPE_SAVE
+        \Magento\Core\Model\Store\Group::ENTITY => array(
+            \Magento\Index\Model\Event::TYPE_SAVE
         ),
-        Magento_Core_Model_Config_Value::ENTITY => array(
-            Magento_Index_Model_Event::TYPE_SAVE
+        \Magento\Core\Model\Config\Value::ENTITY => array(
+            \Magento\Index\Model\Event::TYPE_SAVE
         ),
-        Magento_Catalog_Model_Category::ENTITY => array(
-            Magento_Index_Model_Event::TYPE_SAVE
+        \Magento\Catalog\Model\Category::ENTITY => array(
+            \Magento\Index\Model\Event::TYPE_SAVE
         )
     );
 
@@ -72,17 +74,17 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
      * @var array
      */
     protected $_relatedConfigSettings = array(
-        Magento_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE
+        \Magento\CatalogSearch\Model\Fulltext::XML_PATH_CATALOG_SEARCH_TYPE
     );
 
     /**
      * Retrieve Fulltext Search instance
      *
-     * @return Magento_CatalogSearch_Model_Fulltext
+     * @return \Magento\CatalogSearch\Model\Fulltext
      */
     protected function _getIndexer()
     {
-        return Mage::getSingleton('Magento_CatalogSearch_Model_Fulltext');
+        return \Mage::getSingleton('Magento\CatalogSearch\Model\Fulltext');
     }
 
     /**
@@ -110,10 +112,10 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
      * Overwrote for check is flat catalog product is enabled and specific save
      * attribute, store, store_group
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      * @return bool
      */
-    public function matchEvent(Magento_Index_Model_Event $event)
+    public function matchEvent(\Magento\Index\Model\Event $event)
     {
         $data       = $event->getNewData();
         if (isset($data[self::EVENT_MATCH_RESULT_KEY])) {
@@ -121,24 +123,24 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
         }
 
         $entity = $event->getEntity();
-        if ($entity == Magento_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
-            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+        if ($entity == \Magento\Catalog\Model\Resource\Eav\Attribute::ENTITY) {
+            /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             $attribute      = $event->getDataObject();
 
             if (!$attribute) {
                 $result = false;
-            } elseif ($event->getType() == Magento_Index_Model_Event::TYPE_SAVE) {
+            } elseif ($event->getType() == \Magento\Index\Model\Event::TYPE_SAVE) {
                 $result = $attribute->dataHasChangedFor('is_searchable');
-            } elseif ($event->getType() == Magento_Index_Model_Event::TYPE_DELETE) {
+            } elseif ($event->getType() == \Magento\Index\Model\Event::TYPE_DELETE) {
                 $result = $attribute->getIsSearchable();
             } else {
                 $result = false;
             }
-        } else if ($entity == Magento_Core_Model_Store::ENTITY) {
-            if ($event->getType() == Magento_Index_Model_Event::TYPE_DELETE) {
+        } else if ($entity == \Magento\Core\Model\Store::ENTITY) {
+            if ($event->getType() == \Magento\Index\Model\Event::TYPE_DELETE) {
                 $result = true;
             } else {
-                /* @var $store Magento_Core_Model_Store */
+                /* @var $store \Magento\Core\Model\Store */
                 $store = $event->getDataObject();
                 if ($store && $store->isObjectNew()) {
                     $result = true;
@@ -146,15 +148,15 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
                     $result = false;
                 }
             }
-        } else if ($entity == Magento_Core_Model_Store_Group::ENTITY) {
-            /* @var $storeGroup Magento_Core_Model_Store_Group */
+        } else if ($entity == \Magento\Core\Model\Store\Group::ENTITY) {
+            /* @var $storeGroup \Magento\Core\Model\Store\Group */
             $storeGroup = $event->getDataObject();
             if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
                 $result = true;
             } else {
                 $result = false;
             }
-        } else if ($entity == Magento_Core_Model_Config_Value::ENTITY) {
+        } else if ($entity == \Magento\Core\Model\Config\Value::ENTITY) {
             $data = $event->getDataObject();
             if ($data && in_array($data->getPath(), $this->_relatedConfigSettings)) {
                 $result = $data->isValueChanged();
@@ -173,25 +175,25 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
     /**
      * Register data required by process in event object
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    protected function _registerEvent(Magento_Index_Model_Event $event)
+    protected function _registerEvent(\Magento\Index\Model\Event $event)
     {
         $event->addNewData(self::EVENT_MATCH_RESULT_KEY, true);
         switch ($event->getEntity()) {
-            case Magento_Catalog_Model_Product::ENTITY:
+            case \Magento\Catalog\Model\Product::ENTITY:
                 $this->_registerCatalogProductEvent($event);
                 break;
 
-            case Magento_Core_Model_Config_Value::ENTITY:
-            case Magento_Core_Model_Store::ENTITY:
-            case Magento_Catalog_Model_Resource_Eav_Attribute::ENTITY:
-            case Magento_Core_Model_Store_Group::ENTITY:
+            case \Magento\Core\Model\Config\Value::ENTITY:
+            case \Magento\Core\Model\Store::ENTITY:
+            case \Magento\Catalog\Model\Resource\Eav\Attribute::ENTITY:
+            case \Magento\Core\Model\Store\Group::ENTITY:
                 $event->addNewData('catalogsearch_fulltext_skip_call_event_handler', true);
                 $process = $event->getProcess();
-                $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                $process->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
                 break;
-            case Magento_Catalog_Model_Category::ENTITY:
+            case \Magento\Catalog\Model\Category::ENTITY:
                 $this->_registerCatalogCategoryEvent($event);
                 break;
             default:
@@ -202,14 +204,14 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
     /**
      * Get data required for category'es products reindex
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      * @return Magento_CatalogSearch_Model_Indexer_Search
      */
-    protected function _registerCatalogCategoryEvent(Magento_Index_Model_Event $event)
+    protected function _registerCatalogCategoryEvent(\Magento\Index\Model\Event $event)
     {
         switch ($event->getType()) {
-            case Magento_Index_Model_Event::TYPE_SAVE:
-                /* @var $category Magento_Catalog_Model_Category */
+            case \Magento\Index\Model\Event::TYPE_SAVE:
+                /* @var $category \Magento\Catalog\Model\Category */
                 $category   = $event->getDataObject();
                 $productIds = $category->getAffectedProductIds();
                 if ($productIds) {
@@ -233,25 +235,25 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
     /**
      * Register data required by catatalog product process in event object
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      * @return Magento_CatalogSearch_Model_Indexer_Search
      */
-    protected function _registerCatalogProductEvent(Magento_Index_Model_Event $event)
+    protected function _registerCatalogProductEvent(\Magento\Index\Model\Event $event)
     {
         switch ($event->getType()) {
-            case Magento_Index_Model_Event::TYPE_SAVE:
-                /* @var $product Magento_Catalog_Model_Product */
+            case \Magento\Index\Model\Event::TYPE_SAVE:
+                /* @var $product \Magento\Catalog\Model\Product */
                 $product = $event->getDataObject();
 
                 $event->addNewData('catalogsearch_update_product_id', $product->getId());
                 break;
-            case Magento_Index_Model_Event::TYPE_DELETE:
-                /* @var $product Magento_Catalog_Model_Product */
+            case \Magento\Index\Model\Event::TYPE_DELETE:
+                /* @var $product \Magento\Catalog\Model\Product */
                 $product = $event->getDataObject();
 
                 $event->addNewData('catalogsearch_delete_product_id', $product->getId());
                 break;
-            case Magento_Index_Model_Event::TYPE_MASS_ACTION:
+            case \Magento\Index\Model\Event::TYPE_MASS_ACTION:
                 /* @var $actionObject \Magento\Object */
                 $actionObject = $event->getDataObject();
 
@@ -305,8 +307,8 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
     protected function _getSearchableAttributes()
     {
         if (is_null($this->_searchableAttributes)) {
-            /** @var $attributeCollection Magento_Catalog_Model_Resource_Product_Attribute_Collection */
-            $attributeCollection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Attribute_Collection');
+            /** @var $attributeCollection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
+            $attributeCollection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Attribute\Collection');
             $attributeCollection->addIsSearchableFilter();
 
             foreach ($attributeCollection as $attribute) {
@@ -325,16 +327,16 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
      */
     protected function _isProductComposite($productId)
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+        $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
         return $product->isComposite();
     }
 
     /**
      * Process event
      *
-     * @param Magento_Index_Model_Event $event
+     * @param \Magento\Index\Model\Event $event
      */
-    protected function _processEvent(Magento_Index_Model_Event $event)
+    protected function _processEvent(\Magento\Index\Model\Event $event)
     {
         $data = $event->getNewData();
 
@@ -373,7 +375,7 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
                 $actionType = $data['catalogsearch_action_type'];
 
                 foreach ($websiteIds as $websiteId) {
-                    foreach (Mage::app()->getWebsite($websiteId)->getStoreIds() as $storeId) {
+                    foreach (\Mage::app()->getWebsite($websiteId)->getStoreIds() as $storeId) {
                         if ($actionType == 'remove') {
                             $this->_getIndexer()
                                 ->cleanIndex($storeId, $productIds)
@@ -387,7 +389,7 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
             }
             if (isset($data['catalogsearch_status'])) {
                 $status = $data['catalogsearch_status'];
-                if ($status == Magento_Catalog_Model_Product_Status::STATUS_ENABLED) {
+                if ($status == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
                     $this->_getIndexer()
                         ->rebuildIndex(null, $productIds);
                 } else {
@@ -421,7 +423,7 @@ class Magento_CatalogSearch_Model_Indexer_Fulltext extends Magento_Index_Model_I
         try {
             $this->_getIndexer()->rebuildIndex();
             $resourceModel->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $resourceModel->rollBack();
             throw $e;
         }

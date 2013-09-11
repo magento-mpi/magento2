@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Abstract
+namespace Magento\Sales\Model\Resource;
+
+class Quote extends \Magento\Sales\Model\Resource\AbstractResource
 {
     /**
      * Initialize table nad PK name
@@ -32,7 +34,7 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -54,9 +56,9 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
     /**
      * Load quote data by customer identifier
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @param int $customerId
-     * @return Magento_Sales_Model_Resource_Quote
+     * @return \Magento\Sales\Model\Resource\Quote
      */
     public function loadByCustomerId($quote, $customerId)
     {
@@ -80,9 +82,9 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
     /**
      * Load only active quote
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @param int $quoteId
-     * @return Magento_Sales_Model_Resource_Quote
+     * @return \Magento\Sales\Model\Resource\Quote
      */
     public function loadActive($quote, $quoteId)
     {
@@ -103,9 +105,9 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
     /**
      * Load quote data by identifier without store
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @param int $quoteId
-     * @return Magento_Sales_Model_Resource_Quote
+     * @return \Magento\Sales\Model\Resource\Quote
      */
     public function loadByIdWithoutStore($quote, $quoteId)
     {
@@ -127,13 +129,13 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
     /**
      * Get reserved order id
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return string
      */
     public function getReservedOrderId($quote)
     {
         $storeId = (int)$quote->getStoreId();
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType(Magento_Sales_Model_Order::ENTITY)
+        return \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType(\Magento\Sales\Model\Order::ENTITY)
             ->fetchNewIncrementId($storeId);
     }
 
@@ -161,7 +163,7 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
     /**
      * Mark quotes - that depend on catalog price rules - to be recollected on demand
      *
-     * @return Magento_Sales_Model_Resource_Quote
+     * @return \Magento\Sales\Model\Resource\Quote
      */
     public function markQuotesRecollectOnCatalogRules()
     {
@@ -176,7 +178,7 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
         $select = $this->_getReadAdapter()->select()->join(
             array('t2' => $subSelect),
             't1.entity_id = t2.entity_id',
-            array('trigger_recollect' => new Zend_Db_Expr('1'))
+            array('trigger_recollect' => new \Zend_Db_Expr('1'))
         );
 
         $updateQuery = $select->crossUpdateFromSelect(array('t1' => $tableQuote));
@@ -189,8 +191,8 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
     /**
      * Subtract product from all quotes quantities
      *
-     * @param Magento_Catalog_Model_Product $product
-     * @return Magento_Sales_Model_Resource_Quote
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Magento\Sales\Model\Resource\Quote
      */
     public function substractProductFromQuotes($product)
     {
@@ -202,9 +204,9 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
         $subSelect = $adapter->select();
 
         $subSelect->from(false, array(
-            'items_qty'   => new Zend_Db_Expr(
+            'items_qty'   => new \Zend_Db_Expr(
                 $adapter->quoteIdentifier('q.items_qty') . ' - ' . $adapter->quoteIdentifier('qi.qty')),
-            'items_count' => new Zend_Db_Expr($adapter->quoteIdentifier('q.items_count') . ' - 1')
+            'items_count' => new \Zend_Db_Expr($adapter->quoteIdentifier('q.items_count') . ' - 1')
         ))
         ->join(
             array('qi' => $this->getTable('sales_flat_quote_item')),
@@ -227,7 +229,7 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
      * Mark recollect contain product(s) quotes
      *
      * @param array|int|Zend_Db_Expr $productIds
-     * @return Magento_Sales_Model_Resource_Quote
+     * @return \Magento\Sales\Model\Resource\Quote
      */
     public function markQuotesRecollect($productIds)
     {
@@ -242,7 +244,7 @@ class Magento_Sales_Model_Resource_Quote extends Magento_Sales_Model_Resource_Ab
         $select = $this->_getReadAdapter()->select()->join(
             array('t2' => $subSelect),
             't1.entity_id = t2.entity_id',
-            array('trigger_recollect' => new Zend_Db_Expr('1'))
+            array('trigger_recollect' => new \Zend_Db_Expr('1'))
         );
         $updateQuery = $select->crossUpdateFromSelect(array('t1' => $tableQuote));
         $this->_getWriteAdapter()->query($updateQuery);

@@ -12,7 +12,7 @@
 /**
  * Stub system config form block for integration test
  */
-class Magento_Backend_Block_System_Config_FormStub extends Magento_Backend_Block_System_Config_Form
+class Magento_Backend_Block_System_Config_FormStub extends \Magento\Backend\Block\System\Config\Form
 {
     /**
      * @var array
@@ -48,7 +48,7 @@ class Magento_Backend_Block_System_Config_FormStub extends Magento_Backend_Block
     /**
      * Initialize properties of object required for test.
      *
-     * @return Magento_Backend_Block_System_Config_Form
+     * @return \Magento\Backend\Block\System\Config\Form
      */
     protected function _initObjects()
     {
@@ -58,7 +58,7 @@ class Magento_Backend_Block_System_Config_FormStub extends Magento_Backend_Block
             $this->_configRoot = $this->_configRootStub;
         }
         $this->_fieldRenderer = Mage::app()->getLayout()->createBlock(
-            'Magento_Backend_Block_System_Config_Form_Field'
+            '\Magento\Backend\Block\System\Config\Form\Field'
         );
     }
 }

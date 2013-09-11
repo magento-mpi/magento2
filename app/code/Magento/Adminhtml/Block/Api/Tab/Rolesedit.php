@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Adminhtml_Block_Api_Tab_Rolesedit extends Magento_Adminhtml_Block_Widget_Form {
+namespace Magento\Adminhtml\Block\Api\Tab;
+
+class Rolesedit extends \Magento\Adminhtml\Block\Widget\Form {
 
     protected $_template = 'api/rolesedit.phtml';
 
@@ -16,11 +18,11 @@ class Magento_Adminhtml_Block_Api_Tab_Rolesedit extends Magento_Adminhtml_Block_
     protected function _construct() {
         parent::_construct();
 
-        $rid = Mage::app()->getRequest()->getParam('rid', false);
+        $rid = \Mage::app()->getRequest()->getParam('rid', false);
 
-        $resources = Mage::getModel('Magento_Api_Model_Roles')->getResourcesList();
+        $resources = \Mage::getModel('\Magento\Api\Model\Roles')->getResourcesList();
 
-        $rules_set = Mage::getResourceModel('Magento_Api_Model_Resource_Rules_Collection')->getByRoles($rid)->load();
+        $rules_set = \Mage::getResourceModel('\Magento\Api\Model\Resource\Rules\Collection')->getByRoles($rid)->load();
 
         $selrids = array();
 
@@ -57,7 +59,7 @@ class Magento_Adminhtml_Block_Api_Tab_Rolesedit extends Magento_Adminhtml_Block_
      */
     public function getTree()
     {
-        $resource = Mage::getModel('Magento_Api_Model_Roles')->getResourcesTree();
+        $resource = \Mage::getModel('\Magento\Api\Model\Roles')->getResourcesTree();
         $rootArray = $this->_mapResources($resource);
         return $rootArray['children'];
     }

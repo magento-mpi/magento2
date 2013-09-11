@@ -16,6 +16,8 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sendfriend_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\Sendfriend\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
 }

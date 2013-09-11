@@ -16,8 +16,10 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Resource_Item_Form_Attribute_Collection
-    extends Magento_Eav_Model_Resource_Form_Attribute_Collection
+namespace Magento\Rma\Model\Resource\Item\Form\Attribute;
+
+class Collection
+    extends \Magento\Eav\Model\Resource\Form\Attribute\Collection
 {
     /**
      * Current module pathname
@@ -39,7 +41,7 @@ class Magento_Rma_Model_Resource_Item_Form_Attribute_Collection
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Eav_Model_Attribute', 'Magento_Rma_Model_Resource_Item_Form_Attribute');
+        $this->_init('\Magento\Eav\Model\Attribute', '\Magento\Rma\Model\Resource\Item\Form\Attribute');
     }
 
     /**

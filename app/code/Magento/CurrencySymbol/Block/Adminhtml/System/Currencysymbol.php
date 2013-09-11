@@ -15,7 +15,9 @@
  * @package    Magento_CurrencySymbol
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Magento_Backend_Block_Widget_Form
+namespace Magento\CurrencySymbol\Block\Adminhtml\System;
+
+class Currencysymbol extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Constructor. Initialization required variables for class instance.
@@ -37,7 +39,7 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Magen
     /**
      * Prepares layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -61,8 +63,8 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Magen
      */
     public function getSaveButtonHtml()
     {
-        /** @var $block Magento_Core_Block_Abstract */
-        $block = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button');
+        /** @var $block \Magento\Core\Block\AbstractBlock */
+        $block = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button');
         $block->setData(array(
             'label'     => __('Save Currency Symbols'),
             'class'     => 'save',
@@ -114,7 +116,7 @@ class Magento_CurrencySymbol_Block_Adminhtml_System_Currencysymbol extends Magen
     public function getCurrencySymbolsData()
     {
         if(!$this->_symbolsData) {
-            $this->_symbolsData =  Mage::getModel('Magento_CurrencySymbol_Model_System_Currencysymbol')
+            $this->_symbolsData =  \Mage::getModel('\Magento\CurrencySymbol\Model\System\Currencysymbol')
                 ->getCurrencySymbolsData();
         }
         return $this->_symbolsData;

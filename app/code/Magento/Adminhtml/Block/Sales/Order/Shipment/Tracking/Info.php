@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Shipment_Tracking_Info extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order\Shipment\Tracking;
+
+class Info extends \Magento\Adminhtml\Block\Template
 {
 
     protected $_template = 'sales/order/shipment/tracking/info.phtml';

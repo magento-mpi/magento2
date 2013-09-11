@@ -15,20 +15,22 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Variable_Observer
+namespace Magento\Core\Model\Variable;
+
+class Observer
 {
     /**
      * Add variable wysiwyg plugin config
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Core_Model_Variable_Observer
+     * @return \Magento\Core\Model\Variable\Observer
      */
     public function prepareWysiwygPluginConfig(\Magento\Event\Observer $observer)
     {
         $config = $observer->getEvent()->getConfig();
 
         if ($config->getData('add_variables')) {
-            $settings = Mage::getModel('Magento_Core_Model_Variable_Config')->getWysiwygPluginSettings($config);
+            $settings = \Mage::getModel('\Magento\Core\Model\Variable\Config')->getWysiwygPluginSettings($config);
             $config->addData($settings);
         }
         return $this;

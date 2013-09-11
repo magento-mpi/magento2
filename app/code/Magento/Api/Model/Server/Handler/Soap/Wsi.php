@@ -15,7 +15,9 @@
  * @package    Magento_Api
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server_HandlerAbstract
+namespace Magento\Api\Model\Server\Handler\Soap;
+
+class Wsi extends \Magento\Api\Model\Server\HandlerAbstract
 {
     protected $_resourceSuffix = '_V2';
 
@@ -30,8 +32,8 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
     {
         $args = $args[0];
 
-        /** @var Magento_Api_Helper_Data */
-        $helper = Mage::helper('Magento_Api_Helper_Data');
+        /** @var \Magento\Api\Helper\Data */
+        $helper = \Mage::helper('Magento\Api\Helper\Data');
 
         $helper->wsiArrayUnpacker($args);
         $args = get_object_vars($args);
@@ -45,7 +47,7 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
         }
 
         $apiKey = '';
-        $nodes = Mage::getSingleton('Magento_Api_Model_Config')->getNode('v2/resources_function_prefix')->children();
+        $nodes = \Mage::getSingleton('Magento\Api\Model\Config')->getNode('v2/resources_function_prefix')->children();
         foreach ($nodes as $resource => $prefix) {
             $prefix = $prefix->asArray();
             if (false !== strpos($function, $prefix)) {
@@ -62,7 +64,7 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
         $res = $this->_call($sessionId, $apiKey, $args);
 
         $obj = $helper->wsiArrayPacker($res);
-        $stdObj = new stdClass();
+        $stdObj = new \stdClass();
         $stdObj->result = $obj;
 
         return $stdObj;
@@ -82,7 +84,7 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
             $username = $username->username;
         }
 
-        $stdObject = new stdClass();
+        $stdObject = new \stdClass();
         $stdObject->result = parent::login($username, $apiKey);
         return $stdObject;
     }
@@ -124,12 +126,12 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
      *
      * @param String $modelName
      * @param String $methodName
-     * @return Array of ReflectionParameter
+     * @return Array of \ReflectionParameter
      */
     public function getMethodParams($modelName, $methodName)
     {
 
-        $method = new ReflectionMethod($modelName, $methodName);
+        $method = new \ReflectionMethod($modelName, $methodName);
 
         return $method->getParameters();
     }
@@ -146,7 +148,7 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
 
         $callArgs = array();
 
-        /** @var $parameter ReflectionParameter */
+        /** @var $parameter \ReflectionParameter */
         foreach ($params AS $parameter) {
             $pName = $parameter->getName();
             if (isset($args[$pName])) {
@@ -155,7 +157,7 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
                 if ($parameter->isOptional()) {
                     $callArgs[$pName] = $parameter->getDefaultValue();
                 } else {
-                    Mage::logException(new Exception("Required parameter \"$pName\" is missing.", 0));
+                    \Mage::logException(new \Exception("Required parameter \"$pName\" is missing.", 0));
                     $this->_fault('invalid_request_param');
                 }
             }
@@ -167,11 +169,11 @@ class Magento_Api_Model_Server_Handler_Soap_Wsi extends Magento_Api_Model_Server
      * End web service session
      *
      * @param object $request
-     * @return stdClass
+     * @return \stdClass
      */
     public function endSession($request)
     {
-        $stdObject = new stdClass();
+        $stdObject = new \stdClass();
         $stdObject->result = parent::endSession($request->sessionId);
         return $stdObject;
     }

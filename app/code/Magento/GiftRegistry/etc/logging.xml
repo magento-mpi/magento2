@@ -19,7 +19,7 @@
     <magento_giftregistry_type translate="label">
         <label>Gift Registry Type</label>
         <expected_models>
-            <Magento_GiftRegistry_Model_Type/>
+            <Magento\GiftRegistry\Model\Type/>
         </expected_models>
         <actions>
 
@@ -29,7 +29,7 @@
 
             <adminhtml_giftregistry_save>
                 <action>save</action>
-                <post_dispatch>Magento_GiftRegistry_Model_Type::postDispatchTypeSave</post_dispatch>
+                <post_dispatch>\Magento\GiftRegistry\Model\Type::postDispatchTypeSave</post_dispatch>
             </adminhtml_giftregistry_save>
 
             <adminhtml_giftregistry_delete>
@@ -41,8 +41,8 @@
     <magento_giftregistry_entity>
         <label>Gift Registry Entity</label>
         <expected_models>
-            <Magento_GiftRegistry_Model_Entity/>
-            <Magento_GiftRegistry_Model_Item/>
+            <Magento\GiftRegistry\Model\Entity/>
+            <Magento\GiftRegistry\Model\Item/>
         </expected_models>
         <actions>
 
@@ -56,7 +56,7 @@
 
             <adminhtml_giftregistry_customer_share>
                 <action>share</action>
-                <post_dispatch>Magento_GiftRegistry_Model_Entity::postDispatchShare</post_dispatch>
+                <post_dispatch>\Magento\GiftRegistry\Model\Entity::postDispatchShare</post_dispatch>
             </adminhtml_giftregistry_customer_share>
 
             <adminhtml_giftregistry_customer_delete>

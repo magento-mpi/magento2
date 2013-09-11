@@ -15,8 +15,10 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
-    extends Magento_GiftWrapping_Block_Adminhtml_Order_View_Abstract
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
+
+class Info
+    extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
 {
     /**
      * Prepare and return order items info
@@ -42,7 +44,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
             } else {
                 $data['price'] = $this->_preparePrices($order->getGwBasePrice(), $order->getGwPrice());
             }
-            $wrapping = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->load($order->getGwId());
+            $wrapping = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->load($order->getGwId());
             $data['path'] = $wrapping->getImageUrl();
             $data['design'] = $wrapping->getDesign();
         }
@@ -110,7 +112,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
      */
     public function getAllowPrintedCard()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->allowPrintedCard($this->getStoreId());
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->allowPrintedCard($this->getStoreId());
     }
 
     /**
@@ -120,7 +122,7 @@ class Magento_GiftWrapping_Block_Adminhtml_Order_View_Info
      */
     public function getAllowGiftReceipt()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->allowGiftReceipt($this->getStoreId());
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->allowGiftReceipt($this->getStoreId());
     }
 
     /**

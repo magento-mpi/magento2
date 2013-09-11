@@ -11,7 +11,9 @@
 /**
  * Assign order status to order state form
  */
-class Magento_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Sales\Order\Status\Assign;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected function _construct()
     {
@@ -22,7 +24,7 @@ class Magento_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Magento_Adm
     /**
      * Prepare form fields
      *
-     * @return Magento_Adminhtml_Block_Widget_Form
+     * @return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
@@ -35,11 +37,11 @@ class Magento_Adminhtml_Block_Sales_Order_Status_Assign_Form extends Magento_Adm
             'legend'    => __('Assignment Information')
         ));
 
-        $statuses = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Status_Collection')
+        $statuses = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Status\Collection')
             ->toOptionArray();
         array_unshift($statuses, array('value' => '', 'label' => ''));
 
-        $states = Mage::getSingleton('Magento_Sales_Model_Order_Config')->getStates();
+        $states = \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getStates();
         $states = array_merge(array('' => ''), $states);
 
         $fieldset->addField('status', 'select',

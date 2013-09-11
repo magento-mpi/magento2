@@ -16,24 +16,26 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
+
+class Content
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_Event_Manager $eventManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Event\Manager $eventManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_Event_Manager $eventManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Event\Manager $eventManager,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -46,15 +48,15 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if (Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->isEnabled()) {
+        if (\Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
 
     protected function _prepareForm()
     {
-        /** @var $model Magento_Cms_Model_Page */
-        $model = Mage::registry('cms_page');
+        /** @var $model \Magento\Cms\Model\Page */
+        $model = \Mage::registry('cms_page');
 
         /*
          * Checking if user have permissions to save information
@@ -72,7 +74,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
         $fieldset = $form->addFieldset('content_fieldset', array('legend'=>__('Content'),'class'=>'fieldset-wide'));
 
-        $wysiwygConfig = Mage::getSingleton('Magento_Cms_Model_Wysiwyg_Config')->getConfig(
+        $wysiwygConfig = \Mage::getSingleton('Magento\Cms\Model\Wysiwyg\Config')->getConfig(
             array('tab_id' => $this->getTabId())
         );
 
@@ -92,7 +94,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Content
         ));
 
         // Setting custom renderer for content field to remove label column
-        $renderer = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element')
+        $renderer = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element')
                     ->setTemplate('cms/page/edit/form/renderer/content.phtml');
         $contentField->setRenderer($renderer);
 

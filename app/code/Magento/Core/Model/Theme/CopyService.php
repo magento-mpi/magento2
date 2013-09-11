@@ -11,7 +11,9 @@
 /**
  * Service of copying customizations from one theme to another
  */
-class Magento_Core_Model_Theme_CopyService
+namespace Magento\Core\Model\Theme;
+
+class CopyService
 {
     /**
      * @var \Magento\Filesystem
@@ -19,12 +21,12 @@ class Magento_Core_Model_Theme_CopyService
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_Theme_FileFactory
+     * @var \Magento\Core\Model\Theme\FileFactory
      */
     protected $_fileFactory;
 
     /**
-     * @var Magento_Core_Model_Layout_Link
+     * @var \Magento\Core\Model\Layout\Link
      */
     protected $_link;
 
@@ -34,30 +36,30 @@ class Magento_Core_Model_Theme_CopyService
     protected $_updateFactory;
 
     /**
-     * @var Magento_Core_Model_Event_Manager
+     * @var \Magento\Core\Model\Event\Manager
      */
     protected $_eventManager;
 
     /**
-     * @var Magento_Core_Model_Theme_Customization_Path
+     * @var \Magento\Core\Model\Theme\Customization\Path
      */
     protected $_customizationPath;
 
     /**
      * @param \Magento\Filesystem $filesystem
-     * @param Magento_Core_Model_Theme_FileFactory $fileFactory
-     * @param Magento_Core_Model_Layout_Link $link
+     * @param \Magento\Core\Model\Theme\FileFactory $fileFactory
+     * @param \Magento\Core\Model\Layout\Link $link
      * @param Magento_Core_Model_Layout_UpdateFactory $updateFactory
-     * @param Magento_Core_Model_Event_Manager $eventManager
-     * @param Magento_Core_Model_Theme_Customization_Path $customization
+     * @param \Magento\Core\Model\Event\Manager $eventManager
+     * @param \Magento\Core\Model\Theme\Customization\Path $customization
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        Magento_Core_Model_Theme_FileFactory $fileFactory,
-        Magento_Core_Model_Layout_Link $link,
+        \Magento\Core\Model\Theme\FileFactory $fileFactory,
+        \Magento\Core\Model\Layout\Link $link,
         Magento_Core_Model_Layout_UpdateFactory $updateFactory,
-        Magento_Core_Model_Event_Manager $eventManager,
-        Magento_Core_Model_Theme_Customization_Path $customization
+        \Magento\Core\Model\Event\Manager $eventManager,
+        \Magento\Core\Model\Theme\Customization\Path $customization
     ) {
         $this->_filesystem = $filesystem;
         $this->_fileFactory = $fileFactory;
@@ -70,10 +72,10 @@ class Magento_Core_Model_Theme_CopyService
     /**
      * Copy customizations from one theme to another
      *
-     * @param Magento_Core_Model_Theme $source
-     * @param Magento_Core_Model_Theme $target
+     * @param \Magento\Core\Model\Theme $source
+     * @param \Magento\Core\Model\Theme $target
      */
-    public function copy(Magento_Core_Model_Theme $source, Magento_Core_Model_Theme $target)
+    public function copy(\Magento\Core\Model\Theme $source, \Magento\Core\Model\Theme $target)
     {
         $this->_copyDatabaseCustomization($source, $target);
         $this->_copyLayoutCustomization($source, $target);
@@ -84,18 +86,18 @@ class Magento_Core_Model_Theme_CopyService
     /**
      * Copy customizations stored in a database from one theme to another, overriding existing data
      *
-     * @param Magento_Core_Model_Theme $source
-     * @param Magento_Core_Model_Theme $target
+     * @param \Magento\Core\Model\Theme $source
+     * @param \Magento\Core\Model\Theme $target
      */
-    protected function _copyDatabaseCustomization(Magento_Core_Model_Theme $source, Magento_Core_Model_Theme $target)
+    protected function _copyDatabaseCustomization(\Magento\Core\Model\Theme $source, \Magento\Core\Model\Theme $target)
     {
-        /** @var $themeFile Magento_Core_Model_Theme_File */
+        /** @var $themeFile \Magento\Core\Model\Theme\File */
         foreach ($target->getCustomization()->getFiles() as $themeFile) {
             $themeFile->delete();
         }
-        /** @var $newFile Magento_Core_Model_Theme_File */
+        /** @var $newFile \Magento\Core\Model\Theme\File */
         foreach ($source->getCustomization()->getFiles() as $themeFile) {
-            /** @var $newThemeFile Magento_Core_Model_Theme_File */
+            /** @var $newThemeFile \Magento\Core\Model\Theme\File */
             $newThemeFile = $this->_fileFactory->create();
             $newThemeFile->setData(array(
                 'theme_id'      => $target->getId(),
@@ -111,23 +113,23 @@ class Magento_Core_Model_Theme_CopyService
     /**
      * Add layout links to general layout updates for themes
      *
-     * @param Magento_Core_Model_Theme $source
-     * @param Magento_Core_Model_Theme $target
+     * @param \Magento\Core\Model\Theme $source
+     * @param \Magento\Core\Model\Theme $target
      */
-    protected function _copyLayoutCustomization(Magento_Core_Model_Theme $source, Magento_Core_Model_Theme $target)
+    protected function _copyLayoutCustomization(\Magento\Core\Model\Theme $source, \Magento\Core\Model\Theme $target)
     {
         $update = $this->_updateFactory->create();
-        /** @var $targetUpdates Magento_Core_Model_Resource_Layout_Update_Collection */
+        /** @var $targetUpdates \Magento\Core\Model\Resource\Layout\Update\Collection */
         $targetUpdates = $update->getCollection();
         $targetUpdates->addThemeFilter($target->getId());
         $targetUpdates->delete();
 
-        /** @var $sourceCollection Magento_Core_Model_Resource_Layout_Link_Collection */
+        /** @var $sourceCollection \Magento\Core\Model\Resource\Layout\Link\Collection */
         $sourceCollection = $this->_link->getCollection();
         $sourceCollection->addThemeFilter($source->getId());
-        /** @var $layoutLink Magento_Core_Model_Layout_Link */
+        /** @var $layoutLink \Magento\Core\Model\Layout\Link */
         foreach ($sourceCollection as $layoutLink) {
-            /** @var $update Magento_Core_Model_Layout_Update */
+            /** @var $update \Magento\Core\Model\Layout\Update */
             $update = $this->_updateFactory->create();
             $update->load($layoutLink->getLayoutUpdateId());
             if ($update->getId()) {
@@ -144,10 +146,10 @@ class Magento_Core_Model_Theme_CopyService
     /**
      * Copy customizations stored in a file system from one theme to another, overriding existing data
      *
-     * @param Magento_Core_Model_Theme $source
-     * @param Magento_Core_Model_Theme $target
+     * @param \Magento\Core\Model\Theme $source
+     * @param \Magento\Core\Model\Theme $target
      */
-    protected function _copyFilesystemCustomization(Magento_Core_Model_Theme $source, Magento_Core_Model_Theme $target)
+    protected function _copyFilesystemCustomization(\Magento\Core\Model\Theme $source, \Magento\Core\Model\Theme $target)
     {
         $sourcePath = $this->_customizationPath->getCustomizationPath($source);
         $targetPath = $this->_customizationPath->getCustomizationPath($target);

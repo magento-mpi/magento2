@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
@@ -38,7 +40,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
 
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Magento_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element',
+                '\Magento\CatalogEvent\Block\Adminhtml\Form\Renderer\Fieldset\Element',
                 $this->getNameInLayout() . '_fieldset_element_catalog_event'
             )
         );
@@ -47,7 +49,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
     /**
      * Prepares event edit form
      *
-     * @return Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form
+     * @return \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form
      */
     protected function _prepareForm()
     {
@@ -72,7 +74,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
 
         $this->_addElementTypes($fieldset);
 
-        $currentCategory = Mage::getModel('Magento_Catalog_Model_Category')
+        $currentCategory = \Mage::getModel('\Magento\Catalog\Model\Category')
             ->load($this->getEvent()->getCategoryId());
 
         $fieldset->addField('category_name', 'note',
@@ -82,8 +84,8 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
             )
         );
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = Mage::app()->getLocale()->getTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = \Mage::app()->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('date_start', 'date', array(
                 'label'        => __('Start Date'),
@@ -117,24 +119,24 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
         );
 
         $statuses = array(
-            Magento_CatalogEvent_Model_Event::STATUS_UPCOMING => __('Upcoming'),
-            Magento_CatalogEvent_Model_Event::STATUS_OPEN => __('Open'),
-            Magento_CatalogEvent_Model_Event::STATUS_CLOSED => __('Closed')
+            \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Upcoming'),
+            \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Open'),
+            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
         );
 
         $fieldset->addField('display_state_array', 'checkboxes', array(
                 'label'  => __('Display Countdown Ticker On'),
                 'name'   => 'display_state[]',
                 'values' => array(
-                    Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
-                    Magento_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
+                    \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
+                    \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
                 )
             ));
 
         if ($this->getEvent()->getId()) {
             $fieldset->addField('status', 'note', array(
                     'label' => __('Status'),
-                    'text'  => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[Magento_CatalogEvent_Model_Event::STATUS_UPCOMING])
+                    'text'  => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[\Magento\CatalogEvent\Model\Event::STATUS_UPCOMING])
             ));
         }
 
@@ -142,7 +144,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
 
         if ($currentCategory && $this->getEvent()->getId()) {
             $form->getElement('category_name')->setText(
-                '<a href="' . Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl('adminhtml/catalog_category/edit',
+                '<a href="' . \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl('adminhtml/catalog_category/edit',
                                                             array('clear' => 1, 'id' => $currentCategory->getId()))
                 . '">' . $currentCategory->getName() . '</a>'
             );
@@ -181,11 +183,11 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
     /**
      * Retrieve catalog event model
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function getEvent()
     {
-        return Mage::registry('magento_catalogevent_event');
+        return \Mage::registry('magento_catalogevent_event');
     }
 
     /**
@@ -195,7 +197,7 @@ class Magento_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Magento_Admin
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('image' => 'Magento_CatalogEvent_Block_Adminhtml_Event_Helper_Image');
+        return array('image' => '\Magento\CatalogEvent\Block\Adminhtml\Event\Helper\Image');
     }
 
 }

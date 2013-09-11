@@ -8,10 +8,10 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Sales_Model_Resource_Setup */
+/** @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
-/** @var Magento_Core_Helper_Data $converter */
-$converter = Mage::helper('Magento_Core_Helper_Data');
+/** @var \Magento\Core\Helper\Data $converter */
+$converter = \Mage::helper('Magento\Core\Helper\Data');
 
 $installer->startSetup();
 $itemsPerPage = 1000;

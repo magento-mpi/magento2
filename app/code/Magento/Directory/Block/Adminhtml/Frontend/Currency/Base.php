@@ -14,13 +14,15 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Directory_Block_Adminhtml_Frontend_Currency_Base extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Directory\Block\Adminhtml\Frontend\Currency;
+
+class Base extends \Magento\Backend\Block\System\Config\Form\Field
 {
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         if ($this->getRequest()->getParam('website') != '') {
-            $priceScope = Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
-            if ($priceScope == Magento_Core_Model_Store::PRICE_SCOPE_GLOBAL) {
+            $priceScope = \Mage::app()->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
+            if ($priceScope == \Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL) {
                 return '';
             }
         }

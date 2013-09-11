@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogEvent_Block_Event_Abstract
+namespace Magento\CatalogEvent\Block\Catalog\Category;
+
+class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
 {
     /**
      * Return current category event
@@ -29,11 +31,11 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
     /**
      * Return current category
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCategory()
     {
-        return Mage::registry('current_category');
+        return \Mage::registry('current_category');
     }
 
     /**
@@ -58,7 +60,7 @@ class Magento_CatalogEvent_Block_Catalog_Category_Event extends Magento_CatalogE
      */
     public function canDisplay()
     {
-        return Mage::helper('Magento_CatalogEvent_Helper_Data')->isEnabled() &&
+        return \Mage::helper('Magento\CatalogEvent\Helper\Data')->isEnabled() &&
                $this->getEvent() &&
                $this->getEvent()->canDisplayCategoryPage();
     }

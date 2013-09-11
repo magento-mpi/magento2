@@ -7,27 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Event_Invoker_InvokerDefault implements Magento_Core_Model_Event_InvokerInterface
+namespace Magento\Core\Model\Event\Invoker;
+
+class InvokerDefault implements \Magento\Core\Model\Event\InvokerInterface
 {
     /**
      * Observer model factory
      *
-     * @var Magento_Core_Model_ObserverFactory
+     * @var \Magento\Core\Model\ObserverFactory
      */
     protected $_observerFactory;
 
     /**
      * Application state
      *
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_appState;
 
     /**
-     * @param Magento_Core_Model_ObserverFactory $observerFactory
-     * @param Magento_Core_Model_App_State $appState
+     * @param \Magento\Core\Model\ObserverFactory $observerFactory
+     * @param \Magento\Core\Model\App\State $appState
      */
-    public function __construct(Magento_Core_Model_ObserverFactory $observerFactory, Magento_Core_Model_App_State $appState)
+    public function __construct(\Magento\Core\Model\ObserverFactory $observerFactory, \Magento\Core\Model\App\State $appState)
     {
         $this->_observerFactory = $observerFactory;
         $this->_appState = $appState;
@@ -60,15 +62,15 @@ class Magento_Core_Model_Event_Invoker_InvokerDefault implements Magento_Core_Mo
      * @param object $object
      * @param string $method
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Core_Model_Event_InvokerInterface
-     * @throws Magento_Core_Exception
+     * @return \Magento\Core\Model\Event\InvokerInterface
+     * @throws \Magento\Core\Exception
      */
     protected function _callObserverMethod($object, $method, $observer)
     {
         if (method_exists($object, $method)) {
             $object->$method($observer);
-        } elseif ($this->_appState->getMode() == Magento_Core_Model_App_State::MODE_DEVELOPER) {
-            Mage::throwException('Method "' . $method . '" is not defined in "' . get_class($object) . '"');
+        } elseif ($this->_appState->getMode() == \Magento\Core\Model\App\State::MODE_DEVELOPER) {
+            \Mage::throwException('Method "' . $method . '" is not defined in "' . get_class($object) . '"');
         }
         return $this;
     }

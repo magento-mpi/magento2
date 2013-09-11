@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Tax_Model_Config_Source_Apply_On implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Tax\Model\Config\Source\Apply;
+
+class On implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

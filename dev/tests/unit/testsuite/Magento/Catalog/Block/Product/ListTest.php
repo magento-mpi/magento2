@@ -15,7 +15,7 @@ class Magento_Catalog_Block_Product_ListTest extends PHPUnit_Framework_TestCase
     {
         $childBlock = new \Magento\Object;
 
-        $block = $this->getMock('Magento_Catalog_Block_Product_List', array('getChildBlock'), array(), '', false);
+        $block = $this->getMock('Magento\Catalog\Block\Product\ListProduct', array('getChildBlock'), array(), '', false);
         $block->expects($this->atLeastOnce())
             ->method('getChildBlock')
             ->with('toolbar')

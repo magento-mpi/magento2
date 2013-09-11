@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Core_Model_Config_LoaderInterface
+namespace Magento\Core\Model\Config;
+
+interface LoaderInterface
 {
     /**
      * Populate configuration object
      *
-     * @param Magento_Core_Model_Config_Base $config
+     * @param \Magento\Core\Model\Config\Base $config
      */
-    public function load(Magento_Core_Model_Config_Base $config);
+    public function load(\Magento\Core\Model\Config\Base $config);
 }

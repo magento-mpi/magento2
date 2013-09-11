@@ -16,9 +16,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Checkout_Model_Cart_Shipping_Api extends Magento_Checkout_Model_Api_Resource
+namespace Magento\Checkout\Model\Cart\Shipping;
+
+class Api extends \Magento\Checkout\Model\Api\Resource
 {
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
+    public function __construct(\Magento\Api\Helper\Data $apiHelper)
     {
         parent::__construct($apiHelper);
         $this->_ignoredAttributeCodes['quote_shipping_rate'] = array('address_id', 'created_at', 'updated_at', 'rate_id', 'carrier_sort_order');
@@ -49,7 +51,7 @@ class Magento_Checkout_Model_Cart_Shipping_Api extends Magento_Checkout_Model_Ap
         try {
             $quote->getShippingAddress()->setShippingMethod($shippingMethod);
             $quote->collectTotals()->save();
-        } catch(Magento_Core_Exception $e) {
+        } catch(\Magento\Core\Exception $e) {
             $this->_fault('shipping_method_is_not_set', $e->getMessage());
         }
 
@@ -79,8 +81,8 @@ class Magento_Checkout_Model_Cart_Shipping_Api extends Magento_Checkout_Model_Ap
             $ratesResult = array();
             foreach ($groupedRates as $carrierCode => $rates ) {
                 $carrierName = $carrierCode;
-                if (!is_null(Mage::getStoreConfig('carriers/'.$carrierCode.'/title'))) {
-                    $carrierName = Mage::getStoreConfig('carriers/'.$carrierCode.'/title');
+                if (!is_null(\Mage::getStoreConfig('carriers/'.$carrierCode.'/title'))) {
+                    $carrierName = \Mage::getStoreConfig('carriers/'.$carrierCode.'/title');
                 }
 
                 foreach ($rates as $rate) {
@@ -90,7 +92,7 @@ class Magento_Checkout_Model_Cart_Shipping_Api extends Magento_Checkout_Model_Ap
                     unset($rateItem);
                 }
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('shipping_methods_list_could_not_be_retrived', $e->getMessage());
         }
 

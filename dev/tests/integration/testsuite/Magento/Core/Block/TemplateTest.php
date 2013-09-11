@@ -12,23 +12,23 @@
 class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Block_Template
+     * @var \Magento\Core\Block\Template
      */
     protected $_block;
 
     protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $params = array('layout' => $objectManager->create('Magento_Core_Model_Layout', array()));
-        $context = $objectManager->create('Magento_Core_Block_Template_Context', $params);
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Template', '',
+        $params = array('layout' => $objectManager->create('Magento\Core\Model\Layout', array()));
+        $context = $objectManager->create('Magento\Core\Block\Template\Context', $params);
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Template', '',
             array('context' => $context)
         );
     }
 
     public function testConstruct()
     {
-        $block = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Template', '',
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Template', '',
             array('data' => array('template' => 'value'))
         );
         $this->assertEquals('value', $block->getTemplate());
@@ -44,7 +44,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetArea()
     {
         $this->assertEquals('frontend', $this->_block->getArea());
-        $this->_block->setLayout(Mage::getModel('Magento_Core_Model_Layout', array('area' => 'some_area')));
+        $this->_block->setLayout(Mage::getModel('\Magento\Core\Model\Layout', array('area' => 'some_area')));
         $this->assertEquals('some_area', $this->_block->getArea());
         $this->_block->setArea('another_area');
         $this->assertEquals('another_area', $this->_block->getArea());
@@ -54,7 +54,7 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_block->getDirectOutput());
 
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
         $layout->setDirectOutput(true);
         $this->_block->setLayout($layout);
         $this->assertTrue($this->_block->getDirectOutput());
@@ -66,8 +66,8 @@ class Magento_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Block_Template::_toHtml
-     * @covers Magento_Core_Block_Abstract::toHtml
+     * @covers \Magento\Core\Block\Template::_toHtml
+     * @covers \Magento\Core\Block\AbstractBlock::toHtml
      * @see testAssign()
      */
     public function testToHtml()

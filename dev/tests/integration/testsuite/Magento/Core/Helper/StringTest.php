@@ -12,19 +12,19 @@
 class Magento_Core_Helper_StringTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_helper;
 
     public function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Core_Helper_String');
+        $this->_helper = Mage::helper('Magento\Core\Helper\String');
     }
 
     /**
-     * @covers Magento_Core_Helper_String::truncate
-     * @covers Magento_Core_Helper_String::strlen
-     * @covers Magento_Core_Helper_String::substr
+     * @covers \Magento\Core\Helper\String::truncate
+     * @covers \Magento\Core\Helper\String::strlen
+     * @covers \Magento\Core\Helper\String::substr
      */
     public function testTruncate()
     {
@@ -37,8 +37,8 @@ class Magento_Core_Helper_StringTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Helper_String::splitInjection
-     * @covers Magento_Core_Helper_String::strrev
+     * @covers \Magento\Core\Helper\String::splitInjection
+     * @covers \Magento\Core\Helper\String::strrev
      */
     public function testSplitInjection()
     {

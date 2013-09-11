@@ -15,33 +15,35 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Helper_Customer extends Magento_CustomAttribute_Helper_Data
+namespace Magento\CustomerCustomAttributes\Helper;
+
+class Customer extends \Magento\CustomAttribute\Helper\Data
 {
     /**
      * Data helper
      *
-     * @var Magento_CustomerCustomAttributes_Helper_Data $_dataHelper
+     * @var \Magento\CustomerCustomAttributes\Helper\Data $_dataHelper
      */
     protected $_dataHelper;
 
     /**
      * Input validator
      *
-     * @var Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $_inputValidator
+     * @var \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $_inputValidator
      */
     protected $_inputValidator;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_CustomerCustomAttributes_Helper_Data $dataHelper
-     * @param Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $inputValidator
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\CustomerCustomAttributes\Helper\Data $dataHelper
+     * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
-        Magento_CustomerCustomAttributes_Helper_Data $dataHelper,
-        Magento_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator $inputValidator
+        \Magento\Core\Helper\Context $context,
+        \Magento\CustomerCustomAttributes\Helper\Data $dataHelper,
+        \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
     ) {
         parent::__construct($context);
         $this->_dataHelper = $dataHelper;
@@ -89,7 +91,7 @@ class Magento_CustomerCustomAttributes_Helper_Customer extends Magento_CustomAtt
      * Filter post data
      *
      * @param array $data
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return array
      */
     public function filterPostData($data)
@@ -102,7 +104,7 @@ class Magento_CustomerCustomAttributes_Helper_Customer extends Magento_CustomAtt
                 array_keys($this->_dataHelper->getAttributeInputTypes())
             );
             if (!$this->_inputValidator->isValid($data['frontend_input'])) {
-                throw new Magento_Core_Exception($this->stripTags(implode(' ', $this->_inputValidator->getMessages())));
+                throw new \Magento\Core\Exception($this->stripTags(implode(' ', $this->_inputValidator->getMessages())));
             }
         }
         return $data;

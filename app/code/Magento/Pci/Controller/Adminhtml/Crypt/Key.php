@@ -12,7 +12,9 @@
  * Encryption key changer controller
  *
  */
-class Magento_Pci_Controller_Adminhtml_Crypt_Key extends Magento_Adminhtml_Controller_Action
+namespace Magento\Pci\Controller\Adminhtml\Crypt;
+
+class Key extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Check whether local.xml is writeable
@@ -21,9 +23,9 @@ class Magento_Pci_Controller_Adminhtml_Crypt_Key extends Magento_Adminhtml_Contr
      */
     protected function _checkIsLocalXmlWriteable()
     {
-        $filename = Mage::getBaseDir('etc') . DS . 'local.xml';
+        $filename = \Mage::getBaseDir('etc') . DS . 'local.xml';
         if (!is_writeable($filename)) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(
                 __('To enable a key change this file must be writable: %1.', realpath($filename))
             );
             return false;
@@ -44,8 +46,8 @@ class Magento_Pci_Controller_Adminhtml_Crypt_Key extends Magento_Adminhtml_Contr
         $this->_setActiveMenu('Magento_Pci::system_crypt_key');
 
         if (($formBlock = $this->getLayout()->getBlock('pci.crypt.key.form'))
-            && $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true)) {
-            /* @var Magento_Pci_Block_Adminhtml_Crypt_Key_Form $formBlock */
+            && $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getFormData(true)) {
+            /* @var \Magento\Pci\Block\Adminhtml\Crypt\Key\Form $formBlock */
             $formBlock->setFormData($data);
         }
 
@@ -61,33 +63,33 @@ class Magento_Pci_Controller_Adminhtml_Crypt_Key extends Magento_Adminhtml_Contr
         try {
             $key = null;
             if (!$this->_checkIsLocalXmlWriteable()) {
-                throw new Exception('');
+                throw new \Exception('');
             }
             if (0 == $this->getRequest()->getPost('generate_random')) {
                 $key = $this->getRequest()->getPost('crypt_key');
                 if (empty($key)) {
-                    throw new Exception(__('Please enter an encryption key.'));
+                    throw new \Exception(__('Please enter an encryption key.'));
                 }
-                Mage::helper('Magento_Core_Helper_Data')->validateKey($key);
+                \Mage::helper('Magento\Core\Helper\Data')->validateKey($key);
             }
 
-            $newKey = Mage::getResourceSingleton('Magento_Pci_Model_Resource_Key_Change')
+            $newKey = \Mage::getResourceSingleton('\Magento\Pci\Model\Resource\Key\Change')
                 ->changeEncryptionKey($key);
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                     ->addSuccess(
                 __('The encryption key has been changed.')
             );
 
             if (!$key) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addNotice(__('This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!', $newKey));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addNotice(__('This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!', $newKey));
             }
-            Mage::app()->cleanCache();
+            \Mage::app()->cleanCache();
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             if ($message = $e->getMessage()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             }
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(array('crypt_key' => $key));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData(array('crypt_key' => $key));
         }
         $this->_redirect('*/*/');
     }

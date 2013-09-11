@@ -8,8 +8,10 @@
  * @license     {license_link}
  */
 
-class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit
-    extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer;
+
+class Edit
+    extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Intialize form
@@ -40,7 +42,7 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit
      */
     public function getHeaderText()
     {
-        $entity = Mage::registry('current_giftregistry_entity');
+        $entity = \Mage::registry('current_giftregistry_entity');
         if ($entity->getId()) {
             return $this->escapeHtml($entity->getTitle());
         }
@@ -55,8 +57,8 @@ class Magento_GiftRegistry_Block_Adminhtml_Customer_Edit
     public function getBackUrl()
     {
         $customerId = null;
-        if (Mage::registry('current_giftregistry_entity')) {
-            $customerId = Mage::registry('current_giftregistry_entity')->getCustomerId();
+        if (\Mage::registry('current_giftregistry_entity')) {
+            $customerId = \Mage::registry('current_giftregistry_entity')->getCustomerId();
         }
         return $this->getUrl('*/customer/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
     }

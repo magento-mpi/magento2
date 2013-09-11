@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Sales_Model_Resource_Order_Customer_Collection extends Magento_Customer_Model_Resource_Customer_Collection
+namespace Magento\Sales\Model\Resource\Order\Customer;
+
+class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
-     * @return Magento_Sales_Model_Resource_Order_Customer_Collection
+     * @return \Magento\Sales\Model\Resource\Order\Customer\Collection
      */
     protected function _initSelect()
     {

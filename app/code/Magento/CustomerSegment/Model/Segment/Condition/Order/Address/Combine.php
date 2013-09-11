@@ -11,17 +11,19 @@
 /**
  * Order address attribute conditions combine
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Combine
-    extends Magento_CustomerSegment_Model_Condition_Combine_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
+
+class Combine
+    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Combine');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Combine');
     }
 
     /**
@@ -36,8 +38,8 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Address_Combine
             array(
                 'value' => $this->getType(),
                 'label' => __('Conditions Combination')),
-            Mage::getModel($prefix.'Type')->getNewChildSelectOptions(),
-            Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
+            \Mage::getModel($prefix.'Type')->getNewChildSelectOptions(),
+            \Mage::getModel($prefix.'Attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }

@@ -15,9 +15,11 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab;
+
+class Actions
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare content for tab
@@ -61,7 +63,7 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Actions
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_promo_catalog_rule');
+        $model = \Mage::registry('current_promo_catalog_rule');
 
         $form = new \Magento\Data\Form();
 

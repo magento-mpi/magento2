@@ -12,13 +12,15 @@
 /**
  * EAV Entity attribute model
  *
- * @method Magento_Eav_Model_Entity_Attribute setOption($value)
+ * @method \Magento\Eav\Model\Entity\Attribute setOption($value)
  *
  * @category   Magento
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attribute_Abstract
+namespace Magento\Eav\Model\Entity;
+
+class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
 {
     /**
      * Prefix of model events names
@@ -50,16 +52,16 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     {
         switch ($this->getAttributeCode()) {
             case 'created_at':
-                return 'Magento_Eav_Model_Entity_Attribute_Backend_Time_Created';
+                return '\Magento\Eav\Model\Entity\Attribute\Backend\Time\Created';
 
             case 'updated_at':
-                return 'Magento_Eav_Model_Entity_Attribute_Backend_Time_Updated';
+                return '\Magento\Eav\Model\Entity\Attribute\Backend\Time\Updated';
 
             case 'store_id':
-                return 'Magento_Eav_Model_Entity_Attribute_Backend_Store';
+                return '\Magento\Eav\Model\Entity\Attribute\Backend\Store';
 
             case 'increment_id':
-                return 'Magento_Eav_Model_Entity_Attribute_Backend_Increment';
+                return '\Magento\Eav\Model\Entity\Attribute\Backend\Increment';
         }
 
         return parent::_getDefaultBackendModel();
@@ -83,7 +85,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     protected function _getDefaultSourceModel()
     {
         if ($this->getAttributeCode() == 'store_id') {
-            return 'Magento_Eav_Model_Entity_Attribute_Source_Store';
+            return '\Magento\Eav\Model\Entity\Attribute\Source\Store';
         }
         return parent::_getDefaultSourceModel();
     }
@@ -91,7 +93,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     /**
      * Delete entity
      *
-     * @return Magento_Eav_Model_Resource_Entity_Attribute
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute
      */
     public function deleteEntity()
     {
@@ -101,7 +103,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     /**
      * Load entity_attribute_id into $this by $this->attribute_set_id
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     public function loadEntityAttributeIdBySet()
     {
@@ -120,15 +122,15 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     /**
      * Prepare data for save
      *
-     * @return Magento_Eav_Model_Entity_Attribute
+     * @return \Magento\Eav\Model\Entity\Attribute
      */
     protected function _beforeSave()
     {
         // prevent overriding product data
         if (isset($this->_data['attribute_code'])
-            && Mage::getModel('Magento_Catalog_Model_Product')->isReservedAttribute($this))
+            && \Mage::getModel('\Magento\Catalog\Model\Product')->isReservedAttribute($this))
         {
-            throw Mage::exception('Magento_Eav', __('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
+            throw \Mage::exception('Magento_Eav', __('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
         }
 
         /**
@@ -139,7 +141,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
                               'StringLength',
                               array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH))
         ) {
-            throw Mage::exception('Magento_Eav', __('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
+            throw \Mage::exception('Magento_Eav', __('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
         }
 
         $defaultValue   = $this->getDefaultValue();
@@ -147,45 +149,45 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
 
         if ($this->getBackendType() == 'decimal' && $hasDefaultValue) {
             if (!Zend_Locale_Format::isNumber($defaultValue,
-                                              array('locale' => Mage::app()->getLocale()->getLocaleCode()))
+                                              array('locale' => \Mage::app()->getLocale()->getLocaleCode()))
             ) {
-                 throw Mage::exception('Magento_Eav', __('Invalid default decimal value'));
+                 throw \Mage::exception('Magento_Eav', __('Invalid default decimal value'));
             }
 
             try {
-                $filter = new Zend_Filter_LocalizedToNormalized(
-                    array('locale' => Mage::app()->getLocale()->getLocaleCode())
+                $filter = new \Zend_Filter_LocalizedToNormalized(
+                    array('locale' => \Mage::app()->getLocale()->getLocaleCode())
                 );
                 $this->setDefaultValue($filter->filter($defaultValue));
-            } catch (Exception $e) {
-                throw Mage::exception('Magento_Eav', __('Invalid default decimal value'));
+            } catch (\Exception $e) {
+                throw \Mage::exception('Magento_Eav', __('Invalid default decimal value'));
             }
         }
 
         if ($this->getBackendType() == 'datetime') {
             if (!$this->getBackendModel()) {
-                $this->setBackendModel('Magento_Eav_Model_Entity_Attribute_Backend_Datetime');
+                $this->setBackendModel('\Magento\Eav\Model\Entity\Attribute\Backend\Datetime');
             }
 
             if (!$this->getFrontendModel()) {
-                $this->setFrontendModel('Magento_Eav_Model_Entity_Attribute_Frontend_Datetime');
+                $this->setFrontendModel('\Magento\Eav\Model\Entity\Attribute\Frontend\Datetime');
             }
 
             // save default date value as timestamp
             if ($hasDefaultValue) {
-                $format = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+                $format = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                 try {
-                    $defaultValue = Mage::app()->getLocale()->date($defaultValue, $format, null, false)->toValue();
+                    $defaultValue = \Mage::app()->getLocale()->date($defaultValue, $format, null, false)->toValue();
                     $this->setDefaultValue($defaultValue);
-                } catch (Exception $e) {
-                    throw Mage::exception('Magento_Eav', __('Invalid default date'));
+                } catch (\Exception $e) {
+                    throw \Mage::exception('Magento_Eav', __('Invalid default date'));
                 }
             }
         }
 
         if ($this->getBackendType() == 'gallery') {
             if (!$this->getBackendModel()) {
-                $this->setBackendModel('Magento_Eav_Model_Entity_Attribute_Backend_Default');
+                $this->setBackendModel('\Magento\Eav\Model\Entity\Attribute\Backend\DefaultBackend');
             }
         }
 
@@ -195,7 +197,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
     /**
      * Save additional data
      *
-     * @return Magento_Eav_Model_Entity_Attribute
+     * @return \Magento\Eav\Model\Entity\Attribute
      */
     protected function _afterSave()
     {
@@ -319,7 +321,7 @@ class Magento_Eav_Model_Entity_Attribute extends Magento_Eav_Model_Entity_Attrib
         if ($this->hasData('store_label')) {
             return $this->getData('store_label');
         }
-        $store = Mage::app()->getStore($storeId);
+        $store = \Mage::app()->getStore($storeId);
         $label = false;
         if (!$store->isAdmin()) {
             $labels = $this->getStoreLabels();

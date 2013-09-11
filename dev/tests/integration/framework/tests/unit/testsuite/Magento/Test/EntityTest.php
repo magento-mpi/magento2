@@ -12,7 +12,7 @@
 class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\AbstractModel|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -62,7 +62,7 @@ class Magento_Test_EntityTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException($expectedException);
 
         $this->_model = $this->getMock(
-            'Magento_Core_Model_Abstract',
+            '\Magento\Core\Model\AbstractModel',
             array('load', 'save', 'delete', 'getIdFieldName', '__wakeup'),
             array(),
             '',

@@ -15,15 +15,17 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_OptionsFactory
-    implements Magento_Core_Model_Layout_Argument_HandlerFactoryInterface
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class OptionsFactory
+    implements \Magento\Core\Model\Layout\Argument\HandlerFactoryInterface
 {
     /**
      * Create options type handler
-     * @return Magento_Core_Model_Layout_Argument_HandlerInterface
+     * @return \Magento\Core\Model\Layout\Argument\HandlerInterface
      */
     public function createHandler()
     {
-        return Mage::getModel('Magento_Core_Model_Layout_Argument_Handler_Options');
+        return \Mage::getModel('\Magento\Core\Model\Layout\Argument\Handler\Options');
     }
 }

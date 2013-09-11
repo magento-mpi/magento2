@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Cms\Block\Widget;
+
+class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Block construction, prepare grid params
@@ -37,10 +39,10 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
      */
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $uniqId = Mage::helper('Magento_Core_Helper_Data')->uniqHash($element->getId());
+        $uniqId = \Mage::helper('Magento\Core\Helper\Data')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_block_widget/chooser', array('uniq_id' => $uniqId));
 
-        $chooser = $this->getLayout()->createBlock('Magento_Widget_Block_Adminhtml_Widget_Chooser')
+        $chooser = $this->getLayout()->createBlock('\Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
             ->setConfig($this->getConfig())
             ->setFieldsetId($this->getFieldsetId())
@@ -49,7 +51,7 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
 
 
         if ($element->getValue()) {
-            $block = Mage::getModel('Magento_Cms_Model_Block')->load($element->getValue());
+            $block = \Mage::getModel('\Magento\Cms\Model\Block')->load($element->getValue());
             if ($block->getId()) {
                 $chooser->setLabel($block->getTitle());
             }
@@ -83,12 +85,12 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
     /**
      * Prepare Cms static blocks collection
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Cms_Model_Block')->getCollection();
-        /* @var $collection Magento_Cms_Model_Resource_Block_Collection */
+        $collection = \Mage::getModel('\Magento\Cms\Model\Block')->getCollection();
+        /* @var $collection \Magento\Cms\Model\Resource\Block\Collection */
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -96,7 +98,7 @@ class Magento_Adminhtml_Block_Cms_Block_Widget_Chooser extends Magento_Adminhtml
     /**
      * Prepare columns for Cms blocks grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {

@@ -11,7 +11,9 @@
 /**
  * Breadcrumbs container
  */
-class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPageCache_Model_Container_Abstract
+namespace Magento\FullPageCache\Model\Container;
+
+class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
      * Get cache identifier
@@ -38,28 +40,28 @@ class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPage
     {
         $productId = $this->_getProductId();
 
-        /** @var $product null|Magento_Catalog_Model_Product */
+        /** @var $product null|\Magento\Catalog\Model\Product */
         $product = null;
 
         if ($productId) {
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($productId);
             if ($product) {
-                Mage::register('current_product', $product);
+                \Mage::register('current_product', $product);
             }
         }
         $categoryId = $this->_getCategoryId();
 
         if ($product !== null && !$product->canBeShowInCategory($categoryId)) {
             $categoryId = null;
-            Mage::unregister('current_category');
+            \Mage::unregister('current_category');
         }
 
-        if ($categoryId && !Mage::registry('current_category')) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')->load($categoryId);
+        if ($categoryId && !\Mage::registry('current_category')) {
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')->load($categoryId);
             if ($category) {
-                Mage::register('current_category', $category);
+                \Mage::register('current_category', $category);
             }
         }
 
@@ -68,7 +70,7 @@ class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPage
             return '';
         }
 
-        /** @var $breadcrumbsBlock Magento_Page_Block_Html_Breadcrumbs */
+        /** @var $breadcrumbsBlock \Magento\Page\Block\Html\Breadcrumbs */
         $breadcrumbsBlock = $this->_getPlaceHolderBlock();
         $breadcrumbsBlock->setNameInLayout($this->_placeholder->getAttribute('name'));
         $crumbs = $this->_placeholder->getAttribute('crumbs');
@@ -79,7 +81,7 @@ class Magento_FullPageCache_Model_Container_Breadcrumbs extends Magento_FullPage
             }
         }
 
-        Mage::dispatchEvent('render_block', array('block' => $breadcrumbsBlock, 'placeholder' => $this->_placeholder));
+        \Mage::dispatchEvent('render_block', array('block' => $breadcrumbsBlock, 'placeholder' => $this->_placeholder));
         return $breadcrumbsBlock->toHtml();
     }
 }

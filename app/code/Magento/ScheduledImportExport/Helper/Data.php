@@ -15,7 +15,9 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Helper_Data
+namespace Magento\ScheduledImportExport\Helper;
+
+class Data extends \Magento\ImportExport\Helper\Data
 {
     /**
      * Get operation header text
@@ -133,8 +135,8 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
     public function isRewardPointsEnabled()
     {
         if ($this->isModuleEnabled('Magento_Reward')) {
-            /** @var $rewardPointsHelper Magento_Reward_Helper_Data */
-            $rewardPointsHelper = Mage::helper('Magento_Reward_Helper_Data');
+            /** @var $rewardPointsHelper \Magento\Reward\Helper\Data */
+            $rewardPointsHelper = \Mage::helper('Magento\Reward\Helper\Data');
             return $rewardPointsHelper->isEnabled();
         }
         return false;
@@ -148,8 +150,8 @@ class Magento_ScheduledImportExport_Helper_Data extends Magento_ImportExport_Hel
     public function isCustomerBalanceEnabled()
     {
         if ($this->isModuleEnabled('Magento_CustomerBalance')) {
-            /** @var $customerBalanceHelper Magento_CustomerBalance_Helper_Data */
-            $customerBalanceHelper = Mage::helper('Magento_CustomerBalance_Helper_Data');
+            /** @var $customerBalanceHelper \Magento\CustomerBalance\Helper\Data */
+            $customerBalanceHelper = \Mage::helper('Magento\CustomerBalance\Helper\Data');
             return $customerBalanceHelper->isEnabled();
         }
         return false;

@@ -11,6 +11,8 @@
 /**
  * Ogone data helper
  */
-class Magento_Ogone_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Ogone\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 }

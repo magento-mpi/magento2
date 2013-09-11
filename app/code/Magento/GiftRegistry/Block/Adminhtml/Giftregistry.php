@@ -11,7 +11,9 @@
 /**
  * Gift Registry Adminhtml Block
  */
-class Magento_GiftRegistry_Block_Adminhtml_Giftregistry extends Magento_Adminhtml_Block_Widget_Grid_Container
+namespace Magento\GiftRegistry\Block\Adminhtml;
+
+class Giftregistry extends \Magento\Adminhtml\Block\Widget\Grid\Container
 {
     /**
      * Initialize gift registry manage page

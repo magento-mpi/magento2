@@ -16,7 +16,9 @@
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdminNotification_Model_Config_Source_Frequency implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\AdminNotification\Model\Config\Source;
+
+class Frequency implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {

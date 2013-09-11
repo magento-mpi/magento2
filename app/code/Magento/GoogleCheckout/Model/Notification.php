@@ -11,20 +11,22 @@
 /**
  * Google Checkout notification model
  *
- * @method Magento_GoogleCheckout_Model_Resource_Notification _getResource()
- * @method Magento_GoogleCheckout_Model_Resource_Notification getResource()
+ * @method \Magento\GoogleCheckout\Model\Resource\Notification _getResource()
+ * @method \Magento\GoogleCheckout\Model\Resource\Notification getResource()
  * @method string getSerialNumber()
- * @method Magento_GoogleCheckout_Model_Notification setSerialNumber(string $value)
+ * @method \Magento\GoogleCheckout\Model\Notification setSerialNumber(string $value)
  * @method string getStartedAt()
- * @method Magento_GoogleCheckout_Model_Notification setStartedAt(string $value)
+ * @method \Magento\GoogleCheckout\Model\Notification setStartedAt(string $value)
  * @method int getStatus()
- * @method Magento_GoogleCheckout_Model_Notification setStatus(int $value)
+ * @method \Magento\GoogleCheckout\Model\Notification setStatus(int $value)
  *
  * @category    Magento
  * @package     Magento_GoogleCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleCheckout_Model_Notification extends Magento_Core_Model_Abstract
+namespace Magento\GoogleCheckout\Model;
+
+class Notification extends \Magento\Core\Model\AbstractModel
 {
     const TIMEOUT_LIMIT = 3600;
     const STATUS_INPROCESS = 0;
@@ -35,13 +37,13 @@ class Magento_GoogleCheckout_Model_Notification extends Magento_Core_Model_Abstr
      */
     function _construct()
     {
-        $this->_init('Magento_GoogleCheckout_Model_Resource_Notification');
+        $this->_init('\Magento\GoogleCheckout\Model\Resource\Notification');
     }
 
     /**
      * Assign previously saved notification data to model
      *
-     * @return Magento_GoogleCheckout_Model_Notification
+     * @return \Magento\GoogleCheckout\Model\Notification
      */
     public function loadNotificationData()
     {
@@ -81,7 +83,7 @@ class Magento_GoogleCheckout_Model_Notification extends Magento_Core_Model_Abstr
     /**
      * Start process of current notification
      *
-     * @return Magento_GoogleCheckout_Model_Notification
+     * @return \Magento\GoogleCheckout\Model\Notification
      */
     public function startProcess()
     {
@@ -92,7 +94,7 @@ class Magento_GoogleCheckout_Model_Notification extends Magento_Core_Model_Abstr
     /**
      * Update process of current notification
      *
-     * @return Magento_GoogleCheckout_Model_Notification
+     * @return \Magento\GoogleCheckout\Model\Notification
      */
     public function updateProcess()
     {
@@ -103,7 +105,7 @@ class Magento_GoogleCheckout_Model_Notification extends Magento_Core_Model_Abstr
     /**
      * Stop process of current notification
      *
-     * @return Magento_GoogleCheckout_Model_Notification
+     * @return \Magento\GoogleCheckout\Model\Notification
      */
     public function stopProcess()
     {

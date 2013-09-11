@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_ImportExport_Block_Adminhtml_Export_Filter
+ * Test class for \Magento\ImportExport\Block\Adminhtml\Export\Filter
  */
 class Magento_ImportExport_Block_Adminhtml_Export_FilterTest
     extends PHPUnit_Framework_TestCase
@@ -20,13 +20,13 @@ class Magento_ImportExport_Block_Adminhtml_Export_FilterTest
      */
     public function testGetDateFromToHtmlWithValue()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
         $block = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_ImportExport_Block_Adminhtml_Export_Filter');
+            ->create('Magento\ImportExport\Block\Adminhtml\Export\Filter');
         $method = new ReflectionMethod(
-                    'Magento_ImportExport_Block_Adminhtml_Export_Filter', '_getDateFromToHtmlWithValue');
+                    '\Magento\ImportExport\Block\Adminhtml\Export\Filter', '_getDateFromToHtmlWithValue');
         $method->setAccessible(true);
 
         $arguments = array(
@@ -38,11 +38,11 @@ class Magento_ImportExport_Block_Adminhtml_Export_FilterTest
             )
         );
         $attribute = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Eav_Model_Entity_Attribute', $arguments);
+            ->create('Magento\Eav\Model\Entity\Attribute', $arguments);
         $html = $method->invoke($block, $attribute, null);
         $this->assertNotEmpty($html);
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $pieces = array_filter(explode('<strong>', $html));
         foreach ($pieces as $piece) {
             $this->assertContains('dateFormat: "' . $dateFormat . '",', $piece);

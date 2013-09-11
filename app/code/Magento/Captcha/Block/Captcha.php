@@ -15,7 +15,9 @@
  * @package    Magento_Captcha
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Captcha_Block_Captcha extends Magento_Core_Block_Template
+namespace Magento\Captcha\Block;
+
+class Captcha extends \Magento\Core\Block\Template
 {
     /**
      * Renders captcha HTML (if required)
@@ -24,7 +26,7 @@ class Magento_Captcha_Block_Captcha extends Magento_Core_Block_Template
      */
     protected function _toHtml()
     {
-        $blockPath = Mage::helper('Magento_Captcha_Helper_Data')->getCaptcha($this->getFormId())->getBlockName();
+        $blockPath = \Mage::helper('Magento\Captcha\Helper\Data')->getCaptcha($this->getFormId())->getBlockName();
         $block = $this->getLayout()->createBlock($blockPath);
         $block->setData($this->getData());
         return $block->toHtml();

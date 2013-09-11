@@ -15,20 +15,20 @@
 class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Helper_Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @var Magento_Backend_Model_Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
 
     protected function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_helper = Mage::helper('Magento_Backend_Helper_Data');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->_helper = Mage::helper('Magento\Backend\Helper\Data');
     }
 
     protected function tearDown()
@@ -36,7 +36,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->_helper = null;
         $this->_auth = null;
         Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Scope')
+            ->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(null);
     }
 
@@ -45,8 +45,8 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected  function _login()
     {
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
-        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
+        $this->_auth = Mage::getSingleton('Magento\Backend\Model\Auth');
         $this->_auth->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
     }
@@ -57,13 +57,13 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     protected function _logout()
     {
         $this->_auth->logout();
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
+        Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
     }
 
     /**
-     * @covers Magento_Backend_Helper_Data::getPageHelpUrl
-     * @covers Magento_Backend_Helper_Data::setPageHelpUrl
-     * @covers Magento_Backend_Helper_Data::addPageHelpUrl
+     * @covers \Magento\Backend\Helper\Data::getPageHelpUrl
+     * @covers \Magento\Backend\Helper\Data::setPageHelpUrl
+     * @covers \Magento\Backend\Helper\Data::addPageHelpUrl
      */
     public function testPageHelpUrl()
     {
@@ -82,7 +82,7 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Backend_Helper_Data::getCurrentUserId
+     * @covers \Magento\Backend\Helper\Data::getCurrentUserId
      */
     public function testGetCurrentUserId()
     {
@@ -91,9 +91,9 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
         /**
          * perform login
          */
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
+        Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
 
-        $auth = Mage::getModel('Magento_Backend_Model_Auth');
+        $auth = Mage::getModel('\Magento\Backend\Model\Auth');
         $auth->login(Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->assertEquals(1, $this->_helper->getCurrentUserId());
 
@@ -101,14 +101,14 @@ class Magento_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
          * perform logout
          */
         $auth->logout();
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
+        Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
 
         $this->assertFalse($this->_helper->getCurrentUserId());
     }
 
     /**
-     * @covers Magento_Backend_Helper_Data::prepareFilterString
-     * @covers Magento_Backend_Helper_Data::decodeFilter
+     * @covers \Magento\Backend\Helper\Data::prepareFilterString
+     * @covers \Magento\Backend\Helper\Data::decodeFilter
      */
     public function testPrepareFilterString()
     {

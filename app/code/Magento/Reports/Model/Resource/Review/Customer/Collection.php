@@ -16,12 +16,14 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_Review_Model_Resource_Review_Collection
+namespace Magento\Reports\Model\Resource\Review\Customer;
+
+class Collection extends \Magento\Review\Model\Resource\Review\Collection
 {
     /**
      * Init Select
      *
-     * @return Magento_Reports_Model_Resource_Review_Customer_Collection
+     * @return \Magento\Reports\Model\Resource\Review\Customer\Collection
      */
     protected function _initSelect()
     {
@@ -33,17 +35,17 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
     /**
      * Join customers
      *
-     * @return Magento_Reports_Model_Resource_Review_Customer_Collection
+     * @return \Magento\Reports\Model\Resource\Review\Customer\Collection
      */
     protected function _joinCustomers()
     {
         /** @var $adapter \Magento\DB\Adapter\AdapterInterface */
         $adapter            = $this->getConnection();
-        /** @var $customer Magento_Customer_Model_Resource_Customer */
-        $customer           = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
-        /** @var $firstnameAttr Magento_Eav_Model_Entity_Attribute */
+        /** @var $customer \Magento\Customer\Model\Resource\Customer */
+        $customer           = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer');
+        /** @var $firstnameAttr \Magento\Eav\Model\Entity\Attribute */
         $firstnameAttr      = $customer->getAttribute('firstname');
-        /** @var $lastnameAttr Magento_Eav_Model_Entity_Attribute */
+        /** @var $lastnameAttr \Magento\Eav\Model\Entity\Attribute */
         $lastnameAttr       = $customer->getAttribute('lastname');
 
         $firstnameCondition = array('table_customer_firstname.entity_id = detail.customer_id');
@@ -76,7 +78,7 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
             "table_customer_firstname.{$firstnameField}",
             "table_customer_lastname.{$lastnameField}"
         ), ' ');
-        $this->getSelect()->reset(Zend_Db_Select::COLUMNS)
+        $this->getSelect()->reset(\Zend_Db_Select::COLUMNS)
             ->joinInner(
                 array('table_customer_lastname' => $lastnameAttr->getBackend()->getTable()),
                 implode(' AND ', $lastnameCondition),
@@ -98,14 +100,14 @@ class Magento_Reports_Model_Resource_Review_Customer_Collection extends Magento_
     public function getSelectCountSql()
     {
         $countSelect = clone $this->_select;
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::GROUP);
-        $countSelect->reset(Zend_Db_Select::HAVING);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::COLUMNS);
+        $countSelect->reset(\Zend_Db_Select::ORDER);
+        $countSelect->reset(\Zend_Db_Select::GROUP);
+        $countSelect->reset(\Zend_Db_Select::HAVING);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(\Zend_Db_Select::COLUMNS);
 
-        $countSelect->columns(new Zend_Db_Expr('COUNT(DISTINCT detail.customer_id)'));
+        $countSelect->columns(new \Zend_Db_Expr('COUNT(DISTINCT detail.customer_id)'));
 
         return  $countSelect;
     }

@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Layer_State extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Layer;
+
+class State extends \Magento\Core\Block\Template
 {
     protected $_template = 'layer/state.phtml';
 
@@ -48,18 +50,18 @@ class Magento_Catalog_Block_Layer_State extends Magento_Core_Block_Template
         $params['_use_rewrite'] = true;
         $params['_query']       = $filterState;
         $params['_escape']      = true;
-        return Mage::getUrl('*/*/*', $params);
+        return \Mage::getUrl('*/*/*', $params);
     }
 
     /**
      * Retrieve Layer object
      *
-     * @return Magento_Catalog_Model_Layer
+     * @return \Magento\Catalog\Model\Layer
      */
     public function getLayer()
     {
         if (!$this->hasData('layer')) {
-            $this->setLayer(Mage::getSingleton('Magento_Catalog_Model_Layer'));
+            $this->setLayer(\Mage::getSingleton('Magento\Catalog\Model\Layer'));
         }
         return $this->_getData('layer');
     }

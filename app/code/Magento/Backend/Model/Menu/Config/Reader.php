@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Menu_Config_Reader extends \Magento\Config\Reader\Filesystem
+namespace Magento\Backend\Model\Menu\Config;
+
+class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
-     * @param Magento_Backend_Model_Menu_Config_Converter $converter
-     * @param Magento_Backend_Model_Menu_Config_SchemaLocator $schemaLocator
+     * @param \Magento\Backend\Model\Menu\Config\Converter $converter
+     * @param \Magento\Backend\Model\Menu\Config\SchemaLocator $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
@@ -20,12 +22,12 @@ class Magento_Backend_Model_Menu_Config_Reader extends \Magento\Config\Reader\Fi
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
-        Magento_Backend_Model_Menu_Config_Converter $converter,
-        Magento_Backend_Model_Menu_Config_SchemaLocator $schemaLocator,
+        \Magento\Backend\Model\Menu\Config\Converter $converter,
+        \Magento\Backend\Model\Menu\Config\SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'menu.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento_Backend_Model_Menu_Config_Menu_Dom'
+        $domDocumentClass = '\Magento\Backend\Model\Menu\Config\Menu\Dom'
     ) {
         parent::__construct(
             $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass

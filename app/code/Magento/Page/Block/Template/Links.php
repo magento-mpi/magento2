@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Template_Links extends Magento_Core_Block_Template
+namespace Magento\Page\Block\Template;
+
+class Links extends \Magento\Core\Block\Template
 {
     /**
      * All links
@@ -57,7 +59,7 @@ class Magento_Page_Block_Template_Links extends Magento_Core_Block_Template
      * @param string|array $aParams
      * @param string $beforeText
      * @param string $afterText
-     * @return Magento_Page_Block_Template_Links
+     * @return \Magento\Page\Block\Template\Links
      */
     public function addLink($label, $url = '', $title = '', $prepare = true, $urlParams = array(),
         $position = null, $liParams = null, $aParams = null, $beforeText = '', $afterText = ''
@@ -87,7 +89,7 @@ class Magento_Page_Block_Template_Links extends Magento_Core_Block_Template
      * Add block to link list
      *
      * @param string $blockName
-     * @return Magento_Page_Block_Template_Links
+     * @return \Magento\Page\Block\Template\Links
      */
     public function addLinkBlock($blockName)
     {
@@ -103,12 +105,12 @@ class Magento_Page_Block_Template_Links extends Magento_Core_Block_Template
      * Remove Link block by blockName
      *
      * @param string $blockName
-     * @return Magento_Page_Block_Template_Links
+     * @return \Magento\Page\Block\Template\Links
      */
     public function removeLinkBlock($blockName)
     {
         foreach ($this->_links as $key => $link) {
-            if ($link instanceof Magento_Core_Block_Abstract && $link->getNameInLayout() == $blockName) {
+            if ($link instanceof \Magento\Core\Block\AbstractBlock && $link->getNameInLayout() == $blockName) {
                 unset($this->_links[$key]);
             }
         }
@@ -119,7 +121,7 @@ class Magento_Page_Block_Template_Links extends Magento_Core_Block_Template
      * Removes link by url
      *
      * @param string $url
-     * @return Magento_Page_Block_Template_Links
+     * @return \Magento\Page\Block\Template\Links
      */
     public function removeLinkByUrl($url)
     {
@@ -181,7 +183,7 @@ class Magento_Page_Block_Template_Links extends Magento_Core_Block_Template
     /**
      * Set first/last
      *
-     * @return Magento_Page_Block_Template_Links
+     * @return \Magento\Page\Block\Template\Links
      */
     protected function _beforeToHtml()
     {
@@ -219,10 +221,10 @@ class Magento_Page_Block_Template_Links extends Magento_Core_Block_Template
     /**
      * Render Block
      *
-     * @param Magento_Core_Block_Abstract $block
+     * @param \Magento\Core\Block\AbstractBlock $block
      * @return string
      */
-    public function renderBlock(Magento_Core_Block_Abstract $block)
+    public function renderBlock(\Magento\Core\Block\AbstractBlock $block)
     {
         return $this->getLayout()->renderElement($block->getNameInLayout());
     }

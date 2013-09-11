@@ -47,5 +47,5 @@ if (empty($args)) {
 define('BARE_BOOTSTRAP', 1);
 require_once __DIR__ . '/../../app/bootstrap.php';
 
-$entryPoint = new Magento_Install_Model_EntryPoint_Console(BP, $args);
+$entryPoint = new \Magento\Install\Model\EntryPoint\Console(BP, $args);
 $entryPoint->processRequest();

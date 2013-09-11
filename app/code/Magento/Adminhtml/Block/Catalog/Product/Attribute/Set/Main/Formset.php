@@ -14,7 +14,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Set\Main;
+
+class Formset extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
@@ -23,7 +25,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends
      */
     protected function _prepareForm()
     {
-        $data = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+        $data = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
             ->load($this->getRequest()->getParam('id'));
 
         $form = new \Magento\Data\Form();
@@ -43,9 +45,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formset extends
                 'value' => '1'
             ));
 
-            $sets = Mage::getModel('Magento_Eav_Model_Entity_Attribute_Set')
+            $sets = \Mage::getModel('\Magento\Eav\Model\Entity\Attribute\Set')
                 ->getResourceCollection()
-                ->setEntityTypeFilter(Mage::registry('entityType'))
+                ->setEntityTypeFilter(\Mage::registry('entityType'))
                 ->load()
                 ->toOptionArray();
 

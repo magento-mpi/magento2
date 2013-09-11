@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Api_User extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\Adminhtml\Block\Api;
+
+class User extends \Magento\Backend\Block\Widget\Grid\Container
 {
 
     protected function _construct()
@@ -33,7 +35,7 @@ class Magento_Adminhtml_Block_Api_User extends Magento_Backend_Block_Widget_Grid
      */
     protected function _toHtml()
     {
-        Mage::dispatchEvent('api_user_html_before', array('block' => $this));
+        \Mage::dispatchEvent('api_user_html_before', array('block' => $this));
         return parent::_toHtml();
     }
 }

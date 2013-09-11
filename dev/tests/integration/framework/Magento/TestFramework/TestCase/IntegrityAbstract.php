@@ -58,15 +58,15 @@ abstract class Magento_TestFramework_TestCase_IntegrityAbstract extends PHPUnit_
     /**
      * Returns flat array of themes currently located in system
      *
-     * @return Magento_Core_Model_Theme[]
+     * @return \Magento\Core\Model\Theme[]
      */
     protected function _getDesignThemes()
     {
         $themeItems = array();
-        /** @var $themeCollection Magento_Core_Model_Theme_Collection */
+        /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
         $themeCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Core_Model_Resource_Theme_Collection');
-        /** @var $theme Magento_Core_Model_Theme */
+            ->create('Magento\Core\Model\Resource\Theme\Collection');
+        /** @var $theme \Magento\Core\Model\Theme */
         foreach ($themeCollection as $theme) {
             $themeItems[$theme->getId()] = $theme;
         }

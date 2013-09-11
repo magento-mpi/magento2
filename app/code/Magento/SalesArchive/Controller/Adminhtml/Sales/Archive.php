@@ -12,12 +12,14 @@
  * Archive controller
  *
  */
-class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Adminhtml_Controller_Action
+namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
+
+class Archive extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Render archive grid
      *
-     * @return Magento_SalesArchive_Controller_Adminhtml_Sales_Archive
+     * @return \Magento\SalesArchive\Controller\Adminhtml\Sales\Archive
      */
     protected function _renderGrid()
     {
@@ -139,7 +141,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
     public function massRemoveAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $removedFromArchive = Mage::getSingleton('Magento_SalesArchive_Model_Archive')
+        $removedFromArchive = \Mage::getSingleton('Magento\SalesArchive\Model\Archive')
             ->removeOrdersFromArchiveById($orderIds);
 
         $removedFromArchiveCount = count($removedFromArchive);
@@ -159,7 +161,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
     public function massAddAction()
     {
         $orderIds = $this->getRequest()->getPost('order_ids', array());
-        $archivedIds = Mage::getSingleton('Magento_SalesArchive_Model_Archive')
+        $archivedIds = \Mage::getSingleton('Magento\SalesArchive\Model\Archive')
             ->archiveOrdersById($orderIds);
 
         $archivedCount = count($archivedIds);
@@ -178,7 +180,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
     {
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $archivedIds = Mage::getSingleton('Magento_SalesArchive_Model_Archive')
+            $archivedIds = \Mage::getSingleton('Magento\SalesArchive\Model\Archive')
                 ->archiveOrdersById($orderId);
             $this->_getSession()->addSuccess(__('We have archived the order.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
@@ -195,7 +197,7 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
     {
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $orderIds = Mage::getSingleton('Magento_SalesArchive_Model_Archive')
+            $orderIds = \Mage::getSingleton('Magento\SalesArchive\Model\Archive')
                 ->removeOrdersFromArchiveById($orderId);
             $this->_getSession()->addSuccess(__('We have removed the order from the archive.'));
             $this->_redirect('*/sales_order/view', array('order_id'=>$orderId));
@@ -275,19 +277,19 @@ class Magento_SalesArchive_Controller_Adminhtml_Sales_Archive extends Magento_Ad
         switch ($action) {
             case 'invoice':
                 $fileName = 'invoice_archive.' . $type;
-                $grid = $layout->createBlock('Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid');
+                $grid = $layout->createBlock('\Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice\Grid');
                 break;
             case 'shipment':
                 $fileName = 'shipment_archive.' . $type;
-                $grid = $layout->createBlock('Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid');
+                $grid = $layout->createBlock('\Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Shipment\Grid');
                 break;
             case 'creditmemo':
                 $fileName = 'creditmemo_archive.' . $type;
-                $grid = $layout->createBlock('Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Creditmemo_Grid');
+                $grid = $layout->createBlock('\Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid');
                 break;
             default:
                 $fileName = 'orders_archive.' . $type;
-                /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $grid  */
+                /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $grid  */
                 $grid = $layout->getChildBlock('sales.order.grid', 'grid.export');
                 break;
         }

@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_AdminNotification_Model_System_MessageList
+namespace Magento\AdminNotification\Model\System;
+
+class MessageList
 {
     /**
      * List of configured message classes
@@ -36,14 +38,14 @@ class Magento_AdminNotification_Model_System_MessageList
     /**
      * Load messages to display
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     protected function _loadMessages()
     {
         if (!$this->_messages) {
             foreach ($this->_messageClasses as $key => $messageClass) {
                 if (!$messageClass) {
-                    throw new InvalidArgumentException('Message class for message "' . $key . '" is not set');
+                    throw new \InvalidArgumentException('Message class for message "' . $key . '" is not set');
                 }
                 $message = $this->_objectManager->get($messageClass);
                 $this->_messages[$message->getIdentity()] = $message;
@@ -55,7 +57,7 @@ class Magento_AdminNotification_Model_System_MessageList
      * Retrieve message by
      *
      * @param string $identity
-     * @return null|Magento_AdminNotification_Model_System_MessageInterface
+     * @return null|\Magento\AdminNotification\Model\System\MessageInterface
      */
     public function getMessageByIdentity($identity)
     {
@@ -66,7 +68,7 @@ class Magento_AdminNotification_Model_System_MessageList
     /**
      * Retrieve list of all messages
      *
-     * @return Magento_AdminNotification_Model_System_MessageInterface[]
+     * @return \Magento\AdminNotification\Model\System\MessageInterface[]
      */
     public function asArray()
     {

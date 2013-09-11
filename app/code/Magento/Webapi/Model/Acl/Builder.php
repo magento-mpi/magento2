@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Builder extends \Magento\Acl\Builder
+namespace Magento\Webapi\Model\Acl;
+
+class Builder extends \Magento\Acl\Builder
 {
     /**
      * @param \Magento\AclFactory $aclFactory

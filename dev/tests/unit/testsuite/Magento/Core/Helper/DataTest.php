@@ -9,15 +9,15 @@
 class Magento_Core_Helper_DataTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $contextMock = $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false);
-        $configMock = $this->getMock('Magento_Core_Model_Config', array(), array(), '', false);
-        $this->_helper = new Magento_Core_Helper_Data($contextMock, $configMock);
+        $contextMock = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+        $this->_helper = new \Magento\Core\Helper\Data($contextMock, $configMock);
     }
 
     /**

@@ -14,9 +14,11 @@
  * @category   Magento
  * @package    Magento_CatalogPermissions
  */
-class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
-    extends Magento_Adminhtml_Block_Catalog_Category_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab;
+
+class Permissions
+    extends \Magento\Adminhtml\Block\Catalog\Category\AbstractCategory
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
 
     protected $_template = 'catalog/category/tab/permissions.phtml';
@@ -24,13 +26,13 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
     /**
      * Prepare layout
      *
-     * @return Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
+     * @return \Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions
      */
     protected function _prepareLayout()
     {
-        $this->addChild('row', 'Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row');
+        $this->addChild('row', '\Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row');
 
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('New Permission'),
             'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
             'type'  => 'button',
@@ -59,8 +61,8 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
             }
         }
 
-        $config['single_mode']  = Mage::app()->hasSingleStore();
-        $config['website_id']   = Mage::app()->getStore(true)->getWebsiteId();
+        $config['single_mode']  = \Mage::app()->hasSingleStore();
+        $config['website_id']   = \Mage::app()->getStore(true)->getWebsiteId();
         $config['parent_vals']  = $this->getParentPermissions();
 
         $config['use_parent_allow'] = __('(Allow)');
@@ -73,18 +75,18 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
             $config = array_merge($additionalConfig, $config);
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($config);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($config);
     }
 
     /**
      * Retrieve permission collection
      *
-     * @return Magento_CatalogPermissions_Model_Resource_Permission_Collection
+     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Collection
      */
     public function getPermissionCollection()
     {
         if (!$this->hasData('permission_collection')) {
-            $collection = Mage::getModel('Magento_CatalogPermissions_Model_Permission')
+            $collection = \Mage::getModel('\Magento\CatalogPermissions\Model\Permission')
                 ->getCollection()
                 ->addFieldToFilter('category_id', $this->getCategoryId())
                 ->setOrder('permission_id', 'asc');
@@ -112,7 +114,7 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
 
         $permissions = array();
         if ($categoryId) {
-            $index  = Mage::getModel('Magento_CatalogPermissions_Model_Permission_Index')
+            $index  = \Mage::getModel('\Magento\CatalogPermissions\Model\Permission\Index')
                 ->getIndexForCategory($categoryId, null, null);
             foreach ($index as $row) {
                 $permissionKey = $row['website_id'] . '_' . $row['customer_group_id'];
@@ -124,19 +126,19 @@ class Magento_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permission
             }
         }
 
-        $websites = Mage::app()->getWebsites(false);
-        $groups   = Mage::getModel('Magento_Customer_Model_Group')->getCollection()->getAllIds();
+        $websites = \Mage::app()->getWebsites(false);
+        $groups   = \Mage::getModel('\Magento\Customer\Model\Group')->getCollection()->getAllIds();
 
-        /* @var $helper Magento_CatalogPermissions_Helper_Data */
-        $helper   = Mage::helper('Magento_CatalogPermissions_Helper_Data');
+        /* @var $helper \Magento\CatalogPermissions\Helper\Data */
+        $helper   = \Mage::helper('Magento\CatalogPermissions\Helper\Data');
 
-        $parent = (string)Magento_CatalogPermissions_Model_Permission::PERMISSION_PARENT;
-        $allow  = (string)Magento_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
-        $deny   = (string)Magento_CatalogPermissions_Model_Permission::PERMISSION_DENY;
+        $parent = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT;
+        $allow  = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW;
+        $deny   = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
 
         foreach ($groups as $groupId) {
             foreach ($websites as $website) {
-                /* @var $website Magento_Core_Model_Website */
+                /* @var $website \Magento\Core\Model\Website */
                 $websiteId = $website->getId();
 
                 $store = $website->getDefaultStore();

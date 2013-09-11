@@ -16,14 +16,14 @@ class Magento_Test_Integrity_Modular_CacheFilesTest extends PHPUnit_Framework_Te
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
-        /** @var Magento_Core_Model_Config_Modules_Reader $moduleReader */
+        /** @var \Magento\Core\Model\Config\Modules\Reader $moduleReader */
         $moduleReader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Config_Modules_Reader');
+            ->get('Magento\Core\Model\Config\Modules\Reader');
         $schema = $moduleReader->getModuleDir('etc', 'Magento_Core') . DIRECTORY_SEPARATOR . 'cache.xsd';
 
-        /** @var Magento_Core_Model_Cache_Config_Reader $reader */
+        /** @var \Magento\Core\Model\Cache\Config\Reader $reader */
         $reader = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create(
-            'Magento_Core_Model_Cache_Config_Reader',
+            '\Magento\Core\Model\Cache\Config\Reader',
             array(
                 'validationState' => $validationStateMock,
                 'schema' => $schema,

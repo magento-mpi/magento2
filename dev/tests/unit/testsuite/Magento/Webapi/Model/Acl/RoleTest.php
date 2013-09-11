@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Acl_User
+ * Test class for \Magento\Webapi\Model\Acl\User
  *
  * {license_notice}
  *
@@ -20,7 +20,7 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_Role|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Webapi\Model\Resource\Acl\Role|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_roleResource;
 
@@ -33,7 +33,7 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->getMockForAbstractClass();
 
-        $this->_roleResource = $this->getMockBuilder('Magento_Webapi_Model_Resource_Acl_Role')
+        $this->_roleResource = $this->getMockBuilder('Magento\Webapi\Model\Resource\Acl\Role')
             ->disableOriginalConstructor()
             ->setMethods(array('getIdFieldName', 'getReadConnection'))
             ->getMock();
@@ -52,15 +52,15 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     /**
      * Create Role model.
      *
-     * @param Magento_Webapi_Model_Resource_Acl_Role $roleResource
-     * @param Magento_Webapi_Model_Resource_Acl_Role_Collection $resourceCollection
-     * @return Magento_Webapi_Model_Acl_Role
+     * @param \Magento\Webapi\Model\Resource\Acl\Role $roleResource
+     * @param \Magento\Webapi\Model\Resource\Acl\Role\Collection $resourceCollection
+     * @return \Magento\Webapi\Model\Acl\Role
      */
     protected function _createModel($roleResource, $resourceCollection = null)
     {
-        return $this->_helper->getObject('Magento_Webapi_Model_Acl_Role', array(
-            'eventDispatcher' => $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false),
-            'cacheManager' => $this->getMock('Magento_Core_Model_CacheInterface', array(), array(), '', false),
+        return $this->_helper->getObject('\Magento\Webapi\Model\Acl\Role', array(
+            'eventDispatcher' => $this->getMock('Magento\Core\Model\Event\Manager', array(), array(), '', false),
+            'cacheManager' => $this->getMock('Magento\Core\Model\CacheInterface', array(), array(), '', false),
             'resource' => $roleResource,
             'resourceCollection' => $resourceCollection
         ));
@@ -73,7 +73,7 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel($this->_roleResource);
 
-        $this->assertAttributeEquals('Magento_Webapi_Model_Resource_Acl_Role', '_resourceName', $model);
+        $this->assertAttributeEquals('\Magento\Webapi\Model\Resource\Acl\Role', '_resourceName', $model);
         $this->assertAttributeEquals('id', '_idFieldName', $model);
     }
 
@@ -86,16 +86,16 @@ class Magento_Webapi_Model_Acl_RoleTest extends PHPUnit_Framework_TestCase
 
         /** @var PHPUnit_Framework_MockObject_MockObject $collection */
         $collection = $this->getMock(
-            'Magento_Webapi_Model_Resource_Acl_Role_Collection',
+            '\Magento\Webapi\Model\Resource\Acl\Role\Collection',
             array('_initSelect', 'setModel'),
             array($fetchStrategy, $this->_roleResource)
         );
 
-        $collection->expects($this->any())->method('setModel')->with('Magento_Webapi_Model_Resource_Acl_Role');
+        $collection->expects($this->any())->method('setModel')->with('Magento\Webapi\Model\Resource\Acl\Role');
 
         $model = $this->_createModel($this->_roleResource, $collection);
         $result = $model->getCollection();
 
-        $this->assertAttributeEquals('Magento_Webapi_Model_Resource_Acl_Role', '_resourceModel', $result);
+        $this->assertAttributeEquals('\Magento\Webapi\Model\Resource\Acl\Role', '_resourceModel', $result);
     }
 }

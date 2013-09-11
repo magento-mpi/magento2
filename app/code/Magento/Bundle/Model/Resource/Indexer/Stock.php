@@ -16,13 +16,15 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Model_Resource_Indexer_Stock extends Magento_CatalogInventory_Model_Resource_Indexer_Stock_Default
+namespace Magento\Bundle\Model\Resource\Indexer;
+
+class Stock extends \Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock
 {
     /**
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
-     * @return Magento_Bundle_Model_Resource_Indexer_Stock
+     * @return \Magento\Bundle\Model\Resource\Indexer\Stock
      */
     public function reindexEntity($entityIds)
     {
@@ -46,7 +48,7 @@ class Magento_Bundle_Model_Resource_Indexer_Stock extends Magento_CatalogInvento
      *
      * @param int|array $entityIds
      * @param bool $usePrimaryTable use primary or temporary index table
-     * @return Magento_Bundle_Model_Resource_Indexer_Stock
+     * @return \Magento\Bundle\Model\Resource\Indexer\Stock
      */
     protected function _prepareBundleOptionStockData($entityIds = null, $usePrimaryTable = false)
     {
@@ -56,7 +58,7 @@ class Magento_Bundle_Model_Resource_Indexer_Stock extends Magento_CatalogInvento
         $select   = $adapter->select()
             ->from(array('bo' => $this->getTable('catalog_product_bundle_option')), array('parent_id'));
         $this->_addWebsiteJoinToSelect($select, false);
-        $status = new Zend_Db_Expr('MAX(' .
+        $status = new \Zend_Db_Expr('MAX(' .
                 $adapter->getCheckSql('e.required_options = 0', 'i.stock_status', '0') . ')');
         $select->columns('website_id', 'cw')
             ->join(
@@ -137,13 +139,13 @@ class Magento_Bundle_Model_Resource_Indexer_Stock extends Magento_CatalogInvento
                 'o.entity_id = e.entity_id AND o.website_id = cw.website_id AND o.stock_id = cis.stock_id',
                 array()
             )
-            ->columns(array('qty' => new Zend_Db_Expr('0')))
+            ->columns(array('qty' => new \Zend_Db_Expr('0')))
             ->where('cw.website_id != 0')
             ->where('e.type_id = ?', $this->getTypeId())
             ->group(array('e.entity_id', 'cw.website_id', 'cis.stock_id'));
 
         // add limitation of status
-        $condition = $adapter->quoteInto('=?', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $condition = $adapter->quoteInto('=?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $condition);
 
         if ($this->_isManageStock()) {
@@ -161,8 +163,8 @@ class Magento_Bundle_Model_Resource_Indexer_Stock extends Magento_CatalogInvento
         }
 
         $select->columns(array('status' => $adapter->getLeastSql(array(
-            new Zend_Db_Expr('MIN(' . $adapter->getCheckSql('o.stock_status IS NOT NULL','o.stock_status', '0') .')'),
-            new Zend_Db_Expr('MIN(' . $statusExpr . ')'),
+            new \Zend_Db_Expr('MIN(' . $adapter->getCheckSql('o.stock_status IS NOT NULL','o.stock_status', '0') .')'),
+            new \Zend_Db_Expr('MIN(' . $statusExpr . ')'),
         ))));
 
         if (!is_null($entityIds)) {
@@ -176,7 +178,7 @@ class Magento_Bundle_Model_Resource_Indexer_Stock extends Magento_CatalogInvento
      * Prepare stock status data in temporary index table
      *
      * @param int|array $entityIds  the product limitation
-     * @return Magento_Bundle_Model_Resource_Indexer_Stock
+     * @return \Magento\Bundle\Model\Resource\Indexer\Stock
      */
     protected function _prepareIndexTable($entityIds = null)
     {
@@ -190,7 +192,7 @@ class Magento_Bundle_Model_Resource_Indexer_Stock extends Magento_CatalogInvento
      * Update Stock status index by product ids
      *
      * @param array|int $entityIds
-     * @return Magento_Bundle_Model_Resource_Indexer_Stock
+     * @return \Magento\Bundle\Model\Resource\Indexer\Stock
      */
     protected function _updateIndex($entityIds)
     {
@@ -203,7 +205,7 @@ class Magento_Bundle_Model_Resource_Indexer_Stock extends Magento_CatalogInvento
     /**
      * Clean temporary bundle options stock data
      *
-     * @return Magento_Bundle_Model_Resource_Indexer_Stock
+     * @return \Magento\Bundle\Model\Resource\Indexer\Stock
      */
     protected function _cleanBundleOptionStockData()
     {

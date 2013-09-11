@@ -11,7 +11,9 @@
 /**
  * Backup data helper
  */
-class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Backup\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Backup type constant for database backup
@@ -49,12 +51,12 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     protected $_authorization;
 
     /**
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
-        Magento_Core_Helper_Context $context,
+        \Magento\Core\Helper\Context $context,
         \Magento\Filesystem $filesystem,
         \Magento\AuthorizationInterface $authorization
     ) {
@@ -110,7 +112,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getBackupsDir()
     {
-        return Mage::getBaseDir('var') . DS . 'backups';
+        return \Mage::getBaseDir('var') . DS . 'backups';
     }
 
     /**
@@ -143,10 +145,10 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Generate backup download name
      *
-     * @param Magento_Backup_Model_Backup $backup
+     * @param \Magento\Backup\Model\Backup $backup
      * @return string
      */
-    public function generateBackupDownloadName(Magento_Backup_Model_Backup $backup)
+    public function generateBackupDownloadName(\Magento\Backup\Model\Backup $backup)
     {
         $additionalExtension = $backup->getType() == self::TYPE_DB ? '.sql' : '';
         return $backup->getType() . '-' . date('YmdHis', $backup->getTime()) . $additionalExtension . '.'
@@ -174,12 +176,12 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
             '.git',
             '.svn',
             'maintenance.flag',
-            Mage::getBaseDir('var') . DS . 'session',
-            Mage::getBaseDir('var') . DS . 'cache',
-            Mage::getBaseDir('var') . DS . 'full_page_cache',
-            Mage::getBaseDir('var') . DS . 'locks',
-            Mage::getBaseDir('var') . DS . 'log',
-            Mage::getBaseDir('var') . DS . 'report'
+            \Mage::getBaseDir('var') . DS . 'session',
+            \Mage::getBaseDir('var') . DS . 'cache',
+            \Mage::getBaseDir('var') . DS . 'full_page_cache',
+            \Mage::getBaseDir('var') . DS . 'locks',
+            \Mage::getBaseDir('var') . DS . 'log',
+            \Mage::getBaseDir('var') . DS . 'report'
         );
     }
 
@@ -194,13 +196,13 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
             '.svn',
             '.git',
             'maintenance.flag',
-            Mage::getBaseDir('var') . DS . 'session',
-            Mage::getBaseDir('var') . DS . 'locks',
-            Mage::getBaseDir('var') . DS . 'log',
-            Mage::getBaseDir('var') . DS . 'report',
-            Mage::getBaseDir('app') . DS . 'Mage.php',
-            Mage::getBaseDir() . DS . 'errors',
-            Mage::getBaseDir() . DS . 'index.php'
+            \Mage::getBaseDir('var') . DS . 'session',
+            \Mage::getBaseDir('var') . DS . 'locks',
+            \Mage::getBaseDir('var') . DS . 'log',
+            \Mage::getBaseDir('var') . DS . 'report',
+            \Mage::getBaseDir('app') . DS . 'Mage.php',
+            \Mage::getBaseDir() . DS . 'errors',
+            \Mage::getBaseDir() . DS . 'index.php'
         );
     }
 
@@ -212,7 +214,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     public function turnOnMaintenanceMode()
     {
         $maintenanceFlagFile = $this->getMaintenanceFlagFilePath();
-        $result = $this->_filesystem->write($maintenanceFlagFile, 'maintenance', Mage::getBaseDir());
+        $result = $this->_filesystem->write($maintenanceFlagFile, 'maintenance', \Mage::getBaseDir());
 
         return $result !== false;
     }
@@ -223,7 +225,7 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     public function turnOffMaintenanceMode()
     {
         $maintenanceFlagFile = $this->getMaintenanceFlagFilePath();
-        $this->_filesystem->delete($maintenanceFlagFile, Mage::getBaseDir());
+        $this->_filesystem->delete($maintenanceFlagFile, \Mage::getBaseDir());
     }
 
     /**
@@ -255,22 +257,22 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
      */
     protected function getMaintenanceFlagFilePath()
     {
-        return Mage::getBaseDir() . DS . 'maintenance.flag';
+        return \Mage::getBaseDir() . DS . 'maintenance.flag';
     }
 
     /**
      * Invalidate Cache
      *
-     * @return Magento_Backup_Helper_Data
+     * @return \Magento\Backup\Helper\Data
      */
     public function invalidateCache()
     {
-        /** @var Magento_Core_Model_Cache_Config $config */
-        $config = Mage::getObjectManager()->get('Magento_Core_Model_Cache_Config');
+        /** @var \Magento\Core\Model\Cache\Config $config */
+        $config = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\Config');
         if ($cacheTypes = $config->getTypes()) {
             $cacheTypesList = array_keys($cacheTypes);
-            /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-            $cacheTypeList = Mage::getObjectManager()->get('Magento_Core_Model_Cache_TypeListInterface');
+            /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+            $cacheTypeList = \Mage::getObjectManager()->get('Magento\Core\Model\Cache\TypeListInterface');
             $cacheTypeList->invalidate($cacheTypesList);
         }
         return $this;
@@ -279,12 +281,12 @@ class Magento_Backup_Helper_Data extends Magento_Core_Helper_Abstract
     /**
      * Invalidate Indexer
      *
-     * @return Magento_Backup_Helper_Data
+     * @return \Magento\Backup\Helper\Data
      */
     public function invalidateIndexer()
     {
-        foreach (Mage::getResourceModel('Magento_Index_Model_Resource_Process_Collection') as $process) {
-            $process->changeStatus(Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+        foreach (\Mage::getResourceModel('\Magento\Index\Model\Resource\Process\Collection') as $process) {
+            $process->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
         }
         return $this;
     }

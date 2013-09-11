@@ -16,7 +16,9 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Resource_Report_Rule_Createdat extends Magento_Reports_Model_Resource_Report_Abstract
+namespace Magento\SalesRule\Model\Resource\Report\Rule;
+
+class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
 {
     /**
      * Resource Report Rule constructor
@@ -32,7 +34,7 @@ class Magento_SalesRule_Model_Resource_Report_Rule_Createdat extends Magento_Rep
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_SalesRule_Model_Resource_Report_Rule_Createdat
+     * @return \Magento\SalesRule\Model\Resource\Report\Rule\Createdat
      */
     public function aggregate($from = null, $to = null)
     {
@@ -42,11 +44,11 @@ class Magento_SalesRule_Model_Resource_Report_Rule_Createdat extends Magento_Rep
     /**
      * Aggregate coupons reports by orders
      *
-     * @throws Exception
+     * @throws \Exception
      * @param string $aggregationField
      * @param mixed $from
      * @param mixed $to
-     * @return Magento_SalesRule_Model_Resource_Report_Rule_Createdat
+     * @return \Magento\SalesRule\Model\Resource\Report\Rule\Createdat
      */
     protected function _aggregateByOrder($aggregationField, $from, $to)
     {
@@ -138,7 +140,7 @@ class Magento_SalesRule_Model_Resource_Report_Rule_Createdat extends Magento_Rep
 
             $columns = array(
                 'period'                  => 'period',
-                'store_id'                => new Zend_Db_Expr('0'),
+                'store_id'                => new \Zend_Db_Expr('0'),
                 'order_status'            => 'order_status',
                 'coupon_code'             => 'coupon_code',
                 'rule_name'               => 'rule_name',
@@ -167,7 +169,7 @@ class Magento_SalesRule_Model_Resource_Report_Rule_Createdat extends Magento_Rep
 
             $adapter->query($select->insertFromSelect($table, array_keys($columns)));
             $adapter->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollBack();
             throw $e;
         }

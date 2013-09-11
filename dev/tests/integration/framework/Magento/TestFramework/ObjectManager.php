@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_TestFramework_ObjectManager extends Magento_Core_Model_ObjectManager
+class Magento_TestFramework_ObjectManager extends \Magento\Core\Model\ObjectManager
 {
     /**
      * Classes with xml properties to explicitly call __destruct() due to https://bugs.php.net/bug.php?id=62468
@@ -15,7 +15,7 @@ class Magento_TestFramework_ObjectManager extends Magento_Core_Model_ObjectManag
      * @var array
      */
     protected $_classesToDestruct = array(
-        'Magento_Core_Model_Layout',
+        '\Magento\Core\Model\Layout',
     );
 
     /**
@@ -31,10 +31,10 @@ class Magento_TestFramework_ObjectManager extends Magento_Core_Model_ObjectManag
             }
         }
 
-        Magento_Core_Model_Config_Base::destroy();
-        $sharedInstances = array('Magento\ObjectManager' => $this, 'Magento_Core_Model_ObjectManager' => $this);
-        if (isset($this->_sharedInstances['Magento_Core_Model_Resource'])) {
-            $sharedInstances['Magento_Core_Model_Resource'] = $this->_sharedInstances['Magento_Core_Model_Resource'];
+        \Magento\Core\Model\Config\Base::destroy();
+        $sharedInstances = array('Magento\ObjectManager' => $this, '\Magento\Core\Model\ObjectManager' => $this);
+        if (isset($this->_sharedInstances['Magento\Core\Model\Resource'])) {
+            $sharedInstances['Magento\Core\Model\Resource'] = $this->_sharedInstances['Magento\Core\Model\Resource'];
         }
         $this->_sharedInstances = $sharedInstances;
         $this->_config->clean();

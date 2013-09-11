@@ -13,8 +13,10 @@
  *
  */
 
-class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid
-    extends Magento_Adminhtml_Block_Sales_Invoice_Grid
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Sales\Invoice\Grid
 {
     protected function _construct()
     {
@@ -29,7 +31,7 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_SalesArchive_Model_Resource_Order_Invoice_Collection';
+        return '\Magento\SalesArchive\Model\Resource\Order\Invoice\Collection';
     }
 
     /**
@@ -51,8 +53,8 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Invoice_Grid
     {
         if (!empty($this->_exportTypes)) {
             foreach ($this->_exportTypes as $exportType) {
-                $url = Mage::helper('Magento_Core_Helper_Url')->removeRequestParam($exportType->getUrl(), 'action');
-                $exportType->setUrl(Mage::helper('Magento_Core_Helper_Url')->addRequestParam($url, array('action' => 'invoice')));
+                $url = \Mage::helper('Magento\Core\Helper\Url')->removeRequestParam($exportType->getUrl(), 'action');
+                $exportType->setUrl(\Mage::helper('Magento\Core\Helper\Url')->addRequestParam($url, array('action' => 'invoice')));
             }
             return $this->_exportTypes;
         }

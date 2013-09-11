@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Api;
+
+class Role extends \Magento\Adminhtml\Controller\Action
 {
 
     protected function _initAction()
@@ -34,7 +36,7 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
 
         $this->_initAction();
 
-        $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_Roles'));
+        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\Roles'));
 
         $this->renderLayout();
     }
@@ -43,7 +45,7 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
     {
         $this->getResponse()
             ->setBody($this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Api_Grid_Role')
+            ->createBlock('\Magento\Adminhtml\Block\Api\Grid\Role')
             ->toHtml()
         );
     }
@@ -69,18 +71,18 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $this->_addLeft(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_Editroles')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\Editroles')
         );
-        $resources = Mage::getModel('Magento_Api_Model_Roles')->getResourcesList();
+        $resources = \Mage::getModel('\Magento\Api\Model\Roles')->getResourcesList();
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_Buttons')
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\Buttons')
                 ->setRoleId($roleId)
-                ->setRoleInfo(Mage::getModel('Magento_Api_Model_Roles')->load($roleId))
+                ->setRoleInfo(\Mage::getModel('\Magento\Api\Model\Roles')->load($roleId))
                 ->setTemplate('api/roleinfo.phtml')
         );
         $this->_addJs(
             $this->getLayout()
-                ->createBlock('Magento_Adminhtml_Block_Template')
+                ->createBlock('\Magento\Adminhtml\Block\Template')
                 ->setTemplate('api/role_users_grid_js.phtml')
         );
         $this->renderLayout();
@@ -91,10 +93,10 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
         $rid = $this->getRequest()->getParam('rid', false);
 
         try {
-            Mage::getModel('Magento_Api_Model_Roles')->load($rid)->delete();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The role has been deleted.'));
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('An error occurred while deleting this role.'));
+            \Mage::getModel('\Magento\Api\Model\Roles')->load($rid)->delete();
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The role has been deleted.'));
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('An error occurred while deleting this role.'));
         }
 
         $this->_redirect("*/*/");
@@ -104,9 +106,9 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
     {
 
         $rid        = $this->getRequest()->getParam('role_id', false);
-        $role = Mage::getModel('Magento_Api_Model_Roles')->load($rid);
+        $role = \Mage::getModel('\Magento\Api\Model\Roles')->load($rid);
         if (!$role->getId() && $rid) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This role no longer exists.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('This role no longer exists.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -132,7 +134,7 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
                     ->setRoleType('G')
                     ->save();
 
-            Mage::getModel('Magento_Api_Model_Rules')
+            \Mage::getModel('\Magento\Api\Model\Rules')
                 ->setRoleId($role->getId())
                 ->setResources($resource)
                 ->saveRel();
@@ -146,9 +148,9 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
             }
 
             $rid = $role->getId();
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the role.'));
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('An error occurred while saving this role.'));
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the role.'));
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('An error occurred while saving this role.'));
         }
 
         //$this->getResponse()->setRedirect($this->getUrl("*/*/editrole/rid/$rid"));
@@ -159,18 +161,18 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
     public function editrolegridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento_Adminhtml_Block_Api_Role_Grid_User')->toHtml()
+            $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Api\Role\Grid\User')->toHtml()
         );
     }
 
     protected function _deleteUserFromRole($userId, $roleId)
     {
         try {
-            Mage::getModel('Magento_Api_Model_User')
+            \Mage::getModel('\Magento\Api\Model\User')
                 ->setRoleId($roleId)
                 ->setUserId($userId)
                 ->deleteFromRole();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
             return false;
         }
@@ -179,7 +181,7 @@ class Magento_Adminhtml_Controller_Api_Role extends Magento_Adminhtml_Controller
 
     protected function _addUserToRole($userId, $roleId)
     {
-        $user = Mage::getModel('Magento_Api_Model_User')->load($userId);
+        $user = \Mage::getModel('\Magento\Api\Model\User')->load($userId);
         $user->setRoleId($roleId)->setUserId($userId);
 
         if( $user->roleUserExists() === true ) {

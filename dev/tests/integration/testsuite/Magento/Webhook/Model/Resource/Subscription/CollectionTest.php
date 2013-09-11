@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Subscription_Collection
+ * \Magento\Webhook\Model\Resource\Subscription\Collection
  *
  * We need DB isolation to avoid confusing interactions with the other Webhook tests.
  *
@@ -27,23 +27,23 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
     /** @var int */
     private static $_apiUserId;
 
-    /** @var Magento_Webhook_Model_Resource_Subscription_Collection */
+    /** @var \Magento\Webhook\Model\Resource\Subscription\Collection */
     private $_subscriptionSet;
 
-    /** @var Magento_Webhook_Model_Subscription[]  */
+    /** @var \Magento\Webhook\Model\Subscription[]  */
     private $_subscriptions;
 
     public static function setUpBeforeClass()
     {
-        /** @var Magento_Webapi_Model_Acl_User $user */
-        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento_Webapi_Model_Acl_User');
+        /** @var \Magento\Webapi\Model\Acl\User $user */
+        $user = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->create('Magento\Webapi\Model\Acl\User');
         $user->loadByKey(self::API_KEY);
         if ($user->getId()) {
             self::$_apiUserId = $user->getId();
         } else {
-            /** @var Magento_Webhook_Model_Webapi_User_Factory $webapiUserFactory */
+            /** @var \Magento\Webhook\Model\Webapi\User\Factory $webapiUserFactory */
             $webapiUserFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-                ->create('Magento_Webhook_Model_Webapi_User_Factory');
+                ->create('Magento\Webhook\Model\Webapi\User\Factory');
             self::$_apiUserId = $webapiUserFactory->createUser(
                 array(
                     'email'      => 'email@localhost.com',
@@ -63,59 +63,59 @@ class Magento_Webhook_Model_Resource_Subscription_CollectionTest extends PHPUnit
         Mage::getConfig()->setNode('global/webhook/webhooks/listeners/two/label', 'Two Listeners');
         Mage::getConfig()->setNode('global/webhook/webhooks/listeners/three/label', 'Three Listeners');
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('inactive')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/endpoint')
             ->setFormat('json')
             ->setName('Inactive Subscription')
             ->setTopics(array(self::TOPIC_LISTENERS_THREE))
-            ->setStatus(Magento_Webhook_Model_Subscription::STATUS_INACTIVE)
+            ->setStatus(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE)
             ->save();
         $this->_subscriptions[] = $subscription;
 
-        /** @var Magento_Webhook_Model_Subscription $subscription */
+        /** @var \Magento\Webhook\Model\Subscription $subscription */
         $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('first')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/endpoint')
             ->setFormat('json')
             ->setName('First Subscription')
             ->setTopics(array(self::TOPIC_LISTENERS_THREE))
-            ->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
+            ->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
         $this->_subscriptions[] = $subscription;
 
         $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('second')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/unique_endpoint')
             ->setFormat('json')
             ->setName('Second Subscription')
             ->setTopics(array(self::TOPIC_LISTENERS_TWO, self::TOPIC_LISTENERS_THREE))
-            ->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
+            ->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->save();
         $this->_subscriptions[] = $subscription;
 
         $subscription = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Subscription');
+            ->create('Magento\Webhook\Model\Subscription');
         $subscription->setAlias('third')
             ->setAuthenticationType('hmac')
             ->setEndpointUrl('http://localhost/unique_endpoint')
             ->setFormat('json')
             ->setName('Third Subscription')
             ->setTopics(array(self::TOPIC_LISTENERS_ONE, self::TOPIC_LISTENERS_TWO, self::TOPIC_LISTENERS_THREE))
-            ->setStatus(Magento_Webhook_Model_Subscription::STATUS_ACTIVE)
+            ->setStatus(\Magento\Webhook\Model\Subscription::STATUS_ACTIVE)
             ->setApiUserId(self::$_apiUserId)
             ->save();
         $this->_subscriptions[] = $subscription;
 
         $this->_subscriptionSet = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Resource_Subscription_Collection');
+            ->create('Magento\Webhook\Model\Resource\Subscription\Collection');
     }
 
     public function tearDown()

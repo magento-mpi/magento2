@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Controller_Adminhtml_Webhook_Subscription
+ * \Magento\Webhook\Controller\Adminhtml\Webhook\Subscription
  *
  * {license_notice}
  *
@@ -13,7 +13,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_mockObjectManager;
 
-    /** @var Magento_Webhook_Controller_Adminhtml_Webhook_Subscription */
+    /** @var \Magento\Webhook\Controller\Adminhtml\Webhook\Subscription */
     protected $_subscriptionContr;
 
     /** @var Magento_TestFramework_Helper_ObjectManager $objectManagerHelper */
@@ -62,33 +62,33 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         $this->_setMageObjectManager();
 
         // Initialize mocks which are used in several test cases
-        $this->_mockApp = $this->getMockBuilder('Magento_Core_Model_App')
+        $this->_mockApp = $this->getMockBuilder('Magento\Core\Model\App')
             ->setMethods( array('getConfig'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_mockConfig = $this->getMockBuilder('Magento_Core_Model_Config')->disableOriginalConstructor()
+        $this->_mockConfig = $this->getMockBuilder('Magento\Core\Model\Config')->disableOriginalConstructor()
             ->getMock();
         $this->_mockApp->expects($this->any())->method('getConfig')->will($this->returnValue($this->_mockConfig));
-        $this->_mockEventManager = $this->getMockBuilder('Magento_Core_Model_Event_Manager')
+        $this->_mockEventManager = $this->getMockBuilder('Magento\Core\Model\Event\Manager')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockLayoutFilter = $this->getMockBuilder('Magento_Core_Model_Layout_Filter_Acl')
+        $this->_mockLayoutFilter = $this->getMockBuilder('Magento\Core\Model\Layout\Filter\Acl')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockBackendModSess = $this->getMockBuilder('Magento_Backend_Model_Session')
+        $this->_mockBackendModSess = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockTranslateModel = $this->getMockBuilder('Magento_Core_Model_Translate')
+        $this->_mockTranslateModel = $this->getMockBuilder('Magento\Core\Model\Translate')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockSubscriptionSvc = $this->getMockBuilder('Magento_Webhook_Service_SubscriptionV1')
+        $this->_mockSubscriptionSvc = $this->getMockBuilder('Magento\Webhook\Service\SubscriptionV1')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockRequest = $this->getMockBuilder('Magento_Core_Controller_Request_Http')
+        $this->_mockRequest = $this->getMockBuilder('Magento\Core\Controller\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockRegistry = $this->getMockBuilder('Magento_Core_Model_Registry')
+        $this->_mockRegistry = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockConfigScope = $this->getMockBuilder('Magento\Config\ScopeInterface')
@@ -153,7 +153,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         $this->_mockObjectManager->expects($this->at(0))
             ->method('get')
             ->with('Magento\Config\ScopeInterface')
-            ->will($this->throwException(new Magento_Core_Exception($exceptionMessage)));
+            ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
 
         // verify the error
         $this->_mockBackendModSess->expects($this->once())
@@ -220,7 +220,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         $this->_mockSubscriptionSvc->expects($this->any())
             ->method('get')
             ->with(1)
-            ->will($this->throwException(new Magento_Core_Exception($exceptionMessage)));
+            ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
 
         // Verify error
         $this->_mockBackendModSess->expects($this->once())->method('addError')
@@ -366,7 +366,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         $exceptionMessage = 'Exceptions happen.';
         $this->_mockSubscriptionSvc->expects($this->any())
             ->method('delete')
-            ->will($this->throwException(new Magento_Core_Exception($exceptionMessage)));
+            ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
 
         // Verify error
         $this->_mockBackendModSess->expects($this->once())->method('addError')
@@ -433,7 +433,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         $exceptionMessage = 'Exceptions happen.';
         $this->_mockSubscriptionSvc->expects($this->any())
             ->method('revoke')
-            ->will($this->throwException(new Magento_Core_Exception($exceptionMessage)));
+            ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
 
         // Verify error
         $this->_mockBackendModSess->expects($this->once())->method('addError')
@@ -499,7 +499,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         $exceptionMessage = 'An exception occurred';
         $this->_mockSubscriptionSvc->expects($this->any())
             ->method('activate')
-            ->will($this->throwException(new Magento_Core_Exception($exceptionMessage)));
+            ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
 
         // Verify error
         $this->_mockBackendModSess->expects($this->once())->method('addError')
@@ -525,15 +525,15 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
     /**
      * Creates the SubscriptionController to test.
      *
-     * @return Magento_Webhook_Controller_Adminhtml_Webhook_Subscription
+     * @return \Magento\Webhook\Controller\Adminhtml\Webhook\Subscription
      */
     protected function _createSubscriptionController()
     {
         // Mock Layout passed into constructor
-        $layoutMock = $this->getMockBuilder('Magento_Core_Model_Layout')
+        $layoutMock = $this->getMockBuilder('Magento\Core\Model\Layout')
             ->disableOriginalConstructor()
             ->getMock();
-        $layoutMergeMock = $this->getMockBuilder('Magento_Core_Model_Layout_Merge')
+        $layoutMergeMock = $this->getMockBuilder('Magento\Core\Model\Layout\Merge')
             ->disableOriginalConstructor()
             ->getMock();
         $layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutMergeMock));
@@ -541,10 +541,10 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         $layoutMock->expects($this->any())->method('getNode')->will($this->returnValue($testElement));
 
         // for _setActiveMenu
-        $blockMock = $this->getMockBuilder('Magento_Backend_Block_Menu')
+        $blockMock = $this->getMockBuilder('Magento\Backend\Block\Menu')
             ->disableOriginalConstructor()
             ->getMock();
-        $menuMock = $this->getMockBuilder('Magento_Backend_Model_Menu')
+        $menuMock = $this->getMockBuilder('Magento\Backend\Model\Menu')
             ->disableOriginalConstructor()
             ->getMock();
         $menuMock->expects($this->any())->method('getParentItems')->will($this->returnValue(array()));
@@ -562,7 +562,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
         );
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper
-            ->getObject('Magento_Backend_Controller_Context',
+            ->getObject('\Magento\Backend\Controller\Context',
                 $contextParameters);
 
         $subControllerParams = array(
@@ -573,7 +573,7 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
 
         /** Create SubscriptionController to test */
         $subscriptionContr = $this->_objectManagerHelper
-            ->getObject('Magento_Webhook_Controller_Adminhtml_Webhook_Subscription',
+            ->getObject('\Magento\Webhook\Controller\Adminhtml\Webhook\Subscription',
                 $subControllerParams);
         return $subscriptionContr;
     }
@@ -581,15 +581,15 @@ class Magento_Webhook_Controller_Adminhtml_Webhook_SubscriptionTest extends PHPU
     /**
      * Common mock 'expect' pattern.
      * Calls that need to be mocked out when
-     * Magento_Backend_Controller_ActionAbstract loadLayout() and renderLayout() are called.
+     * \Magento\Backend\Controller\ActionAbstract loadLayout() and renderLayout() are called.
      */
     protected function _verifyLoadAndRenderLayout()
     {
         $map = array(
-            array('Magento_Core_Model_Config', $this->_mockConfig),
-            array('Magento_Core_Model_Layout_Filter_Acl', $this->_mockLayoutFilter),
-            array('Magento_Backend_Model_Session', $this->_mockBackendModSess),
-            array('Magento_Core_Model_Translate', $this->_mockTranslateModel),
+            array('Magento\Core\Model\Config', $this->_mockConfig),
+            array('Magento\Core\Model\Layout\Filter\Acl', $this->_mockLayoutFilter),
+            array('Magento\Backend\Model\Session', $this->_mockBackendModSess),
+            array('Magento\Core\Model\Translate', $this->_mockTranslateModel),
             array('Magento\Config\ScopeInterface', $this->_mockConfigScope),
         );
         $this->_mockObjectManager->expects($this->any())

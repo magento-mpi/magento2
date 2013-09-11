@@ -16,7 +16,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
+namespace Magento\Core\Block;
+
+class Template extends \Magento\Core\Block\AbstractBlock
 {
     const XML_PATH_DEBUG_TEMPLATE_HINTS         = 'dev/debug/template_hints';
     const XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS  = 'dev/debug/template_hints_blocks';
@@ -44,12 +46,12 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
     protected static $_showTemplateHintsBlocks;
 
     /**
-     * @var Magento_Core_Model_Dir
+     * @var \Magento\Core\Model\Dir
      */
     protected $_dirs;
 
     /**
-     * @var Magento_Core_Model_Logger
+     * @var \Magento\Core\Model\Logger
      */
     protected $_logger;
 
@@ -59,7 +61,7 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
     protected $_filesystem;
 
     /**
-     * @var Magento_Core_Model_View_FileSystem
+     * @var \Magento\Core\Model\View\FileSystem
      */
     protected $_viewFileSystem;
 
@@ -71,15 +73,15 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
     protected $_template;
 
     /**
-     * @var Magento_Core_Model_TemplateEngine_Factory
+     * @var \Magento\Core\Model\TemplateEngine\Factory
      */
     protected $_tmplEngineFactory;
     
     /**
-     * @param Magento_Core_Block_Template_Context $context
+     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Core_Block_Template_Context $context, array $data = array())
+    public function __construct(\Magento\Core\Block\Template\Context $context, array $data = array())
     {
         $this->_dirs = $context->getDirs();
         $this->_logger = $context->getLogger();
@@ -100,7 +102,7 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
          * In case template was passed through constructor
          * we assign it to block's property _template
          * Mainly for those cases when block created
-         * not via Magento_Core_Model_Layout::addBlock()
+         * not via \Magento\Core\Model\Layout::addBlock()
          */
         if ($this->hasData('template')) {
             $this->setTemplate($this->getData('template'));
@@ -121,7 +123,7 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
      * Set path to template used for generating block's output.
      *
      * @param string $template
-     * @return Magento_Core_Block_Template
+     * @return \Magento\Core\Block\Template
      */
     public function setTemplate($template)
     {
@@ -163,7 +165,7 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
      *
      * @param   string|array $key
      * @param   mixed $value
-     * @return  Magento_Core_Block_Template
+     * @return  \Magento\Core\Block\Template
      */
     public function assign($key, $value=null)
     {
@@ -193,10 +195,10 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
     public function getShowTemplateHints()
     {
         if (is_null(self::$_showTemplateHints)) {
-            self::$_showTemplateHints = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
-                && Mage::helper('Magento_Core_Helper_Data')->isDevAllowed();
-            self::$_showTemplateHintsBlocks = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS)
-                && Mage::helper('Magento_Core_Helper_Data')->isDevAllowed();
+            self::$_showTemplateHints = \Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
+                && \Mage::helper('Magento\Core\Helper\Data')->isDevAllowed();
+            self::$_showTemplateHintsBlocks = \Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS)
+                && \Mage::helper('Magento\Core\Helper\Data')->isDevAllowed();
         }
         return self::$_showTemplateHints;
     }
@@ -206,11 +208,11 @@ class Magento_Core_Block_Template extends Magento_Core_Block_Abstract
      *
      * @param  string $fileName
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public function fetchView($fileName)
     {
-        $viewShortPath = str_replace($this->_dirs->getDir(Magento_Core_Model_Dir::ROOT), '', $fileName);
+        $viewShortPath = str_replace($this->_dirs->getDir(\Magento\Core\Model\Dir::ROOT), '', $fileName);
         \Magento\Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
 
 
@@ -237,18 +239,18 @@ HTML;
         }
 
         try {
-            if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(Magento_Core_Model_Dir::APP))
-                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(Magento_Core_Model_Dir::THEMES))
+            if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::APP))
+                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\Core\Model\Dir::THEMES))
                 || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
             ) {
                 $extension = pathinfo($fileName, PATHINFO_EXTENSION); 
                 $templateEngine = $this->_tmplEngineFactory->get($extension);
                 echo $templateEngine->render($this, $fileName, $this->_viewVars);
             } else {
-                $this->_logger->log("Invalid template file: '{$fileName}'", Zend_Log::CRIT);
+                $this->_logger->log("Invalid template file: '{$fileName}'", \Zend_Log::CRIT);
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (!$do) {
                 ob_get_clean();
             }
@@ -315,7 +317,7 @@ HTML;
     {
         return array(
             'BLOCK_TPL',
-            Mage::app()->getStore()->getCode(),
+            \Mage::app()->getStore()->getCode(),
             $this->getTemplateFile(),
             'template' => $this->getTemplate()
         );

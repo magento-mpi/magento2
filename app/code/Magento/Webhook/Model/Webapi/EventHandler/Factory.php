@@ -1,6 +1,6 @@
 <?php
 /**
- * Factory for Magento_Webhook_Model_Webapi_EventHandler objects
+ * Factory for \Magento\Webhook\Model\Webapi\EventHandler objects
  *
  * {license_notice}
  *
@@ -9,7 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Webapi_EventHandler_Factory
+namespace Magento\Webhook\Model\Webapi\EventHandler;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -27,13 +29,13 @@ class Magento_Webhook_Model_Webapi_EventHandler_Factory
     }
 
     /**
-     * Create a new instance of Magento_Webhook_Model_Webapi_EventHandler
+     * Create a new instance of \Magento\Webhook\Model\Webapi\EventHandler
      *
      * @param array $arguments Fed into constructor
-     * @return Magento_Webhook_Model_Webapi_EventHandler
+     * @return \Magento\Webhook\Model\Webapi\EventHandler
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento_Webhook_Model_Webapi_EventHandler', $arguments);
+        return $this->_objectManager->create('Magento\Webhook\Model\Webapi\EventHandler', $arguments);
     }
 }

@@ -16,7 +16,9 @@
  * @package     Magento_Backup
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Model_Db
+namespace Magento\Backup\Model;
+
+class Db
 {
 
     /**
@@ -38,11 +40,11 @@ class Magento_Backup_Model_Db
     /**
      * Retrieve resource model
      *
-     * @return Magento_Backup_Model_Resource_Db
+     * @return \Magento\Backup\Model\Resource\Db
      */
     public function getResource()
     {
-        return Mage::getResourceSingleton('Magento_Backup_Model_Resource_Db');
+        return \Mage::getResourceSingleton('\Magento\Backup\Model\Resource\Db');
     }
 
     public function getTables()
@@ -88,10 +90,10 @@ class Magento_Backup_Model_Db
     /**
      * Create backup and stream write to adapter
      *
-     * @param Magento_Backup_Model_Backup $backup
-     * @return Magento_Backup_Model_Db
+     * @param \Magento\Backup\Model\Backup $backup
+     * @return \Magento\Backup\Model\Db
      */
-    public function createBackup(Magento_Backup_Model_Backup $backup)
+    public function createBackup(\Magento\Backup\Model\Backup $backup)
     {
         $backup->open(true);
 
@@ -153,7 +155,7 @@ class Magento_Backup_Model_Db
     public function getIgnoreDataTablesList()
     {
         $result = array();
-        $resource = Mage::getSingleton('Magento_Core_Model_Resource');
+        $resource = \Mage::getSingleton('Magento\Core\Model\Resource');
 
         foreach ($this->_ignoreDataTablesList as $table) {
             $result[] = $resource->getTableName($table);

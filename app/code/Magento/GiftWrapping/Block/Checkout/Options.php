@@ -15,7 +15,9 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Template
+namespace Magento\GiftWrapping\Block\Checkout;
+
+class Options extends \Magento\Core\Block\Template
 {
     protected $_designCollection;
 
@@ -24,13 +26,13 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     /**
      * Gift wrapping collection
      *
-     * @return Magento_GiftWrapping_Model_Resource_Wrapping_Collection
+     * @return \Magento\GiftWrapping\Model\Resource\Wrapping\Collection
      */
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $store = Mage::app()->getStore();
-            $this->_designCollection = Mage::getModel('Magento_GiftWrapping_Model_Wrapping')->getCollection()
+            $store = \Mage::app()->getStore();
+            $this->_designCollection = \Mage::getModel('\Magento\GiftWrapping\Model\Wrapping')->getCollection()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());
@@ -45,7 +47,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Core_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Core\Block\Html\Select')
             ->setData(array(
             'id'    => 'giftwrapping-${_id_}',
             'class' => 'select'
@@ -59,11 +61,11 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     /**
      * Get quote instance
      *
-     * @return Magento_Sales_Model_Quote
+     * @return \Magento\Sales\Model\Quote
      */
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     /**
@@ -71,20 +73,20 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      *
      * @param \Magento\Object $item
      * @param mixed $basePrice
-     * @param Magento_Sales_Model_Quote_Address $shippingAddress
+     * @param \Magento\Sales\Model\Quote\Address $shippingAddress
      * @param bool $includeTax
      * @return string
      */
     public function calculatePrice($item, $basePrice, $shippingAddress, $includeTax = false)
     {
         $billingAddress = $this->getQuote()->getBillingAddress();
-        $taxClass = Mage::helper('Magento_GiftWrapping_Helper_Data')->getWrappingTaxClass();
+        $taxClass = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getWrappingTaxClass();
         $item->setTaxClassId($taxClass);
 
-        $price = Mage::helper('Magento_GiftWrapping_Helper_Data')->getPrice($item, $basePrice, $includeTax, $shippingAddress,
+        $price = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getPrice($item, $basePrice, $includeTax, $shippingAddress,
             $billingAddress
         );
-        return Mage::helper('Magento_Core_Helper_Data')->currency($price, true, false);
+        return \Mage::helper('Magento\Core\Helper\Data')->currency($price, true, false);
     }
 
     /**
@@ -148,7 +150,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      * Process items
      *
      * @param array $items
-     * @param Magento_Sales_Model_Quote_Address $shippingAddress
+     * @param \Magento\Sales\Model\Quote\Address $shippingAddress
      * @param array $data
      * @return array
      */
@@ -159,7 +161,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
                 continue;
             }
             $allowed = $item->getProduct()->getGiftWrappingAvailable();
-            if (Mage::helper('Magento_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForProduct($allowed)
+            if (\Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForProduct($allowed)
                 && !$item->getIsVirtual()) {
                 $temp = array();
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
@@ -199,7 +201,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
     {
         $data = array();
         if ($this->getAllowPrintedCard()) {
-            $price = Mage::helper('Magento_GiftWrapping_Helper_Data')->getPrintedCardPrice();
+            $price = \Mage::helper('Magento\GiftWrapping\Helper\Data')->getPrintedCardPrice();
             foreach ($this->getQuote()->getAllShippingAddresses() as $address) {
                 $entityId = $this->getQuote()->getIsMultiShipping()
                     ? $address->getId()
@@ -237,7 +239,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getDisplayWrappingBothPrices()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->displayCartWrappingBothPrices();
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displayCartWrappingBothPrices();
     }
 
     /**
@@ -247,7 +249,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getDisplayCardBothPrices()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->displayCartCardBothPrices();
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displayCartCardBothPrices();
     }
 
     /**
@@ -257,7 +259,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getDisplayWrappingIncludeTaxPrice()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->displayCartWrappingIncludeTaxPrice();
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displayCartWrappingIncludeTaxPrice();
     }
 
     /**
@@ -267,7 +269,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getDisplayCardIncludeTaxPrice()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->displayCartCardIncludeTaxPrice();
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->displayCartCardIncludeTaxPrice();
     }
 
     /**
@@ -277,7 +279,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getAllowPrintedCard()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->allowPrintedCard();
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->allowPrintedCard();
     }
 
     /**
@@ -287,7 +289,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getAllowGiftReceipt()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->allowGiftReceipt();
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->allowGiftReceipt();
     }
 
     /**
@@ -297,7 +299,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getAllowForOrder()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForOrder();
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForOrder();
     }
 
     /**
@@ -307,7 +309,7 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function getAllowForItems()
     {
-        return Mage::helper('Magento_GiftWrapping_Helper_Data')->isGiftWrappingAvailableForItems();
+        return \Mage::helper('Magento\GiftWrapping\Helper\Data')->isGiftWrappingAvailableForItems();
     }
 
     /**
@@ -317,8 +319,8 @@ class Magento_GiftWrapping_Block_Checkout_Options extends Magento_Core_Block_Tem
      */
     public function canDisplayGiftWrapping()
     {
-        $cartItems      = Mage::getModel('Magento_Checkout_Model_Cart')->getItems();
-        $productModel   = Mage::getModel('Magento_Catalog_Model_Product');
+        $cartItems      = \Mage::getModel('\Magento\Checkout\Model\Cart')->getItems();
+        $productModel   = \Mage::getModel('\Magento\Catalog\Model\Product');
         foreach ($cartItems as $item) {
             $product = $productModel->load($item->getProductId());
             if ($product->getGiftWrappingAvailable()) {

@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Resource_Url_Rewrite extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Core\Model\Resource\Url;
+
+class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
@@ -30,7 +32,7 @@ class Magento_Core_Model_Resource_Url_Rewrite extends Magento_Core_Model_Resourc
     /**
      * Initialize array fields
      *
-     * @return Magento_Core_Model_Resource_Url_Rewrite
+     * @return \Magento\Core\Model\Resource\Url\Rewrite
      */
     protected function _initUniqueFields()
     {
@@ -52,8 +54,8 @@ class Magento_Core_Model_Resource_Url_Rewrite extends Magento_Core_Model_Resourc
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Core_Model_Url_Rewrite $object
-     * @return Zend_Db_Select
+     * @param \Magento\Core\Model\Url\Rewrite $object
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -61,7 +63,7 @@ class Magento_Core_Model_Resource_Url_Rewrite extends Magento_Core_Model_Resourc
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if (!is_null($object->getStoreId())) {
-            $select->where('store_id IN(?)', array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID, $object->getStoreId()));
+            $select->where('store_id IN(?)', array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID, $object->getStoreId()));
             $select->order('store_id ' . \Magento\DB\Select::SQL_DESC);
             $select->limit(1);
         }
@@ -73,12 +75,12 @@ class Magento_Core_Model_Resource_Url_Rewrite extends Magento_Core_Model_Resourc
      * Retrieve request_path using id_path and current store's id.
      *
      * @param string $idPath
-     * @param int|Magento_Core_Model_Store $store
+     * @param int|\Magento\Core\Model\Store $store
      * @return string|false
      */
     public function getRequestPathByIdPath($idPath, $store)
     {
-        if ($store instanceof Magento_Core_Model_Store) {
+        if ($store instanceof \Magento\Core\Model\Store) {
             $storeId = (int)$store->getId();
         } else {
             $storeId = (int)$store;
@@ -103,11 +105,11 @@ class Magento_Core_Model_Resource_Url_Rewrite extends Magento_Core_Model_Resourc
      * Load rewrite information for request
      * If $path is array - we must load all possible records and choose one matching earlier record in array
      *
-     * @param   Magento_Core_Model_Url_Rewrite $object
+     * @param   \Magento\Core\Model\Url\Rewrite $object
      * @param   array|string $path
-     * @return  Magento_Core_Model_Resource_Url_Rewrite
+     * @return  \Magento\Core\Model\Resource\Url\Rewrite
      */
-    public function loadByRequestPath(Magento_Core_Model_Url_Rewrite $object, $path)
+    public function loadByRequestPath(\Magento\Core\Model\Url\Rewrite $object, $path)
     {
         if (!is_array($path)) {
             $path = array($path);
@@ -122,7 +124,7 @@ class Magento_Core_Model_Resource_Url_Rewrite extends Magento_Core_Model_Resourc
         $select  = $adapter->select()
             ->from($this->getMainTable())
             ->where('request_path IN (:' . implode(', :', array_flip($pathBind)) . ')')
-            ->where('store_id IN(?)', array(Magento_Core_Model_AppInterface::ADMIN_STORE_ID, (int)$object->getStoreId()));
+            ->where('store_id IN(?)', array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID, (int)$object->getStoreId()));
 
         $items = $adapter->fetchAll($select, $pathBind);
 

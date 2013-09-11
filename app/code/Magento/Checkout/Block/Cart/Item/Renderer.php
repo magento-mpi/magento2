@@ -15,12 +15,14 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method Magento_Checkout_Block_Cart_Item_Renderer setProductName(string)
- * @method Magento_Checkout_Block_Cart_Item_Renderer setDeleteUrl(string)
+ * @method \Magento\Checkout\Block\Cart\Item\Renderer setProductName(string)
+ * @method \Magento\Checkout\Block\Cart\Item\Renderer setDeleteUrl(string)
  */
-class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block\Cart\Item;
+
+class Renderer extends \Magento\Core\Block\Template
 {
-    /** @var Magento_Checkout_Model_Session */
+    /** @var \Magento\Checkout\Model\Session */
     protected $_checkoutSession;
     protected $_item;
     protected $_productUrl = null;
@@ -43,10 +45,10 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Set item for render
      *
-     * @param   Magento_Sales_Model_Quote_Item $item
-     * @return  Magento_Checkout_Block_Cart_Item_Renderer
+     * @param   \Magento\Sales\Model\Quote\Item $item
+     * @return  \Magento\Checkout\Block\Cart\Item\Renderer
      */
-    public function setItem(Magento_Sales_Model_Quote_Item_Abstract $item)
+    public function setItem(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
         $this->_item = $item;
         return $this;
@@ -55,7 +57,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Get quote item
      *
-     * @return Magento_Sales_Model_Quote_Item
+     * @return \Magento\Sales\Model\Quote\Item
      */
     public function getItem()
     {
@@ -65,7 +67,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Get item product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
@@ -81,7 +83,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Thumbnail image getter
      *
-     * @return Magento_Catalog_Helper_Image
+     * @return \Magento\Catalog\Helper\Image
      */
     protected function _getThumbnail()
     {
@@ -96,7 +98,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
                     $product = $children[0]->getProduct();
                 }
             }
-            $thumbnail = $this->helper('Magento_Catalog_Helper_Image')->init($product, 'thumbnail');
+            $thumbnail = $this->helper('\Magento\Catalog\Helper\Image')->init($product, 'thumbnail');
         } else {
             $thumbnail = $this->_productThumbnail;
         }
@@ -106,7 +108,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Get product thumbnail image url
      *
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function getProductThumbnailUrl()
     {
@@ -126,7 +128,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Get product thumbnail image url for sidebar
      *
-     * @return Magento_Catalog_Model_Product_Image
+     * @return \Magento\Catalog\Model\Product\Image
      */
     public function getProductThumbnailSidebarUrl()
     {
@@ -228,8 +230,8 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
      */
     public function getProductOptions()
     {
-        /* @var $helper Magento_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product_Configuration');
+        /* @var $helper \Magento\Catalog\Helper\Product\Configuration */
+        $helper = \Mage::helper('Magento\Catalog\Helper\Product\Configuration');
         return $helper->getCustomOptions($this->getItem());
     }
 
@@ -267,12 +269,12 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
             return $this->getData('delete_url');
         }
 
-        $encodedUrl = $this->helper('Magento_Core_Helper_Url')->getEncodedUrl();
+        $encodedUrl = $this->helper('\Magento\Core\Helper\Url')->getEncodedUrl();
         return $this->getUrl(
             'checkout/cart/delete',
             array(
                 'id'=>$this->getItem()->getId(),
-                Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED => $encodedUrl
+                \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $encodedUrl
             )
         );
     }
@@ -293,12 +295,12 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Get checkout session
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     public function getCheckoutSession()
     {
         if (null === $this->_checkoutSession) {
-            $this->_checkoutSession = Mage::getSingleton('Magento_Checkout_Model_Session');
+            $this->_checkoutSession = \Mage::getSingleton('Magento\Checkout\Model\Session');
         }
         return $this->_checkoutSession;
     }
@@ -331,15 +333,15 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
         // Add messages saved previously in checkout session
         $checkoutSession = $this->getCheckoutSession();
         if ($checkoutSession) {
-            /* @var $collection Magento_Core_Model_Message_Collection */
+            /* @var $collection \Magento\Core\Model\Message\Collection */
             $collection = $checkoutSession->getQuoteItemMessages($quoteItem->getId(), true);
             if ($collection) {
                 $additionalMessages = $collection->getItems();
                 foreach ($additionalMessages as $message) {
-                    /* @var $message Magento_Core_Model_Message_Abstract */
+                    /* @var $message \Magento\Core\Model\Message\AbstractMessage */
                     $messages[] = array(
                         'text' => $message->getCode(),
-                        'type' => ($message->getType() == Magento_Core_Model_Message::ERROR) ? 'error' : 'notice'
+                        'type' => ($message->getType() == \Magento\Core\Model\Message::ERROR) ? 'error' : 'notice'
                     );
                 }
             }
@@ -370,8 +372,8 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
      */
     public function getFormatedOptionValue($optionValue)
     {
-        /* @var $helper Magento_Catalog_Helper_Product_Configuration */
-        $helper = Mage::helper('Magento_Catalog_Helper_Product_Configuration');
+        /* @var $helper \Magento\Catalog\Helper\Product\Configuration */
+        $helper = \Mage::helper('Magento\Catalog\Helper\Product\Configuration');
         $params = array(
             'max_length' => 55,
             'cut_replacer' => ' <a href="#" class="dots" onclick="return false">...</a>'
@@ -392,7 +394,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Return product additional information block
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function getProductAdditionalInformationBlock()
     {
@@ -402,12 +404,12 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
     /**
      * Get html for MAP product enabled
      *
-     * @param Magento_Sales_Model_Quote_Item $item
+     * @param \Magento\Sales\Model\Quote\Item $item
      * @return string
      */
     public function getMsrpHtml($item)
     {
-        return $this->getLayout()->createBlock('Magento_Catalog_Block_Product_Price')
+        return $this->getLayout()->createBlock('\Magento\Catalog\Block\Product\Price')
             ->setTemplate('product/price_msrp_item.phtml')
             ->setProduct($item->getProduct())
             ->toHtml();
@@ -417,7 +419,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
      * Set qty mode to be strict or not
      *
      * @param bool $strict
-     * @return Magento_Checkout_Block_Cart_Item_Renderer
+     * @return \Magento\Checkout\Block\Cart\Item\Renderer
      */
     public function setQtyMode($strict)
     {
@@ -429,7 +431,7 @@ class Magento_Checkout_Block_Cart_Item_Renderer extends Magento_Core_Block_Templ
      * Set ignore product URL rendering
      *
      * @param bool $ignore
-     * @return Magento_Checkout_Block_Cart_Item_Renderer
+     * @return \Magento\Checkout\Block\Cart\Item\Renderer
      */
     public function setIgnoreProductUrl($ignore = true)
     {

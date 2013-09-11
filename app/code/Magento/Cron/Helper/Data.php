@@ -11,7 +11,9 @@
 /**
  * Cron data helper
  */
-class Magento_Cron_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Cron\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 
 }

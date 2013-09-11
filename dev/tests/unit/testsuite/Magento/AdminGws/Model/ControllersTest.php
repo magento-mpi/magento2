@@ -12,7 +12,7 @@
 class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_AdminGws_Model_Controllers
+     * @var \Magento\AdminGws\Model\Controllers
      */
     protected $_model;
 
@@ -45,13 +45,13 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_roleMock = $this->getMock('Magento_AdminGws_Model_Role', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
+        $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
         $this->_objectFactory = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
-        $this->_controllerMock = $this->getMock('Magento_Adminhtml_Controller_Action', array(), array(), '', false);
+        $this->_controllerMock = $this->getMock('Magento\Adminhtml\Controller\Action', array(), array(), '', false);
         $this->_ctrlRequestMock = $this->getMock(
-            'Magento_Core_Controller_Request_Http',
+            '\Magento\Core\Controller\Request\Http',
             array(),
             array(),
             '',
@@ -60,7 +60,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
         $this->_controllerMock->expects($this->once())
             ->method('getRequest')->will($this->returnValue($this->_ctrlRequestMock));
 
-        $this->_model = new Magento_AdminGws_Model_Controllers(
+        $this->_model = new \Magento\AdminGws\Model\Controllers(
             $this->_roleMock,
             $this->_requestMock,
             $this->_objectFactory
@@ -163,19 +163,19 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 'promo_catalog',
-                'Magento_CatalogRule_Model_Rule',
+                '\Magento\CatalogRule\Model\Rule',
             ),
             array(
                 'promo_quote',
-                'Magento_SalesRule_Model_Rule'
+                '\Magento\SalesRule\Model\Rule'
             ),
             array(
                 'reminder',
-                'Magento_Reminder_Model_Rule'
+                '\Magento\Reminder\Model\Rule'
             ),
             array(
                 'customersegment',
-                'Magento_CustomerSegment_Model_Segment'
+                '\Magento\CustomerSegment\Model\Segment'
             ),
         );
     }
@@ -211,7 +211,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
 
         $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
 
-        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
         $modelMock->expects($this->once())->method('load')->with(1);
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(false));
 
@@ -228,7 +228,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateRuleEntityActionDenyActionIfRoleHasNoExclusiveAccessToAssignedToRuleEntityWebsites()
     {
-        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
 
         $this->_ctrlRequestMock
             ->expects($this->once())->method('getActionName')->will($this->returnValue('edit'));
@@ -265,7 +265,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
         $this->_ctrlRequestMock
             ->expects($this->once())->method('getControllerName')->will($this->returnValue('promo_catalog'));
 
-        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
         $modelMock->expects($this->once())->method('load')->with(array(1));
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));
@@ -300,7 +300,7 @@ class Magento_AdminGws_Model_ControllersTest extends PHPUnit_Framework_TestCase
 
         $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
 
-        $modelMock = $this->getMock('Magento_CatalogRule_Model_Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
         $modelMock->expects($this->once())->method('load')->with(array(1));
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));

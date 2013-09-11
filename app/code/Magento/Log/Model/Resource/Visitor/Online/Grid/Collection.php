@@ -7,18 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_Resource_Visitor_Online_Grid_Collection extends Magento_Log_Model_Resource_Visitor_Online_Collection
+namespace Magento\Log\Model\Resource\Visitor\Online\Grid;
+
+class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
 {
     /**
      *
      * @var array
-     * @return Magento_Log_Model_Resource_Visitor_Online_Grid_Collection
+     * @return \Magento\Log\Model\Resource\Visitor\Online\Grid\Collection
      */
 
     protected function _initSelect()
     {
         parent::_initSelect();
-        Mage::getModel('Magento_Log_Model_Visitor_Online')
+        \Mage::getModel('\Magento\Log\Model\Visitor\Online')
            ->prepare();
         $this->addCustomerData();
         return $this;

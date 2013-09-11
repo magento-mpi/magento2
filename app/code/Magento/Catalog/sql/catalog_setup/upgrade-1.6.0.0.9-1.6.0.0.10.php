@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer  = $this;
 $connection = $installer->getConnection();
 
@@ -93,10 +93,10 @@ $installer->addAttribute('catalog_product', 'group_price', array(
     'type'                       => 'decimal',
     'label'                      => 'Group Price',
     'input'                      => 'text',
-    'backend'                    => 'Magento_Catalog_Model_Product_Attribute_Backend_Groupprice',
+    'backend'                    => '\Magento\Catalog\Model\Product\Attribute\Backend\Groupprice',
     'required'                   => false,
     'sort_order'                 => 6,
-    'global'                     => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE,
+    'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
     'apply_to'                   => 'simple,configurable,virtual',
     'group'                      => 'Prices',
 ));

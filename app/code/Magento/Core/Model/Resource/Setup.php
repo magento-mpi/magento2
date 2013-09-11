@@ -11,7 +11,9 @@
 /**
  * Resource Setup Model
  */
-class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_SetupInterface
+namespace Magento\Core\Model\Resource;
+
+class Setup implements \Magento\Core\Model\Resource\SetupInterface
 {
     /**
      * Setup resource name
@@ -76,36 +78,36 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Modules configuration
      *
-     * @var Magento_Core_Model_Resource
+     * @var \Magento\Core\Model\Resource
      */
     protected $_resourceModel;
 
     /**
      * Modules configuration reader
      *
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_modulesReader;
 
     /**
-     * @var Magento_Core_Model_Config
+     * @var \Magento\Core\Model\Config
      */
     protected $_config;
 
     /**
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param string $resourceName
      */
     public function __construct(
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        \Magento\Core\Model\Config\Resource $resourcesConfig,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         $resourceName
     ) {
         $this->_config = $config;
@@ -148,7 +150,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $tableName
      * @param string $realTableName
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function setTable($tableName, $realTableName)
     {
@@ -189,17 +191,17 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Get core resource resource model
      *
-     * @return Magento_Core_Model_Resource_Resource
+     * @return \Magento\Core\Model\Resource\Resource
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Magento_Core_Model_Resource_Resource');
+        return \Mage::getResourceSingleton('\Magento\Core\Model\Resource\Resource');
     }
 
     /**
      * Apply data updates to the system after upgrading.
      *
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function applyDataUpdates()
     {
@@ -219,7 +221,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Apply module resource install, upgrade and data scripts
      *
-     * @return Magento_Core_Model_Resource_Setup|bool
+     * @return \Magento\Core\Model\Resource\Setup|bool
      */
     public function applyUpdates()
     {
@@ -251,7 +253,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * Run data install scripts
      *
      * @param string $newVersion
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _installData($newVersion)
     {
@@ -267,7 +269,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $oldVersion
      * @param string $newVersion
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _upgradeData($oldVersion, $newVersion)
     {
@@ -281,7 +283,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * Run resource installation file
      *
      * @param string $newVersion
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _installResourceDb($newVersion)
     {
@@ -297,7 +299,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $oldVersion
      * @param string $newVersion
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _upgradeResourceDb($oldVersion, $newVersion)
     {
@@ -312,7 +314,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $newVersion
      * @param string $oldVersion
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _rollbackResourceDb($newVersion, $oldVersion)
     {
@@ -324,7 +326,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * Uninstall resource
      *
      * @param string $version existing resource version
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _uninstallResourceDb($version)
     {
@@ -389,7 +391,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         $modName    = (string)$this->_moduleConfig['name'];
         $files      = array();
 
-        $filesDir   = Mage::getModuleDir('data', $modName) . DS . $this->_resourceName;
+        $filesDir   = \Mage::getModuleDir('data', $modName) . DS . $this->_resourceName;
         if (is_dir($filesDir) && is_readable($filesDir)) {
             $regExp     = sprintf('#^%s-(.*)\.php$#i', $actionType);
             $handlerDir = dir($filesDir);
@@ -403,7 +405,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
         }
 
         // search data files in old location
-        $filesDir   = Mage::getModuleDir('sql', $modName) . DS . $this->_resourceName;
+        $filesDir   = \Mage::getModuleDir('sql', $modName) . DS . $this->_resourceName;
         if (is_dir($filesDir) && is_readable($filesDir)) {
             $regExp     = sprintf('#^%s-%s-(.*)\.php$#i', $this->_connectionConfig->model, $actionType);
             $handlerDir = dir($filesDir);
@@ -429,7 +431,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $actionType
      * @param string $version
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     protected function _setResourceVersion($actionType, $version)
     {
@@ -503,11 +505,11 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
 
                 if ($result) {
                     $this->_setResourceVersion($actionType, $file['toVersion']);
-                    Mage::log($fileName);
+                    \Mage::log($fileName);
                 } else {
-                    Mage::log("Failed resource setup: {$fileName}");
+                    \Mage::log("Failed resource setup: {$fileName}");
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 throw new \Magento\Exception(sprintf('Error in file: "%s" - %s', $fileName, $e->getMessage()), 0, $e);
             }
             $version = $file['toVersion'];
@@ -619,7 +621,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param string|int $rowId
      * @param null|string $parentField
      * @param int|string $parentId
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function deleteTableRow($table, $idField, $rowId, $parentField = null, $parentId = 0)
     {
@@ -649,7 +651,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param mixed|null $value
      * @param string $parentField
      * @param string|integer $parentId
-     * @return Magento_Eav_Model_Entity_Setup
+     * @return \Magento\Eav\Model\Entity\Setup
      */
     public function updateTableRow($table, $idField, $rowId, $field, $value = null, $parentField = null, $parentId = 0)
     {
@@ -697,9 +699,9 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * @param string $value
      * @param int|string $scope
      * @param int $scopeId
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
-    public function setConfigData($path, $value, $scope = Magento_Core_Model_Store::DEFAULT_CODE, $scopeId = 0)
+    public function setConfigData($path, $value, $scope = \Magento\Core\Model\Store::DEFAULT_CODE, $scopeId = 0)
     {
         $table = $this->getTable('core_config_data');
         // this is a fix for mysql 4.1
@@ -720,7 +722,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      *
      * @param string $path
      * @param string $scope (default|stores|websites|config)
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function deleteConfigData($path, $scope = null)
     {
@@ -736,7 +738,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * Run plain SQL query(ies)
      *
      * @param string $sql
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function run($sql)
     {
@@ -747,7 +749,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Prepare database before install/upgrade
      *
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function startSetup()
     {
@@ -758,7 +760,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
     /**
      * Prepare database after install/upgrade
      *
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function endSetup()
     {
@@ -807,7 +809,7 @@ class Magento_Core_Model_Resource_Setup implements Magento_Core_Model_Resource_S
      * Run each time after applying of all updates,
      * if setup model setted  $_callAfterApplyAllUpdates flag to true
      *
-     * @return Magento_Core_Model_Resource_Setup
+     * @return \Magento\Core\Model\Resource\Setup
      */
     public function afterApplyAllUpdates()
     {

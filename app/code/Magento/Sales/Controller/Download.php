@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Action
+namespace Magento\Sales\Controller;
+
+class Download extends \Magento\Core\Controller\Front\Action
 {
 
     /**
@@ -29,22 +31,22 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
         $secretKey = $this->getRequest()->getParam('key');
         try {
             if ($secretKey != $info['secret_key']) {
-                throw new Exception();
+                throw new \Exception();
             }
 
-            $filePath = Mage::getBaseDir() . $info['order_path'];
+            $filePath = \Mage::getBaseDir() . $info['order_path'];
             if ((!is_file($filePath) || !is_readable($filePath)) && !$this->_processDatabaseFile($filePath)) {
                 //try get file from quote
-                $filePath = Mage::getBaseDir() . $info['quote_path'];
+                $filePath = \Mage::getBaseDir() . $info['quote_path'];
                 if ((!is_file($filePath) || !is_readable($filePath)) && !$this->_processDatabaseFile($filePath)) {
-                    throw new Exception();
+                    throw new \Exception();
                 }
             }
             $this->_prepareDownloadResponse($info['title'], array(
                'value' => $filePath,
                'type'  => 'filename'
             ));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_forward('noRoute');
         }
     }
@@ -57,12 +59,12 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
      */
     protected function _processDatabaseFile($filePath)
     {
-        if (!Mage::helper('Magento_Core_Helper_File_Storage_Database')->checkDbUsage()) {
+        if (!\Mage::helper('Magento\Core\Helper\File\Storage\Database')->checkDbUsage()) {
             return false;
         }
 
-        $relativePath = Mage::helper('Magento_Core_Helper_File_Storage_Database')->getMediaRelativePath($filePath);
-        $file = Mage::getModel('Magento_Core_Model_File_Storage_Database')->loadByFilename($relativePath);
+        $relativePath = \Mage::helper('Magento\Core\Helper\File\Storage\Database')->getMediaRelativePath($filePath);
+        $file = \Mage::getModel('\Magento\Core\Model\File\Storage\Database')->loadByFilename($relativePath);
 
         if (!$file->getId()) {
             return false;
@@ -88,7 +90,7 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
      */
     public function downloadProfileCustomOptionAction()
     {
-        $recurringProfile = Mage::getModel('Magento_Sales_Model_Recurring_Profile')->load($this->getRequest()->getParam('id'));
+        $recurringProfile = \Mage::getModel('\Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('id'));
 
         if (!$recurringProfile->getId()) {
             $this->_forward('noRoute');
@@ -109,7 +111,7 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
                 return;
             }
             // Check if the product exists
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($request['product']);
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($request['product']);
             if (!$product || !$product->getId()) {
                 $this->_forward('noRoute');
                 return;
@@ -121,7 +123,7 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
                 return;
             }
             $this->_downloadFileAction($request['options'][$this->getRequest()->getParam('option_id')]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_forward('noRoute');
         }
     }
@@ -132,8 +134,8 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
     public function downloadCustomOptionAction()
     {
         $quoteItemOptionId = $this->getRequest()->getParam('id');
-        /** @var $option Magento_Sales_Model_Quote_Item_Option */
-        $option = Mage::getModel('Magento_Sales_Model_Quote_Item_Option')->load($quoteItemOptionId);
+        /** @var $option \Magento\Sales\Model\Quote\Item\Option */
+        $option = \Mage::getModel('\Magento\Sales\Model\Quote\Item\Option')->load($quoteItemOptionId);
 
         if (!$option->getId()) {
             $this->_forward('noRoute');
@@ -141,16 +143,16 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
         }
 
         $optionId = null;
-        if (strpos($option->getCode(), Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX) === 0) {
-            $optionId = str_replace(Magento_Catalog_Model_Product_Type_Abstract::OPTION_PREFIX, '', $option->getCode());
+        if (strpos($option->getCode(), \Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX) === 0) {
+            $optionId = str_replace(\Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX, '', $option->getCode());
             if ((int)$optionId != $optionId) {
                 $optionId = null;
             }
         }
         $productOption = null;
         if ($optionId) {
-            /** @var $productOption Magento_Catalog_Model_Product_Option */
-            $productOption = Mage::getModel('Magento_Catalog_Model_Product_Option')->load($optionId);
+            /** @var $productOption \Magento\Catalog\Model\Product\Option */
+            $productOption = \Mage::getModel('\Magento\Catalog\Model\Product\Option')->load($optionId);
         }
         if (!$productOption || !$productOption->getId()
             || $productOption->getProductId() != $option->getProductId() || $productOption->getType() != 'file'
@@ -162,7 +164,7 @@ class Magento_Sales_Controller_Download extends Magento_Core_Controller_Front_Ac
         try {
             $info = unserialize($option->getValue());
             $this->_downloadFileAction($info);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_forward('noRoute');
         }
         exit(0);

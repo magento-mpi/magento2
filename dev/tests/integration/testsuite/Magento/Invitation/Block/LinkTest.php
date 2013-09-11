@@ -12,13 +12,13 @@
 class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Invitation_Block_Link
+     * @var \Magento\Invitation\Block\Link
      */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Invitation_Block_Link');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Invitation\Block\Link');
     }
 
     /**
@@ -30,16 +30,16 @@ class Magento_Invitation_Block_LinkTest extends PHPUnit_Framework_TestCase
     {
         $layout = Mage::app()->getLayout();
         $this->_block->setLayout($layout);
-        $layout->addBlock('Magento_Page_Block_Template_Links', 'account.links');
+        $layout->addBlock('\Magento\Page\Block\Template\Links', 'account.links');
 
-        /* @var Magento_Page_Block_Template_Links $links */
+        /* @var \Magento\Page\Block\Template\Links $links */
         $links = $layout->getBlock('account.links');
         $this->assertEmpty($links->getLinks());
 
         $this->_block->addAccountLink();
         $this->assertEmpty($links->getLinks());
 
-        Mage::getSingleton('Magento_Customer_Model_Session')->login('customer@example.com', 'password');
+        Mage::getSingleton('Magento\Customer\Model\Session')->login('customer@example.com', 'password');
         $this->_block->addAccountLink();
         $links = $links->getLinks();
         $this->assertNotEmpty($links);

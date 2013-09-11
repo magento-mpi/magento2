@@ -7,9 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Cms\Page\Edit\Tab;
+
+class Design
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare form tab configuration
@@ -23,7 +25,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
     /**
      * Initialise form fields
      *
-     * @return Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
+     * @return \Magento\Adminhtml\Block\Cms\Page\Edit\Tab\Design
      */
     protected function _prepareForm()
     {
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
 
         $form->setHtmlIdPrefix('page_');
 
-        $model = Mage::registry('cms_page');
+        $model = \Mage::registry('cms_page');
 
         $layoutFieldset = $form->addFieldset('layout_fieldset', array(
             'legend' => __('Page Layout'),
@@ -52,11 +54,11 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'name'     => 'root_template',
             'label'    => __('Layout'),
             'required' => true,
-            'values'   => Mage::getSingleton('Magento_Page_Model_Source_Layout')->toOptionArray(),
+            'values'   => \Mage::getSingleton('Magento\Page\Model\Source\Layout')->toOptionArray(),
             'disabled' => $isElementDisabled
         ));
         if (!$model->getId()) {
-            $model->setRootTemplate(Mage::getSingleton('Magento_Page_Model_Source_Layout')->getDefaultValue());
+            $model->setRootTemplate(\Mage::getSingleton('Magento\Page\Model\Source\Layout')->getDefaultValue());
         }
 
         $layoutFieldset->addField('layout_update_xml', 'textarea', array(
@@ -72,7 +74,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'disabled'  => $isElementDisabled
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
 
         $designFieldset->addField('custom_theme_from', 'date', array(
             'name'      => 'custom_theme_from',
@@ -92,8 +94,8 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'class'     => 'validate-date validate-date-range date-range-custom_theme-to'
         ));
 
-        /** @var $label Magento_Core_Model_Theme_Label */
-        $label = Mage::getModel('Magento_Core_Model_Theme_Label');
+        /** @var $label \Magento\Core\Model\Theme\Label */
+        $label = \Mage::getModel('\Magento\Core\Model\Theme\Label');
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $designFieldset->addField('custom_theme', 'select', array(
             'name'      => 'custom_theme',
@@ -105,7 +107,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
         $designFieldset->addField('custom_root_template', 'select', array(
             'name'      => 'custom_root_template',
             'label'     => __('Custom Layout'),
-            'values'    => Mage::getSingleton('Magento_Page_Model_Source_Layout')->toOptionArray(true),
+            'values'    => \Mage::getSingleton('Magento\Page\Model\Source\Layout')->toOptionArray(true),
             'disabled'  => $isElementDisabled
         ));
 
@@ -116,7 +118,7 @@ class Magento_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'disabled'  => $isElementDisabled
         ));
 
-        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_design_prepare_form', array('form' => $form));
+        \Mage::dispatchEvent('adminhtml_cms_page_edit_tab_design_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
 

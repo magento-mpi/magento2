@@ -9,11 +9,11 @@
  */
 
 ?>
-<?php /* @var $this Magento_Bundle_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Options_Type_Radio */ ?>
+<?php /* @var $this \Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type\Radio */ ?>
 <?php $_option = $this->getOption(); ?>
 <?php $_selections  = $_option->getSelections(); ?>
 <?php $_default = $_option->getDefaultSelection(); ?>
-<?php $_skipSaleableCheck = $this->helper('Magento_Catalog_Helper_Product')->getSkipSaleableCheck(); ?>
+<?php $_skipSaleableCheck = $this->helper('\Magento\Catalog\Helper\Product')->getSkipSaleableCheck(); ?>
 <?php list($_defaultQty, $_canChangeQty) = $this->getDefaultValues(); ?>
 
 <dt>

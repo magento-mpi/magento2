@@ -9,15 +9,15 @@
 class Magento_Core_Helper_CssTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Helper_Css
+     * @var \Magento\Core\Helper\Css
      */
     protected $_object;
 
     public function setUp()
     {
         $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
-        $dirs = new Magento_Core_Model_Dir('/base_dir');
-        $this->_object = new Magento_Core_Helper_Css($filesystem, $dirs);
+        $dirs = new \Magento\Core\Model\Dir('/base_dir');
+        $this->_object = new \Magento\Core\Helper\Css($filesystem, $dirs);
     }
 
     /**
@@ -123,7 +123,7 @@ class Magento_Core_Helper_CssTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $originalFile
      * @param string $newFile
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Offset can be calculated for internal resources only.
      * @dataProvider replaceCssRelativeUrlsExceptionDataProvider
      */

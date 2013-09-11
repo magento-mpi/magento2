@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Role_UsersUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+namespace Magento\Webapi\Model\Acl\Role;
+
+class UsersUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * Filter name for users by role.
@@ -28,19 +30,19 @@ class Magento_Webapi_Model_Acl_Role_UsersUpdater implements Magento_Core_Model_L
     protected $_roleId;
 
     /**
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_inRoleUsersFilter;
 
     /**
      * Constructor.
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Backend_Helper_Data $backendHelper
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Backend\Helper\Data $backendHelper
      */
     public function __construct(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Backend_Helper_Data $backendHelper
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Backend\Helper\Data $backendHelper
     ) {
         $this->_roleId = (int)$request->getParam('role_id');
         $this->_inRoleUsersFilter = $this->_parseInRoleUsersFilter($request, $backendHelper);
@@ -49,13 +51,13 @@ class Magento_Webapi_Model_Acl_Role_UsersUpdater implements Magento_Core_Model_L
     /**
      * Parse $_inRoleUsersFilter value from request
      *
-     * @param Magento_Core_Controller_Request_Http $request
-     * @param Magento_Backend_Helper_Data $backendHelper
+     * @param \Magento\Core\Controller\Request\Http $request
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @return int
      */
     protected function _parseInRoleUsersFilter(
-        Magento_Core_Controller_Request_Http $request,
-        Magento_Backend_Helper_Data $backendHelper
+        \Magento\Core\Controller\Request\Http $request,
+        \Magento\Backend\Helper\Data $backendHelper
     ) {
         $result = self::IN_ROLE_USERS_ANY;
         $filter = $backendHelper->prepareFilterString($request->getParam('filter', ''));
@@ -70,8 +72,8 @@ class Magento_Webapi_Model_Acl_Role_UsersUpdater implements Magento_Core_Model_L
     /**
      * Add filtering users by role.
      *
-     * @param Magento_Webapi_Model_Resource_Acl_User_Collection $collection
-     * @return Magento_Webapi_Model_Resource_Acl_User_Collection
+     * @param \Magento\Webapi\Model\Resource\Acl\User\Collection $collection
+     * @return \Magento\Webapi\Model\Resource\Acl\User\Collection
      */
     public function update($collection)
     {
@@ -83,7 +85,7 @@ class Magento_Webapi_Model_Acl_Role_UsersUpdater implements Magento_Core_Model_L
                 case self::IN_ROLE_USERS_NO:
                     $collection->addFieldToFilter('role_id', array(
                         array('neq' => $this->_roleId),
-                        array('is' => new Zend_Db_Expr('NULL'))
+                        array('is' => new \Zend_Db_Expr('NULL'))
                     ));
                     break;
             }

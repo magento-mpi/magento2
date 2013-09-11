@@ -12,7 +12,7 @@
 class Magento_Core_Model_Resource_IteratorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Iterator
+     * @var \Magento\Core\Model\Resource\Iterator
      */
     protected $_model;
 
@@ -25,12 +25,12 @@ class Magento_Core_Model_Resource_IteratorTest extends PHPUnit_Framework_TestCas
 
     public function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento_Core_Model_Resource_Iterator');
+        $this->_model = Mage::getResourceModel('\Magento\Core\Model\Resource\Iterator');
     }
 
     public function testWalk()
     {
-        $collection = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection');
+        $collection = Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection');
         $this->_model->walk($collection->getSelect(), array(array($this, 'walkCallback')));
         $this->assertGreaterThan(0, $this->_callbackCounter);
     }
@@ -48,7 +48,7 @@ class Magento_Core_Model_Resource_IteratorTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      */
     public function testWalkException()
     {

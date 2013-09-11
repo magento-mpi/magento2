@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Resource_Acl_User_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Webapi\Model\Resource\Acl\User;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource collection initialization.
      */
     protected function _construct()
     {
-        $this->_init('Magento_Webapi_Model_Acl_User', 'Magento_Webapi_Model_Resource_Acl_User');
+        $this->_init('\Magento\Webapi\Model\Acl\User', '\Magento\Webapi\Model\Resource\Acl\User');
     }
 }

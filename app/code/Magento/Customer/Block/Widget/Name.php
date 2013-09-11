@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Customer_Block_Widget_Name extends Magento_Customer_Block_Widget_Abstract
+namespace Magento\Customer\Block\Widget;
+
+class Name extends \Magento\Customer\Block\Widget\AbstractWidget
 {
     public function _construct()
     {
@@ -56,7 +58,7 @@ class Magento_Customer_Block_Widget_Name extends Magento_Customer_Block_Widget_A
      */
     public function getPrefixOptions()
     {
-        $prefixOptions = $this->helper('Magento_Customer_Helper_Data')->getNamePrefixOptions();
+        $prefixOptions = $this->helper('\Magento\Customer\Helper\Data')->getNamePrefixOptions();
 
         if ($this->getObject() && !empty($prefixOptions)) {
             $oldPrefix = $this->escapeHtml(trim($this->getObject()->getPrefix()));
@@ -112,7 +114,7 @@ class Magento_Customer_Block_Widget_Name extends Magento_Customer_Block_Widget_A
      */
     public function getSuffixOptions()
     {
-        $suffixOptions = $this->helper('Magento_Customer_Helper_Data')->getNameSuffixOptions();
+        $suffixOptions = $this->helper('\Magento\Customer\Helper\Data')->getNameSuffixOptions();
         if ($this->getObject() && !empty($suffixOptions)) {
             $oldSuffix = $this->escapeHtml(trim($this->getObject()->getSuffix()));
             $suffixOptions[$oldSuffix] = $oldSuffix;
@@ -151,15 +153,15 @@ class Magento_Customer_Block_Widget_Name extends Magento_Customer_Block_Widget_A
      * Retrieve customer or customer address attribute instance
      *
      * @param string $attributeCode
-     * @return Magento_Customer_Model_Attribute|false
+     * @return \Magento\Customer\Model\Attribute|false
      */
     protected function _getAttribute($attributeCode)
     {
-        if ($this->getForceUseCustomerAttributes() || $this->getObject() instanceof Magento_Customer_Model_Customer) {
+        if ($this->getForceUseCustomerAttributes() || $this->getObject() instanceof \Magento\Customer\Model\Customer) {
             return parent::_getAttribute($attributeCode);
         }
 
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', $attributeCode);
+        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer_address', $attributeCode);
 
         if ($this->getForceUseCustomerRequiredAttributes() && $attribute && !$attribute->getIsRequired()) {
             $customerAttribute = parent::_getAttribute($attributeCode);

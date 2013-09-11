@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Adminhtml_Block_Report_Grid_Shopcart
+namespace Magento\Adminhtml\Block\Report\Shopcart\Customer;
+
+class Grid extends \Magento\Adminhtml\Block\Report\Grid\Shopcart
 {
 
     protected function _construct()
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Admi
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Customer_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Customer\Collection')
           ->addAttributeToSelect('firstname')
           ->addAttributeToSelect('lastname');
 
@@ -77,7 +79,7 @@ class Magento_Adminhtml_Block_Report_Shopcart_Customer_Grid extends Magento_Admi
             'align'     =>'right',
             'currency_code' => $currencyCode,
             'index'     =>'total',
-            'renderer'  =>'Magento_Adminhtml_Block_Report_Grid_Column_Renderer_Currency',
+            'renderer'  =>'\Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency',
             'rate'          => $this->getRate($currencyCode),
         ));
 

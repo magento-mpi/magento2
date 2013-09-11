@@ -16,8 +16,10 @@
  * @package     Magento_CatalogPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogPermissions_Model_Resource_Permission_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\CatalogPermissions\Model\Resource\Permission;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection
@@ -26,8 +28,8 @@ class Magento_CatalogPermissions_Model_Resource_Permission_Collection
     protected function _construct()
     {
         $this->_init(
-            'Magento_CatalogPermissions_Model_Permission',
-            'Magento_CatalogPermissions_Model_Resource_Permission'
+            '\Magento\CatalogPermissions\Model\Permission',
+            '\Magento\CatalogPermissions\Model\Resource\Permission'
         );
     }
 }

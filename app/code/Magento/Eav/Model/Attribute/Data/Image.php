@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Attribute_Data_Image extends Magento_Eav_Model_Attribute_Data_File
+namespace Magento\Eav\Model\Attribute\Data;
+
+class Image extends \Magento\Eav\Model\Attribute\Data\File
 {
     /**
      * Validate file by attribute validate rules

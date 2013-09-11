@@ -16,16 +16,18 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Category_Attribute_Source_Sortby
-    extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Catalog\Model\Category\Attribute\Source;
+
+class Sortby
+    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Retrieve Catalog Config Singleton
      *
-     * @return Magento_Catalog_Model_Config
+     * @return \Magento\Catalog\Model\Config
      */
     protected function _getCatalogConfig() {
-        return Mage::getSingleton('Magento_Catalog_Model_Config');
+        return \Mage::getSingleton('Magento\Catalog\Model\Config');
     }
 
     /**

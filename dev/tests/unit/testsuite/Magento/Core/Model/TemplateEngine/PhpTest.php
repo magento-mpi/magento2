@@ -10,7 +10,7 @@ class Magento_Core_Model_TemplateEngine_PhpTest extends PHPUnit_Framework_TestCa
 {
     const TEST_PROP_VALUE = 'TEST_PROP_VALUE';
 
-    /** @var  Magento_Core_Model_TemplateEngine_Php */
+    /** @var  \Magento\Core\Model\TemplateEngine\Php */
     protected $_phpEngine;
 
     /**
@@ -18,7 +18,7 @@ class Magento_Core_Model_TemplateEngine_PhpTest extends PHPUnit_Framework_TestCa
      */
     public function setUp()
     {
-        $this->_phpEngine = new Magento_Core_Model_TemplateEngine_Php();
+        $this->_phpEngine = new \Magento\Core\Model\TemplateEngine\Php();
     }
 
     /**
@@ -28,7 +28,7 @@ class Magento_Core_Model_TemplateEngine_PhpTest extends PHPUnit_Framework_TestCa
      */
     public function testRender()
     {
-        $blockMock = $this->getMockBuilder('Magento_Core_Block_Template')
+        $blockMock = $this->getMockBuilder('Magento\Core\Block\Template')
             ->setMethods(array('testMethod'))
             ->disableOriginalConstructor()->getMock();
 
@@ -57,7 +57,7 @@ class Magento_Core_Model_TemplateEngine_PhpTest extends PHPUnit_Framework_TestCa
      */
     public function testRenderException()
     {
-        $blockMock = $this->getMockBuilder('Magento_Core_Block_Template')
+        $blockMock = $this->getMockBuilder('Magento\Core\Block\Template')
             ->setMethods(array('testMethod'))
             ->disableOriginalConstructor()->getMock();
 

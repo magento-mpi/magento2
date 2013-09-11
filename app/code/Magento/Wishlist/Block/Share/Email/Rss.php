@@ -16,7 +16,9 @@
  * @package    Magento_Wishlist
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Share_Email_Rss extends Magento_Core_Block_Template
+namespace Magento\Wishlist\Block\Share\Email;
+
+class Rss extends \Magento\Core\Block\Template
 {
 
     protected $_template = 'email/rss.phtml';

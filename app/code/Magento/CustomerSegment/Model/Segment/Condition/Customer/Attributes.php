@@ -11,17 +11,19 @@
 /**
  * Customer attributes condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+class Attributes
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes');
         $this->setValue(null);
     }
 
@@ -54,21 +56,21 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     /**
      * Retrieve attribute object
      *
-     * @return Magento_Eav_Model_Entity_Attribute
+     * @return \Magento\Eav\Model\Entity\Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer', $this->getAttribute());
+        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer', $this->getAttribute());
     }
 
     /**
      * Load condition options for castomer attributes
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')
+        $productAttributes = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -278,7 +280,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     public function getDateValue()
     {
         if ($this->getOperator() == '==') {
-            $dateObj = Mage::app()->getLocale()
+            $dateObj = \Mage::app()->getLocale()
                 ->date($this->getValue(), \Magento\Date::DATE_INTERNAL_FORMAT, null, false)
                 ->setHour(0)->setMinute(0)->setSecond(0);
             $value = array(
@@ -315,7 +317,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
         $select = $this->getResource()->createSelect();
-        $select->from(array('main'=>$table), array(new Zend_Db_Expr(1)));
+        $select->from(array('main'=>$table), array(new \Zend_Db_Expr(1)));
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
         $select->limit(1);
 
@@ -342,9 +344,9 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Attributes
             } else {
                 $ifCondition = 'COUNT(*) = 0';
             }
-            $select->reset(Zend_Db_Select::COLUMNS);
+            $select->reset(\Zend_Db_Select::COLUMNS);
             $condition = $this->getResource()->getReadConnection()->getCheckSql($ifCondition, '1', '0');
-            $select->columns(new Zend_Db_Expr($condition));
+            $select->columns(new \Zend_Db_Expr($condition));
             $select->where('main.attribute_id = ?', $attribute->getId());
         }
         return $select;

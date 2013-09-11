@@ -22,13 +22,13 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     protected static $_tmpConfigFile = '';
 
     /**
-     * @var Magento_Install_Model_Installer
+     * @var \Magento\Install\Model\Installer
      */
     protected $_model;
 
     public static function setUpBeforeClass()
     {
-        self::$_tmpDir = Mage::getBaseDir(Magento_Core_Model_Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
+        self::$_tmpDir = Mage::getBaseDir(\Magento\Core\Model\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . __CLASS__;
         self::$_tmpConfigFile = self::$_tmpDir . DIRECTORY_SEPARATOR . 'local.xml';
         mkdir(self::$_tmpDir);
     }
@@ -40,7 +40,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Install_Model_Installer');
+        $this->_model = Mage::getModel('\Magento\Install\Model\Installer');
     }
 
     /**
@@ -52,13 +52,13 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     protected function _emulateInstallerConfigDir($dir)
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $installerConfig = new Magento_Install_Model_Installer_Config(
-            $objectManager->get('Magento_Core_Controller_Request_Http'),
-            new Magento_Core_Model_Dir(__DIR__, array(), array(Magento_Core_Model_Dir::CONFIG => $dir)),
-            $objectManager->get('Magento_Core_Model_Config_Resource'),
+        $installerConfig = new \Magento\Install\Model\Installer\Config(
+            $objectManager->get('Magento\Core\Controller\Request\Http'),
+            new \Magento\Core\Model\Dir(__DIR__, array(), array(\Magento\Core\Model\Dir::CONFIG => $dir)),
+            $objectManager->get('Magento\Core\Model\Config\Resource'),
             new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local())
         );
-        $objectManager->addSharedInstance($installerConfig, 'Magento_Install_Model_Installer_Config');
+        $objectManager->addSharedInstance($installerConfig, '\Magento\Install\Model\Installer\Config');
     }
 
     /**
@@ -76,8 +76,8 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
             'email'     => 'installer_test@example.com',
         );
 
-        /** @var $user Magento_User_Model_User */
-        $user = Mage::getModel('Magento_User_Model_User');
+        /** @var $user \Magento\User\Model\User */
+        $user = Mage::getModel('\Magento\User\Model\User');
         $user->loadByUsername($userName);
         $this->assertEmpty($user->getId());
 
@@ -91,7 +91,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
             $userPassword, $user->getPassword(),
             'Original password should not be stored/loaded as is for security reasons.'
         );
-        $this->assertInstanceOf('Magento_User_Model_Role', $user->getRole());
+        $this->assertInstanceOf('\Magento\User\Model\Role', $user->getRole());
         $this->assertEquals(1, $user->getRole()->getId(), 'User has to have admin privileges.');
     }
 
@@ -102,7 +102,7 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
     {
         $this->_emulateInstallerConfigDir(self::$_tmpDir);
 
-        $keyPlaceholder = Magento_Install_Model_Installer_Config::TMP_ENCRYPT_KEY_VALUE;
+        $keyPlaceholder = \Magento\Install\Model\Installer\Config::TMP_ENCRYPT_KEY_VALUE;
         $fixtureConfigData = "<key>$keyPlaceholder</key>";
         $expectedConfigData = '<key>d41d8cd98f00b204e9800998ecf8427e</key>';
 
@@ -167,11 +167,11 @@ class Magento_Install_Model_InstallerTest extends PHPUnit_Framework_TestCase
 
         $this->_model->finish();
 
-        /** @var $cacheState Magento_Core_Model_Cache_StateInterface */
-        $cacheState = Mage::getModel('Magento_Core_Model_Cache_StateInterface');
+        /** @var $cacheState \Magento\Core\Model\Cache\StateInterface */
+        $cacheState = Mage::getModel('\Magento\Core\Model\Cache\StateInterface');
 
-        /** @var Magento_Core_Model_Cache_TypeListInterface $cacheTypeList */
-        $cacheTypeList = Mage::getModel('Magento_Core_Model_Cache_TypeListInterface');
+        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+        $cacheTypeList = Mage::getModel('\Magento\Core\Model\Cache\TypeListInterface');
         $types = array_keys($cacheTypeList->getTypes());
         foreach ($types as $type) {
             $this->assertTrue(

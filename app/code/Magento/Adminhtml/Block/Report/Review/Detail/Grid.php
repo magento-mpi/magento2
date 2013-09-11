@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Report_Review_Detail_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Report\Review\Detail;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -27,14 +29,14 @@ class Magento_Adminhtml_Block_Report_Review_Detail_Grid extends Magento_Adminhtm
     protected function _prepareCollection()
     {
 
-        //$collection = Mage::getModel('Magento_Review_Model_Review')->getProductCollection();
+        //$collection = \Mage::getModel('\Magento\Review\Model\Review')->getProductCollection();
 
         //$collection->getSelect()
         //    ->where('rt.entity_pk_value='.(int)$this->getRequest()->getParam('id'));
 
         //$collection->getEntity()->setStore(0);
 
-        $collection = Mage::getResourceModel('Magento_Reports_Model_Resource_Review_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Reports\Model\Resource\Review\Collection')
             ->addProductFilter((int)$this->getRequest()->getParam('id'));
 
         $this->setCollection($collection);

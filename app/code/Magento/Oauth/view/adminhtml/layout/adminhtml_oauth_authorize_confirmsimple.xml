@@ -11,7 +11,7 @@
     <handle id="adminhtml_oauth_authorize_confirmsimple">
         <update handle="oauth_root_handle_simple"/>
         <reference name="content">
-            <block class="Magento_Core_Block_Template" name="oauth.authorize.confirm" template="Magento_Oauth::authorize/confirm-simple.phtml"/>
+            <block class="\Magento\Core\Block\Template" name="oauth.authorize.confirm" template="Magento_Oauth::authorize/confirm-simple.phtml"/>
         </reference>
     </handle>
 </layout>

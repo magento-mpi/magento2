@@ -15,16 +15,18 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Customer_Sidebar extends Magento_Wishlist_Block_Customer_Sidebar
+namespace Magento\MultipleWishlist\Block\Customer;
+
+class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
 {
     /**
      * Retrieve wishlist helper
      *
-     * @return Magento_MultipleWishlist_Helper_Data
+     * @return \Magento\MultipleWishlist\Helper\Data
      */
     protected function _getHelper()
     {
-        return $this->helper('Magento_MultipleWishlist_Helper_Data');
+        return $this->helper('\Magento\MultipleWishlist\Helper\Data');
     }
 
     /**
@@ -44,7 +46,7 @@ class Magento_MultipleWishlist_Block_Customer_Sidebar extends Magento_Wishlist_B
     /**
      * Create wishlist item collection
      *
-     * @return Magento_Wishlist_Model_Resource_Item_Collection
+     * @return \Magento\Wishlist\Model\Resource\Item\Collection
      */
     protected function _createWishlistItemCollection()
     {

@@ -14,8 +14,10 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_Heading
-    extends Magento_Backend_Block_Abstract implements \Magento\Data\Form\Element\Renderer\RendererInterface
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Heading
+    extends \Magento\Backend\Block\AbstractBlock implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Render element html

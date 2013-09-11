@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Customer_Online_Filter extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Customer\Online;
+
+class Filter extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     protected function _prepareForm()

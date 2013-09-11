@@ -17,7 +17,7 @@
             </action>
         </reference>
         <reference name="sales.recurring.profile.view">
-            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.general" as="general" template="recurring/profile/view/info.phtml">
+            <block class="\Magento\Sales\Block\Recurring\Profile\View" name="sales.recurring.profile.view.general" as="general" template="recurring/profile/view/info.phtml">
                 <action method="prepareReferenceInfo"/>
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_blocks_row_1</argument>
@@ -29,7 +29,7 @@
                     <argument translate="true" name="value" xsi:type="string">Reference</argument>
                 </action>
             </block>
-            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.item" as="item" template="recurring/profile/view/info.phtml">
+            <block class="\Magento\Sales\Block\Recurring\Profile\View" name="sales.recurring.profile.view.item" as="item" template="recurring/profile/view/info.phtml">
                 <action method="prepareItemInfo"/>
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_blocks_row_1</argument>
@@ -41,7 +41,7 @@
                     <argument translate="true" name="value" xsi:type="string">Purchased Item</argument>
                 </action>
             </block>
-            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.schedule" as="profile" template="recurring/profile/view/info.phtml">
+            <block class="\Magento\Sales\Block\Recurring\Profile\View" name="sales.recurring.profile.view.schedule" as="profile" template="recurring/profile/view/info.phtml">
                 <action method="prepareScheduleInfo"/>
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_blocks_row_2</argument>
@@ -53,7 +53,7 @@
                     <argument translate="true" name="value" xsi:type="string">Profile Schedule</argument>
                 </action>
             </block>
-            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.fees" as="fees" template="recurring/profile/view/info.phtml">
+            <block class="\Magento\Sales\Block\Recurring\Profile\View" name="sales.recurring.profile.view.fees" as="fees" template="recurring/profile/view/info.phtml">
                 <action method="prepareFeesInfo"/>
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_blocks_row_2</argument>
@@ -65,7 +65,7 @@
                     <argument translate="true" name="value" xsi:type="string">Profile Payments</argument>
                 </action>
             </block>
-            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.billing" as="billing_address" template="recurring/profile/view/info.phtml">
+            <block class="\Magento\Sales\Block\Recurring\Profile\View" name="sales.recurring.profile.view.billing" as="billing_address" template="recurring/profile/view/info.phtml">
                 <action method="prepareAddressInfo"/>
                 <action method="addToParentGroup">
                     <argument name="value" xsi:type="string">info_blocks_row_3</argument>
@@ -77,7 +77,7 @@
                     <argument translate="true" name="value" xsi:type="string">Billing Address</argument>
                 </action>
             </block>
-            <block class="Magento_Sales_Block_Recurring_Profile_View" name="sales.recurring.profile.view.shipping" as="shipping_address" template="recurring/profile/view/info.phtml">
+            <block class="\Magento\Sales\Block\Recurring\Profile\View" name="sales.recurring.profile.view.shipping" as="shipping_address" template="recurring/profile/view/info.phtml">
                 <action method="setAddressType">
                     <argument name="value" xsi:type="string">shipping</argument>
                 </action>

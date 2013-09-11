@@ -17,7 +17,7 @@ class Magento_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
     /**
      * Test validator with valid data
      *
-     * @covers Magento_Core_Model_Theme_Validator::validate
+     * @covers \Magento\Core\Model\Theme\Validator::validate
      */
     public function testValidateWithValidData()
     {
@@ -25,9 +25,9 @@ class Magento_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
         $themeMock = new \Magento\Object();
         $themeMock->setData($this->_getThemeValidData());
 
-        /** @var $validatorMock Magento_Core_Model_Theme_Validator */
+        /** @var $validatorMock \Magento\Core\Model\Theme\Validator */
         $validatorMock = $this->getMock(
-            'Magento_Core_Model_Theme_Validator', array('_setThemeValidators'), array(), '', false
+            '\Magento\Core\Model\Theme\Validator', array('_setThemeValidators'), array(), '', false
         );
 
         $versionValidators = array(
@@ -45,7 +45,7 @@ class Magento_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
     /**
      * Test validator with invalid data
      *
-     * @covers Magento_Core_Model_Theme_Validator::validate
+     * @covers \Magento\Core\Model\Theme\Validator::validate
      */
     public function testValidateWithInvalidData()
     {
@@ -53,12 +53,12 @@ class Magento_Core_Model_Theme_ValidationTest extends PHPUnit_Framework_TestCase
         $themeMock = new \Magento\Object();
         $themeMock->setData($this->_getThemeInvalidData());
 
-        /** @var $helper Magento_Core_Helper_Data */
-        $helper = $this->getMockBuilder('Magento_Core_Helper_Data')->disableOriginalConstructor()->getMock();
+        /** @var $helper \Magento\Core\Helper\Data */
+        $helper = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
 
-        /** @var $validatorMock Magento_Core_Model_Theme_Validator */
+        /** @var $validatorMock \Magento\Core\Model\Theme\Validator */
         $validatorMock = $this->getMock(
-            'Magento_Core_Model_Theme_Validator', array('_setThemeValidators'), array($helper), '', true
+            '\Magento\Core\Model\Theme\Validator', array('_setThemeValidators'), array($helper), '', true
         );
 
         $codeValidators = array(

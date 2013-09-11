@@ -9,18 +9,18 @@
 -->
 <config>
     <event name="customer_session_init">
-        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="checkRates" />
+        <observer name="magento_reward" instance="\Magento\Reward\Model\Observer" method="checkRates" />
     </event>
     <event name="customer_save_after">
-        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="customerRegister" />
+        <observer name="magento_reward" instance="\Magento\Reward\Model\Observer" method="customerRegister" />
     </event>
     <event name="payment_method_is_active">
-        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="preparePaymentMethod" />
+        <observer name="magento_reward" instance="\Magento\Reward\Model\Observer" method="preparePaymentMethod" />
     </event>
     <event name="sales_quote_payment_import_data_before">
-        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="paymentDataImport" />
+        <observer name="magento_reward" instance="\Magento\Reward\Model\Observer" method="paymentDataImport" />
     </event>
     <event name="magento_invitation_save_commit_after">
-        <observer name="magento_reward" instance="Magento_Reward_Model_Observer" method="invitationToCustomer" />
+        <observer name="magento_reward" instance="\Magento\Reward\Model\Observer" method="invitationToCustomer" />
     </event>
 </config>

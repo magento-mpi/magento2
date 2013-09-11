@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_CustomerCustomAttributes
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Form_Renderer_Fieldset_Element
-    extends Magento_CustomAttribute_Block_Adminhtml_Form_Renderer_Fieldset_Element
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Form\Renderer\Fieldset;
+
+class Element
+    extends \Magento\CustomAttribute\Block\Adminhtml\Form\Renderer\Fieldset\Element
 {
 }

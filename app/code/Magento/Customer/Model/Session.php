@@ -15,12 +15,14 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Customer\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * Customer object
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -34,11 +36,11 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Retrieve customer sharing configuration model
      *
-     * @return Magento_Customer_Model_Config_Share
+     * @return \Magento\Customer\Model\Config\Share
      */
     public function getCustomerConfigShare()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Config_Share');
+        return \Mage::getSingleton('Magento\Customer\Model\Config\Share');
     }
 
     /**
@@ -50,20 +52,20 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     {
         $namespace = 'customer';
         if ($this->getCustomerConfigShare()->isWebsiteScope()) {
-            $namespace .= '_' . (Mage::app()->getStore()->getWebsite()->getCode());
+            $namespace .= '_' . (\Mage::app()->getStore()->getWebsite()->getCode());
         }
 
         $this->init($namespace, $sessionName);
-        Mage::dispatchEvent('customer_session_init', array('customer_session'=>$this));
+        \Mage::dispatchEvent('customer_session_init', array('customer_session'=>$this));
     }
 
     /**
      * Set customer object and setting customer id in session
      *
-     * @param   Magento_Customer_Model_Customer $customer
-     * @return  Magento_Customer_Model_Session
+     * @param   \Magento\Customer\Model\Customer $customer
+     * @return  \Magento\Customer\Model\Session
      */
-    public function setCustomer(Magento_Customer_Model_Customer $customer)
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
         // check if customer is not confirmed
         if ($customer->isConfirmationRequired()) {
@@ -84,16 +86,16 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Retrieve customer model object
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
-        if ($this->_customer instanceof Magento_Customer_Model_Customer) {
+        if ($this->_customer instanceof \Magento\Customer\Model\Customer) {
             return $this->_customer;
         }
 
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+            ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
         if ($this->getId()) {
             $customer->load($this->getId());
         }
@@ -106,7 +108,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * Set customer id
      *
      * @param int|null $id
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function setCustomerId($id)
     {
@@ -131,7 +133,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * Set customer group id
      *
      * @param int|null $id
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function setCustomerGroupId($id)
     {
@@ -153,7 +155,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
         if ($this->isLoggedIn() && $this->getCustomer()) {
             return $this->getCustomer()->getGroupId();
         }
-        return Magento_Customer_Model_Group::NOT_LOGGED_IN_ID;
+        return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
     }
 
     /**
@@ -175,7 +177,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     public function checkCustomerId($customerId)
     {
         if ($this->_isCustomerIdChecked === null) {
-            $this->_isCustomerIdChecked = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer')
+            $this->_isCustomerIdChecked = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer')
                 ->checkCustomerId($customerId);
         }
         return $this->_isCustomerIdChecked;
@@ -190,9 +192,9 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      */
     public function login($username, $password)
     {
-        /** @var $customer Magento_Customer_Model_Customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+        /** @var $customer \Magento\Customer\Model\Customer */
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
+            ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId());
 
         if ($customer->authenticate($username, $password)) {
             $this->setCustomerAsLoggedIn($customer);
@@ -205,7 +207,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     public function setCustomerAsLoggedIn($customer)
     {
         $this->setCustomer($customer);
-        Mage::dispatchEvent('customer_login', array('customer'=>$customer));
+        \Mage::dispatchEvent('customer_login', array('customer'=>$customer));
         return $this;
     }
 
@@ -217,7 +219,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      */
     public function loginById($customerId)
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')->load($customerId);
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')->load($customerId);
         if ($customer->getId()) {
             $this->setCustomerAsLoggedIn($customer);
             return true;
@@ -228,12 +230,12 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Logout customer
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function logout()
     {
         if ($this->isLoggedIn()) {
-            Mage::dispatchEvent('customer_logout', array('customer' => $this->getCustomer()) );
+            \Mage::dispatchEvent('customer_logout', array('customer' => $this->getCustomer()) );
             $this->_logout();
         }
         return $this;
@@ -242,22 +244,22 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Authenticate controller action by login customer
      *
-     * @param   Magento_Core_Controller_Varien_Action $action
+     * @param   \Magento\Core\Controller\Varien\Action $action
      * @param   bool $loginUrl
      * @return  bool
      */
-    public function authenticate(Magento_Core_Controller_Varien_Action $action, $loginUrl = null)
+    public function authenticate(\Magento\Core\Controller\Varien\Action $action, $loginUrl = null)
     {
         if ($this->isLoggedIn()) {
             return true;
         }
 
-        $this->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_current' => true)));
+        $this->setBeforeAuthUrl(\Mage::getUrl('*/*/*', array('_current' => true)));
         if (isset($loginUrl)) {
             $action->getResponse()->setRedirect($loginUrl);
         } else {
-            $action->setRedirectWithCookieCheck(Magento_Customer_Helper_Data::ROUTE_ACCOUNT_LOGIN,
-                Mage::helper('Magento_Customer_Helper_Data')->getLoginUrlParams()
+            $action->setRedirectWithCookieCheck(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN,
+                \Mage::helper('Magento\Customer\Helper\Data')->getLoginUrlParams()
             );
         }
 
@@ -269,26 +271,26 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      *
      * @param string $key
      * @param string $url
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = Mage::helper('Magento_Core_Helper_Url')
-            ->removeRequestParam($url, Mage::getSingleton('Magento_Core_Model_Session')->getSessionIdQueryParam());
+        $url = \Mage::helper('Magento\Core\Helper\Url')
+            ->removeRequestParam($url, \Mage::getSingleton('Magento\Core\Model\Session')->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
-        $url = Mage::getModel('Magento_Core_Model_Url')->getRebuiltUrl($url);
+        $url = \Mage::getModel('\Magento\Core\Model\Url')->getRebuiltUrl($url);
         return $this->setData($key, $url);
     }
 
     /**
      * Logout without dispatching event
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _logout()
     {
         $this->setId(null);
-        $this->setCustomerGroupId(Magento_Customer_Model_Group::NOT_LOGGED_IN_ID);
+        $this->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
         $this->getCookie()->delete($this->getSessionName());
         return $this;
     }
@@ -297,7 +299,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * Set Before auth url
      *
      * @param string $url
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function setBeforeAuthUrl($url)
     {
@@ -308,7 +310,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
      * Set After auth url
      *
      * @param string $url
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function setAfterAuthUrl($url)
     {
@@ -318,7 +320,7 @@ class Magento_Customer_Model_Session extends Magento_Core_Model_Session_Abstract
     /**
      * Reset core session hosts after reseting session ID
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     public function renewSession()
     {

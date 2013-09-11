@@ -9,11 +9,13 @@
  */
 
 /**
- * Directory URL helper
+ * \Directory URL helper
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Helper_Url extends Magento_Core_Helper_Url
+namespace Magento\Directory\Helper;
+
+class Url extends \Magento\Core\Helper\Url
 {
     /**
      * Retrieve switch currency url
@@ -26,12 +28,12 @@ class Magento_Directory_Helper_Url extends Magento_Core_Helper_Url
         $params = is_array($params) ? $params : array();
 
         if ($this->_getRequest()->getAlias('rewrite_request_path')) {
-            $url = Mage::app()->getStore()->getBaseUrl() . $this->_getRequest()->getAlias('rewrite_request_path');
+            $url = \Mage::app()->getStore()->getBaseUrl() . $this->_getRequest()->getAlias('rewrite_request_path');
         }
         else {
             $url = $this->getCurrentUrl();
         }
-        $params[Magento_Core_Controller_Front_Action::PARAM_NAME_URL_ENCODED] = Mage::helper('Magento_Core_Helper_Data')
+        $params[\Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED] = \Mage::helper('Magento\Core\Helper\Data')
             ->urlEncode($url);
 
         return $this->_getUrl('directory/currency/switch', $params);

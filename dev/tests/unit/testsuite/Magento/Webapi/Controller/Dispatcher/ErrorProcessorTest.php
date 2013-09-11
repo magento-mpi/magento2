@@ -9,29 +9,29 @@
  */
 class Magento_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Dispatcher_ErrorProcessor */
+    /** @var \Magento\Webapi\Controller\Dispatcher\ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var Magento_Webapi_Helper_Data */
+    /** @var \Magento\Webapi\Helper\Data */
     protected $_helperMock;
 
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_appMock;
 
-    /** @var Magento_Core_Model_Logger */
+    /** @var \Magento\Core\Model\Logger */
     protected $_loggerMock;
 
     protected function setUp()
     {
         /** Set up mocks for SUT. */
-        $this->_helperMock = $this->getMockBuilder('Magento_Core_Helper_Data')->disableOriginalConstructor()->getMock();
-        $helperFactoryMock = $this->getMockBuilder('Magento_Core_Model_Factory_Helper')->getMock();
+        $this->_helperMock = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
+        $helperFactoryMock = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')->getMock();
         $helperFactoryMock->expects($this->once())->method('get')->will($this->returnValue($this->_helperMock));
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')->disableOriginalConstructor()->getMock();
-        $this->_loggerMock = $this->getMockBuilder('Magento_Core_Model_Logger')->disableOriginalConstructor()
+        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
+        $this->_loggerMock = $this->getMockBuilder('Magento\Core\Model\Logger')->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_errorProcessor = new Magento_Webapi_Controller_Dispatcher_ErrorProcessor(
+        $this->_errorProcessor = new \Magento\Webapi\Controller\Dispatcher\ErrorProcessor(
             $helperFactoryMock,
             $this->_appMock,
             $this->_loggerMock
@@ -149,12 +149,12 @@ class Magento_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Fr
     }
 
     /**
-     * Test maskException method with Magento_Webapi_Exception.
+     * Test maskException method with \Magento\Webapi\Exception.
      */
     public function testMaskWebapiException()
     {
         /** Init magento_webapi_Exception. */
-        $apiException = new Magento_Webapi_Exception('Message', 400);
+        $apiException = new \Magento\Webapi\Exception('Message', 400);
         /** Assert that Webapi exception was not masked. */
         $this->assertEquals(
             $this->_errorProcessor->maskException($apiException),
@@ -188,11 +188,11 @@ class Magento_Webapi_Controller_Dispatcher_ErrorProcessorTest extends PHPUnit_Fr
         /** Assert that exception was logged. */
         $this->_loggerMock->expects($this->once())->method('logException');
         $maskedException = $this->_errorProcessor->maskException(new LogicException());
-        /** Assert that masked exception type is Magento_Webapi_Exception. */
-        $this->assertInstanceOf('Magento_Webapi_Exception', $maskedException, 'Masked exception type is not Webapi.');
+        /** Assert that masked exception type is \Magento\Webapi\Exception. */
+        $this->assertInstanceOf('\Magento\Webapi\Exception', $maskedException, 'Masked exception type is not Webapi.');
         /** Assert that masked exception code is 500. */
         $this->assertEquals(
-            Magento_Webapi_Exception::HTTP_INTERNAL_ERROR,
+            \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
             $maskedException->getCode(),
             'Masked exception code is invalid.'
         );

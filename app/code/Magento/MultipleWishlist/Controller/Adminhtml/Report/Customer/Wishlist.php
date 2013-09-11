@@ -15,12 +15,14 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist extends Magento_Adminhtml_Controller_Action
+namespace Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer;
+
+class Wishlist extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Init layout and add breadcrumbs
      *
-     * @return Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist
+     * @return \Magento\MultipleWishlist\Controller\Adminhtml\Report\Customer\Wishlist
      */
     protected function _initAction()
     {
@@ -64,7 +66,7 @@ class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist ext
     {
         $this->loadLayout();
         $fileName = 'customer_wishlists.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -76,7 +78,7 @@ class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist ext
     {
         $this->loadLayout();
         $fileName = 'customer_wishlists.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock  */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
  	 	$exportBlock = $this->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
  	 	$this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -84,11 +86,11 @@ class Magento_MultipleWishlist_Controller_Adminhtml_Report_Customer_Wishlist ext
     /**
      * Retrieve admin session model
      *
-     * @return Magento_Backend_Model_Auth_Session
+     * @return \Magento\Backend\Model\Auth\Session
      */
     protected function _getAdminSession()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+        return \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
     }
 
     /**

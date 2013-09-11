@@ -15,17 +15,19 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\GoogleShopping\Model\Resource\Item;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     protected function _construct()
     {
-        $this->_init('Magento_GoogleShopping_Model_Item', 'Magento_GoogleShopping_Model_Resource_Item');
+        $this->_init('\Magento\GoogleShopping\Model\Item', '\Magento\GoogleShopping\Model\Resource\Item');
     }
 
     /**
      * Init collection select
      *
-     * @return Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     protected function _initSelect()
     {
@@ -38,7 +40,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     public function addStoreFilter($storeIds)
     {
@@ -50,7 +52,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
      * Filter collection by specified product id
      *
      * @param int $productId
-     * @return Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     public function addProductFilterId($productId)
     {
@@ -64,7 +66,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
      * @see self::_getConditionSql for $condition
      * @param string $field
      * @param null|string|array $condition
-     * @return Magento_Eav_Model_Entity_Collection_Abstract
+     * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function addFieldToFilter($field, $condition=null)
     {
@@ -82,12 +84,12 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
     /**
      * Join product and type data
      *
-     * @return Magento_GoogleShopping_Model_Resource_Item_Collection
+     * @return \Magento\GoogleShopping\Model\Resource\Item\Collection
      */
     protected function _joinTables()
     {
-        $entityType = Mage::getSingleton('Magento_Eav_Model_Config')->getEntityType('catalog_product');
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute($entityType->getEntityTypeId(),'name');
+        $entityType = \Mage::getSingleton('Magento\Eav\Model\Config')->getEntityType('catalog_product');
+        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute($entityType->getEntityTypeId(),'name');
 
         $joinConditionDefault =
             sprintf("p_d.attribute_id=%d AND p_d.store_id='0' AND main_table.product_id=p_d.entity_id",
@@ -115,7 +117,7 @@ class Magento_GoogleShopping_Model_Resource_Item_Collection extends Magento_Core
                 array('types' => $this->getTable('googleshopping_types')),
                 'main_table.type_id=types.type_id'
             );
-        Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect()); // avoid column name collision
+        \Mage::getResourceHelper('Magento_Core')->prepareColumnsList($this->getSelect()); // avoid column name collision
 
         return $this;
     }

@@ -16,7 +16,9 @@
  * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reminder_Model_Resource_Rule_Collection extends Magento_Rule_Model_Resource_Rule_Collection_Abstract
+namespace Magento\Reminder\Model\Resource\Rule;
+
+class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
     /**
      * Store associated with rule entities information map
@@ -36,7 +38,7 @@ class Magento_Reminder_Model_Resource_Rule_Collection extends Magento_Rule_Model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reminder_Model_Rule', 'Magento_Reminder_Model_Resource_Rule');
+        $this->_init('\Magento\Reminder\Model\Rule', '\Magento\Reminder\Model\Resource\Rule');
         $this->addFilterToMap('rule_id', 'main_table.rule_id');
     }
 
@@ -45,7 +47,7 @@ class Magento_Reminder_Model_Resource_Rule_Collection extends Magento_Rule_Model
      *
      * @param string $date
      *
-     * @return Magento_Reminder_Model_Resource_Rule_Collection
+     * @return \Magento\Reminder\Model\Resource\Rule\Collection
      */
     public function addDateFilter($date)
     {
@@ -60,7 +62,7 @@ class Magento_Reminder_Model_Resource_Rule_Collection extends Magento_Rule_Model
      * Limit rules collection by separate rule
      *
      * @param int $value
-     * @return Magento_Reminder_Model_Resource_Rule_Collection
+     * @return \Magento\Reminder\Model\Resource\Rule\Collection
      */
     public function addRuleFilter($value)
     {

@@ -14,10 +14,12 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Tax_Rate_Title_Fieldset extends \Magento\Data\Form\Element\Fieldset
+namespace Magento\Adminhtml\Block\Tax\Rate\Title;
+
+class Fieldset extends \Magento\Data\Form\Element\Fieldset
 {
     public function getBasicChildrenHtml()
     {
-        return Mage::getBlockSingleton('Magento_Adminhtml_Block_Tax_Rate_Title')->toHtml();
+        return \Mage::getBlockSingleton('\Magento\Adminhtml\Block\Tax\Rate\Title')->toHtml();
     }
 }

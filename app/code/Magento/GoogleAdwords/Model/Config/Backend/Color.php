@@ -7,12 +7,14 @@
  * @copyright {copyright}
  * @license {license_link}
  */
-class Magento_GoogleAdwords_Model_Config_Backend_Color extends Magento_GoogleAdwords_Model_Config_Backend_ConversionAbstract
+namespace Magento\GoogleAdwords\Model\Config\Backend;
+
+class Color extends \Magento\GoogleAdwords\Model\Config\Backend\ConversionAbstract
 {
     /**
      * Validation rule conversion color
      *
-     * @return Zend_Validate_Interface|null
+     * @return \Zend_Validate_Interface|null
      */
     protected function _getValidationRulesBeforeSave()
     {

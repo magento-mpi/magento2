@@ -9,8 +9,10 @@
  */
 
 
-class Magento_SalesRule_Model_Coupon_Codegenerator extends \Magento\Object
-    implements Magento_SalesRule_Model_Coupon_CodegeneratorInterface
+namespace Magento\SalesRule\Model\Coupon;
+
+class Codegenerator extends \Magento\Object
+    implements \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
 {
     /**
      * Retrieve generated code

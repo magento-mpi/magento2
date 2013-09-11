@@ -11,7 +11,9 @@
 /**
  * Config model
  */
-class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
+namespace Magento\Ogone\Model;
+
+class Config extends \Magento\Payment\Model\Config
 {
     const OGONE_PAYMENT_PATH = 'payment/ogone/';
 
@@ -25,7 +27,7 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
     public function getConfigData($path, $storeId=null)
     {
         if (!empty($path)) {
-            return Mage::getStoreConfig(self::OGONE_PAYMENT_PATH . $path, $storeId);
+            return \Mage::getStoreConfig(self::OGONE_PAYMENT_PATH . $path, $storeId);
         }
         return false;
     }
@@ -38,7 +40,7 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
      */
     public function getShaInCode($storeId=null)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->getConfigData('secret_key_in', $storeId));
+        return \Mage::helper('Magento\Core\Helper\Data')->decrypt($this->getConfigData('secret_key_in', $storeId));
     }
 
     /**
@@ -48,7 +50,7 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
      */
     public function getShaOutCode($storeId=null)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->decrypt($this->getConfigData('secret_key_out', $storeId));
+        return \Mage::helper('Magento\Core\Helper\Data')->decrypt($this->getConfigData('secret_key_out', $storeId));
     }
 
     /**
@@ -80,7 +82,7 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
      */
     public function getPayPageTemplate()
     {
-        return Mage::getUrl('ogone/api/paypage', array('_nosid' => true));
+        return \Mage::getUrl('ogone/api/paypage', array('_nosid' => true));
     }
 
     /**
@@ -90,7 +92,7 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
      */
     public function getAcceptUrl()
     {
-        return Mage::getUrl('ogone/api/accept', array('_nosid' => true));
+        return \Mage::getUrl('ogone/api/accept', array('_nosid' => true));
     }
 
     /**
@@ -100,7 +102,7 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
      */
     public function getDeclineUrl()
     {
-        return Mage::getUrl('ogone/api/decline', array('_nosid' => true));
+        return \Mage::getUrl('ogone/api/decline', array('_nosid' => true));
     }
 
     /**
@@ -110,7 +112,7 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
      */
     public function getExceptionUrl()
     {
-        return Mage::getUrl('ogone/api/exception', array('_nosid' => true));
+        return \Mage::getUrl('ogone/api/exception', array('_nosid' => true));
     }
 
     /**
@@ -120,7 +122,7 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
      */
     public function getCancelUrl()
     {
-        return Mage::getUrl('ogone/api/cancel', array('_nosid' => true));
+        return \Mage::getUrl('ogone/api/cancel', array('_nosid' => true));
     }
 
     /**
@@ -130,6 +132,6 @@ class Magento_Ogone_Model_Config extends Magento_Payment_Model_Config
      */
     public function getHomeUrl()
     {
-        return Mage::getUrl('checkout/cart', array('_nosid' => true));
+        return \Mage::getUrl('checkout/cart', array('_nosid' => true));
     }
 }

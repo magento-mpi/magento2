@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Options;
+
+class Option extends \Magento\Adminhtml\Block\Widget
 {
     protected $_product;
 
@@ -53,15 +55,15 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     /**
      * Get Product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         if (!$this->_productInstance) {
-            if ($product = Mage::registry('product')) {
+            if ($product = \Mage::registry('product')) {
                 $this->_productInstance = $product;
             } else {
-                $this->_productInstance = Mage::getSingleton('Magento_Catalog_Model_Product');
+                $this->_productInstance = \Mage::getSingleton('Magento\Catalog\Model\Product');
             }
         }
 
@@ -108,10 +110,10 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
     {
         $path = 'global/catalog/product/options/custom/groups';
 
-        foreach (Mage::getConfig()->getNode($path)->children() as $group) {
+        foreach (\Mage::getConfig()->getNode($path)->children() as $group) {
             $this->addChild(
                 $group->getName() . '_option_type',
-                (string)Mage::getConfig()->getNode($path . '/' . $group->getName() . '/render')
+                (string)\Mage::getConfig()->getNode($path . '/' . $group->getName() . '/render')
             );
         }
 
@@ -128,26 +130,26 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
 
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldId() . '_${id}_type',
                 'class' => 'select select-product-option-type required-option-select',
             ))
             ->setName($this->getFieldName() . '[${id}][type]')
-            ->setOptions(Mage::getSingleton('Magento_Catalog_Model_Config_Source_Product_Options_Type')->toOptionArray());
+            ->setOptions(\Mage::getSingleton('Magento\Catalog\Model\Config\Source\Product\Options\Type')->toOptionArray());
 
         return $select->getHtml();
     }
 
     public function getRequireSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldId() . '_${id}_is_require',
                 'class' => 'select'
             ))
             ->setName($this->getFieldName() . '[${id}][is_require]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -192,9 +194,9 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
         if (!$this->_values || $this->getIgnoreCaching()) {
             $showPrice = $this->getCanReadPrice();
             $values = array();
-            $scope = (int)Mage::app()->getStore()->getConfig(Magento_Core_Model_Store::XML_PATH_PRICE_SCOPE);
+            $scope = (int)\Mage::app()->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
             foreach ($optionsArr as $option) {
-                /* @var $option Magento_Catalog_Model_Product_Option */
+                /* @var $option \Magento\Catalog\Model\Product\Option */
 
                 $this->setItemCount($option->getOptionId());
 
@@ -215,11 +217,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                     $value['scopeTitleDisabled'] = is_null($option->getStoreTitle()) ? 'disabled' : null;
                 }
 
-                if ($option->getGroupByType() == Magento_Catalog_Model_Product_Option::OPTION_GROUP_SELECT) {
+                if ($option->getGroupByType() == \Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT) {
                     $i = 0;
                     $itemCount = 0;
                     foreach ($option->getValues() as $_value) {
-                        /* @var $_value Magento_Catalog_Model_Product_Option_Value */
+                        /* @var $_value \Magento\Catalog\Model\Product\Option\Value */
                         $value['optionValues'][$i] = array(
                             'item_count' => max($itemCount, $_value->getOptionTypeId()),
                             'option_id' => $_value->getOptionId(),
@@ -238,7 +240,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                                 $_value->getOptionTypeId());
                             $value['optionValues'][$i]['scopeTitleDisabled'] = is_null($_value->getStoreTitle())
                                 ? 'disabled' : null;
-                            if ($scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE) {
+                            if ($scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE) {
                                 $value['optionValues'][$i]['checkboxScopePrice'] = $this->getCheckboxScopeHtml(
                                     $_value->getOptionId(), 'price', is_null($_value->getstorePrice()),
                                     $_value->getOptionTypeId());
@@ -258,7 +260,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Ma
                     $value['image_size_x'] = $option->getImageSizeX();
                     $value['image_size_y'] = $option->getImageSizeY();
                     if ($this->getProduct()->getStoreId() != '0'
-                        && $scope == Magento_Core_Model_Store::PRICE_SCOPE_WEBSITE
+                        && $scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE
                     ) {
                         $value['checkboxScopePrice'] = $this->getCheckboxScopeHtml($option->getOptionId(), 'price',
                             is_null($option->getStorePrice()));

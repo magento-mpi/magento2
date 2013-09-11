@@ -34,7 +34,7 @@ abstract class Magento_Test_Legacy_Magento_Catalog_Model_Product_AbstractTypeTes
             $this->assertNotContains(
                 '$this->' . $method . '(',
                 file_get_contents($root . $file),
-                "Method 'Magento_Catalog_Model_Product_Type_Abstract::$method' is obsolete."
+                "Method '\Magento\Catalog\Model\Product\Type\AbstractType::$method' is obsolete."
             );
         }
     }

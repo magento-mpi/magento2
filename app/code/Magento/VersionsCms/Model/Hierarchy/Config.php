@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Model_Hierarchy_Config
+namespace Magento\VersionsCms\Model\Hierarchy;
+
+class Config
 {
     const XML_PATH_CONTEXT_MENU_LAYOUTS = 'global/magento_versionscms/hierarchy/menu/layouts';
 
@@ -34,11 +36,11 @@ class Magento_VersionsCms_Model_Hierarchy_Config
     /**
      * Initialization for $_contextMenuLayouts
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Config
+     * @return \Magento\VersionsCms\Model\Hierarchy\Config
      */
     protected function _initContextMenuLayouts()
     {
-        $config = Mage::getConfig()->getNode(self::XML_PATH_CONTEXT_MENU_LAYOUTS);
+        $config = \Mage::getConfig()->getNode(self::XML_PATH_CONTEXT_MENU_LAYOUTS);
         if ($this->_contextMenuLayouts !== null || !$config) {
             return $this;
         }

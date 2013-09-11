@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Block_End extends Magento_Install_Block_Abstract
+namespace Magento\Install\Block;
+
+class End extends \Magento\Install\Block\AbstractBlock
 {
     /**
      * @var string
@@ -27,7 +29,7 @@ class Magento_Install_Block_End extends Magento_Install_Block_Abstract
     {
         $key = $this->getData('encryption_key');
         if (is_null($key)) {
-            $key = (string) Mage::getConfig()->getNode('global/crypt/key');
+            $key = (string) \Mage::getConfig()->getNode('global/crypt/key');
             $this->setData('encryption_key', $key);
         }
         return $key;
@@ -40,10 +42,10 @@ class Magento_Install_Block_End extends Magento_Install_Block_Abstract
      */
     public function getIframeSourceUrl()
     {
-        if (!Magento_AdminNotification_Model_Survey::isSurveyUrlValid()
-            || Mage::getSingleton('Magento_Install_Model_Installer')->getHideIframe()) {
+        if (!\Magento\AdminNotification\Model\Survey::isSurveyUrlValid()
+            || \Mage::getSingleton('Magento\Install\Model\Installer')->getHideIframe()) {
             return null;
         }
-        return Magento_AdminNotification_Model_Survey::getSurveyUrl();
+        return \Magento\AdminNotification\Model\Survey::getSurveyUrl();
     }
 }

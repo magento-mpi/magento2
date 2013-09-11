@@ -16,7 +16,9 @@
  * @package    Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Acl_Role_Generic extends Zend_Acl_Role
+namespace Magento\Api\Model\Acl\Role;
+
+class Generic extends \Zend_Acl_Role
 {
 
 }

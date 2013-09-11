@@ -10,29 +10,31 @@
 
 
 /**
- * @method Magento_Sales_Model_Resource_Order_Invoice_Comment _getResource()
- * @method Magento_Sales_Model_Resource_Order_Invoice_Comment getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Invoice\Comment _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Invoice\Comment getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Invoice_Comment setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Comment setParentId(int $value)
  * @method int getIsCustomerNotified()
- * @method Magento_Sales_Model_Order_Invoice_Comment setIsCustomerNotified(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Comment setIsCustomerNotified(int $value)
  * @method int getIsVisibleOnFront()
- * @method Magento_Sales_Model_Order_Invoice_Comment setIsVisibleOnFront(int $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Comment setIsVisibleOnFront(int $value)
  * @method string getComment()
- * @method Magento_Sales_Model_Order_Invoice_Comment setComment(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Comment setComment(string $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Order_Invoice_Comment setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Invoice\Comment setCreatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Invoice_Comment extends Magento_Sales_Model_Abstract
+namespace Magento\Sales\Model\Order\Invoice;
+
+class Comment extends \Magento\Sales\Model\AbstractModel
 {
     /**
      * Invoice instance
      *
-     * @var Magento_Sales_Model_Order_Invoice
+     * @var \Magento\Sales\Model\Order\Invoice
      */
     protected $_invoice;
 
@@ -41,16 +43,16 @@ class Magento_Sales_Model_Order_Invoice_Comment extends Magento_Sales_Model_Abst
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Invoice_Comment');
+        $this->_init('\Magento\Sales\Model\Resource\Order\Invoice\Comment');
     }
 
     /**
      * Declare invoice instance
      *
-     * @param   Magento_Sales_Model_Order_Invoice $invoice
-     * @return  Magento_Sales_Model_Order_Invoice_Comment
+     * @param   \Magento\Sales\Model\Order\Invoice $invoice
+     * @return  \Magento\Sales\Model\Order\Invoice\Comment
      */
-    public function setInvoice(Magento_Sales_Model_Order_Invoice $invoice)
+    public function setInvoice(\Magento\Sales\Model\Order\Invoice $invoice)
     {
         $this->_invoice = $invoice;
         return $this;
@@ -59,7 +61,7 @@ class Magento_Sales_Model_Order_Invoice_Comment extends Magento_Sales_Model_Abst
     /**
      * Retrieve invoice instance
      *
-     * @return Magento_Sales_Model_Order_Invoice
+     * @return \Magento\Sales\Model\Order\Invoice
      */
     public function getInvoice()
     {
@@ -69,20 +71,20 @@ class Magento_Sales_Model_Order_Invoice_Comment extends Magento_Sales_Model_Abst
     /**
      * Get store object
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
         if ($this->getInvoice()) {
             return $this->getInvoice()->getStore();
         }
-        return Mage::app()->getStore();
+        return \Mage::app()->getStore();
     }
 
     /**
      * Before object save
      *
-     * @return Magento_Sales_Model_Order_Invoice_Comment
+     * @return \Magento\Sales\Model\Order\Invoice\Comment
      */
     protected function _beforeSave()
     {

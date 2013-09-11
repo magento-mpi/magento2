@@ -9,7 +9,7 @@ class Magento_Webapi_Model_Acl_Resource_Config_Converter_DomTest extends Magento
 {
     protected function setUp()
     {
-        $this->_converter = new Magento_Webapi_Model_Acl_Resource_Config_Converter_Dom();
+        $this->_converter = new \Magento\Webapi\Model\Acl\Resource\Config\Converter\Dom();
     }
 
     /**

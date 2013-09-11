@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_ImageSizing */ ?>
+<?php /** @var $this \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\ImageSizing */ ?>
 <div class="vde-tools-image-settings">
     <div id="vde-tab-imagesizing-messages-placeholder"></div>
 </div>
@@ -23,7 +23,7 @@
             imageWidthClass: '.image-width',
             imageHeightClass: '.image-height',
             formUrl: '<?php echo $this->getImageSizingUrl() ?>',
-            maxSizeValue: <?php echo Magento_DesignEditor_Model_Editor_Tools_ImageSizing_Validator::MAX_SIZE_VALUE ?>,
+            maxSizeValue: <?php echo \Magento\DesignEditor\Model\Editor\Tools\ImageSizing\Validator::MAX_SIZE_VALUE ?>,
             messagesContainer: '#vde-tab-imagesizing-messages-placeholder'
         });
     })(jQuery);

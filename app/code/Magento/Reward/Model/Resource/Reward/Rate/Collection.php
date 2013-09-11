@@ -16,7 +16,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Resource_Reward_Rate_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Reward\Model\Resource\Reward\Rate;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Internal constructor
@@ -24,14 +26,14 @@ class Magento_Reward_Model_Resource_Reward_Rate_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_Reward_Model_Reward_Rate', 'Magento_Reward_Model_Resource_Reward_Rate');
+        $this->_init('\Magento\Reward\Model\Reward\Rate', '\Magento\Reward\Model\Resource\Reward\Rate');
     }
 
     /**
      * Add filter by website id
      *
      * @param integer|array $websiteId
-     * @return Magento_Reward_Model_Resource_Reward_Rate_Collection
+     * @return \Magento\Reward\Model\Resource\Reward\Rate\Collection
      */
     public function addWebsiteFilter($websiteId)
     {

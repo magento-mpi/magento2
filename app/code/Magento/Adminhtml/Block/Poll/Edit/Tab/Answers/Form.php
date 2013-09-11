@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Poll\Edit\Tab\Answers;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     protected function _prepareForm()
     {
@@ -41,7 +43,7 @@ class Magento_Adminhtml_Block_Poll_Edit_Tab_Answers_Form extends Magento_Adminht
         );
 
         $fieldset->addField('add_button', 'note', array(
-                    'text' => $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+                    'text' => $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
                                     ->setData(array(
                                         'label'     => __('Add Answer'),
                                         'onclick'   => 'answers.add();',

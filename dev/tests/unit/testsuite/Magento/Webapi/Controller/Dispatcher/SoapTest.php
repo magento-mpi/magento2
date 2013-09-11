@@ -9,7 +9,7 @@
  */
 class Magento_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Controller_Dispatcher_Soap */
+    /** @var \Magento\Webapi\Controller\Dispatcher\Soap */
     protected $_dispatcher;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -40,11 +40,11 @@ class Magento_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_Te
     {
         parent::setUp();
 
-        $this->_apiConfigMock = $this->getMockBuilder('Magento_Webapi_Model_Config_Soap')
+        $this->_apiConfigMock = $this->getMockBuilder('Magento\Webapi\Model\Config\Soap')
             ->disableOriginalConstructor()
             ->setMethods(array('getAllResourcesVersions'))
             ->getMock();
-        $this->_soapServerMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Server')
+        $this->_soapServerMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Server')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_soapServerMock->expects($this->any())->method('setWSDL')->will($this->returnSelf());
@@ -53,31 +53,31 @@ class Magento_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_Te
         $this->_soapServerMock->expects($this->any())->method('setClassmap')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setReturnResponse')->will($this->returnSelf());
         $this->_soapServerMock->expects($this->any())->method('setObject')->will($this->returnSelf());
-        $this->_autoDiscoverMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_AutoDiscover')
+        $this->_autoDiscoverMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\AutoDiscover')
             ->disableOriginalConstructor()
             ->setMethods(array('handle'))
             ->getMock();
-        $this->_requestMock = $this->getMockBuilder('Magento_Webapi_Controller_Request_Soap')
+        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Request\Soap')
             ->setMethods(array('getParam', 'getRequestedResources'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_responseMock = $this->getMockBuilder('Magento_Webapi_Controller_Response')
+        $this->_responseMock = $this->getMockBuilder('Magento\Webapi\Controller\Response')
             ->disableOriginalConstructor()
             ->setMethods(array('clearHeaders', 'setHeader', 'setBody', 'sendResponse', 'setHttpResponseCode'))
             ->getMock();
-        $this->_soapFaultMock = $this->getMockBuilder('Magento_Webapi_Model_Soap_Fault')
+        $this->_soapFaultMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Fault')
             ->disableOriginalConstructor()
             ->setMethods(array('getSoapFaultMessage'))
             ->getMock();
-        $this->_errorProcessorMock = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_ErrorProcessor')
+        $this->_errorProcessorMock = $this->getMockBuilder('Magento\Webapi\Controller\Dispatcher\ErrorProcessor')
             ->disableOriginalConstructor()
             ->setMethods(array('maskException'))
             ->getMock();
-        $soapHandlerMock = $this->getMockBuilder('Magento_Webapi_Controller_Dispatcher_Soap_Handler')
+        $soapHandlerMock = $this->getMockBuilder('Magento\Webapi\Controller\Dispatcher\Soap\Handler')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_dispatcher = new Magento_Webapi_Controller_Dispatcher_Soap(
+        $this->_dispatcher = new \Magento\Webapi\Controller\Dispatcher\Soap(
             $this->_apiConfigMock,
             $this->_requestMock,
             $this->_responseMock,
@@ -167,7 +167,7 @@ class Magento_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_Te
     {
         $this->_mockGetParam(null);
 
-        $expectedException = new Magento_Webapi_Exception('Test message', Magento_Webapi_Exception::HTTP_BAD_REQUEST);
+        $expectedException = new \Magento\Webapi\Exception('Test message', \Magento\Webapi\Exception::HTTP_BAD_REQUEST);
         $this->_soapServerMock->expects($this->once())
             ->method('handle')
             ->will($this->throwException($expectedException));
@@ -203,7 +203,7 @@ class Magento_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_Te
             ->method('getSoapFaultMessage')
             ->with(
                 $expectedException->getMessage(),
-                Magento_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
+                \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_SENDER,
                 'en',
                 $expectedDetails
             )
@@ -221,7 +221,7 @@ class Magento_Webapi_Controller_Dispatcher_SoapTest extends PHPUnit_Framework_Te
     {
         $this->_requestMock->expects($this->once())
             ->method('getParam')
-            ->with(Magento_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL)
+            ->with(\Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_WSDL)
             ->will($this->returnValue($value));
     }
 

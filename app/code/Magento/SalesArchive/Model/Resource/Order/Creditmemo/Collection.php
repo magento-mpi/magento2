@@ -16,8 +16,10 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Model_Resource_Order_Creditmemo_Collection
-    extends Magento_Sales_Model_Resource_Order_Creditmemo_Grid_Collection
+namespace Magento\SalesArchive\Model\Resource\Order\Creditmemo;
+
+class Collection
+    extends \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Collection
 {
     /**
      * Collection initialization

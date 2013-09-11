@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Resource_Job_Collection
+ * \Magento\Webhook\Model\Resource\Job\Collection
  *
  * {license_notice}
  *
@@ -11,16 +11,16 @@
  */
 class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webhook_Model_Subscription */
+    /** @var \Magento\Webhook\Model\Subscription */
     protected $_subscription;
 
-    /** @var Magento_Webhook_Model_Event */
+    /** @var \Magento\Webhook\Model\Event */
     protected $_event;
 
-    /** @var Magento_Webhook_Model_Endpoint */
+    /** @var \Magento\Webhook\Model\Endpoint */
     protected $_endpoint;
 
-    /** @var Magento_Webapi_Model_Acl_User */
+    /** @var \Magento\Webapi\Model\Acl\User */
     protected $_user;
 
     /**
@@ -31,19 +31,19 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
     public function setUp()
     {
         $this->_objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_user = $this->_objectManager->create('Magento_Webapi_Model_Acl_User')
+        $this->_user = $this->_objectManager->create('Magento\Webapi\Model\Acl\User')
             ->setApiKey(md5(rand(0, time())))
             ->save();
-        $this->_endpoint = $this->_objectManager->create('Magento_Webhook_Model_Endpoint')
+        $this->_endpoint = $this->_objectManager->create('Magento\Webhook\Model\Endpoint')
             ->setEndpointUrl('test')
             ->setTimeoutInSecs('test')
             ->setFormat('test')
             ->setAuthenticationType('authentication_type');
-        $this->_subscription = $this->_objectManager->create('Magento_Webhook_Model_Subscription',
+        $this->_subscription = $this->_objectManager->create('Magento\Webhook\Model\Subscription',
             array('endpoint' => $this->_endpoint))
             ->setApiUserId($this->_user->getId())
             ->save();
-        $this->_event = $this->_objectManager->create('Magento_Webhook_Model_Event')
+        $this->_event = $this->_objectManager->create('Magento\Webhook\Model\Event')
             ->save();
     }
 
@@ -57,31 +57,31 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
 
     public function testInit()
     {
-        /** @var Magento_Webhook_Model_Resource_Job_Collection $collection */
-        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Job_Collection');
-        $this->assertEquals('Magento_Webhook_Model_Resource_Job', $collection->getResourceModelName());
-        $this->assertEquals('Magento_Webhook_Model_Job', $collection->getModelName());
+        /** @var \Magento\Webhook\Model\Resource\Job\Collection $collection */
+        $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Job\Collection');
+        $this->assertEquals('\Magento\Webhook\Model\Resource\Job', $collection->getResourceModelName());
+        $this->assertEquals('\Magento\Webhook\Model\Job', $collection->getModelName());
     }
 
     public function testNewEventInNewCollection()
     {
-        $job1 = $this->_objectManager->create('Magento_Webhook_Model_Job')
+        $job1 = $this->_objectManager->create('Magento\Webhook\Model\Job')
             ->setSubscriptionId($this->_subscription->getId())
             ->setEventId($this->_event->getId())
             ->save();
 
-        /** @var Magento_Webhook_Model_Resource_Job_Collection $collection */
-        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Job_Collection');
+        /** @var \Magento\Webhook\Model\Resource\Job\Collection $collection */
+        $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Job\Collection');
         $this->assertEquals(1, count($collection->getItems()));
         $this->assertEquals($job1->getId(), $collection->getFirstItem()->getId());
 
-        $job2 = $this->_objectManager->create('Magento_Webhook_Model_Job')
+        $job2 = $this->_objectManager->create('Magento\Webhook\Model\Job')
             ->setSubscriptionId($this->_subscription->getId())
             ->setEventId($this->_event->getId())
             ->save();
 
-        /** @var Magento_Webhook_Model_Resource_Job_Collection $collectionSecond */
-        $collectionSecond = $this->_objectManager->create('Magento_Webhook_Model_Resource_Job_Collection');
+        /** @var \Magento\Webhook\Model\Resource\Job\Collection $collectionSecond */
+        $collectionSecond = $this->_objectManager->create('Magento\Webhook\Model\Resource\Job\Collection');
         $this->assertEquals(1, count($collectionSecond->getItems()));
         $this->assertEquals($job2->getId(), $collectionSecond->getFirstItem()->getId(),
             sprintf("Event #%s is expected in second collection,"
@@ -101,45 +101,45 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
      */
     public function testParallelTransactions()
     {
-        $job = $this->_objectManager->create('Magento_Webhook_Model_Job')
+        $job = $this->_objectManager->create('Magento\Webhook\Model\Job')
             ->setSubscriptionId($this->_subscription->getId())
             ->setEventId($this->_event->getId())
             ->save();
-        $job2 = $this->_objectManager->create('Magento_Webhook_Model_Job')
+        $job2 = $this->_objectManager->create('Magento\Webhook\Model\Job')
             ->setSubscriptionId($this->_subscription->getId())
             ->setEventId($this->_event->getId())
             ->save();
-        $job3 = $this->_objectManager->create('Magento_Webhook_Model_Job')
+        $job3 = $this->_objectManager->create('Magento\Webhook\Model\Job')
             ->setSubscriptionId($this->_subscription->getId())
             ->setEventId($this->_event->getId())
             ->setStatus(\Magento\PubSub\JobInterface::STATUS_IN_PROGRESS)
             ->save();
 
-        /** @var Magento_Webhook_Model_Resource_Job_Collection $collection */
-        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Job_Collection');
+        /** @var \Magento\Webhook\Model\Resource\Job\Collection $collection */
+        $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Job\Collection');
 
         $beforeLoad = new ReflectionMethod(
-            'Magento_Webhook_Model_Resource_Job_Collection', '_beforeLoad');
+            '\Magento\Webhook\Model\Resource\Job\Collection', '_beforeLoad');
         $beforeLoad->setAccessible(true);
         $beforeLoad->invoke($collection);
         $data = $collection->getData();
         $this->assertEquals(2, count($data));
 
-        /** @var Magento_Core_Model_Resource $resource */
-        $resource = $this->_objectManager->create('Magento_Core_Model_Resource');
+        /** @var \Magento\Core\Model\Resource $resource */
+        $resource = $this->_objectManager->create('Magento\Core\Model\Resource');
         $connection = $resource->getConnection('core_write');
 
-        /** @var Magento_Webhook_Model_Resource_Job_Collection $collection2 */
-        $collection2 = $this->_objectManager->create('Magento_Webhook_Model_Resource_Job_Collection');
+        /** @var \Magento\Webhook\Model\Resource\Job\Collection $collection2 */
+        $collection2 = $this->_objectManager->create('Magento\Webhook\Model\Resource\Job\Collection');
         $collection2->setConnection($connection);
         $initSelect = new ReflectionMethod(
-            'Magento_Webhook_Model_Resource_Job_Collection', '_initSelect');
+            '\Magento\Webhook\Model\Resource\Job\Collection', '_initSelect');
         $initSelect->setAccessible(true);
         $initSelect->invoke($collection2);
 
 
         $afterLoad = new ReflectionMethod(
-            'Magento_Webhook_Model_Resource_Job_Collection', '_afterLoad');
+            '\Magento\Webhook\Model\Resource\Job\Collection', '_afterLoad');
         $afterLoad->setAccessible(true);
 
 
@@ -161,8 +161,8 @@ class Magento_Webhook_Model_Resource_Job_CollectionTest extends PHPUnit_Framewor
 
     public function testRevokeIdlingInProgress()
     {
-        /** @var Magento_Webhook_Model_Resource_Event_Collection $collection */
-        $collection = $this->_objectManager->create('Magento_Webhook_Model_Resource_Event_Collection');
+        /** @var \Magento\Webhook\Model\Resource\Event\Collection $collection */
+        $collection = $this->_objectManager->create('Magento\Webhook\Model\Resource\Event\Collection');
         $this->assertNull($collection->revokeIdlingInProgress());
     }
 }

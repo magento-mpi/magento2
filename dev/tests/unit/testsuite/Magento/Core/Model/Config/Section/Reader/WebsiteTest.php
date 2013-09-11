@@ -8,7 +8,7 @@
 class Magento_Core_Model_Config_Section_Reader_WebsiteTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Section_Reader_Website
+     * @var \Magento\Core\Model\Config\Section\Reader\Website
      */
     protected $_model;
 
@@ -39,30 +39,30 @@ class Magento_Core_Model_Config_Section_Reader_WebsiteTest extends PHPUnit_Frame
 
     protected function setUp()
     {
-        $this->_initialConfigMock = $this->getMock('Magento_Core_Model_Config_Initial', array(), array(), '', false);
-        $this->_sectionPullMock = $this->getMock('Magento_Core_Model_Config_SectionPool', array(), array(), '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\Core\Model\Config\Initial', array(), array(), '', false);
+        $this->_sectionPullMock = $this->getMock('Magento\Core\Model\Config\SectionPool', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
-            'Magento_Core_Model_Resource_Config_Value_Collection_ScopedFactory',
+            'Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory',
             array('create'),
             array(),
             '',
             false
         );
-        $websiteFactoryMock = $this->getMock('Magento_Core_Model_WebsiteFactory', array('create'), array(), '', false);
-        $this->_websiteMock = $this->getMock('Magento_Core_Model_Website', array(), array(), '', false);
+        $websiteFactoryMock = $this->getMock('Magento\Core\Model\WebsiteFactory', array('create'), array(), '', false);
+        $this->_websiteMock = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false);
         $websiteFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_websiteMock));
 
-        $this->_appStateMock = $this->getMock('Magento_Core_Model_App_State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\Core\Model\App\State', array(), array(), '', false);
         $this->_appStateMock->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue(true));
 
-        $this->_model = new Magento_Core_Model_Config_Section_Reader_Website(
+        $this->_model = new \Magento\Core\Model\Config\Section\Reader\Website(
             $this->_initialConfigMock,
             $this->_sectionPullMock,
-            new Magento_Core_Model_Config_Section_Converter(),
+            new \Magento\Core\Model\Config\Section\Converter(),
             $this->_collectionFactory,
             $websiteFactoryMock,
             $this->_appStateMock
@@ -74,7 +74,7 @@ class Magento_Core_Model_Config_Section_Reader_WebsiteTest extends PHPUnit_Frame
         $websiteCode = 'default';
         $websiteId = 1;
 
-        $sectionMock = $this->getMock('Magento_Core_Model_Config_Data', array(), array(), '', false);
+        $sectionMock = $this->getMock('Magento\Core\Model\Config\Data', array(), array(), '', false);
         $sectionMock->expects($this->once())
             ->method('getValue')
             ->will($this->returnValue(array(

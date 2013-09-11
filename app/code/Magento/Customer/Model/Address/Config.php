@@ -16,9 +16,11 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Base
+namespace Magento\Customer\Model\Address;
+
+class Config extends \Magento\Core\Model\Config\Base
 {
-    const DEFAULT_ADDRESS_RENDERER  = 'Magento_Customer_Block_Address_Renderer_Default';
+    const DEFAULT_ADDRESS_RENDERER  = '\Magento\Customer\Block\Address\Renderer\DefaultRenderer';
     const XML_PATH_ADDRESS_TEMPLATE = 'customer/address_templates/';
     const DEFAULT_ADDRESS_FORMAT    = 'oneline';
 
@@ -32,7 +34,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
     /**
      * Current store instance
      *
-     * @var Magento_Core_Model_Store
+     * @var \Magento\Core\Model\Store
      */
     protected $_store           = null;
 
@@ -46,19 +48,19 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
 
     public function setStore($store)
     {
-        $this->_store = Mage::app()->getStore($store);
+        $this->_store = \Mage::app()->getStore($store);
         return $this;
     }
 
     /**
      * Retrieve store
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
         if (is_null($this->_store)) {
-            $this->_store = Mage::app()->getStore();
+            $this->_store = \Mage::app()->getStore();
         }
         return $this->_store;
     }
@@ -69,7 +71,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
      */
     public function __construct()
     {
-        parent::__construct(Mage::getConfig()->getNode()->global->customer->address);
+        parent::__construct(\Mage::getConfig()->getNode()->global->customer->address);
     }
 
     /**
@@ -91,7 +93,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
                         || !strlen($typeConfig->escapeHtml) ? false : true;
                 $type->setCode($typeCode)
                     ->setTitle((string)$typeConfig->title)
-                    ->setDefaultFormat(Mage::getStoreConfig($path, $store))
+                    ->setDefaultFormat(\Mage::getStoreConfig($path, $store))
                     ->setEscapeHtml($escapeHtml);
 
                 $renderer = (string)$typeConfig->renderer;
@@ -100,7 +102,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
                 }
 
                 $type->setRenderer(
-                    Mage::helper('Magento_Customer_Helper_Address')->getRenderer($renderer)->setType($type)
+                    \Mage::helper('Magento\Customer\Helper\Address')->getRenderer($renderer)->setType($type)
                 );
 
                 $this->_types[$storeId][] = $type;
@@ -127,7 +129,7 @@ class Magento_Customer_Model_Address_Config extends Magento_Core_Model_Config_Ba
                         . '{{var street}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}');
 
             $this->_defaultType[$storeId]->setRenderer(
-                Mage::helper('Magento_Customer_Helper_Address')
+                \Mage::helper('Magento\Customer\Helper\Address')
                     ->getRenderer(self::DEFAULT_ADDRESS_RENDERER)->setType($this->_defaultType[$storeId])
             );
         }

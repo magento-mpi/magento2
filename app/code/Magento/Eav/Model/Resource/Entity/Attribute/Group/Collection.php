@@ -16,7 +16,9 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Eav\Model\Resource\Entity\Attribute\Group;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Init resource model for collection
@@ -24,14 +26,14 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection extends Magen
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Entity_Attribute_Group', 'Magento_Eav_Model_Resource_Entity_Attribute_Group');
+        $this->_init('\Magento\Eav\Model\Entity\Attribute\Group', '\Magento\Eav\Model\Resource\Entity\Attribute\Group');
     }
 
     /**
      * Set Attribute Set Filter
      *
      * @param int $setId
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection
      */
     public function setAttributeSetFilter($setId)
     {
@@ -44,7 +46,7 @@ class Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection extends Magen
      * Set sort order
      *
      * @param string $direction
-     * @return Magento_Eav_Model_Resource_Entity_Attribute_Group_Collection
+     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection
      */
     public function setSortOrder($direction = self::SORT_ORDER_ASC)
     {

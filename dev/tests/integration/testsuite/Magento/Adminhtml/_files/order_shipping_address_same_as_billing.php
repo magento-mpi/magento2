@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-/** @var $billingAddress Magento_Sales_Model_Order_Address */
-$billingAddress = Mage::getModel('Magento_Sales_Model_Order_Address',
+/** @var $billingAddress \Magento\Sales\Model\Order\Address */
+$billingAddress = Mage::getModel('\Magento\Sales\Model\Order\Address',
     array(
         'data' => array(
             'firstname'  => 'guest',
@@ -31,15 +31,15 @@ $shippingAddress = clone $billingAddress;
 $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
-/** @var $order Magento_Sales_Model_Order */
-$order = Mage::getModel('Magento_Sales_Model_Order');
+/** @var $order \Magento\Sales\Model\Order */
+$order = Mage::getModel('\Magento\Sales\Model\Order');
 $order->loadByIncrementId('100000001');
 $clonedOrder = clone $order;
 $order->setIncrementId('100000002');
 $order->save();
 
-/** @var $payment Magento_Sales_Model_Order_Payment */
-$payment = Mage::getModel('Magento_Sales_Model_Order_Payment');
+/** @var $payment \Magento\Sales\Model\Order\Payment */
+$payment = Mage::getModel('\Magento\Sales\Model\Order\Payment');
 $payment->setMethod('checkmo');
 
 $order = $clonedOrder;

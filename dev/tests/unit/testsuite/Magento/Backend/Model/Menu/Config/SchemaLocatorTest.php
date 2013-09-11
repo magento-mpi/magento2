@@ -13,18 +13,18 @@ class Magento_Backend_Model_Menu_Config_SchemaLocatorTest extends PHPUnit_Framew
     protected $_moduleReaderMock;
 
     /**
-     * @var Magento_Backend_Model_Menu_Config_SchemaLocator
+     * @var \Magento\Backend\Model\Menu\Config\SchemaLocator
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_moduleReaderMock = $this->getMock(
-            'Magento_Core_Model_Config_Modules_Reader', array(), array(), '', false
+            '\Magento\Core\Model\Config\Modules\Reader', array(), array(), '', false
         );
         $this->_moduleReaderMock->expects($this->once())
             ->method('getModuleDir')->with('etc', 'Magento_Backend')->will($this->returnValue('schema_dir'));
-        $this->_model = new Magento_Backend_Model_Menu_Config_SchemaLocator($this->_moduleReaderMock);
+        $this->_model = new \Magento\Backend\Model\Menu\Config\SchemaLocator($this->_moduleReaderMock);
     }
 
     public function testGetSchema()

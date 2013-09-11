@@ -8,19 +8,21 @@
  * @license     {license_link}
  */
 
-class Magento_Api_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Api\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 
-    /** @var Magento_Core_Controller_Request_Http */
+    /** @var \Magento\Core\Controller\Request\Http */
     protected $_request;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Core_Helper_Context $context
-     * @param Magento_Core_Controller_Request_Http $request
+     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\Core\Controller\Request\Http $request
      */
-    public function __construct(Magento_Core_Helper_Context $context, Magento_Core_Controller_Request_Http $request)
+    public function __construct(\Magento\Core\Helper\Context $context, \Magento\Core\Controller\Request\Http $request)
     {
         parent::__construct($context);
         $this->_request = $request;
@@ -200,7 +202,7 @@ class Magento_Api_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function packArrayToObject(Array $arr)
     {
-        $obj = new stdClass();
+        $obj = new \stdClass();
         $obj->complexObjectArray = $arr;
         return $obj;
     }

@@ -15,18 +15,20 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Model_Widget_Config extends \Magento\Object
+namespace Magento\Widget\Model\Widget;
+
+class Config extends \Magento\Object
 {
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @param Magento_Core_Model_View_Url $viewUrl
+     * @param \Magento\Core\Model\View\Url $viewUrl
      * @param array $data
      */
-    public function __construct(Magento_Core_Model_View_Url $viewUrl, array $data = array())
+    public function __construct(\Magento\Core\Model\View\Url $viewUrl, array $data = array())
     {
         $this->_viewUrl = $viewUrl;
         parent::__construct($data);
@@ -45,7 +47,7 @@ class Magento_Widget_Model_Widget_Config extends \Magento\Object
         );
         $settings = array(
             'widget_plugin_src'   => $url,
-            'widget_placeholders' => Mage::getModel('Magento_Widget_Model_Widget')->getPlaceholderImageUrls(),
+            'widget_placeholders' => \Mage::getModel('\Magento\Widget\Model\Widget')->getPlaceholderImageUrls(),
             'widget_window_url'   => $this->getWidgetWindowUrl($config)
         );
 
@@ -64,9 +66,9 @@ class Magento_Widget_Model_Widget_Config extends \Magento\Object
 
         $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
         if ($config->hasData('widget_filters')) {
-            $all = Mage::getModel('Magento_Widget_Model_Widget')->getWidgetsXml();
-            $filtered = Mage::getModel('Magento_Widget_Model_Widget')->getWidgetsXml($config->getData('widget_filters'));
-            $reflection = new ReflectionObject($filtered);
+            $all = \Mage::getModel('\Magento\Widget\Model\Widget')->getWidgetsXml();
+            $filtered = \Mage::getModel('\Magento\Widget\Model\Widget')->getWidgetsXml($config->getData('widget_filters'));
+            $reflection = new \ReflectionObject($filtered);
             foreach ($all as $code => $widget) {
                 if (!$reflection->hasProperty($code)) {
                     $skipped[] = $widget->getAttribute('type');
@@ -77,7 +79,7 @@ class Magento_Widget_Model_Widget_Config extends \Magento\Object
         if (count($skipped) > 0) {
             $params['skip_widgets'] = $this->encodeWidgetsToQuery($skipped);
         }
-        return Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/widget/index', $params);
+        return \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/widget/index', $params);
     }
 
     /**
@@ -90,7 +92,7 @@ class Magento_Widget_Model_Widget_Config extends \Magento\Object
     {
         $widgets = is_array($widgets) ? $widgets : array($widgets);
         $param = implode(',', $widgets);
-        return Mage::helper('Magento_Core_Helper_Data')->urlEncode($param);
+        return \Mage::helper('Magento\Core\Helper\Data')->urlEncode($param);
     }
 
     /**
@@ -101,7 +103,7 @@ class Magento_Widget_Model_Widget_Config extends \Magento\Object
      */
     public function decodeWidgetsFromQuery($queryParam)
     {
-        $param = Mage::helper('Magento_Core_Helper_Data')->urlDecode($queryParam);
+        $param = \Mage::helper('Magento\Core\Helper\Data')->urlDecode($queryParam);
         return preg_split('/\s*\,\s*/', $param, 0, PREG_SPLIT_NO_EMPTY);
     }
 

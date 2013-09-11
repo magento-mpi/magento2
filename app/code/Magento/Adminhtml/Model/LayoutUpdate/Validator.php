@@ -18,7 +18,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstract
+namespace Magento\Adminhtml\Model\LayoutUpdate;
+
+class Validator extends \Zend_Validate_Abstract
 {
     const XML_INVALID                             = 'invalidXml';
     const PROTECTED_ATTR_HELPER_IN_TAG_ACTION_VAR = 'protectedAttrHelperInActionVar';
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     );
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_modulesReader;
 
@@ -50,11 +52,11 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     protected $_domConfigFactory;
 
     /**
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Config\DomFactory $domConfigFactory
      */
     public function __construct(
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         \Magento\Config\DomFactory $domConfigFactory
     ) {
         $this->_modulesReader = $modulesReader;
@@ -65,7 +67,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
     /**
      * Initialize messages templates with translating
      *
-     * @return Magento_Adminhtml_Model_LayoutUpdate_Validator
+     * @return \Magento\Adminhtml\Model\LayoutUpdate\Validator
      */
     protected function _initMessageTemplates()
     {
@@ -103,7 +105,7 @@ class Magento_Adminhtml_Model_LayoutUpdate_Validator extends Zend_Validate_Abstr
                 'schemaFile' => $schema
             ));
             $value = new \Magento\Simplexml\Element($value);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_error(self::XML_INVALID);
             return false;
         }

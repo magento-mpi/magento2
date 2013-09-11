@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Payment extends Magento_Sales_Model_Resource_Abstract
+namespace Magento\Sales\Model\Resource\Quote;
+
+class Payment extends \Magento\Sales\Model\Resource\AbstractResource
 {
     /**
      * Serializeable field: additional_information
@@ -33,7 +35,7 @@ class Magento_Sales_Model_Resource_Quote_Payment extends Magento_Sales_Model_Res
      */
     protected function _construct()
     {
-        $this->_converter = Mage::getSingleton('Magento_Sales_Model_Payment_Method_Converter');
+        $this->_converter = \Mage::getSingleton('Magento\Sales\Model\Payment\Method\Converter');
         $this->_init('sales_flat_quote_payment', 'payment_id');
     }
 }

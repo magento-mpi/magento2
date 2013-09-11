@@ -13,16 +13,16 @@
 /**
  * Template for displaying product price in different places (products grid, product view page etc)
  *
- * @see Magento_Catalog_Block_Product_Abstract
+ * @see \Magento\Catalog\Block\Product\AbstractProduct
  */
 ?>
 <?php
-    $_coreHelper = $this->helper('Magento_Core_Helper_Data');
-    $_weeeHelper = $this->helper('Magento_Weee_Helper_Data');
-    $_taxHelper  = $this->helper('Magento_Tax_Helper_Data');
-    /* @var $_coreHelper Magento_Core_Helper_Data */
-    /* @var $_weeeHelper Magento_Weee_Helper_Data */
-    /* @var $_taxHelper Magento_Tax_Helper_Data */
+    $_coreHelper = $this->helper('\Magento\Core\Helper\Data');
+    $_weeeHelper = $this->helper('\Magento\Weee\Helper\Data');
+    $_taxHelper  = $this->helper('\Magento\Tax\Helper\Data');
+    /* @var $_coreHelper \Magento\Core\Helper\Data */
+    /* @var $_weeeHelper \Magento\Weee\Helper\Data */
+    /* @var $_taxHelper \Magento\Tax\Helper\Data */
 
     $_product = $this->getProduct();
     $_storeId = $_product->getStoreId();
@@ -35,7 +35,7 @@
 
 <?php if (!$_product->isGrouped()): ?>
     <?php $_weeeTaxAmount = $_weeeHelper->getAmountForDisplay($_product); ?>
-    <?php if ($_weeeHelper->typeOfDisplay($_product, array(Magento_Weee_Model_Tax::DISPLAY_INCL_DESCR, Magento_Weee_Model_Tax::DISPLAY_EXCL_DESCR_INCL, 4))): ?>
+    <?php if ($_weeeHelper->typeOfDisplay($_product, array(\Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR, \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL, 4))): ?>
         <?php $_weeeTaxAmount = $_weeeHelper->getAmount($_product); ?>
         <?php $_weeeTaxAttributes = $_weeeHelper->getProductWeeeAttributesForDisplay($_product); ?>
     <?php endif; ?>

@@ -16,7 +16,9 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_VersionsCms_Model_Resource_Increment extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\VersionsCms\Model\Resource;
+
+class Increment extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -29,13 +31,13 @@ class Magento_VersionsCms_Model_Resource_Increment extends Magento_Core_Model_Re
     /**
      * Load increment counter by passed node and level
      *
-     * @param Magento_Core_Model_Abstract $object
+     * @param \Magento\Core\Model\AbstractModel $object
      * @param int $type
      * @param int $node
      * @param int $level
      * @return bool
      */
-    public function loadByTypeNodeLevel(Magento_Core_Model_Abstract $object, $type, $node, $level)
+    public function loadByTypeNodeLevel(\Magento\Core\Model\AbstractModel $object, $type, $node, $level)
     {
         $read = $this->_getReadAdapter();
 
@@ -70,7 +72,7 @@ class Magento_VersionsCms_Model_Resource_Increment extends Magento_Core_Model_Re
      * @param int $type
      * @param int $node
      * @param int $level
-     * @return Magento_VersionsCms_Model_Resource_Increment
+     * @return \Magento\VersionsCms\Model\Resource\Increment
      */
     public function cleanIncrementRecord($type, $node, $level)
     {

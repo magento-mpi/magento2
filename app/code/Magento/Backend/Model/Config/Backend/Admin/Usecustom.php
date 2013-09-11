@@ -16,26 +16,28 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Admin;
+
+class Usecustom extends \Magento\Core\Model\Config\Value
 {
     /**
      * Writer of configuration storage
      *
-     * @var Magento_Core_Model_Config_Storage_WriterInterface
+     * @var \Magento\Core\Model\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
     /**
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Config_Storage_WriterInterface $configWriter
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Config_Storage_WriterInterface $configWriter,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -47,7 +49,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_
     /**
      * Validate custom url
      *
-     * @return Magento_Backend_Model_Config_Backend_Admin_Usecustom
+     * @return \Magento\Backend\Model\Config\Backend\Admin\Usecustom
      */
     protected function _beforeSave()
     {
@@ -55,7 +57,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_
         if ($value == 1) {
             $customUrl = $this->getData('groups/url/fields/custom/value');
             if (empty($customUrl)) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('Please specify the admin custom URL.')
                 );
             }
@@ -67,7 +69,7 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_
     /**
      * Delete custom admin url from configuration if "Use Custom Admin Url" option disabled
      *
-     * @return Magento_Backend_Model_Config_Backend_Admin_Usecustom
+     * @return \Magento\Backend\Model\Config\Backend\Admin\Usecustom
      */
     protected function _afterSave()
     {
@@ -75,14 +77,14 @@ class Magento_Backend_Model_Config_Backend_Admin_Usecustom extends Magento_Core_
 
         if (!$value) {
             $this->_configWriter->delete(
-                Magento_Backend_Model_Config_Backend_Admin_Custom::XML_PATH_SECURE_BASE_URL,
-                Magento_Backend_Model_Config_Backend_Admin_Custom::CONFIG_SCOPE,
-                Magento_Backend_Model_Config_Backend_Admin_Custom::CONFIG_SCOPE_ID
+                \Magento\Backend\Model\Config\Backend\Admin\Custom::XML_PATH_SECURE_BASE_URL,
+                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE,
+                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE_ID
             );
             $this->_configWriter->delete(
-                Magento_Backend_Model_Config_Backend_Admin_Custom::XML_PATH_UNSECURE_BASE_URL,
-                Magento_Backend_Model_Config_Backend_Admin_Custom::CONFIG_SCOPE,
-                Magento_Backend_Model_Config_Backend_Admin_Custom::CONFIG_SCOPE_ID
+                \Magento\Backend\Model\Config\Backend\Admin\Custom::XML_PATH_UNSECURE_BASE_URL,
+                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE,
+                \Magento\Backend\Model\Config\Backend\Admin\Custom::CONFIG_SCOPE_ID
             );
         }
 

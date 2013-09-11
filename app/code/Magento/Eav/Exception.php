@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Eav_Exception extends Magento_Core_Exception 
+namespace Magento\Eav;
+
+class Exception extends \Magento\Core\Exception
 {
     
 }

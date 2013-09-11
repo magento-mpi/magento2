@@ -16,7 +16,9 @@
  * @package     Magento_CustomAttribute
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomAttribute_Block_Form_Renderer_Text extends Magento_CustomAttribute_Block_Form_Renderer_Abstract
+namespace Magento\CustomAttribute\Block\Form\Renderer;
+
+class Text extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
 {
     /**
      * Return filtered and escaped value

@@ -18,19 +18,21 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Entity_Attribute_Source_Config extends Magento_Eav_Model_Entity_Attribute_Source_Abstract
+namespace Magento\Eav\Model\Entity\Attribute\Source;
+
+class Config extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Config Node Path
      *
-     * @var Magento_Core_Model_Config_Element
+     * @var \Magento\Core\Model\Config\Element
      */
     protected $_configNodePath;
 
     /**
      * Retrieve all options for the source from configuration
      *
-     * @throws Magento_Eav_Exception
+     * @throws \Magento\Eav\Exception
      * @return array
      */
     public function getAllOptions()
@@ -39,14 +41,14 @@ class Magento_Eav_Model_Entity_Attribute_Source_Config extends Magento_Eav_Model
             $this->_options = array();
             $rootNode = null;
             if ($this->_configNodePath) {
-                $rootNode = Mage::getConfig()->getNode($this->_configNodePath);
+                $rootNode = \Mage::getConfig()->getNode($this->_configNodePath);
             }
             if (!$rootNode) {
-                throw Mage::exception('Magento_Eav', __('Failed to load node %1 from config', $this->_configNodePath));
+                throw \Mage::exception('Magento_Eav', __('Failed to load node %1 from config', $this->_configNodePath));
             }
             $options = $rootNode->children();
             if (empty($options)) {
-                throw Mage::exception('Magento_Eav', __('No options found in config node %1', $this->_configNodePath));
+                throw \Mage::exception('Magento_Eav', __('No options found in config node %1', $this->_configNodePath));
             }
             foreach ($options as $option) {
                 $this->_options[] = array(

@@ -16,7 +16,9 @@
  * @package     Magento_Persistent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Persistent_Model_Resource_Session extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Persistent\Model\Resource;
+
+class Session extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Use is object new method for object saving
@@ -38,8 +40,8 @@ class Magento_Persistent_Model_Resource_Session extends Magento_Core_Model_Resou
      *
      * @param string $field
      * @param mixed $value
-     * @param Magento_Persistent_Model_Session $object
-     * @return Zend_Db_Select
+     * @param \Magento\Persistent\Model\Session $object
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -58,7 +60,7 @@ class Magento_Persistent_Model_Resource_Session extends Magento_Core_Model_Resou
      * Delete customer persistent session by customer id
      *
      * @param int $customerId
-     * @return Magento_Persistent_Model_Resource_Session
+     * @return \Magento\Persistent\Model\Resource\Session
      */
     public function deleteByCustomerId($customerId)
     {
@@ -74,7 +76,7 @@ class Magento_Persistent_Model_Resource_Session extends Magento_Core_Model_Resou
      */
     public function isKeyAllowed($key)
     {
-        $sameSession = Mage::getModel('Magento_Persistent_Model_Session')->setLoadExpired();
+        $sameSession = \Mage::getModel('\Magento\Persistent\Model\Session')->setLoadExpired();
         $sameSession->loadByCookieKey($key);
         return !$sameSession->getId();
     }
@@ -84,7 +86,7 @@ class Magento_Persistent_Model_Resource_Session extends Magento_Core_Model_Resou
      *
      * @param  $websiteId
      * @param  $expiredBefore
-     * @return Magento_Persistent_Model_Resource_Session
+     * @return \Magento\Persistent\Model\Resource\Session
      */
     public function deleteExpired($websiteId, $expiredBefore)
     {

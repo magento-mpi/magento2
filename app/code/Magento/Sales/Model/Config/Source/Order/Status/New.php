@@ -11,7 +11,9 @@
 /**
  * Order Statuses source model
  */
-class Magento_Sales_Model_Config_Source_Order_Status_New extends Magento_Sales_Model_Config_Source_Order_Status
+namespace Magento\Sales\Model\Config\Source\Order\Status;
+
+class New extends \Magento\Sales\Model\Config\Source\Order\Status
 {
-    protected $_stateStatuses = Magento_Sales_Model_Order::STATE_NEW;
+    protected $_stateStatuses = \Magento\Sales\Model\Order::STATE_NEW;
 }

@@ -15,7 +15,7 @@
             <websiterestriction_setup>
                 <setup>
                     <module>Magento_WebsiteRestriction</module>
-                    <class>Magento_WebsiteRestriction_Model_Resource_Setup</class>
+                    <class>Magento\WebsiteRestriction\Model\Resource\Setup</class>
                 </setup>
             </websiterestriction_setup>
         </resources>

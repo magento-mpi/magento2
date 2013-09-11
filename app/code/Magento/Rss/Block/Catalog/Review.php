@@ -15,7 +15,9 @@
  * @package    Magento_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
+namespace Magento\Rss\Block\Catalog;
+
+class Review extends \Magento\Core\Block\AbstractBlock
 {
     /**
      * Render XML response
@@ -24,11 +26,11 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
      */
     protected function _toHtml()
     {
-        $newUrl = Mage::getUrl('rss/catalog/review');
+        $newUrl = \Mage::getUrl('rss/catalog/review');
         $title = __('Pending product review(s)');
-        Mage::helper('Magento_Rss_Helper_Data')->disableFlat();
+        \Mage::helper('Magento\Rss\Helper\Data')->disableFlat();
 
-        $rssObj = Mage::getModel('Magento_Rss_Model_Rss');
+        $rssObj = \Mage::getModel('\Magento\Rss\Model\Rss');
         $data = array(
             'title' => $title,
             'description' => $title,
@@ -37,16 +39,16 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
         );
         $rssObj->_addHeader($data);
 
-        $reviewModel = Mage::getModel('Magento_Review_Model_Review');
+        $reviewModel = \Mage::getModel('\Magento\Review\Model\Review');
 
         $collection = $reviewModel->getProductCollection()
             ->addStatusFilter($reviewModel->getPendingStatus())
             ->addAttributeToSelect('name', 'inner')
             ->setDateOrder();
 
-        Mage::dispatchEvent('rss_catalog_review_collection_select', array('collection' => $collection));
+        \Mage::dispatchEvent('rss_catalog_review_collection_select', array('collection' => $collection));
 
-        Mage::getSingleton('Magento_Core_Model_Resource_Iterator')->walk(
+        \Mage::getSingleton('Magento\Core\Model\Resource\Iterator')->walk(
             $collection->getSelect(),
             array(array($this, 'addReviewItemXmlCallback')),
             array('rssObj'=> $rssObj, 'reviewModel'=> $reviewModel));
@@ -64,10 +66,10 @@ class Magento_Rss_Block_Catalog_Review extends Magento_Core_Block_Abstract
         $rssObj = $args['rssObj'];
         $row = $args['row'];
 
-        $store = Mage::app()->getStore($row['store_id']);
-        $urlModel = Mage::getModel('Magento_Core_Model_Url')->setStore($store);
+        $store = \Mage::app()->getStore($row['store_id']);
+        $urlModel = \Mage::getModel('\Magento\Core\Model\Url')->setStore($store);
         $productUrl = $urlModel->getUrl('catalog/product/view', array('id' => $row['entity_id']));
-        $reviewUrl = Mage::helper('Magento_Adminhtml_Helper_Data')->getUrl(
+        $reviewUrl = \Mage::helper('Magento\Adminhtml\Helper\Data')->getUrl(
             'adminhtml/catalog_product_review/edit/',
             array('id' => $row['review_id'], '_secure' => true, '_nosecret' => true));
         $storeName = $store->getName();

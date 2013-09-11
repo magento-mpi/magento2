@@ -8,7 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_Event_Manager
+namespace Magento\Core\Model\Event;
+
+class Manager
 {
     /**
      * Events cache
@@ -20,42 +22,42 @@ class Magento_Core_Model_Event_Manager
     /**
      * Event invoker
      *
-     * @var Magento_Core_Model_Event_InvokerInterface
+     * @var \Magento\Core\Model\Event\InvokerInterface
      */
     protected $_invoker;
 
     /**
      * Event config
      *
-     * @var Magento_Core_Model_Event_ConfigInterface
+     * @var \Magento\Core\Model\Event\ConfigInterface
      */
     protected $_eventConfig;
 
     /**
      * Magento event factory
      *
-     * @var Magento\EventFactory
+     * @var \Magento\EventFactory
      */
     protected $_eventFactory;
 
     /**
      * Magento event observer factory
      *
-     * @var Magento\Event\ObserverFactory
+     * @var \Magento\Event\ObserverFactory
      */
     protected $_eventObserverFactory;
 
     /**
-     * @param Magento_Core_Model_Event_InvokerInterface $invoker
-     * @param Magento_Core_Model_Event_ConfigInterface $eventConfig
-     * @param Magento\EventFactory $eventFactory
-     * @param Magento\Event\ObserverFactory $eventObserverFactory
+     * @param \Magento\Core\Model\Event\InvokerInterface $invoker
+     * @param \Magento\Core\Model\Event\ConfigInterface $eventConfig
+     * @param \Magento\EventFactory $eventFactory
+     * @param \Magento\Event\ObserverFactory $eventObserverFactory
      */
     public function __construct(
-        Magento_Core_Model_Event_InvokerInterface $invoker,
-        Magento_Core_Model_Event_ConfigInterface $eventConfig,
-        Magento\EventFactory $eventFactory,
-        Magento\Event\ObserverFactory $eventObserverFactory
+        \Magento\Core\Model\Event\InvokerInterface $invoker,
+        \Magento\Core\Model\Event\ConfigInterface $eventConfig,
+        \Magento\EventFactory $eventFactory,
+        \Magento\Event\ObserverFactory $eventObserverFactory
     ) {
         $this->_invoker = $invoker;
         $this->_eventConfig = $eventConfig;

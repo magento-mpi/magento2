@@ -11,7 +11,7 @@
     <handle id="adminhtml_widget_instance_index">
         <update handle="adminhtml_widget_instance_block"/>
         <reference name="content">
-            <block class="Magento_Widget_Block_Adminhtml_Widget_Instance" name="adminhtml.widget.instance.grid.container"/>
+            <block class="\Magento\Widget\Block\Adminhtml\Widget\Instance" name="adminhtml.widget.instance.grid.container"/>
         </reference>
     </handle>
 </layout>

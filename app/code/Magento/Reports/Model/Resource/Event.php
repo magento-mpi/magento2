@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Reports\Model\Resource;
+
+class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize main table and identifier field.
@@ -32,13 +34,13 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
     /**
      * Update customer type after customer login
      *
-     * @param Magento_Reports_Model_Event $model
+     * @param \Magento\Reports\Model\Event $model
      * @param int $visitorId
      * @param int $customerId
      * @param array $types
-     * @return Magento_Reports_Model_Resource_Event
+     * @return \Magento\Reports\Model\Resource\Event
      */
-    public function updateCustomerType(Magento_Reports_Model_Event $model, $visitorId, $customerId, $types = array())
+    public function updateCustomerType(\Magento\Reports\Model\Event $model, $visitorId, $customerId, $types = array())
     {
         if ($types) {
             $this->_getWriteAdapter()->update($this->getMainTable(),
@@ -63,7 +65,7 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
      * @param int $eventSubjectId
      * @param int $subtype
      * @param array $skipIds
-     * @return Magento_Reports_Model_Resource_Event
+     * @return \Magento\Reports\Model\Resource\Event
      */
     public function applyLogToCollection(\Magento\Data\Collection\Db $collection, $eventTypeId, $eventSubjectId, $subtype,
         $skipIds = array())
@@ -73,7 +75,7 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
         $derivedSelect = $this->getReadConnection()->select()
             ->from(
                 $this->getTable('report_event'),
-                array('event_id' => new Zend_Db_Expr('MAX(event_id)'), 'object_id'))
+                array('event_id' => new \Zend_Db_Expr('MAX(event_id)'), 'object_id'))
             ->where('event_type_id = ?', (int)$eventTypeId)
             ->where('subject_id = ?', (int)$eventSubjectId)
             ->where('subtype = ?', (int)$subtype)
@@ -89,7 +91,7 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
 
         $collection->getSelect()
             ->joinInner(
-                array('evt' => new Zend_Db_Expr("({$derivedSelect})")),
+                array('evt' => new \Zend_Db_Expr("({$derivedSelect})")),
                 "{$idFieldName} = evt.object_id",
                 array())
             ->order('evt.event_id ' . \Magento\DB\Select::SQL_DESC);
@@ -107,24 +109,24 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
     {
         $stores = array();
         // get all or specified stores
-        if (Mage::app()->getStore()->getId() == 0) {
+        if (\Mage::app()->getStore()->getId() == 0) {
             if (null !== $predefinedStoreIds) {
                 $stores = $predefinedStoreIds;
             } else {
-                foreach (Mage::app()->getStores() as $store) {
+                foreach (\Mage::app()->getStores() as $store) {
                     $stores[] = $store->getId();
                 }
             }
         } else { // get all stores, required by configuration in current store scope
-            switch (Mage::getStoreConfig('catalog/recently_products/scope')) {
+            switch (\Mage::getStoreConfig('catalog/recently_products/scope')) {
                 case 'website':
-                    $resourceStore = Mage::app()->getStore()->getWebsite()->getStores();
+                    $resourceStore = \Mage::app()->getStore()->getWebsite()->getStores();
                     break;
                 case 'group':
-                    $resourceStore = Mage::app()->getStore()->getGroup()->getStores();
+                    $resourceStore = \Mage::app()->getStore()->getGroup()->getStores();
                     break;
                 default:
-                    $resourceStore = array(Mage::app()->getStore());
+                    $resourceStore = array(\Mage::app()->getStore());
                     break;
             }
 
@@ -142,10 +144,10 @@ class Magento_Reports_Model_Resource_Event extends Magento_Core_Model_Resource_D
     /**
      * Clean report event table
      *
-     * @param Magento_Reports_Model_Event $object
-     * @return Magento_Reports_Model_Resource_Event
+     * @param \Magento\Reports\Model\Event $object
+     * @return \Magento\Reports\Model\Resource\Event
      */
-    public function clean(Magento_Reports_Model_Event $object)
+    public function clean(\Magento\Reports\Model\Event $object)
     {
         while (true) {
             $select = $this->_getReadAdapter()->select()

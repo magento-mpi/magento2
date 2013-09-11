@@ -15,18 +15,18 @@
 class Magento_User_Model_RoleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_User_Model_Role
+     * @var \Magento\User\Model\Role
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_User_Model_Role');
+        $this->_model = Mage::getModel('\Magento\User\Model\Role');
     }
 
     public function testGetUsersCollection()
     {
-        $this->assertInstanceOf('Magento_User_Model_Resource_Role_User_Collection',
+        $this->assertInstanceOf('\Magento\User\Model\Resource\Role\User\Collection',
             $this->_model->getUsersCollection());
     }
 

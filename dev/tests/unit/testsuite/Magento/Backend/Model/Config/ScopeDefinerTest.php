@@ -12,7 +12,7 @@
 class Magento_Backend_Model_Config_ScopeDefinerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Config_ScopeDefiner
+     * @var \Magento\Backend\Model\Config\ScopeDefiner
      */
     protected $_model;
 
@@ -23,13 +23,13 @@ class Magento_Backend_Model_Config_ScopeDefinerTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento_Core_Controller_Request_Http', array(), array(), '', false);
-        $this->_model = new Magento_Backend_Model_Config_ScopeDefiner($this->_requestMock);
+        $this->_requestMock = $this->getMock('Magento\Core\Controller\Request\Http', array(), array(), '', false);
+        $this->_model = new \Magento\Backend\Model\Config\ScopeDefiner($this->_requestMock);
     }
 
     public function testGetScopeReturnsDefaultScopeIfNoScopeDataIsSpecified()
     {
-        $this->assertEquals(Magento_Backend_Model_Config_ScopeDefiner::SCOPE_DEFAULT, $this->_model->getScope());
+        $this->assertEquals(\Magento\Backend\Model\Config\ScopeDefiner::SCOPE_DEFAULT, $this->_model->getScope());
     }
 
     public function testGetScopeReturnsStoreScopeIfStoreIsSpecified()
@@ -38,7 +38,7 @@ class Magento_Backend_Model_Config_ScopeDefinerTest extends PHPUnit_Framework_Te
             array('website', null, 'someWebsite'),
             array('store', null, 'someStore')
         )));
-        $this->assertEquals(Magento_Backend_Model_Config_ScopeDefiner::SCOPE_STORE, $this->_model->getScope());
+        $this->assertEquals(\Magento\Backend\Model\Config\ScopeDefiner::SCOPE_STORE, $this->_model->getScope());
     }
 
     public function testGetScopeReturnsWebsiteScopeIfWebsiteIsSpecified()
@@ -47,6 +47,6 @@ class Magento_Backend_Model_Config_ScopeDefinerTest extends PHPUnit_Framework_Te
             array('website', null, 'someWebsite'),
             array('store', null, null)
         )));
-        $this->assertEquals(Magento_Backend_Model_Config_ScopeDefiner::SCOPE_WEBSITE, $this->_model->getScope());
+        $this->assertEquals(\Magento\Backend\Model\Config\ScopeDefiner::SCOPE_WEBSITE, $this->_model->getScope());
     }
 }

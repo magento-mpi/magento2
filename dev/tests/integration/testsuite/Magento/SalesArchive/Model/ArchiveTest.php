@@ -12,13 +12,13 @@
 class Magento_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_SalesArchive_Model_Archive
+     * @var \Magento\SalesArchive\Model\Archive
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model= Mage::getModel('Magento_SalesArchive_Model_Archive');
+        $this->_model= Mage::getModel('\Magento\SalesArchive\Model\Archive');
     }
 
     /**
@@ -38,10 +38,10 @@ class Magento_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCase
     public function getEntityResourceModelDataProvider()
     {
         return array(
-            array(Magento_SalesArchive_Model_Archive::ORDER),
-            array(Magento_SalesArchive_Model_Archive::INVOICE),
-            array(Magento_SalesArchive_Model_Archive::SHIPMENT),
-            array(Magento_SalesArchive_Model_Archive::CREDITMEMO)
+            array(\Magento\SalesArchive\Model\Archive::ORDER),
+            array(\Magento\SalesArchive\Model\Archive::INVOICE),
+            array(\Magento\SalesArchive\Model\Archive::SHIPMENT),
+            array(\Magento\SalesArchive\Model\Archive::CREDITMEMO)
         );
     }
 
@@ -69,36 +69,36 @@ class Magento_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'Magento_Sales_Model_Order',
-                Magento_SalesArchive_Model_Archive::ORDER
+                '\Magento\Sales\Model\Order',
+                \Magento\SalesArchive\Model\Archive::ORDER
             ),
             array(
-                'Magento_Sales_Model_Resource_Order',
-                Magento_SalesArchive_Model_Archive::ORDER
+                '\Magento\Sales\Model\Resource\Order',
+                \Magento\SalesArchive\Model\Archive::ORDER
             ),
             array(
-                'Magento_Sales_Model_Order_Invoice',
-                Magento_SalesArchive_Model_Archive::INVOICE
+                '\Magento\Sales\Model\Order\Invoice',
+                \Magento\SalesArchive\Model\Archive::INVOICE
             ),
             array(
-                'Magento_Sales_Model_Resource_Order_Invoice',
-                Magento_SalesArchive_Model_Archive::INVOICE
+                '\Magento\Sales\Model\Resource\Order\Invoice',
+                \Magento\SalesArchive\Model\Archive::INVOICE
             ),
             array(
-                'Magento_Sales_Model_Order_Shipment',
-                Magento_SalesArchive_Model_Archive::SHIPMENT
+                '\Magento\Sales\Model\Order\Shipment',
+                \Magento\SalesArchive\Model\Archive::SHIPMENT
             ),
             array(
-                'Magento_Sales_Model_Resource_Order_Shipment',
-                Magento_SalesArchive_Model_Archive::SHIPMENT
+                '\Magento\Sales\Model\Resource\Order\Shipment',
+                \Magento\SalesArchive\Model\Archive::SHIPMENT
             ),
             array(
-                'Magento_Sales_Model_Order_Creditmemo',
-                Magento_SalesArchive_Model_Archive::CREDITMEMO
+                '\Magento\Sales\Model\Order\Creditmemo',
+                \Magento\SalesArchive\Model\Archive::CREDITMEMO
             ),
             array(
-                'Magento_Sales_Model_Resource_Order_Creditmemo',
-                Magento_SalesArchive_Model_Archive::CREDITMEMO
+                '\Magento\Sales\Model\Resource\Order\Creditmemo',
+                \Magento\SalesArchive\Model\Archive::CREDITMEMO
             ),
             array('Magento\Object', false)
         );

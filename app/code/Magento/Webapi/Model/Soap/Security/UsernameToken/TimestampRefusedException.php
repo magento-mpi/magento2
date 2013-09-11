@@ -1,6 +1,6 @@
 <?php
 /**
- * Exception for case of refused timestamp (SOAP WS-Security).
+ * \Exception for case of refused timestamp (SOAP WS-Security).
  *
  * {license_notice}
  *
@@ -8,6 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException extends RuntimeException
+namespace Magento\Webapi\Model\Soap\Security\UsernameToken;
+
+class TimestampRefusedException extends \RuntimeException
 {
 }

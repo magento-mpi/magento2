@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Index_Model_EventRepository
+namespace Magento\Index\Model;
+
+class EventRepository
 {
     /**
      * Event collection factory
@@ -25,7 +27,7 @@ class Magento_Index_Model_EventRepository
     /**
      * Check whether unprocessed events exist for provided process
      *
-     * @param int|array|Magento_Index_Model_Process $process
+     * @param int|array|\Magento\Index\Model\Process $process
      * @return bool
      */
     public function hasUnprocessed($process)
@@ -36,13 +38,13 @@ class Magento_Index_Model_EventRepository
     /**
      * Retrieve list of unprocessed events
      *
-     * @param int|array|Magento_Index_Model_Process $process
-     * @return Magento_Index_Model_Resource_Event_Collection
+     * @param int|array|\Magento\Index\Model\Process $process
+     * @return \Magento\Index\Model\Resource\Event\Collection
      */
     public function getUnprocessed($process)
     {
         $collection = $this->_collectionFactory->create();
-        $collection->addProcessFilter($process, Magento_Index_Model_Process::EVENT_STATUS_NEW);
+        $collection->addProcessFilter($process, \Magento\Index\Model\Process::EVENT_STATUS_NEW);
         return $collection;
     }
 }

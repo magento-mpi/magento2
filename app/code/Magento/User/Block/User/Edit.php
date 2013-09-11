@@ -15,7 +15,9 @@
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Block_User_Edit extends Magento_Backend_Block_Widget_Form_Container
+namespace Magento\User\Block\User;
+
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     protected function _construct()
     {
@@ -31,8 +33,8 @@ class Magento_User_Block_User_Edit extends Magento_Backend_Block_Widget_Form_Con
 
     public function getHeaderText()
     {
-        if (Mage::registry('permissions_user')->getId()) {
-            $username = $this->escapeHtml(Mage::registry('permissions_user')->getUsername());
+        if (\Mage::registry('permissions_user')->getId()) {
+            $username = $this->escapeHtml(\Mage::registry('permissions_user')->getUsername());
             return __("Edit User '%1'", $username);
         } else {
             return __('New User');

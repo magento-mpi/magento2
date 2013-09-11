@@ -10,25 +10,25 @@
  */
 
 /**
- * Test Magento_Adminhtml_Block_Page_Header
+ * Test \Magento\Adminhtml\Block\Page\Header
  * @magentoAppArea adminhtml
  */
 class Magento_Adminhtml_Block_Page_HeaderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Adminhtml_Block_Page_Header
+     * @var \Magento\Adminhtml\Block\Page\Header
      */
     protected $_block;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Adminhtml_Block_Page_Header');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Adminhtml\Block\Page\Header');
     }
 
     public function testGetHomeLink()
     {
-        $expected = Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
+        $expected = Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl();
         $this->assertEquals($expected, $this->_block->getHomeLink());
     }
 }

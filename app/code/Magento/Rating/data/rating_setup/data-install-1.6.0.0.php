@@ -16,11 +16,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $data = array(
-    Magento_Rating_Model_Rating::ENTITY_PRODUCT_CODE       => array(
+    \Magento\Rating\Model\Rating::ENTITY_PRODUCT_CODE       => array(
         array(
             'rating_code'   => 'Quality',
             'position'      => 0
@@ -34,9 +34,9 @@ $data = array(
             'position'      => 0
         ),
     ),
-    Magento_Rating_Model_Rating::ENTITY_PRODUCT_REVIEW_CODE    => array(
+    \Magento\Rating\Model\Rating::ENTITY_PRODUCT_REVIEW_CODE    => array(
     ),
-    Magento_Rating_Model_Rating::ENTITY_REVIEW_CODE            => array(
+    \Magento\Rating\Model\Rating::ENTITY_REVIEW_CODE            => array(
     ),
 );
 

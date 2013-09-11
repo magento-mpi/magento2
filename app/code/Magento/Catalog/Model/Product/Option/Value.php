@@ -11,20 +11,22 @@
 /**
  * Catalog product option select type model
  *
- * @method Magento_Catalog_Model_Resource_Product_Option_Value _getResource()
- * @method Magento_Catalog_Model_Resource_Product_Option_Value getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Option\Value _getResource()
+ * @method \Magento\Catalog\Model\Resource\Product\Option\Value getResource()
  * @method int getOptionId()
- * @method Magento_Catalog_Model_Product_Option_Value setOptionId(int $value)
+ * @method \Magento\Catalog\Model\Product\Option\Value setOptionId(int $value)
  * @method string getSku()
- * @method Magento_Catalog_Model_Product_Option_Value setSku(string $value)
+ * @method \Magento\Catalog\Model\Product\Option\Value setSku(string $value)
  * @method int getSortOrder()
- * @method Magento_Catalog_Model_Product_Option_Value setSortOrder(int $value)
+ * @method \Magento\Catalog\Model\Product\Option\Value setSortOrder(int $value)
  *
  * @category    Magento
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abstract
+namespace Magento\Catalog\Model\Product\Option;
+
+class Value extends \Magento\Core\Model\AbstractModel
 {
     protected $_values = array();
 
@@ -34,7 +36,7 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
 
     protected function _construct()
     {
-        $this->_init('Magento_Catalog_Model_Resource_Product_Option_Value');
+        $this->_init('\Magento\Catalog\Model\Resource\Product\Option\Value');
     }
 
     public function addValue($value)
@@ -60,7 +62,7 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
         return $this;
     }
 
-    public function setOption(Magento_Catalog_Model_Product_Option $option)
+    public function setOption(\Magento\Catalog\Model\Product\Option $option)
     {
         $this->_option = $option;
         return $this;
@@ -75,7 +77,7 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
     /**
      * Enter description here...
      *
-     * @return Magento_Catalog_Model_Product_Option
+     * @return \Magento\Catalog\Model\Product\Option
      */
     public function getOption()
     {
@@ -141,12 +143,12 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
     /**
      * Enter description here...
      *
-     * @param Magento_Catalog_Model_Product_Option $option
-     * @return Magento_Catalog_Model_Resource_Product_Option_Value_Collection
+     * @param \Magento\Catalog\Model\Product\Option $option
+     * @return \Magento\Catalog\Model\Resource\Product\Option\Value\Collection
      */
-    public function getValuesCollection(Magento_Catalog_Model_Product_Option $option)
+    public function getValuesCollection(\Magento\Catalog\Model\Product\Option $option)
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Option_Value_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Option\Value\Collection')
             ->addFieldToFilter('option_id', $option->getId())
             ->getValues($option->getStoreId());
 
@@ -155,7 +157,7 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
 
     public function getValuesByOption($optionIds, $option_id, $store_id)
     {
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Option_Value_Collection')
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Option\Value\Collection')
             ->addFieldToFilter('option_id', $option_id)
             ->getValuesByOption($optionIds, $store_id);
 
@@ -192,7 +194,7 @@ class Magento_Catalog_Model_Product_Option_Value extends Magento_Core_Model_Abst
      *
      * @param int $oldOptionId
      * @param int $newOptionId
-     * @return Magento_Catalog_Model_Product_Option_Value
+     * @return \Magento\Catalog\Model\Product\Option\Value
      */
     public function duplicate($oldOptionId, $newOptionId)
     {

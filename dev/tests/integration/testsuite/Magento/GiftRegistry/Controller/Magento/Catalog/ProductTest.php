@@ -14,7 +14,7 @@ class Magento_GiftRegistry_Controller_Magento_Catalog_ProductTest
      */
     public function testViewAction()
     {
-        $this->getRequest()->setParam('options', Magento_GiftRegistry_Block_Product_View::FLAG);
+        $this->getRequest()->setParam('options', \Magento\GiftRegistry\Block\Product\View::FLAG);
         $this->dispatch('catalog/product/view/id/1');
         $body = $this->getResponse()->getBody();
         $this->assertContains('<span>Add to Gift Registry</span>', $body);

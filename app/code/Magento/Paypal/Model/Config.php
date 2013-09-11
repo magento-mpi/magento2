@@ -12,7 +12,9 @@
  * Config model that is aware of all Magento_Paypal payment methods
  * Works with PayPal-specific system configuration
  */
-class Magento_Paypal_Model_Config
+namespace Magento\Paypal\Model;
+
+class Config
 {
     /**
      * PayPal Standard
@@ -255,12 +257,12 @@ class Magento_Paypal_Model_Config
     /**
      * Method code setter
      *
-     * @param string|Magento_Payment_Model_Method_Abstract $method
-     * @return Magento_Paypal_Model_Config
+     * @param string|\Magento\Payment\Model\Method\AbstractMethod $method
+     * @return \Magento\Paypal\Model\Config
      */
     public function setMethod($method)
     {
-        if ($method instanceof Magento_Payment_Model_Method_Abstract) {
+        if ($method instanceof \Magento\Payment\Model\Method\AbstractMethod) {
             $this->_methodCode = $method->getCode();
         } elseif (is_string($method)) {
             $this->_methodCode = $method;
@@ -282,7 +284,7 @@ class Magento_Paypal_Model_Config
      * Store ID setter
      *
      * @param int $storeId
-     * @return Magento_Paypal_Model_Config
+     * @return \Magento\Paypal\Model\Config
      */
     public function setStoreId($storeId)
     {
@@ -299,7 +301,7 @@ class Magento_Paypal_Model_Config
     public function isMethodActive($method)
     {
         return $this->isMethodSupportedForCountry($method)
-            && Mage::getStoreConfigFlag("payment/{$method}/active", $this->_storeId);
+            && \Mage::getStoreConfigFlag("payment/{$method}/active", $this->_storeId);
     }
 
     /**
@@ -379,7 +381,7 @@ class Magento_Paypal_Model_Config
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
         if ($path !== null) {
-            $value = Mage::getStoreConfig($path, $this->_storeId);
+            $value = \Mage::getStoreConfig($path, $this->_storeId);
             $value = $this->_prepareValue($underscored, $value);
             $this->$key = $value;
             $this->$underscored = $value;
@@ -435,9 +437,9 @@ class Magento_Paypal_Model_Config
      */
     public function getMerchantCountry()
     {
-        $countryCode = Mage::getStoreConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
+        $countryCode = \Mage::getStoreConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
         if (!$countryCode) {
-            $countryCode = Mage::helper('Magento_Core_Helper_Data')->getDefaultCountry($this->_storeId);
+            $countryCode = \Mage::helper('Magento\Core\Helper\Data')->getDefaultCountry($this->_storeId);
         }
         return $countryCode;
     }
@@ -691,13 +693,13 @@ class Magento_Paypal_Model_Config
      * Get "What Is PayPal" localized URL
      * Supposed to be used with "mark" as popup window
      *
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Core\Model\LocaleInterface $locale
      */
-    public function getPaymentMarkWhatIsPaypalUrl(Magento_Core_Model_LocaleInterface $locale = null)
+    public function getPaymentMarkWhatIsPaypalUrl(\Magento\Core\Model\LocaleInterface $locale = null)
     {
         $countryCode = 'US';
         if (null !== $locale) {
-            $shouldEmulate = (null !== $this->_storeId) && (Mage::app()->getStore()->getId() != $this->_storeId);
+            $shouldEmulate = (null !== $this->_storeId) && (\Mage::app()->getStore()->getId() != $this->_storeId);
             if ($shouldEmulate) {
                 $locale->emulate($this->_storeId);
             }
@@ -796,7 +798,7 @@ class Magento_Paypal_Model_Config
      */
     public function getAdditionalOptionsLogoUrl($localeCode, $type = false)
     {
-        $configType = Mage::getStoreConfig($this->_mapGenericStyleFieldset('logo'), $this->_storeId);
+        $configType = \Mage::getStoreConfig($this->_mapGenericStyleFieldset('logo'), $this->_storeId);
         if (!$configType) {
             return false;
         }
@@ -895,11 +897,11 @@ class Magento_Paypal_Model_Config
     {
         switch ($this->paymentAction) {
             case self::PAYMENT_ACTION_AUTH:
-                return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
+                return \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE;
             case self::PAYMENT_ACTION_SALE:
-                return Magento_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
+                return \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE;
             case self::PAYMENT_ACTION_ORDER:
-                return Magento_Payment_Model_Method_Abstract::ACTION_ORDER;
+                return \Magento\Payment\Model\Method\AbstractMethod::ACTION_ORDER;
         }
     }
 
@@ -996,7 +998,7 @@ class Magento_Paypal_Model_Config
      */
     public function getWppCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
+        $model = \Mage::getModel('\Magento\Payment\Model\Source\Cctype');
         return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'SM', 'SO', 'DI'))->toOptionArray();
     }
 
@@ -1007,7 +1009,7 @@ class Magento_Paypal_Model_Config
      */
     public function getWppPeCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
+        $model = \Mage::getModel('\Magento\Payment\Model\Source\Cctype');
         return $model->setAllowedTypes(array('VI', 'MC', 'SM', 'SO', 'OT', 'AE'))->toOptionArray();
     }
 
@@ -1018,7 +1020,7 @@ class Magento_Paypal_Model_Config
      */
     public function getPayflowproCcTypesAsOptionArray()
     {
-        $model = Mage::getModel('Magento_Payment_Model_Source_Cctype');
+        $model = \Mage::getModel('\Magento\Payment\Model\Source\Cctype');
         return $model->setAllowedTypes(array('AE', 'VI', 'MC', 'JCB', 'DI'))->toOptionArray();
     }
 
@@ -1409,7 +1411,7 @@ class Magento_Paypal_Model_Config
      */
     public function getApiCertificate()
     {
-        $websiteId = Mage::app()->getStore($this->_storeId)->getWebsiteId();
-        return Mage::getModel('Magento_Paypal_Model_Cert')->loadByWebsite($websiteId, false)->getCertPath();
+        $websiteId = \Mage::app()->getStore($this->_storeId)->getWebsiteId();
+        return \Mage::getModel('\Magento\Paypal\Model\Cert')->loadByWebsite($websiteId, false)->getCertPath();
     }
 }

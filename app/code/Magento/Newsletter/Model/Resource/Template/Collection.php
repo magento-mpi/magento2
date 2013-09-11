@@ -16,7 +16,9 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Resource_Template_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Newsletter\Model\Resource\Template;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model and model
@@ -24,13 +26,13 @@ class Magento_Newsletter_Model_Resource_Template_Collection extends Magento_Core
      */
     protected function _construct()
     {
-        $this->_init('Magento_Newsletter_Model_Template', 'Magento_Newsletter_Model_Resource_Template');
+        $this->_init('\Magento\Newsletter\Model\Template', '\Magento\Newsletter\Model\Resource\Template');
     }
 
     /**
      * Load only actual template
      *
-     * @return Magento_Newsletter_Model_Resource_Template_Collection
+     * @return \Magento\Newsletter\Model\Resource\Template\Collection
      */
     public function useOnlyActual()
     {

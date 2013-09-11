@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_System_Config_Source_Apply
+namespace Magento\Tax\Model\System\Config\Source;
+
+class Apply
 {
     protected $_options;
 

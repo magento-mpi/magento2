@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  */
-class Magento_AdvancedCheckout_Block_Customer_Sku extends Magento_AdvancedCheckout_Block_Sku_Abstract
+namespace Magento\AdvancedCheckout\Block\Customer;
+
+class Sku extends \Magento\AdvancedCheckout\Block\Sku\AbstractSku
 {
     /**
      * Retrieve form action URL

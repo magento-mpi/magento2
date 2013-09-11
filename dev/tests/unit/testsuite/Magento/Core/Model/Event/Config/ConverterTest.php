@@ -8,7 +8,7 @@
 class Magento_Core_Model_Event_Config_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Event_Config_Converter
+     * @var \Magento\Core\Model\Event\Config\Converter
      */
     protected $_model;
 
@@ -26,7 +26,7 @@ class Magento_Core_Model_Event_Config_ConverterTest extends PHPUnit_Framework_Te
     {
         $this->_filePath = __DIR__ . DIRECTORY_SEPARATOR . '/../../_files' . DIRECTORY_SEPARATOR;
         $this->_source = new DOMDocument();
-        $this->_model = new Magento_Core_Model_Event_Config_Converter();
+        $this->_model = new \Magento\Core\Model\Event\Config\Converter();
     }
 
     public function testConvert()

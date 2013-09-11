@@ -1,6 +1,6 @@
 <?php
 /**
- * Integration test for Magento_Core_Model_Validator_Factory
+ * Integration test for \Magento\Core\Model\Validator\Factory
  *
  * {license_notice}
  *
@@ -17,8 +17,8 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
     public function testGetValidatorConfig()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var Magento_Core_Model_Validator_Factory $factory */
-        $factory = $objectManager->get('Magento_Core_Model_Validator_Factory');
+        /** @var \Magento\Core\Model\Validator\Factory $factory */
+        $factory = $objectManager->get('Magento\Core\Model\Validator\Factory');
         $this->assertInstanceOf('\Magento\Validator\Config', $factory->getValidatorConfig());
         // Check that default translator was set
         $translator = \Magento\Validator\ValidatorAbstract::getDefaultTranslator();

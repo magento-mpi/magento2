@@ -9,28 +9,30 @@
 /**
  * Fallback rule that delegates execution to either modular or non-modular sub-rule depending on input parameters
  */
-class Magento_Core_Model_Design_Fallback_Rule_ModularSwitch
-    implements Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+namespace Magento\Core\Model\Design\Fallback\Rule;
+
+class ModularSwitch
+    implements \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
 {
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     private $_ruleNonModular;
 
     /**
-     * @var Magento_Core_Model_Design_Fallback_Rule_RuleInterface
+     * @var \Magento\Core\Model\Design\Fallback\Rule\RuleInterface
      */
     private $_ruleModular;
 
     /**
      * Constructor
      *
-     * @param Magento_Core_Model_Design_Fallback_Rule_RuleInterface $ruleNonModular
-     * @param Magento_Core_Model_Design_Fallback_Rule_RuleInterface $ruleModular
+     * @param \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $ruleNonModular
+     * @param \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $ruleModular
      */
     public function __construct(
-        Magento_Core_Model_Design_Fallback_Rule_RuleInterface $ruleNonModular,
-        Magento_Core_Model_Design_Fallback_Rule_RuleInterface $ruleModular
+        \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $ruleNonModular,
+        \Magento\Core\Model\Design\Fallback\Rule\RuleInterface $ruleModular
     ) {
         $this->_ruleNonModular = $ruleNonModular;
         $this->_ruleModular = $ruleModular;
@@ -40,7 +42,7 @@ class Magento_Core_Model_Design_Fallback_Rule_ModularSwitch
      * Delegate execution to either modular or non-modular sub-rule depending on input parameters
      *
      * {@inheritdoc}
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function getPatternDirs(array $params)
     {
@@ -51,6 +53,6 @@ class Magento_Core_Model_Design_Fallback_Rule_ModularSwitch
         } else if (!$isNamespaceDefined && !$isModuleDefined) {
             return $this->_ruleNonModular->getPatternDirs($params);
         }
-        throw new InvalidArgumentException("Parameters 'namespace' and 'module' should either be both set or unset.");
+        throw new \InvalidArgumentException("Parameters 'namespace' and 'module' should either be both set or unset.");
     }
 }

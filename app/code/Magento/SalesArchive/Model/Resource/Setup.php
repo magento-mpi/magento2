@@ -16,7 +16,9 @@
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\SalesArchive\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * Call afterApplyAllUpdates flag
@@ -53,7 +55,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      * Run each time after applying of all updates,
      * if setup model setted  $_callAfterApplyAllUpdates flag to true
      *
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     public function afterApplyAllUpdates()
     {
@@ -64,7 +66,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
     /**
      * Synchronize archive structure
      *
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     protected function _syncArchiveStructure()
     {
@@ -98,7 +100,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      *
      * @param string $sourceTable
      * @param string $targetTable
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     protected function _syncTable($sourceTable, $targetTable)
     {
@@ -177,11 +179,11 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      * @param string $column
      * @param boolean $after
      * @param boolean $first
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     public function changeColumnPosition($table, $column, $after = false, $first = false)
     {
-        $helper = Mage::getResourceHelper('Magento_SalesArchive');
+        $helper = \Mage::getResourceHelper('Magento_SalesArchive');
         $helper->changeColumnPosition($table, $column, $after, $first);
 
         return $this;
@@ -192,7 +194,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      *
      * @param string $sourceTable
      * @param string $targetTable
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     protected function _syncTableIndex($sourceTable, $targetTable)
     {
@@ -270,7 +272,7 @@ class Magento_SalesArchive_Model_Resource_Setup extends Magento_Core_Model_Resou
      * @param string $targetTable
      * @param string $sourceKey
      * @param string $targetKey
-     * @return Magento_SalesArchive_Model_Resource_Setup
+     * @return \Magento\SalesArchive\Model\Resource\Setup
      */
     protected function _syncTableConstraint($sourceTable, $targetTable, $sourceKey, $targetKey)
     {

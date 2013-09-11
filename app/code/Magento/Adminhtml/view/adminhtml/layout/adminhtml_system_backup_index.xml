@@ -12,7 +12,7 @@
         <update handle="formkey"/>
         <update handle="adminhtml_system_backup_block"/>
         <reference name="content">
-            <block class="Magento_Adminhtml_Block_Backup" name="adminhtml.system.backup.container"/>
+            <block class="\Magento\Adminhtml\Block\Backup" name="adminhtml.system.backup.container"/>
         </reference>
     </handle>
 </layout>

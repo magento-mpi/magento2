@@ -7,27 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Magento_Core_Model_EntryPointAbstract
+namespace Magento\Core\Model;
+
+abstract class EntryPointAbstract
 {
     /**
      * Application configuration
      *
-     * @var Magento_Core_Model_Config_Primary
+     * @var \Magento\Core\Model\Config\Primary
      */
     protected $_config;
 
     /**
      * Application object manager
      *
-     * @var Magento_Core_Model_ObjectManager
+     * @var \Magento\Core\Model\ObjectManager
      */
     protected $_objectManager;
 
     /**
-     * @param Magento_Core_Model_Config_Primary $config
+     * @param \Magento\Core\Model\Config\Primary $config
      * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(Magento_Core_Model_Config_Primary $config, \Magento\ObjectManager $objectManager = null)
+    public function __construct(\Magento\Core\Model\Config\Primary $config, \Magento\ObjectManager $objectManager = null)
     {
         $this->_config = $config;
         $this->_objectManager = $objectManager;
@@ -48,7 +50,7 @@ abstract class Magento_Core_Model_EntryPointAbstract
     protected function _init()
     {
         if (!$this->_objectManager) {
-            $this->_objectManager = new Magento_Core_Model_ObjectManager($this->_config);
+            $this->_objectManager = new \Magento\Core\Model\ObjectManager($this->_config);
         }
     }
 

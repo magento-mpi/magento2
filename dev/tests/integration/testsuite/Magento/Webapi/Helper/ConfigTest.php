@@ -10,11 +10,11 @@
 
 
 /**
- * Class implements tests for Magento_Webapi_Helper_Data class.
+ * Class implements tests for \Magento\Webapi\Helper\Data class.
  */
 class Magento_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webapi_Helper_Config */
+    /** @var \Magento\Webapi\Helper\Config */
     protected $_helper;
 
     /**
@@ -23,7 +23,7 @@ class Magento_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $this->_helper = $objectManager->get('Magento_Webapi_Helper_Config');
+        $this->_helper = $objectManager->get('Magento\Webapi\Helper\Config');
         parent::setUp();
     }
 
@@ -121,7 +121,7 @@ class Magento_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
             )
         );
         $this->_helper->getOperationBodyParamName(
-            Magento_Webapi_Helper_Data::createMethodReflection(
+            \Magento\Webapi\Helper\Data::createMethodReflection(
                 'Vendor_Module_Controller_Webapi_Invalid_Interface',
                 $methodName
             )
@@ -132,7 +132,7 @@ class Magento_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('LogicException', 'must have at least one parameter: resource ID.');
         $this->_helper->getOperationIdParamName(
-            Magento_Webapi_Helper_Data::createMethodReflection(
+            \Magento\Webapi\Helper\Data::createMethodReflection(
                 'Vendor_Module_Controller_Webapi_Invalid_Interface',
                 'emptyInterfaceV2'
             )
@@ -177,7 +177,7 @@ class Magento_Webapi_Helper_ConfigTest extends PHPUnit_Framework_TestCase
         $className = 'Vendor_Module_Webapi_Resource_Invalid';
         $this->setExpectedException('LogicException', sprintf('"%s" is not a valid resource class.', $className));
         $this->_helper->getOperationIdParamName(
-            Magento_Webapi_Helper_Data::createMethodReflection($className, 'updateV1')
+            \Magento\Webapi\Helper\Data::createMethodReflection($className, 'updateV1')
         );
     }
 }

@@ -12,22 +12,22 @@
 class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js
+     * @var \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js
      */
     protected $_model;
 
     /**
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_urlBuilder;
 
     protected function setUp()
     {
-        $this->_urlBuilder = $this->getMock('Magento_Backend_Model_Url', array(), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $constructArguments = $objectManagerHelper->getConstructArguments(
-            'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js',
+            '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
             array(
                  'objectManager' => Mage::getObjectManager(),
                  'urlBuilder'    => $this->_urlBuilder
@@ -35,7 +35,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUn
         );
 
         $this->_model = $this->getMock(
-            'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js',
+            '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
             array('_getCurrentTheme'),
             $constructArguments,
             '',
@@ -54,7 +54,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUn
      */
     protected function _getMethod($name)
     {
-        $class = new ReflectionClass('Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Tab_Js');
+        $class = new ReflectionClass('\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;
@@ -65,7 +65,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUn
         $method = $this->_getMethod('_getAdditionalElementTypes');
         $result = $method->invokeArgs($this->_model, array());
         $expectedResult = array(
-            'js_files' => 'Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File'
+            'js_files' => '\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File'
         );
         $this->assertEquals($expectedResult, $result);
     }
@@ -79,7 +79,7 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Tab_JsTest extends PHPUn
     {
         $themeId = 2;
         $uploadUrl = 'upload_url';
-        $themeMock = $this->getMock('Magento_Core_Model_Theme', array('isVirtual', 'getId'), array(), '', false);
+        $themeMock = $this->getMock('Magento\Core\Model\Theme', array('isVirtual', 'getId'), array(), '', false);
         $themeMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($themeId));

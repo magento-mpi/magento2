@@ -15,7 +15,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magento_Adminhtml_Controller_Action
+namespace Magento\Downloadable\Controller\Adminhtml\Downloadable;
+
+class File extends \Magento\Adminhtml\Controller\Action
 {
 
     /**
@@ -26,15 +28,15 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
         $type = $this->getRequest()->getParam('type');
         $tmpPath = '';
         if ($type == 'samples') {
-            $tmpPath = Magento_Downloadable_Model_Sample::getBaseTmpPath();
+            $tmpPath = \Magento\Downloadable\Model\Sample::getBaseTmpPath();
         } elseif ($type == 'links') {
-            $tmpPath = Magento_Downloadable_Model_Link::getBaseTmpPath();
+            $tmpPath = \Magento\Downloadable\Model\Link::getBaseTmpPath();
         } elseif ($type == 'link_samples') {
-            $tmpPath = Magento_Downloadable_Model_Link::getBaseSampleTmpPath();
+            $tmpPath = \Magento\Downloadable\Model\Link::getBaseSampleTmpPath();
         }
         $result = array();
         try {
-            $uploader = new Magento_Core_Model_File_Uploader($type);
+            $uploader = new \Magento\Core\Model\File\Uploader($type);
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
             $result = $uploader->save($tmpPath);
@@ -47,7 +49,7 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
 
             if (isset($result['file'])) {
                 $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
-                Mage::helper('Magento_Core_Helper_File_Storage_Database')->saveFile($fullPath);
+                \Mage::helper('Magento\Core\Helper\File\Storage\Database')->saveFile($fullPath);
             }
 
             $result['cookie'] = array(
@@ -57,11 +59,11 @@ class Magento_Downloadable_Controller_Adminhtml_Downloadable_File extends Magent
                 'path'     => $this->_getSession()->getCookiePath(),
                 'domain'   => $this->_getSession()->getCookieDomain()
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = array('error'=>$e->getMessage(), 'errorcode'=>$e->getCode());
         }
 
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**

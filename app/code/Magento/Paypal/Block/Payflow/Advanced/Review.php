@@ -16,7 +16,9 @@
  * @package    Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Payflow_Advanced_Review extends Magento_Paypal_Block_Payflow_Link_Review
+namespace Magento\Paypal\Block\Payflow\Advanced;
+
+class Review extends \Magento\Paypal\Block\Payflow\Link\Review
 {
 
 }

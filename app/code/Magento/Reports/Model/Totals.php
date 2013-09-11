@@ -15,12 +15,14 @@
  * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Totals
+namespace Magento\Reports\Model;
+
+class Totals
 {
     /**
      * Retrieve count totals
      *
-     * @param Magento_Adminhtml_Block_Widget_Grid $grid
+     * @param \Magento\Adminhtml\Block\Widget\Grid $grid
      * @param string $from
      * @param string $to
      * @return \Magento\Object

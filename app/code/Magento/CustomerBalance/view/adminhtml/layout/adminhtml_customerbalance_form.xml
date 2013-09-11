@@ -11,9 +11,9 @@
     <handle id="adminhtml_customerbalance_form">
         <update handle="adminhtml_customer_balance_grid"/>
         <container name="root" label="Root" output="1">
-            <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml"/>
-            <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Form" name="customerbalance.form"/>
-            <block class="Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History" name="customerbalance.history"/>
+            <block class="\Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance" name="customerbalance.balance" template="balance.phtml"/>
+            <block class="\Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Form" name="customerbalance.form"/>
+            <block class="\Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History" name="customerbalance.history"/>
         </container>
     </handle>
 </layout>

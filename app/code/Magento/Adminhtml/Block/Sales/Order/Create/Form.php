@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Form extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Form extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     protected function _construct()
     {
@@ -78,23 +80,23 @@ class Magento_Adminhtml_Block_Sales_Order_Create_Form extends Magento_Adminhtml_
             $data['customer_id'] = $this->getCustomerId();
             $data['addresses'] = array();
 
-            /* @var $addressForm Magento_Customer_Model_Form */
-            $addressForm = Mage::getModel('Magento_Customer_Model_Form')
+            /* @var $addressForm \Magento\Customer\Model\Form */
+            $addressForm = \Mage::getModel('\Magento\Customer\Model\Form')
                 ->setFormCode('adminhtml_customer_address')
                 ->setStore($this->getStore());
             foreach ($this->getCustomer()->getAddresses() as $address) {
                 $data['addresses'][$address->getId()] = $addressForm->setEntity($address)
-                    ->outputData(Magento_Customer_Model_Attribute_Data::OUTPUT_FORMAT_JSON);
+                    ->outputData(\Magento\Customer\Model\Attribute\Data::OUTPUT_FORMAT_JSON);
             }
         }
         if (!is_null($this->getStoreId())) {
             $data['store_id'] = $this->getStoreId();
-            $currency = Mage::app()->getLocale()->currency($this->getStore()->getCurrentCurrencyCode());
+            $currency = \Mage::app()->getLocale()->currency($this->getStore()->getCurrentCurrencyCode());
             $symbol = $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
             $data['currency_symbol'] = $symbol;
             $data['shipping_method_reseted'] = !(bool)$this->getQuote()->getShippingAddress()->getShippingMethod();
             $data['payment_method'] = $this->getQuote()->getPayment()->getMethod();
         }
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($data);
     }
 }

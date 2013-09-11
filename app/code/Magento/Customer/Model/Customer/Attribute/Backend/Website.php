@@ -15,13 +15,15 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Attribute_Backend_Website extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Customer\Model\Customer\Attribute\Backend;
+
+class Website extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Before save
      *
      * @param \Magento\Object $object
-     * @return Magento_Customer_Model_Customer_Attribute_Backend_Website
+     * @return \Magento\Customer\Model\Customer\Attribute\Backend\Website
      */
     public function beforeSave($object)
     {
@@ -30,7 +32,7 @@ class Magento_Customer_Model_Customer_Attribute_Backend_Website extends Magento_
         }
 
         if (!$object->hasData('website_id')) {
-            $object->setData('website_id', Mage::app()->getStore()->getWebsiteId());
+            $object->setData('website_id', \Mage::app()->getStore()->getWebsiteId());
         }
 
         return $this;

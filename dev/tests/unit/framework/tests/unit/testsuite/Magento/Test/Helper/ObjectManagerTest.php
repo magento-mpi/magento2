@@ -17,15 +17,15 @@ class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockDependencies = array(
-        'request'         => 'Magento_Core_Controller_Request_Http',
-        'layout'          => 'Magento_Core_Model_Layout',
-        'eventManager'    => 'Magento_Core_Model_Event_Manager',
-        'translator'      => 'Magento_Core_Model_Translate',
-        'cache'           => 'Magento_Core_Model_CacheInterface',
-        'design'   => 'Magento_Core_Model_View_DesignInterface',
-        'session'         => 'Magento_Core_Model_Session',
-        'storeConfig'     => 'Magento_Core_Model_Store_Config',
-        'frontController' => 'Magento_Core_Controller_Varien_Front'
+        'request'         => '\Magento\Core\Controller\Request\Http',
+        'layout'          => '\Magento\Core\Model\Layout',
+        'eventManager'    => '\Magento\Core\Model\Event\Manager',
+        'translator'      => '\Magento\Core\Model\Translate',
+        'cache'           => '\Magento\Core\Model\CacheInterface',
+        'design'   => '\Magento\Core\Model\View\DesignInterface',
+        'session'         => '\Magento\Core\Model\Session',
+        'storeConfig'     => '\Magento\Core\Model\Store\Config',
+        'frontController' => '\Magento\Core\Controller\Varien\Front'
     );
 
     /**
@@ -34,9 +34,9 @@ class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_modelDependencies = array(
-        'eventDispatcher'    => 'Magento_Core_Model_Event_Manager',
-        'cacheManager'       => 'Magento_Core_Model_CacheInterface',
-        'resource'           => 'Magento_Core_Model_Resource_Abstract',
+        'eventDispatcher'    => '\Magento\Core\Model\Event\Manager',
+        'cacheManager'       => '\Magento\Core\Model\CacheInterface',
+        'resource'           => '\Magento\Core\Model\Resource\AbstractResource',
         'resourceCollection' => 'Magento\Data\Collection\Db'
     );
 
@@ -46,23 +46,23 @@ class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
     public function testGetBlock()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $template Magento_Core_Block_Template */
-        $template = $objectManager->getObject('Magento_Core_Block_Template');
-        $this->assertInstanceOf('Magento_Core_Block_Template', $template);
+        /** @var $template \Magento\Core\Block\Template */
+        $template = $objectManager->getObject('\Magento\Core\Block\Template');
+        $this->assertInstanceOf('\Magento\Core\Block\Template', $template);
         foreach ($this->_blockDependencies as $propertyName => $propertyType) {
             $this->assertAttributeInstanceOf($propertyType, '_' . $propertyName, $template);
         }
 
         $area = 'frontend';
-        /** @var $layoutMock Magento_Core_Model_Layout */
-        $layoutMock = $this->getMock('Magento_Core_Model_Layout', array('getArea'), array(), '', false);
+        /** @var $layoutMock \Magento\Core\Model\Layout */
+        $layoutMock = $this->getMock('Magento\Core\Model\Layout', array('getArea'), array(), '', false);
         $layoutMock->expects($this->once())
             ->method('getArea')
             ->will($this->returnValue($area));
 
         $arguments = array('layout' => $layoutMock);
-        /** @var $template Magento_Core_Block_Template */
-        $template = $objectManager->getObject('Magento_Core_Block_Template', $arguments);
+        /** @var $template \Magento\Core\Block\Template */
+        $template = $objectManager->getObject('\Magento\Core\Block\Template', $arguments);
         $this->assertEquals($area, $template->getArea());
     }
 
@@ -72,16 +72,16 @@ class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
     public function testGetModel()
     {
         $objectManager = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Core_Model_Config_Value */
-        $model = $objectManager->getObject('Magento_Core_Model_Config_Value');
-        $this->assertInstanceOf('Magento_Core_Model_Config_Value', $model);
+        /** @var $model \Magento\Core\Model\Config\Value */
+        $model = $objectManager->getObject('\Magento\Core\Model\Config\Value');
+        $this->assertInstanceOf('\Magento\Core\Model\Config\Value', $model);
         foreach ($this->_modelDependencies as $propertyName => $propertyType) {
             $this->assertAttributeInstanceOf($propertyType, '_' . $propertyName, $model);
         }
 
-        /** @var $resourceMock Magento_Core_Model_Resource_Resource */
+        /** @var $resourceMock \Magento\Core\Model\Resource\Resource */
         $resourceMock = $this->getMock(
-            'Magento_Core_Model_Resource_Resource',
+            '\Magento\Core\Model\Resource\Resource',
             array('_getReadAdapter', 'getIdFieldName'),
             array(),
             '',
@@ -94,7 +94,7 @@ class Magento_Test_Helper_ObjectManagerTest extends PHPUnit_Framework_TestCase
             ->method('getIdFieldName')
             ->will($this->returnValue('id'));
         $arguments = array('resource' => $resourceMock);
-        $model = $objectManager->getObject('Magento_Core_Model_Config_Value', $arguments);
+        $model = $objectManager->getObject('\Magento\Core\Model\Config\Value', $arguments);
         $this->assertFalse($model->getResource()->getDataVersion('test'));
     }
 }

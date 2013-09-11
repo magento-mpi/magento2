@@ -8,12 +8,12 @@
 class Magento_Core_Model_Locale_Hierarchy_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Locale_Hierarchy_Config
+     * @var \Magento\Core\Model\Locale\Hierarchy\Config
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Locale_Hierarchy_Config_Reader
+     * @var \Magento\Core\Model\Locale\Hierarchy\Config\Reader
      */
     protected $_configReaderMock;
 
@@ -30,12 +30,12 @@ class Magento_Core_Model_Locale_Hierarchy_ConfigTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         $this->_configReaderMock = $this->getMock(
-            'Magento_Core_Model_Locale_Hierarchy_Config_Reader', array(), array(), '', false
+            '\Magento\Core\Model\Locale\Hierarchy\Config\Reader', array(), array(), '', false
         );
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
         $this->_cacheId = 'customCacheId';
 
-        $this->_model = new Magento_Core_Model_Locale_Hierarchy_Config(
+        $this->_model = new \Magento\Core\Model\Locale\Hierarchy\Config(
             $this->_configReaderMock,
             $this->_cacheMock,
             $this->_cacheId
@@ -43,7 +43,7 @@ class Magento_Core_Model_Locale_Hierarchy_ConfigTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @covers Magento_Core_Model_Locale_Hierarchy_Config::getHierarchy
+     * @covers \Magento\Core\Model\Locale\Hierarchy\Config::getHierarchy
      */
     public function testGetHierarchyCached()
     {
@@ -58,7 +58,7 @@ class Magento_Core_Model_Locale_Hierarchy_ConfigTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @covers Magento_Core_Model_Locale_Hierarchy_Config::getHierarchy
+     * @covers \Magento\Core\Model\Locale\Hierarchy\Config::getHierarchy
      */
     public function testGetHierarchyNonCached()
     {

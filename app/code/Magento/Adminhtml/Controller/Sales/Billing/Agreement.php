@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Sales_Billing_Agreement extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Sales\Billing;
+
+class Agreement extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Billing agreements
@@ -96,11 +98,11 @@ class Magento_Adminhtml_Controller_Sales_Billing_Agreement extends Magento_Admin
                 $this->_getSession()->addSuccess(__('You canceled the billing agreement.'));
                 $this->_redirect('*/*/view', array('_current' => true));
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError(__('We could not cancel the billing agreement.'));
-                Mage::logException($e);
+                \Mage::logException($e);
             }
             $this->_redirect('*/*/view', array('_current' => true));
         }
@@ -120,11 +122,11 @@ class Magento_Adminhtml_Controller_Sales_Billing_Agreement extends Magento_Admin
                 $this->_getSession()->addSuccess(__('You deleted the billing agreement.'));
                 $this->_redirect('*/*/');
                 return;
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addError(__('We could not delete the billing agreement.'));
-                Mage::logException($e);
+                \Mage::logException($e);
             }
             $this->_redirect('*/*/view', array('_current' => true));
         }
@@ -134,37 +136,37 @@ class Magento_Adminhtml_Controller_Sales_Billing_Agreement extends Magento_Admin
     /**
      * Initialize billing agreement by ID specified in request
      *
-     * @return Magento_Sales_Model_Billing_Agreement | false
+     * @return \Magento\Sales\Model\Billing\Agreement | false
      */
     protected function _initBillingAgreement()
     {
         $agreementId = $this->getRequest()->getParam('agreement');
-        $agreementModel = Mage::getModel('Magento_Sales_Model_Billing_Agreement')->load($agreementId);
+        $agreementModel = \Mage::getModel('\Magento\Sales\Model\Billing\Agreement')->load($agreementId);
 
         if (!$agreementModel->getId()) {
             $this->_getSession()->addError(__('Please specify the correct billing agreement ID and try again.'));
             return false;
         }
 
-        Mage::register('current_billing_agreement', $agreementModel);
+        \Mage::register('current_billing_agreement', $agreementModel);
         return $agreementModel;
     }
 
     /**
      * Initialize customer by ID specified in request
      *
-     * @return Magento_Adminhtml_Controller_Sales_Billing_Agreement
+     * @return \Magento\Adminhtml\Controller\Sales\Billing\Agreement
      */
     protected function _initCustomer()
     {
         $customerId = (int) $this->getRequest()->getParam('id');
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
 
         if ($customerId) {
             $customer->load($customerId);
         }
 
-        Mage::register('current_customer', $customer);
+        \Mage::register('current_customer', $customer);
         return $this;
     }
 

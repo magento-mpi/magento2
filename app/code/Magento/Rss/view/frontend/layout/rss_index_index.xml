@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_Rss_Block_List" name="rss.list" template="list.phtml"/>
+            <block class="\Magento\Rss\Block\ListBlock" name="rss.list" template="list.phtml"/>
         </reference>
     </handle>
 </layout>

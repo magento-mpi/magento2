@@ -11,6 +11,8 @@
 /**
  * Theme module helper
  */
-class Magento_Theme_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Theme\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
 }

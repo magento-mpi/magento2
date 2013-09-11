@@ -11,12 +11,14 @@
 /**
  * Theme customization interface
  */
-interface Magento_Core_Model_Theme_CustomizationInterface
+namespace Magento\Core\Model\Theme;
+
+interface CustomizationInterface
 {
     /**
      * Retrieve list of files which belong to a theme
      *
-     * @return Magento_Core_Model_Theme_Customization_FileInterface[]
+     * @return \Magento\Core\Model\Theme\Customization\FileInterface[]
      */
     public function getFiles();
 
@@ -24,7 +26,7 @@ interface Magento_Core_Model_Theme_CustomizationInterface
      * Retrieve list of files which belong to a theme only by type
      *
      * @param string $type
-     * @return Magento_Core_Model_Theme_Customization_FileInterface[]
+     * @return \Magento\Core\Model\Theme\Customization\FileInterface[]
      */
     public function getFilesByType($type);
 

@@ -15,7 +15,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Helper_Hint extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Hint extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * List of available hints
@@ -33,7 +35,7 @@ class Magento_Core_Helper_Hint extends Magento_Core_Helper_Abstract
     {
         if (null === $this->_availableHints) {
             $hints = array();
-            $config = Mage::getConfig()->getValue('hints', 'default');
+            $config = \Mage::getConfig()->getValue('hints', 'default');
             if ($config) {
                 foreach ($config as $type => $configValue) {
                     if (isset($configValue['enabled']) && $configValue['enabled']) {

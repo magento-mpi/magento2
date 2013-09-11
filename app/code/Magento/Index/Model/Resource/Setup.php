@@ -16,7 +16,9 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Setup
+namespace Magento\Index\Model\Resource;
+
+class Setup extends \Magento\Core\Model\Resource\Setup
 {
     /**
      * Apply Index module DB updates and sync indexes declaration
@@ -32,7 +34,7 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
     /**
      * Sync indexes declarations in config and in DB
      *
-     * @return Magento_Index_Model_Resource_Setup
+     * @return \Magento\Index\Model\Resource\Setup
      */
     protected function _syncIndexes()
     {
@@ -40,7 +42,7 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
         if (!$connection) {
             return $this;
         }
-        $indexes = $this->_config->getNode(Magento_Index_Model_Process::XML_PATH_INDEXER_DATA);
+        $indexes = $this->_config->getNode(\Magento\Index\Model\Process::XML_PATH_INDEXER_DATA);
         $indexCodes = array();
         foreach ($indexes->children() as $code => $index) {
             $indexCodes[] = $code;
@@ -59,7 +61,7 @@ class Magento_Index_Model_Resource_Setup extends Magento_Core_Model_Resource_Set
             foreach ($insert as $code) {
                 $insertData[] = array(
                     'indexer_code' => $code,
-                    'status' => Magento_Index_Model_Process::STATUS_REQUIRE_REINDEX
+                    'status' => \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
                 );
             }
             if (method_exists($connection, 'insertArray')) {

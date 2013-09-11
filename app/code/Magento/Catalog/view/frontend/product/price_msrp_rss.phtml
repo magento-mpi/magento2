@@ -12,15 +12,15 @@
 /**
  * Template for displaying product price at rss feeds pages
  *
- * @var $this Magento_Catalog_Block_Product_Price
+ * @var $this \Magento\Catalog\Block\Product\Price
  */
 
-/** @var $_product Magento_Catalog_Model_Product */
+/** @var $_product \Magento\Catalog\Model\Product */
 $_product = $this->getProduct();
 ?>
 <div class="price-box map-info">
 
-    <?php if ($this->helper('Magento_Catalog_Helper_Data')->canApplyMsrp($_product)): ?>
+    <?php if ($this->helper('\Magento\Catalog\Helper\Data')->canApplyMsrp($_product)): ?>
         <a href="<?php echo $_product->getProductUrl() ?>"><?php echo __('Click for price'); ?></a>
     <?php endif; ?>
 </div>

@@ -26,11 +26,11 @@ class Magento_Page_Block_SwitchTest extends PHPUnit_Framework_TestCase
      */
     public function testIsStoreInUrl($isUseStoreInUrl)
     {
-        $storeMock = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->once())->method('isUseStoreInUrl')->will($this->returnValue($isUseStoreInUrl));
-        $storeManager = $this->getMock('Magento_Core_Model_StoreManagerInterface');
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
-        $block = $this->_objectManager->getObject('Magento_Page_Block_Switch', array('storeManager' => $storeManager));
+        $block = $this->_objectManager->getObject('\Magento\Page\Block\Switch', array('storeManager' => $storeManager));
 
         $this->assertEquals($block->isStoreInUrl(), $isUseStoreInUrl);
 

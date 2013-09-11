@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Webapi_Block_Adminhtml_Role_Edit setApiRole() setApiRole(Magento_Webapi_Model_Acl_Role $role)
- * @method Magento_Webapi_Model_Acl_Role getApiRole() getApiRole()
+ * @method \Magento\Webapi\Block\Adminhtml\Role\Edit setApiRole() setApiRole(\Magento\Webapi\Model\Acl\Role $role)
+ * @method \Magento\Webapi\Model\Acl\Role getApiRole() getApiRole()
  */
-class Magento_Webapi_Block_Adminhtml_Role_Edit extends Magento_Backend_Block_Widget_Form_Container
+namespace Magento\Webapi\Block\Adminhtml\Role;
+
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * @var string

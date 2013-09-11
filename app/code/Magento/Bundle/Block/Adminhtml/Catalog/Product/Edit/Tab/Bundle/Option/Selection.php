@@ -15,7 +15,9 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection extends Magento_Adminhtml_Block_Widget
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
+
+class Selection extends \Magento\Adminhtml\Block\Widget
 {
     protected $_template = 'product/edit/bundle/option/selection.phtml';
 
@@ -52,11 +54,11 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
     /**
      * Prepare block layout
      *
-     * @return Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Selection
+     * @return \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection
      */
     protected function _prepareLayout()
     {
-        $this->addChild('selection_delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('selection_delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Delete'),
             'class' => 'delete icon-btn',
             'on_click' => 'bSelection.remove(event)'
@@ -81,13 +83,13 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
      */
     public function getPriceTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldId() . '_{{index}}_price_type',
                 'class' => 'select select-product-option-type required-option-select'
             ))
             ->setName($this->getFieldName() . '[{{parentIndex}}][{{index}}][selection_price_type]')
-            ->setOptions(Mage::getSingleton('Magento_Bundle_Model_Source_Option_Selection_Price_Type')->toOptionArray());
+            ->setOptions(\Mage::getSingleton('Magento\Bundle\Model\Source\Option\Selection\Price\Type')->toOptionArray());
         if ($this->getCanEditPrice() === false) {
             $select->setExtraParams('disabled="disabled"');
         }
@@ -101,13 +103,13 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
      */
     public function getQtyTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setData(array(
                 'id' => $this->getFieldId().'_{{index}}_can_change_qty',
                 'class' => 'select'
             ))
             ->setName($this->getFieldName().'[{{parentIndex}}][{{index}}][selection_can_change_qty]')
-            ->setOptions(Mage::getSingleton('Magento_Backend_Model_Config_Source_Yesno')->toOptionArray());
+            ->setOptions(\Mage::getSingleton('Magento\Backend\Model\Config\Source\Yesno')->toOptionArray());
 
         return $select->getHtml();
     }
@@ -129,7 +131,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sele
      */
     public function isUsedWebsitePrice()
     {
-        return !Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal() && Mage::registry('product')->getStoreId();
+        return !\Mage::helper('Magento\Catalog\Helper\Data')->isPriceGlobal() && \Mage::registry('product')->getStoreId();
     }
 
     /**

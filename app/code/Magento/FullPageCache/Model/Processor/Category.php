@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCache_Model_Processor_Default
+namespace Magento\FullPageCache\Model\Processor;
+
+class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
 {
     /**
      * Key for saving category id in metadata
@@ -32,17 +34,17 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
     /**
      * Return cache page id with application. Depends on catalog session and GET super global array.
      *
-     * @param Magento_FullPageCache_Model_Processor $processor
+     * @param \Magento\FullPageCache\Model\Processor $processor
      * @return string
      */
-    public function getPageIdInApp(Magento_FullPageCache_Model_Processor $processor)
+    public function getPageIdInApp(\Magento\FullPageCache\Model\Processor $processor)
     {
         $queryParams = $this->_getQueryParams();
 
-        Magento_FullPageCache_Model_Cookie::setCategoryCookieValue($queryParams);
+        \Magento\FullPageCache\Model\Cookie::setCategoryCookieValue($queryParams);
         $this->_prepareCatalogSession();
 
-        $category = Mage::helper('Magento_Catalog_Helper_Data')->getCategory();
+        $category = \Mage::helper('Magento\Catalog\Helper\Data')->getCategory();
         if ($category) {
             $processor->setMetadata(self::METADATA_CATEGORY_ID, $category->getId());
             $this->_updateCategoryViewedCookie($processor);
@@ -54,15 +56,15 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
     /**
      * Return cache page id without application. Depends on GET super global array.
      *
-     * @param Magento_FullPageCache_Model_Processor $processor
+     * @param \Magento\FullPageCache\Model\Processor $processor
      * @return string
      */
-    public function getPageIdWithoutApp(Magento_FullPageCache_Model_Processor $processor)
+    public function getPageIdWithoutApp(\Magento\FullPageCache\Model\Processor $processor)
     {
         $this->_updateCategoryViewedCookie($processor);
         $queryParams = $_GET;
 
-        $sessionParams = Magento_FullPageCache_Model_Cookie::getCategoryCookieValue();
+        $sessionParams = \Magento\FullPageCache\Model\Cookie::getCategoryCookieValue();
         if ($sessionParams) {
             $sessionParams = (array)json_decode($sessionParams);
             foreach ($sessionParams as $key => $value) {
@@ -74,24 +76,24 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
         ksort($queryParams);
         $queryParams = json_encode($queryParams);
 
-        Magento_FullPageCache_Model_Cookie::setCategoryCookieValue($queryParams);
+        \Magento\FullPageCache\Model\Cookie::setCategoryCookieValue($queryParams);
 
         return $processor->getRequestId() . '_' . md5($queryParams);
     }
 
     /**
      * Check if request can be cached
-     * @param Zend_Controller_Request_Http $request
+     * @param \Zend_Controller_Request_Http $request
      * @return bool
      */
-    public function allowCache(Zend_Controller_Request_Http $request)
+    public function allowCache(\Zend_Controller_Request_Http $request)
     {
         $res = parent::allowCache($request);
         if ($res) {
             $params = $this->_getSessionParams();
             $queryParams = $request->getQuery();
             $queryParams = array_merge($queryParams, $params);
-            $maxDepth = Mage::getStoreConfig(Magento_FullPageCache_Model_Processor::XML_PATH_ALLOWED_DEPTH);
+            $maxDepth = \Mage::getStoreConfig(\Magento\FullPageCache\Model\Processor::XML_PATH_ALLOWED_DEPTH);
             $res = count($queryParams)<=$maxDepth;
         }
         return $res;
@@ -104,7 +106,7 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
     protected function _getSessionParams()
     {
         $params = array();
-        $data   = Mage::getSingleton('Magento_Catalog_Model_Session')->getData();
+        $data   = \Mage::getSingleton('Magento\Catalog\Model\Session')->getData();
         foreach ($this->_paramsMap as $sessionParam => $queryParam) {
             if (isset($data[$sessionParam])) {
                 $params[$queryParam] = $data[$sessionParam];
@@ -122,12 +124,12 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
     {
         $queryParams = json_decode($this->_getQueryParams(), true);
         if (empty($queryParams)) {
-            $queryParams = Magento_FullPageCache_Model_Cookie::getCategoryCookieValue();
+            $queryParams = \Magento\FullPageCache\Model\Cookie::getCategoryCookieValue();
             $queryParams = json_decode($queryParams, true);
         }
 
         if (is_array($queryParams) && !empty($queryParams)) {
-            $session = Mage::getSingleton('Magento_Catalog_Model_Session');
+            $session = \Mage::getSingleton('Magento\Catalog\Model\Session');
             $flipParamsMap = array_flip($this->_paramsMap);
             foreach ($queryParams as $key => $value) {
                 if (in_array($key, $this->_paramsMap)) {
@@ -156,12 +158,12 @@ class Magento_FullPageCache_Model_Processor_Category extends Magento_FullPageCac
     /**
      * Update last visited category id cookie
      *
-     * @param Magento_FullPageCache_Model_Processor $processor
-     * @return Magento_FullPageCache_Model_Processor_Category
+     * @param \Magento\FullPageCache\Model\Processor $processor
+     * @return \Magento\FullPageCache\Model\Processor\Category
      */
-    protected function _updateCategoryViewedCookie(Magento_FullPageCache_Model_Processor $processor)
+    protected function _updateCategoryViewedCookie(\Magento\FullPageCache\Model\Processor $processor)
     {
-        Magento_FullPageCache_Model_Cookie::setCategoryViewedCookieValue(
+        \Magento\FullPageCache\Model\Cookie::setCategoryViewedCookieValue(
             $processor->getMetadata(self::METADATA_CATEGORY_ID)
         );
         return $this;

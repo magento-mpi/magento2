@@ -10,13 +10,13 @@
 ?>
 <?php
 /**
- * @see Magento_Adminhtml_Block_Sales_Items_Column_Name
+ * @see \Magento\Adminhtml\Block\Sales\Items\Column\Name
  */
 ?>
 
 <?php if ($_item = $this->getItem()): ?>
     <div id="order_item_<?php echo $_item->getId() ?>_title" class="product-title"><?php echo $this->escapeHtml($_item->getName()) ?></div>
-    <strong><?php echo __('SKU') ?>:</strong> <?php echo implode('<br />', $this->helper('Magento_Catalog_Helper_Data')->splitSku($this->escapeHtml($this->getSku()))); ?>
+    <strong><?php echo __('SKU') ?>:</strong> <?php echo implode('<br />', $this->helper('\Magento\Catalog\Helper\Data')->splitSku($this->escapeHtml($this->getSku()))); ?>
     <?php if ($this->getOrderOptions()): ?>
         <dl class="item-options">
         <?php foreach ($this->getOrderOptions() as $_option): ?>

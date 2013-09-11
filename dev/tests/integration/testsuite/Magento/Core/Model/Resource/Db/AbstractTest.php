@@ -12,14 +12,14 @@
 class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Db_Abstract
+     * @var \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected $_model;
 
     public function setUp()
     {
-        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Resource');
-        $this->_model = $this->getMockForAbstractClass('Magento_Core_Model_Resource_Db_Abstract',
+        $resource = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Resource');
+        $this->_model = $this->getMockForAbstractClass('\Magento\Core\Model\Resource\Db\AbstractDb',
             array('resource' => $resource)
         );
     }
@@ -29,7 +29,7 @@ class Magento_Core_Model_Resource_Db_AbstractTest extends PHPUnit_Framework_Test
     {
         $resourceProperty = new ReflectionProperty(get_class($this->_model), '_resources');
         $resourceProperty->setAccessible(true);
-        $this->assertInstanceOf('Magento_Core_Model_Resource', $resourceProperty->getValue($this->_model));
+        $this->assertInstanceOf('\Magento\Core\Model\Resource', $resourceProperty->getValue($this->_model));
     }
 
     public function testSetMainTable()

@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_New extends Magento_Catalog_Block_Product_Abstract
+namespace Magento\Catalog\Block\Product;
+
+class New extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
      * Default value for products count that will be shown
@@ -44,7 +46,7 @@ class Magento_Catalog_Block_Product_New extends Magento_Catalog_Block_Product_Ab
 
         $this->addData(array(
             'cache_lifetime'    => 86400,
-            'cache_tags'        => array(Magento_Catalog_Model_Product::CACHE_TAG),
+            'cache_tags'        => array(\Magento\Catalog\Model\Product::CACHE_TAG),
         ));
     }
 
@@ -57,9 +59,9 @@ class Magento_Catalog_Block_Product_New extends Magento_Catalog_Block_Product_Ab
     {
         return array(
            'CATALOG_PRODUCT_NEW',
-           Mage::app()->getStore()->getId(),
+           \Mage::app()->getStore()->getId(),
            $this->_design->getDesignTheme()->getId(),
-           Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(),
+           \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId(),
            'template' => $this->getTemplate(),
            $this->getProductsCount()
         );
@@ -68,37 +70,37 @@ class Magento_Catalog_Block_Product_New extends Magento_Catalog_Block_Product_Ab
     /**
      * Prepare and return product collection
      *
-     * @return Magento_Catalog_Model_Resource_Product_Collection|Object|\Magento\Data\Collection
+     * @return \Magento\Catalog\Model\Resource\Product\Collection|Object|\Magento\Data\Collection
      */
     protected function _getProductCollection()
     {
-        $todayStartOfDayDate  = Mage::app()->getLocale()->date()
+        $todayStartOfDayDate  = \Mage::app()->getLocale()->date()
             ->setTime('00:00:00')
             ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
 
-        $todayEndOfDayDate  = Mage::app()->getLocale()->date()
+        $todayEndOfDayDate  = \Mage::app()->getLocale()->date()
             ->setTime('23:59:59')
             ->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
 
-        /** @var $collection Magento_Catalog_Model_Resource_Product_Collection */
-        $collection = Mage::getResourceModel('Magento_Catalog_Model_Resource_Product_Collection');
-        $collection->setVisibility(Mage::getSingleton('Magento_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+        /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Product\Collection');
+        $collection->setVisibility(\Mage::getSingleton('Magento\Catalog\Model\Product\Visibility')->getVisibleInCatalogIds());
 
 
         $collection = $this->_addProductAttributesAndPrices($collection)
             ->addStoreFilter()
             ->addAttributeToFilter('news_from_date', array('or'=> array(
                 0 => array('date' => true, 'to' => $todayEndOfDayDate),
-                1 => array('is' => new Zend_Db_Expr('null')))
+                1 => array('is' => new \Zend_Db_Expr('null')))
             ), 'left')
             ->addAttributeToFilter('news_to_date', array('or'=> array(
                 0 => array('date' => true, 'from' => $todayStartOfDayDate),
-                1 => array('is' => new Zend_Db_Expr('null')))
+                1 => array('is' => new \Zend_Db_Expr('null')))
             ), 'left')
             ->addAttributeToFilter(
                 array(
-                    array('attribute' => 'news_from_date', 'is'=>new Zend_Db_Expr('not null')),
-                    array('attribute' => 'news_to_date', 'is'=>new Zend_Db_Expr('not null'))
+                    array('attribute' => 'news_from_date', 'is'=>new \Zend_Db_Expr('not null')),
+                    array('attribute' => 'news_to_date', 'is'=>new \Zend_Db_Expr('not null'))
                     )
               )
             ->addAttributeToSort('news_from_date', 'desc')
@@ -112,7 +114,7 @@ class Magento_Catalog_Block_Product_New extends Magento_Catalog_Block_Product_Ab
     /**
      * Prepare collection with new products
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
@@ -124,7 +126,7 @@ class Magento_Catalog_Block_Product_New extends Magento_Catalog_Block_Product_Ab
      * Set how much product should be displayed at once.
      *
      * @param $count
-     * @return Magento_Catalog_Block_Product_New
+     * @return \Magento\Catalog\Block\Product\New
      */
     public function setProductsCount($count)
     {

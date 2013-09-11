@@ -12,13 +12,13 @@
 class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Setup
+     * @var \Magento\Core\Model\Resource\Setup
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento_Core_Model_Resource_Setup',
+        $this->_model = Mage::getResourceModel('\Magento\Core\Model\Resource\Setup',
             array('resourceName' => 'default_setup')
         );
     }
@@ -32,14 +32,14 @@ class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
     public function testApplyAllDataUpdates()
     {
         /*reset versions*/
-        Mage::getResourceModel('Magento_Core_Model_Resource_Resource')->setDbVersion('adminnotification_setup', false);
-        Mage::getResourceModel('Magento_Core_Model_Resource_Resource')
+        Mage::getResourceModel('\Magento\Core\Model\Resource\Resource')->setDbVersion('adminnotification_setup', false);
+        Mage::getResourceModel('\Magento\Core\Model\Resource\Resource')
             ->setDataVersion('adminnotification_setup', false);
         $this->_model->deleteTableRow('core_resource', 'code', 'adminnotification_setup');
         $this->_model->getConnection()->dropTable($this->_model->getTable('adminnotification_inbox'));
         $this->_model->getConnection()->dropTable($this->_model->getTable('admin_system_messages'));
-        /** @var $updater Magento_Core_Model_Db_Updater */
-        $updater = Mage::getSingleton('Magento_Core_Model_Db_Updater');
+        /** @var $updater \Magento\Core\Model\Db\Updater */
+        $updater = Mage::getSingleton('Magento\Core\Model\Db\Updater');
         try {
             $updater->updateScheme();
             $updater->updateData();
@@ -99,7 +99,7 @@ class Magento_Core_Model_Resource_SetupTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Setup::updateTableRow
+     * @covers \Magento\Core\Model\Resource\Setup::updateTableRow
      * @expectedException Zend_Db_Statement_Exception
      */
     public function testUpdateTableRowNameConversion()

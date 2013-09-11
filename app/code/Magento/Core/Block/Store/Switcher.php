@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
+namespace Magento\Core\Block\Store;
+
+class Switcher extends \Magento\Core\Block\Template
 {
     protected $_groups = array();
     protected $_stores = array();
@@ -35,11 +37,11 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
             return $this;
         }
 
-        $websiteId = Mage::app()->getStore()->getWebsiteId();
-        $storeCollection = Mage::getModel('Magento_Core_Model_Store')
+        $websiteId = \Mage::app()->getStore()->getWebsiteId();
+        $storeCollection = \Mage::getModel('\Magento\Core\Model\Store')
             ->getCollection()
             ->addWebsiteFilter($websiteId);
-        $groupCollection = Mage::getModel('Magento_Core_Model_Store_Group')
+        $groupCollection = \Mage::getModel('\Magento\Core\Model\Store\Group')
             ->getCollection()
             ->addWebsiteFilter($websiteId);
         foreach ($groupCollection as $group) {
@@ -49,7 +51,7 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
             if (!$store->getIsActive()) {
                 continue;
             }
-            $store->setLocaleCode(Mage::getStoreConfig('general/locale/code', $store->getId()));
+            $store->setLocaleCode(\Mage::getStoreConfig('general/locale/code', $store->getId()));
             $this->_stores[$store->getGroupId()][$store->getId()] = $store;
         }
 
@@ -61,7 +63,7 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
     public function getStoreCount()
     {
         $stores = array();
-        $localeCode = Mage::getStoreConfig('general/locale/code');
+        $localeCode = \Mage::getStoreConfig('general/locale/code');
         foreach ($this->_groups as $group) {
             if (!isset($this->_stores[$group->getId()])) {
                 continue;
@@ -84,7 +86,7 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
 
     public function getLanguageCount()
     {
-        $groupId = Mage::app()->getStore()->getGroupId();
+        $groupId = \Mage::app()->getStore()->getGroupId();
         if (!isset($this->_stores[$groupId])) {
             $this->setLanguages(array());
             return 0;
@@ -95,11 +97,11 @@ class Magento_Core_Block_Store_Switcher extends Magento_Core_Block_Template
 
     public function getCurrentStoreId()
     {
-        return Mage::app()->getStore()->getId();
+        return \Mage::app()->getStore()->getId();
     }
 
     public function getCurrentStoreCode()
     {
-        return Mage::app()->getStore()->getCode();
+        return \Mage::app()->getStore()->getCode();
     }
 }

@@ -16,8 +16,10 @@
  * @package  Magento_TargetRule
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
-    extends Magento_TargetRule_Model_Rule_Condition_Product_Attributes
+namespace Magento\TargetRule\Model\Actions\Condition\Product;
+
+class Attributes
+    extends \Magento\TargetRule\Model\Rule\Condition\Product\Attributes
 {
     /**
      * Value type values constants
@@ -31,10 +33,10 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
      * Define action type and default value
      *
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_TargetRule_Model_Actions_Condition_Product_Attributes');
+        $this->setType('\Magento\TargetRule\Model\Actions\Condition\Product\Attributes');
         $this->setValue(null);
         $this->setValueType(self::VALUE_TYPE_SAME_AS);
     }
@@ -60,7 +62,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
     public function getValueOption($option = null)
     {
         if (!$this->getData('value_option') && $this->getAttribute() == 'type_id') {
-            $options = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getAllOption();
+            $options = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getAllOption();
             $this->setData('value_option', $options);
         }
         return parent::getValueOption($option);
@@ -75,7 +77,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
     public function getValueSelectOptions()
     {
         if (!$this->getData('value_select_options') && $this->getAttribute() == 'type_id') {
-            $options = Mage::getSingleton('Magento_Catalog_Model_Product_Type')->getAllOptions();
+            $options = \Mage::getSingleton('Magento\Catalog\Model\Product\Type')->getAllOptions();
             $this->setData('value_select_options', $options);
         }
         return parent::getValueSelectOptions();
@@ -185,7 +187,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
             'value'         => $this->getValueType(),
             'value_name'    => $this->getValueTypeName(),
             'class'         => 'value-type-chooser',
-        ))->setRenderer(Mage::getBlockSingleton('Magento_Rule_Block_Editable'));
+        ))->setRenderer(\Mage::getBlockSingleton('\Magento\Rule\Block\Editable'));
         return $element;
     }
 
@@ -204,7 +206,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
      * Load attribute property from array
      *
      * @param array $array
-     * @return Magento_TargetRule_Model_Actions_Condition_Product_Attributes
+     * @return \Magento\TargetRule\Model\Actions\Condition\Product\Attributes
      */
     public function loadArray($array)
     {
@@ -251,14 +253,14 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
     /**
      * Retrieve SELECT WHERE condition for product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @param Magento_TargetRule_Model_Index                         $object
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @param \Magento\TargetRule\Model\Index                         $object
      * @param array                                                     $bind
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      */
     public function getConditionForCollection($collection, $object, &$bind)
     {
-        /* @var $resource Magento_TargetRule_Model_Resource_Index */
+        /* @var $resource \Magento\TargetRule\Model\Resource\Index */
         $attributeCode  = $this->getAttribute();
         $valueType      = $this->getValueType();
         $operator       = $this->getOperator();
@@ -291,7 +293,7 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
                 $select->where($where);
             }
 
-            return new Zend_Db_Expr(sprintf('(%s) > 0', $select->assemble()));
+            return new \Zend_Db_Expr(sprintf('(%s) > 0', $select->assemble()));
         }
 
         if ($valueType == self::VALUE_TYPE_CONSTANT) {
@@ -360,6 +362,6 @@ class Magento_TargetRule_Model_Actions_Condition_Product_Attributes
 
             $where  = sprintf('(%s) > 0', $select);
         }
-        return new Zend_Db_Expr($where);
+        return new \Zend_Db_Expr($where);
     }
 }

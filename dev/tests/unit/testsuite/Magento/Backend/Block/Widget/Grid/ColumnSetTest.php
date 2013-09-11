@@ -12,7 +12,7 @@
 class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @var \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     protected $_block;
 
@@ -48,24 +48,24 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
     protected function setUp()
     {
-        $this->_columnMock = $this->getMock('Magento_Backend_Block_Widget_Grid_Column',
+        $this->_columnMock = $this->getMock('Magento\Backend\Block\Widget\Grid\Column',
             array('setSortable', 'setRendererType', 'setFilterType'), array(), '', false);
-        $this->_layoutMock = $this->getMock('Magento_Core_Model_Layout', array(), array(), '', false);
+        $this->_layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->_layoutMock
             ->expects($this->any())
             ->method('getChildBlocks')
             ->will($this->returnValue(array('column' => $this->_columnMock)));
-        $this->_factoryMock = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory', array(),
+        $this->_factoryMock = $this->getMock('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory', array(),
             array(),
             '', false
         );
 
         $this->_subtotalsMock = $this->getMock(
-            'Magento_Backend_Model_Widget_Grid_SubTotals', array(), array(), '', false
+            '\Magento\Backend\Model\Widget\Grid\SubTotals', array(), array(), '', false
         );
 
         $this->_totalsMock = $this->getMock(
-            'Magento_Backend_Model_Widget_Grid_Totals', array(), array(), '', false
+            '\Magento\Backend\Model\Widget\Grid\Totals', array(), array(), '', false
         );
 
         $arguments = array(
@@ -76,7 +76,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
         );
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $this->_block = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_ColumnSet', $arguments);
+        $this->_block = $objectManagerHelper->getObject('\Magento\Backend\Block\Widget\Grid\ColumnSet', $arguments);
         $this->_block->setNameInLayout('grid.columnSet');
 
     }
@@ -122,11 +122,11 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
 
     public function testGetRowUrl()
     {
-        $generatorClass = 'Magento_Backend_Model_Widget_Grid_Row_UrlGenerator';
+        $generatorClass = '\Magento\Backend\Model\Widget\Grid\Row\UrlGenerator';
 
         $itemMock = $this->getMock('Magento\Object', array(), array(), '', false);
 
-        $rowUrlGenerator = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGenerator', array('getUrl'),
+        $rowUrlGenerator = $this->getMock('Magento\Backend\Model\Widget\Grid\Row\UrlGenerator', array('getUrl'),
             array(), '', false
         );
         $rowUrlGenerator->expects($this->once())
@@ -134,7 +134,7 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
             ->with($this->equalTo($itemMock))
             ->will($this->returnValue('http://localhost/mng/item/edit'));
 
-        $factoryMock = $this->getMock('Magento_Backend_Model_Widget_Grid_Row_UrlGeneratorFactory',
+        $factoryMock = $this->getMock('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory',
             array('createUrlGenerator'), array(), '', false
         );
         $factoryMock->expects($this->once())
@@ -155,8 +155,8 @@ class Magento_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_
         );
 
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
-        /** @var $model Magento_Backend_Block_Widget_Grid_ColumnSet */
-        $model = $objectManagerHelper->getObject('Magento_Backend_Block_Widget_Grid_ColumnSet', $arguments);
+        /** @var $model \Magento\Backend\Block\Widget\Grid\ColumnSet */
+        $model = $objectManagerHelper->getObject('\Magento\Backend\Block\Widget\Grid\ColumnSet', $arguments);
 
         $url = $model->getRowUrl($itemMock);
         $this->assertEquals('http://localhost/mng/item/edit', $url);

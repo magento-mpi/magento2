@@ -11,14 +11,14 @@ class Magento_Catalog_Model_Category_Attribute_Backend_SortbyTest extends PHPUni
     const DEFAULT_ATTRIBUTE_CODE = 'attribute_name';
 
     /**
-     * @var Magento_Catalog_Model_Category_Attribute_Backend_Sortby
+     * @var \Magento\Catalog\Model\Category\Attribute\Backend\Sortby
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Catalog_Model_Category_Attribute_Backend_Sortby();
-        $attribute = $this->getMockForAbstractClass('Magento_Eav_Model_Entity_Attribute_Abstract',
+        $this->_model = new \Magento\Catalog\Model\Category\Attribute\Backend\Sortby();
+        $attribute = $this->getMockForAbstractClass('\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
             array(), '', false, true, true, array('getName')
         );
         $attribute->expects($this->any())

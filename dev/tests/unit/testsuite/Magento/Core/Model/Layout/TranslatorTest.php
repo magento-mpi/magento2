@@ -12,7 +12,7 @@
 class Magento_Core_Model_Layout_TranslatorTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_Translator
+     * @var \Magento\Core\Model\Layout\Translator
      */
     protected $_object;
 
@@ -49,11 +49,11 @@ XML;
 
         $this->_xmlDocument = simplexml_load_string($string, '\Magento\Simplexml\Element');
 
-        $this->_object = new Magento_Core_Model_Layout_Translator();
+        $this->_object = new \Magento\Core\Model\Layout\Translator();
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_Translator::translateActionParameters
+     * @covers \Magento\Core\Model\Layout\Translator::translateActionParameters
      */
     public function testTranslateActionParametersWithNonTranslatedArgument()
     {
@@ -64,7 +64,7 @@ XML;
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_Translator::translateActionParameters
+     * @covers \Magento\Core\Model\Layout\Translator::translateActionParameters
      */
     public function testTranslateActionParametersWithTranslatedArgument()
     {
@@ -76,7 +76,7 @@ XML;
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_Translator::translateActionParameters
+     * @covers \Magento\Core\Model\Layout\Translator::translateActionParameters
      */
     public function testTranslateActionParametersWithHierarchyTranslatedArgumentAndNonStringParam()
     {
@@ -88,7 +88,7 @@ XML;
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_Translator::translateActionParameters
+     * @covers \Magento\Core\Model\Layout\Translator::translateActionParameters
      */
     public function testTranslateActionParametersWithoutModule()
     {
@@ -100,7 +100,7 @@ XML;
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_Translator::translateArgument
+     * @covers \Magento\Core\Model\Layout\Translator::translateArgument
      */
     public function testTranslateArgumentWithDefaultModuleAndSelfTranslatedMode()
     {
@@ -109,7 +109,7 @@ XML;
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_Translator::translateArgument
+     * @covers \Magento\Core\Model\Layout\Translator::translateArgument
      */
     public function testTranslateArgumentWithoutModuleAndNoSelfTranslatedMode()
     {
@@ -118,7 +118,7 @@ XML;
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_Translator::translateArgument
+     * @covers \Magento\Core\Model\Layout\Translator::translateArgument
      */
     public function testTranslateArgumentViaParentNodeWithParentModule()
     {
@@ -127,7 +127,7 @@ XML;
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_Translator::translateArgument
+     * @covers \Magento\Core\Model\Layout\Translator::translateArgument
      */
     public function testTranslateArgumentViaParentNodeWithOwnModule()
     {
@@ -136,7 +136,7 @@ XML;
     }
 
     /**
-     * @covers Magento_Core_Model_Layout_Translator::translateArgument
+     * @covers \Magento\Core\Model\Layout\Translator::translateArgument
      */
     public function testTranslateArgumentViaParentWithNodeThatIsNotInTranslateList()
     {

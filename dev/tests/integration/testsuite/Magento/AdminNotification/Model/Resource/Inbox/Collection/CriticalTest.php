@@ -8,14 +8,14 @@
 class Magento_AdminNotification_Model_Resource_Inbox_Collection_CriticalTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_AdminNotification_Model_Resource_Inbox_Collection_Critical
+     * @var \Magento\AdminNotification\Model\Resource\Inbox\Collection\Critical
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_AdminNotification_Model_Resource_Inbox_Collection_Critical');
+            ->create('Magento\AdminNotification\Model\Resource\Inbox\Collection\Critical');
     }
 
     /**

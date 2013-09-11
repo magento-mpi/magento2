@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_Media extends Magento_Catalog_Block_Product_View_Abstract
+namespace Magento\Catalog\Block\Product\View;
+
+class Media extends \Magento\Catalog\Block\Product\View\AbstractView
 {
     /**
      * Flag, that defines whether gallery is disabled

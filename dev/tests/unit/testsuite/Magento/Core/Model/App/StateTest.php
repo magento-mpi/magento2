@@ -12,7 +12,7 @@
 class Magento_Core_Model_App_StateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_App_State
+     * @var \Magento\Core\Model\App\State
      */
     protected $_model;
 
@@ -22,7 +22,7 @@ class Magento_Core_Model_App_StateTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructor($mode)
     {
-        $model = new Magento_Core_Model_App_State($mode);
+        $model = new \Magento\Core\Model\App\State($mode);
         $this->assertEquals($mode, $model->getMode());
     }
 
@@ -33,23 +33,23 @@ class Magento_Core_Model_App_StateTest extends PHPUnit_Framework_TestCase
     {
         return array(
             'default mode' => array(
-                Magento_Core_Model_App_State::MODE_DEFAULT
+                \Magento\Core\Model\App\State::MODE_DEFAULT
             ),
             'production mode' => array(
-                Magento_Core_Model_App_State::MODE_PRODUCTION
+                \Magento\Core\Model\App\State::MODE_PRODUCTION
             ),
             'developer mode' => array(
-                Magento_Core_Model_App_State::MODE_DEVELOPER
+                \Magento\Core\Model\App\State::MODE_DEVELOPER
             ),
         );
     }
 
     /**
-     * @expectedException Magento_Core_Exception
+     * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Unknown application mode: unknown mode
      */
     public function testConstructorException()
     {
-        new Magento_Core_Model_App_State("unknown mode");
+        new \Magento\Core\Model\App\State("unknown mode");
     }
 }

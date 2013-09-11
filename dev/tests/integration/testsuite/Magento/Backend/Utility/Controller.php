@@ -17,12 +17,12 @@
 class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Backend_Model_Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
 
@@ -30,9 +30,9 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
     {
         parent::setUp();
 
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
+        Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
 
-        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        $this->_auth = Mage::getSingleton('Magento\Backend\Model\Auth');
         $this->_session = $this->_auth->getAuthStorage();
         $this->_auth->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
@@ -43,7 +43,7 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
         $this->_auth->logout();
         $this->_auth = null;
         $this->_session = null;
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
+        Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
         parent::tearDown();
     }
 
@@ -55,7 +55,7 @@ class Magento_Backend_Utility_Controller extends Magento_TestFramework_TestCase_
      * @param string $sessionModel
      */
     public function assertSessionMessages(
-        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento_Backend_Model_Session'
+        PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = '\Magento\Backend\Model\Session'
     ) {
         parent::assertSessionMessages($constraint, $messageType, $sessionModel);
     }

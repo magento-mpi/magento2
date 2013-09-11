@@ -10,32 +10,32 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2.
+ * Test class for \Magento\Catalog\Model\Product\Attribute\Tierprice\Api\V2.
  */
 class Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2Test extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2
+     * @var \Magento\Catalog\Model\Product\Attribute\Tierprice\Api\V2
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Product\Attribute\Tierprice\Api\V2');
     }
 
     /**
-     * @expectedException Magento_Api_Exception
+     * @expectedException \Magento\Api\Exception
      */
     public function testPrepareTierPricesInvalidData()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $this->_model->prepareTierPrices($product, array(1));
     }
 
     public function testPrepareTierPricesInvalidWebsite()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $data = $this->_model->prepareTierPrices(
             $product,
             array((object) array('qty' => 3, 'price' => 8, 'website' => 100))
@@ -48,7 +48,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api_V2Test extends PHPUn
 
     public function testPrepareTierPrices()
     {
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
 
         $this->assertNull($this->_model->prepareTierPrices($product));
 

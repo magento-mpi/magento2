@@ -15,12 +15,14 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Model_Attribute_Content extends Magento_GoogleShopping_Model_Attribute_Default
+namespace Magento\GoogleShopping\Model\Attribute;
+
+class Content extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param Magento_Catalog_Model_Product $product
+     * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Gdata\Gshopping\Entry $entry
      * @return \Magento\Gdata\Gshopping\Entry
      */
@@ -39,7 +41,7 @@ class Magento_GoogleShopping_Model_Attribute_Content extends Magento_GoogleShopp
         } else {
             $descrText = 'no description';
         }
-        $descrText = Mage::helper('Magento_GoogleShopping_Helper_Data')->cleanAtomAttribute($descrText);
+        $descrText = \Mage::helper('Magento\GoogleShopping\Helper\Data')->cleanAtomAttribute($descrText);
         $entry->setContent($entry->getService()->newContent()->setText($descrText));
 
         return $entry;

@@ -9,9 +9,9 @@
 -->
 <config>
     <event name="customer_save_after">
-        <observer name="newsletter_subscribe_observer" instance="Magento_Newsletter_Model_Observer" method="subscribeCustomer" />
+        <observer name="newsletter_subscribe_observer" instance="\Magento\Newsletter\Model\Observer" method="subscribeCustomer" />
     </event>
     <event name="customer_delete_after">
-        <observer name="newsletter_subscribe_observer" instance="Magento_Newsletter_Model_Observer" method="customerDeleted" />
+        <observer name="newsletter_subscribe_observer" instance="\Magento\Newsletter\Model\Observer" method="customerDeleted" />
     </event>
 </config>

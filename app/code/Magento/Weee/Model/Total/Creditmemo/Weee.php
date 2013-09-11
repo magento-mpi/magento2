@@ -9,9 +9,11 @@
  */
 
 
-class Magento_Weee_Model_Total_Creditmemo_Weee extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\Weee\Model\Total\Creditmemo;
+
+class Weee extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $store = $creditmemo->getStore();
 
@@ -28,7 +30,7 @@ class Magento_Weee_Model_Total_Creditmemo_Weee extends Magento_Sales_Model_Order
             $baseTotalTax += $item->getBaseWeeeTaxAppliedAmount()*$item->getQty();
 
             $newApplied = array();
-            $applied = Mage::helper('Magento_Weee_Helper_Data')->getApplied($item);
+            $applied = \Mage::helper('Magento\Weee\Helper\Data')->getApplied($item);
             foreach ($applied as $one) {
                 $one['base_row_amount'] = $one['base_amount']*$item->getQty();
                 $one['row_amount'] = $one['amount']*$item->getQty();
@@ -37,13 +39,13 @@ class Magento_Weee_Model_Total_Creditmemo_Weee extends Magento_Sales_Model_Order
 
                 $newApplied[] = $one;
             }
-            Mage::helper('Magento_Weee_Helper_Data')->setApplied($item, $newApplied);
+            \Mage::helper('Magento\Weee\Helper\Data')->setApplied($item, $newApplied);
 
             $item->setWeeeTaxRowDisposition($item->getWeeeTaxDisposition()*$item->getQty());
             $item->setBaseWeeeTaxRowDisposition($item->getBaseWeeeTaxDisposition()*$item->getQty());
         }
 
-        if (Mage::helper('Magento_Weee_Helper_Data')->includeInSubtotal($store)) {
+        if (\Mage::helper('Magento\Weee\Helper\Data')->includeInSubtotal($store)) {
             $creditmemo->setSubtotal($creditmemo->getSubtotal() + $totalTax);
             $creditmemo->setBaseSubtotal($creditmemo->getBaseSubtotal() + $baseTotalTax);
         } else {

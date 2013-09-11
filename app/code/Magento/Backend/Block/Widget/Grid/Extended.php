@@ -8,9 +8,11 @@
  * @license     {license_link}
  */
 
-class Magento_Backend_Block_Widget_Grid_Extended
-    extends Magento_Backend_Block_Widget_Grid
-    implements Magento_Backend_Block_Widget_Grid_ExportInterface
+namespace Magento\Backend\Block\Widget\Grid;
+
+class Extended
+    extends \Magento\Backend\Block\Widget\Grid
+    implements \Magento\Backend\Block\Widget\Grid\ExportInterface
 {
     /**
      * Columns array
@@ -20,7 +22,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      *      'width'     => int,
      *      'sortable'  => bool,
      *      'index'     => string,
-     *      //'renderer'  => Magento_Backend_Block_Widget_Grid_Column_Renderer_Interface,
+     *      //'renderer'  => \Magento\Backend\Block\Widget\Grid\Column\Renderer\RendererInterface,
      *      'format'    => string
      *      'total'     => string (sum, avg)
      * )
@@ -82,7 +84,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      *
      * @var string
      */
-    protected $_massactionBlockName = 'Magento_Backend_Block_Widget_Grid_Massaction_Extended';
+    protected $_massactionBlockName = '\Magento\Backend\Block\Widget\Grid\Massaction\Extended';
 
     /**
      * Columns view order
@@ -166,18 +168,18 @@ class Magento_Backend_Block_Widget_Grid_Extended
     {
         parent::_construct();
         $this->_emptyText = __('We couldn\'t find any records.');
-        $this->_exportPath = Mage::getBaseDir('var') . DS . 'export';
+        $this->_exportPath = \Mage::getBaseDir('var') . DS . 'export';
     }
 
     /**
      * Initialize child blocks
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
         $this->setChild('export_button',
-            $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
+            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Export'),
                 'onclick'   => $this->getJsObjectName().'.doExport()',
@@ -185,14 +187,14 @@ class Magento_Backend_Block_Widget_Grid_Extended
             ))
         );
         $this->setChild('reset_filter_button',
-            $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
+            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Reset Filter'),
                 'onclick'   => $this->getJsObjectName().'.resetFilter()',
             ))
         );
         $this->setChild('search_button',
-            $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Button')
+            $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                 'label'     => __('Search'),
                 'onclick'   => $this->getJsObjectName().'.doFilter()',
@@ -205,13 +207,13 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Retrieve column set block
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     public function getColumnSet()
     {
         if (!$this->getChildBlock('grid.columnSet')) {
             $this->setChild('grid.columnSet',
-                $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Grid_ColumnSet')
+                $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Grid\ColumnSet')
             );
         }
         return parent::getColumnSet();
@@ -232,7 +234,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      *
      * @param   string $url
      * @param   string $label
-     * @return  Magento_Backend_Block_Widget_Grid
+     * @return  \Magento\Backend\Block\Widget\Grid
      */
     public function addExportType($url, $label)
     {
@@ -250,21 +252,21 @@ class Magento_Backend_Block_Widget_Grid_Extended
      *
      * @param   string $columnId
      * @param   array || \Magento\Object $column
-     * @return  Magento_Backend_Block_Widget_Grid
+     * @return  \Magento\Backend\Block\Widget\Grid
      */
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
             $this->getColumnSet()->setChild(
                 $columnId,
-                $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Grid_Column_Extended')
+                $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Grid\Column\Extended')
                     ->setData($column)
                     ->setId($columnId)
                     ->setGrid($this)
             );
             $this->getColumnSet()->getChildBlock($columnId)->setGrid($this);
         } else {
-            throw new Exception(__('Please correct the column format and try again.'));
+            throw new \Exception(__('Please correct the column format and try again.'));
         }
 
         $this->_lastColumnId = $columnId;
@@ -275,7 +277,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Remove existing column
      *
      * @param string $columnId
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function removeColumn($columnId)
     {
@@ -294,7 +296,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * @param   string $columnId
      * @param   array|\Magento\Object $column
      * @param   string $after
-     * @return  Magento_Backend_Block_Widget_Grid
+     * @return  \Magento\Backend\Block\Widget\Grid
      */
     public function addColumnAfter($columnId, $column, $after)
     {
@@ -308,7 +310,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      *
      * @param string $columnId
      * @param string $after
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function addColumnsOrder($columnId, $after)
     {
@@ -329,7 +331,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Sort columns by predefined order
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function sortColumnsByOrder()
     {
@@ -359,7 +361,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Initialize grid columns
      *
-     * @return Magento_Backend_Block_Widget_Grid_Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
@@ -370,7 +372,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Prepare grid massaction block
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareMassactionBlock()
     {
@@ -385,7 +387,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Prepare grid massaction actions
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareMassaction()
     {
@@ -395,12 +397,12 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Prepare grid massaction column
      *
-     * @return Magento_Backend_Block_Widget_Grid_Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareMassactionColumn()
     {
         $columnId = 'massaction';
-        $massactionColumn = $this->getLayout()->createBlock('Magento_Backend_Block_Widget_Grid_Column')
+        $massactionColumn = $this->getLayout()->createBlock('\Magento\Backend\Block\Widget\Grid\Column')
             ->setData(array(
             'index'        => $this->getMassactionIdField(),
             'filter_index' => $this->getMassactionIdFilter(),
@@ -428,7 +430,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Apply sorting and filtering to collection
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
@@ -447,7 +449,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Process collection after loading
      *
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     protected function _afterLoadCollection()
     {
@@ -457,7 +459,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Initialize grid before rendering
      *
-     * @return Magento_Backend_Block_Widget_Grid_Extended|void
+     * @return \Magento\Backend\Block\Widget\Grid\Extended|void
      */
     protected function _prepareGrid()
     {
@@ -491,7 +493,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Set massaction row identifier field
      *
      * @param  string    $idField
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setMassactionIdField($idField)
     {
@@ -513,7 +515,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Set massaction row identifier filter
      *
      * @param string $idFilter
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setMassactionIdFilter($idFilter)
     {
@@ -535,7 +537,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Set massaction block name
      *
      * @param  string    $blockName
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setMassactionBlockName($blockName)
     {
@@ -546,7 +548,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Retrive massaction block
      *
-     * @return Magento_Backend_Block_Widget_Grid_Massaction_Extended
+     * @return \Magento\Backend\Block\Widget\Grid\Massaction\Extended
      */
     public function getMassactionBlock()
     {
@@ -577,7 +579,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Check whether should render cell
      *
      * @param \Magento\Object $item
-     * @param Magento_Backend_Block_Widget_Grid_Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return boolean
      */
     public function shouldRenderCell($item, $column)
@@ -605,7 +607,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Set label for empty cell
      *
      * @param string $label
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setEmptyCellLabel($label)
     {
@@ -616,7 +618,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Return row url for js event handlers
      *
-     * @param Magento_Catalog_Model_Product|\Magento\Object
+     * @param \Magento\Catalog\Model\Product|\Magento\Object
      * @return string
      */
     public function getRowUrl($item)
@@ -664,7 +666,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Retrieve rowspan number
      *
      * @param \Magento\Object $item
-     * @param Magento_Backend_Block_Widget_Grid_Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return integer|boolean
      */
     public function getRowspan($item, $column)
@@ -680,7 +682,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      *
      * @param string|object $column
      * @param string $value
-     * @return boolean|Magento_Backend_Block_Widget_Grid
+     * @return boolean|\Magento\Backend\Block\Widget\Grid
      */
     public function isColumnGrouped($column, $value = null)
     {
@@ -698,7 +700,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Check whether should render empty cell
      *
      * @param \Magento\Object $item
-     * @param Magento_Backend_Block_Widget_Grid_Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return boolean
      */
     public function shouldRenderEmptyCell($item, $column)
@@ -788,7 +790,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Set empty text for grid
      *
      * @param string $text
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setEmptyText($text)
     {
@@ -810,7 +812,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Set empty text CSS class
      *
      * @param string $cssClass
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setEmptyTextClass($cssClass)
     {
@@ -831,7 +833,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
     /**
      * Set flag whether is collapsed
      * @param $isCollapsed
-     * @return Magento_Backend_Block_Widget_Grid_ColumnSet
+     * @return \Magento\Backend\Block\Widget\Grid\ColumnSet
      */
     public function setIsCollapsed($isCollapsed)
     {
@@ -898,7 +900,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      *
      * @param string $callback
      * @param array $args additional arguments for callback method
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function _exportIterateCollection($callback, array $args)
     {
@@ -1157,7 +1159,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
             $data[] = $row;
         }
 
-        $convert = new \Magento\Convert\Excel(new ArrayIterator($data));
+        $convert = new \Magento\Convert\Excel(new \ArrayIterator($data));
         return $convert->convert('single_sheet');
     }
 
@@ -1194,7 +1196,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Set subtotals
      *
      * @param boolean $flag
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setCountSubTotals($flag = true)
     {
@@ -1216,7 +1218,7 @@ class Magento_Backend_Block_Widget_Grid_Extended
      * Set subtotal items
      *
      * @param array $items
-     * @return Magento_Backend_Block_Widget_Grid
+     * @return \Magento\Backend\Block\Widget\Grid
      */
     public function setSubTotals(array $items)
     {

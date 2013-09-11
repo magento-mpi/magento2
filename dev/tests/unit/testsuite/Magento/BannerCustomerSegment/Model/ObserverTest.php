@@ -9,7 +9,7 @@
 class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_BannerCustomerSegment_Model_Observer
+     * @var \Magento\BannerCustomerSegment\Model\Observer
      */
     private $_model;
 
@@ -41,20 +41,20 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
     protected function setUp()
     {
         $this->_bannerSegmentLink = $this->getMock(
-            'Magento_BannerCustomerSegment_Model_Resource_BannerSegmentLink',
+            '\Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink',
             array('loadBannerSegments', 'saveBannerSegments', 'addBannerSegmentFilter'),
             array(), '', false
         );
         $this->_segmentCustomer = $this->getMock(
-            'Magento_CustomerSegment_Model_Customer', array('getCurrentCustomerSegmentIds'), array(), '', false
+            '\Magento\CustomerSegment\Model\Customer', array('getCurrentCustomerSegmentIds'), array(), '', false
         );
         $this->_segmentHelper = $this->getMock(
-            'Magento_CustomerSegment_Helper_Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
+            '\Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
         );
         $this->_segmentCollection = $this->getMock(
-            'Magento_CustomerSegment_Model_Resource_Segment_Collection', array(), array(), '', false
+            '\Magento\CustomerSegment\Model\Resource\Segment\Collection', array(), array(), '', false
         );
-        $this->_model = new Magento_BannerCustomerSegment_Model_Observer(
+        $this->_model = new \Magento\BannerCustomerSegment\Model\Observer(
             $this->_segmentCustomer, $this->_segmentHelper, $this->_segmentCollection, $this->_bannerSegmentLink
         );
         $this->_select = new Zend_Db_Select(
@@ -159,7 +159,7 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
 
         $form = new \Magento\Data\Form();
         $model = new \Magento\Object();
-        $block = $this->getMock('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false);
+        $block = $this->getMock('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false);
 
         $this->_segmentHelper->expects($this->once())->method('addSegmentFieldsToForm')->with($form, $model, $block);
 
@@ -174,7 +174,7 @@ class Magento_BannerCustomerSegment_Model_ObserverTest extends PHPUnit_Framework
 
         $form = new \Magento\Data\Form();
         $model = new \Magento\Object();
-        $block = $this->getMock('Magento_Backend_Block_Widget_Form_Element_Dependence', array(), array(), '', false);
+        $block = $this->getMock('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false);
 
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 

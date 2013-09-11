@@ -11,7 +11,9 @@
 /**
  * Gift registry frontend controller
  */
-class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front_Action
+namespace Magento\GiftRegistry\Controller;
+
+class View extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Check if gift registry is enabled on current store before all other actions
@@ -19,7 +21,7 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -31,21 +33,21 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
      */
     public function indexAction()
     {
-        $entity = Mage::getModel('Magento_GiftRegistry_Model_Entity');
+        $entity = \Mage::getModel('\Magento\GiftRegistry\Model\Entity');
         $entity->loadByUrlKey($this->getRequest()->getParam('id'));
         if (!$entity->getId() || !$entity->getCustomerId() || !$entity->getTypeId() || !$entity->getIsActive()) {
             $this->_forward('noroute');
             return;
         }
 
-        /** @var Magento_Customer_Model_Customer */
-        $customer = Mage::getModel('Magento_Customer_Model_Customer');
+        /** @var \Magento\Customer\Model\Customer */
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer');
         $customer->load($entity->getCustomerId());
         $entity->setCustomer($customer);
-        Mage::register('current_entity', $entity);
+        \Mage::register('current_entity', $entity);
 
         $this->loadLayout();
-        $this->_initLayoutMessages('Magento_Customer_Model_Session');
+        $this->_initLayoutMessages('\Magento\Customer\Model\Session');
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Info'));
@@ -63,17 +65,17 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
             $this->_redirect('*/*', array('_current' => true));
             return;
         }
-        /* @var Magento_Checkout_Model_Cart */
-        $cart = Mage::getSingleton('Magento_Checkout_Model_Cart');
-        /* @var $session Magento_Core_Model_Session_Generic */
-        $session    = Mage::getSingleton('Magento_Customer_Model_Session');
+        /* @var \Magento\Checkout\Model\Cart */
+        $cart = \Mage::getSingleton('Magento\Checkout\Model\Cart');
+        /* @var $session \Magento\Core\Model\Session\Generic */
+        $session    = \Mage::getSingleton('Magento\Customer\Model\Session');
         $success = false;
 
         try {
             $count = 0;
             foreach ($items as $itemId => $itemInfo) {
-                $item = Mage::getModel('Magento_GiftRegistry_Model_Item')->load($itemId);
-                $optionCollection = Mage::getModel('Magento_GiftRegistry_Model_Item_Option')->getCollection()
+                $item = \Mage::getModel('\Magento\GiftRegistry\Model\Item')->load($itemId);
+                $optionCollection = \Mage::getModel('\Magento\GiftRegistry\Model\Item\Option')->getCollection()
                     ->addItemFilter($itemId);
                 $item->setOptions($optionCollection->getOptionsByItem($item));
                 if (!$item->getId() || $itemInfo['qty'] < 1 || ($item->getQty() <= $item->getQtyFulfilled())) {
@@ -88,11 +90,11 @@ class Magento_GiftRegistry_Controller_View extends Magento_Core_Controller_Front
                 $success = false;
                 $session->addError(__('Please enter the quantity of items to add to cart.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $session->addError(__($e->getMessage()));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $session->addException($e, __('We cannot add this item to your shopping cart.'));
-            Mage::logException($e);
+            \Mage::logException($e);
         }
         if (!$success) {
             $this->_redirect('*/*', array('_current' => true));

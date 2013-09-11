@@ -15,8 +15,10 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config
-    extends Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Config
+namespace Magento\GiftMessage\Block\Adminhtml\Product\Helper\Form;
+
+class Config
+    extends \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Config
 {
     /**
      * Get config value data
@@ -25,6 +27,6 @@ class Magento_GiftMessage_Block_Adminhtml_Product_Helper_Form_Config
      */
     protected function _getValueFromConfig()
     {
-        return Mage::getStoreConfig(Magento_GiftMessage_Helper_Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS);
+        return \Mage::getStoreConfig(\Magento\GiftMessage\Helper\Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS);
     }
 }

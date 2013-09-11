@@ -15,15 +15,17 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Freedoc
-    extends Magento_Usa_Model_Shipping_Carrier_Dhl_International_Source_Method_Abstract
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method;
+
+class Freedoc
+    extends \Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source\Method\AbstractMethod
 {
     /**
      * Carrier Product Type Indicator
      *
      * @var string $_contentType
      */
-    protected $_contentType = Magento_Usa_Model_Shipping_Carrier_Dhl_International::DHL_CONTENT_TYPE_DOC;
+    protected $_contentType = \Magento\Usa\Model\Shipping\Carrier\Dhl\International::DHL_CONTENT_TYPE_DOC;
 
     /**
      * Show 'none' in methods list or not;

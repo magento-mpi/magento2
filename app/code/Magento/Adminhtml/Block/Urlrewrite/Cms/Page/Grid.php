@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml_Block_Cms_Page_Grid
+namespace Magento\Adminhtml\Block\Urlrewrite\Cms\Page;
+
+class Grid extends \Magento\Adminhtml\Block\Cms\Page\Grid
 {
     /**
      * Constructor
@@ -29,7 +31,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
     /**
      * Disable massaction
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid
      */
     protected function _prepareMassaction()
     {
@@ -39,7 +41,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
     /**
      * Prepare columns layout
      *
-     * @return Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid
+     * @return \Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid
      */
     protected function _prepareColumns()
     {
@@ -55,7 +57,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
             'index'  => 'identifier'
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'                    => __('Store View'),
                 'index'                     => 'store_id',
@@ -71,7 +73,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
             'header'  => __('Status'),
             'index'   => 'is_active',
             'type'    => 'options',
-            'options' => Mage::getSingleton('Magento_Cms_Model_Page')->getAvailableStatuses()
+            'options' => \Mage::getSingleton('Magento\Cms\Model\Page')->getAvailableStatuses()
         ));
 
         return $this;
@@ -90,7 +92,7 @@ class Magento_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Magento_Adminhtml
     /**
      * Return row url for js event handlers
      *
-     * @param Magento_Cms_Model_Page|\Magento\Object $row
+     * @param \Magento\Cms\Model\Page|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

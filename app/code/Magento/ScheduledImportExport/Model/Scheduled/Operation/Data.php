@@ -15,7 +15,9 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
+namespace Magento\ScheduledImportExport\Model\Scheduled\Operation;
+
+class Data
 {
     /**
      * Pending status constant
@@ -25,14 +27,14 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     /**
      * Import/export config model
      *
-     * @var Magento_ImportExport_Model_Config
+     * @var \Magento\ImportExport\Model\Config
      */
     protected $_importExportConfig;
 
     /**
      * Import entity model
      *
-     * @var Magento_ImportExport_Model_Import
+     * @var \Magento\ImportExport\Model\Import
      */
     protected $_importModel;
 
@@ -44,9 +46,9 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     public function __construct(array $data = array())
     {
         $this->_importExportConfig = isset($data['import_export_config']) ? $data['import_export_config']
-            : Mage::getModel('Magento_ImportExport_Model_Config');
+            : \Mage::getModel('\Magento\ImportExport\Model\Config');
         $this->_importModel = isset($data['import_model']) ? $data['import_model']
-            : Mage::getModel('Magento_ImportExport_Model_Import');
+            : \Mage::getModel('\Magento\ImportExport\Model\Import');
     }
 
     /**
@@ -83,11 +85,11 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
     public function getFrequencyOptionArray()
     {
         return array(
-            Magento_Cron_Model_Config_Source_Frequency::CRON_DAILY
+            \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY
                 => __('Daily'),
-            Magento_Cron_Model_Config_Source_Frequency::CRON_WEEKLY
+            \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY
                 => __('Weekly'),
-            Magento_Cron_Model_Config_Source_Frequency::CRON_MONTHLY
+            \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY
                 => __('Monthly'),
         );
     }
@@ -153,11 +155,11 @@ class Magento_ScheduledImportExport_Model_Scheduled_Operation_Data
      */
     public function getEntitiesOptionArray($type = null)
     {
-        $importEntities = Magento_ImportExport_Model_Config::getModelsArrayOptions(
-            Magento_ImportExport_Model_Import::CONFIG_KEY_ENTITIES
+        $importEntities = \Magento\ImportExport\Model\Config::getModelsArrayOptions(
+            \Magento\ImportExport\Model\Import::CONFIG_KEY_ENTITIES
         );
-        $exportEntities = Magento_ImportExport_Model_Config::getModelsArrayOptions(
-            Magento_ImportExport_Model_Export::CONFIG_KEY_ENTITIES
+        $exportEntities = \Magento\ImportExport\Model\Config::getModelsArrayOptions(
+            \Magento\ImportExport\Model\Export::CONFIG_KEY_ENTITIES
         );
         switch ($type) {
             case 'import':

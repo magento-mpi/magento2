@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var Magento_Checkout_Block_Onepage_Billing $this */
+/** @var \Magento\Checkout\Block\Onepage\Billing $this */
 ?>
 <form id="co-billing-form" action="">
 <fieldset>
@@ -24,12 +24,12 @@
         <fieldset>
             <input type="hidden" name="billing[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="billing:address_id" />
             <ul>
-                <li class="fields"><?php echo $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?></li>
+                <li class="fields"><?php echo $this->getLayout()->createBlock('\Magento\Customer\Block\Widget\Name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?></li>
                 <li class="fields">
                     <div class="field">
                         <label for="billing:company"><?php echo __('Company') ?></label>
                         <div class="input-box">
-                            <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo __('Company') ?>" class="input-text <?php echo $this->helper('Magento_Customer_Helper_Address')->getAttributeValidationClass('company') ?>" />
+                            <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo __('Company') ?>" class="input-text <?php echo $this->helper('\Magento\Customer\Helper\Address')->getAttributeValidationClass('company') ?>" />
                         </div>
                     </div>
         <?php if(!$this->isCustomerLoggedIn()): ?>
@@ -41,7 +41,7 @@
                     </div>
         <?php endif; ?>
                 </li>
-        <?php $_streetValidationClass = $this->helper('Magento_Customer_Helper_Address')->getAttributeValidationClass('street'); ?>
+        <?php $_streetValidationClass = $this->helper('\Magento\Customer\Helper\Address')->getAttributeValidationClass('street'); ?>
                 <li class="wide">
                     <label for="billing:street1" class="required"><em>*</em><?php echo __('Address') ?></label>
                     <div class="input-box">
@@ -49,18 +49,18 @@
                     </div>
                 </li>
         <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
-        <?php for ($_i = 2, $_n = $this->helper('Magento_Customer_Helper_Address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+        <?php for ($_i = 2, $_n = $this->helper('\Magento\Customer\Helper\Address')->getStreetLines(); $_i <= $_n; $_i++): ?>
                 <li class="wide">
                     <div class="input-box">
                         <input type="text" title="<?php echo __('Street Address %1', $_i) ?>" name="billing[street][]" id="billing:street<?php echo $_i ?>" value="<?php echo $this->escapeHtml($this->getAddress()->getStreet($_i)) ?>" class="input-text <?php echo $_streetValidationClass ?>" />
                     </div>
                 </li>
         <?php endfor; ?>
-                <?php if ($this->helper('Magento_Customer_Helper_Address')->isVatAttributeVisible()) : ?>
+                <?php if ($this->helper('\Magento\Customer\Helper\Address')->isVatAttributeVisible()) : ?>
                 <li class="wide">
                     <label for="billing:vat_id"><?php echo __('VAT Number') ?></label>
                     <div class="input-box">
-                        <input type="text" id="billing:vat_id" name="billing[vat_id]" value="<?php echo $this->escapeHtml($this->getAddress()->getVatId()) ?>" title="<?php echo __('VAT Number') ?>" class="input-text <?php echo $this->helper('Magento_Customer_Helper_Address')->getAttributeValidationClass('vat_id') ?>" />
+                        <input type="text" id="billing:vat_id" name="billing[vat_id]" value="<?php echo $this->escapeHtml($this->getAddress()->getVatId()) ?>" title="<?php echo __('VAT Number') ?>" class="input-text <?php echo $this->helper('\Magento\Customer\Helper\Address')->getAttributeValidationClass('vat_id') ?>" />
                     </div>
                 </li>
                 <?php endif; ?>
@@ -68,7 +68,7 @@
                     <div class="field">
                         <label for="billing:city" class="required"><em>*</em><?php echo __('City') ?></label>
                         <div class="input-box">
-                            <input type="text" title="<?php echo __('City') ?>" name="billing[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?php echo $this->helper('Magento_Customer_Helper_Address')->getAttributeValidationClass('city') ?>" id="billing:city" />
+                            <input type="text" title="<?php echo __('City') ?>" name="billing[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?php echo $this->helper('\Magento\Customer\Helper\Address')->getAttributeValidationClass('city') ?>" id="billing:city" />
                         </div>
                     </div>
                     <div class="field">
@@ -77,7 +77,7 @@
                             <select id="billing:region_id" name="billing[region_id]" title="<?php echo __('State/Province') ?>" style="display:none;" data-validate="{'validate-select':true}">
                                 <option value=""><?php echo __('Please select a region, state or province.') ?></option>
                             </select>
-                            <input type="text" id="billing:region" name="billing[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>"  title="<?php echo __('State/Province') ?>" class="input-text <?php echo $this->helper('Magento_Customer_Helper_Address')->getAttributeValidationClass('region') ?>" style="display:none;" />
+                            <input type="text" id="billing:region" name="billing[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>"  title="<?php echo __('State/Province') ?>" class="input-text <?php echo $this->helper('\Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>" style="display:none;" />
                         </div>
                     </div>
                 </li>
@@ -85,7 +85,7 @@
                     <div class="field">
                         <label for="billing:postcode" class="required"><em>*</em><?php echo __('Zip/Postal Code') ?></label>
                         <div class="input-box">
-                            <input type="text" title="<?php echo __('Zip/Postal Code') ?>" name="billing[postcode]" id="billing:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text <?php echo $this->helper('Magento_Customer_Helper_Address')->getAttributeValidationClass('postcode') ?>" data-validate="{'validate-zip-international':true}"/>
+                            <input type="text" title="<?php echo __('Zip/Postal Code') ?>" name="billing[postcode]" id="billing:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text <?php echo $this->helper('\Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode') ?>" data-validate="{'validate-zip-international':true}"/>
                         </div>
                     </div>
                     <div class="field">
@@ -99,20 +99,20 @@
                     <div class="field">
                         <label for="billing:telephone" class="required"><em>*</em><?php echo __('Telephone') ?></label>
                         <div class="input-box">
-                            <input type="text" name="billing[telephone]" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo __('Telephone') ?>" class="input-text <?php echo $this->helper('Magento_Customer_Helper_Address')->getAttributeValidationClass('telephone') ?>" id="billing:telephone" />
+                            <input type="text" name="billing[telephone]" value="<?php echo $this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?php echo __('Telephone') ?>" class="input-text <?php echo $this->helper('\Magento\Customer\Helper\Address')->getAttributeValidationClass('telephone') ?>" id="billing:telephone" />
                         </div>
                     </div>
                     <div class="field">
                         <label for="billing:fax"><?php echo __('Fax') ?></label>
                         <div class="input-box">
-                            <input type="text" name="billing[fax]" value="<?php echo $this->escapeHtml($this->getAddress()->getFax()) ?>" title="<?php echo __('Fax') ?>" class="input-text <?php echo $this->helper('Magento_Customer_Helper_Address')->getAttributeValidationClass('fax') ?>" id="billing:fax" />
+                            <input type="text" name="billing[fax]" value="<?php echo $this->escapeHtml($this->getAddress()->getFax()) ?>" title="<?php echo __('Fax') ?>" class="input-text <?php echo $this->helper('\Magento\Customer\Helper\Address')->getAttributeValidationClass('fax') ?>" id="billing:fax" />
                         </div>
                     </div>
                 </li>
                 <?php if(!$this->isCustomerLoggedIn()): ?>
 
-        <?php $_dob = $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Dob') ?>
-        <?php $_gender = $this->getLayout()->createBlock('Magento_Customer_Block_Widget_Gender') ?>
+        <?php $_dob = $this->getLayout()->createBlock('\Magento\Customer\Block\Widget\Dob') ?>
+        <?php $_gender = $this->getLayout()->createBlock('\Magento\Customer\Block\Widget\Gender') ?>
             <?php if ($_dob->isEnabled() || $_gender->isEnabled()): ?>
                 <li class="fields">
                 <?php if ($_dob->isEnabled()): ?>
@@ -190,9 +190,9 @@
                     regionListId: '#billing\\:region_id',
                     regionInputId: '#billing\\:region',
                     postcodeId: '#billing\\:postcode',
-                    regionJson: <?php echo $this->helper('Magento_Directory_Helper_Data')->getRegionJson() ?>,
+                    regionJson: <?php echo $this->helper('\Magento\Directory\Helper\Data')->getRegionJson() ?>,
                     defaultRegion: "<?php echo $this->getAddress()->getRegionId() ?>",
-                    countriesWithOptionalZip: <?php echo $this->helper('Magento_Directory_Helper_Data')->getCountriesWithOptionalZip(true) ?>
+                    countriesWithOptionalZip: <?php echo $this->helper('\Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
                 });
             });
     })(jQuery);

@@ -12,13 +12,13 @@
 class Magento_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Store_Collection
+     * @var \Magento\Core\Model\Resource\Store\Collection
      */
     protected $_collection;
 
     public function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Core_Model_Resource_Store_Collection');
+        $this->_collection = Mage::getResourceModel('\Magento\Core\Model\Resource\Store\Collection');
     }
 
     public function testSetGetLoadDefault()
@@ -41,10 +41,10 @@ class Magento_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Store_Collection::addGroupFilter
-     * @covers Magento_Core_Model_Resource_Store_Collection::addIdFilter
-     * @covers Magento_Core_Model_Resource_Store_Collection::addWebsiteFilter
-     * @covers Magento_Core_Model_Resource_Store_Collection::addCategoryFilter
+     * @covers \Magento\Core\Model\Resource\Store\Collection::addGroupFilter
+     * @covers \Magento\Core\Model\Resource\Store\Collection::addIdFilter
+     * @covers \Magento\Core\Model\Resource\Store\Collection::addWebsiteFilter
+     * @covers \Magento\Core\Model\Resource\Store\Collection::addCategoryFilter
      */
     public function testAddFilters()
     {
@@ -94,8 +94,8 @@ class Magento_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Db_Collection_Abstract::addFieldToSelect
-     * @covers Magento_Core_Model_Resource_Db_Collection_Abstract::removeFieldFromSelect
+     * @covers \Magento\Core\Model\Resource\Db\Collection\AbstractCollection::addFieldToSelect
+     * @covers \Magento\Core\Model\Resource\Db\Collection\AbstractCollection::removeFieldFromSelect
      */
     public function testAddRemoveFieldToSelect()
     {
@@ -114,7 +114,7 @@ class Magento_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Db_Collection_Abstract::addExpressionFieldToSelect
+     * @covers \Magento\Core\Model\Resource\Db\Collection\AbstractCollection::addExpressionFieldToSelect
      */
     public function testAddExpressionFieldToSelect()
     {
@@ -124,15 +124,15 @@ class Magento_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Db_Collection_Abstract::getAllIds
+     * @covers \Magento\Core\Model\Resource\Db\Collection\AbstractCollection::getAllIds
      */
     public function testGetAllIds()
     {
-        $this->assertContains(Magento_Core_Model_AppInterface::ADMIN_STORE_ID, $this->_collection->getAllIds());
+        $this->assertContains(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID, $this->_collection->getAllIds());
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Db_Collection_Abstract::getData
+     * @covers \Magento\Core\Model\Resource\Db\Collection\AbstractCollection::getData
      */
     public function testGetData()
     {
@@ -140,7 +140,7 @@ class Magento_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Db_Collection_Abstract::join
+     * @covers \Magento\Core\Model\Resource\Db\Collection\AbstractCollection::join
      */
     public function testJoin()
     {

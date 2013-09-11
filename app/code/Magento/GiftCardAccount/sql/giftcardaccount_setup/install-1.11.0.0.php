@@ -9,7 +9,7 @@
  */
 
 $installer = $this;
-/* @var $installer Magento_GiftCardAccount_Model_Resource_Setup */
+/* @var $installer \Magento\GiftCardAccount\Model\Resource\Setup */
 $installer->startSetup();
 
 /**

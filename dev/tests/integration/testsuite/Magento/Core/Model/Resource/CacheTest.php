@@ -12,13 +12,13 @@
 class Magento_Core_Model_Resource_CacheTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Resource_Cache
+     * @var \Magento\Core\Model\Resource\Cache
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = Mage::getResourceModel('Magento_Core_Model_Resource_Cache');
+        $this->_model = Mage::getResourceModel('\Magento\Core\Model\Resource\Cache');
     }
 
     /**

@@ -12,8 +12,10 @@
  * Refund to customer balance functionality block
  *
  */
-class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
- extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Creditmemo;
+
+class Controls
+ extends \Magento\Core\Block\Template
 {
     /**
      * Check whether refund to customerbalance is available
@@ -22,7 +24,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
      */
     public function canRefundToCustomerBalance()
     {
-        if (Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
+        if (\Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
             return false;
         }
         return true;
@@ -35,11 +37,11 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
      */
     public function canRefundMoneyToCustomerBalance()
     {
-        if (!Mage::registry('current_creditmemo')->getGrandTotal()) {
+        if (!\Mage::registry('current_creditmemo')->getGrandTotal()) {
             return false;
         }
 
-        if (Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
+        if (\Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
             return false;
         }
         return true;
@@ -52,7 +54,7 @@ class Magento_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
      */
     public function getReturnValue()
     {
-        $max = Mage::registry('current_creditmemo')->getCustomerBalanceReturnMax();
+        $max = \Mage::registry('current_creditmemo')->getCustomerBalanceReturnMax();
         if ($max) {
             return $max;
         }

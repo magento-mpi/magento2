@@ -12,7 +12,7 @@
 class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_ImportExport_Model_Resource_Customer_Storage
+     * @var \Magento\ImportExport\Model\Resource\Customer\Storage
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
 
     protected function setUp()
     {
-        $this->_model = new Magento_ImportExport_Model_Resource_Customer_Storage($this->_getModelDependencies());
+        $this->_model = new \Magento\ImportExport\Model\Resource\Customer\Storage($this->_getModelDependencies());
         $this->_model->load();
     }
 
@@ -48,7 +48,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
         $select->expects($this->any())
             ->method('from')
             ->will($this->returnCallback(array($this, 'validateFrom')));
-        $customerCollection = $this->getMock('Magento_Customer_Model_Resource_Customer_Collection',
+        $customerCollection = $this->getMock('Magento\Customer\Model\Resource\Customer\Collection',
             array('load', 'removeAttributeToSelect', 'getResource', 'getSelect'), array(), '', false
         );
 
@@ -103,7 +103,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Resource_Customer_Storage::load
+     * @covers \Magento\ImportExport\Model\Resource\Customer\Storage::load
      */
     public function testLoad()
     {
@@ -111,7 +111,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Resource_Customer_Storage::addCustomer
+     * @covers \Magento\ImportExport\Model\Resource\Customer\Storage::addCustomer
      */
     public function testAddCustomer()
     {
@@ -127,7 +127,7 @@ class Magento_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_F
     }
 
     /**
-     * @covers Magento_ImportExport_Model_Resource_Customer_Storage::addCustomer
+     * @covers \Magento\ImportExport\Model\Resource\Customer\Storage::addCustomer
      */
     public function testGetCustomerId()
     {

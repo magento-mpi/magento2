@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Search_Results extends Magento_Core_Block_Template
+namespace Magento\MultipleWishlist\Block\Search;
+
+class Results extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve wishlist search results
@@ -24,16 +26,16 @@ class Magento_MultipleWishlist_Block_Search_Results extends Magento_Core_Block_T
      */
     public function getSearchResults()
     {
-        return Mage::registry('search_results');
+        return \Mage::registry('search_results');
     }
 
     /**
      * Return frontend registry link
      *
-     * @param Magento_Wishlist_Model_Wishlist $item
+     * @param \Magento\Wishlist\Model\Wishlist $item
      * @return string
      */
-    public function getWishlistLink(Magento_Wishlist_Model_Wishlist $item)
+    public function getWishlistLink(\Magento\Wishlist\Model\Wishlist $item)
     {
         return $this->getUrl('*/search/view', array('wishlist_id' => $item->getId()));
     }

@@ -12,47 +12,49 @@
 /**
  * Cms page revision model
  *
- * @method Magento_VersionsCms_Model_Resource_Page_Revision _getResource()
- * @method Magento_VersionsCms_Model_Resource_Page_Revision getResource()
+ * @method \Magento\VersionsCms\Model\Resource\Page\Revision _getResource()
+ * @method \Magento\VersionsCms\Model\Resource\Page\Revision getResource()
  * @method int getVersionId()
- * @method Magento_VersionsCms_Model_Page_Revision setVersionId(int $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setVersionId(int $value)
  * @method int getPageId()
- * @method Magento_VersionsCms_Model_Page_Revision setPageId(int $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setPageId(int $value)
  * @method string getRootTemplate()
- * @method Magento_VersionsCms_Model_Page_Revision setRootTemplate(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setRootTemplate(string $value)
  * @method string getMetaKeywords()
- * @method Magento_VersionsCms_Model_Page_Revision setMetaKeywords(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setMetaKeywords(string $value)
  * @method string getMetaDescription()
- * @method Magento_VersionsCms_Model_Page_Revision setMetaDescription(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setMetaDescription(string $value)
  * @method string getContentHeading()
- * @method Magento_VersionsCms_Model_Page_Revision setContentHeading(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setContentHeading(string $value)
  * @method string getContent()
- * @method Magento_VersionsCms_Model_Page_Revision setContent(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setContent(string $value)
  * @method string getCreatedAt()
- * @method Magento_VersionsCms_Model_Page_Revision setCreatedAt(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setCreatedAt(string $value)
  * @method string getLayoutUpdateXml()
- * @method Magento_VersionsCms_Model_Page_Revision setLayoutUpdateXml(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setLayoutUpdateXml(string $value)
  * @method string getCustomTheme()
- * @method Magento_VersionsCms_Model_Page_Revision setCustomTheme(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setCustomTheme(string $value)
  * @method string getCustomRootTemplate()
- * @method Magento_VersionsCms_Model_Page_Revision setCustomRootTemplate(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setCustomRootTemplate(string $value)
  * @method string getCustomLayoutUpdateXml()
- * @method Magento_VersionsCms_Model_Page_Revision setCustomLayoutUpdateXml(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setCustomLayoutUpdateXml(string $value)
  * @method string getCustomThemeFrom()
- * @method Magento_VersionsCms_Model_Page_Revision setCustomThemeFrom(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setCustomThemeFrom(string $value)
  * @method string getCustomThemeTo()
- * @method Magento_VersionsCms_Model_Page_Revision setCustomThemeTo(string $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setCustomThemeTo(string $value)
  * @method int getUserId()
- * @method Magento_VersionsCms_Model_Page_Revision setUserId(int $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setUserId(int $value)
  * @method int getRevisionNumber()
- * @method Magento_VersionsCms_Model_Page_Revision setRevisionNumber(int $value)
+ * @method \Magento\VersionsCms\Model\Page\Revision setRevisionNumber(int $value)
  *
  * @category    Magento
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstract
+namespace Magento\VersionsCms\Model\Page;
+
+class Revision extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Prefix of model events names.
@@ -71,7 +73,7 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
 
     /**
      * Configuration model
-     * @var Magento_VersionsCms_Model_Config
+     * @var \Magento\VersionsCms\Model\Config
      */
     protected $_config;
 
@@ -83,8 +85,8 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_VersionsCms_Model_Resource_Page_Revision');
-        $this->_config = Mage::getSingleton('Magento_VersionsCms_Model_Config');
+        $this->_init('\Magento\VersionsCms\Model\Resource\Page\Revision');
+        $this->_config = \Mage::getSingleton('Magento\VersionsCms\Model\Config');
     }
 
     /**
@@ -96,7 +98,7 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
     {
         $tags = parent::getCacheIdTags();
         if ($tags && $this->getPageId()) {
-            $tags[] = Magento_Cms_Model_Page::CACHE_TAG.'_'.$this->getPageId();
+            $tags[] = \Magento\Cms\Model\Page::CACHE_TAG.'_'.$this->getPageId();
         }
         return $tags;
     }
@@ -104,7 +106,7 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
     /**
      * Preparing data before save
      *
-     * @return Magento_VersionsCms_Model_Page_Revision
+     * @return \Magento\VersionsCms\Model\Page\Revision
      */
     protected function _beforeSave()
     {
@@ -114,11 +116,11 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
          */
         if ($this->_revisionedDataWasModified() || $this->getVersionId() != $this->getOrigData('version_id')) {
             $this->unsetData($this->getIdFieldName());
-            $this->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate());
+            $this->setCreatedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate());
 
-            $incrementNumber = Mage::getModel('Magento_VersionsCms_Model_Increment')
-                ->getNewIncrementId(Magento_VersionsCms_Model_Increment::TYPE_PAGE,
-                        $this->getVersionId(), Magento_VersionsCms_Model_Increment::LEVEL_REVISION);
+            $incrementNumber = \Mage::getModel('\Magento\VersionsCms\Model\Increment')
+                ->getNewIncrementId(\Magento\VersionsCms\Model\Increment::TYPE_PAGE,
+                        $this->getVersionId(), \Magento\VersionsCms\Model\Increment::LEVEL_REVISION);
 
             $this->setRevisionNumber($incrementNumber);
         }
@@ -170,17 +172,17 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
     /**
      * Publishing current revision
      *
-     * @return Magento_VersionsCms_Model_Page_Revision
+     * @return \Magento\VersionsCms\Model\Page\Revision
      */
     public function publish()
     {
         $this->_getResource()->beginTransaction();
         try {
             $data = $this->_prepareDataForPublish($this);
-            $object = Mage::getModel('Magento_VersionsCms_Model_Page_Revision')->setData($data);
+            $object = \Mage::getModel('\Magento\VersionsCms\Model\Page\Revision')->setData($data);
             $this->_getResource()->publish($object, $this->getPageId());
             $this->_getResource()->commit();
-        } catch (Exception $e){
+        } catch (\Exception $e){
             $this->_getResource()->rollBack();
             throw $e;
         }
@@ -191,14 +193,14 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
     /**
      * Checking some moments before we can actually delete revision
      *
-     * @return Magento_VersionsCms_Model_Page_Revision
+     * @return \Magento\VersionsCms\Model\Page\Revision
      */
     protected function _beforeDelete()
     {
         $resource = $this->_getResource();
-        /* @var $resource Magento_VersionsCms_Model_Resource_Page_Revision */
+        /* @var $resource \Magento\VersionsCms\Model\Resource\Page\Revision */
         if ($resource->isRevisionPublished($this)) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('Revision #%1 could not be removed because it is published.', $this->getRevisionNumber())
             );
         }
@@ -211,7 +213,7 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
-     * @return Magento_VersionsCms_Model_Page_Revision
+     * @return \Magento\VersionsCms\Model\Page\Revision
      */
     public function loadWithRestrictions($accessLevel, $userId, $value, $field = null)
     {
@@ -230,7 +232,7 @@ class Magento_VersionsCms_Model_Page_Revision extends Magento_Core_Model_Abstrac
      * @param int $pageId
      * @param array|string $accessLevel
      * @param int $userId
-     * @return Magento_VersionsCms_Model_Page_Revision
+     * @return \Magento\VersionsCms\Model\Page\Revision
      */
     public function loadByVersionPageWithRestrictions($versionId, $pageId, $accessLevel, $userId)
     {

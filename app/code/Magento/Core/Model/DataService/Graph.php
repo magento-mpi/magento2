@@ -12,21 +12,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Core_Model_DataService_Graph implements Magento_Core_Model_DataService_Path_NodeInterface
+namespace Magento\Core\Model\DataService;
+
+class Graph implements \Magento\Core\Model\DataService\Path\NodeInterface
 {
-    /** @var Magento_Core_Model_DataService_Invoker */
+    /** @var \Magento\Core\Model\DataService\Invoker */
     protected $_invoker;
 
-    /** @var Magento_Core_Model_DataService_Repository */
+    /** @var \Magento\Core\Model\DataService\Repository */
     protected $_repository;
 
     /**
-     * @param Magento_Core_Model_DataService_Invoker $dataServiceInvoker
-     * @param Magento_Core_Model_DataService_Repository $repository
+     * @param \Magento\Core\Model\DataService\Invoker $dataServiceInvoker
+     * @param \Magento\Core\Model\DataService\Repository $repository
      */
     public function __construct(
-        Magento_Core_Model_DataService_Invoker $dataServiceInvoker,
-        Magento_Core_Model_DataService_Repository $repository
+        \Magento\Core\Model\DataService\Invoker $dataServiceInvoker,
+        \Magento\Core\Model\DataService\Repository $repository
     ) {
         $this->_invoker = $dataServiceInvoker;
         $this->_repository = $repository;
@@ -53,17 +55,17 @@ class Magento_Core_Model_DataService_Graph implements Magento_Core_Model_DataSer
      *      ))
      *
      * @param array $dataServicesList
-     * @return Magento_Core_Model_DataService_Graph
-     * @throws InvalidArgumentException
+     * @return \Magento\Core\Model\DataService\Graph
+     * @throws \InvalidArgumentException
      */
     public function init(array $dataServicesList)
     {
         foreach ($dataServicesList as $dataServiceName => $namespaceConfig) {
             if (!isset($namespaceConfig['namespaces'])) {
-                throw new InvalidArgumentException("Data reference configuration doesn't have a block to link to");
+                throw new \InvalidArgumentException("Data reference configuration doesn't have a block to link to");
             }
             if ($this->get($dataServiceName) === false) {
-                throw new InvalidArgumentException("Data service '$dataServiceName' couldn't be retrieved");
+                throw new \InvalidArgumentException("Data service '$dataServiceName' couldn't be retrieved");
             }
             foreach ($namespaceConfig['namespaces'] as $namespaceName => $aliasInNamespace) {
                 $this->_repository->setAlias($namespaceName, $dataServiceName, $aliasInNamespace);
@@ -104,7 +106,7 @@ class Magento_Core_Model_DataService_Graph implements Magento_Core_Model_DataSer
      * data service graph.  Leaf nodes in the graph tend to be of mixed type (scalar, array, or object).
      *
      * @param string $pathElement the path element name of the child node
-     * @return Magento_Core_Model_DataService_Path_NodeInterface|mixed|null the child node,
+     * @return \Magento\Core\Model\DataService\Path\NodeInterface|mixed|null the child node,
      *    or mixed if this is a leaf node
      */
     public function getChildNode($pathElement)

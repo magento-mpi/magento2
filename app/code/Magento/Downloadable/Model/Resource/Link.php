@@ -16,7 +16,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Downloadable\Model\Resource;
+
+class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define resource
@@ -30,8 +32,8 @@ class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resour
     /**
      * Save title and price of link item
      *
-     * @param Magento_Downloadable_Model_Link $linkObject
-     * @return Magento_Downloadable_Model_Resource_Link
+     * @param \Magento\Downloadable\Model\Link $linkObject
+     * @return \Magento\Downloadable\Model\Resource\Link
      */
     public function saveItemTitleAndPrice($linkObject)
     {
@@ -108,15 +110,15 @@ class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resour
                 } else {
                     $_isNew = false;
                 }
-                if ($linkObject->getWebsiteId() == 0 && $_isNew && !Mage::helper('Magento_Catalog_Helper_Data')->isPriceGlobal()) {
+                if ($linkObject->getWebsiteId() == 0 && $_isNew && !\Mage::helper('Magento\Catalog\Helper\Data')->isPriceGlobal()) {
                     $websiteIds = $linkObject->getProductWebsiteIds();
                     foreach ($websiteIds as $websiteId) {
-                        $baseCurrency = Mage::app()->getBaseCurrencyCode();
-                        $websiteCurrency = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+                        $baseCurrency = \Mage::app()->getBaseCurrencyCode();
+                        $websiteCurrency = \Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
                         if ($websiteCurrency == $baseCurrency) {
                             continue;
                         }
-                        $rate = Mage::getModel('Magento_Directory_Model_Currency')->load($baseCurrency)->getRate($websiteCurrency);
+                        $rate = \Mage::getModel('\Magento\Directory\Model\Currency')->load($baseCurrency)->getRate($websiteCurrency);
                         if (!$rate) {
                             $rate = 1;
                         }
@@ -137,14 +139,14 @@ class Magento_Downloadable_Model_Resource_Link extends Magento_Core_Model_Resour
     /**
      * Delete data by item(s)
      *
-     * @param Magento_Downloadable_Model_Link|array|int $items
-     * @return Magento_Downloadable_Model_Resource_Link
+     * @param \Magento\Downloadable\Model\Link|array|int $items
+     * @return \Magento\Downloadable\Model\Resource\Link
      */
     public function deleteItems($items)
     {
         $writeAdapter   = $this->_getWriteAdapter();
         $where = array();
-        if ($items instanceof Magento_Downloadable_Model_Link) {
+        if ($items instanceof \Magento\Downloadable\Model\Link) {
             $where = array('link_id = ?'    => $items->getId());
         } elseif (is_array($items)) {
             $where = array('link_id in (?)' => $items);

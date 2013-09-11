@@ -16,8 +16,10 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance_Grid
-    extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Flag to store if customer has orphan points
@@ -42,21 +44,21 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
     /**
      * Getter
      *
-     * @return Magento_Customer_Model_Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
-        return Mage::registry('current_customer');
+        return \Mage::registry('current_customer');
     }
 
     /**
      * Prepare grid collection
      *
-     * @return Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance_Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Reward_Model_Reward')
+        $collection = \Mage::getModel('\Magento\Reward\Model\Reward')
             ->getCollection()
             ->addFieldToFilter('customer_id', $this->getCustomer()->getId());
         $this->setCollection($collection);
@@ -66,20 +68,20 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
     /**
      * After load collection processing
      *
-     * @return Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance_Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
      */
     protected function _afterLoadCollection()
     {
         parent::_afterLoadCollection();
-        /* @var $item Magento_Reward_Model_Reward */
+        /* @var $item \Magento\Reward\Model\Reward */
         foreach ($this->getCollection() as $item) {
             $website = $item->getData('website_id');
             if ($website !== null) {
-                $minBalance = Mage::helper('Magento_Reward_Helper_Data')->getGeneralConfig(
+                $minBalance = \Mage::helper('Magento\Reward\Helper\Data')->getGeneralConfig(
                     'min_points_balance',
                     (int)$website
                 );
-                $maxBalance = Mage::helper('Magento_Reward_Helper_Data')->getGeneralConfig(
+                $maxBalance = \Mage::helper('Magento\Reward\Helper\Data')->getGeneralConfig(
                     'max_points_balance',
                     (int)$website
                 );
@@ -102,17 +104,17 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
     /**
      * Prepare grid columns
      *
-     * @return Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance_Grid
+     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
      */
     protected function _prepareColumns()
     {
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('website_id', array(
                 'header'   => __('Website'),
                 'index'    => 'website_id',
                 'sortable' => false,
                 'type'     => 'options',
-                'options'  => Mage::getModel('Magento_Reward_Model_Source_Website')->toOptionArray(false)
+                'options'  => \Mage::getModel('\Magento\Reward\Model\Source\Website')->toOptionArray(false)
             ));
         }
 
@@ -168,7 +170,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
     {
         $html = parent::_afterToHtml($html);
         if ($this->_customerHasOrphanPoints) {
-            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            $deleteOrhanPointsButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')
                 ->setData(array(
                     'label'     => __('Delete Orphan Points'),
                     'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',
@@ -182,7 +184,7 @@ class Magento_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Balance
     /**
      * Return grid row url
      *
-     * @param Magento_Reward_Model_Reward $row
+     * @param \Magento\Reward\Model\Reward $row
      * @return string
      */
     public function getRowUrl($row)

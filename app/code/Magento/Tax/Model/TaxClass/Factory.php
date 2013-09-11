@@ -11,7 +11,9 @@
 /**
  * Tax Class factory
  */
-class Magento_Tax_Model_TaxClass_Factory
+namespace Magento\Tax\Model\TaxClass;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -24,8 +26,8 @@ class Magento_Tax_Model_TaxClass_Factory
      * @var array
      */
     protected $_types = array(
-        Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER => 'Magento_Tax_Model_TaxClass_Type_Customer',
-        Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT => 'Magento_Tax_Model_TaxClass_Type_Product',
+        \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER => '\Magento\Tax\Model\TaxClass\Type\Customer',
+        \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT => '\Magento\Tax\Model\TaxClass\Type\Product',
     );
 
     /**
@@ -39,15 +41,15 @@ class Magento_Tax_Model_TaxClass_Factory
     /**
      * Create new config object
      *
-     * @param Magento_Tax_Model_Class $taxClass
-     * @return Magento_Tax_Model_TaxClass_Type_Interface
-     * @throws Magento_Core_Exception
+     * @param \Magento\Tax\Model\ClassModel $taxClass
+     * @return \Magento\Tax\Model\TaxClass\Type\TypeInterface
+     * @throws \Magento\Core\Exception
      */
-    public function create(Magento_Tax_Model_Class $taxClass)
+    public function create(\Magento\Tax\Model\ClassModel $taxClass)
     {
         $taxClassType = $taxClass->getClassType();
         if (!array_key_exists($taxClassType, $this->_types)) {
-            throw new Magento_Core_Exception(sprintf('Invalid type of tax class "%s"', $taxClassType));
+            throw new \Magento\Core\Exception(sprintf('Invalid type of tax class "%s"', $taxClassType));
         }
         return $this->_objectManager->create(
             $this->_types[$taxClassType],

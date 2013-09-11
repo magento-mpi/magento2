@@ -12,14 +12,16 @@
 /**
  * SalesRule Mass Coupon Generator
  *
- * @method Magento_SalesRule_Model_Resource_Coupon getResource()
+ * @method \Magento\SalesRule\Model\Resource\Coupon getResource()
  *
  * @category    Magento
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Abstract
-    implements Magento_SalesRule_Model_Coupon_CodegeneratorInterface
+namespace Magento\SalesRule\Model\Coupon;
+
+class Massgenerator extends \Magento\Core\Model\AbstractModel
+    implements \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
 {
     /**
      * Maximum probability of guessing the coupon on the first attempt
@@ -38,7 +40,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
      */
     protected function _construct()
     {
-        $this->_init('Magento_SalesRule_Model_Resource_Coupon');
+        $this->_init('\Magento\SalesRule\Model\Resource\Coupon');
     }
 
     /**
@@ -50,7 +52,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
     {
         $format  = $this->getFormat();
         if (!$format) {
-            $format = Magento_SalesRule_Helper_Coupon::COUPON_FORMAT_ALPHANUMERIC;
+            $format = \Magento\SalesRule\Helper\Coupon::COUPON_FORMAT_ALPHANUMERIC;
         }
         $length  = max(1, (int) $this->getLength());
         $split   = max(0, (int) $this->getDash());
@@ -58,7 +60,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
         $prefix  = $this->getPrefix();
 
         $splitChar = $this->getDelimiter();
-        $charset = Mage::helper('Magento_SalesRule_Helper_Coupon')->getCharset($format);
+        $charset = \Mage::helper('Magento\SalesRule\Helper\Coupon')->getCharset($format);
 
         $code = '';
         $charsetSize = count($charset);
@@ -84,14 +86,14 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
         if ($this->getData('delimiter')) {
             return $this->getData('delimiter');
         } else {
-            return Mage::helper('Magento_SalesRule_Helper_Coupon')->getCodeSeparator();
+            return \Mage::helper('Magento\SalesRule\Helper\Coupon')->getCodeSeparator();
         }
     }
 
     /**
      * Generate Coupons Pool
      *
-     * @return Magento_SalesRule_Model_Coupon_Massgenerator
+     * @return \Magento\SalesRule\Model\Coupon\Massgenerator
      */
     public function generatePool()
     {
@@ -101,10 +103,10 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
         $maxProbability = $this->getMaxProbability() ? $this->getMaxProbability() : self::MAX_PROBABILITY_OF_GUESSING;
         $maxAttempts = $this->getMaxAttempts() ? $this->getMaxAttempts() : self::MAX_GENERATE_ATTEMPTS;
 
-        /** @var $coupon Magento_SalesRule_Model_Coupon */
-        $coupon = Mage::getModel('Magento_SalesRule_Model_Coupon');
+        /** @var $coupon \Magento\SalesRule\Model\Coupon */
+        $coupon = \Mage::getModel('\Magento\SalesRule\Model\Coupon');
 
-        $chars = count(Mage::helper('Magento_SalesRule_Helper_Coupon')->getCharset($this->getFormat()));
+        $chars = count(\Mage::helper('Magento\SalesRule\Helper\Coupon')->getCharset($this->getFormat()));
         $length = (int) $this->getLength();
         $maxCodes = pow($chars, $length);
         $probability = $size / $maxCodes;
@@ -119,21 +121,21 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
         }
 
         $now = $this->getResource()->formatDate(
-            Mage::getSingleton('Magento_Core_Model_Date')->gmtTimestamp()
+            \Mage::getSingleton('Magento\Core\Model\Date')->gmtTimestamp()
         );
 
         for ($i = 0; $i < $size; $i++) {
             $attempt = 0;
             do {
                 if ($attempt >= $maxAttempts) {
-                    Mage::throwException(__('We cannot create the requested Coupon Qty. Please check your settings and try again.'));
+                    \Mage::throwException(__('We cannot create the requested Coupon Qty. Please check your settings and try again.'));
                 }
                 $code = $this->generateCode();
                 $attempt++;
             } while ($this->getResource()->exists($code));
 
             $expirationDate = $this->getToDate();
-            if ($expirationDate instanceof Zend_Date) {
+            if ($expirationDate instanceof \Zend_Date) {
                 $expirationDate = $expirationDate->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
             }
 
@@ -143,7 +145,7 @@ class Magento_SalesRule_Model_Coupon_Massgenerator extends Magento_Core_Model_Ab
                 ->setUsagePerCustomer($this->getUsesPerCustomer())
                 ->setExpirationDate($expirationDate)
                 ->setCreatedAt($now)
-                ->setType(Magento_SalesRule_Helper_Coupon::COUPON_TYPE_SPECIFIC_AUTOGENERATED)
+                ->setType(\Magento\SalesRule\Helper\Coupon::COUPON_TYPE_SPECIFIC_AUTOGENERATED)
                 ->setCode($code)
                 ->save();
 

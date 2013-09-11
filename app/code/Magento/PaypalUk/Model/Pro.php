@@ -13,21 +13,23 @@
  * This model was created because right now PayPal Direct and PayPal Express payment
  * (Payflow Edition) methods cannot have same abstract
  */
-class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
+namespace Magento\PaypalUk\Model;
+
+class Pro extends \Magento\Paypal\Model\Pro
 {
     /**
      * Api model type
      *
      * @var string
      */
-    protected $_apiType = 'Magento_PaypalUk_Model_Api_Nvp';
+    protected $_apiType = '\Magento\PaypalUk\Model\Api\Nvp';
 
     /**
      * Config model type
      *
      * @var string
      */
-    protected $_configType = 'Magento_Paypal_Model_Config';
+    protected $_configType = '\Magento\Paypal\Model\Config';
 
     /**
      * Payflow trx_id key in transaction info
@@ -71,7 +73,7 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
     {
         if ($payment->getParentTransactionId()) {
             return $payment->getTransaction($payment->getParentTransactionId())
-                ->getAdditionalInformation(Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID);
+                ->getAdditionalInformation(\Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID);
         }
         return $payment->getParentTransactionId();
     }
@@ -79,34 +81,34 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
     /**
      * Import capture results to payment
      *
-     * @param Magento_Paypal_Model_Api_Nvp
-     * @param Magento_Sales_Model_Order_Payment
+     * @param \Magento\Paypal\Model\Api\Nvp
+     * @param \Magento\Sales\Model\Order\Payment
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
         $payment->setTransactionId($api->getPaypalTransactionId())
             ->setIsTransactionClosed(false)
             ->setTransactionAdditionalInfo(
-                Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID,
+                \Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getTransactionId())
         );
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment($api, $payment);
     }
 
     /**
      * Fetch transaction details info method does not exists in PaypalUK
      *
-     * @param Magento_Payment_Model_Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @param string $transactionId
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return void
      */
-    public function fetchTransactionInfo(Magento_Payment_Model_Info $payment, $transactionId)
+    public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
     {
-        Mage::throwException(
+        \Mage::throwException(
             __('Fetch transaction details method does not exists in PaypalUK')
         );
     }
@@ -114,8 +116,8 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
     /**
      * Import refund results to payment
      *
-     * @param Magento_Paypal_Model_Api_Nvp
-     * @param Magento_Sales_Model_Order_Payment
+     * @param \Magento\Paypal\Model\Api\Nvp
+     * @param \Magento\Sales\Model\Order\Payment
      * @param bool $canRefundMore
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
@@ -124,12 +126,12 @@ class Magento_PaypalUk_Model_Pro extends Magento_Paypal_Model_Pro
             ->setIsTransactionClosed(1) // refund initiated by merchant
             ->setShouldCloseParentTransaction(!$canRefundMore)
             ->setTransactionAdditionalInfo(
-                Magento_PaypalUk_Model_Pro::TRANSPORT_PAYFLOW_TXN_ID,
+                \Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $api->getTransactionId())
         );
-        Mage::getModel('Magento_Paypal_Model_Info')->importToPayment($api, $payment);
+        \Mage::getModel('\Magento\Paypal\Model\Info')->importToPayment($api, $payment);
     }
 }

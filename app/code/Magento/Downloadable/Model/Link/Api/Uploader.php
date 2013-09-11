@@ -15,7 +15,9 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Link_Api_Uploader extends Magento_Core_Model_File_Uploader
+namespace Magento\Downloadable\Model\Link\Api;
+
+class Uploader extends \Magento\Core\Model\File\Uploader
 {
     /**
      * Filename prefix
@@ -32,14 +34,14 @@ class Magento_Downloadable_Model_Link_Api_Uploader extends Magento_Core_Model_Fi
     /**
      * Check if the uploaded file exists
      *
-     * @throws Exception
+     * @throws \Exception
      * @param array $file
      */
     public function __construct($file)
     {
         $this->_setUploadFile($file);
         if( !file_exists($this->_file['tmp_name']) ) {
-            throw new Exception('', 'file_not_uploaded');
+            throw new \Exception('', 'file_not_uploaded');
         } else {
             $this->_fileExists = true;
         }
@@ -48,14 +50,14 @@ class Magento_Downloadable_Model_Link_Api_Uploader extends Magento_Core_Model_Fi
     /**
      * Sets uploaded file info and decodes the file
      *
-     * @throws Exception
+     * @throws \Exception
      * @param array $fileInfo
      * @return void
      */
     private function _setUploadFile($fileInfo)
     {
         if (!is_array($fileInfo)) {
-            throw new Exception('', 'file_data_not_correct');
+            throw new \Exception('', 'file_data_not_correct');
         }
 
         $this->_file = $this->_decodeFile($fileInfo);

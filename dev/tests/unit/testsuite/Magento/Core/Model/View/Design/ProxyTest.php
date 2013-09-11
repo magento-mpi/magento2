@@ -9,7 +9,7 @@
 class Magento_Core_Model_View_Design_ProxyTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_View_Design_Proxy
+     * @var \Magento\Core\Model\View\Design\Proxy
      */
     protected $_model;
 
@@ -19,19 +19,19 @@ class Magento_Core_Model_View_Design_ProxyTest extends PHPUnit_Framework_TestCas
     protected $_objectManager;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject|Magento_Core_Model_View_DesignInterface
+     * @var PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\View\DesignInterface
      */
     protected $_viewDesign;
 
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_viewDesign = $this->getMock('Magento_Core_Model_View_DesignInterface');
+        $this->_viewDesign = $this->getMock('Magento\Core\Model\View\DesignInterface');
         $this->_objectManager->expects($this->once())
             ->method('get')
-            ->with('Magento_Core_Model_View_Design')
+            ->with('Magento\Core\Model\View\Design')
             ->will($this->returnValue($this->_viewDesign));
-        $this->_model = new Magento_Core_Model_View_Design_Proxy($this->_objectManager);
+        $this->_model = new \Magento\Core\Model\View\Design\Proxy($this->_objectManager);
     }
 
     protected function tearDown()

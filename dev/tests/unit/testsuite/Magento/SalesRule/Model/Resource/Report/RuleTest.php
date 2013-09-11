@@ -45,7 +45,7 @@ class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework
             ->with($select)
             ->will($this->returnCallback(array($this, 'fetchAllCallback')));
 
-        $resourceMock = $this->getMock('Magento_Core_Model_Resource',
+        $resourceMock = $this->getMock('Magento\Core\Model\Resource',
             array('getConnection', 'getTableName'), array(), '', false
         );
         $resourceMock->expects($this->any())
@@ -55,7 +55,7 @@ class Magento_SalesRule_Model_Resource_Report_RuleTest extends PHPUnit_Framework
             ->method('getTableName')
             ->will($this->returnValue(self::TABLE_NAME));
 
-        $model = new Magento_SalesRule_Model_Resource_Report_Rule($resourceMock);
+        $model = new \Magento\SalesRule\Model\Resource\Report\Rule($resourceMock);
 
         $expectedRuleNames = array();
         foreach ($this->_rules as $rule) {

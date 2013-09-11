@@ -23,7 +23,7 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater
         $collection = $this->getMockBuilder('Magento\Data\Collection\Db')
             ->disableOriginalConstructor()
             ->getMock();
-        $stockItem = $this->getMockBuilder('Magento_CatalogInventory_Model_Resource_Stock_Item')
+        $stockItem = $this->getMockBuilder('Magento\CatalogInventory\Model\Resource\Stock\Item')
             ->disableOriginalConstructor()
             ->setMethods(array('addCatalogInventoryToProductCollection'))
             ->getMock();
@@ -31,7 +31,7 @@ class Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater
             ->method('addCatalogInventoryToProductCollection')
             ->with($collection, $inventory);
 
-        $model = new Magento_Catalog_Model_Resource_Product_Collection_AssociatedProductUpdater($stockItem);
+        $model = new \Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater($stockItem);
         $model->update($collection);
     }
 }

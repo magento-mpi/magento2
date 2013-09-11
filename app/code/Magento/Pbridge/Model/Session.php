@@ -15,7 +15,9 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Pbridge\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * Initialize Enterprise Pbridge session namespace

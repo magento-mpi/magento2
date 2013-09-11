@@ -12,12 +12,12 @@
 class Magento_Directory_Model_Config_Source_CountryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Directory_Model_Config_Source_Country
+     * @var \Magento\Directory\Model\Config\Source\Country
      */
     protected $_model;
 
     /**
-     * @var Magento_Directory_Model_Resource_Country_Collection
+     * @var \Magento\Directory\Model\Resource\Country\Collection
      */
     protected $_collectionMock;
 
@@ -25,10 +25,10 @@ class Magento_Directory_Model_Config_Source_CountryTest extends PHPUnit_Framewor
     {
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         $this->_collectionMock = $this->getMock(
-            'Magento_Directory_Model_Resource_Country_Collection', array(), array(), '', false
+            '\Magento\Directory\Model\Resource\Country\Collection', array(), array(), '', false
         );
         $arguments = array('countryCollection' => $this->_collectionMock);
-        $this->_model = $objectManagerHelper->getObject('Magento_Directory_Model_Config_Source_Country', $arguments);
+        $this->_model = $objectManagerHelper->getObject('\Magento\Directory\Model\Config\Source\Country', $arguments);
 
     }
 

@@ -15,15 +15,17 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Layout_Argument_Handler_ObjectFactory
-    implements Magento_Core_Model_Layout_Argument_HandlerFactoryInterface
+namespace Magento\Core\Model\Layout\Argument\Handler;
+
+class ObjectFactory
+    implements \Magento\Core\Model\Layout\Argument\HandlerFactoryInterface
 {
     /**
      * Create object type handler
-     * @return Magento_Core_Model_Layout_Argument_HandlerInterface
+     * @return \Magento\Core\Model\Layout\Argument\HandlerInterface
      */
     public function createHandler()
     {
-        return Mage::getModel('Magento_Core_Model_Layout_Argument_Handler_Object');
+        return \Mage::getModel('\Magento\Core\Model\Layout\Argument\Handler\Object');
     }
 }

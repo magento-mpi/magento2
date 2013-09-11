@@ -15,7 +15,9 @@
  * @package    Magento_CatalogPermissions
  */
 
-class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\CatalogPermissions\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'catalog/magento_catalogpermissions/enabled';
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/magento_catalogpermissions/grant_catalog_category_view';
@@ -35,13 +37,13 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
     }
 
     /**
      * Check category permission is allowed
      *
-     * @param Magento_Catalog_Model_Category $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return boolean
      */
     public function isAllowedCategory($category)
@@ -50,7 +52,7 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
         $options->setCategory($category);
         $options->setIsAllowed(true);
 
-        Mage::dispatchEvent('magento_catalog_permissions_is_allowed_category', array('options' => $options));
+        \Mage::dispatchEvent('magento_catalog_permissions_is_allowed_category', array('options' => $options));
 
         return $options->getIsAllowed();
     }
@@ -100,7 +102,7 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
      */
     public function isAllowedCatalogSearch()
     {
-        $groups = trim(Mage::getStoreConfig(self::XML_PATH_DENY_CATALOG_SEARCH));
+        $groups = trim(\Mage::getStoreConfig(self::XML_PATH_DENY_CATALOG_SEARCH));
 
         if ($groups === '') {
             return true;
@@ -108,7 +110,7 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
 
         $groups = explode(',', $groups);
 
-        return !in_array(Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId(), $groups);
+        return !in_array(\Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId(), $groups);
     }
 
     /**
@@ -118,7 +120,7 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
      */
     public function getLandingPageUrl()
     {
-        return $this->_getUrl('', array('_direct' => Mage::getStoreConfig(self::XML_PATH_LANDING_PAGE)));
+        return $this->_getUrl('', array('_direct' => \Mage::getStoreConfig(self::XML_PATH_LANDING_PAGE)));
     }
 
     /**
@@ -129,8 +131,8 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
      */
     protected function _getIsAllowedGrant($configPath, $storeId = null, $customerGroupId = null)
     {
-        if (Mage::getStoreConfig($configPath, $storeId) == self::GRANT_CUSTOMER_GROUP) {
-            $groups = trim(Mage::getStoreConfig($configPath . '_groups', $storeId));
+        if (\Mage::getStoreConfig($configPath, $storeId) == self::GRANT_CUSTOMER_GROUP) {
+            $groups = trim(\Mage::getStoreConfig($configPath . '_groups', $storeId));
 
             if ($groups === '') {
                 return false;
@@ -139,7 +141,7 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
             $groups = explode(',', $groups);
 
             if ($customerGroupId === null) {
-                $customerGroupId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerGroupId();
+                $customerGroupId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerGroupId();
             }
 
             return in_array(
@@ -148,6 +150,6 @@ class Magento_CatalogPermissions_Helper_Data extends Magento_Core_Helper_Abstrac
             );
         }
 
-        return Mage::getStoreConfig($configPath) == self::GRANT_ALL;
+        return \Mage::getStoreConfig($configPath) == self::GRANT_ALL;
     }
 }

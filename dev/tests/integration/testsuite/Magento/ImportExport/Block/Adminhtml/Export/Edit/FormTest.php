@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for block Magento_ImportExport_Block_Adminhtml_Export_Edit_Form
+ * Test class for block \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form
  * @magentoAppArea adminhtml
  */
 class Magento_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_Framework_TestCase
@@ -18,7 +18,7 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_
     /**
      * Testing model
      *
-     * @var Magento_ImportExport_Block_Adminhtml_Export_Edit_Form
+     * @var \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form
      */
     protected $_model;
 
@@ -44,13 +44,13 @@ class Magento_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_
     public function setUp()
     {
         parent::setUp();
-        $this->_model = Mage::app()->getLayout()->createBlock('Magento_ImportExport_Block_Adminhtml_Export_Edit_Form');
+        $this->_model = Mage::app()->getLayout()->createBlock('\Magento\ImportExport\Block\Adminhtml\Export\Edit\Form');
     }
 
     /**
      * Test preparing of form
      *
-     * @covers Magento_ImportExport_Block_Adminhtml_Export_Edit_Form::_prepareForm
+     * @covers \Magento\ImportExport\Block\Adminhtml\Export\Edit\Form::_prepareForm
      */
     public function testPrepareForm()
     {

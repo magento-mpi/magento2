@@ -15,18 +15,20 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backup_Model_Grid_Options implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Backup\Model\Grid;
+
+class Options implements \Magento\Core\Model\Option\ArrayInterface
 {
 
     /**
-     * @var Magento_Backup_Helper_Data
+     * @var \Magento\Backup\Helper\Data
      */
     protected $_helper;
 
     /**
-     * @param Magento_Backup_Helper_Data $backupHelper
+     * @param \Magento\Backup\Helper\Data $backupHelper
      */
-    public function __construct(Magento_Backup_Helper_Data $backupHelper)
+    public function __construct(\Magento\Backup\Helper\Data $backupHelper)
     {
         $this->_helper = $backupHelper;
     }

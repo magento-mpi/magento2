@@ -15,12 +15,14 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Express_Review_Shipping extends Magento_Checkout_Block_Onepage_Shipping
+namespace Magento\Paypal\Block\Express\Review;
+
+class Shipping extends \Magento\Checkout\Block\Onepage\Shipping
 {
     /**
      * Return Sales Quote Address model (shipping address)
      *
-     * @return Magento_Sales_Model_Quote_Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
@@ -28,7 +30,7 @@ class Magento_Paypal_Block_Express_Review_Shipping extends Magento_Checkout_Bloc
             if ($this->isCustomerLoggedIn() || $this->getQuote()->getShippingAddress()) {
                 $this->_address = $this->getQuote()->getShippingAddress();
             } else {
-                $this->_address = Mage::getModel('Magento_Sales_Model_Quote_Address');
+                $this->_address = \Mage::getModel('\Magento\Sales\Model\Quote\Address');
             }
         }
 

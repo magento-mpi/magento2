@@ -11,7 +11,7 @@
     <handle label="Customer GiftRegistry" id="magento_giftregistry_index_index" type="page" parent="customer_account_index">
         <update handle="customer_account"/>
         <reference name="my.account.wrapper">
-            <block class="Magento_GiftRegistry_Block_Customer_List" name="giftregistry.customer.list" template="customer/list.phtml"/>
+            <block class="\Magento\GiftRegistry\Block\Customer\ListCustomer" name="giftregistry.customer.list" template="customer/list.phtml"/>
         </reference>
     </handle>
 </layout>

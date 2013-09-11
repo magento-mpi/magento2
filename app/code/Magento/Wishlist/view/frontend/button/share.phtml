@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Wishlist_Block_Customer_Wishlist_Button */
+/** @var $this \Magento\Wishlist\Block\Customer\Wishlist\Button */
 ?>
 <?php if($this->getWishlist()->getItemsCount() && $this->getWishlist()->getShared() < $this->getConfig()->getSharingEmailLimit()): ?>
     <button type="submit" name="save_and_share" title="<?php echo __('Share Wish List') ?>" class="button btn-share"><span><span><?php echo __('Share Wish List') ?></span></span></button>

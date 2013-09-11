@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Type_Api extends Magento_Api_Model_Resource_Abstract
+namespace Magento\Catalog\Model\Product\Type;
+
+class Api extends \Magento\Api\Model\Resource\AbstractResource
 {
     /**
      * Retrieve product type list
@@ -26,7 +28,7 @@ class Magento_Catalog_Model_Product_Type_Api extends Magento_Api_Model_Resource_
     {
         $result = array();
 
-        foreach (Magento_Catalog_Model_Product_Type::getOptionArray() as $type=>$label) {
+        foreach (\Magento\Catalog\Model\Product\Type::getOptionArray() as $type=>$label) {
             $result[] = array(
                 'type'  => $type,
                 'label' => $label
@@ -35,4 +37,4 @@ class Magento_Catalog_Model_Product_Type_Api extends Magento_Api_Model_Resource_
 
         return $result;
     }
-} // Class Magento_Catalog_Model_Product_Type_Api End
+} // Class \Magento\Catalog\Model\Product\Type\Api End

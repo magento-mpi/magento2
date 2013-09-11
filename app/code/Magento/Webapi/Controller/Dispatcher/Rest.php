@@ -7,57 +7,59 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Dispatcher_Rest implements  Magento_Webapi_Controller_DispatcherInterface
+namespace Magento\Webapi\Controller\Dispatcher;
+
+class Rest implements  \Magento\Webapi\Controller\DispatcherInterface
 {
-    /** @var Magento_Webapi_Model_Config_Rest */
+    /** @var \Magento\Webapi\Model\Config\Rest */
     protected $_apiConfig;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_Rest_Presentation */
+    /** @var \Magento\Webapi\Controller\Dispatcher\Rest\Presentation */
     protected $_restPresentation;
 
-    /** @var Magento_Webapi_Controller_Router_Rest */
+    /** @var \Magento\Webapi\Controller\Router\Rest */
     protected $_router;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_Rest_Authentication */
+    /** @var \Magento\Webapi\Controller\Dispatcher\Rest\Authentication */
     protected $_authentication;
 
-    /** @var Magento_Webapi_Controller_Request_Rest */
+    /** @var \Magento\Webapi\Controller\Request\Rest */
     protected $_request;
 
     /**
      * Action controller factory.
      *
-     * @var Magento_Webapi_Controller_Action_Factory
+     * @var \Magento\Webapi\Controller\Action\Factory
      */
     protected $_controllerFactory;
 
-    /** @var Magento_Webapi_Model_Authorization */
+    /** @var \Magento\Webapi\Model\Authorization */
     protected $_authorization;
 
-    /** @var Magento_Webapi_Controller_Response_Rest */
+    /** @var \Magento\Webapi\Controller\Response\Rest */
     protected $_response;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Model_Config_Rest $apiConfig
-     * @param Magento_Webapi_Controller_Request_Rest $request
-     * @param Magento_Webapi_Controller_Response_Rest $response
-     * @param Magento_Webapi_Controller_Action_Factory $controllerFactory
-     * @param Magento_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation
-     * @param Magento_Webapi_Controller_Router_Rest $router
-     * @param Magento_Webapi_Model_Authorization $authorization
-     * @param Magento_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
+     * @param \Magento\Webapi\Model\Config\Rest $apiConfig
+     * @param \Magento\Webapi\Controller\Request\Rest $request
+     * @param \Magento\Webapi\Controller\Response\Rest $response
+     * @param \Magento\Webapi\Controller\Action\Factory $controllerFactory
+     * @param \Magento\Webapi\Controller\Dispatcher\Rest\Presentation $restPresentation
+     * @param \Magento\Webapi\Controller\Router\Rest $router
+     * @param \Magento\Webapi\Model\Authorization $authorization
+     * @param \Magento\Webapi\Controller\Dispatcher\Rest\Authentication $authentication
      */
     public function __construct(
-        Magento_Webapi_Model_Config_Rest $apiConfig,
-        Magento_Webapi_Controller_Request_Rest $request,
-        Magento_Webapi_Controller_Response_Rest $response,
-        Magento_Webapi_Controller_Action_Factory $controllerFactory,
-        Magento_Webapi_Controller_Dispatcher_Rest_Presentation $restPresentation,
-        Magento_Webapi_Controller_Router_Rest $router,
-        Magento_Webapi_Model_Authorization $authorization,
-        Magento_Webapi_Controller_Dispatcher_Rest_Authentication $authentication
+        \Magento\Webapi\Model\Config\Rest $apiConfig,
+        \Magento\Webapi\Controller\Request\Rest $request,
+        \Magento\Webapi\Controller\Response\Rest $response,
+        \Magento\Webapi\Controller\Action\Factory $controllerFactory,
+        \Magento\Webapi\Controller\Dispatcher\Rest\Presentation $restPresentation,
+        \Magento\Webapi\Controller\Router\Rest $router,
+        \Magento\Webapi\Model\Authorization $authorization,
+        \Magento\Webapi\Controller\Dispatcher\Rest\Authentication $authentication
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_restPresentation = $restPresentation;
@@ -72,7 +74,7 @@ class Magento_Webapi_Controller_Dispatcher_Rest implements  Magento_Webapi_Contr
     /**
      * Handle REST request.
      *
-     * @return Magento_Webapi_Controller_Dispatcher_Rest
+     * @return \Magento\Webapi\Controller\Dispatcher\Rest
      */
     public function dispatch()
     {
@@ -108,7 +110,7 @@ class Magento_Webapi_Controller_Dispatcher_Rest implements  Magento_Webapi_Contr
             $inputData = $this->_restPresentation->fetchRequestData($controllerInstance, $action);
             $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_restPresentation->prepareResponse($method, $outputData);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_response->setException($e);
         }
         $this->_response->sendResponse();

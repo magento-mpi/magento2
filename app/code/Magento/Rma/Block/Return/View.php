@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
+namespace Magento\Rma\Block\Return;
+
+class View extends \Magento\Rma\Block\Form
 {
     /**
      * Values for each visible attribute
@@ -19,24 +21,24 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     public function _construct()
     {
         parent::_construct();
-        if (!Mage::registry('current_rma')) {
+        if (!\Mage::registry('current_rma')) {
             return;
         }
         $this->setTemplate('return/view.phtml');
 
-        $this->setRma(Mage::registry('current_rma'));
-        $this->setOrder(Mage::registry('current_order'));
+        $this->setRma(\Mage::registry('current_rma'));
+        $this->setOrder(\Mage::registry('current_order'));
 
-        /** @var $collection Magento_Rma_Model_Resource_Item */
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
+        /** @var $collection \Magento\Rma\Model\Resource\Item */
+        $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item\Collection')
             ->addAttributeToSelect('*')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
 
         $this->setItems($collection);
 
-        /** @var $comments Magento_Rma_Model_Resource_Rma_Status_History_Collection */
-        $comments = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Status_History_Collection')
+        /** @var $comments \Magento\Rma\Model\Resource\Rma\Status\History\Collection */
+        $comments = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Status\History\Collection')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         $this->setComments($comments);
@@ -51,8 +53,8 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     {
         $array = array();
 
-        /** @var $collection Magento_Rma_Model_Resource_Item */
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection')
+        /** @var $collection \Magento\Rma\Model\Resource\Item */
+        $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item\Collection')
             ->addFilter('rma_entity_id', $this->getRma()->getEntityId())
         ;
         foreach ($collection as $item) {
@@ -62,18 +64,18 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
             break;
         }
 
-        /* @var $itemModel Magento_Rma_Model_Item */
-        $itemModel = Mage::getModel('Magento_Rma_Model_Item');
+        /* @var $itemModel \Magento\Rma\Model\Item */
+        $itemModel = \Mage::getModel('\Magento\Rma\Model\Item');
 
-        /* @var $itemForm Magento_Rma_Model_Item_Form */
-        $itemForm   = Mage::getModel('Magento_Rma_Model_Item_Form');
+        /* @var $itemForm \Magento\Rma\Model\Item\Form */
+        $itemForm   = \Mage::getModel('\Magento\Rma\Model\Item\Form');
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);
 
         // add system required attributes
         foreach ($itemForm->getSystemAttributes() as $attribute) {
-            /* @var $attribute Magento_Rma_Model_Item_Attribute */
+            /* @var $attribute \Magento\Rma\Model\Item\Attribute */
             if ($attribute->getIsVisible()) {
                 $array[] = $attribute->getAttributeCode();
             }
@@ -101,8 +103,8 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
 
         foreach ($items as $item) {
             if (!$itemForm) {
-                /* @var $itemForm Magento_Rma_Model_Item_Form */
-                $itemForm   = Mage::getModel('Magento_Rma_Model_Item_Form');
+                /* @var $itemForm \Magento\Rma\Model\Item\Form */
+                $itemForm   = \Mage::getModel('\Magento\Rma\Model\Item\Form');
                 $itemForm->setFormCode('default')
                     ->setStore($this->getStore())
                     ->setEntity($item);
@@ -187,7 +189,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     /**
      * Gets item options
      *
-     * @param  $item Magento_Rma_Model_Item
+     * @param  $item \Magento\Rma\Model\Item
      * @return array | bool
      */
     public function getItemOptions($item)
@@ -202,7 +204,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
 
     public function getBackUrl()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
+        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
             return $this->getUrl('rma/return/history');
         } else {
             return $this->getUrl('rma/guest/returns');
@@ -211,7 +213,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
 
     public function getAddress()
     {
-        return  Mage::helper('Magento_Rma_Helper_Data')->getReturnAddress();
+        return  \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddress();
     }
 
     public function getSubmitUrl()
@@ -221,13 +223,13 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
 
     public function getCustomerName()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            return Mage::helper('Magento_Customer_Helper_Data')->getCustomerName();
+        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            return \Mage::helper('Magento\Customer\Helper\Data')->getCustomerName();
         } else {
-            $billingAddress = Mage::registry('current_order')->getBillingAddress();
+            $billingAddress = \Mage::registry('current_order')->getBillingAddress();
 
             $name = '';
-            $config = Mage::getSingleton('Magento_Eav_Model_Config');
+            $config = \Mage::getSingleton('Magento\Eav\Model\Config');
             if ($config->getAttribute('customer', 'prefix')->getIsVisible() && $billingAddress->getPrefix()) {
                 $name .= $billingAddress->getPrefix() . ' ';
             }
@@ -256,7 +258,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     /**
      * Get collection of tracking numbers of RMA
      *
-     * @return Magento_Rma_Model_Resource_Shipping_Collection
+     * @return \Magento\Rma\Model\Resource\Shipping\Collection
      */
     public function getTrackingNumbers()
     {
@@ -266,7 +268,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     /**
      * Get shipping label of RMA
      *
-     * @return Magento_Rma_Model_Shipping
+     * @return \Magento\Rma\Model\Shipping
      */
     public function getShippingLabel()
     {
@@ -276,14 +278,14 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     /**
      * Get shipping label of RMA
      *
-     * @return Magento_Rma_Model_Shipping
+     * @return \Magento\Rma\Model\Shipping
      */
     public function canShowButtons()
     {
         return (bool)(
             $this->getShippingLabel()->getId()
-            && (!($this->getRma()->getStatus() == Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED
-                || $this->getRma()->getStatus() == Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED))
+            && (!($this->getRma()->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED
+                || $this->getRma()->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED))
         );
     }
 
@@ -298,7 +300,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
         $data['id'] = $this->getRma()->getId();
         $url = $this->getUrl('*/rma/printLabel', $data);
         return $this->getLayout()
-            ->createBlock('Magento_Core_Block_Html_Link')
+            ->createBlock('\Magento\Core\Block\Html\Link')
             ->setData(array(
                 'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -315,12 +317,12 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('Magento_Core_Block_Html_Link')
+            ->createBlock('\Magento\Core\Block\Html\Link')
             ->setData(array(
                 'href'      => "javascript:void(0)",
                 'title'     => __('Show Packages'),
                 'onclick'   => "popWin(
-                        '".$this->helper('Magento_Rma_Helper_Data')->getPackagePopupUrlByRmaModel($this->getRma())."',
+                        '".$this->helper('\Magento\Rma\Helper\Data')->getPackagePopupUrlByRmaModel($this->getRma())."',
                         'package',
                         'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
             ))
@@ -336,9 +338,9 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
     public function getPrintShippingLabelButton()
     {
         return $this->getLayout()
-            ->createBlock('Magento_Core_Block_Html_Link')
+            ->createBlock('\Magento\Core\Block\Html\Link')
             ->setData(array(
-                'href'      => $this->helper('Magento_Rma_Helper_Data')->getPackagePopupUrlByRmaModel(
+                'href'      => $this->helper('\Magento\Rma\Helper\Data')->getPackagePopupUrlByRmaModel(
                     $this->getRma(),
                     'printlabel'
                 ),
@@ -355,7 +357,7 @@ class Magento_Rma_Block_Return_View extends Magento_Rma_Block_Form
      */
     public function getCarriers()
     {
-        return Mage::helper('Magento_Rma_Helper_Data')->getShippingCarriers($this->getRma()->getStoreId());
+        return \Mage::helper('Magento\Rma\Helper\Data')->getShippingCarriers($this->getRma()->getStoreId());
     }
 
     /**

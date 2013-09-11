@@ -12,9 +12,11 @@
  * Block that renders VDE tools panel
  *
  * @method string getMode()
- * @method Magento_DesignEditor_Block_Adminhtml_Editor_Tools setMode($mode)
+ * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Tools setMode($mode)
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools extends Magento_Backend_Block_Template
+namespace Magento\DesignEditor\Block\Adminhtml\Editor;
+
+class Tools extends \Magento\Backend\Block\Template
 {
     /**
      * Alias of tab handle block in layout
@@ -22,20 +24,20 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools extends Magento_Backend_
     const TAB_HANDLE_BLOCK_ALIAS = 'tab_handle';
 
     /**
-     * @var Magento_DesignEditor_Model_Theme_Context
+     * @var \Magento\DesignEditor\Model\Theme\Context
      */
     protected $_themeContext;
 
     /**
      * Initialize dependencies
      *
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_DesignEditor_Model_Theme_Context $themeContext
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_DesignEditor_Model_Theme_Context $themeContext,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\DesignEditor\Model\Theme\Context $themeContext,
         array $data = array()
     ) {
         $this->_themeContext = $themeContext;
@@ -106,7 +108,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools extends Magento_Backend_
      */
     public function getTabHandles()
     {
-        /** @var $tabHandleBlock Magento_Backend_Block_Template */
+        /** @var $tabHandleBlock \Magento\Backend\Block\Template */
         $tabHandleBlock = $this->getChildBlock(self::TAB_HANDLE_BLOCK_ALIAS);
         $handles = array();
         foreach ($this->getTabs() as $tab) {

@@ -8,20 +8,22 @@
  * @license     {license_link}
  */
 
-class Magento_Rma_Block_Return_Returns extends Magento_Core_Block_Template
+namespace Magento\Rma\Block\Return;
+
+class Returns extends \Magento\Core\Block\Template
 {
     public function _construct()
     {
         parent::_construct();
-        if (Mage::helper('Magento_Rma_Helper_Data')->isEnabled()) {
+        if (\Mage::helper('Magento\Rma\Helper\Data')->isEnabled()) {
             $this->setTemplate('return/returns.phtml');
 
-            $returns = Mage::getResourceModel('Magento_Rma_Model_Resource_Rma_Grid_Collection')
+            $returns = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Rma\Grid\Collection')
                 ->addFieldToSelect('*')
-                ->addFieldToFilter('order_id', Mage::registry('current_order')->getId())
+                ->addFieldToFilter('order_id', \Mage::registry('current_order')->getId())
                 ->setOrder('date_requested', 'desc');
 
-            $customerSession = Mage::getSingleton('Magento_Customer_Model_Session');
+            $customerSession = \Mage::getSingleton('Magento\Customer\Model\Session');
             if ($customerSession->isLoggedIn()) {
                 $returns->addFieldToFilter('customer_id', $customerSession->getCustomer()->getId());
             }
@@ -35,7 +37,7 @@ class Magento_Rma_Block_Return_Returns extends Magento_Core_Block_Template
         parent::_prepareLayout();
 
         $pager = $this->getLayout()
-            ->createBlock('Magento_Page_Block_Html_Pager', 'sales.order.history.pager')
+            ->createBlock('\Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
             ->setCollection($this->getReturns());
         $this->setChild('pager', $pager);
         $this->getReturns()->load();

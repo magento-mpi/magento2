@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\Adminhtml\Block\Customer\Edit\Renderer\Attribute;
+
+class Group
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
     protected $_template = 'customer/edit/tab/account/form/renderer/group.phtml';
 
@@ -47,9 +49,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Renderer_Attribute_Group
      */
     public function getDisableAutoGroupChangeCheckboxState()
     {
-        $customer = Mage::registry('current_customer');
+        $customer = \Mage::registry('current_customer');
         $checkedByDefault = ($customer && $customer->getId())
-            ? false : Mage::helper('Magento_Customer_Helper_Address')->getDisableAutoGroupAssignDefaultValue();
+            ? false : \Mage::helper('Magento\Customer\Helper\Address')->getDisableAutoGroupAssignDefaultValue();
 
         $value = $this->getDisableAutoGroupChangeAttributeValue();
         $state = '';

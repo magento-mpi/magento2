@@ -9,26 +9,28 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webhook_Model_Observer
+namespace Magento\Webhook\Model;
+
+class Observer
 {
-    /** @var Magento_Webhook_Model_Webapi_EventHandler $_webapiEventHandler */
+    /** @var \Magento\Webhook\Model\Webapi\EventHandler $_webapiEventHandler */
     private $_webapiEventHandler;
 
-    /** @var  Magento_Webhook_Model_Resource_Subscription_Collection $_subscriptionSet */
+    /** @var  \Magento\Webhook\Model\Resource\Subscription\Collection $_subscriptionSet */
     private $_subscriptionSet;
 
-    /** @var Magento_Core_Model_Logger */
+    /** @var \Magento\Core\Model\Logger */
     private $_logger;
 
     /**
-     * @param Magento_Webhook_Model_Webapi_EventHandler                        $webapiEventHandler
-     * @param Magento_Webhook_Model_Resource_Subscription_Collection           $subscriptionSet
-     * @param Magento_Core_Model_Logger                                        $logger
+     * @param \Magento\Webhook\Model\Webapi\EventHandler                        $webapiEventHandler
+     * @param \Magento\Webhook\Model\Resource\Subscription\Collection           $subscriptionSet
+     * @param \Magento\Core\Model\Logger                                        $logger
      */
     public function __construct(
-        Magento_Webhook_Model_Webapi_EventHandler $webapiEventHandler,
-        Magento_Webhook_Model_Resource_Subscription_Collection $subscriptionSet,
-        Magento_Core_Model_Logger $logger
+        \Magento\Webhook\Model\Webapi\EventHandler $webapiEventHandler,
+        \Magento\Webhook\Model\Resource\Subscription\Collection $subscriptionSet,
+        \Magento\Core\Model\Logger $logger
     ) {
         $this->_webapiEventHandler = $webapiEventHandler;
         $this->_subscriptionSet = $subscriptionSet;
@@ -43,12 +45,12 @@ class Magento_Webhook_Model_Observer
     {
         try {
             $subscriptions = $this->_subscriptionSet->getActivatedSubscriptionsWithoutApiUser();
-            /** @var Magento_Webhook_Model_Subscription $subscription */
+            /** @var \Magento\Webhook\Model\Subscription $subscription */
             foreach ($subscriptions as $subscription) {
-                $subscription->setStatus(Magento_Webhook_Model_Subscription::STATUS_INACTIVE)
+                $subscription->setStatus(\Magento\Webhook\Model\Subscription::STATUS_INACTIVE)
                     ->save();
             }
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $this->_logger->logException($exception);
         }
     }
@@ -64,7 +66,7 @@ class Magento_Webhook_Model_Observer
             $model = $observer->getEvent()->getObject();
 
             $this->_webapiEventHandler->userChanged($model);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $this->_logger->logException($exception);
         }
     }
@@ -80,7 +82,7 @@ class Magento_Webhook_Model_Observer
             $model = $observer->getEvent()->getObject();
 
             $this->_webapiEventHandler->roleChanged($model);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $this->_logger->logException($exception);
         }
     }

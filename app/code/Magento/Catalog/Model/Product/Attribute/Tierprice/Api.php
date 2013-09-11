@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Product_Attribute_Tierprice_Api extends Magento_Catalog_Model_Api_Resource
+namespace Magento\Catalog\Model\Product\Attribute\Tierprice;
+
+class Api extends \Magento\Catalog\Model\Api\Resource
 {
     const ATTRIBUTE_CODE = 'tier_price';
 
@@ -39,7 +41,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api extends Magento_Cata
             $row = array();
             $row['customer_group_id'] = (empty($tierPrice['all_groups']) ? $tierPrice['cust_group'] : 'all' );
             $row['website']           = ($tierPrice['website_id'] ?
-                            Mage::app()->getWebsite($tierPrice['website_id'])->getCode() :
+                            \Mage::app()->getWebsite($tierPrice['website_id'])->getCode() :
                             'all'
                     );
             $row['qty']               = $tierPrice['price_qty'];
@@ -71,7 +73,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api extends Magento_Cata
         try {
             /**
              * @todo implement full validation process with errors returning which are ignoring now
-             * @todo see Magento_Catalog_Model_Product::validate()
+             * @todo see \Magento\Catalog\Model\Product::validate()
              */
             if (is_array($errors = $product->validate())) {
                 $strErrors = array();
@@ -82,9 +84,9 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api extends Magento_Cata
             }
 
             $product->save();
-        } catch (Magento_Api_Exception $e) {
+        } catch (\Magento\Api\Exception $e) {
             throw $e;
-        }catch (Magento_Core_Exception $e) {
+        }catch (\Magento\Core\Exception $e) {
             $this->_fault('not_updated', $e->getMessage());
         }
 
@@ -94,7 +96,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api extends Magento_Cata
     /**
      *  Prepare tier prices for save
      *
-     *  @param      Magento_Catalog_Model_Product $product
+     *  @param      \Magento\Catalog\Model\Product $product
      *  @param      array $tierPrices
      *  @return     array
      */
@@ -121,8 +123,8 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api extends Magento_Cata
                 $tierPrice['website'] = 0;
             } else {
                 try {
-                    $tierPrice['website'] = Mage::app()->getWebsite($tierPrice['website'])->getId();
-                } catch (Magento_Core_Exception $e) {
+                    $tierPrice['website'] = \Mage::app()->getWebsite($tierPrice['website'])->getId();
+                } catch (\Magento\Core\Exception $e) {
                     $tierPrice['website'] = 0;
                 }
             }
@@ -136,7 +138,7 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api extends Magento_Cata
             }
 
             if ($tierPrice['customer_group_id'] == 'all') {
-                $tierPrice['customer_group_id'] = Magento_Customer_Model_Group::CUST_GROUP_ALL;
+                $tierPrice['customer_group_id'] = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
             }
 
             $updateValue[] = array(
@@ -155,11 +157,11 @@ class Magento_Catalog_Model_Product_Attribute_Tierprice_Api extends Magento_Cata
      *
      * @param int $productId
      * @param  string $identifierType
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     protected function _initProduct($productId, $identifierType = null)
     {
-        $product = Mage::helper('Magento_Catalog_Helper_Product')->getProduct($productId, $this->_getStoreId(), $identifierType);
+        $product = \Mage::helper('Magento\Catalog\Helper\Product')->getProduct($productId, $this->_getStoreId(), $identifierType);
         if (!$product->getId()) {
             $this->_fault('product_not_exists');
         }

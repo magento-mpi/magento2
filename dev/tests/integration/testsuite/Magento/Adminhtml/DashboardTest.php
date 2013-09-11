@@ -13,7 +13,7 @@ class Magento_Adminhtml_DashboardTest extends Magento_Backend_Utility_Controller
 {
     public function testTunnelAction()
     {
-        $testUrl = Magento_Adminhtml_Block_Dashboard_Graph::API_URL . '?cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World';
+        $testUrl = \Magento\Adminhtml\Block\Dashboard\Graph::API_URL . '?cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World';
         $handle = curl_init();
         curl_setopt($handle, CURLOPT_URL, $testUrl);
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
@@ -40,8 +40,8 @@ class Magento_Adminhtml_DashboardTest extends Magento_Backend_Utility_Controller
         );
         $gaFixture = urlencode(base64_encode(json_encode($gaData)));
 
-        /** @var $helper Magento_Adminhtml_Helper_Dashboard_Data */
-        $helper = Mage::helper('Magento_Adminhtml_Helper_Dashboard_Data') ;
+        /** @var $helper \Magento\Adminhtml\Helper\Dashboard\Data */
+        $helper = Mage::helper('Magento\Adminhtml\Helper\Dashboard\Data') ;
         $hash = $helper->getChartDataHash($gaFixture);
         $this->getRequest()->setParam('ga', $gaFixture)->setParam('h', $hash);
         $this->dispatch('backend/admin/dashboard/tunnel');

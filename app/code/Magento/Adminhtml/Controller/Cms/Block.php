@@ -16,12 +16,14 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\Cms;
+
+class Block extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Init actions
      *
-     * @return Magento_Adminhtml_Controller_Cms_Block
+     * @return \Magento\Adminhtml\Controller\Cms\Block
      */
     protected function _initAction()
     {
@@ -63,13 +65,13 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('block_id');
-        $model = Mage::getModel('Magento_Cms_Model_Block');
+        $model = \Mage::getModel('\Magento\Cms\Model\Block');
 
         // 2. Initial checking
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This block no longer exists.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('This block no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -78,13 +80,13 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
         $this->_title($model->getId() ? $model->getTitle() : __('New Block'));
 
         // 3. Set entered data if was error when we do save
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getFormData(true);
+        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
 
         // 4. Register model to use later in blocks
-        Mage::register('cms_block', $model);
+        \Mage::register('cms_block', $model);
 
         // 5. Build edit form
         $this->_initAction()
@@ -101,9 +103,9 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
         if ($data = $this->getRequest()->getPost()) {
 
             $id = $this->getRequest()->getParam('block_id');
-            $model = Mage::getModel('Magento_Cms_Model_Block')->load($id);
+            $model = \Mage::getModel('\Magento\Cms\Model\Block')->load($id);
             if (!$model->getId() && $id) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This block no longer exists.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('This block no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -117,9 +119,9 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
                 // save the data
                 $model->save();
                 // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The block has been saved.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The block has been saved.'));
                 // clear previously saved data from session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData(false);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData(false);
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
@@ -130,11 +132,11 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // display error message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 // save data in session
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->setFormData($data);
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('*/*/edit', array('block_id' => $this->getRequest()->getParam('block_id')));
                 return;
@@ -153,26 +155,26 @@ class Magento_Adminhtml_Controller_Cms_Block extends Magento_Adminhtml_Controlle
             $title = "";
             try {
                 // init model and delete
-                $model = Mage::getModel('Magento_Cms_Model_Block');
+                $model = \Mage::getModel('\Magento\Cms\Model\Block');
                 $model->load($id);
                 $title = $model->getTitle();
                 $model->delete();
                 // display success message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('The block has been deleted.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('The block has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // display error message
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('block_id' => $id));
                 return;
             }
         }
         // display error message
-        Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('We can\'t find a block to delete.'));
+        \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a block to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }

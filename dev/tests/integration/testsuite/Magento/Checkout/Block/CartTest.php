@@ -10,19 +10,19 @@
  */
 
 /**
- * Test class for Magento_Checkout_Block_Cart
+ * Test class for \Magento\Checkout\Block\Cart
  */
 class Magento_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
 {
     public function testGetMethods()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        $child = $layout->createBlock('Magento_Core_Block_Text')
-            ->setChild('child1', $layout->createBlock('Magento_Core_Block_Text', 'method1'))
-            ->setChild('child2', $layout->createBlock('Magento_Core_Block_Text', 'method2'));
-        /** @var $block Magento_Checkout_Block_Cart */
-        $block = $layout->createBlock('Magento_Checkout_Block_Cart')
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $child = $layout->createBlock('\Magento\Core\Block\Text')
+            ->setChild('child1', $layout->createBlock('\Magento\Core\Block\Text', 'method1'))
+            ->setChild('child2', $layout->createBlock('\Magento\Core\Block\Text', 'method2'));
+        /** @var $block \Magento\Checkout\Block\Cart */
+        $block = $layout->createBlock('\Magento\Checkout\Block\Cart')
             ->setChild('child', $child);
         $methods = $block->getMethods('child');
         $this->assertEquals(array('method1', 'method2'), $methods);
@@ -30,11 +30,11 @@ class Magento_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
 
     public function testGetMethodsEmptyChild()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        $childEmpty = $layout->createBlock('Magento_Core_Block_Text');
-        /** @var $block Magento_Checkout_Block_Cart */
-        $block = $layout->createBlock('Magento_Checkout_Block_Cart')
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        $childEmpty = $layout->createBlock('\Magento\Core\Block\Text');
+        /** @var $block \Magento\Checkout\Block\Cart */
+        $block = $layout->createBlock('\Magento\Checkout\Block\Cart')
             ->setChild('child', $childEmpty);
         $methods = $block->getMethods('child');
         $this->assertEquals(array(), $methods);
@@ -42,10 +42,10 @@ class Magento_Checkout_Block_CartTest extends PHPUnit_Framework_TestCase
 
     public function testGetMethodsNoChild()
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        /** @var $block Magento_Checkout_Block_Cart */
-        $block = $layout->createBlock('Magento_Checkout_Block_Cart');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        /** @var $block \Magento\Checkout\Block\Cart */
+        $block = $layout->createBlock('\Magento\Checkout\Block\Cart');
         $methods = $block->getMethods('child');
         $this->assertEquals(array(), $methods);
     }

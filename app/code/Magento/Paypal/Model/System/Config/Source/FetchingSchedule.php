@@ -11,7 +11,9 @@
 /**
  * Source model for available settlement report fetching intervals
  */
-class Magento_Paypal_Model_System_Config_Source_FetchingSchedule
+namespace Magento\Paypal\Model\System\Config\Source;
+
+class FetchingSchedule
 {
     public function toOptionArray()
     {

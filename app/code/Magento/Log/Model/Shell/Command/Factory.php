@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Log_Model_Shell_Command_Factory
+namespace Magento\Log\Model\Shell\Command;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -24,20 +26,20 @@ class Magento_Log_Model_Shell_Command_Factory
      * Create clean command
      *
      * @param int $days
-     * @return Magento_Log_Model_Shell_CommandInterface
+     * @return \Magento\Log\Model\Shell\CommandInterface
      */
     public function createCleanCommand($days)
     {
-        return $this->_objectManager->create('Magento_Log_Model_Shell_Command_Clean', array('days' => $days));
+        return $this->_objectManager->create('Magento\Log\Model\Shell\Command\Clean', array('days' => $days));
     }
 
     /**
      * Create status command
      *
-     * @return Magento_Log_Model_Shell_CommandInterface
+     * @return \Magento\Log\Model\Shell\CommandInterface
      */
     public function createStatusCommand()
     {
-        return $this->_objectManager->create('Magento_Log_Model_Shell_Command_Status');
+        return $this->_objectManager->create('Magento\Log\Model\Shell\Command\Status');
     }
 }

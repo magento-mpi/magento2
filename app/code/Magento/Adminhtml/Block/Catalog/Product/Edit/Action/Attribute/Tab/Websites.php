@@ -15,21 +15,23 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Websites
-    extends Magento_Adminhtml_Block_Widget
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Action\Attribute\Tab;
+
+class Websites
+    extends \Magento\Adminhtml\Block\Widget
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     public function getWebsiteCollection()
     {
-        return Mage::app()->getWebsites();
+        return \Mage::app()->getWebsites();
     }
 
-    public function getGroupCollection(Magento_Core_Model_Website $website)
+    public function getGroupCollection(\Magento\Core\Model\Website $website)
     {
         return $website->getGroups();
     }
 
-    public function getStoreCollection(Magento_Core_Model_Store_Group $group)
+    public function getStoreCollection(\Magento\Core\Model\Store\Group $group)
     {
         return $group->getStores();
     }

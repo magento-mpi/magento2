@@ -102,7 +102,7 @@ function is_empty_date($date)
  * @param string $errorFile
  * @param integer $errorLine
  * @return bool
- * @throws Exception
+ * @throws \Exception
  */
 function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
 {
@@ -197,10 +197,10 @@ function mageCoreErrorHandler($errorNo, $errorStr, $errorFile, $errorLine)
     }
 
     $errorMessage .= ": {$errorStr}  in {$errorFile} on line {$errorLine}";
-    if (Mage::getIsDeveloperMode()) {
-        throw new Exception($errorMessage);
+    if (\Mage::getIsDeveloperMode()) {
+        throw new \Exception($errorMessage);
     } else {
-        Mage::log($errorMessage, Zend_Log::ERR);
+        \Mage::log($errorMessage, \Zend_Log::ERR);
     }
 }
 

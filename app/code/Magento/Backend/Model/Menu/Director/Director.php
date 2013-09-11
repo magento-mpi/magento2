@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Backend_Model_Menu_Director_Director extends Magento_Backend_Model_Menu_DirectorAbstract
+namespace Magento\Backend\Model\Menu\Director;
+
+class Director extends \Magento\Backend\Model\Menu\DirectorAbstract
 {
     /**
      * Log message patterns
@@ -21,15 +23,15 @@ class Magento_Backend_Model_Menu_Director_Director extends Magento_Backend_Model
      * Get command object
      *
      * @param array $data command params
-     * @param Magento_Core_Model_Logger $logger
-     * @return Magento_Backend_Model_Menu_Builder_CommandAbstract
+     * @param \Magento\Core\Model\Logger $logger
+     * @return \Magento\Backend\Model\Menu\Builder\CommandAbstract
      */
     protected function _getCommand($data, $logger)
     {
         $command = $this->_commandFactory->create($data['type'], array('data' => $data));
         if (isset($this->_messagePatterns[$data['type']])) {
             $logger->logDebug(sprintf($this->_messagePatterns[$data['type']], $command->getId()),
-                Magento_Backend_Model_Menu::LOGGER_KEY
+                \Magento\Backend\Model\Menu::LOGGER_KEY
             );
         }
         return $command;
@@ -39,13 +41,13 @@ class Magento_Backend_Model_Menu_Director_Director extends Magento_Backend_Model
      * Build menu instance
      *
      * @param array $config
-     * @param Magento_Backend_Model_Menu_Builder $builder
-     * @param Magento_Core_Model_Logger $logger
+     * @param \Magento\Backend\Model\Menu\Builder $builder
+     * @param \Magento\Core\Model\Logger $logger
      */
     public function direct(
         array $config,
-        Magento_Backend_Model_Menu_Builder $builder,
-        Magento_Core_Model_Logger $logger
+        \Magento\Backend\Model\Menu\Builder $builder,
+        \Magento\Core\Model\Logger $logger
     ) {
         foreach ($config as $data) {
             $builder->processCommand($this->_getCommand($data, $logger));

@@ -8,20 +8,20 @@
  */
 -->
 <config>
-    <type name="Magento_User_Model_User" shared="false" />
-    <type name="Magento_User_Model_Role" shared="false" />
-    <type name="Magento_User_Model_Resource_Rules">
+    <type name="Magento\User\Model\User" shared="false" />
+    <type name="Magento\User\Model\Role" shared="false" />
+    <type name="Magento\User\Model\Resource\Rules">
         <param name="rootResource">
-            <instance type="Magento_Core_Model_Acl_RootResource_Proxy" />
+            <instance type="Magento\Core\Model\Acl\RootResource\Proxy" />
         </param>
         <param name="aclCache">
-            <instance type="Magento_Core_Model_Acl_Cache_Proxy" />
+            <instance type="Magento\Core\Model\Acl\Cache\Proxy" />
         </param>
     </type>
-    <type name="Magento_User_Model_Resource_User">
+    <type name="Magento\User\Model\Resource\User">
         <param name="aclCache">
-            <instance type="Magento_Core_Model_Acl_Cache_Proxy" />
+            <instance type="Magento\Core\Model\Acl\Cache\Proxy" />
         </param>
     </type>
-    <preference for="Magento_Backend_Model_Auth_Credential_StorageInterface" type="Magento_User_Model_User" />
+    <preference for="Magento\Backend\Model\Auth\Credential\StorageInterface" type="Magento\User\Model\User" />
 </config>

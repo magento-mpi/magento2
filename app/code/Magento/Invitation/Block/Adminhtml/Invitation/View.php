@@ -14,12 +14,14 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Invitation_View extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\Invitation\Block\Adminhtml\Invitation;
+
+class View extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Set header text, add some buttons
      *
-     * @return Magento_Invitation_Block_Adminhtml_Invitation_View
+     * @return \Magento\Invitation\Block\Adminhtml\Invitation\View
      */
     protected function _prepareLayout()
     {
@@ -65,11 +67,11 @@ class Magento_Invitation_Block_Adminhtml_Invitation_View extends Magento_Adminht
     /**
      * Return Invitation for view
      *
-     * @return Magento_Invitation_Model_Invitation
+     * @return \Magento\Invitation\Model\Invitation
      */
     public function getInvitation()
     {
-        return Mage::registry('current_invitation');
+        return \Mage::registry('current_invitation');
     }
 
     /**

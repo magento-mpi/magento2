@@ -16,6 +16,8 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Messages extends Magento_Core_Block_Messages
+namespace Magento\Adminhtml\Block;
+
+class Messages extends \Magento\Core\Block\Messages
 {
 }

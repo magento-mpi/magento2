@@ -16,17 +16,19 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Onepage_Payment_Methods extends Magento_Payment_Block_Form_Container
+namespace Magento\Checkout\Block\Onepage\Payment;
+
+class Methods extends \Magento\Payment\Block\Form\Container
 {
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     /**
      * Check payment method model
      *
-     * @param Magento_Payment_Model_Method_Abstract|null
+     * @param \Magento\Payment\Model\Method\AbstractMethod|null
      * @return bool
      */
     protected function _canUseMethod($method)
@@ -49,9 +51,9 @@ class Magento_Checkout_Block_Onepage_Payment_Methods extends Magento_Payment_Blo
 
     /**
      * Payment method form html getter
-     * @param Magento_Payment_Model_Method_Abstract $method
+     * @param \Magento\Payment\Model\Method\AbstractMethod $method
      */
-    public function getPaymentMethodFormHtml(Magento_Payment_Model_Method_Abstract $method)
+    public function getPaymentMethodFormHtml(\Magento\Payment\Model\Method\AbstractMethod $method)
     {
          return $this->getChildHtml('payment.method.' . $method->getCode());
     }
@@ -59,9 +61,9 @@ class Magento_Checkout_Block_Onepage_Payment_Methods extends Magento_Payment_Blo
     /**
      * Return method title for payment selection page
      *
-     * @param Magento_Payment_Model_Method_Abstract $method
+     * @param \Magento\Payment\Model\Method\AbstractMethod $method
      */
-    public function getMethodTitle(Magento_Payment_Model_Method_Abstract $method)
+    public function getMethodTitle(\Magento\Payment\Model\Method\AbstractMethod $method)
     {
         $form = $this->getChildBlock('payment.method.' . $method->getCode());
         if ($form && $form->hasMethodTitle()) {
@@ -72,9 +74,9 @@ class Magento_Checkout_Block_Onepage_Payment_Methods extends Magento_Payment_Blo
 
     /**
      * Payment method additional label part getter
-     * @param Magento_Payment_Model_Method_Abstract $method
+     * @param \Magento\Payment\Model\Method\AbstractMethod $method
      */
-    public function getMethodLabelAfterHtml(Magento_Payment_Model_Method_Abstract $method)
+    public function getMethodLabelAfterHtml(\Magento\Payment\Model\Method\AbstractMethod $method)
     {
         if ($form = $this->getChildBlock('payment.method.' . $method->getCode())) {
             return $form->getMethodLabelAfterHtml();

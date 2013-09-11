@@ -12,13 +12,13 @@
 /**
  * Dummy layout argument updater model
  */
-class Magento_Core_Model_LayoutArgumentObjectUpdater implements Magento_Core_Model_Layout_Argument_UpdaterInterface
+class Magento_Core_Model_LayoutArgumentObjectUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
      * Update specified argument
      *
-     * @param Magento_Core_Block_Text $argument
-     * @return Magento_Core_Block_Text
+     * @param \Magento\Core\Block\Text $argument
+     * @return \Magento\Core\Block\Text
      */
     public function update($argument)
     {

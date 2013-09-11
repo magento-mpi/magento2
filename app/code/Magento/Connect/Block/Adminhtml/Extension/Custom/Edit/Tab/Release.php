@@ -15,13 +15,15 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
-    extends Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Abstract
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Release
+    extends \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\AbstractTab
 {
     /**
      * Prepare Release Info Form before rendering HTML
      *
-     * @return Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
+     * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Release
      */
     protected function _prepareForm()
     {
@@ -34,7 +36,7 @@ class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Release
             'legend'    => __('Release')
         ));
 
-        $stabilityOptions = Mage::getModel('Magento_Connect_Model_Extension')->getStabilityOptions();
+        $stabilityOptions = \Mage::getModel('\Magento\Connect\Model\Extension')->getStabilityOptions();
         $fieldset->addField('version', 'text', array(
             'name'      => 'version',
             'label'     => __('Release Version'),

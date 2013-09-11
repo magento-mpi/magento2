@@ -15,7 +15,9 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Checkout_Block_Multishipping_Link extends Magento_Core_Block_Template
+namespace Magento\Checkout\Block\Multishipping;
+
+class Link extends \Magento\Core\Block\Template
 {
     public function getCheckoutUrl()
     {
@@ -24,12 +26,12 @@ class Magento_Checkout_Block_Multishipping_Link extends Magento_Core_Block_Templ
 
     public function getQuote()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        return \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
     }
 
     public function _toHtml()
     {
-        if (!Mage::helper('Magento_Checkout_Helper_Data')->isMultishippingCheckoutAvailable()){
+        if (!\Mage::helper('Magento\Checkout\Helper\Data')->isMultishippingCheckoutAvailable()){
             return '';
         }
 

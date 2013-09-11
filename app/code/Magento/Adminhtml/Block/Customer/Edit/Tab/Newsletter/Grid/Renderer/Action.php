@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer;
+
+class Action extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
 
     public function render(\Magento\Object $row)
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action 
                 'href'  => $this->getUrl('*/newsletter_template/preview',
                     array(
                         'id'        => $row->getTemplateId(),
-                        'subscriber'=> Mage::registry('subscriber')->getId()
+                        'subscriber'=> \Mage::registry('subscriber')->getId()
                     )
                                 ),
                 'target'=>	'_blank'

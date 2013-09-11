@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Tax\Rule\Edit;
+
+class Form extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Init class
@@ -33,11 +35,11 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
 
     /**
      *
-     * return Magento_Adminhtml_Block_Widget_Form
+     * return \Magento\Adminhtml\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $model  = Mage::registry('tax_rule');
+        $model  = \Mage::registry('tax_rule');
         $form   = new \Magento\Data\Form(array(
             'id'        => 'edit_form',
             'action'    => $this->getData('action'),
@@ -48,7 +50,7 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
             'legend' => __('Tax Rule Information')
         ));
 
-        $rates = Mage::getModel('Magento_Tax_Model_Calculation_Rate')
+        $rates = \Mage::getModel('\Magento\Tax\Model\Calculation\Rate')
             ->getCollection()
             ->toOptionArray();
 
@@ -62,17 +64,17 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
         );
 
         // Editable multiselect for customer tax class
-        $selectConfig = $this->getTaxClassSelectConfig(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER);
+        $selectConfig = $this->getTaxClassSelectConfig(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER);
         $selectedCustomerTax = $model->getId()
             ? $model->getCustomerTaxClasses()
             : $model->getCustomerTaxClassWithDefault();
-        $fieldset->addField($this->getTaxClassSelectHtmlId(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
+        $fieldset->addField($this->getTaxClassSelectHtmlId(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER),
             'editablemultiselect',
             array(
-                'name' => $this->getTaxClassSelectHtmlId(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
+                'name' => $this->getTaxClassSelectHtmlId(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER),
                 'label' => __('Customer Tax Class'),
                 'class' => 'required-entry',
-                'values' => $model->getAllOptionsForClass(Magento_Tax_Model_Class::TAX_CLASS_TYPE_CUSTOMER),
+                'values' => $model->getAllOptionsForClass(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER),
                 'value' => $selectedCustomerTax,
                 'required' => true,
                 'select_config' => $selectConfig,
@@ -82,17 +84,17 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
         );
 
         // Editable multiselect for product tax class
-        $selectConfig = $this->getTaxClassSelectConfig(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT);
+        $selectConfig = $this->getTaxClassSelectConfig(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT);
         $selectedProductTax = $model->getId()
             ? $model->getProductTaxClasses()
             : $model->getProductTaxClassWithDefault();
-        $fieldset->addField($this->getTaxClassSelectHtmlId(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT),
+        $fieldset->addField($this->getTaxClassSelectHtmlId(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT),
             'editablemultiselect',
             array(
-                'name' => $this->getTaxClassSelectHtmlId(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT),
+                'name' => $this->getTaxClassSelectHtmlId(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT),
                 'label' => __('Product Tax Class'),
                 'class' => 'required-entry',
-                'values' => $model->getAllOptionsForClass(Magento_Tax_Model_Class::TAX_CLASS_TYPE_PRODUCT),
+                'values' => $model->getAllOptionsForClass(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT),
                 'value' => $selectedProductTax,
                 'required' => true,
                 'select_config' => $selectConfig
@@ -186,7 +188,7 @@ class Magento_Adminhtml_Block_Tax_Rule_Edit_Form extends Magento_Backend_Block_W
             'add_button_caption' => __('Add New Tax Class'),
             'submit_data' => array(
                 'class_type' => $classType,
-                'form_key' => Mage::getSingleton('Magento_Core_Model_Session')->getFormKey(),
+                'form_key' => \Mage::getSingleton('Magento\Core\Model\Session')->getFormKey(),
             ),
             'entity_id_name' => 'class_id',
             'entity_value_name' => 'class_name',

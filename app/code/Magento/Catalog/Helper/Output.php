@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
+namespace Magento\Catalog\Helper;
+
+class Output extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Array of existing handlers
@@ -25,18 +27,18 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
     protected $_templateProcessor = null;
 
     /**
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Helper\Context $context
      */
-    public function __construct(Magento_Core_Helper_Context $context)
+    public function __construct(\Magento\Core\Helper\Context $context)
     {
         parent::__construct($context);
-        Mage::dispatchEvent('catalog_helper_output_construct', array('helper'=>$this));
+        \Mage::dispatchEvent('catalog_helper_output_construct', array('helper'=>$this));
     }
 
     protected function _getTemplateProcessor()
     {
         if (null === $this->_templateProcessor) {
-            $this->_templateProcessor = Mage::helper('Magento_Catalog_Helper_Data')->getPageTemplateProcessor();
+            $this->_templateProcessor = \Mage::helper('Magento\Catalog\Helper\Data')->getPageTemplateProcessor();
         }
 
         return $this->_templateProcessor;
@@ -47,7 +49,7 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
      *
      * @param   string $method
      * @param   object $handler
-     * @return  Magento_Catalog_Helper_Output
+     * @return  \Magento\Catalog\Helper\Output
      */
     public function addHandler($method, $handler)
     {
@@ -97,14 +99,14 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
     /**
      * Prepare product attribute html output
      *
-     * @param   Magento_Catalog_Model_Product $product
+     * @param   \Magento\Catalog\Model\Product $product
      * @param   string $attributeHtml
      * @param   string $attributeName
      * @return  string
      */
     public function productAttribute($product, $attributeHtml, $attributeName)
     {
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Product::ENTITY, $attributeName);
+        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $attributeName);
         if ($attribute && $attribute->getId() && ($attribute->getFrontendInput() != 'media_image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
                 if ($attribute->getFrontendInput() != 'price') {
@@ -115,7 +117,7 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
                 }
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
-            if (Mage::helper('Magento_Catalog_Helper_Data')->isUrlDirectivesParsingAllowed()) {
+            if (\Mage::helper('Magento\Catalog\Helper\Data')->isUrlDirectivesParsingAllowed()) {
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }
@@ -131,21 +133,21 @@ class Magento_Catalog_Helper_Output extends Magento_Core_Helper_Abstract
     /**
      * Prepare category attribute html output
      *
-     * @param   Magento_Catalog_Model_Category $category
+     * @param   \Magento\Catalog\Model\Category $category
      * @param   string $attributeHtml
      * @param   string $attributeName
      * @return  string
      */
     public function categoryAttribute($category, $attributeHtml, $attributeName)
     {
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute(Magento_Catalog_Model_Category::ENTITY, $attributeName);
+        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute(\Magento\Catalog\Model\Category::ENTITY, $attributeName);
 
         if ($attribute && ($attribute->getFrontendInput() != 'image')
             && (!$attribute->getIsHtmlAllowedOnFront() && !$attribute->getIsWysiwygEnabled())) {
             $attributeHtml = $this->escapeHtml($attributeHtml);
         }
         if ($attribute->getIsHtmlAllowedOnFront() && $attribute->getIsWysiwygEnabled()) {
-            if (Mage::helper('Magento_Catalog_Helper_Data')->isUrlDirectivesParsingAllowed()) {
+            if (\Mage::helper('Magento\Catalog\Helper\Data')->isUrlDirectivesParsingAllowed()) {
                 $attributeHtml = $this->_getTemplateProcessor()->filter($attributeHtml);
             }
         }

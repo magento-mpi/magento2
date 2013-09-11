@@ -96,7 +96,7 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
             $layoutXml->xpath(
                 '//*[' . $selectorHeadBlock . ']/action[@method="addItem"]'
             ),
-            'Magento_Page_Block_Html_Head::addItem is obsolete. Use addCss()/addJs() instead.'
+            '\Magento\Page\Block\Html\Head::addItem is obsolete. Use addCss()/addJs() instead.'
         );
         $this->assertSame(array(),
             $layoutXml->xpath(
@@ -116,13 +116,13 @@ class Magento_Test_Legacy_LayoutTest extends PHPUnit_Framework_TestCase
         }
 
         if (false !== strpos($layoutFile, 'app/code/Magento/Adminhtml/view/adminhtml/layout/adminhtml_sales_order')) {
-            $this->markTestIncomplete("The file {$layoutFile} has to use Magento_Core_Block_Text_List, \n"
+            $this->markTestIncomplete("The file {$layoutFile} has to use \Magento\Core\Block\Text\ListText, \n"
                 . 'there is no solution to get rid of it right now.'
             );
         }
         $this->assertSame(array(),
-            $layoutXml->xpath('/layout//block[@type="Magento_Core_Block_Text_List"]'),
-            'The class Magento_Core_Block_Text_List is not supposed to be used in layout anymore.'
+            $layoutXml->xpath('/layout//block[@type="\Magento\Core\Block\Text\ListText"]'),
+            'The class \Magento\Core\Block\Text\ListText is not supposed to be used in layout anymore.'
         );
     }
 

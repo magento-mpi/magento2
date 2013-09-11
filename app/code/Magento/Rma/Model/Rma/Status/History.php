@@ -15,38 +15,40 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
+namespace Magento\Rma\Model\Rma\Status;
+
+class History extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Initialize resource model
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rma_Model_Resource_Rma_Status_History');
+        $this->_init('\Magento\Rma\Model\Resource\Rma\Status\History');
     }
 
     /**
      * Get store object
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
         if ($this->getOrder()) {
             return $this->getOrder()->getStore();
         }
-        return Mage::app()->getStore();
+        return \Mage::app()->getStore();
     }
 
     /**
      * Get RMA object
      *
-     * @return Magento_Rma_Model_Rma;
+     * @return \Magento\Rma\Model\Rma;
      */
     public function getRma()
     {
         if (!$this->hasData('rma') && $this->getRmaEntityId()) {
-            $rma = Mage::getModel('Magento_Rma_Model_Rma')->load($this->getRmaEntityId());
+            $rma = \Mage::getModel('\Magento\Rma\Model\Rma')->load($this->getRmaEntityId());
             $this->setData('rma', $rma);
         }
         return $this->getData('rma');
@@ -55,12 +57,12 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
     /**
      * Sending email with comment data
      *
-     * @return Magento_Rma_Model_Rma_Status_History
+     * @return \Magento\Rma\Model\Rma\Status\History
      */
     public function sendCommentEmail()
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        /** @var $configRmaEmail \Magento\Rma\Model\Config */
+        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
         $order = $this->getRma()->getOrder();
         if ($order->getCustomerIsGuest()) {
             $customerName = $order->getBillingAddress()->getName();
@@ -80,12 +82,12 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
     /**
      * Sending email to admin with customer's comment data
      *
-     * @return Magento_Rma_Model_Rma_Status_History
+     * @return \Magento\Rma\Model\Rma\Status\History
      */
     public function sendCustomerCommentEmail()
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        /** @var $configRmaEmail \Magento\Rma\Model\Config */
+        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
         $sendTo = array(
             array(
                 'email' => $configRmaEmail->getCustomerEmailRecipient($this->getStoreId()),
@@ -102,12 +104,12 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
      * @param string $rootConfig Current config root
      * @param array $sendTo mail recipient array
      * @param bool $isGuestAvailable
-     * @return Magento_Rma_Model_Rma_Status_History
+     * @return \Magento\Rma\Model\Rma\Status\History
      */
     public function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
     {
-        /** @var $configRmaEmail Magento_Rma_Model_Config */
-        $configRmaEmail = Mage::getSingleton('Magento_Rma_Model_Config');
+        /** @var $configRmaEmail \Magento\Rma\Model\Config */
+        $configRmaEmail = \Mage::getSingleton('Magento\Rma\Model\Config');
         $configRmaEmail->init($rootConfig, $this->getStoreId());
 
         if (!$configRmaEmail->isEnabled()) {
@@ -117,12 +119,12 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
         $order = $this->getRma()->getOrder();
         $comment = $this->getComment();
 
-        $translate = Mage::getSingleton('Magento_Core_Model_Translate');
-        /* @var $translate Magento_Core_Model_Translate */
+        $translate = \Mage::getSingleton('Magento\Core\Model\Translate');
+        /* @var $translate \Magento\Core\Model\Translate */
         $translate->setTranslateInline(false);
 
-        $mailTemplate = Mage::getModel('Magento_Core_Model_Email_Template');
-        /* @var $mailTemplate Magento_Core_Model_Email_Template */
+        $mailTemplate = \Mage::getModel('\Magento\Core\Model\Email\Template');
+        /* @var $mailTemplate \Magento\Core\Model\Email\Template */
         $copyTo = $configRmaEmail->getCopyTo();
         $copyMethod = $configRmaEmail->getCopyMethod();
         if ($copyTo && $copyMethod == 'bcc') {
@@ -148,7 +150,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
 
         foreach ($sendTo as $recipient) {
             $mailTemplate->setDesignConfig(array(
-                'area' => Magento_Core_Model_App_Area::AREA_FRONTEND,
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $this->getStoreId()
             ))
                 ->sendTransactional(
@@ -177,28 +179,28 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
     public function saveSystemComment()
     {
         $systemComments = array(
-            Magento_Rma_Model_Rma_Source_Status::STATE_PENDING =>
+            \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING =>
                 __('We placed your Return request.'),
-            Magento_Rma_Model_Rma_Source_Status::STATE_AUTHORIZED =>
+            \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED =>
                 __('We have authorized your Return request.'),
-            Magento_Rma_Model_Rma_Source_Status::STATE_PARTIAL_AUTHORIZED =>
+            \Magento\Rma\Model\Rma\Source\Status::STATE_PARTIAL_AUTHORIZED =>
                 __('We partially authorized your Return request.'),
-            Magento_Rma_Model_Rma_Source_Status::STATE_RECEIVED =>
+            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED =>
                 __('We received your Return request.'),
-            Magento_Rma_Model_Rma_Source_Status::STATE_RECEIVED_ON_ITEM =>
+            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED_ON_ITEM =>
                 __('We partially received your Return request.'),
-            Magento_Rma_Model_Rma_Source_Status::STATE_APPROVED_ON_ITEM =>
+            \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED_ON_ITEM =>
                 __('We partially approved your Return request.'),
-            Magento_Rma_Model_Rma_Source_Status::STATE_REJECTED_ON_ITEM =>
+            \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED_ON_ITEM =>
                 __('We partially rejected your Return request.'),
-            Magento_Rma_Model_Rma_Source_Status::STATE_CLOSED =>
+            \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED =>
                 __('We closed your Return request.'),
-            Magento_Rma_Model_Rma_Source_Status::STATE_PROCESSED_CLOSED =>
+            \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED =>
                 __('We processed and closed your Return request.'),
         );
 
         $rma = $this->getRma();
-        if (!($rma instanceof Magento_Rma_Model_Rma)) {
+        if (!($rma instanceof \Magento\Rma\Model\Rma)) {
             return;
         }
 
@@ -207,7 +209,7 @@ class Magento_Rma_Model_Rma_Status_History extends Magento_Core_Model_Abstract
                 ->setComment($systemComments[$rma->getStatus()])
                 ->setIsVisibleOnFront(true)
                 ->setStatus($rma->getStatus())
-                ->setCreatedAt(Mage::getSingleton('Magento_Core_Model_Date')->gmtDate())
+                ->setCreatedAt(\Mage::getSingleton('Magento\Core\Model\Date')->gmtDate())
                 ->setIsAdmin(1)
                 ->save();
         }

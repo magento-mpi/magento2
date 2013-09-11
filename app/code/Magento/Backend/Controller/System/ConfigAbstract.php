@@ -15,29 +15,31 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Backend_Controller_System_ConfigAbstract extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\Backend\Controller\System;
+
+abstract class ConfigAbstract extends \Magento\Backend\Controller\ActionAbstract
 {
     /**
-     * @var Magento_Backend_Model_Config_Structure
+     * @var \Magento\Backend\Model\Config\Structure
      */
     protected $_configStructure;
 
     /**
      * Authentication session
      *
-     * @var Magento_Backend_Model_Auth_StorageInterface
+     * @var \Magento\Backend\Model\Auth\StorageInterface
      */
     protected $_authSession;
 
     /**
-     * @param Magento_Backend_Controller_Context $context
-     * @param Magento_Backend_Model_Config_Structure $configStructure
-     * @param Magento_Backend_Model_Auth_StorageInterface $authSession
+     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\Model\Config\Structure $configStructure
+     * @param \Magento\Backend\Model\Auth\StorageInterface $authSession
      */
     public function __construct(
-        Magento_Backend_Controller_Context $context,
-        Magento_Backend_Model_Config_Structure $configStructure,
-        Magento_Backend_Model_Auth_StorageInterface $authSession
+        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\Model\Config\Structure $configStructure,
+        \Magento\Backend\Model\Auth\StorageInterface $authSession
     ) {
         parent::__construct($context);
         $this->_configStructure = $configStructure;
@@ -48,7 +50,7 @@ abstract class Magento_Backend_Controller_System_ConfigAbstract extends Magento_
      * Controller pre-dispatch method
      * Check if current section is found and is allowed
      *
-     * @return Magento_Backend_Controller_ActionAbstract
+     * @return \Magento\Backend\Controller\ActionAbstract
      */
     public function preDispatch()
     {
@@ -80,21 +82,21 @@ abstract class Magento_Backend_Controller_System_ConfigAbstract extends Magento_
      * Will forward to deniedAction(), if not allowed.
      *
      * @param string $sectionId
-     * @throws Exception
+     * @throws \Exception
      * @return bool
      */
     protected function _isSectionAllowed($sectionId)
     {
         try {
             if (false == $this->_configStructure->getElement($sectionId)->isAllowed()) {
-                throw new Exception('');
+                throw new \Exception('');
             }
             return true;
-        } catch (Zend_Acl_Exception $e) {
+        } catch (\Zend_Acl_Exception $e) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->deniedAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return false;

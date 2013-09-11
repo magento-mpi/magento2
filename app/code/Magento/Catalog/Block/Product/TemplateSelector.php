@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_TemplateSelector extends Magento_Core_Block_Template
+namespace Magento\Catalog\Block\Product;
+
+class TemplateSelector extends \Magento\Core\Block\Template
 {
     /**
      * Retrieve list of product templates with search part contained in label
@@ -25,17 +27,17 @@ class Magento_Catalog_Block_Product_TemplateSelector extends Magento_Core_Block_
      */
     public function getSuggestedTemplates($labelPart)
     {
-        $product = Mage::registry('product');
+        $product = \Mage::registry('product');
         $entityType = $product->getResource()->getEntityType();
-        $labelPart = Mage::getResourceHelper('Magento_Core')->addLikeEscape($labelPart, array('position' => 'any'));
-        $collection = Mage::getResourceModel('Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection')
+        $labelPart = \Mage::getResourceHelper('Magento_Core')->addLikeEscape($labelPart, array('position' => 'any'));
+        $collection = \Mage::getResourceModel('\Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection')
             ->setEntityTypeFilter($entityType->getId())
             ->addFieldToFilter('attribute_set_name', array('like' => $labelPart))
             ->addFieldToSelect('attribute_set_id', 'id')
             ->addFieldToSelect('attribute_set_name', 'label')
             ->setOrder(
                 'attribute_set_name',
-                Magento_Eav_Model_Resource_Entity_Attribute_Set_Collection::SORT_ORDER_ASC
+                \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection::SORT_ORDER_ASC
             );
         return $collection->getData();
     }

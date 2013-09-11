@@ -8,7 +8,7 @@
 class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Cache_Frontend_Pool
+     * @var \Magento\Core\Model\Cache\Frontend\Pool
      */
     protected $_model;
 
@@ -18,13 +18,13 @@ class Magento_Core_Model_Cache_Frontend_PoolTest extends PHPUnit_Framework_TestC
     public function testGetCache($cacheBackendName)
     {
         $settings = array('backend' => $cacheBackendName);
-        $this->_model = new Magento_Core_Model_Cache_Frontend_Pool(
-            Mage::getModel('Magento_Core_Model_Cache_Frontend_Factory'),
+        $this->_model = new \Magento\Core\Model\Cache\Frontend\Pool(
+            Mage::getModel('\Magento\Core\Model\Cache\Frontend\Factory'),
             $settings
         );
 
 
-        $cache = $this->_model->get(Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID);
+        $cache = $this->_model->get(\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID);
         $this->assertInstanceOf('\Magento\Cache\FrontendInterface', $cache);
         $this->assertInstanceOf('Zend_Cache_Backend_Interface', $cache->getBackend());
     }

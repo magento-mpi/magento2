@@ -16,7 +16,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Controller_Survey extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller;
+
+class Survey extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Index Action
@@ -25,9 +27,9 @@ class Magento_Adminhtml_Controller_Survey extends Magento_Adminhtml_Controller_A
     public function indexAction()
     {
         if ($this->getRequest()->getParam('isAjax', false)) {
-            Magento_AdminNotification_Model_Survey::saveSurveyViewed(true);
+            \Magento\AdminNotification\Model\Survey::saveSurveyViewed(true);
         }
-        $this->getResponse()->setBody(Zend_Json::encode(array('survey_decision_saved' => 1)));
+        $this->getResponse()->setBody(\Zend_Json::encode(array('survey_decision_saved' => 1)));
     }
 
     /**

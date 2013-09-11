@@ -16,40 +16,42 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Auth
+namespace Magento\Backend\Model;
+
+class Auth
 {
     /**
-     * @var Magento_Backend_Model_Auth_StorageInterface
+     * @var \Magento\Backend\Model\Auth\StorageInterface
      */
     protected $_authStorage = null;
 
     /**
-     * @var Magento_Backend_Model_Auth_Credential_StorageInterface
+     * @var \Magento\Backend\Model\Auth\Credential\StorageInterface
      */
     protected $_credentialStorage = null;
 
     /**
-     * @param Magento_Backend_Model_Auth_StorageInterface $authStorage
-     * @param Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage
+     * @param \Magento\Backend\Model\Auth\StorageInterface $authStorage
+     * @param \Magento\Backend\Model\Auth\Credential\StorageInterface $credentialStorage
      */
     public function __construct(
-        Magento_Backend_Model_Auth_StorageInterface $authStorage,
-        Magento_Backend_Model_Auth_Credential_StorageInterface $credentialStorage
+        \Magento\Backend\Model\Auth\StorageInterface $authStorage,
+        \Magento\Backend\Model\Auth\Credential\StorageInterface $credentialStorage
     ) {
         $this->_authStorage = $authStorage;
         $this->_credentialStorage = $credentialStorage;
     }
 
     /**
-     * Set auth storage if it is instance of Magento_Backend_Model_Auth_StorageInterface
+     * Set auth storage if it is instance of \Magento\Backend\Model\Auth\StorageInterface
      *
-     * @param Magento_Backend_Model_Auth_StorageInterface $storage
-     * @return Magento_Backend_Model_Auth
-     * @throw Magento_Backend_Model_Auth_Exception if $storage is not correct
+     * @param \Magento\Backend\Model\Auth\StorageInterface $storage
+     * @return \Magento\Backend\Model\Auth
+     * @throw \Magento\Backend\Model\Auth\Exception if $storage is not correct
      */
     public function setAuthStorage($storage)
     {
-        if (!($storage instanceof Magento_Backend_Model_Auth_StorageInterface)) {
+        if (!($storage instanceof \Magento\Backend\Model\Auth\StorageInterface)) {
             self::throwException('Authentication storage is incorrect.');
         }
         $this->_authStorage = $storage;
@@ -60,7 +62,7 @@ class Magento_Backend_Model_Auth
      * Return auth storage.
      * If auth storage was not defined outside - returns default object of auth storage
      *
-     * @return Magento_Backend_Model_Auth_StorageInterface
+     * @return \Magento\Backend\Model\Auth\StorageInterface
      */
     public function getAuthStorage()
     {
@@ -69,9 +71,9 @@ class Magento_Backend_Model_Auth
 
     /**
      * Return current (successfully authenticated) user,
-     * an instance of Magento_Backend_Model_Auth_Credential_StorageInterface
+     * an instance of \Magento\Backend\Model\Auth\Credential\StorageInterface
      *
-     * @return Magento_Backend_Model_Auth_Credential_StorageInterface
+     * @return \Magento\Backend\Model\Auth\Credential\StorageInterface
      */
     public function getUser()
     {
@@ -82,14 +84,14 @@ class Magento_Backend_Model_Auth
      * Initialize credential storage from configuration
      *
      * @return void
-     * @throw Magento_Backend_Model_Auth_Exception if credential storage absent or has not correct configuration
+     * @throw \Magento\Backend\Model\Auth\Exception if credential storage absent or has not correct configuration
      */
     protected function _initCredentialStorage()
     {
-        $areaConfig = Mage::getConfig()->getAreaConfig(Mage::helper('Magento_Backend_Helper_Data')->getAreaCode());
-        $storage = Mage::getModel($areaConfig['auth']['credential_storage']);
+        $areaConfig = \Mage::getConfig()->getAreaConfig(\Mage::helper('Magento\Backend\Helper\Data')->getAreaCode());
+        $storage = \Mage::getModel($areaConfig['auth']['credential_storage']);
 
-        if ($storage instanceof Magento_Backend_Model_Auth_Credential_StorageInterface) {
+        if ($storage instanceof \Magento\Backend\Model\Auth\Credential\StorageInterface) {
             $this->_credentialStorage = $storage;
             return;
         }
@@ -102,7 +104,7 @@ class Magento_Backend_Model_Auth
     /**
      * Return credential storage object
      *
-     * @return null | Magento_Backend_Model_Auth_Credential_StorageInterface
+     * @return null | \Magento\Backend\Model\Auth\Credential\StorageInterface
      */
     public function getCredentialStorage()
     {
@@ -115,7 +117,7 @@ class Magento_Backend_Model_Auth
      * @param string $username
      * @param string $password
      * @return void
-     * @throws Magento_Backend_Model_Auth_Exception if login process was unsuccessful
+     * @throws \Magento\Backend\Model\Auth\Exception if login process was unsuccessful
      */
     public function login($username, $password)
     {
@@ -133,7 +135,7 @@ class Magento_Backend_Model_Auth
                 $this->getAuthStorage()->setUser($this->getCredentialStorage());
                 $this->getAuthStorage()->processLogin();
 
-                Mage::dispatchEvent('backend_auth_user_login_success', array('user' => $this->getCredentialStorage()));
+                \Mage::dispatchEvent('backend_auth_user_login_success', array('user' => $this->getCredentialStorage()));
             }
 
             if (!$this->getAuthStorage()->getUser()) {
@@ -142,11 +144,11 @@ class Magento_Backend_Model_Auth
                 );
             }
 
-        } catch (Magento_Backend_Model_Auth_Plugin_Exception $e) {
-            Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
+        } catch (\Magento\Backend\Model\Auth\Plugin\Exception $e) {
+            \Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             throw $e;
-        } catch (Magento_Core_Exception $e) {
-            Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::dispatchEvent('backend_auth_user_login_failed', array('user_name' => $username, 'exception' => $e));
             self::throwException(
                 __('Please correct the user name or password.')
             );
@@ -161,7 +163,7 @@ class Magento_Backend_Model_Auth
     public function logout()
     {
         $this->getAuthStorage()->processLogout();
-        Mage::dispatchEvent('admin_session_user_logout');
+        \Mage::dispatchEvent('admin_session_user_logout');
     }
 
     /**
@@ -175,18 +177,18 @@ class Magento_Backend_Model_Auth
     }
 
     /**
-     * Throws specific Backend Authentication Exception
+     * Throws specific Backend Authentication \Exception
      *
      * @static
      * @param string $msg
      * @param string $code
-     * @throws Magento_Backend_Model_Auth_Exception
+     * @throws \Magento\Backend\Model\Auth\Exception
      */
     public static function throwException($msg = null, $code = null)
     {
         if (is_null($msg)) {
             $msg = __('Authentication error occurred.');
         }
-        throw new Magento_Backend_Model_Auth_Exception($msg, $code);
+        throw new \Magento\Backend\Model\Auth\Exception($msg, $code);
     }
 }

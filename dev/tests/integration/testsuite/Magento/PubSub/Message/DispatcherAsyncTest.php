@@ -24,12 +24,12 @@ class Magento_PubSub_Message_DispatcherAsyncTest extends PHPUnit_Framework_TestC
      */
     public function setUp()
     {
-        /** @var Magento_Webhook_Model_Resource_Event_Collection $eventCollection */
+        /** @var \Magento\Webhook\Model\Resource\Event\Collection $eventCollection */
         $eventCollection = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->create('Magento_Webhook_Model_Resource_Event_Collection');
+            ->create('Magento\Webhook\Model\Resource\Event\Collection');
         /** @var array $event */
         $events = $eventCollection->getItems();
-        /** @var Magento_Webhook_Model_Event $event */
+        /** @var \Magento\Webhook\Model\Event $event */
         foreach ($events as $event) {
             $event->complete();
             $event->save();

@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+$installer = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 $attributeSetId = $installer->getAttributeSetId('catalog_product', 'Default');
-$entityModel = Mage::getModel('Magento_Eav_Model_Entity');
-$entityTypeId = $entityModel->setType(Magento_Catalog_Model_Product::ENTITY)->getTypeId();
+$entityModel = Mage::getModel('\Magento\Eav\Model\Entity');
+$entityTypeId = $entityModel->setType(\Magento\Catalog\Model\Product::ENTITY)->getTypeId();
 $groupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
 
-$attribute = Mage::getResourceModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+$attribute = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
 $attribute->setAttributeCode('fpt_for_all')
     ->setEntityTypeId($entityTypeId)
     ->setAttributeGroupId($groupId)
@@ -24,7 +24,7 @@ $attribute->setAttributeCode('fpt_for_all')
     ->setIsUserDefined(1)
     ->save();
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
 $product->setTypeId('simple')
     ->setId(1)
     ->setAttributeSetId($attributeSetId)

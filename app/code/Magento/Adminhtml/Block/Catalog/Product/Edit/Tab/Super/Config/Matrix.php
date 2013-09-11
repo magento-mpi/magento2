@@ -15,25 +15,27 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
-    extends Magento_Backend_Block_Template
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config;
+
+class Matrix
+    extends \Magento\Backend\Block\Template
 {
-    /** @var Magento_Core_Model_App */
+    /** @var \Magento\Core\Model\App */
     protected $_application;
 
-    /** @var Magento_Core_Model_LocaleInterface */
+    /** @var \Magento\Core\Model\LocaleInterface */
     protected $_locale;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_App $application
-     * @param Magento_Core_Model_LocaleInterface $locale
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_App $application,
-        Magento_Core_Model_LocaleInterface $locale,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -55,21 +57,21 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
     /**
      * Get configurable product type
      *
-     * @return Magento_Catalog_Model_Product_Type_Configurable
+     * @return \Magento\Catalog\Model\Product\Type\Configurable
      */
     protected function _getProductType()
     {
-        return Mage::getSingleton('Magento_Catalog_Model_Product_Type_Configurable');
+        return \Mage::getSingleton('Magento\Catalog\Model\Product\Type\Configurable');
     }
 
     /**
      * Retrieve currently edited product object
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return \Mage::registry('current_product');
     }
 
     /**
@@ -93,7 +95,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
                     }
                 }
             }
-            /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             $variationalAttributes[] = array(
                 'id' => $attribute['attribute_id'],
                 'values' => $options,
@@ -195,7 +197,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
         foreach ($this->_getAssociatedProducts() as $product) {
             $keys = array();
             foreach ($this->getUsedAttributes() as $attribute) {
-                /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+                /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
                 $keys[] = $product->getData($attribute->getAttributeCode());
             }
             $productByUsedAttributes[implode('-', $keys)] = $product;
@@ -218,8 +220,8 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
         }
         $products = array();
         foreach ($ids as $productId) {
-            /** @var $product Magento_Catalog_Model_Product */
-            $product = Mage::getModel('Magento_Catalog_Model_Product')->load($productId);
+            /** @var $product \Magento\Catalog\Model\Product */
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')->load($productId);
             if ($product->getId()) {
                 $products[] = $product;
             }
@@ -235,11 +237,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix
      */
     public function getAttributeFrontendClass($code)
     {
-        /** @var $config Magento_Catalog_Model_Config */
-        $config = Mage::getSingleton('Magento_Catalog_Model_Config');
-        /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = $config->getAttribute(Magento_Catalog_Model_Product::ENTITY, $code);
-        return $attribute instanceof Magento_Eav_Model_Entity_Attribute_Abstract
+        /** @var $config \Magento\Catalog\Model\Config */
+        $config = \Mage::getSingleton('Magento\Catalog\Model\Config');
+        /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
+        $attribute = $config->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $code);
+        return $attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
             ? $attribute->getFrontend()->getClass()
             : '';
     }

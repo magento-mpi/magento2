@@ -16,8 +16,10 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Search_Model_Resource_Collection
-    extends Magento_Catalog_Model_Resource_Product_Collection
+namespace Magento\Search\Model\Resource;
+
+class Collection
+    extends \Magento\Catalog\Model\Resource\Product\Collection
 {
 
     /**
@@ -58,7 +60,7 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Store engine instance
      *
-     * @var Magento_Search_Model_Resource_Engine
+     * @var \Magento\Search\Model\Resource\Engine
      */
     protected $_engine = null;
 
@@ -115,7 +117,7 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Load faceted data if not loaded
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function loadFacetedData()
     {
@@ -171,7 +173,7 @@ class Magento_Search_Model_Resource_Collection
      * @param string $field
      * @param string | array $condition
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function setFacetCondition($field, $condition = null)
     {
@@ -195,14 +197,14 @@ class Magento_Search_Model_Resource_Collection
      *
      * @param   string $queryText
      *
-     * @return  Magento_Search_Model_Resource_Collection
+     * @return  \Magento\Search\Model\Resource\Collection
      */
     public function addSearchFilter($queryText)
     {
         /**
-         * @var Magento_CatalogSearch_Model_Query $query
+         * @var \Magento\CatalogSearch\Model\Query $query
          */
-        $query = Mage::helper('Magento_CatalogSearch_Helper_Data')->getQuery();
+        $query = \Mage::helper('Magento\CatalogSearch\Helper\Data')->getQuery();
         $this->_searchQueryText = $queryText;
         $synonymFor = $query->getSynonymFor();
         if (!empty($synonymFor)) {
@@ -219,7 +221,7 @@ class Magento_Search_Model_Resource_Collection
      * @param   string|array $param
      * @param   string|array $value
      *
-     * @return  Magento_Search_Model_Resource_Collection
+     * @return  \Magento\Search\Model\Resource\Collection
      */
     public function addSearchParam($param, $value = null)
     {
@@ -251,7 +253,7 @@ class Magento_Search_Model_Resource_Collection
      * Add search query filter (fq)
      *
      * @param   array $param
-     * @return  Magento_Search_Model_Resource_Collection
+     * @return  \Magento\Search\Model\Resource\Collection
      */
     public function addFqFilter($param)
     {
@@ -269,7 +271,7 @@ class Magento_Search_Model_Resource_Collection
      * Set search query
      *
      * @param  string $query
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function addAdvancedSearchFilter($query)
     {
@@ -279,10 +281,10 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Specify category filter for product collection
      *
-     * @param   Magento_Catalog_Model_Category $category
-     * @return  Magento_Search_Model_Resource_Collection
+     * @param   \Magento\Catalog\Model\Category $category
+     * @return  \Magento\Search\Model\Resource\Collection
      */
-    public function addCategoryFilter(Magento_Catalog_Model_Category $category)
+    public function addCategoryFilter(\Magento\Catalog\Model\Category $category)
     {
         $this->addFqFilter(array('category_ids' => $category->getId()));
         parent::addCategoryFilter($category);
@@ -294,7 +296,7 @@ class Magento_Search_Model_Resource_Collection
      *
      * @param string $attribute
      * @param string $dir
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function setOrder($attribute, $dir = 'desc')
     {
@@ -309,10 +311,10 @@ class Magento_Search_Model_Resource_Collection
      */
     protected function _prepareBaseParams()
     {
-        $store  = Mage::app()->getStore();
+        $store  = \Mage::app()->getStore();
         $params = array(
             'store_id'      => $store->getId(),
-            'locale_code'   => $store->getConfig(Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE),
+            'locale_code'   => $store->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE),
             'filters'       => $this->_searchQueryFilters
         );
         $params['filters']     = $this->_searchQueryFilters;
@@ -331,7 +333,7 @@ class Magento_Search_Model_Resource_Collection
      * Search documents by query
      * Set found ids and number of found results
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     protected function _beforeLoad()
     {
@@ -381,7 +383,7 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Sort collection items by sort order of found ids
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     protected function _afterLoad()
     {
@@ -414,7 +416,7 @@ class Magento_Search_Model_Resource_Collection
             list($query, $params) = $this->_prepareBaseParams();
             $params['limit'] = 1;
 
-            $helper = Mage::helper('Magento_Search_Helper_Data');
+            $helper = \Mage::helper('Magento\Search\Helper\Data');
             $searchSuggestionsEnabled = ($this->_searchQueryParams != $this->_generalDefaultQuery
                     && $helper->getSolrConfigData('server_suggestion_enabled'));
             if ($searchSuggestionsEnabled) {
@@ -461,7 +463,7 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Set query *:* to disable query limitation
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function setGeneralDefaultQuery()
     {
@@ -473,7 +475,7 @@ class Magento_Search_Model_Resource_Collection
      * Set search engine
      *
      * @param object $engine
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function setEngine($engine)
     {
@@ -486,7 +488,7 @@ class Magento_Search_Model_Resource_Collection
      *
      * @param array $fields
      *
-     * @return Magento_Search_Model_Resource_Collection
+     * @return \Magento\Search\Model\Resource\Collection
      */
     public function addFieldsToFilter($fields)
     {
@@ -496,8 +498,8 @@ class Magento_Search_Model_Resource_Collection
     /**
      * Adding product count to categories collection
      *
-     * @param   Magento_Eav_Model_Entity_Collection_Abstract $categoryCollection
-     * @return  Magento_Search_Model_Resource_Collection
+     * @param   \Magento\Eav\Model\Entity\Collection\AbstractCollection $categoryCollection
+     * @return  \Magento\Search\Model\Resource\Collection
      */
     public function addCountToCategories($categoryCollection)
     {
@@ -508,7 +510,7 @@ class Magento_Search_Model_Resource_Collection
      * Set product visibility filter for enabled products
      *
      * @param   array $visibility
-     * @return  Magento_Catalog_Model_Resource_Product_Collection
+     * @return  \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setVisibility($visibility)
     {

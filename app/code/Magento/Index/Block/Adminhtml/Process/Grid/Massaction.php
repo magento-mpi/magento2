@@ -15,7 +15,9 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Index_Block_Adminhtml_Process_Grid_Massaction extends Magento_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+namespace Magento\Index\Block\Adminhtml\Process\Grid;
+
+class Massaction extends \Magento\Adminhtml\Block\Widget\Grid\Massaction\AbstractMassaction
 {
     /**
      * Get ids for only visible indexers

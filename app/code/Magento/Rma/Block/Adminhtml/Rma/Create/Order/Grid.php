@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Rma\Block\Adminhtml\Rma\Create\Order;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     /**
@@ -32,12 +34,12 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Adminhtm
     /**
      * Prepare grid collection object
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Create\Order\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Sales_Model_Resource_Order_Grid_Collection */
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
+        /** @var $collection \Magento\Sales\Model\Resource\Order\Grid\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Grid\Collection')
             ->setOrder('entity_id');
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -46,7 +48,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Adminhtm
     /**
      * Prepare columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -57,7 +59,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Adminhtm
             'index' => 'increment_id',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header' => __('Purchase Point'),
                 'index' => 'store_id',
@@ -103,7 +105,7 @@ class Magento_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Magento_Adminhtm
             'index' => 'status',
             'type' => 'options',
             'width' => '70px',
-            'options' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getStatuses(),
+            'options' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getStatuses(),
         ));
 
         return parent::_prepareColumns();

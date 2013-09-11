@@ -15,23 +15,25 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Model_Config
+namespace Magento\ImportExport\Model;
+
+class Config
 {
     /**
      * Get data about models from specified config key.
      *
      * @static
      * @param string $configKey
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      * @return array
      */
     public static function getModels($configKey)
     {
         $entities = array();
 
-        foreach (Mage::getConfig()->getNode($configKey)->asCanonicalArray() as $entityType => $entityParams) {
+        foreach (\Mage::getConfig()->getNode($configKey)->asCanonicalArray() as $entityType => $entityParams) {
             if (empty($entityParams['model_token'])) {
-                Mage::throwException(
+                \Mage::throwException(
                     __('Please provide a correct model token tag.')
                 );
             }

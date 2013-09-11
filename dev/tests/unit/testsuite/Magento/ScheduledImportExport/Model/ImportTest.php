@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for Magento_ScheduledImportExport_Model_Import
+ * Test class for \Magento\ScheduledImportExport\Model\Import
  */
 class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Enterprise data import model
      *
-     * @var Magento_ScheduledImportExport_Model_Import
+     * @var \Magento\ScheduledImportExport\Model\Import
      */
     protected $_model;
 
@@ -26,7 +26,7 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
      */
     public function setUp()
     {
-        $this->_model = new Magento_ScheduledImportExport_Model_Import();
+        $this->_model = new \Magento\ScheduledImportExport\Model\Import();
     }
 
     /**
@@ -49,9 +49,9 @@ class Magento_ScheduledImportExport_Model_ImportTest extends PHPUnit_Framework_T
             'start_time'     => '00:00:00',
             'id'             => 1
         );
-        /** @var $operation Magento_ScheduledImportExport_Model_Scheduled_Operation */
+        /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->getMock(
-            'Magento_ScheduledImportExport_Model_Scheduled_Operation', null, array(), '', false);
+            '\Magento\ScheduledImportExport\Model\Scheduled\Operation', null, array(), '', false);
         $operation->setData($operationData);
         $this->_model->initialize($operation);
 

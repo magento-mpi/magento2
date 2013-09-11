@@ -9,15 +9,15 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Catalog_Model_Resource_Setup */
-$installer = Mage::getResourceModel('Magento_Catalog_Model_Resource_Setup', array('resourceName' => 'catalog_setup'));
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
+$installer = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Setup', array('resourceName' => 'catalog_setup'));
 $attributeSetId = $installer->getAttributeSetId('catalog_product', 'Default');
-$entityModel = Mage::getModel('Magento_Eav_Model_Entity');
-$entityTypeId = $entityModel->setType(Magento_Catalog_Model_Product::ENTITY)->getTypeId();
+$entityModel = Mage::getModel('\Magento\Eav\Model\Entity');
+$entityTypeId = $entityModel->setType(\Magento\Catalog\Model\Product::ENTITY)->getTypeId();
 $groupId = $installer->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
 
-/** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
-$attribute = Mage::getResourceModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+/** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
+$attribute = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
 $attribute->setAttributeCode('filterable_attribute_a')
     ->setEntityTypeId($entityTypeId)
     ->setAttributeGroupId($groupId)
@@ -26,7 +26,7 @@ $attribute->setAttributeCode('filterable_attribute_a')
     ->setIsUserDefined(1)
     ->save();
 
-$attribute = Mage::getResourceModel('Magento_Catalog_Model_Resource_Eav_Attribute');
+$attribute = Mage::getResourceModel('\Magento\Catalog\Model\Resource\Eav\Attribute');
 $attribute->setAttributeCode('filterable_attribute_b')
     ->setEntityTypeId($entityTypeId)
     ->setAttributeGroupId($groupId)

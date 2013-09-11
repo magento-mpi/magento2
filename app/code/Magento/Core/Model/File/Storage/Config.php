@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_File_Storage_Config
+namespace Magento\Core\Model\File\Storage;
+
+class Config
 {
     /**
      * Config cache file path
@@ -29,12 +31,12 @@ class Magento_Core_Model_File_Storage_Config
     protected $_streamFactory;
 
     /**
-     * @param Magento_Core_Model_File_Storage $storage
+     * @param \Magento\Core\Model\File\Storage $storage
      * @param Magento_Filesystem_Stream_LocalFactory $streamFactory
      * @param string $cacheFile
      */
     public function __construct(
-        Magento_Core_Model_File_Storage $storage, Magento_Filesystem_Stream_LocalFactory $streamFactory, $cacheFile
+        \Magento\Core\Model\File\Storage $storage, Magento_Filesystem_Stream_LocalFactory $streamFactory, $cacheFile
     ) {
         $this->_config = $storage->getScriptConfig();
         $this->_streamFactory = $streamFactory;

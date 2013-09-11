@@ -9,7 +9,7 @@
  */
 
 
-/* @var $installer Magento_Core_Model_Resource_Setup */
+/* @var $installer \Magento\Core\Model\Resource\Setup */
 $installer = $this;
 
 $installer->startSetup();
@@ -338,7 +338,7 @@ $table = $installer->getConnection()
         ), 'Key Id of Translation')
     ->addColumn('string', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => false,
-        'default'   => Magento_Core_Model_Translate::DEFAULT_STRING,
+        'default'   => \Magento\Core\Model\Translate::DEFAULT_STRING,
         ), 'Translation String')
     ->addColumn('store_id', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,

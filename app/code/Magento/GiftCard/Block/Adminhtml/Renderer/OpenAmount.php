@@ -15,7 +15,9 @@
  * @package    Magento_GiftCard
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends \Magento\Data\Form\Element\Select
+namespace Magento\GiftCard\Block\Adminhtml\Renderer;
+
+class OpenAmount extends \Magento\Data\Form\Element\Select
 {
     /**
      * @var \Magento\Data\Form\Element\Checkbox
@@ -29,7 +31,7 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends \Magento\Data
      */
     public function __construct(array $data = array())
     {
-        $this->_element = Mage::getModel('\Magento\Data\Form\Element\Checkbox');
+        $this->_element = \Mage::getModel('\Magento\Data\Form\Element\Checkbox');
         parent::__construct($data);
     }
 
@@ -53,9 +55,9 @@ class Magento_GiftCard_Block_Adminhtml_Renderer_OpenAmount extends \Magento\Data
     public function getElementHtml()
     {
         $this->_element->setId($this->getHtmlId())->setName($this->getData('name'))
-            ->setChecked($this->getValue())->setValue(Magento_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED);
+            ->setChecked($this->getValue())->setValue(\Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED);
         $hiddenField = '<input type="hidden" name="' . $this->getName()
-            . '" value="' . Magento_GiftCard_Model_Giftcard::OPEN_AMOUNT_DISABLED . '"/>';
+            . '" value="' . \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_DISABLED . '"/>';
         return $hiddenField . $this->_element->getElementHtml();
     }
 }

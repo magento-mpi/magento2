@@ -14,7 +14,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Grid_Column extends Magento_Backend_Block_Widget_Grid_Column
+namespace Magento\Adminhtml\Block\Widget\Grid;
+
+class Column extends \Magento\Backend\Block\Widget\Grid\Column
 {
 
 }

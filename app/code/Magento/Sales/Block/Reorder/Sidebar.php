@@ -17,7 +17,9 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
+namespace Magento\Sales\Block\Reorder;
+
+class Sidebar extends \Magento\Core\Block\Template
 {
     protected $_template = 'order/history.phtml';
 
@@ -43,10 +45,10 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
         $customerId = $this->getCustomerId() ? $this->getCustomerId()
             : $this->_getCustomerSession()->getCustomer()->getId();
 
-        $orders = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Collection')
+        $orders = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Collection')
             ->addAttributeToFilter('customer_id', $customerId)
             ->addAttributeToFilter('state',
-                array('in' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getVisibleOnFrontStates())
+                array('in' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getVisibleOnFrontStates())
             )
             ->addAttributeToSort('created_at', 'desc')
             ->setPage(1,1);
@@ -67,7 +69,7 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
         $limit = 5;
 
         if ($order) {
-            $website = Mage::app()->getStore()->getWebsiteId();
+            $website = \Mage::app()->getStore()->getWebsiteId();
             foreach ($order->getParentItemsRandomCollection($limit) as $item) {
                 if ($item->getProduct() && in_array($website, $item->getProduct()->getWebsiteIds())) {
                     $items[] = $item;
@@ -81,10 +83,10 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
     /**
      * Check item product availability for reorder
      *
-     * @param  Magento_Sales_Model_Order_Item $orderItem
+     * @param  \Magento\Sales\Model\Order\Item $orderItem
      * @return boolean
      */
-    public function isItemAvailableForReorder(Magento_Sales_Model_Order_Item $orderItem)
+    public function isItemAvailableForReorder(\Magento\Sales\Model\Order\Item $orderItem)
     {
         if ($orderItem->getProduct()) {
             return $orderItem->getProduct()->getStockItem()->getIsInStock();
@@ -106,7 +108,7 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
     /**
      * Last order getter
      *
-     * @return Magento_Sales_Model_Order|false
+     * @return \Magento\Sales\Model\Order|false
      */
     public function getLastOrder()
     {
@@ -129,10 +131,10 @@ class Magento_Sales_Block_Reorder_Sidebar extends Magento_Core_Block_Template
     /**
      * Retrieve customer session instance
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return \Mage::getSingleton('Magento\Customer\Model\Session');
     }
 }

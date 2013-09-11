@@ -16,7 +16,9 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
+namespace Magento\Core\Model;
+
+abstract class Template extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Types of template
@@ -69,18 +71,18 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Design package instance
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Model_Context $context
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Model\Context $context
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Model_Context $context,
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Model\Context $context,
         array $data = array()
     ) {
         $this->_design = $design;
@@ -92,7 +94,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Applying of design config
      *
-     * @return Magento_Core_Model_Template
+     * @return \Magento\Core\Model\Template
      */
     protected function _applyDesignConfig()
     {
@@ -101,8 +103,8 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
         $storeId = is_object($store) ? $store->getId() : $store;
         $area = $designConfig->getArea();
         if (!is_null($storeId)) {
-            /** @var $appEmulation Magento_Core_Model_App_Emulation */
-            $appEmulation = Mage::getSingleton('Magento_Core_Model_App_Emulation');
+            /** @var $appEmulation \Magento\Core\Model\App\Emulation */
+            $appEmulation = \Mage::getSingleton('Magento\Core\Model\App\Emulation');
             $this->_initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId, $area);
         }
         return $this;
@@ -111,12 +113,12 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
     /**
      * Revert design settings to previous
      *
-     * @return Magento_Core_Model_Template
+     * @return \Magento\Core\Model\Template
      */
     protected function _cancelDesignConfig()
     {
         if (!empty($this->_initialEnvironmentInfo)) {
-            $appEmulation = Mage::getSingleton('Magento_Core_Model_App_Emulation');
+            $appEmulation = \Mage::getSingleton('Magento\Core\Model\App\Emulation');
             $appEmulation->stopEnvironmentEmulation($this->_initialEnvironmentInfo);
             $this->_initialEnvironmentInfo = null;
         }
@@ -135,7 +137,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
                 $this->_area = $this->_design->getArea();
             }
             if ($this->_store === null) {
-                $this->_store = Mage::app()->getStore()->getId();
+                $this->_store = \Mage::app()->getStore()->getId();
             }
             $this->_designConfig = new \Magento\Object(array(
                 'area' => $this->_area,
@@ -149,7 +151,7 @@ abstract class Magento_Core_Model_Template extends Magento_Core_Model_Abstract
      * Initialize design information for template processing
      *
      * @param array $config
-     * @return Magento_Core_Model_Template
+     * @return \Magento\Core\Model\Template
      * @throws \Magento\Exception
      */
     public function setDesignConfig(array $config)

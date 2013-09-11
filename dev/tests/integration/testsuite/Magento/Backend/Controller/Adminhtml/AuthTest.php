@@ -10,18 +10,18 @@
  */
 
 /**
- * Test class for Magento_Backend_Controller_Adminhtml_Auth
+ * Test class for \Magento\Backend\Controller\Adminhtml\Auth
  * @magentoAppArea adminhtml
  */
 class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramework_TestCase_ControllerAbstract
 {
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_session;
 
     /**
-     * @var Magento_Backend_Model_Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
 
@@ -37,9 +37,9 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
      */
     protected  function _login()
     {
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
+        Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
 
-        $this->_auth = Mage::getSingleton('Magento_Backend_Model_Auth');
+        $this->_auth = Mage::getSingleton('Magento\Backend\Model\Auth');
         $this->_auth->login(
             Magento_TestFramework_Bootstrap::ADMIN_NAME, Magento_TestFramework_Bootstrap::ADMIN_PASSWORD);
         $this->_session = $this->_auth->getAuthStorage();
@@ -51,12 +51,12 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
     protected function _logout()
     {
         $this->_auth->logout();
-        Mage::getSingleton('Magento_Backend_Model_Url')->turnOnSecretKey();
+        Mage::getSingleton('Magento\Backend\Model\Url')->turnOnSecretKey();
     }
 
     /**
      * Check not logged state
-     * @covers Magento_Backend_Controller_Adminhtml_Auth::loginAction
+     * @covers \Magento\Backend\Controller\Adminhtml\Auth::loginAction
      */
     public function testNotLoggedLoginAction()
     {
@@ -70,7 +70,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
 
     /**
      * Check logged state
-     * @covers Magento_Backend_Controller_Adminhtml_Auth::loginAction
+     * @covers \Magento\Backend\Controller\Adminhtml\Auth::loginAction
      * @magentoDbIsolation enabled
      */
     public function testLoggedLoginAction()
@@ -78,8 +78,8 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
         $this->_login();
 
         $this->dispatch('backend/admin/auth/login');
-        /** @var $backendUrlModel Magento_Backend_Model_Url */
-        $backendUrlModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Backend_Model_Url');
+        /** @var $backendUrlModel \Magento\Backend\Model\Url */
+        $backendUrlModel = Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url');
         $url = $backendUrlModel->getStartupPageUrl();
         $expected = $backendUrlModel->getUrl($url);
         $this->assertRedirect($this->stringStartsWith($expected));
@@ -105,24 +105,24 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
         $code = $response->getHttpResponseCode();
         $this->assertTrue($code >= 300 && $code < 400, 'Incorrect response code');
 
-        $this->assertTrue(Mage::getSingleton('Magento_Backend_Model_Auth')->isLoggedIn());
+        $this->assertTrue(Mage::getSingleton('Magento\Backend\Model\Auth')->isLoggedIn());
     }
 
     /**
-     * @covers Magento_Backend_Controller_Adminhtml_Auth::logoutAction
+     * @covers \Magento\Backend\Controller\Adminhtml\Auth::logoutAction
      * @magentoDbIsolation enabled
      */
     public function testLogoutAction()
     {
         $this->_login();
         $this->dispatch('backend/admin/auth/logout');
-        $this->assertRedirect($this->equalTo(Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl()));
+        $this->assertRedirect($this->equalTo(Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl()));
         $this->assertFalse($this->_session->isLoggedIn(), 'User is not logged out.');
     }
 
     /**
-     * @covers Magento_Backend_Controller_Adminhtml_Auth::deniedJsonAction
-     * @covers Magento_Backend_Controller_Adminhtml_Auth::_getDeniedJson
+     * @covers \Magento\Backend\Controller\Adminhtml\Auth::deniedJsonAction
+     * @covers \Magento\Backend\Controller\Adminhtml\Auth::_getDeniedJson
      * @magentoDbIsolation enabled
      */
     public function testDeniedJsonAction()
@@ -131,7 +131,7 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
         $this->dispatch('backend/admin/auth/deniedJson');
         $data = array(
             'ajaxExpired' => 1,
-            'ajaxRedirect' => Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl(),
+            'ajaxRedirect' => Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl(),
         );
         $expected = json_encode($data);
         $this->assertEquals($expected, $this->getResponse()->getBody());
@@ -139,14 +139,14 @@ class Magento_Backend_Controller_Adminhtml_AuthTest extends Magento_TestFramewor
     }
 
     /**
-     * @covers Magento_Backend_Controller_Adminhtml_Auth::deniedIframeAction
-     * @covers Magento_Backend_Controller_Adminhtml_Auth::_getDeniedIframe
+     * @covers \Magento\Backend\Controller\Adminhtml\Auth::deniedIframeAction
+     * @covers \Magento\Backend\Controller\Adminhtml\Auth::_getDeniedIframe
      * @magentoDbIsolation enabled
      */
     public function testDeniedIframeAction()
     {
         $this->_login();
-        $homeUrl = Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
+        $homeUrl = Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl();
         $this->dispatch('backend/admin/auth/deniedIframe');
         $expected = '<script type="text/javascript">parent.window.location =';
         $this->assertStringStartsWith($expected, $this->getResponse()->getBody());

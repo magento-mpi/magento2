@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-/** @var $block Magento_Cms_Model_Block */
-$block = Mage::getModel('Magento_Cms_Model_Block');
+/** @var $block \Magento\Cms\Model\Block */
+$block = Mage::getModel('\Magento\Cms\Model\Block');
 $block->setTitle('CMS Block Title')
     ->setIdentifier('fixture_block')
     ->setContent('<h1>Fixture Block Title</h1>

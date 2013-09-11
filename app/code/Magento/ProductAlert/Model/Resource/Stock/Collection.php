@@ -16,7 +16,9 @@
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ProductAlert_Model_Resource_Stock_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\ProductAlert\Model\Resource\Stock;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define stock collection
@@ -24,21 +26,21 @@ class Magento_ProductAlert_Model_Resource_Stock_Collection extends Magento_Core_
      */
     protected function _construct()
     {
-        $this->_init('Magento_ProductAlert_Model_Stock', 'Magento_ProductAlert_Model_Resource_Stock');
+        $this->_init('\Magento\ProductAlert\Model\Stock', '\Magento\ProductAlert\Model\Resource\Stock');
     }
 
     /**
      * Add customer filter
      *
      * @param mixed $customer
-     * @return Magento_ProductAlert_Model_Resource_Stock_Collection
+     * @return \Magento\ProductAlert\Model\Resource\Stock\Collection
      */
     public function addCustomerFilter($customer)
     {
         $adapter = $this->getConnection();
         if (is_array($customer)) {
             $condition = $adapter->quoteInto('customer_id IN(?)', $customer);
-        } elseif ($customer instanceof Magento_Customer_Model_Customer) {
+        } elseif ($customer instanceof \Magento\Customer\Model\Customer) {
             $condition = $adapter->quoteInto('customer_id=?', $customer->getId());
         } else {
             $condition = $adapter->quoteInto('customer_id=?', $customer);
@@ -51,7 +53,7 @@ class Magento_ProductAlert_Model_Resource_Stock_Collection extends Magento_Core_
      * Add website filter
      *
      * @param mixed $website
-     * @return Magento_ProductAlert_Model_Resource_Stock_Collection
+     * @return \Magento\ProductAlert\Model\Resource\Stock\Collection
      */
     public function addWebsiteFilter($website)
     {
@@ -61,7 +63,7 @@ class Magento_ProductAlert_Model_Resource_Stock_Collection extends Magento_Core_
         }
         if (is_array($website)) {
             $condition = $adapter->quoteInto('website_id IN(?)', $website);
-        } elseif ($website instanceof Magento_Core_Model_Website) {
+        } elseif ($website instanceof \Magento\Core\Model\Website) {
             $condition = $adapter->quoteInto('website_id=?', $website->getId());
         } else {
             $condition = $adapter->quoteInto('website_id=?', $website);
@@ -74,7 +76,7 @@ class Magento_ProductAlert_Model_Resource_Stock_Collection extends Magento_Core_
      * Add status filter
      *
      * @param int $status
-     * @return Magento_ProductAlert_Model_Resource_Stock_Collection
+     * @return \Magento\ProductAlert\Model\Resource\Stock\Collection
      */
     public function addStatusFilter($status)
     {
@@ -87,7 +89,7 @@ class Magento_ProductAlert_Model_Resource_Stock_Collection extends Magento_Core_
      * Set order by customer
      *
      * @param string $sort
-     * @return Magento_ProductAlert_Model_Resource_Stock_Collection
+     * @return \Magento\ProductAlert\Model\Resource\Stock\Collection
      */
     public function setCustomerOrder($sort = 'ASC')
     {

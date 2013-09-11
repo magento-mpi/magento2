@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Customer_Model_Resource_Setup */
+/** @var $installer \Magento\Customer\Model\Resource\Setup */
 $installer = $this;
 
 $installer->cleanCache();

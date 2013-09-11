@@ -15,8 +15,10 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
-    extends Magento_ImportExport_Model_Import_Entity_EavAbstract
+namespace Magento\ImportExport\Model\Import\Entity\Eav;
+
+abstract class CustomerAbstract
+    extends \Magento\ImportExport\Model\Import\Entity\EavAbstract
 {
     /**#@+
      * Permanent column names
@@ -51,7 +53,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
     /**
      * Customer collection wrapper
      *
-     * @var Magento_ImportExport_Model_Resource_Customer_Storage
+     * @var \Magento\ImportExport\Model\Resource\Customer\Storage
      */
     protected $_customerStorage;
 
@@ -91,7 +93,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
      * Initialize existent customers data
      *
      * @param array $data
-     * @return Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
+     * @return \Magento\ImportExport\Model\Import\Entity\Eav\CustomerAbstract
      */
     protected function _initCustomers(array $data)
     {
@@ -99,7 +101,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
             $data['page_size'] = $this->_pageSize;
         }
         $this->_customerStorage = isset($data['customer_storage']) ? $data['customer_storage']
-                : Mage::getResourceModel('Magento_ImportExport_Model_Resource_Customer_Storage', array('data' => $data));
+                : \Mage::getResourceModel('\Magento\ImportExport\Model\Resource\Customer\Storage', array('data' => $data));
 
         return $this;
     }
@@ -137,9 +139,9 @@ abstract class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
         $this->_validatedRows[$rowNumber] = true;
         $this->_processedEntitiesCount++;
 
-        if ($this->getBehavior($rowData) == Magento_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE) {
+        if ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE) {
             $this->_validateRowForUpdate($rowData, $rowNumber);
-        } elseif ($this->getBehavior($rowData) == Magento_ImportExport_Model_Import::BEHAVIOR_DELETE) {
+        } elseif ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE) {
             $this->_validateRowForDelete($rowData, $rowNumber);
         }
 
@@ -193,7 +195,7 @@ abstract class Magento_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
     /**
      * Get customer storage
      *
-     * @return Magento_ImportExport_Model_Resource_Customer_Storage
+     * @return \Magento\ImportExport\Model\Resource\Customer\Storage
      */
     public function getCustomerStorage()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Request_Rest_Interpreter_Factory
+namespace Magento\Webapi\Controller\Request\Rest\Interpreter;
+
+class Factory
 {
     /**
      * Request interpret adapters.
@@ -19,14 +21,14 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_Factory
      */
     protected $_objectManager;
 
-    /** @var Magento_Core_Model_Config */
+    /** @var \Magento\Core\Model\Config */
     protected $_applicationConfig;
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param Magento_Core_Model_Config $applicationConfig
+     * @param \Magento\Core\Model\Config $applicationConfig
      */
-    public function __construct(\Magento\ObjectManager $objectManager, Magento_Core_Model_Config $applicationConfig)
+    public function __construct(\Magento\ObjectManager $objectManager, \Magento\Core\Model\Config $applicationConfig)
     {
         $this->_objectManager = $objectManager;
         $this->_applicationConfig = $applicationConfig;
@@ -36,14 +38,14 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_Factory
      * Retrieve proper interpreter for the specified content type.
      *
      * @param string $contentType
-     * @return Magento_Webapi_Controller_Request_Rest_InterpreterInterface
-     * @throws LogicException|Magento_Webapi_Exception
+     * @return \Magento\Webapi\Controller\Request\Rest\InterpreterInterface
+     * @throws \LogicException|\Magento\Webapi\Exception
      */
     public function get($contentType)
     {
         $interpretersMetadata = (array)$this->_applicationConfig->getNode(self::XML_PATH_WEBAPI_REQUEST_INTERPRETERS);
         if (empty($interpretersMetadata) || !is_array($interpretersMetadata)) {
-            throw new LogicException('Request interpreter adapter is not set.');
+            throw new \LogicException('Request interpreter adapter is not set.');
         }
         foreach ($interpretersMetadata as $interpreterMetadata) {
             $interpreterType = (string)$interpreterMetadata->type;
@@ -54,16 +56,16 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_Factory
         }
 
         if (!isset($interpreterClass) || empty($interpreterClass)) {
-            throw new Magento_Webapi_Exception(
+            throw new \Magento\Webapi\Exception(
                 __('Server cannot understand Content-Type HTTP header media type "%1"', $contentType),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
 
         $interpreter = $this->_objectManager->get($interpreterClass);
-        if (!$interpreter instanceof Magento_Webapi_Controller_Request_Rest_InterpreterInterface) {
-            throw new LogicException(
-                'The interpreter must implement "Magento_Webapi_Controller_Request_Rest_InterpreterInterface".');
+        if (!$interpreter instanceof \Magento\Webapi\Controller\Request\Rest\InterpreterInterface) {
+            throw new \LogicException(
+                'The interpreter must implement "\Magento\Webapi\Controller\Request\Rest\InterpreterInterface".');
         }
         return $interpreter;
     }

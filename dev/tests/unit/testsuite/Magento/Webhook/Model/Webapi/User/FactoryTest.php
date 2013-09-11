@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Webapi_User_Factory
+ * \Magento\Webhook\Model\Webapi\User\Factory
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@
  */
 class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_TestCase
 {
-    /** @var Magento_Webhook_Model_Webapi_User_Factory */
+    /** @var \Magento\Webhook\Model\Webapi\User\Factory */
     protected $_userFactory;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -100,7 +100,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
     protected function _setupUserService()
     {
 
-        $mockRuleFactory = $this->getMockBuilder('Magento_Webapi_Model_Acl_Rule_Factory')
+        $mockRuleFactory = $this->getMockBuilder('Magento\Webapi\Model\Acl\Rule\Factory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
@@ -109,7 +109,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
             ->will($this->returnValue($this->_mockRule));
 
 
-        $mockUserFactory = $this->getMockBuilder('Magento_Webapi_Model_Acl_User_Factory')
+        $mockUserFactory = $this->getMockBuilder('Magento\Webapi\Model\Acl\User\Factory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
@@ -118,7 +118,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
             ->will($this->returnValue($this->_mockUser));
 
 
-        $mockRoleFactory = $this->getMockBuilder('Magento_Webapi_Model_Acl_Role_Factory')
+        $mockRoleFactory = $this->getMockBuilder('Magento\Webapi\Model\Acl\Role\Factory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
@@ -126,11 +126,11 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
             ->method('create')
             ->will($this->returnValue($this->_mockRole));
 
-        $mockAclCache = $this->getMockBuilder('Magento_Webapi_Model_Acl_Cache')
+        $mockAclCache = $this->getMockBuilder('Magento\Webapi\Model\Acl\Cache')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_userFactory = new Magento_Webhook_Model_Webapi_User_Factory(
+        $this->_userFactory = new \Magento\Webhook\Model\Webapi\User\Factory(
             $mockRuleFactory,
             $mockUserFactory,
             $mockRoleFactory,
@@ -158,7 +158,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
 
         $uniq = 'unique string';
 
-        $this->_mockCoreHelper = $this->getMockBuilder('Magento_Core_Helper_Data')
+        $this->_mockCoreHelper = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockCoreHelper->expects($this->once())
@@ -166,7 +166,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
             ->will($this->returnValue($uniq));
 
         // Mock Role
-        $this->_mockRole = $this->getMockBuilder('Magento_Webapi_Model_Acl_Role')
+        $this->_mockRole = $this->getMockBuilder('Magento\Webapi\Model\Acl\Role')
             ->setMethods(array('load', 'save', 'getId', 'setRoleName', 'delete'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -186,7 +186,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
             ->will($this->returnSelf());
 
         // Mock Rule
-        $this->_mockRule = $this->getMockBuilder('Magento_Webapi_Model_Acl_Rule')
+        $this->_mockRule = $this->getMockBuilder('Magento\Webapi\Model\Acl\Rule')
             ->disableOriginalConstructor()
             ->setMethods(array('setRoleId', 'setResources', 'saveResources'))
             ->getMock();
@@ -204,7 +204,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
             ->will($this->returnSelf());
 
         // Mock User
-        $this->_mockUser = $this->getMockBuilder('Magento_Webapi_Model_Acl_User')
+        $this->_mockUser = $this->getMockBuilder('Magento\Webapi\Model\Acl\User')
             ->disableOriginalConstructor()
             ->setMethods(
                 array('setRoleId', 'setApiKey', 'setSecret', 'setCompanyName', 'setContactEmail', 'save', 'getId')
@@ -235,7 +235,7 @@ class Magento_Webhook_Model_Webapi_User_FactoryTest extends PHPUnit_Framework_Te
             ->withAnyParameters()
             ->will($this->returnSelf());
 
-        $this->_mockAuthConfig = $this->getMockBuilder('Magento_Webapi_Model_Acl_Resource_Provider')
+        $this->_mockAuthConfig = $this->getMockBuilder('Magento\Webapi\Model\Acl\Resource\Provider')
             ->disableOriginalConstructor()
             ->getMock();
     }

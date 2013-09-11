@@ -16,21 +16,23 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Resource_Address_Collection extends Magento_Eav_Model_Entity_Collection_Abstract
+namespace Magento\Customer\Model\Resource\Address;
+
+class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      */
     protected function _construct()
     {
-        $this->_init('Magento_Customer_Model_Address', 'Magento_Customer_Model_Resource_Address');
+        $this->_init('\Magento\Customer\Model\Address', '\Magento\Customer\Model\Resource\Address');
     }
 
     /**
      * Set customer filter
      *
-     * @param Magento_Customer_Model_Customer|array $customer
-     * @return Magento_Customer_Model_Resource_Address_Collection
+     * @param \Magento\Customer\Model\Customer|array $customer
+     * @return \Magento\Customer\Model\Resource\Address\Collection
      */
     public function setCustomerFilter($customer)
     {

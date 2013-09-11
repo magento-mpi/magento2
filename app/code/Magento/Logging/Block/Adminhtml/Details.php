@@ -11,19 +11,21 @@
 /**
  * Log grid container
  */
-class Magento_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\Logging\Block\Adminhtml;
+
+class Details extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Store curent event
      *
-     * @var Magento_Logging_Model_Event
+     * @var \Magento\Logging\Model\Event
      */
     protected $_currentEevent = null;
 
     /**
      * Store current event user
      *
-     * @var Magento_User_Model_User
+     * @var \Magento\User\Model\User
      */
     protected $_eventUser = null;
 
@@ -36,7 +38,7 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Wi
         parent::_construct();
         $this->_addButton('back', array(
             'label'   => __('Back'),
-            'onclick' => "setLocation('" . Mage::getSingleton('Magento_Backend_Model_Url')->getUrl('*/*/'). "')",
+            'onclick' => "setLocation('" . \Mage::getSingleton('Magento\Backend\Model\Url')->getUrl('*/*/'). "')",
             'class'   => 'back'
         ));
     }
@@ -57,12 +59,12 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Wi
     /**
      * Get current event
      *
-     * @return Magento_Logging_Model_Event|null
+     * @return \Magento\Logging\Model\Event|null
      */
     public function getCurrentEvent()
     {
         if (null === $this->_currentEevent) {
-            $this->_currentEevent = Mage::registry('current_event');
+            $this->_currentEevent = \Mage::registry('current_event');
         }
         return $this->_currentEevent;
     }
@@ -112,12 +114,12 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Wi
     /**
      * Get current event user
      *
-     * @return Magento_User_Model_User|null
+     * @return \Magento\User\Model\User|null
      */
     public function getEventUser()
     {
         if (null === $this->_eventUser) {
-            $this->_eventUser = Mage::getModel('Magento_User_Model_User')->load($this->getUserId());
+            $this->_eventUser = \Mage::getModel('\Magento\User\Model\User')->load($this->getUserId());
         }
         return $this->_eventUser;
     }
@@ -133,7 +135,7 @@ class Magento_Logging_Block_Adminhtml_Details extends Magento_Adminhtml_Block_Wi
         $data = $this->getCurrentEvent()->getInfo();
         try {
             $info = unserialize($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $info = $data;
         }
         return $info;

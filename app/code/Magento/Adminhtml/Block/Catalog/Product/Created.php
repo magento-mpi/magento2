@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_Block_Widget
+namespace Magento\Adminhtml\Block\Catalog\Product;
+
+class Created extends \Magento\Adminhtml\Block\Widget
 {
     protected $_configurableProduct;
     protected $_product;
@@ -27,7 +29,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_
 
     protected function _prepareLayout()
     {
-        $this->addChild('close_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('close_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label'   => __('Close Window'),
             'onclick' => 'addProduct(true)'
         ));
@@ -72,7 +74,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_
             );
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
     }
 
     /**
@@ -107,12 +109,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_
     /**
      * Retrieve configurable product for created/edited simple
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getConfigurableProduct()
     {
         if ($this->_configurableProduct === null) {
-            $this->_configurableProduct = Mage::getModel('Magento_Catalog_Model_Product')
+            $this->_configurableProduct = \Mage::getModel('\Magento\Catalog\Model\Product')
                 ->setStore(0)
                 ->load($this->getRequest()->getParam('product'));
         }
@@ -122,12 +124,12 @@ class Magento_Adminhtml_Block_Catalog_Product_Created extends Magento_Adminhtml_
     /**
      * Retrieve product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         if ($this->_product === null) {
-            $this->_product = Mage::getModel('Magento_Catalog_Model_Product')
+            $this->_product = \Mage::getModel('\Magento\Catalog\Model\Product')
                 ->setStore(0)
                 ->load($this->getRequest()->getParam('id'));
         }

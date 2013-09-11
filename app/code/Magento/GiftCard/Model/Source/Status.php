@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Model_Source_Status extends Magento_Core_Model_Abstract
+namespace Magento\GiftCard\Model\Source;
+
+class Status extends \Magento\Core\Model\AbstractModel
 {
     public function toOptionArray()
     {
         return array(
             array(
-                'value' => Magento_Sales_Model_Order_Item::STATUS_PENDING,
+                'value' => \Magento\Sales\Model\Order\Item::STATUS_PENDING,
                 'label' => __('Ordered')
             ),
             array(
-                'value' => Magento_Sales_Model_Order_Item::STATUS_INVOICED,
+                'value' => \Magento\Sales\Model\Order\Item::STATUS_INVOICED,
                 'label' => __('Invoiced')
             )
         );

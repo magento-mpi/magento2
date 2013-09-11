@@ -16,7 +16,9 @@
  * @package     Magento_Tax
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Tax_Model_Resource_Calculation_Rule extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Tax\Model\Resource\Calculation;
+
+class Rule extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -29,7 +31,7 @@ class Magento_Tax_Model_Resource_Calculation_Rule extends Magento_Core_Model_Res
     /**
      * Initialize unique fields
      *
-     * @return Magento_Tax_Model_Resource_Calculation_Rule
+     * @return \Magento\Tax\Model\Resource\Calculation\Rule
      */
     protected function _initUniqueFields()
     {

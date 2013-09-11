@@ -5,7 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Magento_Core_Model_File_Storage_Synchronization
+namespace Magento\Core\Model\File\Storage;
+
+class Synchronization
 {
     /**
      * Database storage factory
@@ -38,20 +40,20 @@ class Magento_Core_Model_File_Storage_Synchronization
      *
      * @param string $relativeFileName
      * @param string $filePath
-     * @throws LogicException
+     * @throws \LogicException
      */
     public function synchronize($relativeFileName, $filePath)
     {
-        /** @var $storage Magento_Core_Model_File_Storage_Database */
+        /** @var $storage \Magento\Core\Model\File\Storage\Database */
         $storage = $this->_storageFactory->create();
         try {
             $storage->loadByFilename($relativeFileName);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
         if ($storage->getId()) {
             $directory = dirname($filePath);
             if (!is_dir($directory) && !mkdir($directory, 0777, true)) {
-                throw new LogicException('Could not create directory');
+                throw new \LogicException('Could not create directory');
             }
 
             /** @var \Magento\Filesystem\StreamInterface $stream */

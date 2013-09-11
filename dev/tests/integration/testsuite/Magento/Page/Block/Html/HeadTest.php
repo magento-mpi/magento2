@@ -12,15 +12,15 @@
 class Magento_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Page_Block_Html_Head
+     * @var \Magento\Page\Block\Html\Head
      */
     private $_block = null;
 
     protected function setUp()
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('magento_demo', 'frontend');
-        $this->_block = Mage::app()->getLayout()->createBlock('Magento_Page_Block_Html_Head');
+        $this->_block = Mage::app()->getLayout()->createBlock('\Magento\Page\Block\Html\Head');
     }
 
     protected function tearDown()

@@ -15,18 +15,20 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Page_Header extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Page;
+
+class Header extends \Magento\Adminhtml\Block\Template
 {
     protected $_template = 'page/header.phtml';
 
     public function getHomeLink()
     {
-        return Mage::helper('Magento_Backend_Helper_Data')->getHomePageUrl();
+        return \Mage::helper('Magento\Backend\Helper\Data')->getHomePageUrl();
     }
 
     public function getUser()
     {
-        return Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getUser();
+        return \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getUser();
     }
 
     public function getLogoutLink()
@@ -41,7 +43,7 @@ class Magento_Adminhtml_Block_Page_Header extends Magento_Adminhtml_Block_Templa
      */
     public function displayNoscriptNotice()
     {
-        return Mage::getStoreConfig('web/browser_capabilities/javascript');
+        return \Mage::getStoreConfig('web/browser_capabilities/javascript');
     }
 
 }

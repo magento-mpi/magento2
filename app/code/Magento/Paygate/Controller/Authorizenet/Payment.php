@@ -15,7 +15,9 @@
  * @package    Magento_Paygate
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Controller_Front_Action
+namespace Magento\Paygate\Controller\Authorizenet;
+
+class Payment extends \Magento\Core\Controller\Front\Action
 {
 
     /**
@@ -25,23 +27,23 @@ class Magento_Paygate_Controller_Authorizenet_Payment extends Magento_Core_Contr
     {
         $result['success'] = false;
         try {
-            $paymentMethod = Mage::helper('Magento_Payment_Helper_Data')
-                ->getMethodInstance(Magento_Paygate_Model_Authorizenet::METHOD_CODE);
+            $paymentMethod = \Mage::helper('Magento\Payment\Helper\Data')
+                ->getMethodInstance(\Magento\Paygate\Model\Authorizenet::METHOD_CODE);
             if ($paymentMethod) {
-                $paymentMethod->cancelPartialAuthorization(Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment());
+                $paymentMethod->cancelPartialAuthorization(\Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment());
             }
             $result['success']  = true;
             $result['update_html'] = $this->_getPaymentMethodsHtml();
-        } catch (Magento_Core_Exception $e) {
-            Mage::logException($e);
+        } catch (\Magento\Core\Exception $e) {
+            \Mage::logException($e);
             $result['error_message'] = $e->getMessage();
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
             $result['error_message'] = __('There was an error canceling transactions. Please contact us or try again later.');
         }
 
-        Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote()->getPayment()->save();
-        $this->getResponse()->setBody(Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result));
+        \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote()->getPayment()->save();
+        $this->getResponse()->setBody(\Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result));
     }
 
     /**

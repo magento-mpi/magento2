@@ -15,7 +15,9 @@
  * @package    Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Page_Block_Html extends Magento_Core_Block_Template
+namespace Magento\Page\Block;
+
+class Html extends \Magento\Core\Block\Template
 {
     protected $_urls = array();
     protected $_title = '';
@@ -25,8 +27,8 @@ class Magento_Page_Block_Html extends Magento_Core_Block_Template
         parent::_construct();
 
         $this->_urls = array(
-            'base'      => Mage::getBaseUrl('web'),
-            'baseSecure'=> Mage::getBaseUrl('web', true),
+            'base'      => \Mage::getBaseUrl('web'),
+            'baseSecure'=> \Mage::getBaseUrl('web', true),
             'current'   => $this->_request->getRequestUri()
         );
 
@@ -82,7 +84,7 @@ class Magento_Page_Block_Html extends Magento_Core_Block_Template
 
         // buld url
         if (!empty($logo)) {
-            $logo = $this->_urlBuilder->getBaseUrl(array('_type' => Magento_Core_Model_Store::URL_TYPE_MEDIA)) . $logo;
+            $logo = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\Core\Model\Store::URL_TYPE_MEDIA)) . $logo;
         }
         else {
             $logo = '';
@@ -111,7 +113,7 @@ class Magento_Page_Block_Html extends Magento_Core_Block_Template
      * Add CSS class to page body tag
      *
      * @param string $className
-     * @return Magento_Page_Block_Html
+     * @return \Magento\Page\Block\Html
      */
     public function addBodyClass($className)
     {
@@ -123,7 +125,7 @@ class Magento_Page_Block_Html extends Magento_Core_Block_Template
     public function getLang()
     {
         if (!$this->hasData('lang')) {
-            $this->setData('lang', substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2));
+            $this->setData('lang', substr(\Mage::app()->getLocale()->getLocaleCode(), 0, 2));
         }
         return $this->getData('lang');
     }

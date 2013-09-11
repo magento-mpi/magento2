@@ -15,7 +15,9 @@
  * @package     Magento_Payment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Payment_Model_Source_Cctype
+namespace Magento\Payment\Model\Source;
+
+class Cctype
 {
     /**
      * Allowed CC types
@@ -38,7 +40,7 @@ class Magento_Payment_Model_Source_Cctype
      * Setter for allowed types
      *
      * @param $values
-     * @return Magento_Payment_Model_Source_Cctype
+     * @return \Magento\Payment\Model\Source\Cctype
      */
     public function setAllowedTypes(array $values)
     {
@@ -54,7 +56,7 @@ class Magento_Payment_Model_Source_Cctype
         $allowed = $this->getAllowedTypes();
         $options = array();
 
-        foreach (Mage::getSingleton('Magento_Payment_Model_Config')->getCcTypes() as $code => $name) {
+        foreach (\Mage::getSingleton('Magento\Payment\Model\Config')->getCcTypes() as $code => $name) {
             if (in_array($code, $allowed) || !count($allowed)) {
                 $options[] = array(
                    'value' => $code,

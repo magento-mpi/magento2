@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Sales\Transactions\Detail;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
      * Initialize default sorting and html ID
@@ -30,7 +32,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
     /**
      * Prepare collection for grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareCollection()
     {
@@ -47,7 +49,7 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
     /**
      * Add columns to grid
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -80,8 +82,8 @@ class Magento_Adminhtml_Block_Sales_Transactions_Detail_Grid extends Magento_Adm
      */
     public function getTransactionAdditionalInfo()
     {
-        $info = Mage::registry('current_transaction')->getAdditionalInformation(
-            Magento_Sales_Model_Order_Payment_Transaction::RAW_DETAILS
+        $info = \Mage::registry('current_transaction')->getAdditionalInformation(
+            \Magento\Sales\Model\Order\Payment\Transaction::RAW_DETAILS
         );
         return (is_array($info)) ? $info : array();
     }

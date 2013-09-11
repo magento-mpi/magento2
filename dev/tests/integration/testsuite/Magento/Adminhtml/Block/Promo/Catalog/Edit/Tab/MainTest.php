@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
+ * Test class for \Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main
  *
  * @magentoAppArea adminhtml
  */
@@ -22,16 +22,16 @@ class Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_MainTest extends PHPUnit_Fr
     public function testPrepareForm()
     {
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        $objectManager->get('Magento_Core_Model_View_DesignInterface')
-            ->setArea(Magento_Core_Model_App_Area::AREA_ADMINHTML)
+        $objectManager->get('Magento\Core\Model\View\DesignInterface')
+            ->setArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML)
             ->setDefaultDesignTheme();
-        $rule = $objectManager->create('Magento_CatalogRule_Model_Rule');
+        $rule = $objectManager->create('Magento\CatalogRule\Model\Rule');
         Mage::register('current_promo_catalog_rule', $rule);
 
-        $block = $objectManager->create('Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main');
-        $block->setLayout($objectManager->create('Magento_Core_Model_Layout'));
+        $block = $objectManager->create('Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main');
+        $block->setLayout($objectManager->create('Magento\Core\Model\Layout'));
         $prepareFormMethod = new ReflectionMethod(
-            'Magento_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main', '_prepareForm'
+            '\Magento\Adminhtml\Block\Promo\Catalog\Edit\Tab\Main', '_prepareForm'
         );
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);

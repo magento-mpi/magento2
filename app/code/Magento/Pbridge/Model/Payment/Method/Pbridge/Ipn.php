@@ -11,7 +11,9 @@
 /**
  * PayPal Instant Payment Notification processor model
  */
-class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
+namespace Magento\Pbridge\Model\Payment\Method\Pbridge;
+
+class Ipn
 {
     const STATUS_CREATED      = 'Created';
     const STATUS_COMPLETED    = 'Completed';
@@ -29,13 +31,13 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
     const AUTH_STATUS_COMPLETED   = 'Completed';
 
     /*
-     * @param Magento_Sales_Model_Order
+     * @param \Magento\Sales\Model\Order
      */
     protected $_order = null;
 
     /**
      *
-     * @var Magento_Paypal_Model_Config
+     * @var \Magento\Paypal\Model\Config
      */
     protected $_config = null;
 
@@ -54,10 +56,10 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
 
     /**
      * Config model setter
-     * @param Magento_Paypal_Model_Config $config
-     * @return Magento_Paypal_Model_Ipn
+     * @param \Magento\Paypal\Model\Config $config
+     * @return \Magento\Paypal\Model\Ipn
      */
-    public function setConfig(Magento_Paypal_Model_Config $config)
+    public function setConfig(\Magento\Paypal\Model\Config $config)
     {
         $this->_config = $config;
         return $this;
@@ -66,7 +68,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
     /**
      * IPN request data setter
      * @param array $data
-     * @return Magento_Paypal_Model_Ipn
+     * @return \Magento\Paypal\Model\Ipn
      */
     public function setIpnFormData(array $data)
     {
@@ -105,14 +107,14 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
         $sReq .= "&cmd=_notify-validate";
         $sReq = substr($sReq, 1);
 
-        $helper = Mage::helper('Magento_Pbridge_Helper_Data');
+        $helper = \Mage::helper('Magento\Pbridge\Helper\Data');
         $url = rtrim($helper->getBridgeBaseUrl(), '/') . '/ipn.php?action=PaypalIpn';
 
         try {
             $http = new \Magento\HTTP\Adapter\Curl();
-            $http->write(Zend_Http_Client::POST, $url, '1.1', array(), $sReq);
+            $http->write(\Zend_Http_Client::POST, $url, '1.1', array(), $sReq);
             $response = $http->read();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
 
@@ -132,19 +134,19 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
     /**
      * Load and validate order
      *
-     * @return Magento_Sales_Model_Order
-     * @throws Exception
+     * @return \Magento\Sales\Model\Order
+     * @throws \Exception
      */
     protected function _getOrder()
     {
         if (empty($this->_order)) {
             // get proper order
             $id = $this->getIpnFormData('invoice');
-            $order = Mage::getModel('Magento_Sales_Model_Order');
+            $order = \Mage::getModel('\Magento\Sales\Model\Order');
             $order->loadByIncrementId($id);
             if (!$order->getId()) {
-                // throws Exception intentionally, because cannot be logged to order comments
-                throw new Exception(__('A wrong Order ID (%1) is specified.', $id));
+                // throws \Exception intentionally, because cannot be logged to order comments
+                throw new \Exception(__('A wrong Order ID (%1) is specified.', $id));
             }
             $this->_order = $order;
         }
@@ -154,10 +156,10 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
     /**
      * Validate incoming request data, as PayPal recommends
      *
-     * @param Magento_Sales_Model_Order $order
-     * @throws Magento_Core_Exception
+     * @param \Magento\Sales\Model\Order $order
+     * @throws \Magento\Core\Exception
      */
-    protected function _verifyOrder(Magento_Sales_Model_Order $order)
+    protected function _verifyOrder(\Magento\Sales\Model\Order $order)
     {
         // verify merchant email intended to receive notification
         $merchantEmail = $this->_config->businessAccount;
@@ -167,7 +169,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
                 $receiverEmail = $this->getIpnFormData('receiver_email');
             }
             if ($merchantEmail != $receiverEmail) {
-                Mage::throwException(__('Requested %1 and configured %2 merchant emails do not match.', $receiverEmail, $merchantEmail));
+                \Mage::throwException(__('Requested %1 and configured %2 merchant emails do not match.', $receiverEmail, $merchantEmail));
             }
         }
     }
@@ -217,7 +219,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
                     // refund that was forced by PayPal, returnred back.
                     case self::STATUS_CANCELED_REV:
                         // Magento cannot handle this for now. Just notify admin.
-                        // potentially @see Magento_Sales_Model_Order_Creditmemo::cancel()
+                        // potentially @see \Magento\Sales\Model\Order\Creditmemo::cancel()
                         $history = $this->_explainRefundReason()->save();
                         $this->_notifyAdmin($history->getComment());
                         break;
@@ -242,13 +244,13 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
                         break;
                 }
             }
-            catch (Magento_Core_Exception $e) {
+            catch (\Magento\Core\Exception $e) {
                 $history = $this->_createIpnComment(__('Note: %1', $e->getMessage()))
                     ->save();
                 $this->_notifyAdmin($history->getComment(), $e);
             }
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
         }
         if ($wasPaymentInformationChanged) {
             $order->getPayment()->save();
@@ -262,7 +264,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
      *
      * Everything after saving order is not critical, thus done outside the transaction.
      *
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _registerPaymentCapture()
     {
@@ -349,7 +351,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
                 $message = __('This payment includes multiple currencies. You can accept or deny this payment in your PayPal account overview.');
                 break;
             case 'order':
-                Mage::throwException('"Order" authorizations are not implemented. Please use "simple" authorization.');
+                \Mage::throwException('"Order" authorizations are not implemented. Please use "simple" authorization.');
             case 'authorization':
                 $this->_registerPaymentAuthorization();
                 break;
@@ -415,7 +417,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
      *
      * @param string $comment
      * @param bool $addToHistory
-     * @return string|Magento_Sales_Model_Order_Status_History
+     * @return string|\Magento\Sales\Model\Order\Status\History
      */
     protected function _createIpnComment($comment = '', $addToHistory = true)
     {
@@ -438,19 +440,19 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
      * Notify Administrator about exceptional situation
      *
      * @param $message
-     * @param Exception $exception
+     * @param \Exception $exception
      */
-    protected function _notifyAdmin($message, Exception $exception = null)
+    protected function _notifyAdmin($message, \Exception $exception = null)
     {
         // prevent notification failure cause order procesing failure
         try {
-            Mage::log($message);
+            \Mage::log($message);
             if ($exception) {
-                Mage::logException($exception);
+                \Mage::logException($exception);
             }
             // @TODO: dump the message and IPN form data
-        } catch (Exception $e) {
-            Mage::logException($e);
+        } catch (\Exception $e) {
+            \Mage::logException($e);
         }
     }
 
@@ -459,7 +461,7 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
      * Should be invoked only on refunds
      * @see payment_status at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
      *
-     * @return Magento_Sales_Model_Order_Status_History
+     * @return \Magento\Sales\Model\Order\Status\History
      */
     private function _explainRefundReason($addToHistory = true)
     {
@@ -497,20 +499,20 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
      * Map payment information from IPN to payment object
      * Returns true if there were changes in information
      *
-     * @param Magento_Payment_Model_Info $payment
+     * @param \Magento\Payment\Model\Info $payment
      * @return bool
      */
-    protected function _importPaymentInformation(Magento_Payment_Model_Info $payment)
+    protected function _importPaymentInformation(\Magento\Payment\Model\Info $payment)
     {
         $was = $payment->getAdditionalInformation();
 
         $from = array();
         foreach (array(
-            Magento_Paypal_Model_Info::PAYER_ID,
-            'payer_email' => Magento_Paypal_Model_Info::PAYER_EMAIL,
-            Magento_Paypal_Model_Info::PAYER_STATUS,
-            Magento_Paypal_Model_Info::ADDRESS_STATUS,
-            Magento_Paypal_Model_Info::PROTECTION_EL,
+            \Magento\Paypal\Model\Info::PAYER_ID,
+            'payer_email' => \Magento\Paypal\Model\Info::PAYER_EMAIL,
+            \Magento\Paypal\Model\Info::PAYER_STATUS,
+            \Magento\Paypal\Model\Info::ADDRESS_STATUS,
+            \Magento\Paypal\Model\Info::PROTECTION_EL,
         ) as $privateKey => $publicKey) {
             if (is_int($privateKey)) {
                 $privateKey = $publicKey;
@@ -527,10 +529,10 @@ class Magento_Pbridge_Model_Payment_Method_Pbridge_Ipn
             $fraudFilters[] = $value;
         }
         if ($fraudFilters) {
-            $from[Magento_Paypal_Model_Info::FRAUD_FILTERS] = $fraudFilters;
+            $from[\Magento\Paypal\Model\Info::FRAUD_FILTERS] = $fraudFilters;
         }
 
-        Mage::getSingleton('Magento_Paypal_Model_Info')->importToPayment($from, $payment);
+        \Mage::getSingleton('Magento\Paypal\Model\Info')->importToPayment($from, $payment);
         return $was != $payment->getAdditionalInformation();
     }
 

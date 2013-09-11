@@ -22,7 +22,7 @@ return array(
             'description' => 'some description',
             'default_sort_by' => 'name',
             'available_sort_by' => array('name'),
-            'display_mode' => Magento_Catalog_Model_Category::DM_PRODUCT,
+            'display_mode' => \Magento\Catalog\Model\Category::DM_PRODUCT,
             'include_in_menu' => 1,
             'page_layout' => 'one_column',
             'custom_design' => 'default/default',
@@ -47,7 +47,7 @@ return array(
             'description' => 'some description Update',
             'default_sort_by' => 'position',
             'available_sort_by' => array('position', 'name'),
-            'display_mode' => Magento_Catalog_Model_Category::DM_MIXED,
+            'display_mode' => \Magento\Catalog\Model\Category::DM_MIXED,
             'landing_page' => 2, //ID of static block
             'include_in_menu' => 0,
             'page_layout' => 'one_column',

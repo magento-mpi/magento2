@@ -15,7 +15,9 @@
  * @package    Magento_Install
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_Installer_Abstract
+namespace Magento\Install\Model\Installer;
+
+class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**#@+
      * @deprecated since 1.7.1.0
@@ -44,7 +46,7 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
     public function install()
     {
         if (!$this->_checkFilesystem()) {
-            throw new Exception();
+            throw new \Exception();
         };
         return $this;
     }
@@ -57,7 +59,7 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
     protected function _checkFilesystem()
     {
         $res = true;
-        $config = Mage::getSingleton('Magento_Install_Model_Config')->getWritableFullPathsForCheck();
+        $config = \Mage::getSingleton('Magento\Install\Model\Config')->getWritableFullPathsForCheck();
 
         if (is_array($config)) {
             foreach ($config as $item) {
@@ -82,7 +84,7 @@ class Magento_Install_Model_Installer_Filesystem extends Magento_Install_Model_I
      */
     protected function _checkPath($path, $recursive, $existence, $mode)
     {
-        return $this->_checkFullPath(dirname(Mage::getRoot()) . $path, $recursive, $existence);
+        return $this->_checkFullPath(dirname(\Mage::getRoot()) . $path, $recursive, $existence);
     }
 
     /**

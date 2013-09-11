@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Checkout_Controller_Index extends Magento_Core_Controller_Front_Action
+namespace Magento\Checkout\Controller;
+
+class Index extends \Magento\Core\Controller\Front\Action
 {
     function indexAction()
     {

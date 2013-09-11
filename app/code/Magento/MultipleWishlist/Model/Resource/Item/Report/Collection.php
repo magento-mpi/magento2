@@ -15,29 +15,31 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
-    extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\MultipleWishlist\Model\Resource\Item\Report;
+
+class Collection
+    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Init model
      */
     protected function _construct()
     {
-        $this->_init('Magento_MultipleWishlist_Model_Item', 'Magento_MultipleWishlist_Model_Resource_Item');
+        $this->_init('\Magento\MultipleWishlist\Model\Item', '\Magento\MultipleWishlist\Model\Resource\Item');
     }
 
     /**
      * Add customer information to collection items
      *
-     * @return Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
+     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
      */
     protected function _addCustomerInfo()
     {
-        /* @var Magento_Customer_Model_Resource_Customer $customer */
-        $customer  = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Customer');
+        /* @var \Magento\Customer\Model\Resource\Customer $customer */
+        $customer  = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Customer');
         $select = $this->getSelect();
 
-        $customerAccount = Mage::getConfig()->getFieldset('customer_account');
+        $customerAccount = \Mage::getConfig()->getFieldset('customer_account');
         foreach ($customerAccount as $code => $node) {
             if ($node->is('name')) {
                 $fields[$code] = $code;
@@ -89,9 +91,9 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
     /**
      * Join customer attribute
      *
-     * @param Magento_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
      */
-    protected function _joinCustomerAttibute(Magento_Eav_Model_Entity_Attribute_Abstract $attribute)
+    protected function _joinCustomerAttibute(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute)
     {
         $adapter = $this->getSelect()->getAdapter();
         $tableName = $adapter->getTableName('at_' . $attribute->getName());
@@ -114,7 +116,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
      * Filter collection by store ids
      *
      * @param array $storeIds
-     * @return Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
+     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
      */
     public function filterByStoreIds(array $storeIds)
     {
@@ -125,11 +127,11 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
     /**
      * Add product information to collection
      *
-     * @return Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
+     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
      */
     protected function _addProductInfo()
     {
-        if (Mage::helper('Magento_Catalog_Helper_Data')->isModuleEnabled('Magento_CatalogInventory')) {
+        if (\Mage::helper('Magento\Catalog\Helper\Data')->isModuleEnabled('Magento_CatalogInventory')) {
             $this->getSelect()->joinLeft(
                 array('item_stock' => $this->getTable('cataloginventory_stock_item')),
                 'main_table.product_id = item_stock.product_id',
@@ -146,17 +148,17 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
     /**
      * Add selected data
      *
-     * @return Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
+     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
         $select = $this->getSelect();
-        $select->reset(Zend_Db_Select::COLUMNS)
+        $select->reset(\Zend_Db_Select::COLUMNS)
             ->columns(array('item_qty' => 'qty', 'added_at', 'description', 'product_id'));
 
         $adapter = $this->getSelect()->getAdapter();
-        $defaultWishlistName = Mage::helper('Magento_Wishlist_Helper_Data')->getDefaultWishlistName();
+        $defaultWishlistName = \Mage::helper('Magento\Wishlist\Helper\Data')->getDefaultWishlistName();
         $this->getSelect()->join(
             array('wishlist_table' => $this->getTable('wishlist')),
             'main_table.wishlist_id = wishlist_table.wishlist_id',
@@ -181,7 +183,7 @@ class Magento_MultipleWishlist_Model_Resource_Item_Report_Collection
     {
         parent::_afterLoad();
         foreach($this->_items as $item) {
-            /* @var $item Magento_MultipleWishlist_Model_Item $item*/
+            /* @var $item \Magento\MultipleWishlist\Model\Item $item*/
             $product = $item->getProduct();
             $item->setProductName($product->getName());
             $item->setProductPrice($product->getPrice());

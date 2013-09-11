@@ -15,12 +15,14 @@
  * @package     Magento_PromotionPermissions
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_PromotionPermissions_Model_Observer
+namespace Magento\PromotionPermissions\Model;
+
+class Observer
 {
     /**
      * Instance of http request
      *
-     * @var Magento_Core_Controller_Request_Http
+     * @var \Magento\Core\Controller\Request\Http
      */
     protected $_request;
 
@@ -66,9 +68,9 @@ class Magento_PromotionPermissions_Model_Observer
      */
     public function __construct()
     {
-        $this->_request = Mage::app()->getRequest();
+        $this->_request = \Mage::app()->getRequest();
         // Set necessary flags
-        $helper = Mage::helper('Magento_PromotionPermissions_Helper_Data');
+        $helper = \Mage::helper('Magento\PromotionPermissions\Helper\Data');
         $this->_canEditCatalogRules = $helper->getCanAdminEditCatalogRules();
         $this->_canEditSalesRules = $helper->getCanAdminEditSalesRules();
         $this->_canEditReminderRules = $helper->getCanAdminEditReminderRules();
@@ -85,7 +87,7 @@ class Magento_PromotionPermissions_Model_Observer
      */
     public function coreBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block Magento_Core_Block_Abstract */
+         /** @var $block \Magento\Core\Block\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
@@ -106,7 +108,7 @@ class Magento_PromotionPermissions_Model_Observer
      */
     public function adminhtmlBlockHtmlBefore($observer)
     {
-        /** @var $block Magento_Adminhtml_Block_Template */
+        /** @var $block \Magento\Adminhtml\Block\Template */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
@@ -184,14 +186,14 @@ class Magento_PromotionPermissions_Model_Observer
             case 'related_catalogrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditCatalogRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(Mage::getModel('Magento_Banner_Model_Banner')->getCollection()->getAllIds());
+                        ->setDisabledValues(\Mage::getModel('\Magento\Banner\Model\Banner')->getCollection()->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
             case 'related_salesrule_banners_grid' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $block->getColumn('in_banners')
-                        ->setDisabledValues(Mage::getModel('Magento_Banner_Model_Banner')->getCollection()->getAllIds());
+                        ->setDisabledValues(\Mage::getModel('\Magento\Banner\Model\Banner')->getCollection()->getAllIds());
                     $block->getColumn('in_banners')->setDisabled(true);
                 }
                 break;
@@ -228,11 +230,11 @@ class Magento_PromotionPermissions_Model_Observer
 
         if (in_array($controllerActionName, $forbiddenActionNames)
             && ((!$this->_canEditSalesRules
-            && $controllerAction instanceof Magento_Adminhtml_Controller_Promo_Quote)
+            && $controllerAction instanceof \Magento\Adminhtml\Controller\Promo\Quote)
             || (!$this->_canEditCatalogRules
-            && $controllerAction instanceof Magento_Adminhtml_Controller_Promo_Catalog)
+            && $controllerAction instanceof \Magento\Adminhtml\Controller\Promo\Catalog)
             || ($this->_isEnterpriseReminderEnabled && !$this->_canEditReminderRules
-            && $controllerAction instanceof Magento_Reminder_Controller_Adminhtml_Reminder))
+            && $controllerAction instanceof \Magento\Reminder\Controller\Adminhtml\Reminder))
         ) {
             $this->_forward();
         }

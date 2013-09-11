@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Form_Price extends Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price
+namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Form;
+
+class Price extends \Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price
 {
 
 }

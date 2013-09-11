@@ -15,22 +15,24 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adminhtml_Block_Sales_Order_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Shipment\View;
+
+class Form extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     /**
      * Retrieve shipment model instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
-        return Mage::registry('current_shipment');
+        return \Mage::registry('current_shipment');
     }
 
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getSource()
     {
@@ -57,7 +59,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
         $data['shipment_id'] = $this->getShipment()->getId();
         $url = $this->getUrl('*/sales_order_shipment/createLabel', $data);
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Create Shipping Label...'),
                 'onclick' => 'packaging.showWindow();',
@@ -75,7 +77,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
         $data['shipment_id'] = $this->getShipment()->getId();
         $url = $this->getUrl('*/sales_order_shipment/printLabel', $data);
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -91,7 +93,7 @@ class Magento_Adminhtml_Block_Sales_Order_Shipment_View_Form extends Magento_Adm
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('Magento_Adminhtml_Block_Widget_Button')
+            ->createBlock('\Magento\Adminhtml\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Show Packages'),
                 'onclick' => 'showPackedWindow();'

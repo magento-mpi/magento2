@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Cms\Page;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -28,8 +30,8 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Cms_Model_Page')->getCollection();
-        /* @var $collection Magento_Cms_Model_Resource_Page_Collection */
+        $collection = \Mage::getModel('\Magento\Cms\Model\Page')->getCollection();
+        /* @var $collection \Magento\Cms\Model\Resource\Page\Collection */
         $collection->setFirstStoreFlag(true);
         $this->setCollection($collection);
 
@@ -58,13 +60,13 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
             'header'    => __('Layout'),
             'index'     => 'root_template',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Page_Model_Source_Layout')->getOptions(),
+            'options'   => \Mage::getSingleton('Magento\Page\Model\Source\Layout')->getOptions(),
         ));
 
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'        => __('Store View'),
                 'index'         => 'store_id',
@@ -81,7 +83,7 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
             'header'    => __('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('Magento_Cms_Model_Page')->getAvailableStatuses()
+            'options'   => \Mage::getSingleton('Magento\Cms\Model\Page')->getAvailableStatuses()
         ));
 
         $this->addColumn('creation_time', array(
@@ -101,7 +103,7 @@ class Magento_Adminhtml_Block_Cms_Page_Grid extends Magento_Adminhtml_Block_Widg
             'width'     => 10,
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'Magento_Adminhtml_Block_Cms_Page_Grid_Renderer_Action',
+            'renderer'  => '\Magento\Adminhtml\Block\Cms\Page\Grid\Renderer\Action',
         ));
 
         return parent::_prepareColumns();

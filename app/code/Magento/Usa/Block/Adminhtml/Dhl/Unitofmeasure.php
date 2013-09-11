@@ -15,7 +15,9 @@
  * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Usa\Block\Adminhtml\Dhl;
+
+class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
 {
 
     /**
@@ -27,7 +29,7 @@ class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Bloc
     {
         parent::_construct();
 
-        $carrierModel = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Dhl_International');
+        $carrierModel = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Dhl\International');
 
         $this->setInch($this->jsQuoteEscape($carrierModel->getCode('unit_of_dimension_cut', 'I')));
         $this->setCm($this->jsQuoteEscape($carrierModel->getCode('unit_of_dimension_cut', 'C')));
@@ -43,8 +45,8 @@ class Magento_Usa_Block_Adminhtml_Dhl_Unitofmeasure extends Magento_Backend_Bloc
         );
 
         $weight = round(
-            Mage::helper('Magento_Usa_Helper_Data')->convertMeasureWeight(
-                $kgWeight, Zend_Measure_Weight::KILOGRAM, Zend_Measure_Weight::POUND), 3);
+            \Mage::helper('Magento\Usa\Helper\Data')->convertMeasureWeight(
+                $kgWeight, \Zend_Measure_Weight::KILOGRAM, \Zend_Measure_Weight::POUND), 3);
 
         $this->setDivideOrderWeightNoteLbp(
             $this->jsQuoteEscape(__('This allows breaking total order weight into smaller pieces if it exceeds %1 %2 to ensure accurate calculation of shipping charges.', $weight, 'pounds'))

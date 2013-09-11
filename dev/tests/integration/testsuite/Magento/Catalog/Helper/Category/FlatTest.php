@@ -12,13 +12,13 @@
 class Magento_Catalog_Helper_Category_FlatTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Catalog_Helper_Category_Flat
+     * @var \Magento\Catalog\Helper\Category\Flat
      */
     protected $_helper;
 
     protected function setUp()
     {
-        $this->_helper = Mage::helper('Magento_Catalog_Helper_Category_Flat');
+        $this->_helper = Mage::helper('Magento\Catalog\Helper\Category\Flat');
     }
 
     public function testIsEnabledDefault()

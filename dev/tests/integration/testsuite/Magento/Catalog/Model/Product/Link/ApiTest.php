@@ -71,14 +71,14 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
             )
         );
         $this->assertTrue($relatedResult, "Related link creation was unsuccessful.");
-        /** @var Magento_Catalog_Model_Product $product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load($this->_mainProductId);
 
         /** Check created 'related' product link */
         $actualRelated = $product->getRelatedLinkCollection()->getItems();
         $this->assertCount(1, $actualRelated, "One link of 'related' type must exist.");
-        /** @var Magento_Catalog_Model_Product_Link $relatedProductLink */
+        /** @var \Magento\Catalog\Model\Product\Link $relatedProductLink */
         $relatedProductLink = reset($actualRelated);
         $this->assertEquals(
             $this->_relatedProductId,
@@ -89,7 +89,7 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
         /** Check created 'up-sell' product link */
         $actualUpSell = $product->getUpSellLinkCollection()->getItems();
         $this->assertCount(1, $actualUpSell, "One link of 'up-sell' type must exist.");
-        /** @var Magento_Catalog_Model_Product_Link $upSellProductLink */
+        /** @var \Magento\Catalog\Model\Product\Link $upSellProductLink */
         $upSellProductLink = reset($actualUpSell);
         $this->assertEquals(
             $this->_upSellProductId,
@@ -145,12 +145,12 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
         $this->assertTrue($isUpdated, "Related link update was unsuccessful.");
 
         /** Check created 'related' product link */
-        /** @var Magento_Catalog_Model_Product $product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load($this->_mainProductId);
         $actualRelated = $product->getRelatedLinkCollection()->getItems();
         $this->assertCount(1, $actualRelated, "One link of 'related' type must exist.");
-        /** @var Magento_Catalog_Model_Product_Link $relatedProductLink */
+        /** @var \Magento\Catalog\Model\Product\Link $relatedProductLink */
         $relatedProductLink = reset($actualRelated);
         $this->assertEquals(
             $positionForUpdate,
@@ -177,8 +177,8 @@ class Magento_Catalog_Model_Product_Link_ApiTest extends PHPUnit_Framework_TestC
         );
         $this->assertTrue($isRemoved, "Related link remove was unsuccessful.");
 
-        /** @var Magento_Catalog_Model_Product $product */
-        $product = Mage::getModel('Magento_Catalog_Model_Product');
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = Mage::getModel('\Magento\Catalog\Model\Product');
         $product->load($this->_mainProductId);
 
         /** Check that 'related' product link was not removed */

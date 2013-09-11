@@ -16,8 +16,10 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_Js
-    extends Magento_Adminhtml_Block_Template
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit;
+
+class Js
+    extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Retrieve allowed Input Validate Filters in JSON format
@@ -26,8 +28,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_J
      */
     public function getValidateFiltersJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode
-            (Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->getAttributeValidateFilters()
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode
+            (\Mage::helper('Magento\CustomerCustomAttributes\Helper\Data')->getAttributeValidateFilters()
         );
     }
 
@@ -38,8 +40,8 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_J
      */
     public function getFilteTypesJson()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode(
-            Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->getAttributeFilterTypes()
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(
+            \Mage::helper('Magento\CustomerCustomAttributes\Helper\Data')->getAttributeFilterTypes()
         );
     }
 
@@ -50,6 +52,6 @@ class Magento_CustomerCustomAttributes_Block_Adminhtml_Customer_Attribute_Edit_J
      */
     public function getAttributeInputTypes()
     {
-        return Mage::helper('Magento_CustomerCustomAttributes_Helper_Data')->getAttributeInputTypes();
+        return \Mage::helper('Magento\CustomerCustomAttributes\Helper\Data')->getAttributeInputTypes();
     }
 }

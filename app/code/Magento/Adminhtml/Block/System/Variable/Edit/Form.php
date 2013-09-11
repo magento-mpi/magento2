@@ -15,22 +15,24 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_System_Variable_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\System\Variable\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
     /**
      * Getter
      *
-     * @return Magento_Core_Model_Variable
+     * @return \Magento\Core\Model\Variable
      */
     public function getVariable()
     {
-        return Mage::registry('current_variable');
+        return \Mage::registry('current_variable');
     }
 
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Adminhtml_Block_System_Variable_Edit_Form
+     * @return \Magento\Adminhtml\Block\System\Variable\Edit\Form
      */
     protected function _prepareForm()
     {

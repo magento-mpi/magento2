@@ -28,15 +28,15 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
     protected $_curlFactoryMock;
 
     /**
-     * @var Magento_AdminNotification_Model_System_Message_Security
+     * @var \Magento\AdminNotification\Model\System\Message\Security
      */
     protected $_messageModel;
 
     public function setUp()
     {
         //Prepare objects for constructor
-        $this->_cacheMock = $this->getMock('Magento_Core_Model_CacheInterface');
-        $this->_storeConfigMock = $this->getMock('Magento_Core_Model_Store_Config',
+        $this->_cacheMock = $this->getMock('Magento\Core\Model\CacheInterface');
+        $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config',
             array('getConfig'), array(), '', false);
         $this->_curlFactoryMock = $this->getMock('Magento\HTTP\Adapter\CurlFactory',
             array('create'), array(), '', false);
@@ -48,7 +48,7 @@ class Magento_AdminNotification_Model_System_Message_SecurityTest extends PHPUni
             'curlFactory' => $this->_curlFactoryMock,
         );
         $this->_messageModel = $objectManagerHelper->getObject(
-            'Magento_AdminNotification_Model_System_Message_Security',
+            '\Magento\AdminNotification\Model\System\Message\Security',
             $arguments);
     }
 

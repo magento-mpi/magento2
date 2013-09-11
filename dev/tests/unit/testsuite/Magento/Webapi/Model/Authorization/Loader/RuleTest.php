@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for Magento_Webapi_Model_Authorization_Loader_Rule
+ * Test class for \Magento\Webapi\Model\Authorization\Loader\Rule
  *
  * {license_notice}
  *
@@ -10,12 +10,12 @@
 class Magento_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Webapi_Model_Resource_Acl_Rule
+     * @var \Magento\Webapi\Model\Resource\Acl\Rule
      */
     protected $_ruleResource;
 
     /**
-     * @var Magento_Webapi_Model_Authorization_Loader_Rule
+     * @var \Magento\Webapi\Model\Authorization\Loader\Rule
      */
     protected $_model;
 
@@ -31,18 +31,18 @@ class Magento_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framewo
     {
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
 
-        $this->_ruleResource = $this->getMock('Magento_Webapi_Model_Resource_Acl_Rule',
+        $this->_ruleResource = $this->getMock('Magento\Webapi\Model\Resource\Acl\Rule',
             array('getRuleList'), array(), '', false);
 
         $this->_acl = $this->getMock('Magento\Acl', array('has', 'hasRole', 'allow'), array(), '', false);
 
-        $this->_model = $helper->getObject('Magento_Webapi_Model_Authorization_Loader_Rule', array(
+        $this->_model = $helper->getObject('\Magento\Webapi\Model\Authorization\Loader\Rule', array(
             'ruleResource' => $this->_ruleResource,
         ));
     }
 
     /**
-     * Test for Magento_Webapi_Model_Authorization_Loader_Rule::populateAcl.
+     * Test for \Magento\Webapi\Model\Authorization\Loader\Rule::populateAcl.
      */
     public function testPopulateAcl()
     {
@@ -81,7 +81,7 @@ class Magento_Webapi_Model_Authorization_Loader_RuleTest extends PHPUnit_Framewo
     }
 
     /**
-     * Test for Magento_Webapi_Model_Authorization_Loader_Rule::populateAcl without rules.
+     * Test for \Magento\Webapi\Model\Authorization\Loader\Rule::populateAcl without rules.
      */
     public function testPopulateAclWithoutRules()
     {

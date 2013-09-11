@@ -11,22 +11,24 @@
 /**
  * Core translate helper
  */
-class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
+namespace Magento\Core\Helper;
+
+class Translate extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Design package instance
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design = null;
 
     /**
-     * @param Magento_Core_Model_View_DesignInterface $design
-     * @param Magento_Core_Helper_Context $context
+     * @param \Magento\Core\Model\View\DesignInterface $design
+     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design,
-        Magento_Core_Helper_Context $context
+        \Magento\Core\Model\View\DesignInterface $design,
+        \Magento\Core\Helper\Context $context
     ) {
         $this->_design = $design;
         parent::__construct($context);
@@ -49,7 +51,7 @@ class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
 
             $this->_translator->processAjaxPost($translate);
             $result = $returnType == 'json' ? "{success:true}" : true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = $returnType == 'json' ? "{error:true,message:'" . $e->getMessage() . "'}" : false;
         }
         return $result;
@@ -60,7 +62,7 @@ class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
      * @param $localeCode string
      * @param $area string
      * @param $forceReload bool
-     * @return \Magento_Core_Model_Translate
+     * @return \Magento\Core\Model\Translate
      */
     public function initTranslate($localeCode, $area, $forceReload)
     {
@@ -70,7 +72,7 @@ class Magento_Core_Helper_Translate extends Magento_Core_Helper_Abstract
             'inline_type' => null,
             'params' => array('area' => $area)
         ));
-        $eventManager = Mage::getObjectManager()->get('Magento_Core_Model_Event_Manager');
+        $eventManager = \Mage::getObjectManager()->get('Magento\Core\Model\Event\Manager');
         $eventManager->dispatch('translate_initialization_before', array(
             'translate_object' => $this->_translator,
             'result' => $dispatchResult

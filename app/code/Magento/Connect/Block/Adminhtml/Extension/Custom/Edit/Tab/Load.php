@@ -15,8 +15,10 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit_Tab_Load
-    extends Magento_Adminhtml_Block_Template
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
+
+class Load
+    extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Retrieve Grid Block HTML

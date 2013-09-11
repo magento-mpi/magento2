@@ -16,8 +16,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+namespace Magento\Adminhtml\Block\Sales\Reorder\Renderer;
+
+class Action
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Array to store all options data
@@ -29,14 +31,14 @@ class Magento_Adminhtml_Block_Sales_Reorder_Renderer_Action
     public function render(\Magento\Object $row)
     {
         $this->_actions = array();
-        if (Mage::helper('Magento_Sales_Helper_Reorder')->canReorder($row)) {
+        if (\Mage::helper('Magento\Sales\Helper\Reorder')->canReorder($row)) {
             $reorderAction = array(
                 '@' => array('href' => $this->getUrl('*/sales_order_create/reorder', array('order_id'=>$row->getId()))),
                 '#' =>  __('Reorder')
             );
             $this->addToActions($reorderAction);
         }
-        Mage::dispatchEvent('adminhtml_customer_orders_add_action_renderer', array('renderer' => $this, 'row' => $row));
+        \Mage::dispatchEvent('adminhtml_customer_orders_add_action_renderer', array('renderer' => $this, 'row' => $row));
         return $this->_actionsToHtml();
     }
 

@@ -9,9 +9,11 @@
  */
 
 
-class Magento_Sales_Model_Order_Creditmemo_Total_Grand extends Magento_Sales_Model_Order_Creditmemo_Total_Abstract
+namespace Magento\Sales\Model\Order\Creditmemo\Total;
+
+class Grand extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
 {
-    public function collect(Magento_Sales_Model_Order_Creditmemo $creditmemo)
+    public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $grandTotal     = $creditmemo->getGrandTotal();
         $baseGrandTotal = $creditmemo->getBaseGrandTotal();

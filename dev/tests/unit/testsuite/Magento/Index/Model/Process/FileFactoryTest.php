@@ -10,7 +10,7 @@
  */
 
 /**
- * Unit test for Magento_Index_Model_Process_FileFactory
+ * Unit test for \Magento\Index\Model\Process\FileFactory
  */
 class Magento_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_TestCase
 {
@@ -22,7 +22,7 @@ class Magento_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_Test
     /**
      * Expected class name
      */
-    const EXPECTED_CLASS_NAME = 'Magento_Index_Model_Process_File';
+    const EXPECTED_CLASS_NAME = '\Magento\Index\Model\Process\File';
 
     /**
      * @var array
@@ -39,7 +39,7 @@ class Magento_Index_Model_Process_FileFactoryTest extends PHPUnit_Framework_Test
             ->with(self::EXPECTED_CLASS_NAME, $this->_arguments)
             ->will($this->returnValue(self::CREATE_RESULT));
 
-        $factory = new Magento_Index_Model_Process_FileFactory($objectManagerMock);
+        $factory = new \Magento\Index\Model\Process\FileFactory($objectManagerMock);
         $this->assertEquals(self::CREATE_RESULT, $factory->create($this->_arguments));
     }
 }

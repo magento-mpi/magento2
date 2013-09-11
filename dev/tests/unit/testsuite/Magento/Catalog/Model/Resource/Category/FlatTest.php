@@ -23,11 +23,11 @@ class Magento_Catalog_Model_Resource_Category_FlatTest extends PHPUnit_Framework
 
     /**
      * @param array $methods
-     * @return Magento_Catalog_Model_Resource_Category_Flat|PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Catalog\Model\Resource\Category\Flat|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getModelMock(array $methods = array())
     {
-        return $this->getMockBuilder('Magento_Catalog_Model_Resource_Category_Flat')
+        return $this->getMockBuilder('Magento\Catalog\Model\Resource\Category\Flat')
             ->setMethods($methods)
             ->disableOriginalConstructor()
             ->getMock();
@@ -75,7 +75,7 @@ class Magento_Catalog_Model_Resource_Category_FlatTest extends PHPUnit_Framework
 
         $model->expects($this->never())->method('_createTable');
 
-        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $store->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $model->rebuild(array($store));
@@ -91,7 +91,7 @@ class Magento_Catalog_Model_Resource_Category_FlatTest extends PHPUnit_Framework
 
         $model->expects($this->atLeastOnce())->method('_createTable');
 
-        $store = $this->getMock('Magento_Core_Model_Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $store->expects($this->any())->method('getId')->will($this->returnValue(1));
 
         $model->rebuild(array($store));

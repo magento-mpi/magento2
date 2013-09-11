@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Core_Model_Layout_Element
+ * Test class for \Magento\Core\Model\Layout\Element
  */
 class Magento_Core_Model_Layout_ElementTest extends PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class Magento_Core_Model_Layout_ElementTest extends PHPUnit_Framework_TestCase
      */
     public function testGetElementName($xml, $name)
     {
-        $model = new Magento_Core_Model_Layout_Element($xml);
+        $model = new \Magento\Core\Model\Layout\Element($xml);
         $this->assertEquals($name, $model->getElementName());
     }
 

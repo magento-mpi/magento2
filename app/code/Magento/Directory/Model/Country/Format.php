@@ -10,27 +10,29 @@
 
 
 /**
- * Directory country format model
+ * \Directory country format model
  *
- * @method Magento_Directory_Model_Resource_Country_Format _getResource()
- * @method Magento_Directory_Model_Resource_Country_Format getResource()
+ * @method \Magento\Directory\Model\Resource\Country\Format _getResource()
+ * @method \Magento\Directory\Model\Resource\Country\Format getResource()
  * @method string getCountryId()
- * @method Magento_Directory_Model_Country_Format setCountryId(string $value)
+ * @method \Magento\Directory\Model\Country\Format setCountryId(string $value)
  * @method string getType()
- * @method Magento_Directory_Model_Country_Format setType(string $value)
+ * @method \Magento\Directory\Model\Country\Format setType(string $value)
  * @method string getFormat()
- * @method Magento_Directory_Model_Country_Format setFormat(string $value)
+ * @method \Magento\Directory\Model\Country\Format setFormat(string $value)
  *
  * @category    Magento
  * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Country_Format extends Magento_Core_Model_Abstract
+namespace Magento\Directory\Model\Country;
+
+class Format extends \Magento\Core\Model\AbstractModel
 {
 
     protected function _construct()
     {
-        $this->_init('Magento_Directory_Model_Resource_Country_Format');
+        $this->_init('\Magento\Directory\Model\Resource\Country\Format');
     }
 
 }

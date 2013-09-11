@@ -15,13 +15,15 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\Adminhtml\Block\Customer\Sales\Order\Address\Form\Renderer;
+
+class Vat
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * Validate button block
      *
-     * @var null|Magento_Adminhtml_Block_Widget_Button
+     * @var null|\Magento\Adminhtml\Block\Widget\Button
      */
     protected $_validateButton = null;
 
@@ -30,7 +32,7 @@ class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
     /**
      * Retrieve validate button block
      *
-     * @return Magento_Adminhtml_Block_Widget_Button
+     * @return \Magento\Adminhtml\Block\Widget\Button
      */
     public function getValidateButton()
     {
@@ -41,13 +43,13 @@ class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
             $vatElementId = $this->_element->getHtmlId();
 
             $countryElementId = $form->getElement('country_id')->getHtmlId();
-            $validateUrl = Mage::getSingleton('Magento_Backend_Model_Url')
+            $validateUrl = \Mage::getSingleton('Magento\Backend\Model\Url')
                 ->getUrl('*/customer_system_config_validatevat/validateAdvanced');
 
             $groupSuggestionMessage = __('The customer is currently assigned to Customer Group %s.')
                 . ' ' . __('Would you like to change the Customer Group for this order?');
 
-            $vatValidateOptions = Mage::helper('Magento_Core_Helper_Data')->jsonEncode(array(
+            $vatValidateOptions = \Mage::helper('Magento\Core\Helper\Data')->jsonEncode(array(
                 'vatElementId' => $vatElementId,
                 'countryElementId' => $countryElementId,
                 'groupIdHtmlId' => 'group_id',
@@ -65,7 +67,7 @@ class Magento_Adminhtml_Block_Customer_Sales_Order_Address_Form_Renderer_Vat
             $optionsVarName = $this->getJsVariablePrefix() . 'VatParameters';
             $beforeHtml = '<script type="text/javascript">var ' . $optionsVarName . ' = ' . $vatValidateOptions
                 . ';</script>';
-            $this->_validateButton = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
+            $this->_validateButton = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData(array(
                 'label'       => __('Validate VAT Number'),
                 'before_html' => $beforeHtml,
                 'onclick'     => 'order.validateVat(' . $optionsVarName . ')'

@@ -15,7 +15,9 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminhtml_Controller_Action
+namespace Magento\Search\Controller\Adminhtml\Catalog;
+
+class Search extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Ajax grid action
@@ -23,24 +25,24 @@ class Magento_Search_Controller_Adminhtml_Catalog_Search extends Magento_Adminht
     public function relatedGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('Magento_CatalogSearch_Model_Query');
+        $model = \Mage::getModel('\Magento\CatalogSearch\Model\Query');
 
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError(__('This search no longer exists.'));
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError(__('This search no longer exists.'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
         // set entered data if was error when we do save
-        $data = Mage::getSingleton('Magento_Adminhtml_Model_Session')->getPageData(true);
+        $data = \Mage::getSingleton('Magento\Adminhtml\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
 
-        Mage::register('current_catalog_search', $model);
+        \Mage::register('current_catalog_search', $model);
 
         $this->loadLayout(false);
         $this->renderLayout();

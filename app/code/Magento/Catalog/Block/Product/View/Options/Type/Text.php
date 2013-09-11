@@ -16,8 +16,10 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Block_Product_View_Options_Type_Text
-    extends Magento_Catalog_Block_Product_View_Options_Abstract
+namespace Magento\Catalog\Block\Product\View\Options\Type;
+
+class Text
+    extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
 {
 
     /**

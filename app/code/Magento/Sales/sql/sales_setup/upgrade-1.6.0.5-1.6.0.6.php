@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_Sales_Model_Resource_Setup */
+/* @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
 
 $entitiesToAlter = array(

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Adminhtml\Block\Customer\System\Config;
+
+class Validatevat extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Merchant Country Field Name
@@ -42,7 +44,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
      * Set Merchant Country Field Name
      *
      * @param string $countryField
-     * @return Magento_Adminhtml_Block_Customer_System_Config_Validatevat
+     * @return \Magento\Adminhtml\Block\Customer\System\Config\Validatevat
      */
     public function setMerchantCountryField($countryField)
     {
@@ -64,7 +66,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
      * Set Merchant VAT Number Field
      *
      * @param string $vatNumberField
-     * @return Magento_Adminhtml_Block_Customer_System_Config_Validatevat
+     * @return \Magento\Adminhtml\Block\Customer\System\Config\Validatevat
      */
     public function setMerchantVatNumberField($vatNumberField)
     {
@@ -86,7 +88,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
      * Set Validate VAT Button Label
      *
      * @param string $vatButtonLabel
-     * @return Magento_Adminhtml_Block_Customer_System_Config_Validatevat
+     * @return \Magento\Adminhtml\Block\Customer\System\Config\Validatevat
      */
     public function setVatButtonLabel($vatButtonLabel)
     {
@@ -97,7 +99,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
     /**
      * Set template to itself
      *
-     * @return Magento_Adminhtml_Block_Customer_System_Config_Validatevat
+     * @return \Magento\Adminhtml\Block\Customer\System\Config\Validatevat
      */
     protected function _prepareLayout()
     {
@@ -133,7 +135,7 @@ class Magento_Adminhtml_Block_Customer_System_Config_Validatevat extends Magento
         $this->addData(array(
             'button_label' => __($buttonLabel),
             'html_id' => $element->getHtmlId(),
-            'ajax_url' => Mage::getSingleton('Magento_Backend_Model_Url')
+            'ajax_url' => \Mage::getSingleton('Magento\Backend\Model\Url')
                 ->getUrl('adminhtml/customer_system_config_validatevat/validate')
         ));
 

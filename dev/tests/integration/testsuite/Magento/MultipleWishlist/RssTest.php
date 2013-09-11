@@ -17,7 +17,7 @@ class Magento_MultipleWishlist_RssTest extends Magento_TestFramework_TestCase_Co
      */
     public function testWishlistAction()
     {
-        $wishlist = Mage::getModel('Magento_Wishlist_Model_Wishlist');
+        $wishlist = Mage::getModel('\Magento\Wishlist\Model\Wishlist');
         $wishlist->load('fixture_unique_code', 'sharing_code');
         $this->getRequest()->setParam('wishlist_id', $wishlist->getId());
         $this->dispatch('rss/index/wishlist');

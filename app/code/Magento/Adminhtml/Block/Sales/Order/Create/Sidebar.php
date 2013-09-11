@@ -16,12 +16,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Sales_Order_Create_Sidebar extends Magento_Adminhtml_Block_Sales_Order_Create_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Create;
+
+class Sidebar extends \Magento\Adminhtml\Block\Sales\Order\Create\AbstractCreate
 {
     protected function _prepareLayout()
     {
         if ($this->getCustomerId()) {
-            $button = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData(array(
+            $button = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData(array(
                 'label' => __('Update Changes'),
                 'onclick' => 'order.sidebarApplyChanges()',
                 'before_html' => '<div class="actions">',

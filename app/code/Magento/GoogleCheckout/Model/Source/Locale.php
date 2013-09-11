@@ -9,7 +9,9 @@
  */
 
 
-class Magento_GoogleCheckout_Model_Source_Locale
+namespace Magento\GoogleCheckout\Model\Source;
+
+class Locale
 {
     public function toOptionArray()
     {

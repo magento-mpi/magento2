@@ -12,16 +12,16 @@
 /**
  * Cms Hierarchy Pages Lock Model
  *
- * @method Magento_VersionsCms_Model_Resource_Hierarchy_Lock _getResource()
- * @method Magento_VersionsCms_Model_Resource_Hierarchy_Lock getResource()
+ * @method \Magento\VersionsCms\Model\Resource\Hierarchy\Lock _getResource()
+ * @method \Magento\VersionsCms\Model\Resource\Hierarchy\Lock getResource()
  * @method int getUserId()
- * @method Magento_VersionsCms_Model_Hierarchy_Lock setUserId(int $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Lock setUserId(int $value)
  * @method string getUserName()
- * @method Magento_VersionsCms_Model_Hierarchy_Lock setUserName(string $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Lock setUserName(string $value)
  * @method string getSessionId()
- * @method Magento_VersionsCms_Model_Hierarchy_Lock setSessionId(string $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Lock setSessionId(string $value)
  * @method int getStartedAt()
- * @method Magento_VersionsCms_Model_Hierarchy_Lock setStartedAt(int $value)
+ * @method \Magento\VersionsCms\Model\Hierarchy\Lock setStartedAt(int $value)
  *
  * @category    Magento
  * @package     Magento_VersionsCms
@@ -31,12 +31,14 @@
 /**
  * @deprecated since 1.12.0.0
  */
-class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstract
+namespace Magento\VersionsCms\Model\Hierarchy;
+
+class Lock extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Session model instance
      *
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_session;
 
@@ -52,16 +54,16 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
      */
     protected function _construct()
     {
-        $this->_init('Magento_VersionsCms_Model_Resource_Hierarchy_Lock');
+        $this->_init('\Magento\VersionsCms\Model\Resource\Hierarchy\Lock');
     }
 
     /**
      * Setter for session instance
      *
-     * @param Magento_Core_Model_Session_Abstract $session
-     * @return Magento_VersionsCms_Model_Hierarchy_Lock
+     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
      */
-    public function setSession(Magento_Core_Model_Session_Abstract $session)
+    public function setSession(\Magento\Core\Model\Session\AbstractSession $session)
     {
         $this->_session = $session;
         return $this;
@@ -70,12 +72,12 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     /**
      * Getter for session instance
      *
-     * @return Magento_Core_Model_Session_Abstract
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     protected function _getSession()
     {
         if ($this->_session === null) {
-            return Mage::getSingleton('Magento_Backend_Model_Auth_Session');
+            return \Mage::getSingleton('Magento\Backend\Model\Auth\Session');
         }
         return $this->_session;
     }
@@ -83,7 +85,7 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     /**
      * Load lock data
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Lock
+     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
      */
     public function loadLockData()
     {
@@ -128,7 +130,7 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     /**
      * Revalidate lock data
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Lock
+     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
      */
     public function revalidate()
     {
@@ -184,7 +186,7 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
     /**
      * Create lock for page, previously deleting existing lock
      *
-     * @return Magento_VersionsCms_Model_Hierarchy_Lock
+     * @return \Magento\VersionsCms\Model\Hierarchy\Lock
      */
     public function lock()
     {
@@ -211,7 +213,7 @@ class Magento_VersionsCms_Model_Hierarchy_Lock extends Magento_Core_Model_Abstra
      */
     public function getLockLifeTime()
     {
-        $timeout = (int)Mage::getStoreConfig('cms/hierarchy/lock_timeout');
+        $timeout = (int)\Mage::getStoreConfig('cms/hierarchy/lock_timeout');
         return ($timeout != 0 && $timeout < 120 ) ? 120 : $timeout;
 
     }

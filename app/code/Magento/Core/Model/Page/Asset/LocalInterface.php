@@ -9,7 +9,9 @@
 /**
  * Interface of an asset with locally accessible source file
  */
-interface Magento_Core_Model_Page_Asset_LocalInterface extends Magento_Core_Model_Page_Asset_AssetInterface
+namespace Magento\Core\Model\Page\Asset;
+
+interface LocalInterface extends \Magento\Core\Model\Page\Asset\AssetInterface
 {
     /**
      * Retrieve source file

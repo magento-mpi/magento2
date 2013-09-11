@@ -18,31 +18,31 @@ class Magento_Checkout_Block_Cart_Item_RendererTest extends PHPUnit_Framework_Te
         $configView = $this->getMock('Magento\Config\View', array('getVarValue'), array(), '', false);
         $configView->expects($this->any())->method('getVarValue')->will($this->returnValue(75));
 
-        $configManager = $this->getMock('Magento_Core_Model_View_Config', array(), array(), '', false);
+        $configManager = $this->getMock('Magento\Core\Model\View\Config', array(), array(), '', false);
         $configManager->expects($this->any())->method('getViewConfig')->will($this->returnValue($configView));
 
-        $configurable = $objectManagerHelper->getObject('Magento_Checkout_Block_Cart_Item_Renderer_Configurable',
+        $configurable = $objectManagerHelper->getObject('\Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
             array('viewConfig' => $configManager));
 
-        $product = $this->getMock('Magento_Catalog_Model_Product', array('isConfigurable'), array(), '', false);
+        $product = $this->getMock('Magento\Catalog\Model\Product', array('isConfigurable'), array(), '', false);
         $product->expects($this->any())->method('isConfigurable')->will($this->returnValue(true));
 
         $childProduct =
-            $this->getMock('Magento_Catalog_Model_Product', array('getThumbnail', 'getDataByKey'), array(), '', false);
+            $this->getMock('Magento\Catalog\Model\Product', array('getThumbnail', 'getDataByKey'), array(), '', false);
         $childProduct->expects($this->any())->method('getThumbnail')->will($this->returnValue('/_/_/__green.gif'));
 
         $arguments = array(
-            'statusListFactory' => $this->getMock('Magento_Sales_Model_Status_ListFactory', array(), array(), '',
+            'statusListFactory' => $this->getMock('Magento\Sales\Model\Status\ListFactory', array(), array(), '',
                 false),
         );
-        $childItem = $objectManagerHelper->getObject('Magento_Sales_Model_Quote_Item', $arguments);
+        $childItem = $objectManagerHelper->getObject('\Magento\Sales\Model\Quote\Item', $arguments);
         $childItem->setData('product', $childProduct);
 
-        $item = $objectManagerHelper->getObject('Magento_Sales_Model_Quote_Item', $arguments);
+        $item = $objectManagerHelper->getObject('\Magento\Sales\Model\Quote\Item', $arguments);
         $item->setData('product', $product);
         $item->addChild($childItem);
 
-        $helperImage = $this->getMock('Magento_Catalog_Helper_Image',
+        $helperImage = $this->getMock('Magento\Catalog\Helper\Image',
             array('init', 'resize', '__toString'), array(), '', false
         );
         $helperImage->expects($this->any())->method('init')->will($this->returnValue($helperImage));

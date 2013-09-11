@@ -15,12 +15,14 @@
  * @package    Magento_Invitation
  */
 
-class Magento_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_Adminhtml_Controller_Action
+namespace Magento\Invitation\Controller\Adminhtml\Report;
+
+class Invitation extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Init action breadcrumbs
      *
-     * @return Magento_Invitation_Controller_Adminhtml_Report_Invitation
+     * @return \Magento\Invitation\Controller\Adminhtml\Report\Invitation
      */
     public function _initAction()
     {
@@ -57,7 +59,7 @@ class Magento_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_
     {
         $this->loadLayout();
         $fileName   = 'invitation_general.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -69,7 +71,7 @@ class Magento_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_
     {
         $this->loadLayout();
         $fileName = 'invitation_general.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -95,7 +97,7 @@ class Magento_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_
     {
         $this->loadLayout();
         $fileName = 'invitation_customer.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -106,7 +108,7 @@ class Magento_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_
     public function exportCustomerExcelAction()
     {
         $this->loadLayout();
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $fileName = 'invitation_customer.xml';
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
@@ -132,7 +134,7 @@ class Magento_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_
     {
         $this->loadLayout();
         $fileName = 'invitation_order.csv';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
     }
@@ -144,7 +146,7 @@ class Magento_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_
     {
         $this->loadLayout();
         $fileName = 'invitation_order.xml';
-        /** @var Magento_Backend_Block_Widget_Grid_ExportInterface $exportBlock */
+        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -156,7 +158,7 @@ class Magento_Invitation_Controller_Adminhtml_Report_Invitation extends Magento_
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Magento_Invitation_Model_Config')->isEnabled() &&
+        return \Mage::getSingleton('Magento\Invitation\Model\Config')->isEnabled() &&
             $this->_authorization->isAllowed('Magento_Invitation::report_magento_invitation');
     }
 }

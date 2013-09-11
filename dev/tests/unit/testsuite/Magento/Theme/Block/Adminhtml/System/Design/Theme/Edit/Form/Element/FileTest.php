@@ -13,9 +13,9 @@ class Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_FileTe
 {
     public function testGetHtmlAttributes()
     {
-        /** @var $fileBlock Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File */
+        /** @var $fileBlock \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File */
         $helper = new Magento_TestFramework_Helper_ObjectManager($this);
-        $fileBlock = $helper->getObject('Magento_Theme_Block_Adminhtml_System_Design_Theme_Edit_Form_Element_File');
+        $fileBlock = $helper->getObject('\Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File');
         $this->assertContains('accept', $fileBlock->getHtmlAttributes());
         $this->assertContains('multiple', $fileBlock->getHtmlAttributes());
     }

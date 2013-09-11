@@ -16,7 +16,9 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GiftRegistry_Model_Resource_Person extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\GiftRegistry\Model\Resource;
+
+class Person extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource model initialization
@@ -30,10 +32,10 @@ class Magento_GiftRegistry_Model_Resource_Person extends Magento_Core_Model_Reso
     /**
      * Serialization for custom attributes
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $object)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
         $object->setCustomValues(serialize($object->getCustom()));
         return parent::_beforeSave($object);
@@ -42,10 +44,10 @@ class Magento_GiftRegistry_Model_Resource_Person extends Magento_Core_Model_Reso
     /**
      * De-serialization for custom attributes
      *
-     * @param Magento_Core_Model_Abstract $object
-     * @return Magento_Core_Model_Resource_Db_Abstract
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterLoad(Magento_Core_Model_Abstract $object)
+    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
         $object->setCustom(unserialize($object->getCustomValues()));
         return parent::_afterLoad($object);
@@ -56,7 +58,7 @@ class Magento_GiftRegistry_Model_Resource_Person extends Magento_Core_Model_Reso
      *
      * @param int $entityId
      * @param array $personLeft - records which should not be deleted
-     * @return Magento_GiftRegistry_Model_Resource_Person
+     * @return \Magento\GiftRegistry\Model\Resource\Person
      */
     public function deleteOrphan($entityId, $personLeft = array())
     {

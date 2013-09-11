@@ -14,7 +14,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  * @deprecated Moved to module Magento_Backend
  */
-class Magento_Adminhtml_Block_Widget_Accordion_Item extends Magento_Backend_Block_Widget_Accordion_Item
+namespace Magento\Adminhtml\Block\Widget\Accordion;
+
+class Item extends \Magento\Backend\Block\Widget\Accordion\Item
 {
 
 }

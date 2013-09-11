@@ -11,7 +11,9 @@
 /**
  * Cash on delivery payment method model
  */
-class Magento_Payment_Model_Method_Cashondelivery extends Magento_Payment_Model_Method_Abstract
+namespace Magento\Payment\Model\Method;
+
+class Cashondelivery extends \Magento\Payment\Model\Method\AbstractMethod
 {
 
     /**
@@ -26,8 +28,8 @@ class Magento_Payment_Model_Method_Cashondelivery extends Magento_Payment_Model_
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento_Payment_Block_Form_Cashondelivery';
-    protected $_infoBlockType = 'Magento_Payment_Block_Info_Instructions';
+    protected $_formBlockType = '\Magento\Payment\Block\Form\Cashondelivery';
+    protected $_infoBlockType = '\Magento\Payment\Block\Info\Instructions';
 
     /**
      * Get instructions text from config

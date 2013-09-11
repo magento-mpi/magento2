@@ -16,9 +16,11 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
-    extends Magento_Pbridge_Block_Iframe_Abstract
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
+
+class Profile
+    extends \Magento\Pbridge\Block\Iframe\AbstractIframe
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Block template
@@ -64,7 +66,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function canShowTab()
     {
-        if (Mage::registry('current_customer')->getId() && $this->_isProfileEnable()) {
+        if (\Mage::registry('current_customer')->getId() && $this->_isProfileEnable()) {
             return true;
         }
         return false;
@@ -76,7 +78,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function isHidden()
     {
-        if (Mage::registry('current_customer')->getId() && $this->_isProfileEnable()) {
+        if (\Mage::registry('current_customer')->getId() && $this->_isProfileEnable()) {
             return false;
         }
         return true;
@@ -88,7 +90,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     protected function _isProfileEnable()
     {
-        return Mage::getStoreConfigFlag('payment/pbridge/profilestatus', $this->_getCurrentStore());
+        return \Mage::getStoreConfigFlag('payment/pbridge/profilestatus', $this->_getCurrentStore());
     }
 
     /**
@@ -107,7 +109,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
      */
     public function getSourceUrl()
     {
-        $helper = Mage::helper('Magento_Pbridge_Helper_Data');
+        $helper = \Mage::helper('Magento\Pbridge\Helper\Data');
         $helper->setStoreId($this->_getCurrentStore()->getId());
         return $helper->getPaymentProfileUrl(
             array(
@@ -123,12 +125,12 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     /**
      * Get current customer object
      *
-     * @return null|Magento_Customer_Model_Customer
+     * @return null|\Magento\Customer\Model\Customer
      */
     protected function _getCurrentCustomer()
     {
-        if (Mage::registry('current_customer') instanceof Magento_Customer_Model_Customer) {
-            return Mage::registry('current_customer');
+        if (\Mage::registry('current_customer') instanceof \Magento\Customer\Model\Customer) {
+            return \Mage::registry('current_customer');
         }
 
         return null;
@@ -137,7 +139,7 @@ class Magento_Pbridge_Block_Adminhtml_Customer_Edit_Tab_Payment_Profile
     /**
      * Return store for current context
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getCurrentStore()
     {

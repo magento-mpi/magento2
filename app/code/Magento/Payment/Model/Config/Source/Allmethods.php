@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
-class Magento_Payment_Model_Config_Source_Allmethods implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Payment\Model\Config\Source;
+
+class Allmethods implements \Magento\Core\Model\Option\ArrayInterface
 {
     public function toOptionArray()
     {
-        $methods = Mage::helper('Magento_Payment_Helper_Data')->getPaymentMethodList(true, true, true);
+        $methods = \Mage::helper('Magento\Payment\Helper\Data')->getPaymentMethodList(true, true, true);
         return $methods;
     }
 }

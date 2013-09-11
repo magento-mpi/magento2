@@ -11,9 +11,11 @@
 /**
  * Recurring profile orders grid
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
-    extends Magento_Adminhtml_Block_Widget_Grid
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab;
+
+class Orders
+    extends \Magento\Adminhtml\Block\Widget\Grid
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Initialize basic parameters
@@ -30,12 +32,12 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
     /**
      * Prepare grid collection object
      *
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Orders
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Grid_Collection')
-            ->addRecurringProfilesFilter(Mage::registry('current_recurring_profile')->getId())
+        $collection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Grid\Collection')
+            ->addRecurringProfilesFilter(\Mage::registry('current_recurring_profile')->getId())
         ;
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -46,7 +48,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
      *
      * TODO: fix up this mess
      *
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Orders
      */
     protected function _prepareColumns()
     {
@@ -57,7 +59,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
             'index' => 'increment_id',
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!\Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
                 'header'    => __('Purchase Point'),
                 'index'     => 'store_id',
@@ -103,7 +105,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
             'index' => 'status',
             'type'  => 'options',
             'width' => '70px',
-            'options' => Mage::getSingleton('Magento_Sales_Model_Order_Config')->getStatuses(),
+            'options' => \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getStatuses(),
         ));
 
         if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
@@ -158,7 +160,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
      */
     public function getTabUrl()
     {
-        return $this->getUrl('*/*/orders', array('profile' => Mage::registry('current_recurring_profile')->getId()));
+        return $this->getUrl('*/*/orders', array('profile' => \Mage::registry('current_recurring_profile')->getId()));
     }
 
     /**

@@ -15,9 +15,11 @@
  * @category   Magento
  * @package    Magento_Banner
  */
-class Magento_Banner_Block_Widget_Banner
-    extends Magento_Core_Block_Template
-    implements Magento_Widget_Block_Interface
+namespace Magento\Banner\Block\Widget;
+
+class Banner
+    extends \Magento\Core\Block\Template
+    implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Display mode "fixed" flag
@@ -64,27 +66,27 @@ class Magento_Banner_Block_Widget_Banner
     /**
      * Store Banner resource instance
      *
-     * @var Magento_Banner_Model_Resource_Banner
+     * @var \Magento\Banner\Model\Resource\Banner
      */
     protected $_bannerResource;
 
     /**
-     * @var Magento_Core_Model_Session
+     * @var \Magento\Core\Model\Session
      */
     protected $_coreSession;
 
     /**
-     * @var Magento_Checkout_Model_Session
+     * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
 
     /**
-     * @var Magento_Customer_Model_Session
+     * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
-     * @var Magento_Cms_Helper_Data
+     * @var \Magento\Cms\Helper\Data
      */
     protected $_cmsHelper;
 
@@ -105,13 +107,13 @@ class Magento_Banner_Block_Widget_Banner
     protected $_renderedParams = array();
 
     public function __construct(
-        Magento_Core_Block_Template_Context $context,
-        Magento_Banner_Model_Resource_Banner $resource,
-        Magento_Core_Model_Session $coreSession,
-        Magento_Checkout_Model_Session $checkoutSession,
-        Magento_Customer_Model_Session $customerSession,
-        Magento_Cms_Helper_Data $cmsHelper,
-        Magento_Core_Model_StoreManagerInterface $storeManager,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Banner\Model\Resource\Banner $resource,
+        \Magento\Core\Model\Session $coreSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Cms\Helper\Data $cmsHelper,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -402,7 +404,7 @@ class Magento_Banner_Block_Widget_Banner
     /**
      * Clears information about rendering process parameters.
      *
-     * @return Magento_Banner_Block_Widget_Banner
+     * @return \Magento\Banner\Block\Widget\Banner
      */
     protected function _clearRenderedParams()
     {
@@ -425,7 +427,7 @@ class Magento_Banner_Block_Widget_Banner
     /**
      * Sets rendered param information
      *
-     * @return Magento_Banner_Block_Widget_Banner
+     * @return \Magento\Banner\Block\Widget\Banner
      */
     protected function _setRenderedParam($key, $value)
     {

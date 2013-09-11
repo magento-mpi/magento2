@@ -15,20 +15,22 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Config_Backend_Address_Street extends Magento_Core_Model_Config_Value
+namespace Magento\Customer\Model\Config\Backend\Address;
+
+class Street extends \Magento\Core\Model\Config\Value
 {
     /**
      * Actions after save
      *
-     * @return Magento_Customer_Model_Config_Backend_Address_Street
+     * @return \Magento\Customer\Model\Config\Backend\Address\Street
      */
     protected function _afterSave()
     {
-        $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', 'street');
+        $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer_address', 'street');
         $value  = $this->getValue();
         switch ($this->getScope()) {
             case 'websites':
-                $website = Mage::app()->getWebsite($this->getWebsiteCode());
+                $website = \Mage::app()->getWebsite($this->getWebsiteCode());
                 $attribute->setWebsite($website);
                 $attribute->load($attribute->getId());
                 if ($attribute->getData('multiline_count') != $value) {
@@ -47,15 +49,15 @@ class Magento_Customer_Model_Config_Backend_Address_Street extends Magento_Core_
     /**
      * Processing object after delete data
      *
-     * @return Magento_Core_Model_Abstract
+     * @return \Magento\Core\Model\AbstractModel
      */
     protected function _afterDelete()
     {
         $result = parent::_afterDelete();
 
         if ($this->getScope() == 'websites') {
-            $attribute = Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', 'street');
-            $website = Mage::app()->getWebsite($this->getWebsiteCode());
+            $attribute = \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer_address', 'street');
+            $website = \Mage::app()->getWebsite($this->getWebsiteCode());
             $attribute->setWebsite($website);
             $attribute->load($attribute->getId());
             $attribute->setData('scope_multiline_count', null);

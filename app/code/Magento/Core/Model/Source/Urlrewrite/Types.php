@@ -15,7 +15,9 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Core_Model_Source_Urlrewrite_Types
+namespace Magento\Core\Model\Source\Urlrewrite;
+
+class Types
 {
     const SYSTEM = 1;
     const CUSTOM = 0;

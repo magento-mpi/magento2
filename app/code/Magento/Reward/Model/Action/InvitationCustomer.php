@@ -15,7 +15,9 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Model_Action_InvitationCustomer extends Magento_Reward_Model_Action_Abstract
+namespace Magento\Reward\Model\Action;
+
+class InvitationCustomer extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Retrieve points delta for action
@@ -25,7 +27,7 @@ class Magento_Reward_Model_Action_InvitationCustomer extends Magento_Reward_Mode
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig('invitation_customer', $websiteId);
+        return (int)\Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig('invitation_customer', $websiteId);
     }
 
     /**
@@ -36,7 +38,7 @@ class Magento_Reward_Model_Action_InvitationCustomer extends Magento_Reward_Mode
     public function canAddRewardPoints()
     {
         $invitation = $this->getEntity();
-        if ($invitation->getData('status') != Magento_Invitation_Model_Invitation::STATUS_ACCEPTED) {
+        if ($invitation->getData('status') != \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED) {
             return false;
         }
         return !($this->isRewardLimitExceeded());
@@ -49,7 +51,7 @@ class Magento_Reward_Model_Action_InvitationCustomer extends Magento_Reward_Mode
      */
     public function getRewardLimit()
     {
-        return Mage::helper('Magento_Reward_Helper_Data')->getPointsConfig(
+        return \Mage::helper('Magento\Reward\Helper\Data')->getPointsConfig(
             'invitation_customer_limit',
             $this->getReward()->getWebsiteId()
         );
@@ -71,7 +73,7 @@ class Magento_Reward_Model_Action_InvitationCustomer extends Magento_Reward_Mode
      * Setter for $_entity and add some extra data to history
      *
      * @param \Magento\Object $entity
-     * @return Magento_Reward_Model_Action_Abstract
+     * @return \Magento\Reward\Model\Action\AbstractAction
      */
     public function setEntity($entity)
     {

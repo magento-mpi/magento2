@@ -12,7 +12,9 @@
  * Customer balance block
  *
  */
-class Magento_CustomerBalance_Block_Account_Balance extends Magento_Core_Block_Template
+namespace Magento\CustomerBalance\Block\Account;
+
+class Balance extends \Magento\Core\Block\Template
 {
     /**
      * Retreive current customers balance in base currency
@@ -21,12 +23,12 @@ class Magento_CustomerBalance_Block_Account_Balance extends Magento_Core_Block_T
      */
     public function getBalance()
     {
-        $customerId = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerId();
+        $customerId = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerId();
         if (!$customerId) {
             return 0;
         }
 
-        $model = Mage::getModel('Magento_CustomerBalance_Model_Balance')
+        $model = \Mage::getModel('\Magento\CustomerBalance\Model\Balance')
             ->setCustomerId($customerId)
             ->loadByCustomer();
 

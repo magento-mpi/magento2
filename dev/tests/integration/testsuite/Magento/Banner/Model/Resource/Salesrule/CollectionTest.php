@@ -13,13 +13,13 @@
 class Magento_Banner_Model_Resource_Salesrule_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Banner_Model_Resource_Salesrule_Collection
+     * @var \Magento\Banner\Model\Resource\Salesrule\Collection
      */
     private $_collection;
 
     protected function setUp()
     {
-        $this->_collection = Mage::getResourceModel('Magento_Banner_Model_Resource_Salesrule_Collection');
+        $this->_collection = Mage::getResourceModel('\Magento\Banner\Model\Resource\Salesrule\Collection');
     }
 
     protected function tearDown()
@@ -29,8 +29,8 @@ class Magento_Banner_Model_Resource_Salesrule_CollectionTest extends PHPUnit_Fra
 
     public function testGetItems()
     {
-        /** @var Magento_Banner_Model_Banner $banner */
-        $banner = Mage::getModel('Magento_Banner_Model_Banner');
+        /** @var \Magento\Banner\Model\Banner $banner */
+        $banner = Mage::getModel('\Magento\Banner\Model\Banner');
         $banner->load('Get from 40% to 50% Off on Large Orders', 'name');
 
         $this->assertCount(1, $this->_collection->getItems());
@@ -39,8 +39,8 @@ class Magento_Banner_Model_Resource_Salesrule_CollectionTest extends PHPUnit_Fra
 
     public function testAddRuleIdsFilter()
     {
-        /** @var Magento_SalesRule_Model_Rule $rule */
-        $rule = Mage::getModel('Magento_SalesRule_Model_Rule');
+        /** @var \Magento\SalesRule\Model\Rule $rule */
+        $rule = Mage::getModel('\Magento\SalesRule\Model\Rule');
         $rule->load('40% Off on Large Orders', 'name');
 
         $this->_collection->addRuleIdsFilter(array($rule->getId()));

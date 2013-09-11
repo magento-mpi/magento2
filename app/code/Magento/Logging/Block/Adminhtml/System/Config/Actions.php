@@ -11,8 +11,10 @@
 /**
  * Action group checkboxes renderer for system configuration
  */
-class Magento_Logging_Block_Adminhtml_System_Config_Actions
-    extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Logging\Block\Adminhtml\System\Config;
+
+class Actions
+    extends \Magento\Backend\Block\System\Config\Form\Field
 {
     protected $_template = 'system/config/actions.phtml';
 
@@ -23,7 +25,7 @@ class Magento_Logging_Block_Adminhtml_System_Config_Actions
      */
     public function getLabels()
     {
-        return Mage::getSingleton('Magento_Logging_Model_Config')->getLabels();
+        return \Mage::getSingleton('Magento\Logging\Model\Config')->getLabels();
     }
 
     /**
@@ -34,7 +36,7 @@ class Magento_Logging_Block_Adminhtml_System_Config_Actions
      */
     public function getIsChecked($key)
     {
-        return Mage::getSingleton('Magento_Logging_Model_Config')->isActive($key, true);
+        return \Mage::getSingleton('Magento\Logging\Model\Config')->isActive($key, true);
     }
 
     /**

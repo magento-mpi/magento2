@@ -15,7 +15,7 @@
 class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Magento_Backend_Model_Config::save
+     * @covers \Magento\Backend\Model\Config::save
      * @param array $groups
      * @magentoDbIsolation enabled
      * @dataProvider saveWithSingleStoreModeEnabledDataProvider
@@ -23,22 +23,22 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testSaveWithSingleStoreModeEnabled($groups)
     {
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        /** @var $_configDataObject Magento_Backend_Model_Config */
-        $_configDataObject = Mage::getModel('Magento_Backend_Model_Config');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        /** @var $_configDataObject \Magento\Backend\Model\Config */
+        $_configDataObject = Mage::getModel('\Magento\Backend\Model\Config');
         $_configData = $_configDataObject->setSection('dev')
             ->setWebsite('base')
             ->load();
         $this->assertEmpty($_configData);
 
-        $_configDataObject = Mage::getModel('Magento_Backend_Model_Config');
+        $_configDataObject = Mage::getModel('\Magento\Backend\Model\Config');
         $_configDataObject->setSection('dev')
             ->setGroups($groups)
             ->save();
 
-        /** @var $_configDataObject Magento_Backend_Model_Config */
-        $_configDataObject = Mage::getModel('Magento_Backend_Model_Config');
+        /** @var $_configDataObject \Magento\Backend\Model\Config */
+        $_configDataObject = Mage::getModel('\Magento\Backend\Model\Config');
         $_configDataObject->setSection('dev')
             ->setWebsite('base');
 
@@ -46,7 +46,7 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('dev/debug/template_hints', $_configData);
         $this->assertArrayHasKey('dev/debug/template_hints_blocks', $_configData);
 
-        $_configDataObject = Mage::getModel('Magento_Backend_Model_Config');
+        $_configDataObject = Mage::getModel('\Magento\Backend\Model\Config');
         $_configDataObject->setSection('dev');
         $_configData = $_configDataObject->load();
         $this->assertArrayNotHasKey('dev/debug/template_hints', $_configData);
@@ -59,7 +59,7 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Magento_Backend_Model_Config::save
+     * @covers \Magento\Backend\Model\Config::save
      * @param string $section
      * @param array $groups
      * @param array $expected
@@ -68,19 +68,19 @@ class Magento_Backend_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testSave($section, $groups, $expected)
     {
-        /** @var $_configDataObject Magento_Backend_Model_Config */
-        $_configDataObject = Mage::getModel('Magento_Backend_Model_Config');
+        /** @var $_configDataObject \Magento\Backend\Model\Config */
+        $_configDataObject = Mage::getModel('\Magento\Backend\Model\Config');
         $_configDataObject->setSection($section)
             ->setWebsite('base')
             ->setGroups($groups)
             ->save();
 
         foreach ($expected as $group => $expectedData) {
-            $_configDataObject = Mage::getModel('Magento_Backend_Model_Config');
+            $_configDataObject = Mage::getModel('\Magento\Backend\Model\Config');
             $_configData = $_configDataObject->setSection($group)->setWebsite('base')
                 ->load();
             if (array_key_exists('payment/payflow_link/pwd', $_configData)) {
-                $_configData['payment/payflow_link/pwd'] = Mage::helper('Magento_Core_Helper_Data')
+                $_configData['payment/payflow_link/pwd'] = Mage::helper('Magento\Core\Helper\Data')
                     ->decrypt($_configData['payment/payflow_link/pwd']);
             }
             $this->assertEquals($expectedData, $_configData);

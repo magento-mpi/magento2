@@ -16,12 +16,14 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
+namespace Magento\Adminhtml\Block\Sales\Order\Creditmemo\View;
+
+class Items extends Magento_Adminhtml_Block_Sales_Items_Abstract
 {
     /**
      * Retrieve invoice order
      *
-     * @return Magento_Sales_Model_Order
+     * @return \Magento\Sales\Model\Order
      */
     public function getOrder()
     {
@@ -31,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Items extends Magento_
     /**
      * Retrieve source
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getSource()
     {
@@ -53,11 +55,11 @@ class Magento_Adminhtml_Block_Sales_Order_Creditmemo_View_Items extends Magento_
     /**
      * Retrieve creditmemo model instance
      *
-     * @return Magento_Sales_Model_Order_Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo
      */
     public function getCreditmemo()
     {
-        return Mage::registry('current_creditmemo');
+        return \Mage::registry('current_creditmemo');
     }
 
     public function getOrderUrl()

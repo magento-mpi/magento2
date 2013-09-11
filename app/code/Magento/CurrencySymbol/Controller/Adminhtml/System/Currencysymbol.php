@@ -15,7 +15,9 @@
  * @package     currencysymbol
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends Magento_Adminhtml_Controller_Action
+namespace Magento\CurrencySymbol\Controller\Adminhtml\System;
+
+class Currencysymbol extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Show Currency Symbols Management dialog
@@ -46,17 +48,17 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends 
         $symbolsDataArray = $this->getRequest()->getParam('custom_currency_symbol', null);
         if (is_array($symbolsDataArray)) {
             foreach ($symbolsDataArray as &$symbolsData) {
-                $symbolsData = Mage::helper('Magento_Adminhtml_Helper_Data')->stripTags($symbolsData);
+                $symbolsData = \Mage::helper('Magento\Adminhtml\Helper\Data')->stripTags($symbolsData);
             }
         }
 
         try {
-            Mage::getModel('Magento_CurrencySymbol_Model_System_Currencysymbol')->setCurrencySymbolsData($symbolsDataArray);
-            Mage::getSingleton('Magento_Connect_Model_Session')->addSuccess(
+            \Mage::getModel('\Magento\CurrencySymbol\Model\System\Currencysymbol')->setCurrencySymbolsData($symbolsDataArray);
+            \Mage::getSingleton('Magento\Connect\Model\Session')->addSuccess(
                 __('The custom currency symbols were applied.')
             );
-        } catch (Exception $e) {
-            Mage::getSingleton('Magento_Adminhtml_Model_Session')->addError($e->getMessage());
+        } catch (\Exception $e) {
+            \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
         }
 
         $this->_redirectReferer();
@@ -67,7 +69,7 @@ class Magento_CurrencySymbol_Controller_Adminhtml_System_Currencysymbol extends 
      */
     public function resetAction()
     {
-        Mage::getModel('Magento_CurrencySymbol_Model_System_Currencysymbol')->resetValues();
+        \Mage::getModel('\Magento\CurrencySymbol\Model\System\Currencysymbol')->resetValues();
         $this->_redirectReferer();
     }
 

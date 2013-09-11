@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_User_Block_Role extends Magento_Backend_Block_Widget_Grid_Container
+namespace Magento\User\Block;
+
+class Role extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * @var string
@@ -52,7 +54,7 @@ class Magento_User_Block_Role extends Magento_Backend_Block_Widget_Grid_Containe
                     ->setSaveParametersInSession(true)
             );
         }
-        return Magento_Backend_Block_Widget_Container::_prepareLayout();
+        return \Magento\Backend\Block\Widget\Container::_prepareLayout();
     }
 
     /**
@@ -62,7 +64,7 @@ class Magento_User_Block_Role extends Magento_Backend_Block_Widget_Grid_Containe
      */
     protected function _toHtml()
     {
-        Mage::dispatchEvent('permissions_role_html_before', array('block' => $this));
+        \Mage::dispatchEvent('permissions_role_html_before', array('block' => $this));
         return parent::_toHtml();
     }
 }

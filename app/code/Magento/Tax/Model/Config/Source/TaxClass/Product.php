@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Tax_Model_Config_Source_TaxClass_Product implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\Tax\Model\Config\Source\TaxClass;
+
+class Product implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Retrieve list of products
@@ -16,6 +18,6 @@ class Magento_Tax_Model_Config_Source_TaxClass_Product implements Magento_Core_M
      */
     public function toOptionArray()
     {
-        return Mage::getModel('Magento_Tax_Model_TaxClass_Source_Product')->toOptionArray();
+        return \Mage::getModel('\Magento\Tax\Model\TaxClass\Source\Product')->toOptionArray();
     }
 }

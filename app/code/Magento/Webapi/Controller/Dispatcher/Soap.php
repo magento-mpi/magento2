@@ -7,53 +7,55 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Dispatcher_Soap implements Magento_Webapi_Controller_DispatcherInterface
+namespace Magento\Webapi\Controller\Dispatcher;
+
+class Soap implements \Magento\Webapi\Controller\DispatcherInterface
 {
-    /** @var Magento_Webapi_Model_Config_Soap */
+    /** @var \Magento\Webapi\Model\Config\Soap */
     protected $_apiConfig;
 
-    /** @var Magento_Webapi_Model_Soap_Server */
+    /** @var \Magento\Webapi\Model\Soap\Server */
     protected $_soapServer;
 
-    /** @var Magento_Webapi_Model_Soap_AutoDiscover */
+    /** @var \Magento\Webapi\Model\Soap\AutoDiscover */
     protected $_autoDiscover;
 
-    /** @var Magento_Webapi_Controller_Request_Soap */
+    /** @var \Magento\Webapi\Controller\Request\Soap */
     protected $_request;
 
-    /** @var Magento_Webapi_Model_Soap_Fault */
+    /** @var \Magento\Webapi\Model\Soap\Fault */
     protected $_soapFault;
 
-    /** @var Magento_Webapi_Controller_Response */
+    /** @var \Magento\Webapi\Controller\Response */
     protected $_response;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_ErrorProcessor */
+    /** @var \Magento\Webapi\Controller\Dispatcher\ErrorProcessor */
     protected $_errorProcessor;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_Soap_Handler */
+    /** @var \Magento\Webapi\Controller\Dispatcher\Soap\Handler */
     protected $_soapHandler;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Model_Config_Soap $apiConfig
-     * @param Magento_Webapi_Controller_Request_Soap $request
-     * @param Magento_Webapi_Controller_Response $response
-     * @param Magento_Webapi_Model_Soap_AutoDiscover $autoDiscover
-     * @param Magento_Webapi_Model_Soap_Server $soapServer
-     * @param Magento_Webapi_Model_Soap_Fault $soapFault
-     * @param Magento_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor
-     * @param Magento_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
+     * @param \Magento\Webapi\Model\Config\Soap $apiConfig
+     * @param \Magento\Webapi\Controller\Request\Soap $request
+     * @param \Magento\Webapi\Controller\Response $response
+     * @param \Magento\Webapi\Model\Soap\AutoDiscover $autoDiscover
+     * @param \Magento\Webapi\Model\Soap\Server $soapServer
+     * @param \Magento\Webapi\Model\Soap\Fault $soapFault
+     * @param \Magento\Webapi\Controller\Dispatcher\ErrorProcessor $errorProcessor
+     * @param \Magento\Webapi\Controller\Dispatcher\Soap\Handler $soapHandler
      */
     public function __construct(
-        Magento_Webapi_Model_Config_Soap $apiConfig,
-        Magento_Webapi_Controller_Request_Soap $request,
-        Magento_Webapi_Controller_Response $response,
-        Magento_Webapi_Model_Soap_AutoDiscover $autoDiscover,
-        Magento_Webapi_Model_Soap_Server $soapServer,
-        Magento_Webapi_Model_Soap_Fault $soapFault,
-        Magento_Webapi_Controller_Dispatcher_ErrorProcessor $errorProcessor,
-        Magento_Webapi_Controller_Dispatcher_Soap_Handler $soapHandler
+        \Magento\Webapi\Model\Config\Soap $apiConfig,
+        \Magento\Webapi\Controller\Request\Soap $request,
+        \Magento\Webapi\Controller\Response $response,
+        \Magento\Webapi\Model\Soap\AutoDiscover $autoDiscover,
+        \Magento\Webapi\Model\Soap\Server $soapServer,
+        \Magento\Webapi\Model\Soap\Fault $soapFault,
+        \Magento\Webapi\Controller\Dispatcher\ErrorProcessor $errorProcessor,
+        \Magento\Webapi\Controller\Dispatcher\Soap\Handler $soapHandler
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_autoDiscover = $autoDiscover;
@@ -68,12 +70,12 @@ class Magento_Webapi_Controller_Dispatcher_Soap implements Magento_Webapi_Contro
     /**
      * Dispatch request to SOAP endpoint.
      *
-     * @return Magento_Webapi_Controller_Dispatcher_Soap
+     * @return \Magento\Webapi\Controller\Dispatcher\Soap
      */
     public function dispatch()
     {
         try {
-            if ($this->_request->getParam(Magento_Webapi_Model_Soap_Server::REQUEST_PARAM_WSDL) !== null) {
+            if ($this->_request->getParam(\Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_WSDL) !== null) {
                 $responseBody = $this->_autoDiscover->handle(
                     $this->_request->getRequestedResources(),
                     $this->_soapServer->generateUri()
@@ -84,7 +86,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap implements Magento_Webapi_Contro
                 $this->_setResponseContentType('application/soap+xml');
             }
             $this->_setResponseBody($responseBody);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $maskedException = $this->_errorProcessor->maskException($e);
             $this->_processBadRequest($maskedException->getMessage());
         }
@@ -117,7 +119,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap implements Magento_Webapi_Contro
         $this->_setResponseBody(
             $this->_soapFault->getSoapFaultMessage(
                 $message,
-                Magento_Webapi_Model_Soap_Fault::FAULT_CODE_SENDER,
+                \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_SENDER,
                 'en',
                 $details
             )
@@ -128,7 +130,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap implements Magento_Webapi_Contro
      * Set content type to response object.
      *
      * @param string $contentType
-     * @return Magento_Webapi_Controller_Dispatcher_Soap
+     * @return \Magento\Webapi\Controller\Dispatcher\Soap
      */
     protected function _setResponseContentType($contentType = 'text/xml')
     {
@@ -141,7 +143,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap implements Magento_Webapi_Contro
      * Set body to response object.
      *
      * @param string $responseBody
-     * @return Magento_Webapi_Controller_Dispatcher_Soap
+     * @return \Magento\Webapi\Controller\Dispatcher\Soap
      */
     protected function _setResponseBody($responseBody)
     {
@@ -158,7 +160,7 @@ class Magento_Webapi_Controller_Dispatcher_Soap implements Magento_Webapi_Contro
     /**
      * Initialize SOAP Server.
      *
-     * @return Magento_Webapi_Model_Soap_Server
+     * @return \Magento\Webapi\Model\Soap\Server
      */
     protected function _initSoapServer()
     {

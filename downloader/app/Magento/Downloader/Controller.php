@@ -498,9 +498,9 @@ final class Controller
                     include_once self::getBootstrapPath();
                     \Mage::setIsDownloader();
                 }
-                \Mage::getObjectManager()->get('Magento_Core_Model_App');
+                \Mage::getObjectManager()->get('Magento\Core\Model\App');
                 if (self::isInstalled()) {
-                    \Mage::getSingleton('Magento_Backend_Model_Url')->turnOffSecretKey();
+                    \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
                 }
             }
         }
@@ -925,8 +925,8 @@ final class Controller
                 // reinit config and apply all updates
                 \Mage::app()->getConfig()->reinit();
 
-                /** @var $updater Magento_Core_Model_Db_UpdaterInterface*/
-                $updater = \Mage::getObjectManager()->get('Magento_Core_Model_Db_UpdaterInterface');
+                /** @var $updater \Magento\Core\Model\Db\UpdaterInterface*/
+                $updater = \Mage::getObjectManager()->get('Magento\Core\Model\Db\UpdaterInterface');
                 $updater->updateScheme();
                 $updater->updateData();
                 $message .= 'Cache cleaned successfully';
@@ -1007,16 +1007,16 @@ final class Controller
             $type = $this->_getBackupTypeByCode($archiveType);
 
             $backupManager = \Magento\Backup::getBackupInstance($type)
-                ->setBackupExtension(\Mage::helper('Magento_Backup_Helper_Data')->getExtensionByType($type))
+                ->setBackupExtension(\Mage::helper('Magento\Backup\Helper\Data')->getExtensionByType($type))
                 ->setTime(time())
                 ->setName($archiveName)
-                ->setBackupsDir(\Mage::helper('Magento_Backup_Helper_Data')->getBackupsDir());
+                ->setBackupsDir(\Mage::helper('Magento\Backup\Helper\Data')->getBackupsDir());
 
             \Mage::register('backup_manager', $backupManager);
 
-            if ($type != Magento_Backup_Helper_Data::TYPE_DB) {
+            if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
                 $backupManager->setRootDir(\Mage::getBaseDir())
-                    ->addIgnorePaths(\Mage::helper('Magento_Backup_Helper_Data')->getBackupIgnorePaths());
+                    ->addIgnorePaths(\Mage::helper('Magento\Backup\Helper\Data')->getBackupIgnorePaths());
             }
             $backupManager->create();
             $connect->runHtmlConsole(
@@ -1046,10 +1046,10 @@ final class Controller
     protected function _getBackupTypeByCode($code)
     {
         $typeMap = array(
-            1 => Magento_Backup_Helper_Data::TYPE_DB,
-            2 => Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT,
-            3 => Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA,
-            4 => Magento_Backup_Helper_Data::TYPE_MEDIA
+            1 => \Magento\Backup\Helper\Data::TYPE_DB,
+            2 => \Magento\Backup\Helper\Data::TYPE_SYSTEM_SNAPSHOT,
+            3 => \Magento\Backup\Helper\Data::TYPE_SNAPSHOT_WITHOUT_MEDIA,
+            4 => \Magento\Backup\Helper\Data::TYPE_MEDIA
         );
 
         if (!isset($typeMap[$code])) {
@@ -1068,10 +1068,10 @@ final class Controller
     protected function _getCreateBackupSuccessMessageByType($type)
     {
         $messagesMap = array(
-            Magento_Backup_Helper_Data::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
-            Magento_Backup_Helper_Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'System (excluding Media) backup has been created',
-            Magento_Backup_Helper_Data::TYPE_MEDIA => 'Database and media backup has been created',
-            Magento_Backup_Helper_Data::TYPE_DB => 'Database backup has been created'
+            \Magento\Backup\Helper\Data::TYPE_SYSTEM_SNAPSHOT => 'System backup has been created',
+            \Magento\Backup\Helper\Data::TYPE_SNAPSHOT_WITHOUT_MEDIA => 'System (excluding Media) backup has been created',
+            \Magento\Backup\Helper\Data::TYPE_MEDIA => 'Database and media backup has been created',
+            \Magento\Backup\Helper\Data::TYPE_DB => 'Database backup has been created'
         );
 
         if (!isset($messagesMap[$type])) {

@@ -13,7 +13,9 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
+namespace Magento\Sales\Helper;
+
+class Guest extends \Magento\Core\Helper\Data
 {
     /**
      * Cookie params
@@ -28,12 +30,12 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
      */
     public function loadValidOrder()
     {
-        if (Mage::getSingleton('Magento_Customer_Model_Session')->isLoggedIn()) {
-            Mage::app()->getResponse()->setRedirect(Mage::getUrl('sales/order/history'));
+        if (\Mage::getSingleton('Magento\Customer\Model\Session')->isLoggedIn()) {
+            \Mage::app()->getResponse()->setRedirect(\Mage::getUrl('sales/order/history'));
             return false;
         }
 
-        $post = Mage::app()->getRequest()->getPost();
+        $post = \Mage::app()->getRequest()->getPost();
 
         $type           = '';
         $incrementId    = '';
@@ -43,11 +45,11 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
         $protectCode    = '';
         $errors         = false;
 
-        /** @var $order Magento_Sales_Model_Order */
-        $order = Mage::getModel('Magento_Sales_Model_Order');
+        /** @var $order \Magento\Sales\Model\Order */
+        $order = \Mage::getModel('\Magento\Sales\Model\Order');
 
-        if (empty($post) && !Mage::getSingleton('Magento_Core_Model_Cookie')->get($this->_cookieName)) {
-            Mage::app()->getResponse()->setRedirect(Mage::getUrl('sales/guest/form'));
+        if (empty($post) && !\Mage::getSingleton('Magento\Core\Model\Cookie')->get($this->_cookieName)) {
+            \Mage::app()->getResponse()->setRedirect(\Mage::getUrl('sales/guest/form'));
             return false;
         } elseif (!empty($post) && isset($post['oar_order_id']) && isset($post['oar_type']))  {
             $type           = $post['oar_type'];
@@ -81,37 +83,37 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
 
             if (!$errors) {
                 $toCookie = base64_encode($order->getProtectCode());
-                Mage::getSingleton('Magento_Core_Model_Cookie')->set($this->_cookieName, $toCookie, $this->_lifeTime, '/');
+                \Mage::getSingleton('Magento\Core\Model\Cookie')->set($this->_cookieName, $toCookie, $this->_lifeTime, '/');
             }
-        } elseif (Mage::getSingleton('Magento_Core_Model_Cookie')->get($this->_cookieName)) {
-            $fromCookie     = Mage::getSingleton('Magento_Core_Model_Cookie')->get($this->_cookieName);
+        } elseif (\Mage::getSingleton('Magento\Core\Model\Cookie')->get($this->_cookieName)) {
+            $fromCookie     = \Mage::getSingleton('Magento\Core\Model\Cookie')->get($this->_cookieName);
             $protectCode    = base64_decode($fromCookie);
 
             if (!empty($protectCode)) {
                 $order->loadByAttribute('protect_code', $protectCode);
 
-                Mage::getSingleton('Magento_Core_Model_Cookie')->renew($this->_cookieName, $this->_lifeTime, '/');
+                \Mage::getSingleton('Magento\Core\Model\Cookie')->renew($this->_cookieName, $this->_lifeTime, '/');
             } else {
                 $errors = true;
             }
         }
 
         if (!$errors && $order->getId()) {
-            Mage::register('current_order', $order);
+            \Mage::register('current_order', $order);
             return true;
         }
 
-        Mage::getSingleton('Magento_Core_Model_Session')->addError(
+        \Mage::getSingleton('Magento\Core\Model\Session')->addError(
             __('You entered incorrect data. Please try again.')
         );
-        Mage::app()->getResponse()->setRedirect(Mage::getUrl('sales/guest/form'));
+        \Mage::app()->getResponse()->setRedirect(\Mage::getUrl('sales/guest/form'));
         return false;
     }
 
     /**
      * Get Breadcrumbs for current controller action
      *
-     * @param  Magento_Core_Controller_Front_Action $controller
+     * @param  \Magento\Core\Controller\Front\Action $controller
      */
     public function getBreadcrumbs($controller)
     {
@@ -121,7 +123,7 @@ class Magento_Sales_Helper_Guest extends Magento_Core_Helper_Data
             array(
                 'label' => __('Home'),
                 'title' => __('Go to Home Page'),
-                'link'  => Mage::getBaseUrl()
+                'link'  => \Mage::getBaseUrl()
             )
         );
         $breadcrumbs->addCrumb(

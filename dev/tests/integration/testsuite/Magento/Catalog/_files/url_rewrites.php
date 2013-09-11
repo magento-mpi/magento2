@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-/** @var $category Magento_Catalog_Model_Category */
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+/** @var $category \Magento\Catalog\Model\Category */
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(3)
     ->setName('Category 1')
     ->setParentId(2) /**/
@@ -22,7 +22,7 @@ $category->setId(3)
     ->setPosition(1)
     ->save();
 
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(4)
     ->setName('Category 2')
     ->setParentId(2) /**/
@@ -34,7 +34,7 @@ $category->setId(4)
     ->setPosition(2)
     ->save();
 
-$category = Mage::getModel('Magento_Catalog_Model_Category');
+$category = Mage::getModel('\Magento\Catalog\Model\Category');
 $category->setId(5)
     ->setName('Old Root')
     ->setParentId(1) /**/
@@ -47,8 +47,8 @@ $category->setId(5)
     ->save();
 
 
-$product = Mage::getModel('Magento_Catalog_Model_Product');
-$product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
+$product = Mage::getModel('\Magento\Catalog\Model\Product');
+$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(1))
@@ -56,7 +56,7 @@ $product->setTypeId(Magento_Catalog_Model_Product_Type::TYPE_SIMPLE)
     ->setSku('simple')
     ->setPrice(10)
     ->setCategoryIds(array(3))
-    ->setVisibility(Magento_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
-    ->setStatus(Magento_Catalog_Model_Product_Status::STATUS_ENABLED)
+    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
+    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
     ->save();
 

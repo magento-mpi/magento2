@@ -15,32 +15,34 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
+namespace Magento\Reward\Block;
+
+class Tooltip extends \Magento\Core\Block\Template
 {
     /**
      * Reward instance
      *
-     * @var Magento_Reward_Model_Reward
+     * @var \Magento\Reward\Model\Reward
      */
     protected $_rewardInstance = null;
 
     /**
      * Reward action instance
      *
-     * @var Magento_Reward_Model_Action_Abstract
+     * @var \Magento\Reward\Model\Action\AbstractAction
      */
     protected $_actionInstance = null;
 
     public function initRewardType($action)
     {
         if ($action) {
-            if (!Mage::helper('Magento_Reward_Helper_Data')->isEnabledOnFront()) {
+            if (!\Mage::helper('Magento\Reward\Helper\Data')->isEnabledOnFront()) {
                 return $this;
             }
-            $customer = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomer();
-            $this->_rewardInstance = Mage::getSingleton('Magento_Reward_Model_Reward')
+            $customer = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomer();
+            $this->_rewardInstance = \Mage::getSingleton('Magento\Reward\Model\Reward')
                 ->setCustomer($customer)
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
+                ->setWebsiteId(\Mage::app()->getStore()->getWebsiteId())
                 ->loadByCustomer();
             $this->_actionInstance = $this->_rewardInstance->getActionInstance($action, true);
         }
@@ -57,7 +59,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
     public function getRewardAmount($amount = null, $asCurrency = false)
     {
         $amount = null === $amount ? $this->_getData('reward_amount') : $amount;
-        return Mage::helper('Magento_Reward_Helper_Data')->formatAmount($amount, $asCurrency);
+        return \Mage::helper('Magento\Reward\Helper\Data')->formatAmount($amount, $asCurrency);
     }
 
     public function renderLearnMoreLink($format = '<a href="%1$s">%2$s</a>', $anchorText = null)
@@ -74,7 +76,7 @@ class Magento_Reward_Block_Tooltip extends Magento_Core_Block_Template
         if ($this->_actionInstance) {
             $this->addData(array(
                 'reward_points' => $this->_rewardInstance->estimateRewardPoints($this->_actionInstance),
-                'landing_page_url' => Mage::helper('Magento_Reward_Helper_Data')->getLandingPageUrl(),
+                'landing_page_url' => \Mage::helper('Magento\Reward\Helper\Data')->getLandingPageUrl(),
             ));
 
             if ($this->_rewardInstance->getId()) {

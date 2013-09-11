@@ -16,7 +16,9 @@
  * @package     Magento_Api
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Api\Model\Resource;
+
+class User extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -30,7 +32,7 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Initialize unique fields
      *
-     * @return Magento_Api_Model_Resource_User
+     * @return \Magento\Api\Model\Resource\User
      */
     protected function _initUniqueFields()
     {
@@ -50,10 +52,10 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Authenticate user by $username and $password
      *
-     * @param Magento_Api_Model_User $user
-     * @return Magento_Api_Model_Resource_User
+     * @param \Magento\Api\Model\User $user
+     * @return \Magento\Api\Model\Resource\User
      */
-    public function recordLogin(Magento_Api_Model_User $user)
+    public function recordLogin(\Magento\Api\Model\User $user)
     {
         $data = array(
             'lognum'  => $user->getLognum()+1,
@@ -66,10 +68,10 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Record api user session
      *
-     * @param Magento_Api_Model_User $user
-     * @return Magento_Api_Model_Resource_User
+     * @param \Magento\Api\Model\User $user
+     * @return \Magento\Api\Model\Resource\User
      */
-    public function recordSession(Magento_Api_Model_User $user)
+    public function recordSession(\Magento\Api\Model\User $user)
     {
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
@@ -102,14 +104,14 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Clean old session
      *
-     * @param Magento_Api_Model_User $user
-     * @return Magento_Api_Model_Resource_User
+     * @param \Magento\Api\Model\User $user
+     * @return \Magento\Api\Model\Resource\User
      */
-    public function cleanOldSessions(Magento_Api_Model_User $user)
+    public function cleanOldSessions(\Magento\Api\Model\User $user)
     {
         $readAdapter    = $this->_getReadAdapter();
         $writeAdapter   = $this->_getWriteAdapter();
-        $timeout        = Mage::getStoreConfig('api/config/session_timeout');
+        $timeout        = \Mage::getStoreConfig('api/config/session_timeout');
         $timeSubtract     = $readAdapter->getDateAddSql(
             'logdate',
             $timeout,
@@ -163,7 +165,7 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
      * Clear by session
      *
      * @param string $sessid
-     * @return Magento_Api_Model_Resource_User
+     * @return \Magento\Api\Model\Resource\User
      */
     public function clearBySessId($sessid)
     {
@@ -177,7 +179,7 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Retrieve api user role data if it was assigned to role
      *
-     * @param int|Magento_Api_Model_User $user
+     * @param int|\Magento\Api\Model\User $user
      * @return null|array
      */
     public function hasAssigned2Role($user)
@@ -186,7 +188,7 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
         $result = null;
         if (is_numeric($user)) {
             $userId = $user;
-        } else if ($user instanceof Magento_Core_Model_Abstract) {
+        } else if ($user instanceof \Magento\Core\Model\AbstractModel) {
             $userId = $user->getUserId();
         }
 
@@ -203,10 +205,10 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Action before save
      *
-     * @param Magento_Core_Model_Abstract $user
-     * @return Magento_Api_Model_Resource_User
+     * @param \Magento\Core\Model\AbstractModel $user
+     * @return \Magento\Api\Model\Resource\User
      */
-    protected function _beforeSave(Magento_Core_Model_Abstract $user)
+    protected function _beforeSave(\Magento\Core\Model\AbstractModel $user)
     {
         if (!$user->getId()) {
             $user->setCreated(now());
@@ -218,11 +220,11 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Delete the object
      *
-     * @param Magento_Core_Model_Abstract $user
+     * @param \Magento\Core\Model\AbstractModel $user
      * @return boolean
-     * @throws Exception|Magento_Core_Exception
+     * @throws \Exception|\Magento\Core\Exception
      */
-    public function delete(Magento_Core_Model_Abstract $user)
+    public function delete(\Magento\Core\Model\AbstractModel $user)
     {
         $dbh = $this->_getWriteAdapter();
         $uid = (int) $user->getId();
@@ -230,10 +232,10 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
         try {
             $dbh->delete($this->getTable('api_user'), array('user_id = ?' => $uid));
             $dbh->delete($this->getTable('api_role'), array('user_id = ?' => $uid));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             throw $e;
             return false;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $dbh->rollBack();
             return false;
         }
@@ -244,11 +246,11 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Save user roles
      *
-     * @param Magento_Core_Model_Abstract $user
-     * @return $this|\Magento_Core_Model_Abstract
-     * @throws Exception|Magento_Core_Exception
+     * @param \Magento\Core\Model\AbstractModel $user
+     * @return $this|\Magento\Core\Model\AbstractModel
+     * @throws \Exception|\Magento\Core\Exception
      */
-    public function _saveRelations(Magento_Core_Model_Abstract $user)
+    public function _saveRelations(\Magento\Core\Model\AbstractModel $user)
     {
         $rolesIds = $user->getRoleIds();
         if (!is_array($rolesIds) || count($rolesIds) == 0) {
@@ -276,16 +278,16 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
                     'parent_id'     => $rid,
                     'tree_level'    => $row['tree_level'] + 1,
                     'sort_order'    => 0,
-                    'role_type'     => Magento_Api_Model_Acl::ROLE_TYPE_USER,
+                    'role_type'     => \Magento\Api\Model\Acl::ROLE_TYPE_USER,
                     'user_id'       => $user->getId(),
                     'role_name'     => $user->getFirstname()
                 );
                 $adapter->insert($this->getTable('api_role'), $data);
             }
             $adapter->commit();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             throw $e;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $adapter->rollBack();
         }
         return $this;
@@ -294,10 +296,10 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Retrieve roles data
      *
-     * @param Magento_Core_Model_Abstract $user
+     * @param \Magento\Core\Model\AbstractModel $user
      * @return array
      */
-    public function _getRoles(Magento_Core_Model_Abstract $user)
+    public function _getRoles(\Magento\Core\Model\AbstractModel $user)
     {
         if (!$user->getId()) {
             return array();
@@ -310,7 +312,7 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
                 array('ar' => $table),
                 $adapter->quoteInto(
                     "ar.role_id = {$table}.parent_id AND ar.role_type = ?",
-                    Magento_Api_Model_Acl::ROLE_TYPE_GROUP),
+                    \Magento\Api\Model\Acl::ROLE_TYPE_GROUP),
                 array('role_id'))
             ->where("{$table}.user_id = ?", $user->getId());
 
@@ -320,10 +322,10 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Add Role
      *
-     * @param Magento_Core_Model_Abstract $user
-     * @return Magento_Api_Model_Resource_User
+     * @param \Magento\Core\Model\AbstractModel $user
+     * @return \Magento\Api\Model\Resource\User
      */
-    public function add(Magento_Core_Model_Abstract $user)
+    public function add(\Magento\Core\Model\AbstractModel $user)
     {
         $adapter = $this->_getWriteAdapter();
         $aRoles  = $this->hasAssigned2Role($user);
@@ -337,7 +339,7 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
         }
 
         if ($user->getId() > 0) {
-            $role = Mage::getModel('Magento_Api_Model_Role')->load($user->getRoleId());
+            $role = \Mage::getModel('\Magento\Api\Model\Role')->load($user->getRoleId());
         } else {
             $role = new \Magento\Object(array('tree_level' => 0));
         }
@@ -345,7 +347,7 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
             'parent_id' => $user->getRoleId(),
             'tree_level'=> ($role->getTreeLevel() + 1),
             'sort_order'=> 0,
-            'role_type' => Magento_Api_Model_Acl::ROLE_TYPE_USER,
+            'role_type' => \Magento\Api\Model\Acl::ROLE_TYPE_USER,
             'user_id'   => $user->getUserId(),
             'role_name' => $user->getFirstname()
         ));
@@ -356,10 +358,10 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Delete from role
      *
-     * @param Magento_Core_Model_Abstract $user
-     * @return Magento_Api_Model_Resource_User
+     * @param \Magento\Core\Model\AbstractModel $user
+     * @return \Magento\Api\Model\Resource\User
      */
-    public function deleteFromRole(Magento_Core_Model_Abstract $user)
+    public function deleteFromRole(\Magento\Core\Model\AbstractModel $user)
     {
         if ($user->getUserId() <= 0) {
             return $this;
@@ -382,10 +384,10 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Retrieve roles which exists for user
      *
-     * @param Magento_Core_Model_Abstract $user
+     * @param \Magento\Core\Model\AbstractModel $user
      * @return array
      */
-    public function roleUserExists(Magento_Core_Model_Abstract $user)
+    public function roleUserExists(\Magento\Core\Model\AbstractModel $user)
     {
         $result = array();
         if ($user->getUserId() > 0) {
@@ -401,10 +403,10 @@ class Magento_Api_Model_Resource_User extends Magento_Core_Model_Resource_Db_Abs
     /**
      * Check if user not unique
      *
-     * @param Magento_Core_Model_Abstract $user
+     * @param \Magento\Core\Model\AbstractModel $user
      * @return array
      */
-    public function userExists(Magento_Core_Model_Abstract $user)
+    public function userExists(\Magento\Core\Model\AbstractModel $user)
     {
         $usersTable = $this->getTable('api_user');
         $adapter    = $this->_getReadAdapter();

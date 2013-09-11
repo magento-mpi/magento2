@@ -14,8 +14,10 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Block_Adminhtml_Grid_Column_Renderer_Percent
-    extends Magento_Backend_Block_Widget_Grid_Column_Renderer_Number
+namespace Magento\Invitation\Block\Adminhtml\Grid\Column\Renderer;
+
+class Percent
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Number
 {
     /**
      * Renders grid column

@@ -16,7 +16,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Checkout_Model_Cart_Payment_Api extends Magento_Checkout_Model_Api_Resource
+namespace Magento\Checkout\Model\Cart\Payment;
+
+class Api extends \Magento\Checkout\Model\Api\Resource
 {
 
     /**
@@ -49,7 +51,7 @@ class Magento_Checkout_Model_Cart_Payment_Api extends Magento_Checkout_Model_Api
             return false;
         }
 
-        if (!$method->canUseForCurrency(Mage::app()->getStore($quote->getStoreId())->getBaseCurrencyCode())) {
+        if (!$method->canUseForCurrency(\Mage::app()->getStore($quote->getStoreId())->getBaseCurrencyCode())) {
             return false;
         }
 
@@ -69,7 +71,7 @@ class Magento_Checkout_Model_Cart_Payment_Api extends Magento_Checkout_Model_Api
 
     protected function _getPaymentMethodAvailableCcTypes($method)
     {
-        $ccTypes = Mage::getSingleton('Magento_Payment_Model_Config')->getCcTypes();
+        $ccTypes = \Mage::getSingleton('Magento\Payment\Model\Config')->getCcTypes();
         $methodCcTypes = explode(',',$method->getConfigData('cctypes'));
         foreach ($ccTypes as $code=>$title) {
             if (!in_array($code, $methodCcTypes)) {
@@ -98,10 +100,10 @@ class Magento_Checkout_Model_Cart_Payment_Api extends Magento_Checkout_Model_Api
         $total = $quote->getBaseSubtotal();
 
         $methodsResult = array();
-        $methods = Mage::helper('Magento_Payment_Helper_Data')->getStoreMethods($store, $quote);
+        $methods = \Mage::helper('Magento\Payment\Helper\Data')->getStoreMethods($store, $quote);
 
         foreach ($methods as $method) {
-            /** @var $method Magento_Payment_Model_Method_Abstract */
+            /** @var $method \Magento\Payment\Model\Method\AbstractMethod */
             if ($this->_canUsePaymentMethod($method, $quote)) {
                 $isRecurring = $quote->hasRecurringItems() && $method->canManageRecurringProfiles();
 
@@ -154,10 +156,10 @@ class Magento_Checkout_Model_Cart_Payment_Api extends Magento_Checkout_Model_Api
         }
 
         $total = $quote->getBaseSubtotal();
-        $methods = Mage::helper('Magento_Payment_Helper_Data')->getStoreMethods($store, $quote);
+        $methods = \Mage::helper('Magento\Payment\Helper\Data')->getStoreMethods($store, $quote);
 
         foreach ($methods as $method) {
-            /** @var $method Magento_Payment_Model_Method_Abstract */
+            /** @var $method \Magento\Payment\Model\Method\AbstractMethod */
             if ($method->getCode() == $paymentData['method']) {
                 $isRecurring = $quote->hasRecurringItems() && $method->canManageRecurringProfiles();
                 $isAllowedMethod = $total != 0 || $method->getCode() == 'free' || $isRecurring;
@@ -175,7 +177,7 @@ class Magento_Checkout_Model_Cart_Payment_Api extends Magento_Checkout_Model_Api
             $quote->setTotalsCollectedFlag(false)
                     ->collectTotals()
                     ->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('payment_method_is_not_set', $e->getMessage());
         }
         return true;

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-interface Magento_Backend_Model_Widget_Grid_Row_GeneratorInterface
+namespace Magento\Backend\Model\Widget\Grid\Row;
+
+interface GeneratorInterface
 {
     public function getUrl($item);
 

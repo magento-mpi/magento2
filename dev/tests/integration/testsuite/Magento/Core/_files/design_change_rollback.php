@@ -6,6 +6,6 @@
  * @license     {license_link}
  */
 
-/** @var $cache Magento_Core_Model_Cache */
-$cache = Mage::getModel('Magento_Core_Model_Cache');
-$cache->clean(array(Magento_Core_Model_Design::CACHE_TAG));
+/** @var $cache \Magento\Core\Model\Cache */
+$cache = Mage::getModel('\Magento\Core\Model\Cache');
+$cache->clean(array(\Magento\Core\Model\Design::CACHE_TAG));

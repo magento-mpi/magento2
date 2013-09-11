@@ -9,7 +9,7 @@
 class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Banner_Model_Resource_Banner
+     * @var \Magento\Banner\Model\Resource\Banner
      */
     private $_resourceModel;
 
@@ -50,7 +50,7 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
         $this->_readAdapter->expects($this->once())->method('select')->will($this->returnValue($select));
 
         $this->_resource = $this->getMock(
-            'Magento_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
+            '\Magento\Core\Model\Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
         $this->_resource
@@ -64,7 +64,7 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
         ;
 
         $this->_eventManager = $this->getMock(
-            'Magento_Core_Model_Event_Manager',
+            '\Magento\Core\Model\Event\Manager',
             array('dispatch'),
             array(),
             '',
@@ -72,10 +72,10 @@ class Magento_Banner_Model_Resource_BannerTest extends PHPUnit_Framework_TestCas
         );
 
         $this->_bannerConfig = $this->getMock(
-            'Magento_Banner_Model_Config', array('explodeTypes'), array(), '', false
+            '\Magento\Banner\Model\Config', array('explodeTypes'), array(), '', false
         );
 
-        $this->_resourceModel = new Magento_Banner_Model_Resource_Banner(
+        $this->_resourceModel = new \Magento\Banner\Model\Resource\Banner(
             $this->_resource,
             $this->_eventManager,
             $this->_bannerConfig

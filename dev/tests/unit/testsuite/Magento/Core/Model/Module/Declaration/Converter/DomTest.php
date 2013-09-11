@@ -8,13 +8,13 @@
 class Magento_Core_Model_Module_Declaration_Converter_DomTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Module_Declaration_Converter_Dom
+     * @var \Magento\Core\Model\Module\Declaration\Converter\Dom
      */
     protected $_converter;
 
     protected function setUp()
     {
-        $this->_converter = new Magento_Core_Model_Module_Declaration_Converter_Dom();
+        $this->_converter = new \Magento\Core\Model\Module\Declaration\Converter\Dom();
     }
 
     public function testConvertWithValidDom()

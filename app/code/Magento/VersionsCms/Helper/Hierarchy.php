@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
+namespace Magento\VersionsCms\Helper;
+
+class Hierarchy extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_HIERARCHY_ENABLED    = 'cms/hierarchy/enabled';
     const XML_PATH_METADATA_ENABLED     = 'cms/hierarchy/metadata_enabled';
@@ -34,7 +36,7 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_HIERARCHY_ENABLED);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_HIERARCHY_ENABLED);
     }
 
     /**
@@ -44,7 +46,7 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
      */
     public function isMetadataEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_METADATA_ENABLED);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_METADATA_ENABLED);
     }
 
     /**
@@ -189,15 +191,15 @@ class Magento_VersionsCms_Helper_Hierarchy extends Magento_Core_Helper_Abstract
      */
     public function getParentScope($scope, $scopeId)
     {
-        if ($scope === Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_STORE) {
+        if ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE) {
             return array(
-                Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE,
-                Mage::app()->getStore($scopeId)->getWebsiteId(),
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE,
+                \Mage::app()->getStore($scopeId)->getWebsiteId(),
             );
-        } elseif ($scope === Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_WEBSITE) {
+        } elseif ($scope === \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_WEBSITE) {
             return array(
-                Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT,
-                Magento_VersionsCms_Model_Hierarchy_Node::NODE_SCOPE_DEFAULT_ID,
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT,
+                \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT_ID,
             );
         }
 

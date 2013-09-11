@@ -20,7 +20,7 @@ class Magento_Core_Model_Cache_Type_AccessProxyTest extends PHPUnit_Framework_Te
 
         $frontendMock = $this->getMock('Magento\Cache\FrontendInterface');
 
-        $cacheEnabler = $this->getMock('Magento_Core_Model_Cache_StateInterface');
+        $cacheEnabler = $this->getMock('Magento\Core\Model\Cache\StateInterface');
         $cacheEnabler->expects($this->at(0))
             ->method('isEnabled')
             ->with($identifier)
@@ -30,7 +30,7 @@ class Magento_Core_Model_Cache_Type_AccessProxyTest extends PHPUnit_Framework_Te
             ->with($identifier)
             ->will($this->returnValue(true));
 
-        $object = new Magento_Core_Model_Cache_Type_AccessProxy($frontendMock, $cacheEnabler, $identifier);
+        $object = new \Magento\Core\Model\Cache\Type\AccessProxy($frontendMock, $cacheEnabler, $identifier);
         $helper = new Magento_TestFramework_Helper_ProxyTesting();
 
         // For the first call the cache is disabled - so fake default result is returned

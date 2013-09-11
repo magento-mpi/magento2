@@ -15,7 +15,9 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Model_Resource_Token_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Oauth\Model\Resource\Token;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection model
@@ -24,7 +26,7 @@ class Magento_Oauth_Model_Resource_Token_Collection extends Magento_Core_Model_R
      */
     protected function _construct()
     {
-        $this->_init('Magento_Oauth_Model_Token', 'Magento_Oauth_Model_Resource_Token');
+        $this->_init('\Magento\Oauth\Model\Token', '\Magento\Oauth\Model\Resource\Token');
     }
 
     /**
@@ -32,7 +34,7 @@ class Magento_Oauth_Model_Resource_Token_Collection extends Magento_Core_Model_R
      *
      * Method use for show applications list (token-consumer)
      *
-     * @return Magento_Oauth_Model_Resource_Token_Collection
+     * @return \Magento\Oauth\Model\Resource\Token\Collection
      */
     public function joinConsumerAsApplication()
     {
@@ -50,7 +52,7 @@ class Magento_Oauth_Model_Resource_Token_Collection extends Magento_Core_Model_R
      * Add filter by admin ID
      *
      * @param int $adminId
-     * @return Magento_Oauth_Model_Resource_Token_Collection
+     * @return \Magento\Oauth\Model\Resource\Token\Collection
      */
     public function addFilterByAdminId($adminId)
     {
@@ -62,7 +64,7 @@ class Magento_Oauth_Model_Resource_Token_Collection extends Magento_Core_Model_R
      * Add filter by customer ID
      *
      * @param int $customerId
-     * @return Magento_Oauth_Model_Resource_Token_Collection
+     * @return \Magento\Oauth\Model\Resource\Token\Collection
      */
     public function addFilterByCustomerId($customerId)
     {
@@ -74,7 +76,7 @@ class Magento_Oauth_Model_Resource_Token_Collection extends Magento_Core_Model_R
      * Add filter by consumer ID
      *
      * @param int $consumerId
-     * @return Magento_Oauth_Model_Resource_Token_Collection
+     * @return \Magento\Oauth\Model\Resource\Token\Collection
      */
     public function addFilterByConsumerId($consumerId)
     {
@@ -86,7 +88,7 @@ class Magento_Oauth_Model_Resource_Token_Collection extends Magento_Core_Model_R
      * Add filter by type
      *
      * @param string $type
-     * @return Magento_Oauth_Model_Resource_Token_Collection
+     * @return \Magento\Oauth\Model\Resource\Token\Collection
      */
     public function addFilterByType($type)
     {
@@ -98,7 +100,7 @@ class Magento_Oauth_Model_Resource_Token_Collection extends Magento_Core_Model_R
      * Add filter by ID
      *
      * @param array|int $id
-     * @return Magento_Oauth_Model_Resource_Token_Collection
+     * @return \Magento\Oauth\Model\Resource\Token\Collection
      */
     public function addFilterById($id)
     {
@@ -110,7 +112,7 @@ class Magento_Oauth_Model_Resource_Token_Collection extends Magento_Core_Model_R
      * Add filter by "Is Revoked" status
      *
      * @param bool|int $flag
-     * @return Magento_Oauth_Model_Resource_Token_Collection
+     * @return \Magento\Oauth\Model\Resource\Token\Collection
      */
     public function addFilterByRevoked($flag)
     {

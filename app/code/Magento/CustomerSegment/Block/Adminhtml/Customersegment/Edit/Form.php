@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit;
+
+class Form extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     /**
@@ -26,7 +28,7 @@ class Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form extends 
     /**
      * Prepare edit form
      *
-     * @return Magento_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form
+     * @return \Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Form
      */
     protected function _prepareForm()
     {

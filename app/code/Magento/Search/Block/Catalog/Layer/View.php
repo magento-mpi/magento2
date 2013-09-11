@@ -15,7 +15,9 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_Layer_View
+namespace Magento\Search\Block\Catalog\Layer;
+
+class View extends \Magento\Catalog\Block\Layer\View
 {
     /**
      * Initialize blocks names
@@ -24,22 +26,22 @@ class Magento_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_Laye
     {
         parent::_initBlocks();
 
-        if (Mage::helper('Magento_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
-            $this->_categoryBlockName        = 'Magento_Search_Block_Catalog_Layer_Filter_Category';
-            $this->_attributeFilterBlockName = 'Magento_Search_Block_Catalog_Layer_Filter_Attribute';
-            $this->_priceFilterBlockName     = 'Magento_Search_Block_Catalog_Layer_Filter_Price';
-            $this->_decimalFilterBlockName   = 'Magento_Search_Block_Catalog_Layer_Filter_Decimal';
+        if (\Mage::helper('Magento\Search\Helper\Data')->getIsEngineAvailableForNavigation()) {
+            $this->_categoryBlockName        = '\Magento\Search\Block\Catalog\Layer\Filter\Category';
+            $this->_attributeFilterBlockName = '\Magento\Search\Block\Catalog\Layer\Filter\Attribute';
+            $this->_priceFilterBlockName     = '\Magento\Search\Block\Catalog\Layer\Filter\Price';
+            $this->_decimalFilterBlockName   = '\Magento\Search\Block\Catalog\Layer\Filter\Decimal';
         }
     }
 
     /**
      * Prepare child blocks
      *
-     * @return Magento_Search_Block_Catalog_Layer_View
+     * @return \Magento\Search\Block\Catalog\Layer\View
      */
     protected function _prepareLayout()
     {
-        $helper = Mage::helper('Magento_Search_Helper_Data');
+        $helper = \Mage::helper('Magento\Search\Helper\Data');
         if ($helper->isThirdPartSearchEngine() && $helper->getIsEngineAvailableForNavigation()) {
             $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
                 ->setLayer($this->getLayer());
@@ -83,12 +85,12 @@ class Magento_Search_Block_Catalog_Layer_View extends Magento_Catalog_Block_Laye
     /**
      * Get layer object
      *
-     * @return Magento_Catalog_Model_Layer
+     * @return \Magento\Catalog\Model\Layer
      */
     public function getLayer()
     {
-        if (Mage::helper('Magento_Search_Helper_Data')->getIsEngineAvailableForNavigation()) {
-            return Mage::getSingleton('Magento_Search_Model_Catalog_Layer');
+        if (\Mage::helper('Magento\Search\Helper\Data')->getIsEngineAvailableForNavigation()) {
+            return \Mage::getSingleton('Magento\Search\Model\Catalog\Layer');
         }
 
         return parent::getLayer();

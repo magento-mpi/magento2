@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Rule_Model_Renderer_Conditions implements \Magento\Data\Form\Element\Renderer\RendererInterface
+namespace Magento\Rule\Model\Renderer;
+
+class Conditions implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {

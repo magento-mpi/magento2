@@ -9,7 +9,9 @@
  */
 
 
-class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller\System;
+
+class Design extends \Magento\Adminhtml\Controller\Action
 {
     public function indexAction()
     {
@@ -39,7 +41,7 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int) $this->getRequest()->getParam('id');
-        $design    = Mage::getModel('Magento_Core_Model_Design');
+        $design    = \Mage::getModel('\Magento\Core\Model\Design');
 
         if ($id) {
             $design->load($id);
@@ -47,10 +49,10 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
 
         $this->_title($design->getId() ? __('Edit Store Design Change') : __('New Store Design Change'));
 
-        Mage::register('design', $design);
+        \Mage::register('design', $design);
 
-        $this->_addContent($this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Design_Edit'));
-        $this->_addLeft($this->getLayout()->createBlock('Magento_Adminhtml_Block_System_Design_Edit_Tabs', 'design_tabs'));
+        $this->_addContent($this->getLayout()->createBlock('\Magento\Adminhtml\Block\System\Design\Edit'));
+        $this->_addLeft($this->getLayout()->createBlock('\Magento\Adminhtml\Block\System\Design\Edit\Tabs', 'design_tabs'));
 
         $this->renderLayout();
     }
@@ -60,7 +62,7 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
         if ($data = $this->getRequest()->getPost()) {
             $id = (int) $this->getRequest()->getParam('id');
 
-            $design = Mage::getModel('Magento_Core_Model_Design');
+            $design = \Mage::getModel('\Magento\Core\Model\Design');
             if ($id) {
                 $design->load($id);
             }
@@ -72,9 +74,9 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
             try {
                 $design->save();
 
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')->addSuccess(__('You saved the design change.'));
-            } catch (Exception $e){
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the design change.'));
+            } catch (\Exception $e){
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                     ->addError($e->getMessage())
                     ->setDesignData($data);
                 $this->_redirect('*/*/edit', array('id'=>$design->getId()));
@@ -88,18 +90,18 @@ class Magento_Adminhtml_Controller_System_Design extends Magento_Adminhtml_Contr
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
-            $design = Mage::getModel('Magento_Core_Model_Design')->load($id);
+            $design = \Mage::getModel('\Magento\Core\Model\Design')->load($id);
 
             try {
                 $design->delete();
 
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                     ->addSuccess(__('You deleted the design change.'));
             } catch (\Magento\Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                     ->addError($e->getMessage());
-            } catch (Exception $e) {
-                Mage::getSingleton('Magento_Adminhtml_Model_Session')
+            } catch (\Exception $e) {
+                \Mage::getSingleton('Magento\Adminhtml\Model\Session')
                     ->addException($e, __("Cannot delete the design change."));
             }
         }

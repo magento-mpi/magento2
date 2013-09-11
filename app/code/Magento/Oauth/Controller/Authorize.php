@@ -15,7 +15,9 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_Action
+namespace Magento\Oauth\Controller;
+
+class Authorize extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Session name
@@ -28,24 +30,24 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
      * Init authorize page
      *
      * @param bool $simple      Is simple page?
-     * @return Magento_Oauth_Controller_Authorize
+     * @return \Magento\Oauth\Controller\Authorize
      */
     protected function _initForm($simple = false)
     {
-        /** @var $server Magento_Oauth_Model_Server */
-        $server = Mage::getModel('Magento_Oauth_Model_Server');
-        /** @var $session Magento_Customer_Model_Session */
-        $session = Mage::getSingleton($this->_sessionName);
+        /** @var $server \Magento\Oauth\Model\Server */
+        $server = \Mage::getModel('\Magento\Oauth\Model\Server');
+        /** @var $session \Magento\Customer\Model\Session */
+        $session = \Mage::getSingleton($this->_sessionName);
 
         $isException = false;
         try {
             $server->checkAuthorizeRequest();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $session->addError($e->getMessage());
-        } catch (Magento_Oauth_Exception $e) {
+        } catch (\Magento\Oauth\Exception $e) {
             $isException = true;
             $session->addException($e, __('An error occurred. Your authorization request is invalid.'));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $isException = true;
             $session->addException($e, __('An error occurred.'));
         }
@@ -57,17 +59,17 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
         $contentBlock = $layout->getBlock('content');
         if ($logged) {
             $contentBlock->unsetChild('oauth.authorize.form');
-            /** @var $block Magento_Oauth_Block_Authorize_Button */
+            /** @var $block \Magento\Oauth\Block\Authorize\Button */
             $block = $contentBlock->getChildBlock('oauth.authorize.button');
         } else {
             $contentBlock->unsetChild('oauth.authorize.button');
-            /** @var $block Magento_Oauth_Block_Authorize */
+            /** @var $block \Magento\Oauth\Block\Authorize */
             $block = $contentBlock->getChildBlock('oauth.authorize.form');
         }
 
-        /** @var $helper Magento_Core_Helper_Url */
-        $helper = Mage::helper('Magento_Core_Helper_Url');
-        $session->setAfterAuthUrl(Mage::getUrl('customer/account/login', array('_nosid' => true)))
+        /** @var $helper \Magento\Core\Helper\Url */
+        $helper = \Mage::helper('Magento\Core\Helper\Url');
+        $session->setAfterAuthUrl(\Mage::getUrl('customer/account/login', array('_nosid' => true)))
                 ->setBeforeAuthUrl($helper->getCurrentUrl());
 
         $block->setIsSimple($simple)
@@ -80,34 +82,34 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
      * Init confirm page
      *
      * @param bool $simple      Is simple page?
-     * @return Magento_Oauth_Controller_Authorize
+     * @return \Magento\Oauth\Controller\Authorize
      */
     protected function _initConfirmPage($simple = false)
     {
-        /** @var $helper Magento_Oauth_Helper_Data */
-        $helper = Mage::helper('Magento_Oauth_Helper_Data');
+        /** @var $helper \Magento\Oauth\Helper\Data */
+        $helper = \Mage::helper('Magento\Oauth\Helper\Data');
 
-        /** @var $session Magento_Customer_Model_Session */
-        $session = Mage::getSingleton($this->_sessionName);
+        /** @var $session \Magento\Customer\Model\Session */
+        $session = \Mage::getSingleton($this->_sessionName);
         if (!$session->getCustomerId()) {
             $session->addError(__('Please login to proceed authorization.'));
-            $url = $helper->getAuthorizeUrl(Magento_Oauth_Model_Token::USER_TYPE_CUSTOMER);
+            $url = $helper->getAuthorizeUrl(\Magento\Oauth\Model\Token::USER_TYPE_CUSTOMER);
             $this->_redirectUrl($url);
             return $this;
         }
 
         $this->loadLayout();
 
-        /** @var $block Magento_Oauth_Block_Authorize */
+        /** @var $block \Magento\Oauth\Block\Authorize */
         $block = $this->getLayout()->getBlock('oauth.authorize.confirm');
         $block->setIsSimple($simple);
 
         try {
-            /** @var $server Magento_Oauth_Model_Server */
-            $server = Mage::getModel('Magento_Oauth_Model_Server');
+            /** @var $server \Magento\Oauth\Model\Server */
+            $server = \Mage::getModel('\Magento\Oauth\Model\Server');
 
-            /** @var $token Magento_Oauth_Model_Token */
-            $token = $server->authorizeToken($session->getCustomerId(), Magento_Oauth_Model_Token::USER_TYPE_CUSTOMER);
+            /** @var $token \Magento\Oauth\Model\Token */
+            $token = $server->authorizeToken($session->getCustomerId(), \Magento\Oauth\Model\Token::USER_TYPE_CUSTOMER);
 
             if (($callback = $helper->getFullCallbackUrl($token))) { //false in case of OOB
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
@@ -116,11 +118,11 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
                 $block->setVerifier($token->getVerifier());
                 $session->addSuccess(__('Authorization confirmed.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $session->addError($e->getMessage());
-        } catch (Magento_Oauth_Exception $e) {
+        } catch (\Magento\Oauth\Exception $e) {
             $session->addException($e, __('An error occurred. Your authorization request is invalid.'));
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $session->addException($e, __('An error occurred on confirm authorize.'));
         }
 
@@ -134,26 +136,26 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
      * Init reject page
      *
      * @param bool $simple      Is simple page?
-     * @return Magento_Oauth_Controller_Authorize
+     * @return \Magento\Oauth\Controller\Authorize
      */
     protected function _initRejectPage($simple = false)
     {
         $this->loadLayout();
 
-        /** @var $session Magento_Customer_Model_Session */
-        $session = Mage::getSingleton($this->_sessionName);
+        /** @var $session \Magento\Customer\Model\Session */
+        $session = \Mage::getSingleton($this->_sessionName);
         try {
-            /** @var $server Magento_Oauth_Model_Server */
-            $server = Mage::getModel('Magento_Oauth_Model_Server');
+            /** @var $server \Magento\Oauth\Model\Server */
+            $server = \Mage::getModel('\Magento\Oauth\Model\Server');
 
-            /** @var $block Magento_Oauth_Block_Authorize */
+            /** @var $block \Magento\Oauth\Block\Authorize */
             $block = $this->getLayout()->getBlock('oauth.authorize.reject');
             $block->setIsSimple($simple);
 
-            /** @var $token Magento_Oauth_Model_Token */
+            /** @var $token \Magento\Oauth\Model\Token */
             $token = $server->checkAuthorizeRequest();
-            /** @var $helper Magento_Oauth_Helper_Data */
-            $helper = Mage::helper('Magento_Oauth_Helper_Data');
+            /** @var $helper \Magento\Oauth\Helper\Data */
+            $helper = \Mage::helper('Magento\Oauth\Helper\Data');
 
             if (($callback = $helper->getFullCallbackUrl($token, true))) {
                 $this->_redirectUrl($callback . ($simple ? '&simple=1' : ''));
@@ -161,9 +163,9 @@ class Magento_Oauth_Controller_Authorize extends Magento_Core_Controller_Front_A
             } else {
                 $session->addNotice(__('The application access request is rejected.'));
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $session->addError($e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $session->addException($e, __('An error occurred on reject authorize.'));
         }
 

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Acl_Rule_Factory
+namespace Magento\Webapi\Model\Acl\Rule;
+
+class Factory
 {
     /**
      * @var \Magento\ObjectManager
@@ -25,13 +27,13 @@ class Magento_Webapi_Model_Acl_Rule_Factory
     }
 
     /**
-     * Create a new instance of Magento_Webapi_Model_Acl_Rule
+     * Create a new instance of \Magento\Webapi\Model\Acl\Rule
      *
      * @param array $arguments fed into constructor
-     * @return Magento_Webapi_Model_Acl_Rule
+     * @return \Magento\Webapi\Model\Acl\Rule
      */
     public function create(array $arguments = array())
     {
-        return $this->_objectManager->create('Magento_Webapi_Model_Acl_Rule', $arguments);
+        return $this->_objectManager->create('Magento\Webapi\Model\Acl\Rule', $arguments);
     }
 }

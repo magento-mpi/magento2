@@ -16,7 +16,9 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\Sendfriend\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED          = 'sendfriend/email/enabled';
     const XML_PATH_ALLOW_FOR_GUEST  = 'sendfriend/email/allow_guest';
@@ -38,7 +40,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isEnabled($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED, $store);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_ENABLED, $store);
     }
 
     /**
@@ -49,7 +51,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isAllowForGuest($store = null)
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ALLOW_FOR_GUEST, $store);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_ALLOW_FOR_GUEST, $store);
     }
 
     /**
@@ -60,7 +62,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMaxRecipients($store = null)
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_MAX_RECIPIENTS, $store);
+        return (int)\Mage::getStoreConfig(self::XML_PATH_MAX_RECIPIENTS, $store);
     }
 
     /**
@@ -71,7 +73,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getMaxEmailPerPeriod($store = null)
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_MAX_PER_HOUR, $store);
+        return (int)\Mage::getStoreConfig(self::XML_PATH_MAX_PER_HOUR, $store);
     }
 
     /**
@@ -92,7 +94,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getLimitBy($store = null)
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_LIMIT_BY, $store);
+        return (int)\Mage::getStoreConfig(self::XML_PATH_LIMIT_BY, $store);
     }
 
     /**
@@ -103,7 +105,7 @@ class Magento_Sendfriend_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getEmailTemplate($store = null)
     {
-        return Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $store);
+        return \Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $store);
     }
 
     /**

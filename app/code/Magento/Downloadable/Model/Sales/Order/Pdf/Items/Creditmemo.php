@@ -16,23 +16,25 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
-    extends Magento_Downloadable_Model_Sales_Order_Pdf_Items_Abstract
+namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
+
+class Creditmemo
+    extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\AbstractItems
 {
     /**
-     * @var Magento_Core_Helper_String
+     * @var \Magento\Core\Helper\String
      */
     protected $_stringHelper;
 
     /**
      * Retrieve string helper instance
      *
-     * @return Magento_Core_Helper_String
+     * @return \Magento\Core\Helper\String
      */
     protected function _getStringHelper()
     {
         if (!$this->_stringHelper) {
-            $this->_stringHelper = Mage::helper('Magento_Core_Helper_String');
+            $this->_stringHelper = \Mage::helper('Magento\Core\Helper\String');
         }
         return $this->_stringHelper;
     }
@@ -40,9 +42,9 @@ class Magento_Downloadable_Model_Sales_Order_Pdf_Items_Creditmemo
     /**
      * Assign string helper instance
      * 
-     * @param Magento_Core_Helper_String $helperInstance
+     * @param \Magento\Core\Helper\String $helperInstance
      */
-    public function setStringHelper(Magento_Core_Helper_String $helperInstance)
+    public function setStringHelper(\Magento\Core\Helper\String $helperInstance)
     {
         $this->_stringHelper = $helperInstance;
     }

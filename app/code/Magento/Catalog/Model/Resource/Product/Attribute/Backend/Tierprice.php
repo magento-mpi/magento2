@@ -16,8 +16,10 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice
-    extends Magento_Catalog_Model_Resource_Product_Attribute_Backend_Groupprice_Abstract
+namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
+
+class Tierprice
+    extends \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Groupprice\AbstractGroupprice
 {
     /**
      * Initialize connection and define main table

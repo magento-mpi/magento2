@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Address_Api_V2 extends Magento_Customer_Model_Address_Api
+namespace Magento\Customer\Model\Address\Api;
+
+class V2 extends \Magento\Customer\Model\Address\Api
 {
     /**
      * Create new address for customer
@@ -26,15 +28,15 @@ class Magento_Customer_Model_Address_Api_V2 extends Magento_Customer_Model_Addre
      */
     public function create($customerId, $addressData)
     {
-        $customer = Mage::getModel('Magento_Customer_Model_Customer')
+        $customer = \Mage::getModel('\Magento\Customer\Model\Customer')
             ->load($customerId);
-        /* @var $customer Magento_Customer_Model_Customer */
+        /* @var $customer \Magento\Customer\Model\Customer */
 
         if (!$customer->getId()) {
             $this->_fault('customer_not_exists');
         }
 
-        $address = Mage::getModel('Magento_Customer_Model_Address');
+        $address = \Mage::getModel('\Magento\Customer\Model\Address');
 
         foreach ($this->getAllowedAttributes($address) as $attributeCode=>$attribute) {
             if (isset($addressData->$attributeCode)) {
@@ -53,7 +55,7 @@ class Magento_Customer_Model_Address_Api_V2 extends Magento_Customer_Model_Addre
         try {
             $address->save();
             $this->_saveDefaultAddresses($addressData, $address);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -68,7 +70,7 @@ class Magento_Customer_Model_Address_Api_V2 extends Magento_Customer_Model_Addre
      */
     public function info($addressId)
     {
-        $address = Mage::getModel('Magento_Customer_Model_Address')
+        $address = \Mage::getModel('\Magento\Customer\Model\Address')
             ->load($addressId);
 
         if (!$address->getId()) {
@@ -103,8 +105,8 @@ class Magento_Customer_Model_Address_Api_V2 extends Magento_Customer_Model_Addre
      */
     public function update($addressId, $addressData)
     {
-        /** @var $address Magento_Customer_Model_Address */
-        $address = Mage::getModel('Magento_Customer_Model_Address')->load($addressId);
+        /** @var $address \Magento\Customer\Model\Address */
+        $address = \Mage::getModel('\Magento\Customer\Model\Address')->load($addressId);
 
         if (!$address->getId()) {
             $this->_fault('not_exists');
@@ -124,7 +126,7 @@ class Magento_Customer_Model_Address_Api_V2 extends Magento_Customer_Model_Addre
         try {
             $address->save();
             $this->_saveDefaultAddresses($addressData, $address);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -135,7 +137,7 @@ class Magento_Customer_Model_Address_Api_V2 extends Magento_Customer_Model_Addre
      * Process default billing and shipping addresses.
      *
      * @param object $addressData
-     * @param Magento_Customer_Model_Address $address
+     * @param \Magento\Customer\Model\Address $address
      */
     protected function _saveDefaultAddresses($addressData, $address)
     {
@@ -158,4 +160,4 @@ class Magento_Customer_Model_Address_Api_V2 extends Magento_Customer_Model_Addre
             $customer->save();
         }
     }
-} // Class Magento_Customer_Model_Address_Api End
+} // Class \Magento\Customer\Model\Address\Api End

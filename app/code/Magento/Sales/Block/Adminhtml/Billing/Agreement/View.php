@@ -13,7 +13,9 @@
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Block_Adminhtml_Billing_Agreement_View extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Sales\Block\Adminhtml\Billing\Agreement;
+
+class View extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Initialize view container
@@ -77,11 +79,11 @@ class Magento_Sales_Block_Adminhtml_Billing_Agreement_View extends Magento_Admin
     /**
      * Retrieve billing agreement model
      *
-     * @return Magento_Sales_Model_Billing_Agreement
+     * @return \Magento\Sales\Model\Billing\Agreement
      */
     protected function _getBillingAgreement()
     {
-        return Mage::registry('current_billing_agreement');
+        return \Mage::registry('current_billing_agreement');
     }
 
     /**

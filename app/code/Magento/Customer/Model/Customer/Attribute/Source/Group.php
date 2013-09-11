@@ -15,12 +15,14 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Attribute_Source_Group extends Magento_Eav_Model_Entity_Attribute_Source_Table
+namespace Magento\Customer\Model\Customer\Attribute\Source;
+
+class Group extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = Mage::getResourceModel('Magento_Customer_Model_Resource_Group_Collection')
+            $this->_options = \Mage::getResourceModel('\Magento\Customer\Model\Resource\Group\Collection')
                 ->setRealGroupsFilter()
                 ->load()
                 ->toOptionArray()

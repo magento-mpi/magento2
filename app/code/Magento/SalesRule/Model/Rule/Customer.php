@@ -12,25 +12,27 @@
 /**
  * SalesRule Rule Customer Model
  *
- * @method Magento_SalesRule_Model_Resource_Rule_Customer _getResource()
- * @method Magento_SalesRule_Model_Resource_Rule_Customer getResource()
+ * @method \Magento\SalesRule\Model\Resource\Rule\Customer _getResource()
+ * @method \Magento\SalesRule\Model\Resource\Rule\Customer getResource()
  * @method int getRuleId()
- * @method Magento_SalesRule_Model_Rule_Customer setRuleId(int $value)
+ * @method \Magento\SalesRule\Model\Rule\Customer setRuleId(int $value)
  * @method int getCustomerId()
- * @method Magento_SalesRule_Model_Rule_Customer setCustomerId(int $value)
+ * @method \Magento\SalesRule\Model\Rule\Customer setCustomerId(int $value)
  * @method int getTimesUsed()
- * @method Magento_SalesRule_Model_Rule_Customer setTimesUsed(int $value)
+ * @method \Magento\SalesRule\Model\Rule\Customer setTimesUsed(int $value)
  *
  * @category    Magento
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_SalesRule_Model_Rule_Customer extends Magento_Core_Model_Abstract 
+namespace Magento\SalesRule\Model\Rule;
+
+class Customer extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_SalesRule_Model_Resource_Rule_Customer');
+        $this->_init('\Magento\SalesRule\Model\Resource\Rule\Customer');
     }
     
     public function loadByCustomerRule($customerId, $ruleId)

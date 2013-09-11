@@ -16,14 +16,16 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @deprecated  Partially moved to module Backend
  */
-class Magento_Adminhtml_Controller_Index extends Magento_Adminhtml_Controller_Action
+namespace Magento\Adminhtml\Controller;
+
+class Index extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Global Search Action
      */
     public function globalSearchAction()
     {
-        $searchModules = $this->_objectManager->get('Magento_Core_Model_Config')->getNode("adminhtml/global_search");
+        $searchModules = $this->_objectManager->get('Magento\Core\Model\Config')->getNode("adminhtml/global_search");
         $items = array();
         
         if (!$this->_authorization->isAllowed('Magento_Adminhtml::global_search')) {
@@ -68,7 +70,7 @@ class Magento_Adminhtml_Controller_Index extends Magento_Adminhtml_Controller_Ac
         }
 
         $this->getResponse()->setBody(
-            $this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($items)
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($items)
         );
     }
 

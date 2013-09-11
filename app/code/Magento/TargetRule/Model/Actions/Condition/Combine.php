@@ -9,18 +9,20 @@
  */
 
 
-class Magento_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Model_Condition_Combine
+namespace Magento\TargetRule\Model\Actions\Condition;
+
+class Combine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
      * Set condition type
      *
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_TargetRule_Model_Actions_Condition_Combine');
+        $this->setType('\Magento\TargetRule\Model\Actions\Condition\Combine');
     }
 
     /**
@@ -33,9 +35,9 @@ class Magento_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Mo
         $conditions = array(
             array('value'=>$this->getType(),
                 'label'=>__('Conditions Combination')),
-            Mage::getModel('Magento_TargetRule_Model_Actions_Condition_Product_Attributes')
+            \Mage::getModel('\Magento\TargetRule\Model\Actions\Condition\Product\Attributes')
                 ->getNewChildSelectOptions(),
-            Mage::getModel('Magento_TargetRule_Model_Actions_Condition_Product_Special')
+            \Mage::getModel('\Magento\TargetRule\Model\Actions\Condition\Product\Special')
                 ->getNewChildSelectOptions(),
         );
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
@@ -45,10 +47,10 @@ class Magento_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Mo
     /**
      * Retrieve SELECT WHERE condition for product collection
      *
-     * @param Magento_Catalog_Model_Resource_Product_Collection $collection
-     * @param Magento_TargetRule_Model_Index $object
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @param \Magento\TargetRule\Model\Index $object
      * @param array $bind
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      */
     public function getConditionForCollection($collection, $object, &$bind)
     {
@@ -64,7 +66,7 @@ class Magento_TargetRule_Model_Actions_Condition_Combine extends Magento_Rule_Mo
         }
 
         if ($conditions) {
-            return new Zend_Db_Expr(sprintf('(%s)', join($aggregator, $conditions)));
+            return new \Zend_Db_Expr(sprintf('(%s)', join($aggregator, $conditions)));
         }
 
         return false;

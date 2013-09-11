@@ -11,7 +11,9 @@
 /**
  * Gift registry observer model
  */
-class Magento_GiftRegistry_Model_Observer
+namespace Magento\GiftRegistry\Model;
+
+class Observer
 {
     /**
      * Module enabled flag
@@ -22,20 +24,20 @@ class Magento_GiftRegistry_Model_Observer
     /**
      * Design package instance
      *
-     * @var Magento_Core_Model_View_DesignInterface
+     * @var \Magento\Core\Model\View\DesignInterface
      */
     protected $_design = null;
 
     /**
      * Class constructor
      *
-     * @param Magento_Core_Model_View_DesignInterface $design
+     * @param \Magento\Core\Model\View\DesignInterface $design
      */
     public function __construct(
-        Magento_Core_Model_View_DesignInterface $design
+        \Magento\Core\Model\View\DesignInterface $design
     ) {
         $this->_design = $design;
-        $this->_isEnabled = Mage::helper('Magento_GiftRegistry_Helper_Data')->isEnabled();
+        $this->_isEnabled = \Mage::helper('Magento\GiftRegistry\Helper\Data')->isEnabled();
     }
 
     /**
@@ -50,11 +52,11 @@ class Magento_GiftRegistry_Model_Observer
     /**
      * Retrieve customer session model object
      *
-     * @return Magento_Customer_Model_Session
+     * @return \Magento\Customer\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return \Mage::getSingleton('Magento\Customer\Model\Session');
     }
 
     /**
@@ -62,14 +64,14 @@ class Magento_GiftRegistry_Model_Observer
      * Set gift registry item id flag
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
+     * @return \Magento\GiftRegistry\Model\Observer
      */
     public function addressDataBeforeLoad($observer)
     {
         $addressId = $observer->getEvent()->getValue();
 
         if (!is_numeric($addressId)) {
-            $prefix = Mage::helper('Magento_GiftRegistry_Helper_Data')->getAddressIdPrefix();
+            $prefix = \Mage::helper('Magento\GiftRegistry\Helper\Data')->getAddressIdPrefix();
             $registryItemId = str_replace($prefix, '', $addressId);
             $object = $observer->getEvent()->getDataObject();
             $object->setGiftregistryItemId($registryItemId);
@@ -83,18 +85,18 @@ class Magento_GiftRegistry_Model_Observer
      * Check gift registry item id flag and set shipping address data to object
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
+     * @return \Magento\GiftRegistry\Model\Observer
      */
     public function addressDataAfterLoad($observer)
     {
         $object = $observer->getEvent()->getDataObject();
 
         if ($registryItemId = $object->getGiftregistryItemId()) {
-            $model = Mage::getModel('Magento_GiftRegistry_Model_Entity')
+            $model = \Mage::getModel('\Magento\GiftRegistry\Model\Entity')
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
                 $object->setId(
-                    Mage::helper('Magento_GiftRegistry_Helper_Data')->getAddressIdPrefix() . $model->getId()
+                    \Mage::helper('Magento\GiftRegistry\Helper\Data')->getAddressIdPrefix() . $model->getId()
                 );
                 $object->setCustomerId($this->_getSession()->getCustomer()->getId());
                 $object->addData($model->exportAddress()->getData());
@@ -107,7 +109,7 @@ class Magento_GiftRegistry_Model_Observer
      * Hide customer address on the frontend if it is gift registry shipping address
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
+     * @return \Magento\GiftRegistry\Model\Observer
      */
     public function addressFormatFront($observer)
     {
@@ -119,11 +121,11 @@ class Magento_GiftRegistry_Model_Observer
      * Hide customer address in admin panel if it is gift registry shipping address
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
+     * @return \Magento\GiftRegistry\Model\Observer
      */
     public function addressFormatAdmin($observer)
     {
-        if ($this->_design->getArea() == Magento_Core_Model_App_Area::AREA_FRONTEND) {
+        if ($this->_design->getArea() == \Magento\Core\Model\App\Area::AREA_FRONTEND) {
             $this->_addressFormat($observer);
         }
         return $this;
@@ -133,7 +135,7 @@ class Magento_GiftRegistry_Model_Observer
      * Hide customer address if it is gift registry shipping address
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
+     * @return \Magento\GiftRegistry\Model\Observer
      */
     protected function _addressFormat($observer)
     {
@@ -155,14 +157,14 @@ class Magento_GiftRegistry_Model_Observer
      * Copy gift registry item id flag from quote item to order item
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
+     * @return \Magento\GiftRegistry\Model\Observer
      */
     public function convertItems($observer)
     {
         $orderItem = $observer->getEvent()->getOrderItem();
         $item = $observer->getEvent()->getItem();
 
-        if ($item instanceof Magento_Sales_Model_Quote_Address_Item) {
+        if ($item instanceof \Magento\Sales\Model\Quote\Address\Item) {
             $registryItemId = $item->getQuoteItem()->getGiftregistryItemId();
         } else {
             $registryItemId = $item->getGiftregistryItemId();
@@ -178,12 +180,12 @@ class Magento_GiftRegistry_Model_Observer
      * After place order processing, update gift registry items fulfilled qty
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
+     * @return \Magento\GiftRegistry\Model\Observer
      */
     public function orderPlaced($observer)
     {
         $order = $observer->getEvent()->getOrder();
-        $item = Mage::getModel('Magento_GiftRegistry_Model_Item');
+        $item = \Mage::getModel('\Magento\GiftRegistry\Model\Item');
         $giftRegistries = array();
         $updatedQty = array();
 
@@ -205,7 +207,7 @@ class Magento_GiftRegistry_Model_Observer
 
         $giftRegistries = array_unique($giftRegistries);
         if (count($giftRegistries)) {
-            $entity = Mage::getModel('Magento_GiftRegistry_Model_Entity');
+            $entity = \Mage::getModel('\Magento\GiftRegistry\Model\Entity');
             foreach ($giftRegistries as $registryId) {
                 $entity->load($registryId);
                 $entity->sendUpdateRegistryEmail($updatedQty);
@@ -218,7 +220,7 @@ class Magento_GiftRegistry_Model_Observer
      * Save page body to cache storage
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_GiftRegistry_Model_Observer
+     * @return \Magento\GiftRegistry\Model\Observer
      */
     public function addGiftRegistryQuoteFlag(\Magento\Event\Observer $observer)
     {
@@ -244,11 +246,11 @@ class Magento_GiftRegistry_Model_Observer
      * Clean up gift registry items that belongs to the product.
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Cms_Model_Observer
+     * @return \Magento\Cms\Model\Observer
      */
     public function deleteProduct(\Magento\Event\Observer $observer)
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getProduct();
 
         if ($product->getParentId()) {
@@ -257,17 +259,17 @@ class Magento_GiftRegistry_Model_Observer
             $productId = $product->getId();
         }
 
-        /** @var $grItem Magento_GiftRegistry_Model_Item */
-        $grItem = Mage::getModel('Magento_GiftRegistry_Model_Item');
-        /** @var $collection Magento_GiftRegistry_Model_Resource_Item_Collection */
+        /** @var $grItem \Magento\GiftRegistry\Model\Item */
+        $grItem = \Mage::getModel('\Magento\GiftRegistry\Model\Item');
+        /** @var $collection \Magento\GiftRegistry\Model\Resource\Item\Collection */
         $collection = $grItem->getCollection()->addProductFilter($productId);
 
         foreach($collection->getItems() as $item) {
             $item->delete();
         }
 
-        /** @var $options Magento_GiftRegistry_Model_Item_Option*/
-        $options = Mage::getModel('Magento_GiftRegistry_Model_Item_Option');
+        /** @var $options \Magento\GiftRegistry\Model\Item\Option*/
+        $options = \Mage::getModel('\Magento\GiftRegistry\Model\Item\Option');
         $optionCollection = $options->getCollection()->addProductFilter($productId);
 
         $itemsArray = array();
@@ -291,9 +293,9 @@ class Magento_GiftRegistry_Model_Observer
      */
     public function assignHtmlHeadRenderingFlag(\Magento\Event\Observer $observer)
     {
-        /** @var $layout Magento_Core_Model_Layout */
+        /** @var $layout \Magento\Core\Model\Layout */
         $layout = $observer->getEvent()->getLayout();
-        /** @var $blockHead Magento_Page_Block_Html_Head */
+        /** @var $blockHead \Magento\Page\Block\Html\Head */
         $blockHead = $layout->getBlock('head');
         if ($blockHead && $this->isGiftregistryEnabled()) {
             $blockHead->setData('giftregistry_enabled', true);

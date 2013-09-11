@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Quote_Payment_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Sales\Model\Resource\Quote\Payment;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
@@ -24,14 +26,14 @@ class Magento_Sales_Model_Resource_Quote_Payment_Collection extends Magento_Core
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Quote_Payment', 'Magento_Sales_Model_Resource_Quote_Payment');
+        $this->_init('\Magento\Sales\Model\Quote\Payment', '\Magento\Sales\Model\Resource\Quote\Payment');
     }
 
     /**
      * Setquote filter to result
      *
      * @param int $quoteId
-     * @return Magento_Sales_Model_Resource_Quote_Payment_Collection
+     * @return \Magento\Sales\Model\Resource\Quote\Payment\Collection
      */
     public function setQuoteFilter($quoteId)
     {
@@ -41,7 +43,7 @@ class Magento_Sales_Model_Resource_Quote_Payment_Collection extends Magento_Core
     /**
      * Unserialize additional_information in each item
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _afterLoad()
     {
@@ -49,11 +51,11 @@ class Magento_Sales_Model_Resource_Quote_Payment_Collection extends Magento_Core
             $this->getResource()->unserializeFields($item);
         }
 
-        /** @var Magento_Sales_Model_Quote_Payment $item */
+        /** @var \Magento\Sales\Model\Quote\Payment $item */
         foreach ($this->_items as $item) {
             foreach ($item->getData() as $fieldName => $fieldValue) {
                 $item->setData($fieldName,
-                    Mage::getSingleton('Magento_Sales_Model_Payment_Method_Converter')->decode($item, $fieldName)
+                    \Mage::getSingleton('Magento\Sales\Model\Payment\Method\Converter')->decode($item, $fieldName)
                 );
             }
         }

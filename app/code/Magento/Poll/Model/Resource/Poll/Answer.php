@@ -16,7 +16,9 @@
  * @package     Magento_Poll
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Poll_Model_Resource_Poll_Answer extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Poll\Model\Resource\Poll;
+
+class Answer extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize Poll_Answer resource
@@ -30,7 +32,7 @@ class Magento_Poll_Model_Resource_Poll_Answer extends Magento_Core_Model_Resourc
     /**
      * Initialize unique fields
      *
-     * @return Magento_Poll_Model_Resource_Poll_Answer
+     * @return \Magento\Poll\Model\Resource\Poll\Answer
      */
     protected function _initUniqueFields()
     {

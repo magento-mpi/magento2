@@ -36,10 +36,10 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    Fieldset.addToPrefix(<?php echo $this->helper('Magento_Adminhtml_Helper_Data')->getCurrentUserId() ?>);
+    Fieldset.addToPrefix(<?php echo $this->helper('\Magento\Adminhtml\Helper\Data')->getCurrentUserId() ?>);
 </script>
 
-<?php echo $this->helper('Magento_Core_Helper_Js')->getTranslatorScript() ?>
+<?php echo $this->helper('\Magento\Core\Helper\Js')->getTranslatorScript() ?>
 <?php echo $this->getChildHtml('components'); ?>
 <?php echo $this->getChildHtml('calendar'); ?>
 <?php echo $this->getChildHtml('optional_zip_countries'); ?>

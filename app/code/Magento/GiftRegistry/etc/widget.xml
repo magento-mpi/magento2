@@ -10,7 +10,7 @@
  */
 -->
 <widgets>
-    <magento_giftregistry_search type="Magento_GiftRegistry_Block_Search_Widget_Form" translate="name description">
+    <magento_giftregistry_search type="Magento\GiftRegistry\Block\Search\Widget\Form" translate="name description">
         <name>Gift Registry Search</name>
         <description>Gift Registry Quick Search Form</description>
         <is_email_compatible>0</is_email_compatible>
@@ -20,7 +20,7 @@
                 <required>1</required>
                 <label>Quick Search Form Types</label>
                 <type>multiselect</type>
-                <source_model>Magento_GiftRegistry_Model_Source_Search</source_model>
+                <source_model>\Magento\GiftRegistry\Model\Source\Search</source_model>
             </types>
             <template>
                 <values>

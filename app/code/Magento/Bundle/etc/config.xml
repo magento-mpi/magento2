@@ -15,7 +15,7 @@
             <bundle_setup>
                 <setup>
                     <module>Magento_Bundle</module>
-                    <class>Magento_Catalog_Model_Resource_Setup</class>
+                    <class>Magento\Catalog\Model\Resource\Setup</class>
                 </setup>
             </bundle_setup>
         </resources>
@@ -24,16 +24,16 @@
                 <type>
                     <bundle translate="label">
                         <label>Bundle Product</label>
-                        <model>Magento_Bundle_Model_Product_Type</model>
+                        <model>\Magento\Bundle\Model\Product\Type</model>
                         <composite>1</composite>
                         <allowed_selection_types>
                             <simple />
                             <virtual />
                         </allowed_selection_types>
-                        <price_model>Magento_Bundle_Model_Product_Price</price_model>
+                        <price_model>\Magento\Bundle\Model\Product\Price</price_model>
                         <index_priority>40</index_priority>
-                        <price_indexer>Magento_Bundle_Model_Resource_Indexer_Price</price_indexer>
-                        <stock_indexer>Magento_Bundle_Model_Resource_Indexer_Stock</stock_indexer>
+                        <price_indexer>\Magento\Bundle\Model\Resource\Indexer\Price</price_indexer>
+                        <stock_indexer>\Magento\Bundle\Model\Resource\Indexer\Stock</stock_indexer>
                     </bundle>
                 </type>
                 <options>
@@ -77,13 +77,13 @@
         </sales>
         <pdf>
             <invoice>
-                <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Invoice</bundle>
+                <bundle>\Magento\Bundle\Model\Sales\Order\Pdf\Items\Invoice</bundle>
             </invoice>
             <shipment>
-                <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Shipment</bundle>
+                <bundle>\Magento\Bundle\Model\Sales\Order\Pdf\Items\Shipment</bundle>
             </shipment>
             <creditmemo>
-                <bundle>Magento_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo</bundle>
+                <bundle>\Magento\Bundle\Model\Sales\Order\Pdf\Items\Creditmemo</bundle>
             </creditmemo>
         </pdf>
     </global>
@@ -126,4 +126,4 @@
             </order>
         </sales>
     </adminhtml>
-</config>
+</config>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Core_Model_DataService_Path_Navigator
+ * \Magento\Core\Model\DataService\Path\Navigator
  *
  * {license_notice}
  *
@@ -9,26 +9,26 @@
  */
 class Magento_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framework_TestCase
 {
-    /** @var PHPUnit_Framework_MockObject_MockObject  Magento_Core_Model_DataService_Path_NodeInterface */
+    /** @var PHPUnit_Framework_MockObject_MockObject  \Magento\Core\Model\DataService\Path\NodeInterface */
     private $_rootNode;
 
     /**
-     * @var Magento_Core_Model_DataService_Path_Navigator
+     * @var \Magento\Core\Model\DataService\Path\Navigator
      */
     private $_navigator;
 
     public function setUp()
     {
-        $this->_navigator = new Magento_Core_Model_DataService_Path_Navigator();
+        $this->_navigator = new \Magento\Core\Model\DataService\Path\Navigator();
     }
 
     public function testSearch()
     {
-        $this->_rootNode = $this->getMockBuilder('Magento_Core_Model_DataService_Path_NodeInterface')
+        $this->_rootNode = $this->getMockBuilder('Magento\Core\Model\DataService\Path\NodeInterface')
             ->disableOriginalConstructor()->getMock();
-        $branch = $this->getMockBuilder('Magento_Core_Model_DataService_Path_NodeInterface')
+        $branch = $this->getMockBuilder('Magento\Core\Model\DataService\Path\NodeInterface')
             ->disableOriginalConstructor()->getMock();
-        $leaf = $this->getMockBuilder('Magento_Core_Model_DataService_Path_NodeInterface')
+        $leaf = $this->getMockBuilder('Magento\Core\Model\DataService\Path\NodeInterface')
             ->disableOriginalConstructor()->getMock();
         $this->_rootNode->expects($this->any())
             ->method('getChildNode')
@@ -46,7 +46,7 @@ class Magento_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framewor
 
     public function testSearchOfArray()
     {
-        $this->_rootNode = $this->getMockBuilder('Magento_Core_Model_DataService_Path_NodeInterface')
+        $this->_rootNode = $this->getMockBuilder('Magento\Core\Model\DataService\Path\NodeInterface')
             ->disableOriginalConstructor()->getMock();
         $branch = array();
         $leaf = 'a leaf node can be anything';
@@ -63,7 +63,7 @@ class Magento_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framewor
 
     public function testSearchOfEmptyArray()
     {
-        $this->_rootNode = $this->getMockBuilder('Magento_Core_Model_DataService_Path_NodeInterface')
+        $this->_rootNode = $this->getMockBuilder('Magento\Core\Model\DataService\Path\NodeInterface')
             ->disableOriginalConstructor()->getMock();
         $branch = array();
         $this->_rootNode->expects($this->any())
@@ -82,9 +82,9 @@ class Magento_Core_Model_DataService_Path_NavigatorTest extends PHPUnit_Framewor
      */
     public function testSearchWithInvalidPath()
     {
-        $this->_rootNode = $this->getMockBuilder('Magento_Core_Model_DataService_Path_NodeInterface')
+        $this->_rootNode = $this->getMockBuilder('Magento\Core\Model\DataService\Path\NodeInterface')
             ->disableOriginalConstructor()->getMock();
-        $leaf = $this->getMockBuilder('Magento_Core_Model_DataService_Path_NodeInterface')
+        $leaf = $this->getMockBuilder('Magento\Core\Model\DataService\Path\NodeInterface')
             ->disableOriginalConstructor()->getMock();
 
         $nodeFound = $this->_navigator->search($this->_rootNode, explode('.', 'invalid.leaf'));

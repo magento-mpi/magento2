@@ -12,7 +12,7 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUni
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_helperFactoryMock;
 
-    /** @var Magento_Webapi_Controller_Request_Rest_Interpreter_Json */
+    /** @var \Magento\Webapi\Controller\Request\Rest\Interpreter\Json */
     protected $_jsonInterpreter;
 
     /** @var PHPUnit_Framework_MockObject_MockObject */
@@ -24,19 +24,19 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUni
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_helperFactoryMock = $this->getMock('Magento_Core_Model_Factory_Helper');
-        $this->_coreHelperMock = $this->getMock('Magento_Core_Helper_Data',
+        $this->_helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper');
+        $this->_coreHelperMock = $this->getMock('Magento\Core\Helper\Data',
             array('jsonDecode'), array(), '', false, false
         );
         $this->_helperFactoryMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue($this->_coreHelperMock));
-        $this->_appMock = $this->getMockBuilder('Magento_Core_Model_App')
+        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')
             ->setMethods(array('isDeveloperMode'))
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_jsonInterpreter = new Magento_Webapi_Controller_Request_Rest_Interpreter_Json(
+        $this->_jsonInterpreter = new \Magento\Webapi\Controller\Request\Rest\Interpreter\Json(
             $this->_helperFactoryMock,
             $this->_appMock
         );
@@ -91,9 +91,9 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUni
             ->method('isDeveloperMode')
             ->will($this->returnValue(false));
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Decoding error.',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         /** Initialize SUT. */
         $inputInvalidJson = '{"key1":"test1"."key2":"test2"}';
@@ -114,9 +114,9 @@ class Magento_Webapi_Controller_Request_Rest_Interpreter_JsonTest extends PHPUni
             ->method('isDeveloperMode')
             ->will($this->returnValue(true));
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Decoding error:' . PHP_EOL . 'Decoding failed: Syntax error',
-            Magento_Webapi_Exception::HTTP_BAD_REQUEST
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST
         );
         /** Initialize SUT. */
         $inputInvalidJson = '{"key1":"test1"."key2":"test2"}';

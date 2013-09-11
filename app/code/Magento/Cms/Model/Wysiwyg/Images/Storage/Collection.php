@@ -15,7 +15,9 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Wysiwyg_Images_Storage_Collection extends \Magento\Data\Collection\Filesystem
+namespace Magento\Cms\Model\Wysiwyg\Images\Storage;
+
+class Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
      * @var \Magento\Filesystem

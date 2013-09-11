@@ -8,19 +8,19 @@
  * @license     {license_link}
  */
 
-/** @var $this Magento_Catalog_Model_Resource_Setup */
-$this->addAttribute(Magento_Catalog_Model_Product::ENTITY, 'quantity_and_stock_status', array(
+/** @var $this \Magento\Catalog\Model\Resource\Setup */
+$this->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'quantity_and_stock_status', array(
     'group'             => 'General',
     'type'              => 'int',
-    'backend'           => 'Magento_Catalog_Model_Product_Attribute_Backend_Stock',
+    'backend'           => '\Magento\Catalog\Model\Product\Attribute\Backend\Stock',
     'frontend'          => '',
     'label'             => 'Quantity',
     'input'             => 'select',
     'class'             => '',
-    'input_renderer'    => 'Magento_CatalogInventory_Block_Adminhtml_Form_Field_Stock',
-    'source'            => 'Magento_CatalogInventory_Model_Stock_Status',
-    'global'            => Magento_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-    'default'           => Magento_CatalogInventory_Model_Stock::STOCK_IN_STOCK,
+    'input_renderer'    => '\Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock',
+    'source'            => '\Magento\CatalogInventory\Model\Stock\Status',
+    'global'            => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
+    'default'           => \Magento\CatalogInventory\Model\Stock::STOCK_IN_STOCK,
     'user_defined'      => false,
     'visible'           => true,
     'required'          => false,

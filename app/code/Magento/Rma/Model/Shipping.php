@@ -15,7 +15,9 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
+namespace Magento\Rma\Model;
+
+class Shipping extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Store address
@@ -53,13 +55,13 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Rma_Model_Resource_Shipping');
+        $this->_init('\Magento\Rma\Model\Resource\Shipping');
     }
 
     /**
      * Processing object before save data
      *
-     * @return Magento_Rma_Model_Shipping
+     * @return \Magento\Rma\Model\Shipping
      */
     protected function _beforeSave()
     {
@@ -76,28 +78,28 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     public function requestToShipment()
     {
         $shipmentStoreId    = $this->getRma()->getStoreId();
-        $storeInfo          = new \Magento\Object(Mage::getStoreConfig('general/store_information', $shipmentStoreId));
+        $storeInfo          = new \Magento\Object(\Mage::getStoreConfig('general/store_information', $shipmentStoreId));
 
-        /** @var $order Magento_Sales_Model_Order */
-        $order              = Mage::getModel('Magento_Sales_Model_Order')->load($this->getRma()->getOrderId());
+        /** @var $order \Magento\Sales\Model\Order */
+        $order              = \Mage::getModel('\Magento\Sales\Model\Order')->load($this->getRma()->getOrderId());
         $shipperAddress     = $order->getShippingAddress();
-        /** @var Magento_Sales_Model_Quote_Address $recipientAddress */
-        $recipientAddress   = Mage::helper('Magento_Rma_Helper_Data')->getReturnAddressModel($this->getRma()->getStoreId());
+        /** @var \Magento\Sales\Model\Quote\Address $recipientAddress */
+        $recipientAddress   = \Mage::helper('Magento\Rma\Helper\Data')->getReturnAddressModel($this->getRma()->getStoreId());
 
         list($carrierCode, $shippingMethod) = explode('_', $this->getCode(), 2);
 
-        $shipmentCarrier    = Mage::helper('Magento_Rma_Helper_Data')->getCarrier($this->getCode(), $shipmentStoreId);
-        $baseCurrencyCode   = Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
+        $shipmentCarrier    = \Mage::helper('Magento\Rma\Helper\Data')->getCarrier($this->getCode(), $shipmentStoreId);
+        $baseCurrencyCode   = \Mage::app()->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
-            Mage::throwException(__('Invalid carrier: %1', $carrierCode));
+            \Mage::throwException(__('Invalid carrier: %1', $carrierCode));
         }
 
-        $shipperRegionCode  = Mage::getModel('Magento_Directory_Model_Region')->load($shipperAddress->getRegionId())->getCode();
+        $shipperRegionCode  = \Mage::getModel('\Magento\Directory\Model\Region')->load($shipperAddress->getRegionId())->getCode();
 
         $recipientRegionCode= $recipientAddress->getRegionId();
 
-        $recipientContactName = Mage::helper('Magento_Rma_Helper_Data')->getReturnContactName($this->getRma()->getStoreId());
+        $recipientContactName = \Mage::helper('Magento\Rma\Helper\Data')->getReturnContactName($this->getRma()->getStoreId());
 
         if (!$recipientContactName->getName()
             || !$recipientContactName->getLastName()
@@ -109,13 +111,13 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
             || !$recipientAddress->getPostcode()
             || !$recipientAddress->getCountryId()
         ) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('We need more information to create your shipping label(s). Please verify your store information and shipping settings.')
             );
         }
 
-        /** @var $request Magento_Shipping_Model_Shipment_Request */
-        $request = Mage::getModel('Magento_Shipping_Model_Shipment_Return');
+        /** @var $request \Magento\Shipping\Model\Shipment\Request */
+        $request = \Mage::getModel('\Magento\Shipping\Model\Shipment\Return');
         $request->setOrderShipment($this);
 
         $request->setShipperContactPersonName($order->getCustomerName());
@@ -171,7 +173,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('Magento_Shipping_Model_Config')->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = \Mage::getSingleton('Magento\Shipping\Model\Config')->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title']  = $this->getCarierTitle();
@@ -196,7 +198,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     public function getProtectCode()
     {
         if ($this->getRmaEntityId()) {
-            $rma = Mage::getModel('Magento_Rma_Model_Rma')->load($this->getRmaEntityId());
+            $rma = \Mage::getModel('\Magento\Rma\Model\Rma')->load($this->getRmaEntityId());
         }
 
         return (string)$rma->getProtectCode();
@@ -205,7 +207,7 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     /**
      * Retrieves shipping label for current rma
      *
-     * @var Magento_Rma_Model_Rma|int $rma
+     * @var \Magento\Rma\Model\Rma|int $rma
      * @return string
      */
     public function getShippingLabelByRma($rma)
@@ -228,10 +230,10 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
     }
 
     /**
-     * Create Zend_Pdf_Page instance with image from $imageString. Supports JPEG, PNG, GIF, WBMP, and GD2 formats.
+     * Create \Zend_Pdf_Page instance with image from $imageString. Supports JPEG, PNG, GIF, WBMP, and GD2 formats.
      *
      * @param string $imageString
-     * @return Zend_Pdf_Page|bool
+     * @return \Zend_Pdf_Page|bool
      */
     public function createPdfPageFromImageString($imageString)
     {
@@ -242,13 +244,13 @@ class Magento_Rma_Model_Shipping extends Magento_Core_Model_Abstract
 
         $xSize = imagesx($image);
         $ySize = imagesy($image);
-        $page = new Zend_Pdf_Page($xSize, $ySize);
+        $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
         $tmpFileName = sys_get_temp_dir() . DS . 'shipping_labels_'
                      . uniqid(mt_rand()) . time() . '.png';
         imagepng($image, $tmpFileName);
-        $pdfImage = Zend_Pdf_Image::imageWithPath($tmpFileName);
+        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFileName);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
         unlink($tmpFileName);
         return $page;

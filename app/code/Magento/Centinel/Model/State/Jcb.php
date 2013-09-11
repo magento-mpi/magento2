@@ -11,7 +11,9 @@
 /**
  * Validation State Model for JCB
  */
-class Magento_Centinel_Model_State_Jcb extends Magento_Centinel_Model_StateAbstract
+namespace Magento\Centinel\Model\State;
+
+class Jcb extends \Magento\Centinel\Model\StateAbstract
 {
     /**
      * Analyse lookup`s results. If it has require params for authenticate, return true

@@ -15,22 +15,22 @@ class Magento_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUn
     /** @var PHPUnit_Framework_MockObject_MockObject */
     protected $_oauthServerMock;
 
-    /** @var Magento_Webapi_Controller_Dispatcher_Rest_Authentication */
+    /** @var \Magento\Webapi\Controller\Dispatcher\Rest\Authentication */
     protected $_restAuthentication;
 
     protected function setUp()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_oauthServerMock = $this->getMockBuilder('Magento_Webapi_Model_Rest_Oauth_Server')
+        $this->_oauthServerMock = $this->getMockBuilder('Magento\Webapi\Model\Rest\Oauth\Server')
             ->setMethods(array('authenticateTwoLegged', 'reportProblem'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_roleLocatorMock = $this->getMockBuilder('Magento_Webapi_Model_Authorization_RoleLocator')
+        $this->_roleLocatorMock = $this->getMockBuilder('Magento\Webapi\Model\Authorization\RoleLocator')
             ->setMethods(array('setRoleId'))
             ->disableOriginalConstructor()
             ->getMock();
         /** Initialize SUT. */
-        $this->_restAuthentication = new Magento_Webapi_Controller_Dispatcher_Rest_Authentication(
+        $this->_restAuthentication = new \Magento\Webapi\Controller\Dispatcher\Rest\Authentication(
             $this->_oauthServerMock,
             $this->_roleLocatorMock
         );
@@ -48,7 +48,7 @@ class Magento_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUn
     public function testAuthenticate()
     {
         /** Prepare mocks for SUT constructor. */
-        $consumerMock = $this->getMockBuilder('Magento_Webapi_Model_Acl_User')
+        $consumerMock = $this->getMockBuilder('Magento\Webapi\Model\Acl\User')
             ->disableOriginalConstructor()
             ->setMethods(array('getRoleId'))
             ->getMock();
@@ -70,12 +70,12 @@ class Magento_Webapi_Controller_Dispatcher_Rest_AuthenticationTest extends PHPUn
             ->expects($this->once())
             ->method('authenticateTwoLegged')
             ->will($this->throwException(
-                Mage::exception('Magento_Oauth', 'Exception message.', Magento_Oauth_Model_Server::HTTP_BAD_REQUEST)
+                Mage::exception('Magento_Oauth', 'Exception message.', \Magento\Oauth\Model\Server::HTTP_BAD_REQUEST)
             ));
         $this->setExpectedException(
-            'Magento_Webapi_Exception',
+            '\Magento\Webapi\Exception',
             'Exception message.',
-            Magento_Webapi_Exception::HTTP_UNAUTHORIZED
+            \Magento\Webapi\Exception::HTTP_UNAUTHORIZED
         );
         $this->_oauthServerMock
             ->expects($this->once())

@@ -9,7 +9,9 @@
  */
 
 
-class Magento_SalesRule_Model_Rule_Condition_Address extends Magento_Rule_Model_Condition_Abstract
+namespace Magento\SalesRule\Model\Rule\Condition;
+
+class Address extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     public function loadAttributeOptions()
     {
@@ -63,22 +65,22 @@ class Magento_SalesRule_Model_Rule_Condition_Address extends Magento_Rule_Model_
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Country')
+                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Country')
                         ->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Allregion')
+                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Allregion')
                         ->toOptionArray();
                     break;
 
                 case 'shipping_method':
-                    $options = Mage::getModel('Magento_Shipping_Model_Config_Source_Allmethods')
+                    $options = \Mage::getModel('\Magento\Shipping\Model\Config\Source\Allmethods')
                         ->toOptionArray();
                     break;
 
                 case 'payment_method':
-                    $options = Mage::getModel('Magento_Payment_Model_Config_Source_Allmethods')
+                    $options = \Mage::getModel('\Magento\Payment\Model\Config\Source\Allmethods')
                         ->toOptionArray();
                     break;
 
@@ -99,7 +101,7 @@ class Magento_SalesRule_Model_Rule_Condition_Address extends Magento_Rule_Model_
     public function validate(\Magento\Object $object)
     {
         $address = $object;
-        if (!$address instanceof Magento_Sales_Model_Quote_Address) {
+        if (!$address instanceof \Magento\Sales\Model\Quote\Address) {
             if ($object->getQuote()->isVirtual()) {
                 $address = $object->getQuote()->getBillingAddress();
             }

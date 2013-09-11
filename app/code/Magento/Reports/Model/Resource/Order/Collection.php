@@ -16,7 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Model_Resource_Order_Collection
+namespace Magento\Reports\Model\Resource\Order;
+
+class Collection extends \Magento\Sales\Model\Resource\Order\Collection
 {
     /**
      * Is live
@@ -36,11 +38,11 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Check range for live mode
      *
      * @param unknown_type $range
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function checkIsLive($range)
     {
-        $this->_isLive = (bool)!Mage::getStoreConfig('sales/dashboard/use_aggregated_data');
+        $this->_isLive = (bool)!\Mage::getStoreConfig('sales/dashboard/use_aggregated_data');
         return $this;
     }
 
@@ -61,7 +63,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * @param mixed $customStart
      * @param mixed $customEnd
      * @param int $isFilter
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function prepareSummary($range, $customStart, $customEnd, $isFilter = 0)
     {
@@ -96,7 +98,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                 )
             ));
 
-            Mage::dispatchEvent('sales_prepare_amount_expression', array(
+            \Mage::dispatchEvent('sales_prepare_amount_expression', array(
                 'collection' => $this,
                 'expression_object' => $expressionTransferObject,
             ));
@@ -116,7 +118,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * @param mixed $customStart
      * @param mixed $customEnd
      * @param int $isFilter
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     protected function _prepareSummaryLive($range, $customStart, $customEnd, $isFilter = 0)
     {
@@ -126,12 +128,12 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
         /**
          * Reset all columns, because result will group only by 'created_at' field
          */
-        $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
+        $this->getSelect()->reset(\Zend_Db_Select::COLUMNS);
 
         $expression = $this->_getSalesAmountExpression();
         if ($isFilter == 0) {
             $this->getSelect()->columns(array(
-                'revenue' => new Zend_Db_Expr(
+                'revenue' => new \Zend_Db_Expr(
                     sprintf('SUM((%s) * %s)', $expression,
                         $adapter->getIfNullSql('main_table.base_to_global_rate', 0)
                     )
@@ -139,7 +141,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             ));
         } else {
             $this->getSelect()->columns(array(
-                'revenue' => new Zend_Db_Expr(sprintf('SUM(%s)', $expression))
+                'revenue' => new \Zend_Db_Expr(sprintf('SUM(%s)', $expression))
             ));
         }
 
@@ -155,10 +157,10 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                 'range' => $tzRangeOffsetExpression,
             ))
             ->where('main_table.state NOT IN (?)', array(
-                Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                Magento_Sales_Model_Order::STATE_NEW)
+                \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT,
+                \Magento\Sales\Model\Order::STATE_NEW)
             )
-            ->order('range', Zend_Db_Select::SQL_ASC)
+            ->order('range', \Zend_Db_Select::SQL_ASC)
             ->group($tzRangeOffsetExpression);
 
         $this->addFieldToFilter('created_at', $dateRange);
@@ -172,7 +174,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * @param string $range
      * @param mixed $customStart
      * @param mixed $customEnd
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     protected function _prepareSummaryAggregated($range, $customStart, $customEnd)
     {
@@ -180,7 +182,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
         /**
          * Reset all columns, because result will group only by 'created_at' field
          */
-        $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
+        $this->getSelect()->reset(\Zend_Db_Select::COLUMNS);
         $rangePeriod = $this->_getRangeExpressionForAttribute($range, 'main_table.period');
 
         $tableName = $this->getConnection()->quoteIdentifier('main_table.period');
@@ -198,8 +200,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             $this->_getConditionSql('main_table.period', $this->getDateRange($range, $customStart, $customEnd))
         );
 
-        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
-            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
+        $statuses = \Mage::getSingleton('Magento\Sales\Model\Config')
+            ->getOrderStatusesForState(\Magento\Sales\Model\Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -213,7 +215,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Get range expression
      *
      * @param string $range
-     * @return Zend_Db_Expr
+     * @return \Zend_Db_Expr
      */
     protected function _getRangeExpression($range)
     {
@@ -266,7 +268,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     {
         return str_replace(
             '{{attribute}}',
-            Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Order')
+            \Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Order')
                     ->getStoreTZOffsetQuery($this->getMainTable(), $attribute, $from, $to),
             $this->_getRangeExpression($range)
         );
@@ -284,7 +286,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     protected function _getTZRangeExpressionForAttribute($range, $attribute, $tzFrom = '+00:00', $tzTo = null)
     {
         if (null == $tzTo) {
-            $tzTo = Mage::app()->getLocale()->storeDate()->toString(Zend_Date::GMT_DIFF_SEP);
+            $tzTo = \Mage::app()->getLocale()->storeDate()->toString(\Zend_Date::GMT_DIFF_SEP);
         }
         $adapter = $this->getConnection();
         $expression = $this->_getRangeExpression($range);
@@ -305,7 +307,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      */
     public function getDateRange($range, $customStart, $customEnd, $returnObjects = false)
     {
-        $dateEnd   = Mage::app()->getLocale()->date();
+        $dateEnd   = \Mage::app()->getLocale()->date();
         $dateStart = clone $dateEnd;
 
         // go to the end of a day
@@ -320,7 +322,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
         switch ($range)
         {
             case '24h':
-                $dateEnd = Mage::app()->getLocale()->date();
+                $dateEnd = \Mage::app()->getLocale()->date();
                 $dateEnd->addHour(1);
                 $dateStart = clone $dateEnd;
                 $dateStart->subDay(1);
@@ -333,7 +335,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                 break;
 
             case '1m':
-                $dateStart->setDay(Mage::getStoreConfig('reports/dashboard/mtd_start'));
+                $dateStart->setDay(\Mage::getStoreConfig('reports/dashboard/mtd_start'));
                 break;
 
             case 'custom':
@@ -343,7 +345,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
 
             case '1y':
             case '2y':
-                $startMonthDay = explode(',', Mage::getStoreConfig('reports/dashboard/ytd_start'));
+                $startMonthDay = explode(',', \Mage::getStoreConfig('reports/dashboard/ytd_start'));
                 $startMonth = isset($startMonthDay[0]) ? (int)$startMonthDay[0] : 1;
                 $startDay = isset($startMonthDay[1]) ? (int)$startMonthDay[1] : 1;
                 $dateStart->setMonth($startMonth);
@@ -367,7 +369,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     /**
      * Add item count expression
      *
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function addItemCountExpr()
     {
@@ -379,7 +381,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Calculate totals report
      *
      * @param int $isFilter
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function calculateTotals($isFilter = 0)
     {
@@ -396,7 +398,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Calculate totals live report
      *
      * @param int $isFilter
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     protected function _calculateTotalsLive($isFilter = 0)
     {
@@ -418,17 +420,17 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             $rateExp = $adapter->getIfNullSql('main_table.base_to_global_rate', 0);
             $this->getSelect()->columns(
                 array(
-                    'revenue'  => new Zend_Db_Expr(sprintf('SUM((%s) * %s)', $revenueExp, $rateExp)),
-                    'tax'      => new Zend_Db_Expr(sprintf('SUM((%s) * %s)', $taxExp, $rateExp)),
-                    'shipping' => new Zend_Db_Expr(sprintf('SUM((%s) * %s)', $shippingExp, $rateExp))
+                    'revenue'  => new \Zend_Db_Expr(sprintf('SUM((%s) * %s)', $revenueExp, $rateExp)),
+                    'tax'      => new \Zend_Db_Expr(sprintf('SUM((%s) * %s)', $taxExp, $rateExp)),
+                    'shipping' => new \Zend_Db_Expr(sprintf('SUM((%s) * %s)', $shippingExp, $rateExp))
                 )
             );
         } else {
             $this->getSelect()->columns(
                 array(
-                    'revenue'  => new Zend_Db_Expr(sprintf('SUM(%s)', $revenueExp)),
-                    'tax'      => new Zend_Db_Expr(sprintf('SUM(%s)', $taxExp)),
-                    'shipping' => new Zend_Db_Expr(sprintf('SUM(%s)', $shippingExp))
+                    'revenue'  => new \Zend_Db_Expr(sprintf('SUM(%s)', $revenueExp)),
+                    'tax'      => new \Zend_Db_Expr(sprintf('SUM(%s)', $taxExp)),
+                    'shipping' => new \Zend_Db_Expr(sprintf('SUM(%s)', $shippingExp))
                 )
             );
         }
@@ -437,8 +439,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             'quantity' => 'COUNT(main_table.entity_id)'
         ))
         ->where('main_table.state NOT IN (?)', array(
-            Magento_Sales_Model_Order::STATE_PENDING_PAYMENT,
-            Magento_Sales_Model_Order::STATE_NEW)
+            \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT,
+            \Magento\Sales\Model\Order::STATE_NEW)
          );
 
         return $this;
@@ -448,7 +450,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Calculate totals aggregated report
      *
      * @param int $isFilter
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     protected function _calculateTotalsAggregated($isFilter = 0)
     {
@@ -462,8 +464,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
             'quantity' => 'SUM(orders_count)',
         ));
 
-        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
-            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
+        $statuses = \Mage::getSingleton('Magento\Sales\Model\Config')
+            ->getOrderStatusesForState(\Magento\Sales\Model\Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
@@ -478,19 +480,19 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Calculate lifitime sales
      *
      * @param int $isFilter
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function calculateSales($isFilter = 0)
     {
-        $statuses = Mage::getSingleton('Magento_Sales_Model_Config')
-            ->getOrderStatusesForState(Magento_Sales_Model_Order::STATE_CANCELED);
+        $statuses = \Mage::getSingleton('Magento\Sales\Model\Config')
+            ->getOrderStatusesForState(\Magento\Sales\Model\Order::STATE_CANCELED);
 
         if (empty($statuses)) {
             $statuses = array(0);
         }
         $adapter = $this->getConnection();
 
-        if (Mage::getStoreConfig('sales/dashboard/use_aggregated_data')) {
+        if (\Mage::getStoreConfig('sales/dashboard/use_aggregated_data')) {
             $this->setMainTable('sales_order_aggregated_created');
             $this->removeAllFieldsFromSelect();
             $averageExpr = $adapter->getCheckSql(
@@ -504,7 +506,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
 
             if (!$isFilter) {
                 $this->addFieldToFilter('store_id',
-                    array('eq' => Mage::app()->getStore(Magento_Core_Model_Store::ADMIN_CODE)->getId())
+                    array('eq' => \Mage::app()->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId())
                 );
             }
             $this->getSelect()->where('main_table.order_status NOT IN(?)', $statuses);
@@ -525,8 +527,8 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
                 ))
                 ->where('main_table.status NOT IN(?)', $statuses)
                 ->where('main_table.state NOT IN(?)', array(
-                    Magento_Sales_Model_Order::STATE_NEW,
-                    Magento_Sales_Model_Order::STATE_PENDING_PAYMENT)
+                    \Magento\Sales\Model\Order::STATE_NEW,
+                    \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT)
                 );
         }
         return $this;
@@ -537,13 +539,13 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      *
      * @param string $fromDate
      * @param string $toDate
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function setDateRange($fromDate, $toDate)
     {
         $this->_reset()
             ->addFieldToFilter('created_at', array('from' => $fromDate, 'to' => $toDate))
-            ->addFieldToFilter('state', array('neq' => Magento_Sales_Model_Order::STATE_CANCELED))
+            ->addFieldToFilter('state', array('neq' => \Magento\Sales\Model\Order::STATE_CANCELED))
             ->getSelect()
                 ->columns(array('orders' => 'COUNT(DISTINCT(main_table.entity_id))'))
                 ->group('entity_id');
@@ -559,7 +561,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Set store filter collection
      *
      * @param array $storeIds
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function setStoreIds($storeIds)
     {
@@ -605,7 +607,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     /**
      * Add group By customer attribute
      *
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function groupByCustomer()
     {
@@ -619,7 +621,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Join Customer Name (concat)
      *
      * @param string $alias
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function joinCustomerName($alias = 'name')
     {
@@ -632,11 +634,11 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     /**
      * Add Order count field to select
      *
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function addOrdersCount()
     {
-        $this->addFieldToFilter('state', array('neq' => Magento_Sales_Model_Order::STATE_CANCELED));
+        $this->addFieldToFilter('state', array('neq' => \Magento\Sales\Model\Order::STATE_CANCELED));
         $this->getSelect()
             ->columns(array('orders_count' => 'COUNT(main_table.entity_id)'));
 
@@ -647,7 +649,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Add revenue
      *
      * @param boolean $convertCurrency
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function addRevenueToSelect($convertCurrency = false)
     {
@@ -668,7 +670,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Add summary average totals
      *
      * @param int $storeId
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function addSumAvgTotals($storeId = 0)
     {
@@ -698,7 +700,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Sort order by total amount
      *
      * @param string $dir
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function orderByTotalAmount($dir = self::SORT_ORDER_DESC)
     {
@@ -710,7 +712,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Order by orders count
      *
      * @param unknown_type $dir
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function orderByOrdersCount($dir = self::SORT_ORDER_DESC)
     {
@@ -722,7 +724,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Order by customer registration
      *
      * @param unknown_type $dir
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function orderByCustomerRegistration($dir = self::SORT_ORDER_DESC)
     {
@@ -734,7 +736,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Sort order by order created_at date
      *
      * @param string $dir
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function orderByCreatedAt($dir = self::SORT_ORDER_DESC)
     {
@@ -750,12 +752,12 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     public function getSelectCountSql()
     {
         $countSelect = clone $this->getSelect();
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
-        $countSelect->reset(Zend_Db_Select::COLUMNS);
-        $countSelect->reset(Zend_Db_Select::GROUP);
-        $countSelect->reset(Zend_Db_Select::HAVING);
+        $countSelect->reset(\Zend_Db_Select::ORDER);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
+        $countSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect->reset(\Zend_Db_Select::COLUMNS);
+        $countSelect->reset(\Zend_Db_Select::GROUP);
+        $countSelect->reset(\Zend_Db_Select::HAVING);
         $countSelect->columns("COUNT(DISTINCT main_table.entity_id)");
 
         return $countSelect;
@@ -764,7 +766,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
     /**
      * Initialize initial fields to select
      *
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     protected function _initInitialFieldsToSelect()
     {
@@ -776,7 +778,7 @@ class Magento_Reports_Model_Resource_Order_Collection extends Magento_Sales_Mode
      * Add period filter by created_at attribute
      *
      * @param string $period
-     * @return Magento_Reports_Model_Resource_Order_Collection
+     * @return \Magento\Reports\Model\Resource\Order\Collection
      */
     public function addCreateAtPeriodFilter($period)
     {

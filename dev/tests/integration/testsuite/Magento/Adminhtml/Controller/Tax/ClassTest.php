@@ -28,13 +28,13 @@ class Magento_Adminhtml_Controller_Tax_ClassTest extends Magento_Backend_Utility
         $this->dispatch('backend/admin/tax_class/ajaxSave');
 
         $jsonBody = $this->getResponse()->getBody();
-        $result = Mage::helper('Magento_Core_Helper_Data')->jsonDecode($jsonBody);
+        $result = Mage::helper('Magento\Core\Helper\Data')->jsonDecode($jsonBody);
 
         $this->assertArrayHasKey('class_id', $result);
 
         $classId = $result['class_id'];
-        /** @var $rate Magento_Tax_Model_Class */
-        $class = Mage::getModel('Magento_Tax_Model_Class')->load($classId, 'class_id');
+        /** @var $rate \Magento\Tax\Model\ClassModel */
+        $class = Mage::getModel('\Magento\Tax\Model\ClassModel')->load($classId, 'class_id');
         $this->assertEquals($expectedData['class_name'], $class->getClassName());
     }
 

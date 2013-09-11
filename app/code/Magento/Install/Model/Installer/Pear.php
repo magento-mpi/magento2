@@ -11,7 +11,9 @@
 /**
  * PEAR Packages Download Manager
  */
-class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Installer_Abstract
+namespace Magento\Install\Model\Installer;
+
+class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**
      * @return array
@@ -48,7 +50,7 @@ class Magento_Install_Model_Installer_Pear extends Magento_Install_Model_Install
                         if (is_array($message)) {
                             $message = $message['message'];
                         }
-                        Mage::getSingleton('Magento_Install_Model_Session')->addError($message);
+                        \Mage::getSingleton('Magento_Install_Model_Session')->addError($message);
                     }
                 } else {
                     print_r($obj->getUserInfo());

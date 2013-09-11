@@ -12,13 +12,15 @@
  * "Add by SKU" accordion
  *
  * @method string                                                   getHeaderText()
- * @method Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku setHeaderText()
+ * @method \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku setHeaderText()
  *
  * @category   Magento
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Sku extends Magento_AdvancedCheckout_Block_Adminhtml_Sku_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
 {
     /**
      * Define accordion header

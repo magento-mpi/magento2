@@ -12,7 +12,9 @@
 /**
  * Inline Translations PHP part
  */
-class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translate_InlineInterface
+namespace Magento\Core\Model\Translate;
+
+class Inline implements \Magento\Core\Model\Translate\InlineInterface
 {
     /**
      * Regular Expression for detected and replace translate
@@ -22,7 +24,7 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
     protected $_tokenRegex = '\{\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\}';
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translator;
     /**
@@ -33,7 +35,7 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
     protected $_isAllowed;
 
     /**
-     * @var Magento_Core_Model_Translate_InlineParser
+     * @var \Magento\Core\Model\Translate\InlineParser
      */
     protected $_parser;
 
@@ -47,11 +49,11 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
     /**
      * Initialize inline translation model
      *
-     * @param Magento_Core_Model_Translate_InlineParser $parser
+     * @param \Magento\Core\Model\Translate\InlineParser $parser
      */
     public function __construct(
-        Magento_Core_Model_Translate_InlineParser $parser,
-        Magento_Core_Model_Translate $translate
+        \Magento\Core\Model\Translate\InlineParser $parser,
+        \Magento\Core\Model\Translate $translate
     ) {
         $this->_parser = $parser;
         $this->_translator = $translate;
@@ -69,14 +71,14 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
             if (is_null($store)) {
                 $store = $this->_parser->getStoreManager()->getStore();
             }
-            if (!$store instanceof Magento_Core_Model_Store) {
+            if (!$store instanceof \Magento\Core\Model\Store) {
                 $store = $this->_parser->getStoreManager()->getStore($store);
             }
 
             if ($this->_parser->getDesignPackage()->getArea() == 'adminhtml') {
-                $active = Mage::getStoreConfigFlag('dev/translate_inline/active_admin', $store);
+                $active = \Mage::getStoreConfigFlag('dev/translate_inline/active_admin', $store);
             } else {
-                $active = Mage::getStoreConfigFlag('dev/translate_inline/active', $store);
+                $active = \Mage::getStoreConfigFlag('dev/translate_inline/active', $store);
             }
             $this->_isAllowed = $active && $this->_parser->getHelper()->isDevAllowed($store);
         }
@@ -88,13 +90,13 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
      *
      * @param array|string $body
      * @param bool $isJson
-     * @return Magento_Core_Model_Translate_Inline
+     * @return \Magento\Core\Model\Translate\Inline
      */
     public function processResponseBody(&$body, $isJson)
     {
         $this->_parser->setIsJson($isJson);
         if (!$this->isAllowed()) {
-            if ($this->_parser->getDesignPackage()->getArea() == Magento_Backend_Helper_Data::BACKEND_AREA_CODE) {
+            if ($this->_parser->getDesignPackage()->getArea() == \Magento\Backend\Helper\Data::BACKEND_AREA_CODE) {
                 $this->_stripInlineTranslations($body);
             }
             return $this;
@@ -109,7 +111,7 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
             $this->_insertInlineScriptsHtml($content);
             $body = $this->_parser->getContent();
         }
-        $this->_parser->setIsJson(Magento_Core_Model_Translate_InlineParser::JSON_FLAG_DEFAULT_STATE);
+        $this->_parser->setIsJson(\Magento\Core\Model\Translate\InlineParser::JSON_FLAG_DEFAULT_STATE);
         return $this;
     }
 
@@ -135,17 +137,17 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
 
         $store = $this->_parser->getStoreManager()->getStore();
         if ($store->isAdmin()) {
-            $urlPrefix = Magento_Backend_Helper_Data::BACKEND_AREA_CODE;
-            $urlModel = Mage::getObjectManager()->get('Magento_Backend_Model_Url');
+            $urlPrefix = \Magento\Backend\Helper\Data::BACKEND_AREA_CODE;
+            $urlModel = \Mage::getObjectManager()->get('Magento\Backend\Model\Url');
         } else {
             $urlPrefix = 'core';
-            $urlModel = Mage::getObjectManager()->get('Magento_Core_Model_Url');
+            $urlModel = \Mage::getObjectManager()->get('Magento\Core\Model\Url');
         }
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
             array('_secure' => $store->isCurrentlySecure()));
 
-        /** @var $block Magento_Core_Block_Template */
-        $block = Mage::getObjectManager()->create('Magento_Core_Block_Template');
+        /** @var $block \Magento\Core\Block\Template */
+        $block = \Mage::getObjectManager()->create('Magento\Core\Block\Template');
 
         $block->setAjaxUrl($ajaxUrl);
 
@@ -162,7 +164,7 @@ class Magento_Core_Model_Translate_Inline implements Magento_Core_Model_Translat
      * Strip inline translations from text
      *
      * @param array|string $body
-     * @return Magento_Core_Model_Translate_Inline
+     * @return \Magento\Core\Model\Translate\Inline
      */
     private function _stripInlineTranslations(&$body)
     {

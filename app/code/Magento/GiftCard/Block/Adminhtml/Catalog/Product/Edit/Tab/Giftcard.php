@@ -8,23 +8,25 @@
  * @license     {license_link}
  */
 
-class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
- extends Magento_Adminhtml_Block_Widget
- implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
+
+class Giftcard
+ extends \Magento\Adminhtml\Block\Widget
+ implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var Magento_Core_Model_StoreManager
+     * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Core_Model_StoreManager $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Core_Model_StoreManager $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -80,7 +82,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
      */
     public function isNew()
     {
-        if (Mage::registry('product')->getId()) {
+        if (\Mage::registry('product')->getId()) {
             return false;
         }
         return true;
@@ -105,10 +107,10 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     public function getFieldValue($field)
     {
         if (!$this->isNew()) {
-            return Mage::registry('product')->getDataUsingMethod($field);
+            return \Mage::registry('product')->getDataUsingMethod($field);
         }
 
-        return Mage::getStoreConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
+        return \Mage::getStoreConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
     }
 
     /**
@@ -119,9 +121,9 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     public function getCardTypes()
     {
         return array(
-            Magento_GiftCard_Model_Giftcard::TYPE_VIRTUAL  => __('Virtual'),
-            Magento_GiftCard_Model_Giftcard::TYPE_PHYSICAL => __('Physical'),
-            Magento_GiftCard_Model_Giftcard::TYPE_COMBINED => __('Combined'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL  => __('Virtual'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_PHYSICAL => __('Physical'),
+            \Magento\GiftCard\Model\Giftcard::TYPE_COMBINED => __('Combined'),
         );
     }
 
@@ -133,8 +135,8 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     public function getEmailTemplates()
     {
         $result = array();
-        $template = Mage::getModel('Magento_Backend_Model_Config_Source_Email_Template');
-        $template->setPath(Magento_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE);
+        $template = \Mage::getModel('\Magento\Backend\Model\Config\Source\Email\Template');
+        $template->setPath(\Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE);
         foreach ($template->toOptionArray() as $one) {
             $result[$one['value']] = $this->escapeHtml($one['label']);
         }
@@ -143,7 +145,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
 
     public function getConfigValue($field)
     {
-        return Mage::getStoreConfig(Magento_GiftCard_Model_Giftcard::XML_PATH . $field);
+        return \Mage::getStoreConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);
     }
 
     /**
@@ -153,7 +155,7 @@ class Magento_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
      */
     public function isReadonly()
     {
-        return Mage::registry('product')->getGiftCardReadonly();
+        return \Mage::registry('product')->getGiftCardReadonly();
     }
 
     /**

@@ -11,7 +11,9 @@
 /**
  * Website factory
  */
-class Magento_Core_Model_Website_Factory
+namespace Magento\Core\Model\Website;
+
+class Factory
 {
     /**
      * Object Manager
@@ -27,10 +29,10 @@ class Magento_Core_Model_Website_Factory
 
     /**
      * @param array $data
-     * @return Magento_Core_Model_Website
+     * @return \Magento\Core\Model\Website
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento_Core_Model_Website', $data);
+        return $this->_objectManager->create('Magento\Core\Model\Website', $data);
     }
 }

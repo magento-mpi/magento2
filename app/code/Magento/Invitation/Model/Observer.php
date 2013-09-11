@@ -14,7 +14,9 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Magento_Invitation_Model_Observer
+namespace Magento\Invitation\Model;
+
+class Observer
 {
     /**
      * Flag that indicates customer registration page
@@ -27,7 +29,7 @@ class Magento_Invitation_Model_Observer
 
     public function __construct()
     {
-        $this->_config = Mage::getSingleton('Magento_Invitation_Model_Config');
+        $this->_config = \Mage::getSingleton('Magento\Invitation\Model\Config');
     }
 
     /**
@@ -44,9 +46,9 @@ class Magento_Invitation_Model_Observer
         $result = $observer->getEvent()->getResult();
 
         if (!$result->getIsAllowed()) {
-            Mage::helper('Magento_Invitation_Helper_Data')->isRegistrationAllowed(false);
+            \Mage::helper('Magento\Invitation\Helper\Data')->isRegistrationAllowed(false);
         } else {
-            Mage::helper('Magento_Invitation_Helper_Data')->isRegistrationAllowed(true);
+            \Mage::helper('Magento\Invitation\Helper\Data')->isRegistrationAllowed(true);
             $result->setIsAllowed(!$this->_config->getInvitationRequired());
         }
     }
@@ -55,17 +57,17 @@ class Magento_Invitation_Model_Observer
      * Handler for invitation mass update
      *
      * @param \Magento\Simplexml\Element $config
-     * @param Magento_Logging_Model_Event $eventModel
-     * @return Magento_Logging_Model_Event
+     * @param \Magento\Logging\Model\Event $eventModel
+     * @return \Magento\Logging\Model\Event
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {
-        $messages = Mage::getSingleton('Magento_Backend_Model_Auth_Session')->getMessages();
+        $messages = \Mage::getSingleton('Magento\Backend\Model\Auth\Session')->getMessages();
         $errors = $messages->getErrors();
-        $notices = $messages->getItemsByType(Magento_Core_Model_Message::NOTICE);
+        $notices = $messages->getItemsByType(\Magento\Core\Model\Message::NOTICE);
         $status = (empty($errors) && empty($notices))
-            ? Magento_Logging_Model_Event::RESULT_SUCCESS : Magento_Logging_Model_Event::RESULT_FAILURE;
+            ? \Magento\Logging\Model\Event::RESULT_SUCCESS : \Magento\Logging\Model\Event::RESULT_FAILURE;
         return $eventModel->setStatus($status)
-            ->setInfo(Mage::app()->getRequest()->getParam('invitations'));
+            ->setInfo(\Mage::app()->getRequest()->getParam('invitations'));
     }
 }

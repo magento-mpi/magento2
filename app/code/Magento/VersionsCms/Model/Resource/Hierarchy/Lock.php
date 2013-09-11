@@ -20,7 +20,9 @@
 /**
  * @deprecated since 1.12.0.0
  */
-class Magento_VersionsCms_Model_Resource_Hierarchy_Lock extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\VersionsCms\Model\Resource\Hierarchy;
+
+class Lock extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table and field

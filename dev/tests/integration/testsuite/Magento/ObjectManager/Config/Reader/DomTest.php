@@ -18,7 +18,7 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
     protected $_fileList;
 
     /**
-     * @var Magento_Core_Model_Config_FileResolver_Primary
+     * @var \Magento\Core\Model\Config\FileResolver\Primary
      */
     protected $_fileResolverMock;
 
@@ -28,7 +28,7 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
     protected $_mergedConfig;
 
     /**
-     * @var Magento_Core_Model_Config_ValidationState
+     * @var \Magento\Core\Model\Config\ValidationState
      */
     protected $_validationState;
 
@@ -51,11 +51,11 @@ class Magento_ObjectManager_Config_Reader_DomTest extends PHPUnit_Framework_Test
         );
 
         $this->_fileResolverMock = $this->getMock(
-            'Magento_Core_Model_Config_FileResolver_Primary', array(), array(), '', false
+            '\Magento\Core\Model\Config\FileResolver\Primary', array(), array(), '', false
         );
         $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue($this->_fileList));
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
-        $this->_validationState = new Magento_Core_Model_Config_ValidationState(new Magento_Core_Model_App_State());
+        $this->_validationState = new \Magento\Core\Model\Config\ValidationState(new \Magento\Core\Model\App\State());
         $this->_schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
 
         $this->_mergedConfig = new DOMDocument();

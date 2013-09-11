@@ -16,7 +16,9 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Resource_Block_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Cms\Model\Resource\Block;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define resource model
@@ -24,7 +26,7 @@ class Magento_Cms_Model_Resource_Block_Collection extends Magento_Core_Model_Res
      */
     protected function _construct()
     {
-        $this->_init('Magento_Cms_Model_Block', 'Magento_Cms_Model_Resource_Block');
+        $this->_init('\Magento\Cms\Model\Block', '\Magento\Cms\Model\Resource\Block');
         $this->_map['fields']['store'] = 'store_table.store_id';
     }
 
@@ -41,13 +43,13 @@ class Magento_Cms_Model_Resource_Block_Collection extends Magento_Core_Model_Res
     /**
      * Add filter by store
      *
-     * @param int|Magento_Core_Model_Store $store
+     * @param int|\Magento\Core\Model\Store $store
      * @param bool $withAdmin
-     * @return Magento_Cms_Model_Resource_Block_Collection
+     * @return \Magento\Cms\Model\Resource\Block\Collection
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
-        if ($store instanceof Magento_Core_Model_Store) {
+        if ($store instanceof \Magento\Core\Model\Store) {
             $store = array($store->getId());
         }
 
@@ -56,7 +58,7 @@ class Magento_Cms_Model_Resource_Block_Collection extends Magento_Core_Model_Res
         }
 
         if ($withAdmin) {
-            $store[] = Magento_Core_Model_AppInterface::ADMIN_STORE_ID;
+            $store[] = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
         }
 
         $this->addFilter('store', array('in' => $store), 'public');
@@ -74,7 +76,7 @@ class Magento_Cms_Model_Resource_Block_Collection extends Magento_Core_Model_Res
     {
         $countSelect = parent::getSelectCountSql();
 
-        $countSelect->reset(Zend_Db_Select::GROUP);
+        $countSelect->reset(\Zend_Db_Select::GROUP);
 
         return $countSelect;
     }

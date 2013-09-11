@@ -15,7 +15,9 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
+namespace Magento\ImportExport\Helper;
+
+class Data extends \Magento\Core\Helper\Data
 {
     /**#@+
      * XML path for config data
@@ -31,7 +33,7 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getMaxUploadSizeMessage()
     {
-        $maxImageSize = Mage::getObjectManager()->get('Magento\File\Size')->getMaxFileSizeInMb();
+        $maxImageSize = \Mage::getObjectManager()->get('Magento\File\Size')->getMaxFileSizeInMb();
         if ($maxImageSize) {
             $message = __('The total size of the uploadable files can\'t be more that %1M', $maxImageSize);
         } else {
@@ -47,7 +49,7 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getLocalValidPaths()
     {
-        $paths = Mage::getStoreConfig(self::XML_PATH_EXPORT_LOCAL_VALID_PATH);
+        $paths = \Mage::getStoreConfig(self::XML_PATH_EXPORT_LOCAL_VALID_PATH);
         return $paths;
     }
 
@@ -58,6 +60,6 @@ class Magento_ImportExport_Helper_Data extends Magento_Core_Helper_Data
      */
     public function getBunchSize()
     {
-        return (int)Mage::getStoreConfig(self::XML_PATH_BUNCH_SIZE);
+        return (int)\Mage::getStoreConfig(self::XML_PATH_BUNCH_SIZE);
     }
 }

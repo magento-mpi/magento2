@@ -15,7 +15,9 @@
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Internal constructor
@@ -32,18 +34,18 @@ class Magento_Widget_Block_Adminhtml_Widget_Instance_Edit extends Magento_Adminh
     /**
      * Getter
      *
-     * @return Magento_Widget_Model_Widget_Instance
+     * @return \Magento\Widget\Model\Widget\Instance
      */
     public function getWidgetInstance()
     {
-        return Mage::registry('current_widget_instance');
+        return \Mage::registry('current_widget_instance');
     }
 
     /**
      * Prepare layout.
      * Adding save_and_continue button
      *
-     * @return Magento_Widget_Block_Adminhtml_Widget_Instance_Edit
+     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit
      */
     protected function _preparelayout()
     {

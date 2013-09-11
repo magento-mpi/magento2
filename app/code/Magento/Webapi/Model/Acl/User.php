@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  *
- * @method Magento_Webapi_Model_Acl_User setRoleId() setRoleId(int $id)
+ * @method \Magento\Webapi\Model\Acl\User setRoleId() setRoleId(int $id)
  * @method int getRoleId() getRoleId()
- * @method Magento_Webapi_Model_Acl_User setApiKey() setApiKey(string $apiKey)
+ * @method \Magento\Webapi\Model\Acl\User setApiKey() setApiKey(string $apiKey)
  * @method string getApiKey() getApiKey()
- * @method Magento_Webapi_Model_Acl_User setContactEmail() setContactEmail(string $contactEmail)
+ * @method \Magento\Webapi\Model\Acl\User setContactEmail() setContactEmail(string $contactEmail)
  * @method string getContactEmail() getContactEmail()
- * @method Magento_Webapi_Model_Acl_User setSecret() setSecret(string $secret)
- * @method Magento_Webapi_Model_Acl_User setCompanyName() setCompanyName(string $companyName)
+ * @method \Magento\Webapi\Model\Acl\User setSecret() setSecret(string $secret)
+ * @method \Magento\Webapi\Model\Acl\User setCompanyName() setCompanyName(string $companyName)
  * @method string getCompanyName() getCompanyName()
  */
-class Magento_Webapi_Model_Acl_User extends Magento_Core_Model_Abstract implements Magento_Oauth_Model_ConsumerInterface
+namespace Magento\Webapi\Model\Acl;
+
+class User extends \Magento\Core\Model\AbstractModel implements \Magento\Oauth\Model\ConsumerInterface
 {
     /**
      * Prefix of model events names.
@@ -31,7 +33,7 @@ class Magento_Webapi_Model_Acl_User extends Magento_Core_Model_Abstract implemen
      */
     protected function _construct()
     {
-        $this->_init('Magento_Webapi_Model_Resource_Acl_User');
+        $this->_init('\Magento\Webapi\Model\Resource\Acl\User');
     }
 
     /**
@@ -49,7 +51,7 @@ class Magento_Webapi_Model_Acl_User extends Magento_Core_Model_Abstract implemen
      * Load user by key.
      *
      * @param string $key
-     * @return Magento_Webapi_Model_Acl_User
+     * @return \Magento\Webapi\Model\Acl\User
      */
     public function loadByKey($key)
     {

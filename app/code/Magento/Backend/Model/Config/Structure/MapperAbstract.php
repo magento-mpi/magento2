@@ -11,8 +11,10 @@
 /**
  * System Configuration Converter Mapper Interface
  */
-abstract class Magento_Backend_Model_Config_Structure_MapperAbstract
-    implements Magento_Backend_Model_Config_Structure_MapperInterface
+namespace Magento\Backend\Model\Config\Structure;
+
+abstract class MapperAbstract
+    implements \Magento\Backend\Model\Config\Structure\MapperInterface
 {
     /**
      * Check value existence

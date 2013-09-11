@@ -8,12 +8,12 @@
 class Magento_Core_Model_Cache_StateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Cache_StateInterface
+     * @var \Magento\Core\Model\Cache\StateInterface
      */
     protected $_model;
 
     /**
-     * @var Magento_Core_Model_Resource_Cache|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Resource\Cache|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resource;
 
@@ -88,7 +88,7 @@ class Magento_Core_Model_Cache_StateTest extends PHPUnit_Framework_TestCase
      * @param array|false $resourceTypeOptions
      * @param bool $appInstalled
      * @param bool $banAll
-     * @return Magento_Core_Model_Cache_StateInterface
+     * @return \Magento\Core\Model\Cache\StateInterface
      */
     protected function _buildModel(
         $cacheTypeOptions,
@@ -99,27 +99,27 @@ class Magento_Core_Model_Cache_StateTest extends PHPUnit_Framework_TestCase
         $this->_cacheFrontend = $this->getMock('Magento\Cache\FrontendInterface');
         $this->_cacheFrontend->expects($this->any())
             ->method('load')
-            ->with(Magento_Core_Model_Cache_State::CACHE_ID)
+            ->with(\Magento\Core\Model\Cache\State::CACHE_ID)
             ->will($this->returnValue(
             $cacheTypeOptions === false ? false : serialize($cacheTypeOptions)
         ));
-        $cacheFrontendPool = $this->getMock('Magento_Core_Model_Cache_Frontend_Pool', array(), array(), '', false);
+        $cacheFrontendPool = $this->getMock('Magento\Core\Model\Cache\Frontend\Pool', array(), array(), '', false);
         $cacheFrontendPool->expects($this->any())
             ->method('get')
-            ->with(Magento_Core_Model_Cache_Frontend_Pool::DEFAULT_FRONTEND_ID)
+            ->with(\Magento\Core\Model\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID)
             ->will($this->returnValue($this->_cacheFrontend));
 
-        $this->_resource = $this->getMock('Magento_Core_Model_Resource_Cache', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento\Core\Model\Resource\Cache', array(), array(), '', false);
         $this->_resource->expects($this->any())
             ->method('getAllOptions')
             ->will($this->returnValue($resourceTypeOptions));
 
-        $appState = $this->getMock('Magento_Core_Model_App_State');
+        $appState = $this->getMock('Magento\Core\Model\App\State');
         $appState->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue($appInstalled));
 
-        $this->_model = new Magento_Core_Model_Cache_State($this->_resource, $cacheFrontendPool, $appState, $banAll);
+        $this->_model = new \Magento\Core\Model\Cache\State($this->_resource, $cacheFrontendPool, $appState, $banAll);
 
         return $this->_model;
     }
@@ -157,7 +157,7 @@ class Magento_Core_Model_Cache_StateTest extends PHPUnit_Framework_TestCase
             ->with($cacheTypes);
         $this->_cacheFrontend->expects($this->once())
             ->method('remove')
-            ->with(Magento_Core_Model_Cache_State::CACHE_ID);
+            ->with(\Magento\Core\Model\Cache\State::CACHE_ID);
 
         $model->persist();
     }

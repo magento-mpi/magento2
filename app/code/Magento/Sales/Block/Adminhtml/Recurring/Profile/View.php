@@ -11,12 +11,14 @@
 /**
  * Recurring profile view page
  */
-class Magento_Sales_Block_Adminhtml_Recurring_Profile_View extends Magento_Adminhtml_Block_Widget_Container
+namespace Magento\Sales\Block\Adminhtml\Recurring\Profile;
+
+class View extends \Magento\Adminhtml\Block\Widget\Container
 {
     /**
      * Create buttons
      * TODO: implement ACL restrictions
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_View
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\View
      */
     protected function _prepareLayout()
     {
@@ -26,7 +28,7 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View extends Magento_Admin
             'class'     => 'back',
         ));
 
-        $profile = Mage::registry('current_recurring_profile');
+        $profile = \Mage::registry('current_recurring_profile');
         $comfirmationMessage = __('Are you sure you want to do this?');
 
         // cancel
@@ -75,11 +77,11 @@ class Magento_Sales_Block_Adminhtml_Recurring_Profile_View extends Magento_Admin
     /**
      * Set title and a hack for tabs container
      *
-     * @return Magento_Sales_Block_Adminhtml_Recurring_Profile_View
+     * @return \Magento\Sales\Block\Adminhtml\Recurring\Profile\View
      */
     protected function _beforeToHtml()
     {
-        $profile = Mage::registry('current_recurring_profile');
+        $profile = \Mage::registry('current_recurring_profile');
         $this->_headerText = __('Recurring Profile # %1', $profile->getReferenceId());
         $this->setViewHtml('<div id="' . $this->getDestElementId() . '"></div>');
         return parent::_beforeToHtml();

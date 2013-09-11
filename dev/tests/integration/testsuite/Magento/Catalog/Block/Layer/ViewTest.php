@@ -18,17 +18,17 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFilters()
     {
-        $currentCategory = Mage::getModel('Magento_Catalog_Model_Category');
+        $currentCategory = Mage::getModel('\Magento\Catalog\Model\Category');
         $currentCategory->load(3);
 
-        /** @var $layer Magento_Catalog_Model_Layer */
-        $layer = Mage::getSingleton('Magento_Catalog_Model_Layer');
+        /** @var $layer \Magento\Catalog\Model\Layer */
+        $layer = Mage::getSingleton('Magento\Catalog\Model\Layer');
         $layer->setCurrentCategory($currentCategory);
 
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
-        /** @var $block Magento_Catalog_Block_Layer_View */
-        $block = $layout->createBlock('Magento_Catalog_Block_Layer_View', 'block');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
+        /** @var $block \Magento\Catalog\Block\Layer\View */
+        $block = $layout->createBlock('\Magento\Catalog\Block\Layer\View', 'block');
 
         $filters = $block->getFilters();
 
@@ -37,7 +37,7 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
 
         $found = false;
         foreach ($filters as $filter) {
-            if ($filter instanceof Magento_Catalog_Block_Layer_Filter_Category) {
+            if ($filter instanceof \Magento\Catalog\Block\Layer\Filter\Category) {
                 $found = true;
                 break;
             }
@@ -48,7 +48,7 @@ class Magento_Catalog_Block_Layer_ViewTest extends PHPUnit_Framework_TestCase
         foreach ($attributeCodes as $attributeCode) {
             $found = false;
             foreach ($filters as $filter) {
-                if (!($filter instanceof Magento_Catalog_Block_Layer_Filter_Attribute)) {
+                if (!($filter instanceof \Magento\Catalog\Block\Layer\Filter\Attribute)) {
                     continue;
                 }
                 if ($attributeCode == $filter->getAttributeModel()->getAttributeCode()) {

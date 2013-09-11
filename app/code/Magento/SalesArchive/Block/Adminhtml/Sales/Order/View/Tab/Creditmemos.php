@@ -13,8 +13,10 @@
  *
  */
 
-class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos
-     extends Magento_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab;
+
+class Creditmemos
+     extends \Magento\Adminhtml\Block\Sales\Order\View\Tab\Creditmemos
 {
     /**
      * Retrieve collection class
@@ -23,6 +25,6 @@ class Magento_SalesArchive_Block_Adminhtml_Sales_Order_View_Tab_Creditmemos
      */
     protected function _getCollectionClass()
     {
-        return 'Magento_SalesArchive_Model_Resource_Order_Creditmemo_Collection';
+        return '\Magento\SalesArchive\Model\Resource\Order\Creditmemo\Collection';
     }
 }

@@ -9,7 +9,7 @@
 class Magento_Core_Model_Layout_File_Source_AggregateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Layout_File_Source_Aggregated
+     * @var \Magento\Core\Model\Layout\File\Source\Aggregated
      */
     private $_model;
 
@@ -40,15 +40,15 @@ class Magento_Core_Model_Layout_File_Source_AggregateTest extends PHPUnit_Framew
 
     protected function setUp()
     {
-        $this->_fileList = $this->getMock('Magento_Core_Model_Layout_File_List', array(), array(), '', false);
-        $this->_baseFiles = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
-        $this->_themeFiles = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
-        $this->_overridingBaseFiles = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
-        $this->_overridingThemeFiles = $this->getMockForAbstractClass('Magento_Core_Model_Layout_File_SourceInterface');
+        $this->_fileList = $this->getMock('Magento\Core\Model\Layout\File\ListFile', array(), array(), '', false);
+        $this->_baseFiles = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
+        $this->_themeFiles = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
+        $this->_overridingBaseFiles = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
+        $this->_overridingThemeFiles = $this->getMockForAbstractClass('\Magento\Core\Model\Layout\File\SourceInterface');
         $fileListFactory =
-            $this->getMock('Magento_Core_Model_Layout_File_FileList_Factory', array(), array(), '', false);
+            $this->getMock('Magento\Core\Model\Layout\File\FileList\Factory', array(), array(), '', false);
         $fileListFactory->expects($this->once())->method('create')->will($this->returnValue($this->_fileList));
-        $this->_model = new Magento_Core_Model_Layout_File_Source_Aggregated(
+        $this->_model = new \Magento\Core\Model\Layout\File\Source\Aggregated(
             $fileListFactory, $this->_baseFiles, $this->_themeFiles,
             $this->_overridingBaseFiles, $this->_overridingThemeFiles
         );
@@ -56,18 +56,18 @@ class Magento_Core_Model_Layout_File_Source_AggregateTest extends PHPUnit_Framew
 
     public function testGetFiles()
     {
-        $parentTheme = $this->getMockForAbstractClass('Magento_Core_Model_ThemeInterface');
-        $theme = $this->getMockForAbstractClass('Magento_Core_Model_ThemeInterface');
+        $parentTheme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
+        $theme = $this->getMockForAbstractClass('\Magento\Core\Model\ThemeInterface');
         $theme->expects($this->once())->method('getParentTheme')->will($this->returnValue($parentTheme));
 
         $files = array(
-            new Magento_Core_Model_Layout_File('0.xml', 'Module_One'),
-            new Magento_Core_Model_Layout_File('1.xml', 'Module_One', $parentTheme),
-            new Magento_Core_Model_Layout_File('2.xml', 'Module_One', $parentTheme),
-            new Magento_Core_Model_Layout_File('3.xml', 'Module_One', $parentTheme),
-            new Magento_Core_Model_Layout_File('4.xml', 'Module_One', $theme),
-            new Magento_Core_Model_Layout_File('5.xml', 'Module_One', $theme),
-            new Magento_Core_Model_Layout_File('6.xml', 'Module_One', $theme),
+            new \Magento\Core\Model\Layout\File('0.xml', 'Module_One'),
+            new \Magento\Core\Model\Layout\File('1.xml', 'Module_One', $parentTheme),
+            new \Magento\Core\Model\Layout\File('2.xml', 'Module_One', $parentTheme),
+            new \Magento\Core\Model\Layout\File('3.xml', 'Module_One', $parentTheme),
+            new \Magento\Core\Model\Layout\File('4.xml', 'Module_One', $theme),
+            new \Magento\Core\Model\Layout\File('5.xml', 'Module_One', $theme),
+            new \Magento\Core\Model\Layout\File('6.xml', 'Module_One', $theme),
         );
 
         $this->_baseFiles

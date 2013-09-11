@@ -15,7 +15,9 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Url
+namespace Magento\Catalog\Model;
+
+class Url
 {
     /**
      * Number of characters allowed to be in URL path
@@ -35,7 +37,7 @@ class Magento_Catalog_Model_Url
     /**
      * Resource model
      *
-     * @var Magento_Catalog_Model_Resource_Url
+     * @var \Magento\Catalog\Model\Resource\Url
      */
     protected $_resourceModel;
 
@@ -91,7 +93,7 @@ class Magento_Catalog_Model_Url
      /**
      * Singleton of category model for building URL path
      *
-     * @var Magento_Catalog_Model_Category
+     * @var \Magento\Catalog\Model\Category
      */
     static protected $_categoryForUrlPath;
 
@@ -118,7 +120,7 @@ class Magento_Catalog_Model_Url
         }
 
         if (self::$_categoryForUrlPath === null) {
-            self::$_categoryForUrlPath = Mage::getModel('Magento_Catalog_Model_Category');
+            self::$_categoryForUrlPath = \Mage::getModel('\Magento\Catalog\Model\Category');
         }
 
         // Generate url_path
@@ -132,7 +134,7 @@ class Magento_Catalog_Model_Url
      * Retrieve stores array or store model
      *
      * @param int $storeId
-     * @return Magento_Core_Model_Store|array
+     * @return \Magento\Core\Model\Store|array
      */
     public function getStores($storeId = null)
     {
@@ -142,12 +144,12 @@ class Magento_Catalog_Model_Url
     /**
      * Retrieve resource model
      *
-     * @return Magento_Catalog_Model_Resource_Url
+     * @return \Magento\Catalog\Model\Resource\Url
      */
     public function getResource()
     {
         if (is_null($this->_resourceModel)) {
-            $this->_resourceModel = Mage::getResourceModel('Magento_Catalog_Model_Resource_Url');
+            $this->_resourceModel = \Mage::getResourceModel('\Magento\Catalog\Model\Resource\Url');
         }
         return $this->_resourceModel;
     }
@@ -155,7 +157,7 @@ class Magento_Catalog_Model_Url
     /**
      * Retrieve Category model singleton
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCategoryModel()
     {
@@ -165,7 +167,7 @@ class Magento_Catalog_Model_Url
     /**
      * Retrieve product model singleton
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProductModel()
     {
@@ -196,7 +198,7 @@ class Magento_Catalog_Model_Url
      * Force Rewrites History save bypass config settings
      *
      * @param bool $flag
-     * @return Magento_Catalog_Model_Url
+     * @return \Magento\Catalog\Model\Url
      */
     public function setShouldSaveRewritesHistory($flag)
     {
@@ -215,7 +217,7 @@ class Magento_Catalog_Model_Url
         if ($this->_saveRewritesHistory !== null) {
             return $this->_saveRewritesHistory;
         }
-        return Mage::helper('Magento_Catalog_Helper_Data')->shouldSaveUrlRewritesHistory($storeId);
+        return \Mage::helper('Magento\Catalog\Helper\Data')->shouldSaveUrlRewritesHistory($storeId);
     }
 
     /**
@@ -223,7 +225,7 @@ class Magento_Catalog_Model_Url
      * Used to make full reindexing of url rewrites
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Url
+     * @return \Magento\Catalog\Model\Url
      */
     public function refreshRewrites($storeId = null)
     {
@@ -248,7 +250,7 @@ class Magento_Catalog_Model_Url
      * @param \Magento\Object $category
      * @param string $parentPath
      * @param bool $refreshProducts
-     * @return Magento_Catalog_Model_Url
+     * @return \Magento\Catalog\Model\Url
      */
     protected function _refreshCategoryRewrites(\Magento\Object $category, $parentPath = null, $refreshProducts = true)
     {
@@ -312,7 +314,7 @@ class Magento_Catalog_Model_Url
      *
      * @param \Magento\Object $product
      * @param \Magento\Object $category
-     * @return Magento_Catalog_Model_Url
+     * @return \Magento\Catalog\Model\Url
      */
     protected function _refreshProductRewrite(\Magento\Object $product, \Magento\Object $category)
     {
@@ -369,7 +371,7 @@ class Magento_Catalog_Model_Url
      * Refresh products for catwgory
      *
      * @param \Magento\Object $category
-     * @return Magento_Catalog_Model_Url
+     * @return \Magento\Catalog\Model\Url
      */
     protected function _refreshCategoryProductRewrites(\Magento\Object $category)
     {
@@ -419,7 +421,7 @@ class Magento_Catalog_Model_Url
      * @param int $categoryId
      * @param int|null $storeId
      * @param bool $refreshProducts
-     * @return Magento_Catalog_Model_Url
+     * @return \Magento\Catalog\Model\Url
      */
     public function refreshCategoryRewrite($categoryId, $storeId = null, $refreshProducts = true)
     {
@@ -456,7 +458,7 @@ class Magento_Catalog_Model_Url
      *
      * @param int $productId
      * @param int|null $storeId
-     * @return Magento_Catalog_Model_Url
+     * @return \Magento\Catalog\Model\Url
      */
     public function refreshProductRewrite($productId, $storeId = null)
     {
@@ -506,7 +508,7 @@ class Magento_Catalog_Model_Url
      * Refresh all product rewrites for designated store
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Url
+     * @return \Magento\Catalog\Model\Url
      */
     public function refreshProductRewrites($storeId)
     {
@@ -566,7 +568,7 @@ class Magento_Catalog_Model_Url
      * Deletes old rewrites for store, left from the times when store had some other root category
      *
      * @param int $storeId
-     * @return Magento_Catalog_Model_Url
+     * @return \Magento\Catalog\Model\Url
      */
     public function clearStoreInvalidRewrites($storeId = null)
     {
@@ -659,7 +661,7 @@ class Magento_Catalog_Model_Url
      */
     public function getProductUrlSuffix($storeId)
     {
-        return Mage::helper('Magento_Catalog_Helper_Product')->getProductUrlSuffix($storeId);
+        return \Mage::helper('Magento\Catalog\Helper\Product')->getProductUrlSuffix($storeId);
     }
 
     /**
@@ -670,7 +672,7 @@ class Magento_Catalog_Model_Url
      */
     public function getCategoryUrlSuffix($storeId)
     {
-        return Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlSuffix($storeId);
+        return \Mage::helper('Magento\Catalog\Helper\Category')->getCategoryUrlSuffix($storeId);
     }
 
     /**
@@ -704,7 +706,7 @@ class Magento_Catalog_Model_Url
         elseif ($parentPath == '/') {
             $parentPath = '';
         }
-        $parentPath = Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlPath($parentPath, true, $storeId);
+        $parentPath = \Mage::helper('Magento\Catalog\Helper\Category')->getCategoryUrlPath($parentPath, true, $storeId);
 
         $requestPath = $parentPath . $urlKey;
         $regexp = '/^' . preg_quote($requestPath, '/') . '(\-[0-9]+)?' . preg_quote($categoryUrlSuffix, '/') . '$/i';
@@ -762,7 +764,7 @@ class Magento_Catalog_Model_Url
         if ($category->getLevel() > 1) {
             // To ensure, that category has path either from attribute or generated now
             $this->_addCategoryUrlPath($category);
-            $categoryUrl = Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlPath($category->getUrlPath(),
+            $categoryUrl = \Mage::helper('Magento\Catalog\Helper\Category')->getCategoryUrlPath($category->getUrlPath(),
                 false, $storeId);
             $requestPath = $categoryUrl . '/' . $urlKey;
         } else {
@@ -835,12 +837,12 @@ class Magento_Catalog_Model_Url
      * @param \Magento\Object $category
      * @param string $parentPath
      * @return string
-     * @throws Magento_Core_Exception
+     * @throws \Magento\Core\Exception
      */
     public function generatePath($type = 'target', $product = null, $category = null, $parentPath = null)
     {
         if (!$product && !$category) {
-            Mage::throwException(__('Please specify either a category or a product, or both.'));
+            \Mage::throwException(__('Please specify either a category or a product, or both.'));
         }
 
         // generate id_path
@@ -872,7 +874,7 @@ class Magento_Catalog_Model_Url
                 elseif ($parentPath == '/') {
                     $parentPath = '';
                 }
-                $parentPath = Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlPath($parentPath,
+                $parentPath = \Mage::helper('Magento\Catalog\Helper\Category')->getCategoryUrlPath($parentPath,
                     true, $category->getStoreId());
 
                 return $this->getUnusedPath($category->getStoreId(), $parentPath . $urlKey . $categoryUrlSuffix,
@@ -882,7 +884,7 @@ class Magento_Catalog_Model_Url
 
             // for product & category
             if (!$category) {
-                Mage::throwException(__('A category object is required for determining the product request path.')); // why?
+                \Mage::throwException(__('A category object is required for determining the product request path.')); // why?
             }
 
             if ($product->getUrlKey() == '') {
@@ -895,7 +897,7 @@ class Magento_Catalog_Model_Url
             if ($category->getLevel() > 1) {
                 // To ensure, that category has url path either from attribute or generated now
                 $this->_addCategoryUrlPath($category);
-                $categoryUrl = Mage::helper('Magento_Catalog_Helper_Category')->getCategoryUrlPath($category->getUrlPath(),
+                $categoryUrl = \Mage::helper('Magento\Catalog\Helper\Category')->getCategoryUrlPath($category->getUrlPath(),
                     false, $category->getStoreId());
                 return $this->getUnusedPath(
                     $category->getStoreId(),
@@ -937,7 +939,7 @@ class Magento_Catalog_Model_Url
      *
      * @param array $rewriteData New rewrite data
      * @param \Magento\Object $rewrite Rewrite model
-     * @return Magento_Catalog_Model_Url
+     * @return \Magento\Catalog\Model\Url
      */
     protected function _saveRewriteHistory($rewriteData, $rewrite)
     {

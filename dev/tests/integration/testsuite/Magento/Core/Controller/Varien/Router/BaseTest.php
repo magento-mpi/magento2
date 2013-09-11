@@ -12,7 +12,7 @@
 class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Controller_Varien_Router_Base
+     * @var \Magento\Core\Controller\Varien\Router\Base
      */
     protected $_model;
 
@@ -20,11 +20,11 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
     {
         $options = array(
             'areaCode' => 'frontend',
-            'baseController' => 'Magento_Core_Controller_Front_Action',
+            'baseController' => '\Magento\Core\Controller\Front\Action',
             'routerId' => 'standard'
         );
-        $this->_model = Mage::getModel('Magento_Core_Controller_Varien_Router_Base', $options);
-        $this->_model->setFront(Mage::getModel('Magento_Core_Controller_Varien_Front'));
+        $this->_model = Mage::getModel('\Magento\Core\Controller\Varien\Router\Base', $options);
+        $this->_model->setFront(Mage::getModel('\Magento\Core\Controller\Varien\Front'));
     }
 
     public function testFetchDefault()
@@ -47,9 +47,9 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
 
         $request = new Magento_TestFramework_Request();
 
-        $this->assertInstanceOf('Magento_Core_Controller_Varien_Action', $this->_model->match($request));
+        $this->assertInstanceOf('\Magento\Core\Controller\Varien\Action', $this->_model->match($request));
         $request->setRequestUri('core/index/index');
-        $this->assertInstanceOf('Magento_Core_Controller_Varien_Action', $this->_model->match($request));
+        $this->assertInstanceOf('\Magento\Core\Controller\Varien\Action', $this->_model->match($request));
 
         $request->setPathInfo('not_exists/not_exists/not_exists')
             ->setModuleName('not_exists')
@@ -59,9 +59,9 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
     }
 
     /**
-     * @covers Magento_Core_Controller_Varien_Router_Base::getModulesByFrontName
-     * @covers Magento_Core_Controller_Varien_Router_Base::getRouteByFrontName
-     * @covers Magento_Core_Controller_Varien_Router_Base::getFrontNameByRoute
+     * @covers \Magento\Core\Controller\Varien\Router\Base::getModulesByFrontName
+     * @covers \Magento\Core\Controller\Varien\Router\Base::getRouteByFrontName
+     * @covers \Magento\Core\Controller\Varien\Router\Base::getFrontNameByRoute
      */
     public function testGetters()
     {
@@ -73,7 +73,7 @@ class Magento_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_T
     public function testGetControllerClassName()
     {
         $this->assertEquals(
-            'Magento_Core_Controller_Index',
+            '\Magento\Core\Controller\Index',
             $this->_model->getControllerClassName('Magento_Core', 'index')
         );
     }

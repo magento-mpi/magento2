@@ -15,7 +15,9 @@
  * @package    Magento_Paypal
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Paypal_Block_Payflow_Advanced_Form extends Magento_Paypal_Block_Payflow_Link_Form
+namespace Magento\Paypal\Block\Payflow\Advanced;
+
+class Form extends \Magento\Paypal\Block\Payflow\Link\Form
 {
     protected $_template = 'payflowadvanced/info.phtml';
 

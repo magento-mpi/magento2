@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_Sales_Model_Resource_Setup */
+/** @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
 
 /**
  * Install order statuses from config
  */
 $data     = array();
-$statuses = Mage::getConfig()->getNode('global/sales/order/statuses')->asArray();
+$statuses = \Mage::getConfig()->getNode('global/sales/order/statuses')->asArray();
 foreach ($statuses as $code => $info) {
     $data[] = array(
         'status' => $code,
@@ -32,7 +32,7 @@ $installer->getConnection()->insertArray(
  * Install order states from config
  */
 $data   = array();
-$states = Mage::getConfig()->getNode('global/sales/order/states')->asArray();
+$states = \Mage::getConfig()->getNode('global/sales/order/states')->asArray();
 
 foreach ($states as $code => $info) {
     if (isset($info['statuses'])) {

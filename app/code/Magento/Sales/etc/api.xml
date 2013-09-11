@@ -13,7 +13,7 @@
     <api>
         <resources>
             <sales_order translate="title" module="Magento_Sales">
-                <model>Magento_Sales_Model_Order_Api</model>
+                <model>\Magento\Sales\Model\Order\Api</model>
                 <title>Order API</title>
                 <acl>sales/order</acl>
                 <methods>
@@ -64,7 +64,7 @@
             </sales_order>
             <sales_order_shipment>
                 <title>Shipment API</title>
-                <model>Magento_Sales_Model_Order_Shipment_Api</model>
+                <model>\Magento\Sales\Model\Order\Shipment\Api</model>
                 <acl>sales/order/shipment</acl>
                 <methods>
                     <list translate="title" module="Magento_Sales">
@@ -129,7 +129,7 @@
             </sales_order_shipment>
             <sales_order_invoice>
                 <title>Invoice API</title>
-                <model>Magento_Sales_Model_Order_Invoice_Api</model>
+                <model>\Magento\Sales\Model\Order\Invoice\Api</model>
                 <acl>sales/order/invoice</acl>
                 <methods>
                     <list translate="title" module="Magento_Sales">
@@ -187,7 +187,7 @@
            </sales_order_invoice>
             <sales_order_creditmemo>
                 <title>Credit memo API</title>
-                <model>Magento_Sales_Model_Order_Creditmemo_Api</model>
+                <model>\Magento\Sales\Model\Order\Creditmemo\Api</model>
                 <acl>sales/order/creditmemo</acl>
                 <methods>
                     <list translate="title" module="Magento_Sales">

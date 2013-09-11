@@ -15,7 +15,7 @@
             </action>
         </reference>
         <reference name="content">
-            <block class="Magento_Checkout_Block_Cart" name="checkout.cart">
+            <block class="\Magento\Checkout\Block\Cart" name="checkout.cart">
                 <action method="setCartTemplate">
                     <argument name="value" xsi:type="string">cart.phtml</argument>
                 </action>
@@ -25,35 +25,35 @@
                 <action method="chooseTemplate"/>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">simple</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer</argument>
+                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer</argument>
                     <argument name="template" xsi:type="string">cart/item/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">grouped</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Grouped</argument>
+                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Grouped</argument>
                     <argument name="template" xsi:type="string">cart/item/default.phtml</argument>
                 </action>
                 <action method="addItemRender">
                     <argument name="type" xsi:type="string">configurable</argument>
-                    <argument name="block" xsi:type="string">Magento_Checkout_Block_Cart_Item_Renderer_Configurable</argument>
+                    <argument name="block" xsi:type="string">\Magento\Checkout\Block\Cart\Item\Renderer\Configurable</argument>
                     <argument name="template" xsi:type="string">cart/item/default.phtml</argument>
                 </action>
                 <container name="checkout.cart.empty.widget" as="checkout_cart_empty_widget" label="Empty Shopping Cart Content Before"/>
                 <container name="checkout.cart.top_methods" as="top_methods" label="Payment Methods Before Checkout Button">
-                    <block class="Magento_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.top" template="onepage/link.phtml"/>
+                    <block class="\Magento\Checkout\Block\Onepage\Link" name="checkout.cart.methods.onepage.top" template="onepage/link.phtml"/>
                 </container>
                 <container name="checkout.cart.form.before" as="form_before" label="Shopping Cart Form Before"/>
                 <container name="checkout.cart.methods" as="methods" label="Payment Methods After Checkout Button">
-                    <block class="Magento_Checkout_Block_Onepage_Link" name="checkout.cart.methods.onepage.bottom" template="onepage/link.phtml"/>
-                    <block class="Magento_Checkout_Block_Multishipping_Link" name="checkout.cart.methods.multishipping" template="multishipping/link.phtml"/>
+                    <block class="\Magento\Checkout\Block\Onepage\Link" name="checkout.cart.methods.onepage.bottom" template="onepage/link.phtml"/>
+                    <block class="\Magento\Checkout\Block\Multishipping\Link" name="checkout.cart.methods.multishipping" template="multishipping/link.phtml"/>
                 </container>
                 <container name="checkout.cart.extra" label="Shopping Cart Extra Contents">
                     <container name="checkout.cart.widget" as="checkout_cart_widget" before="-" label="Shopping Cart Items After"/>
-                    <block class="Magento_Checkout_Block_Cart_Coupon" name="checkout.cart.coupon" as="coupon" template="cart/coupon.phtml"/>
+                    <block class="\Magento\Checkout\Block\Cart\Coupon" name="checkout.cart.coupon" as="coupon" template="cart/coupon.phtml"/>
                 </container>
-                <block class="Magento_Checkout_Block_Cart_Shipping" name="checkout.cart.shipping" as="shipping" template="cart/shipping.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Crosssell" name="checkout.cart.crosssell" as="crosssell" template="cart/crosssell.phtml"/>
-                <block class="Magento_Checkout_Block_Cart_Totals" name="checkout.cart.totals" as="totals" template="cart/totals.phtml"/>
+                <block class="\Magento\Checkout\Block\Cart\Shipping" name="checkout.cart.shipping" as="shipping" template="cart/shipping.phtml"/>
+                <block class="\Magento\Checkout\Block\Cart\Crosssell" name="checkout.cart.crosssell" as="crosssell" template="cart/crosssell.phtml"/>
+                <block class="\Magento\Checkout\Block\Cart\Totals" name="checkout.cart.totals" as="totals" template="cart/totals.phtml"/>
             </block>
         </reference>
         <container name="additional.product.info" label="Additional Product Info"/>

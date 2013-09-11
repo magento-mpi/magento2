@@ -11,7 +11,9 @@
 /**
  * Resource setup model with methods needed for migration process between Magento versions
  */
-class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Resource_Setup
+namespace Magento\Core\Model\Resource\Setup;
+
+class Migration extends \Magento\Core\Model\Resource\Setup
 {
     /**#@+
      * Type of field content where class alias is used
@@ -97,7 +99,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     );
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
@@ -128,21 +130,21 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
     protected $_filesystem;
 
     /**
-     * @param Magento_Core_Model_Config_Resource $resourcesConfig
-     * @param Magento_Core_Model_Config $config
-     * @param Magento_Core_Model_ModuleListInterface $moduleList
-     * @param Magento_Core_Model_Resource $resource
-     * @param Magento_Core_Model_Config_Modules_Reader $modulesReader
+     * @param \Magento\Core\Model\Config\Resource $resourcesConfig
+     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Core\Model\ModuleListInterface $moduleList
+     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\Core\Model\Config\Modules\Reader $modulesReader
      * @param \Magento\Filesystem $filesystem
      * @param $resourceName
      * @param array $data
      */
     public function __construct(
-        Magento_Core_Model_Config_Resource $resourcesConfig,
-        Magento_Core_Model_Config $config,
-        Magento_Core_Model_ModuleListInterface $moduleList,
-        Magento_Core_Model_Resource $resource,
-        Magento_Core_Model_Config_Modules_Reader $modulesReader,
+        \Magento\Core\Model\Config\Resource $resourcesConfig,
+        \Magento\Core\Model\Config $config,
+        \Magento\Core\Model\ModuleListInterface $moduleList,
+        \Magento\Core\Model\Resource $resource,
+        \Magento\Core\Model\Config\Modules\Reader $modulesReader,
         \Magento\Filesystem $filesystem,
         $resourceName,
         array $data = array()
@@ -169,13 +171,13 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         if (isset($data['core_helper'])) {
             $this->_coreHelper = $data['core_helper'];
         } else {
-            $this->_coreHelper = Mage::helper('Magento_Core_Helper_Data');
+            $this->_coreHelper = \Mage::helper('Magento\Core\Helper\Data');
         }
 
         if (isset($data['base_dir'])) {
             $this->_baseDir = $data['base_dir'];
         } else {
-            $this->_baseDir = Mage::getBaseDir();
+            $this->_baseDir = \Mage::getBaseDir();
         }
 
         $this->_initAliasesMapConfiguration($data);
@@ -211,7 +213,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         if (isset($data['path_to_map_file'])) {
             $this->_pathToMapFile = $data['path_to_map_file'];
         } else {
-            $this->_pathToMapFile = Mage::getConfig()->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
+            $this->_pathToMapFile = \Mage::getConfig()->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
         }
 
         if (isset($data['aliases_map'])) {
@@ -290,7 +292,7 @@ class Magento_Core_Model_Resource_Setup_Migration extends Magento_Core_Model_Res
         $adapter = $this->getConnection();
 
         $query = $adapter->select()
-            ->from($this->getTable($tableName), array('rows_count' => new Zend_Db_Expr('COUNT(*)')))
+            ->from($this->getTable($tableName), array('rows_count' => new \Zend_Db_Expr('COUNT(*)')))
             ->where($fieldName . ' IS NOT NULL');
 
         if (!empty($additionalWhere)) {

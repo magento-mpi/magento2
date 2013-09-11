@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var $this Magento_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config_Matrix */
+/** @var $this \Magento\Adminhtml\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix */
 ?>
 <?php
 $variations = $this->getVariations();
@@ -48,7 +48,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     </th>
                     <?php
                     foreach ($usedProductAttributes as $attribute) {
-                        /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+                        /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
                         echo '<th class="col-' . preg_replace('#[^a-z0-9]+#', '-', strtolower($attribute->getStoreLabel())) . '">', $attribute->getStoreLabel(), '</th>', PHP_EOL;
                     }
                     ?>
@@ -65,7 +65,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                 $attributeStoreLabels = array();
                 $price = $productPrice;
                 foreach ($usedProductAttributes as $attribute) {
-                    /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+                    /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
 
                     $attributeValues[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['value'];
                     $attributeLabels[$attribute->getAttributeCode()] = $variation[$attribute->getId()]['label'];
@@ -98,7 +98,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                    value="<?php echo $image?>" type="hidden"/>
                         </div>
                         <?php if ($image): ?>
-                            <img src="<?php echo $this->helper('Magento_Catalog_Helper_Product')->getImageUrl($product)?>"
+                            <img src="<?php echo $this->helper('\Magento\Catalog\Helper\Product')->getImageUrl($product)?>"
                                  class="variation" data-role="image"/>
                         <?php endif; ?>
                     </td>
@@ -107,7 +107,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                            target="_blank"><?php echo $this->escapeHtml($product->getName())?></a>
 
                         <button type="button" data-action="choose" class="action-choose" title="<?php echo __('Choose'); ?>"
-                                data-attributes="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>">
+                                data-attributes="<?php echo $this->escapeHtml($this->helper('\Magento\Core\Helper\Data')->jsonEncode($attributeValues)); ?>">
                             <span><?php echo __('Choose'); ?></span>
                         </button>
                     </td>
@@ -121,7 +121,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     <td class="col-weight" data-column="weight"><?php echo $product->getWeight()?></td>
                     <?php
                     foreach ($usedProductAttributes as $attribute) {
-                        /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+                        /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
                         echo '<td class="col-' . preg_replace('#[^a-z0-9]+#', '-', strtolower($attribute->getStoreLabel())) . '">',
                             $this->escapeHtml($variation[$attribute->getId()]['label']), '</td>', PHP_EOL;
                     }
@@ -180,10 +180,10 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                                value="<?php echo $this->escapeHtml($this->getProduct()->getName()), '-', implode('-', $attributeLabels)?>"
                                class="<?php echo $this->getAttributeFrontendClass('name'); ?>"<?php echo $disabled?>/>
                         <input type="hidden" name="variations-matrix[<?php echo $key?>][configurable_attribute]"
-                               value="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
+                               value="<?php echo $this->escapeHtml($this->helper('\Magento\Core\Helper\Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled?>/>
 
                         <button type="button" data-action="choose" class="action-choose" title="<?php echo __('Choose'); ?>"
-                                data-attributes="<?php echo $this->escapeHtml($this->helper('Magento_Core_Helper_Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled;?>>
+                                data-attributes="<?php echo $this->escapeHtml($this->helper('\Magento\Core\Helper\Data')->jsonEncode($attributeValues)); ?>"<?php echo $disabled;?>>
                             <span><?php echo __('Choose'); ?></span>
                         </button>
                     </td>
@@ -213,7 +213,7 @@ $productByUsedAttributes = $this->getAssociatedProducts();
                     </td>
                     <?php
                     foreach ($usedProductAttributes as $attribute) {
-                        /** @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+                        /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
                         echo '<td class="col-'
                             . preg_replace('#[^a-z0-9]+#', '-', strtolower($attribute->getStoreLabel())) . '">',
                             $this->escapeHtml($variation[$attribute->getId()]['label']),

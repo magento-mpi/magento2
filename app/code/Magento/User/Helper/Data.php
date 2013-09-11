@@ -15,7 +15,9 @@
  * @package  Magento_User
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\User\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Configuration path to expiration period of reset password link
@@ -30,7 +32,7 @@ class Magento_User_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function generateResetPasswordLinkToken()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->uniqHash();
+        return \Mage::helper('Magento\Core\Helper\Data')->uniqHash();
     }
 
     /**
@@ -40,6 +42,6 @@ class Magento_User_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int) Mage::getConfig()->getValue(self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD, 'default');
+        return (int) \Mage::getConfig()->getValue(self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD, 'default');
     }
 }

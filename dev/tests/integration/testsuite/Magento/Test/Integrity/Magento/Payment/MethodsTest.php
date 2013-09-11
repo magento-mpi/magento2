@@ -22,11 +22,11 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
      */
     public function testPaymentMethod($code, $methodClass)
     {
-        /** @var $blockFactory Magento_Core_Model_BlockFactory */
+        /** @var $blockFactory \Magento\Core\Model\BlockFactory */
         $blockFactory = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_BlockFactory');
+            ->get('Magento\Core\Model\BlockFactory');
         $storeId = Mage::app()->getStore()->getId();
-        /** @var $model Magento_Payment_Model_Method_Abstract */
+        /** @var $model \Magento\Payment\Model\Method\AbstractMethod */
         if (empty($methodClass)) {
             /**
              * Note that $code is not whatever the payment method getCode() returns
@@ -37,13 +37,13 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
         $this->assertNotEmpty($model->getTitle());
         foreach (array($model->getFormBlockType(), $model->getInfoBlockType()) as $blockClass) {
             $message = "Block class: {$blockClass}";
-            /** @var $block Magento_Core_Block_Template */
+            /** @var $block \Magento\Core\Block\Template */
             $block = $blockFactory->createBlock($blockClass);
             $block->setArea('frontend');
             $this->assertFileExists($block->getTemplateFile(), $message);
             if ($model->canUseInternal()) {
                 try {
-                    Mage::app()->getStore()->setId(Magento_Core_Model_AppInterface::ADMIN_STORE_ID);
+                    Mage::app()->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
                     $block->setArea('adminhtml');
                     $this->assertFileExists($block->getTemplateFile(), $message);
                     Mage::app()->getStore()->setId($storeId);
@@ -60,8 +60,8 @@ class Magento_Test_Integrity_Magento_Payment_MethodsTest extends PHPUnit_Framewo
      */
     public function paymentMethodDataProvider()
     {
-        /** @var $helper Magento_Payment_Helper_Data */
-        $helper = Mage::helper('Magento_Payment_Helper_Data');
+        /** @var $helper \Magento\Payment\Helper\Data */
+        $helper = Mage::helper('Magento\Payment\Helper\Data');
         $result = array();
         foreach ($helper->getPaymentMethods() as $code => $method) {
             $result[] = array($code, $method['model']);

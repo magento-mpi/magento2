@@ -16,20 +16,22 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  *
  * @method int getParentId() getParentId()
- * @method Magento_Customer_Model_Address setParentId() setParentId(int $parentId)
+ * @method \Magento\Customer\Model\Address setParentId() setParentId(int $parentId)
  */
-class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abstract
+namespace Magento\Customer\Model;
+
+class Address extends \Magento\Customer\Model\Address\AbstractAddress
 {
     /**
      * Customer entity
      *
-     * @var Magento_Customer_Model_Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
     protected function _construct()
     {
-        $this->_init('Magento_Customer_Model_Resource_Address');
+        $this->_init('\Magento\Customer\Model\Resource\Address');
     }
 
     /**
@@ -46,7 +48,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
      * Declare address customer identifier
      *
      * @param integer $id
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function setCustomerId($id)
     {
@@ -58,7 +60,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
     /**
      * Retrieve address customer
      *
-     * @return Magento_Customer_Model_Customer|bool
+     * @return \Magento\Customer\Model\Customer|bool
      */
     public function getCustomer()
     {
@@ -66,7 +68,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
             return false;
         }
         if (empty($this->_customer)) {
-            $this->_customer = Mage::getModel('Magento_Customer_Model_Customer')
+            $this->_customer = \Mage::getModel('\Magento\Customer\Model\Customer')
                 ->load($this->getCustomerId());
         }
         return $this->_customer;
@@ -75,10 +77,10 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
     /**
      * Specify address customer
      *
-     * @param Magento_Customer_Model_Customer $customer
-     * @return Magento_Customer_Model_Address
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return \Magento\Customer\Model\Address
      */
-    public function setCustomer(Magento_Customer_Model_Customer $customer)
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
@@ -88,7 +90,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
     /**
      * Delete customer address
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function delete()
     {
@@ -122,7 +124,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
     /**
      * Return Entity Type instance
      *
-     * @return Magento_Eav_Model_Entity_Type
+     * @return \Magento\Eav\Model\Entity\Type
      */
     public function getEntityType()
     {
@@ -158,7 +160,7 @@ class Magento_Customer_Model_Address extends Magento_Customer_Model_Address_Abst
      * Set Region ID. $regionId is automatically converted to integer
      *
      * @param int $regionId
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function setRegionId($regionId)
     {

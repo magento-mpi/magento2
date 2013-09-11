@@ -101,10 +101,10 @@ function switchDefaultValueField()
             show_default_value_<?php echo $prop['default_value']?> = true;
             <?php endif;?>
             <?php if ($prop['filter_types']):?>
-            select_filter_types = <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($prop['filter_types'])?>;
+            select_filter_types = <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($prop['filter_types'])?>;
             <?php endif;?>
             <?php if ($prop['validate_filters']):?>
-            select_validate_filters = <?php echo $this->helper('Magento_Core_Helper_Data')->jsonEncode($prop['validate_filters'])?>;
+            select_validate_filters = <?php echo $this->helper('\Magento\Core\Helper\Data')->jsonEncode($prop['validate_filters'])?>;
             <?php endif;?>
             break;
         <?php endforeach;?>

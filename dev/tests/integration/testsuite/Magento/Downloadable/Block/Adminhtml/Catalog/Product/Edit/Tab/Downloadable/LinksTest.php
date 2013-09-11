@@ -15,7 +15,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     public function testGetUploadButtonsHtml()
     {
         $block = Mage::app()->getLayout()->createBlock(
-            'Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links'
+            '\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links'
         );
         self::performUploadButtonTest($block);
     }
@@ -23,15 +23,15 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     /**
      * Reuse code for testing getUploadButtonHtml()
      *
-     * @param Magento_Core_Block_Abstract $block
+     * @param \Magento\Core\Block\AbstractBlock $block
      */
-    public static function performUploadButtonTest(Magento_Core_Block_Abstract $block)
+    public static function performUploadButtonTest(\Magento\Core\Block\AbstractBlock $block)
     {
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = Mage::getModel('Magento_Core_Model_Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = Mage::getModel('\Magento\Core\Model\Layout');
         $layout->addBlock($block, 'links');
         $expected = uniqid();
-        $text = Mage::app()->getLayout()->createBlock('Magento_Core_Block_Text', '',
+        $text = Mage::app()->getLayout()->createBlock('\Magento\Core\Block\Text', '',
             array('data' => array('text' => $expected))
         );
         $block->unsetChild('upload_button');
@@ -46,7 +46,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     {
         Mage::register('product', new \Magento\Object(array('type_id' => 'simple')));
         $block = Mage::app()->getLayout()
-            ->createBlock('Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links');
+            ->createBlock('\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links');
         $this->assertEmpty($block->getLinkData());
     }
 
@@ -69,7 +69,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
             'links_title' => $linksTitle
         )));
         $block = Mage::app()->getLayout()
-            ->createBlock('Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links');
+            ->createBlock('\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links');
         $this->assertEquals($expectedResult, $block->getLinksTitle());
     }
 

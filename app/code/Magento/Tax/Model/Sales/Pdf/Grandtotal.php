@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_Tax_Model_Sales_Pdf_Grandtotal extends Magento_Sales_Model_Order_Pdf_Total_Default
+namespace Magento\Tax\Model\Sales\Pdf;
+
+class Grandtotal extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
 {
     /**
      * Check if tax amount should be included to grandtotals block
@@ -24,7 +26,7 @@ class Magento_Tax_Model_Sales_Pdf_Grandtotal extends Magento_Sales_Model_Order_P
     public function getTotalsForDisplay()
     {
         $store = $this->getOrder()->getStore();
-        $config= Mage::getSingleton('Magento_Tax_Model_Config');
+        $config= \Mage::getSingleton('Magento\Tax\Model\Config');
         if (!$config->displaySalesTaxWithGrandTotal($store)) {
             return parent::getTotalsForDisplay();
         }

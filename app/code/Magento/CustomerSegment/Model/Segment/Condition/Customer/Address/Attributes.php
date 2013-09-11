@@ -11,17 +11,19 @@
 /**
  * Customer address attributes selector
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer\Address;
+
+class Attributes
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\Attributes');
         $this->setValue(null);
     }
 
@@ -48,7 +50,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attribute
         foreach ($attributes as $code => $label) {
             $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
         }
-        $conditions = array_merge($conditions, Mage::getModel($prefix . 'Region')->getNewChildSelectOptions());
+        $conditions = array_merge($conditions, \Mage::getModel($prefix . 'Region')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
             'label' => __('Address Attributes')
@@ -58,11 +60,11 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attribute
     /**
      * Load attribute options
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\Attributes
      */
     public function loadAttributeOptions()
     {
-        $customerAttributes = Mage::getResourceSingleton('Magento_Customer_Model_Resource_Address')
+        $customerAttributes = \Mage::getResourceSingleton('\Magento\Customer\Model\Resource\Address')
             ->loadAllAttributes()
             ->getAttributesByCode();
 
@@ -92,11 +94,11 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attribute
         if (!$this->hasData('value_select_options')) {
             switch ($this->getAttribute()) {
                 case 'country_id':
-                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Country')->toOptionArray();
+                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Country')->toOptionArray();
                     break;
 
                 case 'region_id':
-                    $options = Mage::getModel('Magento_Directory_Model_Config_Source_Allregion')->toOptionArray();
+                    $options = \Mage::getModel('\Magento\Directory\Model\Config\Source\Allregion')->toOptionArray();
                     break;
 
                 default:
@@ -197,11 +199,11 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attribute
     /**
      * Retrieve attribute object
      *
-     * @return Magento_Eav_Model_Entity_Attribute
+     * @return \Magento\Eav\Model\Entity\Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('customer_address', $this->getAttribute());
+        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('customer_address', $this->getAttribute());
     }
 
     /**
@@ -216,7 +218,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Customer_Address_Attribute
         $select = $this->getResource()->createSelect();
         $attribute = $this->getAttributeObject();
 
-        $select->from(array('val'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
+        $select->from(array('val'=>$attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
         $condition = $this->getResource()->createConditionSql(
             'val.value', $this->getOperator(), $this->getValue()
         );

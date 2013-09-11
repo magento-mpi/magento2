@@ -16,7 +16,9 @@
  * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\Directory\Model\Resource\Region;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Locale region name table name
@@ -38,7 +40,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      */
     protected function _construct()
     {
-        $this->_init('Magento_Directory_Model_Region', 'Magento_Directory_Model_Resource_Region');
+        $this->_init('\Magento\Directory\Model\Region', '\Magento\Directory\Model\Resource\Region');
 
         $this->_countryTable    = $this->getTable('directory_country');
         $this->_regionNameTable = $this->getTable('directory_country_region_name');
@@ -50,12 +52,12 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
     /**
      * Initialize select object
      *
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        $locale = Mage::app()->getLocale()->getLocaleCode();
+        $locale = \Mage::app()->getLocale()->getLocaleCode();
 
         $this->addBindParam(':region_locale', $locale);
         $this->getSelect()->joinLeft(
@@ -70,7 +72,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      * Filter by country_id
      *
      * @param string|array $countryId
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function addCountryFilter($countryId)
     {
@@ -88,7 +90,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      * Filter by country code (ISO 3)
      *
      * @param string $countryCode
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function addCountryCodeFilter($countryCode)
     {
@@ -106,7 +108,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      * Filter by Region code
      *
      * @param string|array $regionCode
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function addRegionCodeFilter($regionCode)
     {
@@ -124,7 +126,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      * Filter by region name
      *
      * @param string|array $regionName
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function addRegionNameFilter($regionName)
     {
@@ -142,7 +144,7 @@ class Magento_Directory_Model_Resource_Region_Collection extends Magento_Core_Mo
      * Filter region by its code or name
      *
      * @param string|array $region
-     * @return Magento_Directory_Model_Resource_Region_Collection
+     * @return \Magento\Directory\Model\Resource\Region\Collection
      */
     public function addRegionCodeOrNameFilter($region)
     {

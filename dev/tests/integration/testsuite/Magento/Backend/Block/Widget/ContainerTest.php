@@ -13,11 +13,11 @@ class Magento_Backend_Block_Widget_ContainerTest extends PHPUnit_Framework_TestC
 {
     public function testPseudoConstruct()
     {
-        /** @var $block Magento_Backend_Block_Widget_Container */
-        $block = Mage::app()->getLayout()->createBlock('Magento_Backend_Block_Widget_Container', '',
+        /** @var $block \Magento\Backend\Block\Widget\Container */
+        $block = Mage::app()->getLayout()->createBlock('\Magento\Backend\Block\Widget\Container', '',
             array('data' => array(
-                Magento_Backend_Block_Widget_Container::PARAM_CONTROLLER => 'one',
-                Magento_Backend_Block_Widget_Container::PARAM_HEADER_TEXT => 'two',
+                \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'one',
+                \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => 'two',
             ))
         );
         $this->assertStringEndsWith('one', $block->getHeaderCssClass());

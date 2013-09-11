@@ -16,11 +16,11 @@ class Magento_Core_Model_Resource_Layout_Update_CollectionTest
      * Retrieve layout update collection instance
      *
      * @param Zend_Db_Select $select
-     * @return Magento_Core_Model_Resource_Layout_Update_Collection
+     * @return \Magento\Core\Model\Resource\Layout\Update\Collection
      */
     protected function _getCollection(Zend_Db_Select $select)
     {
-        return new Magento_Core_Model_Resource_Layout_Update_Collection(
+        return new \Magento\Core\Model\Resource\Layout\Update\Collection(
             $this->getMockForAbstractClass('\Magento\Data\Collection\Db\FetchStrategyInterface'),
             $this->_getResource($select)
         );
@@ -51,7 +51,7 @@ class Magento_Core_Model_Resource_Layout_Update_CollectionTest
     }
 
     /**
-     * @covers Magento_Core_Model_Resource_Layout_Update_Collection::_joinWithLink
+     * @covers \Magento\Core\Model\Resource\Layout\Update\Collection::_joinWithLink
      */
     public function testJoinWithLink()
     {

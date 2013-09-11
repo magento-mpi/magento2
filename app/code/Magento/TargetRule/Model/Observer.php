@@ -12,7 +12,9 @@
  * TargetRule observer
  *
  */
-class Magento_TargetRule_Model_Observer
+namespace Magento\TargetRule\Model;
+
+class Observer
 {
     /**
      * Prepare target rule data
@@ -40,14 +42,14 @@ class Magento_TargetRule_Model_Observer
      * and refresh cache index
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_TargetRule_Model_Observer
+     * @return \Magento\TargetRule\Model\Observer
      */
     public function catalogProductAfterSave(\Magento\Event\Observer $observer)
     {
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getProduct();
 
-        Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
+        \Mage::getSingleton('Magento\Index\Model\Indexer')->logEvent(
             new \Magento\Object(array(
                 'id' => $product->getId(),
                 'store_id' => $product->getStoreId(),
@@ -55,8 +57,8 @@ class Magento_TargetRule_Model_Observer
                 'from_date' => $product->getData('from_date'),
                 'to_date' => $product->getData('to_date')
             )),
-            Magento_TargetRule_Model_Index::ENTITY_PRODUCT,
-            Magento_TargetRule_Model_Index::EVENT_TYPE_REINDEX_PRODUCTS
+            \Magento\TargetRule\Model\Index::ENTITY_PRODUCT,
+            \Magento\TargetRule\Model\Index::EVENT_TYPE_REINDEX_PRODUCTS
         );
         return $this;
     }
@@ -68,9 +70,9 @@ class Magento_TargetRule_Model_Observer
      */
     public function catalogProductSaveCommitAfter(\Magento\Event\Observer $observer)
     {
-        Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
-            Magento_TargetRule_Model_Index::ENTITY_PRODUCT,
-            Magento_TargetRule_Model_Index::EVENT_TYPE_REINDEX_PRODUCTS
+        \Mage::getSingleton('Magento\Index\Model\Indexer')->indexEvents(
+            \Magento\TargetRule\Model\Index::ENTITY_PRODUCT,
+            \Magento\TargetRule\Model\Index::EVENT_TYPE_REINDEX_PRODUCTS
         );
     }
 
@@ -78,20 +80,20 @@ class Magento_TargetRule_Model_Observer
      * Clear customer segment indexer if customer segment is on|off on backend
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_TargetRule_Model_Observer
+     * @return \Magento\TargetRule\Model\Observer
      */
     public function coreConfigSaveCommitAfter(\Magento\Event\Observer $observer)
     {
         if ($observer->getDataObject()->getPath() == 'customer/magento_customersegment/is_enabled'
             && $observer->getDataObject()->isValueChanged()) {
-            Mage::getSingleton('Magento_Index_Model_Indexer')->logEvent(
+            \Mage::getSingleton('Magento\Index\Model\Indexer')->logEvent(
                 new \Magento\Object(array('type_id' => null, 'store' => null)),
-                Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
-                Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
+                \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
+                \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
             );
-            Mage::getSingleton('Magento_Index_Model_Indexer')->indexEvents(
-                Magento_TargetRule_Model_Index::ENTITY_TARGETRULE,
-                Magento_TargetRule_Model_Index::EVENT_TYPE_CLEAN_TARGETRULES
+            \Mage::getSingleton('Magento\Index\Model\Indexer')->indexEvents(
+                \Magento\TargetRule\Model\Index::ENTITY_TARGETRULE,
+                \Magento\TargetRule\Model\Index::EVENT_TYPE_CLEAN_TARGETRULES
             );
         }
         return $this;

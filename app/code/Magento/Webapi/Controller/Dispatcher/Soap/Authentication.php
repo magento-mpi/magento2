@@ -7,27 +7,29 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Controller_Dispatcher_Soap_Authentication
+namespace Magento\Webapi\Controller\Dispatcher\Soap;
+
+class Authentication
 {
     /**
      * Username token factory.
      *
-     * @var Magento_Webapi_Model_Soap_Security_UsernameToken_Factory
+     * @var \Magento\Webapi\Model\Soap\Security\UsernameToken\Factory
      */
     protected $_tokenFactory;
 
-    /** @var Magento_Webapi_Model_Authorization_RoleLocator */
+    /** @var \Magento\Webapi\Model\Authorization\RoleLocator */
     protected $_roleLocator;
 
     /**
      * Initialize dependencies.
      *
-     * @param Magento_Webapi_Model_Soap_Security_UsernameToken_Factory $usernameTokenFactory
-     * @param Magento_Webapi_Model_Authorization_RoleLocator $roleLocator
+     * @param \Magento\Webapi\Model\Soap\Security\UsernameToken\Factory $usernameTokenFactory
+     * @param \Magento\Webapi\Model\Authorization\RoleLocator $roleLocator
      */
     public function __construct(
-        Magento_Webapi_Model_Soap_Security_UsernameToken_Factory $usernameTokenFactory,
-        Magento_Webapi_Model_Authorization_RoleLocator $roleLocator
+        \Magento\Webapi\Model\Soap\Security\UsernameToken\Factory $usernameTokenFactory,
+        \Magento\Webapi\Model\Authorization\RoleLocator $roleLocator
     ) {
         $this->_tokenFactory = $usernameTokenFactory;
         $this->_roleLocator = $roleLocator;
@@ -36,8 +38,8 @@ class Magento_Webapi_Controller_Dispatcher_Soap_Authentication
     /**
      * Authenticate user.
      *
-     * @param stdClass $usernameToken WS-Security UsernameToken object
-     * @throws Magento_Webapi_Exception If authentication failed
+     * @param \stdClass $usernameToken WS-Security UsernameToken object
+     * @throws \Magento\Webapi\Exception If authentication failed
      */
     public function authenticate($usernameToken)
     {
@@ -48,25 +50,25 @@ class Magento_Webapi_Controller_Dispatcher_Soap_Authentication
             $user = $token->authenticate($request->Username, $request->Password, $request->Created, $request->Nonce);
             // @codingStandardsIgnoreEnd
             $this->_roleLocator->setRoleId($user->getRoleId());
-        } catch (Magento_Webapi_Model_Soap_Security_UsernameToken_NonceUsedException $e) {
-            throw new Magento_Webapi_Exception(
+        } catch (\Magento\Webapi\Model\Soap\Security\UsernameToken\NonceUsedException $e) {
+            throw new \Magento\Webapi\Exception(
                 __('WS-Security UsernameToken Nonce is already used.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
-        } catch (Magento_Webapi_Model_Soap_Security_UsernameToken_TimestampRefusedException $e) {
-            throw new Magento_Webapi_Exception(
+        } catch (\Magento\Webapi\Model\Soap\Security\UsernameToken\TimestampRefusedException $e) {
+            throw new \Magento\Webapi\Exception(
                 __('WS-Security UsernameToken Created timestamp is refused.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
-        } catch (Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException $e) {
-            throw new Magento_Webapi_Exception(
+        } catch (\Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidCredentialException $e) {
+            throw new \Magento\Webapi\Exception(
                 __('Invalid Username or Password.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
-        } catch (Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException $e) {
-            throw new Magento_Webapi_Exception(
+        } catch (\Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidDateException $e) {
+            throw new \Magento\Webapi\Exception(
                 __('Invalid UsernameToken Created date.'),
-                Magento_Webapi_Exception::HTTP_BAD_REQUEST
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST
             );
         }
     }

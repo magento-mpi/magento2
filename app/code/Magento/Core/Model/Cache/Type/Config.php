@@ -11,7 +11,9 @@
 /**
  * System / Cache Management / Cache type "Configuration"
  */
-class Magento_Core_Model_Cache_Type_Config extends \Magento\Cache\Frontend\Decorator\TagScope
+namespace Magento\Core\Model\Cache\Type;
+
+class Config extends \Magento\Cache\Frontend\Decorator\TagScope
     implements \Magento\Config\CacheInterface
 {
     /**
@@ -25,9 +27,9 @@ class Magento_Core_Model_Cache_Type_Config extends \Magento\Cache\Frontend\Decor
     const CACHE_TAG = 'CONFIG';
 
     /**
-     * @param Magento_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool
+     * @param \Magento\Core\Model\Cache\Type\FrontendPool $cacheFrontendPool
      */
-    public function __construct(Magento_Core_Model_Cache_Type_FrontendPool $cacheFrontendPool)
+    public function __construct(\Magento\Core\Model\Cache\Type\FrontendPool $cacheFrontendPool)
     {
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }

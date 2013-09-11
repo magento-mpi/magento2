@@ -16,7 +16,9 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Search_Model_Catalog_Layer_Filter_Decimal extends Magento_Catalog_Model_Layer_Filter_Decimal
+namespace Magento\Search\Model\Catalog\Layer\Filter;
+
+class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
 {
     /**
      * Get data for build decimal filter items
@@ -51,11 +53,11 @@ class Magento_Search_Model_Catalog_Layer_Filter_Decimal extends Magento_Catalog_
     /**
      * Apply decimal range filter to product collection
      *
-     * @param Zend_Controller_Request_Abstract $request
-     * @param Magento_Catalog_Block_Layer_Filter_Decimal $filterBlock
-     * @return Magento_Catalog_Model_Layer_Filter_Decimal
+     * @param \Zend_Controller_Request_Abstract $request
+     * @param \Magento\Catalog\Block\Layer\Filter\Decimal $filterBlock
+     * @return \Magento\Catalog\Model\Layer\Filter\Decimal
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         /**
          * Filter must be string: $index, $range
@@ -88,7 +90,7 @@ class Magento_Search_Model_Catalog_Layer_Filter_Decimal extends Magento_Catalog_
     /**
      * Add params to faceted search
      *
-     * @return Magento_Search_Model_Catalog_Layer_Filter_Decimal
+     * @return \Magento\Search\Model\Catalog\Layer\Filter\Decimal
      */
     public function addFacetCondition()
     {
@@ -116,11 +118,11 @@ class Magento_Search_Model_Catalog_Layer_Filter_Decimal extends Magento_Catalog_
     /**
      * Apply attribute filter to product collection
      *
-     * @param Magento_Catalog_Model_Layer_Filter_Price $filter
+     * @param \Magento\Catalog\Model\Layer\Filter\Price $filter
      * @param int $range
      * @param int $index    the range factor
      *
-     * @return Magento_Search_Model_Catalog_Layer_Filter_Decimal
+     * @return \Magento\Search\Model\Catalog\Layer\Filter\Decimal
      */
     public function applyFilterToCollection($filter, $range, $index)
     {

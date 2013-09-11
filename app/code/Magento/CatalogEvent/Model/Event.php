@@ -12,23 +12,25 @@
 /**
  * Catalog Event model
  *
- * @method Magento_CatalogEvent_Model_Resource_Event _getResource()
- * @method Magento_CatalogEvent_Model_Resource_Event getResource()
+ * @method \Magento\CatalogEvent\Model\Resource\Event _getResource()
+ * @method \Magento\CatalogEvent\Model\Resource\Event getResource()
  * @method int getCategoryId()
- * @method Magento_CatalogEvent_Model_Event setCategoryId(int $value)
+ * @method \Magento\CatalogEvent\Model\Event setCategoryId(int $value)
  * @method string getDateStart()
- * @method Magento_CatalogEvent_Model_Event setDateStart(string $value)
+ * @method \Magento\CatalogEvent\Model\Event setDateStart(string $value)
  * @method string getDateEnd()
- * @method Magento_CatalogEvent_Model_Event setDateEnd(string $value)
+ * @method \Magento\CatalogEvent\Model\Event setDateEnd(string $value)
  * @method int getDisplayState()
  * @method int getSortOrder()
- * @method Magento_CatalogEvent_Model_Event setSortOrder(int $value)
+ * @method \Magento\CatalogEvent\Model\Event setSortOrder(int $value)
  *
  * @category    Magento
  * @package     Magento_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
+namespace Magento\CatalogEvent\Model;
+
+class Event extends \Magento\Core\Model\AbstractModel
 {
     const DISPLAY_CATEGORY_PAGE = 1;
     const DISPLAY_PRODUCT_PAGE  = 2;
@@ -69,7 +71,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogEvent_Model_Resource_Event');
+        $this->_init('\Magento\CatalogEvent\Model\Resource\Event');
     }
 
     /**
@@ -82,7 +84,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     {
         $tags = parent::getCacheIdTags();
         if ($this->getCategoryId()) {
-            $tags[] = Magento_Catalog_Model_Category::CACHE_TAG . '_' . $this->getCategoryId();
+            $tags[] = \Magento\Catalog\Model\Category::CACHE_TAG . '_' . $this->getCategoryId();
         }
         return $tags;
     }
@@ -90,7 +92,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Apply event status
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     protected function _afterLoad()
     {
@@ -103,7 +105,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Initialize display state as array
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     protected function _initDisplayStateArray()
     {
@@ -121,18 +123,18 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Set store id
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function setStoreId($storeId = null)
     {
-        $this->_store = Mage::app()->getStore($storeId);
+        $this->_store = \Mage::app()->getStore($storeId);
         return $this;
     }
 
     /**
      * Retrieve store
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -146,14 +148,14 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Set event image
      *
-     * @param string|null|Magento_Core_Model_File_Uploader $value
-     * @return Magento_CatalogEvent_Model_Event
+     * @param string|null|\Magento\Core\Model\File\Uploader $value
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function setImage($value)
     {
-        //in the current version should be used instance of Magento_Core_Model_File_Uploader
+        //in the current version should be used instance of \Magento\Core\Model\File\Uploader
         if ($value instanceof \Magento\File\Uploader) {
-            $value->save(Mage::getBaseDir('media') . DS
+            $value->save(\Mage::getBaseDir('media') . DS
                          . strtr(self::IMAGE_PATH, '/', DS));
 
             $value = $value->getUploadedFileName();
@@ -171,7 +173,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     public function getImageUrl()
     {
         if ($this->getImage()) {
-            return Mage::getBaseUrl('media') . '/'
+            return \Mage::getBaseUrl('media') . '/'
                    . self::IMAGE_PATH . '/' . $this->getImage();
         }
 
@@ -192,7 +194,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
      * Set display state of catalog event
      *
      * @param int|array $state
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function setDisplayState($state)
     {
@@ -242,7 +244,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Apply event status by date
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function applyStatusByDates()
     {
@@ -264,7 +266,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Retrieve category ids with events
      *
-     * @param int|string|Magento_Core_Model_Store $storeId
+     * @param int|string|\Magento\Core\Model\Store $storeId
      * @return array
      */
     public function getCategoryIdsWithEvent($storeId = null)
@@ -275,7 +277,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
     /**
      * Before save. Validation of data, and applying status, if needed.
      *
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     protected function _beforeSave()
     {
@@ -285,7 +287,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
         foreach (array('date_start' , 'date_end') as $dateType) {
             $date = $this->getData($dateType);
             if (empty($date)) { // Date fields is required.
-                Mage::throwException(__('%1 is required.', $fieldTitles[$dateType]));
+                \Mage::throwException(__('%1 is required.', $fieldTitles[$dateType]));
             }
             if ($date != $this->getOrigData($dateType)) {
                 $dateChanged = true;
@@ -330,7 +332,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
      * Sets flag for object if it can be deleted or not
      *
      * @param boolean $value
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function setIsDeleteable($value)
     {
@@ -352,7 +354,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
      * Set is read only flag
      *
      * @param boolean $value
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function setIsReadonly($value)
     {
@@ -380,11 +382,11 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
      *
      * @param string $value date time in store's time zone
      * @param mixed $store
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function setStoreDateStart($value, $store = null)
     {
-        $date = Mage::app()->getLocale()->utcDate($store, $value, true, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+        $date = \Mage::app()->getLocale()->utcDate($store, $value, true, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         $this->setData('date_start', $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
@@ -395,11 +397,11 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
      *
      * @param string $value date time in store's time zone
      * @param mixed $store
-     * @return Magento_CatalogEvent_Model_Event
+     * @return \Magento\CatalogEvent\Model\Event
      */
     public function setStoreDateEnd($value, $store = null)
     {
-        $date = Mage::app()->getLocale()->utcDate($store, $value, true, \Magento\Date::DATETIME_INTERNAL_FORMAT);
+        $date = \Mage::app()->getLocale()->utcDate($store, $value, true, \Magento\Date::DATETIME_INTERNAL_FORMAT);
         $this->setData('date_end', $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
@@ -419,7 +421,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
             if (!$value) {
                 return null;
             }
-            $date = Mage::app()->getLocale()->storeDate($store, $value, true);
+            $date = \Mage::app()->getLocale()->storeDate($store, $value, true);
             return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 
@@ -441,7 +443,7 @@ class Magento_CatalogEvent_Model_Event extends Magento_Core_Model_Abstract
             if (!$value) {
                 return null;
             }
-            $date = Mage::app()->getLocale()->storeDate($store, $value, true);
+            $date = \Mage::app()->getLocale()->storeDate($store, $value, true);
             return $date->toString(\Magento\Date::DATETIME_INTERNAL_FORMAT);
         }
 

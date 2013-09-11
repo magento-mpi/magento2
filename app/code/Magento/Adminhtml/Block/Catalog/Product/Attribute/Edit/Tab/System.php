@@ -16,12 +16,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_System extends Magento_Adminhtml_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\Edit\Tab;
+
+class System extends \Magento\Adminhtml\Block\Widget\Form
 {
 
     protected function _prepareForm()
     {
-        $model = Mage::registry('entity_attribute');
+        $model = \Mage::registry('entity_attribute');
 
         $form = new \Magento\Data\Form();
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('System Properties')));

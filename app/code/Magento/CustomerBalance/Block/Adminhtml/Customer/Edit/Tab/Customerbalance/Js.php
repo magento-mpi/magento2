@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js extends Magento_Adminhtml_Block_Template
+namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
+
+class Js extends \Magento\Adminhtml\Block\Template
 {
     public function getCustomerWebsite()
     {
-        return Mage::registry('current_customer')->getWebsiteId();
+        return \Mage::registry('current_customer')->getWebsiteId();
     }
 
     public function getWebsitesJson()
     {
         $result = array();
-        foreach (Mage::app()->getWebsites() as $websiteId => $website) {
+        foreach (\Mage::app()->getWebsites() as $websiteId => $website) {
             $result[$websiteId] = array(
                 'name'          => $website->getName(),
                 'website_id'    => $websiteId,
@@ -40,6 +42,6 @@ class Magento_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_
             }
         }
 
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($result);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($result);
     }
 }

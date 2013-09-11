@@ -12,7 +12,9 @@
  * Gift Wrapping model
  *
  */
-class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
+namespace Magento\GiftWrapping\Model;
+
+class Wrapping extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Relative path to folder to store wrapping image to
@@ -38,7 +40,7 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
      */
     protected function _construct ()
     {
-        $this->_init('Magento_GiftWrapping_Model_Resource_Wrapping');
+        $this->_init('\Magento\GiftWrapping\Model\Resource\Wrapping');
     }
 
     /**
@@ -48,9 +50,9 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        if (Mage::app()->hasSingleStore()) {
+        if (\Mage::app()->hasSingleStore()) {
             $this->setData('website_ids', array_keys(
-                Mage::getSingleton('Magento_Core_Model_System_Store')->getWebsiteOptionHash()));
+                \Mage::getSingleton('Magento\Core\Model\System\Store')->getWebsiteOptionHash()));
         }
         if ($this->hasTmpImage()) {
             $baseImageName = $this->getTmpImage();
@@ -92,18 +94,18 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
     /**
      * Set store id
      *
-     * @return Magento_GiftWrapping_Model_Wrapping
+     * @return \Magento\GiftWrapping\Model\Wrapping
      */
     public function setStoreId($storeId = null)
     {
-        $this->_store = Mage::app()->getStore($storeId);
+        $this->_store = \Mage::app()->getStore($storeId);
         return $this;
     }
 
     /**
      * Retrieve store
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
@@ -127,12 +129,12 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
     /**
      * Set wrapping image
      *
-     * @param string|null|Magento_Core_Model_File_Uploader $value
-     * @return Magento_GiftWrapping_Model_Wrapping
+     * @param string|null|\Magento\Core\Model\File\Uploader $value
+     * @return \Magento\GiftWrapping\Model\Wrapping
      */
     public function setImage($value)
     {
-        //in the current version should be used instance of Magento_Core_Model_File_Uploader
+        //in the current version should be used instance of \Magento\Core\Model\File\Uploader
         if ($value instanceof \Magento\File\Uploader) {
             $value->save($this->_getImageFolderAbsolutePath());
             $value = $value->getUploadedFileName();
@@ -146,18 +148,18 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
      *
      * @param string $imageFieldName
      * @param bool $isTemporary
-     * @return Magento_GiftWrapping_Model_Wrapping
+     * @return \Magento\GiftWrapping\Model\Wrapping
      */
     public function attachUploadedImage($imageFieldName, $isTemporary = false)
     {
         $isUploaded = true;
         try {
-            $uploader = new Magento_Core_Model_File_Uploader($imageFieldName);
+            $uploader = new \Magento\Core\Model\File\Uploader($imageFieldName);
             $uploader->setAllowedExtensions(array('jpg','jpeg','gif','png'));
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
             $uploader->setFilesDispersion(false);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $isUploaded = false;
         }
         if ($isUploaded) {
@@ -173,12 +175,12 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
     /**
      * Set temporary wrapping image
      *
-     * @param string|null|Magento_Core_Model_File_Uploader $value
-     * @return Magento_GiftWrapping_Model_Wrapping
+     * @param string|null|\Magento\Core\Model\File\Uploader $value
+     * @return \Magento\GiftWrapping\Model\Wrapping
      */
     public function setTmpImage($value)
     {
-        //in the current version should be used instance of Magento_Core_Model_File_Uploader
+        //in the current version should be used instance of \Magento\Core\Model\File\Uploader
         if ($value instanceof \Magento\File\Uploader) {
             // Delete previous temporary image if exists
             $this->unsTmpImage();
@@ -194,7 +196,7 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
     /**
      * Delete temporary wrapping image
      *
-     * @return Magento_GiftWrapping_Model_Wrapping
+     * @return \Magento\GiftWrapping\Model\Wrapping
      */
     public function unsTmpImage()
     {
@@ -212,17 +214,17 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
      * Retrieve wrapping image url
      * Function returns url of a temporary wrapping image if it exists
      *
-     * @see Magento_GiftWrapping_Block_Adminhtml_Giftwrapping_Helper_Image::__getUrl()
+     * @see \Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Helper\Image::__getUrl()
      *
      * @return string|boolean
      */
     public function getImageUrl()
     {
         if ($this->getTmpImage()) {
-            return Mage::getBaseUrl('media') . self::TMP_IMAGE_PATH . '/' . $this->getTmpImage();
+            return \Mage::getBaseUrl('media') . self::TMP_IMAGE_PATH . '/' . $this->getTmpImage();
         }
         if ($this->getImage()) {
-            return Mage::getBaseUrl('media') . self::IMAGE_PATH . '/' . $this->getImage();
+            return \Mage::getBaseUrl('media') . self::IMAGE_PATH . '/' . $this->getImage();
         }
 
         return false;
@@ -235,7 +237,7 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
      */
     protected function _getImageFolderAbsolutePath()
     {
-        $path = Mage::getBaseDir('media') . DS . strtr(self::IMAGE_PATH, '/', DS);
+        $path = \Mage::getBaseDir('media') . DS . strtr(self::IMAGE_PATH, '/', DS);
         if (!is_dir($path)) {
             $ioAdapter = new \Magento\Io\File();
             $ioAdapter->checkAndCreateFolder($path);
@@ -250,6 +252,6 @@ class Magento_GiftWrapping_Model_Wrapping extends Magento_Core_Model_Abstract
      */
     protected function _getTmpImageFolderAbsolutePath()
     {
-        return Mage::getBaseDir('media') . DS . strtr(self::TMP_IMAGE_PATH, '/', DS);
+        return \Mage::getBaseDir('media') . DS . strtr(self::TMP_IMAGE_PATH, '/', DS);
     }
 }

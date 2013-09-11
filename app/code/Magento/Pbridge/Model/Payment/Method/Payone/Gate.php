@@ -16,7 +16,9 @@
  * @package     Magento_Pbridge
  * @author      Magento
  */
-class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_Model_Method_Cc
+namespace Magento\Pbridge\Model\Payment\Method\Payone;
+
+class Gate extends \Magento\Payment\Model\Method\Cc
 {
     /**
      * Payone payment method code
@@ -46,19 +48,19 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento_Pbridge_Block_Checkout_Payment_Payone_Gate';
+    protected $_formBlockType = '\Magento\Pbridge\Block\Checkout\Payment\Payone\Gate';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'Magento_Pbridge_Block_Adminhtml_Sales_Order_Create_Payone_Gate';
+    protected $_backendFormBlockType = '\Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payone\Gate';
 
     /**
      * Payment Bridge Payment Method Instance
      *
-     * @var Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
 
@@ -104,12 +106,12 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
     /**
      * Return Payment Bridge method instance
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Pbridge
+     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('Magento_Payment_Helper_Data')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = \Mage::helper('Magento\Payment\Helper\Data')->getMethodInstance('pbridge');
             if ($this->_pbridgeMethodInstance) {
                 $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             }
@@ -131,7 +133,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return Magento_Payment_Model_Info
+     * @return \Magento\Payment\Model\Info
      */
     public function assignData($data)
     {
@@ -152,19 +154,19 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
             $storeId = $this->getStore();
         }
         $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
+        return \Mage::getStoreConfig($path, $storeId);
     }
 
     /**
      * Check whether payment method can be used
      *
-     * @param Magento_Sales_Model_Quote $quote
+     * @param \Magento\Sales\Model\Quote $quote
      * @return boolean
      */
     public function isAvailable($quote = null)
     {
-        return Mage::helper('Magento_Pbridge_Helper_Data')->isEnabled($quote ? $quote->getStoreId() : null)
-            && Magento_Payment_Model_Method_Abstract::isAvailable($quote);
+        return \Mage::helper('Magento\Pbridge\Helper\Data')->isEnabled($quote ? $quote->getStoreId() : null)
+            && \Magento\Payment\Model\Method\AbstractMethod::isAvailable($quote);
     }
 
     /**
@@ -174,7 +176,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      */
     public function getFormBlockType()
     {
-        return Mage::app()->getStore()->isAdmin() ?
+        return \Mage::app()->getStore()->isAdmin() ?
             $this->_backendFormBlockType :
             $this->_formBlockType;
     }
@@ -182,7 +184,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
     /**
      * Validate payment method information object
      *
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
     public function validate()
     {
@@ -195,7 +197,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -209,7 +211,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -226,7 +228,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -239,7 +241,7 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return Magento_Pbridge_Model_Payment_Method_Authorizenet
+     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
      */
     public function void(\Magento\Object $payment)
     {
@@ -261,12 +263,12 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return \Magento_Pbridge_Model_Payment_Method_Payone_Gate
+     * @return \Magento\Pbridge\Model\Payment\Method\Payone\Gate
      */
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('Magento_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
+        \Mage::helper('Magento\Pbridge\Helper\Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 
@@ -282,9 +284,9 @@ class Magento_Pbridge_Model_Payment_Method_Payone_Gate extends Magento_Payment_M
 
     /**
      * Set capture transaction ID to invoice for informational purposes
-     * @param Magento_Sales_Model_Order_Invoice $invoice
-     * @param Magento_Sales_Model_Order_Payment $payment
-     * @return Magento_Payment_Model_Method_Abstract
+     * @param \Magento\Sales\Model\Order\Invoice $invoice
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @return \Magento\Payment\Model\Method\AbstractMethod
      */
     public function processInvoice($invoice, $payment)
     {

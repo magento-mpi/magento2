@@ -16,7 +16,9 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Log_Model_Resource_Visitor_Online extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Log\Model\Resource\Visitor;
+
+class Online extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define resource
@@ -30,10 +32,10 @@ class Magento_Log_Model_Resource_Visitor_Online extends Magento_Core_Model_Resou
     /**
      * Prepare online visitors for collection
      *
-     * @param Magento_Log_Model_Visitor_Online $object
-     * @return Magento_Log_Model_Resource_Visitor_Online
+     * @param \Magento\Log\Model\Visitor\Online $object
+     * @return \Magento\Log\Model\Resource\Visitor\Online
      */
-    public function prepare(Magento_Log_Model_Visitor_Online $object)
+    public function prepare(\Magento\Log\Model\Visitor\Online $object)
     {
         if (($object->getUpdateFrequency() + $object->getPrepareAt()) > time()) {
             return $this;
@@ -52,7 +54,7 @@ class Magento_Log_Model_Resource_Visitor_Online extends Magento_Core_Model_Resou
 
             // retrieve online visitors general data
 
-            $lastDate = Mage::getModel('Magento_Core_Model_Date')->gmtTimestamp() - $object->getOnlineInterval() * 60;
+            $lastDate = \Mage::getModel('\Magento\Core\Model\Date')->gmtTimestamp() - $object->getOnlineInterval() * 60;
 
             $select = $readAdapter->select()
                 ->from(
@@ -64,7 +66,7 @@ class Magento_Log_Model_Resource_Visitor_Online extends Magento_Core_Model_Resou
             while ($row = $query->fetch()) {
                 $visitors[$row['visitor_id']] = $row;
                 $lastUrls[$row['last_url_id']] = $row['visitor_id'];
-                $visitors[$row['visitor_id']]['visitor_type'] = Magento_Log_Model_Visitor::VISITOR_TYPE_VISITOR;
+                $visitors[$row['visitor_id']]['visitor_type'] = \Magento\Log\Model\Visitor::VISITOR_TYPE_VISITOR;
                 $visitors[$row['visitor_id']]['customer_id']  = null;
             }
 
@@ -107,7 +109,7 @@ class Magento_Log_Model_Resource_Visitor_Online extends Magento_Core_Model_Resou
 
             $query = $readAdapter->query($select);
             while ($row = $query->fetch()) {
-                $visitors[$row['visitor_id']]['visitor_type'] = Magento_Log_Model_Visitor::VISITOR_TYPE_CUSTOMER;
+                $visitors[$row['visitor_id']]['visitor_type'] = \Magento\Log\Model\Visitor::VISITOR_TYPE_CUSTOMER;
                 $visitors[$row['visitor_id']]['customer_id']  = $row['customer_id'];
             }
 
@@ -118,7 +120,7 @@ class Magento_Log_Model_Resource_Visitor_Online extends Magento_Core_Model_Resou
             }
 
             $writeAdapter->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $writeAdapter->rollBack();
             throw $e;
         }

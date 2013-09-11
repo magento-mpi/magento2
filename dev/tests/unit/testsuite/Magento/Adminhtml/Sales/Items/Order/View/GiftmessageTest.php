@@ -16,7 +16,7 @@ class Magento_Adminhtml_Sales_Items_Order_View_GiftmessageTest extends PHPUnit_F
         $item = new \Magento\Object;
         $expectedHtml = 'some_value';
 
-        $block = $this->getMock('Magento_Adminhtml_Block_Sales_Order_View_Giftmessage',
+        $block = $this->getMock('Magento\Adminhtml\Block\Sales\Order\View\Giftmessage',
             array('getChildBlock', 'getChildHtml'), array(), '', false);
         $block->setEntity(new \Magento\Object);
         $block->expects($this->once())

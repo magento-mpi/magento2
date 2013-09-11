@@ -10,23 +10,25 @@
  * @license     {license_link}
  *
  * @method bool hasEvent()
- * @method Magento_Webhook_Model_Job setEventId()
+ * @method \Magento\Webhook\Model\Job setEventId()
  * @method int getEventId()
  * @method bool hasSubscription()
- * @method Magento_Webhook_Model_Job setSubscriptionId()
+ * @method \Magento\Webhook\Model\Job setSubscriptionId()
  * @method int getSubscriptionId()
  * @method int getRetryCount()
- * @method Magento_Webhook_Model_Job setRetryCount()
- * @method Magento_Webhook_Model_Job setRetryAt()
- * @method Magento_Webhook_Model_Job setUpdatedAt()
- * @method Magento_Webhook_Model_Job setCreatedAt()
+ * @method \Magento\Webhook\Model\Job setRetryCount()
+ * @method \Magento\Webhook\Model\Job setRetryAt()
+ * @method \Magento\Webhook\Model\Job setUpdatedAt()
+ * @method \Magento\Webhook\Model\Job setCreatedAt()
  */
-class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements \Magento\PubSub\JobInterface
+namespace Magento\Webhook\Model;
+
+class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\JobInterface
 {
-    /** @var  Magento_Webhook_Model_Event_Factory */
+    /** @var  \Magento\Webhook\Model\Event\Factory */
     protected $_eventFactory;
 
-    /** @var Magento_Webhook_Model_Subscription_Factory */
+    /** @var \Magento\Webhook\Model\Subscription\Factory */
     protected $_subscriptionFactory;
 
     /** @var array */
@@ -42,18 +44,18 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements \
     );
 
     /**
-     * @param Magento_Webhook_Model_Event_Factory $eventFactory
-     * @param Magento_Webhook_Model_Subscription_Factory $subscriptionFactory
-     * @param Magento_Core_Model_Context $context
-     * @param Magento_Core_Model_Resource_Abstract $resource
+     * @param \Magento\Webhook\Model\Event\Factory $eventFactory
+     * @param \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        Magento_Webhook_Model_Event_Factory $eventFactory,
-        Magento_Webhook_Model_Subscription_Factory $subscriptionFactory,
-        Magento_Core_Model_Context $context,
-        Magento_Core_Model_Resource_Abstract $resource = null,
+        \Magento\Webhook\Model\Event\Factory $eventFactory,
+        \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -68,7 +70,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements \
     public function _construct()
     {
         parent::_construct();
-        $this->_init('Magento_Webhook_Model_Resource_Job');
+        $this->_init('\Magento\Webhook\Model\Resource\Job');
 
         if ($this->hasEvent()) {
             $this->setEventId($this->getEvent()->getId());
@@ -83,7 +85,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements \
     /**
      * Prepare data to be saved to database
      *
-     * @return Magento_Webhook_Model_Job
+     * @return \Magento\Webhook\Model\Job
      */
     protected function _beforeSave()
     {
@@ -99,7 +101,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements \
     /**
      * Get event
      *
-     * @return \Magento\PubSub\EventInterface|Magento_Webhook_Model_Event|null
+     * @return \Magento\PubSub\EventInterface|\Magento\Webhook\Model\Event|null
      */
     public function getEvent()
     {
@@ -120,7 +122,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements \
     /**
      * Get subscription
      *
-     * @return Magento_Webhook_Model_Subscription|null
+     * @return \Magento\Webhook\Model\Subscription|null
      */
     public function getSubscription()
     {
@@ -142,7 +144,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements \
     /**
      * Update the Job status to indicate it has completed successfully
      *
-     * @return Magento_Webhook_Model_Job
+     * @return \Magento\Webhook\Model\Job
      */
     public function complete()
     {
@@ -154,7 +156,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements \
     /**
      * Handles failed HTTP response
      *
-     * @return Magento_Webhook_Model_Job
+     * @return \Magento\Webhook\Model\Job
      */
     public function handleFailure()
     {
@@ -185,7 +187,7 @@ class Magento_Webhook_Model_Job extends Magento_Core_Model_Abstract implements \
      * Set the status of the Job
      *
      * @param int $status
-     * @return Magento_Webhook_Model_Job
+     * @return \Magento\Webhook\Model\Job
      */
     public function setStatus($status)
     {

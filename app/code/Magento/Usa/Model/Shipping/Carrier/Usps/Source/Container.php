@@ -9,11 +9,13 @@
  */
 
 
-class Magento_Usa_Model_Shipping_Carrier_Usps_Source_Container
+namespace Magento\Usa\Model\Shipping\Carrier\Usps\Source;
+
+class Container
 {
     public function toOptionArray()
     {
-        $usps = Mage::getSingleton('Magento_Usa_Model_Shipping_Carrier_Usps');
+        $usps = \Mage::getSingleton('Magento\Usa\Model\Shipping\Carrier\Usps');
         $arr = array();
         foreach ($usps->getCode('container') as $k=>$v) {
             $arr[] = array('value'=>$k, 'label'=>$v);

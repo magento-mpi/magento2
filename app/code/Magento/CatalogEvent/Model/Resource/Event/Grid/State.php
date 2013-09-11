@@ -15,7 +15,9 @@
  * @package    Enterpise_CatalogEvent
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogEvent_Model_Resource_Event_Grid_State implements Magento_Core_Model_Option_ArrayInterface
+namespace Magento\CatalogEvent\Model\Resource\Event\Grid;
+
+class State implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
      * Return catalog event array
@@ -26,8 +28,8 @@ class Magento_CatalogEvent_Model_Resource_Event_Grid_State implements Magento_Co
     {
         return array(
             0 => __('Lister Block'),
-            Magento_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
-            Magento_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE  => __('Product Page'),
+            \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
+            \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE  => __('Product Page'),
         );
     }
 }

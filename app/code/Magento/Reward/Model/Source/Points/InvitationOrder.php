@@ -12,7 +12,9 @@
 /**
  * Source model for Acquiring frequency when Order processed after Invitation
  */
-class Magento_Reward_Model_Source_Points_InvitationOrder
+namespace Magento\Reward\Model\Source\Points;
+
+class InvitationOrder
 {
     public function toOptionArray()
     {

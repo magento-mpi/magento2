@@ -15,29 +15,29 @@
 class Magento_Backend_Model_Auth_SessionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Backend_Model_Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_auth;
 
     /**
-     * @var Magento_Backend_Model_Auth_Session
+     * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_model;
 
     public function setUp()
     {
         parent::setUp();
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
-            ->setCurrentScope(Magento_Core_Model_App_Area::AREA_ADMINHTML);
-        $this->_auth  = Mage::getModel('Magento_Backend_Model_Auth');
-        $this->_model = Mage::getModel('Magento_Backend_Model_Auth_Session');
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
+            ->setCurrentScope(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+        $this->_auth  = Mage::getModel('\Magento\Backend\Model\Auth');
+        $this->_model = Mage::getModel('\Magento\Backend\Model\Auth\Session');
         $this->_auth->setAuthStorage($this->_model);
     }
 
     protected function tearDown()
     {
         $this->_model = null;
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_Config_Scope')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\Config\Scope')
             ->setCurrentScope(null);
     }
 

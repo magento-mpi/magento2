@@ -15,22 +15,24 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends \Magento\Data\Form\Element\AbstractElement
+namespace Magento\Adminhtml\Block\Catalog\Product\Helper\Form;
+
+class BaseImage extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
      * Model Url instance
      *
-     * @var Magento_Backend_Model_Url
+     * @var \Magento\Backend\Model\Url
      */
     protected $_url;
 
     /**
-     * @var Magento_Core_Helper_Data
+     * @var \Magento\Core\Helper\Data
      */
     protected $_coreHelper;
 
     /**
-     * @var Magento_Catalog_Helper_Data
+     * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogHelperData;
 
@@ -40,7 +42,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends \Mag
     protected $_fileConfig;
 
     /**
-     * @var Magento_Core_Model_View_Url
+     * @var \Magento\Core\Model\View\Url
      */
     protected $_viewUrl;
 
@@ -53,16 +55,16 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends \Mag
     {
         parent::__construct($attributes);
 
-        $this->_viewUrl = Mage::getModel('Magento_Core_Model_View_Url');
+        $this->_viewUrl = \Mage::getModel('\Magento\Core\Model\View\Url');
 
         $this->_url = isset($attributes['url']) ? $attributes['url']
-            : Mage::getModel('Magento_Backend_Model_Url');
+            : \Mage::getModel('\Magento\Backend\Model\Url');
         $this->_coreHelper = isset($attributes['coreHelper']) ? $attributes['coreHelper']
-            : Mage::helper('Magento_Core_Helper_Data');
+            : \Mage::helper('Magento\Core\Helper\Data');
         $this->_catalogHelperData = isset($attributes['catalogHelperData']) ? $attributes['catalogHelperData']
-            : Mage::helper('Magento_Catalog_Helper_Data');
+            : \Mage::helper('Magento\Catalog\Helper\Data');
         $this->_fileConfig = isset($attributes['fileConfig']) ? $attributes['fileConfig'] :
-            Mage::getSingleton('Magento\File\Size');
+            \Mage::getSingleton('Magento\File\Size');
         $this->_maxFileSize = $this->_getFileMaxSize();
     }
 
@@ -91,7 +93,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Helper_Form_BaseImage extends \Mag
         $makeBaseText = __('Make Base');
         $hiddenText = __('Hidden');
         $imageManagementText = __('Image Management');
-        /** @var $product Magento_Catalog_Model_Product */
+        /** @var $product \Magento\Catalog\Model\Product */
         $html = <<<HTML
 <div id="{$htmlId}-container" class="images"
     data-mage-init="{baseImage:{}}"

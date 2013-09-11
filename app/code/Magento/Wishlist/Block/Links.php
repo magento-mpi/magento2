@@ -16,7 +16,9 @@
  * @package     Magento_Wishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Wishlist_Block_Links extends Magento_Page_Block_Template_Links_Block
+namespace Magento\Wishlist\Block;
+
+class Links extends \Magento\Page\Block\Template\Links\Block
 {
     /**
      * Position in link list
@@ -29,7 +31,7 @@ class Magento_Wishlist_Block_Links extends Magento_Page_Block_Template_Links_Blo
      */
     protected function _toHtml()
     {
-        if ($this->helper('Magento_Wishlist_Helper_Data')->isAllow()) {
+        if ($this->helper('\Magento\Wishlist\Helper\Data')->isAllow()) {
             $text = $this->_createLabel($this->_getItemCount());
             $this->_label = $text;
             $this->_title = $text;
@@ -59,7 +61,7 @@ class Magento_Wishlist_Block_Links extends Magento_Page_Block_Template_Links_Blo
      */
     protected function _getItemCount()
     {
-        return $this->helper('Magento_Wishlist_Helper_Data')->getItemCount();
+        return $this->helper('\Magento\Wishlist\Helper\Data')->getItemCount();
     }
 
     /**

@@ -16,9 +16,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
-    extends Magento_Adminhtml_Block_Widget_Grid
-//    extends Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid
+namespace Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Widget\Grid
+//    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid
 {
     /**
      * Variable to store store-depended string values of attributes
@@ -48,8 +50,8 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _gatherOrderItemsData()
     {
         $itemsData = array();
-        if (Mage::registry('current_order')) {
-            foreach (Mage::registry('current_order')->getItemsCollection() as $item) {
+        if (\Mage::registry('current_order')) {
+            foreach (\Mage::registry('current_order')->getItemsCollection() as $item) {
                 $itemsData[$item->getId()] = array(
                     'qty_shipped' => $item->getQtyShipped(),
                     'qty_returned' => $item->getQtyReturned()
@@ -62,12 +64,12 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     /**
      * Prepare grid collection object
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid
+     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid
      */
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Rma_Model_Resource_Item_Collection */
-        $collection = Mage::getResourceModel('Magento_Rma_Model_Resource_Item_Collection');
+        /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Rma\Model\Resource\Item\Collection');
         $collection->addAttributeToSelect('*');
         $collection->addAttributeToFilter('entity_id', NULL);
 
@@ -79,7 +81,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     /**
      * Prepare columns
      *
-     * @return Magento_Adminhtml_Block_Widget_Grid
+     * @return \Magento\Adminhtml\Block\Widget\Grid
      */
     protected function _prepareColumns()
     {
@@ -111,7 +113,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'index' => 'qty_ordered',
             'sortable' => false,
             'order_data' => $this->getOrderItemsData(),
-            'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Quantity',
+            'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
             'header_css_class'  => 'col-qty',
             'column_css_class'  => 'col-qty'
         ));
@@ -125,7 +127,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
             'column_css_class'  => 'col-qty'
         ));
 
-        $eavHelper = Mage::helper('Magento_Rma_Helper_Eav');
+        $eavHelper = \Mage::helper('Magento\Rma\Helper\Eav');
         $this->addColumn('reason', array(
             'header'=> __('Return Reason'),
             'getter'   => array($this, 'getReasonOptionStringValue'),
@@ -175,7 +177,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
         $this->addColumn('action',
             array(
                 'header'    =>  __('Action'),
-                'renderer'  => 'Magento_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Action',
+                'renderer'  => '\Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
                 'actions'   => $actionsArray,
                 'sortable'  => false,
                 'is_system' => true,
@@ -260,7 +262,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     protected function _getAttributeOptionStringValue($value)
     {
         if (is_null($this->_attributeOptionValues)) {
-            $this->_attributeOptionValues = Mage::helper('Magento_Rma_Helper_Eav')->getAttributeOptionStringValues();
+            $this->_attributeOptionValues = \Mage::helper('Magento\Rma\Helper\Eav')->getAttributeOptionStringValues();
         }
         if (isset($this->_attributeOptionValues[$value])) {
             return $this->escapeHtml($this->_attributeOptionValues[$value]);
@@ -272,7 +274,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     /**
      * Return row url for js event handlers
      *
-     * @param Magento_Catalog_Model_Product|\Magento\Object
+     * @param \Magento\Catalog\Model\Product|\Magento\Object
      * @return string
      */
     public function getRowUrl($item)

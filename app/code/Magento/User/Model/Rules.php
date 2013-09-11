@@ -11,30 +11,32 @@
 /**
  * Admin Rules Model
  *
- * @method Magento_User_Model_Resource_Rules _getResource()
- * @method Magento_User_Model_Resource_Rules getResource()
+ * @method \Magento\User\Model\Resource\Rules _getResource()
+ * @method \Magento\User\Model\Resource\Rules getResource()
  * @method int getRoleId()
- * @method Magento_User_Model_Rules setRoleId(int $value)
+ * @method \Magento\User\Model\Rules setRoleId(int $value)
  * @method string getResourceId()
- * @method Magento_User_Model_Rules setResourceId(string $value)
+ * @method \Magento\User\Model\Rules setResourceId(string $value)
  * @method string getPrivileges()
- * @method Magento_User_Model_Rules setPrivileges(string $value)
+ * @method \Magento\User\Model\Rules setPrivileges(string $value)
  * @method int getAssertId()
- * @method Magento_User_Model_Rules setAssertId(int $value)
+ * @method \Magento\User\Model\Rules setAssertId(int $value)
  * @method string getRoleType()
- * @method Magento_User_Model_Rules setRoleType(string $value)
+ * @method \Magento\User\Model\Rules setRoleType(string $value)
  * @method string getPermission()
- * @method Magento_User_Model_Rules setPermission(string $value)
+ * @method \Magento\User\Model\Rules setPermission(string $value)
  *
  * @category    Magento
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_User_Model_Rules extends Magento_Core_Model_Abstract
+namespace Magento\User\Model;
+
+class Rules extends \Magento\Core\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Magento_User_Model_Resource_Rules');
+        $this->_init('\Magento\User\Model\Resource\Rules');
     }
 
     public function update()
@@ -45,7 +47,7 @@ class Magento_User_Model_Rules extends Magento_Core_Model_Abstract
 
     public function getCollection()
     {
-        return Mage::getResourceModel('Magento_User_Model_Resource_Permissions_Collection');
+        return \Mage::getResourceModel('\Magento\User\Model\Resource\Permissions\Collection');
     }
 
     public function saveRel()

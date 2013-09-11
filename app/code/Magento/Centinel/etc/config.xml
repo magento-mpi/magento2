@@ -42,28 +42,28 @@
                     <VI>
                         <validator>
                             <centinel>
-                                <state>Magento_Centinel_Model_State_Visa</state>
+                                <state>\Magento\Centinel\Model\State\Visa</state>
                             </centinel>
                         </validator>
                     </VI>
                     <MC>
                         <validator>
                             <centinel>
-                                <state>Magento_Centinel_Model_State_Mastercard</state>
+                                <state>\Magento\Centinel\Model\State\Mastercard</state>
                             </centinel>
                         </validator>
                     </MC>
                     <JCB>
                         <validator>
                             <centinel>
-                                <state>Magento_Centinel_Model_State_Jcb</state>
+                                <state>\Magento\Centinel\Model\State\Jcb</state>
                             </centinel>
                         </validator>
                     </JCB>
                     <SM>
                         <validator>
                             <centinel>
-                                <state>Magento_Centinel_Model_State_Mastercard</state>
+                                <state>\Magento\Centinel\Model\State\Mastercard</state>
                             </centinel>
                         </validator>
                     </SM>

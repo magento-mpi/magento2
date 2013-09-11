@@ -15,7 +15,9 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Customer_Model_Customer_Attribute_Backend_Billing extends Magento_Eav_Model_Entity_Attribute_Backend_Abstract
+namespace Magento\Customer\Model\Customer\Attribute\Backend;
+
+class Billing extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     public function beforeSave($object)
     {

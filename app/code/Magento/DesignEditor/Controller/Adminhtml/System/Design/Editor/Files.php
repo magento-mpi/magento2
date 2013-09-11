@@ -12,8 +12,10 @@
  * Files controller
  */
 
-class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Files
-    extends Magento_Theme_Controller_Adminhtml_System_Design_Wysiwyg_Files
+namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
+
+class Files
+    extends \Magento\Theme\Controller\Adminhtml\System\Design\Wysiwyg\Files
 {
     /**
      * Tree json action
@@ -22,12 +24,12 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Files
     {
         try {
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Files_Tree')
+                $this->getLayout()->createBlock('\Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Tree')
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
-        } catch (Exception $e) {
-            $this->_objectManager->get('Magento_Core_Model_Logger')->logException($e);
-            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode(array()));
+        } catch (\Exception $e) {
+            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array()));
         }
     }
 
@@ -42,11 +44,11 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_Editor_Files
             $this->renderLayout();
 
             $this->_getSession()->setStoragePath(
-                $this->_objectManager->get('Magento_Theme_Helper_Storage')->getCurrentPath()
+                $this->_objectManager->get('Magento\Theme\Helper\Storage')->getCurrentPath()
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
-            $this->getResponse()->setBody($this->_objectManager->get('Magento_Core_Helper_Data')->jsonEncode($result));
+            $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
         }
     }
 }

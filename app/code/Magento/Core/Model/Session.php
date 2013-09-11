@@ -12,13 +12,15 @@
 /**
  * Core session model
  *
- * @todo extend from Magento_Core_Model_Session_Abstract
+ * @todo extend from \Magento\Core\Model\Session\AbstractSession
  *
  * @method null|bool getCookieShouldBeReceived()
- * @method Magento_Core_Model_Session setCookieShouldBeReceived(bool $flag)
- * @method Magento_Core_Model_Session unsCookieShouldBeReceived()
+ * @method \Magento\Core\Model\Session setCookieShouldBeReceived(bool $flag)
+ * @method \Magento\Core\Model\Session unsCookieShouldBeReceived()
  */
-class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
+namespace Magento\Core\Model;
+
+class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * @param string $sessionName
@@ -36,7 +38,7 @@ class Magento_Core_Model_Session extends Magento_Core_Model_Session_Abstract
     public function getFormKey()
     {
         if (!$this->getData('_form_key')) {
-            $this->setData('_form_key', Mage::helper('Magento_Core_Helper_Data')->getRandomString(16));
+            $this->setData('_form_key', \Mage::helper('Magento\Core\Helper\Data')->getRandomString(16));
         }
         return $this->getData('_form_key');
     }

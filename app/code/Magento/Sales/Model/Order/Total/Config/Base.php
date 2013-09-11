@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Total_Config_Base extends Magento_Sales_Model_Config_Ordered
+namespace Magento\Sales\Model\Order\Total\Config;
+
+class Base extends \Magento\Sales\Model\Config\Ordered
 {
     /**
      * Cache key for collectors
@@ -45,13 +47,13 @@ class Magento_Sales_Model_Order_Total_Config_Base extends Magento_Sales_Model_Co
      * @param string $class
      * @param string $totalCode
      * @param array $totalConfig
-     * @return Magento_Sales_Model_Order_Total_Abstract
+     * @return \Magento\Sales\Model\Order\Total\AbstractTotal
      */
     protected function _initModelInstance($class, $totalCode, $totalConfig)
     {
-        $model = Mage::getModel($class);
-        if (!$model instanceof Magento_Sales_Model_Order_Total_Abstract) {
-            Mage::throwException(__('The total model should be extended from Magento_Sales_Model_Order_Total_Abstract.'));
+        $model = \Mage::getModel($class);
+        if (!$model instanceof \Magento\Sales\Model\Order\Total\AbstractTotal) {
+            \Mage::throwException(__('The total model should be extended from \Magento\Sales\Model\Order\Total\AbstractTotal.'));
         }
 
         $model->setCode($totalCode);

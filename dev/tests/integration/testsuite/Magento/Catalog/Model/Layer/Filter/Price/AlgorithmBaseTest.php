@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Magento_Catalog_Model_Layer_Filter_Price.
+ * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
  *
  * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_base.php
  */
@@ -19,29 +19,29 @@ class Magento_Catalog_Model_Layer_Filter_Price_AlgorithmBaseTest extends PHPUnit
     /**
      * Algorithm model
      *
-     * @var Magento_Catalog_Model_Layer_Filter_Price_Algorithm
+     * @var \Magento\Catalog\Model\Layer\Filter\Price\Algorithm
      */
     protected $_model;
 
     /**
      * Layer model
      *
-     * @var Magento_Catalog_Model_Layer
+     * @var \Magento\Catalog\Model\Layer
      */
     protected $_layer;
 
     /**
      * Price filter model
      *
-     * @var Magento_Catalog_Model_Layer_Filter_Price
+     * @var \Magento\Catalog\Model\Layer\Filter\Price
      */
     protected $_filter;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price_Algorithm');
-        $this->_layer = Mage::getModel('Magento_Catalog_Model_Layer');
-        $this->_filter = Mage::getModel('Magento_Catalog_Model_Layer_Filter_Price');
+        $this->_model = Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
+        $this->_layer = Mage::getModel('\Magento\Catalog\Model\Layer');
+        $this->_filter = Mage::getModel('\Magento\Catalog\Model\Layer\Filter\Price');
         $this->_filter
             ->setLayer($this->_layer)
             ->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));

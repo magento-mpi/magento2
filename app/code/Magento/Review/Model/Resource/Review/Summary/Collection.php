@@ -16,7 +16,9 @@
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Review_Model_Resource_Review_Summary_Collection extends \Magento\Data\Collection\Db
+namespace Magento\Review\Model\Resource\Review\Summary;
+
+class Collection extends \Magento\Data\Collection\Db
 {
     /**
      * @var string
@@ -25,11 +27,11 @@ class Magento_Review_Model_Resource_Review_Summary_Collection extends \Magento\D
 
     /**
      * @param Varien_Data_Collection_Db_FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Resource $resource
+     * @param \Magento\Core\Model\Resource $resource
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Resource $resource
+        \Magento\Core\Model\Resource $resource
     ) {
         $this->_setIdFieldName('primary_id');
 
@@ -38,7 +40,7 @@ class Magento_Review_Model_Resource_Review_Summary_Collection extends \Magento\D
 
         $this->_select->from($this->_summaryTable);
 
-        $this->setItemObjectClass('Magento_Review_Model_Review_Summary');
+        $this->setItemObjectClass('\Magento\Review\Model\Review\Summary');
     }
 
     /**
@@ -46,7 +48,7 @@ class Magento_Review_Model_Resource_Review_Summary_Collection extends \Magento\D
      *
      * @param int|string $entityId
      * @param int $entityType
-     * @return Magento_Review_Model_Resource_Review_Summary_Collection
+     * @return \Magento\Review\Model\Resource\Review\Summary\Collection
      */
     public function addEntityFilter($entityId, $entityType = 1)
     {
@@ -59,7 +61,7 @@ class Magento_Review_Model_Resource_Review_Summary_Collection extends \Magento\D
      * Add store filter
      *
      * @param int $storeId
-     * @return Magento_Review_Model_Resource_Review_Summary_Collection
+     * @return \Magento\Review\Model\Resource\Review\Summary\Collection
      */
     public function addStoreFilter($storeId)
     {

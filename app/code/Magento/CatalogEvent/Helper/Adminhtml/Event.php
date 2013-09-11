@@ -15,7 +15,9 @@
  * @category   Magento
  * @package    Magento_CatalogEvent
  */
-class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Abstract
+namespace Magento\CatalogEvent\Helper\Adminhtml;
+
+class Event extends \Magento\Core\Helper\AbstractHelper
 {
     /**
      * Categories first and second level for admin
@@ -39,11 +41,11 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
     public function getCategories()
     {
         if ($this->_categories === null) {
-            $tree = Mage::getModel('Magento_Catalog_Model_Category')->getTreeModel();
-            /** @var $tree Magento_Catalog_Model_Resource_Category_Tree */
+            $tree = \Mage::getModel('\Magento\Catalog\Model\Category')->getTreeModel();
+            /** @var $tree \Magento\Catalog\Model\Resource\Category\Tree */
             $tree->load(null, 2); // Load only to second level.
             $tree->addCollectionData(null, 'position');
-            $this->_categories = $tree->getNodeById(Magento_Catalog_Model_Category::TREE_ROOT_ID)->getChildren();
+            $this->_categories = $tree->getNodeById(\Magento\Catalog\Model\Category::TREE_ROOT_ID)->getChildren();
         }
         return $this->_categories;
     }
@@ -122,7 +124,7 @@ class Magento_CatalogEvent_Helper_Adminhtml_Event extends Magento_Core_Helper_Ab
     {
 
         if ($this->_inEventCategoryIds === null) {
-            $collection = Mage::getModel('Magento_CatalogEvent_Model_Event')->getCollection();
+            $collection = \Mage::getModel('\Magento\CatalogEvent\Model\Event')->getCollection();
             $this->_inEventCategoryIds = $collection->getColumnValues('category_id');
         }
         return $this->_inEventCategoryIds;

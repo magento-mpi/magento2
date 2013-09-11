@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-class Magento_TargetRule_Model_Source_Position
+namespace Magento\TargetRule\Model\Source;
+
+class Position
 {
 
     /**
@@ -19,11 +21,11 @@ class Magento_TargetRule_Model_Source_Position
     public function toOptionArray()
     {
         return array(
-            Magento_TargetRule_Model_Rule::BOTH_SELECTED_AND_RULE_BASED =>
+            \Magento\TargetRule\Model\Rule::BOTH_SELECTED_AND_RULE_BASED =>
                 __('Both Selected and Rule-Based'),
-            Magento_TargetRule_Model_Rule::SELECTED_ONLY =>
+            \Magento\TargetRule\Model\Rule::SELECTED_ONLY =>
                 __('Selected Only'),
-            Magento_TargetRule_Model_Rule::RULE_BASED_ONLY =>
+            \Magento\TargetRule\Model\Rule::RULE_BASED_ONLY =>
                 __('Rule-Based Only'),
         );
     }

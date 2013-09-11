@@ -15,18 +15,20 @@
  * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Authorizenet_Block_Directpost_Iframe extends Magento_Core_Block_Template
+namespace Magento\Authorizenet\Block\Directpost;
+
+class Iframe extends \Magento\Core\Block\Template
 {
     /**
      * Preparing global layout
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
-        $params = Mage::registry('authorizenet_directpost_form_params');
+        $params = \Mage::registry('authorizenet_directpost_form_params');
         if (is_null($params)) {
             $params = array();
         }

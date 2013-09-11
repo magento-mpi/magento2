@@ -32,7 +32,7 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
      */
     protected function setUp()
     {
-        $uniqueBehaviors = Magento_ImportExport_Model_Import::getUniqueEntityBehaviors();
+        $uniqueBehaviors = \Magento\ImportExport\Model\Import::getUniqueEntityBehaviors();
         foreach (array_keys($uniqueBehaviors) as $behavior) {
             $this->_expectedFieldsets[] = $behavior . '_fieldset';
         }
@@ -43,9 +43,9 @@ class Magento_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_
      */
     public function testPrepareForm()
     {
-        $formBlock = Mage::app()->getLayout()->createBlock('Magento_ImportExport_Block_Adminhtml_Import_Edit_Form');
+        $formBlock = Mage::app()->getLayout()->createBlock('\Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
         $prepareForm = new ReflectionMethod(
-            'Magento_ImportExport_Block_Adminhtml_Import_Edit_Form',
+            '\Magento\ImportExport\Block\Adminhtml\Import\Edit\Form',
             '_prepareForm'
         );
         $prepareForm->setAccessible(true);

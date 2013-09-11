@@ -11,7 +11,9 @@
 /**
  * Catalo
  */
-class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
+namespace Magento\CatalogInventory\Helper;
+
+class Data extends \Magento\Core\Helper\AbstractHelper
 {
     const XML_PATH_SHOW_OUT_OF_STOCK    = 'cataloginventory/options/show_out_of_stock';
     const XML_PATH_ITEM_AUTO_RETURN     = 'cataloginventory/item_options/auto_return';
@@ -58,7 +60,7 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
     {
         if (null === self::$_isQtyTypeIds) {
             self::$_isQtyTypeIds = array();
-            $productTypesXml = Mage::getConfig()->getNode('global/catalog/product/type');
+            $productTypesXml = \Mage::getConfig()->getNode('global/catalog/product/type');
             foreach ($productTypesXml->children() as $typeId => $configXml) {
                 self::$_isQtyTypeIds[$typeId] = (bool)$configXml->is_qty;
             }
@@ -102,7 +104,7 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isShowOutOfStock()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_SHOW_OUT_OF_STOCK);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_SHOW_OUT_OF_STOCK);
     }
 
     /**
@@ -111,7 +113,7 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isAutoReturnEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ITEM_AUTO_RETURN);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_ITEM_AUTO_RETURN);
     }
 
     /**
@@ -122,6 +124,6 @@ class Magento_CatalogInventory_Helper_Data extends Magento_Core_Helper_Abstract
      */
     public function isDisplayProductStockStatus()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS);
+        return \Mage::getStoreConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS);
     }
 }

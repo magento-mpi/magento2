@@ -12,11 +12,13 @@
  *  Add sales archiving to order's grid view massaction
  *
  */
-class Magento_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Button extends Magento_Adminhtml_Block_Sales_Order_Abstract
+namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
+
+class Button extends \Magento\Adminhtml\Block\Sales\Order\AbstractOrder
 {
     protected function _prepareLayout()
     {
-        $ordersCount = Mage::getResourceSingleton('Magento_SalesArchive_Model_Resource_Order_Collection')->getSize();
+        $ordersCount = \Mage::getResourceSingleton('\Magento\SalesArchive\Model\Resource\Order\Collection')->getSize();
         $parent = $this->getLayout()->getBlock('sales_order.grid.container');
         if ($parent && $ordersCount) {
             $url = $this->getUrl('*/sales_archive/orders');

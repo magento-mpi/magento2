@@ -9,7 +9,7 @@
 class Magento_Sales_Model_Observer_Backend_CatalogProductQuoteTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Sales_Model_Observer_Backend_CatalogProductQuote
+     * @var \Magento\Sales\Model\Observer\Backend\CatalogProductQuote
      */
     protected $_model;
 
@@ -30,12 +30,12 @@ class Magento_Sales_Model_Observer_Backend_CatalogProductQuoteTest extends PHPUn
 
     public function setUp()
     {
-        $this->_quoteMock = $this->getMock('Magento_Sales_Model_Resource_Quote', array(), array(), '', false);
+        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Resource\Quote', array(), array(), '', false);
         $this->_observerMock = $this->getMock('Magento\Event\Observer', array(), array(), '', false);
         $this->_eventMock =
             $this->getMock('Magento\Event', array('getProduct', 'getStatus', 'getProductId'), array(), '', false);
         $this->_observerMock->expects($this->any())->method('getEvent')->will($this->returnValue($this->_eventMock));
-        $this->_model = new Magento_Sales_Model_Observer_Backend_CatalogProductQuote(
+        $this->_model = new \Magento\Sales\Model\Observer\Backend\CatalogProductQuote(
             $this->_quoteMock
         );
     }
@@ -47,7 +47,7 @@ class Magento_Sales_Model_Observer_Backend_CatalogProductQuoteTest extends PHPUn
      */
     public function testSaveProduct($productId, $productStatus)
     {
-        $productMock = $this->getMock('Magento_Catalog_Model_Product', array('getId', 'getStatus'), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', array('getId', 'getStatus'), array(), '', false);
         $this->_eventMock->expects($this->once())->method('getProduct')->will($this->returnValue($productMock));
         $productMock->expects($this->once())->method('getId')->will($this->returnValue($productId));
         $productMock->expects($this->once())->method('getStatus')->will($this->returnValue($productStatus));
@@ -78,7 +78,7 @@ class Magento_Sales_Model_Observer_Backend_CatalogProductQuoteTest extends PHPUn
 
     public function testSubtractQtyFromQuotes()
     {
-        $productMock = $this->getMock('Magento_Catalog_Model_Product', array('getId', 'getStatus'), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', array('getId', 'getStatus'), array(), '', false);
         $this->_eventMock->expects($this->once())->method('getProduct')->will($this->returnValue($productMock));
         $this->_quoteMock->expects($this->once())->method('substractProductFromQuotes')->with($productMock);
         $this->_model->subtractQtyFromQuotes($this->_observerMock);

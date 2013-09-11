@@ -11,17 +11,19 @@
 /**
  * Cart items store view subselection condition
  */
-class Magento_Reminder_Model_Rule_Condition_Cart_Storeview
-    extends Magento_Reminder_Model_Condition_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+class Storeview
+    extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Cart_Storeview');
+        $this->setType('\Magento\Reminder\Model\Rule\Condition\Cart\Storeview');
         $this->setValue(null);
     }
 
@@ -51,11 +53,11 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Storeview
     /**
      * Initialize value select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Cart_Storeview
+     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Storeview
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(Mage::getSingleton('Magento_Core_Model_System_Store')->getStoreValuesForForm());
+        $this->setValueOption(\Mage::getSingleton('Magento\Core\Model\System\Store')->getStoreValuesForForm());
         return $this;
     }
 
@@ -82,7 +84,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Storeview
     /**
      * Prepare operator select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist_Storeview
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview
      */
     public function loadOperatorOptions()
     {
@@ -98,7 +100,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Storeview
      * Get SQL select
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
+     * @param int | \Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
@@ -108,7 +110,7 @@ class Magento_Reminder_Model_Rule_Condition_Cart_Storeview
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $quoteItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('quote' => $quoteTable),

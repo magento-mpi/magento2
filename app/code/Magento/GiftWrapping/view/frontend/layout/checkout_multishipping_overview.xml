@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="checkout_multishipping_overview">
         <reference name="additional.product.info">
-            <block class="Magento_GiftWrapping_Block_Product_Info" name="giftwrapping.product.info" template="product/info.phtml"/>
+            <block class="\Magento\GiftWrapping\Block\Product\Info" name="giftwrapping.product.info" template="product/info.phtml"/>
         </reference>
     </handle>
 </layout>

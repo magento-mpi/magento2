@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="contacts_index_index">
         <reference name="form.additional.info">
-            <block class="Magento_Captcha_Block_Captcha" name="captcha">
+            <block class="\Magento\Captcha\Block\Captcha" name="captcha">
                 <action method="setFormId">
                     <argument name="formId" xsi:type="string">contact_us</argument>
                 </action>

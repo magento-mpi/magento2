@@ -6,7 +6,9 @@
  * @license   {license_link}
  */
 
-class Magento_Core_Model_ObjectManager_ConfigCache implements \Magento\ObjectManager\ConfigCache
+namespace Magento\Core\Model\ObjectManager;
+
+class ConfigCache implements \Magento\ObjectManager\ConfigCache
 {
     /**
      * @var \Magento\Cache\FrontendInterface

@@ -15,12 +15,14 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Resource
+namespace Magento\Sales\Model\Order\Invoice;
+
+class Api extends \Magento\Sales\Model\Api\Resource
 {
     /**
      * Initialize attributes map
      */
-    public function __construct(Magento_Api_Helper_Data $apiHelper)
+    public function __construct(\Magento\Api\Helper\Data $apiHelper)
     {
         parent::__construct($apiHelper);
         $this->_attributesMap = array(
@@ -39,8 +41,8 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
     public function items($filters = null)
     {
         $invoices = array();
-        /** @var $invoiceCollection Magento_Sales_Model_Resource_Order_Invoice_Collection */
-        $invoiceCollection = Mage::getResourceModel('Magento_Sales_Model_Resource_Order_Invoice_Collection');
+        /** @var $invoiceCollection \Magento\Sales\Model\Resource\Order\Invoice\Collection */
+        $invoiceCollection = \Mage::getResourceModel('\Magento\Sales\Model\Resource\Order\Invoice\Collection');
         $invoiceCollection->addAttributeToSelect('entity_id')
             ->addAttributeToSelect('order_id')
             ->addAttributeToSelect('increment_id')
@@ -49,14 +51,14 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
             ->addAttributeToSelect('grand_total')
             ->addAttributeToSelect('order_currency_code');
 
-        /** @var $apiHelper Magento_Api_Helper_Data */
-        $apiHelper = Mage::helper('Magento_Api_Helper_Data');
+        /** @var $apiHelper \Magento\Api\Helper\Data */
+        $apiHelper = \Mage::helper('Magento\Api\Helper\Data');
         try {
             $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['invoice']);
             foreach ($filters as $field => $value) {
                 $invoiceCollection->addFieldToFilter($field, $value);
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('filters_invalid', $e->getMessage());
         }
         foreach ($invoiceCollection as $invoice) {
@@ -73,9 +75,9 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
      */
     public function info($invoiceIncrementId)
     {
-        $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
 
-        /* @var Magento_Sales_Model_Order_Invoice $invoice */
+        /* @var \Magento\Sales\Model\Order\Invoice $invoice */
 
         if (!$invoice->getId()) {
             $this->_fault('not_exists');
@@ -109,9 +111,9 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
      */
     public function create($orderIncrementId, $itemsQty, $comment = null, $email = false, $includeComment = false)
     {
-        $order = Mage::getModel('Magento_Sales_Model_Order')->loadByIncrementId($orderIncrementId);
+        $order = \Mage::getModel('\Magento\Sales\Model\Order')->loadByIncrementId($orderIncrementId);
 
-        /* @var $order Magento_Sales_Model_Order */
+        /* @var $order \Magento\Sales\Model\Order */
         /**
          * Check order existing
          */
@@ -141,13 +143,13 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
         $invoice->getOrder()->setIsInProcess(true);
 
         try {
-            $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
+            $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
 
             $invoice->sendEmail($email, ($includeComment ? $comment : ''));
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -165,9 +167,9 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
      */
     public function addComment($invoiceIncrementId, $comment, $email = false, $includeComment = false)
     {
-        $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
 
-        /* @var $invoice Magento_Sales_Model_Order_Invoice */
+        /* @var $invoice \Magento\Sales\Model\Order\Invoice */
 
         if (!$invoice->getId()) {
             $this->_fault('not_exists');
@@ -178,7 +180,7 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
             $invoice->addComment($comment, $email);
             $invoice->sendUpdateEmail($email, ($includeComment ? $comment : ''));
             $invoice->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
         }
 
@@ -193,9 +195,9 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
      */
     public function capture($invoiceIncrementId)
     {
-        $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
 
-        /* @var $invoice Magento_Sales_Model_Order_Invoice */
+        /* @var $invoice \Magento\Sales\Model\Order\Invoice */
 
         if (!$invoice->getId()) {
             $this->_fault('not_exists');
@@ -211,13 +213,13 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
         try {
             $invoice->capture();
             $invoice->getOrder()->setIsInProcess(true);
-            $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
+            $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault(
                 'status_not_changed',
                 __('Sorry, but something went wrong capturing the invoice.')
@@ -235,9 +237,9 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
      */
     public function void($invoiceIncrementId)
     {
-        $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
 
-        /* @var $invoice Magento_Sales_Model_Order_Invoice */
+        /* @var $invoice \Magento\Sales\Model\Order\Invoice */
 
         if (!$invoice->getId()) {
             $this->_fault('not_exists');
@@ -253,13 +255,13 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
         try {
             $invoice->void();
             $invoice->getOrder()->setIsInProcess(true);
-            $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
+            $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault('status_not_changed', __('Invoice void problem'));
         }
 
@@ -274,9 +276,9 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
      */
     public function cancel($invoiceIncrementId)
     {
-        $invoice = Mage::getModel('Magento_Sales_Model_Order_Invoice')->loadByIncrementId($invoiceIncrementId);
+        $invoice = \Mage::getModel('\Magento\Sales\Model\Order\Invoice')->loadByIncrementId($invoiceIncrementId);
 
-        /* @var $invoice Magento_Sales_Model_Order_Invoice */
+        /* @var $invoice \Magento\Sales\Model\Order\Invoice */
 
         if (!$invoice->getId()) {
             $this->_fault('not_exists');
@@ -292,13 +294,13 @@ class Magento_Sales_Model_Order_Invoice_Api extends Magento_Sales_Model_Api_Reso
         try {
             $invoice->cancel();
             $invoice->getOrder()->setIsInProcess(true);
-            $transactionSave = Mage::getModel('Magento_Core_Model_Resource_Transaction')
+            $transactionSave = \Mage::getModel('\Magento\Core\Model\Resource\Transaction')
                 ->addObject($invoice)
                 ->addObject($invoice->getOrder())
                 ->save();
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_fault('status_not_changed', $e->getMessage());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_fault(
                 'status_not_changed',
                 __('Something went wrong canceling the invoice.')

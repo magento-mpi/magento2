@@ -15,7 +15,9 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Controller_Adminhtml_System extends Magento_Backend_Controller_ActionAbstract
+namespace Magento\Backend\Controller\Adminhtml;
+
+class System extends \Magento\Backend\Controller\ActionAbstract
 {
     public function indexAction()
     {

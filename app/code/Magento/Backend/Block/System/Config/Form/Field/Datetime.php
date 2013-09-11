@@ -16,11 +16,13 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Block_System_Config_Form_Field_Datetime extends Magento_Backend_Block_System_Config_Form_Field
+namespace Magento\Backend\Block\System\Config\Form\Field;
+
+class Datetime extends \Magento\Backend\Block\System\Config\Form\Field
 {
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $format = Mage::app()->getLocale()->getDateTimeFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM);
-        return Mage::app()->getLocale()->date(intval($element->getValue()))->toString($format);
+        $format = \Mage::app()->getLocale()->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return \Mage::app()->getLocale()->date(intval($element->getValue()))->toString($format);
     }
 }

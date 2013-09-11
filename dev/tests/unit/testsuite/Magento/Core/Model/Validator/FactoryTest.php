@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for Magento_Core_Model_Validator_Factory
+ * Unit test for \Magento\Core\Model\Validator\Factory
  *
  * {license_notice}
  *
@@ -15,12 +15,12 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
     protected $_objectManager;
 
     /**
-     * @var Magento_Core_Model_Config_Modules_Reader
+     * @var \Magento\Core\Model\Config\Modules\Reader
      */
     protected $_config;
 
     /**
-     * @var Magento_Core_Model_Translate
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translateAdapter;
 
@@ -57,7 +57,7 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue($this->_validatorConfig));
 
         // Config mock
-        $this->_config = $this->getMockBuilder('Magento_Core_Model_Config_Modules_Reader')
+        $this->_config = $this->getMockBuilder('Magento\Core\Model\Config\Modules\Reader')
             ->setMethods(array('getConfigurationFiles'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -67,7 +67,7 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
             ->will($this->returnValue(array('/tmp/moduleOne/etc/validation.xml')));
 
         // Translate adapter mock
-        $this->_translateAdapter = $this->getMockBuilder('Magento_Core_Model_Translate')
+        $this->_translateAdapter = $this->getMockBuilder('Magento\Core\Model\Translate')
             ->setMethods(array('_getTranslatedString', 'translate'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -90,7 +90,7 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
      */
     public function testGetValidatorConfig()
     {
-        $factory = new Magento_Core_Model_Validator_Factory(
+        $factory = new \Magento\Core\Model\Validator\Factory(
             $this->_objectManager,
             $this->_config,
             $this->_translateAdapter
@@ -114,7 +114,7 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
             ->method('createValidatorBuilder')
             ->with('test', 'class', array())
             ->will($this->returnValue(new \Magento\Validator\Builder(array())));
-        $factory = new Magento_Core_Model_Validator_Factory($this->_objectManager, $this->_config,
+        $factory = new \Magento\Core\Model\Validator\Factory($this->_objectManager, $this->_config,
             $this->_translateAdapter);
         $this->assertInstanceOf('\Magento\Validator\Builder',
             $factory->createValidatorBuilder('test', 'class', array()));
@@ -129,7 +129,7 @@ class Magento_Core_Model_Validator_FactoryTest extends PHPUnit_Framework_TestCas
             ->method('createValidator')
             ->with('test', 'class', array())
             ->will($this->returnValue(new \Magento\Validator()));
-        $factory = new Magento_Core_Model_Validator_Factory($this->_objectManager, $this->_config,
+        $factory = new \Magento\Core\Model\Validator\Factory($this->_objectManager, $this->_config,
             $this->_translateAdapter);
         $this->assertInstanceOf('\Magento\Validator',
             $factory->createValidator('test', 'class', array()));

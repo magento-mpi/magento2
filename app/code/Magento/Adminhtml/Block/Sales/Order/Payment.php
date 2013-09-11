@@ -15,7 +15,9 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Sales_Order_Payment extends Magento_Adminhtml_Block_Template
+namespace Magento\Adminhtml\Block\Sales\Order;
+
+class Payment extends \Magento\Adminhtml\Block\Template
 {
     /**
      * Retrieve required options from parent
@@ -23,7 +25,7 @@ class Magento_Adminhtml_Block_Sales_Order_Payment extends Magento_Adminhtml_Bloc
     protected function _beforeToHtml()
     {
         if (!$this->getParentBlock()) {
-            Mage::throwException(__('Invalid parent block for this block'));
+            \Mage::throwException(__('Invalid parent block for this block'));
         }
         $this->setPayment($this->getParentBlock()->getOrder()->getPayment());
         parent::_beforeToHtml();
@@ -31,7 +33,7 @@ class Magento_Adminhtml_Block_Sales_Order_Payment extends Magento_Adminhtml_Bloc
 
     public function setPayment($payment)
     {
-        $paymentInfoBlock = Mage::helper('Magento_Payment_Helper_Data')->getInfoBlock($payment);
+        $paymentInfoBlock = \Mage::helper('Magento\Payment\Helper\Data')->getInfoBlock($payment);
         $this->setChild('info', $paymentInfoBlock);
         $this->setData('payment', $payment);
         return $this;

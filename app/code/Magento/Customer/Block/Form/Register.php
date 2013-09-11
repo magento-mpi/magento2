@@ -11,12 +11,14 @@
 /**
  * Customer register form block
  */
-class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
+namespace Magento\Customer\Block\Form;
+
+class Register extends \Magento\Directory\Block\Data
 {
     /**
      * Address instance with data
      *
-     * @var Magento_Customer_Model_Address
+     * @var \Magento\Customer\Model\Address
      */
     protected $_address;
 
@@ -44,7 +46,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      */
     public function getPostActionUrl()
     {
-        return $this->helper('Magento_Customer_Helper_Data')->getRegisterPostUrl();
+        return $this->helper('\Magento\Customer\Helper\Data')->getRegisterPostUrl();
     }
 
     /**
@@ -56,7 +58,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
     {
         $url = $this->getData('back_url');
         if (is_null($url)) {
-            $url = $this->helper('Magento_Customer_Helper_Data')->getLoginUrl();
+            $url = $this->helper('\Magento\Customer\Helper\Data')->getLoginUrl();
         }
         return $url;
     }
@@ -70,7 +72,7 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
     {
         $data = $this->getData('form_data');
         if (is_null($data)) {
-            $formData = Mage::getSingleton('Magento_Customer_Model_Session')->getCustomerFormData(true);
+            $formData = \Mage::getSingleton('Magento\Customer\Model\Session')->getCustomerFormData(true);
             $data = new \Magento\Object();
             if ($formData) {
                 $data->addData($formData);
@@ -120,18 +122,18 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      */
     public function isNewsletterEnabled()
     {
-        return Mage::helper('Magento_Core_Helper_Data')->isModuleOutputEnabled('Magento_Newsletter');
+        return \Mage::helper('Magento\Core\Helper\Data')->isModuleOutputEnabled('Magento_Newsletter');
     }
 
     /**
      * Return customer address instance
      *
-     * @return Magento_Customer_Model_Address
+     * @return \Magento\Customer\Model\Address
      */
     public function getAddress()
     {
         if (is_null($this->_address)) {
-            $this->_address = Mage::getModel('Magento_Customer_Model_Address');
+            $this->_address = \Mage::getModel('\Magento\Customer\Model\Address');
         }
 
         return $this->_address;
@@ -141,10 +143,10 @@ class Magento_Customer_Block_Form_Register extends Magento_Directory_Block_Data
      * Restore entity data from session
      * Entity and form code must be defined for the form
      *
-     * @param Magento_Customer_Model_Form $form
-     * @return Magento_Customer_Block_Form_Register
+     * @param \Magento\Customer\Model\Form $form
+     * @return \Magento\Customer\Block\Form\Register
      */
-    public function restoreSessionData(Magento_Customer_Model_Form $form, $scope = null)
+    public function restoreSessionData(\Magento\Customer\Model\Form $form, $scope = null)
     {
         if ($this->getFormData()->getCustomerData()) {
             $request = $form->prepareRequest($this->getFormData()->getData());

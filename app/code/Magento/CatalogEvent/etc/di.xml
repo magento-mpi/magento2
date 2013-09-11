@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <type name="Magento_CatalogEvent_Model_Event" shared="false" />
+    <type name="Magento\CatalogEvent\Model\Event" shared="false" />
 </config>

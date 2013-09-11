@@ -11,8 +11,10 @@
 /**
  * Order status condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Order_Status
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order;
+
+class Status
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * Any option value
@@ -25,13 +27,13 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Status
     protected $_inputType = 'select';
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Order_Status');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Order\Status');
         $this->setValue(null);
     }
 
@@ -71,13 +73,13 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Status
     /**
      * Init value select options
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Order_Status
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Order\Status
      */
     public function loadValueOptions()
     {
         $this->setValueOption(array_merge(
             array(self::VALUE_ANY => __('Any')),
-            Mage::getSingleton('Magento_Sales_Model_Order_Config')->getStatuses())
+            \Mage::getSingleton('Magento\Sales\Model\Order\Config')->getStatuses())
         );
         return $this;
     }
@@ -97,11 +99,11 @@ class Magento_CustomerSegment_Model_Segment_Condition_Order_Status
     /**
      * Get order status attribute object
      *
-     * @return Magento_Eav_Model_Entity_Attribute
+     * @return \Magento\Eav\Model\Entity\Attribute
      */
     public function getAttributeObject()
     {
-        return Mage::getSingleton('Magento_Eav_Model_Config')->getAttribute('order', 'status');
+        return \Mage::getSingleton('Magento\Eav\Model\Config')->getAttribute('order', 'status');
     }
 
     /**

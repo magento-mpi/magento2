@@ -15,8 +15,10 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search_Grid
-    extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
+
+class Grid
+    extends \Magento\Adminhtml\Block\Widget\Grid
 {
     protected function _construct()
     {
@@ -62,7 +64,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+        $collection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
             ->setOrder('id')
             ->setStore($this->getStore())
             ->addAttributeToSelect('name')
@@ -96,7 +98,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
             array(
                 'header' => __('ID'),
                 'index' => 'entity_id',
-                'renderer' => 'Magento_Backend_Block_Widget_Grid_Column_Renderer_Checkbox',
+                'renderer' => '\Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox',
                 'type' => 'skip-list'
             )
         );
@@ -159,7 +161,7 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
 
     public function getStore()
     {
-        return Mage::app()->getStore();
+        return \Mage::app()->getStore();
     }
 
     /**
@@ -169,6 +171,6 @@ class Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Sear
      */
     public function getAllowedSelectionTypes()
     {
-        return Mage::helper('Magento_Bundle_Helper_Data')->getAllowedSelectionTypes();
+        return \Mage::helper('Magento\Bundle\Helper\Data')->getAllowedSelectionTypes();
     }
 }

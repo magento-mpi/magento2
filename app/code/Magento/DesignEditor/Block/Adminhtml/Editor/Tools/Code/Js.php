@@ -11,28 +11,30 @@
 /**
  * Block that renders JS tab
  */
-class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_Backend_Block_Widget_Form
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
+
+class Js extends \Magento\Backend\Block\Widget\Form
 {
     /**
-     * @var Magento_Theme_Model_Config_Customization
+     * @var \Magento\Theme\Model\Config\Customization
      */
     protected $_customizationConfig;
 
     /**
-     * @var Magento_DesignEditor_Model_Theme_Context
+     * @var \Magento\DesignEditor\Model\Theme\Context
      */
     protected $_themeContext;
 
     /**
-     * @param Magento_Backend_Block_Template_Context $context
-     * @param Magento_Theme_Model_Config_Customization $customizationConfig
-     * @param Magento_DesignEditor_Model_Theme_Context $themeContext
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Theme\Model\Config\Customization $customizationConfig
+     * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
      * @param array $data
      */
     public function __construct(
-        Magento_Backend_Block_Template_Context $context,
-        Magento_Theme_Model_Config_Customization $customizationConfig,
-        Magento_DesignEditor_Model_Theme_Context $themeContext,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Theme\Model\Config\Customization $customizationConfig,
+        \Magento\DesignEditor\Model\Theme\Context $themeContext,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -43,7 +45,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
     /**
      * Create a form element with necessary controls
      *
-     * @return Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js
+     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Js
      */
     protected function _prepareForm()
     {
@@ -54,7 +56,7 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
         $this->setForm($form);
         $form->setUseContainer(true);
 
-        $form->addType('js_files', 'Magento_DesignEditor_Block_Adminhtml_Editor_Form_Element_Uploader');
+        $form->addType('js_files', '\Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Uploader');
 
         $jsConfig = array(
             'name'     => 'js_files_uploader',
@@ -121,13 +123,13 @@ class Magento_DesignEditor_Block_Adminhtml_Editor_Tools_Code_Js extends Magento_
     /**
      * Get custom js files
      *
-     * @return Magento_Core_Model_Resource_Theme_File_Collection
+     * @return \Magento\Core\Model\Resource\Theme\File\Collection
      */
     public function getFiles()
     {
         $customization = $this->_themeContext->getStagingTheme()->getCustomization();
-        $jsFiles = $customization->getFilesByType(Magento_Core_Model_Theme_Customization_File_Js::TYPE);
-        return $this->helper('Magento_Core_Helper_Data')->jsonEncode($customization->generateFileInfo($jsFiles));
+        $jsFiles = $customization->getFilesByType(\Magento\Core\Model\Theme\Customization\File\Js::TYPE);
+        return $this->helper('\Magento\Core\Helper\Data')->jsonEncode($customization->generateFileInfo($jsFiles));
     }
 
     /**

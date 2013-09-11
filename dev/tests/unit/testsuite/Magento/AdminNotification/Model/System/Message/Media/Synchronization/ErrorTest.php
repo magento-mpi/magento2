@@ -22,15 +22,15 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error
     protected $_fileStorage;
 
     /**
-     * @var Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error
+     * @var \Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_syncFlagMock = $this->getMock('Magento_Core_Model_File_Storage_Flag', array(), array(), '', false);
+        $this->_syncFlagMock = $this->getMock('Magento\Core\Model\File\Storage\Flag', array(), array(), '', false);
 
-        $this->_fileStorage = $this->getMock('Magento_Core_Model_File_Storage', array(), array(), '', false);
+        $this->_fileStorage = $this->getMock('Magento\Core\Model\File\Storage', array(), array(), '', false);
         $this->_fileStorage->expects($this->any())->method('getSyncFlag')
             ->will($this->returnValue($this->_syncFlagMock));
 
@@ -39,7 +39,7 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error
             'fileStorage' => $this->_fileStorage,
         );
         $this->_model = $objectManagerHelper
-            ->getObject('Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error', $arguments);
+            ->getObject('\Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error', $arguments);
 
     }
 
@@ -62,9 +62,9 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error
         );
         $objectManagerHelper = new Magento_TestFramework_Helper_ObjectManager($this);
         // create new instance to ensure that it hasn't been displayed yet (var $this->_isDisplayed is unset)
-        /** @var $model Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error */
+        /** @var $model \Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error */
         $model = $objectManagerHelper
-            ->getObject('Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error', $arguments);
+            ->getObject('\Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error', $arguments);
 
         $this->_syncFlagMock->expects($this->any())->method('setState');
         $this->_syncFlagMock->expects($this->any())->method('save');
@@ -93,7 +93,7 @@ class Magento_AdminNotification_Model_System_Message_Media_Synchronization_Error
 
     public function testGetSeverity()
     {
-        $severity = Magento_AdminNotification_Model_System_MessageInterface::SEVERITY_MAJOR;
+        $severity = \Magento\AdminNotification\Model\System\MessageInterface::SEVERITY_MAJOR;
         $this->assertEquals($severity, $this->_model->getSeverity());
     }
 }

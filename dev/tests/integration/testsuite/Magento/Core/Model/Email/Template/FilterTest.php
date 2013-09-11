@@ -12,13 +12,13 @@
 class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Email_Template_Filter
+     * @var \Magento\Core\Model\Email\Template\Filter
      */
     protected $_model = null;
 
     protected function setUp()
     {
-        $this->_model = Mage::getModel('Magento_Core_Model_Email_Template_Filter');
+        $this->_model = Mage::getModel('\Magento\Core\Model\Email\Template\Filter');
     }
 
     /**
@@ -92,21 +92,21 @@ class Magento_Core_Model_Email_Template_FilterTest extends PHPUnit_Framework_Tes
     {
         Magento_TestFramework_Helper_Bootstrap::getInstance()->reinitialize(array(
             Mage::PARAM_APP_DIRS => array(
-                Magento_Core_Model_Dir::THEMES => dirname(__DIR__) . '/_files/design'
+                \Magento\Core\Model\Dir::THEMES => dirname(__DIR__) . '/_files/design'
             )
         ));
 
-        $collection = Mage::getModel('Magento_Core_Model_Resource_Theme_Collection');
+        $collection = Mage::getModel('\Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
-        Mage::app()->getStore()->setConfig(Magento_Core_Model_View_Design::XML_PATH_THEME_ID, $themeId);
+        Mage::app()->getStore()->setConfig(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $themeId);
 
         $objectManager = Magento_TestFramework_Helper_Bootstrap::getObjectManager();
-        /** @var $layout Magento_Core_Model_Layout */
-        $layout = $objectManager->create('Magento_Core_Model_Layout', array('area' => $area));
-        $objectManager->addSharedInstance($layout, 'Magento_Core_Model_Layout');
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = $objectManager->create('Magento\Core\Model\Layout', array('area' => $area));
+        $objectManager->addSharedInstance($layout, '\Magento\Core\Model\Layout');
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals($area, Mage::app()->getLayout()->getArea());
-        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento_Core_Model_View_DesignInterface')
+        Magento_TestFramework_Helper_Bootstrap::getObjectManager()->get('Magento\Core\Model\View\DesignInterface')
             ->setDesignTheme('test_default');
 
         $actualOutput = $this->_model->layoutDirective(array(

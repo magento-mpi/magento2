@@ -11,7 +11,7 @@
     <handle id="adminhtml_sales_archive_orders">
         <update handle="adminhtml_sales_archive_orders_grid_block"/>
         <reference name="content">
-            <block class="Magento_SalesArchive_Block_Adminhtml_Sales_Archive_Order" name="sales_order.grid.container"/>
+            <block class="\Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order" name="sales_order.grid.container"/>
         </reference>
     </handle>
 </layout>

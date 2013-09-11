@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento_Webhook_Model_Source_Hook
+ * \Magento\Webhook\Model\Source\Hook
  *
  * {license_notice}
  *
@@ -14,7 +14,7 @@ class Magento_Webhook_Model_Source_HookTest extends Magento_Webhook_Model_Source
 {
     public function testGetTopicsForForm()
     {
-        $unitUnderTest = new Magento_Webhook_Model_Source_Hook($this->_mockConfig);
+        $unitUnderTest = new \Magento\Webhook\Model\Source\Hook($this->_mockConfig);
         $elements = $unitUnderTest->getTopicsForForm();
         $this->_assertElements($elements);
 

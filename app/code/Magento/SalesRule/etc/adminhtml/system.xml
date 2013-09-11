@@ -25,7 +25,7 @@
                 </field>
                 <field id="format" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Code Format</label>
-                    <source_model>Magento_SalesRule_Model_System_Config_Source_Coupon_Format</source_model>
+                    <source_model>\Magento\SalesRule\Model\System\Config\Source\Coupon\Format</source_model>
                 </field>
                 <field id="prefix" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Code Prefix</label>

@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-interface Magento_Backend_Model_Widget_Grid_TotalsInterface
+namespace Magento\Backend\Model\Widget\Grid;
+
+interface TotalsInterface
 {
     /**
      * Return object contains totals for all items in collection

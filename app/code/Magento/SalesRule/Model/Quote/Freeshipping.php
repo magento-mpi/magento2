@@ -9,32 +9,34 @@
  */
 
 
-class Magento_SalesRule_Model_Quote_Freeshipping extends Magento_Sales_Model_Quote_Address_Total_Abstract
+namespace Magento\SalesRule\Model\Quote;
+
+class Freeshipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
      * Discount calculation object
      *
-     * @var Magento_SalesRule_Model_Validator
+     * @var \Magento\SalesRule\Model\Validator
      */
     protected $_calculator;
 
     public function __construct()
     {
         $this->setCode('discount');
-        $this->_calculator = Mage::getSingleton('Magento_SalesRule_Model_Validator');
+        $this->_calculator = \Mage::getSingleton('Magento\SalesRule\Model\Validator');
     }
 
     /**
      * Collect information about free shipping for all address items
      *
-     * @param   Magento_Sales_Model_Quote_Address $address
-     * @return  Magento_SalesRule_Model_Quote_Freeshipping
+     * @param   \Magento\Sales\Model\Quote\Address $address
+     * @return  \Magento\SalesRule\Model\Quote\Freeshipping
      */
-    public function collect(Magento_Sales_Model_Quote_Address $address)
+    public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         parent::collect($address);
         $quote = $address->getQuote();
-        $store = Mage::app()->getStore($quote->getStoreId());
+        $store = \Mage::app()->getStore($quote->getStoreId());
 
         $address->setFreeShipping(0);
         $items = $this->_getAddressItems($address);
@@ -82,10 +84,10 @@ class Magento_SalesRule_Model_Quote_Freeshipping extends Magento_Sales_Model_Quo
     * Add information about free shipping for all address items to address object
     * By default we not present such information
     *
-    * @param   Magento_Sales_Model_Quote_Address $address
-    * @return  Magento_SalesRule_Model_Quote_Freeshipping
+    * @param   \Magento\Sales\Model\Quote\Address $address
+    * @return  \Magento\SalesRule\Model\Quote\Freeshipping
     */
-    public function fetch(Magento_Sales_Model_Quote_Address $address)
+    public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         return $this;
     }

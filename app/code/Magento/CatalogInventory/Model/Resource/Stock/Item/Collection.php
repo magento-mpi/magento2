@@ -16,7 +16,9 @@
  * @package     Magento_CatalogInventory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Magento_Core_Model_Resource_Db_Collection_Abstract
+namespace Magento\CatalogInventory\Model\Resource\Stock\Item;
+
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource model
@@ -24,18 +26,18 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage
      */
     protected function _construct()
     {
-        $this->_init('Magento_CatalogInventory_Model_Stock_Item', 'Magento_CatalogInventory_Model_Resource_Stock_Item');
+        $this->_init('\Magento\CatalogInventory\Model\Stock\Item', '\Magento\CatalogInventory\Model\Resource\Stock\Item');
     }
 
     /**
      * Add stock filter to collection
      *
      * @param mixed $stock
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     public function addStockFilter($stock)
     {
-        if ($stock instanceof Magento_CatalogInventory_Model_Stock) {
+        if ($stock instanceof \Magento\CatalogInventory\Model\Stock) {
             $this->addFieldToFilter('main_table.stock_id', $stock->getId());
         } else {
             $this->addFieldToFilter('main_table.stock_id', $stock);
@@ -47,13 +49,13 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage
      * Add product filter to collection
      *
      * @param array $products
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     public function addProductsFilter($products)
     {
         $productIds = array();
         foreach ($products as $product) {
-            if ($product instanceof Magento_Catalog_Model_Product) {
+            if ($product instanceof \Magento\Catalog\Model\Product) {
                 $productIds[] = $product->getId();
             } else {
                 $productIds[] = $product;
@@ -71,11 +73,11 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage
      * Join Stock Status to collection
      *
      * @param int $storeId
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     public function joinStockStatus($storeId = null)
     {
-        $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+        $websiteId = \Mage::app()->getStore($storeId)->getWebsiteId();
         $this->getSelect()->joinLeft(
             array('status_table' => $this->getTable('cataloginventory_stock_status')),
                 'main_table.product_id=status_table.product_id'
@@ -91,7 +93,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage
      * Add Managed Stock products filter to collection
      *
      * @param boolean $isStockManagedInConfig
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     public function addManagedFilter($isStockManagedInConfig)
     {
@@ -109,7 +111,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage
      *
      * @param string $comparsionMethod
      * @param float $qty
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     public function addQtyFilter($comparsionMethod, $qty)
     {
@@ -122,7 +124,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage
             '<>' => 'neq'
         );
         if (!isset($methods[$comparsionMethod])) {
-            Mage::throwException(
+            \Mage::throwException(
                 __('%1 is not a correct comparison method.', $comparsionMethod)
             );
         }
@@ -133,7 +135,7 @@ class Magento_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage
     /**
      * Initialize select object
      *
-     * @return Magento_CatalogInventory_Model_Resource_Stock_Item_Collection
+     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item\Collection
      */
     protected function _initSelect()
     {

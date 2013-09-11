@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer Magento_CustomerSegment_Model_Resource_Setup */
+/* @var $installer \Magento\CustomerSegment\Model\Resource\Setup */
 
 $installer = $this;
 $installer->startSetup();

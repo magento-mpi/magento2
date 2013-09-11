@@ -15,8 +15,10 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Rma\Block\Adminhtml\Rma\New\Tab;
+
+class Items extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Class constructor
@@ -40,7 +42,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
             'onclick' => "rma.addProduct()",
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
     }
 
     /**
@@ -55,13 +57,13 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
             'onclick' => "rma.addSelectedProduct()",
             'class' => 'add',
         );
-        return $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Button')->setData($addButtonData)->toHtml();
+        return $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Button')->setData($addButtonData)->toHtml();
     }
 
     /**
      * Prepare form before rendering HTML
      *
-     * @return Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items
+     * @return \Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items
      */
     protected function _prepareForm()
     {
@@ -69,7 +71,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
         $htmlIdPrefix = 'rma_properties_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
-        $model = Mage::registry('current_rma');
+        $model = \Mage::registry('current_rma');
 
         $fieldset = $form->addFieldset('rma_item_fields', array());
 
@@ -100,7 +102,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
         ));
 
         $reasonOtherAttribute =
-            Mage::getModel('Magento_Rma_Model_Item_Form')->setFormCode('default')->getAttribute('reason_other');
+            \Mage::getModel('\Magento\Rma\Model\Item\Form')->setFormCode('default')->getAttribute('reason_other');
 
         $fieldset->addField('reason_other', 'text', array(
             'label'     => $reasonOtherAttribute->getStoreLabel(),
@@ -109,7 +111,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
             'required'  => false
         ));
 
-        $eavHelper = Mage::helper('Magento_Rma_Helper_Eav');
+        $eavHelper = \Mage::helper('Magento\Rma\Helper\Eav');
         $fieldset->addField('reason', 'select', array(
             'label'=> __('Reason to Return'),
             'options' => array(''=>'')
@@ -118,7 +120,7 @@ class Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items extends Magento_Adminhtml_Bl
             'name' => 'reason',
             'required' => false
         ))->setRenderer(
-            $this->getLayout()->createBlock('Magento_Rma_Block_Adminhtml_Rma_New_Tab_Items_Renderer_Reason')
+            $this->getLayout()->createBlock('\Magento\Rma\Block\Adminhtml\Rma\New\Tab\Items\Renderer\Reason')
         );
 
         $fieldset->addField('condition', 'select', array(

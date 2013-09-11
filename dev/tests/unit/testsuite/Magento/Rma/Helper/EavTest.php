@@ -11,14 +11,14 @@
 class Magento_Rma_Helper_EavTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Rma_Helper_Eav
+     * @var \Magento\Rma\Helper\Eav
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Rma_Helper_Eav(
-            $this->getMock('Magento_Core_Helper_Context', array(), array(), '', false, false)
+        $this->_model = new \Magento\Rma\Helper\Eav(
+            $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false)
         );
     }
 

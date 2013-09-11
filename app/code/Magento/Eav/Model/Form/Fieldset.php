@@ -12,20 +12,22 @@
 /**
  * Eav Form Fieldset Model
  *
- * @method Magento_Eav_Model_Resource_Form_Fieldset _getResource()
- * @method Magento_Eav_Model_Resource_Form_Fieldset getResource()
+ * @method \Magento\Eav\Model\Resource\Form\Fieldset _getResource()
+ * @method \Magento\Eav\Model\Resource\Form\Fieldset getResource()
  * @method int getTypeId()
- * @method Magento_Eav_Model_Form_Fieldset setTypeId(int $value)
+ * @method \Magento\Eav\Model\Form\Fieldset setTypeId(int $value)
  * @method string getCode()
- * @method Magento_Eav_Model_Form_Fieldset setCode(string $value)
+ * @method \Magento\Eav\Model\Form\Fieldset setCode(string $value)
  * @method int getSortOrder()
- * @method Magento_Eav_Model_Form_Fieldset setSortOrder(int $value)
+ * @method \Magento\Eav\Model\Form\Fieldset setSortOrder(int $value)
  *
  * @category    Magento
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Eav_Model_Form_Fieldset extends Magento_Core_Model_Abstract
+namespace Magento\Eav\Model\Form;
+
+class Fieldset extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Prefix of model events names
@@ -40,13 +42,13 @@ class Magento_Eav_Model_Form_Fieldset extends Magento_Core_Model_Abstract
      */
     protected function _construct()
     {
-        $this->_init('Magento_Eav_Model_Resource_Form_Fieldset');
+        $this->_init('\Magento\Eav\Model\Resource\Form\Fieldset');
     }
 
     /**
      * Retrieve resource instance wrapper
      *
-     * @return Magento_Eav_Model_Resource_Form_Fieldset
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset
      */
     protected function _getResource()
     {
@@ -56,7 +58,7 @@ class Magento_Eav_Model_Form_Fieldset extends Magento_Core_Model_Abstract
     /**
      * Retrieve resource collection instance wrapper
      *
-     * @return Magento_Eav_Model_Resource_Form_Fieldset_Collection
+     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
      */
     public function getCollection()
     {
@@ -66,13 +68,13 @@ class Magento_Eav_Model_Form_Fieldset extends Magento_Core_Model_Abstract
     /**
      * Validate data before save data
      *
-     * @throws Magento_Core_Exception
-     * @return Magento_Eav_Model_Form_Fieldset
+     * @throws \Magento\Core\Exception
+     * @return \Magento\Eav\Model\Form\Fieldset
      */
     protected function _beforeSave()
     {
         if (!$this->getTypeId()) {
-            Mage::throwException(__('Invalid form type.'));
+            \Mage::throwException(__('Invalid form type.'));
         }
         if (!$this->getStoreId() && $this->getLabel()) {
             $this->setStoreLabel($this->getStoreId(), $this->getLabel());
@@ -99,7 +101,7 @@ class Magento_Eav_Model_Form_Fieldset extends Magento_Core_Model_Abstract
      * Input array where key - store_id and value = label
      *
      * @param array $labels
-     * @return Magento_Eav_Model_Form_Fieldset
+     * @return \Magento\Eav\Model\Form\Fieldset
      */
     public function setLabels(array $labels)
     {
@@ -111,7 +113,7 @@ class Magento_Eav_Model_Form_Fieldset extends Magento_Core_Model_Abstract
      *
      * @param int $storeId
      * @param string $label
-     * @return Magento_Eav_Model_Form_Fieldset
+     * @return \Magento\Eav\Model\Form\Fieldset
      */
     public function setStoreLabel($storeId, $label)
     {
@@ -129,7 +131,7 @@ class Magento_Eav_Model_Form_Fieldset extends Magento_Core_Model_Abstract
     public function getStoreId()
     {
         if (!$this->hasStoreId()) {
-            $this->setData('store_id', Mage::app()->getStore()->getId());
+            $this->setData('store_id', \Mage::app()->getStore()->getId());
         }
         return $this->_getData('store_id');
     }

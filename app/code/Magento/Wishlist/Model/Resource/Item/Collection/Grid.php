@@ -11,22 +11,24 @@
 /**
  * Wishlist item collection grouped by customer id
  */
-class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishlist_Model_Resource_Item_Collection
+namespace Magento\Wishlist\Model\Resource\Item\Collection;
+
+class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
 {
     /**
-     * @var Magento_Core_Model_Registry
+     * @var \Magento\Core\Model\Registry
      */
     protected $_registryManager;
 
     /**
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param Magento_Core_Model_Registry $registry
-     * @param Magento_Core_Model_Resource_Db_Abstract $resource
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        Magento_Core_Model_Registry $registry,
-        Magento_Core_Model_Resource_Db_Abstract $resource
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\Resource\Db\AbstractDb $resource
     ) {
         $this->_registryManager = $registry;
         parent::__construct($fetchStrategy, $resource);
@@ -35,7 +37,7 @@ class Magento_Wishlist_Model_Resource_Item_Collection_Grid extends Magento_Wishl
     /**
      * Initialize db select
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {

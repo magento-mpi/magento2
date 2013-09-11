@@ -9,32 +9,34 @@
  */
 
 /**
- * @method Magento_Sales_Model_Resource_Order_Shipment_Track _getResource()
- * @method Magento_Sales_Model_Resource_Order_Shipment_Track getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Shipment\Track _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Shipment\Track getResource()
  * @method int getParentId()
- * @method Magento_Sales_Model_Order_Shipment_Track setParentId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Track setParentId(int $value)
  * @method float getWeight()
- * @method Magento_Sales_Model_Order_Shipment_Track setWeight(float $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Track setWeight(float $value)
  * @method float getQty()
- * @method Magento_Sales_Model_Order_Shipment_Track setQty(float $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Track setQty(float $value)
  * @method int getOrderId()
- * @method Magento_Sales_Model_Order_Shipment_Track setOrderId(int $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Track setOrderId(int $value)
  * @method string getDescription()
- * @method Magento_Sales_Model_Order_Shipment_Track setDescription(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Track setDescription(string $value)
  * @method string getTitle()
- * @method Magento_Sales_Model_Order_Shipment_Track setTitle(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Track setTitle(string $value)
  * @method string getCarrierCode()
- * @method Magento_Sales_Model_Order_Shipment_Track setCarrierCode(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Track setCarrierCode(string $value)
  * @method string getCreatedAt()
- * @method Magento_Sales_Model_Order_Shipment_Track setCreatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Track setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method Magento_Sales_Model_Order_Shipment_Track setUpdatedAt(string $value)
+ * @method \Magento\Sales\Model\Order\Shipment\Track setUpdatedAt(string $value)
  *
  * @category    Magento
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstract
+namespace Magento\Sales\Model\Order\Shipment;
+
+class Track extends \Magento\Sales\Model\AbstractModel
 {
     /**
      * Code of custom carrier
@@ -51,7 +53,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
      */
     protected function _construct()
     {
-        $this->_init('Magento_Sales_Model_Resource_Order_Shipment_Track');
+        $this->_init('\Magento\Sales\Model\Resource\Order\Shipment\Track');
     }
 
     /**
@@ -78,10 +80,10 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
     /**
      * Declare Shipment instance
      *
-     * @param   Magento_Sales_Model_Order_Shipment $shipment
-     * @return  Magento_Sales_Model_Order_Shipment_Item
+     * @param   \Magento\Sales\Model\Order\Shipment $shipment
+     * @return  \Magento\Sales\Model\Order\Shipment\Item
      */
-    public function setShipment(Magento_Sales_Model_Order_Shipment $shipment)
+    public function setShipment(\Magento\Sales\Model\Order\Shipment $shipment)
     {
         $this->_shipment = $shipment;
         return $this;
@@ -90,12 +92,12 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
     /**
      * Retrieve Shipment instance
      *
-     * @return Magento_Sales_Model_Order_Shipment
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getShipment()
     {
-        if (!($this->_shipment instanceof Magento_Sales_Model_Order_Shipment)) {
-            $this->_shipment = Mage::getModel('Magento_Sales_Model_Order_Shipment')->load($this->getParentId());
+        if (!($this->_shipment instanceof \Magento\Sales\Model\Order\Shipment)) {
+            $this->_shipment = \Mage::getModel('\Magento\Sales\Model\Order\Shipment')->load($this->getParentId());
         }
 
         return $this->_shipment;
@@ -128,7 +130,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
      */
     public function getNumberDetail()
     {
-        $carrierInstance = Mage::getSingleton('Magento_Shipping_Model_Config')
+        $carrierInstance = \Mage::getSingleton('Magento\Shipping\Model\Config')
             ->getCarrierInstance($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
@@ -149,14 +151,14 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
     /**
      * Get store object
      *
-     * @return Magento_Core_Model_Store
+     * @return \Magento\Core\Model\Store
      */
     public function getStore()
     {
         if ($this->getShipment()) {
             return $this->getShipment()->getStore();
         }
-        return Mage::app()->getStore();
+        return \Mage::app()->getStore();
     }
 
     /**
@@ -172,7 +174,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
     /**
      * Before object save
      *
-     * @return Magento_Sales_Model_Order_Shipment_Track
+     * @return \Magento\Sales\Model\Order\Shipment\Track
      */
     protected function _beforeSave()
     {
@@ -191,7 +193,7 @@ class Magento_Sales_Model_Order_Shipment_Track extends Magento_Sales_Model_Abstr
      * Retains previous data in the object.
      *
      * @param array $data
-     * @return Magento_Sales_Model_Order_Shipment_Track
+     * @return \Magento\Sales\Model\Order\Shipment\Track
      */
     public function addData(array $data)
     {

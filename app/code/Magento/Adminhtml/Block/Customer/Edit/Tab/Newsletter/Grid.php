@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_Adminhtml_Block_Widget_Grid
+namespace Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter;
+
+class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 {
 
     protected function _construct()
@@ -38,10 +40,10 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
 
     protected function _prepareCollection()
     {
-        /** @var $collection Magento_Newsletter_Model_Resource_Queue_Collection */
-        $collection = Mage::getResourceModel('Magento_Newsletter_Model_Resource_Queue_Collection')
+        /** @var $collection \Magento\Newsletter\Model\Resource\Queue\Collection */
+        $collection = \Mage::getResourceModel('\Magento\Newsletter\Model\Resource\Queue\Collection')
             ->addTemplateInfo()
-            ->addSubscriberFilter(Mage::registry('subscriber')->getId());
+            ->addSubscriberFilter(\Mage::registry('subscriber')->getId());
 
         $this->setCollection($collection);
 
@@ -92,9 +94,9 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
          $this->addColumn('status', array(
             'header'    =>  __('Status'),
             'align'     =>  'center',
-            'filter'    =>  'Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Filter_Status',
+            'filter'    =>  '\Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Filter\Status',
             'index'     => 'queue_status',
-            'renderer'  =>  'Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Status'
+            'renderer'  =>  '\Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer\Status'
         ));
 
         $this->addColumn('action', array(
@@ -102,7 +104,7 @@ class Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Magento_
             'align'     =>  'center',
             'filter'    =>  false,
             'sortable'  =>  false,
-            'renderer'  =>  'Magento_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Renderer_Action'
+            'renderer'  =>  '\Magento\Adminhtml\Block\Customer\Edit\Tab\Newsletter\Grid\Renderer\Action'
         ));
 
         return parent::_prepareColumns();

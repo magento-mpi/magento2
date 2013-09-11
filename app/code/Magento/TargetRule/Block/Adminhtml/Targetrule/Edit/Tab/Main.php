@@ -15,19 +15,21 @@
  * @package    Magento_TargetRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
-    extends Magento_Adminhtml_Block_Widget_Form
-    implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
+
+class Main
+    extends \Magento\Adminhtml\Block\Widget\Form
+    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare Mail Target Rule Edit form
      *
-     * @return Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
+     * @return \Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab\Main
      */
     protected function _prepareForm()
     {
-        /* @var $model Magento_TargetRule_Model_Rule */
-        $model = Mage::registry('current_target_rule');
+        /* @var $model \Magento\TargetRule\Model\Rule */
+        $model = \Mage::registry('current_target_rule');
         $form = new \Magento\Data\Form();
 
 
@@ -71,10 +73,10 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
             'label'     => __('Apply To'),
             'name'      => 'apply_to',
             'required'  => true,
-            'options'   => Mage::getSingleton('Magento_TargetRule_Model_Rule')->getAppliesToOptions(true),
+            'options'   => \Mage::getSingleton('Magento\TargetRule\Model\Rule')->getAppliesToOptions(true),
         ));
 
-        $dateFormat = Mage::app()->getLocale()->getDateFormat(Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = \Mage::app()->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'         => 'from_date',
             'label'        => __('From Date'),
@@ -97,7 +99,7 @@ class Magento_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
         ));
 
 
-        Mage::dispatchEvent('targetrule_edit_tab_main_after_prepare_form', array('model' => $model, 'form' => $form,
+        \Mage::dispatchEvent('targetrule_edit_tab_main_after_prepare_form', array('model' => $model, 'form' => $form,
             'block' => $this));
 
         $form->setValues($model->getData());

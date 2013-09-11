@@ -8,13 +8,13 @@
 class Magento_Core_Model_Config_Section_ConverterTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Core_Model_Config_Section_Converter
+     * @var \Magento\Core\Model\Config\Section\Converter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Magento_Core_Model_Config_Section_Converter();
+        $this->_model = new \Magento\Core\Model\Config\Section\Converter();
     }
 
     public function testConvert()

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_GiftCard_Model_Customer_Api_V2 extends Magento_GiftCard_Model_Customer_Api
+namespace Magento\GiftCard\Model\Customer\Api;
+
+class V2 extends \Magento\GiftCard\Model\Customer\Api
 {
 
 }

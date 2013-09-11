@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes extends Magento_Adminhtml_Block_Catalog_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Attribute\New\Product;
+
+class Attributes extends \Magento\Adminhtml\Block\Catalog\Form
 {
     protected function _prepareForm()
     {
@@ -25,7 +27,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
          * Initialize product object as form property
          * for using it in elements generation
          */
-        $form->setDataObject(Mage::registry('product'));
+        $form->setDataObject(\Mage::registry('product'));
 
         $fieldset = $form->addFieldset('group_fields', array());
 
@@ -33,11 +35,11 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
 
         $this->_setFieldset($attributes, $fieldset, array('gallery'));
 
-        $values = Mage::registry('product')->getData();
+        $values = \Mage::registry('product')->getData();
         /**
          * Set attribute default values for new product
          */
-        if (!Mage::registry('product')->getId()) {
+        if (!\Mage::registry('product')->getId()) {
             foreach ($attributes as $attribute) {
                 if (!isset($values[$attribute->getAttributeCode()])) {
                     $values[$attribute->getAttributeCode()] = $attribute->getDefaultValue();
@@ -45,7 +47,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
             }
         }
 
-        Mage::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form'=>$form));
+        \Mage::dispatchEvent('adminhtml_catalog_product_edit_prepare_form', array('form'=>$form));
         $form->addValues($values);
         $form->setFieldNameSuffix('product');
         $this->setForm($form);
@@ -54,14 +56,14 @@ class Magento_Adminhtml_Block_Catalog_Product_Attribute_New_Product_Attributes e
     protected function _getAdditionalElementTypes()
     {
         $result = array(
-            'price'   => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Price',
-            'image'   => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Image',
-            'boolean' => 'Magento_Adminhtml_Block_Catalog_Product_Helper_Form_Boolean',
+            'price'   => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Price',
+            'image'   => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Image',
+            'boolean' => '\Magento\Adminhtml\Block\Catalog\Product\Helper\Form\Boolean',
         );
 
         $response = new \Magento\Object();
         $response->setTypes(array());
-        Mage::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response'=>$response));
+        \Mage::dispatchEvent('adminhtml_catalog_product_edit_element_types', array('response'=>$response));
 
         foreach ($response->getTypes() as $typeName=>$typeClass) {
             $result[$typeName] = $typeClass;

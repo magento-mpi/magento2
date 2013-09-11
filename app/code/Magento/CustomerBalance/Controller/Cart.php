@@ -12,7 +12,9 @@
  * Customer balance controller for shopping cart
  *
  */
-class Magento_CustomerBalance_Controller_Cart extends Magento_Core_Controller_Front_Action
+namespace Magento\CustomerBalance\Controller;
+
+class Cart extends \Magento\Core\Controller\Front\Action
 {
     /**
      * Only logged in users can use this functionality,
@@ -23,7 +25,7 @@ class Magento_CustomerBalance_Controller_Cart extends Magento_Core_Controller_Fr
     {
         parent::preDispatch();
 
-        if (!Mage::getSingleton('Magento_Customer_Model_Session')->authenticate($this)) {
+        if (!\Mage::getSingleton('Magento\Customer\Model\Session')->authenticate($this)) {
             $this->setFlag('', 'no-dispatch', true);
         }
     }
@@ -34,19 +36,19 @@ class Magento_CustomerBalance_Controller_Cart extends Magento_Core_Controller_Fr
      */
     public function removeAction()
     {
-        if (!Mage::helper('Magento_CustomerBalance_Helper_Data')->isEnabled()) {
+        if (!\Mage::helper('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             $this->_redirect('customer/account/');
             return;
         }
 
-        $quote = Mage::getSingleton('Magento_Checkout_Model_Session')->getQuote();
+        $quote = \Mage::getSingleton('Magento\Checkout\Model\Session')->getQuote();
         if ($quote->getUseCustomerBalance()) {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addSuccess(
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->addSuccess(
                 __('The store credit payment has been removed from shopping cart.')
             );
             $quote->setUseCustomerBalance(false)->collectTotals()->save();
         } else {
-            Mage::getSingleton('Magento_Checkout_Model_Session')->addError(
+            \Mage::getSingleton('Magento\Checkout\Model\Session')->addError(
                 __('You are not using store credit in your shopping cart.')
             );
         }

@@ -35,15 +35,15 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
     protected function setUp()
     {
         $this->_nonceStorageMock = $this->getMockBuilder(
-            'Magento_Webapi_Model_Soap_Security_UsernameToken_NonceStorage')
+            '\Magento\Webapi\Model\Soap\Security\UsernameToken\NonceStorage')
             ->disableOriginalConstructor()
             ->setMethods(array('validateNonce'))
             ->getMock();
-        $this->_userMock = $this->getMockBuilder('Magento_Webapi_Model_Acl_User')
+        $this->_userMock = $this->getMockBuilder('Magento\Webapi\Model\Acl\User')
             ->disableOriginalConstructor()
             ->setMethods(array('load', 'getId', 'getSecret'))
             ->getMock();
-        $this->_userFactoryMock = $this->getMockBuilder('Magento_Webapi_Model_Acl_User_Factory')
+        $this->_userFactoryMock = $this->getMockBuilder('Magento\Webapi\Model\Acl\User\Factory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
@@ -84,7 +84,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
             ->with()
             ->will($this->returnValue($password));
 
-        $usernameToken = new Magento_Webapi_Model_Soap_Security_UsernameToken(
+        $usernameToken = new \Magento\Webapi\Model\Soap\Security\UsernameToken(
             $this->_nonceStorageMock,
             $this->_userFactoryMock
         );
@@ -114,7 +114,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
      *
      * @dataProvider invalidDateTimeProvider()
      * @param string $invalidDateTime
-     * @expectedException Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidDateException
+     * @expectedException \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidDateException
      */
     public function testAuthenticateUsernameTokenWithInvalidCreatedDate($invalidDateTime)
     {
@@ -122,7 +122,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
         $password = 'test_password';
         $nonce = mt_rand();
 
-        $usernameToken = new Magento_Webapi_Model_Soap_Security_UsernameToken(
+        $usernameToken = new \Magento\Webapi\Model\Soap\Security\UsernameToken(
             $this->_nonceStorageMock,
             $this->_userFactoryMock
         );
@@ -146,11 +146,11 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
     /**
      * Test construction of object with invalid password type.
      *
-     * @expectedException Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidPasswordTypeException
+     * @expectedException \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidPasswordTypeException
      */
     public function testConstructNewUsernameTokenWithInvalidPasswordType()
     {
-        new Magento_Webapi_Model_Soap_Security_UsernameToken(
+        new \Magento\Webapi\Model\Soap\Security\UsernameToken(
             $this->_nonceStorageMock,
             $this->_userFactoryMock,
             'INVALID_TYPE'
@@ -160,7 +160,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
     /**
      * Test negative token authentication - username is invalid.
      *
-     * @expectedException Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException
+     * @expectedException \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidCredentialException
      */
     public function testAuthenticateWithInvalidUsername()
     {
@@ -185,7 +185,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
             ->with()
             ->will($this->returnValue(false));
 
-        $usernameToken = new Magento_Webapi_Model_Soap_Security_UsernameToken(
+        $usernameToken = new \Magento\Webapi\Model\Soap\Security\UsernameToken(
             $this->_nonceStorageMock,
             $this->_userFactoryMock
         );
@@ -195,7 +195,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
     /**
      * Test negative token authentication - password is invalid.
      *
-     * @expectedException Magento_Webapi_Model_Soap_Security_UsernameToken_InvalidCredentialException
+     * @expectedException \Magento\Webapi\Model\Soap\Security\UsernameToken\InvalidCredentialException
      */
     public function testAuthenticateWithInvalidPassword()
     {
@@ -225,7 +225,7 @@ class Magento_Webapi_Model_Soap_Security_UsernameTokenTest extends PHPUnit_Frame
             ->with()
             ->will($this->returnValue($invalidPassword));
 
-        $usernameToken = new Magento_Webapi_Model_Soap_Security_UsernameToken(
+        $usernameToken = new \Magento\Webapi\Model\Soap\Security\UsernameToken(
             $this->_nonceStorageMock,
             $this->_userFactoryMock
         );

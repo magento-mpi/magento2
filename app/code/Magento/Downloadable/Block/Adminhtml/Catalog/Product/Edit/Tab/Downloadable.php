@@ -15,14 +15,16 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
-    extends Magento_Adminhtml_Block_Widget implements Magento_Adminhtml_Block_Widget_Tab_Interface
+namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab;
+
+class Downloadable
+    extends \Magento\Adminhtml\Block\Widget implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
 
     /**
      * Reference to product objects that is being edited
      *
-     * @var Magento_Catalog_Model_Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product = null;
 
@@ -63,11 +65,11 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
     /**
      * Retrieve product
      *
-     * @return Magento_Catalog_Model_Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
-        return Mage::registry('current_product');
+        return \Mage::registry('current_product');
     }
 
     /**
@@ -115,7 +117,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     public function getGroupCode()
     {
-        return Magento_Adminhtml_Block_Catalog_Product_Edit_Tabs::ADVANCED_TAB_GROUP_CODE;
+        return \Magento\Adminhtml\Block\Catalog\Product\Edit\Tabs::ADVANCED_TAB_GROUP_CODE;
     }
 
     /**
@@ -125,13 +127,13 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
      */
     protected function _toHtml()
     {
-        $accordion = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Widget_Accordion')
+        $accordion = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Widget\Accordion')
             ->setId('downloadableInfo');
 
         $accordion->addItem('samples', array(
             'title'   => __('Samples'),
             'content' => $this->getLayout()
-                ->createBlock('Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples')
+                ->createBlock('\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Samples')
                 ->toHtml(),
             'open'    => false,
         ));
@@ -139,7 +141,7 @@ class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable
         $accordion->addItem('links', array(
             'title'   => __('Links'),
             'content' => $this->getLayout()->createBlock(
-                'Magento_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links',
+                '\Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links',
                 'catalog.product.edit.tab.downloadable.links')->toHtml(),
             'open'    => true,
         ));

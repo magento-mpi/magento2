@@ -1,6 +1,6 @@
 <?php
 /**
- * Integration test for Magento_Core_Model_Config
+ * Integration test for \Magento\Core\Model\Config
  *
  * {license_notice}
  *
@@ -9,7 +9,7 @@
  */
 
 /**
- * First part of Magento_Core_Model_Config testing:
+ * First part of \Magento\Core\Model\Config testing:
  * - general behaviour is tested
  *
  * @see Magento_Core_Model_ConfigFactoryTest
@@ -20,9 +20,9 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
-        /** @var Magento_Core_Model_Cache_StateInterface $cacheState */
+        /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
         $cacheState = Magento_TestFramework_Helper_Bootstrap::getObjectManager()
-            ->get('Magento_Core_Model_Cache_StateInterface');
+            ->get('Magento\Core\Model\Cache\StateInterface');
         $cacheState->setEnabled('config', false);
     }
 
@@ -105,15 +105,15 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * Instantiate Magento_Core_Model_Config and initialize (load configuration) if needed
+     * Instantiate \Magento\Core\Model\Config and initialize (load configuration) if needed
      *
      * @param array $arguments
-     * @return Magento_Core_Model_Config
+     * @return \Magento\Core\Model\Config
      */
     protected function _createModel(array $arguments = array())
     {
-        /** @var $model Magento_Core_Model_Config */
-        $model = Mage::getModel('Magento_Core_Model_Config', $arguments);
+        /** @var $model \Magento\Core\Model\Config */
+        $model = Mage::getModel('\Magento\Core\Model\Config', $arguments);
         return $model;
     }
 

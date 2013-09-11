@@ -15,8 +15,10 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Customer_Grid_Renderer_Multiaction
-    extends Magento_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
+namespace Magento\Adminhtml\Block\Customer\Grid\Renderer;
+
+class Multiaction
+    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Action
 {
     /**
      * Renders column

@@ -16,7 +16,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Resource_Helper_Mysql4 extends Magento_Eav_Model_Resource_Helper_Mysql4
+namespace Magento\Catalog\Model\Resource\Helper;
+
+class Mysql4 extends \Magento\Eav\Model\Resource\Helper\Mysql4
 {
     /**
      * Compare Flat style with Describe style columns

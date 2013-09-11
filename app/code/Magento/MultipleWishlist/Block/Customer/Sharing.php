@@ -15,7 +15,9 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_MultipleWishlist_Block_Customer_Sharing extends Magento_Wishlist_Block_Customer_Sharing
+namespace Magento\MultipleWishlist\Block\Customer;
+
+class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
 {
     /**
      * Retrieve send form action URL
@@ -24,7 +26,7 @@ class Magento_MultipleWishlist_Block_Customer_Sharing extends Magento_Wishlist_B
      */
     public function getSendUrl()
     {
-        return $this->getUrl('*/*/send', array('wishlist_id' => Mage::helper('Magento_Wishlist_Helper_Data')->getWishlist()->getId()));
+        return $this->getUrl('*/*/send', array('wishlist_id' => \Mage::helper('Magento\Wishlist\Helper\Data')->getWishlist()->getId()));
     }
 
     /**
@@ -34,6 +36,6 @@ class Magento_MultipleWishlist_Block_Customer_Sharing extends Magento_Wishlist_B
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/*/index', array('wishlist_id' => Mage::helper('Magento_Wishlist_Helper_Data')->getWishlist()->getId()));
+        return $this->getUrl('*/*/index', array('wishlist_id' => \Mage::helper('Magento\Wishlist\Helper\Data')->getWishlist()->getId()));
     }
 }

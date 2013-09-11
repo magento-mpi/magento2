@@ -7,21 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Magento_Webapi_Model_Rest_Oauth_Server extends Magento_Oauth_Model_Server
+namespace Magento\Webapi\Model\Rest\Oauth;
+
+class Server extends \Magento\Oauth\Model\Server
 {
     /**
      * Construct server.
      *
-     * @param Magento_Webapi_Controller_Request_Rest $request
-     * @param Magento_Oauth_Model_Token_Factory $tokenFactory
-     * @param Magento_Webapi_Model_Acl_User_Factory $consumerFactory
-     * @param Magento_Oauth_Model_Nonce_Factory $nonceFactory
+     * @param \Magento\Webapi\Controller\Request\Rest $request
+     * @param \Magento\Oauth\Model\Token\Factory $tokenFactory
+     * @param \Magento\Webapi\Model\Acl\User\Factory $consumerFactory
+     * @param \Magento\Oauth\Model\Nonce\Factory $nonceFactory
      */
     public function __construct(
-        Magento_Webapi_Controller_Request_Rest $request,
-        Magento_Oauth_Model_Token_Factory $tokenFactory,
-        Magento_Webapi_Model_Acl_User_Factory $consumerFactory,
-        Magento_Oauth_Model_Nonce_Factory $nonceFactory
+        \Magento\Webapi\Controller\Request\Rest $request,
+        \Magento\Oauth\Model\Token\Factory $tokenFactory,
+        \Magento\Webapi\Model\Acl\User\Factory $consumerFactory,
+        \Magento\Oauth\Model\Nonce\Factory $nonceFactory
     ) {
         parent::__construct($request, $tokenFactory, $consumerFactory, $nonceFactory);
     }
@@ -29,7 +31,7 @@ class Magento_Webapi_Model_Rest_Oauth_Server extends Magento_Oauth_Model_Server
     /**
      * Authenticate two-legged REST request.
      *
-     * @return Magento_Webapi_Model_Acl_User
+     * @return \Magento\Webapi\Model\Acl\User
      */
     public function authenticateTwoLegged()
     {

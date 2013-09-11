@@ -15,7 +15,9 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Connect_Block_Adminhtml_Extension_Custom_Edit extends Magento_Adminhtml_Block_Widget_Form_Container
+namespace Magento\Connect\Block\Adminhtml\Extension\Custom;
+
+class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
 {
     /**
      * Constructor

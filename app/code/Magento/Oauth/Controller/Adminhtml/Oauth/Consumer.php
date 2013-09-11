@@ -15,12 +15,14 @@
  * @package     Magento_Oauth
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtml_Controller_Action
+namespace Magento\Oauth\Controller\Adminhtml\Oauth;
+
+class Consumer extends \Magento\Adminhtml\Controller\Action
 {
     /**
      * Perform layout initialization actions
      *
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Consumer
      */
     protected function  _initAction()
     {
@@ -48,7 +50,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
     /**
      * Init titles
      *
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Consumer
      */
     public function preDispatch()
     {
@@ -80,22 +82,22 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
      */
     public function newAction()
     {
-        /** @var $model Magento_Oauth_Model_Consumer */
-        $model = Mage::getModel('Magento_Oauth_Model_Consumer');
+        /** @var $model \Magento\Oauth\Model\Consumer */
+        $model = \Mage::getModel('\Magento\Oauth\Model\Consumer');
 
         $formData = $this->_getFormData();
         if ($formData) {
             $this->_setFormData($formData);
             $model->addData($formData);
         } else {
-            /** @var $helper Magento_Oauth_Helper_Data */
-            $helper = Mage::helper('Magento_Oauth_Helper_Data');
+            /** @var $helper \Magento\Oauth\Helper\Data */
+            $helper = \Mage::helper('Magento\Oauth\Helper\Data');
             $model->setKey($helper->generateConsumerKey());
             $model->setSecret($helper->generateConsumerSecret());
             $this->_setFormData($model->getData());
         }
 
-        Mage::register('current_consumer', $model);
+        \Mage::register('current_consumer', $model);
 
         $this->_initAction();
         $this->renderLayout();
@@ -114,8 +116,8 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
             return;
         }
 
-        /** @var $model Magento_Oauth_Model_Consumer */
-        $model = Mage::getModel('Magento_Oauth_Model_Consumer');
+        /** @var $model \Magento\Oauth\Model\Consumer */
+        $model = \Mage::getModel('\Magento\Oauth\Model\Consumer');
         $model->load($id);
 
         if (!$model->getId()) {
@@ -125,7 +127,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
         }
 
         $model->addData($this->_filter($this->getRequest()->getParams()));
-        Mage::register('current_consumer', $model);
+        \Mage::register('current_consumer', $model);
 
         $this->_initAction();
         $this->renderLayout();
@@ -148,8 +150,8 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
 
         $data = $this->_filter($this->getRequest()->getParams());
 
-        /** @var $model Magento_Oauth_Model_Consumer */
-        $model = Mage::getModel('Magento_Oauth_Model_Consumer');
+        /** @var $model \Magento\Oauth\Model\Consumer */
+        $model = \Mage::getModel('\Magento\Oauth\Model\Consumer');
 
         if ($id) {
             if (!(int) $id) {
@@ -174,8 +176,8 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
             } else {
                 // If an admin was started create a new consumer and at this moment he has been edited an existing
                 // consumer, we save the new consumer with a new key-secret pair
-                /** @var $helper Magento_Oauth_Helper_Data */
-                $helper = Mage::helper('Magento_Oauth_Helper_Data');
+                /** @var $helper \Magento\Oauth\Helper\Data */
+                $helper = \Mage::helper('Magento\Oauth\Helper\Data');
 
                 $data['key']    = $helper->generateConsumerKey();
                 $data['secret'] = $helper->generateConsumerSecret();
@@ -187,13 +189,13 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
             $model->save();
             $this->_getSession()->addSuccess(__('The consumer has been saved.'));
             $this->_setFormData(null);
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_setFormData($data);
-            $this->_getSession()->addError(Mage::helper('Magento_Core_Helper_Data')->escapeHtml($e->getMessage()));
+            $this->_getSession()->addError(\Mage::helper('Magento\Core\Helper\Data')->escapeHtml($e->getMessage()));
             $this->getRequest()->setParam('back', 'edit');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_setFormData(null);
-            Mage::logException($e);
+            \Mage::logException($e);
             $this->_getSession()->addError(__('An error occurred on saving consumer data.'));
         }
 
@@ -249,7 +251,7 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
      * Set form data
      *
      * @param $data
-     * @return Magento_Oauth_Controller_Adminhtml_Oauth_Consumer
+     * @return \Magento\Oauth\Controller\Adminhtml\Oauth\Consumer
      */
     protected function _setFormData($data)
     {
@@ -265,18 +267,18 @@ class Magento_Oauth_Controller_Adminhtml_Oauth_Consumer extends Magento_Adminhtm
         $consumerId = (int) $this->getRequest()->getParam('id');
         if ($consumerId) {
             try {
-                /** @var $consumer Magento_Oauth_Model_Consumer */
-                $consumer = Mage::getModel('Magento_Oauth_Model_Consumer')->load($consumerId);
+                /** @var $consumer \Magento\Oauth\Model\Consumer */
+                $consumer = \Mage::getModel('\Magento\Oauth\Model\Consumer')->load($consumerId);
                 if (!$consumer->getId()) {
-                    Mage::throwException(__('Unable to find a consumer.'));
+                    \Mage::throwException(__('Unable to find a consumer.'));
                 }
 
                 $consumer->delete();
 
                 $this->_getSession()->addSuccess(__('The consumer has been deleted.'));
-            } catch (Magento_Core_Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->_getSession()->addException(
                     $e, __('An error occurred while deleting the consumer.')
                 );

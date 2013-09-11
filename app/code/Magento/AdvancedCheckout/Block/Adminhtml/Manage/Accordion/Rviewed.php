@@ -15,8 +15,10 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
-    extends Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Abstract
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
+
+class Rviewed
+    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\AbstractAccordion
 {
     /**
      * Javascript list type name for this grid
@@ -40,15 +42,15 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
     /**
      * Prepare customer wishlist product collection
      *
-     * @return Magento_Core_Model_Resource_Db_Collection_Abstract
+     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = Mage::getModel('Magento_Reports_Model_Event')
+            $collection = \Mage::getModel('\Magento\Reports\Model\Event')
                 ->getCollection()
                 ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
-                ->addRecentlyFiler(Magento_Reports_Model_Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
+                ->addRecentlyFiler(\Magento\Reports\Model\Event::EVENT_PRODUCT_VIEW, $this->_getCustomer()->getId(), 0);
             $productIds = array();
             foreach ($collection as $event) {
                 $productIds[] = $event->getObjectId();
@@ -56,17 +58,17 @@ class Magento_AdvancedCheckout_Block_Adminhtml_Manage_Accordion_Rviewed
 
             $productCollection = parent::getItemsCollection();
             if ($productIds) {
-                $attributes = Mage::getSingleton('Magento_Catalog_Model_Config')->getProductAttributes();
-                $productCollection = Mage::getModel('Magento_Catalog_Model_Product')->getCollection()
+                $attributes = \Mage::getSingleton('Magento\Catalog\Model\Config')->getProductAttributes();
+                $productCollection = \Mage::getModel('\Magento\Catalog\Model\Product')->getCollection()
                     ->setStoreId($this->_getStore()->getId())
                     ->addStoreFilter($this->_getStore()->getId())
                     ->addAttributeToSelect($attributes)
                     ->addIdFilter($productIds)
-                    ->addAttributeToFilter('status', Magento_Catalog_Model_Product_Status::STATUS_ENABLED);
+                    ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
 
-                Mage::getSingleton('Magento_CatalogInventory_Model_Stock_Status')
+                \Mage::getSingleton('Magento\CatalogInventory\Model\Stock\Status')
                     ->addIsInStockFilterToCollection($productCollection);
-                $productCollection = Mage::helper('Magento_Adminhtml_Helper_Sales')
+                $productCollection = \Mage::helper('Magento\Adminhtml\Helper\Sales')
                     ->applySalableProductTypesFilter($productCollection);
                 $productCollection->addOptionsToResult();
             }

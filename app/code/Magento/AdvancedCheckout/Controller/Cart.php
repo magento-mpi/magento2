@@ -16,59 +16,61 @@
  * @package    Magento_AdvancedCheckout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_AdvancedCheckout_Controller_Cart
-    extends Magento_Core_Controller_Front_Action
-    implements Magento_Catalog_Controller_Product_View_Interface
+namespace Magento\AdvancedCheckout\Controller;
+
+class Cart
+    extends \Magento\Core\Controller\Front\Action
+    implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
      * Get checkout session model instance
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Session');
+        return \Mage::getSingleton('Magento\Checkout\Model\Session');
     }
 
     /**
      * Get customer session model instance
      *
-     * @return Magento_Checkout_Model_Session
+     * @return \Magento\Checkout\Model\Session
      */
     protected function _getCustomerSession()
     {
-        return Mage::getSingleton('Magento_Customer_Model_Session');
+        return \Mage::getSingleton('Magento\Customer\Model\Session');
     }
 
     /**
      * Retrieve helper instance
      *
-     * @return Magento_AdvancedCheckout_Helper_Data
+     * @return \Magento\AdvancedCheckout\Helper\Data
      */
     protected function _getHelper()
     {
-        return Mage::helper('Magento_AdvancedCheckout_Helper_Data');
+        return \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
     }
 
     /**
      * Get cart model instance
      *
-     * @return Magento_Checkout_Model_Cart
+     * @return \Magento\Checkout\Model\Cart
      */
     protected function _getCart()
     {
-        return Mage::getSingleton('Magento_Checkout_Model_Cart');
+        return \Mage::getSingleton('Magento\Checkout\Model\Cart');
     }
 
     /**
      * Get failed items cart model instance
      *
-     * @return Magento_AdvancedCheckout_Model_Cart
+     * @return \Magento\AdvancedCheckout\Model\Cart
      */
     protected function _getFailedItemsCart()
     {
-        return Mage::getSingleton('Magento_AdvancedCheckout_Model_Cart')
-            ->setContext(Magento_AdvancedCheckout_Model_Cart::CONTEXT_FRONTEND);
+        return \Mage::getSingleton('Magento\AdvancedCheckout\Model\Cart')
+            ->setContext(\Magento\AdvancedCheckout\Model\Cart::CONTEXT_FRONTEND);
     }
 
     /**
@@ -79,8 +81,8 @@ class Magento_AdvancedCheckout_Controller_Cart
     public function advancedAddAction()
     {
         // check empty data
-        /** @var $helper Magento_AdvancedCheckout_Helper_Data */
-        $helper = Mage::helper('Magento_AdvancedCheckout_Helper_Data');
+        /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
+        $helper = \Mage::helper('Magento\AdvancedCheckout\Helper\Data');
         $items = $this->getRequest()->getParam('items');
         foreach ($items as $k => $item) {
             if (empty($item['sku'])) {
@@ -102,9 +104,9 @@ class Magento_AdvancedCheckout_Controller_Cart
             $this->_getSession()->addMessages($cart->getMessages());
 
             if ($cart->hasErrorMessage()) {
-                Mage::throwException($cart->getErrorMessage());
+                \Mage::throwException($cart->getErrorMessage());
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
         }
 
@@ -136,7 +138,7 @@ class Magento_AdvancedCheckout_Controller_Cart
     public function removeFailedAction()
     {
         $removed = $this->_getFailedItemsCart()->removeAffectedItem(
-            Mage::helper('Magento_Core_Helper_Url')->urlDecode($this->getRequest()->getParam('sku'))
+            \Mage::helper('Magento\Core\Helper\Url')->urlDecode($this->getRequest()->getParam('sku'))
         );
 
         if ($removed) {
@@ -184,14 +186,14 @@ class Magento_AdvancedCheckout_Controller_Cart
 
             $params->setBuyRequest($buyRequest);
 
-            Mage::helper('Magento_Catalog_Helper_Product_View')->prepareAndRender($id, $this, $params);
-        } catch (Magento_Core_Exception $e) {
+            \Mage::helper('Magento\Catalog\Helper\Product\View')->prepareAndRender($id, $this, $params);
+        } catch (\Magento\Core\Exception $e) {
             $this->_getCustomerSession()->addError($e->getMessage());
             $this->_redirect('*');
             return;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getCustomerSession()->addError(__('You cannot configure a product.'));
-            Mage::logException($e);
+            \Mage::logException($e);
             $this->_redirect('*');
             return;
         }
@@ -210,8 +212,8 @@ class Magento_AdvancedCheckout_Controller_Cart
         try {
             $cart = $this->_getCart();
 
-            $product = Mage::getModel('Magento_Catalog_Model_Product')
-                ->setStoreId(Mage::app()->getStore()->getId())
+            $product = \Mage::getModel('\Magento\Catalog\Model\Product')
+                ->setStoreId(\Mage::app()->getStore()->getId())
                 ->load($id);
 
             $cart->addProduct($product, $buyRequest)->save();
@@ -220,17 +222,17 @@ class Magento_AdvancedCheckout_Controller_Cart
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $productName = Mage::helper('Magento_Core_Helper_Data')->escapeHtml($product->getName());
+                    $productName = \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($product->getName());
                     $message = __('You added %1 to your shopping cart.', $productName);
                     $this->_getSession()->addSuccess($message);
                 }
             }
-        } catch (Magento_Core_Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $hasError = true;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->_getSession()->addError(__('You cannot add a product.'));
-            Mage::logException($e);
+            \Mage::logException($e);
             $hasError = true;
         }
 

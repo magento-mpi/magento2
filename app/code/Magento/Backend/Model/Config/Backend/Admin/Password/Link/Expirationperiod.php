@@ -15,13 +15,15 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Backend_Model_Config_Backend_Admin_Password_Link_Expirationperiod
-    extends Magento_Core_Model_Config_Value
+namespace Magento\Backend\Model\Config\Backend\Admin\Password\Link;
+
+class Expirationperiod
+    extends \Magento\Core\Model\Config\Value
 {
     /**
      * Validate expiration period value before saving
      *
-     * @return Magento_Backend_Model_Config_Backend_Admin_Password_Link_Expirationperiod
+     * @return \Magento\Backend\Model\Config\Backend\Admin\Password\Link\Expirationperiod
      */
     protected function _beforeSave()
     {

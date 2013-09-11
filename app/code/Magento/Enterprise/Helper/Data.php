@@ -15,6 +15,8 @@
  * @category   Magento
  * @package    Magento_Enterprise
  */
-class Magento_Enterprise_Helper_Data extends Magento_Core_Helper_Data
+namespace Magento\Enterprise\Helper;
+
+class Data extends \Magento\Core\Helper\Data
 {
 }

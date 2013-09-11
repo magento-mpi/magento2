@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Magento_ImportExport_Model_Resource_Setup */
+/** @var $installer \Magento\ImportExport\Model\Resource\Setup */
 $installer = $this;
 
 $installer->getConnection()

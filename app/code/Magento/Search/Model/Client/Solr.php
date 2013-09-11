@@ -16,7 +16,9 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
+namespace Magento\Search\Model\Client;
+
+class Solr extends Apache_Solr_Service
 {
     /**
      * Store user login, that needed in authentication with solr server
@@ -59,7 +61,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
             'path'
         );
         if (!sizeof(array_intersect($_optionsNames, array_keys($options)))) {
-            Mage::throwException(__('We were unable to perform the search because a search engine misconfiguration.'));
+            \Mage::throwException(__('We were unable to perform the search because a search engine misconfiguration.'));
         }
 
         $this->setUserLogin($options['login']);
@@ -86,7 +88,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
      * @param float|int $timeout Maximum expected duration of the commit operation on the server (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
-     * @throws Exception If an error occurs during the service call
+     * @throws \Exception If an error occurs during the service call
      */
     public function rollback($timeout = 3600)
     {
@@ -103,7 +105,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
      * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
-     * @throws Exception If an error occurs during the service call
+     * @throws \Exception If an error occurs during the service call
      */
     public function deleteByQueries($rawQueries, $fromPending = true, $fromCommitted = true, $timeout = 3600)
     {
@@ -134,7 +136,7 @@ class Magento_Search_Model_Client_Solr extends Apache_Solr_Service
      * @param float|int $timeout Maximum expected duration of the delete operation on the server (otherwise, will throw a communication exception)
      * @return Apache_Solr_Response
      *
-     * @throws Exception If an error occurs during the service call
+     * @throws \Exception If an error occurs during the service call
      */
     public function deleteByIds($ids, $fromPending = true, $fromCommitted = true, $timeout = 3600)
     {

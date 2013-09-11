@@ -16,7 +16,9 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Sales_Model_Resource_Report extends Magento_Core_Model_Resource_Db_Abstract
+namespace Magento\Sales\Model\Resource;
+
+class Report extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -32,7 +34,7 @@ class Magento_Sales_Model_Resource_Report extends Magento_Core_Model_Resource_Db
      *
      * @param string $table
      * @param string $field
-     * @return Magento_Sales_Model_Resource_Report
+     * @return \Magento\Sales\Model\Resource\Report
      */
     public function init($table, $field = 'id')
     {

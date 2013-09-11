@@ -9,12 +9,12 @@
 -->
 <config>
     <event name="customer_login">
-        <observer name="catalog" instance="Magento_Catalog_Model_Product_Compare_Item" method="bindCustomerLogin" shared="false" />
+        <observer name="catalog" instance="\Magento\Catalog\Model\Product\Compare\Item" method="bindCustomerLogin" shared="false" />
     </event>
     <event name="customer_logout">
-        <observer name="catalog" instance="Magento_Catalog_Model_Product_Compare_Item" method="bindCustomerLogout" shared="false" />
+        <observer name="catalog" instance="\Magento\Catalog\Model\Product\Compare\Item" method="bindCustomerLogout" shared="false" />
     </event>
     <event name="sales_convert_quote_item_to_order_item">
-        <observer name="catalog" instance="Magento_Catalog_Model_Product_Option_Observer" method="copyQuoteFilesToOrderFiles" shared="false" />
+        <observer name="catalog" instance="\Magento\Catalog\Model\Product\Option\Observer" method="copyQuoteFilesToOrderFiles" shared="false" />
     </event>
 </config>

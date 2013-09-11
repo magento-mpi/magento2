@@ -15,8 +15,10 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
-    extends Magento_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+namespace Magento\GoogleShopping\Block\Adminhtml\Types\Edit;
+
+class Attributes
+    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
 
     protected $_template = 'types/edit/attributes.phtml';
@@ -24,17 +26,17 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     /**
      * Preparing global layout
      *
-     * @return Magento_Core_Block_Abstract
+     * @return \Magento\Core\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('add_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Add New Attribute'),
             'class' => 'add',
             'id'    => 'add_new_attribute',
             'on_click' => 'gContentAttribute.add()'
         ));
-        $this->addChild('delete_button', 'Magento_Adminhtml_Block_Widget_Button', array(
+        $this->addChild('delete_button', '\Magento\Adminhtml\Block\Widget\Button', array(
             'label' => __('Remove'),
             'class' => 'delete delete-product-option',
             'on_click' => 'gContentAttribute.remove(event)'
@@ -72,7 +74,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
     {
         $options[] = array('label' => __('Custom attribute, no mapping'));
 
-        $attributesTree = Mage::getSingleton('Magento_GoogleShopping_Model_Config')
+        $attributesTree = \Mage::getSingleton('Magento\GoogleShopping\Model\Config')
             ->getAttributesByCountry($this->getTargetCountry());
 
         foreach ($attributesTree as $destination => $attributes) {
@@ -92,7 +94,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
             );
         }
 
-        $select = $this->getLayout()->createBlock('Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Select')
+        $select = $this->getLayout()->createBlock('\Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Select')
             ->setId($this->getFieldId().'_{{index}}_gattribute')
             ->setName($this->getFieldName().'[{{index}}][gcontent_attribute]')
             ->setOptions($options);
@@ -108,7 +110,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function getAttributesSelectHtml($escapeJsQuotes = false)
     {
-        $select = $this->getLayout()->createBlock('Magento_Adminhtml_Block_Html_Select')
+        $select = $this->getLayout()->createBlock('\Magento\Adminhtml\Block\Html\Select')
             ->setId($this->getFieldId().'_{{index}}_attribute')
             ->setName($this->getFieldName().'[{{index}}][attribute_id]')
             ->setOptions($this->_getAttributes($this->getAttributeSetId(), $escapeJsQuotes));
@@ -145,11 +147,11 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function _getAttributes($setId, $escapeJsQuotes = false)
     {
-        $attributes = Mage::getModel('Magento_GoogleShopping_Model_Attribute')->getAllowedAttributes($setId);
+        $attributes = \Mage::getModel('\Magento\GoogleShopping\Model\Attribute')->getAllowedAttributes($setId);
         $result = array();
 
         foreach ($attributes as $attribute) {
-            /* @var $attribute Magento_Catalog_Model_Resource_Eav_Attribute */
+            /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             $result[$attribute->getAttributeId()] = $escapeJsQuotes
                 ? $this->jsQuoteEscape($attribute->getFrontendLabel())
                 : $attribute->getFrontendLabel();
@@ -165,7 +167,7 @@ class Magento_GoogleShopping_Block_Adminhtml_Types_Edit_Attributes
      */
     public function jsonFormat($data)
     {
-        return Mage::helper('Magento_Core_Helper_Data')->jsonEncode($data);
+        return \Mage::helper('Magento\Core\Helper\Data')->jsonEncode($data);
     }
 
     /**

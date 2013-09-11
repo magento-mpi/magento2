@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Magento_Backend_Block_Widget_Form
+namespace Magento\Adminhtml\Block\Catalog\Product\Edit;
+
+class AttributeSet extends \Magento\Backend\Block\Widget\Form
 {
 
     /**
@@ -31,7 +33,7 @@ class Magento_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Magento_
             'showRecent' => true,
             'storageKey' => 'product-template-key',
             'minLength' => 0,
-            'currentlySelected' => Mage::registry('product')->getAttributeSetId(),
+            'currentlySelected' => \Mage::registry('product')->getAttributeSetId(),
         );
     }
 }

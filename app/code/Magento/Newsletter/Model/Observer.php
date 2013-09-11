@@ -13,13 +13,15 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Newsletter_Model_Observer
+namespace Magento\Newsletter\Model;
+
+class Observer
 {
     public function subscribeCustomer($observer)
     {
         $customer = $observer->getEvent()->getCustomer();
-        if (($customer instanceof Magento_Customer_Model_Customer)) {
-            Mage::getModel('Magento_Newsletter_Model_Subscriber')->subscribeCustomer($customer);
+        if (($customer instanceof \Magento\Customer\Model\Customer)) {
+            \Mage::getModel('\Magento\Newsletter\Model\Subscriber')->subscribeCustomer($customer);
         }
         return $this;
     }
@@ -28,11 +30,11 @@ class Magento_Newsletter_Model_Observer
      * Customer delete handler
      *
      * @param \Magento\Object $observer
-     * @return Magento_Newsletter_Model_Observer
+     * @return \Magento\Newsletter\Model\Observer
      */
     public function customerDeleted($observer)
     {
-        $subscriber = Mage::getModel('Magento_Newsletter_Model_Subscriber')
+        $subscriber = \Mage::getModel('\Magento\Newsletter\Model\Subscriber')
             ->loadByEmail($observer->getEvent()->getCustomer()->getEmail());
         if($subscriber->getId()) {
             $subscriber->delete();
@@ -45,7 +47,7 @@ class Magento_Newsletter_Model_Observer
         $countOfQueue  = 3;
         $countOfSubscritions = 20;
 
-        $collection = Mage::getModel('Magento_Newsletter_Model_Queue')->getCollection()
+        $collection = \Mage::getModel('\Magento\Newsletter\Model\Queue')->getCollection()
             ->setPageSize($countOfQueue)
             ->setCurPage(1)
             ->addOnlyForSendingFilter()

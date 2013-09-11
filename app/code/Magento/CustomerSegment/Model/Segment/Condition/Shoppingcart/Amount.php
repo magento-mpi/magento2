@@ -11,8 +11,10 @@
 /**
  * Shopping cart totals amount condition
  */
-class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
-    extends Magento_CustomerSegment_Model_Condition_Abstract
+namespace Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart;
+
+class Amount
+    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * @var string
@@ -20,13 +22,13 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     protected $_inputType = 'numeric';
 
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount');
+        $this->setType('\Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\Amount');
         $this->setValue(null);
     }
 
@@ -55,7 +57,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     /**
      * Init available options list
      *
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\Amount
      */
     public function loadAttributeOptions()
     {
@@ -75,18 +77,18 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
      *
      * Modify attribute_option array if needed
      *
-     * @param Magento_Rule_Model_Rule $rule
-     * @return Magento_CustomerSegment_Model_Segment_Condition_Product_Combine_List
+     * @param \Magento\Rule\Model\Rule $rule
+     * @return \Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine
      */
     public function setRule($rule)
     {
         $this->setData('rule', $rule);
-        if ($rule instanceof Magento_CustomerSegment_Model_Segment && $rule->getApplyTo() !== null) {
+        if ($rule instanceof \Magento\CustomerSegment\Model\Segment && $rule->getApplyTo() !== null) {
             $attributeOption = $this->loadAttributeOptions()->getAttributeOption();
             $applyTo = $rule->getApplyTo();
-            if (Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS == $applyTo) {
+            if (\Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS == $applyTo) {
                 unset($attributeOption['store_credit']);
-            } elseif (Magento_CustomerSegment_Model_Segment::APPLY_TO_VISITORS_AND_REGISTERED == $applyTo) {
+            } elseif (\Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS_AND_REGISTERED == $applyTo) {
                 foreach (array_keys($attributeOption) as $key) {
                     if ('store_credit' != $key) {
                         $attributeOption[$key] .= '*';
@@ -114,7 +116,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
      * Build condition limitations sql string for specific website
      *
      * @param $customer
-     * @param int | Zend_Db_Expr $website
+     * @param int | \Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)
@@ -124,7 +126,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)))->where('quote.is_active=1');
+        $select->from(array('quote'=>$table), array(new \Zend_Db_Expr(1)))->where('quote.is_active=1');
         $select->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
@@ -151,7 +153,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 $field = 'quote.base_gift_cards_amount_used';
                 break;
             default:
-                Mage::throwException(
+                \Mage::throwException(
                     __('Unknown quote total specified.')
                 );
         }
@@ -162,7 +164,7 @@ class Magento_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 array('address'=>$addressTable),
                 array(
                     'quote_id' => 'quote_id',
-                    $field     => new Zend_Db_Expr("SUM({$field})")
+                    $field     => new \Zend_Db_Expr("SUM({$field})")
                 )
             );
 

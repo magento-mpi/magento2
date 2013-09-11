@@ -7,8 +7,8 @@
  */
 
 // refresh report statistics
-/** @var Magento_Sales_Model_Resource_Report_Invoiced $reportResource */
-$reportResource = Mage::getResourceModel('Magento_Sales_Model_Resource_Report_Invoiced');
+/** @var \Magento\Sales\Model\Resource\Report\Invoiced $reportResource */
+$reportResource = Mage::getResourceModel('\Magento\Sales\Model\Resource\Report\Invoiced');
 $reportResource->beginTransaction(); // prevent table truncation by incrementing the transaction nesting level counter
 try {
     $reportResource->aggregate();

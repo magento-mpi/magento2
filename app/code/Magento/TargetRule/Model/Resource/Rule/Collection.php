@@ -16,25 +16,27 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_TargetRule_Model_Resource_Rule_Collection extends Magento_Rule_Model_Resource_Rule_Collection_Abstract
+namespace Magento\TargetRule\Model\Resource\Rule;
+
+class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
     /**
      * Set resource model
      */
     protected function _construct()
     {
-        $this->_init('Magento_TargetRule_Model_Rule', 'Magento_TargetRule_Model_Resource_Rule');
+        $this->_init('\Magento\TargetRule\Model\Rule', '\Magento\TargetRule\Model\Resource\Rule');
     }
 
     /**
      * Run "afterLoad" callback on items if it is applicable
      *
-     * @return Magento_TargetRule_Model_Resource_Rule_Collection
+     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
      */
     protected function _afterLoad()
     {
         foreach ($this->_items as $rule) {
-            /* @var $rule Magento_TargetRule_Model_Rule */
+            /* @var $rule \Magento\TargetRule\Model\Rule */
             if (!$this->getFlag('do_not_run_after_load')) {
                 $rule->afterLoad();
             }
@@ -49,7 +51,7 @@ class Magento_TargetRule_Model_Resource_Rule_Collection extends Magento_Rule_Mod
      *
      * @param int|array $applyTo
      *
-     * @return Magento_TargetRule_Model_Resource_Rule_Collection
+     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
      */
     public function addApplyToFilter($applyTo)
     {
@@ -62,7 +64,7 @@ class Magento_TargetRule_Model_Resource_Rule_Collection extends Magento_Rule_Mod
      *
      * @param string $direction
      *
-     * @return Magento_TargetRule_Model_Resource_Rule_Collection
+     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
      */
     public function setPriorityOrder($direction = self::SORT_ORDER_ASC)
     {
@@ -75,7 +77,7 @@ class Magento_TargetRule_Model_Resource_Rule_Collection extends Magento_Rule_Mod
      *
      * @param int $productId
      *
-     * @return Magento_TargetRule_Model_Resource_Rule_Collection
+     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
      */
     public function addProductFilter($productId)
     {
@@ -93,7 +95,7 @@ class Magento_TargetRule_Model_Resource_Rule_Collection extends Magento_Rule_Mod
      *
      * @param int $segmentId
      *
-     * @return Magento_TargetRule_Model_Resource_Rule_Collection
+     * @return \Magento\TargetRule\Model\Resource\Rule\Collection
      */
     public function addSegmentFilter($segmentId)
     {

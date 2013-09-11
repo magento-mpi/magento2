@@ -9,7 +9,7 @@
 class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_CustomerSegment_Model_Resource_Segment
+     * @var \Magento\CustomerSegment\Model\Resource\Segment
      */
     protected $_resourceModel;
 
@@ -51,7 +51,7 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
         );
 
         $this->_resource = $this->getMock(
-            'Magento_Core_Model_Resource', array('getConnection', 'getTableName'), array(), '', false
+            '\Magento\Core\Model\Resource', array('getConnection', 'getTableName'), array(), '', false
         );
         $this->_resource->expects($this->any())->method('getTableName')->will($this->returnArgument(0));
         $this->_resource
@@ -62,15 +62,15 @@ class Magento_CustomerSegment_Model_Resource_SegmentTest extends PHPUnit_Framewo
                 array('core_write', $this->_writeAdapter),
             )));
 
-        $this->_configShare = $this->getMock('Magento_Customer_Model_Config_Share',
+        $this->_configShare = $this->getMock('Magento\Customer\Model\Config\Share',
             array('isGlobalScope'), array(), '', false);
-        $this->_segment = $this->getMock('Magento_CustomerSegment_Model_Segment',
+        $this->_segment = $this->getMock('Magento\CustomerSegment\Model\Segment',
             array('getConditions', 'getWebsiteIds', 'getId'), array(), '', false);
 
-        $this->_conditions = $this->getMock('Magento_CustomerSegment_Model_Segment_Condition_Combine_Root',
+        $this->_conditions = $this->getMock('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root',
             array('getConditionsSql', 'getConditions'), array(), '', false);
 
-        $this->_resourceModel = new Magento_CustomerSegment_Model_Resource_Segment(
+        $this->_resourceModel = new \Magento\CustomerSegment\Model\Resource\Segment(
             $this->_resource,
             $this->_configShare
         );

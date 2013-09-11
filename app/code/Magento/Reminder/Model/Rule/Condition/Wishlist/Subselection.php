@@ -11,17 +11,19 @@
 /**
  * Wishlist subselection condition
  */
-class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
-    extends Magento_Reminder_Model_Condition_Combine_Abstract
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+class Subselection
+    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
-     * @param Magento_Rule_Model_Condition_Context $context
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
-    public function __construct(Magento_Rule_Model_Condition_Context $context, array $data = array())
+    public function __construct(\Magento\Rule\Model\Condition\Context $context, array $data = array())
     {
         parent::__construct($context, $data);
-        $this->setType('Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection');
+        $this->setType('\Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection');
     }
 
     /**
@@ -31,7 +33,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('Magento_Reminder_Model_Rule_Condition_Wishlist_Subcombine')
+        return \Mage::getModel('\Magento\Reminder\Model\Rule\Condition\Wishlist\Subcombine')
             ->getNewChildSelectOptions();
     }
 
@@ -48,7 +50,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
     /**
      * Prepare operator select options
      *
-     * @return Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
+     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection
      */
     public function loadOperatorOptions()
     {
@@ -85,7 +87,7 @@ class Magento_Reminder_Model_Rule_Condition_Wishlist_Subselection
         $wishlistItemTable = $this->getResource()->getTable('wishlist_item');
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $wishlistItemTable), array(new Zend_Db_Expr(1)));
+        $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
 
         $select->joinInner(
             array('list' => $wishlistTable),

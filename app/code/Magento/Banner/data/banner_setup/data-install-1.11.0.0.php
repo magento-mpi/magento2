@@ -27,18 +27,18 @@ $banners = array(
     )
 );
 
-/** @var $theme Magento_Core_Model_Theme */
-$theme = Mage::getModel('Magento_Core_Model_Resource_Theme_Collection')
+/** @var $theme \Magento\Core\Model\Theme */
+$theme = \Mage::getModel('\Magento\Core\Model\Resource\Theme\Collection')
     ->getThemeByFullPath('frontend/magento_fixed_width');
 
 foreach ($banners as $sortOrder => $bannerData) {
-    $banner = Mage::getModel('Magento_Banner_Model_Banner')
+    $banner = \Mage::getModel('\Magento\Banner\Model\Banner')
         ->setName($bannerData[1])
         ->setIsEnabled(1)
         ->setStoreContents(array(0 => $bannerData[2]))
         ->save();
 
-    $widgetInstance = Mage::getModel('Magento_Widget_Model_Widget_Instance')
+    $widgetInstance = \Mage::getModel('\Magento\Widget\Model\Widget\Instance')
         ->setData('page_groups', array(
             array(
                 'page_group' => 'pages',
@@ -56,10 +56,10 @@ foreach ($banners as $sortOrder => $bannerData) {
             'types'        => array(''),
             'rotate'       => '',
             'banner_ids'   => $banner->getId(),
-            'unique_id'    => Mage::helper('Magento_Core_Helper_Data')->uniqHash()
+            'unique_id'    => \Mage::helper('Magento\Core\Helper\Data')->uniqHash()
         ))
         ->addData(array(
-            'instance_type' => 'Magento_Banner_Block_Widget_Banner',
+            'instance_type' => '\Magento\Banner\Block\Widget\Banner',
             'theme_id'      => $theme->getId(),
             'title'         => $bannerData[1],
             'sort_order'    => $sortOrder

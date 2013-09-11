@@ -15,7 +15,9 @@
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Reports_Block_Product_Compared extends Magento_Reports_Block_Product_Abstract
+namespace Magento\Reports\Block\Product;
+
+class Compared extends \Magento\Reports\Block\Product\AbstractProduct
 {
     const XML_PATH_RECENTLY_COMPARED_COUNT  = 'catalog/recently_products/compared_count';
 
@@ -24,7 +26,7 @@ class Magento_Reports_Block_Product_Compared extends Magento_Reports_Block_Produ
      *
      * @var string
      */
-    protected $_indexName       = 'Magento_Reports_Model_Product_Index_Compared';
+    protected $_indexName       = '\Magento\Reports\Model\Product\Index\Compared';
 
     /**
      * Retrieve page size (count)
@@ -36,7 +38,7 @@ class Magento_Reports_Block_Product_Compared extends Magento_Reports_Block_Produ
         if ($this->hasData('page_size')) {
             return $this->getData('page_size');
         }
-        return Mage::getStoreConfig(self::XML_PATH_RECENTLY_COMPARED_COUNT);
+        return \Mage::getStoreConfig(self::XML_PATH_RECENTLY_COMPARED_COUNT);
     }
 
     /**

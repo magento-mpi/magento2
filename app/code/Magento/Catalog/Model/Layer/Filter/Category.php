@@ -15,7 +15,9 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_Layer_Filter_Abstract
+namespace Magento\Catalog\Model\Layer\Filter;
+
+class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
     /**
      * Active Category Id
@@ -27,7 +29,7 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     /**
      * Applied Category
      *
-     * @var Magento_Catalog_Model_Category
+     * @var \Magento\Catalog\Model\Category
      */
     protected $_appliedCategory = null;
 
@@ -63,11 +65,11 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     /**
      * Apply category filter to layer
      *
-     * @param   Zend_Controller_Request_Abstract $request
-     * @param   Magento_Core_Block_Abstract $filterBlock
-     * @return  Magento_Catalog_Model_Layer_Filter_Category
+     * @param   \Zend_Controller_Request_Abstract $request
+     * @param   \Magento\Core\Block\AbstractBlock $filterBlock
+     * @return  \Magento\Catalog\Model\Layer\Filter\Category
      */
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
     {
         $filter = (int) $request->getParam($this->getRequestVar());
         if (!$filter) {
@@ -75,10 +77,10 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
         }
         $this->_categoryId = $filter;
 
-        Mage::register('current_category_filter', $this->getCategory(), true);
+        \Mage::register('current_category_filter', $this->getCategory(), true);
 
-        $this->_appliedCategory = Mage::getModel('Magento_Catalog_Model_Category')
-            ->setStoreId(Mage::app()->getStore()->getId())
+        $this->_appliedCategory = \Mage::getModel('\Magento\Catalog\Model\Category')
+            ->setStoreId(\Mage::app()->getStore()->getId())
             ->load($filter);
 
         if ($this->_isValidCategory($this->_appliedCategory)) {
@@ -96,7 +98,7 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     /**
      * Validate category for be using as filter
      *
-     * @param   Magento_Catalog_Model_Category $category
+     * @param   \Magento\Catalog\Model\Category $category
      * @return unknown
      */
     protected function _isValidCategory($category)
@@ -117,12 +119,12 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
     /**
      * Get selected category object
      *
-     * @return Magento_Catalog_Model_Category
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCategory()
     {
         if (!is_null($this->_categoryId)) {
-            $category = Mage::getModel('Magento_Catalog_Model_Category')
+            $category = \Mage::getModel('\Magento\Catalog\Model\Category')
                 ->load($this->_categoryId);
             if ($category->getId()) {
                 return $category;
@@ -149,7 +151,7 @@ class Magento_Catalog_Model_Layer_Filter_Category extends Magento_Catalog_Model_
         foreach ($categories as $category) {
             if ($category->getIsActive() && $category->getProductCount()) {
                 $data[] = array(
-                    'label' => Mage::helper('Magento_Core_Helper_Data')->escapeHtml($category->getName()),
+                    'label' => \Mage::helper('Magento\Core\Helper\Data')->escapeHtml($category->getName()),
                     'value' => $category->getId(),
                     'count' => $category->getProductCount(),
                 );

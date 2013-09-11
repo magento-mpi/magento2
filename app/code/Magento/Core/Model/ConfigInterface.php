@@ -8,7 +8,9 @@
  * @license     {license_link}
  */
 
-interface Magento_Core_Model_ConfigInterface
+namespace Magento\Core\Model;
+
+interface ConfigInterface
 {
     /**
      * Get configuration node

@@ -15,7 +15,9 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Downloadable_Block_Adminhtml_Catalog_Product_Composite_Fieldset_Downloadable
-    extends Magento_Downloadable_Block_Catalog_Product_Links
+namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Composite\Fieldset;
+
+class Downloadable
+    extends \Magento\Downloadable\Block\Catalog\Product\Links
 {
 }

@@ -16,13 +16,15 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Cms_Model_Observer
+namespace Magento\Cms\Model;
+
+class Observer
 {
     /**
      * Modify No Route Forward object
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Cms_Model_Observer
+     * @return \Magento\Cms\Model\Observer
      */
     public function noRoute(\Magento\Event\Observer $observer)
     {
@@ -38,14 +40,14 @@ class Magento_Cms_Model_Observer
      * Modify no Cookies forward object
      *
      * @param \Magento\Event\Observer $observer
-     * @return Magento_Cms_Model_Observer
+     * @return \Magento\Cms\Model\Observer
      */
     public function noCookies(\Magento\Event\Observer $observer)
     {
         $redirect = $observer->getEvent()->getRedirect();
 
-        $pageId  = Mage::getStoreConfig(Magento_Cms_Helper_Page::XML_PATH_NO_COOKIES_PAGE);
-        $pageUrl = Mage::helper('Magento_Cms_Helper_Page')->getPageUrl($pageId);
+        $pageId  = \Mage::getStoreConfig(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE);
+        $pageUrl = \Mage::helper('Magento\Cms\Helper\Page')->getPageUrl($pageId);
 
         if ($pageUrl) {
             $redirect->setRedirectUrl($pageUrl);
