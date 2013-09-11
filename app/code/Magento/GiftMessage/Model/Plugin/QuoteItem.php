@@ -7,18 +7,18 @@
  */
 class Magento_GiftMessage_Model_Plugin_QuoteItem
 {
-    /** @var \Magento_GiftMessage_Helper_Message */
+    /**
+     * @var Magento_GiftMessage_Helper_Message
+     */
     protected $_helper;
 
-    /** @var \Magento_GiftMessage_Model_MessageFactory */
-    protected $_messageFactory;
-
+    /**
+     * @param Magento_GiftMessage_Helper_Message $helper
+     */
     public function __construct(
-        Magento_GiftMessage_Helper_Message $helper,
-        Magento_GiftMessage_Model_MessageFactory $messageFactory
+        Magento_GiftMessage_Helper_Message $helper
     ) {
         $this->_helper = $helper;
-        $this->_messageFactory = $messageFactory;
     }
 
     /**
@@ -30,31 +30,16 @@ class Magento_GiftMessage_Model_Plugin_QuoteItem
     {
         /** @var $orderItem Magento_Sales_Model_Order_Item */
         $orderItem = $invocationChain->proceed($arguments);
-
-        // Do not import giftmessage data if order is reordered
-        $order = $orderItem->getOrder();
-        if ($order && $order->getReordered()) {
-            return $orderItem;
-        }
+        $quoteItem = reset($arguments);
 
         $isAvailable = $this->_helper->isMessagesAvailable(
-            'order_item',
-            $orderItem,
-            $orderItem->getStoreId()
+            'item',
+            $quoteItem,
+            $quoteItem->getStoreId()
         );
-        if (!$isAvailable) {
-            return $orderItem;
-        }
 
-        /** @var $quoteItem Magento_Sales_Model_Quote_Item */
-        $quoteItem = reset($arguments);
-        if ($giftMessageId = $orderItem->getGiftMessageId()) {
-            $giftMessage = $this->_messageFactory->create()->load($giftMessageId)
-                ->setId(null)
-                ->save();
-            $quoteItem->setGiftMessageId($giftMessage->getId());
-        }
-
+        $orderItem->setGiftMessageId($quoteItem->getGiftMessageId());
+        $orderItem->setGiftMessageAvailable($isAvailable);
         return $orderItem;
     }
 }
