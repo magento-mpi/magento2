@@ -1,3 +1,4 @@
+Magento_Core_Model_ThemeFactory => \Magento\Core\Model\ThemeFactory
 Magento_Core_Model_Page_Asset_PublicFileFactory => \Magento\Core\Model\Page\Asset\PublicFileFactory
 Magento_Core_Model_Resource_Theme_CollectionFactory => \Magento\Core\Model\Resource\Theme\CollectionFactory
 Magento_Core_Model_Resource_Theme_File_CollectionFactory => \Magento\Core\Model\Resource\Theme\File\CollectionFactory

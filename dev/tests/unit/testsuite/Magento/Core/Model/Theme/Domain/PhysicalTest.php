@@ -43,7 +43,7 @@ class Magento_Core_Model_Theme_Domain_PhysicalTest extends PHPUnit_Framework_Tes
             ->method('save')
             ->will($this->returnValue($virtualTheme));
 
-        $themeFactory = $this->getMock('Magento_Core_Model_ThemeFactory', array('create'), array(), '', false, false);
+        $themeFactory = $this->getMock('Magento\Core\Model\ThemeFactory', array('create'), array(), '', false, false);
         $themeFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($virtualTheme));

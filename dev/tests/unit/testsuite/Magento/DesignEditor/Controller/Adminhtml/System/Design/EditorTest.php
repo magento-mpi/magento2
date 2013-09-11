@@ -82,7 +82,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
      * Return mocked theme collection factory model
      *
      * @param int $countCustomization
-     * @return Magento_Core_Model_Resource_Theme_CollectionFactory
+     * @return Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected function _getThemeCollectionFactory($countCustomization)
     {
@@ -100,9 +100,9 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
             ->method('getSize')
             ->will($this->returnValue($countCustomization));
 
-        /** @var Magento_Core_Model_Resource_Theme_CollectionFactory $collectionFactory */
+        /** @var Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory */
         $collectionFactory = $this->getMock(
-            'Magento_Core_Model_Resource_Theme_CollectionFactory', array('create'), array(), '', false
+            'Magento\Core\Model\Resource\Theme\CollectionFactory', array('create'), array(), '', false
         );
         $collectionFactory->expects($this->once())
             ->method('create')
@@ -185,7 +185,7 @@ class Magento_DesignEditor_Controller_Adminhtml_System_Design_EditorTest extends
 
         return array(
             array(
-                'Magento_Core_Model_Resource_Theme_CollectionFactory',
+                'Magento\Core\Model\Resource\Theme\CollectionFactory',
                 $this->_getThemeCollectionFactory($countCustomization)
             ),
             array('Magento\Core\Model\Translate', $translate),
