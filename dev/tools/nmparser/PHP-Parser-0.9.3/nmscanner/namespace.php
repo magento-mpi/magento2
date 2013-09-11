@@ -433,6 +433,7 @@ class namespacer
             $this->requireOnce = 0;
             $this->namespace = array();
             $count = 0;
+            $parsedFile=false;
             echo "$file psr1 process started \n";
             foreach ($lines as $line) {
                 $trimLine = trim($line);
@@ -443,21 +444,25 @@ class namespacer
                     if ($this->compareInString($trimLine, 0, 5, 'class')
                     ) {
                         if ($this->compareInString($line, 0, 5, 'class')) {
+                            $parsedFile=true;
                             $this->splitLine = $count;
                         }
                         $parsedLine = $this->scanClass($line, $parsedLine, $file);
                     } else {
                         if ($this->compareInString($line, 0, 14, 'abstract class')) {
+                            $parsedFile=true;
                             $this->splitLine = $count;
 
                             $parsedLine = $this->scanClass($line, $parsedLine, $file);
                         } else {
                             if ($this->compareInString($line, 0, 9, "interface")) {
+                                $parsedFile=true;
 
                                 $this->splitLine = $count;
                                 $parsedLine = $this->scanClass($line, $parsedLine, $file);
                             } else {
                                 if ($this->compareInString($line, 0, 11, "final class")) {
+                                    $parsedFile=true;
 
                                     $this->splitLine = $count;
                                     $parsedLine = $this->scanClass($line, $parsedLine, $file);
@@ -473,8 +478,13 @@ class namespacer
                 $count++;
 
             }
-            $this->makeFile($file, $parsedLine, $this->namespace);
-            echo "$file PSR1 transformation completed \n";
+            if($parsedFile==true){
+                $this->makeFile($file, $parsedLine, $this->namespace);
+                echo "$file PSR1 transformation completed \n";
+            }else{
+                echo "$file No need for PSR1 transformation\n";
+            }
+
 
 
         }
