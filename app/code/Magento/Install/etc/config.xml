@@ -10,11 +10,6 @@
  */
 -->
 <config>
-    <frontend>
-        <secure_url>
-            <install>/install/wizard/checkSecureHost</install>
-        </secure_url>
-    </frontend>
     <install>
         <databases>
             <mysql4>
@@ -37,4 +32,4 @@
         </translate>
         <eula_file>LICENSE.html</eula_file>
     </install>
-</config>
+</config>

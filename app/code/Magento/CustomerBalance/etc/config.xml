@@ -85,9 +85,6 @@
                 </Magento_CustomerBalance>
             </modules>
         </translate>
-        <secure_url>
-            <storecredit_info>/storecredit/info/</storecredit_info>
-        </secure_url>
     </frontend>
     <adminhtml>
         <translate>
@@ -115,4 +112,4 @@
             </totals_sort>
         </sales>
     </default>
-</config>
+</config>

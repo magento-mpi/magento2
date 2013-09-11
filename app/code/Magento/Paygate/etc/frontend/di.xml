@@ -8,14 +8,9 @@
  */
 -->
 <config>
-    <type name="Magento_Customer_Model_Session">
-        <param name="sessionName">
-            <value>frontend</value>
-        </param>
-    </type>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <customer>/customer/</customer>
+            <authorizenet_paygate>/paygate/authorizenet_payment</authorizenet_paygate>
         </param>
     </type>
 </config>

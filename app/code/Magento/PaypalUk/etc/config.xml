@@ -20,9 +20,6 @@
         </resources>
     </global>
     <frontend>
-        <secure_url>
-            <paypaluk_express>/paypaluk/express</paypaluk_express>
-        </secure_url>
         <translate>
             <modules>
                 <Magento_PaypalUk>

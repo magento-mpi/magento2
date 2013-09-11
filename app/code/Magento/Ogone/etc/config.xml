@@ -69,9 +69,6 @@
         </sales>
     </global>
     <frontend>
-        <secure_url>
-            <ogone_api>/ogone/api</ogone_api>
-        </secure_url>
         <translate>
             <modules>
                 <Magento_Ogone>

@@ -395,9 +395,6 @@
         </pdf>
     </global>
     <frontend>
-        <secure_url>
-            <sales>/sales/</sales>
-        </secure_url>
         <translate>
             <modules>
                 <Magento_Sales>

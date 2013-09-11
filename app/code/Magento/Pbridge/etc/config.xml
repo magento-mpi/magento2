@@ -11,10 +11,6 @@
 -->
 <config>
     <frontend>
-        <secure_url>
-            <magento_pbridge_pbridge>/magento_pbridge/pbridge/</magento_pbridge_pbridge>
-            <magento_pbridge_payment_profile>/magento_pbridge/payment_profile/</magento_pbridge_payment_profile>
-        </secure_url>
         <translate>
             <modules>
                 <Magento_Pbridge>
@@ -139,4 +135,4 @@
             </psigate_basic>
         </payment>
     </default>
-</config>
+</config>

@@ -20,9 +20,6 @@
         </resources>
     </global>
     <frontend>
-        <secure_url>
-            <persistent_onepage_register>/persistent/index/saveMethod</persistent_onepage_register>
-        </secure_url>
         <translate>
             <modules>
                 <Magento_Persistent>
@@ -68,4 +65,4 @@
             </persistent_clear_expired>
         </jobs>
     </crontab>
-</config>
+</config>

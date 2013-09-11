@@ -8,14 +8,11 @@
  */
 -->
 <config>
-    <type name="Magento_Customer_Model_Session">
-        <param name="sessionName">
-            <value>frontend</value>
-        </param>
-    </type>
     <type name="Magento_Core_Model_Url_SecurityInfo">
         <param name="secureUrlList">
-            <customer>/customer/</customer>
+            <rss_catalog_review>/rss/catalog/review</rss_catalog_review>
+            <rss_order_new>/rss/order/new</rss_order_new>
+            <rss_catalog_notifystock>/rss/catalog/notifystock</rss_catalog_notifystock>
         </param>
     </type>
 </config>

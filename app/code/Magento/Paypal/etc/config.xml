@@ -51,10 +51,6 @@
         </payment>
     </global>
     <frontend>
-        <secure_url>
-            <paypal_express>/paypal/express</paypal_express>
-            <paypal_standard>/paypal/standard</paypal_standard>
-        </secure_url>
         <translate>
             <modules>
                 <Magento_Paypal>
@@ -64,9 +60,6 @@
                 </Magento_Paypal>
             </modules>
         </translate>
-        <secure_url>
-            <paypal_express_callbackshippingoptions>paypal/express/callbackshippingoptions</paypal_express_callbackshippingoptions>
-        </secure_url>
     </frontend>
     <adminhtml>
         <translate>

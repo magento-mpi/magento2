@@ -40,9 +40,6 @@
                 </Magento_Review>
             </modules>
         </translate>
-        <secure_url>
-            <review_customer>/review/customer/</review_customer>
-        </secure_url>
     </frontend>
     <default>
         <catalog>
@@ -51,4 +48,4 @@
             </review>
         </catalog>
     </default>
-</config>
+</config>

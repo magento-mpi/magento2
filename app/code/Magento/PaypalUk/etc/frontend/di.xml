@@ -16,4 +16,9 @@
             <value>frontend</value>
         </param>
     </virtualType>
+    <type name="Magento_Core_Model_Url_SecurityInfo">
+        <param name="secureUrlList">
+            <paypaluk_express>/paypaluk/express</paypaluk_express>
+        </param>
+    </type>
 </config>

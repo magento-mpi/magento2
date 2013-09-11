@@ -78,32 +78,6 @@ class Magento_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = Yes
-     *
-     * @magentoConfigFixture current_store web/secure/use_in_frontend 1
-     */
-    public function testShouldUrlBeSecureWhenSecureUsedInFrontend()
-    {
-        $model = $this->_createModel();
-        $this->assertFalse($model->shouldUrlBeSecure('/'));
-        $this->assertTrue($model->shouldUrlBeSecure('/checkout/onepage'));
-    }
-
-    /**
-     * Test shouldUrlBeSecure() function for "Use Secure URLs in Frontend" = No
-     *
-     * @magentoConfigFixture current_store web/secure/use_in_frontend 0
-     */
-    public function testShouldUrlBeSecureWhenSecureNotUsedInFrontend()
-    {
-        $model = $this->_createModel();
-        $this->assertFalse($model->shouldUrlBeSecure('/'));
-        $this->assertFalse($model->shouldUrlBeSecure('/checkout/onepage'));
-    }
-
-
-
-    /**
      * Instantiate Magento_Core_Model_Config and initialize (load configuration) if needed
      *
      * @param array $arguments

@@ -49,9 +49,6 @@
                 </Magento_Invitation>
             </modules>
         </translate>
-        <secure_url>
-            <invitation>/invitation/</invitation>
-        </secure_url>
     </frontend>
     <default>
         <magento_invitation>

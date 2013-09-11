@@ -62,9 +62,6 @@
                 </Magento_Newsletter>
             </modules>
         </translate>
-        <secure_url>
-            <newsletter_manage>/newsletter/manage/</newsletter_manage>
-        </secure_url>
     </frontend>
     <default>
         <newsletter>
@@ -95,4 +92,4 @@
             </newsletter_send_all>
         </jobs>
     </crontab>
-</config>
+</config>

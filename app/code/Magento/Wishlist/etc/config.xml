@@ -47,9 +47,6 @@
                 </Magento_Wishlist>
             </modules>
         </translate>
-        <secure_url>
-            <wishlist>/wishlist/</wishlist>
-        </secure_url>
     </frontend>
     <adminhtml>
         <translate>
@@ -75,4 +72,4 @@
             </email>
         </wishlist>
     </default>
-</config>
+</config>

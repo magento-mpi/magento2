@@ -95,9 +95,6 @@
                 </Magento_GiftCard>
             </modules>
         </translate>
-        <secure_url>
-            <giftcard_customer>/giftcard/customer/</giftcard_customer>
-        </secure_url>
     </frontend>
     <adminhtml>
         <translate>
@@ -134,4 +131,4 @@
             </general>
         </giftcard>
     </default>
-</config>
+</config>

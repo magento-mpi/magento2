@@ -16,4 +16,9 @@
             <value>frontend</value>
         </param>
     </virtualType>
+    <type name="Magento_Core_Model_Url_SecurityInfo">
+        <param name="secureUrlList">
+            <review_customer>/review/customer/</review_customer>
+        </param>
+    </type>
 </config>

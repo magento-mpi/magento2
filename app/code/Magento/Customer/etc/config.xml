@@ -85,9 +85,6 @@
         </translate>
     </adminhtml>
     <frontend>
-        <secure_url>
-            <customer>/customer/</customer>
-        </secure_url>
         <translate>
             <modules>
                 <Magento_Customer>

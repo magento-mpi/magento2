@@ -16,4 +16,11 @@
             <value>frontend</value>
         </param>
     </virtualType>
+    <type name="Magento_Core_Model_Url_SecurityInfo">
+        <param name="secureUrlList">
+            <paypal_express>/paypal/express</paypal_express>
+            <paypal_standard>/paypal/standard</paypal_standard>
+            <paypal_express_callbackshippingoptions>paypal/express/callbackshippingoptions</paypal_express_callbackshippingoptions>
+        </param>
+    </type>
 </config>

@@ -20,9 +20,6 @@
                 </Magento_Centinel>
             </modules>
         </translate>
-        <secure_url>
-            <centinel>/centinel/</centinel>
-        </secure_url>
     </frontend>
     <adminhtml>
         <translate>
@@ -71,4 +68,4 @@
             </cc>
         </payment>
     </global>
-</config>
+</config>

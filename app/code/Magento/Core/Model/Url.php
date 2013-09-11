@@ -102,6 +102,25 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
     protected $_useSession;
 
     /**
+     * Url security info list
+     *
+     * @var Magento_Core_Model_Url_SecurityInfo
+     */
+    protected $_urlSecurityInfo;
+
+    /**
+     * @param Magento_Core_Model_Url_SecurityInfo $urlSecurityInfo
+     * @param array $data
+     */
+    public function __construct(
+        Magento_Core_Model_Url_SecurityInfo $urlSecurityInfo,
+        array $data = array()
+    ) {
+        parent::__construct($data);
+        $this->_urlSecurityInfo = $urlSecurityInfo;
+    }
+
+    /**
      * Initialize object
      */
     protected function _construct()
@@ -298,7 +317,7 @@ class Magento_Core_Model_Url extends Magento_Object implements Magento_Core_Mode
 
         if (!$this->hasData('secure')) {
             if ($this->getType() == Magento_Core_Model_Store::URL_TYPE_LINK && !$store->isAdmin()) {
-                $pathSecure = Mage::getConfig()->shouldUrlBeSecure('/' . $this->getActionPath());
+                $pathSecure = $this->_urlSecurityInfo->isSecure('/' . $this->getActionPath());
                 $this->setData('secure', $pathSecure);
             } else {
                 $this->setData('secure', true);
