@@ -28,19 +28,23 @@ class Magento_Test_TestCase_ControllerAbstractTest extends Magento_TestFramework
         ;
         $session = new Magento_Object(array('messages' => $messagesCollection));
 
-        $request = new Magento_TestFramework_Request();
         $response = new Magento_TestFramework_Response(
             $this->getMock('Magento_Core_Model_Event_Manager', array(), array(), '', false)
         );
 
-        $this->_objectManager = $this->getMock('Magento_TestFramework_ObjectManager', array('get'), array(), '', false);
+        $this->_objectManager = $this->getMock(
+            'Magento_TestFramework_ObjectManager', array('get', 'create'), array(), '', false
+        );
         $this->_objectManager->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap(array(
-                array('Magento_TestFramework_Request', $request),
                 array('Magento_TestFramework_Response', $response),
                 array('Magento_Core_Model_Session', $session),
             )));
+        $this->_objectManager->expects($this->any())
+            ->method('create')
+            ->with('Magento_TestFramework_Request')
+            ->will($this->returnValue(new Magento_TestFramework_Request()));
     }
 
     /**
